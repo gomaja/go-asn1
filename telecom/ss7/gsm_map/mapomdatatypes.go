@@ -34,8 +34,7 @@ type ActivateTraceModeArg struct {
 	ExtCount_             int64               `asn1:"-" json:"-"`
 	ExtPresent_           []bool              `asn1:"-" json:"-"`
 	ExtData_              [][]byte            `asn1:"-" json:"-"`
-	berOriginal_          []byte              `asn1:"-" json:"-"`
-	berSnapshot_          []byte              `asn1:"-" json:"-"`
+	berReplayNode_        *ber.ReplayNode     `asn1:"-" json:"-"`
 }
 
 // MDTConfiguration represents the ASN.1 type MDT-Configuration (SEQUENCE).
@@ -64,15 +63,13 @@ type MDTConfiguration struct {
 	ExtCount_                int64                 `asn1:"-" json:"-"`
 	ExtPresent_              []bool                `asn1:"-" json:"-"`
 	ExtData_                 [][]byte              `asn1:"-" json:"-"`
-	berOriginal_             []byte                `asn1:"-" json:"-"`
-	berSnapshot_             []byte                `asn1:"-" json:"-"`
+	berReplayNode_           *ber.ReplayNode       `asn1:"-" json:"-"`
 }
 
 // MDTAllowedPLMNIdList represents the ASN.1 type MDT-Allowed-PLMNId-List (SEQUENCE_OF).
 type MDTAllowedPLMNIdList struct {
-	Values       []PLMNId `json:"Values"`
-	berOriginal_ []byte   `json:"-"`
-	berSnapshot_ []byte   `json:"-"`
+	Values         []PLMNId        `json:"Values"`
+	berReplayNode_ *ber.ReplayNode `json:"-"`
 }
 
 // PeriodUMTS represents the ASN.1 ENUMERATED type PeriodUMTS.
@@ -220,43 +217,37 @@ type AreaScope struct {
 	ExtCount_                int64               `asn1:"-" json:"-"`
 	ExtPresent_              []bool              `asn1:"-" json:"-"`
 	ExtData_                 [][]byte            `asn1:"-" json:"-"`
-	berOriginal_             []byte              `asn1:"-" json:"-"`
-	berSnapshot_             []byte              `asn1:"-" json:"-"`
+	berReplayNode_           *ber.ReplayNode     `asn1:"-" json:"-"`
 }
 
 // CGIList represents the ASN.1 type CGI-List (SEQUENCE_OF).
 type CGIList struct {
-	Values       []GlobalCellId `json:"Values"`
-	berOriginal_ []byte         `json:"-"`
-	berSnapshot_ []byte         `json:"-"`
+	Values         []GlobalCellId  `json:"Values"`
+	berReplayNode_ *ber.ReplayNode `json:"-"`
 }
 
 // EUTRANCGIList represents the ASN.1 type E-UTRAN-CGI-List (SEQUENCE_OF).
 type EUTRANCGIList struct {
-	Values       []EUTRANCGI `json:"Values"`
-	berOriginal_ []byte      `json:"-"`
-	berSnapshot_ []byte      `json:"-"`
+	Values         []EUTRANCGI     `json:"Values"`
+	berReplayNode_ *ber.ReplayNode `json:"-"`
 }
 
 // RoutingAreaIdList represents the ASN.1 type RoutingAreaId-List (SEQUENCE_OF).
 type RoutingAreaIdList struct {
-	Values       []RAIdentity `json:"Values"`
-	berOriginal_ []byte       `json:"-"`
-	berSnapshot_ []byte       `json:"-"`
+	Values         []RAIdentity    `json:"Values"`
+	berReplayNode_ *ber.ReplayNode `json:"-"`
 }
 
 // LocationAreaIdList represents the ASN.1 type LocationAreaId-List (SEQUENCE_OF).
 type LocationAreaIdList struct {
-	Values       []LAIFixedLength `json:"Values"`
-	berOriginal_ []byte           `json:"-"`
-	berSnapshot_ []byte           `json:"-"`
+	Values         []LAIFixedLength `json:"Values"`
+	berReplayNode_ *ber.ReplayNode  `json:"-"`
 }
 
 // TrackingAreaIdList represents the ASN.1 type TrackingAreaId-List (SEQUENCE_OF).
 type TrackingAreaIdList struct {
-	Values       []TAId `json:"Values"`
-	berOriginal_ []byte `json:"-"`
-	berSnapshot_ []byte `json:"-"`
+	Values         []TAId          `json:"Values"`
+	berReplayNode_ *ber.ReplayNode `json:"-"`
 }
 
 // ListOfMeasurements represents the ASN.1 type ListOfMeasurements (OCTET_STRING).
@@ -510,8 +501,7 @@ type TraceDepthList struct {
 	ExtCount_               int64                `asn1:"-" json:"-"`
 	ExtPresent_             []bool               `asn1:"-" json:"-"`
 	ExtData_                [][]byte             `asn1:"-" json:"-"`
-	berOriginal_            []byte               `asn1:"-" json:"-"`
-	berSnapshot_            []byte               `asn1:"-" json:"-"`
+	berReplayNode_          *ber.ReplayNode      `asn1:"-" json:"-"`
 }
 
 // TraceDepth represents the ASN.1 ENUMERATED type TraceDepth.
@@ -561,95 +551,326 @@ func (v TraceDepthExtension) String() string {
 // TraceNETypeList represents the ASN.1 type TraceNE-TypeList (BIT_STRING).
 type TraceNETypeList = runtime.BitString
 
+const (
+	// TraceNETypeListMscS is position 0 of ASN.1 named bit msc-s of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListMscS = 0
+	// TraceNETypeListMgw is position 1 of ASN.1 named bit mgw of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListMgw = 1
+	// TraceNETypeListSgsn is position 2 of ASN.1 named bit sgsn of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListSgsn = 2
+	// TraceNETypeListGgsn is position 3 of ASN.1 named bit ggsn of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListGgsn = 3
+	// TraceNETypeListRnc is position 4 of ASN.1 named bit rnc of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListRnc = 4
+	// TraceNETypeListBmSc is position 5 of ASN.1 named bit bm-sc of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListBmSc = 5
+	// TraceNETypeListMme is position 6 of ASN.1 named bit mme of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListMme = 6
+	// TraceNETypeListSgw is position 7 of ASN.1 named bit sgw of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListSgw = 7
+	// TraceNETypeListPgw is position 8 of ASN.1 named bit pgw of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListPgw = 8
+	// TraceNETypeListENB is position 9 of ASN.1 named bit eNB of TraceNE-TypeList (ITU-T X.680 (02/2021) §22).
+	TraceNETypeListENB = 9
+)
+
 // TraceInterfaceList represents the ASN.1 type TraceInterfaceList (SEQUENCE).
 type TraceInterfaceList struct {
-	MscSList     *MSCSInterfaceList `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
-	MgwList      *MGWInterfaceList  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
-	SgsnList     *SGSNInterfaceList `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
-	GgsnList     *GGSNInterfaceList `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
-	RncList      *RNCInterfaceList  `asn1:"tag:4,context,implicit,optional" json:"RncList,omitempty"`
-	BmscList     *BMSCInterfaceList `asn1:"tag:5,context,implicit,optional" json:"BmscList,omitempty"`
-	MmeList      *MMEInterfaceList  `asn1:"tag:6,context,implicit,optional" json:"MmeList,omitempty"`
-	SgwList      *SGWInterfaceList  `asn1:"tag:7,context,implicit,optional" json:"SgwList,omitempty"`
-	PgwList      *PGWInterfaceList  `asn1:"tag:8,context,implicit,optional" json:"PgwList,omitempty"`
-	ENBList      *ENBInterfaceList  `asn1:"tag:9,context,implicit,optional" json:"ENBList,omitempty"`
-	ExtCount_    int64              `asn1:"-" json:"-"`
-	ExtPresent_  []bool             `asn1:"-" json:"-"`
-	ExtData_     [][]byte           `asn1:"-" json:"-"`
-	berOriginal_ []byte             `asn1:"-" json:"-"`
-	berSnapshot_ []byte             `asn1:"-" json:"-"`
+	MscSList       *MSCSInterfaceList `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
+	MgwList        *MGWInterfaceList  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
+	SgsnList       *SGSNInterfaceList `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
+	GgsnList       *GGSNInterfaceList `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
+	RncList        *RNCInterfaceList  `asn1:"tag:4,context,implicit,optional" json:"RncList,omitempty"`
+	BmscList       *BMSCInterfaceList `asn1:"tag:5,context,implicit,optional" json:"BmscList,omitempty"`
+	MmeList        *MMEInterfaceList  `asn1:"tag:6,context,implicit,optional" json:"MmeList,omitempty"`
+	SgwList        *SGWInterfaceList  `asn1:"tag:7,context,implicit,optional" json:"SgwList,omitempty"`
+	PgwList        *PGWInterfaceList  `asn1:"tag:8,context,implicit,optional" json:"PgwList,omitempty"`
+	ENBList        *ENBInterfaceList  `asn1:"tag:9,context,implicit,optional" json:"ENBList,omitempty"`
+	ExtCount_      int64              `asn1:"-" json:"-"`
+	ExtPresent_    []bool             `asn1:"-" json:"-"`
+	ExtData_       [][]byte           `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode    `asn1:"-" json:"-"`
 }
 
 // MSCSInterfaceList represents the ASN.1 type MSC-S-InterfaceList (BIT_STRING).
 type MSCSInterfaceList = runtime.BitString
 
+const (
+	// MSCSInterfaceListA is position 0 of ASN.1 named bit a of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListA = 0
+	// MSCSInterfaceListIu is position 1 of ASN.1 named bit iu of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListIu = 1
+	// MSCSInterfaceListMc is position 2 of ASN.1 named bit mc of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListMc = 2
+	// MSCSInterfaceListMapG is position 3 of ASN.1 named bit map-g of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListMapG = 3
+	// MSCSInterfaceListMapB is position 4 of ASN.1 named bit map-b of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListMapB = 4
+	// MSCSInterfaceListMapE is position 5 of ASN.1 named bit map-e of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListMapE = 5
+	// MSCSInterfaceListMapF is position 6 of ASN.1 named bit map-f of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListMapF = 6
+	// MSCSInterfaceListCap is position 7 of ASN.1 named bit cap of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListCap = 7
+	// MSCSInterfaceListMapD is position 8 of ASN.1 named bit map-d of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListMapD = 8
+	// MSCSInterfaceListMapC is position 9 of ASN.1 named bit map-c of MSC-S-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MSCSInterfaceListMapC = 9
+)
+
 // MGWInterfaceList represents the ASN.1 type MGW-InterfaceList (BIT_STRING).
 type MGWInterfaceList = runtime.BitString
+
+const (
+	// MGWInterfaceListMc is position 0 of ASN.1 named bit mc of MGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MGWInterfaceListMc = 0
+	// MGWInterfaceListNbUp is position 1 of ASN.1 named bit nb-up of MGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MGWInterfaceListNbUp = 1
+	// MGWInterfaceListIuUp is position 2 of ASN.1 named bit iu-up of MGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MGWInterfaceListIuUp = 2
+)
 
 // SGSNInterfaceList represents the ASN.1 type SGSN-InterfaceList (BIT_STRING).
 type SGSNInterfaceList = runtime.BitString
 
+const (
+	// SGSNInterfaceListGb is position 0 of ASN.1 named bit gb of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListGb = 0
+	// SGSNInterfaceListIu is position 1 of ASN.1 named bit iu of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListIu = 1
+	// SGSNInterfaceListGn is position 2 of ASN.1 named bit gn of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListGn = 2
+	// SGSNInterfaceListMapGr is position 3 of ASN.1 named bit map-gr of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListMapGr = 3
+	// SGSNInterfaceListMapGd is position 4 of ASN.1 named bit map-gd of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListMapGd = 4
+	// SGSNInterfaceListMapGf is position 5 of ASN.1 named bit map-gf of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListMapGf = 5
+	// SGSNInterfaceListGs is position 6 of ASN.1 named bit gs of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListGs = 6
+	// SGSNInterfaceListGe is position 7 of ASN.1 named bit ge of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListGe = 7
+	// SGSNInterfaceListS3 is position 8 of ASN.1 named bit s3 of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListS3 = 8
+	// SGSNInterfaceListS4 is position 9 of ASN.1 named bit s4 of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListS4 = 9
+	// SGSNInterfaceListS6d is position 10 of ASN.1 named bit s6d of SGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGSNInterfaceListS6d = 10
+)
+
 // GGSNInterfaceList represents the ASN.1 type GGSN-InterfaceList (BIT_STRING).
 type GGSNInterfaceList = runtime.BitString
+
+const (
+	// GGSNInterfaceListGn is position 0 of ASN.1 named bit gn of GGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	GGSNInterfaceListGn = 0
+	// GGSNInterfaceListGi is position 1 of ASN.1 named bit gi of GGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	GGSNInterfaceListGi = 1
+	// GGSNInterfaceListGmb is position 2 of ASN.1 named bit gmb of GGSN-InterfaceList (ITU-T X.680 (02/2021) §22).
+	GGSNInterfaceListGmb = 2
+)
 
 // RNCInterfaceList represents the ASN.1 type RNC-InterfaceList (BIT_STRING).
 type RNCInterfaceList = runtime.BitString
 
+const (
+	// RNCInterfaceListIu is position 0 of ASN.1 named bit iu of RNC-InterfaceList (ITU-T X.680 (02/2021) §22).
+	RNCInterfaceListIu = 0
+	// RNCInterfaceListIur is position 1 of ASN.1 named bit iur of RNC-InterfaceList (ITU-T X.680 (02/2021) §22).
+	RNCInterfaceListIur = 1
+	// RNCInterfaceListIub is position 2 of ASN.1 named bit iub of RNC-InterfaceList (ITU-T X.680 (02/2021) §22).
+	RNCInterfaceListIub = 2
+	// RNCInterfaceListUu is position 3 of ASN.1 named bit uu of RNC-InterfaceList (ITU-T X.680 (02/2021) §22).
+	RNCInterfaceListUu = 3
+)
+
 // BMSCInterfaceList represents the ASN.1 type BMSC-InterfaceList (BIT_STRING).
 type BMSCInterfaceList = runtime.BitString
+
+const (
+	// BMSCInterfaceListGmb is position 0 of ASN.1 named bit gmb of BMSC-InterfaceList (ITU-T X.680 (02/2021) §22).
+	BMSCInterfaceListGmb = 0
+)
 
 // MMEInterfaceList represents the ASN.1 type MME-InterfaceList (BIT_STRING).
 type MMEInterfaceList = runtime.BitString
 
+const (
+	// MMEInterfaceListS1Mme is position 0 of ASN.1 named bit s1-mme of MME-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MMEInterfaceListS1Mme = 0
+	// MMEInterfaceListS3 is position 1 of ASN.1 named bit s3 of MME-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MMEInterfaceListS3 = 1
+	// MMEInterfaceListS6a is position 2 of ASN.1 named bit s6a of MME-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MMEInterfaceListS6a = 2
+	// MMEInterfaceListS10 is position 3 of ASN.1 named bit s10 of MME-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MMEInterfaceListS10 = 3
+	// MMEInterfaceListS11 is position 4 of ASN.1 named bit s11 of MME-InterfaceList (ITU-T X.680 (02/2021) §22).
+	MMEInterfaceListS11 = 4
+)
+
 // SGWInterfaceList represents the ASN.1 type SGW-InterfaceList (BIT_STRING).
 type SGWInterfaceList = runtime.BitString
+
+const (
+	// SGWInterfaceListS4 is position 0 of ASN.1 named bit s4 of SGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGWInterfaceListS4 = 0
+	// SGWInterfaceListS5 is position 1 of ASN.1 named bit s5 of SGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGWInterfaceListS5 = 1
+	// SGWInterfaceListS8b is position 2 of ASN.1 named bit s8b of SGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGWInterfaceListS8b = 2
+	// SGWInterfaceListS11 is position 3 of ASN.1 named bit s11 of SGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGWInterfaceListS11 = 3
+	// SGWInterfaceListGxc is position 4 of ASN.1 named bit gxc of SGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	SGWInterfaceListGxc = 4
+)
 
 // PGWInterfaceList represents the ASN.1 type PGW-InterfaceList (BIT_STRING).
 type PGWInterfaceList = runtime.BitString
 
+const (
+	// PGWInterfaceListS2a is position 0 of ASN.1 named bit s2a of PGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	PGWInterfaceListS2a = 0
+	// PGWInterfaceListS2b is position 1 of ASN.1 named bit s2b of PGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	PGWInterfaceListS2b = 1
+	// PGWInterfaceListS2c is position 2 of ASN.1 named bit s2c of PGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	PGWInterfaceListS2c = 2
+	// PGWInterfaceListS5 is position 3 of ASN.1 named bit s5 of PGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	PGWInterfaceListS5 = 3
+	// PGWInterfaceListS6b is position 4 of ASN.1 named bit s6b of PGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	PGWInterfaceListS6b = 4
+	// PGWInterfaceListGx is position 5 of ASN.1 named bit gx of PGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	PGWInterfaceListGx = 5
+	// PGWInterfaceListS8b is position 6 of ASN.1 named bit s8b of PGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	PGWInterfaceListS8b = 6
+	// PGWInterfaceListSgi is position 7 of ASN.1 named bit sgi of PGW-InterfaceList (ITU-T X.680 (02/2021) §22).
+	PGWInterfaceListSgi = 7
+)
+
 // ENBInterfaceList represents the ASN.1 type ENB-InterfaceList (BIT_STRING).
 type ENBInterfaceList = runtime.BitString
 
+const (
+	// ENBInterfaceListS1Mme is position 0 of ASN.1 named bit s1-mme of ENB-InterfaceList (ITU-T X.680 (02/2021) §22).
+	ENBInterfaceListS1Mme = 0
+	// ENBInterfaceListX2 is position 1 of ASN.1 named bit x2 of ENB-InterfaceList (ITU-T X.680 (02/2021) §22).
+	ENBInterfaceListX2 = 1
+	// ENBInterfaceListUu is position 2 of ASN.1 named bit uu of ENB-InterfaceList (ITU-T X.680 (02/2021) §22).
+	ENBInterfaceListUu = 2
+)
+
 // TraceEventList represents the ASN.1 type TraceEventList (SEQUENCE).
 type TraceEventList struct {
-	MscSList     *MSCSEventList `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
-	MgwList      *MGWEventList  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
-	SgsnList     *SGSNEventList `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
-	GgsnList     *GGSNEventList `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
-	BmscList     *BMSCEventList `asn1:"tag:4,context,implicit,optional" json:"BmscList,omitempty"`
-	MmeList      *MMEEventList  `asn1:"tag:5,context,implicit,optional" json:"MmeList,omitempty"`
-	SgwList      *SGWEventList  `asn1:"tag:6,context,implicit,optional" json:"SgwList,omitempty"`
-	PgwList      *PGWEventList  `asn1:"tag:7,context,implicit,optional" json:"PgwList,omitempty"`
-	ExtCount_    int64          `asn1:"-" json:"-"`
-	ExtPresent_  []bool         `asn1:"-" json:"-"`
-	ExtData_     [][]byte       `asn1:"-" json:"-"`
-	berOriginal_ []byte         `asn1:"-" json:"-"`
-	berSnapshot_ []byte         `asn1:"-" json:"-"`
+	MscSList       *MSCSEventList  `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
+	MgwList        *MGWEventList   `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
+	SgsnList       *SGSNEventList  `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
+	GgsnList       *GGSNEventList  `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
+	BmscList       *BMSCEventList  `asn1:"tag:4,context,implicit,optional" json:"BmscList,omitempty"`
+	MmeList        *MMEEventList   `asn1:"tag:5,context,implicit,optional" json:"MmeList,omitempty"`
+	SgwList        *SGWEventList   `asn1:"tag:6,context,implicit,optional" json:"SgwList,omitempty"`
+	PgwList        *PGWEventList   `asn1:"tag:7,context,implicit,optional" json:"PgwList,omitempty"`
+	ExtCount_      int64           `asn1:"-" json:"-"`
+	ExtPresent_    []bool          `asn1:"-" json:"-"`
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // MSCSEventList represents the ASN.1 type MSC-S-EventList (BIT_STRING).
 type MSCSEventList = runtime.BitString
 
+const (
+	// MSCSEventListMoMtCall is position 0 of ASN.1 named bit mo-mtCall of MSC-S-EventList (ITU-T X.680 (02/2021) §22).
+	MSCSEventListMoMtCall = 0
+	// MSCSEventListMoMtSms is position 1 of ASN.1 named bit mo-mt-sms of MSC-S-EventList (ITU-T X.680 (02/2021) §22).
+	MSCSEventListMoMtSms = 1
+	// MSCSEventListLuImsiAttachImsiDetach is position 2 of ASN.1 named bit lu-imsiAttach-imsiDetach of MSC-S-EventList (ITU-T X.680 (02/2021) §22).
+	MSCSEventListLuImsiAttachImsiDetach = 2
+	// MSCSEventListHandovers is position 3 of ASN.1 named bit handovers of MSC-S-EventList (ITU-T X.680 (02/2021) §22).
+	MSCSEventListHandovers = 3
+	// MSCSEventListSs is position 4 of ASN.1 named bit ss of MSC-S-EventList (ITU-T X.680 (02/2021) §22).
+	MSCSEventListSs = 4
+)
+
 // MGWEventList represents the ASN.1 type MGW-EventList (BIT_STRING).
 type MGWEventList = runtime.BitString
+
+const (
+	// MGWEventListContext is position 0 of ASN.1 named bit context of MGW-EventList (ITU-T X.680 (02/2021) §22).
+	MGWEventListContext = 0
+)
 
 // SGSNEventList represents the ASN.1 type SGSN-EventList (BIT_STRING).
 type SGSNEventList = runtime.BitString
 
+const (
+	// SGSNEventListPdpContext is position 0 of ASN.1 named bit pdpContext of SGSN-EventList (ITU-T X.680 (02/2021) §22).
+	SGSNEventListPdpContext = 0
+	// SGSNEventListMoMtSms is position 1 of ASN.1 named bit mo-mt-sms of SGSN-EventList (ITU-T X.680 (02/2021) §22).
+	SGSNEventListMoMtSms = 1
+	// SGSNEventListRauGprsAttachGprsDetach is position 2 of ASN.1 named bit rau-gprsAttach-gprsDetach of SGSN-EventList (ITU-T X.680 (02/2021) §22).
+	SGSNEventListRauGprsAttachGprsDetach = 2
+	// SGSNEventListMbmsContext is position 3 of ASN.1 named bit mbmsContext of SGSN-EventList (ITU-T X.680 (02/2021) §22).
+	SGSNEventListMbmsContext = 3
+)
+
 // GGSNEventList represents the ASN.1 type GGSN-EventList (BIT_STRING).
 type GGSNEventList = runtime.BitString
+
+const (
+	// GGSNEventListPdpContext is position 0 of ASN.1 named bit pdpContext of GGSN-EventList (ITU-T X.680 (02/2021) §22).
+	GGSNEventListPdpContext = 0
+	// GGSNEventListMbmsContext is position 1 of ASN.1 named bit mbmsContext of GGSN-EventList (ITU-T X.680 (02/2021) §22).
+	GGSNEventListMbmsContext = 1
+)
 
 // BMSCEventList represents the ASN.1 type BMSC-EventList (BIT_STRING).
 type BMSCEventList = runtime.BitString
 
+const (
+	// BMSCEventListMbmsMulticastServiceActivation is position 0 of ASN.1 named bit mbmsMulticastServiceActivation of BMSC-EventList (ITU-T X.680 (02/2021) §22).
+	BMSCEventListMbmsMulticastServiceActivation = 0
+)
+
 // MMEEventList represents the ASN.1 type MME-EventList (BIT_STRING).
 type MMEEventList = runtime.BitString
+
+const (
+	// MMEEventListUeInitiatedPDNconectivityRequest is position 0 of ASN.1 named bit ue-initiatedPDNconectivityRequest of MME-EventList (ITU-T X.680 (02/2021) §22).
+	MMEEventListUeInitiatedPDNconectivityRequest = 0
+	// MMEEventListServiceRequestts is position 1 of ASN.1 named bit serviceRequestts of MME-EventList (ITU-T X.680 (02/2021) §22).
+	MMEEventListServiceRequestts = 1
+	// MMEEventListInitialAttachTrackingAreaUpdateDetach is position 2 of ASN.1 named bit initialAttachTrackingAreaUpdateDetach of MME-EventList (ITU-T X.680 (02/2021) §22).
+	MMEEventListInitialAttachTrackingAreaUpdateDetach = 2
+	// MMEEventListUeInitiatedPDNdisconnection is position 3 of ASN.1 named bit ue-initiatedPDNdisconnection of MME-EventList (ITU-T X.680 (02/2021) §22).
+	MMEEventListUeInitiatedPDNdisconnection = 3
+	// MMEEventListBearerActivationModificationDeletion is position 4 of ASN.1 named bit bearerActivationModificationDeletion of MME-EventList (ITU-T X.680 (02/2021) §22).
+	MMEEventListBearerActivationModificationDeletion = 4
+	// MMEEventListHandover is position 5 of ASN.1 named bit handover of MME-EventList (ITU-T X.680 (02/2021) §22).
+	MMEEventListHandover = 5
+)
 
 // SGWEventList represents the ASN.1 type SGW-EventList (BIT_STRING).
 type SGWEventList = runtime.BitString
 
+const (
+	// SGWEventListPdnConnectionCreation is position 0 of ASN.1 named bit pdn-connectionCreation of SGW-EventList (ITU-T X.680 (02/2021) §22).
+	SGWEventListPdnConnectionCreation = 0
+	// SGWEventListPdnConnectionTermination is position 1 of ASN.1 named bit pdn-connectionTermination of SGW-EventList (ITU-T X.680 (02/2021) §22).
+	SGWEventListPdnConnectionTermination = 1
+	// SGWEventListBearerActivationModificationDeletion is position 2 of ASN.1 named bit bearerActivationModificationDeletion of SGW-EventList (ITU-T X.680 (02/2021) §22).
+	SGWEventListBearerActivationModificationDeletion = 2
+)
+
 // PGWEventList represents the ASN.1 type PGW-EventList (BIT_STRING).
 type PGWEventList = runtime.BitString
+
+const (
+	// PGWEventListPdnConnectionCreation is position 0 of ASN.1 named bit pdn-connectionCreation of PGW-EventList (ITU-T X.680 (02/2021) §22).
+	PGWEventListPdnConnectionCreation = 0
+	// PGWEventListPdnConnectionTermination is position 1 of ASN.1 named bit pdn-connectionTermination of PGW-EventList (ITU-T X.680 (02/2021) §22).
+	PGWEventListPdnConnectionTermination = 1
+	// PGWEventListBearerActivationModificationDeletion is position 2 of ASN.1 named bit bearerActivationModificationDeletion of PGW-EventList (ITU-T X.680 (02/2021) §22).
+	PGWEventListBearerActivationModificationDeletion = 2
+)
 
 // TracePropagationList represents the ASN.1 type TracePropagationList (SEQUENCE).
 type TracePropagationList struct {
@@ -671,8 +892,7 @@ type TracePropagationList struct {
 	ExtCount_                      int64                           `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                          `asn1:"-" json:"-"`
 	ExtData_                       [][]byte                        `asn1:"-" json:"-"`
-	berOriginal_                   []byte                          `asn1:"-" json:"-"`
-	berSnapshot_                   []byte                          `asn1:"-" json:"-"`
+	berReplayNode_                 *ber.ReplayNode                 `asn1:"-" json:"-"`
 }
 
 // ActivateTraceModeRes represents the ASN.1 type ActivateTraceModeRes (SEQUENCE).
@@ -682,8 +902,7 @@ type ActivateTraceModeRes struct {
 	ExtCount_             int64               `asn1:"-" json:"-"`
 	ExtPresent_           []bool              `asn1:"-" json:"-"`
 	ExtData_              [][]byte            `asn1:"-" json:"-"`
-	berOriginal_          []byte              `asn1:"-" json:"-"`
-	berSnapshot_          []byte              `asn1:"-" json:"-"`
+	berReplayNode_        *ber.ReplayNode     `asn1:"-" json:"-"`
 }
 
 // DeactivateTraceModeArg represents the ASN.1 type DeactivateTraceModeArg (SEQUENCE).
@@ -695,8 +914,7 @@ type DeactivateTraceModeArg struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
-	berOriginal_       []byte              `asn1:"-" json:"-"`
-	berSnapshot_       []byte              `asn1:"-" json:"-"`
+	berReplayNode_     *ber.ReplayNode     `asn1:"-" json:"-"`
 }
 
 // DeactivateTraceModeRes represents the ASN.1 type DeactivateTraceModeRes (SEQUENCE).
@@ -705,8 +923,7 @@ type DeactivateTraceModeRes struct {
 	ExtCount_          int64               `asn1:"-" json:"-"`
 	ExtPresent_        []bool              `asn1:"-" json:"-"`
 	ExtData_           [][]byte            `asn1:"-" json:"-"`
-	berOriginal_       []byte              `asn1:"-" json:"-"`
-	berSnapshot_       []byte              `asn1:"-" json:"-"`
+	berReplayNode_     *ber.ReplayNode     `asn1:"-" json:"-"`
 }
 
 // MarshalBER encodes ActivateTraceModeArg to BER format.
@@ -716,11 +933,22 @@ func (v *ActivateTraceModeArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: ActivateTraceModeArg receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -798,6 +1026,7 @@ func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, qualifyBERError(tagErr_enc_extensioncontainer, "extensionContainer", "encoding", false)
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.TraceReference2 != nil {
@@ -827,13 +1056,14 @@ func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, qualifyBERError(tagErr_enc_tracedepthlist, "traceDepthList", "encoding", false)
 		}
 		enc_tracedepthlist = retagged_enc_tracedepthlist
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_tracedepthlist)
 		children = append(children, enc_tracedepthlist...)
 	}
 	if v.TraceNETypeList != nil {
 		if bitStringErr := ber.ValidateBitStringLength(v.TraceNETypeList.Bytes, v.TraceNETypeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "traceNE-TypeList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -863,6 +1093,7 @@ func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, qualifyBERError(tagErr_enc_traceinterfacelist, "traceInterfaceList", "encoding", false)
 		}
 		enc_traceinterfacelist = retagged_enc_traceinterfacelist
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_traceinterfacelist)
 		children = append(children, enc_traceinterfacelist...)
 	}
 	if v.TraceEventList != nil {
@@ -875,6 +1106,7 @@ func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, qualifyBERError(tagErr_enc_traceeventlist, "traceEventList", "encoding", false)
 		}
 		enc_traceeventlist = retagged_enc_traceeventlist
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_traceeventlist)
 		children = append(children, enc_traceeventlist...)
 	}
 	if v.TraceCollectionEntity != nil {
@@ -904,6 +1136,7 @@ func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, qualifyBERError(tagErr_enc_mdtconfiguration, "mdt-Configuration", "encoding", false)
 		}
 		enc_mdtconfiguration = retagged_enc_mdtconfiguration
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_mdtconfiguration)
 		children = append(children, enc_mdtconfiguration...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -925,7 +1158,16 @@ func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *ActivateTraceModeArg) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes ActivateTraceModeArg to DER format.
@@ -1043,7 +1285,7 @@ func (v *ActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.TraceNETypeList.Bytes, v.TraceNETypeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "traceNE-TypeList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -1141,6 +1383,14 @@ func (v *ActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *ActivateTraceModeArg) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes ActivateTraceModeArg from BER/DER format.
 func (v *ActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -1150,25 +1400,28 @@ func (v *ActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe ActivateTraceModeArg
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = ActivateTraceModeArg{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ActivateTraceModeArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1326,7 +1579,14 @@ func (v *ActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 4 || decodedTag_extensioncontainer.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
-				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				_ = rawVal_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_extensioncontainer])
 				if reconstructionErr_extensioncontainer != nil {
 					return qualifyBERError(reconstructionErr_extensioncontainer, "extensionContainer", "decoding", false)
 				}
@@ -1392,7 +1652,13 @@ func (v *ActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_tracedepthlist.Class != tag.ClassContextSpecific || decodedTag_tracedepthlist.Number != 6 || decodedTag_tracedepthlist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_tracedepthlist), "traceDepthList", "decoding", false)
 				}
-				reconstructed_tracedepthlist, reconstructionErr_tracedepthlist := ber.EncodeSequence(rawVal_tracedepthlist)
+				_ = rawVal_tracedepthlist
+				if offset < 0 || offset >
+					len(content) || n_tracedepthlist < 0 || n_tracedepthlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_tracedepthlist, reconstructionErr_tracedepthlist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_tracedepthlist])
 				if reconstructionErr_tracedepthlist != nil {
 					return qualifyBERError(reconstructionErr_tracedepthlist, "traceDepthList", "decoding", false)
 				}
@@ -1462,7 +1728,14 @@ func (v *ActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_traceinterfacelist.Class != tag.ClassContextSpecific || decodedTag_traceinterfacelist.Number != 8 || decodedTag_traceinterfacelist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_traceinterfacelist), "traceInterfaceList", "decoding", false)
 				}
-				reconstructed_traceinterfacelist, reconstructionErr_traceinterfacelist := ber.EncodeSequence(rawVal_traceinterfacelist)
+				_ = rawVal_traceinterfacelist
+				if offset < 0 || offset >
+					len(content) || n_traceinterfacelist < 0 || n_traceinterfacelist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_traceinterfacelist, reconstructionErr_traceinterfacelist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_traceinterfacelist])
 				if reconstructionErr_traceinterfacelist != nil {
 					return qualifyBERError(reconstructionErr_traceinterfacelist, "traceInterfaceList", "decoding", false)
 				}
@@ -1494,7 +1767,13 @@ func (v *ActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_traceeventlist.Class != tag.ClassContextSpecific || decodedTag_traceeventlist.Number != 9 || decodedTag_traceeventlist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_traceeventlist), "traceEventList", "decoding", false)
 				}
-				reconstructed_traceeventlist, reconstructionErr_traceeventlist := ber.EncodeSequence(rawVal_traceeventlist)
+				_ = rawVal_traceeventlist
+				if offset < 0 || offset >
+					len(content) || n_traceeventlist < 0 || n_traceeventlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_traceeventlist, reconstructionErr_traceeventlist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_traceeventlist])
 				if reconstructionErr_traceeventlist != nil {
 					return qualifyBERError(reconstructionErr_traceeventlist, "traceEventList", "decoding", false)
 				}
@@ -1559,7 +1838,14 @@ func (v *ActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_mdtconfiguration.Class != tag.ClassContextSpecific || decodedTag_mdtconfiguration.Number != 11 || decodedTag_mdtconfiguration.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mdtconfiguration), "mdt-Configuration", "decoding", false)
 				}
-				reconstructed_mdtconfiguration, reconstructionErr_mdtconfiguration := ber.EncodeSequence(rawVal_mdtconfiguration)
+				_ = rawVal_mdtconfiguration
+				if offset < 0 || offset >
+					len(content) || n_mdtconfiguration < 0 || n_mdtconfiguration >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_mdtconfiguration, reconstructionErr_mdtconfiguration := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_mdtconfiguration])
 				if reconstructionErr_mdtconfiguration != nil {
 					return qualifyBERError(reconstructionErr_mdtconfiguration, "mdt-Configuration", "decoding", false)
 				}
@@ -1620,11 +1906,22 @@ func (v *MDTConfiguration) MarshalBER(opts ...ber.EncodeOption) (returnBytes []b
 	if v == nil {
 		return nil, fmt.Errorf("%w: MDTConfiguration receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *MDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1643,6 +1940,7 @@ func (v *MDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		if err != nil {
 			return nil, qualifyBERError(err, "areaScope", "encoding", false)
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_areascope)
 		children = append(children, enc_areascope...)
 	}
 	if v.ListOfMeasurements != nil {
@@ -1758,6 +2056,7 @@ func (v *MDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, qualifyBERError(tagErr_enc_extensioncontainer, "extensionContainer", "encoding", false)
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.MeasurementPeriodUMTS != nil {
@@ -1908,6 +2207,7 @@ func (v *MDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			}
 			enc_mdtallowedplmnlist = retagged_enc_mdtallowedplmnlist
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_mdtallowedplmnlist)
 		children = append(children, enc_mdtallowedplmnlist...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -1929,7 +2229,16 @@ func (v *MDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *MDTConfiguration) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes MDTConfiguration to DER format.
@@ -2227,6 +2536,14 @@ func (v *MDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *MDTConfiguration) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes MDTConfiguration from BER/DER format.
 func (v *MDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -2236,25 +2553,28 @@ func (v *MDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe MDTConfiguration
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = MDTConfiguration{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MDTConfiguration, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2576,7 +2896,14 @@ func (v *MDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 5 || decodedTag_extensioncontainer.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
-				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				_ = rawVal_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_extensioncontainer])
 				if reconstructionErr_extensioncontainer != nil {
 					return qualifyBERError(reconstructionErr_extensioncontainer, "extensionContainer", "decoding", false)
 				}
@@ -2881,7 +3208,14 @@ func (v *MDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				if decodedTag_mdtallowedplmnlist.Class != tag.ClassContextSpecific || decodedTag_mdtallowedplmnlist.Number != 14 || decodedTag_mdtallowedplmnlist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_mdtallowedplmnlist), "mdt-Allowed-PLMN-List", "decoding", false)
 				}
-				reconstructed_mdtallowedplmnlist, reconstructionErr_mdtallowedplmnlist := ber.EncodeSequence(rawVal_mdtallowedplmnlist)
+				_ = rawVal_mdtallowedplmnlist
+				if offset < 0 || offset >
+					len(content) || n_mdtallowedplmnlist < 0 || n_mdtallowedplmnlist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_mdtallowedplmnlist, reconstructionErr_mdtallowedplmnlist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_mdtallowedplmnlist])
 				if reconstructionErr_mdtallowedplmnlist != nil {
 					return qualifyBERError(reconstructionErr_mdtallowedplmnlist, "mdt-Allowed-PLMN-List", "decoding", false)
 				}
@@ -2961,11 +3295,24 @@ func MarshalBERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList, opts ...be
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
+	if collection.berReplayNode_ == nil {
+		return marshalBERMDTAllowedPLMNIdList(collection, opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
+		return MarshalBERMDTAllowedPLMNIdList(collection, []ber.EncodeOption{mode}...)
+	}, collection)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := marshalBERMDTAllowedPLMNIdList(collection, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
 }
 func marshalBERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
@@ -2991,7 +3338,17 @@ func marshalBERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList, opts ...be
 		}
 		children = append(children, encodedElem...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+
+func appendBERLinearMDTAllowedPLMNIdList(encoder *ber.LinearEncoder, collection *MDTAllowedPLMNIdList, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := MarshalBERMDTAllowedPLMNIdList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDERMDTAllowedPLMNIdList encodes a MDTAllowedPLMNIdList list to DER.
@@ -3032,17 +3389,33 @@ func MarshalDERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList) ([]byte, e
 	return encoded, nil
 }
 
+func appendDERLinearMDTAllowedPLMNIdList(encoder *ber.LinearEncoder, collection *MDTAllowedPLMNIdList) ([]byte, error) {
+	encoded, err := MarshalDERMDTAllowedPLMNIdList(collection)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBERMDTAllowedPLMNIdList decodes a MDTAllowedPLMNIdList list from BER.
 func UnmarshalBERMDTAllowedPLMNIdList(data []byte, opts ...ber.DecodeOption) (returnValue *MDTAllowedPLMNIdList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return nil, ber.DiagnosePreflight(err, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return nil, ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
 			_, probeErr := UnmarshalBERMDTAllowedPLMNIdList(data, probeOpts...)
 			return probeErr
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding MDTAllowedPLMNIdList", qualifyBERError(err, "", "decoding", false))
@@ -3084,13 +3457,12 @@ func UnmarshalBERMDTAllowedPLMNIdList(data []byte, opts ...ber.DecodeOption) (re
 	}
 	decoded := &MDTAllowedPLMNIdList{Values: result}
 	if ber.BERNeedsPreservation(opts) {
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := MarshalBERMDTAllowedPLMNIdList(decoded, ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			return nil, snapshotErr
+		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *MDTAllowedPLMNIdList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return MarshalBERMDTAllowedPLMNIdList(base, replayOpts...)
+		}); replayErr != nil {
+			return nil, replayErr
 		}
-		decoded.berOriginal_ = append([]byte(nil), data...)
-		decoded.berSnapshot_ = snapshot
 	}
 	return decoded, nil
 }
@@ -3102,11 +3474,22 @@ func (v *AreaScope) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, re
 	if v == nil {
 		return nil, fmt.Errorf("%w: AreaScope receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3143,6 +3526,7 @@ func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			}
 			enc_cgilist = retagged_enc_cgilist
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_cgilist)
 		children = append(children, enc_cgilist...)
 	}
 	if v.EUtranCgiList != nil {
@@ -3175,6 +3559,7 @@ func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			}
 			enc_eutrancgilist = retagged_enc_eutrancgilist
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_eutrancgilist)
 		children = append(children, enc_eutrancgilist...)
 	}
 	if v.RoutingAreaIdList != nil {
@@ -3207,6 +3592,7 @@ func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			}
 			enc_routingareaidlist = retagged_enc_routingareaidlist
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_routingareaidlist)
 		children = append(children, enc_routingareaidlist...)
 	}
 	if v.LocationAreaIdList != nil {
@@ -3239,6 +3625,7 @@ func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			}
 			enc_locationareaidlist = retagged_enc_locationareaidlist
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_locationareaidlist)
 		children = append(children, enc_locationareaidlist...)
 	}
 	if v.TrackingAreaIdList != nil {
@@ -3271,6 +3658,7 @@ func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			}
 			enc_trackingareaidlist = retagged_enc_trackingareaidlist
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_trackingareaidlist)
 		children = append(children, enc_trackingareaidlist...)
 	}
 	if v.ExtensionContainer != nil {
@@ -3283,6 +3671,7 @@ func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(tagErr_enc_extensioncontainer, "extensionContainer", "encoding", false)
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -3304,7 +3693,16 @@ func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *AreaScope) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes AreaScope to DER format.
@@ -3435,6 +3833,14 @@ func (v *AreaScope) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *AreaScope) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes AreaScope from BER/DER format.
 func (v *AreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -3444,25 +3850,28 @@ func (v *AreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe AreaScope
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = AreaScope{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *AreaScope, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -3486,7 +3895,12 @@ func (v *AreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 				if decodedTag_cgilist.Class != tag.ClassContextSpecific || decodedTag_cgilist.Number != 0 || decodedTag_cgilist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_cgilist), "cgi-List", "decoding", false)
 				}
-				reconstructed_cgilist, reconstructionErr_cgilist := ber.EncodeSequence(rawVal_cgilist)
+				_ = rawVal_cgilist
+				if offset > len(content) || n_cgilist < 0 || n_cgilist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_cgilist, reconstructionErr_cgilist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_cgilist])
 				if reconstructionErr_cgilist != nil {
 					return qualifyBERError(reconstructionErr_cgilist, "cgi-List", "decoding", false)
 				}
@@ -3532,7 +3946,14 @@ func (v *AreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 				if decodedTag_eutrancgilist.Class != tag.ClassContextSpecific || decodedTag_eutrancgilist.Number != 1 || decodedTag_eutrancgilist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_eutrancgilist), "e-utran-cgi-List", "decoding", false)
 				}
-				reconstructed_eutrancgilist, reconstructionErr_eutrancgilist := ber.EncodeSequence(rawVal_eutrancgilist)
+				_ = rawVal_eutrancgilist
+				if offset < 0 || offset >
+					len(content) || n_eutrancgilist < 0 || n_eutrancgilist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_eutrancgilist, reconstructionErr_eutrancgilist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_eutrancgilist])
 				if reconstructionErr_eutrancgilist != nil {
 					return qualifyBERError(reconstructionErr_eutrancgilist, "e-utran-cgi-List", "decoding", false)
 				}
@@ -3581,7 +4002,14 @@ func (v *AreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 				if decodedTag_routingareaidlist.Class != tag.ClassContextSpecific || decodedTag_routingareaidlist.Number != 2 || decodedTag_routingareaidlist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_routingareaidlist), "routingAreaId-List", "decoding", false)
 				}
-				reconstructed_routingareaidlist, reconstructionErr_routingareaidlist := ber.EncodeSequence(rawVal_routingareaidlist)
+				_ = rawVal_routingareaidlist
+				if offset < 0 || offset >
+					len(content) || n_routingareaidlist < 0 || n_routingareaidlist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_routingareaidlist, reconstructionErr_routingareaidlist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_routingareaidlist])
 				if reconstructionErr_routingareaidlist != nil {
 					return qualifyBERError(reconstructionErr_routingareaidlist, "routingAreaId-List", "decoding", false)
 				}
@@ -3630,7 +4058,14 @@ func (v *AreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 				if decodedTag_locationareaidlist.Class != tag.ClassContextSpecific || decodedTag_locationareaidlist.Number != 3 || decodedTag_locationareaidlist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_locationareaidlist), "locationAreaId-List", "decoding", false)
 				}
-				reconstructed_locationareaidlist, reconstructionErr_locationareaidlist := ber.EncodeSequence(rawVal_locationareaidlist)
+				_ = rawVal_locationareaidlist
+				if offset < 0 || offset >
+					len(content) || n_locationareaidlist < 0 || n_locationareaidlist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_locationareaidlist, reconstructionErr_locationareaidlist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_locationareaidlist])
 				if reconstructionErr_locationareaidlist != nil {
 					return qualifyBERError(reconstructionErr_locationareaidlist, "locationAreaId-List", "decoding", false)
 				}
@@ -3679,7 +4114,14 @@ func (v *AreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 				if decodedTag_trackingareaidlist.Class != tag.ClassContextSpecific || decodedTag_trackingareaidlist.Number != 4 || decodedTag_trackingareaidlist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_trackingareaidlist), "trackingAreaId-List", "decoding", false)
 				}
-				reconstructed_trackingareaidlist, reconstructionErr_trackingareaidlist := ber.EncodeSequence(rawVal_trackingareaidlist)
+				_ = rawVal_trackingareaidlist
+				if offset < 0 || offset >
+					len(content) || n_trackingareaidlist < 0 || n_trackingareaidlist >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_trackingareaidlist, reconstructionErr_trackingareaidlist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_trackingareaidlist])
 				if reconstructionErr_trackingareaidlist != nil {
 					return qualifyBERError(reconstructionErr_trackingareaidlist, "trackingAreaId-List", "decoding", false)
 				}
@@ -3727,7 +4169,14 @@ func (v *AreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnE
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 5 || decodedTag_extensioncontainer.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
-				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				_ = rawVal_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_extensioncontainer])
 				if reconstructionErr_extensioncontainer != nil {
 					return qualifyBERError(reconstructionErr_extensioncontainer, "extensionContainer", "decoding", false)
 				}
@@ -3791,11 +4240,24 @@ func MarshalBERCGIList(collection *CGIList, opts ...ber.EncodeOption) (returnByt
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
+	if collection.berReplayNode_ == nil {
+		return marshalBERCGIList(collection, opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
+		return MarshalBERCGIList(collection, []ber.EncodeOption{mode}...)
+	}, collection)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := marshalBERCGIList(collection, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
 }
 func marshalBERCGIList(collection *CGIList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
@@ -3821,7 +4283,17 @@ func marshalBERCGIList(collection *CGIList, opts ...ber.EncodeOption) ([]byte, e
 		}
 		children = append(children, encodedElem...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+
+func appendBERLinearCGIList(encoder *ber.LinearEncoder, collection *CGIList, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := MarshalBERCGIList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDERCGIList encodes a CGIList list to DER.
@@ -3862,17 +4334,33 @@ func MarshalDERCGIList(collection *CGIList) ([]byte, error) {
 	return encoded, nil
 }
 
+func appendDERLinearCGIList(encoder *ber.LinearEncoder, collection *CGIList) ([]byte, error) {
+	encoded, err := MarshalDERCGIList(collection)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBERCGIList decodes a CGIList list from BER.
 func UnmarshalBERCGIList(data []byte, opts ...ber.DecodeOption) (returnValue *CGIList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return nil, ber.DiagnosePreflight(err, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return nil, ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
 			_, probeErr := UnmarshalBERCGIList(data, probeOpts...)
 			return probeErr
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding CGIList", qualifyBERError(err, "", "decoding", false))
@@ -3914,13 +4402,12 @@ func UnmarshalBERCGIList(data []byte, opts ...ber.DecodeOption) (returnValue *CG
 	}
 	decoded := &CGIList{Values: result}
 	if ber.BERNeedsPreservation(opts) {
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := MarshalBERCGIList(decoded, ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			return nil, snapshotErr
+		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *CGIList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return MarshalBERCGIList(base, replayOpts...)
+		}); replayErr != nil {
+			return nil, replayErr
 		}
-		decoded.berOriginal_ = append([]byte(nil), data...)
-		decoded.berSnapshot_ = snapshot
 	}
 	return decoded, nil
 }
@@ -3935,11 +4422,24 @@ func MarshalBEREUTRANCGIList(collection *EUTRANCGIList, opts ...ber.EncodeOption
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
+	if collection.berReplayNode_ == nil {
+		return marshalBEREUTRANCGIList(collection, opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
+		return MarshalBEREUTRANCGIList(collection, []ber.EncodeOption{mode}...)
+	}, collection)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := marshalBEREUTRANCGIList(collection, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
 }
 func marshalBEREUTRANCGIList(collection *EUTRANCGIList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
@@ -3965,7 +4465,17 @@ func marshalBEREUTRANCGIList(collection *EUTRANCGIList, opts ...ber.EncodeOption
 		}
 		children = append(children, encodedElem...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+
+func appendBERLinearEUTRANCGIList(encoder *ber.LinearEncoder, collection *EUTRANCGIList, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := MarshalBEREUTRANCGIList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDEREUTRANCGIList encodes a EUTRANCGIList list to DER.
@@ -4006,17 +4516,33 @@ func MarshalDEREUTRANCGIList(collection *EUTRANCGIList) ([]byte, error) {
 	return encoded, nil
 }
 
+func appendDERLinearEUTRANCGIList(encoder *ber.LinearEncoder, collection *EUTRANCGIList) ([]byte, error) {
+	encoded, err := MarshalDEREUTRANCGIList(collection)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBEREUTRANCGIList decodes a EUTRANCGIList list from BER.
 func UnmarshalBEREUTRANCGIList(data []byte, opts ...ber.DecodeOption) (returnValue *EUTRANCGIList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return nil, ber.DiagnosePreflight(err, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return nil, ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
 			_, probeErr := UnmarshalBEREUTRANCGIList(data, probeOpts...)
 			return probeErr
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding EUTRANCGIList", qualifyBERError(err, "", "decoding", false))
@@ -4058,13 +4584,12 @@ func UnmarshalBEREUTRANCGIList(data []byte, opts ...ber.DecodeOption) (returnVal
 	}
 	decoded := &EUTRANCGIList{Values: result}
 	if ber.BERNeedsPreservation(opts) {
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := MarshalBEREUTRANCGIList(decoded, ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			return nil, snapshotErr
+		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *EUTRANCGIList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return MarshalBEREUTRANCGIList(base, replayOpts...)
+		}); replayErr != nil {
+			return nil, replayErr
 		}
-		decoded.berOriginal_ = append([]byte(nil), data...)
-		decoded.berSnapshot_ = snapshot
 	}
 	return decoded, nil
 }
@@ -4079,11 +4604,24 @@ func MarshalBERRoutingAreaIdList(collection *RoutingAreaIdList, opts ...ber.Enco
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
+	if collection.berReplayNode_ == nil {
+		return marshalBERRoutingAreaIdList(collection, opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
+		return MarshalBERRoutingAreaIdList(collection, []ber.EncodeOption{mode}...)
+	}, collection)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := marshalBERRoutingAreaIdList(collection, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
 }
 func marshalBERRoutingAreaIdList(collection *RoutingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
@@ -4109,7 +4647,17 @@ func marshalBERRoutingAreaIdList(collection *RoutingAreaIdList, opts ...ber.Enco
 		}
 		children = append(children, encodedElem...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+
+func appendBERLinearRoutingAreaIdList(encoder *ber.LinearEncoder, collection *RoutingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := MarshalBERRoutingAreaIdList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDERRoutingAreaIdList encodes a RoutingAreaIdList list to DER.
@@ -4150,17 +4698,33 @@ func MarshalDERRoutingAreaIdList(collection *RoutingAreaIdList) ([]byte, error) 
 	return encoded, nil
 }
 
+func appendDERLinearRoutingAreaIdList(encoder *ber.LinearEncoder, collection *RoutingAreaIdList) ([]byte, error) {
+	encoded, err := MarshalDERRoutingAreaIdList(collection)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBERRoutingAreaIdList decodes a RoutingAreaIdList list from BER.
 func UnmarshalBERRoutingAreaIdList(data []byte, opts ...ber.DecodeOption) (returnValue *RoutingAreaIdList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return nil, ber.DiagnosePreflight(err, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return nil, ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
 			_, probeErr := UnmarshalBERRoutingAreaIdList(data, probeOpts...)
 			return probeErr
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding RoutingAreaIdList", qualifyBERError(err, "", "decoding", false))
@@ -4202,13 +4766,12 @@ func UnmarshalBERRoutingAreaIdList(data []byte, opts ...ber.DecodeOption) (retur
 	}
 	decoded := &RoutingAreaIdList{Values: result}
 	if ber.BERNeedsPreservation(opts) {
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := MarshalBERRoutingAreaIdList(decoded, ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			return nil, snapshotErr
+		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *RoutingAreaIdList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return MarshalBERRoutingAreaIdList(base, replayOpts...)
+		}); replayErr != nil {
+			return nil, replayErr
 		}
-		decoded.berOriginal_ = append([]byte(nil), data...)
-		decoded.berSnapshot_ = snapshot
 	}
 	return decoded, nil
 }
@@ -4223,11 +4786,24 @@ func MarshalBERLocationAreaIdList(collection *LocationAreaIdList, opts ...ber.En
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
+	if collection.berReplayNode_ == nil {
+		return marshalBERLocationAreaIdList(collection, opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
+		return MarshalBERLocationAreaIdList(collection, []ber.EncodeOption{mode}...)
+	}, collection)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := marshalBERLocationAreaIdList(collection, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
 }
 func marshalBERLocationAreaIdList(collection *LocationAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
@@ -4253,7 +4829,17 @@ func marshalBERLocationAreaIdList(collection *LocationAreaIdList, opts ...ber.En
 		}
 		children = append(children, encodedElem...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+
+func appendBERLinearLocationAreaIdList(encoder *ber.LinearEncoder, collection *LocationAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := MarshalBERLocationAreaIdList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDERLocationAreaIdList encodes a LocationAreaIdList list to DER.
@@ -4294,17 +4880,33 @@ func MarshalDERLocationAreaIdList(collection *LocationAreaIdList) ([]byte, error
 	return encoded, nil
 }
 
+func appendDERLinearLocationAreaIdList(encoder *ber.LinearEncoder, collection *LocationAreaIdList) ([]byte, error) {
+	encoded, err := MarshalDERLocationAreaIdList(collection)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBERLocationAreaIdList decodes a LocationAreaIdList list from BER.
 func UnmarshalBERLocationAreaIdList(data []byte, opts ...ber.DecodeOption) (returnValue *LocationAreaIdList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return nil, ber.DiagnosePreflight(err, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return nil, ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
 			_, probeErr := UnmarshalBERLocationAreaIdList(data, probeOpts...)
 			return probeErr
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding LocationAreaIdList", qualifyBERError(err, "", "decoding", false))
@@ -4346,13 +4948,12 @@ func UnmarshalBERLocationAreaIdList(data []byte, opts ...ber.DecodeOption) (retu
 	}
 	decoded := &LocationAreaIdList{Values: result}
 	if ber.BERNeedsPreservation(opts) {
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := MarshalBERLocationAreaIdList(decoded, ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			return nil, snapshotErr
+		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *LocationAreaIdList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return MarshalBERLocationAreaIdList(base, replayOpts...)
+		}); replayErr != nil {
+			return nil, replayErr
 		}
-		decoded.berOriginal_ = append([]byte(nil), data...)
-		decoded.berSnapshot_ = snapshot
 	}
 	return decoded, nil
 }
@@ -4367,11 +4968,24 @@ func MarshalBERTrackingAreaIdList(collection *TrackingAreaIdList, opts ...ber.En
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
+	if collection.berReplayNode_ == nil {
+		return marshalBERTrackingAreaIdList(collection, opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
+		return MarshalBERTrackingAreaIdList(collection, []ber.EncodeOption{mode}...)
+	}, collection)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := marshalBERTrackingAreaIdList(collection, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
 }
 func marshalBERTrackingAreaIdList(collection *TrackingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
@@ -4397,7 +5011,17 @@ func marshalBERTrackingAreaIdList(collection *TrackingAreaIdList, opts ...ber.En
 		}
 		children = append(children, encodedElem...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+
+func appendBERLinearTrackingAreaIdList(encoder *ber.LinearEncoder, collection *TrackingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := MarshalBERTrackingAreaIdList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDERTrackingAreaIdList encodes a TrackingAreaIdList list to DER.
@@ -4438,17 +5062,33 @@ func MarshalDERTrackingAreaIdList(collection *TrackingAreaIdList) ([]byte, error
 	return encoded, nil
 }
 
+func appendDERLinearTrackingAreaIdList(encoder *ber.LinearEncoder, collection *TrackingAreaIdList) ([]byte, error) {
+	encoded, err := MarshalDERTrackingAreaIdList(collection)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBERTrackingAreaIdList decodes a TrackingAreaIdList list from BER.
 func UnmarshalBERTrackingAreaIdList(data []byte, opts ...ber.DecodeOption) (returnValue *TrackingAreaIdList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return nil, ber.DiagnosePreflight(err, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return nil, ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
 			_, probeErr := UnmarshalBERTrackingAreaIdList(data, probeOpts...)
 			return probeErr
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding TrackingAreaIdList", qualifyBERError(err, "", "decoding", false))
@@ -4490,13 +5130,12 @@ func UnmarshalBERTrackingAreaIdList(data []byte, opts ...ber.DecodeOption) (retu
 	}
 	decoded := &TrackingAreaIdList{Values: result}
 	if ber.BERNeedsPreservation(opts) {
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := MarshalBERTrackingAreaIdList(decoded, ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			return nil, snapshotErr
+		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *TrackingAreaIdList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return MarshalBERTrackingAreaIdList(base, replayOpts...)
+		}); replayErr != nil {
+			return nil, replayErr
 		}
-		decoded.berOriginal_ = append([]byte(nil), data...)
-		decoded.berSnapshot_ = snapshot
 	}
 	return decoded, nil
 }
@@ -4508,11 +5147,22 @@ func (v *TraceDepthList) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 	if v == nil {
 		return nil, fmt.Errorf("%w: TraceDepthList receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *TraceDepthList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -4718,7 +5368,16 @@ func (v *TraceDepthList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *TraceDepthList) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes TraceDepthList to DER format.
@@ -4932,6 +5591,14 @@ func (v *TraceDepthList) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *TraceDepthList) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes TraceDepthList from BER/DER format.
 func (v *TraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -4941,25 +5608,28 @@ func (v *TraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe TraceDepthList
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = TraceDepthList{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *TraceDepthList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -5589,11 +6259,22 @@ func (v *TraceInterfaceList) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	if v == nil {
 		return nil, fmt.Errorf("%w: TraceInterfaceList receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -5604,7 +6285,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.MscSList.Bytes, v.MscSList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5628,7 +6309,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.MgwList.Bytes, v.MgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5652,7 +6333,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.SgsnList.Bytes, v.SgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgsn-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5676,7 +6357,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.GgsnList.Bytes, v.GgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ggsn-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5700,7 +6381,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.RncList.Bytes, v.RncList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "rnc-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5724,7 +6405,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.BmscList.Bytes, v.BmscList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "bmsc-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5748,7 +6429,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.MmeList.Bytes, v.MmeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mme-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5772,7 +6453,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.SgwList.Bytes, v.SgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5796,7 +6477,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.PgwList.Bytes, v.PgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "pgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5820,7 +6501,7 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if bitStringErr := ber.ValidateBitStringLength(v.ENBList.Bytes, v.ENBList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "eNB-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.ENBList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5859,7 +6540,16 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *TraceInterfaceList) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes TraceInterfaceList to DER format.
@@ -5875,7 +6565,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MscSList.Bytes, v.MscSList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5902,7 +6592,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MgwList.Bytes, v.MgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5929,7 +6619,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SgsnList.Bytes, v.SgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgsn-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5956,7 +6646,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.GgsnList.Bytes, v.GgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ggsn-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -5983,7 +6673,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.RncList.Bytes, v.RncList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "rnc-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6010,7 +6700,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.BmscList.Bytes, v.BmscList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "bmsc-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6037,7 +6727,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MmeList.Bytes, v.MmeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mme-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6064,7 +6754,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SgwList.Bytes, v.SgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6091,7 +6781,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.PgwList.Bytes, v.PgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "pgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6118,7 +6808,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.ENBList.Bytes, v.ENBList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "eNB-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.ENBList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6163,6 +6853,14 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *TraceInterfaceList) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes TraceInterfaceList from BER/DER format.
 func (v *TraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -6172,25 +6870,28 @@ func (v *TraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe TraceInterfaceList
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = TraceInterfaceList{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *TraceInterfaceList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -6621,11 +7322,22 @@ func (v *TraceEventList) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 	if v == nil {
 		return nil, fmt.Errorf("%w: TraceEventList receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -6636,7 +7348,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.MscSList.Bytes, v.MscSList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6660,7 +7372,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.MgwList.Bytes, v.MgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6684,7 +7396,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SgsnList.Bytes, v.SgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgsn-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6708,7 +7420,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.GgsnList.Bytes, v.GgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ggsn-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6732,7 +7444,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.BmscList.Bytes, v.BmscList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "bmsc-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6756,7 +7468,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.MmeList.Bytes, v.MmeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mme-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6780,7 +7492,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.SgwList.Bytes, v.SgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6804,7 +7516,7 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.PgwList.Bytes, v.PgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "pgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6843,7 +7555,16 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *TraceEventList) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes TraceEventList to DER format.
@@ -6859,7 +7580,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MscSList.Bytes, v.MscSList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6886,7 +7607,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MgwList.Bytes, v.MgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6913,7 +7634,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SgsnList.Bytes, v.SgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgsn-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6940,7 +7661,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.GgsnList.Bytes, v.GgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ggsn-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6967,7 +7688,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.BmscList.Bytes, v.BmscList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "bmsc-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -6994,7 +7715,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MmeList.Bytes, v.MmeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mme-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7021,7 +7742,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.SgwList.Bytes, v.SgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7048,7 +7769,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.PgwList.Bytes, v.PgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "pgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7093,6 +7814,14 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *TraceEventList) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes TraceEventList from BER/DER format.
 func (v *TraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -7102,25 +7831,28 @@ func (v *TraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe TraceEventList
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = TraceEventList{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *TraceEventList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -7475,11 +8207,22 @@ func (v *TracePropagationList) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: TracePropagationList receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -7564,7 +8307,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.RncInterfaceList.Bytes, v.RncInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "rnc-InterfaceList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7597,7 +8340,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.MscSInterfaceList.Bytes, v.MscSInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-InterfaceList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7621,7 +8364,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.MscSEventList.Bytes, v.MscSEventList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-EventList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7654,7 +8397,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.MgwInterfaceList.Bytes, v.MgwInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-InterfaceList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7678,7 +8421,7 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.MgwEventList.Bytes, v.MgwEventList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-EventList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7744,7 +8487,16 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *TracePropagationList) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes TracePropagationList to DER format.
@@ -7834,7 +8586,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.RncInterfaceList.Bytes, v.RncInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "rnc-InterfaceList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7870,7 +8622,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MscSInterfaceList.Bytes, v.MscSInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-InterfaceList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7897,7 +8649,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MscSEventList.Bytes, v.MscSEventList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-EventList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7933,7 +8685,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MgwInterfaceList.Bytes, v.MgwInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-InterfaceList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -7960,7 +8712,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateDERBitString(v.MgwEventList.Bytes, v.MgwEventList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-EventList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:644
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
 		if v.MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -8032,6 +8784,14 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *TracePropagationList) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes TracePropagationList from BER/DER format.
 func (v *TracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -8041,25 +8801,28 @@ func (v *TracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe TracePropagationList
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = TracePropagationList{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *TracePropagationList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -8611,11 +9374,22 @@ func (v *ActivateTraceModeRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: ActivateTraceModeRes receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *ActivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -8632,6 +9406,7 @@ func (v *ActivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, qualifyBERError(tagErr_enc_extensioncontainer, "extensionContainer", "encoding", false)
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.TraceSupportIndicator != nil {
@@ -8662,7 +9437,16 @@ func (v *ActivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *ActivateTraceModeRes) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes ActivateTraceModeRes to DER format.
@@ -8717,6 +9501,14 @@ func (v *ActivateTraceModeRes) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *ActivateTraceModeRes) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes ActivateTraceModeRes from BER/DER format.
 func (v *ActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -8726,25 +9518,28 @@ func (v *ActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe ActivateTraceModeRes
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = ActivateTraceModeRes{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ActivateTraceModeRes, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -8767,7 +9562,12 @@ func (v *ActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 0 || decodedTag_extensioncontainer.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
-				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				_ = rawVal_extensioncontainer
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_extensioncontainer])
 				if reconstructionErr_extensioncontainer != nil {
 					return qualifyBERError(reconstructionErr_extensioncontainer, "extensionContainer", "decoding", false)
 				}
@@ -8853,11 +9653,22 @@ func (v *DeactivateTraceModeArg) MarshalBER(opts ...ber.EncodeOption) (returnByt
 	if v == nil {
 		return nil, fmt.Errorf("%w: DeactivateTraceModeArg receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *DeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -8906,6 +9717,7 @@ func (v *DeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 			return nil, qualifyBERError(tagErr_enc_extensioncontainer, "extensionContainer", "encoding", false)
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.TraceReference2 != nil {
@@ -8944,7 +9756,16 @@ func (v *DeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *DeactivateTraceModeArg) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes DeactivateTraceModeArg to DER format.
@@ -9039,6 +9860,14 @@ func (v *DeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *DeactivateTraceModeArg) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes DeactivateTraceModeArg from BER/DER format.
 func (v *DeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -9048,25 +9877,28 @@ func (v *DeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe DeactivateTraceModeArg
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = DeactivateTraceModeArg{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *DeactivateTraceModeArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -9157,7 +9989,14 @@ func (v *DeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 2 || decodedTag_extensioncontainer.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
-				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				_ = rawVal_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_extensioncontainer])
 				if reconstructionErr_extensioncontainer != nil {
 					return qualifyBERError(reconstructionErr_extensioncontainer, "extensionContainer", "decoding", false)
 				}
@@ -9251,11 +10090,22 @@ func (v *DeactivateTraceModeRes) MarshalBER(opts ...ber.EncodeOption) (returnByt
 	if v == nil {
 		return nil, fmt.Errorf("%w: DeactivateTraceModeRes receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *DeactivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -9272,6 +10122,7 @@ func (v *DeactivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 			return nil, qualifyBERError(tagErr_enc_extensioncontainer, "extensionContainer", "encoding", false)
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -9293,7 +10144,16 @@ func (v *DeactivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *DeactivateTraceModeRes) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes DeactivateTraceModeRes to DER format.
@@ -9339,6 +10199,14 @@ func (v *DeactivateTraceModeRes) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *DeactivateTraceModeRes) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes DeactivateTraceModeRes from BER/DER format.
 func (v *DeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -9348,25 +10216,28 @@ func (v *DeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe DeactivateTraceModeRes
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = DeactivateTraceModeRes{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *DeactivateTraceModeRes, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -9389,7 +10260,12 @@ func (v *DeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 0 || decodedTag_extensioncontainer.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
-				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				_ = rawVal_extensioncontainer
+				if offset > len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_extensioncontainer])
 				if reconstructionErr_extensioncontainer != nil {
 					return qualifyBERError(reconstructionErr_extensioncontainer, "extensionContainer", "decoding", false)
 				}

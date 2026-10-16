@@ -67,6 +67,15 @@ var berOptionEntries = map[string]any{
 	"CheckBEROpaqueReplay":               CheckBEROpaqueReplay,
 }
 
+// These generated-code orchestration helpers consume options after the public
+// codec entry has validated them. They are not independent codec entries.
+var berOptionHelpers = map[string]bool{
+	"OwnGeneratedBERInput":       true,
+	"PrepareGeneratedBERInput":   true,
+	"CompleteGeneratedBERDecode": true,
+	"PrepareBERReplay":           true,
+}
+
 func TestBEROptionEntryRegistryComplete(t *testing.T) {
 	files, err := optionEntrySources.ReadDir(".")
 	if err != nil {
@@ -112,6 +121,9 @@ func TestBEROptionEntryRegistryComplete(t *testing.T) {
 				continue
 			}
 			seen[fn.Name.Name] = true
+			if berOptionHelpers[fn.Name.Name] {
+				continue
+			}
 			if _, ok := berOptionEntries[fn.Name.Name]; !ok {
 				t.Errorf("exported codec %s is missing from the option audit", fn.Name.Name)
 			}
@@ -120,6 +132,11 @@ func TestBEROptionEntryRegistryComplete(t *testing.T) {
 	for name := range berOptionEntries {
 		if !seen[name] {
 			t.Errorf("option registry contains stale entry %s", name)
+		}
+	}
+	for name := range berOptionHelpers {
+		if !seen[name] {
+			t.Errorf("option helper registry contains stale entry %s", name)
 		}
 	}
 	t.Logf("audited %d exported option-consuming codecs and validators", len(seen))

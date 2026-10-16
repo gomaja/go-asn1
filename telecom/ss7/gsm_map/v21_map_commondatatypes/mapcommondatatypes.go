@@ -374,8 +374,7 @@ type CommonDataTypesExternalSignalInfo struct {
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
 	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berOriginal_       []byte                                                           `asn1:"-" json:"-"`
-	berSnapshot_       []byte                                                           `asn1:"-" json:"-"`
+	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesSignalInfo represents the ASN.1 type SignalInfo (OCTET_STRING).
@@ -414,8 +413,7 @@ type CommonDataTypesExtExternalSignalInfo struct {
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
 	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berOriginal_       []byte                                                           `asn1:"-" json:"-"`
-	berSnapshot_       []byte                                                           `asn1:"-" json:"-"`
+	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesExtProtocolId represents the ASN.1 ENUMERATED type Ext-ProtocolId.
@@ -442,8 +440,7 @@ type CommonDataTypesAccessNetworkSignalInfo struct {
 	ExtCount_               int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_             []bool                                                           `asn1:"-" json:"-"`
 	ExtData_                [][]byte                                                         `asn1:"-" json:"-"`
-	berOriginal_            []byte                                                           `asn1:"-" json:"-"`
-	berSnapshot_            []byte                                                           `asn1:"-" json:"-"`
+	berReplayNode_          *ber.ReplayNode                                                  `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesLongSignalInfo represents the ASN.1 type LongSignalInfo (OCTET_STRING).
@@ -488,11 +485,10 @@ const (
 
 // CommonDataTypesIdentity represents the ASN.1 CHOICE type Identity.
 type CommonDataTypesIdentity struct {
-	Choice       int
-	berOriginal_ []byte                       `json:"-"`
-	berSnapshot_ []byte                       `json:"-"`
-	Imsi         *CommonDataTypesIMSI         `json:"Imsi,omitempty"`
-	ImsiWithLMSI *CommonDataTypesIMSIWithLMSI `json:"ImsiWithLMSI,omitempty"`
+	Choice         int
+	berReplayNode_ *ber.ReplayNode              `json:"-"`
+	Imsi           *CommonDataTypesIMSI         `json:"Imsi,omitempty"`
+	ImsiWithLMSI   *CommonDataTypesIMSIWithLMSI `json:"ImsiWithLMSI,omitempty"`
 }
 
 // NewCommonDataTypesIdentityImsi creates a CommonDataTypesIdentity with the imsi alternative.
@@ -513,13 +509,12 @@ func NewCommonDataTypesIdentityImsiWithLMSI(v CommonDataTypesIMSIWithLMSI) Commo
 
 // CommonDataTypesIMSIWithLMSI represents the ASN.1 type IMSI-WithLMSI (SEQUENCE).
 type CommonDataTypesIMSIWithLMSI struct {
-	Imsi         CommonDataTypesIMSI `asn1:""`
-	Lmsi         CommonDataTypesLMSI `asn1:""`
-	ExtCount_    int64               `asn1:"-" json:"-"`
-	ExtPresent_  []bool              `asn1:"-" json:"-"`
-	ExtData_     [][]byte            `asn1:"-" json:"-"`
-	berOriginal_ []byte              `asn1:"-" json:"-"`
-	berSnapshot_ []byte              `asn1:"-" json:"-"`
+	Imsi           CommonDataTypesIMSI `asn1:""`
+	Lmsi           CommonDataTypesLMSI `asn1:""`
+	ExtCount_      int64               `asn1:"-" json:"-"`
+	ExtPresent_    []bool              `asn1:"-" json:"-"`
+	ExtData_       [][]byte            `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode     `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesASCICallReference represents the ASN.1 type ASCI-CallReference (OCTET_STRING).
@@ -536,11 +531,10 @@ const (
 
 // CommonDataTypesSubscriberId represents the ASN.1 CHOICE type SubscriberId.
 type CommonDataTypesSubscriberId struct {
-	Choice       int
-	berOriginal_ []byte               `json:"-"`
-	berSnapshot_ []byte               `json:"-"`
-	Imsi         *CommonDataTypesIMSI `json:"Imsi,omitempty"`
-	Tmsi         *CommonDataTypesTMSI `json:"Tmsi,omitempty"`
+	Choice         int
+	berReplayNode_ *ber.ReplayNode      `json:"-"`
+	Imsi           *CommonDataTypesIMSI `json:"Imsi,omitempty"`
+	Tmsi           *CommonDataTypesTMSI `json:"Tmsi,omitempty"`
 }
 
 // NewCommonDataTypesSubscriberIdImsi creates a CommonDataTypesSubscriberId with the imsi alternative.
@@ -567,9 +561,8 @@ type CommonDataTypesHLRId = CommonDataTypesIMSI
 
 // CommonDataTypesHLRList represents the ASN.1 type HLR-List (SEQUENCE_OF).
 type CommonDataTypesHLRList struct {
-	Values       []CommonDataTypesHLRId `json:"Values"`
-	berOriginal_ []byte                 `json:"-"`
-	berSnapshot_ []byte                 `json:"-"`
+	Values         []CommonDataTypesHLRId `json:"Values"`
+	berReplayNode_ *ber.ReplayNode        `json:"-"`
 }
 
 // CommonDataTypesLMSI represents the ASN.1 type LMSI (OCTET_STRING).
@@ -659,8 +652,7 @@ type CommonDataTypesNAEAPreferredCI struct {
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
 	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berOriginal_       []byte                                                           `asn1:"-" json:"-"`
-	berSnapshot_       []byte                                                           `asn1:"-" json:"-"`
+	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesNAEACIC represents the ASN.1 type NAEA-CIC (OCTET_STRING).
@@ -674,11 +666,10 @@ const (
 
 // CommonDataTypesSubscriberIdentity represents the ASN.1 CHOICE type SubscriberIdentity.
 type CommonDataTypesSubscriberIdentity struct {
-	Choice       int
-	berOriginal_ []byte                            `json:"-"`
-	berSnapshot_ []byte                            `json:"-"`
-	Imsi         *CommonDataTypesIMSI              `json:"Imsi,omitempty"`
-	Msisdn       *CommonDataTypesISDNAddressString `json:"Msisdn,omitempty"`
+	Choice         int
+	berReplayNode_ *ber.ReplayNode                   `json:"-"`
+	Imsi           *CommonDataTypesIMSI              `json:"Imsi,omitempty"`
+	Msisdn         *CommonDataTypesISDNAddressString `json:"Msisdn,omitempty"`
 }
 
 // NewCommonDataTypesSubscriberIdentityImsi creates a CommonDataTypesSubscriberIdentity with the imsi alternative.
@@ -704,8 +695,7 @@ type CommonDataTypesLCSClientExternalID struct {
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
 	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berOriginal_       []byte                                                           `asn1:"-" json:"-"`
-	berSnapshot_       []byte                                                           `asn1:"-" json:"-"`
+	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesLCSClientInternalID represents the ASN.1 ENUMERATED type LCSClientInternalID.
@@ -759,10 +749,9 @@ type CommonDataTypesRAIdentity = []byte
 
 // CommonDataTypesNetworkNodeDiameterAddress represents the ASN.1 type NetworkNodeDiameterAddress (SEQUENCE).
 type CommonDataTypesNetworkNodeDiameterAddress struct {
-	DiameterName  CommonDataTypesDiameterIdentity `asn1:"tag:0,context,implicit"`
-	DiameterRealm CommonDataTypesDiameterIdentity `asn1:"tag:1,context,implicit"`
-	berOriginal_  []byte                          `asn1:"-" json:"-"`
-	berSnapshot_  []byte                          `asn1:"-" json:"-"`
+	DiameterName   CommonDataTypesDiameterIdentity `asn1:"tag:0,context,implicit"`
+	DiameterRealm  CommonDataTypesDiameterIdentity `asn1:"tag:1,context,implicit"`
+	berReplayNode_ *ber.ReplayNode                 `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI choice constants.
@@ -774,8 +763,7 @@ const (
 // CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI represents the ASN.1 CHOICE type CellGlobalIdOrServiceAreaIdOrLAI.
 type CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI struct {
 	Choice                                 int
-	berOriginal_                           []byte                                                 `json:"-"`
-	berSnapshot_                           []byte                                                 `json:"-"`
+	berReplayNode_                         *ber.ReplayNode                                        `json:"-"`
 	CellGlobalIdOrServiceAreaIdFixedLength *CommonDataTypesCellGlobalIdOrServiceAreaIdFixedLength `json:"CellGlobalIdOrServiceAreaIdFixedLength,omitempty"`
 	LaiFixedLength                         *CommonDataTypesLAIFixedLength                         `json:"LaiFixedLength,omitempty"`
 }
@@ -810,11 +798,10 @@ const (
 
 // CommonDataTypesBasicServiceCode represents the ASN.1 CHOICE type BasicServiceCode.
 type CommonDataTypesBasicServiceCode struct {
-	Choice        int
-	berOriginal_  []byte                               `json:"-"`
-	berSnapshot_  []byte                               `json:"-"`
-	BearerService *v21_map_bs_code.BSBearerServiceCode `json:"BearerService,omitempty"`
-	Teleservice   *v21_map_ts_code.TSTeleserviceCode   `json:"Teleservice,omitempty"`
+	Choice         int
+	berReplayNode_ *ber.ReplayNode                      `json:"-"`
+	BearerService  *v21_map_bs_code.BSBearerServiceCode `json:"BearerService,omitempty"`
+	Teleservice    *v21_map_ts_code.TSTeleserviceCode   `json:"Teleservice,omitempty"`
 }
 
 // NewCommonDataTypesBasicServiceCodeBearerService creates a CommonDataTypesBasicServiceCode with the bearerService alternative.
@@ -842,8 +829,7 @@ const (
 // CommonDataTypesExtBasicServiceCode represents the ASN.1 CHOICE type Ext-BasicServiceCode.
 type CommonDataTypesExtBasicServiceCode struct {
 	Choice           int
-	berOriginal_     []byte                                  `json:"-"`
-	berSnapshot_     []byte                                  `json:"-"`
+	berReplayNode_   *ber.ReplayNode                         `json:"-"`
 	ExtBearerService *v21_map_bs_code.BSExtBearerServiceCode `json:"ExtBearerService,omitempty"`
 	ExtTeleservice   *v21_map_ts_code.TSExtTeleserviceCode   `json:"ExtTeleservice,omitempty"`
 }
@@ -872,8 +858,7 @@ type CommonDataTypesEMLPPInfo struct {
 	ExtCount_               int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_             []bool                                                           `asn1:"-" json:"-"`
 	ExtData_                [][]byte                                                         `asn1:"-" json:"-"`
-	berOriginal_            []byte                                                           `asn1:"-" json:"-"`
-	berSnapshot_            []byte                                                           `asn1:"-" json:"-"`
+	berReplayNode_          *ber.ReplayNode                                                  `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesEMLPPPriority represents the ASN.1 type EMLPP-Priority (INTEGER).
@@ -889,8 +874,7 @@ type CommonDataTypesMCSSInfo struct {
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
 	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berOriginal_       []byte                                                           `asn1:"-" json:"-"`
-	berSnapshot_       []byte                                                           `asn1:"-" json:"-"`
+	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesMaxMCBearers represents the ASN.1 type MaxMC-Bearers (INTEGER).
@@ -912,11 +896,22 @@ func (v *CommonDataTypesExternalSignalInfo) MarshalBER(opts ...ber.EncodeOption)
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesExternalSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *CommonDataTypesExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -945,6 +940,7 @@ func (v *CommonDataTypesExternalSignalInfo) marshalBER(opts ...ber.EncodeOption)
 		if err != nil {
 			return nil, qualifyBERError(err, "extensionContainer", "encoding", false)
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -966,7 +962,16 @@ func (v *CommonDataTypesExternalSignalInfo) marshalBER(opts ...ber.EncodeOption)
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *CommonDataTypesExternalSignalInfo) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes CommonDataTypesExternalSignalInfo to DER format.
@@ -1024,6 +1029,14 @@ func (v *CommonDataTypesExternalSignalInfo) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *CommonDataTypesExternalSignalInfo) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes CommonDataTypesExternalSignalInfo from BER/DER format.
 func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -1033,25 +1046,28 @@ func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, opts ...be
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesExternalSignalInfo
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesExternalSignalInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesExternalSignalInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1178,11 +1194,22 @@ func (v *CommonDataTypesExtExternalSignalInfo) MarshalBER(opts ...ber.EncodeOpti
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesExtExternalSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *CommonDataTypesExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1206,6 +1233,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOpti
 		if err != nil {
 			return nil, qualifyBERError(err, "extensionContainer", "encoding", false)
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -1227,7 +1255,16 @@ func (v *CommonDataTypesExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOpti
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *CommonDataTypesExtExternalSignalInfo) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes CommonDataTypesExtExternalSignalInfo to DER format.
@@ -1280,6 +1317,14 @@ func (v *CommonDataTypesExtExternalSignalInfo) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *CommonDataTypesExtExternalSignalInfo) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes CommonDataTypesExtExternalSignalInfo from BER/DER format.
 func (v *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -1289,25 +1334,28 @@ func (v *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte, opts ..
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesExtExternalSignalInfo
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesExtExternalSignalInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesExtExternalSignalInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1429,11 +1477,22 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) MarshalBER(opts ...ber.EncodeOp
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesAccessNetworkSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *CommonDataTypesAccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1457,6 +1516,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOp
 		if err != nil {
 			return nil, qualifyBERError(err, "extensionContainer", "encoding", false)
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -1478,7 +1538,16 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOp
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *CommonDataTypesAccessNetworkSignalInfo) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes CommonDataTypesAccessNetworkSignalInfo to DER format.
@@ -1531,6 +1600,14 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *CommonDataTypesAccessNetworkSignalInfo) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes CommonDataTypesAccessNetworkSignalInfo from BER/DER format.
 func (v *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -1540,25 +1617,28 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte, opts 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesAccessNetworkSignalInfo
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesAccessNetworkSignalInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesAccessNetworkSignalInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1680,11 +1760,30 @@ func (v *CommonDataTypesIdentity) MarshalBER(opts ...ber.EncodeOption) (returnBy
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesIdentity receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+}
+func (v *CommonDataTypesIdentity) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 func (v *CommonDataTypesIdentity) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1754,6 +1853,15 @@ func (v *CommonDataTypesIdentity) MarshalDER() ([]byte, error) {
 	return encoded, nil
 }
 
+func (v *CommonDataTypesIdentity) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBER decodes CommonDataTypesIdentity from BER/DER format.
 func (v *CommonDataTypesIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
 	if v == nil {
@@ -1762,25 +1870,28 @@ func (v *CommonDataTypesIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesIdentity, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesIdentity
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesIdentity{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesIdentity CHOICE")
@@ -1799,6 +1910,9 @@ func (v *CommonDataTypesIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		return &ber.DecodeError{Offset: total, TypeName: "CommonDataTypesIdentity", Cause: ber.ErrExtraData}
 	}
 
+	if (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) && peekTag.Constructed != true {
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "CommonDataTypesIdentity.imsi-WithLMSI", "decoding", false)
+	}
 	if peekTag.Class == tag.ClassUniversal && peekTag.Number == 4 {
 		v.Choice = CommonDataTypesIdentityChoiceImsi
 		ber.MarkPreflightTarget(opts, "imsi", choiceData)
@@ -1834,11 +1948,22 @@ func (v *CommonDataTypesIMSIWithLMSI) MarshalBER(opts ...ber.EncodeOption) (retu
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesIMSIWithLMSI receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *CommonDataTypesIMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1878,7 +2003,16 @@ func (v *CommonDataTypesIMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]by
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *CommonDataTypesIMSIWithLMSI) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes CommonDataTypesIMSIWithLMSI to DER format.
@@ -1922,6 +2056,14 @@ func (v *CommonDataTypesIMSIWithLMSI) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *CommonDataTypesIMSIWithLMSI) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes CommonDataTypesIMSIWithLMSI from BER/DER format.
 func (v *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -1931,25 +2073,28 @@ func (v *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.Deco
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesIMSIWithLMSI
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesIMSIWithLMSI{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesIMSIWithLMSI, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2037,11 +2182,30 @@ func (v *CommonDataTypesSubscriberId) MarshalBER(opts ...ber.EncodeOption) (retu
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesSubscriberId receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+}
+func (v *CommonDataTypesSubscriberId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 func (v *CommonDataTypesSubscriberId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2112,6 +2276,15 @@ func (v *CommonDataTypesSubscriberId) MarshalDER() ([]byte, error) {
 	return encoded, nil
 }
 
+func (v *CommonDataTypesSubscriberId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBER decodes CommonDataTypesSubscriberId from BER/DER format.
 func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
 	if v == nil {
@@ -2120,25 +2293,28 @@ func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte, opts ...ber.Deco
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesSubscriberId, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesSubscriberId
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesSubscriberId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesSubscriberId CHOICE")
@@ -2164,6 +2340,7 @@ func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte, opts ...ber.Deco
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "imsi", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "imsi", "decoding", false)
@@ -2182,6 +2359,7 @@ func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte, opts ...ber.Deco
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "tmsi", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "tmsi", "decoding", false)
@@ -2209,11 +2387,24 @@ func MarshalBERCommonDataTypesHLRList(collection *CommonDataTypesHLRList, opts .
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
+	if collection.berReplayNode_ == nil {
+		return marshalBERCommonDataTypesHLRList(collection, opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
+		return MarshalBERCommonDataTypesHLRList(collection, []ber.EncodeOption{mode}...)
+	}, collection)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := marshalBERCommonDataTypesHLRList(collection, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
 }
 func marshalBERCommonDataTypesHLRList(collection *CommonDataTypesHLRList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
@@ -2239,7 +2430,17 @@ func marshalBERCommonDataTypesHLRList(collection *CommonDataTypesHLRList, opts .
 		}
 		children = append(children, encodedElem...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+
+func appendBERLinearCommonDataTypesHLRList(encoder *ber.LinearEncoder, collection *CommonDataTypesHLRList, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := MarshalBERCommonDataTypesHLRList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDERCommonDataTypesHLRList encodes a CommonDataTypesHLRList list to DER.
@@ -2280,17 +2481,33 @@ func MarshalDERCommonDataTypesHLRList(collection *CommonDataTypesHLRList) ([]byt
 	return encoded, nil
 }
 
+func appendDERLinearCommonDataTypesHLRList(encoder *ber.LinearEncoder, collection *CommonDataTypesHLRList) ([]byte, error) {
+	encoded, err := MarshalDERCommonDataTypesHLRList(collection)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBERCommonDataTypesHLRList decodes a CommonDataTypesHLRList list from BER.
 func UnmarshalBERCommonDataTypesHLRList(data []byte, opts ...ber.DecodeOption) (returnValue *CommonDataTypesHLRList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return nil, ber.DiagnosePreflight(err, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return nil, ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
 			_, probeErr := UnmarshalBERCommonDataTypesHLRList(data, probeOpts...)
 			return probeErr
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding CommonDataTypesHLRList", qualifyBERError(err, "", "decoding", false))
@@ -2332,13 +2549,12 @@ func UnmarshalBERCommonDataTypesHLRList(data []byte, opts ...ber.DecodeOption) (
 	}
 	decoded := &CommonDataTypesHLRList{Values: result}
 	if ber.BERNeedsPreservation(opts) {
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := MarshalBERCommonDataTypesHLRList(decoded, ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			return nil, snapshotErr
+		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *CommonDataTypesHLRList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return MarshalBERCommonDataTypesHLRList(base, replayOpts...)
+		}); replayErr != nil {
+			return nil, replayErr
 		}
-		decoded.berOriginal_ = append([]byte(nil), data...)
-		decoded.berSnapshot_ = snapshot
 	}
 	return decoded, nil
 }
@@ -2350,11 +2566,22 @@ func (v *CommonDataTypesNAEAPreferredCI) MarshalBER(opts ...ber.EncodeOption) (r
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesNAEAPreferredCI receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *CommonDataTypesNAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2386,6 +2613,7 @@ func (v *CommonDataTypesNAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([
 			return nil, qualifyBERError(tagErr_enc_extensioncontainer, "extensionContainer", "encoding", false)
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -2407,7 +2635,16 @@ func (v *CommonDataTypesNAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *CommonDataTypesNAEAPreferredCI) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes CommonDataTypesNAEAPreferredCI to DER format.
@@ -2468,6 +2705,14 @@ func (v *CommonDataTypesNAEAPreferredCI) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *CommonDataTypesNAEAPreferredCI) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes CommonDataTypesNAEAPreferredCI from BER/DER format.
 func (v *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -2477,25 +2722,28 @@ func (v *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.D
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesNAEAPreferredCI
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesNAEAPreferredCI{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesNAEAPreferredCI, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2552,7 +2800,14 @@ func (v *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.D
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
-				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				_ = rawVal_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(
+					content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_extensioncontainer])
 				if reconstructionErr_extensioncontainer != nil {
 					return qualifyBERError(reconstructionErr_extensioncontainer, "extensionContainer", "decoding", false)
 				}
@@ -2613,11 +2868,30 @@ func (v *CommonDataTypesSubscriberIdentity) MarshalBER(opts ...ber.EncodeOption)
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesSubscriberIdentity receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+}
+func (v *CommonDataTypesSubscriberIdentity) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 func (v *CommonDataTypesSubscriberIdentity) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2693,6 +2967,15 @@ func (v *CommonDataTypesSubscriberIdentity) MarshalDER() ([]byte, error) {
 	return encoded, nil
 }
 
+func (v *CommonDataTypesSubscriberIdentity) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBER decodes CommonDataTypesSubscriberIdentity from BER/DER format.
 func (v *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
 	if v == nil {
@@ -2701,25 +2984,28 @@ func (v *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte, opts ...be
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesSubscriberIdentity, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesSubscriberIdentity
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesSubscriberIdentity{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesSubscriberIdentity CHOICE")
@@ -2745,6 +3031,7 @@ func (v *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte, opts ...be
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "imsi", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "imsi", "decoding", false)
@@ -2763,6 +3050,7 @@ func (v *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte, opts ...be
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "msisdn", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "msisdn", "decoding", false)
@@ -2792,11 +3080,22 @@ func (v *CommonDataTypesLCSClientExternalID) MarshalBER(opts ...ber.EncodeOption
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesLCSClientExternalID receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *CommonDataTypesLCSClientExternalID) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2835,6 +3134,7 @@ func (v *CommonDataTypesLCSClientExternalID) marshalBER(opts ...ber.EncodeOption
 			return nil, qualifyBERError(tagErr_enc_extensioncontainer, "extensionContainer", "encoding", false)
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -2856,7 +3156,16 @@ func (v *CommonDataTypesLCSClientExternalID) marshalBER(opts ...ber.EncodeOption
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *CommonDataTypesLCSClientExternalID) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes CommonDataTypesLCSClientExternalID to DER format.
@@ -2924,6 +3233,14 @@ func (v *CommonDataTypesLCSClientExternalID) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *CommonDataTypesLCSClientExternalID) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes CommonDataTypesLCSClientExternalID from BER/DER format.
 func (v *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -2933,25 +3250,28 @@ func (v *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte, opts ...b
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesLCSClientExternalID
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesLCSClientExternalID{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesLCSClientExternalID, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -3011,7 +3331,13 @@ func (v *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte, opts ...b
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 1 || decodedTag_extensioncontainer.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
-				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				_ = rawVal_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_extensioncontainer])
 				if reconstructionErr_extensioncontainer != nil {
 					return qualifyBERError(reconstructionErr_extensioncontainer, "extensionContainer", "decoding", false)
 				}
@@ -3071,11 +3397,22 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalBER(opts ...ber.Encod
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesNetworkNodeDiameterAddress receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *CommonDataTypesNetworkNodeDiameterAddress) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3112,7 +3449,16 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) marshalBER(opts ...ber.Encod
 	}
 	enc_diameterrealm = retagged_enc_diameterrealm
 	children = append(children, enc_diameterrealm...)
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *CommonDataTypesNetworkNodeDiameterAddress) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes CommonDataTypesNetworkNodeDiameterAddress to DER format.
@@ -3160,6 +3506,14 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalDER() ([]byte, error)
 	}
 	return encoded, nil
 }
+func (v *CommonDataTypesNetworkNodeDiameterAddress) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes CommonDataTypesNetworkNodeDiameterAddress from BER/DER format.
 func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -3169,25 +3523,28 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, op
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesNetworkNodeDiameterAddress
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesNetworkNodeDiameterAddress{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesNetworkNodeDiameterAddress, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -3279,11 +3636,30 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) MarshalBER(opts ...ber
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+}
+func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3354,6 +3730,15 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) MarshalDER() ([]byte, 
 	return encoded, nil
 }
 
+func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBER decodes CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI from BER/DER format.
 func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
 	if v == nil {
@@ -3362,25 +3747,28 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []by
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI CHOICE")
@@ -3406,6 +3794,7 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []by
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "cellGlobalIdOrServiceAreaIdFixedLength", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "cellGlobalIdOrServiceAreaIdFixedLength", "decoding", false)
@@ -3424,6 +3813,7 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []by
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "laiFixedLength", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "laiFixedLength", "decoding", false)
@@ -3448,11 +3838,30 @@ func (v *CommonDataTypesBasicServiceCode) MarshalBER(opts ...ber.EncodeOption) (
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesBasicServiceCode receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+}
+func (v *CommonDataTypesBasicServiceCode) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 func (v *CommonDataTypesBasicServiceCode) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3523,6 +3932,15 @@ func (v *CommonDataTypesBasicServiceCode) MarshalDER() ([]byte, error) {
 	return encoded, nil
 }
 
+func (v *CommonDataTypesBasicServiceCode) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBER decodes CommonDataTypesBasicServiceCode from BER/DER format.
 func (v *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
 	if v == nil {
@@ -3531,25 +3949,28 @@ func (v *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesBasicServiceCode, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesBasicServiceCode
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesBasicServiceCode{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesBasicServiceCode CHOICE")
@@ -3575,6 +3996,7 @@ func (v *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "bearerService", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "bearerService", "decoding", false)
@@ -3593,6 +4015,7 @@ func (v *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "teleservice", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "teleservice", "decoding", false)
@@ -3617,11 +4040,30 @@ func (v *CommonDataTypesExtBasicServiceCode) MarshalBER(opts ...ber.EncodeOption
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesExtBasicServiceCode receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+}
+func (v *CommonDataTypesExtBasicServiceCode) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 func (v *CommonDataTypesExtBasicServiceCode) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3692,6 +4134,15 @@ func (v *CommonDataTypesExtBasicServiceCode) MarshalDER() ([]byte, error) {
 	return encoded, nil
 }
 
+func (v *CommonDataTypesExtBasicServiceCode) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBER decodes CommonDataTypesExtBasicServiceCode from BER/DER format.
 func (v *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
 	if v == nil {
@@ -3700,25 +4151,28 @@ func (v *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte, opts ...b
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesExtBasicServiceCode, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesExtBasicServiceCode
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesExtBasicServiceCode{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesExtBasicServiceCode CHOICE")
@@ -3744,6 +4198,7 @@ func (v *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte, opts ...b
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "ext-BearerService", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "ext-BearerService", "decoding", false)
@@ -3762,6 +4217,7 @@ func (v *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte, opts ...b
 		if tlvErr != nil {
 			return qualifyBERError(tlvErr, "ext-Teleservice", "decoding", false)
 		}
+		_ = rawVal
 		decVal, octetErr := ber.DecodeImplicitOctetStringValue(peekTag.Constructed, rawVal, opts...)
 		if octetErr != nil {
 			return qualifyBERError(octetErr, "ext-Teleservice", "decoding", false)
@@ -3786,11 +4242,22 @@ func (v *CommonDataTypesEMLPPInfo) MarshalBER(opts ...ber.EncodeOption) (returnB
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesEMLPPInfo receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *CommonDataTypesEMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3816,6 +4283,7 @@ func (v *CommonDataTypesEMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		if err != nil {
 			return nil, qualifyBERError(err, "extensionContainer", "encoding", false)
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -3837,7 +4305,16 @@ func (v *CommonDataTypesEMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *CommonDataTypesEMLPPInfo) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes CommonDataTypesEMLPPInfo to DER format.
@@ -3892,6 +4369,14 @@ func (v *CommonDataTypesEMLPPInfo) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *CommonDataTypesEMLPPInfo) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes CommonDataTypesEMLPPInfo from BER/DER format.
 func (v *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -3901,25 +4386,28 @@ func (v *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesEMLPPInfo
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesEMLPPInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesEMLPPInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -4048,11 +4536,22 @@ func (v *CommonDataTypesMCSSInfo) MarshalBER(opts ...ber.EncodeOption) (returnBy
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesMCSSInfo receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -4123,6 +4622,7 @@ func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 			return nil, qualifyBERError(tagErr_enc_extensioncontainer, "extensionContainer", "encoding", false)
 		}
 		enc_extensioncontainer = retagged_enc_extensioncontainer
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -4144,7 +4644,16 @@ func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *CommonDataTypesMCSSInfo) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes CommonDataTypesMCSSInfo to DER format.
@@ -4244,6 +4753,14 @@ func (v *CommonDataTypesMCSSInfo) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *CommonDataTypesMCSSInfo) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes CommonDataTypesMCSSInfo from BER/DER format.
 func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -4253,25 +4770,28 @@ func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe CommonDataTypesMCSSInfo
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = CommonDataTypesMCSSInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CommonDataTypesMCSSInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -4433,7 +4953,14 @@ func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 				if decodedTag_extensioncontainer.Class != tag.ClassContextSpecific || decodedTag_extensioncontainer.Number != 4 || decodedTag_extensioncontainer.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_extensioncontainer), "extensionContainer", "decoding", false)
 				}
-				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeSequence(rawVal_extensioncontainer)
+				_ = rawVal_extensioncontainer
+				if offset < 0 || offset >
+					len(content) || n_extensioncontainer < 0 || n_extensioncontainer >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_extensioncontainer, reconstructionErr_extensioncontainer := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_extensioncontainer])
 				if reconstructionErr_extensioncontainer != nil {
 					return qualifyBERError(reconstructionErr_extensioncontainer, "extensionContainer", "decoding", false)
 				}

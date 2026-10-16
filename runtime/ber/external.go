@@ -153,8 +153,7 @@ func EncodeExternal(value runtime.External, options ...EncodeOption) ([]byte, er
 func EncodeExternalDER(value runtime.External) ([]byte, error) { return encodeExternal(value, true) }
 
 func encodeExternal(value runtime.External, der bool, options ...EncodeOption) ([]byte, error) {
-	config, err := encodeOptions(options)
-	if err != nil {
+	if _, err := encodeOptions(options); err != nil {
 		return nil, err
 	}
 	// Check before returning preserved BER too, so a changed value cannot evade
@@ -162,7 +161,7 @@ func encodeExternal(value runtime.External, der bool, options ...EncodeOption) (
 	if value.DirectReference.IsZero() && value.IndirectReference == nil {
 		return nil, fmt.Errorf("%w: EXTERNAL identification requires a direct or indirect reference", ErrInvalidValue)
 	}
-	if !der && !config.noReplay {
+	if !der && BERReplayEnabled(options) {
 		if original := value.UnchangedBER(); original != nil {
 			return original, nil
 		}

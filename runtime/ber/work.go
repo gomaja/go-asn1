@@ -28,8 +28,33 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 	if err != nil {
 		return err
 	}
+	if config.form != nil && config.generatedMode == generatedModeProof && config.form.lightInput == nil {
+		config.form.proofNeeded = true
+	}
+	var detachedContext *generatedDecodeOption
 	if len(options) != 0 {
-		if probe, ok := options[0].(preflightProbeOption); ok && probe.state != nil && probe.state.active {
+		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil && context.source != nil {
+			if _, within := berSubsliceOffset(context.source.owned, data); within {
+				if !context.source.validElement(data) {
+					return fmt.Errorf("%w: generated BER child is not a validated element", ErrInvalidValue)
+				}
+				if len(options) == 1 && context.source.matchesValidated(data) {
+					return nil
+				}
+			} else {
+				detachedContext = context
+			}
+		}
+	}
+	probeOptions := options
+	for _, option := range options {
+		if _, diagnostic := option.(diagnosticChildOption); diagnostic {
+			probeOptions = expandGeneratedDecodeOptions(options)
+			break
+		}
+	}
+	if len(probeOptions) != 0 {
+		if probe, ok := probeOptions[0].(preflightProbeOption); ok && probe.state != nil && probe.state.active {
 			return nil
 		}
 	}
@@ -48,7 +73,18 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		index         int
 		nextChild     int
 	}
-	stack := []frame{{end: len(data)}}
+	var spans map[int]int
+	var shortSpans []uint16
+	if detachedContext != nil || config.form != nil && config.form.owned != nil && (len(options) == 0 || !isGeneratedDecodeContext(options[0])) {
+		if len(data) <= 0xffff {
+			shortSpans = make([]uint16, len(data))
+		} else {
+			spans = make(map[int]int)
+		}
+	}
+	var initial [8]frame
+	initial[0].end = len(data)
+	stack := initial[:1]
 	failureOffset, failureDepth, failureIndex := 0, 1, 0
 	defer func() {
 		if returnErr == nil {
@@ -71,10 +107,21 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		return fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
 	}
 
+	pos, elements := 0, 0
 	// X.690 (02/2021) §8.6.4.1: the final nested segment supplies
 	// the unused-bit count of its containing BIT STRING segment.
 	closeFrame := func() error {
+		if len(stack) == 0 {
+			return ErrInvalidLength
+		}
 		closed := stack[len(stack)-1]
+		if len(stack) > 1 {
+			if shortSpans != nil {
+				shortSpans[closed.offset] = uint16(pos)
+			} else if spans != nil {
+				spans[closed.offset] = pos
+			}
+		}
 		failureOffset, failureDepth, failureIndex = closed.offset, len(stack)-1, closed.index
 		if closed.utf8Root {
 			if err := checkUTF8String(*closed.utf8Contents, closed.utf8Source, config, options, true); err != nil {
@@ -89,7 +136,6 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		}
 		return nil
 	}
-	pos, elements := 0, 0
 	for len(stack) != 0 {
 		parent := stack[len(stack)-1]
 		failureOffset, failureDepth, failureIndex = pos, len(stack), parent.nextChild
@@ -174,6 +220,9 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		}
 
 		if indefinite {
+			if config.form != nil && config.form.lightInput == nil && config.generatedMode != generatedModeLight {
+				config.form.proofNeeded = true
+			}
 			if !t.Constructed {
 				return fmt.Errorf("%w: indefinite length used with primitive tag %s", ErrInvalidLength, t)
 			}
@@ -214,17 +263,35 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			}
 		}
 		if t.Constructed {
+			// A chain becomes cheaper with a proof after eight constructed
+			// levels. Shallow definite values keep ordinary nested checks.
+			if config.form != nil && config.form.lightInput == nil && config.generatedMode != generatedModeLight && len(stack) > 8 {
+				config.form.proofNeeded = true
+			}
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
 			stack = append(stack, frame{end: end, segmentTag: berSegmentTag(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: parent.nextChild})
 			pos = start
 		} else {
+			if shortSpans != nil {
+				shortSpans[pos] = uint16(end)
+			} else if spans != nil {
+				spans[pos] = end
+			}
 			pos = end
 		}
 	}
 	if pos != len(data) {
 		return ErrExtraData
+	}
+	if spans != nil || shortSpans != nil {
+		validated := append([]byte(nil), data...)
+		if detachedContext != nil {
+			detachedContext.pending = &validatedBERSource{input: data, validated: validated, spans: spans, shortSpans: shortSpans, replay: detachedContext.source.replay}
+		} else {
+			config.form.validated = &validatedBERSource{input: data, validated: validated, spans: spans, shortSpans: shortSpans}
+		}
 	}
 	return nil
 }

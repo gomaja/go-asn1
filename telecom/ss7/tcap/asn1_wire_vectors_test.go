@@ -104,9 +104,9 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 			// Generated BER collections own their slice and wire provenance.
 			// Treat their Values field as the indexed abstract value.
 			if current.Kind() == reflect.Struct {
-				_, hasOriginal := current.Type().FieldByName("berOriginal_")
-				_, hasSnapshot := current.Type().FieldByName("berSnapshot_")
-				if hasOriginal && hasSnapshot {
+				_, hasReplay := current.Type().FieldByName("berReplayNode_")
+				_, hasValues := current.Type().FieldByName("Values")
+				if hasReplay && hasValues {
 					current = current.FieldByName("Values")
 				}
 			}

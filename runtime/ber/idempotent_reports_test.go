@@ -341,29 +341,30 @@ func TestBERUTF8ReportsLinearCost(t *testing.T) {
 	var baseline int64
 	for _, size := range []int{128, 512, 2048, 8192} {
 		wire := mustEncode(t)(EncodeUTF8String(string(bytes.Repeat([]byte{255}, size))))
-		result := testing.Benchmark(func(b *testing.B) {
-			for b.Loop() {
-				var reports ViolationLog
-				options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports), WithDiagnosticLimits(DiagnosticLimits{MaxRecords: size})})
-				if err := ValidateBERElement(wire, options...); err != nil {
-					b.Fatal(err)
-				}
-				if _, _, err := DecodeString(wire, tag.TagUTF8String, options...); err != nil {
-					b.Fatal(err)
-				}
-				finish(true)
-				if len(reports.Snapshot()) != size {
-					b.Fatal("malformed octets collapsed or duplicated")
-				}
+		operation := func() {
+			var reports ViolationLog
+			options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports), WithDiagnosticLimits(DiagnosticLimits{MaxRecords: size})})
+			if err := ValidateBERElement(wire, options...); err != nil {
+				t.Fatal(err)
 			}
-		})
+			if _, _, err := DecodeString(wire, tag.TagUTF8String, options...); err != nil {
+				t.Fatal(err)
+			}
+			finish(true)
+			if len(reports.Snapshot()) != size {
+				t.Fatal("malformed octets collapsed or duplicated")
+			}
+		}
+		allocated, _ := allocationCost(t, 5, operation)
+		// Repeated scans can be quadratic without allocating more memory.
+		elapsed := minimumTime(t, operation)
 		if baseline == 0 {
-			baseline = max(1, result.NsPerOp())
+			baseline = max(1, elapsed.Nanoseconds())
 		}
-		if result.AllocedBytesPerOp() > int64(4096*len(wire)+8192) || result.NsPerOp() > 16*baseline*int64(size/128) {
-			t.Fatalf("%d octets: nonlinear cost: %s, %s", size, result.String(), result.MemString())
+		if int64(allocated) > int64(4096*len(wire)+8192) || elapsed.Nanoseconds() > 16*baseline*int64(size/128) {
+			t.Fatalf("%d octets: nonlinear cost: %s, %d bytes", size, elapsed, allocated)
 		}
-		t.Logf("%d malformed octets: %s, %s", size, result.String(), result.MemString())
+		t.Logf("%d malformed octets: %s, %d bytes", size, elapsed, allocated)
 	}
 }
 

@@ -31,8 +31,7 @@ type ExtensionContainer struct {
 	ExtCount_                  int64                 `asn1:"-" json:"-"`
 	ExtPresent_                []bool                `asn1:"-" json:"-"`
 	ExtData_                   [][]byte              `asn1:"-" json:"-"`
-	berOriginal_               []byte                `asn1:"-" json:"-"`
-	berSnapshot_               []byte                `asn1:"-" json:"-"`
+	berReplayNode_             *ber.ReplayNode       `asn1:"-" json:"-"`
 }
 
 // SLRArgExtensionContainer represents the ASN.1 type SLR-ArgExtensionContainer (SEQUENCE).
@@ -43,42 +42,37 @@ type SLRArgExtensionContainer struct {
 	ExtCount_                  int64                 `asn1:"-" json:"-"`
 	ExtPresent_                []bool                `asn1:"-" json:"-"`
 	ExtData_                   [][]byte              `asn1:"-" json:"-"`
-	berOriginal_               []byte                `asn1:"-" json:"-"`
-	berSnapshot_               []byte                `asn1:"-" json:"-"`
+	berReplayNode_             *ber.ReplayNode       `asn1:"-" json:"-"`
 }
 
 // PrivateExtensionList represents the ASN.1 type PrivateExtensionList (SEQUENCE_OF).
 type PrivateExtensionList struct {
-	Values       []PrivateExtension `json:"Values"`
-	berOriginal_ []byte             `json:"-"`
-	berSnapshot_ []byte             `json:"-"`
+	Values         []PrivateExtension `json:"Values"`
+	berReplayNode_ *ber.ReplayNode    `json:"-"`
 }
 
 // PrivateExtension represents the ASN.1 type PrivateExtension (SEQUENCE).
 type PrivateExtension struct {
-	ExtId        runtime.ObjectIdentifier `asn1:""`
-	ExtType      *runtime.RawValue        `asn1:",optional" json:"ExtType,omitempty" asn1c:"raw-preserve"`
-	berOriginal_ []byte                   `asn1:"-" json:"-"`
-	berSnapshot_ []byte                   `asn1:"-" json:"-"`
+	ExtId          runtime.ObjectIdentifier `asn1:""`
+	ExtType        *runtime.RawValue        `asn1:",optional" json:"ExtType,omitempty" asn1c:"raw-preserve"`
+	berReplayNode_ *ber.ReplayNode          `asn1:"-" json:"-"`
 }
 
 // PCSExtensions represents the ASN.1 type PCS-Extensions (SEQUENCE).
 type PCSExtensions struct {
-	ExtCount_    int64    `asn1:"-" json:"-"`
-	ExtPresent_  []bool   `asn1:"-" json:"-"`
-	ExtData_     [][]byte `asn1:"-" json:"-"`
-	berOriginal_ []byte   `asn1:"-" json:"-"`
-	berSnapshot_ []byte   `asn1:"-" json:"-"`
+	ExtCount_      int64           `asn1:"-" json:"-"`
+	ExtPresent_    []bool          `asn1:"-" json:"-"`
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // SLRArgPCSExtensions represents the ASN.1 type SLR-Arg-PCS-Extensions (SEQUENCE).
 type SLRArgPCSExtensions struct {
-	NaESRKRequest *struct{} `asn1:"tag:0,context,implicit,optional" json:"NaESRKRequest,omitempty"`
-	ExtCount_     int64     `asn1:"-" json:"-"`
-	ExtPresent_   []bool    `asn1:"-" json:"-"`
-	ExtData_      [][]byte  `asn1:"-" json:"-"`
-	berOriginal_  []byte    `asn1:"-" json:"-"`
-	berSnapshot_  []byte    `asn1:"-" json:"-"`
+	NaESRKRequest  *struct{}       `asn1:"tag:0,context,implicit,optional" json:"NaESRKRequest,omitempty"`
+	ExtCount_      int64           `asn1:"-" json:"-"`
+	ExtPresent_    []bool          `asn1:"-" json:"-"`
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // MarshalBER encodes ExtensionContainer to BER format.
@@ -88,11 +82,22 @@ func (v *ExtensionContainer) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	if v == nil {
 		return nil, fmt.Errorf("%w: ExtensionContainer receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *ExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -129,6 +134,7 @@ func (v *ExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			}
 			enc_privateextensionlist = retagged_enc_privateextensionlist
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_privateextensionlist)
 		children = append(children, enc_privateextensionlist...)
 	}
 	if v.PcsExtensions != nil {
@@ -141,6 +147,7 @@ func (v *ExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			return nil, qualifyBERError(tagErr_enc_pcsextensions, "pcs-Extensions", "encoding", false)
 		}
 		enc_pcsextensions = retagged_enc_pcsextensions
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_pcsextensions)
 		children = append(children, enc_pcsextensions...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -162,7 +169,16 @@ func (v *ExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *ExtensionContainer) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes ExtensionContainer to DER format.
@@ -225,6 +241,14 @@ func (v *ExtensionContainer) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *ExtensionContainer) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes ExtensionContainer from BER/DER format.
 func (v *ExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -234,25 +258,28 @@ func (v *ExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe ExtensionContainer
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = ExtensionContainer{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ExtensionContainer, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -276,7 +303,12 @@ func (v *ExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if decodedTag_privateextensionlist.Class != tag.ClassContextSpecific || decodedTag_privateextensionlist.Number != 0 || decodedTag_privateextensionlist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist), "privateExtensionList", "decoding", false)
 				}
-				reconstructed_privateextensionlist, reconstructionErr_privateextensionlist := ber.EncodeSequence(rawVal_privateextensionlist)
+				_ = rawVal_privateextensionlist
+				if offset > len(content) || n_privateextensionlist < 0 || n_privateextensionlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_privateextensionlist, reconstructionErr_privateextensionlist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_privateextensionlist])
 				if reconstructionErr_privateextensionlist != nil {
 					return qualifyBERError(reconstructionErr_privateextensionlist, "privateExtensionList", "decoding", false)
 				}
@@ -321,7 +353,13 @@ func (v *ExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 				if decodedTag_pcsextensions.Class != tag.ClassContextSpecific || decodedTag_pcsextensions.Number != 1 || decodedTag_pcsextensions.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_pcsextensions), "pcs-Extensions", "decoding", false)
 				}
-				reconstructed_pcsextensions, reconstructionErr_pcsextensions := ber.EncodeSequence(rawVal_pcsextensions)
+				_ = rawVal_pcsextensions
+				if offset < 0 || offset >
+					len(content) || n_pcsextensions < 0 || n_pcsextensions > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_pcsextensions, reconstructionErr_pcsextensions := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_pcsextensions])
 				if reconstructionErr_pcsextensions != nil {
 					return qualifyBERError(reconstructionErr_pcsextensions, "pcs-Extensions", "decoding", false)
 				}
@@ -381,11 +419,22 @@ func (v *SLRArgExtensionContainer) MarshalBER(opts ...ber.EncodeOption) (returnB
 	if v == nil {
 		return nil, fmt.Errorf("%w: SLRArgExtensionContainer receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *SLRArgExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -422,6 +471,7 @@ func (v *SLRArgExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte,
 			}
 			enc_privateextensionlist = retagged_enc_privateextensionlist
 		}
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_privateextensionlist)
 		children = append(children, enc_privateextensionlist...)
 	}
 	if v.SlrArgPCSExtensions != nil {
@@ -434,6 +484,7 @@ func (v *SLRArgExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte,
 			return nil, qualifyBERError(tagErr_enc_slrargpcsextensions, "slr-Arg-PCS-Extensions", "encoding", false)
 		}
 		enc_slrargpcsextensions = retagged_enc_slrargpcsextensions
+		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_slrargpcsextensions)
 		children = append(children, enc_slrargpcsextensions...)
 	}
 	for i, ext := range v.ExtData_ {
@@ -455,7 +506,16 @@ func (v *SLRArgExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *SLRArgExtensionContainer) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes SLRArgExtensionContainer to DER format.
@@ -518,6 +578,14 @@ func (v *SLRArgExtensionContainer) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *SLRArgExtensionContainer) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes SLRArgExtensionContainer from BER/DER format.
 func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -527,25 +595,28 @@ func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe SLRArgExtensionContainer
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = SLRArgExtensionContainer{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SLRArgExtensionContainer, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -569,7 +640,12 @@ func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if decodedTag_privateextensionlist.Class != tag.ClassContextSpecific || decodedTag_privateextensionlist.Number != 0 || decodedTag_privateextensionlist.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_privateextensionlist), "privateExtensionList", "decoding", false)
 				}
-				reconstructed_privateextensionlist, reconstructionErr_privateextensionlist := ber.EncodeSequence(rawVal_privateextensionlist)
+				_ = rawVal_privateextensionlist
+				if offset > len(content) || n_privateextensionlist < 0 || n_privateextensionlist > len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_privateextensionlist, reconstructionErr_privateextensionlist := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_privateextensionlist])
 				if reconstructionErr_privateextensionlist != nil {
 					return qualifyBERError(reconstructionErr_privateextensionlist, "privateExtensionList", "decoding", false)
 				}
@@ -614,7 +690,14 @@ func (v *SLRArgExtensionContainer) UnmarshalBER(data []byte, opts ...ber.DecodeO
 				if decodedTag_slrargpcsextensions.Class != tag.ClassContextSpecific || decodedTag_slrargpcsextensions.Number != 1 || decodedTag_slrargpcsextensions.Constructed != true {
 					return qualifyBERError(fmt.Errorf("%w: unexpected tag %s", ber.ErrInvalidTag, decodedTag_slrargpcsextensions), "slr-Arg-PCS-Extensions", "decoding", false)
 				}
-				reconstructed_slrargpcsextensions, reconstructionErr_slrargpcsextensions := ber.EncodeSequence(rawVal_slrargpcsextensions)
+				_ = rawVal_slrargpcsextensions
+				if offset < 0 || offset >
+					len(content) || n_slrargpcsextensions < 0 || n_slrargpcsextensions >
+					len(content[offset:]) {
+					return fmt.Errorf("invalid BER content window")
+				}
+
+				reconstructed_slrargpcsextensions, reconstructionErr_slrargpcsextensions := ber.EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, content[offset:offset+n_slrargpcsextensions])
 				if reconstructionErr_slrargpcsextensions != nil {
 					return qualifyBERError(reconstructionErr_slrargpcsextensions, "slr-Arg-PCS-Extensions", "decoding", false)
 				}
@@ -678,11 +761,24 @@ func MarshalBERPrivateExtensionList(collection *PrivateExtensionList, opts ...be
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
+	if collection.berReplayNode_ == nil {
+		return marshalBERPrivateExtensionList(collection, opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
+		return MarshalBERPrivateExtensionList(collection, []ber.EncodeOption{mode}...)
+	}, collection)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := marshalBERPrivateExtensionList(collection, opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, collection.berOriginal_, collection.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
 }
 func marshalBERPrivateExtensionList(collection *PrivateExtensionList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
@@ -692,8 +788,9 @@ func marshalBERPrivateExtensionList(collection *PrivateExtensionList, opts ...be
 		}
 	}
 	var children []byte
-	for elemIndex, elem := range list {
+	for elemIndex := range list {
 		_ = elemIndex
+		elem := &list[elemIndex]
 		enc, err := elem.MarshalBER(ber.ChildEncodeOptions(opts, fmt.Sprintf("element[%d]", elemIndex))...)
 		if err != nil {
 			return nil, qualifyBERError(err, fmt.Sprintf("element[%d]",
@@ -702,8 +799,19 @@ func marshalBERPrivateExtensionList(collection *PrivateExtensionList, opts ...be
 				"encoding", false)
 		}
 		children = append(children, enc...)
+		ber.RecordGeneratedBERChildPlacement(opts, len(children)-len(enc), enc)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+
+func appendBERLinearPrivateExtensionList(encoder *ber.LinearEncoder, collection *PrivateExtensionList, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := MarshalBERPrivateExtensionList(collection, opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDERPrivateExtensionList encodes a PrivateExtensionList list to DER.
@@ -718,8 +826,9 @@ func MarshalDERPrivateExtensionList(collection *PrivateExtensionList) ([]byte, e
 		}
 	}
 	var children []byte
-	for elemIndex, elem := range list {
+	for elemIndex := range list {
 		_ = elemIndex
+		elem := &list[elemIndex]
 		enc, err := elem.MarshalDER()
 		if err != nil {
 			return nil, qualifyBERError(err, fmt.Sprintf("element[%d]",
@@ -739,17 +848,33 @@ func MarshalDERPrivateExtensionList(collection *PrivateExtensionList) ([]byte, e
 	return encoded, nil
 }
 
+func appendDERLinearPrivateExtensionList(encoder *ber.LinearEncoder, collection *PrivateExtensionList) ([]byte, error) {
+	encoded, err := MarshalDERPrivateExtensionList(collection)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
+
 // UnmarshalBERPrivateExtensionList decodes a PrivateExtensionList list from BER.
 func UnmarshalBERPrivateExtensionList(data []byte, opts ...ber.DecodeOption) (returnValue *PrivateExtensionList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return nil, ber.DiagnosePreflight(err, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return nil, ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
 			_, probeErr := UnmarshalBERPrivateExtensionList(data, probeOpts...)
 			return probeErr
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding PrivateExtensionList", qualifyBERError(err, "", "decoding", false))
@@ -772,7 +897,7 @@ func UnmarshalBERPrivateExtensionList(data []byte, opts ...ber.DecodeOption) (re
 
 				"decoding", false)
 		}
-		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeOptions(opts, fmt.Sprintf("element[%d]", len(result)))...); unmErr != nil {
+		if unmErr := elem.UnmarshalBER(elementData[:n], ber.ChildDecodeIndexOptions(opts, len(result))...); unmErr != nil {
 			return nil, qualifyBERError(unmErr, fmt.Sprintf("element[%d]",
 				elementIndex),
 
@@ -793,13 +918,12 @@ func UnmarshalBERPrivateExtensionList(data []byte, opts ...ber.DecodeOption) (re
 	}
 	decoded := &PrivateExtensionList{Values: result}
 	if ber.BERNeedsPreservation(opts) {
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := MarshalBERPrivateExtensionList(decoded, ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			return nil, snapshotErr
+		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *PrivateExtensionList, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return MarshalBERPrivateExtensionList(base, replayOpts...)
+		}); replayErr != nil {
+			return nil, replayErr
 		}
-		decoded.berOriginal_ = append([]byte(nil), data...)
-		decoded.berSnapshot_ = snapshot
 	}
 	return decoded, nil
 }
@@ -811,11 +935,22 @@ func (v *PrivateExtension) MarshalBER(opts ...ber.EncodeOption) (returnBytes []b
 	if v == nil {
 		return nil, fmt.Errorf("%w: PrivateExtension receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *PrivateExtension) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -837,7 +972,16 @@ func (v *PrivateExtension) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		children = append(children, enc_exttype...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *PrivateExtension) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes PrivateExtension to DER format.
@@ -867,6 +1011,14 @@ func (v *PrivateExtension) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *PrivateExtension) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes PrivateExtension from BER/DER format.
 func (v *PrivateExtension) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -876,25 +1028,28 @@ func (v *PrivateExtension) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe PrivateExtension
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = PrivateExtension{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *PrivateExtension, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -934,7 +1089,7 @@ func (v *PrivateExtension) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 			return fmt.Errorf("invalid BER content window")
 		}
 
-		tmp_exttype := runtime.RawValue{Bytes: content[offset : offset+n_exttype]}
+		tmp_exttype := runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_exttype]...)}
 		v.ExtType = &tmp_exttype
 		if offset < 0 || offset >
 			len(content) || n_exttype < 0 || n_exttype > len(content[offset:]) {
@@ -956,11 +1111,22 @@ func (v *PCSExtensions) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 	if v == nil {
 		return nil, fmt.Errorf("%w: PCSExtensions receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *PCSExtensions) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -980,7 +1146,16 @@ func (v *PCSExtensions) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *PCSExtensions) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes PCSExtensions to DER format.
@@ -1004,6 +1179,14 @@ func (v *PCSExtensions) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *PCSExtensions) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes PCSExtensions from BER/DER format.
 func (v *PCSExtensions) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -1013,25 +1196,28 @@ func (v *PCSExtensions) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe PCSExtensions
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = PCSExtensions{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *PCSExtensions, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1074,11 +1260,22 @@ func (v *SLRArgPCSExtensions) MarshalBER(opts ...ber.EncodeOption) (returnBytes 
 	if v == nil {
 		return nil, fmt.Errorf("%w: SLRArgPCSExtensions receiver is nil", ber.ErrInvalidValue)
 	}
+	if v.berReplayNode_ == nil {
+		return v.marshalBER(opts...)
+	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+		return replayBytes, nil
+	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBER(encoded, v.berOriginal_, v.berSnapshot_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
 }
 func (v *SLRArgPCSExtensions) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1113,7 +1310,16 @@ func (v *SLRArgPCSExtensions) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		}
 		children = append(children, ext...)
 	}
+	ber.RecordGeneratedBERContainer(opts, children)
 	return ber.EncodeSequence(children)
+}
+func (v *SLRArgPCSExtensions) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	encoded, err := v.MarshalBER(opts...)
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
 }
 
 // MarshalDER encodes SLRArgPCSExtensions to DER format.
@@ -1156,6 +1362,14 @@ func (v *SLRArgPCSExtensions) MarshalDER() ([]byte, error) {
 	}
 	return encoded, nil
 }
+func (v *SLRArgPCSExtensions) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	encoded, err := v.MarshalDER()
+	if err != nil {
+		return nil, err
+	}
+	encoder.Append(encoded)
+	return nil, nil
+}
 
 // UnmarshalBER decodes SLRArgPCSExtensions from BER/DER format.
 func (v *SLRArgPCSExtensions) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
@@ -1165,25 +1379,28 @@ func (v *SLRArgPCSExtensions) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
-	if err := ber.ValidateBERElement(data, opts...); err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
+	if ownErr != nil {
+		return ownErr
+	}
+	data = ownedData
+	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	if prepareErr != nil {
+		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe SLRArgPCSExtensions
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
+	data, opts = preparedData, preparedOptions
 	*v = SLRArgPCSExtensions{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
 			return
 		}
-		var snapshotReports ber.ViolationLog
-		snapshot, snapshotErr := v.marshalBER(ber.WithConstraintTolerance(&snapshotReports))
-		if snapshotErr != nil {
-			returnErr = snapshotErr
-			return
-		}
-		v.berOriginal_ = append([]byte(nil), data...)
-		v.berSnapshot_ = snapshot
+		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SLRArgPCSExtensions, replayOpts ...ber.EncodeOption) ([]byte, error) {
+			return base.MarshalBER(replayOpts...)
+		})
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {

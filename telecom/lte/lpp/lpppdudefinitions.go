@@ -533,6 +533,19 @@ type AccessTypes struct {
 	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// AccessTypesAccessTypesEutra is position 0 of ASN.1 named bit eutra of AccessTypes.accessTypes (ITU-T X.680 (02/2021) §22).
+	AccessTypesAccessTypesEutra = 0
+	// AccessTypesAccessTypesUtra is position 1 of ASN.1 named bit utra of AccessTypes.accessTypes (ITU-T X.680 (02/2021) §22).
+	AccessTypesAccessTypesUtra = 1
+	// AccessTypesAccessTypesGsm is position 2 of ASN.1 named bit gsm of AccessTypes.accessTypes (ITU-T X.680 (02/2021) §22).
+	AccessTypesAccessTypesGsm = 2
+	// AccessTypesAccessTypesNbIot is position 3 of ASN.1 named bit nb-iot of AccessTypes.accessTypes (ITU-T X.680 (02/2021) §22).
+	AccessTypesAccessTypesNbIot = 3
+	// AccessTypesAccessTypesNrV1510 is position 4 of ASN.1 named bit nr-v1510 of AccessTypes.accessTypes (ITU-T X.680 (02/2021) §22).
+	AccessTypesAccessTypesNrV1510 = 4
+)
+
 // ARFCNValueEUTRA represents the ASN.1 type ARFCN-ValueEUTRA (INTEGER).
 type ARFCNValueEUTRA = int64
 
@@ -962,6 +975,11 @@ type PeriodicSessionIDR15 struct {
 // UpdateCapabilitiesR15 represents the ASN.1 type UpdateCapabilities-r15 (BIT_STRING).
 type UpdateCapabilitiesR15 = runtime.BitString
 
+const (
+	// UpdateCapabilitiesR15PrimaryCellIDR15 is position 0 of ASN.1 named bit primaryCellID-r15 of UpdateCapabilities-r15 (ITU-T X.680 (02/2021) §22).
+	UpdateCapabilitiesR15PrimaryCellIDR15 = 0
+)
+
 // PeriodicReportingIntervalMsSupportR18 represents the ASN.1 type PeriodicReportingIntervalMsSupport-r18 (SEQUENCE).
 type PeriodicReportingIntervalMsSupportR18 struct {
 	MinPeriodicReportingIntervalMsR18 int64                 `asn1:"tag:0,context,implicit"`
@@ -1005,6 +1023,15 @@ type PositioningModes struct {
 	PERPadding_    per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
+
+const (
+	// PositioningModesPosModesStandalone is position 0 of ASN.1 named bit standalone of PositioningModes.posModes (ITU-T X.680 (02/2021) §22).
+	PositioningModesPosModesStandalone = 0
+	// PositioningModesPosModesUeBased is position 1 of ASN.1 named bit ue-based of PositioningModes.posModes (ITU-T X.680 (02/2021) §22).
+	PositioningModesPosModesUeBased = 1
+	// PositioningModesPosModesUeAssisted is position 2 of ASN.1 named bit ue-assisted of PositioningModes.posModes (ITU-T X.680 (02/2021) §22).
+	PositioningModesPosModesUeAssisted = 2
+)
 
 // ScheduledLocationTimeSupportR17 represents the ASN.1 type ScheduledLocationTimeSupport-r17 (SEQUENCE).
 type ScheduledLocationTimeSupportR17 struct {
@@ -1081,6 +1108,13 @@ type CommonIEsRequestCapabilities struct {
 	PERExtPadding_               []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// CommonIEsRequestCapabilitiesLppMessageSegmentationReqR14ServerToTarget is position 0 of ASN.1 named bit serverToTarget of CommonIEsRequestCapabilities.lpp-message-segmentation-req-r14 (ITU-T X.680 (02/2021) §22).
+	CommonIEsRequestCapabilitiesLppMessageSegmentationReqR14ServerToTarget = 0
+	// CommonIEsRequestCapabilitiesLppMessageSegmentationReqR14TargetToServer is position 1 of ASN.1 named bit targetToServer of CommonIEsRequestCapabilities.lpp-message-segmentation-req-r14 (ITU-T X.680 (02/2021) §22).
+	CommonIEsRequestCapabilitiesLppMessageSegmentationReqR14TargetToServer = 1
+)
+
 // CommonIEsProvideCapabilities represents the ASN.1 type CommonIEsProvideCapabilities (SEQUENCE).
 type CommonIEsProvideCapabilities struct {
 	SegmentationInfoR14                        *SegmentationInfoR14  `asn1:"tag:0,context,implicit,optional" json:"SegmentationInfoR14,omitempty"`
@@ -1094,6 +1128,13 @@ type CommonIEsProvideCapabilities struct {
 	PERPadding_                                per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_                             []per.CompletePadding `asn1:"-" json:"-"`
 }
+
+const (
+	// CommonIEsProvideCapabilitiesLppMessageSegmentationR14ServerToTarget is position 0 of ASN.1 named bit serverToTarget of CommonIEsProvideCapabilities.lpp-message-segmentation-r14 (ITU-T X.680 (02/2021) §22).
+	CommonIEsProvideCapabilitiesLppMessageSegmentationR14ServerToTarget = 0
+	// CommonIEsProvideCapabilitiesLppMessageSegmentationR14TargetToServer is position 1 of ASN.1 named bit targetToServer of CommonIEsProvideCapabilities.lpp-message-segmentation-r14 (ITU-T X.680 (02/2021) §22).
+	CommonIEsProvideCapabilitiesLppMessageSegmentationR14TargetToServer = 1
+)
 
 // CommonIEsRequestAssistanceData represents the ASN.1 type CommonIEsRequestAssistanceData (SEQUENCE).
 type CommonIEsRequestAssistanceData struct {
@@ -1619,6 +1660,29 @@ func (v EarlyFixReportR12) String() string {
 
 // LocationSourceR13 represents the ASN.1 type LocationSource-r13 (BIT_STRING).
 type LocationSourceR13 = runtime.BitString
+
+const (
+	// LocationSourceR13AGnss is position 0 of ASN.1 named bit a-gnss of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13AGnss = 0
+	// LocationSourceR13Wlan is position 1 of ASN.1 named bit wlan of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13Wlan = 1
+	// LocationSourceR13Bt is position 2 of ASN.1 named bit bt of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13Bt = 2
+	// LocationSourceR13Tbs is position 3 of ASN.1 named bit tbs of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13Tbs = 3
+	// LocationSourceR13Sensor is position 4 of ASN.1 named bit sensor of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13Sensor = 4
+	// LocationSourceR13HaGnssV1510 is position 5 of ASN.1 named bit ha-gnss-v1510 of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13HaGnssV1510 = 5
+	// LocationSourceR13MotionSensorV1550 is position 6 of ASN.1 named bit motion-sensor-v1550 of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13MotionSensorV1550 = 6
+	// LocationSourceR13DlTdoaR16 is position 7 of ASN.1 named bit dl-tdoa-r16 of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13DlTdoaR16 = 7
+	// LocationSourceR13DlAodR16 is position 8 of ASN.1 named bit dl-aod-r16 of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13DlAodR16 = 8
+	// LocationSourceR13DlAimlR19 is position 9 of ASN.1 named bit dl-aiml-r19 of LocationSource-r13 (ITU-T X.680 (02/2021) §22).
+	LocationSourceR13DlAimlR19 = 9
+)
 
 // IntegrityInfoR17 represents the ASN.1 type IntegrityInfo-r17 (SEQUENCE).
 type IntegrityInfoR17 struct {
@@ -2282,6 +2346,21 @@ type NRDLPRSMeasurementTimeWindowsConfigElementR18 struct {
 	PERPadding_                              per.FinalPadding                                                                `asn1:"-" json:"-"`
 	PERExtPadding_                           []per.CompletePadding                                                           `asn1:"-" json:"-"`
 }
+
+const (
+	// NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rstd is position 0 of ASN.1 named bit rstd of NR-DL-PRS-MeasurementTimeWindowsConfigElement-r18.nr-MeasurementsToPerformInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rstd = 0
+	// NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18UeRxTx is position 1 of ASN.1 named bit ueRxTx of NR-DL-PRS-MeasurementTimeWindowsConfigElement-r18.nr-MeasurementsToPerformInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18UeRxTx = 1
+	// NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rsrp is position 2 of ASN.1 named bit rsrp of NR-DL-PRS-MeasurementTimeWindowsConfigElement-r18.nr-MeasurementsToPerformInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rsrp = 2
+	// NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rsrpp is position 3 of ASN.1 named bit rsrpp of NR-DL-PRS-MeasurementTimeWindowsConfigElement-r18.nr-MeasurementsToPerformInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rsrpp = 3
+	// NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rscp is position 4 of ASN.1 named bit rscp of NR-DL-PRS-MeasurementTimeWindowsConfigElement-r18.nr-MeasurementsToPerformInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rscp = 4
+	// NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rscpd is position 5 of ASN.1 named bit rscpd of NR-DL-PRS-MeasurementTimeWindowsConfigElement-r18.nr-MeasurementsToPerformInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLPRSMeasurementTimeWindowsConfigElementR18NrMeasurementsToPerformInTimeWindowR18Rscpd = 5
+)
 
 // NRSelectedDLPRSIndexPerTRPR18 represents the ASN.1 type NR-SelectedDL-PRS-IndexPerTRP-r18 (SEQUENCE).
 type NRSelectedDLPRSIndexPerTRPR18 struct {
@@ -3977,6 +4056,13 @@ type OTDOARequestAssistanceData struct {
 	PERExtPadding_  []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// OTDOARequestAssistanceDataAdTypeR14Prs is position 0 of ASN.1 named bit prs of OTDOA-RequestAssistanceData.adType-r14 (ITU-T X.680 (02/2021) §22).
+	OTDOARequestAssistanceDataAdTypeR14Prs = 0
+	// OTDOARequestAssistanceDataAdTypeR14Nprs is position 1 of ASN.1 named bit nprs of OTDOA-RequestAssistanceData.adType-r14 (ITU-T X.680 (02/2021) §22).
+	OTDOARequestAssistanceDataAdTypeR14Nprs = 1
+)
+
 // OTDOAProvideLocationInformation represents the ASN.1 type OTDOA-ProvideLocationInformation (SEQUENCE).
 type OTDOAProvideLocationInformation struct {
 	OtdoaSignalMeasurementInformation      *OTDOASignalMeasurementInformation      `asn1:"tag:0,context,implicit,optional" json:"OtdoaSignalMeasurementInformation,omitempty"`
@@ -4169,6 +4255,15 @@ type OTDOAProvideCapabilities struct {
 	PERPadding_                           per.FinalPadding                                   `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding                              `asn1:"-" json:"-"`
 }
+
+const (
+	// OTDOAProvideCapabilitiesOtdoaModeUeAssisted is position 0 of ASN.1 named bit ue-assisted of OTDOA-ProvideCapabilities.otdoa-Mode (ITU-T X.680 (02/2021) §22).
+	OTDOAProvideCapabilitiesOtdoaModeUeAssisted = 0
+	// OTDOAProvideCapabilitiesOtdoaModeUeAssistedNBR14 is position 1 of ASN.1 named bit ue-assisted-NB-r14 of OTDOA-ProvideCapabilities.otdoa-Mode (ITU-T X.680 (02/2021) §22).
+	OTDOAProvideCapabilitiesOtdoaModeUeAssistedNBR14 = 1
+	// OTDOAProvideCapabilitiesOtdoaModeUeAssistedNBTDDR15 is position 2 of ASN.1 named bit ue-assisted-NB-TDD-r15 of OTDOA-ProvideCapabilities.otdoa-Mode (ITU-T X.680 (02/2021) §22).
+	OTDOAProvideCapabilitiesOtdoaModeUeAssistedNBTDDR15 = 2
+)
 
 // SupportedBandEUTRA represents the ASN.1 type SupportedBandEUTRA (SEQUENCE).
 type SupportedBandEUTRA struct {
@@ -7672,6 +7767,11 @@ type GNSSSSROrbitCorrectionsReqR15 struct {
 	PERExtPadding_         []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// GNSSSSROrbitCorrectionsReqR15OrbitIntegrityReqR17CorrelationTimeReq is position 0 of ASN.1 named bit correlationTimeReq of GNSS-SSR-OrbitCorrectionsReq-r15.orbit-IntegrityReq-r17 (ITU-T X.680 (02/2021) §22).
+	GNSSSSROrbitCorrectionsReqR15OrbitIntegrityReqR17CorrelationTimeReq = 0
+)
+
 // GNSSSSRClockCorrectionsReqR15 represents the ASN.1 type GNSS-SSR-ClockCorrectionsReq-r15 (SEQUENCE).
 type GNSSSSRClockCorrectionsReqR15 struct {
 	StoredNavListR15               GNSSNavListInfoR15    `asn1:"tag:0,context,implicit,optional" json:"StoredNavListR15,omitzero"`
@@ -7729,6 +7829,11 @@ type GNSSSSRSTECCorrectionReqR16 struct {
 	PERPadding_         per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_      []per.CompletePadding `asn1:"-" json:"-"`
 }
+
+const (
+	// GNSSSSRSTECCorrectionReqR16StecIntegrityReqR17CorrelationTimeReq is position 0 of ASN.1 named bit correlationTimeReq of GNSS-SSR-STEC-CorrectionReq-r16.stec-IntegrityReq-r17 (ITU-T X.680 (02/2021) §22).
+	GNSSSSRSTECCorrectionReqR16StecIntegrityReqR17CorrelationTimeReq = 0
+)
 
 // GNSSSSRGriddedCorrectionReqR16 represents the ASN.1 type GNSS-SSR-GriddedCorrectionReq-r16 (SEQUENCE).
 type GNSSSSRGriddedCorrectionReqR16 struct {
@@ -7986,6 +8091,13 @@ type AGNSSProvideCapabilities struct {
 	PERExtPadding_                        []per.CompletePadding                         `asn1:"-" json:"-"`
 }
 
+const (
+	// AGNSSProvideCapabilitiesPeriodicAssistanceDataR15Solicited is position 0 of ASN.1 named bit solicited of A-GNSS-ProvideCapabilities.periodicAssistanceData-r15 (ITU-T X.680 (02/2021) §22).
+	AGNSSProvideCapabilitiesPeriodicAssistanceDataR15Solicited = 0
+	// AGNSSProvideCapabilitiesPeriodicAssistanceDataR15Unsolicited is position 1 of ASN.1 named bit unsolicited of A-GNSS-ProvideCapabilities.periodicAssistanceData-r15 (ITU-T X.680 (02/2021) §22).
+	AGNSSProvideCapabilitiesPeriodicAssistanceDataR15Unsolicited = 1
+)
+
 // GNSSSupportList represents the ASN.1 type GNSS-SupportList (SEQUENCE_OF).
 
 type GNSSSupportList = []GNSSSupportElement
@@ -8070,6 +8182,17 @@ type GNSSIonosphericModelSupport struct {
 	PERPadding_    per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
+
+const (
+	// GNSSIonosphericModelSupportIonoModelKlobuchar is position 0 of ASN.1 named bit klobuchar of GNSS-IonosphericModelSupport.ionoModel (ITU-T X.680 (02/2021) §22).
+	GNSSIonosphericModelSupportIonoModelKlobuchar = 0
+	// GNSSIonosphericModelSupportIonoModelNeQuick is position 1 of ASN.1 named bit neQuick of GNSS-IonosphericModelSupport.ionoModel (ITU-T X.680 (02/2021) §22).
+	GNSSIonosphericModelSupportIonoModelNeQuick = 1
+	// GNSSIonosphericModelSupportIonoModelKlobuchar2R16 is position 2 of ASN.1 named bit klobuchar2-r16 of GNSS-IonosphericModelSupport.ionoModel (ITU-T X.680 (02/2021) §22).
+	GNSSIonosphericModelSupportIonoModelKlobuchar2R16 = 2
+	// GNSSIonosphericModelSupportIonoModelNeQuick2R19 is position 3 of ASN.1 named bit neQuick2-r19 of GNSS-IonosphericModelSupport.ionoModel (ITU-T X.680 (02/2021) §22).
+	GNSSIonosphericModelSupportIonoModelNeQuick2R19 = 3
+)
 
 // GNSSEarthOrientationParametersSupport represents the ASN.1 type GNSS-EarthOrientationParametersSupport (SEQUENCE).
 type GNSSEarthOrientationParametersSupport struct {
@@ -8205,6 +8328,45 @@ type GNSSNavigationModelSupport struct {
 	PERExtPadding_   []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// GNSSNavigationModelSupportClockModelModel1 is position 0 of ASN.1 named bit model-1 of GNSS-NavigationModelSupport.clockModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportClockModelModel1 = 0
+	// GNSSNavigationModelSupportClockModelModel2 is position 1 of ASN.1 named bit model-2 of GNSS-NavigationModelSupport.clockModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportClockModelModel2 = 1
+	// GNSSNavigationModelSupportClockModelModel3 is position 2 of ASN.1 named bit model-3 of GNSS-NavigationModelSupport.clockModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportClockModelModel3 = 2
+	// GNSSNavigationModelSupportClockModelModel4 is position 3 of ASN.1 named bit model-4 of GNSS-NavigationModelSupport.clockModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportClockModelModel4 = 3
+	// GNSSNavigationModelSupportClockModelModel5 is position 4 of ASN.1 named bit model-5 of GNSS-NavigationModelSupport.clockModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportClockModelModel5 = 4
+	// GNSSNavigationModelSupportClockModelModel6 is position 5 of ASN.1 named bit model-6 of GNSS-NavigationModelSupport.clockModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportClockModelModel6 = 5
+	// GNSSNavigationModelSupportClockModelModel7R16 is position 6 of ASN.1 named bit model-7-r16 of GNSS-NavigationModelSupport.clockModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportClockModelModel7R16 = 6
+	// GNSSNavigationModelSupportClockModelModel8R16 is position 7 of ASN.1 named bit model-8-r16 of GNSS-NavigationModelSupport.clockModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportClockModelModel8R16 = 7
+	// GNSSNavigationModelSupportOrbitModelModel1 is position 0 of ASN.1 named bit model-1 of GNSS-NavigationModelSupport.orbitModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportOrbitModelModel1 = 0
+	// GNSSNavigationModelSupportOrbitModelModel2 is position 1 of ASN.1 named bit model-2 of GNSS-NavigationModelSupport.orbitModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportOrbitModelModel2 = 1
+	// GNSSNavigationModelSupportOrbitModelModel3 is position 2 of ASN.1 named bit model-3 of GNSS-NavigationModelSupport.orbitModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportOrbitModelModel3 = 2
+	// GNSSNavigationModelSupportOrbitModelModel4 is position 3 of ASN.1 named bit model-4 of GNSS-NavigationModelSupport.orbitModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportOrbitModelModel4 = 3
+	// GNSSNavigationModelSupportOrbitModelModel5 is position 4 of ASN.1 named bit model-5 of GNSS-NavigationModelSupport.orbitModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportOrbitModelModel5 = 4
+	// GNSSNavigationModelSupportOrbitModelModel6 is position 5 of ASN.1 named bit model-6 of GNSS-NavigationModelSupport.orbitModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportOrbitModelModel6 = 5
+	// GNSSNavigationModelSupportOrbitModelModel7R16 is position 6 of ASN.1 named bit model-7-r16 of GNSS-NavigationModelSupport.orbitModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportOrbitModelModel7R16 = 6
+	// GNSSNavigationModelSupportOrbitModelModel8R16 is position 7 of ASN.1 named bit model-8-r16 of GNSS-NavigationModelSupport.orbitModel (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportOrbitModelModel8R16 = 7
+	// GNSSNavigationModelSupportClockModelExtR19Model9 is position 0 of ASN.1 named bit model-9 of GNSS-NavigationModelSupport.clockModelExt-r19 (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportClockModelExtR19Model9 = 0
+	// GNSSNavigationModelSupportOrbitModelExtR19Model9 is position 0 of ASN.1 named bit model-9 of GNSS-NavigationModelSupport.orbitModelExt-r19 (ITU-T X.680 (02/2021) §22).
+	GNSSNavigationModelSupportOrbitModelExtR19Model9 = 0
+)
+
 // GNSSRealTimeIntegritySupport represents the ASN.1 type GNSS-RealTimeIntegritySupport (SEQUENCE).
 type GNSSRealTimeIntegritySupport struct {
 	ExtCount_      int64                 `asn1:"-" json:"-"`
@@ -8245,6 +8407,27 @@ type GNSSAlmanacSupport struct {
 	PERExtPadding_     []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// GNSSAlmanacSupportAlmanacModelModel1 is position 0 of ASN.1 named bit model-1 of GNSS-AlmanacSupport.almanacModel (ITU-T X.680 (02/2021) §22).
+	GNSSAlmanacSupportAlmanacModelModel1 = 0
+	// GNSSAlmanacSupportAlmanacModelModel2 is position 1 of ASN.1 named bit model-2 of GNSS-AlmanacSupport.almanacModel (ITU-T X.680 (02/2021) §22).
+	GNSSAlmanacSupportAlmanacModelModel2 = 1
+	// GNSSAlmanacSupportAlmanacModelModel3 is position 2 of ASN.1 named bit model-3 of GNSS-AlmanacSupport.almanacModel (ITU-T X.680 (02/2021) §22).
+	GNSSAlmanacSupportAlmanacModelModel3 = 2
+	// GNSSAlmanacSupportAlmanacModelModel4 is position 3 of ASN.1 named bit model-4 of GNSS-AlmanacSupport.almanacModel (ITU-T X.680 (02/2021) §22).
+	GNSSAlmanacSupportAlmanacModelModel4 = 3
+	// GNSSAlmanacSupportAlmanacModelModel5 is position 4 of ASN.1 named bit model-5 of GNSS-AlmanacSupport.almanacModel (ITU-T X.680 (02/2021) §22).
+	GNSSAlmanacSupportAlmanacModelModel5 = 4
+	// GNSSAlmanacSupportAlmanacModelModel6 is position 5 of ASN.1 named bit model-6 of GNSS-AlmanacSupport.almanacModel (ITU-T X.680 (02/2021) §22).
+	GNSSAlmanacSupportAlmanacModelModel6 = 5
+	// GNSSAlmanacSupportAlmanacModelModel7 is position 6 of ASN.1 named bit model-7 of GNSS-AlmanacSupport.almanacModel (ITU-T X.680 (02/2021) §22).
+	GNSSAlmanacSupportAlmanacModelModel7 = 6
+	// GNSSAlmanacSupportAlmanacModelModel8V16e0 is position 7 of ASN.1 named bit model-8-v16e0 of GNSS-AlmanacSupport.almanacModel (ITU-T X.680 (02/2021) §22).
+	GNSSAlmanacSupportAlmanacModelModel8V16e0 = 7
+	// GNSSAlmanacSupportAlmanacModelExtR19Model9 is position 0 of ASN.1 named bit model-9 of GNSS-AlmanacSupport.almanacModelExt-r19 (ITU-T X.680 (02/2021) §22).
+	GNSSAlmanacSupportAlmanacModelExtR19Model9 = 0
+)
+
 // GNSSUTCModelSupport represents the ASN.1 type GNSS-UTC-ModelSupport (SEQUENCE).
 type GNSSUTCModelSupport struct {
 	UtcModel       *runtime.BitString    `asn1:"tag:0,context,implicit,optional" json:"UtcModel,omitempty"`
@@ -8254,6 +8437,19 @@ type GNSSUTCModelSupport struct {
 	PERPadding_    per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
+
+const (
+	// GNSSUTCModelSupportUtcModelModel1 is position 0 of ASN.1 named bit model-1 of GNSS-UTC-ModelSupport.utc-Model (ITU-T X.680 (02/2021) §22).
+	GNSSUTCModelSupportUtcModelModel1 = 0
+	// GNSSUTCModelSupportUtcModelModel2 is position 1 of ASN.1 named bit model-2 of GNSS-UTC-ModelSupport.utc-Model (ITU-T X.680 (02/2021) §22).
+	GNSSUTCModelSupportUtcModelModel2 = 1
+	// GNSSUTCModelSupportUtcModelModel3 is position 2 of ASN.1 named bit model-3 of GNSS-UTC-ModelSupport.utc-Model (ITU-T X.680 (02/2021) §22).
+	GNSSUTCModelSupportUtcModelModel3 = 2
+	// GNSSUTCModelSupportUtcModelModel4 is position 3 of ASN.1 named bit model-4 of GNSS-UTC-ModelSupport.utc-Model (ITU-T X.680 (02/2021) §22).
+	GNSSUTCModelSupportUtcModelModel4 = 3
+	// GNSSUTCModelSupportUtcModelModel5 is position 4 of ASN.1 named bit model-5 of GNSS-UTC-ModelSupport.utc-Model (ITU-T X.680 (02/2021) §22).
+	GNSSUTCModelSupportUtcModelModel5 = 4
+)
 
 // GNSSAuxiliaryInformationSupport represents the ASN.1 type GNSS-AuxiliaryInformationSupport (SEQUENCE).
 type GNSSAuxiliaryInformationSupport struct {
@@ -8345,6 +8541,11 @@ type GNSSSSROrbitCorrectionsSupportR15 struct {
 	PERExtPadding_       []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// GNSSSSROrbitCorrectionsSupportR15OrbitIntegritySupR17CorrelationTimeSup is position 0 of ASN.1 named bit correlationTimeSup of GNSS-SSR-OrbitCorrectionsSupport-r15.orbit-IntegritySup-r17 (ITU-T X.680 (02/2021) §22).
+	GNSSSSROrbitCorrectionsSupportR15OrbitIntegritySupR17CorrelationTimeSup = 0
+)
+
 // GNSSSSRClockCorrectionsSupportR15 represents the ASN.1 type GNSS-SSR-ClockCorrectionsSupport-r15 (SEQUENCE).
 type GNSSSSRClockCorrectionsSupportR15 struct {
 	ClockIntegrityParameterSupportR17 *int64                `asn1:"tag:0,context,implicit,optional" json:"ClockIntegrityParameterSupportR17,omitempty"`
@@ -8397,6 +8598,11 @@ type GNSSSSRSTECCorrectionSupportR16 struct {
 	PERExtPadding_      []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// GNSSSSRSTECCorrectionSupportR16StecIntegritySupR17CorrelationTimeSup is position 0 of ASN.1 named bit correlationTimeSup of GNSS-SSR-STEC-CorrectionSupport-r16.stec-IntegritySup-r17 (ITU-T X.680 (02/2021) §22).
+	GNSSSSRSTECCorrectionSupportR16StecIntegritySupR17CorrelationTimeSup = 0
+)
+
 // GNSSSSRGriddedCorrectionSupportR16 represents the ASN.1 type GNSS-SSR-GriddedCorrectionSupport-r16 (SEQUENCE).
 type GNSSSSRGriddedCorrectionSupportR16 struct {
 	GriddedCorrectionIntegritySupR17 *int64                `asn1:"tag:0,context,implicit,optional" json:"GriddedCorrectionIntegritySupR17,omitempty"`
@@ -8436,6 +8642,13 @@ type GNSSSSROrbitCorrectionsSet2SupportR17 struct {
 	PERExtPadding_   []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// GNSSSSROrbitCorrectionsSet2SupportR17RefEphSupportR19B1c is position 0 of ASN.1 named bit b1c of GNSS-SSR-OrbitCorrectionsSet2Support-r17.refEphSupport-r19 (ITU-T X.680 (02/2021) §22).
+	GNSSSSROrbitCorrectionsSet2SupportR17RefEphSupportR19B1c = 0
+	// GNSSSSROrbitCorrectionsSet2SupportR17RefEphSupportR19NavicL1 is position 1 of ASN.1 named bit navicL1 of GNSS-SSR-OrbitCorrectionsSet2Support-r17.refEphSupport-r19 (ITU-T X.680 (02/2021) §22).
+	GNSSSSROrbitCorrectionsSet2SupportR17RefEphSupportR19NavicL1 = 1
+)
+
 // GNSSSSRClockCorrectionsSet2SupportR17 represents the ASN.1 type GNSS-SSR-ClockCorrectionsSet2Support-r17 (SEQUENCE).
 type GNSSSSRClockCorrectionsSet2SupportR17 struct {
 	RefEphSupportR19 *runtime.BitString    `asn1:"tag:0,context,implicit,optional" json:"RefEphSupportR19,omitempty"`
@@ -8446,6 +8659,13 @@ type GNSSSSRClockCorrectionsSet2SupportR17 struct {
 	PERExtPadding_   []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// GNSSSSRClockCorrectionsSet2SupportR17RefEphSupportR19B1c is position 0 of ASN.1 named bit b1c of GNSS-SSR-ClockCorrectionsSet2Support-r17.refEphSupport-r19 (ITU-T X.680 (02/2021) §22).
+	GNSSSSRClockCorrectionsSet2SupportR17RefEphSupportR19B1c = 0
+	// GNSSSSRClockCorrectionsSet2SupportR17RefEphSupportR19NavicL1 is position 1 of ASN.1 named bit navicL1 of GNSS-SSR-ClockCorrectionsSet2Support-r17.refEphSupport-r19 (ITU-T X.680 (02/2021) §22).
+	GNSSSSRClockCorrectionsSet2SupportR17RefEphSupportR19NavicL1 = 1
+)
+
 // GNSSSSRURASet2SupportR17 represents the ASN.1 type GNSS-SSR-URA-Set2Support-r17 (SEQUENCE).
 type GNSSSSRURASet2SupportR17 struct {
 	RefEphSupportR19 *runtime.BitString    `asn1:"tag:0,context,implicit,optional" json:"RefEphSupportR19,omitempty"`
@@ -8455,6 +8675,13 @@ type GNSSSSRURASet2SupportR17 struct {
 	PERPadding_      per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_   []per.CompletePadding `asn1:"-" json:"-"`
 }
+
+const (
+	// GNSSSSRURASet2SupportR17RefEphSupportR19B1c is position 0 of ASN.1 named bit b1c of GNSS-SSR-URA-Set2Support-r17.refEphSupport-r19 (ITU-T X.680 (02/2021) §22).
+	GNSSSSRURASet2SupportR17RefEphSupportR19B1c = 0
+	// GNSSSSRURASet2SupportR17RefEphSupportR19NavicL1 is position 1 of ASN.1 named bit navicL1 of GNSS-SSR-URA-Set2Support-r17.refEphSupport-r19 (ITU-T X.680 (02/2021) §22).
+	GNSSSSRURASet2SupportR17RefEphSupportR19NavicL1 = 1
+)
 
 // GNSSLOSNLOSGriddedIndicationsSupportR18 represents the ASN.1 type GNSS-LOS-NLOS-GriddedIndicationsSupport-r18 (SEQUENCE).
 type GNSSLOSNLOSGriddedIndicationsSupportR18 struct {
@@ -8574,6 +8801,23 @@ type GNSSIDBitmap struct {
 	PERPadding_    per.FinalPadding      `asn1:"-" json:"-"`
 	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
+
+const (
+	// GNSSIDBitmapGnssIdsGps is position 0 of ASN.1 named bit gps of GNSS-ID-Bitmap.gnss-ids (ITU-T X.680 (02/2021) §22).
+	GNSSIDBitmapGnssIdsGps = 0
+	// GNSSIDBitmapGnssIdsSbas is position 1 of ASN.1 named bit sbas of GNSS-ID-Bitmap.gnss-ids (ITU-T X.680 (02/2021) §22).
+	GNSSIDBitmapGnssIdsSbas = 1
+	// GNSSIDBitmapGnssIdsQzss is position 2 of ASN.1 named bit qzss of GNSS-ID-Bitmap.gnss-ids (ITU-T X.680 (02/2021) §22).
+	GNSSIDBitmapGnssIdsQzss = 2
+	// GNSSIDBitmapGnssIdsGalileo is position 3 of ASN.1 named bit galileo of GNSS-ID-Bitmap.gnss-ids (ITU-T X.680 (02/2021) §22).
+	GNSSIDBitmapGnssIdsGalileo = 3
+	// GNSSIDBitmapGnssIdsGlonass is position 4 of ASN.1 named bit glonass of GNSS-ID-Bitmap.gnss-ids (ITU-T X.680 (02/2021) §22).
+	GNSSIDBitmapGnssIdsGlonass = 4
+	// GNSSIDBitmapGnssIdsBds is position 5 of ASN.1 named bit bds of GNSS-ID-Bitmap.gnss-ids (ITU-T X.680 (02/2021) §22).
+	GNSSIDBitmapGnssIdsBds = 5
+	// GNSSIDBitmapGnssIdsNavicV1610 is position 6 of ASN.1 named bit navic-v1610 of GNSS-ID-Bitmap.gnss-ids (ITU-T X.680 (02/2021) §22).
+	GNSSIDBitmapGnssIdsNavicV1610 = 6
+)
 
 // GNSSLinkCombinationsListR15 represents the ASN.1 type GNSS-Link-CombinationsList-r15 (SEQUENCE_OF).
 
@@ -8700,6 +8944,17 @@ type SBASIDs struct {
 	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// SBASIDsSbasIDsWaas is position 0 of ASN.1 named bit waas of SBAS-IDs.sbas-IDs (ITU-T X.680 (02/2021) §22).
+	SBASIDsSbasIDsWaas = 0
+	// SBASIDsSbasIDsEgnos is position 1 of ASN.1 named bit egnos of SBAS-IDs.sbas-IDs (ITU-T X.680 (02/2021) §22).
+	SBASIDsSbasIDsEgnos = 1
+	// SBASIDsSbasIDsMsas is position 2 of ASN.1 named bit msas of SBAS-IDs.sbas-IDs (ITU-T X.680 (02/2021) §22).
+	SBASIDsSbasIDsMsas = 2
+	// SBASIDsSbasIDsGagan is position 3 of ASN.1 named bit gagan of SBAS-IDs.sbas-IDs (ITU-T X.680 (02/2021) §22).
+	SBASIDsSbasIDsGagan = 3
+)
+
 // SVID represents the ASN.1 type SV-ID (SEQUENCE).
 type SVID struct {
 	SatelliteId    int64                 `asn1:"tag:0,context,implicit"`
@@ -8770,6 +9025,19 @@ type ECIDRequestLocationInformation struct {
 	PERExtPadding_        []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// ECIDRequestLocationInformationRequestedMeasurementsRsrpReq is position 0 of ASN.1 named bit rsrpReq of ECID-RequestLocationInformation.requestedMeasurements (ITU-T X.680 (02/2021) §22).
+	ECIDRequestLocationInformationRequestedMeasurementsRsrpReq = 0
+	// ECIDRequestLocationInformationRequestedMeasurementsRsrqReq is position 1 of ASN.1 named bit rsrqReq of ECID-RequestLocationInformation.requestedMeasurements (ITU-T X.680 (02/2021) §22).
+	ECIDRequestLocationInformationRequestedMeasurementsRsrqReq = 1
+	// ECIDRequestLocationInformationRequestedMeasurementsUeRxTxReq is position 2 of ASN.1 named bit ueRxTxReq of ECID-RequestLocationInformation.requestedMeasurements (ITU-T X.680 (02/2021) §22).
+	ECIDRequestLocationInformationRequestedMeasurementsUeRxTxReq = 2
+	// ECIDRequestLocationInformationRequestedMeasurementsNrsrpReqR14 is position 3 of ASN.1 named bit nrsrpReq-r14 of ECID-RequestLocationInformation.requestedMeasurements (ITU-T X.680 (02/2021) §22).
+	ECIDRequestLocationInformationRequestedMeasurementsNrsrpReqR14 = 3
+	// ECIDRequestLocationInformationRequestedMeasurementsNrsrqReqR14 is position 4 of ASN.1 named bit nrsrqReq-r14 of ECID-RequestLocationInformation.requestedMeasurements (ITU-T X.680 (02/2021) §22).
+	ECIDRequestLocationInformationRequestedMeasurementsNrsrqReqR14 = 4
+)
+
 // ECIDProvideCapabilities represents the ASN.1 type ECID-ProvideCapabilities (SEQUENCE).
 type ECIDProvideCapabilities struct {
 	EcidMeasSupported                     runtime.BitString                      `asn1:"tag:0,context,implicit"`
@@ -8785,6 +9053,19 @@ type ECIDProvideCapabilities struct {
 	PERPadding_                           per.FinalPadding                       `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding                  `asn1:"-" json:"-"`
 }
+
+const (
+	// ECIDProvideCapabilitiesEcidMeasSupportedRsrpSup is position 0 of ASN.1 named bit rsrpSup of ECID-ProvideCapabilities.ecid-MeasSupported (ITU-T X.680 (02/2021) §22).
+	ECIDProvideCapabilitiesEcidMeasSupportedRsrpSup = 0
+	// ECIDProvideCapabilitiesEcidMeasSupportedRsrqSup is position 1 of ASN.1 named bit rsrqSup of ECID-ProvideCapabilities.ecid-MeasSupported (ITU-T X.680 (02/2021) §22).
+	ECIDProvideCapabilitiesEcidMeasSupportedRsrqSup = 1
+	// ECIDProvideCapabilitiesEcidMeasSupportedUeRxTxSup is position 2 of ASN.1 named bit ueRxTxSup of ECID-ProvideCapabilities.ecid-MeasSupported (ITU-T X.680 (02/2021) §22).
+	ECIDProvideCapabilitiesEcidMeasSupportedUeRxTxSup = 2
+	// ECIDProvideCapabilitiesEcidMeasSupportedNrsrpSupR14 is position 3 of ASN.1 named bit nrsrpSup-r14 of ECID-ProvideCapabilities.ecid-MeasSupported (ITU-T X.680 (02/2021) §22).
+	ECIDProvideCapabilitiesEcidMeasSupportedNrsrpSupR14 = 3
+	// ECIDProvideCapabilitiesEcidMeasSupportedNrsrqSupR14 is position 4 of ASN.1 named bit nrsrqSup-r14 of ECID-ProvideCapabilities.ecid-MeasSupported (ITU-T X.680 (02/2021) §22).
+	ECIDProvideCapabilitiesEcidMeasSupportedNrsrqSupR14 = 4
+)
 
 // ECIDRequestCapabilities represents the ASN.1 type ECID-RequestCapabilities (SEQUENCE).
 type ECIDRequestCapabilities struct {
@@ -8906,6 +9187,11 @@ type TBSRequestLocationInformationR13 struct {
 	PERExtPadding_                   []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// TBSRequestLocationInformationR13MbsRequestedMeasurementsR14Rssi is position 0 of ASN.1 named bit rssi of TBS-RequestLocationInformation-r13.mbsRequestedMeasurements-r14 (ITU-T X.680 (02/2021) §22).
+	TBSRequestLocationInformationR13MbsRequestedMeasurementsR14Rssi = 0
+)
+
 // TBSProvideCapabilitiesR13 represents the ASN.1 type TBS-ProvideCapabilities-r13 (SEQUENCE).
 type TBSProvideCapabilitiesR13 struct {
 	TbsModesR13                           runtime.BitString                             `asn1:"tag:0,context,implicit"`
@@ -8921,6 +9207,23 @@ type TBSProvideCapabilitiesR13 struct {
 	PERPadding_                           per.FinalPadding                              `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding                         `asn1:"-" json:"-"`
 }
+
+const (
+	// TBSProvideCapabilitiesR13TbsModesR13Standalone is position 0 of ASN.1 named bit standalone of TBS-ProvideCapabilities-r13.tbs-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	TBSProvideCapabilitiesR13TbsModesR13Standalone = 0
+	// TBSProvideCapabilitiesR13TbsModesR13UeAssisted is position 1 of ASN.1 named bit ue-assisted of TBS-ProvideCapabilities-r13.tbs-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	TBSProvideCapabilitiesR13TbsModesR13UeAssisted = 1
+	// TBSProvideCapabilitiesR13TbsModesR13UeBased is position 2 of ASN.1 named bit ue-based of TBS-ProvideCapabilities-r13.tbs-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	TBSProvideCapabilitiesR13TbsModesR13UeBased = 2
+	// TBSProvideCapabilitiesR13MbsConfigSupportR14Tb1 is position 0 of ASN.1 named bit tb1 of TBS-ProvideCapabilities-r13.mbs-ConfigSupport-r14 (ITU-T X.680 (02/2021) §22).
+	TBSProvideCapabilitiesR13MbsConfigSupportR14Tb1 = 0
+	// TBSProvideCapabilitiesR13MbsConfigSupportR14Tb2 is position 1 of ASN.1 named bit tb2 of TBS-ProvideCapabilities-r13.mbs-ConfigSupport-r14 (ITU-T X.680 (02/2021) §22).
+	TBSProvideCapabilitiesR13MbsConfigSupportR14Tb2 = 1
+	// TBSProvideCapabilitiesR13MbsConfigSupportR14Tb3 is position 2 of ASN.1 named bit tb3 of TBS-ProvideCapabilities-r13.mbs-ConfigSupport-r14 (ITU-T X.680 (02/2021) §22).
+	TBSProvideCapabilitiesR13MbsConfigSupportR14Tb3 = 2
+	// TBSProvideCapabilitiesR13MbsConfigSupportR14Tb4 is position 3 of ASN.1 named bit tb4 of TBS-ProvideCapabilities-r13.mbs-ConfigSupport-r14 (ITU-T X.680 (02/2021) §22).
+	TBSProvideCapabilitiesR13MbsConfigSupportR14Tb4 = 3
+)
 
 // MBSAssistanceDataSupportListR14 represents the ASN.1 type MBS-AssistanceDataSupportList-r14 (SEQUENCE).
 type MBSAssistanceDataSupportListR14 struct {
@@ -9284,6 +9587,15 @@ type SensorProvideCapabilitiesR13 struct {
 	PERExtPadding_                        []per.CompletePadding                         `asn1:"-" json:"-"`
 }
 
+const (
+	// SensorProvideCapabilitiesR13SensorModesR13Standalone is position 0 of ASN.1 named bit standalone of Sensor-ProvideCapabilities-r13.sensor-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	SensorProvideCapabilitiesR13SensorModesR13Standalone = 0
+	// SensorProvideCapabilitiesR13SensorModesR13UeAssisted is position 1 of ASN.1 named bit ue-assisted of Sensor-ProvideCapabilities-r13.sensor-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	SensorProvideCapabilitiesR13SensorModesR13UeAssisted = 1
+	// SensorProvideCapabilitiesR13SensorModesR13UeBased is position 2 of ASN.1 named bit ue-based of Sensor-ProvideCapabilities-r13.sensor-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	SensorProvideCapabilitiesR13SensorModesR13UeBased = 2
+)
+
 // SensorAssistanceDataSupportListR14 represents the ASN.1 type Sensor-AssistanceDataSupportList-r14 (SEQUENCE).
 type SensorAssistanceDataSupportListR14 struct {
 	ValidityPeriodSupportedV1520 *int64                `asn1:"tag:0,context,implicit,optional" json:"ValidityPeriodSupportedV1520,omitempty"`
@@ -9491,6 +9803,13 @@ type WLANRequestLocationInformationR13 struct {
 	PERExtPadding_                []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// WLANRequestLocationInformationR13RequestedMeasurementsR13Rssi is position 0 of ASN.1 named bit rssi of WLAN-RequestLocationInformation-r13.requestedMeasurements-r13 (ITU-T X.680 (02/2021) §22).
+	WLANRequestLocationInformationR13RequestedMeasurementsR13Rssi = 0
+	// WLANRequestLocationInformationR13RequestedMeasurementsR13Rtt is position 1 of ASN.1 named bit rtt of WLAN-RequestLocationInformation-r13.requestedMeasurements-r13 (ITU-T X.680 (02/2021) §22).
+	WLANRequestLocationInformationR13RequestedMeasurementsR13Rtt = 1
+)
+
 // WLANProvideCapabilitiesR13 represents the ASN.1 type WLAN-ProvideCapabilities-r13 (SEQUENCE).
 type WLANProvideCapabilitiesR13 struct {
 	WlanModesR13                          runtime.BitString                             `asn1:"tag:0,context,implicit"`
@@ -9506,6 +9825,23 @@ type WLANProvideCapabilitiesR13 struct {
 	PERPadding_                           per.FinalPadding                              `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding                         `asn1:"-" json:"-"`
 }
+
+const (
+	// WLANProvideCapabilitiesR13WlanModesR13Standalone is position 0 of ASN.1 named bit standalone of WLAN-ProvideCapabilities-r13.wlan-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	WLANProvideCapabilitiesR13WlanModesR13Standalone = 0
+	// WLANProvideCapabilitiesR13WlanModesR13UeAssisted is position 1 of ASN.1 named bit ue-assisted of WLAN-ProvideCapabilities-r13.wlan-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	WLANProvideCapabilitiesR13WlanModesR13UeAssisted = 1
+	// WLANProvideCapabilitiesR13WlanModesR13UeBased is position 2 of ASN.1 named bit ue-based of WLAN-ProvideCapabilities-r13.wlan-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	WLANProvideCapabilitiesR13WlanModesR13UeBased = 2
+	// WLANProvideCapabilitiesR13WlanMeasSupportedR13RssiR13 is position 0 of ASN.1 named bit rssi-r13 of WLAN-ProvideCapabilities-r13.wlan-MeasSupported-r13 (ITU-T X.680 (02/2021) §22).
+	WLANProvideCapabilitiesR13WlanMeasSupportedR13RssiR13 = 0
+	// WLANProvideCapabilitiesR13WlanMeasSupportedR13RttR13 is position 1 of ASN.1 named bit rtt-r13 of WLAN-ProvideCapabilities-r13.wlan-MeasSupported-r13 (ITU-T X.680 (02/2021) §22).
+	WLANProvideCapabilitiesR13WlanMeasSupportedR13RttR13 = 1
+	// WLANProvideCapabilitiesR13WlanAPADSupportedR14ApIdentifier is position 0 of ASN.1 named bit ap-identifier of WLAN-ProvideCapabilities-r13.wlan-AP-AD-Supported-r14 (ITU-T X.680 (02/2021) §22).
+	WLANProvideCapabilitiesR13WlanAPADSupportedR14ApIdentifier = 0
+	// WLANProvideCapabilitiesR13WlanAPADSupportedR14ApLocation is position 1 of ASN.1 named bit ap-location of WLAN-ProvideCapabilities-r13.wlan-AP-AD-Supported-r14 (ITU-T X.680 (02/2021) §22).
+	WLANProvideCapabilitiesR13WlanAPADSupportedR14ApLocation = 1
+)
 
 // WLANRequestCapabilitiesR13 represents the ASN.1 type WLAN-RequestCapabilities-r13 (SEQUENCE).
 type WLANRequestCapabilitiesR13 struct {
@@ -9717,6 +10053,13 @@ type WLANRequestAssistanceDataR14 struct {
 	PERExtPadding_            []per.CompletePadding                           `asn1:"-" json:"-"`
 }
 
+const (
+	// WLANRequestAssistanceDataR14RequestedADR14ApIdentifier is position 0 of ASN.1 named bit ap-identifier of WLAN-RequestAssistanceData-r14.requestedAD-r14 (ITU-T X.680 (02/2021) §22).
+	WLANRequestAssistanceDataR14RequestedADR14ApIdentifier = 0
+	// WLANRequestAssistanceDataR14RequestedADR14ApLocation is position 1 of ASN.1 named bit ap-location of WLAN-RequestAssistanceData-r14.requestedAD-r14 (ITU-T X.680 (02/2021) §22).
+	WLANRequestAssistanceDataR14RequestedADR14ApLocation = 1
+)
+
 // BTProvideLocationInformationR13 represents the ASN.1 type BT-ProvideLocationInformation-r13 (SEQUENCE).
 type BTProvideLocationInformationR13 struct {
 	BtMeasurementInformationR13 *BTMeasurementInformationR13 `asn1:"tag:0,context,implicit,optional" json:"BtMeasurementInformationR13,omitempty"`
@@ -9804,6 +10147,17 @@ type BTRequestLocationInformationR13 struct {
 	PERExtPadding_           []per.CompletePadding    `asn1:"-" json:"-"`
 }
 
+const (
+	// BTRequestLocationInformationR13RequestedMeasurementsR13Rssi is position 0 of ASN.1 named bit rssi of BT-RequestLocationInformation-r13.requestedMeasurements-r13 (ITU-T X.680 (02/2021) §22).
+	BTRequestLocationInformationR13RequestedMeasurementsR13Rssi = 0
+	// BTRequestLocationInformationR13RequestedMeasurementsR13AodV1800 is position 1 of ASN.1 named bit aod-v1800 of BT-RequestLocationInformation-r13.requestedMeasurements-r13 (ITU-T X.680 (02/2021) §22).
+	BTRequestLocationInformationR13RequestedMeasurementsR13AodV1800 = 1
+	// BTRequestLocationInformationR13BtRequestedAoAConfigR18AoaAdvConfig is position 0 of ASN.1 named bit aoa-advConfig of BT-RequestLocationInformation-r13.bt-requestedAoA-Config-r18 (ITU-T X.680 (02/2021) §22).
+	BTRequestLocationInformationR13BtRequestedAoAConfigR18AoaAdvConfig = 0
+	// BTRequestLocationInformationR13BtRequestedAoAConfigR18AoaCteConfig is position 1 of ASN.1 named bit aoa-cteConfig of BT-RequestLocationInformation-r13.bt-requestedAoA-Config-r18 (ITU-T X.680 (02/2021) §22).
+	BTRequestLocationInformationR13BtRequestedAoAConfigR18AoaCteConfig = 1
+)
+
 // BTSuggestedAoAConfigR18 represents the ASN.1 type BT-SuggestedAoA-Config-r18 (SEQUENCE).
 type BTSuggestedAoAConfigR18 struct {
 	CteStatusR18          *int64                `asn1:"tag:0,context,implicit,optional" json:"CteStatusR18,omitempty"`
@@ -9835,6 +10189,19 @@ type BTProvideCapabilitiesR13 struct {
 	PERPadding_                           per.FinalPadding                              `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding                         `asn1:"-" json:"-"`
 }
+
+const (
+	// BTProvideCapabilitiesR13BtModesR13Standalone is position 0 of ASN.1 named bit standalone of BT-ProvideCapabilities-r13.bt-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	BTProvideCapabilitiesR13BtModesR13Standalone = 0
+	// BTProvideCapabilitiesR13BtModesR13UeAssisted is position 1 of ASN.1 named bit ue-assisted of BT-ProvideCapabilities-r13.bt-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	BTProvideCapabilitiesR13BtModesR13UeAssisted = 1
+	// BTProvideCapabilitiesR13BtModesR13UeBasedV1810 is position 2 of ASN.1 named bit ue-based-v1810 of BT-ProvideCapabilities-r13.bt-Modes-r13 (ITU-T X.680 (02/2021) §22).
+	BTProvideCapabilitiesR13BtModesR13UeBasedV1810 = 2
+	// BTProvideCapabilitiesR13BtMeasSupportedR13RssiR13 is position 0 of ASN.1 named bit rssi-r13 of BT-ProvideCapabilities-r13.bt-MeasSupported-r13 (ITU-T X.680 (02/2021) §22).
+	BTProvideCapabilitiesR13BtMeasSupportedR13RssiR13 = 0
+	// BTProvideCapabilitiesR13BtMeasSupportedR13AodV1800 is position 1 of ASN.1 named bit aod-v1800 of BT-ProvideCapabilities-r13.bt-MeasSupported-r13 (ITU-T X.680 (02/2021) §22).
+	BTProvideCapabilitiesR13BtMeasSupportedR13AodV1800 = 1
+)
 
 // BTRequestCapabilitiesR13 represents the ASN.1 type BT-RequestCapabilities-r13 (SEQUENCE).
 type BTRequestCapabilitiesR13 struct {
@@ -10071,6 +10438,15 @@ type BTRequestAssistanceDataR18 struct {
 	PERExtPadding_ []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// BTRequestAssistanceDataR18RequestedADR18BeaconLocation is position 0 of ASN.1 named bit beacon-location of BT-RequestAssistanceData-r18.requestedAD-r18 (ITU-T X.680 (02/2021) §22).
+	BTRequestAssistanceDataR18RequestedADR18BeaconLocation = 0
+	// BTRequestAssistanceDataR18RequestedADR18BeaconAntConfig is position 1 of ASN.1 named bit beacon-antConfig of BT-RequestAssistanceData-r18.requestedAD-r18 (ITU-T X.680 (02/2021) §22).
+	BTRequestAssistanceDataR18RequestedADR18BeaconAntConfig = 1
+	// BTRequestAssistanceDataR18RequestedADR18BeaconTransmConfig is position 2 of ASN.1 named bit beacon-transmConfig of BT-RequestAssistanceData-r18.requestedAD-r18 (ITU-T X.680 (02/2021) §22).
+	BTRequestAssistanceDataR18RequestedADR18BeaconTransmConfig = 2
+)
+
 // NRULProvideCapabilitiesR16 represents the ASN.1 type NR-UL-ProvideCapabilities-r16 (SEQUENCE).
 type NRULProvideCapabilitiesR16 struct {
 	NrULSRSCapabilityR16 NRULSRSCapabilityR16  `asn1:"tag:0,context,implicit"`
@@ -10176,6 +10552,17 @@ type NRECIDRequestLocationInformationR16 struct {
 	PERExtPadding_           []per.CompletePadding `asn1:"-" json:"-"`
 }
 
+const (
+	// NRECIDRequestLocationInformationR16RequestedMeasurementsR16SsrsrpReq is position 0 of ASN.1 named bit ssrsrpReq of NR-ECID-RequestLocationInformation-r16.requestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRECIDRequestLocationInformationR16RequestedMeasurementsR16SsrsrpReq = 0
+	// NRECIDRequestLocationInformationR16RequestedMeasurementsR16SsrsrqReq is position 1 of ASN.1 named bit ssrsrqReq of NR-ECID-RequestLocationInformation-r16.requestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRECIDRequestLocationInformationR16RequestedMeasurementsR16SsrsrqReq = 1
+	// NRECIDRequestLocationInformationR16RequestedMeasurementsR16CsirsrpReq is position 2 of ASN.1 named bit csirsrpReq of NR-ECID-RequestLocationInformation-r16.requestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRECIDRequestLocationInformationR16RequestedMeasurementsR16CsirsrpReq = 2
+	// NRECIDRequestLocationInformationR16RequestedMeasurementsR16CsirsrqReq is position 3 of ASN.1 named bit csirsrqReq of NR-ECID-RequestLocationInformation-r16.requestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRECIDRequestLocationInformationR16RequestedMeasurementsR16CsirsrqReq = 3
+)
+
 // NRECIDProvideCapabilitiesR16 represents the ASN.1 type NR-ECID-ProvideCapabilities-r16 (SEQUENCE).
 type NRECIDProvideCapabilitiesR16 struct {
 	NrECIDMeasSupportedR16                runtime.BitString                      `asn1:"tag:0,context,implicit"`
@@ -10190,6 +10577,17 @@ type NRECIDProvideCapabilitiesR16 struct {
 	PERPadding_                           per.FinalPadding                       `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding                  `asn1:"-" json:"-"`
 }
+
+const (
+	// NRECIDProvideCapabilitiesR16NrECIDMeasSupportedR16SsrsrpSup is position 0 of ASN.1 named bit ssrsrpSup of NR-ECID-ProvideCapabilities-r16.nr-ECID-MeasSupported-r16 (ITU-T X.680 (02/2021) §22).
+	NRECIDProvideCapabilitiesR16NrECIDMeasSupportedR16SsrsrpSup = 0
+	// NRECIDProvideCapabilitiesR16NrECIDMeasSupportedR16SsrsrqSup is position 1 of ASN.1 named bit ssrsrqSup of NR-ECID-ProvideCapabilities-r16.nr-ECID-MeasSupported-r16 (ITU-T X.680 (02/2021) §22).
+	NRECIDProvideCapabilitiesR16NrECIDMeasSupportedR16SsrsrqSup = 1
+	// NRECIDProvideCapabilitiesR16NrECIDMeasSupportedR16CsirsrpSup is position 2 of ASN.1 named bit csirsrpSup of NR-ECID-ProvideCapabilities-r16.nr-ECID-MeasSupported-r16 (ITU-T X.680 (02/2021) §22).
+	NRECIDProvideCapabilitiesR16NrECIDMeasSupportedR16CsirsrpSup = 2
+	// NRECIDProvideCapabilitiesR16NrECIDMeasSupportedR16CsirsrqSup is position 3 of ASN.1 named bit csirsrqSup of NR-ECID-ProvideCapabilities-r16.nr-ECID-MeasSupported-r16 (ITU-T X.680 (02/2021) §22).
+	NRECIDProvideCapabilitiesR16NrECIDMeasSupportedR16CsirsrqSup = 3
+)
 
 // NRECIDRequestCapabilitiesR16 represents the ASN.1 type NR-ECID-RequestCapabilities-r16 (SEQUENCE).
 type NRECIDRequestCapabilitiesR16 struct {
@@ -10293,6 +10691,39 @@ type NRDLTDOARequestAssistanceDataR16 struct {
 	PERPadding_                           per.FinalPadding            `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding       `asn1:"-" json:"-"`
 }
+
+const (
+	// NRDLTDOARequestAssistanceDataR16NrAdTypeR16DlPrs is position 0 of ASN.1 named bit dl-prs of NR-DL-TDOA-RequestAssistanceData-r16.nr-AdType-r16 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrAdTypeR16DlPrs = 0
+	// NRDLTDOARequestAssistanceDataR16NrAdTypeR16PosCalc is position 1 of ASN.1 named bit posCalc of NR-DL-TDOA-RequestAssistanceData-r16.nr-AdType-r16 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrAdTypeR16PosCalc = 1
+	// NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17TrpLoc is position 0 of ASN.1 named bit trpLoc of NR-DL-TDOA-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17TrpLoc = 0
+	// NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17BeamInfo is position 1 of ASN.1 named bit beamInfo of NR-DL-TDOA-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17BeamInfo = 1
+	// NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17RtdInfo is position 2 of ASN.1 named bit rtdInfo of NR-DL-TDOA-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17RtdInfo = 2
+	// NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17LosNlosInfo is position 3 of ASN.1 named bit losNlosInfo of NR-DL-TDOA-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17LosNlosInfo = 3
+	// NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17TrpTEGInfo is position 4 of ASN.1 named bit trpTEG-Info of NR-DL-TDOA-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17TrpTEGInfo = 4
+	// NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17NrIntegrityBoundsR18 is position 5 of ASN.1 named bit nr-IntegrityBounds-r18 of NR-DL-TDOA-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17NrIntegrityBoundsR18 = 5
+	// NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17PruInfoR18 is position 6 of ASN.1 named bit pruInfo-r18 of NR-DL-TDOA-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrPosCalcAssistanceRequestR17PruInfoR18 = 6
+	// NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18ServiceParameters is position 0 of ASN.1 named bit serviceParameters of NR-DL-TDOA-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18ServiceParameters = 0
+	// NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18ServiceAlert is position 1 of ASN.1 named bit serviceAlert of NR-DL-TDOA-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18ServiceAlert = 1
+	// NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18RiskParameters is position 2 of ASN.1 named bit riskParameters of NR-DL-TDOA-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18RiskParameters = 2
+	// NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaTRPLoc is position 3 of ASN.1 named bit integrityParaTRP-Loc of NR-DL-TDOA-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaTRPLoc = 3
+	// NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaBeamInfo is position 4 of ASN.1 named bit integrityParaBeamInfo of NR-DL-TDOA-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaBeamInfo = 4
+	// NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaRTDInfo is position 5 of ASN.1 named bit integrityParaRTD-Info of NR-DL-TDOA-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaRTDInfo = 5
+)
 
 // NRDLTDOAProvideLocationInformationR16 represents the ASN.1 type NR-DL-TDOA-ProvideLocationInformation-r16 (SEQUENCE).
 type NRDLTDOAProvideLocationInformationR16 struct {
@@ -10449,6 +10880,15 @@ type NRDLTDOARequestLocationInformationR16 struct {
 	PERExtPadding_                       []per.CompletePadding                                                   `asn1:"-" json:"-"`
 }
 
+const (
+	// NRDLTDOARequestLocationInformationR16NrRequestedMeasurementsR16PrsrsrpReq is position 0 of ASN.1 named bit prsrsrpReq of NR-DL-TDOA-RequestLocationInformation-r16.nr-RequestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestLocationInformationR16NrRequestedMeasurementsR16PrsrsrpReq = 0
+	// NRDLTDOARequestLocationInformationR16NrRequestedMeasurementsR16FirstPathRsrpReqR17 is position 1 of ASN.1 named bit firstPathRsrpReq-r17 of NR-DL-TDOA-RequestLocationInformation-r16.nr-RequestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestLocationInformationR16NrRequestedMeasurementsR16FirstPathRsrpReqR17 = 1
+	// NRDLTDOARequestLocationInformationR16NrRequestedMeasurementsR16DlPRSRSCPDRequestR18 is position 2 of ASN.1 named bit dl-PRS-RSCPD-Request-r18 of NR-DL-TDOA-RequestLocationInformation-r16.nr-RequestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOARequestLocationInformationR16NrRequestedMeasurementsR16DlPRSRSCPDRequestR18 = 2
+)
+
 // NRDLTDOAReportConfigR16 represents the ASN.1 type NR-DL-TDOA-ReportConfig-r16 (SEQUENCE).
 type NRDLTDOAReportConfigR16 struct {
 	MaxDLPRSRSTDMeasurementsPerTRPPairR16          *int64                                 `asn1:"tag:0,context,implicit,optional" json:"MaxDLPRSRSTDMeasurementsPerTRPPairR16,omitempty"`
@@ -10500,6 +10940,41 @@ type NRDLTDOAProvideCapabilitiesR16 struct {
 	PERExtPadding_                           []per.CompletePadding                                            `asn1:"-" json:"-"`
 }
 
+const (
+	// NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17TrpLocSup is position 0 of ASN.1 named bit trpLocSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17TrpLocSup = 0
+	// NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17BeamInfoSup is position 1 of ASN.1 named bit beamInfoSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17BeamInfoSup = 1
+	// NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17RtdInfoSup is position 2 of ASN.1 named bit rtdInfoSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17RtdInfoSup = 2
+	// NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17TrpTEGInfoSup is position 3 of ASN.1 named bit trpTEG-InfoSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17TrpTEGInfoSup = 3
+	// NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17NrIntegrityBoundsSupR18 is position 4 of ASN.1 named bit nr-IntegrityBoundsSup-r18 of NR-DL-TDOA-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17NrIntegrityBoundsSupR18 = 4
+	// NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17PruInfoSupR18 is position 5 of ASN.1 named bit pruInfoSup-r18 of NR-DL-TDOA-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrPosCalcAssistanceSupportR17PruInfoSupR18 = 5
+	// NRDLTDOAProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoD is position 0 of ASN.1 named bit eAoD of NR-DL-TDOA-ProvideCapabilities-r16.nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoD = 0
+	// NRDLTDOAProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoA is position 1 of ASN.1 named bit eAoA of NR-DL-TDOA-ProvideCapabilities-r16.nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoA = 1
+	// NRDLTDOAProvideCapabilitiesR16PeriodicAssistanceDataR18Solicited is position 0 of ASN.1 named bit solicited of NR-DL-TDOA-ProvideCapabilities-r16.periodicAssistanceData-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16PeriodicAssistanceDataR18Solicited = 0
+	// NRDLTDOAProvideCapabilitiesR16PeriodicAssistanceDataR18Unsolicited is position 1 of ASN.1 named bit unsolicited of NR-DL-TDOA-ProvideCapabilities-r16.periodicAssistanceData-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16PeriodicAssistanceDataR18Unsolicited = 1
+	// NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18ServiceParametersSup is position 0 of ASN.1 named bit serviceParametersSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18ServiceParametersSup = 0
+	// NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18ServiceAlertSup is position 1 of ASN.1 named bit serviceAlertSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18ServiceAlertSup = 1
+	// NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18RiskParametersSup is position 2 of ASN.1 named bit riskParametersSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18RiskParametersSup = 2
+	// NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaTRPLocSup is position 3 of ASN.1 named bit integrityParaTRP-LocSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaTRPLocSup = 3
+	// NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaBeamInfoSup is position 4 of ASN.1 named bit integrityParaBeamInfoSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaBeamInfoSup = 4
+	// NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaRTDInfoSup is position 5 of ASN.1 named bit integrityParaRTD-InfoSup of NR-DL-TDOA-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLTDOAProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaRTDInfoSup = 5
+)
+
 // NRDLTDOAMeasurementCapabilityR16 represents the ASN.1 type NR-DL-TDOA-MeasurementCapability-r16 (SEQUENCE).
 type NRDLTDOAMeasurementCapabilityR16 struct {
 	DlRSTDMeasurementPerPairOfTRPFR1R16   int64                                                           `asn1:"tag:0,context,implicit"`
@@ -10539,6 +11014,17 @@ type DLTDOAMeasCapabilityPerBandR17 struct {
 	PERPadding_                                        per.FinalPadding       `asn1:"-" json:"-"`
 	PERExtPadding_                                     []per.CompletePadding  `asn1:"-" json:"-"`
 }
+
+const (
+	// DLTDOAMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rstd is position 0 of ASN.1 named bit rstd of DL-TDOA-MeasCapabilityPerBand-r17.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	DLTDOAMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rstd = 0
+	// DLTDOAMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rsrp is position 1 of ASN.1 named bit rsrp of DL-TDOA-MeasCapabilityPerBand-r17.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	DLTDOAMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rsrp = 1
+	// DLTDOAMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rsrpp is position 2 of ASN.1 named bit rsrpp of DL-TDOA-MeasCapabilityPerBand-r17.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	DLTDOAMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rsrpp = 2
+	// DLTDOAMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rscpd is position 3 of ASN.1 named bit rscpd of DL-TDOA-MeasCapabilityPerBand-r17.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	DLTDOAMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rscpd = 3
+)
 
 // NRDLTDOARequestCapabilitiesR16 represents the ASN.1 type NR-DL-TDOA-RequestCapabilities-r16 (SEQUENCE).
 type NRDLTDOARequestCapabilitiesR16 struct {
@@ -10641,6 +11127,39 @@ type NRDLAoDRequestAssistanceDataR16 struct {
 	PERPadding_                           per.FinalPadding            `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding       `asn1:"-" json:"-"`
 }
+
+const (
+	// NRDLAoDRequestAssistanceDataR16NrAdTypeR16DlPrs is position 0 of ASN.1 named bit dl-prs of NR-DL-AoD-RequestAssistanceData-r16.nr-AdType-r16 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrAdTypeR16DlPrs = 0
+	// NRDLAoDRequestAssistanceDataR16NrAdTypeR16PosCalc is position 1 of ASN.1 named bit posCalc of NR-DL-AoD-RequestAssistanceData-r16.nr-AdType-r16 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrAdTypeR16PosCalc = 1
+	// NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17TrpLoc is position 0 of ASN.1 named bit trpLoc of NR-DL-AoD-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17TrpLoc = 0
+	// NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17BeamInfo is position 1 of ASN.1 named bit beamInfo of NR-DL-AoD-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17BeamInfo = 1
+	// NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17RtdInfo is position 2 of ASN.1 named bit rtdInfo of NR-DL-AoD-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17RtdInfo = 2
+	// NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17BeamAntInfo is position 3 of ASN.1 named bit beamAntInfo of NR-DL-AoD-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17BeamAntInfo = 3
+	// NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17LosNlosInfo is position 4 of ASN.1 named bit losNlosInfo of NR-DL-AoD-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17LosNlosInfo = 4
+	// NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17NrIntegrityBoundsR18 is position 5 of ASN.1 named bit nr-IntegrityBounds-r18 of NR-DL-AoD-RequestAssistanceData-r16.nr-PosCalcAssistanceRequest-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrPosCalcAssistanceRequestR17NrIntegrityBoundsR18 = 5
+	// NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18ServiceParameters is position 0 of ASN.1 named bit serviceParameters of NR-DL-AoD-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18ServiceParameters = 0
+	// NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18ServiceAlert is position 1 of ASN.1 named bit serviceAlert of NR-DL-AoD-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18ServiceAlert = 1
+	// NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18RiskParameters is position 2 of ASN.1 named bit riskParameters of NR-DL-AoD-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18RiskParameters = 2
+	// NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaTRPLoc is position 3 of ASN.1 named bit integrityParaTRP-Loc of NR-DL-AoD-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaTRPLoc = 3
+	// NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaBeamInfo is position 4 of ASN.1 named bit integrityParaBeamInfo of NR-DL-AoD-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaBeamInfo = 4
+	// NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaRTDInfo is position 5 of ASN.1 named bit integrityParaRTD-Info of NR-DL-AoD-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityParaRTDInfo = 5
+	// NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityBeamAntInfo is position 6 of ASN.1 named bit integrityBeamAntInfo of NR-DL-AoD-RequestAssistanceData-r16.nr-IntegrityAssistanceRequest-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDRequestAssistanceDataR16NrIntegrityAssistanceRequestR18IntegrityBeamAntInfo = 6
+)
 
 // NRDLAoDProvideLocationInformationR16 represents the ASN.1 type NR-DL-AoD-ProvideLocationInformation-r16 (SEQUENCE).
 type NRDLAoDProvideLocationInformationR16 struct {
@@ -10813,6 +11332,41 @@ type NRDLAoDProvideCapabilitiesR16 struct {
 	PERExtPadding_                           []per.CompletePadding                                           `asn1:"-" json:"-"`
 }
 
+const (
+	// NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17TrpLocSup is position 0 of ASN.1 named bit trpLocSup of NR-DL-AoD-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17TrpLocSup = 0
+	// NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17BeamInfoSup is position 1 of ASN.1 named bit beamInfoSup of NR-DL-AoD-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17BeamInfoSup = 1
+	// NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17RtdInfoSup is position 2 of ASN.1 named bit rtdInfoSup of NR-DL-AoD-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17RtdInfoSup = 2
+	// NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17BeamAntInfoSup is position 3 of ASN.1 named bit beamAntInfoSup of NR-DL-AoD-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17BeamAntInfoSup = 3
+	// NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17NrIntegrityBoundsSupR18 is position 4 of ASN.1 named bit nr-IntegrityBoundsSup-r18 of NR-DL-AoD-ProvideCapabilities-r16.nr-PosCalcAssistanceSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrPosCalcAssistanceSupportR17NrIntegrityBoundsSupR18 = 4
+	// NRDLAoDProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoD is position 0 of ASN.1 named bit eAoD of NR-DL-AoD-ProvideCapabilities-r16.nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoD = 0
+	// NRDLAoDProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoA is position 1 of ASN.1 named bit eAoA of NR-DL-AoD-ProvideCapabilities-r16.nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r17 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoA = 1
+	// NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18ServiceParametersSup is position 0 of ASN.1 named bit serviceParametersSup of NR-DL-AoD-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18ServiceParametersSup = 0
+	// NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18ServiceAlertSup is position 1 of ASN.1 named bit serviceAlertSup of NR-DL-AoD-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18ServiceAlertSup = 1
+	// NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18RiskParametersSup is position 2 of ASN.1 named bit riskParametersSup of NR-DL-AoD-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18RiskParametersSup = 2
+	// NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaTRPLocSup is position 3 of ASN.1 named bit integrityParaTRP-LocSup of NR-DL-AoD-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaTRPLocSup = 3
+	// NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaBeamInfoSup is position 4 of ASN.1 named bit integrityParaBeamInfoSup of NR-DL-AoD-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaBeamInfoSup = 4
+	// NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaRTDInfoSup is position 5 of ASN.1 named bit integrityParaRTD-InfoSup of NR-DL-AoD-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityParaRTDInfoSup = 5
+	// NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityBeamAntInfoSup is position 6 of ASN.1 named bit integrityBeamAntInfoSup of NR-DL-AoD-ProvideCapabilities-r16.nr-IntegrityAssistanceSupport-r18 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16NrIntegrityAssistanceSupportR18IntegrityBeamAntInfoSup = 6
+	// NRDLAoDProvideCapabilitiesR16PeriodicAssistanceDataR19Solicited is position 0 of ASN.1 named bit solicited of NR-DL-AoD-ProvideCapabilities-r16.periodicAssistanceData-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16PeriodicAssistanceDataR19Solicited = 0
+	// NRDLAoDProvideCapabilitiesR16PeriodicAssistanceDataR19Unsolicited is position 1 of ASN.1 named bit unsolicited of NR-DL-AoD-ProvideCapabilities-r16.periodicAssistanceData-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAoDProvideCapabilitiesR16PeriodicAssistanceDataR19Unsolicited = 1
+)
+
 // NRDLAoDMeasurementCapabilityR16 represents the ASN.1 type NR-DL-AoD-MeasurementCapability-r16 (SEQUENCE).
 type NRDLAoDMeasurementCapabilityR16 struct {
 	MaxDLPRSRSRPMeasurementFR1R16        int64                                                         `asn1:"tag:0,context,implicit"`
@@ -10843,6 +11397,13 @@ type DLAoDMeasCapabilityPerBandR16 struct {
 	PERPadding_                          per.FinalPadding       `asn1:"-" json:"-"`
 	PERExtPadding_                       []per.CompletePadding  `asn1:"-" json:"-"`
 }
+
+const (
+	// DLAoDMeasCapabilityPerBandR16SupportOfMeasurementsInTimeWindowR18Rsrp is position 0 of ASN.1 named bit rsrp of DL-AoD-MeasCapabilityPerBand-r16.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	DLAoDMeasCapabilityPerBandR16SupportOfMeasurementsInTimeWindowR18Rsrp = 0
+	// DLAoDMeasCapabilityPerBandR16SupportOfMeasurementsInTimeWindowR18Rsrpp is position 1 of ASN.1 named bit rsrpp of DL-AoD-MeasCapabilityPerBand-r16.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	DLAoDMeasCapabilityPerBandR16SupportOfMeasurementsInTimeWindowR18Rsrpp = 1
+)
 
 // NRDLAoDRequestCapabilitiesR16 represents the ASN.1 type NR-DL-AoD-RequestCapabilities-r16 (SEQUENCE).
 type NRDLAoDRequestCapabilitiesR16 struct {
@@ -10937,6 +11498,13 @@ type NRMultiRTTRequestAssistanceDataR16 struct {
 	PERPadding_                           per.FinalPadding           `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding      `asn1:"-" json:"-"`
 }
+
+const (
+	// NRMultiRTTRequestAssistanceDataR16NrAdTypeR16DlPrs is position 0 of ASN.1 named bit dl-prs of NR-Multi-RTT-RequestAssistanceData-r16.nr-AdType-r16 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTRequestAssistanceDataR16NrAdTypeR16DlPrs = 0
+	// NRMultiRTTRequestAssistanceDataR16NrAdTypeR16UlSrs is position 1 of ASN.1 named bit ul-srs of NR-Multi-RTT-RequestAssistanceData-r16.nr-AdType-r16 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTRequestAssistanceDataR16NrAdTypeR16UlSrs = 1
+)
 
 // NRMultiRTTProvideLocationInformationR16 represents the ASN.1 type NR-Multi-RTT-ProvideLocationInformation-r16 (SEQUENCE).
 type NRMultiRTTProvideLocationInformationR16 struct {
@@ -11155,6 +11723,15 @@ type NRMultiRTTRequestLocationInformationR16 struct {
 	PERExtPadding_                                   []per.CompletePadding                                                     `asn1:"-" json:"-"`
 }
 
+const (
+	// NRMultiRTTRequestLocationInformationR16NrRequestedMeasurementsR16PrsrsrpReq is position 0 of ASN.1 named bit prsrsrpReq of NR-Multi-RTT-RequestLocationInformation-r16.nr-RequestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTRequestLocationInformationR16NrRequestedMeasurementsR16PrsrsrpReq = 0
+	// NRMultiRTTRequestLocationInformationR16NrRequestedMeasurementsR16FirstPathRsrpReqR17 is position 1 of ASN.1 named bit firstPathRsrpReq-r17 of NR-Multi-RTT-RequestLocationInformation-r16.nr-RequestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTRequestLocationInformationR16NrRequestedMeasurementsR16FirstPathRsrpReqR17 = 1
+	// NRMultiRTTRequestLocationInformationR16NrRequestedMeasurementsR16DlPRSRSCPRequestR18 is position 2 of ASN.1 named bit dl-PRS-RSCP-Request-r18 of NR-Multi-RTT-RequestLocationInformation-r16.nr-RequestedMeasurements-r16 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTRequestLocationInformationR16NrRequestedMeasurementsR16DlPRSRSCPRequestR18 = 2
+)
+
 // NRMultiRTTReportConfigR16 represents the ASN.1 type NR-Multi-RTT-ReportConfig-r16 (SEQUENCE).
 type NRMultiRTTReportConfigR16 struct {
 	MaxDLPRSRxTxTimeDiffMeasPerTRPR16   *int64           `asn1:"tag:0,context,implicit,optional" json:"MaxDLPRSRxTxTimeDiffMeasPerTRPR16,omitempty"`
@@ -11190,6 +11767,19 @@ type NRMultiRTTProvideCapabilitiesR16 struct {
 	PERPadding_                           per.FinalPadding                                                  `asn1:"-" json:"-"`
 	PERExtPadding_                        []per.CompletePadding                                             `asn1:"-" json:"-"`
 }
+
+const (
+	// NRMultiRTTProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoD is position 0 of ASN.1 named bit eAoD of NR-Multi-RTT-ProvideCapabilities-r16.nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r17 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoD = 0
+	// NRMultiRTTProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoA is position 1 of ASN.1 named bit eAoA of NR-Multi-RTT-ProvideCapabilities-r16.nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r17 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTProvideCapabilitiesR16NrDLPRSExpectedAoDOrAoASupR17EAoA = 1
+	// NRMultiRTTProvideCapabilitiesR16NrUERxTxTEGIDReportingSupportR17Case1 is position 0 of ASN.1 named bit case1 of NR-Multi-RTT-ProvideCapabilities-r16.nr-UE-RxTx-TEG-ID-ReportingSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTProvideCapabilitiesR16NrUERxTxTEGIDReportingSupportR17Case1 = 0
+	// NRMultiRTTProvideCapabilitiesR16NrUERxTxTEGIDReportingSupportR17Case2 is position 1 of ASN.1 named bit case2 of NR-Multi-RTT-ProvideCapabilities-r16.nr-UE-RxTx-TEG-ID-ReportingSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTProvideCapabilitiesR16NrUERxTxTEGIDReportingSupportR17Case2 = 1
+	// NRMultiRTTProvideCapabilitiesR16NrUERxTxTEGIDReportingSupportR17Case3 is position 2 of ASN.1 named bit case3 of NR-Multi-RTT-ProvideCapabilities-r16.nr-UE-RxTx-TEG-ID-ReportingSupport-r17 (ITU-T X.680 (02/2021) §22).
+	NRMultiRTTProvideCapabilitiesR16NrUERxTxTEGIDReportingSupportR17Case3 = 2
+)
 
 // NRMultiRTTMeasurementCapabilityR16 represents the ASN.1 type NR-Multi-RTT-MeasurementCapability-r16 (SEQUENCE).
 type NRMultiRTTMeasurementCapabilityR16 struct {
@@ -11229,6 +11819,17 @@ type MultiRTTMeasCapabilityPerBandR17 struct {
 	PERPadding_                                        per.FinalPadding       `asn1:"-" json:"-"`
 	PERExtPadding_                                     []per.CompletePadding  `asn1:"-" json:"-"`
 }
+
+const (
+	// MultiRTTMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18RxTx is position 0 of ASN.1 named bit rx-tx of Multi-RTT-MeasCapabilityPerBand-r17.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	MultiRTTMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18RxTx = 0
+	// MultiRTTMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rsrp is position 1 of ASN.1 named bit rsrp of Multi-RTT-MeasCapabilityPerBand-r17.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	MultiRTTMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rsrp = 1
+	// MultiRTTMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rsrpp is position 2 of ASN.1 named bit rsrpp of Multi-RTT-MeasCapabilityPerBand-r17.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	MultiRTTMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rsrpp = 2
+	// MultiRTTMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rscp is position 3 of ASN.1 named bit rscp of Multi-RTT-MeasCapabilityPerBand-r17.supportOfMeasurementsInTimeWindow-r18 (ITU-T X.680 (02/2021) §22).
+	MultiRTTMeasCapabilityPerBandR17SupportOfMeasurementsInTimeWindowR18Rscp = 3
+)
 
 // NRMultiRTTRequestCapabilitiesR16 represents the ASN.1 type NR-Multi-RTT-RequestCapabilities-r16 (SEQUENCE).
 type NRMultiRTTRequestCapabilitiesR16 struct {
@@ -11327,6 +11928,37 @@ type NRDLAIMLRequestAssistanceDataR19 struct {
 	PERExtPadding_                        []per.CompletePadding      `asn1:"-" json:"-"`
 }
 
+const (
+	// NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19TrpLoc is position 0 of ASN.1 named bit trpLoc of NR-DL-AIML-RequestAssistanceData-r19.nr-PositionCalculationAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19TrpLoc = 0
+	// NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19BeamInfo is position 1 of ASN.1 named bit beamInfo of NR-DL-AIML-RequestAssistanceData-r19.nr-PositionCalculationAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19BeamInfo = 1
+	// NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19RtdInfo is position 2 of ASN.1 named bit rtdInfo of NR-DL-AIML-RequestAssistanceData-r19.nr-PositionCalculationAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19RtdInfo = 2
+	// NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19LosNlosInfo is position 3 of ASN.1 named bit losNlosInfo of NR-DL-AIML-RequestAssistanceData-r19.nr-PositionCalculationAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19LosNlosInfo = 3
+	// NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19TrpTEGInfo is position 4 of ASN.1 named bit trpTEG-Info of NR-DL-AIML-RequestAssistanceData-r19.nr-PositionCalculationAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19TrpTEGInfo = 4
+	// NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19NrIntegrityBounds is position 5 of ASN.1 named bit nr-IntegrityBounds of NR-DL-AIML-RequestAssistanceData-r19.nr-PositionCalculationAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19NrIntegrityBounds = 5
+	// NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19PruInfo is position 6 of ASN.1 named bit pruInfo of NR-DL-AIML-RequestAssistanceData-r19.nr-PositionCalculationAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19PruInfo = 6
+	// NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19TrpLocImplicit is position 7 of ASN.1 named bit trpLoc-Implicit of NR-DL-AIML-RequestAssistanceData-r19.nr-PositionCalculationAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrPositionCalculationAssistanceReqR19TrpLocImplicit = 7
+	// NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19ServiceParameters is position 0 of ASN.1 named bit serviceParameters of NR-DL-AIML-RequestAssistanceData-r19.nr-IntegrityAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19ServiceParameters = 0
+	// NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19ServiceAlert is position 1 of ASN.1 named bit serviceAlert of NR-DL-AIML-RequestAssistanceData-r19.nr-IntegrityAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19ServiceAlert = 1
+	// NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19RiskParameters is position 2 of ASN.1 named bit riskParameters of NR-DL-AIML-RequestAssistanceData-r19.nr-IntegrityAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19RiskParameters = 2
+	// NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19IntegrityParaTRPLoc is position 3 of ASN.1 named bit integrityParaTRP-Loc of NR-DL-AIML-RequestAssistanceData-r19.nr-IntegrityAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19IntegrityParaTRPLoc = 3
+	// NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19IntegrityParaBeamInfo is position 4 of ASN.1 named bit integrityParaBeamInfo of NR-DL-AIML-RequestAssistanceData-r19.nr-IntegrityAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19IntegrityParaBeamInfo = 4
+	// NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19IntegrityParaRTDInfo is position 5 of ASN.1 named bit integrityParaRTD-Info of NR-DL-AIML-RequestAssistanceData-r19.nr-IntegrityAssistanceReq-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLRequestAssistanceDataR19NrIntegrityAssistanceReqR19IntegrityParaRTDInfo = 5
+)
+
 // NRDLAIMLProvideLocationInformationR19 represents the ASN.1 type NR-DL-AIML-ProvideLocationInformation-r19 (SEQUENCE).
 type NRDLAIMLProvideLocationInformationR19 struct {
 	NrDLAIMLLocationInformationR19                *NRDLAIMLLocationInformationR19                                              `asn1:"tag:0,context,implicit,optional" json:"NrDLAIMLLocationInformationR19,omitempty"`
@@ -11391,6 +12023,39 @@ type NRDLAIMLProvideCapabilitiesR19 struct {
 	PERExtPadding_                           []per.CompletePadding                                            `asn1:"-" json:"-"`
 }
 
+const (
+	// NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19TrpLocSup is position 0 of ASN.1 named bit trpLocSup of NR-DL-AIML-ProvideCapabilities-r19.nr-PosCalcAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19TrpLocSup = 0
+	// NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19BeamInfoSup is position 1 of ASN.1 named bit beamInfoSup of NR-DL-AIML-ProvideCapabilities-r19.nr-PosCalcAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19BeamInfoSup = 1
+	// NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19RtdInfoSup is position 2 of ASN.1 named bit rtdInfoSup of NR-DL-AIML-ProvideCapabilities-r19.nr-PosCalcAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19RtdInfoSup = 2
+	// NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19TrpTEGInfoSup is position 3 of ASN.1 named bit trpTEG-InfoSup of NR-DL-AIML-ProvideCapabilities-r19.nr-PosCalcAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19TrpTEGInfoSup = 3
+	// NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19NrIntegritySup is position 4 of ASN.1 named bit nr-IntegritySup of NR-DL-AIML-ProvideCapabilities-r19.nr-PosCalcAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19NrIntegritySup = 4
+	// NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19PruInfoSup is position 5 of ASN.1 named bit pruInfoSup of NR-DL-AIML-ProvideCapabilities-r19.nr-PosCalcAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19PruInfoSup = 5
+	// NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19TrpLocImplicitSup is position 6 of ASN.1 named bit trpLoc-ImplicitSup of NR-DL-AIML-ProvideCapabilities-r19.nr-PosCalcAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrPosCalcAssistanceSupportR19TrpLocImplicitSup = 6
+	// NRDLAIMLProvideCapabilitiesR19NrDLPRSExpectedAoDOrAoASupR19EAoD is position 0 of ASN.1 named bit eAoD of NR-DL-AIML-ProvideCapabilities-r19.nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrDLPRSExpectedAoDOrAoASupR19EAoD = 0
+	// NRDLAIMLProvideCapabilitiesR19NrDLPRSExpectedAoDOrAoASupR19EAoA is position 1 of ASN.1 named bit eAoA of NR-DL-AIML-ProvideCapabilities-r19.nr-DL-PRS-ExpectedAoD-or-AoA-Sup-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrDLPRSExpectedAoDOrAoASupR19EAoA = 1
+	// NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19ServiceParametersSup is position 0 of ASN.1 named bit serviceParametersSup of NR-DL-AIML-ProvideCapabilities-r19.nr-IntegrityAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19ServiceParametersSup = 0
+	// NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19ServiceAlertSup is position 1 of ASN.1 named bit serviceAlertSup of NR-DL-AIML-ProvideCapabilities-r19.nr-IntegrityAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19ServiceAlertSup = 1
+	// NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19RiskParametersSup is position 2 of ASN.1 named bit riskParametersSup of NR-DL-AIML-ProvideCapabilities-r19.nr-IntegrityAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19RiskParametersSup = 2
+	// NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19IntegrityParaTRPLocSup is position 3 of ASN.1 named bit integrityParaTRP-LocSup of NR-DL-AIML-ProvideCapabilities-r19.nr-IntegrityAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19IntegrityParaTRPLocSup = 3
+	// NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19IntegrityParaBeamInfoSup is position 4 of ASN.1 named bit integrityParaBeamInfoSup of NR-DL-AIML-ProvideCapabilities-r19.nr-IntegrityAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19IntegrityParaBeamInfoSup = 4
+	// NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19IntegrityParaRTDInfoSup is position 5 of ASN.1 named bit integrityParaRTD-InfoSup of NR-DL-AIML-ProvideCapabilities-r19.nr-IntegrityAssistanceSupport-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLProvideCapabilitiesR19NrIntegrityAssistanceSupportR19IntegrityParaRTDInfoSup = 5
+)
+
 // NRDLAIMLCapabilityPerBandR19 represents the ASN.1 type NR-DL-AIML-CapabilityPerBand-r19 (SEQUENCE).
 type NRDLAIMLCapabilityPerBandR19 struct {
 	FreqBandIndicatorNRR19           FreqBandIndicatorNRR16 `asn1:"tag:0,context,implicit"`
@@ -11410,6 +12075,17 @@ type NRDLAIMLCapabilityPerBandR19 struct {
 	PERPadding_                      per.FinalPadding       `asn1:"-" json:"-"`
 	PERExtPadding_                   []per.CompletePadding  `asn1:"-" json:"-"`
 }
+
+const (
+	// NRDLAIMLCapabilityPerBandR19UeRxTEGsSupportR19N1 is position 0 of ASN.1 named bit n1 of NR-DL-AIML-CapabilityPerBand-r19.ue-RxTEGs-Support-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLCapabilityPerBandR19UeRxTEGsSupportR19N1 = 0
+	// NRDLAIMLCapabilityPerBandR19UeRxTEGsSupportR19N2 is position 1 of ASN.1 named bit n2 of NR-DL-AIML-CapabilityPerBand-r19.ue-RxTEGs-Support-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLCapabilityPerBandR19UeRxTEGsSupportR19N2 = 1
+	// NRDLAIMLCapabilityPerBandR19UeRxTEGsSupportR19N3 is position 2 of ASN.1 named bit n3 of NR-DL-AIML-CapabilityPerBand-r19.ue-RxTEGs-Support-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLCapabilityPerBandR19UeRxTEGsSupportR19N3 = 2
+	// NRDLAIMLCapabilityPerBandR19UeRxTEGsSupportR19N4 is position 3 of ASN.1 named bit n4 of NR-DL-AIML-CapabilityPerBand-r19.ue-RxTEGs-Support-r19 (ITU-T X.680 (02/2021) §22).
+	NRDLAIMLCapabilityPerBandR19UeRxTEGsSupportR19N4 = 3
+)
 
 // NRDLAIMLPRSProcessingCapabilityR19 represents the ASN.1 type NR-DL-AIML-PRS-ProcessingCapability-r19 (SEQUENCE).
 type NRDLAIMLPRSProcessingCapabilityR19 struct {

@@ -939,6 +939,35 @@ func TestImplicitTagPreservesFormAndLength(t *testing.T) {
 	}
 }
 
+func TestImplicitTagReconstructionAllocationBudget(t *testing.T) {
+	inner := []byte{0x04, 0x01, 'A'}
+	var encoded []byte
+	canonicalAllocs := testing.AllocsPerRun(1000, func() {
+		var err error
+		encoded, err = EncodeSequence(inner)
+		if err != nil {
+			t.Fatal(err)
+		}
+	})
+	for _, wire := range [][]byte{
+		{0xa0, 0x03, 0x04, 0x01, 'A'},
+		{0xa0, 0x81, 0x03, 0x04, 0x01, 'A'},
+		{0xa0, 0x80, 0x04, 0x01, 'A', 0, 0},
+	} {
+		allocs := testing.AllocsPerRun(1000, func() {
+			var err error
+			encoded, err = EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, wire)
+			if err != nil {
+				t.Fatal(err)
+			}
+		})
+		if allocs > canonicalAllocs {
+			t.Fatalf("retagging %x allocated %.0f times, canonical reconstruction allocated %.0f", wire, allocs, canonicalAllocs)
+		}
+	}
+	_ = encoded
+}
+
 func TestImplicitTagRejectsTrailingData(t *testing.T) {
 	input := append(EncodeInteger(1), EncodeNull()...)
 	if _, err := EncodeImplicitTag(1, input); !errors.Is(err, ErrInvalidValue) {

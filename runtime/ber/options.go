@@ -72,7 +72,31 @@ type decodeConfig struct {
 	hasPath               bool
 	form                  *berFormState
 	collectionSizeChecked bool
+	generatedMode         generatedDecodeMode
 }
+
+type generatedDecodeMode uint8
+
+const (
+	generatedModeAdaptive generatedDecodeMode = iota
+	generatedModeLight
+	generatedModeProof
+)
+
+type generatedModeOption struct{ mode generatedDecodeMode }
+
+func (option generatedModeOption) applyDecode(config *decodeConfig) error {
+	config.generatedMode = option.mode
+	return nil
+}
+
+// ForceGeneratedBERLightForTesting exercises the ordinary nested-validation
+// path in differential tests. It must not be used by production callers.
+func ForceGeneratedBERLightForTesting() DecodeOption { return generatedModeOption{generatedModeLight} }
+
+// ForceGeneratedBERProofForTesting exercises the validated-span path in
+// differential tests. It must not be used by production callers.
+func ForceGeneratedBERProofForTesting() DecodeOption { return generatedModeOption{generatedModeProof} }
 
 // WithDecodeLimits overrides the nonzero limit fields. Supply the same option
 // to a generated UnmarshalBER entry point to admit a larger BER profile.
@@ -100,6 +124,14 @@ func decodeOptions(options []DecodeOption) (decodeConfig, error) {
 	// interfaces, whose implementations may retain its address.
 	if len(options) == 0 {
 		return decodeConfig{limits: DefaultDecodeLimits(), diagnostics: DefaultDiagnosticLimits()}, nil
+	}
+	if len(options) == 1 {
+		if context, ok := options[0].(*generatedDecodeOption); ok {
+			if err := context.validate(); err != nil {
+				return decodeConfig{}, err
+			}
+			return validateDecodeConfig(context.config)
+		}
 	}
 	config := decodeConfig{limits: DefaultDecodeLimits(), diagnostics: DefaultDiagnosticLimits()}
 	for _, option := range options {
@@ -173,5 +205,6 @@ func encodingStructureOption(data []byte) DecodeOption {
 // caller decoded under raised limits can be encoded again; X.690 (02/2021)
 // §§8.1.3 and 8.7 place no ceiling on BER nesting.
 func DecodeEncodedTLV(data []byte) (tag.Tag, int, []byte, error) {
-	return DecodeTLV(data, encodingStructureOption(data))
+	bound := max(1, len(data))
+	return decodeTLV(data, DecodeLimits{MaxDepth: bound, MaxElements: bound, MaxWork: bound}, nil)
 }

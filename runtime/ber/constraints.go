@@ -285,6 +285,19 @@ func noReportCommit(bool) {}
 // Its finish function publishes the staged reports only on success. Nested
 // generated calls commit into the parent's private destination.
 func StageDecodeReports(options []DecodeOption) ([]DecodeOption, func(bool)) {
+	if len(options) == 1 {
+		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
+			return options, noReportCommit
+		}
+		if diagnostic, ok := options[0].(diagnosticChildOption); ok {
+			if !decodeToleranceNeedsStaging(diagnostic.options) {
+				return options, noReportCommit
+			}
+			staged, commit := StageDecodeReports(diagnostic.options)
+			diagnostic.options = staged
+			return []DecodeOption{diagnostic}, commit
+		}
+	}
 	needsStaging := false
 	for _, option := range options {
 		if tolerance, ok := option.(*toleranceOption); ok && tolerance != nil && tolerance.violations != nil {
@@ -328,16 +341,38 @@ func StageDecodeReports(options []DecodeOption) ([]DecodeOption, func(bool)) {
 	}
 }
 
+func decodeToleranceNeedsStaging(options []DecodeOption) bool {
+	for _, option := range options {
+		if tolerance, ok := option.(*toleranceOption); ok && tolerance != nil && tolerance.violations != nil {
+			return true
+		}
+		if child, ok := option.(diagnosticChildOption); ok && decodeToleranceNeedsStaging(child.options) {
+			return true
+		}
+	}
+	return false
+}
+
 // StageEncodeReports is the encoder counterpart of StageDecodeReports.
 func StageEncodeReports(options []EncodeOption) ([]EncodeOption, func(bool)) {
 	needsStaging := false
+	replay := false
 	for _, option := range options {
+		if _, ok := option.(replayModeOption); ok {
+			replay = true
+		}
 		if tolerance, ok := option.(*toleranceOption); ok && tolerance != nil && tolerance.violations != nil {
 			needsStaging = true
 			break
 		}
 	}
 	if !needsStaging {
+		if replay {
+			// The runtime owns this option chain during one replay pass. Child
+			// encoders extend it with capacity-limited appends, so no copy is
+			// needed for each generated component.
+			return options, noReportCommit
+		}
 		// An independent copy, as for StageDecodeReports.
 		return append([]EncodeOption(nil), options...), noReportCommit
 	}
@@ -418,6 +453,20 @@ func encodeOptions(options []EncodeOption) (encodeConfig, error) {
 			config.hasPath = true
 		case withoutBERReplayOption:
 			config.noReplay = true
+		case replayModeOption:
+			if value.state == nil {
+				return config, fmt.Errorf("%w: invalid BER replay state", ErrInvalidValue)
+			}
+			if value.baseline || value.comparison && !value.strict || value.collector != nil && !value.strict {
+				config.tolerant = true
+				if value.sink != nil {
+					config.violations = value.sink
+				} else if value.collector != nil && !value.baseline {
+					config.violations = &value.collector.sink
+				} else {
+					config.violations = &value.state.sink
+				}
+			}
 		case parentCollectionSizeOption:
 			config.collectionSizeChecked = true
 		default:
@@ -502,6 +551,32 @@ type constraintPathOption string
 func qualifyConstraintPath[Option any](options []Option, leaf string) string {
 	var components []string
 	for _, option := range options {
+		if diagnostic, ok := any(option).(diagnosticChildOption); ok {
+			path := qualifyConstraintPath(diagnostic.options, "")
+			if path != "" {
+				components = append(components, strings.Split(path, ".")...)
+			}
+			if diagnostic.isElement {
+				components = append(components, fmt.Sprintf("element[%d]", diagnostic.element))
+			} else if diagnostic.component != "" {
+				components = append(components, diagnostic.component)
+			}
+			continue
+		}
+		if context, ok := any(option).(*generatedDecodeOption); ok && context != nil {
+			var reverse []string
+			for current := context; current != nil; current = current.parent {
+				if current.isElement {
+					reverse = append(reverse, fmt.Sprintf("element[%d]", current.element))
+				} else if current.component != "" {
+					reverse = append(reverse, current.component)
+				}
+			}
+			for index := len(reverse); index > 0; index-- {
+				components = append(components, reverse[index-1])
+			}
+			continue
+		}
 		if component, ok := any(option).(constraintPathOption); ok {
 			components = append(components, string(component))
 		}
@@ -535,11 +610,24 @@ func (option constraintPathOption) applyEncode(config *encodeConfig) error {
 
 // ChildDecodeOptions qualifies violations reported by a nested BER decoder.
 func ChildDecodeOptions(options []DecodeOption, component string) []DecodeOption {
+	if len(options) == 1 {
+		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
+			child := &generatedDecodeOption{source: context.source, config: context.config, parent: context, component: component}
+			child.config.collectionSizeChecked = false
+			child.config.hasPath = true
+			return []DecodeOption{child}
+		}
+	}
 	return append(options[:len(options):len(options)], constraintPathOption(component))
 }
 
 // ChildEncodeOptions qualifies violations reported by a nested BER encoder.
 func ChildEncodeOptions(options []EncodeOption, component string) []EncodeOption {
+	for _, option := range options {
+		if mode, ok := option.(replayModeOption); ok && (mode.baseline || mode.comparison && mode.strict && !mode.diagnostic || mode.fast != nil && mode.strict && !mode.diagnostic || mode.collector != nil && mode.strict && !mode.diagnostic) {
+			return options
+		}
+	}
 	return append(options[:len(options):len(options)], constraintPathOption(component))
 }
 
@@ -550,7 +638,16 @@ func ConstraintToleranceEnabled(options []DecodeOption) bool {
 	return err == nil && config.tolerant
 }
 
-type berFormState struct{ preserve bool }
+type berFormState struct {
+	preserve     bool
+	validated    *validatedBERSource
+	owned        []byte
+	proofNeeded  bool
+	lightInput   []byte
+	lightOwned   []byte
+	lightReplay  *ReplayState
+	lastCaptured *ReplayNode
+}
 
 type berFormOption struct{ state *berFormState }
 
@@ -563,6 +660,16 @@ func (option berFormOption) applyDecode(config *decodeConfig) error {
 // X.690 (02/2021) §§8.1.3, 8.7.3 and 10.2 allow BER forms that DER forbids.
 func TrackBERForm(options []DecodeOption) []DecodeOption {
 	for _, option := range options {
+		if diagnostic, ok := option.(diagnosticChildOption); ok {
+			if generatedDecodeHasForm(diagnostic.options) {
+				return options
+			}
+			diagnostic.options = TrackBERForm(diagnostic.options)
+			return []DecodeOption{diagnostic}
+		}
+		if _, ok := option.(*generatedDecodeOption); ok {
+			return options
+		}
 		if _, ok := option.(berFormOption); ok {
 			return options
 		}
@@ -571,10 +678,32 @@ func TrackBERForm(options []DecodeOption) []DecodeOption {
 	return append(tracked, berFormOption{state: new(berFormState)})
 }
 
+func generatedDecodeHasForm(options []DecodeOption) bool {
+	for _, option := range options {
+		switch value := option.(type) {
+		case diagnosticChildOption:
+			if generatedDecodeHasForm(value.options) {
+				return true
+			}
+		case *generatedDecodeOption, berFormOption:
+			return true
+		}
+	}
+	return false
+}
+
 // MarkBERNonCanonical records a valid BER form that a schema-aware decoder
 // knows the canonical encoder will change, such as an implicit constructed string.
 func MarkBERNonCanonical(options []DecodeOption) {
 	for _, option := range options {
+		if diagnostic, ok := option.(diagnosticChildOption); ok {
+			MarkBERNonCanonical(diagnostic.options)
+			return
+		}
+		if context, ok := option.(*generatedDecodeOption); ok && context != nil && context.config.form != nil {
+			context.config.form.preserve = true
+			return
+		}
 		if form, ok := option.(berFormOption); ok {
 			form.state.preserve = true
 			return
@@ -586,6 +715,12 @@ func MarkBERNonCanonical(options []DecodeOption) {
 // the received bytes for an exact unchanged-value re-encode.
 func BERNeedsPreservation(options []DecodeOption) bool {
 	for _, option := range options {
+		if diagnostic, ok := option.(diagnosticChildOption); ok {
+			return BERNeedsPreservation(diagnostic.options)
+		}
+		if context, ok := option.(*generatedDecodeOption); ok && context != nil && context.config.form != nil {
+			return context.config.form.preserve
+		}
 		if form, ok := option.(berFormOption); ok {
 			return form.state.preserve
 		}
@@ -656,8 +791,7 @@ func MarkBERSetOrder(data []byte, schemaPosition func(tag.Tag) int, options ...D
 // (02/2021) §§8.1.3, 8.7.3 permit multiple length forms and constructed string
 // segmentations.
 func PreserveEncodedBER(encoded, original, snapshot []byte, options []EncodeOption) []byte {
-	config, err := encodeOptions(options)
-	if err == nil && !config.noReplay && original != nil && bytes.Equal(encoded, snapshot) {
+	if BERReplayEnabled(options) && original != nil && bytes.Equal(encoded, snapshot) {
 		return append([]byte(nil), original...)
 	}
 	return encoded
@@ -680,6 +814,13 @@ func (parentCollectionSizeOption) applyEncode(config *encodeConfig) error {
 
 // ParentCollectionSizeDecodeOptions marks a child whose parent checks its SIZE.
 func ParentCollectionSizeDecodeOptions(options []DecodeOption) []DecodeOption {
+	if len(options) == 1 {
+		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
+			child := *context
+			child.config.collectionSizeChecked = true
+			return []DecodeOption{&child}
+		}
+	}
 	return append(append([]DecodeOption(nil), options...), parentCollectionSizeOption{})
 }
 
