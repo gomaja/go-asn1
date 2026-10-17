@@ -4,11 +4,10 @@ package tcap
 
 import (
 	"fmt"
-	"math/big"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/ber"
-	"github.com/gomaja/go-asn1/runtime/tag"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
 )
 
 // Ensure imports are used.
@@ -168,153 +167,117 @@ func NewROSSupplierASReject(v Reject) ROSSupplierAS {
 	}
 }
 
-// ROSSingleASInvokeLinkedId choice constants.
-const (
-	ROSSingleASInvokeLinkedIdChoicePresent = 1
-	ROSSingleASInvokeLinkedIdChoiceAbsent  = 2
-)
-
-// ROSSingleASInvokeLinkedId represents the ASN.1 CHOICE type ROS-SingleAS-invoke-linkedId.
-type ROSSingleASInvokeLinkedId struct {
-	Choice         int
-	berReplayNode_ *ber.ReplayNode `json:"-"`
-	Present        *big.Int        `json:"Present,omitempty"`
-	Absent         *struct{}       `json:"Absent,omitempty"`
-}
-
-// NewROSSingleASInvokeLinkedIdPresent creates a ROSSingleASInvokeLinkedId with the present alternative.
-func NewROSSingleASInvokeLinkedIdPresent(v *big.Int) ROSSingleASInvokeLinkedId {
-	return ROSSingleASInvokeLinkedId{
-		Choice:  ROSSingleASInvokeLinkedIdChoicePresent,
-		Present: v,
-	}
-}
-
-// NewROSSingleASInvokeLinkedIdAbsent creates a ROSSingleASInvokeLinkedId with the absent alternative.
-func NewROSSingleASInvokeLinkedIdAbsent(v struct{}) ROSSingleASInvokeLinkedId {
-	return ROSSingleASInvokeLinkedId{
-		Choice: ROSSingleASInvokeLinkedIdChoiceAbsent,
-		Absent: &v,
-	}
-}
-
-// ROSSingleASReturnResultResult represents the ASN.1 type ROS-SingleAS-returnResult-result (SEQUENCE).
-type ROSSingleASReturnResultResult struct {
-	Opcode         Code             `asn1:""`
-	Result         runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
-	berReplayNode_ *ber.ReplayNode  `asn1:"-" json:"-"`
-}
-
-// ROSConsumerASInvokeLinkedId choice constants.
-const (
-	ROSConsumerASInvokeLinkedIdChoicePresent = 1
-	ROSConsumerASInvokeLinkedIdChoiceAbsent  = 2
-)
-
-// ROSConsumerASInvokeLinkedId represents the ASN.1 CHOICE type ROS-ConsumerAS-invoke-linkedId.
-type ROSConsumerASInvokeLinkedId struct {
-	Choice         int
-	berReplayNode_ *ber.ReplayNode `json:"-"`
-	Present        *big.Int        `json:"Present,omitempty"`
-	Absent         *struct{}       `json:"Absent,omitempty"`
-}
-
-// NewROSConsumerASInvokeLinkedIdPresent creates a ROSConsumerASInvokeLinkedId with the present alternative.
-func NewROSConsumerASInvokeLinkedIdPresent(v *big.Int) ROSConsumerASInvokeLinkedId {
-	return ROSConsumerASInvokeLinkedId{
-		Choice:  ROSConsumerASInvokeLinkedIdChoicePresent,
-		Present: v,
-	}
-}
-
-// NewROSConsumerASInvokeLinkedIdAbsent creates a ROSConsumerASInvokeLinkedId with the absent alternative.
-func NewROSConsumerASInvokeLinkedIdAbsent(v struct{}) ROSConsumerASInvokeLinkedId {
-	return ROSConsumerASInvokeLinkedId{
-		Choice: ROSConsumerASInvokeLinkedIdChoiceAbsent,
-		Absent: &v,
-	}
-}
-
-// ROSConsumerASReturnResultResult represents the ASN.1 type ROS-ConsumerAS-returnResult-result (SEQUENCE).
-type ROSConsumerASReturnResultResult struct {
-	Opcode         Code             `asn1:""`
-	Result         runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
-	berReplayNode_ *ber.ReplayNode  `asn1:"-" json:"-"`
-}
-
-// ROSSupplierASInvokeLinkedId choice constants.
-const (
-	ROSSupplierASInvokeLinkedIdChoicePresent = 1
-	ROSSupplierASInvokeLinkedIdChoiceAbsent  = 2
-)
-
-// ROSSupplierASInvokeLinkedId represents the ASN.1 CHOICE type ROS-SupplierAS-invoke-linkedId.
-type ROSSupplierASInvokeLinkedId struct {
-	Choice         int
-	berReplayNode_ *ber.ReplayNode `json:"-"`
-	Present        *big.Int        `json:"Present,omitempty"`
-	Absent         *struct{}       `json:"Absent,omitempty"`
-}
-
-// NewROSSupplierASInvokeLinkedIdPresent creates a ROSSupplierASInvokeLinkedId with the present alternative.
-func NewROSSupplierASInvokeLinkedIdPresent(v *big.Int) ROSSupplierASInvokeLinkedId {
-	return ROSSupplierASInvokeLinkedId{
-		Choice:  ROSSupplierASInvokeLinkedIdChoicePresent,
-		Present: v,
-	}
-}
-
-// NewROSSupplierASInvokeLinkedIdAbsent creates a ROSSupplierASInvokeLinkedId with the absent alternative.
-func NewROSSupplierASInvokeLinkedIdAbsent(v struct{}) ROSSupplierASInvokeLinkedId {
-	return ROSSupplierASInvokeLinkedId{
-		Choice: ROSSupplierASInvokeLinkedIdChoiceAbsent,
-		Absent: &v,
-	}
-}
-
-// ROSSupplierASReturnResultResult represents the ASN.1 type ROS-SupplierAS-returnResult-result (SEQUENCE).
-type ROSSupplierASReturnResultResult struct {
-	Opcode         Code             `asn1:""`
-	Result         runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
-	berReplayNode_ *ber.ReplayNode  `asn1:"-" json:"-"`
-}
-
 // MarshalBER encodes ROSSingleAS to BER format.
 func (v *ROSSingleAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
+	linearOptions_ := len(opts) == 0
+	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSingleAS receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSSingleAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *ROSSingleAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		return replayBytes, nil
+	}
+	var encoded []byte
+	var err error
+	if linearOptions_ && ber.CanUseLinearBEREncode(opts) && (v.Choice == ROSSingleASChoiceInvoke || v.Choice == ROSSingleASChoiceReturnResult || v.Choice == ROSSingleASChoiceReturnError || v.Choice == ROSSingleASChoiceReject) {
+		encoded, err = ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendBERLinear(encoder, opts...)
+			return appendErr
+		})
+	} else {
+		encoded, err = v.marshalBER(opts...)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
+}
+func (v *ROSSingleAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSSingleAS receiver is nil", ber.ErrInvalidValue)
+	}
+	if replay, ok := ber.ReplayGeneratedBERNode(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		encoder.Append(replay)
+		return nil, nil
+	}
+	switch v.Choice {
+	case ROSSingleASChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("%w: choice ROSSingleAS: invoke is nil", ber.ErrInvalidValue)
+		}
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
+		_, err := v.Invoke.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invoke")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		}
+		return nil, nil
+	case ROSSingleASChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("%w: choice ROSSingleAS: returnResult is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
+		_, err := v.ReturnResult.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnResult")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		}
+		return nil, nil
+	case ROSSingleASChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("%w: choice ROSSingleAS: returnError is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
+		_, err := v.ReturnError.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnError")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		}
+		return nil, nil
+	case ROSSingleASChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("%w: choice ROSSingleAS: reject is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
+		_, err := v.Reject.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "reject")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, nil
+	default:
+		encoded, err := v.marshalBER(opts...)
+		if err != nil {
+			return nil, err
+		}
+		encoder.Append(encoded)
+		return nil, nil
+	}
+}
+func (v *ROSSingleAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	switch v.Choice {
 	case ROSSingleASChoiceInvoke:
 		if v.Invoke == nil {
@@ -382,8 +345,25 @@ func (v *ROSSingleAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 
 // MarshalDER encodes ROSSingleAS to DER format.
 func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSingleAS receiver is nil", ber.ErrInvalidValue)
+	}
+	if v.Choice == ROSSingleASChoiceInvoke || v.Choice == ROSSingleASChoiceReturnResult || v.Choice == ROSSingleASChoiceReturnError || v.Choice == ROSSingleASChoiceReject {
+		encoded, err := ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendDERLinear(encoder)
+			return appendErr
+		})
+		if err != nil {
+			return nil, err
+		}
+		return encoded, nil
 	}
 	switch v.Choice {
 	case ROSSingleASChoiceInvoke:
@@ -479,19 +459,82 @@ func (v *ROSSingleAS) MarshalDER() ([]byte, error) {
 }
 
 func (v *ROSSingleAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
+	if err := v.validateTCAPChoice(); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
-	return nil, nil
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSSingleAS receiver is nil", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case ROSSingleASChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("%w: choice ROSSingleAS: invoke is nil", ber.ErrInvalidValue)
+		}
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
+		_, err := v.Invoke.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		}
+		return nil, nil
+	case ROSSingleASChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("%w: choice ROSSingleAS: returnResult is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
+		_, err := v.ReturnResult.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		}
+		return nil, nil
+	case ROSSingleASChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("%w: choice ROSSingleAS: returnError is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
+		_, err := v.ReturnError.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		}
+		return nil, nil
+	case ROSSingleASChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("%w: choice ROSSingleAS: reject is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
+		_, err := v.Reject.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, nil
+	default:
+		encoded, err := v.MarshalDER()
+		if err != nil {
+			return nil, err
+		}
+		encoder.Append(encoded)
+		return nil, nil
+	}
 }
 
 // UnmarshalBER decodes ROSSingleAS from BER/DER format.
-func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSSingleAS destination is nil", ber.ErrInvalidValue)
+func (destination *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil ROSSingleAS destination")
 	}
+	var next ROSSingleAS
+
+	v :=
+		&next
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -626,40 +669,115 @@ func (v *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 
 // MarshalBER encodes ROSConsumerAS to BER format.
 func (v *ROSConsumerAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
+	linearOptions_ := len(opts) == 0
+	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSConsumerAS receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSConsumerAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *ROSConsumerAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		return replayBytes, nil
+	}
+	var encoded []byte
+	var err error
+	if linearOptions_ && ber.CanUseLinearBEREncode(opts) && (v.Choice == ROSConsumerASChoiceInvoke || v.Choice == ROSConsumerASChoiceReturnResult || v.Choice == ROSConsumerASChoiceReturnError || v.Choice == ROSConsumerASChoiceReject) {
+		encoded, err = ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendBERLinear(encoder, opts...)
+			return appendErr
+		})
+	} else {
+		encoded, err = v.marshalBER(opts...)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
+}
+func (v *ROSConsumerAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSConsumerAS receiver is nil", ber.ErrInvalidValue)
+	}
+	if replay, ok := ber.ReplayGeneratedBERNode(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		encoder.Append(replay)
+		return nil, nil
+	}
+	switch v.Choice {
+	case ROSConsumerASChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("%w: choice ROSConsumerAS: invoke is nil", ber.ErrInvalidValue)
+		}
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
+		_, err := v.Invoke.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invoke")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		}
+		return nil, nil
+	case ROSConsumerASChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("%w: choice ROSConsumerAS: returnResult is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
+		_, err := v.ReturnResult.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnResult")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		}
+		return nil, nil
+	case ROSConsumerASChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("%w: choice ROSConsumerAS: returnError is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
+		_, err := v.ReturnError.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnError")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		}
+		return nil, nil
+	case ROSConsumerASChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("%w: choice ROSConsumerAS: reject is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
+		_, err := v.Reject.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "reject")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, nil
+	default:
+		encoded, err := v.marshalBER(opts...)
+		if err != nil {
+			return nil, err
+		}
+		encoder.Append(encoded)
+		return nil, nil
+	}
+}
+func (v *ROSConsumerAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	switch v.Choice {
 	case ROSConsumerASChoiceInvoke:
 		if v.Invoke == nil {
@@ -727,8 +845,25 @@ func (v *ROSConsumerAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 
 // MarshalDER encodes ROSConsumerAS to DER format.
 func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSConsumerAS receiver is nil", ber.ErrInvalidValue)
+	}
+	if v.Choice == ROSConsumerASChoiceInvoke || v.Choice == ROSConsumerASChoiceReturnResult || v.Choice == ROSConsumerASChoiceReturnError || v.Choice == ROSConsumerASChoiceReject {
+		encoded, err := ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendDERLinear(encoder)
+			return appendErr
+		})
+		if err != nil {
+			return nil, err
+		}
+		return encoded, nil
 	}
 	switch v.Choice {
 	case ROSConsumerASChoiceInvoke:
@@ -824,19 +959,82 @@ func (v *ROSConsumerAS) MarshalDER() ([]byte, error) {
 }
 
 func (v *ROSConsumerAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
+	if err := v.validateTCAPChoice(); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
-	return nil, nil
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSConsumerAS receiver is nil", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case ROSConsumerASChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("%w: choice ROSConsumerAS: invoke is nil", ber.ErrInvalidValue)
+		}
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
+		_, err := v.Invoke.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		}
+		return nil, nil
+	case ROSConsumerASChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("%w: choice ROSConsumerAS: returnResult is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
+		_, err := v.ReturnResult.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		}
+		return nil, nil
+	case ROSConsumerASChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("%w: choice ROSConsumerAS: returnError is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
+		_, err := v.ReturnError.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		}
+		return nil, nil
+	case ROSConsumerASChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("%w: choice ROSConsumerAS: reject is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
+		_, err := v.Reject.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, nil
+	default:
+		encoded, err := v.MarshalDER()
+		if err != nil {
+			return nil, err
+		}
+		encoder.Append(encoded)
+		return nil, nil
+	}
 }
 
 // UnmarshalBER decodes ROSConsumerAS from BER/DER format.
-func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSConsumerAS destination is nil", ber.ErrInvalidValue)
+func (destination *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil ROSConsumerAS destination")
 	}
+	var next ROSConsumerAS
+
+	v := &next
+
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -971,40 +1169,115 @@ func (v *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 
 // MarshalBER encodes ROSSupplierAS to BER format.
 func (v *ROSSupplierAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
+	linearOptions_ := len(opts) == 0
+	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSupplierAS receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSSupplierAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *ROSSupplierAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		return replayBytes, nil
+	}
+	var encoded []byte
+	var err error
+	if linearOptions_ && ber.CanUseLinearBEREncode(opts) && (v.Choice == ROSSupplierASChoiceInvoke || v.Choice == ROSSupplierASChoiceReturnResult || v.Choice == ROSSupplierASChoiceReturnError || v.Choice == ROSSupplierASChoiceReject) {
+		encoded, err = ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendBERLinear(encoder, opts...)
+			return appendErr
+		})
+	} else {
+		encoded, err = v.marshalBER(opts...)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
+}
+func (v *ROSSupplierAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSSupplierAS receiver is nil", ber.ErrInvalidValue)
+	}
+	if replay, ok := ber.ReplayGeneratedBERNode(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		encoder.Append(replay)
+		return nil, nil
+	}
+	switch v.Choice {
+	case ROSSupplierASChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("%w: choice ROSSupplierAS: invoke is nil", ber.ErrInvalidValue)
+		}
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
+		_, err := v.Invoke.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invoke")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		}
+		return nil, nil
+	case ROSSupplierASChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("%w: choice ROSSupplierAS: returnResult is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
+		_, err := v.ReturnResult.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnResult")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		}
+		return nil, nil
+	case ROSSupplierASChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("%w: choice ROSSupplierAS: returnError is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
+		_, err := v.ReturnError.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnError")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		}
+		return nil, nil
+	case ROSSupplierASChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("%w: choice ROSSupplierAS: reject is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
+		_, err := v.Reject.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "reject")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, nil
+	default:
+		encoded, err := v.marshalBER(opts...)
+		if err != nil {
+			return nil, err
+		}
+		encoder.Append(encoded)
+		return nil, nil
+	}
+}
+func (v *ROSSupplierAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	switch v.Choice {
 	case ROSSupplierASChoiceInvoke:
 		if v.Invoke == nil {
@@ -1072,8 +1345,25 @@ func (v *ROSSupplierAS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 
 // MarshalDER encodes ROSSupplierAS to DER format.
 func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSupplierAS receiver is nil", ber.ErrInvalidValue)
+	}
+	if v.Choice == ROSSupplierASChoiceInvoke || v.Choice == ROSSupplierASChoiceReturnResult || v.Choice == ROSSupplierASChoiceReturnError || v.Choice == ROSSupplierASChoiceReject {
+		encoded, err := ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendDERLinear(encoder)
+			return appendErr
+		})
+		if err != nil {
+			return nil, err
+		}
+		return encoded, nil
 	}
 	switch v.Choice {
 	case ROSSupplierASChoiceInvoke:
@@ -1169,19 +1459,82 @@ func (v *ROSSupplierAS) MarshalDER() ([]byte, error) {
 }
 
 func (v *ROSSupplierAS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
+	if err := v.validateTCAPChoice(); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
-	return nil, nil
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROSSupplierAS receiver is nil", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case ROSSupplierASChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("%w: choice ROSSupplierAS: invoke is nil", ber.ErrInvalidValue)
+		}
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
+		_, err := v.Invoke.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		}
+		return nil, nil
+	case ROSSupplierASChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("%w: choice ROSSupplierAS: returnResult is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
+		_, err := v.ReturnResult.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		}
+		return nil, nil
+	case ROSSupplierASChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("%w: choice ROSSupplierAS: returnError is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
+		_, err := v.ReturnError.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		}
+		return nil, nil
+	case ROSSupplierASChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("%w: choice ROSSupplierAS: reject is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
+		_, err := v.Reject.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, nil
+	default:
+		encoded, err := v.MarshalDER()
+		if err != nil {
+			return nil, err
+		}
+		encoder.Append(encoded)
+		return nil, nil
+	}
 }
 
 // UnmarshalBER decodes ROSSupplierAS from BER/DER format.
-func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSSupplierAS destination is nil", ber.ErrInvalidValue)
+func (destination *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil ROSSupplierAS destination")
 	}
+	var next ROSSupplierAS
+
+	v := &next
+
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1313,1086 +1666,351 @@ func (v *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	}
 	return nil
 }
-
-// MarshalBER encodes ROSSingleASInvokeLinkedId to BER format.
-func (v *ROSSingleASInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+func (v *ROSConsumerAS) validateTCAPChoice() error {
 	if v == nil {
-		return nil, fmt.Errorf("%w: ROSSingleASInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
+		return fmt.Errorf("nil ROSConsumerAS CHOICE")
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
+	count := 0
+	if v.Invoke != nil {
+		count++
 	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
+	if v.ReturnResult != nil {
+		count++
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
+	if v.ReturnError != nil {
+		count++
 	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
+	if v.Reject != nil {
+		count++
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSSingleASInvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *ROSSingleASInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
-	if err := ber.ValidateEncodeOptions(opts...); err != nil {
-		return nil, err
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
 	}
 	switch v.Choice {
-	case ROSSingleASInvokeLinkedIdChoicePresent:
-		if v.Present == nil {
-			return nil, fmt.Errorf("%w: choice ROSSingleASInvokeLinkedId: present is nil", ber.ErrInvalidValue)
+	case 1:
+		if v.Invoke == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
-		if encodeErr_enc_0 != nil {
-			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
+	case 2:
+		if v.ReturnResult == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
-		if tagErr_enc_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_0, "present", "encoding", false)
+	case 3:
+		if v.ReturnError == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		enc_0 = retagged_enc_0
-		return enc_0, nil
-	case ROSSingleASInvokeLinkedIdChoiceAbsent:
-		enc_1 := ber.EncodeNull()
-		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
-		if tagErr_enc_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_1, "absent", "encoding", false)
+	case 4:
+		if v.Reject == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		enc_1 = retagged_enc_1
-		return enc_1, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for ROSSingleASInvokeLinkedId", v.Choice)
-	}
-}
-
-// MarshalDER encodes ROSSingleASInvokeLinkedId to DER format.
-func (v *ROSSingleASInvokeLinkedId) MarshalDER() ([]byte, error) {
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSSingleASInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
-	}
-	encoded, err := v.marshalBER()
-	if err != nil {
-		return nil, err
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		switch v.Choice {
-		case ROSSingleASInvokeLinkedIdChoicePresent:
-			return nil, qualifyBERError(err, "present", "encoding", true)
-		case ROSSingleASInvokeLinkedIdChoiceAbsent:
-			return nil, qualifyBERError(err, "absent", "encoding", true)
-		}
-		return nil, fmt.Errorf("%s: %w", "encoding ROSSingleASInvokeLinkedId as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-
-func (v *ROSSingleASInvokeLinkedId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// UnmarshalBER decodes ROSSingleASInvokeLinkedId from BER/DER format.
-func (v *ROSSingleASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSSingleASInvokeLinkedId destination is nil", ber.ErrInvalidValue)
-	}
-	opts, commitReports := ber.StageDecodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSSingleASInvokeLinkedId, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
-	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSSingleASInvokeLinkedId
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
-	}
-	data, opts = preparedData, preparedOptions
-	*v = ROSSingleASInvokeLinkedId{}
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for ROSSingleASInvokeLinkedId CHOICE")
-	}
-	choiceData := data
-	peekTag, peekErr := ber.PeekTag(choiceData)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ROSSingleASInvokeLinkedId: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
-	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSSingleASInvokeLinkedId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
-	}
-	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleASInvokeLinkedId", Cause: ber.ErrExtraData}
-	}
-
-	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSingleASInvokeLinkedId.present", "decoding", false)
-	}
-	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSingleASInvokeLinkedId.absent", "decoding", false)
-	}
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
-		v.Choice = ROSSingleASInvokeLinkedIdChoicePresent
-		ber.MarkPreflightTarget(opts, "present", choiceData)
-		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
-		if tlvErr != nil {
-			return qualifyBERError(tlvErr, "present", "decoding", false)
-		}
-		_ = rawVal
-		decVal, intErr := ber.DecodeBigIntValue(rawVal)
-		if intErr != nil {
-			return qualifyBERError(intErr, "present", "decoding", false)
-		}
-		v.Present = decVal
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
-		v.Choice = ROSSingleASInvokeLinkedIdChoiceAbsent
-		ber.MarkPreflightTarget(opts, "absent", choiceData)
-		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
-		if tlvErr != nil {
-			return qualifyBERError(tlvErr, "absent", "decoding", false)
-		}
-		_ = rawVal
-		if len(rawVal) != 0 {
-			return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal)), "absent", "decoding", false)
-		}
-		v.Absent = &struct{}{}
-	} else {
-		return fmt.Errorf("unknown tag %s for ROSSingleASInvokeLinkedId CHOICE", peekTag)
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
 	}
 	return nil
 }
-
-// MarshalBER encodes ROSSingleASReturnResultResult to BER format.
-func (v *ROSSingleASReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+func (v *ROSSingleAS) validateTCAPChoice() error {
 	if v == nil {
-		return nil, fmt.Errorf("%w: ROSSingleASReturnResultResult receiver is nil", ber.ErrInvalidValue)
+		return fmt.Errorf("nil ROSSingleAS CHOICE")
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
+	count := 0
+	if v.Invoke != nil {
+		count++
 	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
+	if v.ReturnResult != nil {
+		count++
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
+	if v.ReturnError != nil {
+		count++
 	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
+	if v.Reject != nil {
+		count++
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSSingleASReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
-	if err := ber.ValidateEncodeOptions(opts...); err != nil {
-		return nil, err
-	}
-	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
-	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", false)
-	}
-	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_opcode)
-	children = append(children, enc_opcode...)
-	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
-		return nil, qualifyBERError(err, "result", "encoding", false)
-	}
-	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", false)
-	}
-	children = append(children, enc_result...)
-	ber.RecordGeneratedBERContainer(opts, children)
-	return ber.EncodeSequence(children)
-}
-func (v *ROSSingleASReturnResultResult) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// MarshalDER encodes ROSSingleASReturnResultResult to DER format.
-func (v *ROSSingleASReturnResultResult) MarshalDER() ([]byte, error) {
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSSingleASReturnResultResult receiver is nil", ber.ErrInvalidValue)
-	}
-	var children []byte
-	enc_opcode, err := v.Opcode.MarshalDER()
-	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", true)
-	}
-	children = append(children, enc_opcode...)
-	enc_result := v.Result.Bytes
-	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
-	}
-	children = append(children, enc_result...)
-	encoded, setErr := ber.EncodeSequence(children)
-	if setErr != nil {
-		return nil, setErr
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ROSSingleASReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-func (v *ROSSingleASReturnResultResult) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// UnmarshalBER decodes ROSSingleASReturnResultResult from BER/DER format.
-func (v *ROSSingleASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSSingleASReturnResultResult destination is nil", ber.ErrInvalidValue)
-	}
-	opts, commitReports := ber.StageDecodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
-	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSSingleASReturnResultResult
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
-	}
-	data, opts = preparedData, preparedOptions
-	*v = ROSSingleASReturnResultResult{}
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSSingleASReturnResultResult, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	content, total, err := ber.DecodeSequenceContent(data, opts...)
-	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSSingleASReturnResultResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSSingleASReturnResultResult", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode opcode
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
-	}
-	{
-		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
-		// Decode nested CHOICE (Code)
-		_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
-		if tlvErr_opcode != nil {
-			return qualifyBERError(tlvErr_opcode, "opcode", "decoding", false)
-		}
-		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
-			return qualifyBERError(unmErr, "opcode", "decoding", false)
-		}
-		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		offset += n_opcode
-	}
-	// Decode result
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field result")
-	}
-	{
-		ber.MarkPreflightTarget(opts, "result", content[offset:])
-		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
-		if tlvErr_result != nil {
-			return qualifyBERError(tlvErr_result, "result", "decoding", false)
-		}
-		ber.MarkPreflightOpaque(opts, "result", content[offset:], n_result)
-		if offset < 0 || offset >
-			len(content) || n_result < 0 || n_result > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		v.Result = runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
-		if offset < 0 || offset >
-			len(content) || n_result < 0 || n_result > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		offset += n_result
-	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ROSSingleASReturnResultResult", Cause: ber.ErrExtraData}
-	}
-	return nil
-}
-
-// MarshalBER encodes ROSConsumerASInvokeLinkedId to BER format.
-func (v *ROSConsumerASInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSConsumerASInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
-	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSConsumerASInvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *ROSConsumerASInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
-	if err := ber.ValidateEncodeOptions(opts...); err != nil {
-		return nil, err
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
 	}
 	switch v.Choice {
-	case ROSConsumerASInvokeLinkedIdChoicePresent:
-		if v.Present == nil {
-			return nil, fmt.Errorf("%w: choice ROSConsumerASInvokeLinkedId: present is nil", ber.ErrInvalidValue)
+	case 1:
+		if v.Invoke == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
-		if encodeErr_enc_0 != nil {
-			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
+	case 2:
+		if v.ReturnResult == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
-		if tagErr_enc_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_0, "present", "encoding", false)
+	case 3:
+		if v.ReturnError == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		enc_0 = retagged_enc_0
-		return enc_0, nil
-	case ROSConsumerASInvokeLinkedIdChoiceAbsent:
-		enc_1 := ber.EncodeNull()
-		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
-		if tagErr_enc_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_1, "absent", "encoding", false)
+	case 4:
+		if v.Reject == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		enc_1 = retagged_enc_1
-		return enc_1, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for ROSConsumerASInvokeLinkedId", v.Choice)
-	}
-}
-
-// MarshalDER encodes ROSConsumerASInvokeLinkedId to DER format.
-func (v *ROSConsumerASInvokeLinkedId) MarshalDER() ([]byte, error) {
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSConsumerASInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
-	}
-	encoded, err := v.marshalBER()
-	if err != nil {
-		return nil, err
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		switch v.Choice {
-		case ROSConsumerASInvokeLinkedIdChoicePresent:
-			return nil, qualifyBERError(err, "present", "encoding", true)
-		case ROSConsumerASInvokeLinkedIdChoiceAbsent:
-			return nil, qualifyBERError(err, "absent", "encoding", true)
-		}
-		return nil, fmt.Errorf("%s: %w", "encoding ROSConsumerASInvokeLinkedId as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-
-func (v *ROSConsumerASInvokeLinkedId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// UnmarshalBER decodes ROSConsumerASInvokeLinkedId from BER/DER format.
-func (v *ROSConsumerASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSConsumerASInvokeLinkedId destination is nil", ber.ErrInvalidValue)
-	}
-	opts, commitReports := ber.StageDecodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSConsumerASInvokeLinkedId, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
-	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSConsumerASInvokeLinkedId
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
-	}
-	data, opts = preparedData, preparedOptions
-	*v = ROSConsumerASInvokeLinkedId{}
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for ROSConsumerASInvokeLinkedId CHOICE")
-	}
-	choiceData := data
-	peekTag, peekErr := ber.PeekTag(choiceData)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ROSConsumerASInvokeLinkedId: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
-	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSConsumerASInvokeLinkedId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
-	}
-	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerASInvokeLinkedId", Cause: ber.ErrExtraData}
-	}
-
-	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSConsumerASInvokeLinkedId.present", "decoding", false)
-	}
-	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSConsumerASInvokeLinkedId.absent", "decoding", false)
-	}
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
-		v.Choice = ROSConsumerASInvokeLinkedIdChoicePresent
-		ber.MarkPreflightTarget(opts, "present", choiceData)
-		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
-		if tlvErr != nil {
-			return qualifyBERError(tlvErr, "present", "decoding", false)
-		}
-		_ = rawVal
-		decVal, intErr := ber.DecodeBigIntValue(rawVal)
-		if intErr != nil {
-			return qualifyBERError(intErr, "present", "decoding", false)
-		}
-		v.Present = decVal
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
-		v.Choice = ROSConsumerASInvokeLinkedIdChoiceAbsent
-		ber.MarkPreflightTarget(opts, "absent", choiceData)
-		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
-		if tlvErr != nil {
-			return qualifyBERError(tlvErr, "absent", "decoding", false)
-		}
-		_ = rawVal
-		if len(rawVal) != 0 {
-			return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal)), "absent", "decoding", false)
-		}
-		v.Absent = &struct{}{}
-	} else {
-		return fmt.Errorf("unknown tag %s for ROSConsumerASInvokeLinkedId CHOICE", peekTag)
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
 	}
 	return nil
 }
-
-// MarshalBER encodes ROSConsumerASReturnResultResult to BER format.
-func (v *ROSConsumerASReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+func (v *ROSSupplierAS) validateTCAPChoice() error {
 	if v == nil {
-		return nil, fmt.Errorf("%w: ROSConsumerASReturnResultResult receiver is nil", ber.ErrInvalidValue)
+		return fmt.Errorf("nil ROSSupplierAS CHOICE")
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
+	count := 0
+	if v.Invoke != nil {
+		count++
 	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
+	if v.ReturnResult != nil {
+		count++
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
+	if v.ReturnError != nil {
+		count++
 	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
+	if v.Reject != nil {
+		count++
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSConsumerASReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
-	if err := ber.ValidateEncodeOptions(opts...); err != nil {
-		return nil, err
-	}
-	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
-	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", false)
-	}
-	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_opcode)
-	children = append(children, enc_opcode...)
-	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
-		return nil, qualifyBERError(err, "result", "encoding", false)
-	}
-	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", false)
-	}
-	children = append(children, enc_result...)
-	ber.RecordGeneratedBERContainer(opts, children)
-	return ber.EncodeSequence(children)
-}
-func (v *ROSConsumerASReturnResultResult) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// MarshalDER encodes ROSConsumerASReturnResultResult to DER format.
-func (v *ROSConsumerASReturnResultResult) MarshalDER() ([]byte, error) {
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSConsumerASReturnResultResult receiver is nil", ber.ErrInvalidValue)
-	}
-	var children []byte
-	enc_opcode, err := v.Opcode.MarshalDER()
-	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", true)
-	}
-	children = append(children, enc_opcode...)
-	enc_result := v.Result.Bytes
-	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
-	}
-	children = append(children, enc_result...)
-	encoded, setErr := ber.EncodeSequence(children)
-	if setErr != nil {
-		return nil, setErr
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ROSConsumerASReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-func (v *ROSConsumerASReturnResultResult) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// UnmarshalBER decodes ROSConsumerASReturnResultResult from BER/DER format.
-func (v *ROSConsumerASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSConsumerASReturnResultResult destination is nil", ber.ErrInvalidValue)
-	}
-	opts, commitReports := ber.StageDecodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
-	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSConsumerASReturnResultResult
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
-	}
-	data, opts = preparedData, preparedOptions
-	*v = ROSConsumerASReturnResultResult{}
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSConsumerASReturnResultResult, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	content, total, err := ber.DecodeSequenceContent(data, opts...)
-	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSConsumerASReturnResultResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSConsumerASReturnResultResult", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode opcode
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
-	}
-	{
-		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
-		// Decode nested CHOICE (Code)
-		_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
-		if tlvErr_opcode != nil {
-			return qualifyBERError(tlvErr_opcode, "opcode", "decoding", false)
-		}
-		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
-			return qualifyBERError(unmErr, "opcode", "decoding", false)
-		}
-		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		offset += n_opcode
-	}
-	// Decode result
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field result")
-	}
-	{
-		ber.MarkPreflightTarget(opts, "result", content[offset:])
-		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
-		if tlvErr_result != nil {
-			return qualifyBERError(tlvErr_result, "result", "decoding", false)
-		}
-		ber.MarkPreflightOpaque(opts, "result", content[offset:], n_result)
-		if offset < 0 || offset >
-			len(content) || n_result < 0 || n_result > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		v.Result = runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
-		if offset < 0 || offset >
-			len(content) || n_result < 0 || n_result > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		offset += n_result
-	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ROSConsumerASReturnResultResult", Cause: ber.ErrExtraData}
-	}
-	return nil
-}
-
-// MarshalBER encodes ROSSupplierASInvokeLinkedId to BER format.
-func (v *ROSSupplierASInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSSupplierASInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
-	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSSupplierASInvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *ROSSupplierASInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
-	if err := ber.ValidateEncodeOptions(opts...); err != nil {
-		return nil, err
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
 	}
 	switch v.Choice {
-	case ROSSupplierASInvokeLinkedIdChoicePresent:
-		if v.Present == nil {
-			return nil, fmt.Errorf("%w: choice ROSSupplierASInvokeLinkedId: present is nil", ber.ErrInvalidValue)
+	case 1:
+		if v.Invoke == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
-		if encodeErr_enc_0 != nil {
-			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
+	case 2:
+		if v.ReturnResult == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
-		if tagErr_enc_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_0, "present", "encoding", false)
+	case 3:
+		if v.ReturnError == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		enc_0 = retagged_enc_0
-		return enc_0, nil
-	case ROSSupplierASInvokeLinkedIdChoiceAbsent:
-		enc_1 := ber.EncodeNull()
-		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
-		if tagErr_enc_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_1, "absent", "encoding", false)
+	case 4:
+		if v.Reject == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
 		}
-		enc_1 = retagged_enc_1
-		return enc_1, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for ROSSupplierASInvokeLinkedId", v.Choice)
-	}
-}
-
-// MarshalDER encodes ROSSupplierASInvokeLinkedId to DER format.
-func (v *ROSSupplierASInvokeLinkedId) MarshalDER() ([]byte, error) {
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSSupplierASInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
-	}
-	encoded, err := v.marshalBER()
-	if err != nil {
-		return nil, err
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		switch v.Choice {
-		case ROSSupplierASInvokeLinkedIdChoicePresent:
-			return nil, qualifyBERError(err, "present", "encoding", true)
-		case ROSSupplierASInvokeLinkedIdChoiceAbsent:
-			return nil, qualifyBERError(err, "absent", "encoding", true)
-		}
-		return nil, fmt.Errorf("%s: %w", "encoding ROSSupplierASInvokeLinkedId as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-
-func (v *ROSSupplierASInvokeLinkedId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// UnmarshalBER decodes ROSSupplierASInvokeLinkedId from BER/DER format.
-func (v *ROSSupplierASInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSSupplierASInvokeLinkedId destination is nil", ber.ErrInvalidValue)
-	}
-	opts, commitReports := ber.StageDecodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSSupplierASInvokeLinkedId, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
-	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSSupplierASInvokeLinkedId
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
-	}
-	data, opts = preparedData, preparedOptions
-	*v = ROSSupplierASInvokeLinkedId{}
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for ROSSupplierASInvokeLinkedId CHOICE")
-	}
-	choiceData := data
-	peekTag, peekErr := ber.PeekTag(choiceData)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ROSSupplierASInvokeLinkedId: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
-	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSSupplierASInvokeLinkedId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
-	}
-	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierASInvokeLinkedId", Cause: ber.ErrExtraData}
-	}
-
-	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSupplierASInvokeLinkedId.present", "decoding", false)
-	}
-	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSSupplierASInvokeLinkedId.absent", "decoding", false)
-	}
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
-		v.Choice = ROSSupplierASInvokeLinkedIdChoicePresent
-		ber.MarkPreflightTarget(opts, "present", choiceData)
-		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
-		if tlvErr != nil {
-			return qualifyBERError(tlvErr, "present", "decoding", false)
-		}
-		_ = rawVal
-		decVal, intErr := ber.DecodeBigIntValue(rawVal)
-		if intErr != nil {
-			return qualifyBERError(intErr, "present", "decoding", false)
-		}
-		v.Present = decVal
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
-		v.Choice = ROSSupplierASInvokeLinkedIdChoiceAbsent
-		ber.MarkPreflightTarget(opts, "absent", choiceData)
-		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
-		if tlvErr != nil {
-			return qualifyBERError(tlvErr, "absent", "decoding", false)
-		}
-		_ = rawVal
-		if len(rawVal) != 0 {
-			return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal)), "absent", "decoding", false)
-		}
-		v.Absent = &struct{}{}
-	} else {
-		return fmt.Errorf("unknown tag %s for ROSSupplierASInvokeLinkedId CHOICE", peekTag)
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
 	}
 	return nil
 }
-
-// MarshalBER encodes ROSSupplierASReturnResultResult to BER format.
-func (v *ROSSupplierASReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+func (v *ROSConsumerAS) validateTCAPStructure() error {
 	if v == nil {
-		return nil, fmt.Errorf("%w: ROSSupplierASReturnResultResult receiver is nil", ber.ErrInvalidValue)
+		return nil
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
 	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
+	if err := validateTCAPStructureValue(v.Invoke); err != nil {
+		return err
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
+	if err := validateTCAPStructureValue(v.ReturnResult); err != nil {
+		return err
 	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
+	if err := validateTCAPStructureValue(v.ReturnError); err != nil {
+		return err
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSSupplierASReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
-	if err := ber.ValidateEncodeOptions(opts...); err != nil {
-		return nil, err
-	}
-	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
-	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", false)
-	}
-	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_opcode)
-	children = append(children, enc_opcode...)
-	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
-		return nil, qualifyBERError(err, "result", "encoding", false)
-	}
-	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", false)
-	}
-	children = append(children, enc_result...)
-	ber.RecordGeneratedBERContainer(opts, children)
-	return ber.EncodeSequence(children)
-}
-func (v *ROSSupplierASReturnResultResult) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// MarshalDER encodes ROSSupplierASReturnResultResult to DER format.
-func (v *ROSSupplierASReturnResultResult) MarshalDER() ([]byte, error) {
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSSupplierASReturnResultResult receiver is nil", ber.ErrInvalidValue)
-	}
-	var children []byte
-	enc_opcode, err := v.Opcode.MarshalDER()
-	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", true)
-	}
-	children = append(children, enc_opcode...)
-	enc_result := v.Result.Bytes
-	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
-	}
-	children = append(children, enc_result...)
-	encoded, setErr := ber.EncodeSequence(children)
-	if setErr != nil {
-		return nil, setErr
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ROSSupplierASReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-func (v *ROSSupplierASReturnResultResult) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// UnmarshalBER decodes ROSSupplierASReturnResultResult from BER/DER format.
-func (v *ROSSupplierASReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSSupplierASReturnResultResult destination is nil", ber.ErrInvalidValue)
-	}
-	opts, commitReports := ber.StageDecodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
-	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSSupplierASReturnResultResult
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
-	}
-	data, opts = preparedData, preparedOptions
-	*v = ROSSupplierASReturnResultResult{}
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSSupplierASReturnResultResult, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	content, total, err := ber.DecodeSequenceContent(data, opts...)
-	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSSupplierASReturnResultResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSSupplierASReturnResultResult", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode opcode
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
-	}
-	{
-		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
-		// Decode nested CHOICE (Code)
-		_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
-		if tlvErr_opcode != nil {
-			return qualifyBERError(tlvErr_opcode, "opcode", "decoding", false)
-		}
-		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
-			return qualifyBERError(unmErr, "opcode", "decoding", false)
-		}
-		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		offset += n_opcode
-	}
-	// Decode result
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field result")
-	}
-	{
-		ber.MarkPreflightTarget(opts, "result", content[offset:])
-		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
-		if tlvErr_result != nil {
-			return qualifyBERError(tlvErr_result, "result", "decoding", false)
-		}
-		ber.MarkPreflightOpaque(opts, "result", content[offset:], n_result)
-		if offset < 0 || offset >
-			len(content) || n_result < 0 || n_result > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		v.Result = runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
-		if offset < 0 || offset >
-			len(content) || n_result < 0 || n_result > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		offset += n_result
-	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ROSSupplierASReturnResultResult", Cause: ber.ErrExtraData}
+	if err := validateTCAPStructureValue(v.Reject); err != nil {
+		return err
 	}
 	return nil
+}
+func (v *ROSConsumerAS) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(v.Invoke) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnResult) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnError) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.Reject) {
+		return true
+	}
+	return false
+}
+func (v ROSConsumerAS) equalTCAPValue(other any) bool {
+	right, ok := other.(ROSConsumerAS)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.Invoke == nil) != (right.Invoke == nil) {
+		return false
+	}
+	if v.Invoke != nil && !equalTCAPValue(*v.Invoke, *right.Invoke) {
+		return false
+	}
+	if (v.ReturnResult == nil) != (right.ReturnResult == nil) {
+		return false
+	}
+	if v.ReturnResult != nil && !equalTCAPValue(*v.ReturnResult, *right.ReturnResult) {
+		return false
+	}
+	if (v.ReturnError == nil) != (right.ReturnError == nil) {
+		return false
+	}
+	if v.ReturnError != nil && !equalTCAPValue(*v.ReturnError, *right.ReturnError) {
+		return false
+	}
+	if (v.Reject == nil) != (right.Reject == nil) {
+		return false
+	}
+	if v.Reject != nil && !equalTCAPValue(*v.Reject, *right.Reject) {
+		return false
+	}
+	return true
+}
+func (v *ROSSingleAS) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.Invoke); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.ReturnResult); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.ReturnError); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.Reject); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *ROSSingleAS) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(v.Invoke) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnResult) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnError) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.Reject) {
+		return true
+	}
+	return false
+}
+func (v ROSSingleAS) equalTCAPValue(other any) bool {
+	right, ok := other.(ROSSingleAS)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.Invoke == nil) != (right.Invoke == nil) {
+		return false
+	}
+	if v.Invoke != nil && !equalTCAPValue(*v.Invoke, *right.Invoke) {
+		return false
+	}
+	if (v.ReturnResult == nil) != (right.ReturnResult == nil) {
+		return false
+	}
+	if v.ReturnResult != nil && !equalTCAPValue(*v.ReturnResult, *right.ReturnResult) {
+		return false
+	}
+	if (v.ReturnError == nil) != (right.ReturnError == nil) {
+		return false
+	}
+	if v.ReturnError != nil && !equalTCAPValue(*v.ReturnError, *right.ReturnError) {
+		return false
+	}
+	if (v.Reject == nil) != (right.Reject == nil) {
+		return false
+	}
+	if v.Reject != nil && !equalTCAPValue(*v.Reject, *right.Reject) {
+		return false
+	}
+	return true
+}
+func (v *ROSSupplierAS) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.Invoke); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.ReturnResult); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.ReturnError); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.Reject); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *ROSSupplierAS) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(v.Invoke) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnResult) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnError) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.Reject) {
+		return true
+	}
+	return false
+}
+func (v ROSSupplierAS) equalTCAPValue(other any) bool {
+	right, ok := other.(ROSSupplierAS)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.Invoke == nil) != (right.Invoke == nil) {
+		return false
+	}
+	if v.Invoke != nil && !equalTCAPValue(*v.Invoke, *right.Invoke) {
+		return false
+	}
+	if (v.ReturnResult == nil) != (right.ReturnResult == nil) {
+		return false
+	}
+	if v.ReturnResult != nil && !equalTCAPValue(*v.ReturnResult, *right.ReturnResult) {
+		return false
+	}
+	if (v.ReturnError == nil) != (right.ReturnError == nil) {
+		return false
+	}
+	if v.ReturnError != nil && !equalTCAPValue(*v.ReturnError, *right.ReturnError) {
+		return false
+	}
+	if (v.Reject == nil) != (right.Reject == nil) {
+		return false
+	}
+	if v.Reject != nil && !equalTCAPValue(*v.Reject, *right.Reject) {
+		return false
+	}
+	return true
 }

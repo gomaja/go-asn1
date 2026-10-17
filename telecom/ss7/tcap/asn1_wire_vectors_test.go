@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"math/big"
 	"reflect"
 	"strconv"
 	"strings"
@@ -48,6 +49,11 @@ func asn1VectorAssertPath(t *testing.T, value any, path, expectedJSON string) {
 	actual, err := asn1VectorValueAtPath(reflect.ValueOf(value), path)
 	if err != nil {
 		t.Fatal(err)
+	}
+	// Immutable arbitrary-width generated integers expose their abstract value
+	// through BigInt, independently of their public text representation.
+	if integer, ok := actual.(interface{ BigInt() *big.Int }); ok {
+		actual = integer.BigInt()
 	}
 	encoded, err := json.Marshal(actual)
 	if err != nil {
@@ -160,14 +166,15 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 func TestVectorComponentPortionReturnResult(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "6c0fa20d02017f300802012d0403deadbe")
-	decoded, err := UnmarshalBERComponentPortion(input)
+	var decoded ComponentPortion
+	err := decoded.UnmarshalBER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
 	asn1VectorAssertPath(t, decoded, "[0].Choice", "1")
 	asn1VectorAssertPath(t, decoded, "[0].BasicROS.Choice", "2")
 	asn1VectorAssertPath(t, decoded, "[0].BasicROS.ReturnResult.InvokeId.Choice", "1")
-	wire, err := MarshalBERComponentPortion(decoded)
+	wire, err := decoded.MarshalBER()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -220,25 +227,18 @@ func TestVectorBeginIndefiniteComponentPortion(t *testing.T) {
 	}
 }
 
-// TestVectorBeginDialogueExplicitExternal verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin dialoguePortion [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1.
+// TestVectorBeginDialogueExplicitExternal verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin dialoguePortion [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1; Q.773 Annex A DialoguePDUs.AARQ-apdu requires application-context-name.
 // Regression: go-asn1-v0.5.0.tcap.begin-dialogue-explicit-external
 func TestVectorBeginDialogueExplicitExternal(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "30144801016b0f280d060700118605010101a0026000")
 	var decoded Begin
 	err := decoded.UnmarshalBER(input)
-	if err != nil {
-		t.Fatal(err)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
 	}
-	asn1VectorAssertPath(t, decoded, "Otid", "\"AQ==\"")
-	asn1VectorAssertPath(t, decoded, "DialoguePortion.Encoding", "1")
-	asn1VectorAssertPath(t, decoded, "DialoguePortion.SingleASN1Type.Bytes", "\"YAA=\"")
-	wire, err := decoded.MarshalBER()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !bytes.Equal(wire, input) {
-		t.Fatalf("round trip = %x, want %x", wire, input)
+	if !strings.Contains(err.Error(), "missing required field application-context-name") {
+		t.Fatalf("decode error = %q, want substring %q", err, "missing required field application-context-name")
 	}
 }
 
@@ -277,25 +277,18 @@ func TestVectorAbortReasonPAbortApplicationTag(t *testing.T) {
 	}
 }
 
-// TestVectorAbortReasonUAbortApplicationTag verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Abort-reason u-abortCause [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1.
+// TestVectorAbortReasonUAbortApplicationTag verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Abort-reason u-abortCause [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1; Q.773 Annex A DialoguePDUs.AARQ-apdu requires application-context-name.
 // Regression: go-asn1-v0.5.0.tcap.abort-reason-u-abort-application-tag
 func TestVectorAbortReasonUAbortApplicationTag(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "6b0f280d060700118605010101a0026000")
 	var decoded AbortReason
 	err := decoded.UnmarshalBER(input)
-	if err != nil {
-		t.Fatal(err)
+	if err == nil {
+		t.Fatal("decode succeeded, want error")
 	}
-	asn1VectorAssertPath(t, decoded, "Choice", "2")
-	asn1VectorAssertPath(t, decoded, "UAbortCause.Encoding", "1")
-	asn1VectorAssertPath(t, decoded, "UAbortCause.SingleASN1Type.Bytes", "\"YAA=\"")
-	wire, err := decoded.MarshalBER()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !bytes.Equal(wire, input) {
-		t.Fatalf("round trip = %x, want %x", wire, input)
+	if !strings.Contains(err.Error(), "missing required field application-context-name") {
+		t.Fatalf("decode error = %q, want substring %q", err, "missing required field application-context-name")
 	}
 }
 
@@ -318,7 +311,8 @@ func TestVectorAbortReasonPrimitiveSingleAsn1TypeRejected(t *testing.T) {
 func TestVectorComponentPortionEmptyRejected(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "6c00")
-	_, err := UnmarshalBERComponentPortion(input)
+	var decoded ComponentPortion
+	err := decoded.UnmarshalBER(input)
 	if err == nil {
 		t.Fatal("decode succeeded, want error")
 	}
@@ -332,7 +326,8 @@ func TestVectorComponentPortionEmptyRejected(t *testing.T) {
 func TestVectorComponentPortionUniversalSequenceRejected(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "3000")
-	_, err := UnmarshalBERComponentPortion(input)
+	var decoded ComponentPortion
+	err := decoded.UnmarshalBER(input)
 	if err == nil {
 		t.Fatal("decode succeeded, want error")
 	}
@@ -341,12 +336,51 @@ func TestVectorComponentPortionUniversalSequenceRejected(t *testing.T) {
 	}
 }
 
+// TestVectorBeginDialogueExplicitExternalTyped verifies ITU-T Q.773 (06/1997) Annex A DialoguePDUs.AARQ-apdu mandatory application-context-name and TCAPMessages.Begin; X.690 (02/2021) 8.18.1.
+func TestVectorBeginDialogueExplicitExternalTyped(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "301a4801016b152813060700118605010101a0086006a10406022a03")
+	var decoded Begin
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "Otid", "\"AQ==\"")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
+// TestVectorAbortReasonUAbortApplicationTagTyped verifies ITU-T Q.773 (06/1997) Annex A DialoguePDUs.AARQ-apdu mandatory application-context-name and TCAPMessages.Abort-reason; X.690 (02/2021) 8.18.1.
+func TestVectorAbortReasonUAbortApplicationTagTyped(t *testing.T) {
+	t.Parallel()
+	input := asn1VectorHex(t, "6b152813060700118605010101a0086006a10406022a03")
+	var decoded AbortReason
+	err := decoded.UnmarshalBER(input)
+	if err != nil {
+		t.Fatal(err)
+	}
+	asn1VectorAssertPath(t, decoded, "Choice", "2")
+	wire, err := decoded.MarshalBER()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !bytes.Equal(wire, input) {
+		t.Fatalf("round trip = %x, want %x", wire, input)
+	}
+}
+
 func FuzzBERComponentPortion(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("6c0fa20d02017f300802012d0403deadbe"))
 	f.Add(asn1VectorHexForFuzz("6c00"))
 	f.Add(asn1VectorHexForFuzz("3000"))
 	f.Fuzz(func(t *testing.T, input []byte) {
-		_, _ = UnmarshalBERComponentPortion(input)
+		var decoded ComponentPortion
+		_ = decoded.UnmarshalBER(input)
 	})
 }
 
@@ -362,6 +396,7 @@ func FuzzBERTCMessage(f *testing.F) {
 func FuzzBERBegin(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("30144801016b0f280d060700118605010101a0026000"))
 	f.Add(asn1VectorHexForFuzz("30144801016b0f280d06070011860501010180026000"))
+	f.Add(asn1VectorHexForFuzz("301a4801016b152813060700118605010101a0086006a10406022a03"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded Begin
 		_ = decoded.UnmarshalBER(input)
@@ -372,6 +407,7 @@ func FuzzBERAbortReason(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("4a0102"))
 	f.Add(asn1VectorHexForFuzz("6b0f280d060700118605010101a0026000"))
 	f.Add(asn1VectorHexForFuzz("6b0f280d06070011860501010180026000"))
+	f.Add(asn1VectorHexForFuzz("6b152813060700118605010101a0086006a10406022a03"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded AbortReason
 		_ = decoded.UnmarshalBER(input)
