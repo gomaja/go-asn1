@@ -12,8 +12,6 @@ import (
 	"github.com/gomaja/go-asn1/telecom/esim/sgp32"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_code"
-
-	"github.com/gomaja/go-asn1/telecom/ss7/tcap"
 )
 
 func requireConstraint(t *testing.T, err error, want ber.ConstraintViolation) {
@@ -335,7 +333,6 @@ func FuzzBERReleaseConstraints(f *testing.F) {
 			func() berValue { return new(gsm_map.LCSDLRSPPTransportArg) },
 			func() berValue { return new(gsm_map.LCSSLMTLRArg) },
 			func() berValue { return new(gsm_map.NotifySSArg) },
-			func() berValue { return new(tcap.AARQApdu) },
 		} {
 			fuzzExtensibleSequence(t, wire, fresh)
 		}

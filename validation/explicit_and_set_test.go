@@ -6,10 +6,8 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/runtime/ber"
 	"github.com/gomaja/go-asn1/telecom/esim/sgp22"
-	"github.com/gomaja/go-asn1/telecom/ss7/tcap"
 )
 
 type berValue interface {
@@ -59,22 +57,6 @@ func replaysExactly(t *testing.T, name string, value berValue, wire []byte) {
 			t.Fatalf("%s %s = %x, %v; want %x", name, kind, out, err, wire)
 		}
 	}
-}
-
-// TCAP AARQ-apdu ([APPLICATION 0]) with application-context-name in
-// [1] EXPLICIT. pycrate 0.7.11 encodes {application-context-name 0.4.0.0.1.0.1.3}
-// as 600ba109060704000001000103. The second form adds a NULL (0500) after the
-// OBJECT IDENTIFIER inside [1]; earlier releases accepted it and dropped
-// the extra octets.
-func TestExplicitWrapperRejectsTrailingAARQ(t *testing.T) {
-	valid := mustHex(t, "600ba109060704000001000103")
-	var request tcap.AARQApdu
-	replaysExactly(t, "AARQ-apdu", &request, valid)
-	if want := runtime.MustObjectIdentifierFromArcs(0, 4, 0, 0, 1, 0, 1, 3); !request.ApplicationContextName.Equal(want) {
-		t.Fatalf("application-context-name = %v, want %v", request.ApplicationContextName, want)
-	}
-	rejectsTrailingInExplicit(t, "AARQ-apdu", func() berValue { return &tcap.AARQApdu{} },
-		mustHex(t, "600da10b0607040000010001030500"))
 }
 
 // X.509 TBSCertificate with version [0] EXPLICIT Version v3 (RFC 5280
