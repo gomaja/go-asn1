@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/gomaja/go-asn1/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/ber"
 )
 
 // berPathError preserves codec causes and offsets while carrying an ASN.1 path
@@ -73,8 +73,8 @@ func qualifyBERError(err error, segment, phase string, qualifyConstraint bool) e
 	if _, hasPath := err.(interface{ ASN1BERPath() string }); !hasPath {
 		var constraintErr *ber.ConstraintError
 		if errors.As(err, &constraintErr) {
-			// BER checks already receive their full path through child options. DER
-			// has no tolerance options: qualify a copy at each generated boundary.
+			// Ordinary BER paths already carry their full constraint path in options.
+			// Strict builder paths and DER qualify copies at reference boundaries.
 			if !qualifyConstraint || segment == "" {
 				return err
 			}

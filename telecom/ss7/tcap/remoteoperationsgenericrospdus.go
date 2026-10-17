@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/ber"
-	"github.com/gomaja/go-asn1/runtime/tag"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
 )
 
 // Ensure imports are used.
@@ -70,7 +70,7 @@ func NewROSReject(v Reject) ROS {
 
 // Invoke represents the ASN.1 type Invoke (SEQUENCE).
 type Invoke struct {
-	InvokeId       InvokeId          `asn1:""`
+	InvokeId       TCInvokeIdSet     `asn1:""`
 	LinkedId       *InvokeLinkedId   `asn1:",optional" json:"LinkedId,omitempty"`
 	Opcode         Code              `asn1:""`
 	Argument       *runtime.RawValue `asn1:",optional" json:"Argument,omitempty" asn1c:"raw-preserve"`
@@ -94,9 +94,9 @@ type ReturnError struct {
 
 // Reject represents the ASN.1 type Reject (SEQUENCE).
 type Reject struct {
-	InvokeId       InvokeId                `asn1:""`
-	Problem        OperationsRejectProblem `asn1:""`
-	berReplayNode_ *ber.ReplayNode         `asn1:"-" json:"-"`
+	InvokeId       InvokeId            `asn1:""`
+	Problem        RejectProblemChoice `asn1:""`
+	berReplayNode_ *ber.ReplayNode     `asn1:"-" json:"-"`
 }
 
 // GeneralProblem represents the arbitrary-width ASN.1 INTEGER type GeneralProblem with named numbers.
@@ -971,43 +971,6 @@ func NewUnbindUnbindError(v runtime.RawValue) Unbind {
 	}
 }
 
-// ROSInvokeLinkedId choice constants.
-const (
-	ROSInvokeLinkedIdChoicePresent = 1
-	ROSInvokeLinkedIdChoiceAbsent  = 2
-)
-
-// ROSInvokeLinkedId represents the ASN.1 CHOICE type ROS-invoke-linkedId.
-type ROSInvokeLinkedId struct {
-	Choice         int
-	berReplayNode_ *ber.ReplayNode `json:"-"`
-	Present        *big.Int        `json:"Present,omitempty"`
-	Absent         *struct{}       `json:"Absent,omitempty"`
-}
-
-// NewROSInvokeLinkedIdPresent creates a ROSInvokeLinkedId with the present alternative.
-func NewROSInvokeLinkedIdPresent(v *big.Int) ROSInvokeLinkedId {
-	return ROSInvokeLinkedId{
-		Choice:  ROSInvokeLinkedIdChoicePresent,
-		Present: v,
-	}
-}
-
-// NewROSInvokeLinkedIdAbsent creates a ROSInvokeLinkedId with the absent alternative.
-func NewROSInvokeLinkedIdAbsent(v struct{}) ROSInvokeLinkedId {
-	return ROSInvokeLinkedId{
-		Choice: ROSInvokeLinkedIdChoiceAbsent,
-		Absent: &v,
-	}
-}
-
-// ROSReturnResultResult represents the ASN.1 type ROS-returnResult-result (SEQUENCE).
-type ROSReturnResultResult struct {
-	Opcode         Code             `asn1:""`
-	Result         runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
-	berReplayNode_ *ber.ReplayNode  `asn1:"-" json:"-"`
-}
-
 // InvokeLinkedId choice constants.
 const (
 	InvokeLinkedIdChoicePresent = 1
@@ -1045,16 +1008,16 @@ type ReturnResultResult struct {
 	berReplayNode_ *ber.ReplayNode  `asn1:"-" json:"-"`
 }
 
-// OperationsRejectProblem choice constants.
+// RejectProblemChoice choice constants.
 const (
-	OperationsRejectProblemChoiceGeneral      = 1
-	OperationsRejectProblemChoiceInvoke       = 2
-	OperationsRejectProblemChoiceReturnResult = 3
-	OperationsRejectProblemChoiceReturnError  = 4
+	RejectProblemChoiceChoiceGeneral      = 1
+	RejectProblemChoiceChoiceInvoke       = 2
+	RejectProblemChoiceChoiceReturnResult = 3
+	RejectProblemChoiceChoiceReturnError  = 4
 )
 
-// OperationsRejectProblem represents the ASN.1 CHOICE type Reject-problem.
-type OperationsRejectProblem struct {
+// RejectProblemChoice represents the ASN.1 CHOICE type RejectProblemChoice.
+type RejectProblemChoice struct {
 	Choice         int
 	berReplayNode_ *ber.ReplayNode      `json:"-"`
 	General        *GeneralProblem      `json:"General,omitempty"`
@@ -1063,74 +1026,149 @@ type OperationsRejectProblem struct {
 	ReturnError    *ReturnErrorProblem  `json:"ReturnError,omitempty"`
 }
 
-// NewOperationsRejectProblemGeneral creates a OperationsRejectProblem with the general alternative.
-func NewOperationsRejectProblemGeneral(v GeneralProblem) OperationsRejectProblem {
-	return OperationsRejectProblem{
-		Choice:  OperationsRejectProblemChoiceGeneral,
+// NewRejectProblemChoiceGeneral creates a RejectProblemChoice with the general alternative.
+func NewRejectProblemChoiceGeneral(v GeneralProblem) RejectProblemChoice {
+	return RejectProblemChoice{
+		Choice:  RejectProblemChoiceChoiceGeneral,
 		General: &v,
 	}
 }
 
-// NewOperationsRejectProblemInvoke creates a OperationsRejectProblem with the invoke alternative.
-func NewOperationsRejectProblemInvoke(v InvokeProblem) OperationsRejectProblem {
-	return OperationsRejectProblem{
-		Choice: OperationsRejectProblemChoiceInvoke,
+// NewRejectProblemChoiceInvoke creates a RejectProblemChoice with the invoke alternative.
+func NewRejectProblemChoiceInvoke(v InvokeProblem) RejectProblemChoice {
+	return RejectProblemChoice{
+		Choice: RejectProblemChoiceChoiceInvoke,
 		Invoke: &v,
 	}
 }
 
-// NewOperationsRejectProblemReturnResult creates a OperationsRejectProblem with the returnResult alternative.
-func NewOperationsRejectProblemReturnResult(v ReturnResultProblem) OperationsRejectProblem {
-	return OperationsRejectProblem{
-		Choice:       OperationsRejectProblemChoiceReturnResult,
+// NewRejectProblemChoiceReturnResult creates a RejectProblemChoice with the returnResult alternative.
+func NewRejectProblemChoiceReturnResult(v ReturnResultProblem) RejectProblemChoice {
+	return RejectProblemChoice{
+		Choice:       RejectProblemChoiceChoiceReturnResult,
 		ReturnResult: &v,
 	}
 }
 
-// NewOperationsRejectProblemReturnError creates a OperationsRejectProblem with the returnError alternative.
-func NewOperationsRejectProblemReturnError(v ReturnErrorProblem) OperationsRejectProblem {
-	return OperationsRejectProblem{
-		Choice:      OperationsRejectProblemChoiceReturnError,
+// NewRejectProblemChoiceReturnError creates a RejectProblemChoice with the returnError alternative.
+func NewRejectProblemChoiceReturnError(v ReturnErrorProblem) RejectProblemChoice {
+	return RejectProblemChoice{
+		Choice:      RejectProblemChoiceChoiceReturnError,
 		ReturnError: &v,
 	}
 }
 
 // MarshalBER encodes ROS to BER format.
 func (v *ROS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
+	linearOptions_ := len(opts) == 0
+	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *ROS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		return replayBytes, nil
+	}
+	var encoded []byte
+	var err error
+	if linearOptions_ && ber.CanUseLinearBEREncode(opts) && (v.Choice == ROSChoiceInvoke || v.Choice == ROSChoiceReturnResult || v.Choice == ROSChoiceReturnError || v.Choice == ROSChoiceReject) {
+		encoded, err = ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendBERLinear(encoder, opts...)
+			return appendErr
+		})
+	} else {
+		encoded, err = v.marshalBER(opts...)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
+}
+func (v *ROS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
+	}
+	if replay, ok := ber.ReplayGeneratedBERNode(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		encoder.Append(replay)
+		return nil, nil
+	}
+	switch v.Choice {
+	case ROSChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("%w: choice ROS: invoke is nil", ber.ErrInvalidValue)
+		}
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
+		_, err := v.Invoke.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invoke")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		}
+		return nil, nil
+	case ROSChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("%w: choice ROS: returnResult is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
+		_, err := v.ReturnResult.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnResult")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		}
+		return nil, nil
+	case ROSChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("%w: choice ROS: returnError is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
+		_, err := v.ReturnError.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "returnError")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		}
+		return nil, nil
+	case ROSChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("%w: choice ROS: reject is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
+		_, err := v.Reject.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "reject")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, nil
+	default:
+		encoded, err := v.marshalBER(opts...)
+		if err != nil {
+			return nil, err
+		}
+		encoder.Append(encoded)
+		return nil, nil
+	}
+}
+func (v *ROS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	switch v.Choice {
 	case ROSChoiceInvoke:
 		if v.Invoke == nil {
@@ -1198,8 +1236,25 @@ func (v *ROS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 
 // MarshalDER encodes ROS to DER format.
 func (v *ROS) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
+	}
+	if v.Choice == ROSChoiceInvoke || v.Choice == ROSChoiceReturnResult || v.Choice == ROSChoiceReturnError || v.Choice == ROSChoiceReject {
+		encoded, err := ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendDERLinear(encoder)
+			return appendErr
+		})
+		if err != nil {
+			return nil, err
+		}
+		return encoded, nil
 	}
 	switch v.Choice {
 	case ROSChoiceInvoke:
@@ -1295,19 +1350,82 @@ func (v *ROS) MarshalDER() ([]byte, error) {
 }
 
 func (v *ROS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
+	if err := v.validateTCAPChoice(); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
-	return nil, nil
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case ROSChoiceInvoke:
+		if v.Invoke == nil {
+			return nil, fmt.Errorf("%w: choice ROS: invoke is nil", ber.ErrInvalidValue)
+		}
+		if !((v.Invoke.LinkedId == nil) || (v.Invoke.LinkedId != nil)) {
+			return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 1}, false)
+		_, err := v.Invoke.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "invoke", "encoding", true)
+		}
+		return nil, nil
+	case ROSChoiceReturnResult:
+		if v.ReturnResult == nil {
+			return nil, fmt.Errorf("%w: choice ROS: returnResult is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 2}, false)
+		_, err := v.ReturnResult.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnResult", "encoding", true)
+		}
+		return nil, nil
+	case ROSChoiceReturnError:
+		if v.ReturnError == nil {
+			return nil, fmt.Errorf("%w: choice ROS: returnError is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 3}, false)
+		_, err := v.ReturnError.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "returnError", "encoding", true)
+		}
+		return nil, nil
+	case ROSChoiceReject:
+		if v.Reject == nil {
+			return nil, fmt.Errorf("%w: choice ROS: reject is nil", ber.ErrInvalidValue)
+		}
+		encoder.OverrideNextTag(tag.Tag{Class: tag.ClassContextSpecific, Number: 4}, false)
+		_, err := v.Reject.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "reject", "encoding", true)
+		}
+		return nil, nil
+	default:
+		encoded, err := v.MarshalDER()
+		if err != nil {
+			return nil, err
+		}
+		encoder.Append(encoded)
+		return nil, nil
+	}
 }
 
 // UnmarshalBER decodes ROS from BER/DER format.
-func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROS destination is nil", ber.ErrInvalidValue)
+func (destination *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil ROS destination")
 	}
+	var next ROS
+	v := &next
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1437,35 +1555,43 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 
 // MarshalBER encodes Invoke to BER format.
 func (v *Invoke) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
+	linearOptions_ := len(opts) == 0
+	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
-	if !((v.LinkedId == nil) || (v.LinkedId != nil)) {
-		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
 	}
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		return replayBytes, nil
+	}
+	var encoded []byte
+	var err error
+	if linearOptions_ && ber.CanUseLinearBEREncode(opts) {
+		encoded, err = ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendBERLinear(encoder, opts...)
+			return appendErr
+		})
+	} else {
+		encoded, err = v.marshalBER(opts...)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
+}
+func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalBER(ber.ChildEncodeOptions(opts, "invokeId")...)
 	if err != nil {
@@ -1489,7 +1615,9 @@ func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	children = append(children, enc_opcode...)
 	if v.Argument != nil {
 		enc_argument := v.Argument.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := checkTCAPOpaqueReplay(
+
+			enc_argument, opts...); err != nil {
 			return nil, qualifyBERError(err, "argument", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_argument); rawErr != nil {
@@ -1501,70 +1629,123 @@ func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	return ber.EncodeSequence(children)
 }
 func (v *Invoke) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
+	}
+	if replay, ok := ber.ReplayGeneratedBERNode(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		encoder.Append(replay)
+		return nil, nil
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.InvokeId.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invokeId")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "invokeId", "encoding", true)
+		}
+	}
+	if v.LinkedId != nil {
+		{
+			_, err := v.LinkedId.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "linkedId")...)
+			if err != nil {
+				return nil, qualifyBERError(err, "linkedId", "encoding", true)
+			}
+		}
+	}
+	{
+		_, err := v.Opcode.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "opcode")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "opcode", "encoding", true)
+		}
+	}
+	if v.Argument != nil {
+		enc_argument := v.Argument.Bytes
+		if err := checkTCAPOpaqueReplay(
+
+			enc_argument, opts...); err != nil {
+			return nil, qualifyBERError(err, "argument", "encoding", true)
+		}
+		if rawErr := ber.ValidateBEREncodedElement(enc_argument); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "argument", "encoding", true)
+		}
+		encoder.Append(enc_argument)
+	}
+	if err := encoder.End(innerFrame_); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
 	return nil, nil
 }
 
 // MarshalDER encodes Invoke to DER format.
 func (v *Invoke) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
 	}
-	if !((v.LinkedId == nil) || (v.LinkedId != nil)) {
-		return nil, fmt.Errorf("encoding Invoke violates WITH COMPONENTS union")
-	}
-	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalDER()
+	encoded, err := ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+		_, appendErr := v.appendDERLinear(encoder)
+		return appendErr
+	})
 	if err != nil {
-		return nil, qualifyBERError(err, "invokeId", "encoding", true)
+		return nil, err
 	}
-	children = append(children, enc_invokeid...)
-	if v.LinkedId != nil {
-		enc_linkedid, err := v.LinkedId.MarshalDER()
+	return encoded, nil
+}
+func (v *Invoke) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.InvokeId.appendDERLinear(encoder)
 		if err != nil {
-			return nil, qualifyBERError(err, "linkedId", "encoding", true)
+			return nil, qualifyBERError(err, "invokeId", "encoding", true)
 		}
-		children = append(children, enc_linkedid...)
 	}
-	enc_opcode, err := v.Opcode.MarshalDER()
-	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", true)
+	if v.LinkedId != nil {
+		{
+			_, err := v.LinkedId.appendDERLinear(encoder)
+			if err != nil {
+				return nil, qualifyBERError(err, "linkedId", "encoding", true)
+			}
+		}
 	}
-	children = append(children, enc_opcode...)
+	{
+		_, err := v.Opcode.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "opcode", "encoding", true)
+		}
+	}
 	if v.Argument != nil {
 		enc_argument := v.Argument.Bytes
 		if rawErr := ber.ValidateDEREncodedElement(enc_argument); rawErr != nil {
 			return nil, qualifyBERError(rawErr, "argument", "encoding", true)
 		}
-		children = append(children, enc_argument...)
+		encoder.Append(enc_argument)
 	}
-	encoded, setErr := ber.EncodeSequence(children)
-	if setErr != nil {
-		return nil, setErr
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding Invoke as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-func (v *Invoke) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
+	if err := encoder.End(innerFrame_); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
 	return nil, nil
 }
 
 // UnmarshalBER decodes Invoke from BER/DER format.
-func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: Invoke destination is nil", ber.ErrInvalidValue)
+func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil Invoke destination")
 	}
+	var next Invoke
+	v :=
+		&next
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1605,7 +1786,7 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	}
 	{
 		ber.MarkPreflightTarget(opts, "invokeId", content[offset:])
-		// Decode nested CHOICE (InvokeId)
+		// Decode nested CHOICE (TCInvokeIdSet)
 		_, n_invokeid, _, tlvErr_invokeid := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_invokeid != nil {
 			return qualifyBERError(tlvErr_invokeid, "invokeId", "decoding", false)
@@ -1710,40 +1891,52 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Invoke", Cause: ber.ErrExtraData}
 	}
-	if !((v.LinkedId == nil) || (v.LinkedId != nil)) {
-		return fmt.Errorf("decoded Invoke violates WITH COMPONENTS union")
-	}
 	return nil
 }
 
 // MarshalBER encodes ReturnResult to BER format.
 func (v *ReturnResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
+	linearOptions_ := len(opts) == 0
+	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	if err := v.checkTCAPEncodedRules(opts); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ReturnResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		return replayBytes, nil
+	}
+	var encoded []byte
+	var err error
+	if linearOptions_ && ber.CanUseLinearBEREncode(opts) {
+		encoded, err = ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendBERLinear(encoder, opts...)
+			return appendErr
+		})
+	} else {
+		encoded, err = v.marshalBER(opts...)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
+}
+func (v *ReturnResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalBER(ber.ChildEncodeOptions(opts, "invokeId")...)
 	if err != nil {
@@ -1763,55 +1956,102 @@ func (v *ReturnResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	return ber.EncodeSequence(children)
 }
 func (v *ReturnResult) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
+	if err := v.checkTCAPEncodedRules(opts); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
+	}
+	if replay, ok := ber.ReplayGeneratedBERNode(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		encoder.Append(replay)
+		return nil, nil
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.InvokeId.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invokeId")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "invokeId", "encoding", true)
+		}
+	}
+	if v.Result != nil {
+		{
+			_, err := v.Result.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "result")...)
+			if err != nil {
+				return nil, qualifyBERError(err, "result", "encoding", true)
+			}
+		}
+	}
+	if err := encoder.End(innerFrame_); err != nil {
+		return nil, err
+	}
 	return nil, nil
 }
 
 // MarshalDER encodes ReturnResult to DER format.
 func (v *ReturnResult) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+	if err := v.checkTCAPEncodedRules(nil); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
 	}
-	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalDER()
+	encoded, err := ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+		_, appendErr := v.appendDERLinear(encoder)
+		return appendErr
+	})
 	if err != nil {
-		return nil, qualifyBERError(err, "invokeId", "encoding", true)
-	}
-	children = append(children, enc_invokeid...)
-	if v.Result != nil {
-		enc_result, err := v.Result.MarshalDER()
-		if err != nil {
-			return nil, qualifyBERError(err, "result", "encoding", true)
-		}
-		children = append(children, enc_result...)
-	}
-	encoded, setErr := ber.EncodeSequence(children)
-	if setErr != nil {
-		return nil, setErr
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReturnResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, err
 	}
 	return encoded, nil
 }
 func (v *ReturnResult) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
+	if err := v.checkTCAPEncodedRules(nil); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.InvokeId.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "invokeId", "encoding", true)
+		}
+	}
+	if v.Result != nil {
+		{
+			_, err := v.Result.appendDERLinear(encoder)
+			if err != nil {
+				return nil, qualifyBERError(err, "result", "encoding", true)
+			}
+		}
+	}
+	if err := encoder.End(innerFrame_); err != nil {
+		return nil, err
+	}
 	return nil, nil
 }
 
 // UnmarshalBER decodes ReturnResult from BER/DER format.
-func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ReturnResult destination is nil", ber.ErrInvalidValue)
+func (destination *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil ReturnResult destination")
 	}
+	var next ReturnResult
+
+	v := &next
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1903,37 +2143,57 @@ func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "ReturnResult", Cause: ber.ErrExtraData}
 	}
+	if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr != nil {
+		return ruleErr
+
+	}
+
 	return nil
 }
 
 // MarshalBER encodes ReturnError to BER format.
 func (v *ReturnError) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
+	linearOptions_ := len(opts) == 0
+	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	if err := v.checkTCAPEncodedRules(opts); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		return replayBytes, nil
+	}
+	var encoded []byte
+	var err error
+	if linearOptions_ && ber.CanUseLinearBEREncode(opts) {
+		encoded, err = ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendBERLinear(encoder, opts...)
+			return appendErr
+		})
+	} else {
+		encoded, err = v.marshalBER(opts...)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
+}
+func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalBER(ber.ChildEncodeOptions(opts, "invokeId")...)
 	if err != nil {
@@ -1949,7 +2209,9 @@ func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	children = append(children, enc_errcode...)
 	if v.Parameter != nil {
 		enc_parameter := v.Parameter.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := checkTCAPOpaqueReplay(
+
+			enc_parameter, opts...); err != nil {
 			return nil, qualifyBERError(err, "parameter", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_parameter); rawErr != nil {
@@ -1961,60 +2223,117 @@ func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	return ber.EncodeSequence(children)
 }
 func (v *ReturnError) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
+	if err := v.checkTCAPEncodedRules(opts); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
+	}
+	if replay, ok := ber.ReplayGeneratedBERNode(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		encoder.Append(replay)
+		return nil, nil
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.InvokeId.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invokeId")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "invokeId", "encoding", true)
+		}
+	}
+	{
+		_, err := v.Errcode.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "errcode")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "errcode", "encoding", true)
+		}
+	}
+	if v.Parameter != nil {
+		enc_parameter := v.Parameter.Bytes
+		if err := checkTCAPOpaqueReplay(
+
+			enc_parameter, opts...); err != nil {
+			return nil, qualifyBERError(err, "parameter", "encoding", true)
+		}
+		if rawErr := ber.ValidateBEREncodedElement(enc_parameter); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "parameter", "encoding", true)
+		}
+		encoder.Append(enc_parameter)
+	}
+	if err := encoder.End(innerFrame_); err != nil {
+		return nil, err
+	}
 	return nil, nil
 }
 
 // MarshalDER encodes ReturnError to DER format.
 func (v *ReturnError) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+	if err := v.checkTCAPEncodedRules(nil); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
 	}
-	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalDER()
+	encoded, err := ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+		_, appendErr := v.appendDERLinear(encoder)
+		return appendErr
+	})
 	if err != nil {
-		return nil, qualifyBERError(err, "invokeId", "encoding", true)
+		return nil, err
 	}
-	children = append(children, enc_invokeid...)
-	enc_errcode, err := v.Errcode.MarshalDER()
-	if err != nil {
-		return nil, qualifyBERError(err, "errcode", "encoding", true)
+	return encoded, nil
+}
+func (v *ReturnError) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	if err := v.checkTCAPEncodedRules(nil); err != nil {
+		return nil, err
 	}
-	children = append(children, enc_errcode...)
+
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.InvokeId.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "invokeId", "encoding", true)
+		}
+	}
+	{
+		_, err := v.Errcode.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "errcode", "encoding", true)
+		}
+	}
 	if v.Parameter != nil {
 		enc_parameter := v.Parameter.Bytes
 		if rawErr := ber.ValidateDEREncodedElement(enc_parameter); rawErr != nil {
 			return nil, qualifyBERError(rawErr, "parameter", "encoding", true)
 		}
-		children = append(children, enc_parameter...)
+		encoder.Append(enc_parameter)
 	}
-	encoded, setErr := ber.EncodeSequence(children)
-	if setErr != nil {
-		return nil, setErr
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReturnError as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-func (v *ReturnError) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
+	if err := encoder.End(innerFrame_); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
 	return nil, nil
 }
 
 // UnmarshalBER decodes ReturnError from BER/DER format.
-func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ReturnError destination is nil", ber.ErrInvalidValue)
+func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil ReturnError destination")
 	}
+	var next ReturnError
+
+	v := &next
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2124,37 +2443,53 @@ func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "ReturnError", Cause: ber.ErrExtraData}
 	}
+	if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr != nil {
+		return ruleErr
+
+	}
+
 	return nil
 }
 
 // MarshalBER encodes Reject to BER format.
 func (v *Reject) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
+	linearOptions_ := len(opts) == 0
+	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *Reject) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		return replayBytes, nil
+	}
+	var encoded []byte
+	var err error
+	if linearOptions_ && ber.CanUseLinearBEREncode(opts) {
+		encoded, err = ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendBERLinear(encoder, opts...)
+			return appendErr
+		})
+	} else {
+		encoded, err = v.marshalBER(opts...)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
+}
+func (v *Reject) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	enc_invokeid, err := v.InvokeId.MarshalBER(ber.ChildEncodeOptions(opts, "invokeId")...)
 	if err != nil {
@@ -2172,53 +2507,88 @@ func (v *Reject) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	return ber.EncodeSequence(children)
 }
 func (v *Reject) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
+	}
+	if replay, ok := ber.ReplayGeneratedBERNode(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		encoder.Append(replay)
+		return nil, nil
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.InvokeId.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "invokeId")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "invokeId", "encoding", true)
+		}
+	}
+	{
+		_, err := v.Problem.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "problem")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "problem", "encoding", true)
+		}
+	}
+	if err := encoder.End(innerFrame_); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
 	return nil, nil
 }
 
 // MarshalDER encodes Reject to DER format.
 func (v *Reject) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
 	}
-	var children []byte
-	enc_invokeid, err := v.InvokeId.MarshalDER()
+	encoded, err := ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+		_, appendErr := v.appendDERLinear(encoder)
+		return appendErr
+	})
 	if err != nil {
-		return nil, qualifyBERError(err, "invokeId", "encoding", true)
-	}
-	children = append(children, enc_invokeid...)
-	enc_problem, err := v.Problem.MarshalDER()
-	if err != nil {
-		return nil, qualifyBERError(err, "problem", "encoding", true)
-	}
-	children = append(children, enc_problem...)
-	encoded, setErr := ber.EncodeSequence(children)
-	if setErr != nil {
-		return nil, setErr
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding Reject as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, err
 	}
 	return encoded, nil
 }
 func (v *Reject) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
+	if v == nil {
+		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.InvokeId.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "invokeId", "encoding", true)
+		}
+	}
+	{
+		_, err := v.Problem.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "problem", "encoding", true)
+		}
+	}
+	if err := encoder.End(innerFrame_); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
 	return nil, nil
 }
 
 // UnmarshalBER decodes Reject from BER/DER format.
-func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: Reject destination is nil", ber.ErrInvalidValue)
+func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil Reject destination")
 	}
+	var next Reject
+	v :=
+		&next
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2283,7 +2653,7 @@ func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	}
 	{
 		ber.MarkPreflightTarget(opts, "problem", content[offset:])
-		// Decode nested CHOICE (OperationsRejectProblem)
+		// Decode nested CHOICE (RejectProblemChoice)
 		_, n_problem, _, tlvErr_problem := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_problem != nil {
 			return qualifyBERError(tlvErr_problem, "problem", "decoding", false)
@@ -2311,6 +2681,13 @@ func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 
 // MarshalBER encodes InvokeId to BER format.
 func (v *InvokeId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
@@ -2320,20 +2697,24 @@ func (v *InvokeId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 		return v.marshalBER(opts...)
 	}
 	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
 	if replayErr != nil {
 		return nil, replayErr
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
 		return replayBytes, nil
 	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
 }
 func (v *InvokeId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	encoded, err := v.MarshalBER(opts...)
 	if err != nil {
 		return nil, err
@@ -2342,6 +2723,10 @@ func (v *InvokeId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 	return nil, nil
 }
 func (v *InvokeId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -2354,6 +2739,11 @@ func (v *InvokeId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if encodeErr_enc_0 != nil {
 			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
 		}
+		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+				return nil, constraintErr
+			}
+		}
 		return enc_0, nil
 	case InvokeIdChoiceAbsent:
 		enc_1 := ber.EncodeNull()
@@ -2365,6 +2755,13 @@ func (v *InvokeId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 
 // MarshalDER encodes InvokeId to DER format.
 func (v *InvokeId) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeId receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2385,6 +2782,10 @@ func (v *InvokeId) MarshalDER() ([]byte, error) {
 }
 
 func (v *InvokeId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	encoded, err := v.MarshalDER()
 	if err != nil {
 		return nil, err
@@ -2394,10 +2795,20 @@ func (v *InvokeId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 }
 
 // UnmarshalBER decodes InvokeId from BER/DER format.
-func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: InvokeId destination is nil", ber.ErrInvalidValue)
+func (destination *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil InvokeId destination")
 	}
+	var next InvokeId
+
+	v := &next
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2455,6 +2866,11 @@ func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 			return qualifyBERError(intErr, "present", "decoding", false)
 		}
 		v.Present = decVal
+		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
+			if constraintErr := ber.CheckDecodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else if peekTag.Class == tag.ClassUniversal && peekTag.Number == 5 && peekTag.Constructed == false {
 		v.Choice = InvokeIdChoiceAbsent
 		ber.MarkPreflightTarget(opts, "absent", choiceData)
@@ -2462,6 +2878,7 @@ func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 		if nullErr != nil {
 			return qualifyBERError(nullErr, "absent", "decoding", false)
 		}
+		v.Absent = &struct{}{}
 	} else {
 		return fmt.Errorf("unknown tag %s for InvokeId CHOICE", peekTag)
 	}
@@ -2470,6 +2887,13 @@ func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 
 // MarshalBER encodes Bind to BER format.
 func (v *Bind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
@@ -2479,28 +2903,25 @@ func (v *Bind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnE
 		return v.marshalBER(opts...)
 	}
 	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
 	if replayErr != nil {
 		return nil, replayErr
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
 		return replayBytes, nil
 	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
 }
-func (v *Bind) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
+
+func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -2563,6 +2984,13 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 
 // MarshalDER encodes Bind to DER format.
 func (v *Bind) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Bind receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2584,20 +3012,21 @@ func (v *Bind) MarshalDER() ([]byte, error) {
 	return encoded, nil
 }
 
-func (v *Bind) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
 // UnmarshalBER decodes Bind from BER/DER format.
-func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: Bind destination is nil", ber.ErrInvalidValue)
+func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil Bind destination")
 	}
+	var next Bind
+	v := &next
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2667,6 +3096,13 @@ func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 
 // MarshalBER encodes Unbind to BER format.
 func (v *Unbind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
@@ -2676,28 +3112,25 @@ func (v *Unbind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, retur
 		return v.marshalBER(opts...)
 	}
 	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
 	if replayErr != nil {
 		return nil, replayErr
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
 		return replayBytes, nil
 	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
 }
-func (v *Unbind) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
+
+func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -2760,6 +3193,13 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 
 // MarshalDER encodes Unbind to DER format.
 func (v *Unbind) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Unbind receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2781,20 +3221,21 @@ func (v *Unbind) MarshalDER() ([]byte, error) {
 	return encoded, nil
 }
 
-func (v *Unbind) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
 // UnmarshalBER decodes Unbind from BER/DER format.
-func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: Unbind destination is nil", ber.ErrInvalidValue)
+func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil Unbind destination")
 	}
+	var next Unbind
+	v :=
+		&next
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2862,371 +3303,21 @@ func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	return nil
 }
 
-// MarshalBER encodes ROSInvokeLinkedId to BER format.
-func (v *ROSInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
-	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSInvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-func (v *ROSInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
-	if err := ber.ValidateEncodeOptions(opts...); err != nil {
-		return nil, err
-	}
-	switch v.Choice {
-	case ROSInvokeLinkedIdChoicePresent:
-		if v.Present == nil {
-			return nil, fmt.Errorf("%w: choice ROSInvokeLinkedId: present is nil", ber.ErrInvalidValue)
-		}
-		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
-		if encodeErr_enc_0 != nil {
-			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
-		}
-		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
-		if tagErr_enc_0 != nil {
-			return nil, qualifyBERError(tagErr_enc_0, "present", "encoding", false)
-		}
-		enc_0 = retagged_enc_0
-		return enc_0, nil
-	case ROSInvokeLinkedIdChoiceAbsent:
-		enc_1 := ber.EncodeNull()
-		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 1, enc_1)
-		if tagErr_enc_1 != nil {
-			return nil, qualifyBERError(tagErr_enc_1, "absent", "encoding", false)
-		}
-		enc_1 = retagged_enc_1
-		return enc_1, nil
-	default:
-		return nil, fmt.Errorf("unknown choice %d for ROSInvokeLinkedId", v.Choice)
-	}
-}
-
-// MarshalDER encodes ROSInvokeLinkedId to DER format.
-func (v *ROSInvokeLinkedId) MarshalDER() ([]byte, error) {
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
-	}
-	encoded, err := v.marshalBER()
-	if err != nil {
-		return nil, err
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		switch v.Choice {
-		case ROSInvokeLinkedIdChoicePresent:
-			return nil, qualifyBERError(err, "present", "encoding", true)
-		case ROSInvokeLinkedIdChoiceAbsent:
-			return nil, qualifyBERError(err, "absent", "encoding", true)
-		}
-		return nil, fmt.Errorf("%s: %w", "encoding ROSInvokeLinkedId as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-
-func (v *ROSInvokeLinkedId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// UnmarshalBER decodes ROSInvokeLinkedId from BER/DER format.
-func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSInvokeLinkedId destination is nil", ber.ErrInvalidValue)
-	}
-	opts, commitReports := ber.StageDecodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSInvokeLinkedId, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
-	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSInvokeLinkedId
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
-	}
-	data, opts = preparedData, preparedOptions
-	*v = ROSInvokeLinkedId{}
-	if len(data) == 0 {
-		return fmt.Errorf("empty data for ROSInvokeLinkedId CHOICE")
-	}
-	choiceData := data
-	peekTag, peekErr := ber.PeekTag(choiceData)
-	if peekErr != nil {
-		return fmt.Errorf("peeking tag for ROSInvokeLinkedId: %w", peekErr)
-	}
-
-	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
-	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSInvokeLinkedId CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
-	}
-	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSInvokeLinkedId", Cause: ber.ErrExtraData}
-	}
-
-	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSInvokeLinkedId.present", "decoding", false)
-	}
-	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "ROSInvokeLinkedId.absent", "decoding", false)
-	}
-	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
-		v.Choice = ROSInvokeLinkedIdChoicePresent
-		ber.MarkPreflightTarget(opts, "present", choiceData)
-		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
-		if tlvErr != nil {
-			return qualifyBERError(tlvErr, "present", "decoding", false)
-		}
-		_ = rawVal
-		decVal, intErr := ber.DecodeBigIntValue(rawVal)
-		if intErr != nil {
-			return qualifyBERError(intErr, "present", "decoding", false)
-		}
-		v.Present = decVal
-	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
-		v.Choice = ROSInvokeLinkedIdChoiceAbsent
-		ber.MarkPreflightTarget(opts, "absent", choiceData)
-		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
-		if tlvErr != nil {
-			return qualifyBERError(tlvErr, "absent", "decoding", false)
-		}
-		_ = rawVal
-		if len(rawVal) != 0 {
-			return qualifyBERError(fmt.Errorf("%w: NULL content length %d", ber.ErrInvalidValue, len(rawVal)), "absent", "decoding", false)
-		}
-		v.Absent = &struct{}{}
-	} else {
-		return fmt.Errorf("unknown tag %s for ROSInvokeLinkedId CHOICE", peekTag)
-	}
-	return nil
-}
-
-// MarshalBER encodes ROSReturnResultResult to BER format.
-func (v *ROSReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
-	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ROSReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
-	if err := ber.ValidateEncodeOptions(opts...); err != nil {
-		return nil, err
-	}
-	var children []byte
-	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
-	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", false)
-	}
-	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_opcode)
-	children = append(children, enc_opcode...)
-	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
-		return nil, qualifyBERError(err, "result", "encoding", false)
-	}
-	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", false)
-	}
-	children = append(children, enc_result...)
-	ber.RecordGeneratedBERContainer(opts, children)
-	return ber.EncodeSequence(children)
-}
-func (v *ROSReturnResultResult) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// MarshalDER encodes ROSReturnResultResult to DER format.
-func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
-	if v == nil {
-		return nil, fmt.Errorf("%w: ROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
-	}
-	var children []byte
-	enc_opcode, err := v.Opcode.MarshalDER()
-	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", true)
-	}
-	children = append(children, enc_opcode...)
-	enc_result := v.Result.Bytes
-	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
-	}
-	children = append(children, enc_result...)
-	encoded, setErr := ber.EncodeSequence(children)
-	if setErr != nil {
-		return nil, setErr
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ROSReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
-	}
-	return encoded, nil
-}
-func (v *ROSReturnResultResult) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
-		return nil, err
-	}
-	encoder.Append(encoded)
-	return nil, nil
-}
-
-// UnmarshalBER decodes ROSReturnResultResult from BER/DER format.
-func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ROSReturnResultResult destination is nil", ber.ErrInvalidValue)
-	}
-	opts, commitReports := ber.StageDecodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
-	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSReturnResultResult
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
-	}
-	data, opts = preparedData, preparedOptions
-	*v = ROSReturnResultResult{}
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSReturnResultResult, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	content, total, err := ber.DecodeSequenceContent(data, opts...)
-	if err != nil {
-		return fmt.Errorf("%s: %w", "decoding ROSReturnResultResult SEQUENCE", qualifyBERError(err, "", "decoding", false))
-	}
-	if total != len(data) {
-		return &ber.DecodeError{Offset: total, TypeName: "ROSReturnResultResult", Cause: ber.ErrExtraData}
-	}
-	offset := 0
-	// Decode opcode
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field opcode")
-	}
-	{
-		ber.MarkPreflightTarget(opts, "opcode", content[offset:])
-		// Decode nested CHOICE (Code)
-		_, n_opcode, _, tlvErr_opcode := ber.DecodeTLV(content[offset:], opts...)
-		if tlvErr_opcode != nil {
-			return qualifyBERError(tlvErr_opcode, "opcode", "decoding", false)
-		}
-		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		if unmErr := v.Opcode.UnmarshalBER(content[offset:offset+n_opcode], ber.ChildDecodeOptions(opts, "opcode")...); unmErr != nil {
-			return qualifyBERError(unmErr, "opcode", "decoding", false)
-		}
-		if offset > len(content) || n_opcode < 0 || n_opcode > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		offset += n_opcode
-	}
-	// Decode result
-	if offset >= len(content) {
-		return fmt.Errorf("missing required field result")
-	}
-	{
-		ber.MarkPreflightTarget(opts, "result", content[offset:])
-		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
-		if tlvErr_result != nil {
-			return qualifyBERError(tlvErr_result, "result", "decoding", false)
-		}
-		ber.MarkPreflightOpaque(opts, "result", content[offset:], n_result)
-		if offset < 0 || offset >
-			len(content) || n_result < 0 || n_result > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		v.Result = runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
-		if offset < 0 || offset >
-			len(content) || n_result < 0 || n_result > len(content[offset:]) {
-			return fmt.Errorf("invalid BER content window")
-		}
-
-		offset += n_result
-	}
-	if offset != len(content) {
-		return &ber.DecodeError{Offset: offset, TypeName: "ROSReturnResultResult", Cause: ber.ErrExtraData}
-	}
-	return nil
-}
-
 // MarshalBER encodes InvokeLinkedId to BER format.
 func (v *InvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	if err := v.checkTCAPEncodedRules(opts); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3234,20 +3325,27 @@ func (v *InvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 		return v.marshalBER(opts...)
 	}
 	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
 	if replayErr != nil {
 		return nil, replayErr
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
 		return replayBytes, nil
 	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
 }
 func (v *InvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.checkTCAPEncodedRules(opts); err != nil {
+		return nil, err
+	}
+
 	encoded, err := v.MarshalBER(opts...)
 	if err != nil {
 		return nil, err
@@ -3256,6 +3354,10 @@ func (v *InvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber
 	return nil, nil
 }
 func (v *InvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -3267,6 +3369,11 @@ func (v *InvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.Present)
 		if encodeErr_enc_0 != nil {
 			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
+		}
+		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
+			if constraintErr := ber.CheckEncodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+				return nil, constraintErr
+			}
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 0, enc_0)
 		if tagErr_enc_0 != nil {
@@ -3289,6 +3396,16 @@ func (v *InvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 
 // MarshalDER encodes InvokeLinkedId to DER format.
 func (v *InvokeLinkedId) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+	if err := v.checkTCAPEncodedRules(nil); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3309,6 +3426,13 @@ func (v *InvokeLinkedId) MarshalDER() ([]byte, error) {
 }
 
 func (v *InvokeLinkedId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.checkTCAPEncodedRules(nil); err != nil {
+		return nil, err
+	}
+
 	encoded, err := v.MarshalDER()
 	if err != nil {
 		return nil, err
@@ -3318,10 +3442,20 @@ func (v *InvokeLinkedId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, er
 }
 
 // UnmarshalBER decodes InvokeLinkedId from BER/DER format.
-func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: InvokeLinkedId destination is nil", ber.ErrInvalidValue)
+func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil InvokeLinkedId destination")
 	}
+	var next InvokeLinkedId
+
+	v :=
+		&next
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3384,6 +3518,11 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 			return qualifyBERError(intErr, "present", "decoding", false)
 		}
 		v.Present = decVal
+		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
+			if constraintErr := ber.CheckDecodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+				return constraintErr
+			}
+		}
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
 		v.Choice = InvokeLinkedIdChoiceAbsent
 		ber.MarkPreflightTarget(opts, "absent", choiceData)
@@ -3399,37 +3538,53 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	} else {
 		return fmt.Errorf("unknown tag %s for InvokeLinkedId CHOICE", peekTag)
 	}
+	if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr != nil {
+		return ruleErr
+
+	}
+
 	return nil
 }
 
 // MarshalBER encodes ReturnResultResult to BER format.
 func (v *ReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
+	linearOptions_ := len(opts) == 0
+	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
-}
-func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
+	var replayErr error
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	if replayErr != nil {
+		return nil, replayErr
+	}
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		return replayBytes, nil
+	}
+	var encoded []byte
+	var err error
+	if linearOptions_ && ber.CanUseLinearBEREncode(opts) {
+		encoded, err = ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+			_, appendErr := v.appendBERLinear(encoder, opts...)
+			return appendErr
+		})
+	} else {
+		encoded, err = v.marshalBER(opts...)
+	}
+	if err != nil {
+		return nil, err
+	}
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
+}
+func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	enc_opcode, err := v.Opcode.MarshalBER(ber.ChildEncodeOptions(opts, "opcode")...)
 	if err != nil {
@@ -3438,7 +3593,9 @@ func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_opcode)
 	children = append(children, enc_opcode...)
 	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+	if err := checkTCAPOpaqueReplay(
+
+		enc_result, opts...); err != nil {
 		return nil, qualifyBERError(err, "result", "encoding", false)
 	}
 	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
@@ -3449,53 +3606,91 @@ func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	return ber.EncodeSequence(children)
 }
 func (v *ReturnResultResult) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
-	encoded, err := v.MarshalBER(opts...)
-	if err != nil {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
+	}
+	if replay, ok := ber.ReplayGeneratedBERNode(tcapReplayNode(v, v.berReplayNode_), opts); ok {
+		encoder.Append(replay)
+		return nil, nil
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.Opcode.appendBERLinear(encoder, ber.ChildGeneratedEncodeOptions(opts, "opcode")...)
+		if err != nil {
+			return nil, qualifyBERError(err, "opcode", "encoding", true)
+		}
+	}
+	enc_result := v.Result.Bytes
+	if err := checkTCAPOpaqueReplay(
+
+		enc_result, opts...); err != nil {
+		return nil, qualifyBERError(err, "result", "encoding", true)
+	}
+	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+	}
+	encoder.Append(enc_result)
+	if err := encoder.End(innerFrame_); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
 	return nil, nil
 }
 
 // MarshalDER encodes ReturnResultResult to DER format.
 func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
-	var children []byte
-	enc_opcode, err := v.Opcode.MarshalDER()
+	encoded, err := ber.EncodeLinear(func(encoder *ber.LinearEncoder) error {
+		_, appendErr := v.appendDERLinear(encoder)
+		return appendErr
+	})
 	if err != nil {
-		return nil, qualifyBERError(err, "opcode", "encoding", true)
-	}
-	children = append(children, enc_opcode...)
-	enc_result := v.Result.Bytes
-	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
-	}
-	children = append(children, enc_result...)
-	encoded, setErr := ber.EncodeSequence(children)
-	if setErr != nil {
-		return nil, setErr
-	}
-	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
-		return nil, fmt.Errorf("%s: %w", "encoding ReturnResultResult as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, err
 	}
 	return encoded, nil
 }
 func (v *ReturnResultResult) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
-	encoded, err := v.MarshalDER()
-	if err != nil {
+	if v == nil {
+		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
+	}
+	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
+	{
+		_, err := v.Opcode.appendDERLinear(encoder)
+		if err != nil {
+			return nil, qualifyBERError(err, "opcode", "encoding", true)
+		}
+	}
+	enc_result := v.Result.Bytes
+	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+	}
+	encoder.Append(enc_result)
+	if err := encoder.End(innerFrame_); err != nil {
 		return nil, err
 	}
-	encoder.Append(encoded)
 	return nil, nil
 }
 
 // UnmarshalBER decodes ReturnResultResult from BER/DER format.
-func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: ReturnResultResult destination is nil", ber.ErrInvalidValue)
+func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil ReturnResultResult destination")
 	}
+	var next ReturnResultResult
+
+	v := &next
+
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3584,31 +3779,42 @@ func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	return nil
 }
 
-// MarshalBER encodes OperationsRejectProblem to BER format.
-func (v *OperationsRejectProblem) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+// MarshalBER encodes RejectProblemChoice to BER format.
+func (v *RejectProblemChoice) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
-		return nil, fmt.Errorf("%w: OperationsRejectProblem receiver is nil", ber.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: RejectProblemChoice receiver is nil", ber.ErrInvalidValue)
 	}
 	if v.berReplayNode_ == nil {
 		return v.marshalBER(opts...)
 	}
 	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
 	if replayErr != nil {
 		return nil, replayErr
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
 		return replayBytes, nil
 	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
 }
-func (v *OperationsRejectProblem) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+func (v *RejectProblemChoice) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	encoded, err := v.MarshalBER(opts...)
 	if err != nil {
 		return nil, err
@@ -3616,14 +3822,18 @@ func (v *OperationsRejectProblem) appendBERLinear(encoder *ber.LinearEncoder, op
 	encoder.Append(encoded)
 	return nil, nil
 }
-func (v *OperationsRejectProblem) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+func (v *RejectProblemChoice) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
 	switch v.Choice {
-	case OperationsRejectProblemChoiceGeneral:
+	case RejectProblemChoiceChoiceGeneral:
 		if v.General == nil {
-			return nil, fmt.Errorf("%w: choice OperationsRejectProblem: general is nil", ber.ErrInvalidValue)
+			return nil, fmt.Errorf("%w: choice RejectProblemChoice: general is nil", ber.ErrInvalidValue)
 		}
 		enc_0, encodeErr_enc_0 := ber.EncodeBigInt(v.General.BigInt())
 		if encodeErr_enc_0 != nil {
@@ -3635,9 +3845,9 @@ func (v *OperationsRejectProblem) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		}
 		enc_0 = retagged_enc_0
 		return enc_0, nil
-	case OperationsRejectProblemChoiceInvoke:
+	case RejectProblemChoiceChoiceInvoke:
 		if v.Invoke == nil {
-			return nil, fmt.Errorf("%w: choice OperationsRejectProblem: invoke is nil", ber.ErrInvalidValue)
+			return nil, fmt.Errorf("%w: choice RejectProblemChoice: invoke is nil", ber.ErrInvalidValue)
 		}
 		enc_1, encodeErr_enc_1 := ber.EncodeBigInt(v.Invoke.BigInt())
 		if encodeErr_enc_1 != nil {
@@ -3649,9 +3859,9 @@ func (v *OperationsRejectProblem) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		}
 		enc_1 = retagged_enc_1
 		return enc_1, nil
-	case OperationsRejectProblemChoiceReturnResult:
+	case RejectProblemChoiceChoiceReturnResult:
 		if v.ReturnResult == nil {
-			return nil, fmt.Errorf("%w: choice OperationsRejectProblem: returnResult is nil", ber.ErrInvalidValue)
+			return nil, fmt.Errorf("%w: choice RejectProblemChoice: returnResult is nil", ber.ErrInvalidValue)
 		}
 		enc_2, encodeErr_enc_2 := ber.EncodeBigInt(v.ReturnResult.BigInt())
 		if encodeErr_enc_2 != nil {
@@ -3663,9 +3873,9 @@ func (v *OperationsRejectProblem) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		}
 		enc_2 = retagged_enc_2
 		return enc_2, nil
-	case OperationsRejectProblemChoiceReturnError:
+	case RejectProblemChoiceChoiceReturnError:
 		if v.ReturnError == nil {
-			return nil, fmt.Errorf("%w: choice OperationsRejectProblem: returnError is nil", ber.ErrInvalidValue)
+			return nil, fmt.Errorf("%w: choice RejectProblemChoice: returnError is nil", ber.ErrInvalidValue)
 		}
 		enc_3, encodeErr_enc_3 := ber.EncodeBigInt(v.ReturnError.BigInt())
 		if encodeErr_enc_3 != nil {
@@ -3678,14 +3888,21 @@ func (v *OperationsRejectProblem) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		enc_3 = retagged_enc_3
 		return enc_3, nil
 	default:
-		return nil, fmt.Errorf("unknown choice %d for OperationsRejectProblem", v.Choice)
+		return nil, fmt.Errorf("unknown choice %d for RejectProblemChoice", v.Choice)
 	}
 }
 
-// MarshalDER encodes OperationsRejectProblem to DER format.
-func (v *OperationsRejectProblem) MarshalDER() ([]byte, error) {
+// MarshalDER encodes RejectProblemChoice to DER format.
+func (v *RejectProblemChoice) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
-		return nil, fmt.Errorf("%w: OperationsRejectProblem receiver is nil", ber.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: RejectProblemChoice receiver is nil", ber.ErrInvalidValue)
 	}
 	encoded, err := v.marshalBER()
 	if err != nil {
@@ -3693,21 +3910,25 @@ func (v *OperationsRejectProblem) MarshalDER() ([]byte, error) {
 	}
 	if err := ber.ValidateDEREncodedElement(encoded); err != nil {
 		switch v.Choice {
-		case OperationsRejectProblemChoiceGeneral:
+		case RejectProblemChoiceChoiceGeneral:
 			return nil, qualifyBERError(err, "general", "encoding", true)
-		case OperationsRejectProblemChoiceInvoke:
+		case RejectProblemChoiceChoiceInvoke:
 			return nil, qualifyBERError(err, "invoke", "encoding", true)
-		case OperationsRejectProblemChoiceReturnResult:
+		case RejectProblemChoiceChoiceReturnResult:
 			return nil, qualifyBERError(err, "returnResult", "encoding", true)
-		case OperationsRejectProblemChoiceReturnError:
+		case RejectProblemChoiceChoiceReturnError:
 			return nil, qualifyBERError(err, "returnError", "encoding", true)
 		}
-		return nil, fmt.Errorf("%s: %w", "encoding OperationsRejectProblem as DER", qualifyBERError(err, "", "encoding", true))
+		return nil, fmt.Errorf("%s: %w", "encoding RejectProblemChoice as DER", qualifyBERError(err, "", "encoding", true))
 	}
 	return encoded, nil
 }
 
-func (v *OperationsRejectProblem) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+func (v *RejectProblemChoice) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	encoded, err := v.MarshalDER()
 	if err != nil {
 		return nil, err
@@ -3716,11 +3937,20 @@ func (v *OperationsRejectProblem) appendDERLinear(encoder *ber.LinearEncoder) ([
 	return nil, nil
 }
 
-// UnmarshalBER decodes OperationsRejectProblem from BER/DER format.
-func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: OperationsRejectProblem destination is nil", ber.ErrInvalidValue)
+// UnmarshalBER decodes RejectProblemChoice from BER/DER format.
+func (destination *RejectProblemChoice) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil RejectProblemChoice destination")
 	}
+	var next RejectProblemChoice
+
+	v := &next
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3734,50 +3964,50 @@ func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			return
 		}
 		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *OperationsRejectProblem, replayOpts ...ber.EncodeOption) ([]byte, error) {
+		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *RejectProblemChoice, replayOpts ...ber.EncodeOption) ([]byte, error) {
 			return base.MarshalBER(replayOpts...)
 		})
 	}()
 	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
 	if prepareErr != nil {
 		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe OperationsRejectProblem
+			var probe RejectProblemChoice
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
 	}
 	data, opts = preparedData, preparedOptions
-	*v = OperationsRejectProblem{}
+	*v = RejectProblemChoice{}
 	if len(data) == 0 {
-		return fmt.Errorf("empty data for OperationsRejectProblem CHOICE")
+		return fmt.Errorf("empty data for RejectProblemChoice CHOICE")
 	}
 	choiceData := data
 	peekTag, peekErr := ber.PeekTag(choiceData)
 	if peekErr != nil {
-		return fmt.Errorf("peeking tag for OperationsRejectProblem: %w", peekErr)
+		return fmt.Errorf("peeking tag for RejectProblemChoice: %w", peekErr)
 	}
 
 	_, total, _, tlvErr := ber.DecodeTLV(choiceData, opts...)
 	if tlvErr != nil {
-		return fmt.Errorf("%s: %w", "decoding OperationsRejectProblem CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
+		return fmt.Errorf("%s: %w", "decoding RejectProblemChoice CHOICE", qualifyBERError(tlvErr, "", "decoding", false))
 	}
 	if total != len(choiceData) {
-		return &ber.DecodeError{Offset: total, TypeName: "OperationsRejectProblem", Cause: ber.ErrExtraData}
+		return &ber.DecodeError{Offset: total, TypeName: "RejectProblemChoice", Cause: ber.ErrExtraData}
 	}
 
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "OperationsRejectProblem.general", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "RejectProblemChoice.general", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "OperationsRejectProblem.invoke", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "RejectProblemChoice.invoke", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "OperationsRejectProblem.returnResult", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "RejectProblemChoice.returnResult", "decoding", false)
 	}
 	if (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) && peekTag.Constructed != false {
-		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "OperationsRejectProblem.returnError", "decoding", false)
+		return qualifyBERError(fmt.Errorf("%w: invalid primitive/constructed form for tag %s", ber.ErrInvalidTag, peekTag), "RejectProblemChoice.returnError", "decoding", false)
 	}
 	if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0 && peekTag.Constructed == false {
-		v.Choice = OperationsRejectProblemChoiceGeneral
+		v.Choice = RejectProblemChoiceChoiceGeneral
 		ber.MarkPreflightTarget(opts, "general", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
@@ -3794,7 +4024,7 @@ func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.General = &named_general
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1 && peekTag.Constructed == false {
-		v.Choice = OperationsRejectProblemChoiceInvoke
+		v.Choice = RejectProblemChoiceChoiceInvoke
 		ber.MarkPreflightTarget(opts, "invoke", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
@@ -3811,7 +4041,7 @@ func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.Invoke = &named_invoke
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2 && peekTag.Constructed == false {
-		v.Choice = OperationsRejectProblemChoiceReturnResult
+		v.Choice = RejectProblemChoiceChoiceReturnResult
 		ber.MarkPreflightTarget(opts, "returnResult", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
@@ -3828,7 +4058,7 @@ func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.ReturnResult = &named_returnresult
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3 && peekTag.Constructed == false {
-		v.Choice = OperationsRejectProblemChoiceReturnError
+		v.Choice = RejectProblemChoiceChoiceReturnError
 		ber.MarkPreflightTarget(opts, "returnError", choiceData)
 		_, _, rawVal, tlvErr := ber.DecodeTLV(choiceData, opts...)
 		if tlvErr != nil {
@@ -3845,7 +4075,840 @@ func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.ReturnError = &named_returnerror
 	} else {
-		return fmt.Errorf("unknown tag %s for OperationsRejectProblem CHOICE", peekTag)
+		return fmt.Errorf("unknown tag %s for RejectProblemChoice CHOICE", peekTag)
 	}
 	return nil
+}
+func (v *Bind) validateTCAPChoice() error {
+	if v == nil {
+		return fmt.Errorf("nil Bind CHOICE")
+	}
+	count := 0
+	if v.BindInvoke != nil {
+		count++
+	}
+	if v.BindResult != nil {
+		count++
+	}
+	if v.BindError != nil {
+		count++
+	}
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case 1:
+		if v.BindInvoke == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 2:
+		if v.BindResult == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 3:
+		if v.BindError == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	default:
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
+	}
+	return nil
+}
+func (v *InvokeId) validateTCAPChoice() error {
+	if v == nil {
+		return fmt.Errorf("nil InvokeId CHOICE")
+	}
+	count := 0
+	if v.Present != nil {
+		count++
+	}
+	if v.Absent != nil {
+		count++
+	}
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case 1:
+		if v.Present == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 2:
+		if v.Absent == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	default:
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
+	}
+	return nil
+}
+func (v *InvokeLinkedId) validateTCAPChoice() error {
+	if v == nil {
+		return fmt.Errorf("nil InvokeLinkedId CHOICE")
+	}
+	count := 0
+	if v.Present != nil {
+		count++
+	}
+	if v.Absent != nil {
+		count++
+	}
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case 1:
+		if v.Present == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 2:
+		if v.Absent == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	default:
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
+	}
+	return nil
+}
+func (v *ROS) validateTCAPChoice() error {
+	if v == nil {
+		return fmt.Errorf("nil ROS CHOICE")
+	}
+	count := 0
+	if v.Invoke != nil {
+		count++
+	}
+	if v.ReturnResult != nil {
+		count++
+	}
+	if v.ReturnError != nil {
+		count++
+	}
+	if v.Reject != nil {
+		count++
+	}
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case 1:
+		if v.Invoke == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 2:
+		if v.ReturnResult == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 3:
+		if v.ReturnError == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 4:
+		if v.Reject == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	default:
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
+	}
+	return nil
+}
+func (v *RejectProblemChoice) validateTCAPChoice() error {
+	if v == nil {
+		return fmt.Errorf("nil RejectProblemChoice CHOICE")
+	}
+	count := 0
+	if v.General != nil {
+		count++
+	}
+	if v.Invoke != nil {
+		count++
+	}
+	if v.ReturnResult != nil {
+		count++
+	}
+	if v.ReturnError != nil {
+		count++
+	}
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case 1:
+		if v.General == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 2:
+		if v.Invoke == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 3:
+		if v.ReturnResult == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 4:
+		if v.ReturnError == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	default:
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
+	}
+	return nil
+}
+func (v *Unbind) validateTCAPChoice() error {
+	if v == nil {
+		return fmt.Errorf("nil Unbind CHOICE")
+	}
+	count := 0
+	if v.UnbindInvoke != nil {
+		count++
+	}
+	if v.UnbindResult != nil {
+		count++
+	}
+	if v.UnbindError != nil {
+		count++
+	}
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case 1:
+		if v.UnbindInvoke == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 2:
+		if v.UnbindResult == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 3:
+		if v.UnbindError == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	default:
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
+	}
+	return nil
+}
+func (v *Bind) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *Bind) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v Bind) equalTCAPValue(other any) bool {
+	right, ok := other.(Bind)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.BindInvoke == nil) != (right.BindInvoke == nil) {
+		return false
+	}
+	if v.BindInvoke != nil && !equalTCAPValue(*v.BindInvoke, *right.BindInvoke) {
+		return false
+	}
+	if (v.BindResult == nil) != (right.BindResult == nil) {
+		return false
+	}
+	if v.BindResult != nil && !equalTCAPValue(*v.BindResult, *right.BindResult) {
+		return false
+	}
+	if (v.BindError == nil) != (right.BindError == nil) {
+		return false
+	}
+	if v.BindError != nil && !equalTCAPValue(*v.BindError, *right.BindError) {
+		return false
+	}
+	return true
+}
+func (v *GeneralProblem) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	return nil
+}
+func (v *GeneralProblem) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v GeneralProblem) equalTCAPValue(other any) bool {
+	right, ok := other.(GeneralProblem)
+	if !ok {
+		return false
+	}
+	_ = right
+	return v.BigInt().Cmp(right.BigInt()) == 0
+}
+func (v *Invoke) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := validateTCAPStructureValue(&v.InvokeId); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.LinkedId); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(&v.Opcode); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *Invoke) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(&v.InvokeId) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.LinkedId) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(&v.Opcode) {
+		return true
+	}
+	return false
+}
+func (v Invoke) equalTCAPValue(other any) bool {
+	right, ok := other.(Invoke)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.InvokeId, right.InvokeId) {
+		return false
+	}
+	if (v.LinkedId == nil) != (right.LinkedId == nil) {
+		return false
+	}
+	if v.LinkedId != nil && !equalTCAPValue(*v.LinkedId, *right.LinkedId) {
+		return false
+	}
+	if !equalTCAPValue(v.Opcode, right.Opcode) {
+		return false
+	}
+	if (v.Argument == nil) != (right.Argument == nil) {
+		return false
+	}
+	if v.Argument != nil && !equalTCAPValue(*v.Argument, *right.Argument) {
+		return false
+	}
+	return true
+}
+func (v *InvokeId) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *InvokeId) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v InvokeId) equalTCAPValue(other any) bool {
+	right, ok := other.(InvokeId)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.Present == nil) != (right.Present == nil) {
+		return false
+	}
+	if v.Present != nil && !equalTCAPValue(*v.Present, *right.Present) {
+		return false
+	}
+	if (v.Absent == nil) != (right.Absent == nil) {
+		return false
+	}
+	if v.Absent != nil && !equalTCAPValue(*v.Absent, *right.Absent) {
+		return false
+	}
+	return true
+}
+func (v *InvokeLinkedId) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *InvokeLinkedId) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v InvokeLinkedId) equalTCAPValue(other any) bool {
+	right, ok := other.(InvokeLinkedId)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.Present == nil) != (right.Present == nil) {
+		return false
+	}
+	if v.Present != nil && !equalTCAPValue(*v.Present, *right.Present) {
+		return false
+	}
+	if (v.Absent == nil) != (right.Absent == nil) {
+		return false
+	}
+	if v.Absent != nil && !equalTCAPValue(*v.Absent, *right.Absent) {
+		return false
+	}
+	return true
+}
+func (v *InvokeProblem) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	return nil
+}
+func (v *InvokeProblem) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v InvokeProblem) equalTCAPValue(other any) bool {
+	right, ok := other.(InvokeProblem)
+	if !ok {
+		return false
+	}
+	_ = right
+	return v.BigInt().Cmp(right.BigInt()) == 0
+}
+func (v *ROS) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.Invoke); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.ReturnResult); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.ReturnError); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.Reject); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *ROS) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(v.Invoke) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnResult) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnError) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.Reject) {
+		return true
+	}
+	return false
+}
+func (v ROS) equalTCAPValue(other any) bool {
+	right, ok := other.(ROS)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.Invoke == nil) != (right.Invoke == nil) {
+		return false
+	}
+	if v.Invoke != nil && !equalTCAPValue(*v.Invoke, *right.Invoke) {
+		return false
+	}
+	if (v.ReturnResult == nil) != (right.ReturnResult == nil) {
+		return false
+	}
+	if v.ReturnResult != nil && !equalTCAPValue(*v.ReturnResult, *right.ReturnResult) {
+		return false
+	}
+	if (v.ReturnError == nil) != (right.ReturnError == nil) {
+		return false
+	}
+	if v.ReturnError != nil && !equalTCAPValue(*v.ReturnError, *right.ReturnError) {
+		return false
+	}
+	if (v.Reject == nil) != (right.Reject == nil) {
+		return false
+	}
+	if v.Reject != nil && !equalTCAPValue(*v.Reject, *right.Reject) {
+		return false
+	}
+	return true
+}
+func (v *Reject) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := validateTCAPStructureValue(&v.InvokeId); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(&v.Problem); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *Reject) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(&v.InvokeId) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(&v.Problem) {
+		return true
+	}
+	return false
+}
+func (v Reject) equalTCAPValue(other any) bool {
+	right, ok := other.(Reject)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.InvokeId, right.InvokeId) {
+		return false
+	}
+	if !equalTCAPValue(v.Problem, right.Problem) {
+		return false
+	}
+	return true
+}
+func (v *RejectProblem) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	return nil
+}
+func (v *RejectProblem) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v RejectProblem) equalTCAPValue(other any) bool {
+	right, ok := other.(RejectProblem)
+	if !ok {
+		return false
+	}
+	_ = right
+	return v.BigInt().Cmp(right.BigInt()) == 0
+}
+func (v *RejectProblemChoice) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.General); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.Invoke); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.ReturnResult); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.ReturnError); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *RejectProblemChoice) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(v.General) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.Invoke) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnResult) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.ReturnError) {
+		return true
+	}
+	return false
+}
+func (v RejectProblemChoice) equalTCAPValue(other any) bool {
+	right, ok := other.(RejectProblemChoice)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.General == nil) != (right.General == nil) {
+		return false
+	}
+	if v.General != nil && !equalTCAPValue(*v.General, *right.General) {
+		return false
+	}
+	if (v.Invoke == nil) != (right.Invoke == nil) {
+		return false
+	}
+	if v.Invoke != nil && !equalTCAPValue(*v.Invoke, *right.Invoke) {
+		return false
+	}
+	if (v.ReturnResult == nil) != (right.ReturnResult == nil) {
+		return false
+	}
+	if v.ReturnResult != nil && !equalTCAPValue(*v.ReturnResult, *right.ReturnResult) {
+		return false
+	}
+	if (v.ReturnError == nil) != (right.ReturnError == nil) {
+		return false
+	}
+	if v.ReturnError != nil && !equalTCAPValue(*v.ReturnError, *right.ReturnError) {
+		return false
+	}
+	return true
+}
+func (v *ReturnError) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := validateTCAPStructureValue(&v.InvokeId); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(&v.Errcode); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *ReturnError) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(&v.InvokeId) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(&v.Errcode) {
+		return true
+	}
+	return false
+}
+func (v ReturnError) equalTCAPValue(other any) bool {
+	right, ok := other.(ReturnError)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.InvokeId, right.InvokeId) {
+		return false
+	}
+	if !equalTCAPValue(v.Errcode, right.Errcode) {
+		return false
+	}
+	if (v.Parameter == nil) != (right.Parameter == nil) {
+		return false
+	}
+	if v.Parameter != nil && !equalTCAPValue(*v.Parameter, *right.Parameter) {
+		return false
+	}
+	return true
+}
+func (v *ReturnErrorProblem) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	return nil
+}
+func (v *ReturnErrorProblem) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v ReturnErrorProblem) equalTCAPValue(other any) bool {
+	right, ok := other.(ReturnErrorProblem)
+	if !ok {
+		return false
+	}
+	_ = right
+	return v.BigInt().Cmp(right.BigInt()) == 0
+}
+func (v *ReturnResult) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := validateTCAPStructureValue(&v.InvokeId); err != nil {
+		return err
+	}
+	if err := validateTCAPStructureValue(v.Result); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *ReturnResult) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(&v.InvokeId) {
+		return true
+	}
+	if hasTCAPPresenceEditValue(v.Result) {
+		return true
+	}
+	return false
+}
+func (v ReturnResult) equalTCAPValue(other any) bool {
+	right, ok := other.(ReturnResult)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.InvokeId, right.InvokeId) {
+		return false
+	}
+	if (v.Result == nil) != (right.Result == nil) {
+		return false
+	}
+	if v.Result != nil && !equalTCAPValue(*v.Result, *right.Result) {
+		return false
+	}
+	return true
+}
+func (v *ReturnResultProblem) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	return nil
+}
+func (v *ReturnResultProblem) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v ReturnResultProblem) equalTCAPValue(other any) bool {
+	right, ok := other.(ReturnResultProblem)
+	if !ok {
+		return false
+	}
+	_ = right
+	return v.BigInt().Cmp(right.BigInt()) == 0
+}
+func (v *ReturnResultResult) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := validateTCAPStructureValue(&v.Opcode); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *ReturnResultResult) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	if hasTCAPPresenceEditValue(&v.Opcode) {
+		return true
+	}
+	return false
+}
+func (v ReturnResultResult) equalTCAPValue(other any) bool {
+	right, ok := other.(ReturnResultResult)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Opcode, right.Opcode) {
+		return false
+	}
+	if !equalTCAPValue(v.Result, right.Result) {
+		return false
+	}
+	return true
+}
+func (v *Unbind) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *Unbind) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v Unbind) equalTCAPValue(other any) bool {
+	right, ok := other.(Unbind)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.UnbindInvoke == nil) != (right.UnbindInvoke == nil) {
+		return false
+	}
+	if v.UnbindInvoke != nil && !equalTCAPValue(*v.UnbindInvoke, *right.UnbindInvoke) {
+		return false
+	}
+	if (v.UnbindResult == nil) != (right.UnbindResult == nil) {
+		return false
+	}
+	if v.UnbindResult != nil && !equalTCAPValue(*v.UnbindResult, *right.UnbindResult) {
+		return false
+	}
+	if (v.UnbindError == nil) != (right.UnbindError == nil) {
+		return false
+	}
+	if v.UnbindError != nil && !equalTCAPValue(*v.UnbindError, *right.UnbindError) {
+		return false
+	}
+	return true
 }

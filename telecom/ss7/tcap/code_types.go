@@ -9,7 +9,7 @@ import "fmt"
 type ErrorCode int64
 
 const (
-	// Refuse identifies refuse. Source: wireshark-asn1/ros/Remote-Operations-Useful-Definitions.asn; SHA-256 5c710fb2e552c81149924d29312b4abf00a94980b61cb0198869e0823d6c9e40.
+	// Refuse identifies refuse. Source: itu-t-tcap/modules/Remote-Operations-Useful-Definitions.asn; SHA-256 4884e1c7544346a058a082b43384826fea0ca24aec53b8b8b5021916219c2325.
 	Refuse ErrorCode = -1
 )
 
@@ -27,7 +27,7 @@ func (c ErrorCode) String() string {
 type OperationCode int64
 
 const (
-	// NoOp identifies no-op. Source: wireshark-asn1/ros/Remote-Operations-Useful-Definitions.asn; SHA-256 5c710fb2e552c81149924d29312b4abf00a94980b61cb0198869e0823d6c9e40.
+	// NoOp identifies no-op. Source: itu-t-tcap/modules/Remote-Operations-Useful-Definitions.asn; SHA-256 4884e1c7544346a058a082b43384826fea0ca24aec53b8b8b5021916219c2325.
 	NoOp OperationCode = -1
 )
 

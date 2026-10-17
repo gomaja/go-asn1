@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/ber"
-	"github.com/gomaja/go-asn1/runtime/tag"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
 )
 
 // Ensure imports are used.
@@ -53,6 +53,13 @@ type Priority = *big.Int
 
 // MarshalBER encodes Code to BER format.
 func (v *Code) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	if v == nil {
@@ -62,20 +69,24 @@ func (v *Code) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnE
 		return v.marshalBER(opts...)
 	}
 	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
+	opts, replayErr = ber.PrepareBERReplay(tcapReplayNode(v, v.berReplayNode_), opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
 	if replayErr != nil {
 		return nil, replayErr
 	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
+	if replayBytes, ok := ber.PreparedBERReplay(tcapReplayNode(v, v.berReplayNode_), opts); ok {
 		return replayBytes, nil
 	}
 	encoded, err := v.marshalBER(opts...)
 	if err != nil {
 		return nil, err
 	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return ber.PreserveEncodedBERNode(encoded, tcapReplayNode(v, v.berReplayNode_), opts), nil
 }
 func (v *Code) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	encoded, err := v.MarshalBER(opts...)
 	if err != nil {
 		return nil, err
@@ -84,6 +95,10 @@ func (v *Code) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOpt
 	return nil, nil
 }
 func (v *Code) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -113,6 +128,13 @@ func (v *Code) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 
 // MarshalDER encodes Code to DER format.
 func (v *Code) MarshalDER() ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+	if err := v.validateTCAPStructure(); err != nil {
+		return nil, err
+	}
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Code receiver is nil", ber.ErrInvalidValue)
 	}
@@ -133,6 +155,10 @@ func (v *Code) MarshalDER() ([]byte, error) {
 }
 
 func (v *Code) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
+	if err := v.validateTCAPChoice(); err != nil {
+		return nil, err
+	}
+
 	encoded, err := v.MarshalDER()
 	if err != nil {
 		return nil, err
@@ -142,10 +168,19 @@ func (v *Code) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 }
 
 // UnmarshalBER decodes Code from BER/DER format.
-func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
-		return fmt.Errorf("%w: Code destination is nil", ber.ErrInvalidValue)
+func (destination *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
+		return fmt.Errorf("nil Code destination")
 	}
+	var next Code
+	v := &next
+
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -216,4 +251,70 @@ func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 		return fmt.Errorf("unknown tag %s for Code CHOICE", peekTag)
 	}
 	return nil
+}
+func (v *Code) validateTCAPChoice() error {
+	if v == nil {
+		return fmt.Errorf("nil Code CHOICE")
+	}
+	count := 0
+	if v.Local != nil {
+		count++
+	}
+	if v.Global != nil {
+		count++
+	}
+	if count != 1 {
+		return fmt.Errorf("%w: CHOICE requires exactly one populated alternative", ber.ErrInvalidValue)
+	}
+	switch v.Choice {
+	case 1:
+		if v.Local == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	case 2:
+		if v.Global == nil {
+			return fmt.Errorf("%w: CHOICE discriminator disagrees with field", ber.ErrInvalidValue)
+		}
+	default:
+		return fmt.Errorf("%w: invalid CHOICE discriminator", ber.ErrInvalidValue)
+	}
+	return nil
+}
+func (v *Code) validateTCAPStructure() error {
+	if v == nil {
+		return nil
+	}
+	if err := v.validateTCAPChoice(); err != nil {
+		return err
+	}
+	return nil
+}
+func (v *Code) hasTCAPPresenceEdit() bool {
+	if v == nil {
+		return false
+	}
+	return false
+}
+func (v Code) equalTCAPValue(other any) bool {
+	right, ok := other.(Code)
+	if !ok {
+		return false
+	}
+	_ = right
+	if !equalTCAPValue(v.Choice, right.Choice) {
+		return false
+	}
+	if (v.Local == nil) != (right.Local == nil) {
+		return false
+	}
+	if v.Local != nil && !equalTCAPValue(*v.Local, *right.Local) {
+		return false
+	}
+	if (v.Global == nil) != (right.Global == nil) {
+		return false
+	}
+	if v.Global != nil && !equalTCAPValue(*v.Global, *right.Global) {
+		return false
+	}
+	return true
 }
