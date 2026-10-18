@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 54de43ad95cfca9638bc1ec8afe8771e2d0ad86a6b591048148562adb141ec22.
+// Runtime source: runtime/ber/constraints.go; SHA-256 712e97335e4c5a5872edd077981afa77276259f6623a0ecafdabf9955b7607c2.
 package ber
 
 import (
@@ -15,9 +15,15 @@ import (
 // this prefix, and ObservedValueLength records the full pre-cap length in bytes.
 const MaxObservedValueBytes = 64
 
-// ConstraintViolation describes an encoded or decoded abstract value outside its ASN.1
-// permitted set. ITU-T X.680 (02/2021) §§49.7, 50.1, 51.2.2, 51.4.2, 51.5.3.
-type ConstraintViolation struct {
+// Violation describes a failed ASN.1 constraint or protocol rule. Source
+// constraints follow ITU-T X.680 (02/2021) §§49.7, 50.1, 51.2.2, 51.4.2,
+// 51.5.3; Rule identifies the governing document and clause.
+type Violation struct {
+	Kind                ViolationKind
+	Rule                RuleRef
+	Source              string
+	Offset              *int
+	ChildIndexes        []int
 	Path                string
 	Constraint          string
 	ObservedLength      *int
@@ -32,11 +38,13 @@ type ConstraintViolation struct {
 	observedHash [32]byte
 }
 
-// ConstraintError is returned by a strict BER codec for a value outside its
-// permitted set. A caller can inspect it with errors.As.
-type ConstraintError struct{ ConstraintViolation }
+// ValidationError is returned when a strict codec detects a constraint or
+// protocol-rule violation. A caller can inspect it with errors.As.
+type ValidationError struct{ Violation }
 
-func (e *ConstraintError) Error() string {
+func (e *ValidationError) Unwrap() error { return ErrInvalidValue }
+
+func (e *ValidationError) Error() string {
 	if e.ObservedLength != nil {
 		return fmt.Sprintf("%s length %d violates %s", e.Path, *e.ObservedLength, e.Constraint)
 	}
@@ -47,6 +55,8 @@ func (e *ConstraintError) Error() string {
 type EncodeOption interface{ applyEncode(*encodeConfig) error }
 
 type encodeConfig struct {
+	tcapEncoding          bool
+	source                string
 	tolerant              bool
 	noReplay              bool
 	violations            *ViolationLog
@@ -67,13 +77,13 @@ type toleranceOption struct {
 	scope      *reportScope
 }
 
-// ViolationLog collects constraint violations from concurrent BER codecs.
+// ViolationLog collects constraint and protocol-rule violations from concurrent BER codecs.
 // Repeated reports of the same violation in a staged codec call are idempotent.
 // Snapshot returns an independent copy in first-report order. A zero value is
 // ready for use; separate staged codec calls retain separate histories.
 type ViolationLog struct {
 	mu      sync.Mutex
-	records []ConstraintViolation
+	records []Violation
 	scope   *reportScope
 	seen    map[violationKey]int
 	wire    map[wireViolationKey]int
@@ -88,7 +98,7 @@ type reportScope struct {
 	observedBytes int
 }
 
-func (scope *reportScope) reserve(record ConstraintViolation, limits DiagnosticLimits) error {
+func (scope *reportScope) reserve(record Violation, limits DiagnosticLimits) error {
 	scope.mu.Lock()
 	defer scope.mu.Unlock()
 	if index, exists := scope.ledger.findLocked(record); exists {
@@ -127,8 +137,13 @@ type wireViolationKey struct {
 	offset     int
 }
 
-func reportKey(record ConstraintViolation) violationKey {
+func reportKey(record Violation) violationKey {
 	key := violationKey{scope: record.scope, path: record.Path, constraint: record.Constraint, source: record.source, offset: -1}
+	if record.Offset != nil {
+		key.offset = *record.Offset
+		key.path = ""
+		return key
+	}
 	if record.OctetOffset != nil {
 		key.offset = *record.OctetOffset
 	} else {
@@ -142,7 +157,8 @@ func reportKey(record ConstraintViolation) violationKey {
 	return key
 }
 
-func (log *ViolationLog) append(record ConstraintViolation, limits DiagnosticLimits) error {
+func (log *ViolationLog) append(record Violation, limits DiagnosticLimits) error {
+	record = identifyViolation(record)
 	// Hash before copying the bounded observation. Distinct long abstract values
 	// that share a prefix still have distinct keys without retaining their tails.
 	record.observedHash = sha256.Sum256([]byte(record.ObservedValue))
@@ -166,7 +182,7 @@ func (log *ViolationLog) append(record ConstraintViolation, limits DiagnosticLim
 	return nil
 }
 
-func (log *ViolationLog) appendBatch(records []ConstraintViolation) {
+func (log *ViolationLog) appendBatch(records []Violation) {
 	log.mu.Lock()
 	for _, record := range records {
 		if log.scope == nil {
@@ -181,7 +197,7 @@ func (log *ViolationLog) appendBatch(records []ConstraintViolation) {
 // Public histories carry no operation ledger or input identity. Only private
 // pending stages need those keys, and their weak identities never keep input
 // buffers reachable, even when a caller retains staged options after finish.
-func publishedViolation(record ConstraintViolation) ConstraintViolation {
+func publishedViolation(record Violation) Violation {
 	record.scope = nil
 	record.source = weak.Pointer[byte]{}
 	record.observedHash = [32]byte{}
@@ -189,7 +205,7 @@ func publishedViolation(record ConstraintViolation) ConstraintViolation {
 	return record
 }
 
-func (log *ViolationLog) findLocked(record ConstraintViolation) (int, bool) {
+func (log *ViolationLog) findLocked(record Violation) (int, bool) {
 	if index, exists := log.seen[reportKey(record)]; exists {
 		return index, true
 	}
@@ -202,7 +218,7 @@ func (log *ViolationLog) findLocked(record ConstraintViolation) (int, bool) {
 	return 0, false
 }
 
-func (log *ViolationLog) replaceLocked(index int, record ConstraintViolation) {
+func (log *ViolationLog) replaceLocked(index int, record Violation) {
 	if log.records[index].preflight && !record.preflight {
 		// Schema-free preflight knows only the enclosing path. Upgrade it with the
 		// typed field path for the same received string and octet. Never reconcile
@@ -213,7 +229,7 @@ func (log *ViolationLog) replaceLocked(index int, record ConstraintViolation) {
 	}
 }
 
-func (log *ViolationLog) appendLocked(record ConstraintViolation) {
+func (log *ViolationLog) appendLocked(record Violation) {
 	if index, exists := log.findLocked(record); exists {
 		log.replaceLocked(index, record)
 		return
@@ -233,12 +249,17 @@ func (log *ViolationLog) appendLocked(record ConstraintViolation) {
 }
 
 // Snapshot returns the reports collected so far without exposing the log's storage.
-func (log *ViolationLog) Snapshot() []ConstraintViolation {
+func (log *ViolationLog) Snapshot() []Violation {
 	log.mu.Lock()
 	defer log.mu.Unlock()
-	snapshot := make([]ConstraintViolation, len(log.records))
+	snapshot := make([]Violation, len(log.records))
 	copy(snapshot, log.records)
 	for i := range snapshot {
+		if snapshot[i].Offset != nil {
+			offset := *snapshot[i].Offset
+			snapshot[i].Offset = &offset
+		}
+		snapshot[i].ChildIndexes = append([]int(nil), snapshot[i].ChildIndexes...)
 		if snapshot[i].ObservedLength != nil {
 			length := *snapshot[i].ObservedLength
 			snapshot[i].ObservedLength = &length
@@ -260,7 +281,7 @@ func (log *ViolationLog) Reset() {
 	log.mu.Unlock()
 }
 
-// WithConstraintTolerance admits out-of-constraint BER values. A generated
+// WithTolerance admits representable constraint and protocol-rule violations. A generated
 // decode or encode call publishes its violations to reports only when that
 // call succeeds. Failed calls publish nothing. The log may be shared across
 // concurrent codecs.
@@ -271,11 +292,11 @@ func (log *ViolationLog) Reset() {
 // tolerated constraint violation would otherwise change on re-encoding, and
 // only while the typed contents remain unchanged. Modified values encode from
 // their current fields; DER always encodes from the typed value. The report
-// destination must be non-nil. Tolerance covers only values
-// representable in the generated int64 or uint64 field. An unrepresentable
-// INTEGER returns ErrInvalidValue and records no violation (ITU-T X.680
-// (02/2021) §§49.7, 50–51).
-func WithConstraintTolerance(reports *ViolationLog) ToleranceOption {
+// destination must be non-nil. Fixed-width INTEGER fields must remain within
+// their int64 or uint64 representation; failure returns ErrInvalidValue without
+// a report. Arbitrary-width INTEGER fields retain full values. Source value
+// sets follow ITU-T X.680 (02/2021) §§49.7, 50–51.
+func WithTolerance(reports *ViolationLog) ToleranceOption {
 	return &toleranceOption{violations: reports}
 }
 
@@ -408,10 +429,10 @@ func StageEncodeReports(options []EncodeOption) ([]EncodeOption, func(bool)) {
 
 func (option *toleranceOption) applyDecode(config *decodeConfig) error {
 	if option.violations == nil {
-		return fmt.Errorf("%w: nil BER constraint report destination", ErrInvalidValue)
+		return fmt.Errorf("%w: nil BER tolerance report destination", ErrInvalidValue)
 	}
 	if config.tolerant {
-		return fmt.Errorf("%w: duplicate BER constraint tolerance option", ErrInvalidValue)
+		return fmt.Errorf("%w: duplicate BER tolerance option", ErrInvalidValue)
 	}
 	config.tolerant = true
 	config.violations = option.violations
@@ -424,10 +445,10 @@ func (option *toleranceOption) applyDecode(config *decodeConfig) error {
 
 func (option *toleranceOption) applyEncode(config *encodeConfig) error {
 	if option.violations == nil {
-		return fmt.Errorf("%w: nil BER constraint report destination", ErrInvalidValue)
+		return fmt.Errorf("%w: nil BER tolerance report destination", ErrInvalidValue)
 	}
 	if config.tolerant {
-		return fmt.Errorf("%w: duplicate BER constraint tolerance option", ErrInvalidValue)
+		return fmt.Errorf("%w: duplicate BER tolerance option", ErrInvalidValue)
 	}
 	config.tolerant = true
 	config.violations = option.violations
@@ -500,23 +521,31 @@ func ValidateEncodeOptions(options ...EncodeOption) error {
 // CheckDecodedLength enforces a generated SIZE check or records its violation.
 func CheckDecodedLength(options []DecodeOption, path, constraint string, observed int) error {
 	length := observed
-	return checkDecodedConstraint(options, ConstraintViolation{Path: path, Constraint: constraint, ObservedLength: &length})
+	return checkDecodedConstraint(options, Violation{Path: path, Constraint: constraint, ObservedLength: &length})
 }
 
 // CheckDecodedValue enforces a generated value-set check or records its violation.
 func CheckDecodedValue(options []DecodeOption, path, constraint, observed string) error {
-	return checkDecodedConstraint(options, ConstraintViolation{Path: path, Constraint: constraint, ObservedValue: observed})
+	return checkDecodedConstraint(options, Violation{Path: path, Constraint: constraint, ObservedValue: observed})
 }
 
-func checkDecodedConstraint(options []DecodeOption, violation ConstraintViolation) error {
+func checkDecodedConstraint(options []DecodeOption, violation Violation) error {
 	config, err := decodeOptions(options)
 	if err != nil {
 		return err
 	}
+	leaf := violation.Path
 	violation.Path = qualifyConstraintPath(options, violation.Path)
+	violation = identifyViolation(violation)
+	if violation.Offset == nil {
+		violation, err = locateViolation(config, violation, leaf)
+		if err != nil {
+			return err
+		}
+	}
 	violation.scope = config.reportScope
 	if !config.tolerant {
-		return &ConstraintError{violation}
+		return &ValidationError{boundedViolation(violation)}
 	}
 	return config.violations.append(violation, config.diagnostics)
 }
@@ -524,25 +553,28 @@ func checkDecodedConstraint(options []DecodeOption, violation ConstraintViolatio
 // CheckEncodedLength enforces a generated SIZE check or records its violation.
 func CheckEncodedLength(options []EncodeOption, path, constraint string, observed int) error {
 	length := observed
-	return checkEncodedConstraint(options, ConstraintViolation{Path: path, Constraint: constraint, ObservedLength: &length})
+	return checkEncodedConstraint(options, Violation{Path: path, Constraint: constraint, ObservedLength: &length})
 }
 
 // CheckEncodedValue enforces a generated value-set check or records its violation.
 func CheckEncodedValue(options []EncodeOption, path, constraint, observed string) error {
-	return checkEncodedConstraint(options, ConstraintViolation{Path: path, Constraint: constraint, ObservedValue: observed})
+	return checkEncodedConstraint(options, Violation{Path: path, Constraint: constraint, ObservedValue: observed})
 }
 
-func checkEncodedConstraint(options []EncodeOption, violation ConstraintViolation) error {
+func checkEncodedConstraint(options []EncodeOption, violation Violation) error {
 	config, err := encodeOptions(options)
 	if err != nil {
 		return err
 	}
+	leaf := violation.Path
 	violation.Path = qualifyConstraintPath(options, violation.Path)
+	violation = identifyViolation(violation)
+	violation.Source = sourceField(config.source, leaf)
 	violation.scope = config.reportScope
 	if config.tolerant {
-		return config.violations.append(violation, DiagnosticLimits{})
+		return config.violations.append(violation, DefaultDiagnosticLimits())
 	}
-	return &ConstraintError{violation}
+	return &ValidationError{boundedViolation(violation)}
 }
 
 type constraintPathOption string
@@ -572,6 +604,13 @@ func qualifyConstraintPath[Option any](options []Option, leaf string) string {
 					reverse = append(reverse, fmt.Sprintf("element[%d]", current.element))
 				} else if current.component != "" {
 					reverse = append(reverse, current.component)
+				}
+				if current.pathOptions != nil {
+					prefix := qualifyConstraintPath(current.pathOptions, "")
+					if prefix != "" {
+						components = append(components, strings.Split(prefix, ".")...)
+					}
+					break
 				}
 			}
 			for index := len(reverse); index > 0; index-- {
@@ -633,22 +672,23 @@ func ChildEncodeOptions(options []EncodeOption, component string) []EncodeOption
 	return append(options[:len(options):len(options)], constraintPathOption(component))
 }
 
-// ConstraintToleranceEnabled reports whether a validated decode option set
-// requested constraint tolerance.
-func ConstraintToleranceEnabled(options []DecodeOption) bool {
+// ToleranceEnabled reports whether a validated decode option set
+// requested reported tolerance.
+func ToleranceEnabled(options []DecodeOption) bool {
 	config, err := decodeOptions(options)
 	return err == nil && config.tolerant
 }
 
 type berFormState struct {
-	preserve     bool
-	validated    *validatedBERSource
-	owned        []byte
-	proofNeeded  bool
-	lightInput   []byte
-	lightOwned   []byte
-	lightReplay  *ReplayState
-	lastCaptured *ReplayNode
+	preserve        bool
+	captureDisabled bool
+	validated       *validatedBERSource
+	owned           []byte
+	proofNeeded     bool
+	lightInput      []byte
+	lightOwned      []byte
+	lightReplay     *ReplayState
+	lastCaptured    *ReplayNode
 }
 
 type berFormOption struct{ state *berFormState }
@@ -677,7 +717,8 @@ func TrackBERForm(options []DecodeOption) []DecodeOption {
 		}
 	}
 	tracked := append([]DecodeOption(nil), options...)
-	return append(tracked, berFormOption{state: new(berFormState)})
+	config, _ := decodeOptions(options)
+	return append(tracked, berFormOption{state: &berFormState{captureDisabled: config.noReplayCapture}})
 }
 
 func generatedDecodeHasForm(options []DecodeOption) bool {
@@ -721,10 +762,10 @@ func BERNeedsPreservation(options []DecodeOption) bool {
 			return BERNeedsPreservation(diagnostic.options)
 		}
 		if context, ok := option.(*generatedDecodeOption); ok && context != nil && context.config.form != nil {
-			return context.config.form.preserve
+			return !context.config.form.captureDisabled && context.config.form.preserve
 		}
 		if form, ok := option.(berFormOption); ok {
-			return form.state.preserve
+			return !form.state.captureDisabled && form.state.preserve
 		}
 	}
 	return false
@@ -792,4 +833,10 @@ func CheckEncodedCollectionLength(options []EncodeOption, assignment, constraint
 		assignment = ""
 	}
 	return CheckEncodedLength(options, assignment, constraint, observed)
+}
+
+func boundedViolation(record Violation) Violation {
+	record.ObservedValueLength = len(record.ObservedValue)
+	record.ObservedValue = strings.Clone(record.ObservedValue[:min(len(record.ObservedValue), MaxObservedValueBytes)])
+	return record
 }

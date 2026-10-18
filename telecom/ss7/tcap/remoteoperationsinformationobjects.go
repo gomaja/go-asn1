@@ -183,7 +183,7 @@ func (destination *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Code", "Remote-Operations-Information-Objects", "Code")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -206,6 +206,8 @@ func (destination *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Information-Objects.Code", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Code{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Code CHOICE")

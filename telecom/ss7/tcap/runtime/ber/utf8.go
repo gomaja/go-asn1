@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 1eed77e36760cd804cf2f8147363f912897b153ccac048aeef17a9f5cd0944b0.
+// Runtime source: runtime/ber/utf8.go; SHA-256 a1ca3f4da5beb3bc25662afa526455ee99df5954a09185e133fa4b8ed2c67c94.
 package ber
 
 import (
@@ -27,7 +27,7 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 	if utf8.Valid(contents) {
 		return nil
 	}
-	if !config.tolerant {
+	if !config.tolerant || config.profile {
 		return fmt.Errorf("%w: UTF8String is not shortest-form UTF-8 scalar text", ErrInvalidValue)
 	}
 	path := qualifyConstraintPath(options, "")
@@ -38,7 +38,7 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 		r, size := utf8.DecodeRune(contents[offset:])
 		if r == utf8.RuneError && size == 1 {
 			location := offset
-			if err := config.violations.append(ConstraintViolation{
+			if err := config.violations.append(Violation{
 				Path: path, Constraint: "UTF8String shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)",
 				ObservedValue: fmt.Sprintf("%02x", contents[offset]), OctetOffset: &location,
 				source: weak.Make(source), preflight: preflight, scope: config.reportScope,

@@ -71,7 +71,7 @@ func qualifyBERError(err error, segment, phase string, qualifyConstraint bool) e
 		return nil
 	}
 	if _, hasPath := err.(interface{ ASN1BERPath() string }); !hasPath {
-		var constraintErr *ber.ConstraintError
+		var constraintErr *ber.ValidationError
 		if errors.As(err, &constraintErr) {
 			// Ordinary BER paths already carry their full constraint path in options.
 			// Strict builder paths and DER qualify copies at reference boundaries.

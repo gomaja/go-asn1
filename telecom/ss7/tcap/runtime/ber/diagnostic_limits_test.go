@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/diagnostic_limits_test.go; SHA-256 72e2944ce743dd0c6f863d73a04830f9e9ddf06b40a741f26ca25a2f2a61128f.
+// Runtime source: runtime/ber/diagnostic_limits_test.go; SHA-256 47d9af950c86c3c500e83d527e961c4413b080bead19fce140dd1f6b72962168.
 package ber
 
 import (
@@ -12,7 +12,7 @@ import (
 
 func TestBERDiagnosticBudgetSharedAcrossFields(t *testing.T) {
 	var reports ViolationLog
-	option := WithConstraintTolerance(&reports)
+	option := WithTolerance(&reports)
 	for range 2 {
 		options, finish := StageDecodeReports([]DecodeOption{option, WithDiagnosticLimits(DiagnosticLimits{MaxRecords: 2})})
 		for _, name := range []string{"first", "second", "third"} {
@@ -46,7 +46,7 @@ func TestBERDiagnosticBudgetSharedAcrossFields(t *testing.T) {
 
 func TestBERObservedValuesAreBoundedAndIndependent(t *testing.T) {
 	var reports ViolationLog
-	options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports), WithDiagnosticLimits(DiagnosticLimits{MaxObservedBytes: 2 * MaxObservedValueBytes})})
+	options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports), WithDiagnosticLimits(DiagnosticLimits{MaxObservedBytes: 2 * MaxObservedValueBytes})})
 	first := strings.Repeat("A", 4<<20) + "1"
 	second := first[:len(first)-1] + "2"
 	for _, observation := range []string{first, first, second} {

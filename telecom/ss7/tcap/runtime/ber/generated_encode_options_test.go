@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_encode_options_test.go; SHA-256 300c52941fff52618a171007b8bdd32d5e61202be629adff65cffe69b020346a.
+// Runtime source: runtime/ber/generated_encode_options_test.go; SHA-256 2cc8cd61302acad57d1d5644a25ff1b41bc8594347c483c875478855d82365c3.
 package ber
 
 import (
@@ -10,7 +10,7 @@ import (
 
 func TestGeneratedEncodeOptionsRetainPathsAndStageReports(t *testing.T) {
 	var reports ViolationLog
-	options, finish := StageGeneratedEncodeReports([]EncodeOption{WithConstraintTolerance(&reports)})
+	options, finish := StageGeneratedEncodeReports([]EncodeOption{WithTolerance(&reports)})
 	child, finishChild := StageGeneratedEncodeReports(ChildGeneratedEncodeOptions(options, "outer"))
 	child = ChildGeneratedEncodeOptions(child, "inner")
 	if err := CheckEncodedValue(child, "leaf", "(1)", "2"); err != nil {
@@ -25,7 +25,7 @@ func TestGeneratedEncodeOptionsRetainPathsAndStageReports(t *testing.T) {
 	if len(got) != 1 || got[0].Path != "outer.inner.leaf" {
 		t.Fatalf("staged reports: %+v", got)
 	}
-	element, finishElement := StageGeneratedEncodeReports([]EncodeOption{WithConstraintTolerance(&reports)})
+	element, finishElement := StageGeneratedEncodeReports([]EncodeOption{WithTolerance(&reports)})
 	element = ChildGeneratedElementEncodeOptions(element, 7)
 	if err := CheckEncodedValue(element, "leaf", "(1)", "2"); err != nil {
 		t.Fatal(err)
@@ -38,7 +38,7 @@ func TestGeneratedEncodeOptionsRetainPathsAndStageReports(t *testing.T) {
 	strict, _ := StageGeneratedEncodeReports(nil)
 	strict = ChildGeneratedEncodeOptions(strict, "outer")
 	strict = ChildGeneratedEncodeOptions(strict, "inner")
-	var path *ConstraintError
+	var path *ValidationError
 	if err := CheckEncodedValue(strict, "leaf", "(1)", "2"); !errors.As(err, &path) || path.Path != "leaf" {
 		t.Fatalf("strict path: %v", err)
 	}

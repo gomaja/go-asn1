@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/encoder.go; SHA-256 2c503c9d10273bb09cb3c43da5fdeb6bbd4b0e2c074dc0b7ffb760e1ca21d03f.
+// Runtime source: runtime/ber/encoder.go; SHA-256 6028c08eec42745f94f15c6c06e287f061ed4c8e2d824e54b43735c59b3086b1.
 package ber
 
 import (
@@ -189,8 +189,13 @@ func EncodeBitString(bytes []byte, unusedBits int) ([]byte, error) {
 // EncodeDERNamedBitString removes trailing zero bits from a named BIT STRING
 // before DER encoding, as required by ITU-T X.690 (02/2021) §11.2.2.
 func EncodeDERNamedBitString(bytes []byte, bitLength int) ([]byte, error) {
-	if err := ValidateDERBitString(bytes, bitLength); err != nil {
+	if err := ValidateBitStringLength(bytes, bitLength); err != nil {
 		return nil, err
+	}
+	unused := UnusedBitCount(bitLength)
+	if unused > 0 && len(bytes) > 0 {
+		bytes = append([]byte(nil), bytes...)
+		bytes[len(bytes)-1] &= byte(0xff << unused)
 	}
 	// The last nonzero octet contains the highest-numbered named bit.
 	end := len(bytes)
@@ -222,6 +227,10 @@ func encodeBitStringWithLimit(bytes []byte, unusedBits, limit int) ([]byte, erro
 	value := make([]byte, capacity)
 	value[0] = byte(unusedBits)
 	copy(value[1:], bytes)
+	// Fresh output normalizes non-semantic tails: X.690 (02/2021) §§8.6.2.2,11.2.1.
+	if unusedBits > 0 {
+		value[len(value)-1] &= byte(0xff << unusedBits)
+	}
 	return encodeTLVWithLimit(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagBitString}, value, limit)
 }
 
@@ -488,6 +497,10 @@ func encodeBitStringValueWithLimit(bytes []byte, unusedBits, limit int) ([]byte,
 	result := make([]byte, capacity)
 	result[0] = byte(unusedBits)
 	copy(result[1:], bytes)
+	// Clear only the output copy, under the same fresh-encoding policy.
+	if unusedBits > 0 {
+		result[len(result)-1] &= byte(0xff << unusedBits)
+	}
 	return result, nil
 }
 

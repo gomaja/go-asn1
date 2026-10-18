@@ -816,6 +816,14 @@ func (v *DialoguePDU) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, 
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "DialoguePDU", "DialoguePDUs", "DialoguePDU")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: DialoguePDU receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1073,7 +1081,7 @@ func (destination *DialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "DialoguePDU", "DialoguePDUs", "DialoguePDU")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1096,6 +1104,8 @@ func (destination *DialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "DialoguePDUs.DialoguePDU", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = DialoguePDU{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for DialoguePDU CHOICE")
@@ -1162,6 +1172,14 @@ func (v *AARQApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "AARQApdu", "DialoguePDUs", "AARQ-apdu")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AARQApdu receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1430,7 +1448,7 @@ func (destination *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "AARQApdu", "DialoguePDUs", "AARQ-apdu")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1444,6 +1462,8 @@ func (destination *AARQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "DialoguePDUs.AARQ-apdu", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = AARQApdu{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1611,6 +1631,14 @@ func (v *AAREApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "AAREApdu", "DialoguePDUs", "AARE-apdu")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AAREApdu receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1948,7 +1976,7 @@ func (destination *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "AAREApdu", "DialoguePDUs", "AARE-apdu")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1962,6 +1990,8 @@ func (destination *AAREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "DialoguePDUs.AARE-apdu", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = AAREApdu{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2210,6 +2240,14 @@ func (v *RLRQApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "RLRQApdu", "DialoguePDUs", "RLRQ-apdu")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: RLRQApdu receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2413,7 +2451,7 @@ func (destination *RLRQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "RLRQApdu", "DialoguePDUs", "RLRQ-apdu")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -2427,6 +2465,8 @@ func (destination *RLRQApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "DialoguePDUs.RLRQ-apdu", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = RLRQApdu{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2544,6 +2584,14 @@ func (v *RLREApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "RLREApdu", "DialoguePDUs", "RLRE-apdu")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: RLREApdu receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2747,7 +2795,7 @@ func (destination *RLREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "RLREApdu", "DialoguePDUs", "RLRE-apdu")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -2761,6 +2809,8 @@ func (destination *RLREApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "DialoguePDUs.RLRE-apdu", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = RLREApdu{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2878,6 +2928,14 @@ func (v *ABRTApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "ABRTApdu", "DialoguePDUs", "ABRT-apdu")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ABRTApdu receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3075,7 +3133,7 @@ func (destination *ABRTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "ABRTApdu", "DialoguePDUs", "ABRT-apdu")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3089,6 +3147,8 @@ func (destination *ABRTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "DialoguePDUs.ABRT-apdu", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ABRTApdu{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -3345,7 +3405,7 @@ func (destination *AssociateSourceDiagnostic) UnmarshalBER(data []byte, opts ...
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "AssociateSourceDiagnostic", "DialoguePDUs", "Associate-source-diagnostic")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3368,6 +3428,8 @@ func (destination *AssociateSourceDiagnostic) UnmarshalBER(data []byte, opts ...
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "DialoguePDUs.Associate-source-diagnostic", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = AssociateSourceDiagnostic{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AssociateSourceDiagnostic CHOICE")
@@ -3543,7 +3605,7 @@ func appendDERLinearUserInformation(encoder *ber.LinearEncoder, collection *User
 func tcapUnmarshalBERUserInformation(data []byte, opts ...ber.DecodeOption) (returnValue *UserInformation, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "UserInformation", "DialoguePDUs", "UserInformation")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return nil, ownErr
@@ -3557,6 +3619,8 @@ func tcapUnmarshalBERUserInformation(data []byte, opts ...ber.DecodeOption) (ret
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "DialoguePDUs.UserInformation", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding UserInformation", qualifyBERError(err, "", "decoding", false))

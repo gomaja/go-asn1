@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_reports_test.go; SHA-256 68470a2da1ac14c461d920ee55d0e2195a081ea51b14721f500c8c347e6067a8.
+// Runtime source: runtime/ber/preflight_reports_test.go; SHA-256 2b0e69714d1e3191f4211cb21fdc00ad4b996b4851a8f94b686547161a5ade74.
 package ber
 
 import (
@@ -12,7 +12,7 @@ import (
 func TestBERPreflightReportsRetainDistinctTypedFields(t *testing.T) {
 	wire := structureWire(t, "30060c01ff0c01ff")
 	var reports ViolationLog
-	options, commit := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+	options, commit := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 	options = TrackBERForm(ChildDecodeOptions(options, "message"))
 	if err := ValidateBERElement(wire, options...); err != nil {
 		t.Fatal(err)
@@ -32,7 +32,7 @@ func TestBERPreflightReportsRetainDistinctTypedFields(t *testing.T) {
 
 func TestBERPreflightReportsDiscardFailedDecode(t *testing.T) {
 	var reports ViolationLog
-	options, commit := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+	options, commit := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 	if err := ValidateBERElement(structureWire(t, "30050c01ff0200"), options...); err == nil {
 		t.Fatal("invalid sibling accepted")
 	}
@@ -53,7 +53,7 @@ func TestBERPreflightUTF8LinearCost(t *testing.T) {
 		wire := mustEncode(t)(EncodeTLV(tag.Tag{Number: tag.TagUTF8String, Constructed: true}, contents))
 		operation := func() {
 			var reports ViolationLog
-			options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+			options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 			options = TrackBERForm(options)
 			if err := ValidateBERElement(wire, options...); err != nil {
 				t.Fatal(err)

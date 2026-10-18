@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context_test.go; SHA-256 2cb1a36e6ad912f70fa88aff1c6b43bb29a72518ecc93cf004697b7f34e11ede.
+// Runtime source: runtime/ber/generated_context_test.go; SHA-256 2bed6c4239a042d98602fa5257318b8560c85ea861d16dab1aee88240819765d.
 package ber
 
 import (
@@ -409,7 +409,7 @@ func TestGeneratedAdaptiveNestedIndefiniteToleranceMatchesForcedModes(t *testing
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			var reports ViolationLog
-			options := []DecodeOption{WithConstraintTolerance(&reports)}
+			options := []DecodeOption{WithTolerance(&reports)}
 			if test.mode != nil {
 				options = append(options, test.mode)
 			}

@@ -50,10 +50,10 @@ func nilPayloadCodec[T any](codec PayloadCodec[T]) bool {
 }
 
 // DecodePayload validates one complete BER element before invoking the binding.
-// Generic BER accepts the noncanonical forms that an explicit repair may need:
-// ITU-T X.690 (02/2021) sections 8.1.3 and 8.7. The enclosing TCAP entry point
-// currently accepts these forms too; enforcement of the Q.773 (06/1997)
-// section 4.1.1 encoding profile is separate conformance work.
+// Payload decoding uses generic BER to support explicit schema-aware repair.
+// TCAP decoding and encoding enforce Q.773 (06/1997) section 4.1.1 on
+// owned content and on restrictions visible in raw BER. Unknown IMPLICIT
+// underlying types remain the payload binding's responsibility.
 // The binding receives an owned copy, leaving the raw payload unchanged.
 func DecodePayload[T any](value rt.RawValue, codec PayloadCodec[T], limits PayloadLimits) (T, error) {
 	var zero T

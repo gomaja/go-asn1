@@ -210,7 +210,10 @@ func encodeDialogueExternal(value rt.External, der bool, opts ...ber.EncodeOptio
 			value.Arbitrary.Bytes[len(value.Arbitrary.Bytes)-1] &= byte(0xff << uint(unused))
 		}
 	}
-	if der || !ber.BERReplayEnabled(opts) {
+	// Comparison passes suppress received-form shortcuts, but still compare BER.
+	// Only an explicit replay prohibition requests canonical opaque contents.
+	// X.690 (02/2021) §§8.1.3, 8.18.9; Q.773 (06/1997) §4.1.1.
+	if der || ber.CheckBEROpaqueReplay(opts...) != nil {
 		return ber.EncodeExternalDER(value)
 	}
 	return ber.EncodeExternal(value, opts...)
@@ -277,7 +280,12 @@ func (value *DialoguePortion) dialogueExternal(inner []byte) (rt.External, error
 	// Q.773 4.2.3.1 Tables 33-34; X.690 8.18.6: all three choices carry BER.
 	switch result.Encoding {
 	case rt.ExternalSingleASN1Type:
-		result.SingleASN1Type = rt.RawValue{Bytes: bytes.Clone(inner)}
+		// X.690 (02/2021) §§8.1.2.1, 8.1.2.5, 8.18.6: retain the inner identifier.
+		identifier, _, err := ber.DecodeTag(inner)
+		if err != nil {
+			return rt.External{}, err
+		}
+		result.SingleASN1Type = rt.RawValue{Class: int(identifier.Class), Tag: identifier.Number, Constructed: identifier.Constructed, Bytes: bytes.Clone(inner)}
 	case rt.ExternalOctetAligned:
 		result.OctetAligned = bytes.Clone(inner)
 	case rt.ExternalArbitrary:
@@ -290,6 +298,14 @@ func (value *DialoguePortion) dialogueExternal(inner []byte) (rt.External, error
 func (value *DialoguePortion) MarshalBER(opts ...ber.EncodeOption) (encoded []byte, returnErr error) {
 	opts, commit := ber.StageEncodeReports(opts)
 	defer func() { commit(returnErr == nil) }()
+	var finishProfile func([]byte, error) error
+	opts, finishProfile = ber.StageTCAPEncode(opts, "DialoguePortion", "TCAPMessages")
+	defer func() {
+		returnErr = finishProfile(encoded, returnErr)
+		if returnErr != nil {
+			encoded = nil
+		}
+	}()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -297,7 +313,7 @@ func (value *DialoguePortion) MarshalBER(opts ...ber.EncodeOption) (encoded []by
 		return nil, fmt.Errorf("%w: nil dialogue portion", ber.ErrInvalidValue)
 	}
 	if value.kind == UnresolvedIdentification {
-		if err := ber.CheckEncodedValue(opts, "identification", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL"); err != nil {
+		if err := ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.DialoguePortion"), "identification", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL"); err != nil {
 			return nil, err
 		}
 	}
@@ -346,7 +362,7 @@ func (value *DialoguePortion) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: nil dialogue portion", ber.ErrInvalidValue)
 	}
 	if value.kind == UnresolvedIdentification {
-		return nil, ber.CheckEncodedValue(nil, "identification", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL")
+		return nil, ber.CheckEncodedValue(ber.EncodeSource(nil, "TCAPMessages.DialoguePortion"), "identification", "Q.773 (06/1997) 4.2.3 / X.690 (02/2021) 8.18.4: direct-only abstract syntax identification", "presentation-context-dependent EXTERNAL")
 	}
 	inner, err := value.dialogueInner(true, nil)
 	if err != nil {
@@ -370,7 +386,7 @@ func (value *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if value == nil {
 		return fmt.Errorf("%w: nil dialogue portion destination", ber.ErrInvalidValue)
 	}
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "DialoguePortion", "TCAPMessages")
 	owned, err := ber.OwnGeneratedBERInput(data, opts)
 	if err != nil {
 		return err
@@ -384,6 +400,8 @@ func (value *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		})
 	}
 	data, opts = prepared, preparedOpts
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.DialoguePortion", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	identifier, n, content, err := ber.DecodeTLV(data, opts...)
 	if err != nil {
 		return err
@@ -420,28 +438,33 @@ func (value *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 			}
 			inner = external.Arbitrary.Bytes
 		}
+		innerOptions := ber.LocateDialogueContent(data, inner, opts)
 		if external.DirectReference.Equal(DialogueAsId()) {
 			result.kind = Structured
 			result.dialogue = new(DialoguePDU)
-			if err = result.dialogue.UnmarshalBER(inner, ber.ChildDecodeOptions(opts, "dialogue")...); err != nil {
+			if err = result.dialogue.UnmarshalBER(inner, ber.ChildDecodeOptions(innerOptions, "dialogue")...); err != nil {
 				return err
 			}
 		} else {
 			result.kind = Unstructured
 			result.unidialogue = new(UniDialoguePDU)
-			if err = result.unidialogue.UnmarshalBER(inner, ber.ChildDecodeOptions(opts, "unidialogue")...); err != nil {
+			if err = result.unidialogue.UnmarshalBER(inner, ber.ChildDecodeOptions(innerOptions, "unidialogue")...); err != nil {
 				return err
 			}
 		}
-		result.originalInner = bytes.Clone(inner)
-		result.originalDialogue = result.dialogue
-		result.originalUniDialogue = result.unidialogue
+		if ber.ReplayCaptureEnabled(opts) {
+			result.originalInner = bytes.Clone(inner)
+			result.originalDialogue = result.dialogue
+			result.originalUniDialogue = result.unidialogue
+		}
 		// The typed APDU is authoritative; metadata retains no competing raw copy.
 		result.metadata.SingleASN1Type = rt.RawValue{}
 		result.metadata.OctetAligned = nil
 		result.metadata.Arbitrary = rt.BitString{}
 	}
-	result.originalBER = bytes.Clone(data)
+	if ber.ReplayCaptureEnabled(opts) {
+		result.originalBER = bytes.Clone(data)
+	}
 	if ber.BERNeedsPreservation(opts) {
 		result.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
 		if err = ber.CompleteGeneratedBERDecode(opts, &result, func(current *DialoguePortion, encodeOpts ...ber.EncodeOption) ([]byte, error) {

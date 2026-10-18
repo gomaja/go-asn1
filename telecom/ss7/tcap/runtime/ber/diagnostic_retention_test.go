@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/diagnostic_retention_test.go; SHA-256 855006df85fe9be42708a028d8791650d8b3f82d7f3b87d5f4a918aa43a415a8.
+// Runtime source: runtime/ber/diagnostic_retention_test.go; SHA-256 40a5acbe8a0cbfb327e2312cdf9d8631b7a1747af10f9bab46856acdf4dbcc2a.
 package ber
 
 import (
@@ -15,7 +15,7 @@ import (
 
 // One malformed child next to a large unrelated OCTET STRING must not pin
 // the original allocation through a log, snapshot or retained stage options.
-func makeBERDiagnosticRetention(t *testing.T, reports *ViolationLog) (weak.Pointer[[4 << 20]byte], []DecodeOption, []ConstraintViolation) {
+func makeBERDiagnosticRetention(t *testing.T, reports *ViolationLog) (weak.Pointer[[4 << 20]byte], []DecodeOption, []Violation) {
 	t.Helper()
 	input := new([4 << 20]byte)
 	pointer := weak.Make(input)
@@ -24,7 +24,7 @@ func makeBERDiagnosticRetention(t *testing.T, reports *ViolationLog) (weak.Point
 	input[5], input[6], input[7] = 12, 1, 255
 	octets := len(input) - 13
 	input[8], input[9], input[10], input[11], input[12] = 4, 131, byte(octets>>16), byte(octets>>8), byte(octets)
-	options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(reports)})
+	options, finish := StageDecodeReports([]DecodeOption{WithTolerance(reports)})
 	if err := ValidateBERElement(input[:], options...); err != nil {
 		t.Fatal(err)
 	}
@@ -86,7 +86,7 @@ func makeBERObservedRetention(t *testing.T, reports *ViolationLog) (weak.Pointer
 	t.Helper()
 	observation := strings.Repeat("x", 4<<20)
 	pointer := weak.Make(unsafe.StringData(observation))
-	options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(reports)})
+	options, finish := StageDecodeReports([]DecodeOption{WithTolerance(reports)})
 	if err := CheckDecodedValue(options, "text", "(0)", observation); err != nil {
 		t.Fatal(err)
 	}

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/idempotent_reports_test.go; SHA-256 576aaa98d3ad528997fa9a335287b3eec628ad755155073a922e5bc0bd823fcc.
+// Runtime source: runtime/ber/idempotent_reports_test.go; SHA-256 323c1dda51c46500a216d72608003ccc8f57adf97c0c9395f61f5707a4b794c0.
 package ber
 
 import (
@@ -15,7 +15,7 @@ import (
 func TestViolationLogIdempotentStaging(t *testing.T) {
 	var reports ViolationLog
 	for range 2 {
-		options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+		options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 		for range 2 {
 			if err := CheckDecodedValue(options, "text", "(0)", "1"); err != nil {
 				t.Fatal(err)
@@ -36,7 +36,7 @@ func TestViolationLogIdempotentStaging(t *testing.T) {
 func TestViolationLogIdempotentEncodeStaging(t *testing.T) {
 	var reports ViolationLog
 	for index, success := range []bool{false, true, true} {
-		options, finish := StageEncodeReports([]EncodeOption{WithConstraintTolerance(&reports)})
+		options, finish := StageEncodeReports([]EncodeOption{WithTolerance(&reports)})
 		for range 2 {
 			if err := CheckEncodedValue(options, "text", "(0)", "1"); err != nil {
 				t.Fatal(err)
@@ -59,7 +59,7 @@ func TestBERUTF8ReportsDistinctOctets(t *testing.T) {
 		t.Run(encoded, func(t *testing.T) {
 			wire := structureWire(t, encoded)
 			var reports ViolationLog
-			options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+			options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 			options = TrackBERForm(ChildDecodeOptions(options, "message"))
 			if err := ValidateBERElement(wire, options...); err != nil {
 				t.Fatal(err)
@@ -84,7 +84,7 @@ func TestBERUTF8ReportsDistinctOctets(t *testing.T) {
 
 func TestViolationLogDistinctKeysAndReset(t *testing.T) {
 	var reports ViolationLog
-	options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+	options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 	for _, value := range []struct{ path, constraint, observed string }{
 		{"first", "(0)", "1"}, {"first", "(0)", "1"},
 		{"second", "(0)", "1"}, {"first", "(2)", "1"}, {"first", "(0)", "3"},
@@ -103,7 +103,7 @@ func TestViolationLogDistinctKeysAndReset(t *testing.T) {
 	if got := reports.Snapshot(); len(got) != 6 {
 		t.Fatalf("distinct paths, constraints or observations collapsed: %+v", got)
 	}
-	direct := []DecodeOption{WithConstraintTolerance(&reports)}
+	direct := []DecodeOption{WithTolerance(&reports)}
 	if err := CheckDecodedValue(direct, "first", "(0)", "1"); err != nil {
 		t.Fatal(err)
 	}
@@ -118,7 +118,7 @@ func TestViolationLogDistinctKeysAndReset(t *testing.T) {
 
 func TestBERPreflightOpaqueDistinctStrings(t *testing.T) {
 	var reports ViolationLog
-	options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+	options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 	if err := ValidateBERElement(structureWire(t, "30060c01ff0c01ff"), options...); err != nil {
 		t.Fatal(err)
 	}
@@ -131,7 +131,7 @@ func TestBERPreflightOpaqueDistinctStrings(t *testing.T) {
 func TestViolationLogResetWireReports(t *testing.T) {
 	var reports ViolationLog
 	wire := structureWire(t, "0c01ff")
-	options := []DecodeOption{WithConstraintTolerance(&reports)}
+	options := []DecodeOption{WithTolerance(&reports)}
 	if _, _, err := DecodeString(wire, tag.TagUTF8String, options...); err != nil {
 		t.Fatal(err)
 	}
@@ -148,7 +148,7 @@ func TestBERUTF8SeparateToleranceScopes(t *testing.T) {
 	var reports ViolationLog
 	wire := structureWire(t, "0c01ff")
 	for range 2 {
-		options := []DecodeOption{WithConstraintTolerance(&reports)}
+		options := []DecodeOption{WithTolerance(&reports)}
 		for range 2 {
 			if _, _, err := DecodeString(wire, tag.TagUTF8String, options...); err != nil {
 				t.Fatal(err)
@@ -165,7 +165,7 @@ func TestBERUTF8NestedStagingAndRollback(t *testing.T) {
 		t.Run(fmt.Sprint(success), func(t *testing.T) {
 			wire := structureWire(t, "30060c01ff0c01ff")
 			var reports ViolationLog
-			parent, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+			parent, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 			parent = TrackBERForm(ChildDecodeOptions(parent, "message"))
 			if err := ValidateBERElement(wire, parent...); err != nil {
 				t.Fatal(err)
@@ -199,7 +199,7 @@ func TestBERUTF8ReportOrderAndSnapshot(t *testing.T) {
 	for _, typedFirst := range []bool{false, true} {
 		wire := structureWire(t, "0c01ff")
 		var reports ViolationLog
-		options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+		options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 		typed := ChildDecodeOptions(options, "text")
 		if typedFirst {
 			if _, _, err := DecodeString(wire, tag.TagUTF8String, typed...); err != nil {
@@ -240,7 +240,7 @@ func TestBERUTF8ReportOrderAndSnapshot(t *testing.T) {
 
 func TestViolationLogConcurrentIdempotency(t *testing.T) {
 	var reports ViolationLog
-	options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports)})
+	options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
 	var group sync.WaitGroup
 	for range 16 {
 		group.Go(func() {
@@ -263,7 +263,7 @@ func TestBERUTF8ReportOffsets(t *testing.T) {
 	// valid multibyte scalars. Offsets count content octets, not characters.
 	wire := structureWire(t, "0c0befbfbde282acff41fefe41")
 	var reports ViolationLog
-	if _, _, err := DecodeString(wire, tag.TagUTF8String, WithConstraintTolerance(&reports)); err != nil {
+	if _, _, err := DecodeString(wire, tag.TagUTF8String, WithTolerance(&reports)); err != nil {
 		t.Fatal(err)
 	}
 	var offsets []int

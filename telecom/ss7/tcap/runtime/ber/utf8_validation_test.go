@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8_validation_test.go; SHA-256 2df50ff87ff19ee76f6090704b71b9a5c7b639e3f3289a3f18c7347770963689.
+// Runtime source: runtime/ber/utf8_validation_test.go; SHA-256 97ae74cf344fb27ee241987e9b2e9fc063876cc43e8386794d238a211bd705c5.
 package ber
 
 import (
@@ -51,7 +51,7 @@ func FuzzUTF8StringValidation(f *testing.F) {
 			t.Fatalf("segmented text: %v", err)
 		}
 		var reports ViolationLog
-		options, finish := StageDecodeReports([]DecodeOption{WithConstraintTolerance(&reports), WithDiagnosticLimits(DiagnosticLimits{MaxRecords: max(1, len(contents))})})
+		options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports), WithDiagnosticLimits(DiagnosticLimits{MaxRecords: max(1, len(contents))})})
 		if err := ValidateBERElement(wire, options...); err != nil {
 			t.Fatal(err)
 		}

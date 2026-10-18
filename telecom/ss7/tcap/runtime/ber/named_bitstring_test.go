@@ -1,11 +1,10 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/named_bitstring_test.go; SHA-256 edf01f153200380649f7ac67609a443b0986a3a079902819d4f626b9fc2292e9.
+// Runtime source: runtime/ber/named_bitstring_test.go; SHA-256 93f5176a9a49b06d32151364a5c7b7fbf778ec3c70772a65be2b02e91af667e3.
 package ber
 
 import (
 	"bytes"
-	"errors"
 	"testing"
 )
 
@@ -30,8 +29,10 @@ func TestEncodeDERNamedBitStringRemovesTrailingZeroBits(t *testing.T) {
 	}
 }
 
-func TestEncodeDERNamedBitStringRejectsNonzeroPadding(t *testing.T) {
-	if _, err := EncodeDERNamedBitString([]byte{0xa1}, 3); !errors.Is(err, ErrInvalidValue) {
-		t.Fatalf("padding error = %v, want %v", err, ErrInvalidValue)
+func TestEncodeDERNamedBitStringNormalizesPadding(t *testing.T) {
+	input := []byte{0xa1}
+	output, err := EncodeDERNamedBitString(input, 3)
+	if err != nil || !bytes.Equal(output, []byte{3, 2, 5, 0xa0}) || input[0] != 0xa1 {
+		t.Fatalf("normalized output=%x input=%x: %v", output, input, err)
 	}
 }
