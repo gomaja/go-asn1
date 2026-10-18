@@ -122,3 +122,27 @@ func TestStandaloneStrictEncodeRefusesToleratedLength(t *testing.T) {
 		t.Fatalf("canonical MarshalBER = %x, %v", wire, err)
 	}
 }
+
+// go-asn1 #168: after an edit, strict encoding of a tolerantly decoded message
+// rebuilds the parts whose received form Q.773 (06/1997) §4.1.1 forbids,
+// instead of refusing them.
+func TestEditedTolerantMessageEncodesCanonically(t *testing.T) {
+	want := mustHex(t, "620d4801076c08a10602010102012e")
+	for _, received := range []string{"620e4801016c09a1810602010102012e", "620e4801016c8108a10602010102012e"} {
+		var value tcap.TCMessage
+		var log ber.ViolationLog
+		if err := value.UnmarshalBER(mustHex(t, received), ber.WithTolerance(&log)); err != nil {
+			t.Fatal(err)
+		}
+		if len(log.Snapshot()) == 0 {
+			t.Fatalf("%s: tolerant decode reported no violation", received)
+		}
+		value.Begin.Otid[0] = 7
+		if wire, err := value.MarshalBER(); err != nil || !bytes.Equal(wire, want) {
+			t.Fatalf("%s: strict MarshalBER = %x, %v", received, wire, err)
+		}
+		if err := value.Validate(); err != nil {
+			t.Fatalf("%s: strict Validate: %v", received, err)
+		}
+	}
+}
