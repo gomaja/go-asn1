@@ -12,6 +12,14 @@ import (
 	"reflect"
 )
 
+func equalTCAPReplayBytes(a, b []byte) bool { return bytes.Equal(a, b) }
+func tcapReplayVerdict(equal bool) int {
+	if equal {
+		return 1
+	}
+	return 2
+}
+
 // TransactionPrefix holds only leading TIDs validated before a failure.
 type TransactionPrefix struct {
 	Otid *OrigTransactionID

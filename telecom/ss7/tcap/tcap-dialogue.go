@@ -322,7 +322,9 @@ func (value *DialoguePortion) MarshalBER(opts ...ber.EncodeOption) (encoded []by
 	if err != nil {
 		return nil, err
 	}
-	if replay, ok := ber.PreparedBERReplay(value.dialogueReplayNode(), opts); ok {
+	// The private envelope can change only through its typed content accessor,
+	// which detaches that content from the received baseline before publishing it.
+	if replay, ok := ber.PreparedBERReplay(value.dialogueReplayNode(), opts, value.dialogueUnchanged); ok {
 		return replay, nil
 	}
 	inner, err := value.dialogueInner(false, opts)
@@ -469,10 +471,240 @@ func (value *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		result.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
 		if err = ber.CompleteGeneratedBERDecode(opts, &result, func(current *DialoguePortion, encodeOpts ...ber.EncodeOption) ([]byte, error) {
 			return current.MarshalBER(encodeOpts...)
-		}); err != nil {
+		}, compareTCAPDialoguePortion); err != nil {
 			return err
 		}
 	}
 	*value = result
 	return nil
+}
+func compareTCAPDialogueContentKind(a, b *DialogueContentKind, nodes *ber.BERReplayComparisons) int {
+	if a == nil || b == nil {
+		if a == b {
+			return 1
+		}
+		return 0
+	}
+	if a == b {
+		return 0
+	}
+	result := compareTCAPDialogueContentKindValue(a, b, nodes, 1, true, false)
+	if result == 0 && nodes != nil {
+		nodes.ProveEqual(compareTCAPDialogueContentKindValue(a, b, nil, 1, true, true) == 1)
+	}
+	return result
+}
+func compareTCAPDialogueContentKindValue(a, b *DialogueContentKind, nodes *ber.BERReplayComparisons, depth int, accessible, source bool) int {
+	if depth > 1024 {
+		return 0
+	}
+	return tcapReplayVerdict((*a) == (*b))
+}
+func compareTCAPDialoguePortion(a, b *DialoguePortion, nodes *ber.BERReplayComparisons) int {
+	if a == nil || b == nil {
+		if a == b {
+			return 1
+		}
+		return 0
+	}
+	if a == b {
+		return 0
+	}
+	result := compareTCAPDialoguePortionValue(a, b, nodes, 1, true, false)
+	if result == 0 && nodes != nil {
+		nodes.ProveEqual(compareTCAPDialoguePortionValue(a, b, nil, 1, true, true) == 1)
+	}
+	return result
+}
+func compareTCAPDialoguePortionValue(a, b *DialoguePortion, nodes *ber.BERReplayComparisons, depth int, accessible, source bool) int {
+	if depth > 1024 {
+		return 0
+	}
+	result := 1
+	{
+		part := ber.CompareBERReplayPrimitive((*rt.External)(&a.metadata), (*rt.External)(&b.metadata), source)
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := compareTCAPDialogueContentKindValue(&a.kind, &b.kind, nodes, depth+1, source, source)
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.dialogue == nil || b.dialogue == nil {
+				if a.dialogue == b.dialogue {
+					return 1
+				}
+				return 0
+			}
+			return func() int {
+				if a.dialogue == b.dialogue {
+					if source {
+						return 1
+					}
+					return 0
+				}
+				return compareTCAPDialoguePDUValue(a.dialogue, b.dialogue, nodes, (depth+1)+1, source, source)
+			}()
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.unidialogue == nil || b.unidialogue == nil {
+				if a.unidialogue == b.unidialogue {
+					return 1
+				}
+				return 0
+			}
+			return func() int {
+				if a.unidialogue == b.unidialogue {
+					if source {
+						return 1
+					}
+					return 0
+				}
+				return compareTCAPUniDialoguePDUValue(a.unidialogue, b.unidialogue, nodes, (depth+1)+1, source, source)
+			}()
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.originalDialogue == nil || b.originalDialogue == nil {
+				if a.originalDialogue == b.originalDialogue {
+					return 1
+				}
+				return 0
+			}
+			return func() int {
+				if a.originalDialogue == b.originalDialogue {
+					if source {
+						return 1
+					}
+					return 0
+				}
+				return compareTCAPDialoguePDUValue(a.originalDialogue, b.originalDialogue, nodes, (depth+1)+1, source, source)
+			}()
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.originalUniDialogue == nil || b.originalUniDialogue == nil {
+				if a.originalUniDialogue == b.originalUniDialogue {
+					return 1
+				}
+				return 0
+			}
+			return func() int {
+				if a.originalUniDialogue == b.originalUniDialogue {
+					if source {
+						return 1
+					}
+					return 0
+				}
+				return compareTCAPUniDialoguePDUValue(a.originalUniDialogue, b.originalUniDialogue, nodes, (depth+1)+1, source, source)
+			}()
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := tcapReplayVerdict(equalTCAPReplayBytes(a.originalBER, b.originalBER))
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := tcapReplayVerdict(equalTCAPReplayBytes(a.originalInner, b.originalInner))
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := tcapReplayVerdict(a.editable == b.editable)
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.berReplayNode_ == b.berReplayNode_ {
+				return 1
+			}
+			return 0
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	nodes.Record(a.berReplayNode_, b.berReplayNode_, result, func() bool { return compareTCAPDialoguePortionValue(a, b, nil, depth, true, true) == 1 })
+	return result
 }

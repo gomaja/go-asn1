@@ -176,7 +176,7 @@ func (v *ROSSingleAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, 
 		return nil, err
 	}
 
-	linearOptions_ := len(opts) == 0
+	linearOptions_ := ber.CanUseLinearBEREncode(opts)
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	var finishTCAPProfile func([]byte, error) error
@@ -558,7 +558,7 @@ func (destination *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
 		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSSingleAS, replayOpts ...ber.EncodeOption) ([]byte, error) {
 			return base.MarshalBER(replayOpts...)
-		})
+		}, compareTCAPROSSingleAS)
 	}()
 	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
 	if prepareErr != nil {
@@ -686,7 +686,7 @@ func (v *ROSConsumerAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 		return nil, err
 	}
 
-	linearOptions_ := len(opts) == 0
+	linearOptions_ := ber.CanUseLinearBEREncode(opts)
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	var finishTCAPProfile func([]byte, error) error
@@ -1068,7 +1068,7 @@ func (destination *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
 		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSConsumerAS, replayOpts ...ber.EncodeOption) ([]byte, error) {
 			return base.MarshalBER(replayOpts...)
-		})
+		}, compareTCAPROSConsumerAS)
 	}()
 	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
 	if prepareErr != nil {
@@ -1196,7 +1196,7 @@ func (v *ROSSupplierAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 		return nil, err
 	}
 
-	linearOptions_ := len(opts) == 0
+	linearOptions_ := ber.CanUseLinearBEREncode(opts)
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	var finishTCAPProfile func([]byte, error) error
@@ -1578,7 +1578,7 @@ func (destination *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
 		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSSupplierAS, replayOpts ...ber.EncodeOption) ([]byte, error) {
 			return base.MarshalBER(replayOpts...)
-		})
+		}, compareTCAPROSSupplierAS)
 	}()
 	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
 	if prepareErr != nil {
@@ -2043,4 +2043,496 @@ func (v ROSSupplierAS) equalTCAPValue(other any) bool {
 		return false
 	}
 	return true
+}
+func compareTCAPROSSingleAS(a, b *ROSSingleAS, nodes *ber.BERReplayComparisons) int {
+	if a == nil || b == nil {
+		if a == b {
+			return 1
+		}
+		return 0
+	}
+	if a == b {
+		return 0
+	}
+	result := compareTCAPROSSingleASValue(a, b, nodes, 1, true, false)
+	if result == 0 && nodes != nil {
+		nodes.ProveEqual(compareTCAPROSSingleASValue(a, b, nil, 1, true, true) == 1)
+	}
+	return result
+}
+func compareTCAPROSSingleASValue(a, b *ROSSingleAS, nodes *ber.BERReplayComparisons, depth int, accessible, source bool) int {
+	if depth > 1024 {
+		return 0
+	}
+	if a.Choice < 1 || b.Choice < 1 || a.Choice > 4 || b.Choice > 4 {
+		return 0
+	}
+	if a.Choice != b.Choice {
+		return 2
+	}
+	result := 1
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.berReplayNode_ == b.berReplayNode_ {
+				return 1
+			}
+			return 0
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	if a.Choice == 1 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.Invoke == nil || b.Invoke == nil {
+					if a.Invoke == b.Invoke {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.Invoke == b.Invoke {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPInvokeValue(a.Invoke, b.Invoke, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	if a.Choice == 2 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.ReturnResult == nil || b.ReturnResult == nil {
+					if a.ReturnResult == b.ReturnResult {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.ReturnResult == b.ReturnResult {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPReturnResultValue(a.ReturnResult, b.ReturnResult, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	if a.Choice == 3 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.ReturnError == nil || b.ReturnError == nil {
+					if a.ReturnError == b.ReturnError {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.ReturnError == b.ReturnError {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPReturnErrorValue(a.ReturnError, b.ReturnError, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	if a.Choice == 4 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.Reject == nil || b.Reject == nil {
+					if a.Reject == b.Reject {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.Reject == b.Reject {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPRejectValue(a.Reject, b.Reject, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	nodes.Record(a.berReplayNode_, b.berReplayNode_, result, func() bool { return compareTCAPROSSingleASValue(a, b, nil, depth, true, true) == 1 })
+	return result
+}
+func compareTCAPROSConsumerAS(a, b *ROSConsumerAS, nodes *ber.BERReplayComparisons) int {
+	if a == nil || b == nil {
+		if a == b {
+			return 1
+		}
+		return 0
+	}
+	if a == b {
+		return 0
+	}
+	result := compareTCAPROSConsumerASValue(a, b, nodes, 1, true, false)
+	if result == 0 && nodes != nil {
+		nodes.ProveEqual(compareTCAPROSConsumerASValue(a, b, nil, 1, true, true) == 1)
+	}
+	return result
+}
+func compareTCAPROSConsumerASValue(a, b *ROSConsumerAS, nodes *ber.BERReplayComparisons, depth int, accessible, source bool) int {
+	if depth > 1024 {
+		return 0
+	}
+	if a.Choice < 1 || b.Choice < 1 || a.Choice > 4 || b.Choice > 4 {
+		return 0
+	}
+	if a.Choice != b.Choice {
+		return 2
+	}
+	result := 1
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.berReplayNode_ == b.berReplayNode_ {
+				return 1
+			}
+			return 0
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	if a.Choice == 1 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.Invoke == nil || b.Invoke == nil {
+					if a.Invoke == b.Invoke {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.Invoke == b.Invoke {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPInvokeValue(a.Invoke, b.Invoke, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	if a.Choice == 2 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.ReturnResult == nil || b.ReturnResult == nil {
+					if a.ReturnResult == b.ReturnResult {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.ReturnResult == b.ReturnResult {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPReturnResultValue(a.ReturnResult, b.ReturnResult, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	if a.Choice == 3 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.ReturnError == nil || b.ReturnError == nil {
+					if a.ReturnError == b.ReturnError {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.ReturnError == b.ReturnError {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPReturnErrorValue(a.ReturnError, b.ReturnError, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	if a.Choice == 4 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.Reject == nil || b.Reject == nil {
+					if a.Reject == b.Reject {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.Reject == b.Reject {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPRejectValue(a.Reject, b.Reject, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	nodes.Record(a.berReplayNode_, b.berReplayNode_, result, func() bool { return compareTCAPROSConsumerASValue(a, b, nil, depth, true, true) == 1 })
+	return result
+}
+func compareTCAPROSSupplierAS(a, b *ROSSupplierAS, nodes *ber.BERReplayComparisons) int {
+	if a == nil || b == nil {
+		if a == b {
+			return 1
+		}
+		return 0
+	}
+	if a == b {
+		return 0
+	}
+	result := compareTCAPROSSupplierASValue(a, b, nodes, 1, true, false)
+	if result == 0 && nodes != nil {
+		nodes.ProveEqual(compareTCAPROSSupplierASValue(a, b, nil, 1, true, true) == 1)
+	}
+	return result
+}
+func compareTCAPROSSupplierASValue(a, b *ROSSupplierAS, nodes *ber.BERReplayComparisons, depth int, accessible, source bool) int {
+	if depth > 1024 {
+		return 0
+	}
+	if a.Choice < 1 || b.Choice < 1 || a.Choice > 4 || b.Choice > 4 {
+		return 0
+	}
+	if a.Choice != b.Choice {
+		return 2
+	}
+	result := 1
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.berReplayNode_ == b.berReplayNode_ {
+				return 1
+			}
+			return 0
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	if a.Choice == 1 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.Invoke == nil || b.Invoke == nil {
+					if a.Invoke == b.Invoke {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.Invoke == b.Invoke {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPInvokeValue(a.Invoke, b.Invoke, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	if a.Choice == 2 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.ReturnResult == nil || b.ReturnResult == nil {
+					if a.ReturnResult == b.ReturnResult {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.ReturnResult == b.ReturnResult {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPReturnResultValue(a.ReturnResult, b.ReturnResult, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	if a.Choice == 3 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.ReturnError == nil || b.ReturnError == nil {
+					if a.ReturnError == b.ReturnError {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.ReturnError == b.ReturnError {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPReturnErrorValue(a.ReturnError, b.ReturnError, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	if a.Choice == 4 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.Reject == nil || b.Reject == nil {
+					if a.Reject == b.Reject {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.Reject == b.Reject {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPRejectValue(a.Reject, b.Reject, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	nodes.Record(a.berReplayNode_, b.berReplayNode_, result, func() bool { return compareTCAPROSSupplierASValue(a, b, nil, depth, true, true) == 1 })
+	return result
 }

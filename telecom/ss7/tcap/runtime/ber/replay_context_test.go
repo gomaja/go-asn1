@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_context_test.go; SHA-256 6289ea563545467912d9642797439a56fef762b963099b9a1f63913ee843e181.
+// Runtime source: runtime/ber/replay_context_test.go; SHA-256 81a670527f147d5c79cc436d3f20120cae129e71b08530e2c40db5ec1b01afe4.
 package ber
 
 import (
@@ -170,7 +170,7 @@ func TestBERReplayUnprovenRootChangeUsesComparison(t *testing.T) {
 	state := new(ReplayState)
 	node := &ReplayNode{state: state, original: []byte{0x30, 4, 2, 0x81, 1, 1}}
 	state.root = node
-	state.same = func(any, *replayNodeComparisons) berValueComparison { return berValueUnknown }
+	state.same = func(any, *BERReplayComparisons) berValueComparison { return berValueUnknown }
 	encode := func(mode EncodeOption) ([]byte, error) {
 		options, err := PrepareBERReplay(node, []EncodeOption{mode}, nil, nil)
 		if err != nil {
@@ -195,7 +195,7 @@ func TestBERReplayComparisonCanonicalizesIndefiniteForm(t *testing.T) {
 	child := &ReplayNode{state: state, original: root.original[6:]}
 	grandchild := &ReplayNode{state: state, original: root.original[8:12]}
 	state.root = root
-	state.same = func(any, *replayNodeComparisons) berValueComparison { return berValueUnknown }
+	state.same = func(any, *BERReplayComparisons) berValueComparison { return berValueUnknown }
 	encode := func(mode EncodeOption) ([]byte, error) {
 		options, err := PrepareBERReplay(root, []EncodeOption{mode}, nil, nil)
 		if err != nil {
@@ -241,7 +241,7 @@ func TestBERReplayKnownValueChangeUsesSingleEncode(t *testing.T) {
 	state := new(ReplayState)
 	node := &ReplayNode{state: state, original: []byte{0x30, 4, 2, 0x81, 1, 1}}
 	state.root = node
-	state.same = func(any, *replayNodeComparisons) berValueComparison { return berValueDifferent }
+	state.same = func(any, *BERReplayComparisons) berValueComparison { return berValueDifferent }
 	currentCalls := 0
 	encode := func(value byte, mode EncodeOption) ([]byte, error) {
 		if value == 2 {
@@ -270,13 +270,13 @@ func TestBERReplayKnownValueChangeUsesSingleEncode(t *testing.T) {
 }
 
 func TestReplayNodeComparisonsInlineAndOverflow(t *testing.T) {
-	claims := new(replayNodeComparisons)
+	claims := new(BERReplayComparisons)
 	for index := uintptr(1); index <= 24; index++ {
 		claims.put(index, berValueEqual)
 	}
 	claims.put(1, berValueDifferent)
 	claims.put(24, berValueDifferent)
-	if claims.count != 8 || len(claims.overflow) != 16 {
+	if claims.count != 12 || len(claims.overflow) != 12 {
 		t.Fatalf("comparison storage = %d inline, %d overflow", claims.count, len(claims.overflow))
 	}
 	for index := uintptr(1); index <= 24; index++ {
@@ -327,7 +327,7 @@ func TestBERReplayTypedNodeDifferencesFollowValueFields(t *testing.T) {
 	baseline := root{Left: leaf{Value: 1, berReplayNode_: leftNode}, Right: leaf{Value: 2, berReplayNode_: rightNode}, berReplayNode_: rootNode}
 	current := baseline
 	current.Left.Value = 3
-	nodes := new(replayNodeComparisons)
+	nodes := new(BERReplayComparisons)
 	if got := compareBERValueNodes(reflect.ValueOf(&current), reflect.ValueOf(&baseline), 0, nodes); got != berValueDifferent {
 		t.Fatalf("root comparison = %v, want different", got)
 	}
@@ -346,7 +346,7 @@ func TestBERReplayTypedNodeDifferencesFollowValueFields(t *testing.T) {
 	}
 	swapped := baseline
 	swapped.Left, swapped.Right = swapped.Right, swapped.Left
-	swappedNodes := new(replayNodeComparisons)
+	swappedNodes := new(BERReplayComparisons)
 	if got := compareBERValueNodes(reflect.ValueOf(&swapped), reflect.ValueOf(&baseline), 0, swappedNodes); got != berValueDifferent {
 		t.Fatalf("swapped root comparison = %v, want different", got)
 	}
@@ -417,7 +417,7 @@ func TestGeneratedTolerantDecodeStillChecksStrictEncode(t *testing.T) {
 	state := new(ReplayState)
 	node := &ReplayNode{state: state, original: []byte{4, 1, 'A'}}
 	decoded := &value{Node: node}
-	context := &generatedDecodeOption{source: &validatedBERSource{owned: node.original, replay: state}, config: decodeConfig{tolerant: true}}
+	context := &generatedDecodeOption{source: &validatedBERSource{owned: node.original, replay: state}, config: decodeConfig{tolerant: true, limits: DefaultDecodeLimits(), diagnostics: DefaultDiagnosticLimits()}}
 	encode := func(v *value, options ...EncodeOption) ([]byte, error) {
 		config, err := encodeOptions(options)
 		if err != nil {
@@ -863,5 +863,52 @@ func TestBERReplayOptionResolutionDoesNotAllocate(t *testing.T) {
 	})
 	if allocated != 0 {
 		t.Fatalf("replay option resolution allocated %.0f objects", allocated)
+	}
+}
+
+// Q.773 (06/1997) §4.1.1: a changed strict root rebuilds unchanged
+// descendants that may still carry tolerated length forms.
+func TestEditedReplayPreservationRebuildsRetainedChildren(t *testing.T) {
+	for _, path := range []string{"typed", "compared", "fast"} {
+		for _, tolerant := range []bool{false, true} {
+			t.Run(fmt.Sprintf("%s/tolerant=%v", path, tolerant), func(t *testing.T) {
+				state := &ReplayState{decodeTolerant: true}
+				root := &ReplayNode{state: state}
+				original := []byte{4, 0x81, 1, 7}
+				fresh := []byte{4, 1, 7}
+				child := &ReplayNode{state: state, original: original}
+				identifier, _, err := DecodeTag(fresh)
+				if err != nil {
+					t.Fatal(err)
+				}
+				state.baselineBytes = fresh
+				state.baselineNodes = map[*ReplayNode]*replayRecord{child: {start: 0, end: len(fresh), canonicalTag: identifier, tagKnown: true}}
+				mode := replayModeOption{state: state, top: root, rebuildChildren: true}
+				switch path {
+				case "typed":
+					mode.typed = new(BERReplayComparisons)
+					mode.typed.put(reflect.ValueOf(child).Pointer(), berValueEqual)
+				case "compared":
+					mode.unchanged = map[*ReplayNode]bool{child: true}
+				case "fast":
+					mode.fast = &replayFastState{state: state, root: root, stack: []replayFastFrame{{node: child}}}
+				}
+				options := []EncodeOption{mode}
+				if tolerant {
+					options = append(options, WithTolerance(new(ViolationLog)))
+				}
+				got := PreserveEncodedBERNode(fresh, child, options)
+				want := fresh
+				if tolerant {
+					want = original
+				}
+				if !bytes.Equal(got, want) {
+					t.Errorf("got %x want %x", got, want)
+				}
+				if mode.fast != nil && len(mode.fast.stack) != 0 {
+					t.Fatal("fast stack not drained")
+				}
+			})
+		}
 	}
 }

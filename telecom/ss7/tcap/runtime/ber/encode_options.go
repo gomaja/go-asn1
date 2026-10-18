@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/encode_options.go; SHA-256 e2c99b8551df501454a86e11cf7d4f2b70d5fcaa85f896c9c402fc6dc6e8fc47.
+// Runtime source: runtime/ber/encode_options.go; SHA-256 1cd1a992f9d2ff91a3461220733b15b66e228ea176c316ca6fa35d309e5560e8.
 package ber
 
 import (
@@ -37,6 +37,9 @@ func WithoutBERReplay() EncodeOption { return withoutBERReplayOption{} }
 // BERReplayEnabled reports whether valid encode options permit replay of a
 // typed value's retained BER form. Both comparison streams must use the same
 // generated BER form; X.690 (02/2021) §8.1.3 permits alternate length forms.
+// A strict operation also disables envelope and EXTERNAL copies after an edit when its
+// decode retained a violation: value equality does not establish the received
+// form complies with Q.773 (06/1997) §4.1.1. Tolerant replay remains available.
 // Malformed options return false; generated entry points must still reject
 // them with ValidateEncodeOptions.
 func BERReplayEnabled(options []EncodeOption) bool {
@@ -45,8 +48,10 @@ func BERReplayEnabled(options []EncodeOption) bool {
 		return false
 	}
 	for _, option := range options {
-		if mode, ok := option.(replayModeOption); ok && (mode.collector != nil || mode.comparison) {
-			return false
+		if mode, ok := option.(replayModeOption); ok {
+			if mode.collector != nil || mode.comparison || !config.tolerant && mode.rebuildChildren {
+				return false
+			}
 		}
 	}
 	return true

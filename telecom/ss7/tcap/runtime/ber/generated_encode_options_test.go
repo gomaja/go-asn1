@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_encode_options_test.go; SHA-256 2cc8cd61302acad57d1d5644a25ff1b41bc8594347c483c875478855d82365c3.
+// Runtime source: runtime/ber/generated_encode_options_test.go; SHA-256 cbb67af47d1ca1310c6b64426600b23055543b6ee6b3850d1e76140cc531698f.
 package ber
 
 import (
@@ -112,5 +112,69 @@ func TestGeneratedEncodeWithoutOptionsIsolatesSiblings(t *testing.T) {
 	}
 	if err := ValidateEncodeOptions(append(options, nil)...); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("invalid child option accepted: %v", err)
+	}
+}
+
+func TestGeneratedChildReplayTracksRetainedViolationsWithoutComparator(t *testing.T) {
+	type value struct{ Node *ReplayNode }
+	for _, tc := range []struct {
+		name             string
+		prior, violation bool
+	}{
+		{"clean", false, false}, {"prior-report", true, false}, {"violation", false, true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var reports ViolationLog
+			if tc.prior {
+				if err := CheckDecodedValue([]DecodeOption{WithTolerance(&reports)}, "prior", "(1)", "2"); err != nil {
+					t.Fatal(err)
+				}
+			}
+			options, commit := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
+			if tc.violation {
+				if err := CheckDecodedValue(options, "current", "(1)", "2"); err != nil {
+					t.Fatal(err)
+				}
+			}
+			config, err := decodeOptions(options)
+			if err != nil {
+				t.Fatal(err)
+			}
+			wire := []byte{4, 1, 'A'}
+			state := &ReplayState{nodeCount: 1}
+			node := &ReplayNode{state: state, original: wire}
+			state.root = node
+			context := &generatedDecodeOption{source: &validatedBERSource{owned: wire, replay: state}, config: config}
+			decoded := &value{Node: node}
+			encode := func(v *value, options ...EncodeOption) ([]byte, error) {
+				return PreserveEncodedBERNode([]byte{4, 1, 'A'}, v.Node, options), nil
+			}
+			if err := CompleteGeneratedBERDecode([]DecodeOption{context}, decoded, encode); err != nil {
+				t.Fatal(err)
+			}
+			if state.decodeTolerant != tc.violation {
+				t.Errorf("retained violation = %v, want %v", state.decodeTolerant, tc.violation)
+			}
+			_, replay := ReplayGeneratedBERNode(node, []EncodeOption{replayModeOption{state: state, unchanged: map[*ReplayNode]bool{node: true}}})
+			if replay == tc.violation {
+				t.Errorf("child replay = %v, retained violation %v", replay, tc.violation)
+			}
+			commit(true)
+		})
+	}
+}
+
+func TestRetainedViolationDisablesStrictEnvelopeReplay(t *testing.T) {
+	for _, retained := range []bool{false, true} {
+		state := &ReplayState{decodeTolerant: retained}
+		for _, tolerant := range []bool{false, true} {
+			opts := []EncodeOption{replayModeOption{state: state, rebuildChildren: retained}}
+			if tolerant {
+				opts = append(opts, WithTolerance(new(ViolationLog)))
+			}
+			if got, want := BERReplayEnabled(opts), !retained || tolerant; got != want {
+				t.Errorf("retained %v tolerant %v: got %v want %v", retained, tolerant, got, want)
+			}
+		}
 	}
 }

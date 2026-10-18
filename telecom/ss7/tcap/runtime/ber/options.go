@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 23312f3b8d029fcdd15305b6b6659fd4bb65286afd6b49ea0ac310061fba9188.
+// Runtime source: runtime/ber/options.go; SHA-256 317f731250a3b947c262ec430dd09c3071416cbe28f220b8562426057478fb7b.
 package ber
 
 import (
@@ -66,6 +66,7 @@ type decodeOptionFunc func(*decodeConfig) error
 func (option decodeOptionFunc) applyDecode(config *decodeConfig) error { return option(config) }
 
 type decodeConfig struct {
+	checkReplayComparator bool
 	profile               bool
 	profileNested         bool
 	profileType           string
@@ -152,6 +153,34 @@ func decodeOptions(options []DecodeOption) (decodeConfig, error) {
 			}
 			config.collectionSizeChecked = false
 			config.hasPath = true
+		case encodingStructureLimitsOption:
+			config.limits.MaxDepth, config.limits.MaxElements, config.limits.MaxWork = value.bound, value.bound, value.bound
+		case tcapEncodedProfileOption:
+			if err := value.applyDecode(&config); err != nil {
+				return config, err
+			}
+		case generatedModeOption:
+			config.generatedMode = value.mode
+		case tcapProfileOption:
+			config.profile = true
+			config.profileNested = value.nested
+			config.profileType = value.source
+			config.profileSource = value.ruleSource
+		case decodeLocationOption:
+			config.location = value.location
+		case *generatedDecodeOption:
+			if err := value.validate(); err != nil {
+				return config, err
+			}
+			config = value.config
+		case diagnosticChildOption:
+			if err := value.applyDecode(&config); err != nil {
+				return config, err
+			}
+		case *toleranceOption:
+			if err := value.applyDecode(&config); err != nil {
+				return config, err
+			}
 		case berFormOption:
 			config.form = value.state
 		case parentCollectionSizeOption:
@@ -205,8 +234,14 @@ func decodeLimits(options []DecodeOption) (DecodeLimits, error) {
 // encodingStructureOption permits validation of a caller-supplied value
 // without applying the untrusted-input decode budget to encoding.
 func encodingStructureOption(data []byte) DecodeOption {
-	bound := max(1, len(data))
-	return WithDecodeLimits(DecodeLimits{MaxDepth: bound, MaxElements: bound, MaxWork: bound})
+	return encodingStructureLimitsOption{bound: max(1, len(data))}
+}
+
+type encodingStructureLimitsOption struct{ bound int }
+
+func (option encodingStructureLimitsOption) applyDecode(config *decodeConfig) error {
+	config.limits.MaxDepth, config.limits.MaxElements, config.limits.MaxWork = option.bound, option.bound, option.bound
+	return nil
 }
 
 // DecodeEncodedTLV reads one TLV of a value being encoded, such as a retained

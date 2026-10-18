@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/validation.go; SHA-256 539befb281a59543511f638fa21f50c9db3f1916c17b5d5b6a7937367324bb38.
+// Runtime source: runtime/ber/validation.go; SHA-256 592502ce2f7e7b1084b16b9465888408b6ea276d1871697fdab56968ec2592f1.
 package ber
 
 import (
@@ -85,7 +85,7 @@ func LocateDecodedElement(data []byte, source string, options []DecodeOption) []
 	if err != nil {
 		return options
 	}
-	location := &decodeLocation{origin: &decodeOrigin{root: data, marks: make(map[string]int), limits: config.limits, profileType: config.profileType}, input: data, source: source}
+	location := &decodeLocation{input: data, source: source}
 	if config.location != nil {
 		location.origin = config.location.origin
 		location.offset = config.location.offset
@@ -94,6 +94,8 @@ func LocateDecodedElement(data []byte, source string, options []DecodeOption) []
 		} else if offset, ok := location.origin.marks[qualifyConstraintPath(options, "")]; ok {
 			location.offset = offset
 		}
+	} else {
+		location.origin = &decodeOrigin{root: data, marks: make(map[string]int), limits: config.limits, profileType: config.profileType}
 	}
 	// Preserve the single-context proof fast path and its inherited path.
 	if len(options) == 1 {
