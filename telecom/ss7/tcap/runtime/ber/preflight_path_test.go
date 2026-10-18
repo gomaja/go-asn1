@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_path_test.go; SHA-256 9faa1423e67a1a6c67853d5ff055a18d154b68a3dd581dc1de93f3f8d7d6da6b.
+// Runtime source: runtime/ber/preflight_path_test.go; SHA-256 e9bc74f34a9ec52f4a1cb0fd3cf8ad51c8b9dcb94e2facc79f607b3263e0bf06.
 package ber
 
 import (
@@ -115,7 +115,7 @@ func TestDiagnosePreflightEarlierSameSentinel(t *testing.T) {
 		t.Run(kind, func(t *testing.T) {
 			var options []DecodeOption
 			if kind == "tolerant" {
-				options = append(options, WithConstraintTolerance(new(ViolationLog)))
+				options = append(options, WithTolerance(new(ViolationLog)))
 			}
 			err := DiagnosePreflight(original, wire, options, "element", func(options []DecodeOption) error {
 				// The diagnostic decoder encounters child 0 before the failing child.
@@ -177,3 +177,18 @@ func (testWrongPreflightPath) Error() string { return "earlier tag failure" }
 func (testWrongPreflightPath) Unwrap() error { return ErrInvalidTag }
 
 func (testWrongPreflightPath) ASN1BERPath() string { return "wrong-field" }
+
+func TestLargePreflightFailureDoesNotDecodeAgain(t *testing.T) {
+	data := make([]byte, 1<<20)
+	failure := &ElementError{offset: 900000, childIndexes: []int{1, 2}, cause: ErrResourceLimit}
+	called := false
+	err := DiagnosePreflight(failure, data, nil, "child", func([]DecodeOption) error { called = true; return nil })
+	var located *ElementError
+	if called || !errors.As(err, &located) || located != failure {
+		t.Fatalf("probe=%v failure=%v", called, err)
+	}
+	var path interface{ ASN1BERPath() string }
+	if !errors.As(err, &path) || path.ASN1BERPath() != "child[1].child[2]" {
+		t.Fatal(err)
+	}
+}

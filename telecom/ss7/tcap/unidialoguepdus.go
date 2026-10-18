@@ -71,6 +71,14 @@ func (v *UniDialoguePDU) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "UniDialoguePDU", "UnidialoguePDUs", "UniDialoguePDU")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: UniDialoguePDU receiver is nil", ber.ErrInvalidValue)
 	}
@@ -252,7 +260,7 @@ func (destination *UniDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "UniDialoguePDU", "UnidialoguePDUs", "UniDialoguePDU")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -275,6 +283,8 @@ func (destination *UniDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "UnidialoguePDUs.UniDialoguePDU", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = UniDialoguePDU{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for UniDialoguePDU CHOICE")
@@ -319,6 +329,14 @@ func (v *AUDTApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "AUDTApdu", "UnidialoguePDUs", "AUDT-apdu")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AUDTApdu receiver is nil", ber.ErrInvalidValue)
 	}
@@ -588,7 +606,7 @@ func (destination *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "AUDTApdu", "UnidialoguePDUs", "AUDT-apdu")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -602,6 +620,8 @@ func (destination *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "UnidialoguePDUs.AUDT-apdu", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = AUDTApdu{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {

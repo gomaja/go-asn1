@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 76453540b990bc2a57f4b07b2d517952fa2f1d531d8893874a6d89882879a9da.
+// Runtime source: runtime/ber/external.go; SHA-256 fb93607960085f623702ffc4d56f69a8b47faa34f08a2d7caa85df22378e8302.
 package ber
 
 import (
@@ -23,7 +23,9 @@ func DecodeExternal(data []byte, options ...DecodeOption) (runtime.External, int
 	if err != nil {
 		return runtime.External{}, 0, err
 	}
-	result.RememberBER(data[:total])
+	if ReplayCaptureEnabled(options) {
+		result.RememberBER(data[:total])
+	}
 	return result, total, nil
 }
 
@@ -111,7 +113,7 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 		if !t.Constructed {
 			return result, fmt.Errorf("%w: single-ASN1-type must be explicit", ErrInvalidTag)
 		}
-		_, innerLen, _, err := DecodeTLV(choice, options...)
+		innerTag, innerLen, _, err := DecodeTLV(choice, options...)
 		if err != nil {
 			return result, err
 		}
@@ -119,7 +121,8 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 			return result, ErrExtraData
 		}
 		result.Encoding = runtime.ExternalSingleASN1Type
-		result.SingleASN1Type = runtime.RawValue{Bytes: append([]byte(nil), choice...)}
+		// X.690 (02/2021) §§8.1.2.1, 8.1.2.5, 8.18.6: identify the inner value.
+		result.SingleASN1Type = runtime.RawValue{Class: int(innerTag.Class), Tag: innerTag.Number, Constructed: innerTag.Constructed, Bytes: append([]byte(nil), choice...)}
 	case 1:
 		octets, err := DecodeImplicitOctetStringValue(t.Constructed, choice, options...)
 		if err != nil {
@@ -235,9 +238,6 @@ func encodeExternal(value runtime.External, der bool, options ...EncodeOption) (
 			}
 			if len(bits.Bytes) != expectedOctets {
 				return nil, fmt.Errorf("%w: EXTERNAL arbitrary bit length", ErrInvalidValue)
-			}
-			if unused > 0 && bits.Bytes[len(bits.Bytes)-1]&byte((1<<unused)-1) != 0 {
-				return nil, fmt.Errorf("%w: nonzero unused EXTERNAL bits", ErrInvalidValue)
 			}
 			bitValue, err := EncodeBitStringValue(bits.Bytes, unused)
 			if err != nil {

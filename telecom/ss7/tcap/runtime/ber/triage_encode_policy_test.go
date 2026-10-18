@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/triage_encode_policy_test.go; SHA-256 0170c2d17a81231809b397a980538080fcbe9dec4219c446afb669094e0c7c37.
+// Runtime source: runtime/ber/triage_encode_policy_test.go; SHA-256 204e333691f8fa9b32e797335ee8e2fbd80aeb8f4ecf7268d100d933576825d8.
 package ber
 
 import (
@@ -25,7 +25,7 @@ func TestBERReplayPolicyRefusesOpaqueValues(t *testing.T) {
 		t.Fatalf("malformed option=%v", err)
 	}
 	var log ViolationLog
-	if err := CheckBEROpaqueReplay(WithoutBERReplay(), WithConstraintTolerance(&log)); !errors.Is(err, ErrInvalidValue) {
+	if err := CheckBEROpaqueReplay(WithoutBERReplay(), WithTolerance(&log)); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("tolerance admitted opaque replay: %v", err)
 	}
 	if len(log.Snapshot()) != 0 {

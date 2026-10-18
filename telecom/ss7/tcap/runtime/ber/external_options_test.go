@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/external_options_test.go; SHA-256 a8a48f284b144a2d23772cbf0728408ee52597001892903fcd537b383e72f5b8.
+// Runtime source: runtime/ber/external_options_test.go; SHA-256 cb163a5563e4feff07e0c34386fab94c82b4a2aab815055db7adb5310a3d9d85.
 package ber
 
 import (
@@ -69,7 +69,7 @@ func TestExternalEncodeOptionsRejectOpaqueReplay(t *testing.T) {
 				value.IndirectReference.SetInt64(2)
 			}
 			var reports ViolationLog
-			result, err := encode(value, WithoutBERReplay(), WithConstraintTolerance(&reports))
+			result, err := encode(value, WithoutBERReplay(), WithTolerance(&reports))
 			if result != nil || !errors.Is(err, ErrInvalidValue) {
 				t.Fatalf("opaque edit=%t: %x %v", edit, result, err)
 			}
@@ -92,8 +92,8 @@ func TestExternalEncodeValidatesOptionsBeforeReplay(t *testing.T) {
 	}
 	var reports ViolationLog
 	for _, options := range [][]EncodeOption{
-		{nil}, {WithConstraintTolerance(nil)},
-		{WithConstraintTolerance(&reports), WithConstraintTolerance(&reports)},
+		{nil}, {WithTolerance(nil)},
+		{WithTolerance(&reports), WithTolerance(&reports)},
 		ChildEncodeOptions(nil, "bad.path"), ChildEncodeOptions(nil, ""),
 	} {
 		want := ValidateEncodeOptions(options...)

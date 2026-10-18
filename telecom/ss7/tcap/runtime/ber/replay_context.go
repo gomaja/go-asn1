@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_context.go; SHA-256 1579818e1ff14697076d38c366a379e41dfabd3774b8ebb0f100afc4561bc2be.
+// Runtime source: runtime/ber/replay_context.go; SHA-256 62005f1d8712dfdf2c8ab851b736d8709eaf6126b346e10989da8a30e85b034b.
 package ber
 
 import (
@@ -540,7 +540,19 @@ func PrepareBERReplay(node *ReplayNode, options []EncodeOption, canonical func(E
 	// A strict decode already checked the retained value. Equality with its
 	// detached baseline proves that no canonical comparison is needed.
 	rootDirty, rootUnknown := false, false
-	strict := len(options) == 0 || generatedEncodePublicOptionCount(options) == 0
+	config, optionErr := encodeOptions(options)
+	if optionErr != nil {
+		return nil, optionErr
+	}
+	strict := !config.tolerant
+	// Tolerant decoding does not prove current value or text rules. Before
+	// any typed replay shortcut, walk the current tree with strict checks and
+	// diagnostic paths. Q.773 (06/1997) §§4.2.2.2, 4.2.3; X.680 §51.
+	if strict && state.decodeTolerant && canonical != nil {
+		if _, err := canonical(replayModeOption{state: state, comparison: true, strict: true, diagnostic: true}); err != nil {
+			return nil, err
+		}
+	}
 	rootComparison := berValueUnknown
 	var nodeValues *replayNodeComparisons
 	if strict && state.same != nil && node == state.root {

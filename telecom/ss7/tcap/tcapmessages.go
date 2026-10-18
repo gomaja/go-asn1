@@ -81,7 +81,7 @@ func NewTCMessageAbort(v Abort) TCMessage {
 // Unidirectional represents the ASN.1 type Unidirectional (SEQUENCE).
 type Unidirectional struct {
 	DialoguePortion     *DialoguePortion `asn1:",optional" json:"DialoguePortion,omitempty"`
-	Components          ComponentPortion `asn1:"tag:12,application,implicit"`
+	Components          ComponentPortion `asn1:""`
 	berComponentsIndef_ bool             `asn1:"-" json:"-"`
 	berReplayNode_      *ber.ReplayNode  `asn1:"-" json:"-"`
 }
@@ -90,7 +90,7 @@ type Unidirectional struct {
 type Begin struct {
 	Otid                OrigTransactionID `asn1:""`
 	DialoguePortion     *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
-	Components          *ComponentPortion `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
+	Components          *ComponentPortion `asn1:",optional" json:"Components,omitempty"`
 	berComponentsIndef_ bool              `asn1:"-" json:"-"`
 	berReplayNode_      *ber.ReplayNode   `asn1:"-" json:"-"`
 }
@@ -99,7 +99,7 @@ type Begin struct {
 type End struct {
 	Dtid                DestTransactionID `asn1:""`
 	DialoguePortion     *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
-	Components          *ComponentPortion `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
+	Components          *ComponentPortion `asn1:",optional" json:"Components,omitempty"`
 	berComponentsIndef_ bool              `asn1:"-" json:"-"`
 	berReplayNode_      *ber.ReplayNode   `asn1:"-" json:"-"`
 }
@@ -109,7 +109,7 @@ type Continue struct {
 	Otid                OrigTransactionID `asn1:""`
 	Dtid                DestTransactionID `asn1:""`
 	DialoguePortion     *DialoguePortion  `asn1:",optional" json:"DialoguePortion,omitempty"`
-	Components          *ComponentPortion `asn1:"tag:12,application,implicit,optional" json:"Components,omitempty"`
+	Components          *ComponentPortion `asn1:",optional" json:"Components,omitempty"`
 	berComponentsIndef_ bool              `asn1:"-" json:"-"`
 	berReplayNode_      *ber.ReplayNode   `asn1:"-" json:"-"`
 }
@@ -366,6 +366,14 @@ func (v *TCMessage) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, re
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "TCMessage", "TCAPMessages", "TCMessage")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: TCMessage receiver is nil", ber.ErrInvalidValue)
 	}
@@ -750,6 +758,17 @@ func (v *TCMessage) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) 
 
 // UnmarshalBER decodes TCMessage from BER/DER format.
 func (destination *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	originalInput := data
+	defer func() {
+		if returnErr !=
+
+			nil {
+			returnErr =
+				locateTCAPDecodeError(returnErr,
+
+					originalInput)
+		}
+	}()
 	if destination == nil {
 		return fmt.Errorf("nil TCMessage destination")
 	}
@@ -765,7 +784,7 @@ func (destination *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "TCMessage", "TCAPMessages", "TCMessage")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -788,6 +807,8 @@ func (destination *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.TCMessage", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = TCMessage{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for TCMessage CHOICE")
@@ -926,6 +947,14 @@ func (v *Unidirectional) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 
 	}
 
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Unidirectional", "TCAPMessages", "Unidirectional")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Unidirectional receiver is nil", ber.ErrInvalidValue)
 	}
@@ -966,7 +995,7 @@ func (v *Unidirectional) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 
 	if len((v.Components).Values) < 1 {
-		if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Unidirectional"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1016,7 +1045,7 @@ func (v *Unidirectional) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber
 	if v.berComponentsIndef_ && ber.BERGeneratedReplayEnabled(opts) {
 
 		if len((v.Components).Values) < 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Unidirectional"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1042,7 +1071,7 @@ func (v *Unidirectional) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber
 		{
 
 			if len((v.Components).Values) < 1 {
-				if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Unidirectional"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 					return nil, constraintErr
 				}
 			}
@@ -1098,7 +1127,7 @@ func (v *Unidirectional) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, er
 	{
 
 		if len((v.Components).Values) < 1 {
-			if constraintErr := ber.CheckEncodedLength(nil, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(nil, "TCAPMessages.Unidirectional"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1129,7 +1158,7 @@ func (destination *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Unidirectional", "TCAPMessages", "Unidirectional")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1143,6 +1172,8 @@ func (destination *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.Unidirectional", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Unidirectional{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1261,6 +1292,14 @@ func (v *Begin) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, return
 
 	}
 
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Begin", "TCAPMessages", "Begin")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Begin receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1293,7 +1332,7 @@ func (v *Begin) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, return
 func (v *Begin) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Begin"), "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1316,7 +1355,7 @@ func (v *Begin) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.Components != nil {
 		if len((v.Components).Values) < 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Begin"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1358,7 +1397,7 @@ func (v *Begin) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Begin"), "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1382,7 +1421,7 @@ func (v *Begin) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 	if v.Components != nil {
 		if v.berComponentsIndef_ && ber.BERGeneratedReplayEnabled(opts) {
 			if len((v.Components).Values) < 1 {
-				if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Begin"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 					return nil, constraintErr
 				}
 			}
@@ -1407,7 +1446,7 @@ func (v *Begin) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 		} else {
 			{
 				if len((v.Components).Values) < 1 {
-					if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Begin"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 						return nil, constraintErr
 					}
 				}
@@ -1455,7 +1494,7 @@ func (v *Begin) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(nil, "TCAPMessages.Begin"), "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1479,7 +1518,7 @@ func (v *Begin) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	if v.Components != nil {
 		{
 			if len((v.Components).Values) < 1 {
-				if constraintErr := ber.CheckEncodedLength(nil, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(nil, "TCAPMessages.Begin"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 					return nil, constraintErr
 				}
 			}
@@ -1510,7 +1549,7 @@ func (destination *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Begin", "TCAPMessages", "Begin")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1524,6 +1563,8 @@ func (destination *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.Begin", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Begin{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1677,6 +1718,14 @@ func (v *End) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnEr
 
 	}
 
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "End", "TCAPMessages", "End")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: End receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1709,7 +1758,7 @@ func (v *End) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnEr
 func (v *End) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.End"), "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1732,7 +1781,7 @@ func (v *End) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.Components != nil {
 		if len((v.Components).Values) < 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.End"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1774,7 +1823,7 @@ func (v *End) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOpti
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.End"), "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1798,7 +1847,7 @@ func (v *End) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOpti
 	if v.Components != nil {
 		if v.berComponentsIndef_ && ber.BERGeneratedReplayEnabled(opts) {
 			if len((v.Components).Values) < 1 {
-				if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.End"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 					return nil, constraintErr
 				}
 			}
@@ -1823,7 +1872,7 @@ func (v *End) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOpti
 		} else {
 			{
 				if len((v.Components).Values) < 1 {
-					if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.End"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 						return nil, constraintErr
 					}
 				}
@@ -1871,7 +1920,7 @@ func (v *End) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(nil, "TCAPMessages.End"), "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1895,7 +1944,7 @@ func (v *End) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	if v.Components != nil {
 		{
 			if len((v.Components).Values) < 1 {
-				if constraintErr := ber.CheckEncodedLength(nil, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(nil, "TCAPMessages.End"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 					return nil, constraintErr
 				}
 			}
@@ -1927,7 +1976,7 @@ func (destination *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "End", "TCAPMessages", "End")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1938,6 +1987,8 @@ func (destination *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error { var probe End; return probe.UnmarshalBER(data, probeOpts...) })
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.End", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = End{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2089,6 +2140,14 @@ func (v *Continue) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 
 	}
 
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Continue", "TCAPMessages", "Continue")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Continue receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2121,7 +2180,7 @@ func (v *Continue) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 func (v *Continue) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Continue"), "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2136,7 +2195,7 @@ func (v *Continue) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_otid = retagged_enc_otid
 	children = append(children, enc_otid...)
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Continue"), "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2159,7 +2218,7 @@ func (v *Continue) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.Components != nil {
 		if len((v.Components).Values) < 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Continue"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2201,7 +2260,7 @@ func (v *Continue) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Continue"), "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2216,7 +2275,7 @@ func (v *Continue) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 	enc_otid = retagged_enc_otid
 	encoder.Append(enc_otid)
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Continue"), "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2240,7 +2299,7 @@ func (v *Continue) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 	if v.Components != nil {
 		if v.berComponentsIndef_ && ber.BERGeneratedReplayEnabled(opts) {
 			if len((v.Components).Values) < 1 {
-				if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Continue"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 					return nil, constraintErr
 				}
 			}
@@ -2265,7 +2324,7 @@ func (v *Continue) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 		} else {
 			{
 				if len((v.Components).Values) < 1 {
-					if constraintErr := ber.CheckEncodedLength(opts, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Continue"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 						return nil, constraintErr
 					}
 				}
@@ -2313,7 +2372,7 @@ func (v *Continue) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
 	if len(v.Otid) < 1 || len(v.Otid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(nil, "TCAPMessages.Continue"), "otid", "SIZE (1..4)", len(v.Otid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2328,7 +2387,7 @@ func (v *Continue) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	enc_otid = retagged_enc_otid
 	encoder.Append(enc_otid)
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(nil, "TCAPMessages.Continue"), "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2352,7 +2411,7 @@ func (v *Continue) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	if v.Components != nil {
 		{
 			if len((v.Components).Values) < 1 {
-				if constraintErr := ber.CheckEncodedLength(nil, "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
+				if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(nil, "TCAPMessages.Continue"), "components", "SIZE (1..MAX)", len((v.Components).Values)); constraintErr != nil {
 					return nil, constraintErr
 				}
 			}
@@ -2383,7 +2442,7 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Continue", "TCAPMessages", "Continue")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -2397,6 +2456,8 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.Continue", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Continue{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2585,6 +2646,14 @@ func (v *Abort) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, return
 
 	}
 
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Abort", "TCAPMessages", "Abort")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Abort receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2617,7 +2686,7 @@ func (v *Abort) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, return
 func (v *Abort) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Abort"), "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2657,7 +2726,7 @@ func (v *Abort) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOp
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(opts, "TCAPMessages.Abort"), "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2716,7 +2785,7 @@ func (v *Abort) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence})
 	if len(v.Dtid) < 1 || len(v.Dtid) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeSource(nil, "TCAPMessages.Abort"), "dtid", "SIZE (1..4)", len(v.Dtid)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2759,7 +2828,7 @@ func (destination *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Abort", "TCAPMessages", "Abort")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -2773,6 +2842,8 @@ func (destination *Abort) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.Abort", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Abort{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2871,6 +2942,14 @@ func tcapMarshalBERComponentPortion(collection *ComponentPortion, opts ...ber.En
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "ComponentPortion", "TCAPMessages", "ComponentPortion")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
@@ -2905,7 +2984,7 @@ func tcapMarshalBERComponentPortion(collection *ComponentPortion, opts ...ber.En
 func marshalBERComponentPortion(collection *ComponentPortion, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedCollectionLength(opts, "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeSource(opts, "TCAPMessages.marshalBERComponentPortion"), "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2937,7 +3016,7 @@ func appendBERLinearComponentPortion(encoder *ber.LinearEncoder, collection *Com
 	}
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedCollectionLength(opts, "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeSource(opts, "TCAPMessages.appendBERLinearComponentPortion"), "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2975,7 +3054,7 @@ func appendDERLinearComponentPortion(encoder *ber.LinearEncoder, collection *Com
 	}
 	list := collection.Values
 	if len(list) < 1 {
-		if constraintErr := ber.CheckEncodedCollectionLength(nil, "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeSource(nil, "TCAPMessages.appendDERLinearComponentPortion"), "ComponentPortion", "SIZE (1..MAX)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2997,7 +3076,7 @@ func appendDERLinearComponentPortion(encoder *ber.LinearEncoder, collection *Com
 func tcapUnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (returnValue *ComponentPortion, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "ComponentPortion", "TCAPMessages", "ComponentPortion")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return nil, ownErr
@@ -3011,6 +3090,8 @@ func tcapUnmarshalBERComponentPortion(data []byte, opts ...ber.DecodeOption) (re
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.ComponentPortion", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding ComponentPortion", qualifyBERError(err, "", "decoding", false))
@@ -3079,6 +3160,14 @@ func (v *Component) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, re
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Component", "TCAPMessages", "Component")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Component receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3307,7 +3396,7 @@ func (destination *Component) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Component", "TCAPMessages", "Component")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3330,6 +3419,8 @@ func (destination *Component) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.Component", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Component{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Component CHOICE")
@@ -3436,7 +3527,7 @@ func (v *TCInvokeIdSet) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 	}
 	if v.Choice == TCInvokeIdSetChoiceAbsent {
-		if constraintErr := ber.CheckEncodedValue(opts, "absent", "WITH COMPONENTS: absent ABSENT", "absent"); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.TCInvokeIdSet"), "absent", "Q.773 §4.2.2.2: component-id-present", "NULL"); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3450,7 +3541,7 @@ func (v *TCInvokeIdSet) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
 		}
 		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
-			if constraintErr := ber.CheckEncodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.TCInvokeIdSet"), "present", "Q.773 §4.2.2.2: component-id-one-octet", ber.ObserveInteger(v.Present)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3481,7 +3572,7 @@ func (v *TCInvokeIdSet) MarshalDER() ([]byte, error) {
 		}
 	}
 	if v.Choice == TCInvokeIdSetChoiceAbsent {
-		if constraintErr := ber.CheckEncodedValue(nil, "absent", "WITH COMPONENTS: absent ABSENT", "absent"); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeSource(nil, "TCAPMessages.TCInvokeIdSet"), "absent", "Q.773 §4.2.2.2: component-id-present", "NULL"); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3530,7 +3621,7 @@ func (destination *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "TCInvokeIdSet", "TCAPMessages", "TCInvokeIdSet")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3553,6 +3644,8 @@ func (destination *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.TCInvokeIdSet", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = TCInvokeIdSet{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for TCInvokeIdSet CHOICE")
@@ -3586,7 +3679,7 @@ func (destination *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		v.Present = decVal
 		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
-			if constraintErr := ber.CheckDecodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", ber.ObserveInteger(v.Present)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3607,7 +3700,7 @@ func (destination *TCInvokeIdSet) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 	}
 	if v.Choice == TCInvokeIdSetChoiceAbsent {
-		if constraintErr := ber.CheckDecodedValue(opts, "absent", "WITH COMPONENTS: absent ABSENT", "absent"); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedValue(opts, "absent", "Q.773 §4.2.2.2: component-id-present", "NULL"); constraintErr != nil {
 			return constraintErr
 		}
 	}
@@ -3675,7 +3768,7 @@ func (v *AbortReason) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "p-abortCause", "encoding", false)
 		}
 		if !(v.PAbortCause.BigInt().Cmp(runtime.MustParseBigIntDecimal("0")) >= 0 && v.PAbortCause.BigInt().Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
-			if constraintErr := ber.CheckEncodedValue(opts, "p-abortCause", "(0..127)", fmt.Sprint(v.PAbortCause.BigInt())); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Abort-reason"), "p-abortCause", "(0..127)", ber.ObserveInteger(v.PAbortCause.BigInt())); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3771,7 +3864,7 @@ func (destination *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "AbortReason", "TCAPMessages", "Abort-reason")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3794,6 +3887,8 @@ func (destination *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "TCAPMessages.Abort-reason", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = AbortReason{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for AbortReason CHOICE")
@@ -3836,7 +3931,7 @@ func (destination *AbortReason) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		}
 		v.PAbortCause = &named_pabortcause
 		if !(v.PAbortCause.BigInt().Cmp(runtime.MustParseBigIntDecimal("0")) >= 0 && v.PAbortCause.BigInt().Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
-			if constraintErr := ber.CheckDecodedValue(opts, "p-abortCause", "(0..127)", fmt.Sprint(v.PAbortCause.BigInt())); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(opts, "p-abortCause", "(0..127)", ber.ObserveInteger(v.PAbortCause.BigInt())); constraintErr != nil {
 				return constraintErr
 			}
 		}

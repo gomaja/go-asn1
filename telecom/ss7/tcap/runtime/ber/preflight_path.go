@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_path.go; SHA-256 06f5c3afc46f573e9374ab570055b43720ab78ea2779b8515c65e7f8dc7095a4.
+// Runtime source: runtime/ber/preflight_path.go; SHA-256 1d8045ea50e35e6f8754984ef1f5d85f294b4b72b50891f093ffe62d614931cd.
 package ber
 
 import (
@@ -62,7 +62,13 @@ func DiagnosePreflight(err error, data []byte, options []DecodeOption, rootChild
 		state.target = &data[located.Offset()]
 	}
 	probeOptions := append([]DecodeOption{preflightProbeOption{state: state}}, options...)
-	_ = runPreflightProbe(decode, probeOptions)
+	// Diagnostic decoding may reconstruct IMPLICIT aggregates. Bound that
+	// optional work after preflight has already refused the input, rather
+	// than copying a large rejected value just to name its schema field.
+	// Larger inputs retain the exact identifier offset and BER child path.
+	if len(data) <= 64<<10 {
+		_ = runPreflightProbe(decode, probeOptions)
+	}
 	state.active = false
 
 	path := ""
@@ -105,6 +111,7 @@ func DiagnosePreflight(err error, data []byte, options []DecodeOption, rootChild
 // evidence that it reached the preflight failure. The options carry the names
 // of ancestors already traversed by the generated decoder.
 func MarkPreflightTarget(options []DecodeOption, name string, raw []byte) {
+	rememberDecodedElement(options, name, raw)
 	options = expandGeneratedDecodeOptions(options)
 	if len(options) == 0 || len(raw) == 0 {
 		return

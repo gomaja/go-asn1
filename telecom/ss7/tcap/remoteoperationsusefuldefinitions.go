@@ -179,6 +179,14 @@ func (v *ROSSingleAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, 
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "ROSSingleAS", "Remote-Operations-Useful-Definitions", "ROS-SingleAS")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSingleAS receiver is nil", ber.ErrInvalidValue)
 	}
@@ -537,7 +545,7 @@ func (destination *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "ROSSingleAS", "Remote-Operations-Useful-Definitions", "ROS-SingleAS")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -560,6 +568,8 @@ func (destination *ROSSingleAS) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Useful-Definitions.ROS-SingleAS", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSSingleAS{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSSingleAS CHOICE")
@@ -679,6 +689,14 @@ func (v *ROSConsumerAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "ROSConsumerAS", "Remote-Operations-Useful-Definitions", "ROS-ConsumerAS")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSConsumerAS receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1037,7 +1055,7 @@ func (destination *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "ROSConsumerAS", "Remote-Operations-Useful-Definitions", "ROS-ConsumerAS")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1060,6 +1078,8 @@ func (destination *ROSConsumerAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSConsumerAS{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSConsumerAS CHOICE")
@@ -1179,6 +1199,14 @@ func (v *ROSSupplierAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "ROSSupplierAS", "Remote-Operations-Useful-Definitions", "ROS-SupplierAS")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSupplierAS receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1537,7 +1565,7 @@ func (destination *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "ROSSupplierAS", "Remote-Operations-Useful-Definitions", "ROS-SupplierAS")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1560,6 +1588,8 @@ func (destination *ROSSupplierAS) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Useful-Definitions.ROS-SupplierAS", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSSupplierAS{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSSupplierAS CHOICE")

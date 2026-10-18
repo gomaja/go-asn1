@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/types.go; SHA-256 61c762ce3e1d9f6d7faf0a0f9a60c3198aae27b32ab36fba3c9399b650f27568.
+// Runtime source: runtime/types.go; SHA-256 ea8b551671161b6126e3601edaf8f613228dc4274f286b95e5c4c16b7411fc2b.
 package runtime
 
 import (
@@ -84,6 +84,9 @@ type ObjectIdentifier struct{ enc string }
 type RelativeObjectIdentifier struct{ enc string }
 
 // RawValue represents an unparsed ASN.1 value (used for ANY/OPEN TYPE).
+// Bytes contains the complete TLV and is the sole input to encoding. Class,
+// Tag and Constructed describe its received identifier; editing that metadata
+// alone does not change the encoded value.
 type RawValue struct {
 	Class       int    `json:"-"`
 	Tag         int    `json:"-"`

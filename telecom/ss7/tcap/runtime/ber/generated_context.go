@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 c3a72c16622142a446073d78c4f77e4a9fb3443b0d518b6688c341e04ee13a9a.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 214459c55a2b1b6087157d01630a3e96e4cf9faca46bdff2658a28ca4c865220.
 package ber
 
 import (
@@ -27,13 +27,14 @@ type validatedBERSource struct {
 // generatedDecodeOption is intentionally unexported. A zero or caller-made
 // DecodeOption cannot claim that an arbitrary slice passed preflight.
 type generatedDecodeOption struct {
-	source    *validatedBERSource
-	config    decodeConfig
-	parent    *generatedDecodeOption
-	component string
-	element   int
-	isElement bool
-	pending   *validatedBERSource
+	source      *validatedBERSource
+	config      decodeConfig
+	parent      *generatedDecodeOption
+	component   string
+	element     int
+	isElement   bool
+	pending     *validatedBERSource
+	pathOptions []DecodeOption
 }
 
 // diagnosticChildOption retains the parent path without building a child
@@ -112,6 +113,9 @@ func ChildDecodeIndexContext(options []DecodeOption, index int) DecodeOption {
 			if err == nil {
 				child := &generatedDecodeOption{source: context.source, config: config, parent: context, element: index, isElement: true, pending: context.pending}
 				child.config.collectionSizeChecked = false
+				if len(options) > 1 {
+					child.pathOptions = options
+				}
 				child.config.hasPath = true
 				return child
 			}
@@ -201,6 +205,22 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 				return data, nil
 			}
 			return append([]byte(nil), data...), nil
+		}
+	}
+	// Reject before retaining input or constructing a replay span map. The
+	// preliminary scan has its own unpublished diagnostic scope. go-asn1 #150
+	// remains separate: this guard belongs to TCAP's owned runtime.
+	preliminary, optionErr := decodeOptions(options)
+	if optionErr != nil {
+		return nil, optionErr
+	}
+	if preliminary.form != nil && preliminary.form.lightInput == nil && preliminary.form.owned == nil && preliminary.form.lightOwned == nil {
+		preliminary.form = nil
+		preliminary.violations = new(ViolationLog)
+		preliminary.reportScope = new(reportScope)
+		check := decodeOptionFunc(func(c *decodeConfig) error { *c = preliminary; return nil })
+		if err := ValidateBERElement(data, check); err != nil {
+			return data, nil
 		}
 	}
 	if len(options) == 1 {
@@ -294,7 +314,9 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 			detached := *context
 			detached.source = source
 			detached.pending = nil
-			return source.owned, []DecodeOption{&detached}, nil
+			detachedOptions := append([]DecodeOption(nil), options...)
+			detachedOptions[0] = &detached
+			return source.owned, detachedOptions, nil
 		}
 	}
 	// A root indefinite length is known before the scan starts, so its
@@ -370,6 +392,9 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 		config.form.owned = nil
 	}
 	context := &generatedDecodeOption{source: source, config: config}
+	if config.hasPath {
+		context.pathOptions = options
+	}
 	return source.owned, []DecodeOption{context}, nil
 }
 
@@ -487,6 +512,9 @@ func berSubsliceOffset(root, child []byte) (int, bool) {
 // Reconstructed IMPLICIT tags have no received subrange and get a separate
 // copy; their enclosing received element remains replay authority.
 func CaptureGeneratedBERReplay(data []byte, options []DecodeOption) *ReplayNode {
+	if !ReplayCaptureEnabled(options) {
+		return nil
+	}
 	for _, option := range options {
 		if child, ok := option.(diagnosticChildOption); ok {
 			return CaptureGeneratedBERReplay(data, child.options)

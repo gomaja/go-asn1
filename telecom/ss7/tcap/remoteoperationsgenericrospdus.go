@@ -1070,6 +1070,14 @@ func (v *ROS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnEr
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "ROS", "Remote-Operations-Generic-ROS-PDUs", "ROS")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1428,7 +1436,7 @@ func (destination *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "ROS", "Remote-Operations-Generic-ROS-PDUs", "ROS")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1446,6 +1454,8 @@ func (destination *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error { var probe ROS; return probe.UnmarshalBER(data, probeOpts...) })
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ROS", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROS{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROS CHOICE")
@@ -1562,6 +1572,14 @@ func (v *Invoke) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, retur
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Invoke", "Remote-Operations-Generic-ROS-PDUs", "Invoke")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
 	}
@@ -1748,7 +1766,7 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Invoke", "Remote-Operations-Generic-ROS-PDUs", "Invoke")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -1762,6 +1780,8 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Invoke", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Invoke{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1867,7 +1887,7 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	// Decode argument
 	if offset < len(content) {
 		ber.MarkPreflightTarget(opts, "argument", content[offset:])
-		_, n_argument, _, tlvErr_argument := ber.DecodeTLV(content[offset:], opts...)
+		rawTag_argument, n_argument, _, tlvErr_argument := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_argument != nil {
 			return qualifyBERError(tlvErr_argument, "argument", "decoding", false)
 		}
@@ -1878,7 +1898,7 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 			return fmt.Errorf("invalid BER content window")
 		}
 
-		tmp_argument := runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_argument]...)}
+		tmp_argument := runtime.RawValue{Class: int(rawTag_argument.Class), Tag: rawTag_argument.Number, Constructed: rawTag_argument.Constructed, Bytes: append([]byte(nil), content[offset:offset+n_argument]...)}
 		v.Argument = &tmp_argument
 		if offset < 0 || offset >
 			len(content) || n_argument < 0 || n_argument >
@@ -1907,6 +1927,14 @@ func (v *ReturnResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte,
 		return nil, err
 	}
 
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "ReturnResult", "Remote-Operations-Generic-ROS-PDUs", "ReturnResult")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2054,7 +2082,7 @@ func (destination *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "ReturnResult", "Remote-Operations-Generic-ROS-PDUs", "ReturnResult")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -2068,6 +2096,8 @@ func (destination *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ReturnResult", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ReturnResult{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2164,6 +2194,14 @@ func (v *ReturnError) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, 
 		return nil, err
 	}
 
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "ReturnError", "Remote-Operations-Generic-ROS-PDUs", "ReturnError")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2336,7 +2374,7 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "ReturnError", "Remote-Operations-Generic-ROS-PDUs", "ReturnError")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -2350,6 +2388,8 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ReturnError", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ReturnError{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2421,7 +2461,7 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	// Decode parameter
 	if offset < len(content) {
 		ber.MarkPreflightTarget(opts, "parameter", content[offset:])
-		_, n_parameter, _, tlvErr_parameter := ber.DecodeTLV(content[offset:], opts...)
+		rawTag_parameter, n_parameter, _, tlvErr_parameter := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_parameter != nil {
 			return qualifyBERError(tlvErr_parameter, "parameter", "decoding", false)
 		}
@@ -2431,7 +2471,7 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 			return fmt.Errorf("invalid BER content window")
 		}
 
-		tmp_parameter := runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_parameter]...)}
+		tmp_parameter := runtime.RawValue{Class: int(rawTag_parameter.Class), Tag: rawTag_parameter.Number, Constructed: rawTag_parameter.Constructed, Bytes: append([]byte(nil), content[offset:offset+n_parameter]...)}
 		v.Parameter = &tmp_parameter
 		if offset < 0 || offset >
 			len(content) || n_parameter < 0 || n_parameter > len(content[offset:]) {
@@ -2460,6 +2500,14 @@ func (v *Reject) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, retur
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Reject", "Remote-Operations-Generic-ROS-PDUs", "Reject")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2591,7 +2639,7 @@ func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Reject", "Remote-Operations-Generic-ROS-PDUs", "Reject")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -2605,6 +2653,8 @@ func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Reject", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Reject{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2740,7 +2790,7 @@ func (v *InvokeId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
 		}
 		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
-			if constraintErr := ber.CheckEncodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeSource(opts, "Remote-Operations-Generic-ROS-PDUs.InvokeId"), "present", "Q.773 §4.2.2.2: component-id-one-octet", ber.ObserveInteger(v.Present)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2811,7 +2861,7 @@ func (destination *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "InvokeId", "Remote-Operations-Generic-ROS-PDUs", "InvokeId")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -2834,6 +2884,8 @@ func (destination *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.InvokeId", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = InvokeId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InvokeId CHOICE")
@@ -2867,7 +2919,7 @@ func (destination *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 		v.Present = decVal
 		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
-			if constraintErr := ber.CheckDecodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", ber.ObserveInteger(v.Present)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3029,7 +3081,7 @@ func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Bind", "Remote-Operations-Generic-ROS-PDUs", "Bind")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3052,6 +3104,8 @@ func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Bind", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Bind{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Bind CHOICE")
@@ -3074,19 +3128,19 @@ func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 		v.Choice = BindChoiceBindInvoke
 		ber.MarkPreflightTarget(opts, "bind-invoke", choiceData)
 		ber.MarkPreflightOpaque(opts, "bind-invoke", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.BindInvoke = &tmpRaw
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
 		v.Choice = BindChoiceBindResult
 		ber.MarkPreflightTarget(opts, "bind-result", choiceData)
 		ber.MarkPreflightOpaque(opts, "bind-result", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.BindResult = &tmpRaw
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
 		v.Choice = BindChoiceBindError
 		ber.MarkPreflightTarget(opts, "bind-error", choiceData)
 		ber.MarkPreflightOpaque(opts, "bind-error", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.BindError = &tmpRaw
 	} else {
 		return fmt.Errorf("unknown tag %s for Bind CHOICE", peekTag)
@@ -3238,7 +3292,7 @@ func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "Unbind", "Remote-Operations-Generic-ROS-PDUs", "Unbind")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3261,6 +3315,8 @@ func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Unbind", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Unbind{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Unbind CHOICE")
@@ -3283,19 +3339,19 @@ func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		v.Choice = UnbindChoiceUnbindInvoke
 		ber.MarkPreflightTarget(opts, "unbind-invoke", choiceData)
 		ber.MarkPreflightOpaque(opts, "unbind-invoke", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.UnbindInvoke = &tmpRaw
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
 		v.Choice = UnbindChoiceUnbindResult
 		ber.MarkPreflightTarget(opts, "unbind-result", choiceData)
 		ber.MarkPreflightOpaque(opts, "unbind-result", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.UnbindResult = &tmpRaw
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
 		v.Choice = UnbindChoiceUnbindError
 		ber.MarkPreflightTarget(opts, "unbind-error", choiceData)
 		ber.MarkPreflightOpaque(opts, "unbind-error", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.UnbindError = &tmpRaw
 	} else {
 		return fmt.Errorf("unknown tag %s for Unbind CHOICE", peekTag)
@@ -3371,7 +3427,7 @@ func (v *InvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "present", "encoding", false)
 		}
 		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
-			if constraintErr := ber.CheckEncodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeSource(opts, "Remote-Operations-Generic-ROS-PDUs.Invoke-linkedId"), "present", "Q.773 §4.2.2.2: component-id-one-octet", ber.ObserveInteger(v.Present)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3458,7 +3514,7 @@ func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "InvokeLinkedId", "Remote-Operations-Generic-ROS-PDUs", "Invoke-linkedId")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3481,6 +3537,8 @@ func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Invoke-linkedId", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = InvokeLinkedId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InvokeLinkedId CHOICE")
@@ -3519,7 +3577,7 @@ func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		}
 		v.Present = decVal
 		if !(v.Present.Cmp(runtime.MustParseBigIntDecimal("-128")) >= 0 && v.Present.Cmp(runtime.MustParseBigIntDecimal("127")) <= 0) {
-			if constraintErr := ber.CheckDecodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", fmt.Sprint(v.Present)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(opts, "present", "Q.773 §4.2.2.2: component-id-one-octet", ber.ObserveInteger(v.Present)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3555,6 +3613,14 @@ func (v *ReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	linearOptions_ := len(opts) == 0
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "ReturnResultResult", "Remote-Operations-Generic-ROS-PDUs", "ReturnResult-result")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3693,7 +3759,7 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "ReturnResultResult", "Remote-Operations-Generic-ROS-PDUs", "ReturnResult-result")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3707,6 +3773,8 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ReturnResult-result", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ReturnResultResult{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -3755,7 +3823,7 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 	}
 	{
 		ber.MarkPreflightTarget(opts, "result", content[offset:])
-		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
+		rawTag_result, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_result != nil {
 			return qualifyBERError(tlvErr_result, "result", "decoding", false)
 		}
@@ -3765,7 +3833,7 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 			return fmt.Errorf("invalid BER content window")
 		}
 
-		v.Result = runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
+		v.Result = runtime.RawValue{Class: int(rawTag_result.Class), Tag: rawTag_result.Number, Constructed: rawTag_result.Constructed, Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
 		if offset < 0 || offset >
 			len(content) || n_result < 0 || n_result > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -3953,7 +4021,7 @@ func (destination *RejectProblemChoice) UnmarshalBER(data []byte, opts ...ber.De
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
+	opts = ber.TrackTCAPForm(opts, "RejectProblemChoice", "Remote-Operations-Generic-ROS-PDUs", "RejectProblemChoice")
 	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
 	if ownErr != nil {
 		return ownErr
@@ -3976,6 +4044,8 @@ func (destination *RejectProblemChoice) UnmarshalBER(data []byte, opts ...ber.De
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.RejectProblemChoice", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = RejectProblemChoice{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for RejectProblemChoice CHOICE")

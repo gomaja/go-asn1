@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 af215344d07337c2891bc8ee9e350b2bd02e91285a29276c5343b196a50ec46d.
+// Runtime source: runtime/ber/options.go; SHA-256 23312f3b8d029fcdd15305b6b6659fd4bb65286afd6b49ea0ac310061fba9188.
 package ber
 
 import (
@@ -66,6 +66,14 @@ type decodeOptionFunc func(*decodeConfig) error
 func (option decodeOptionFunc) applyDecode(config *decodeConfig) error { return option(config) }
 
 type decodeConfig struct {
+	profile               bool
+	profileNested         bool
+	profileType           string
+	profileSource         string
+	positionSearch        *positionSearch
+	collectPositionsOnly  bool
+	location              *decodeLocation
+	noReplayCapture       bool
 	limits                DecodeLimits
 	diagnostics           DiagnosticLimits
 	tolerant              bool

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 52aeba424b736a646a3cf2d8d56514b475e52b9bc3eb70ce52b6124204b23708.
+// Runtime source: runtime/ber/decoder.go; SHA-256 1235c76513d0287449d6bd4d70aa01f8e3ba77ab0d92157737979fcc56bb6541.
 package ber
 
 import (
@@ -139,6 +139,9 @@ func DecodeLength(data []byte) (length int, indefinite bool, consumed int, err e
 // With TrackBERForm in options, it records a length or universal-type form
 // that DER would change, so every typed decoder built on it reports the same
 // forms as ValidateBERElement.
+// Delimiting checks framing and traversal budgets for either length form.
+// Nested universal/schema validation belongs to ValidateBERElement and typed
+// codecs. X.690 (02/2021) §§8.1.3,8.1.5; NULL semantics are in §8.8.1.
 func DecodeTLV(data []byte, options ...DecodeOption) (tag.Tag, int, []byte, error) {
 	config, configErr := decodeOptions(options)
 	if configErr != nil {
@@ -220,9 +223,6 @@ func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, i
 			}
 			if innerTag.Class == tag.ClassUniversal && innerTag.Number == 0 {
 				return tag.Tag{}, 0, nil, fmt.Errorf("%w: malformed BER end-of-contents", ErrInvalidTag)
-			}
-			if err := checkUniversalForm(innerTag); err != nil {
-				return tag.Tag{}, 0, nil, err
 			}
 			if innerTagLen < 0 || innerTagLen > len(data)-pos {
 				return tag.Tag{}, 0, nil, ErrTruncated
@@ -774,7 +774,15 @@ func DecodeBigInt(data []byte, options ...DecodeOption) (*big.Int, int, error) {
 // every leaf directly into one destination. X.690 (02/2021) §§8.6.4.1,
 // 8.7.3.2, 8.23.3: only the last BIT STRING segment may have unused bits;
 // restricted character string fragments retain universal OCTET STRING tags.
-func decodeStringSegments(data []byte, expectedTag, depth int, budget *berWorkBudget, result *[]byte) (int, int, error) {
+func decodeStringSegments(data []byte, expectedTag, depth int, budget *berWorkBudget, result *[]byte) (total int, unusedBits int, returnErr error) {
+	defer func() {
+		if returnErr != nil {
+			var located *ElementError
+			if !errors.As(returnErr, &located) {
+				returnErr = &ElementError{cause: returnErr}
+			}
+		}
+	}()
 	if depth > budget.limits.MaxDepth {
 		return 0, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 	}
@@ -819,13 +827,17 @@ func decodeStringSegments(data []byte, expectedTag, depth int, budget *berWorkBu
 		if *result == nil {
 			*result = []byte{} // present empty, X.690 §§8.6.3, 8.7.3
 		}
-		pos := header
+		pos, childIndex := header, 0
 		childTag := tag.TagOctetString
 		if expectedTag == tag.TagBitString {
 			childTag = tag.TagBitString
 		}
 		for {
 			if indefinite && end-pos >= 2 && data[pos] == 0 && data[pos+1] == 0 {
+				if 2 > budget.limits.MaxWork-budget.bytes {
+					return 0, 0, fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
+				}
+				budget.bytes += 2
 				pos += 2
 				break
 			}
@@ -839,12 +851,17 @@ func decodeStringSegments(data []byte, expectedTag, depth int, budget *berWorkBu
 				return 0, 0, fmt.Errorf("%w: non-final BIT STRING segment has unused bits", ErrInvalidValue)
 			}
 			if depth >= budget.limits.MaxDepth {
-				return 0, 0, fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
+				return 0, 0, &ElementError{offset: pos, childIndexes: []int{childIndex}, cause: fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)}
 			}
 			n, childUnused, err := decodeStringSegments(data[pos:end], childTag, depth+1, budget, result)
 			if err != nil {
+				var located *ElementError
+				if errors.As(err, &located) {
+					return 0, 0, &ElementError{offset: pos + located.offset, childIndexes: append([]int{childIndex}, located.childIndexes...), cause: located.cause}
+				}
 				return 0, 0, err
 			}
+			childIndex++
 			if n <= 0 || n > end-pos {
 				return 0, 0, ErrInvalidLength
 			}
@@ -853,6 +870,11 @@ func decodeStringSegments(data []byte, expectedTag, depth int, budget *berWorkBu
 		}
 		end = pos
 	} else {
+		work := end - header
+		if work > budget.limits.MaxWork-budget.bytes {
+			return 0, 0, fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
+		}
+		budget.bytes += work
 		if expectedTag == tag.TagBitString {
 			if err := validatePrimitiveBitStringContents(contents); err != nil {
 				return 0, 0, err
@@ -876,13 +898,6 @@ func decodeStringSegments(data []byte, expectedTag, depth int, budget *berWorkBu
 			(*result)[len(*result)-1] &= byte(0xff << unused)
 		}
 	}
-	// Retain the conservative subtree work budget: changing traversal must
-	// not weaken the limits callers already rely on for nested input.
-	work := end - header
-	if work > budget.limits.MaxWork-budget.bytes {
-		return 0, 0, fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
-	}
-	budget.bytes += work
 	return end, unused, nil
 }
 
@@ -951,6 +966,9 @@ func DecodeIntegerValue(value []byte) (int64, error) {
 // contents after an implicit tag has been consumed. X.690 (02/2021) 8.6.1
 // permits both forms and 8.6.4.1 requires recursive, ordered segments.
 func DecodeImplicitBitStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, int, error) {
+	if err := checkTCAPStringForm(constructed, tag.TagBitString, options); err != nil {
+		return nil, 0, err
+	}
 	if constructed {
 		MarkBERNonCanonical(options)
 	}
@@ -965,6 +983,9 @@ func DecodeImplicitBitStringValue(constructed bool, value []byte, options ...Dec
 // OCTET STRING. Constructed segments retain their universal tag (ITU-T X.690
 // (02/2021) §§8.7.3.2, 8.14.4).
 func DecodeImplicitOctetStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, error) {
+	if err := checkTCAPStringForm(constructed, tag.TagOctetString, options); err != nil {
+		return nil, err
+	}
 	if !constructed {
 		if err := ValidateDecodeOptions(options...); err != nil {
 			return nil, err
@@ -985,7 +1006,7 @@ func DecodeImplicitOctetStringValue(constructed bool, value []byte, options ...D
 // decodeStringContents handles an implicit constructor without allocating
 // a synthetic outer TLV. Its segments share both destination and work budget.
 func decodeStringContents(value []byte, segmentTag int, budget *berWorkBudget) ([]byte, error) {
-	if err := budget.charge(len(value)); err != nil {
+	if err := budget.charge(0); err != nil {
 		return nil, err
 	}
 	result := []byte{}
@@ -1020,7 +1041,7 @@ func decodeBitStringValue(constructed bool, value []byte, options ...DecodeOptio
 		}
 		return decoded, unused, err
 	}
-	if err := budget.charge(len(value)); err != nil {
+	if err := budget.charge(0); err != nil {
 		return nil, 0, err
 	}
 	return decodeBitStringValueBounded(true, value, 0, &budget)

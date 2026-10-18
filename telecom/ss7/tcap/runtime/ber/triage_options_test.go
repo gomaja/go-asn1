@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/triage_options_test.go; SHA-256 f0cfdd0a06911b03c865268b6c6db419e70e98d3d7ca705b3f5acae1416d00f4.
+// Runtime source: runtime/ber/triage_options_test.go; SHA-256 8c00096c3f9d8ce49b9b6046524a05f325819d02d0a2582c33f66baa21e86a64.
 package ber
 
 import (
@@ -62,7 +62,7 @@ func TestBERFullConstraintPaths(t *testing.T) {
 		var decode []DecodeOption
 		var encode []EncodeOption
 		if tolerant {
-			policy := WithConstraintTolerance(&log)
+			policy := WithTolerance(&log)
 			decode = []DecodeOption{policy}
 			encode = []EncodeOption{policy}
 		}
@@ -86,7 +86,7 @@ func TestBERFullConstraintPaths(t *testing.T) {
 						t.Fatal(err)
 					}
 				} else {
-					var violation *ConstraintError
+					var violation *ValidationError
 					if !errors.As(err, &violation) || violation.Path != want {
 						t.Fatalf("strict path: %v, want %s", err, want)
 					}
@@ -117,7 +117,7 @@ func TestBERChildOptionsOwnTheirStorage(t *testing.T) {
 	for _, component := range []string{"left", "right"} {
 		decode := ChildDecodeOptions(parentDecode, component)
 		encode := ChildEncodeOptions(parentEncode, component)
-		var violation *ConstraintError
+		var violation *ValidationError
 		if err := CheckDecodedValue(decode, "id", "(0)", "1"); !errors.As(err, &violation) || violation.Path != component+".id" {
 			t.Fatalf("decode child = %v", err)
 		}
@@ -142,7 +142,7 @@ func TestBERCollectionPathsResetParentSizeCheck(t *testing.T) {
 	if err := CheckEncodedCollectionLength(encode, "Items", "SIZE (1)", 2); err != nil {
 		t.Fatal(err)
 	}
-	var violation *ConstraintError
+	var violation *ValidationError
 	for _, err := range []error{
 		CheckDecodedCollectionLength(ChildDecodeOptions(decode, "[2]"), "Items", "SIZE (1)", 2),
 		CheckEncodedCollectionLength(ChildEncodeOptions(encode, "[2]"), "Items", "SIZE (1)", 2),
@@ -164,7 +164,7 @@ func TestBERCollectionPathsResetParentSizeCheck(t *testing.T) {
 func TestBERStagedNestedPathsRollback(t *testing.T) {
 	for _, success := range []bool{false, true} {
 		var log ViolationLog
-		option := WithConstraintTolerance(&log)
+		option := WithTolerance(&log)
 		decode, finishDecode := StageDecodeReports([]DecodeOption{option})
 		encode, finishEncode := StageEncodeReports([]EncodeOption{option})
 		childDecode, childFinishDecode := StageDecodeReports(ChildDecodeOptions(decode, "child"))
@@ -200,7 +200,7 @@ func BenchmarkBEROptions(b *testing.B) {
 		if reporting {
 			name = "reporting"
 			var log ViolationLog
-			option := WithConstraintTolerance(&log)
+			option := WithTolerance(&log)
 			decode = []DecodeOption{option}
 			encode = []EncodeOption{option}
 		}

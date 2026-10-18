@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 20f67491e31469271a76fbce81625bd1e930b36799e28ca34c43deebc2bd7495.
+// Runtime source: runtime/ber/work.go; SHA-256 3d8a34a43426f2ec7b9cf9cfc81c827835e9df427265c939f689e9dac02ed169.
 package ber
 
 import (
@@ -8,6 +8,23 @@ import (
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
 )
+
+type berScanFrame struct {
+	profileType    string
+	dialogueSyntax int
+	end            int
+	indefinite     bool
+	segmentTag     int
+	unusedBits     int
+	segmentOffset  int
+	segmentIndex   int
+	utf8Contents   *[]byte
+	utf8Root       bool
+	utf8Source     *byte
+	offset         int
+	index          int
+	nextChild      int
+}
 
 // ValidateBEREncodedElement checks that caller-supplied open-type bytes hold
 // exactly one complete value. An end-of-contents marker is not a value.
@@ -61,20 +78,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		}
 	}
 	limits := config.limits
-	type frame struct {
-		end           int
-		indefinite    bool
-		segmentTag    int
-		unusedBits    int
-		segmentOffset int
-		segmentIndex  int
-		utf8Contents  *[]byte
-		utf8Root      bool
-		utf8Source    *byte
-		offset        int
-		index         int
-		nextChild     int
-	}
+
 	var spans map[int]int
 	var shortSpans []uint16
 	if detachedContext != nil || config.form != nil && config.form.owned != nil && (len(options) == 0 || !isGeneratedDecodeContext(options[0])) {
@@ -84,7 +88,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			spans = make(map[int]int)
 		}
 	}
-	var initial [8]frame
+	var initial [8]berScanFrame
 	initial[0].end = len(data)
 	stack := initial[:1]
 	failureOffset, failureDepth, failureIndex := 0, 1, 0
@@ -100,16 +104,41 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			}
 			indexes = append(indexes, failureIndex)
 		}
+		if config.location != nil {
+			if absolute, ok := config.location.wireOffset(data[failureOffset:]); ok {
+				failureOffset = absolute
+				indexes, _ = config.location.origin.ancestry(absolute)
+			} else {
+				base := config.location.offset
+				if found, ok := config.location.origin.marks[qualifyConstraintPath(options, "")]; ok {
+					base = found
+				}
+				if failureOffset <= len(config.location.origin.root)-base {
+					failureOffset += base
+					indexes, _ = config.location.origin.ancestry(failureOffset)
+				}
+			}
+		}
 		returnErr = &ElementError{offset: failureOffset, childIndexes: indexes, cause: returnErr}
 	}()
 	if len(data) == 0 {
 		return ErrTruncated
 	}
-	if len(data) > limits.MaxWork {
-		return fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
-	}
 
-	pos, elements := 0, 0
+	pos, elements, work := 0, 0, 0
+	// An ancestry search suspends immediately before its target identifier.
+	// Increasing targets resume the same bounded pass; repeated targets are
+	// served by decodeOrigin's record cache. A backwards uncached lookup
+	// restarts its path but retains the work already charged.
+	if search := config.positionSearch; search != nil {
+		work = search.work
+		if search.stack != nil && search.target >= search.pos {
+			stack, pos, elements = append(initial[:0], search.stack...), search.pos, search.elements
+		}
+		defer func() {
+			search.stack, search.pos, search.elements, search.work = append(search.stack[:0], stack...), pos, elements, work
+		}()
+	}
 	// X.690 (02/2021) §8.6.4.1: the final nested segment supplies
 	// the unused-bit count of its containing BIT STRING segment.
 	closeFrame := func() error {
@@ -158,17 +187,34 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			return ErrExtraData
 		}
 		if parent.indefinite && parent.end-pos >= 2 && data[pos] == 0 && data[pos+1] == 0 {
+			if 2 > limits.MaxWork-work {
+				failureOffset, failureDepth, failureIndex = parent.offset, len(stack)-1, parent.index
+				return fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
+			}
+			work += 2
 			pos += 2
 			if err := closeFrame(); err != nil {
 				return err
 			}
 			continue
 		}
+		if search := config.positionSearch; search != nil && pos >= search.target {
+			if pos == search.target && len(stack) > 1 {
+				for _, ancestor := range stack[2:] {
+					search.indexes = append(search.indexes, ancestor.index)
+				}
+				search.indexes = append(search.indexes, parent.nextChild)
+			}
+			return nil
+		}
 		if parent.segmentTag == tag.TagBitString && parent.unusedBits != 0 {
 			// X.690 (02/2021) §8.6.4: the previous segment, rather
 			// than the next identifier, violates the octet-alignment rule.
 			failureOffset, failureIndex = parent.segmentOffset, parent.segmentIndex
 			return fmt.Errorf("%w: non-final BIT STRING segment has unused bits", ErrInvalidValue)
+		}
+		if search := config.positionSearch; search != nil && search.visits != nil {
+			(*search.visits)++
 		}
 		t, tagLen, err := DecodeTag(data[pos:parent.end])
 		if err != nil {
@@ -189,6 +235,61 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		}
 		if parent.segmentTag != 0 && (t.Class != tag.ClassUniversal || t.Number != parent.segmentTag) {
 			return fmt.Errorf("%w: expected universal string segment tag %d, got %s", ErrInvalidTag, parent.segmentTag, t)
+		}
+		// Charge a header and each primitive content octet exactly once as
+		// the scan advances. A work refusal names this identifier (#155).
+		charge := tagLen + lenLen
+		encapsulated := config.profile && !t.Constructed && parent.profileType == "DialogueExternal" && parent.dialogueSyntax > 0 && t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2)
+		if !t.Constructed && !indefinite {
+			if encapsulated {
+				if t.Number == 2 {
+					charge++
+				}
+			} else {
+				if length > parent.end-pos-charge {
+					return ErrTruncated
+				}
+				charge += length
+			}
+		}
+		if charge > limits.MaxWork-work {
+			return fmt.Errorf("%w: BER total-work limit exceeded", ErrResourceLimit)
+		}
+		work += charge
+		kind := tcapElementType(config.profileType, parent.profileType, t, len(stack) == 1, parent.dialogueSyntax)
+		if config.profile && !config.collectPositionsOnly && tcapProfileViolation(data, pos, tagLen, lenLen, indefinite, t, kind) {
+			var indexes []int
+			if len(stack) > 1 {
+				for _, ancestor := range stack[2:] {
+					indexes = append(indexes, ancestor.index)
+				}
+				indexes = append(indexes, parent.nextChild)
+			}
+			path := qualifyConstraintPath(options, "")
+			parentType := ""
+			appendSegment := func(segment string) {
+				if segment != "" {
+					if path != "" {
+						path += "."
+					}
+					path += segment
+				}
+			}
+			for index, ancestor := range stack[1:] {
+				ancestorTag, _, _ := DecodeTag(data[ancestor.offset:])
+				appendSegment(tcapPathSegment(config.profileType, parentType, ancestor.profileType, ancestorTag, ancestor.index, index == 0))
+				parentType = ancestor.profileType
+			}
+			appendSegment(tcapPathSegment(config.profileType, parentType, kind, t, parent.nextChild, len(stack) == 1))
+			if path == "" {
+				path = config.profileType
+				if path == "" {
+					path = "TCAP"
+				}
+			}
+			if err := checkTCAPProfileElement(data, pos, tagLen, lenLen, indefinite, t, indexes, config, options, kind, path); err != nil {
+				return err
+			}
 		}
 		// Checked before either length branch, so an indefinite length
 		// cannot carry a constructed primitive-only type past it.
@@ -213,7 +314,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		// nested fragments and validate it when the UTF8String closes.
 		utf8Contents := parent.utf8Contents
 		utf8Source := parent.utf8Source
-		utf8Root := t.Constructed && t.Class == tag.ClassUniversal && t.Number == tag.TagUTF8String
+		utf8Root := !config.collectPositionsOnly && t.Constructed && t.Class == tag.ClassUniversal && t.Number == tag.TagUTF8String
 		if utf8Root {
 			utf8Contents = new([]byte)
 			if start < len(data) {
@@ -231,7 +332,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, frame{end: parent.end, indefinite: true, segmentTag: berSegmentTag(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: parent.nextChild})
+			stack = append(stack, berScanFrame{profileType: kind, end: parent.end, indefinite: true, segmentTag: tcapSegmentTag(t, kind), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: parent.nextChild})
 			pos = start
 			continue
 		}
@@ -242,8 +343,30 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			return ErrTruncated
 		}
 		end := start + length
+		// X.690 (02/2021) §8.18.4 Table 2: an indirect reference
+		// makes identification presentation-context-dependent (decision B).
+		if config.profile && parent.profileType == "DialogueExternal" && t.Class == tag.ClassUniversal && t.Number == tag.TagInteger {
+			stack[len(stack)-1].dialogueSyntax = -1
+		}
+		if config.profile && parent.profileType == "DialogueExternal" && t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID && parent.dialogueSyntax >= 0 {
+			content := data[start:end]
+			if bytes.Equal(content, []byte{0, 17, 134, 5, 1, 1, 1}) {
+				stack[len(stack)-1].dialogueSyntax = 1
+			}
+			if bytes.Equal(content, []byte{0, 17, 134, 5, 1, 2, 1}) {
+				stack[len(stack)-1].dialogueSyntax = 2
+			}
+		}
+		// X.690 (02/2021) §§8.6.2.2, 8.18.6: the bit-count octet
+		// remains BER syntax even when the EXTERNAL's syntax is unknown.
+		// Only schema-known IMPLICIT BIT STRINGs receive this check.
+		if config.profile && !t.Constructed && t.Class != tag.ClassUniversal && kind == "BitString" {
+			if err := validatePrimitiveBitStringContents(data[start:end]); err != nil {
+				return err
+			}
+		}
 		if !t.Constructed && t.Class == tag.ClassUniversal {
-			if t.Number == tag.TagUTF8String {
+			if t.Number == tag.TagUTF8String && !config.collectPositionsOnly {
 				var source *byte
 				if start < end {
 					source = &data[start]
@@ -264,6 +387,22 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 				stack[len(stack)-1].segmentIndex = parent.nextChild
 			}
 		}
+		if config.profile && !t.Constructed && parent.profileType == "DialogueExternal" && parent.dialogueSyntax > 0 && t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2) {
+			contentStart := start
+			if t.Number == 2 {
+				if contentStart >= end || data[contentStart] != 0 {
+					return fmt.Errorf("%w: known dialogue requires integral octets", ErrInvalidValue)
+				}
+				contentStart++
+			}
+			contentType := "DialogueContent"
+			if parent.dialogueSyntax == 2 {
+				contentType = "UniDialogueContent"
+			}
+			stack = append(stack, berScanFrame{end: end, offset: pos, index: parent.nextChild, profileType: contentType})
+			pos = contentStart
+			continue
+		}
 		if t.Constructed {
 			// A chain becomes cheaper with a proof after eight constructed
 			// levels. Shallow definite values keep ordinary nested checks.
@@ -273,7 +412,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, frame{end: end, segmentTag: berSegmentTag(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: parent.nextChild})
+			stack = append(stack, berScanFrame{profileType: kind, end: end, segmentTag: tcapSegmentTag(t, kind), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: parent.nextChild})
 			pos = start
 		} else {
 			if shortSpans != nil {
