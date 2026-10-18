@@ -3,6 +3,8 @@ package validation
 import (
 	"bytes"
 	"errors"
+	"fmt"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -144,5 +146,170 @@ func TestEditedTolerantMessageEncodesCanonically(t *testing.T) {
 		if err := value.Validate(); err != nil {
 			t.Fatalf("%s: strict Validate: %v", received, err)
 		}
+	}
+}
+
+// tcapTLV builds a short-form BER TLV from hex parts.
+func tcapTLV(id string, parts ...string) string {
+	content := strings.Join(parts, "")
+	return fmt.Sprintf("%s%02x%s", id, len(content)/2, content)
+}
+
+func decodeErrorOf(t *testing.T, err error) *tcap.DecodeError {
+	t.Helper()
+	var decodeErr *tcap.DecodeError
+	if !errors.As(err, &decodeErr) {
+		t.Fatalf("error %v is not a *tcap.DecodeError", err)
+	}
+	return decodeErr
+}
+
+// go-asn1 #161, #162: DecodeError.Prefix keeps the transaction IDs that the
+// decoder accepted under the active options, whatever fails later. A receiver
+// needs the OTID to abort the transaction (Q.774 (06/1997) §3.2.2.1).
+func TestDecodeErrorPrefixKeepsAcceptedTransactionIDs(t *testing.T) {
+	for _, tc := range []struct{ name, wire, otid, dtid string }{
+		{"Continue, failing Invoke", "650d4801014901026c05a103020105", "01", "02"},
+		{"Continue without its DTID", "650a4801016c05a103020105", "01", ""},
+		{"unrecognized [APPLICATION 6]", "660a4801016c05a103020105", "01", ""},
+	} {
+		var message tcap.TCMessage
+		prefix := decodeErrorOf(t, message.UnmarshalBER(mustHex(t, tc.wire))).Prefix
+		if prefix.Otid == nil || !bytes.Equal(*prefix.Otid, mustHex(t, tc.otid)) {
+			t.Fatalf("%s: Prefix.Otid = %v, want %s", tc.name, prefix.Otid, tc.otid)
+		}
+		if gotDtid := prefix.Dtid != nil; gotDtid != (tc.dtid != "") || gotDtid && !bytes.Equal(*prefix.Dtid, mustHex(t, tc.dtid)) {
+			t.Fatalf("%s: Prefix.Dtid = %v, want %q", tc.name, prefix.Dtid, tc.dtid)
+		}
+	}
+	// Q.773 §4.1.1 and the SIZE (1..4) constraint refuse these OTIDs strictly;
+	// tolerant decoding accepts them, so its Prefix carries them.
+	for _, tc := range []struct{ otid, accepted string }{
+		{"6803040101", "01"}, {"48050102030405", "0102030405"}, {"4800", ""},
+	} {
+		wire := mustHex(t, tcapTLV("62", tc.otid, "6c05a103020105"))
+		var log ber.ViolationLog
+		var tolerant tcap.TCMessage
+		prefix := decodeErrorOf(t, tolerant.UnmarshalBER(wire, ber.WithTolerance(&log))).Prefix
+		if prefix.Otid == nil || !bytes.Equal(*prefix.Otid, mustHex(t, tc.accepted)) {
+			t.Fatalf("%x tolerant: Prefix.Otid = %v, want %q", wire, prefix.Otid, tc.accepted)
+		}
+		var strict tcap.TCMessage
+		if prefix := decodeErrorOf(t, strict.UnmarshalBER(wire)).Prefix; prefix.Otid != nil {
+			t.Fatalf("%x strict: Prefix.Otid = %x for a refused OTID", wire, *prefix.Otid)
+		}
+	}
+}
+
+// go-asn1 #163: Q.774 (06/1997) §3.2.2.1 discards the components of a message
+// whose dialogue portion is incorrect, so its Q.773 §4.2.3 violation is
+// reported before a component error.
+func TestDialoguePortionErrorPrecedesComponentError(t *testing.T) {
+	audt := "6b142812060700118605010201a0076005a10306012a"
+	for _, components := range []string{"6c08a106020105020102", "6c05a103020105"} {
+		var message tcap.TCMessage
+		err := message.UnmarshalBER(mustHex(t, tcapTLV("62", "480101", audt, components)))
+		var refusal *ber.ValidationError
+		if path := decodeErrorOf(t, err).Path; path != "begin.dialoguePortion" || !errors.As(err, &refusal) {
+			t.Fatalf("components %s: path %q, error %v", components, path, err)
+		}
+		if !strings.HasSuffix(err.Error(), "structured-no-unidialogue-syntax") {
+			t.Fatalf("components %s: incomplete message %q", components, err)
+		}
+	}
+	var message tcap.TCMessage
+	err := message.UnmarshalBER(mustHex(t, "620a4801016c05a103020105"))
+	if path := decodeErrorOf(t, err).Path; path != "begin.components.element[0].basicROS.invoke" {
+		t.Fatalf("without a dialogue portion: path %q, error %v", path, err)
+	}
+}
+
+// go-asn1 #164: X.690 (02/2021) §8.9.3 lets BER encode a component equal to
+// its DEFAULT, and a set field asks for it; only DER and CER omit it (§11.5).
+func TestFreshBERKeepsExplicitDefault(t *testing.T) {
+	acn := runtime.MustObjectIdentifier("0.4.0.0.1.0.19.3")
+	version1 := tcap.AARQApduProtocolVersionDefault()
+	implicit := mustHex(t, "600ba109060704000001001303")
+	explicit := mustHex(t, "600f80020780a109060704000001001303")
+	for _, tc := range []struct {
+		version *runtime.BitString
+		ber     []byte
+	}{{nil, implicit}, {&version1, explicit}} {
+		pdu := tcap.NewDialoguePDUDialogueRequest(tcap.AARQApdu{ProtocolVersion: tc.version, ApplicationContextName: acn})
+		for name, encode := range map[string]func() ([]byte, error){
+			"BER":              func() ([]byte, error) { return pdu.MarshalBER() },
+			"WithoutBERReplay": func() ([]byte, error) { return pdu.MarshalBER(ber.WithoutBERReplay()) },
+		} {
+			if wire, err := encode(); err != nil || !bytes.Equal(wire, tc.ber) {
+				t.Fatalf("version set %v, %s = %x, %v; want %x", tc.version != nil, name, wire, err, tc.ber)
+			}
+		}
+		if wire, err := pdu.MarshalDER(); err != nil || !bytes.Equal(wire, implicit) {
+			t.Fatalf("version set %v, DER = %x, %v", tc.version != nil, wire, err)
+		}
+	}
+}
+
+// go-asn1 #165: the dialogue portion follows each message's procedure. A Begin
+// carries the AARQ APDU (Q.774 (06/1997) Figure A.5, sheet 3) and a
+// Unidirectional the AUDT APDU (Q.773 (06/1997) §4.2.3, Q.771 §2.3.1.2.1), so
+// another abstract syntax is refused strictly and reported under tolerance.
+// Continue (Q.774 §3.2.1.2), End and Abort (Q.773 §3.1) may carry it.
+func TestDialogueSyntaxFollowsMessageProcedure(t *testing.T) {
+	userSyntax := "6b0b280906022a03a003020101"
+	invoke := "6c08a106020105020102"
+	for _, tc := range []struct {
+		name, wire string
+		refused    bool
+	}{
+		{"Begin", tcapTLV("62", "480101", userSyntax, invoke), true},
+		{"Unidirectional", tcapTLV("61", userSyntax, invoke), true},
+		{"Continue", tcapTLV("65", "480101", "490102", userSyntax, invoke), false},
+		{"End", tcapTLV("64", "490102", userSyntax, invoke), false},
+		{"Abort", tcapTLV("67", "490102", userSyntax), false},
+	} {
+		wire := mustHex(t, tc.wire)
+		var strict tcap.TCMessage
+		err := strict.UnmarshalBER(wire)
+		if tc.refused {
+			var refusal *ber.ValidationError
+			if !errors.As(err, &refusal) || !strings.HasSuffix(decodeErrorOf(t, err).Path, ".dialoguePortion") {
+				t.Fatalf("%s: strict decode = %v, want a dialogue-portion refusal", tc.name, err)
+			}
+			var log ber.ViolationLog
+			var tolerant tcap.TCMessage
+			if err := tolerant.UnmarshalBER(wire, ber.WithTolerance(&log)); err != nil || len(log.Snapshot()) != 1 {
+				t.Fatalf("%s: tolerant decode = %v, reports %+v", tc.name, err, log.Snapshot())
+			}
+			if out, err := tolerant.MarshalBER(ber.WithTolerance(new(ber.ViolationLog))); err != nil || !bytes.Equal(out, wire) {
+				t.Fatalf("%s: tolerant replay = %x, %v", tc.name, out, err)
+			}
+			continue
+		}
+		if err != nil {
+			t.Fatalf("%s: strict decode: %v", tc.name, err)
+		}
+		if out, err := strict.MarshalBER(); err != nil || !bytes.Equal(out, wire) {
+			t.Fatalf("%s: replay = %x, %v", tc.name, out, err)
+		}
+	}
+}
+
+// go-asn1 #166: a dialogue portion refused for indirect-only identification
+// (Q.773 (06/1997) §4.2.3, X.690 (02/2021) §8.18.4) is located at the dialogue
+// portion, element 1 of the Begin at message offset 5, so Prefix keeps the OTID.
+func TestIndirectOnlyDialogueErrorIsLocated(t *testing.T) {
+	var message tcap.TCMessage
+	err := message.UnmarshalBER(mustHex(t, "620c4801016b0728050201008100"))
+	decodeErr := decodeErrorOf(t, err)
+	if decodeErr.Path != "begin.dialoguePortion.identification" {
+		t.Fatalf("path %q, error %v", decodeErr.Path, err)
+	}
+	if otid := decodeErr.Prefix.Otid; otid == nil || !bytes.Equal(*otid, mustHex(t, "01")) {
+		t.Fatalf("Prefix.Otid = %v", otid)
+	}
+	var element *ber.ElementError
+	if !errors.As(err, &element) || element.Offset() != 5 || !reflect.DeepEqual(element.ChildIndexes(), []int{1}) {
+		t.Fatalf("element location of %v", err)
 	}
 }

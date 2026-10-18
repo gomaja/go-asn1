@@ -759,14 +759,11 @@ func (v *TCMessage) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) 
 // UnmarshalBER decodes TCMessage from BER/DER format.
 func (destination *TCMessage) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
 	originalInput := data
+	originalOptions := opts
 	defer func() {
 		if returnErr !=
-
 			nil {
-			returnErr =
-				locateTCAPDecodeError(returnErr,
-
-					originalInput)
+			returnErr = locateTCAPDecodeError(returnErr, originalInput, originalOptions)
 		}
 	}()
 	if destination == nil {
@@ -1207,10 +1204,15 @@ func (destination *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeO
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], opts...); err != nil {
+				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], ber.ChildDecodeOptions(opts, "dialoguePortion")...); err != nil {
 					return err
 				}
 				v.DialoguePortion = &decoded_dialogueportion
+				if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr !=
+					nil {
+					return ruleErr
+				}
+
 				if offset > len(content) || n_dialogueportion < 0 || n_dialogueportion > len(content[offset:]) {
 					return fmt.Errorf("invalid BER content window")
 				}
@@ -1270,11 +1272,6 @@ func (destination *Unidirectional) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Unidirectional", Cause: ber.ErrExtraData}
 	}
-	if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr !=
-		nil {
-		return ruleErr
-	}
-
 	return nil
 }
 
@@ -1634,10 +1631,15 @@ func (destination *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], opts...); err != nil {
+				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], ber.ChildDecodeOptions(opts, "dialoguePortion")...); err != nil {
 					return err
 				}
 				v.DialoguePortion = &decoded_dialogueportion
+				if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr !=
+					nil {
+					return ruleErr
+				}
+
 				if offset < 0 || offset >
 					len(content) || n_dialogueportion < 0 || n_dialogueportion >
 					len(content[offset:]) {
@@ -1696,11 +1698,6 @@ func (destination *Begin) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (r
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Begin", Cause: ber.ErrExtraData}
 	}
-	if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr !=
-		nil {
-		return ruleErr
-	}
-
 	return nil
 }
 
@@ -2056,10 +2053,15 @@ func (destination *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], opts...); err != nil {
+				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], ber.ChildDecodeOptions(opts, "dialoguePortion")...); err != nil {
 					return err
 				}
 				v.DialoguePortion = &decoded_dialogueportion
+				if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr !=
+					nil {
+					return ruleErr
+				}
+
 				if offset < 0 || offset >
 					len(content) || n_dialogueportion < 0 || n_dialogueportion >
 					len(content[offset:]) {
@@ -2118,11 +2120,6 @@ func (destination *End) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "End", Cause: ber.ErrExtraData}
 	}
-	if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr !=
-		nil {
-		return ruleErr
-	}
-
 	return nil
 }
 
@@ -2562,10 +2559,15 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					return fmt.Errorf("invalid BER content window")
 				}
 
-				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], opts...); err != nil {
+				if err := decoded_dialogueportion.UnmarshalBER(content[offset:offset+n_dialogueportion], ber.ChildDecodeOptions(opts, "dialoguePortion")...); err != nil {
 					return err
 				}
 				v.DialoguePortion = &decoded_dialogueportion
+				if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr !=
+					nil {
+					return ruleErr
+				}
+
 				if offset < 0 || offset >
 					len(content) || n_dialogueportion < 0 || n_dialogueportion >
 					len(content[offset:]) {
@@ -2624,11 +2626,6 @@ func (destination *Continue) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if offset != len(content) {
 		return &ber.DecodeError{Offset: offset, TypeName: "Continue", Cause: ber.ErrExtraData}
 	}
-	if ruleErr := v.checkTCAPDecodedRules(opts); ruleErr !=
-		nil {
-		return ruleErr
-	}
-
 	return nil
 }
 

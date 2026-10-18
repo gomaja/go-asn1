@@ -36,7 +36,7 @@ type DecodeError struct {
 func (err *DecodeError) Error() string { return fmt.Sprintf("decoding %s: %v", err.Path, err.Cause) }
 func (err *DecodeError) Unwrap() error { return err.Cause }
 
-func locateTCAPDecodeError(cause error, data []byte) error {
+func locateTCAPDecodeError(cause error, data []byte, options []ber.DecodeOption) error {
 	var previous *DecodeError
 	if errors.As(cause, &previous) {
 		return cause
@@ -51,51 +51,69 @@ func locateTCAPDecodeError(cause error, data []byte) error {
 		result.Path = validation.Path
 	}
 	var location *ber.ElementError
-	if !errors.As(cause, &location) || location.Offset() <= 0 {
-		return result
+	boundary := len(data)
+	if errors.As(cause, &location) && location.Offset() > 0 {
+		boundary = location.Offset()
 	}
-	boundary := location.Offset()
-	if boundary > len(data) {
+	if boundary > len(data) || ber.ValidateDecodeOptions(options...) != nil {
 		return result
 	}
 	identifier, tagBytes, err := ber.DecodeTag(data)
 	if err != nil || identifier.Class != 1 || !identifier.Constructed {
 		return result
 	}
-	_, _, lengthBytes, err := ber.DecodeLength(data[tagBytes:])
+	length, indefinite, lengthBytes, err := ber.DecodeLength(data[tagBytes:])
 	if err != nil {
 		return result
 	}
 	offset := tagBytes + lengthBytes
-	// This bounded prefix check visits at most the two leading TIDs, never a
-	// component or dialogue. Q.773 (06/1997) §§3.1,4.2.1.3; Q.774 §3.3.4/Table 7.
-	for index := 0; index < 2 && offset < boundary; index++ {
-		field, n, err := ber.DecodeTag(data[offset:boundary])
-		if err != nil || field.Class != 1 || field.Constructed {
-			break
-		}
-		length, indefinite, m, err := ber.DecodeLength(data[offset+n : boundary])
-		if err != nil || indefinite || length < 1 || length > 4 {
-			break
-		}
-		start := offset + n + m
-		if start > boundary || length > boundary-start {
-			break
-		}
-		validOtid := field.Number == 8 && (identifier.Number == 2 && index == 0 || identifier.Number == 5 && index == 0)
-		validDtid := field.Number == 9 && (identifier.Number == 4 && index == 0 || identifier.Number == 7 && index == 0 || identifier.Number == 5 && index == 1)
-		if validOtid {
-			id := OrigTransactionID(bytes.Clone(data[start : start+length]))
-			result.Prefix.Otid = &id
-		} else if validDtid {
-			id := DestTransactionID(bytes.Clone(data[start : start+length]))
-			result.Prefix.Dtid = &id
-		} else {
-			break
-		}
-		offset = start + length
+	if !indefinite && length < len(data)-offset {
+		boundary = min(boundary, offset+length)
 	}
-	if len(location.ChildIndexes()) == 1 {
+	// Reuse the field decoder's profile, limits and SIZE check. Reports belong
+	// to the failed public call and must never escape this diagnostic scan.
+	prefixOptions, discard := ber.StageDecodeReports(options)
+	defer discard(false)
+	prefixOptions = ber.TrackTCAPForm(prefixOptions, "TCMessage", "TCAPMessages", "TCMessage")
+	// Q.774 (06/1997) §3.3.4/Table 7 also needs derivable IDs for UNKNOWN
+	// messages and missing DTIDs. Inspect only the two leading ID elements.
+	for index := 0; index < 2 && offset < boundary; index++ {
+		field, _, err := ber.DecodeTag(data[offset:boundary])
+		if err != nil || field.Class != 1 {
+			break
+		}
+		known := identifier.Number == 1 || identifier.Number == 2 || identifier.Number == 4 || identifier.Number == 5 || identifier.Number == 7
+		validOtid := field.Number == 8 && index == 0 && (identifier.Number == 2 || identifier.Number == 5 || !known)
+		validDtid := field.Number == 9 && (index == 0 && (identifier.Number == 4 || identifier.Number == 7 || !known) || index == 1 && (identifier.Number == 5 || !known))
+		if !validOtid && !validDtid {
+			break
+		}
+		_, n, contents, err := ber.DecodeTLV(data[offset:boundary], prefixOptions...)
+		if err != nil || n <= 0 || n > boundary-offset {
+			break
+		}
+		if err = ber.ValidateBERElement(data[offset:offset+n], prefixOptions...); err != nil {
+			break
+		}
+		id, err := ber.DecodeImplicitOctetStringValue(field.Constructed, contents, prefixOptions...)
+		if err != nil {
+			break
+		}
+		if len(id) < 1 || len(id) > 4 {
+			if err = ber.CheckDecodedLength(prefixOptions, "", "SIZE (1..4)", len(id)); err != nil {
+				break
+			}
+		}
+		if validOtid {
+			value := OrigTransactionID(bytes.Clone(id))
+			result.Prefix.Otid = &value
+		} else {
+			value := DestTransactionID(bytes.Clone(id))
+			result.Prefix.Dtid = &value
+		}
+		offset += n
+	}
+	if validation == nil && location != nil && len(location.ChildIndexes()) == 1 {
 		field, _, fieldErr := ber.DecodeTag(data[boundary:])
 		if fieldErr == nil && field.Class == 1 {
 			branch := ""
@@ -438,7 +456,7 @@ func (value *Unidirectional) checkTCAPEncodedRules(opts []ber.EncodeOption) erro
 		return fmt.Errorf("nil Unidirectional")
 	}
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() != Unstructured {
-		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Unidirectional"), "dialoguePortion", "Q.773 §4.2.3: unidirectional-unidialogue-syntax", "dialogue does not identify unidialogue-as/AUDT (Q.771 2.3.1.2.1)")
+		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Unidirectional"), "dialoguePortion", "Q.773 §4.2.3: unidirectional-unidialogue-syntax", "dialogue does not identify unidialogue-as/AUDT")
 	}
 	return nil
 }
@@ -447,7 +465,7 @@ func (value *Unidirectional) checkTCAPDecodedRules(opts []ber.DecodeOption) erro
 		return fmt.Errorf("nil Unidirectional")
 	}
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() != Unstructured {
-		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: unidirectional-unidialogue-syntax", "dialogue does not identify unidialogue-as/AUDT (Q.771 2.3.1.2.1)")
+		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: unidirectional-unidialogue-syntax", "dialogue does not identify unidialogue-as/AUDT")
 	}
 	return nil
 }
@@ -458,7 +476,10 @@ func (value *Begin) checkTCAPEncodedRules(opts []ber.EncodeOption) error {
 		return fmt.Errorf("nil Begin")
 	}
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == Unstructured {
-		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Begin"), "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT is restricted to Unidirectional (Q.771 2.3.1.2.1)")
+		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Begin"), "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
+	}
+	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == UnknownSyntax {
+		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Begin"), "dialoguePortion", "Q.773 §4.2.3: begin-dialogue-control-syntax", "user syntax in Begin (Q.774 Fig. A.5/3 requires AARQ)")
 	}
 	return nil
 }
@@ -467,7 +488,10 @@ func (value *Begin) checkTCAPDecodedRules(opts []ber.DecodeOption) error {
 		return fmt.Errorf("nil Begin")
 	}
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == Unstructured {
-		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT is restricted to Unidirectional (Q.771 2.3.1.2.1)")
+		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
+	}
+	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == UnknownSyntax {
+		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: begin-dialogue-control-syntax", "user syntax in Begin (Q.774 Fig. A.5/3 requires AARQ)")
 	}
 	return nil
 }
@@ -478,7 +502,7 @@ func (value *Continue) checkTCAPEncodedRules(opts []ber.EncodeOption) error {
 		return fmt.Errorf("nil Continue")
 	}
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == Unstructured {
-		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Continue"), "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT is restricted to Unidirectional (Q.771 2.3.1.2.1)")
+		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Continue"), "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
 	}
 	return nil
 }
@@ -487,7 +511,7 @@ func (value *Continue) checkTCAPDecodedRules(opts []ber.DecodeOption) error {
 		return fmt.Errorf("nil Continue")
 	}
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == Unstructured {
-		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT is restricted to Unidirectional (Q.771 2.3.1.2.1)")
+		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
 	}
 	return nil
 }
@@ -498,7 +522,7 @@ func (value *End) checkTCAPEncodedRules(opts []ber.EncodeOption) error {
 		return fmt.Errorf("nil End")
 	}
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == Unstructured {
-		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.End"), "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT is restricted to Unidirectional (Q.771 2.3.1.2.1)")
+		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.End"), "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
 	}
 	return nil
 }
@@ -507,7 +531,7 @@ func (value *End) checkTCAPDecodedRules(opts []ber.DecodeOption) error {
 		return fmt.Errorf("nil End")
 	}
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == Unstructured {
-		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT is restricted to Unidirectional (Q.771 2.3.1.2.1)")
+		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
 	}
 	return nil
 }
@@ -518,7 +542,7 @@ func (value *Abort) checkTCAPEncodedRules(opts []ber.EncodeOption) error {
 		return fmt.Errorf("nil Abort")
 	}
 	if value.Reason != nil && value.Reason.Choice == AbortReasonChoiceUAbortCause && value.Reason.UAbortCause != nil && value.Reason.UAbortCause.ContentKind() == Unstructured {
-		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Abort"), "reason.uAbortCause", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT is restricted to Unidirectional (Q.771 2.3.1.2.1)")
+		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Abort"), "reason.uAbortCause", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
 	}
 	return nil
 }
@@ -527,7 +551,7 @@ func (value *Abort) checkTCAPDecodedRules(opts []ber.DecodeOption) error {
 		return fmt.Errorf("nil Abort")
 	}
 	if value.Reason != nil && value.Reason.Choice == AbortReasonChoiceUAbortCause && value.Reason.UAbortCause != nil && value.Reason.UAbortCause.ContentKind() == Unstructured {
-		return ber.CheckDecodedValue(opts, "reason.uAbortCause", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT is restricted to Unidirectional (Q.771 2.3.1.2.1)")
+		return ber.CheckDecodedValue(opts, "reason.uAbortCause", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
 	}
 	return nil
 }
