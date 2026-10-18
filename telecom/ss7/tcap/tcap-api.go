@@ -281,14 +281,6 @@ func encodeTCAPExternal(value rt.External, opts ...ber.EncodeOption) ([]byte, er
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
-	if ber.BERReplayEnabled(opts) {
-		if original := value.UnchangedBER(); original != nil {
-			return original, nil
-		}
-	}
-	if value.Encoding == rt.ExternalArbitrary {
-		value.Arbitrary.Bytes = normalizeTCAPBits(value.Arbitrary.Bytes, ber.UnusedBitCount(value.Arbitrary.BitLength))
-	}
 	// Internal comparison is BER, even though received-form shortcuts are off.
 	// Explicit WithoutBERReplay still requires canonical opaque contents.
 	// X.690 (02/2021) §§8.1.3, 8.18.9; Q.773 (06/1997) §4.1.1.

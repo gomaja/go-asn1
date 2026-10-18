@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 fb93607960085f623702ffc4d56f69a8b47faa34f08a2d7caa85df22378e8302.
+// Runtime source: runtime/ber/external.go; SHA-256 4c47bff3a49cf92fb63569dc6a31133df8a8e623834532a6b59b098103baedc2.
 package ber
 
 import (
@@ -166,8 +166,8 @@ func encodeExternal(value runtime.External, der bool, options ...EncodeOption) (
 	if value.DirectReference.IsZero() && value.IndirectReference == nil {
 		return nil, fmt.Errorf("%w: EXTERNAL identification requires a direct or indirect reference", ErrInvalidValue)
 	}
-	if !der && BERReplayEnabled(options) {
-		if original := value.UnchangedBER(); original != nil {
+	if !der {
+		if original := replayExternalForm(value, options); original != nil {
 			return original, nil
 		}
 	}
@@ -260,6 +260,9 @@ func encodeExternal(value runtime.External, der bool, options ...EncodeOption) (
 		if err := ValidateDEREncodedElement(encoded); err != nil {
 			return nil, err
 		}
+	}
+	if !der {
+		encoded = replayExternalEditedParts(value, encoded, options)
 	}
 	return encoded, nil
 }

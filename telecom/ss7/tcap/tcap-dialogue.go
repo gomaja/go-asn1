@@ -195,21 +195,6 @@ func encodeDialogueExternal(value rt.External, der bool, opts ...ber.EncodeOptio
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
-	if !der && ber.BERReplayEnabled(opts) {
-		if original := value.UnchangedBER(); original != nil {
-			return original, nil
-		}
-	}
-	if value.Encoding == rt.ExternalArbitrary {
-		if err := ber.ValidateBitStringLength(value.Arbitrary.Bytes, value.Arbitrary.BitLength); err != nil {
-			return nil, err
-		}
-		unused := ber.UnusedBitCount(value.Arbitrary.BitLength)
-		if unused > 0 {
-			value.Arbitrary.Bytes = bytes.Clone(value.Arbitrary.Bytes)
-			value.Arbitrary.Bytes[len(value.Arbitrary.Bytes)-1] &= byte(0xff << uint(unused))
-		}
-	}
 	// Comparison passes suppress received-form shortcuts, but still compare BER.
 	// Only an explicit replay prohibition requests canonical opaque contents.
 	// X.690 (02/2021) §§8.1.3, 8.18.9; Q.773 (06/1997) §4.1.1.

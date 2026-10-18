@@ -1000,7 +1000,7 @@ func (v *Unidirectional) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err != nil {
 		return nil, qualifyBERError(err, "components", "encoding", false)
 	}
-	if ber.BERReplayEnabled(opts) && v.berComponentsIndef_ {
+	if ber.BERGeneratedReplayEnabled(opts) && v.berComponentsIndef_ {
 		indefTag_, _, indefContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_components)
 		if tlvErr_ != nil {
 			return nil, tlvErr_
@@ -1360,7 +1360,7 @@ func (v *Begin) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "components", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.berComponentsIndef_ {
+		if ber.BERGeneratedReplayEnabled(opts) && v.berComponentsIndef_ {
 			indefTag_, _, indefContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_components)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
@@ -1786,7 +1786,7 @@ func (v *End) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "components", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.berComponentsIndef_ {
+		if ber.BERGeneratedReplayEnabled(opts) && v.berComponentsIndef_ {
 			indefTag_, _, indefContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_components)
 			if tlvErr_ != nil {
 				return nil, tlvErr_
@@ -2223,7 +2223,7 @@ func (v *Continue) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "components", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.berComponentsIndef_ {
+		if ber.BERGeneratedReplayEnabled(opts) && v.berComponentsIndef_ {
 			indefTag_, _, indefContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_components)
 			if tlvErr_ != nil {
 				return nil, tlvErr_

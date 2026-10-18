@@ -2,6 +2,7 @@ package validation
 
 import (
 	"bytes"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"reflect"
@@ -312,5 +313,37 @@ func TestIndirectOnlyDialogueErrorIsLocated(t *testing.T) {
 	var element *ber.ElementError
 	if !errors.As(err, &element) || element.Offset() != 5 || !reflect.DeepEqual(element.ChildIndexes(), []int{1}) {
 		t.Fatalf("element location of %v", err)
+	}
+}
+
+// go-asn1 #170: after an edit of a tolerantly decoded message that kept a
+// Q.773 (06/1997) §4.1.1 violation, strict encoding re-encodes only the edited
+// parts, the parts carrying a violation and the enclosing headers whose lengths
+// change. Every untouched part keeps its received bytes: the AARQ's explicit
+// DEFAULT protocol-version (X.690 (02/2021) §8.9.3) in the first case, the
+// indefinite-length Invoke in the second.
+func TestEditRebuildsOnlyViolatingParts(t *testing.T) {
+	dialogue := "6b1e281c060700118605010101a011600f80020780a109060704000001001302"
+	for _, tc := range []struct{ name, dialogue, components, want string }{
+		{"Invoke length", dialogue, "6c09a1810602010102012e",
+			tcapTLV("62", "480441020304", dialogue, "6c08a10602010102012e")},
+		{"application-context-name length", "6b1f281d060700118605010101a012601080020780a18109060704000001001302",
+			"6c0aa18002010102012e0000", tcapTLV("62", "480441020304", dialogue, "6c0aa18002010102012e0000")},
+	} {
+		wire := mustHex(t, tcapTLV("62", "480401020304", tc.dialogue, tc.components))
+		var value tcap.TCMessage
+		var log ber.ViolationLog
+		if err := value.UnmarshalBER(wire, ber.WithTolerance(&log)); err != nil || len(log.Snapshot()) == 0 {
+			t.Fatalf("%s: tolerant decode = %v, reports %+v", tc.name, err, log.Snapshot())
+		}
+		value.Begin.Otid[0] ^= 0x40
+		out, err := value.MarshalBER()
+		if err != nil || hex.EncodeToString(out) != tc.want {
+			t.Fatalf("%s: strict MarshalBER = %x, %v; want %s", tc.name, out, err, tc.want)
+		}
+		var strict tcap.TCMessage
+		if err := strict.UnmarshalBER(out); err != nil {
+			t.Fatalf("%s: strict decode of the output: %v", tc.name, err)
+		}
 	}
 }

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_encode_options.go; SHA-256 19a9f184f24f89c0662e580a3c9eae064d46741828361103d9cb368465ce256b.
+// Runtime source: runtime/ber/generated_encode_options.go; SHA-256 78298ef9f06827d7a8c15f627ce66362c6a33d6b2874bdabdfb9ee8f2069c8bf.
 package ber
 
 import (
@@ -103,7 +103,7 @@ func CanUseLinearBEREncode(options []EncodeOption) bool {
 		case generatedEncodeMarker:
 			marked = true
 		case replayModeOption:
-			if value.collector != nil || value.fast != nil || value.comparison || value.baseline {
+			if value.collector != nil || value.fast != nil || value.comparison || value.baseline || value.rebuildChildren {
 				return false
 			}
 		case tcapEncodeOption, encodeSourceOption, parentCollectionSizeOption:
@@ -122,8 +122,8 @@ func ReplayGeneratedBERNode(node *ReplayNode, options []EncodeOption) ([]byte, b
 		return nil, false
 	}
 	// Typed equality cannot prove the received form satisfies Q.773
-	// (06/1997) §4.1.1 when the decode retained a tolerated violation.
-	if node.state != nil && node.state.decodeTolerant {
+	// (06/1997) §4.1.1; the captured span must also be violation-free.
+	if !node.canReplayProfile() {
 		return nil, false
 	}
 	for _, option := range options {
@@ -153,7 +153,7 @@ func BERGeneratedReplayEnabled(options []EncodeOption) bool {
 		case withoutBERReplayOption:
 			return false
 		case replayModeOption:
-			if value.collector != nil {
+			if value.collector != nil || value.comparison || value.baseline {
 				return false
 			}
 		}

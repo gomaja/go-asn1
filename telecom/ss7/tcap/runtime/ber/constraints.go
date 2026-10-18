@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 15c9a4b24d36985f6031558f48f088b2e9a5a09da6ff3ff51affd94429545e6c.
+// Runtime source: runtime/ber/constraints.go; SHA-256 30e82f65c2418a363ff7f84f7d6dba2c322ca615f96cca839f86205052d6b995.
 package ber
 
 import (
@@ -96,12 +96,16 @@ type reportScope struct {
 	mu            sync.Mutex
 	ledger        ViolationLog
 	observedBytes int
+	replayProfile *replayProfileIndex
 }
 
 func (scope *reportScope) reserve(record Violation, limits DiagnosticLimits) error {
 	scope.mu.Lock()
 	defer scope.mu.Unlock()
 	if index, exists := scope.ledger.findLocked(record); exists {
+		if isTCAPProfileViolation(record) {
+			scope.replayProfile = nil
+		}
 		scope.ledger.replaceLocked(index, record)
 		return nil
 	}
@@ -112,6 +116,9 @@ func (scope *reportScope) reserve(record Violation, limits DiagnosticLimits) err
 	// Subtraction precedes addition, keeping the byte counter within its limit.
 	if limits.MaxObservedBytes != 0 && size > limits.MaxObservedBytes-scope.observedBytes {
 		return fmt.Errorf("%w: BER diagnostic observed-byte limit exceeded", ErrResourceLimit)
+	}
+	if isTCAPProfileViolation(record) {
+		scope.replayProfile = nil
 	}
 	scope.ledger.appendLocked(record)
 	if limits.MaxObservedBytes != 0 {

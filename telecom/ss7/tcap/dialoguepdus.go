@@ -1247,7 +1247,7 @@ func (v *AARQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "user-information", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.berUserInformationIndef_ {
+		if ber.BERGeneratedReplayEnabled(opts) && v.berUserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_userinformation)
 			if tlvErr_ != nil {
@@ -1729,7 +1729,7 @@ func (v *AAREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "user-information", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.berUserInformationIndef_ {
+		if ber.BERGeneratedReplayEnabled(opts) && v.berUserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_userinformation)
 			if tlvErr_ != nil {
@@ -2292,7 +2292,7 @@ func (v *RLRQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "user-information", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.berUserInformationIndef_ {
+		if ber.BERGeneratedReplayEnabled(opts) && v.berUserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_userinformation)
 			if tlvErr_ != nil {
@@ -2636,7 +2636,7 @@ func (v *RLREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "user-information", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.berUserInformationIndef_ {
+		if ber.BERGeneratedReplayEnabled(opts) && v.berUserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_userinformation)
 			if tlvErr_ != nil {
@@ -2978,7 +2978,7 @@ func (v *ABRTApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "user-information", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.berUserInformationIndef_ {
+		if ber.BERGeneratedReplayEnabled(opts) && v.berUserInformationIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_userinformation)
 			if tlvErr_ != nil {
