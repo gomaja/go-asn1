@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/encode_options.go; SHA-256 1cd1a992f9d2ff91a3461220733b15b66e228ea176c316ca6fa35d309e5560e8.
+// Runtime source: runtime/ber/encode_options.go; SHA-256 4a05bb2e0137528ed8096007cf0c9d2cb91dfc47c16c94d993a25ec5c2bd4140.
 package ber
 
 import (
@@ -30,7 +30,9 @@ func (withoutBERReplayOption) applyEncode(config *encodeConfig) error {
 //
 // This option does not enable constraint tolerance, apply DER rules, or
 // guarantee conformance with a protocol-specific BER profile. Typed output
-// uses the existing BER encoder's forms; explicit constraint tolerance still
+// retains explicitly present DEFAULT components, including non-nil pointers
+// populated by decoding (X.690 (02/2021) §8.9.3). Only DER and CER omit a
+// DEFAULT-equal component (§11.5). Explicit constraint tolerance still
 // permits values outside their ASN.1 subtype and reports those violations.
 func WithoutBERReplay() EncodeOption { return withoutBERReplayOption{} }
 

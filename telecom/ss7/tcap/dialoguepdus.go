@@ -1211,8 +1211,7 @@ func (v *AARQApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 }
 func (v *AARQApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
-	if v.ProtocolVersion != nil &&
-		!v.ProtocolVersion.EqualBits("\x80", 1, true) {
+	if v.ProtocolVersion != nil {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", false)
 		}
@@ -1283,8 +1282,7 @@ func (v *AARQApdu) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 		return nil, nil
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassApplication, Number: 0})
-	if v.ProtocolVersion != nil &&
-		!v.ProtocolVersion.EqualBits("\x80", 1, true) {
+	if v.ProtocolVersion != nil {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", true)
 		}
@@ -1670,8 +1668,7 @@ func (v *AAREApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 }
 func (v *AAREApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
-	if v.ProtocolVersion != nil &&
-		!v.ProtocolVersion.EqualBits("\x80", 1, true) {
+	if v.ProtocolVersion != nil {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", false)
 		}
@@ -1767,8 +1764,7 @@ func (v *AAREApdu) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 		return nil, nil
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassApplication, Number: 1})
-	if v.ProtocolVersion != nil &&
-		!v.ProtocolVersion.EqualBits("\x80", 1, true) {
+	if v.ProtocolVersion != nil {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", true)
 		}

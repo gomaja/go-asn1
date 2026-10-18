@@ -368,8 +368,7 @@ func (v *AUDTApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 }
 func (v *AUDTApdu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
-	if v.ProtocolVersion != nil &&
-		!v.ProtocolVersion.EqualBits("\x80", 1, true) {
+	if v.ProtocolVersion != nil {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", false)
 		}
@@ -440,8 +439,7 @@ func (v *AUDTApdu) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.Encod
 		return nil, nil
 	}
 	innerFrame_ := encoder.Begin(tag.Tag{Class: tag.ClassApplication, Number: 0})
-	if v.ProtocolVersion != nil &&
-		!v.ProtocolVersion.EqualBits("\x80", 1, true) {
+	if v.ProtocolVersion != nil {
 		if bitStringErr := ber.ValidateBitStringLength(v.ProtocolVersion.Bytes, v.ProtocolVersion.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "protocol-version", "encoding", true)
 		}
