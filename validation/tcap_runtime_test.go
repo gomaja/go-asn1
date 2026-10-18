@@ -84,3 +84,41 @@ func FuzzTCAPReleaseConstraints(f *testing.F) {
 		}
 	})
 }
+
+// go-asn1 #160; Q.773 (06/1997) §4.1.1 requires the short length form below
+// 128 octets. A standalone value decoded tolerantly keeps its received form for
+// replay, but strict encoding and validation refuse it and return no bytes.
+func TestStandaloneStrictEncodeRefusesToleratedLength(t *testing.T) {
+	received := mustHex(t, "02810101")
+	var decodeLog ber.ViolationLog
+	var value tcap.TCInvokeIdSet
+	if err := value.UnmarshalBER(received, ber.WithTolerance(&decodeLog)); err != nil {
+		t.Fatal(err)
+	}
+	reports := decodeLog.Snapshot()
+	if len(reports) != 1 {
+		t.Fatalf("decode reported %+v, want one violation", reports)
+	}
+	wire, err := value.MarshalBER()
+	var refusal *ber.ValidationError
+	if wire != nil || !errors.As(err, &refusal) || !errors.Is(err, ber.ErrInvalidValue) {
+		t.Fatalf("strict MarshalBER = %x, %v", wire, err)
+	}
+	if refusal.Rule != reports[0].Rule {
+		t.Fatalf("strict rule %+v, decode rule %+v", refusal.Rule, reports[0].Rule)
+	}
+	if err := value.Validate(); !errors.As(err, &refusal) {
+		t.Fatalf("strict Validate: %v", err)
+	}
+	var encodeLog ber.ViolationLog
+	if wire, err := value.MarshalBER(ber.WithTolerance(&encodeLog)); err != nil || !bytes.Equal(wire, received) {
+		t.Fatalf("tolerant MarshalBER = %x, %v", wire, err)
+	}
+	if reports := encodeLog.Snapshot(); len(reports) != 1 {
+		t.Fatalf("encode reported %+v, want one violation", reports)
+	}
+	canonical := tcap.NewTCInvokeIdSetPresentInt64(1)
+	if wire, err := canonical.MarshalBER(); err != nil || !bytes.Equal(wire, mustHex(t, "020101")) {
+		t.Fatalf("canonical MarshalBER = %x, %v", wire, err)
+	}
+}

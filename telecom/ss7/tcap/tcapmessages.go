@@ -3481,6 +3481,14 @@ func (v *TCInvokeIdSet) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "TCInvokeIdSet", "TCAPMessages", "TCInvokeIdSet")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: TCInvokeIdSet receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3718,6 +3726,14 @@ func (v *AbortReason) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, 
 
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "AbortReason", "TCAPMessages", "Abort-reason")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AbortReason receiver is nil", ber.ErrInvalidValue)
 	}
