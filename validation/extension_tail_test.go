@@ -10,6 +10,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/esim/sgp22"
 	"github.com/gomaja/go-asn1/telecom/esim/sgp32"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
+	mapber "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
 )
 
 // Every root component of NotifySS-Arg (3GPP TS 24.080 V19.4.0 §4.4.2) is
@@ -24,7 +25,7 @@ func TestNotifySSArgComponentOrder(t *testing.T) {
 		if err := value.UnmarshalBER(wire); err != nil || len(value.ExtData_) != 0 {
 			t.Fatalf("%s: %v, %d unknown TLVs", text, err, len(value.ExtData_))
 		}
-		replaysExactly(t, text, &value, wire)
+		replaysMAPExactly(t, text, &value, wire)
 	}
 
 	for _, c := range []struct{ hex, tail string }{
@@ -32,24 +33,24 @@ func TestNotifySSArgComponentOrder(t *testing.T) {
 		{"3006810100810101", "810101"}, // [1] twice
 	} {
 		wire := mustHex(t, c.hex)
-		if err := new(gsm_map.NotifySSArg).UnmarshalBER(wire); !errors.Is(err, ber.ErrInvalidTag) {
+		if err := new(gsm_map.NotifySSArg).UnmarshalBER(wire); !errors.Is(err, mapber.ErrInvalidTag) {
 			t.Fatalf("%s strict: %v", c.hex, err)
 		}
-		var log ber.ViolationLog
+		var log mapber.ViolationLog
 		var value gsm_map.NotifySSArg
-		if err := value.UnmarshalBER(wire, ber.WithConstraintTolerance(&log)); err != nil {
+		if err := value.UnmarshalBER(wire, mapber.WithTolerance(&log)); err != nil {
 			t.Fatalf("%s tolerant: %v", c.hex, err)
 		}
-		want := []ber.ConstraintViolation{{
+		want := []mapber.Violation{{
 			Path:          "ExtData_[0]",
 			Constraint:    "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)",
 			ObservedValue: "[CONTEXT 1 PRIMITIVE]",
 		}}
-		requireViolations(t, &log, want...)
+		requireMAPViolations(t, &log, want...)
 		if len(value.ExtData_) != 1 || !bytes.Equal(value.ExtData_[0], mustHex(t, c.tail)) {
 			t.Fatalf("%s kept %x", c.hex, value.ExtData_)
 		}
-		if replay, err := value.MarshalBER(ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
+		if replay, err := value.MarshalBER(mapber.WithTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
 			t.Fatalf("%s replay = %x, %v", c.hex, replay, err)
 		}
 	}
@@ -196,10 +197,10 @@ func TestMTForwardSMArgSyntheticFutureAdditions(t *testing.T) {
 	} {
 		wire := mustHex(t, c.hex)
 		for _, tolerant := range []bool{false, true} {
-			var log ber.ViolationLog
-			var options []ber.DecodeOption
+			var log mapber.ViolationLog
+			var options []mapber.DecodeOption
 			if tolerant {
-				options = append(options, ber.WithConstraintTolerance(&log))
+				options = append(options, mapber.WithTolerance(&log))
 			}
 			var current gsm_map.MTForwardSMArg
 			if err := current.UnmarshalBER(wire, options...); err != nil {
@@ -209,17 +210,17 @@ func TestMTForwardSMArgSyntheticFutureAdditions(t *testing.T) {
 				current.SmRPDA.Imsi == nil || current.SmRPOA.ServiceCentreAddressOA == nil || len(current.SmRPUI) != 24 {
 				t.Fatalf("%s: %+v, %+v", c.name, current, log.Snapshot())
 			}
-			replaysExactly(t, c.name, &current, wire)
+			replaysMAPExactly(t, c.name, &current, wire)
 		}
 	}
 	// [5] is a mandatory CHOICE alternative, outside the trailing OPTIONAL
 	// run. The following [0] remains opaque rather than becoming a typed field.
 	wire := mustHex(t, "3031800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd0685008000")
 	for _, tolerant := range []bool{false, true} {
-		var log ber.ViolationLog
-		var options []ber.DecodeOption
+		var log mapber.ViolationLog
+		var options []mapber.DecodeOption
 		if tolerant {
-			options = append(options, ber.WithConstraintTolerance(&log))
+			options = append(options, mapber.WithTolerance(&log))
 		}
 		var current gsm_map.MTForwardSMArg
 		if err := current.UnmarshalBER(wire, options...); err != nil {
@@ -229,7 +230,7 @@ func TestMTForwardSMArgSyntheticFutureAdditions(t *testing.T) {
 			!bytes.Equal(current.ExtData_[0], mustHex(t, "8500")) || !bytes.Equal(current.ExtData_[1], mustHex(t, "8000")) {
 			t.Fatalf("extension tail = %+v, %+v", current, log.Snapshot())
 		}
-		replaysExactly(t, "MTForwardSMArg unknown then optional", &current, wire)
+		replaysMAPExactly(t, "MTForwardSMArg unknown then optional", &current, wire)
 	}
 }
 
@@ -249,14 +250,14 @@ func TestRequestedInfoSyntheticFutureAdditions(t *testing.T) {
 		!bytes.Equal(current.ExtData_[0], mustHex(t, "8d00")) || !bytes.Equal(current.ExtData_[1], mustHex(t, "8800")) {
 		t.Fatalf("current type = %+v", current)
 	}
-	replaysExactly(t, "RequestedInfo future addition", &current, wire)
+	replaysMAPExactly(t, "RequestedInfo future addition", &current, wire)
 	// The original current-version input still populates its typed additions.
 	known := mustHex(t, "301b8000810083008401008600850087008b008800890207808a008c00")
 	var typed gsm_map.RequestedInfo
 	if err := typed.UnmarshalBER(known); err != nil || len(typed.ExtData_) != 0 || typed.TAdsData == nil {
 		t.Fatalf("typed current value: %v, %+v", err, typed)
 	}
-	replaysExactly(t, "RequestedInfo", &typed, known)
+	replaysMAPExactly(t, "RequestedInfo", &typed, known)
 }
 
 // The same current MAP types must refuse a first tail tag from their
@@ -266,38 +267,38 @@ func TestRequestedInfoSyntheticFutureAdditions(t *testing.T) {
 func TestCurrentMAPFirstExtensionTail(t *testing.T) {
 	for _, c := range []struct {
 		name, valid, tail, invalid, control, observed string
-		fresh                                         func() berValue
-		extensions                                    func(berValue) *[][]byte
+		fresh                                         func() mapBERValue
+		extensions                                    func(mapBERValue) *[][]byte
 	}{
 		{"MTForwardSMArg", "302d800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd06", "8000", "3031800821436587092143f58407914477000900000418040c9144770009001000006201012143650005e8329bfd0680008000", "8500", "[CONTEXT 0 PRIMITIVE]",
-			func() berValue { return &gsm_map.MTForwardSMArg{} }, func(v berValue) *[][]byte { return &v.(*gsm_map.MTForwardSMArg).ExtData_ }},
+			func() mapBERValue { return &gsm_map.MTForwardSMArg{} }, func(v mapBERValue) *[][]byte { return &v.(*gsm_map.MTForwardSMArg).ExtData_ }},
 		{"RequestedInfo", "30028800", "8800", "300488008800", "8d00", "[CONTEXT 8 PRIMITIVE]",
-			func() berValue { return &gsm_map.RequestedInfo{} }, func(v berValue) *[][]byte { return &v.(*gsm_map.RequestedInfo).ExtData_ }},
+			func() mapBERValue { return &gsm_map.RequestedInfo{} }, func(v mapBERValue) *[][]byte { return &v.(*gsm_map.RequestedInfo).ExtData_ }},
 	} {
 		t.Run(c.name, func(t *testing.T) {
 			wire := mustHex(t, c.invalid)
-			if err := c.fresh().UnmarshalBER(wire); !errors.Is(err, ber.ErrInvalidTag) {
+			if err := c.fresh().UnmarshalBER(wire); !errors.Is(err, mapber.ErrInvalidTag) {
 				t.Fatalf("strict decode: %v", err)
 			}
-			want := ber.ConstraintViolation{Path: "ExtData_[0]", Constraint: "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", ObservedValue: c.observed}
-			var log ber.ViolationLog
+			want := mapber.Violation{Path: "ExtData_[0]", Constraint: "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", ObservedValue: c.observed}
+			var log mapber.ViolationLog
 			value := c.fresh()
-			if err := value.UnmarshalBER(wire, ber.WithConstraintTolerance(&log)); err != nil {
+			if err := value.UnmarshalBER(wire, mapber.WithTolerance(&log)); err != nil {
 				t.Fatal(err)
 			}
-			requireViolations(t, &log, want)
+			requireMAPViolations(t, &log, want)
 			if got := *c.extensions(value); len(got) != 1 || !bytes.Equal(got[0], mustHex(t, c.tail)) {
 				t.Fatalf("tail = %x", got)
 			}
 			_, err := value.MarshalBER()
-			requireConstraint(t, err, want)
+			requireMAPConstraint(t, err, want)
 			_, err = value.MarshalDER()
-			requireConstraint(t, err, want)
-			log = ber.ViolationLog{}
-			if replay, err := value.MarshalBER(ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
+			requireMAPConstraint(t, err, want)
+			log = mapber.ViolationLog{}
+			if replay, err := value.MarshalBER(mapber.WithTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
 				t.Fatalf("replay = %x, %v", replay, err)
 			}
-			requireViolations(t, &log, want)
+			requireMAPViolations(t, &log, want)
 			control := c.fresh()
 			if err := control.UnmarshalBER(mustHex(t, c.valid)); err != nil {
 				t.Fatal(err)
@@ -323,11 +324,11 @@ func TestCurrentMAPFirstExtensionTail(t *testing.T) {
 // unknown addition when re-encoding) and rejects the primitive one.
 func TestSingleRelativeResultVelocityForms(t *testing.T) {
 	legacyPrimitive := mustHex(t, "3006830400000000")
-	if err := new(gsm_map.SingleRelativeResult).UnmarshalBER(legacyPrimitive); !errors.Is(err, ber.ErrInvalidTag) {
+	if err := new(gsm_map.SingleRelativeResult).UnmarshalBER(legacyPrimitive); !errors.Is(err, mapber.ErrInvalidTag) {
 		t.Fatalf("primitive velocity strict: %v", err)
 	}
-	var log ber.ViolationLog
-	if err := new(gsm_map.SingleRelativeResult).UnmarshalBER(legacyPrimitive, ber.WithConstraintTolerance(&log)); !errors.Is(err, ber.ErrInvalidTag) {
+	var log mapber.ViolationLog
+	if err := new(gsm_map.SingleRelativeResult).UnmarshalBER(legacyPrimitive, mapber.WithTolerance(&log)); !errors.Is(err, mapber.ErrInvalidTag) {
 		t.Fatalf("primitive velocity tolerant: %v", err)
 	}
 
@@ -341,7 +342,7 @@ func TestSingleRelativeResultVelocityForms(t *testing.T) {
 		len(velocity.ExtData_) != 1 || !bytes.Equal(velocity.ExtData_[0], mustHex(t, "040400000000")) {
 		t.Fatalf("constructed legacy velocity = %+v", velocity)
 	}
-	replaysExactly(t, "constructed legacy velocity", &kept, legacyConstructed)
+	replaysMAPExactly(t, "constructed legacy velocity", &kept, legacyConstructed)
 
 	current := mustHex(t, "3005a303800100")
 	var radial gsm_map.SingleRelativeResult
@@ -351,5 +352,5 @@ func TestSingleRelativeResultVelocityForms(t *testing.T) {
 	if radial.RelativeVelocity == nil || radial.RelativeVelocity.RVelocity == nil || *radial.RelativeVelocity.RVelocity != 0 {
 		t.Fatalf("radial velocity = %+v", radial.RelativeVelocity)
 	}
-	replaysExactly(t, "radial velocity", &radial, current)
+	replaysMAPExactly(t, "radial velocity", &radial, current)
 }

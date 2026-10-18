@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime/ber"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
+	mapber "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_er_datatypes"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_datatypes"
 )
@@ -61,8 +61,8 @@ func TestMAPRoleTypeCodecs(t *testing.T) {
 // trailing octets and a wrong tag are rejected. Editing Value invalidates
 // replay: both BER and DER must match a fresh canonical encoding of the edit.
 func checkRoleCodec[T, H any](t *testing.T, name, text, editedText string, want, edited T,
-	decode func([]byte, ...ber.DecodeOption) (*H, error),
-	encode func(*H, ...ber.EncodeOption) ([]byte, error),
+	decode func([]byte, ...mapber.DecodeOption) (*H, error),
+	encode func(*H, ...mapber.EncodeOption) ([]byte, error),
 	der func(*H) ([]byte, error),
 	field func(*H) *T,
 ) {
@@ -124,12 +124,12 @@ func checkRoleCodec[T, H any](t *testing.T, name, text, editedText string, want,
 				t.Fatalf("accepted %x", wire[:cut])
 			}
 		}
-		if _, err := decode(append(append([]byte(nil), wire...), 0)); !errors.Is(err, ber.ErrExtraData) {
+		if _, err := decode(append(append([]byte(nil), wire...), 0)); !errors.Is(err, mapber.ErrExtraData) {
 			t.Fatalf("trailing octet: %v", err)
 		}
 		wrong := append([]byte(nil), wire...)
 		wrong[0] ^= 0x80 // UNIVERSAL to CONTEXT
-		if _, err := decode(wrong); !errors.Is(err, ber.ErrInvalidTag) {
+		if _, err := decode(wrong); !errors.Is(err, mapber.ErrInvalidTag) {
 			t.Fatalf("wrong tag: %v", err)
 		}
 	})
@@ -150,7 +150,7 @@ func TestMAPRoleTypeConstraints(t *testing.T) {
 	} {
 		wire := mustHex(t, c.hex)
 		checkRoleConstraint(t, "IMSI", c.hex, gsm_map.IMSI(wire[2:]),
-			ber.ConstraintViolation{Path: "IMSI", Constraint: "SIZE (3..8)", ObservedLength: &c.size},
+			mapber.Violation{Path: "IMSI", Constraint: "SIZE (3..8)", ObservedLength: &c.size},
 			gsm_map.UnmarshalBERIMSI, gsm_map.MarshalBERIMSI, gsm_map.MarshalDERIMSI, func(v *gsm_map.BERValue[gsm_map.IMSI]) *gsm_map.IMSI { return &v.Value })
 	}
 	shortSize, longSize := 3, 5
@@ -164,7 +164,7 @@ func TestMAPRoleTypeConstraints(t *testing.T) {
 		{"12053030303030", "00000", "SIZE (4)", "", &longSize},
 	} {
 		checkRoleConstraint(t, "Password", c.hex, gsm_map.Password(c.value),
-			ber.ConstraintViolation{Path: "Password", Constraint: c.constraint, ObservedValue: c.observed, ObservedLength: c.length},
+			mapber.Violation{Path: "Password", Constraint: c.constraint, ObservedValue: c.observed, ObservedLength: c.length},
 			gsm_map.UnmarshalBERPassword, gsm_map.MarshalBERPassword, gsm_map.MarshalDERPassword, func(v *gsm_map.BERValue[gsm_map.Password]) *gsm_map.Password { return &v.Value })
 	}
 	for _, c := range []struct {
@@ -175,9 +175,9 @@ func TestMAPRoleTypeConstraints(t *testing.T) {
 		{"0a01ff", "-1", -1},
 	} {
 		checkRoleConstraint(t, "GuidanceInfo", c.hex, gsm_map.GuidanceInfo(c.value),
-			ber.ConstraintViolation{Path: "GuidanceInfo", Constraint: "ENUMERATED {0, 1, 2}", ObservedValue: c.observed},
+			mapber.Violation{Path: "GuidanceInfo", Constraint: "ENUMERATED {0, 1, 2}", ObservedValue: c.observed},
 			gsm_map.UnmarshalBERGuidanceInfo, gsm_map.MarshalBERGuidanceInfo, gsm_map.MarshalDERGuidanceInfo, func(v *gsm_map.BERValue[gsm_map.GuidanceInfo]) *gsm_map.GuidanceInfo { return &v.Value })
-		violation := ber.ConstraintViolation{Path: "PW-RegistrationFailureCause", Constraint: "ENUMERATED {0, 1, 2}", ObservedValue: c.observed}
+		violation := mapber.Violation{Path: "PW-RegistrationFailureCause", Constraint: "ENUMERATED {0, 1, 2}", ObservedValue: c.observed}
 		checkRoleConstraint(t, "PW-RegistrationFailureCause", c.hex, gsm_map.PWRegistrationFailureCause(c.value), violation,
 			gsm_map.UnmarshalBERPWRegistrationFailureCause, gsm_map.MarshalBERPWRegistrationFailureCause,
 			gsm_map.MarshalDERPWRegistrationFailureCause, func(v *gsm_map.BERValue[gsm_map.PWRegistrationFailureCause]) *gsm_map.PWRegistrationFailureCause {
@@ -193,16 +193,16 @@ func TestMAPRoleTypeConstraints(t *testing.T) {
 
 // Strict BER and DER reject the invalid typed value; tolerance retains the
 // value, reports the exact violation on decode and encode, and replays the wire.
-func checkRoleConstraint[T, H any](t *testing.T, name, text string, want T, violation ber.ConstraintViolation,
-	decode func([]byte, ...ber.DecodeOption) (*H, error),
-	encode func(*H, ...ber.EncodeOption) ([]byte, error),
+func checkRoleConstraint[T, H any](t *testing.T, name, text string, want T, violation mapber.Violation,
+	decode func([]byte, ...mapber.DecodeOption) (*H, error),
+	encode func(*H, ...mapber.EncodeOption) ([]byte, error),
 	der func(*H) ([]byte, error),
 	field func(*H) *T,
 ) {
 	t.Helper()
 	t.Run(name+"/"+text, func(t *testing.T) {
 		wire := mustHex(t, text)
-		var constraint *ber.ConstraintError
+		var constraint *mapber.ValidationError
 		if _, err := decode(wire); !errors.As(err, &constraint) {
 			t.Fatalf("strict decode: %v", err)
 		}
@@ -213,8 +213,8 @@ func checkRoleConstraint[T, H any](t *testing.T, name, text string, want T, viol
 		if _, err := der(fresh); !errors.As(err, &constraint) {
 			t.Fatalf("fresh DER: %v", err)
 		}
-		var log ber.ViolationLog
-		option := ber.WithConstraintTolerance(&log)
+		var log mapber.ViolationLog
+		option := mapber.WithTolerance(&log)
 		tolerant, err := decode(wire, option)
 		if err != nil {
 			t.Fatal(err)
@@ -222,7 +222,7 @@ func checkRoleConstraint[T, H any](t *testing.T, name, text string, want T, viol
 		if !reflect.DeepEqual(*field(tolerant), want) {
 			t.Fatalf("tolerant value = %#v, want %#v", *field(tolerant), want)
 		}
-		requireViolations(t, &log, violation)
+		requireMAPViolations(t, &log, violation)
 		if _, err := encode(tolerant); !errors.As(err, &constraint) {
 			t.Fatalf("strict encode of tolerated value: %v", err)
 		}
@@ -233,7 +233,7 @@ func checkRoleConstraint[T, H any](t *testing.T, name, text string, want T, viol
 		if replay, err := encode(tolerant, option); err != nil || !bytes.Equal(replay, wire) {
 			t.Fatalf("tolerant replay = %x, %v; want %x", replay, err, wire)
 		}
-		requireViolations(t, &log, violation)
+		requireMAPViolations(t, &log, violation)
 	})
 }
 
@@ -250,24 +250,24 @@ func TestPasswordAlphabetInComposite(t *testing.T) {
 	}
 
 	invalid := mustHex(t, "3010800192a1053003840101820420303030")
-	var constraint *ber.ConstraintError
+	var constraint *mapber.ValidationError
 	if err := new(gsm_map.ExtCallBarringInfoForCSE).UnmarshalBER(invalid); !errors.As(err, &constraint) {
 		t.Fatalf("strict decode: %v", err)
 	}
-	var log ber.ViolationLog
+	var log mapber.ViolationLog
 	var tolerant gsm_map.ExtCallBarringInfoForCSE
-	if err := tolerant.UnmarshalBER(invalid, ber.WithConstraintTolerance(&log)); err != nil {
+	if err := tolerant.UnmarshalBER(invalid, mapber.WithTolerance(&log)); err != nil {
 		t.Fatal(err)
 	}
-	want := []ber.ConstraintViolation{{Path: "password", Constraint: "FROM permitted alphabet", ObservedValue: "0x20"}}
-	requireViolations(t, &log, want...)
+	want := []mapber.Violation{{Path: "password", Constraint: "FROM permitted alphabet", ObservedValue: "0x20"}}
+	requireMAPViolations(t, &log, want...)
 	if _, err := tolerant.MarshalBER(); !errors.As(err, &constraint) {
 		t.Fatalf("strict encode of the tolerated value: %v", err)
 	}
 	if _, err := tolerant.MarshalDER(); !errors.As(err, &constraint) {
 		t.Fatalf("DER of the tolerated value: %v", err)
 	}
-	if got, err := tolerant.MarshalBER(ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(got, invalid) {
+	if got, err := tolerant.MarshalBER(mapber.WithTolerance(&log)); err != nil || !bytes.Equal(got, invalid) {
 		t.Fatalf("tolerant replay = %x, %v", got, err)
 	}
 }

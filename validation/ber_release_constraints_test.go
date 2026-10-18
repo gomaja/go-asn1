@@ -11,6 +11,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/esim/sgp22"
 	"github.com/gomaja/go-asn1/telecom/esim/sgp32"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
+	mapber "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_code"
 )
 
@@ -58,38 +59,38 @@ func TestPasswordOctetDiagnostics(t *testing.T) {
 	} {
 		t.Run(c.observed, func(t *testing.T) {
 			wire := mustHex(t, c.text)
-			want := ber.ConstraintViolation{Path: "Password", Constraint: "FROM permitted alphabet", ObservedValue: c.observed}
+			want := mapber.Violation{Path: "Password", Constraint: "FROM permitted alphabet", ObservedValue: c.observed}
 			_, err := gsm_map.UnmarshalBERPassword(wire)
-			requireConstraint(t, err, want)
-			var log ber.ViolationLog
-			value, err := gsm_map.UnmarshalBERPassword(wire, ber.WithConstraintTolerance(&log))
+			requireMAPConstraint(t, err, want)
+			var log mapber.ViolationLog
+			value, err := gsm_map.UnmarshalBERPassword(wire, mapber.WithTolerance(&log))
 			if err != nil {
 				t.Fatal(err)
 			}
-			requireViolations(t, &log, want)
+			requireMAPViolations(t, &log, want)
 			if len(value.Value) != 4 {
 				t.Fatalf("Password octet count = %d", len(value.Value))
 			}
 			_, err = gsm_map.MarshalBERPassword(value)
-			requireConstraint(t, err, want)
+			requireMAPConstraint(t, err, want)
 			_, err = gsm_map.MarshalDERPassword(value)
-			requireConstraint(t, err, want)
+			requireMAPConstraint(t, err, want)
 			log.Reset()
-			if replay, err := gsm_map.MarshalBERPassword(value, ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
+			if replay, err := gsm_map.MarshalBERPassword(value, mapber.WithTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
 				t.Fatalf("tolerant replay = %x, %v", replay, err)
 			}
-			requireViolations(t, &log, want)
+			requireMAPViolations(t, &log, want)
 		})
 	}
 	// Five octets containing four UTF-8 runes must record SIZE (4), len=5.
 	length := 5
-	var log ber.ViolationLog
-	if _, err := gsm_map.UnmarshalBERPassword(mustHex(t, "1205c3a9303030"), ber.WithConstraintTolerance(&log)); err != nil {
+	var log mapber.ViolationLog
+	if _, err := gsm_map.UnmarshalBERPassword(mustHex(t, "1205c3a9303030"), mapber.WithTolerance(&log)); err != nil {
 		t.Fatal(err)
 	}
-	requireViolations(t, &log,
-		ber.ConstraintViolation{Path: "Password", Constraint: "SIZE (4)", ObservedLength: &length},
-		ber.ConstraintViolation{Path: "Password", Constraint: "FROM permitted alphabet", ObservedValue: "0xC3"})
+	requireMAPViolations(t, &log,
+		mapber.Violation{Path: "Password", Constraint: "SIZE (4)", ObservedLength: &length},
+		mapber.Violation{Path: "Password", Constraint: "FROM permitted alphabet", ObservedValue: "0xC3"})
 }
 
 // TS 24.080 V19.4.0 §4.4.2 SS-UserData and RFC 5280 Appendix A.2
@@ -134,29 +135,29 @@ func TestRestrictedStringOctetSize(t *testing.T) {
 func TestSSUserDataOctetConstraints(t *testing.T) {
 	length := 202
 	wire := mustHex(t, "1681ca"+strings.Repeat("c3a9", 101))
-	want := ber.ConstraintViolation{Path: "SS-UserData", Constraint: "SIZE (1..200)", ObservedLength: &length}
+	want := mapber.Violation{Path: "SS-UserData", Constraint: "SIZE (1..200)", ObservedLength: &length}
 	_, err := gsm_map.UnmarshalBERSSUserData(wire)
-	requireConstraint(t, err, ber.ConstraintViolation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
-	var log ber.ViolationLog
-	value, err := gsm_map.UnmarshalBERSSUserData(wire, ber.WithConstraintTolerance(&log))
+	requireMAPConstraint(t, err, mapber.Violation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
+	var log mapber.ViolationLog
+	value, err := gsm_map.UnmarshalBERSSUserData(wire, mapber.WithTolerance(&log))
 	if err != nil {
 		t.Fatal(err)
 	}
-	requireViolations(t, &log, want, ber.ConstraintViolation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
+	requireMAPViolations(t, &log, want, mapber.Violation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
 	log.Reset()
-	if replay, err := gsm_map.MarshalBERSSUserData(value, ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
+	if replay, err := gsm_map.MarshalBERSSUserData(value, mapber.WithTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("replay = %x, %v", replay, err)
 	}
-	requireViolations(t, &log, want, ber.ConstraintViolation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
+	requireMAPViolations(t, &log, want, mapber.Violation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
 	fresh := &gsm_map.BERValue[gsm_map.SSUserData]{Value: gsm_map.SSUserData(strings.Repeat("é", 200))}
 	_, err = gsm_map.MarshalDERSSUserData(fresh)
-	requireConstraint(t, err, ber.ConstraintViolation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
+	requireMAPConstraint(t, err, mapber.Violation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
 	length = 400
 	log.Reset()
-	if _, err := gsm_map.MarshalBERSSUserData(fresh, ber.WithConstraintTolerance(&log)); err != nil {
+	if _, err := gsm_map.MarshalBERSSUserData(fresh, mapber.WithTolerance(&log)); err != nil {
 		t.Fatal(err)
 	}
-	requireViolations(t, &log, want, ber.ConstraintViolation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
+	requireMAPViolations(t, &log, want, mapber.Violation{Path: "SS-UserData", Constraint: "IA5String character repertoire (X.680 (02/2021) §41)", ObservedValue: "0xC3"})
 	for _, text := range []string{"16017f", "160100", "1681c8" + strings.Repeat("41", 200)} {
 		wire := mustHex(t, text)
 		value, err := gsm_map.UnmarshalBERSSUserData(wire)
@@ -219,22 +220,22 @@ func TestNamedCollectionSingleSizeRecord(t *testing.T) {
 	for _, c := range []struct {
 		name, hex, path, constraint string
 		length                      int
-		fresh                       func() berValue
+		fresh                       func() mapBERValue
 	}{
-		{"rangingSLPPList", "30820144a0820140" + strings.Repeat("3003800101", 64), "rangingSLPPList", "SIZE (1..63)", 64, func() berValue { return new(gsm_map.LCSDLRSPPTransportArg) }},
-		{"relatedUEInfo", "305a800100a255" + strings.Repeat("3003800101", 17), "relatedUEInfo", "SIZE (1..16)", 17, func() berValue { return new(gsm_map.LCSSLMTLRArg) }},
-		{"areaList", "300b800100aa0680020640a100", "areaEventReporting.areaList", "SIZE (1..250)", 0, func() berValue { return new(gsm_map.LCSSLMTLRArg) }},
+		{"rangingSLPPList", "30820144a0820140" + strings.Repeat("3003800101", 64), "rangingSLPPList", "SIZE (1..63)", 64, func() mapBERValue { return new(gsm_map.LCSDLRSPPTransportArg) }},
+		{"relatedUEInfo", "305a800100a255" + strings.Repeat("3003800101", 17), "relatedUEInfo", "SIZE (1..16)", 17, func() mapBERValue { return new(gsm_map.LCSSLMTLRArg) }},
+		{"areaList", "300b800100aa0680020640a100", "areaEventReporting.areaList", "SIZE (1..250)", 0, func() mapBERValue { return new(gsm_map.LCSSLMTLRArg) }},
 	} {
 		t.Run(c.name, func(t *testing.T) {
 			wire := mustHex(t, c.hex)
-			want := ber.ConstraintViolation{Path: c.path, Constraint: c.constraint, ObservedLength: &c.length}
-			requireConstraint(t, c.fresh().UnmarshalBER(wire), want)
-			var log ber.ViolationLog
+			want := mapber.Violation{Path: c.path, Constraint: c.constraint, ObservedLength: &c.length}
+			requireMAPConstraint(t, c.fresh().UnmarshalBER(wire), want)
+			var log mapber.ViolationLog
 			value := c.fresh()
-			if err := value.UnmarshalBER(wire, ber.WithConstraintTolerance(&log)); err != nil {
+			if err := value.UnmarshalBER(wire, mapber.WithTolerance(&log)); err != nil {
 				t.Fatal(err)
 			}
-			requireViolations(t, &log, want)
+			requireMAPViolations(t, &log, want)
 			switch c.name {
 			case "rangingSLPPList":
 				list := value.(*gsm_map.LCSDLRSPPTransportArg).RangingSLPPList
@@ -258,14 +259,14 @@ func TestNamedCollectionSingleSizeRecord(t *testing.T) {
 				}
 			}
 			_, err := value.MarshalBER()
-			requireConstraint(t, err, want)
+			requireMAPConstraint(t, err, want)
 			_, err = value.MarshalDER()
-			requireConstraint(t, err, want)
+			requireMAPConstraint(t, err, want)
 			log.Reset()
-			if replay, err := value.MarshalBER(ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
+			if replay, err := value.MarshalBER(mapber.WithTolerance(&log)); err != nil || !bytes.Equal(replay, wire) {
 				t.Fatalf("replay = %x, %v", replay, err)
 			}
-			requireViolations(t, &log, want)
+			requireMAPViolations(t, &log, want)
 		})
 	}
 }
@@ -288,16 +289,16 @@ func TestNotifySSArgEncoderExtensionTags(t *testing.T) {
 				code := v21_map_ss_code.SSSSCode{0}
 				value.SsCode = &code
 			}
-			want := ber.ConstraintViolation{Path: "ExtData_[0]", Constraint: "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", ObservedValue: c.observed}
+			want := mapber.Violation{Path: "ExtData_[0]", Constraint: "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", ObservedValue: c.observed}
 			_, err := value.MarshalBER()
-			requireConstraint(t, err, want)
+			requireMAPConstraint(t, err, want)
 			_, err = value.MarshalDER()
-			requireConstraint(t, err, want)
-			var log ber.ViolationLog
-			if wire, err := value.MarshalBER(ber.WithConstraintTolerance(&log)); err != nil || !bytes.Equal(wire, mustHex(t, c.wire)) {
+			requireMAPConstraint(t, err, want)
+			var log mapber.ViolationLog
+			if wire, err := value.MarshalBER(mapber.WithTolerance(&log)); err != nil || !bytes.Equal(wire, mustHex(t, c.wire)) {
 				t.Fatalf("tolerant encode = %x, %v", wire, err)
 			}
-			requireViolations(t, &log, want)
+			requireMAPViolations(t, &log, want)
 		})
 	}
 	// Once an unknown addition appears, later TLVs may reuse the old tags.
@@ -309,7 +310,7 @@ func TestNotifySSArgEncoderExtensionTags(t *testing.T) {
 	if len(decoded.ExtData_) != 2 {
 		t.Fatalf("extensions = %x", decoded.ExtData_)
 	}
-	replaysExactly(t, "later known tag", &decoded, wire)
+	replaysMAPExactly(t, "later known tag", &decoded, wire)
 }
 
 func FuzzBERReleaseConstraints(f *testing.F) {
@@ -330,11 +331,15 @@ func FuzzBERReleaseConstraints(f *testing.F) {
 			func() berValue { return new(sgp32.DisplayText) },
 			func() berValue { return new(sgp22.CountryName) },
 			func() berValue { return new(sgp32.CountryName) },
-			func() berValue { return new(gsm_map.LCSDLRSPPTransportArg) },
-			func() berValue { return new(gsm_map.LCSSLMTLRArg) },
-			func() berValue { return new(gsm_map.NotifySSArg) },
 		} {
 			fuzzExtensibleSequence(t, wire, fresh)
+		}
+		for _, fresh := range []func() mapBERValue{
+			func() mapBERValue { return new(gsm_map.LCSDLRSPPTransportArg) },
+			func() mapBERValue { return new(gsm_map.LCSSLMTLRArg) },
+			func() mapBERValue { return new(gsm_map.NotifySSArg) },
+		} {
+			fuzzMAPExtensibleSequence(t, wire, fresh)
 		}
 	})
 }

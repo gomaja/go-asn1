@@ -8,6 +8,7 @@ import (
 
 	"github.com/gomaja/go-asn1/runtime/ber"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
+	mapber "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_er_datatypes"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_datatypes"
 )
@@ -17,8 +18,8 @@ import (
 // to the same value. Editing a non-canonical decoded holder must produce
 // the same BER and DER as a fresh holder of the replacement value.
 func fuzzRoleCodec[T, H any](t *testing.T, data []byte, first, second T,
-	decode func([]byte, ...ber.DecodeOption) (*H, error),
-	encode func(*H, ...ber.EncodeOption) ([]byte, error),
+	decode func([]byte, ...mapber.DecodeOption) (*H, error),
+	encode func(*H, ...mapber.EncodeOption) ([]byte, error),
 	der func(*H) ([]byte, error),
 	field func(*H) *T,
 ) {
@@ -74,11 +75,11 @@ func fuzzRoleCodec[T, H any](t *testing.T, data []byte, first, second T,
 	}
 }
 
-// fuzzExtensibleSequence checks the strict and tolerant decoders of an
+// fuzzMAPExtensibleSequence checks the strict and tolerant decoders of an
 // extensible SEQUENCE: whatever either accepts replays exactly, a strict
 // success reports no violation under tolerance. Tag-order tolerance admission
 // is checked separately by TestNotifySSArgComponentOrder.
-func fuzzExtensibleSequence(t *testing.T, data []byte, fresh func() berValue) {
+func fuzzMAPExtensibleSequence(t *testing.T, data []byte, fresh func() mapBERValue) {
 	strict := fresh()
 	strictErr := strict.UnmarshalBER(data)
 	if strictErr == nil {
@@ -86,8 +87,8 @@ func fuzzExtensibleSequence(t *testing.T, data []byte, fresh func() berValue) {
 			t.Fatalf("%T strict replay = %x, %v; want %x", strict, replay, err, data)
 		}
 	}
-	var log ber.ViolationLog
-	option := ber.WithConstraintTolerance(&log)
+	var log mapber.ViolationLog
+	option := mapber.WithTolerance(&log)
 	tolerant := fresh()
 	if err := tolerant.UnmarshalBER(data, option); err != nil {
 		if strictErr == nil {
@@ -141,10 +142,10 @@ func FuzzMAPExtensionTail(f *testing.F) {
 		f.Add(mustHexF(f, seed))
 	}
 	f.Fuzz(func(t *testing.T, data []byte) {
-		fuzzExtensibleSequence(t, data, func() berValue { return &gsm_map.NotifySSArg{} })
-		fuzzExtensibleSequence(t, data, func() berValue { return &gsm_map.SingleRelativeResult{} })
-		fuzzExtensibleSequence(t, data, func() berValue { return &gsm_map.RequestedInfo{} })
-		fuzzExtensibleSequence(t, data, func() berValue { return &gsm_map.ExtCallBarringInfoForCSE{} })
+		fuzzMAPExtensibleSequence(t, data, func() mapBERValue { return &gsm_map.NotifySSArg{} })
+		fuzzMAPExtensibleSequence(t, data, func() mapBERValue { return &gsm_map.SingleRelativeResult{} })
+		fuzzMAPExtensibleSequence(t, data, func() mapBERValue { return &gsm_map.RequestedInfo{} })
+		fuzzMAPExtensibleSequence(t, data, func() mapBERValue { return &gsm_map.ExtCallBarringInfoForCSE{} })
 	})
 }
 
@@ -155,4 +156,29 @@ func mustHexF(f *testing.F, text string) []byte {
 		f.Fatal(err)
 	}
 	return data
+}
+
+func fuzzExtensibleSequence(t *testing.T, data []byte, fresh func() berValue) {
+	strict := fresh()
+	strictErr := strict.UnmarshalBER(data)
+	if strictErr == nil {
+		if replay, err := strict.MarshalBER(); err != nil || !bytes.Equal(replay, data) {
+			t.Fatalf("%T strict replay = %x, %v; want %x", strict, replay, err, data)
+		}
+	}
+	var log ber.ViolationLog
+	option := ber.WithConstraintTolerance(&log)
+	tolerant := fresh()
+	if err := tolerant.UnmarshalBER(data, option); err != nil {
+		if strictErr == nil {
+			t.Fatalf("%T tolerant rejected a strict value: %v", tolerant, err)
+		}
+		return
+	}
+	if strictErr == nil && len(log.Snapshot()) != 0 {
+		t.Fatalf("%T strict value reported %+v", tolerant, log.Snapshot())
+	}
+	if replay, err := tolerant.MarshalBER(option); err != nil || !bytes.Equal(replay, data) {
+		t.Fatalf("%T tolerant replay = %x, %v; want %x", tolerant, replay, err, data)
+	}
 }
