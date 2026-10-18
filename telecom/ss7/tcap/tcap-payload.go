@@ -29,7 +29,9 @@ const (
 // PayloadCodec binds one foreign schema without exchanging runtime objects.
 // DecodeBER must consume all bytes and apply the supplied ceilings and source
 // constraints. EncodeDER must enforce DER under that schema, including IMPLICIT
-// types, SET ordering, and DEFAULT omission that a generic scan cannot infer.
+// types, schema-specific SET/SET OF ordering, and DEFAULT omission. The generic
+// scan only refuses universal SETs satisfying neither possible order (X.690
+// (02/2021) sections 10.3 and 11.6); IMPLICIT SETs require the foreign schema.
 type PayloadCodec[T any] interface {
 	DecodeBER(data []byte, limits PayloadLimits) (T, error)
 	EncodeBER(value T) ([]byte, error)
