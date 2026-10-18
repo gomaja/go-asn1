@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_context.go; SHA-256 8fcdf92a498ef62faebc6e50f5aed461bc430e5734da30efce8c24aac6248977.
+// Runtime source: runtime/ber/replay_context.go; SHA-256 cca07575c7b2fea6f2eee59c0b4e72e18235e120c2154633cd501bfbe9b313ee.
 package ber
 
 import (
@@ -34,16 +34,18 @@ type ReplayState struct {
 	nodeCount           int
 	disabled            bool
 	sink                ViolationLog
+	profileIndex        *replayProfileIndex
 }
 
 // ReplayNode identifies one generated value in both the decoded tree and its
 // decode-time copy. Its baseline range points into one comparison byte stream.
 // A parent compares its wrapper around replayed children bottom-up.
 type ReplayNode struct {
-	state        *ReplayState
-	original     []byte
-	wireTag      tag.Tag
-	wireTagKnown bool
+	state             *ReplayState
+	original          []byte
+	wireTag           tag.Tag
+	wireTagKnown      bool
+	profileReplaySafe bool // received span contains no retained profile violation
 }
 
 func (s *ReplayState) setBaseline(encode func(EncodeOption) ([]byte, error)) {
@@ -280,6 +282,13 @@ func (c *replayCollector) leave(node *ReplayNode, encoded []byte) {
 	record := c.stack[len(c.stack)-1]
 	c.stack = c.stack[:len(c.stack)-1]
 	record.pending = encoded
+	if node.state != nil && node.state.profileIndex != nil && node.state.decodeTolerant {
+		index := node.state.profileIndex
+		if index.baselines == nil {
+			index.baselines = make(map[*ReplayNode][]byte)
+		}
+		index.baselines[node] = encoded
+	}
 	record.length = len(encoded)
 	if t, _, err := DecodeTag(encoded); err == nil {
 		record.canonicalTag, record.tagKnown = t, true
@@ -629,13 +638,14 @@ func PrepareBERReplay(node *ReplayNode, options []EncodeOption, canonical func(E
 			rootUnknown = true
 		}
 	}
-	if strict && !state.decodeTolerant && state.generatedComparison && rootComparison == berValueDifferent && !nodeValues.complete(state.nodeCount) {
+	if strict && state.generatedComparison && rootComparison == berValueDifferent && !nodeValues.complete(state.nodeCount) {
 		// Only edited roots need independent proofs for unknown subtrees.
-		// The ordinary verdict and the differential reference remain intact.
+		// Received-span guards still refuse retained profile violations; strict
+		// value/text checks already ran. Reference verdicts remain intact.
 		nodeValues.allowProof = true
 		state.same(current, nodeValues)
 	}
-	if strict && rootComparison == berValueDifferent && !state.eagerBaseline {
+	if strict && rootComparison == berValueDifferent && !state.eagerBaseline && (!state.decodeTolerant || state.profileIndex == nil) {
 		// Every decoded node with a firm typed verdict can make its replay
 		// decision from that value comparison. A changed root with no child
 		// needs no baseline either. Equal children retain their received
@@ -689,7 +699,12 @@ func PrepareBERReplay(node *ReplayNode, options []EncodeOption, canonical func(E
 	if strict && !(state.eagerBaseline && state.generatedComparison && rootComparison == berValueUnknown) {
 		fast := &replayFastState{state: state, root: node, rootDirty: rootDirty, rootUnknown: rootUnknown, nodeValues: nodeValues, stack: make([]replayFastFrame, 0, min(len(state.baselineNodes), 6)), matched: make(map[*ReplayNode]bool, len(state.baselineNodes))}
 		prepared, err := canonical(replayModeOption{state: state, strict: true, fast: fast, rebuildChildren: rootDirty && state.decodeTolerant})
-		if err == nil && !fast.uncertain && len(fast.stack) == 0 {
+		// A private edit can be discovered only while the fast pass visits
+		// descendants. With an unknown tolerant root that pass began without
+		// repair mode, so its bytes may still contain refused EXTERNAL forms.
+		// Establish the edit by comparison before the final repair pass.
+		// Q.773 (06/1997) §4.1.1; X.690 (02/2021) §8.18.
+		if err == nil && !fast.uncertain && len(fast.stack) == 0 && !(state.decodeTolerant && rootUnknown) {
 			return []EncodeOption{replayModeOption{state: state, top: node, prepared: prepared, shortcut: bytes.Equal(prepared, node.original)}}, nil
 		}
 		if err == nil && len(fast.stack) == 0 {
@@ -708,9 +723,15 @@ func PrepareBERReplay(node *ReplayNode, options []EncodeOption, canonical func(E
 		}
 		return nil, err
 	}
-	mode := replayModeOption{state: state, top: node, unchanged: unchanged}
+	// A private dialogue edit can leave the reflection verdict unknown.
+	// The completed canonical comparison then establishes the edit without
+	// treating an unknown typed verdict as equality or borrowing sibling state.
+	if strict && state.decodeTolerant && !unchanged[node] {
+		rootDirty = true
+	}
+	mode := replayModeOption{state: state, top: node, unchanged: unchanged, rebuildChildren: rootDirty && state.decodeTolerant}
 	mode.shortcut = strict && mode.unchanged[node]
-	if fastBytes != nil && (nodeValues != nil || state.eagerBaseline) {
+	if fastBytes != nil && (nodeValues != nil || state.eagerBaseline) && !(state.decodeTolerant && rootUnknown) {
 		matched := true
 		for replayed := range unchanged {
 			if !fastMatches[replayed] {
@@ -747,14 +768,14 @@ func generatedEncodePublicOptionCount(options []EncodeOption) int {
 // optional source-owned proof covers private fields that the generic reference
 // cannot inspect. It is consulted only inside a strict current-stream pass;
 // baseline and comparison streams always rebuild the canonical BER value.
-// Early child reuse also requires a decode with no tolerated violations: value
-// equality alone cannot prove Q.773 (06/1997) §4.1.1 representation compliance.
+// Early child reuse also requires a received span with no retained profile
+// violation (Q.773 (06/1997) §4.1.1). Strict value/text checks run first.
 func PreparedBERReplay(node *ReplayNode, options []EncodeOption, unchanged ...func() bool) ([]byte, bool) {
 	if node == nil || node.original == nil || len(options) == 0 {
 		return nil, false
 	}
 	for _, option := range options {
-		if candidate, ok := option.(replayModeOption); ok && candidate.state == node.state && candidate.top != node && candidate.fast != nil && candidate.strict && !node.state.decodeTolerant {
+		if candidate, ok := option.(replayModeOption); ok && candidate.state == node.state && candidate.top != node && candidate.fast != nil && candidate.strict && node.canReplayProfile() {
 			comparison, _ := candidate.fast.nodeValues.decision(reflect.ValueOf(node).Pointer())
 			if comparison == berValueEqual || len(unchanged) != 0 && unchanged[0] != nil && unchanged[0]() {
 				if config, err := encodeOptions(options); err == nil && !config.tolerant && !config.noReplay && candidate.fast.replayEqual(node) {
@@ -762,7 +783,7 @@ func PreparedBERReplay(node *ReplayNode, options []EncodeOption, unchanged ...fu
 				}
 			}
 		}
-		if candidate, ok := option.(replayModeOption); ok && candidate.state == node.state && candidate.top != node && candidate.typed != nil && !node.state.decodeTolerant {
+		if candidate, ok := option.(replayModeOption); ok && candidate.state == node.state && candidate.top != node && candidate.typed != nil && node.canReplayProfile() {
 			if comparison, _ := candidate.typed.decision(reflect.ValueOf(node).Pointer()); comparison == berValueEqual {
 				config, err := encodeOptions(options)
 				if err == nil && !config.tolerant && !config.noReplay {
@@ -797,7 +818,7 @@ func PreparedBERReplay(node *ReplayNode, options []EncodeOption, unchanged ...fu
 // PreserveEncodedBERNode replays a node's received octets when its current
 // encoding matches the encoding of its decode-time value. The baseline pass
 // records the comparison once; it never re-encodes a descendant recursively.
-func PreserveEncodedBERNode(encoded []byte, node *ReplayNode, options []EncodeOption) []byte {
+func PreserveEncodedBERNode(encoded []byte, node *ReplayNode, options []EncodeOption) (result []byte) {
 	if node == nil || node.original == nil {
 		return encoded
 	}
@@ -812,11 +833,14 @@ func PreserveEncodedBERNode(encoded []byte, node *ReplayNode, options []EncodeOp
 		}
 	}
 	if hasMode {
+		if mode.rebuildChildren && !mode.comparison && mode.collector == nil {
+			defer func() { result = replayUnchangedParts(result, node) }()
+		}
 		// An unchanged child may still contain a tolerated representation.
-		// Rebuild it in a strict edited operation (Q.773 (06/1997) §4.1.1),
+		// Rebuild only that span in a strict edited operation (Q.773 §4.1.1),
 		// while an unchanged root still reaches the final refusal boundary.
 		allowReceived := true
-		if mode.rebuildChildren && mode.top != node {
+		if mode.rebuildChildren && mode.top != node && !node.canReplayProfile() {
 			config, err := encodeOptions(options)
 			allowReceived = err == nil && config.tolerant
 		}

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 e02e98f4b9b20d51fc7e4e70a64a751922836e6493618caf90701f290f207983.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 f498aca836ce3991a2d9a7e93b6af7d0c8e1d6f275054a6f0ee278c3d71a1380.
 package ber
 
 import (
@@ -591,6 +591,9 @@ func CaptureGeneratedBERReplay(data []byte, options []DecodeOption) *ReplayNode 
 			original = append([]byte(nil), data...)
 		}
 		node := &ReplayNode{state: context.source.replay, original: original}
+		if context.config.tolerant {
+			node.profileReplaySafe = replayProfileSafe(data, context.config, node)
+		}
 		context.source.replay.nodeCount++
 		if owned && !context.source.reconstructed && sameBERSlice(original, context.source.owned) {
 			context.source.replay.root = node
@@ -622,6 +625,9 @@ func CaptureGeneratedBERReplay(data []byte, options []DecodeOption) *ReplayNode 
 			original = bytes.Clone(data)
 		}
 		node := &ReplayNode{state: state.lightReplay, original: original}
+		if config, err := decodeOptions(options); err == nil && config.tolerant {
+			node.profileReplaySafe = replayProfileSafe(data, config, node)
+		}
 		state.lightReplay.nodeCount++
 		// X.690 (02/2021) §8.14: an IMPLICIT child can have a
 		// reconstructed universal tag that was never received on the wire.
@@ -713,6 +719,15 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 		}
 	}
 	replay.decodeTolerant = tolerant
+	if tolerant {
+		config, err := decodeOptions(options)
+		if err != nil {
+			return err
+		}
+		if config.reportScope != nil {
+			replay.profileIndex = config.reportScope.replayProfile
+		}
+	}
 	replay.generatedComparison = len(comparators) != 0
 	if light && len(comparators) == 0 {
 		// Decoded byte fields can borrow from the working input that also
