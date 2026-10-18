@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 e8bef04b08307b166259f5a056e5319cd82281faf7be464cd6f441fefdcca922.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 e02e98f4b9b20d51fc7e4e70a64a751922836e6493618caf90701f290f207983.
 package ber
 
 import (
@@ -12,9 +12,10 @@ import (
 	"unsafe"
 )
 
-// validatedBERSource is populated by the complete X.690 structural and
-// universal-content scan. Element boundaries are offsets into one owned copy.
+// validatedBERSource holds the owned input. Proof mode also records element
+// boundaries from the complete X.690 structural and universal-content scan.
 type validatedBERSource struct {
+	light         bool // ordinary child validation; no validated-span proof
 	input         []byte
 	owned         []byte
 	validated     []byte
@@ -35,6 +36,8 @@ type generatedDecodeOption struct {
 	isElement   bool
 	pending     *validatedBERSource
 	pathOptions []DecodeOption
+	path        string
+	pathSet     bool
 }
 
 // diagnosticChildOption retains the parent path without building a child
@@ -196,6 +199,12 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 			if context.config.limits.MaxWork > 0 && len(data) > context.config.limits.MaxWork {
 				return data, nil
 			}
+			// Light children already read the root's working input or a
+			// private reconstructed buffer. Preserve that received-location
+			// relationship just as the ordinary option path does.
+			if context.source.light {
+				return data, nil
+			}
 			if _, within := berSubsliceOffset(context.source.owned, data); within {
 				if !context.source.matchesValidated(data) {
 					if err := ValidateBERElement(data, options...); err != nil {
@@ -292,6 +301,12 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 			if context == nil || context.source == nil {
 				return nil, nil, fmt.Errorf("%w: invalid generated BER decode context", ErrInvalidValue)
 			}
+			if context.source.light {
+				if err := ValidateBERElement(data, options...); err != nil {
+					return nil, nil, err
+				}
+				return data, options, nil
+			}
 			if context.source.validElement(data) {
 				if err := ValidateBERElement(data, options...); err != nil {
 					return nil, nil, err
@@ -337,7 +352,8 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 	if len(options) == 1 {
 		if form, ok := options[0].(berFormOption); ok && form.state != nil && !form.state.proofNeeded {
 			form.state.lightInput = data
-			return data, options, nil
+			config, _ := decodeOptions(options)
+			return compactLightDecodeInput(data, options, config)
 		}
 	}
 	for _, option := range options {
@@ -356,7 +372,7 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 		if config.form.lightInput == nil {
 			config.form.lightInput = data
 		}
-		return data, options, nil
+		return compactLightDecodeInput(data, options, config)
 	}
 	if config.form != nil && config.form.validated == nil {
 		if !sameBERSlice(config.form.lightOwned, data) {
@@ -396,6 +412,32 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 		context.pathOptions = options
 	}
 	return source.owned, []DecodeOption{context}, nil
+}
+
+// compactLightDecodeInput retains resolved options and linked paths without
+// issuing a validated-span proof. Every child still runs the ordinary X.690
+// (02/2021) §§8.1.3, 8.7 structural checks and Q.773 (06/1997) §4.1.1 scan.
+func compactLightDecodeInput(data []byte, options []DecodeOption, config decodeConfig) ([]byte, []DecodeOption, error) {
+	state := config.form
+	if state.lightOwned == nil {
+		state.lightOwned = bytes.Clone(data)
+	}
+	// A canonical decode, or explicit capture suppression, needs no replay
+	// state. The first captured child creates the shared state on demand.
+	input := new(lightGeneratedDecodeInput)
+	source, context := &input.source, &input.context
+	*source = validatedBERSource{light: true, input: data, owned: state.lightOwned, replay: state.lightReplay}
+	*context = generatedDecodeOption{source: source, config: config}
+	if config.hasPath {
+		context.pathOptions = options
+	}
+	return data, []DecodeOption{context}, nil
+}
+
+// The working source and its first context have the same decode lifetime.
+type lightGeneratedDecodeInput struct {
+	source  validatedBERSource
+	context generatedDecodeOption
 }
 
 func rootHasIndefiniteLength(data []byte) bool {
@@ -462,6 +504,9 @@ func (source *validatedBERSource) spanEnd(offset int) (int, bool) {
 // the current prefix. X.690 (02/2021) §8.1.3.6 includes EOC in an indefinite
 // TLV, while its contents exclude those two octets.
 func decodeValidatedTLV(data []byte, context *generatedDecodeOption, form *berFormState) (tag.Tag, int, []byte, error, bool) {
+	if context.source != nil && context.source.light {
+		return tag.Tag{}, 0, nil, nil, false
+	}
 	if context.source == nil {
 		return tag.Tag{}, 0, nil, fmt.Errorf("%w: invalid generated BER decode context", ErrInvalidValue), true
 	}
@@ -520,17 +565,34 @@ func CaptureGeneratedBERReplay(data []byte, options []DecodeOption) *ReplayNode 
 			return CaptureGeneratedBERReplay(data, child.options)
 		}
 		context, ok := option.(*generatedDecodeOption)
-		if !ok || context == nil || context.source == nil || context.source.replay == nil {
+		if !ok || context == nil || context.source == nil {
+			continue
+		}
+		if context.source.light && context.source.replay == nil {
+			context.source.replay = new(ReplayState)
+			if context.config.form != nil {
+				context.config.form.lightReplay = context.source.replay
+			}
+		}
+		if context.source.replay == nil {
 			continue
 		}
 		original := data
 		_, owned := berSubsliceOffset(context.source.owned, data)
+		if !owned && context.source.light {
+			// Prepare also supports callers without the ownership wrapper.
+			// Their received slices map into the private, equal-length copy.
+			if offset, received := berSubsliceOffset(context.source.input, data); received {
+				original = context.source.owned[offset : offset+len(data)]
+				owned = true
+			}
+		}
 		if !owned {
 			original = append([]byte(nil), data...)
 		}
 		node := &ReplayNode{state: context.source.replay, original: original}
 		context.source.replay.nodeCount++
-		if owned && !context.source.reconstructed && sameBERSlice(data, context.source.owned) {
+		if owned && !context.source.reconstructed && sameBERSlice(original, context.source.owned) {
 			context.source.replay.root = node
 		}
 		if owned && !context.source.reconstructed {
@@ -586,8 +648,17 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 	for _, option := range options {
 		context, ok := option.(*generatedDecodeOption)
 		if ok && context != nil && context.parent == nil && context.source != nil {
+			// A light root is completed only after its own capture. A lone
+			// child capture does not establish a received root range.
+			if context.source.light && (context.source.replay == nil || context.source.replay.root == nil) {
+				continue
+			}
 			replay = context.source.replay
 			tolerant = context.config.tolerant
+			if context.source.light && context.source.replay != nil {
+				light = true
+				lightRoot = context.source.replay.root
+			}
 		}
 		if form, ok := option.(berFormOption); ok && form.state != nil && form.state.lastCaptured != nil {
 			state := form.state

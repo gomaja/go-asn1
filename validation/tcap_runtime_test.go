@@ -250,11 +250,12 @@ func TestFreshBERKeepsExplicitDefault(t *testing.T) {
 	}
 }
 
-// go-asn1 #165: the dialogue portion follows each message's procedure. A Begin
-// carries the AARQ APDU (Q.774 (06/1997) Figure A.5, sheet 3) and a
-// Unidirectional the AUDT APDU (Q.773 (06/1997) §4.2.3, Q.771 §2.3.1.2.1), so
-// another abstract syntax is refused strictly and reported under tolerance.
-// Continue (Q.774 §3.2.1.2), End and Abort (Q.773 §3.1) may carry it.
+// go-asn1 #165: a dialogue portion in another abstract syntax carries user
+// information, which Begin, Continue, End and Abort may carry (Q.773 (06/1997)
+// §4.2.3 and the §3.1 DialoguePortion comment). Only a Unidirectional is
+// limited to the AUDT APDU (Q.773 §4.2.3, Q.771 §2.3.1.2.1), so there another
+// abstract syntax is refused strictly and reported under tolerance. Rules from
+// Q.774's procedures, such as a Begin carrying the AARQ, belong to wrappers.
 func TestDialogueSyntaxFollowsMessageProcedure(t *testing.T) {
 	userSyntax := "6b0b280906022a03a003020101"
 	invoke := "6c08a106020105020102"
@@ -262,7 +263,7 @@ func TestDialogueSyntaxFollowsMessageProcedure(t *testing.T) {
 		name, wire string
 		refused    bool
 	}{
-		{"Begin", tcapTLV("62", "480101", userSyntax, invoke), true},
+		{"Begin", tcapTLV("62", "480101", userSyntax, invoke), false},
 		{"Unidirectional", tcapTLV("61", userSyntax, invoke), true},
 		{"Continue", tcapTLV("65", "480101", "490102", userSyntax, invoke), false},
 		{"End", tcapTLV("64", "490102", userSyntax, invoke), false},
