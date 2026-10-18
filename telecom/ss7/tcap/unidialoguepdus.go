@@ -68,7 +68,7 @@ func (v *UniDialoguePDU) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 		return nil, err
 	}
 
-	linearOptions_ := len(opts) == 0
+	linearOptions_ := ber.CanUseLinearBEREncode(opts)
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	var finishTCAPProfile func([]byte, error) error
@@ -273,7 +273,7 @@ func (destination *UniDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
 		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *UniDialoguePDU, replayOpts ...ber.EncodeOption) ([]byte, error) {
 			return base.MarshalBER(replayOpts...)
-		})
+		}, compareTCAPUniDialoguePDU)
 	}()
 	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
 	if prepareErr != nil {
@@ -326,7 +326,7 @@ func (v *AUDTApdu) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 		return nil, err
 	}
 
-	linearOptions_ := len(opts) == 0
+	linearOptions_ := ber.CanUseLinearBEREncode(opts)
 	opts, commitReports := ber.StageGeneratedEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	var finishTCAPProfile func([]byte, error) error
@@ -630,7 +630,7 @@ func (destination *AUDTApdu) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
 		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *AUDTApdu, replayOpts ...ber.EncodeOption) ([]byte, error) {
 			return base.MarshalBER(replayOpts...)
-		})
+		}, compareTCAPAUDTApdu)
 	}()
 	decodedTag, content, total, err := ber.DecodeConstructedContent(data, opts...)
 	if err != nil {
@@ -885,4 +885,215 @@ func (v UniDialoguePDU) equalTCAPValue(other any) bool {
 		return false
 	}
 	return true
+}
+func compareTCAPUniDialoguePDU(a, b *UniDialoguePDU, nodes *ber.BERReplayComparisons) int {
+	if a == nil || b == nil {
+		if a == b {
+			return 1
+		}
+		return 0
+	}
+	if a == b {
+		return 0
+	}
+	result := compareTCAPUniDialoguePDUValue(a, b, nodes, 1, true, false)
+	if result == 0 && nodes != nil {
+		nodes.ProveEqual(compareTCAPUniDialoguePDUValue(a, b, nil, 1, true, true) == 1)
+	}
+	return result
+}
+func compareTCAPUniDialoguePDUValue(a, b *UniDialoguePDU, nodes *ber.BERReplayComparisons, depth int, accessible, source bool) int {
+	if depth > 1024 {
+		return 0
+	}
+	if a.Choice < 1 || b.Choice < 1 || a.Choice > 1 || b.Choice > 1 {
+		return 0
+	}
+	if a.Choice != b.Choice {
+		return 2
+	}
+	result := 1
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.berReplayNode_ == b.berReplayNode_ {
+				return 1
+			}
+			return 0
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	if a.Choice == 1 {
+		{
+			part := func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.UnidialoguePDU == nil || b.UnidialoguePDU == nil {
+					if a.UnidialoguePDU == b.UnidialoguePDU {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.UnidialoguePDU == b.UnidialoguePDU {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPAUDTApduValue(a.UnidialoguePDU, b.UnidialoguePDU, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+			if part == 2 {
+				result = 2
+			} else if part == 0 && result != 2 {
+				result = 0
+			}
+		}
+	}
+	nodes.Record(a.berReplayNode_, b.berReplayNode_, result, func() bool { return compareTCAPUniDialoguePDUValue(a, b, nil, depth, true, true) == 1 })
+	return result
+}
+func compareTCAPAUDTApdu(a, b *AUDTApdu, nodes *ber.BERReplayComparisons) int {
+	if a == nil || b == nil {
+		if a == b {
+			return 1
+		}
+		return 0
+	}
+	if a == b {
+		return 0
+	}
+	result := compareTCAPAUDTApduValue(a, b, nodes, 1, true, false)
+	if result == 0 && nodes != nil {
+		nodes.ProveEqual(compareTCAPAUDTApduValue(a, b, nil, 1, true, true) == 1)
+	}
+	return result
+}
+func compareTCAPAUDTApduValue(a, b *AUDTApdu, nodes *ber.BERReplayComparisons, depth int, accessible, source bool) int {
+	if depth > 1024 {
+		return 0
+	}
+	result := 1
+	{
+		part := func() int {
+			if (a.ProtocolVersion == nil) != (b.ProtocolVersion == nil) {
+				return 2
+			}
+			return func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.ProtocolVersion == nil || b.ProtocolVersion == nil {
+					if a.ProtocolVersion == b.ProtocolVersion {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.ProtocolVersion == b.ProtocolVersion {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return ber.CompareBERReplayPrimitive((*runtime.BitString)(a.ProtocolVersion), (*runtime.BitString)(b.ProtocolVersion), accessible)
+				}()
+			}()
+		}()
+		if part == 2 {
+			result = 2
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := ber.CompareBERReplayPrimitive((*runtime.ObjectIdentifier)(&a.ApplicationContextName), (*runtime.ObjectIdentifier)(&b.ApplicationContextName), accessible)
+		if part == 2 {
+			result = 2
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := func() int {
+			if (a.UserInformation == nil) != (b.UserInformation == nil) {
+				return 2
+			}
+			return func() int {
+				if depth+1 > 1024 {
+					return 0
+				}
+				if a.UserInformation == nil || b.UserInformation == nil {
+					if a.UserInformation == b.UserInformation {
+						return 1
+					}
+					return 0
+				}
+				return func() int {
+					if a.UserInformation == b.UserInformation {
+						if source {
+							return 1
+						}
+						return 0
+					}
+					return compareTCAPUserInformationValue(a.UserInformation, b.UserInformation, nodes, (depth+1)+1, accessible, source)
+				}()
+			}()
+		}()
+		if part == 2 {
+			result = 2
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := tcapReplayVerdict(a.berUserInformationIndef_ == b.berUserInformationIndef_)
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := func() int {
+			if depth+1 > 1024 {
+				return 0
+			}
+			if a.berReplayNode_ == b.berReplayNode_ {
+				return 1
+			}
+			return 0
+		}()
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	{
+		part := tcapReplayVerdict(a.berProtocolVersionPresent_ == b.berProtocolVersionPresent_)
+		if part == 2 {
+			if result != 2 {
+				result = 0
+			}
+		} else if part == 0 && result != 2 {
+			result = 0
+		}
+	}
+	nodes.Record(a.berReplayNode_, b.berReplayNode_, result, func() bool { return compareTCAPAUDTApduValue(a, b, nil, depth, true, true) == 1 })
+	return result
 }

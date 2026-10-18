@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 214459c55a2b1b6087157d01630a3e96e4cf9faca46bdff2658a28ca4c865220.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 e8bef04b08307b166259f5a056e5319cd82281faf7be464cd6f441fefdcca922.
 package ber
 
 import (
@@ -574,10 +574,11 @@ func CaptureGeneratedBERReplay(data []byte, options []DecodeOption) *ReplayNode 
 	return nil
 }
 
-// CompleteGeneratedBERDecode retains a typed baseline in both modes. Light
-// decodes also record a linear canonical stream here; proof decodes defer that
-// stream until replay is needed.
-func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode func(*T, ...EncodeOption) ([]byte, error)) error {
+// CompleteGeneratedBERDecode retains a detached typed baseline in all modes.
+// A generated comparator avoids a comparison stream when it can prove equality.
+// Unknown values without a source proof prepare it here so first replay needs
+// only a current pass.
+func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode func(*T, ...EncodeOption) ([]byte, error), comparators ...func(*T, *T, *BERReplayComparisons) int) error {
 	var replay *ReplayState
 	var tolerant bool
 	var light bool
@@ -606,8 +607,43 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 	if replay == nil {
 		return nil
 	}
+	if len(comparators) != 0 {
+		config, err := decodeOptions(options)
+		if err != nil {
+			return err
+		}
+		if config.checkReplayComparator {
+			original := comparators[0]
+			comparators = []func(*T, *T, *BERReplayComparisons) int{func(a, b *T, nodes *BERReplayComparisons) int {
+				if err := CheckBERReplayComparatorForTesting(a, b, func(n *BERReplayComparisons) int { return original(a, b, n) }); err != nil {
+					panic(err)
+				}
+				return original(a, b, nodes)
+			}}
+			copied, err := CloneBERValue(value)
+			if err != nil {
+				return err
+			}
+			comparators[0](value, copied.(*T), nil)
+		}
+	}
+	if tolerant {
+		config, err := decodeOptions(options)
+		if err != nil {
+			return err
+		}
+		if config.violations != nil {
+			// Children have committed into this private root stage. A clean
+			// tolerant decode proved the same rules as a strict decode; prior
+			// reports in the caller's destination are outside this operation.
+			config.violations.mu.Lock()
+			tolerant = len(config.violations.records) != 0
+			config.violations.mu.Unlock()
+		}
+	}
 	replay.decodeTolerant = tolerant
-	if light {
+	replay.generatedComparison = len(comparators) != 0
+	if light && len(comparators) == 0 {
 		// Decoded byte fields can borrow from the working input that also
 		// backs received replay octets. Detach the returned value before a
 		// caller can edit a field in place and corrupt those octets.
@@ -632,7 +668,7 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 		replay.baselineBytes = baseline
 		replay.baselineNodes = collector.nodes
 		replay.eagerBaseline = true
-		replay.same = func(current any, nodeValues *replayNodeComparisons) berValueComparison {
+		replay.same = func(current any, nodeValues *BERReplayComparisons) berValueComparison {
 			return compareBERValueNodes(reflect.ValueOf(current), reflect.ValueOf(&baselineValue), 0, nodeValues)
 		}
 		return nil
@@ -646,8 +682,23 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 		return err
 	}
 	*value = *copyValue.(*T)
-	replay.setBaseline(func(mode EncodeOption) ([]byte, error) { return encode(&baseline, mode) })
-	replay.same = func(current any, nodeValues *replayNodeComparisons) berValueComparison {
+	var proof BERReplayComparisons
+	proof.proofOnly = true
+	if len(comparators) != 0 && comparators[0](value, &baseline, &proof) == int(berValueUnknown) && !proof.sourceEqual && replay.root != nil {
+		collector := newReplayCollector(len(replay.root.original))
+		encoded, err := encode(&baseline, replayModeOption{state: replay, baseline: true, collector: collector})
+		if err != nil || collector.finish(encoded) != nil {
+			replay.disabled = true
+			return nil
+		}
+		replay.baselineBytes, replay.baselineNodes, replay.eagerBaseline = encoded, collector.nodes, true
+	} else {
+		replay.setBaseline(func(mode EncodeOption) ([]byte, error) { return encode(&baseline, mode) })
+	}
+	replay.same = func(current any, nodeValues *BERReplayComparisons) berValueComparison {
+		if len(comparators) != 0 {
+			return berValueComparison(comparators[0](current.(*T), &baseline, nodeValues))
+		}
 		return compareBERValueNodes(reflect.ValueOf(current), reflect.ValueOf(&baseline), 0, nodeValues)
 	}
 	return nil

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 8cdd847168fd4a41912bc4f93bdc1e2d1f518362f95bcf588589175f4be89dd4.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 a56dde8456ae0da49059c98ebbafa5f3068ec3d1470c058cabb010032029c416.
 package ber
 
 import (
@@ -9,18 +9,15 @@ import (
 )
 
 type tcapProfileOption struct {
-	source, module, assignment string
-	nested                     bool
+	source, ruleSource string
+	nested             bool
 }
 
 func (option tcapProfileOption) applyDecode(c *decodeConfig) error {
 	c.profile = true
 	c.profileNested = option.nested
 	c.profileType = option.source
-	c.profileSource = option.assignment
-	if option.module != "" {
-		c.profileSource = option.module + "." + option.assignment
-	}
+	c.profileSource = option.ruleSource
 	return nil
 }
 
@@ -33,7 +30,21 @@ func TrackTCAPForm(options []DecodeOption, source ...string) []DecodeOption {
 	}
 	c, err := decodeOptions(options)
 	if err == nil && (!c.profile || name != "" && name != c.profileType) {
-		options = append(options[:len(options):len(options)], tcapProfileOption{source: name, module: profileModule(source), assignment: sourceAssignment(source), nested: c.profile})
+		ruleSource := sourceAssignment(source)
+		if module := profileModule(source); module != "" {
+			ruleSource = module + "." + ruleSource
+		}
+		if len(options) == 1 {
+			if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
+				copied := *context
+				copied.config.profile = true
+				copied.config.profileNested = c.profile
+				copied.config.profileType = name
+				copied.config.profileSource = ruleSource
+				return []DecodeOption{&copied}
+			}
+		}
+		options = append(options[:len(options):len(options)], tcapProfileOption{source: name, ruleSource: ruleSource, nested: c.profile})
 	}
 	return TrackBERForm(options)
 }
@@ -131,24 +142,30 @@ func StageTCAPEncode(options []EncodeOption, source ...string) ([]EncodeOption, 
 		return options, finish
 	}
 	options = append(options[:len(options):len(options)], tcapEncodeOption{})
+	profile := tcapEncodedProfileOption{kind: name, source: sourceAssignment(source), tolerant: config.tolerant, violations: config.violations, scope: config.reportScope}
+	if module := profileModule(source); module != "" {
+		profile.source = module + "." + sourceAssignment(source)
+	}
 	return options, func(data []byte, prior error) error {
 		if prior != nil {
 			return prior
 		}
-		decode := decodeOptionFunc(func(c *decodeConfig) error {
-			c.profile = true
-			c.profileType = name
-			c.profileSource = sourceAssignment(source)
-			if module := profileModule(source); module != "" {
-				c.profileSource = module + "." + sourceAssignment(source)
-			}
-			c.tolerant = config.tolerant
-			c.violations = config.violations
-			c.reportScope = config.reportScope
-			return nil
-		})
-		return ValidateBERElement(data, encodingStructureOption(data), decode)
+		return ValidateBERElement(data, encodingStructureOption(data), profile)
 	}
+}
+
+type tcapEncodedProfileOption struct {
+	kind, source string
+	tolerant     bool
+	violations   *ViolationLog
+	scope        *reportScope
+}
+
+func (option tcapEncodedProfileOption) applyDecode(config *decodeConfig) error {
+	config.profile = true
+	config.profileType, config.profileSource = option.kind, option.source
+	config.tolerant, config.violations, config.reportScope = option.tolerant, option.violations, option.scope
+	return nil
 }
 
 // The schema boundary is confined to TCAP-owned fields. An unknown IMPLICIT

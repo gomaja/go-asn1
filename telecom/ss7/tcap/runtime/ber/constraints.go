@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 712e97335e4c5a5872edd077981afa77276259f6623a0ecafdabf9955b7607c2.
+// Runtime source: runtime/ber/constraints.go; SHA-256 7ee0b0861fa5e688a8026306765f1ee6a772b98ee2ae1cf165fc987833b3e1d5.
 package ber
 
 import (
@@ -466,6 +466,14 @@ func encodeOptions(options []EncodeOption) (encodeConfig, error) {
 	var config encodeConfig
 	for _, option := range options {
 		switch value := option.(type) {
+		case tcapEncodeOption:
+			config.tcapEncoding = true
+		case encodeSourceOption:
+			config.source = string(value)
+		case *toleranceOption:
+			if err := value.applyEncode(&config); err != nil {
+				return config, err
+			}
 		case generatedEncodeMarker:
 			// The generated call marker does not change encoding policy.
 		case constraintPathOption:
@@ -477,6 +485,7 @@ func encodeOptions(options []EncodeOption) (encodeConfig, error) {
 		case withoutBERReplayOption:
 			config.noReplay = true
 		case replayModeOption:
+			config.tcapEncoding = config.tcapEncoding || value.tcapEncoding
 			if value.state == nil {
 				return config, fmt.Errorf("%w: invalid BER replay state", ErrInvalidValue)
 			}

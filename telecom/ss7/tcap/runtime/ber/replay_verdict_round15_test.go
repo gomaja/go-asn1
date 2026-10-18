@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_verdict_round15_test.go; SHA-256 057a0fec9294ba85e5a3e7097524091bf8667064f0d407879ab070937b45fd3f.
+// Runtime source: runtime/ber/replay_verdict_round15_test.go; SHA-256 e7d81c09c30ba2ca8460d47d32ef1227d5bb4bdd7f8ae7b6fa36edf23dd00e34.
 package ber
 
 import (
@@ -8,7 +8,7 @@ import (
 )
 
 func TestBERReplayCompleteRequiresFirmNodeVerdicts(t *testing.T) {
-	var comparisons replayNodeComparisons
+	var comparisons BERReplayComparisons
 	comparisons.put(1, berValueEqual)
 	comparisons.put(2, berValueUnknown)
 	if comparisons.complete(2) {

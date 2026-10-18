@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_encode_options.go; SHA-256 01cf9b63950061ab62c9f5cd8aac50259e6d7767ff45168d0855cd2176057e7f.
+// Runtime source: runtime/ber/generated_encode_options.go; SHA-256 19a9f184f24f89c0662e580a3c9eae064d46741828361103d9cb368465ce256b.
 package ber
 
 import (
@@ -93,22 +93,37 @@ func ParentGeneratedCollectionSizeEncodeOptions(options []EncodeOption) []Encode
 	return ParentCollectionSizeEncodeOptions(options)
 }
 
-// CanUseLinearBEREncode keeps replay comparison passes on the encoder that
-// calls each child's public encoder. Linear helpers bypass the child replay
-// hooks used by the collector, fast matcher, and fallback comparison.
+// CanUseLinearBEREncode admits default calls and private generated child
+// options. Public options retain their diagnostic/reporting encoder path.
+// Comparison passes still call every child's public replay hook.
 func CanUseLinearBEREncode(options []EncodeOption) bool {
+	marked := false
 	for _, option := range options {
-		if mode, ok := option.(replayModeOption); ok && (mode.collector != nil || mode.fast != nil || mode.comparison) {
+		switch value := option.(type) {
+		case generatedEncodeMarker:
+			marked = true
+		case replayModeOption:
+			if value.collector != nil || value.fast != nil || value.comparison || value.baseline {
+				return false
+			}
+		case tcapEncodeOption, encodeSourceOption, parentCollectionSizeOption:
+			// These options carry the enclosing generated call's boundary.
+		default:
 			return false
 		}
 	}
-	return true
+	return marked || len(options) == 0
 }
 
 // ReplayGeneratedBERNode supplies an unchanged child's received octets to a
 // linear encoder. The root entry point still owns the returned byte slice.
 func ReplayGeneratedBERNode(node *ReplayNode, options []EncodeOption) ([]byte, bool) {
 	if node == nil || node.original == nil {
+		return nil, false
+	}
+	// Typed equality cannot prove the received form satisfies Q.773
+	// (06/1997) §4.1.1 when the decode retained a tolerated violation.
+	if node.state != nil && node.state.decodeTolerant {
 		return nil, false
 	}
 	for _, option := range options {
@@ -120,7 +135,7 @@ func ReplayGeneratedBERNode(node *ReplayNode, options []EncodeOption) ([]byte, b
 				return node.original, true
 			}
 			if mode.typed != nil {
-				if comparison, _ := mode.typed.get(reflect.ValueOf(node).Pointer()); comparison == berValueEqual {
+				if comparison, _ := mode.typed.decision(reflect.ValueOf(node).Pointer()); comparison == berValueEqual {
 					return node.original, true
 				}
 			}
