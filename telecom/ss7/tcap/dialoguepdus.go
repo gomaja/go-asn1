@@ -3271,6 +3271,14 @@ func (v *AssociateSourceDiagnostic) MarshalBER(opts ...ber.EncodeOption) (return
 
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "AssociateSourceDiagnostic", "DialoguePDUs", "Associate-source-diagnostic")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: AssociateSourceDiagnostic receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3512,6 +3520,14 @@ func (destination *AssociateSourceDiagnostic) UnmarshalBER(data []byte, opts ...
 func tcapMarshalBERUserInformation(collection *UserInformation, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "UserInformation", "DialoguePDUs", "UserInformation")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}

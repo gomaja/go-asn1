@@ -2740,6 +2740,14 @@ func (v *InvokeId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "InvokeId", "Remote-Operations-Generic-ROS-PDUs", "InvokeId")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeId receiver is nil", ber.ErrInvalidValue)
 	}
@@ -2948,6 +2956,14 @@ func (v *Bind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnE
 
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Bind", "Remote-Operations-Generic-ROS-PDUs", "Bind")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Bind receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3159,6 +3175,14 @@ func (v *Unbind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, retur
 
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Unbind", "Remote-Operations-Generic-ROS-PDUs", "Unbind")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Unbind receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3374,6 +3398,14 @@ func (v *InvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 		return nil, err
 	}
 
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "InvokeLinkedId", "Remote-Operations-Generic-ROS-PDUs", "Invoke-linkedId")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
@@ -3858,6 +3890,14 @@ func (v *RejectProblemChoice) MarshalBER(opts ...ber.EncodeOption) (returnBytes 
 
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "RejectProblemChoice", "Remote-Operations-Generic-ROS-PDUs", "RejectProblemChoice")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: RejectProblemChoice receiver is nil", ber.ErrInvalidValue)
 	}

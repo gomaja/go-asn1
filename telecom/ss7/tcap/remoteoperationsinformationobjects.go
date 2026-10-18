@@ -62,6 +62,14 @@ func (v *Code) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnE
 
 	opts, commitReports := ber.StageEncodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
+	var finishTCAPProfile func([]byte, error) error
+	opts, finishTCAPProfile = ber.StageTCAPEncode(opts, "Code", "Remote-Operations-Information-Objects", "Code")
+	defer func() {
+		returnErr = finishTCAPProfile(returnBytes, returnErr)
+		if returnErr != nil {
+			returnBytes = nil
+		}
+	}()
 	if v == nil {
 		return nil, fmt.Errorf("%w: Code receiver is nil", ber.ErrInvalidValue)
 	}
