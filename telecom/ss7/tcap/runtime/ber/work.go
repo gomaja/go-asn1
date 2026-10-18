@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 3d8a34a43426f2ec7b9cf9cfc81c827835e9df427265c939f689e9dac02ed169.
+// Runtime source: runtime/ber/work.go; SHA-256 e255b0a02f9c7157175b7b3a1d11a3cbd707a805b9ba56760564ea88d96653ea.
 package ber
 
 import (
@@ -52,7 +52,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 	}
 	var detachedContext *generatedDecodeOption
 	if len(options) != 0 {
-		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil && context.source != nil {
+		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil && context.source != nil && !context.source.light {
 			if _, within := berSubsliceOffset(context.source.owned, data); within {
 				if !context.source.validElement(data) {
 					return fmt.Errorf("%w: generated BER child is not a validated element", ErrInvalidValue)
@@ -109,8 +109,8 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 				failureOffset = absolute
 				indexes, _ = config.location.origin.ancestry(absolute)
 			} else {
-				base := config.location.offset
-				if found, ok := config.location.origin.marks[qualifyConstraintPath(options, "")]; ok {
+				base := config.location.receivedOffset()
+				if found, ok := config.location.origin.mark(qualifyConstraintPath(options, "")); ok {
 					base = found
 				}
 				if failureOffset <= len(config.location.origin.root)-base {

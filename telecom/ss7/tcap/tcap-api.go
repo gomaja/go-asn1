@@ -478,9 +478,6 @@ func (value *Begin) checkTCAPEncodedRules(opts []ber.EncodeOption) error {
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == Unstructured {
 		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Begin"), "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
 	}
-	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == UnknownSyntax {
-		return ber.CheckEncodedValue(ber.EncodeSource(opts, "TCAPMessages.Begin"), "dialoguePortion", "Q.773 §4.2.3: begin-dialogue-control-syntax", "user syntax in Begin (Q.774 Fig. A.5/3 requires AARQ)")
-	}
 	return nil
 }
 func (value *Begin) checkTCAPDecodedRules(opts []ber.DecodeOption) error {
@@ -489,9 +486,6 @@ func (value *Begin) checkTCAPDecodedRules(opts []ber.DecodeOption) error {
 	}
 	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == Unstructured {
 		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: structured-no-unidialogue-syntax", "unidialogue-as/AUDT in structured dialogue")
-	}
-	if value.DialoguePortion != nil && value.DialoguePortion.ContentKind() == UnknownSyntax {
-		return ber.CheckDecodedValue(opts, "dialoguePortion", "Q.773 §4.2.3: begin-dialogue-control-syntax", "user syntax in Begin (Q.774 Fig. A.5/3 requires AARQ)")
 	}
 	return nil
 }

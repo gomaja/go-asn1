@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 7ee0b0861fa5e688a8026306765f1ee6a772b98ee2ae1cf165fc987833b3e1d5.
+// Runtime source: runtime/ber/constraints.go; SHA-256 15c9a4b24d36985f6031558f48f088b2e9a5a09da6ff3ff51affd94429545e6c.
 package ber
 
 import (
@@ -592,6 +592,18 @@ type constraintPathOption string
 // when a violation needs an error or report; successful decodes and encodes
 // still validate every component without allocating joined prefix strings.
 func qualifyConstraintPath[Option any](options []Option, leaf string) string {
+	if len(options) == 1 {
+		if context, ok := any(options[0]).(*generatedDecodeOption); ok && context != nil {
+			prefix := generatedConstraintPath(context)
+			if prefix == "" {
+				return leaf
+			}
+			if leaf == "" {
+				return prefix
+			}
+			return prefix + "." + leaf
+		}
+	}
 	var components []string
 	for _, option := range options {
 		if diagnostic, ok := any(option).(diagnosticChildOption); ok {
@@ -607,23 +619,8 @@ func qualifyConstraintPath[Option any](options []Option, leaf string) string {
 			continue
 		}
 		if context, ok := any(option).(*generatedDecodeOption); ok && context != nil {
-			var reverse []string
-			for current := context; current != nil; current = current.parent {
-				if current.isElement {
-					reverse = append(reverse, fmt.Sprintf("element[%d]", current.element))
-				} else if current.component != "" {
-					reverse = append(reverse, current.component)
-				}
-				if current.pathOptions != nil {
-					prefix := qualifyConstraintPath(current.pathOptions, "")
-					if prefix != "" {
-						components = append(components, strings.Split(prefix, ".")...)
-					}
-					break
-				}
-			}
-			for index := len(reverse); index > 0; index-- {
-				components = append(components, reverse[index-1])
+			if prefix := generatedConstraintPath(context); prefix != "" {
+				components = append(components, prefix)
 			}
 			continue
 		}
@@ -638,6 +635,58 @@ func qualifyConstraintPath[Option any](options []Option, leaf string) string {
 		components = append(components, leaf)
 	}
 	return strings.Join(components, ".")
+}
+
+// Generated paths are immutable after creation. Cache their spelling once;
+// successful field markers need only append their own field name. Profile,
+// limit and location changes on a copied context do not change its path.
+func generatedConstraintPath(context *generatedDecodeOption) string {
+	if context.pathSet {
+		return context.path
+	}
+	var scratch [16]string
+	reverse := scratch[:0]
+	prefix := ""
+	for cursor := context; cursor != nil; cursor = cursor.parent {
+		if cursor.pathSet {
+			prefix = cursor.path
+			break
+		}
+		component := cursor.component
+		if cursor.isElement {
+			component = fmt.Sprintf("element[%d]", cursor.element)
+		}
+		if component != "" {
+			reverse = append(reverse, component)
+		}
+		if cursor.pathOptions != nil {
+			prefix = qualifyConstraintPath(cursor.pathOptions, "")
+			break
+		}
+	}
+	switch len(reverse) {
+	case 0:
+		context.path = prefix
+	case 1:
+		if prefix == "" {
+			context.path = reverse[0]
+		} else {
+			context.path = prefix + "." + reverse[0]
+		}
+	default:
+		// Cache only this context. Materializing every ancestor's prefix on
+		// the first diagnostic would retain quadratic bytes for a deep path.
+		components := make([]string, 0, len(reverse))
+		if prefix != "" {
+			components = append(components, prefix)
+		}
+		for index := len(reverse); index > 0; index-- {
+			components = append(components, reverse[index-1])
+		}
+		context.path = strings.Join(components, ".")
+	}
+	context.pathSet = true
+	return context.path
 }
 
 func (option constraintPathOption) applyDecode(config *decodeConfig) error {

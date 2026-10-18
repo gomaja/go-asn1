@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 a56dde8456ae0da49059c98ebbafa5f3068ec3d1470c058cabb010032029c416.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 1ebaa16e6b85e3c14fde093fecd811cc1dee1e0a961cc2f4f714071b98e351d5.
 package ber
 
 import (
@@ -30,9 +30,14 @@ func TrackTCAPForm(options []DecodeOption, source ...string) []DecodeOption {
 	}
 	c, err := decodeOptions(options)
 	if err == nil && (!c.profile || name != "" && name != c.profileType) {
-		ruleSource := sourceAssignment(source)
-		if module := profileModule(source); module != "" {
-			ruleSource = module + "." + ruleSource
+		// The outer profile pass owns every nested finding. Its source is
+		// already resolved; a nested pass cannot publish a profile report.
+		ruleSource := c.profileSource
+		if !c.profile {
+			ruleSource = sourceAssignment(source)
+			if module := profileModule(source); module != "" {
+				ruleSource = module + "." + ruleSource
+			}
 		}
 		if len(options) == 1 {
 			if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
