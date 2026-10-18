@@ -347,3 +347,39 @@ func TestEditRebuildsOnlyViolatingParts(t *testing.T) {
 		}
 	}
 }
+
+// go-asn1 #175: X.690 (02/2021) §10.3 orders a set value's components by tag
+// (X.680 (02/2021) §8.6) and §11.6 orders a set-of value's components as octet
+// strings. A universal SET in neither order is not DER under any schema: BER
+// decoding and exact replay keep it, but DER and fresh encoding refuse it.
+func TestDERRefusesUniversalSetInNeitherOrder(t *testing.T) {
+	for _, tc := range []struct {
+		set   string
+		valid bool
+	}{
+		{"3106020102020101", false}, // equal tags, so a SET OF, and descending
+		{"31060201010101ff", false}, // descending tags and descending octets
+		{"3106020101020102", true},  // sorted SET OF
+		{"31060101ff020101", true},  // ascending tags
+	} {
+		if err := ber.ValidateDEREncodedElement(mustHex(t, tc.set)); (err == nil) != tc.valid {
+			t.Fatalf("%s: ValidateDEREncodedElement = %v, want valid %v", tc.set, err, tc.valid)
+		}
+		wire := mustHex(t, tcapTLV("62", "480401020304", tcapTLV("6c", tcapTLV("a1", "020101", "020101", tc.set))))
+		var value tcap.TCMessage
+		if err := value.UnmarshalBER(wire); err != nil {
+			t.Fatalf("%s: strict decode of a Begin carrying it: %v", tc.set, err)
+		}
+		if out, err := value.MarshalBER(); err != nil || !bytes.Equal(out, wire) {
+			t.Fatalf("%s: replay = %x, %v", tc.set, out, err)
+		}
+		for name, encode := range map[string]func() ([]byte, error){
+			"DER":              value.MarshalDER,
+			"WithoutBERReplay": func() ([]byte, error) { return value.MarshalBER(ber.WithoutBERReplay()) },
+		} {
+			if _, err := encode(); (err == nil) != tc.valid {
+				t.Fatalf("%s: %s = %v, want valid %v", tc.set, name, err, tc.valid)
+			}
+		}
+	}
+}
