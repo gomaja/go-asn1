@@ -36,7 +36,7 @@ func TestExplicitWrapperRejectsTrailingAARQ(t *testing.T) {
 		var log ber.ViolationLog
 		var options []ber.DecodeOption
 		if tolerant {
-			options = append(options, ber.WithConstraintTolerance(&log))
+			options = append(options, ber.WithTolerance(&log))
 		}
 		if err := value.UnmarshalBER(invalid, options...); !errors.Is(err, ber.ErrExtraData) {
 			t.Fatalf("tolerant=%v: %v", tolerant, err)
@@ -68,7 +68,7 @@ func FuzzTCAPReleaseConstraints(f *testing.F) {
 			}
 		}
 		var log ber.ViolationLog
-		option := ber.WithConstraintTolerance(&log)
+		option := ber.WithTolerance(&log)
 		var tolerant tcap.AARQApdu
 		if err := tolerant.UnmarshalBER(wire, option); err != nil {
 			if strictErr == nil {
