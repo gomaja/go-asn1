@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/validation.go; SHA-256 e8fc7c56f4933eda28bd9f5f63348fe8748deb11962544be357f7e061f9041ed.
+// Runtime source: runtime/ber/validation.go; SHA-256 2401a884f6572f4d39e2779f7e3ea582e81edbea53abeb148d00977aa389f22d.
 package ber
 
 import (
@@ -59,6 +59,8 @@ type decodeLocation struct {
 	offset       int
 	source       string
 	field        string
+	fieldOptions int
+	fieldContext *generatedDecodeOption
 	elementIndex int
 	elementRaw   []byte
 	context      *generatedDecodeOption
@@ -220,12 +222,16 @@ func rememberDecodedElement(options []DecodeOption, name string, raw []byte) {
 				}
 				origin.pendingMarks = append(origin.pendingMarks, decodedElementMark{context: context, name: name, offset: offset})
 				config.location.field = name
+				config.location.fieldOptions = len(options)
+				config.location.fieldContext = context
 				return
 			}
 		}
 		_, _ = origin.mark("")
 		origin.remember(qualifyConstraintPath(options, name), offset)
 		config.location.field = name
+		config.location.fieldOptions = len(options)
+		config.location.fieldContext = nil
 	}
 }
 
@@ -236,10 +242,35 @@ func (location *decodeLocation) fieldName() string {
 	return location.field
 }
 
+// The marker records the option chain before a decoder may append this field.
+// Comparing path text confuses a same-named enclosing field with the leaf.
+func (location *decodeLocation) fieldAlreadyApplied(options []DecodeOption) bool {
+	if len(options) == 1 && location.fieldContext != nil {
+		context, ok := options[0].(*generatedDecodeOption)
+		if !ok {
+			return false
+		}
+		for context != nil && context != location.fieldContext {
+			if context.component == location.field {
+				return true
+			}
+			context = context.parent
+		}
+		return false
+	}
+	for _, option := range options[min(location.fieldOptions, len(options)):] {
+		if component, ok := option.(constraintPathOption); ok && string(component) == location.field {
+			return true
+		}
+	}
+	return false
+}
+
 // A primitive collection checks each decoded element before advancing. Keep
 // only that element's received slice; resolve its offset on a failed check.
 func (location *decodeLocation) rememberElement(index int, raw []byte) {
 	location.elementIndex, location.elementRaw, location.field = index, raw, ""
+	location.fieldOptions, location.fieldContext = 0, nil
 }
 
 // The schema path is consumed only by a failed check or a location lookup

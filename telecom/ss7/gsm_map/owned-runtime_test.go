@@ -6,9 +6,13 @@ import (
 	"bytes"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"reflect"
 	"testing"
+	"time"
 
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/ros"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
 )
 
@@ -257,6 +261,161 @@ func TestOwnedUTF8ReportLocations(t *testing.T) {
 	}
 }
 
+// X.690 (02/2021) §8.23.10: replaying retained open content and unknown
+// additions reports the same source and path as tolerant decoding.
+func TestOpaqueEncodeRecordsMatchDecode(t *testing.T) {
+	for _, tc := range []struct {
+		name, wire string
+		value      interface {
+			UnmarshalBER([]byte, ...ber.DecodeOption) error
+			MarshalBER(...ber.EncodeOption) ([]byte, error)
+		}
+	}{
+		{"extType", "300706022a030c01ff", &PrivateExtension{}},
+		{"container extType", "300ba009300706022a030c01ff", &ExtensionContainer{}},
+		{"nested container", "3011300fa00d300b06022a0330050c0361ff62", &AbsentSubscriberParam{}},
+		{"addition", "300a8001018202f1210c01ff", &PDPContextInfo{}},
+		{"nested addition", "300f8001018202f121bf200530030c01ff", &PDPContextInfo{}},
+		{"ROS argument", "30090201010201020c01ff", &ros.Invoke{}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			wire := opaqueWire(t, tc.wire)
+			var decoded ber.ViolationLog
+			if err := tc.value.UnmarshalBER(wire, ber.WithTolerance(&decoded)); err != nil {
+				t.Fatal(err)
+			}
+			var encoded ber.ViolationLog
+			replay, err := tc.value.MarshalBER(ber.WithTolerance(&encoded))
+			if err != nil || !bytes.Equal(replay, wire) {
+				t.Fatalf("replay=%x err=%v", replay, err)
+			}
+			d, e := decoded.Snapshot(), encoded.Snapshot()
+			if len(d) != 1 || len(e) != 1 {
+				t.Fatalf("decoded=%+v encoded=%+v", d, e)
+			}
+			if e[0].Rule != d[0].Rule || e[0].Source != d[0].Source || e[0].Path != d[0].Path || e[0].Constraint != d[0].Constraint || e[0].ObservedValue != d[0].ObservedValue || e[0].Offset != nil || e[0].OctetOffset != nil || len(e[0].ChildIndexes) != 0 {
+				t.Fatalf("decoded=%+v encoded=%+v", d[0], e[0])
+			}
+		})
+	}
+}
+
+// X.690 (02/2021) §8.23.10 applies to typed UTF8String values, including
+// IMPLICIT fields whose outer tag no longer identifies the string type.
+func TestTypedUTF8EncodePolicy(t *testing.T) {
+	wire := opaqueWire(t, "30068001018201ff")
+	value := &LCSCancelDeferredLocationArg{ReferenceNumberExt: []byte{1}, HGmlcCallBackUri: "\xff"}
+	for _, encode := range []func() ([]byte, error){
+		func() ([]byte, error) { return value.MarshalBER() },
+		func() ([]byte, error) { return value.MarshalBER(ber.WithoutBERReplay()) },
+		value.MarshalDER,
+		func() ([]byte, error) { return LCSCancelDeferredLocationArgCodec().EncodeBER(*value) },
+		func() ([]byte, error) {
+			return LCSCancelDeferredLocationArgCodec().EncodeBER(*value, ber.WithoutBERReplay())
+		},
+		func() ([]byte, error) { return LCSCancelDeferredLocationArgCodec().EncodeDER(*value) },
+	} {
+		_, err := encode()
+		validation, ok := err.(*ber.ValidationError)
+		if !ok || !errors.Is(err, ber.ErrInvalidValue) {
+			t.Fatalf("strict encode kind: %T %v", err, err)
+		}
+		if validation.Path != "h-gmlc-callBackUri" || validation.Source != "SS-DataTypes.LCS-CancelDeferredLocationArg.h-gmlc-callBackUri" || validation.Rule.Clause != "8.23.10" || validation.ObservedValue != "ff" || validation.Offset != nil || validation.OctetOffset != nil || len(validation.ChildIndexes) != 0 {
+			t.Fatalf("strict encode record: %+v", validation)
+		}
+	}
+	var combined ber.ViolationLog
+	if _, err := value.MarshalBER(ber.WithTolerance(&combined), ber.WithoutBERReplay()); !errors.Is(err, ber.ErrInvalidValue) || len(combined.Snapshot()) != 0 {
+		t.Fatalf("tolerant fresh refusal: %v records=%+v", err, combined.Snapshot())
+	}
+	codec := LCSCancelDeferredLocationArgCodec()
+	if _, err := codec.EncodeBER(*value, ber.WithTolerance(&combined), ber.WithoutBERReplay()); !errors.Is(err, ber.ErrInvalidValue) || len(combined.Snapshot()) != 0 {
+		t.Fatalf("typed tolerant fresh refusal: %v records=%+v", err, combined.Snapshot())
+	}
+	var encoded ber.ViolationLog
+	got, err := value.MarshalBER(ber.WithTolerance(&encoded))
+	if err != nil || !bytes.Equal(got, wire) {
+		t.Fatalf("tolerant encode=%x err=%v", got, err)
+	}
+	records := encoded.Snapshot()
+	if len(records) != 1 || records[0].Path != "h-gmlc-callBackUri" || records[0].Source != "SS-DataTypes.LCS-CancelDeferredLocationArg.h-gmlc-callBackUri" || records[0].Offset != nil || records[0].OctetOffset != nil || len(records[0].ChildIndexes) != 0 {
+		t.Fatalf("records=%+v", records)
+	}
+	var decoded LCSCancelDeferredLocationArg
+	var dlog ber.ViolationLog
+	if err := decoded.UnmarshalBER(wire, ber.WithTolerance(&dlog)); err != nil {
+		t.Fatal(err)
+	}
+	encoded.Reset()
+	got, err = decoded.MarshalBER(ber.WithTolerance(&encoded))
+	if err != nil || !bytes.Equal(got, wire) {
+		t.Fatalf("tolerant replay=%x err=%v", got, err)
+	}
+	if len(encoded.Snapshot()) != 1 {
+		t.Fatalf("tolerant replay records=%+v", encoded.Snapshot())
+	}
+	for _, encode := range []func() ([]byte, error){func() ([]byte, error) { return decoded.MarshalBER() }, func() ([]byte, error) { return decoded.MarshalBER(ber.WithoutBERReplay()) }, decoded.MarshalDER} {
+		if _, err := encode(); !errors.Is(err, ber.ErrInvalidValue) {
+			t.Fatalf("decoded strict encode: %v", err)
+		}
+	}
+}
+
+func TestLCSPeriodicAndEventUTF8Encode(t *testing.T) {
+	bad := "\xff"
+	for _, tc := range []struct {
+		name  string
+		value interface {
+			MarshalBER(...ber.EncodeOption) ([]byte, error)
+			MarshalDER() ([]byte, error)
+		}
+	}{
+		{"periodic", &LCSPeriodicTriggeredInvokeArg{ReferenceNumber: []byte{1}, HGmlcAddress: []byte{1, 2, 3, 4, 5}, HGmlcCallBackUri: &bad}},
+		{"event", &LCSEventReportArg{EventType: EventTypePeriodicEvent, ReferenceNumberExt: []byte{1}, HGmlcCallBackUri: bad}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if _, err := tc.value.MarshalBER(); !errors.Is(err, ber.ErrInvalidValue) {
+				t.Fatalf("BER: %v", err)
+			}
+			if _, err := tc.value.MarshalBER(ber.WithoutBERReplay()); !errors.Is(err, ber.ErrInvalidValue) {
+				t.Fatalf("fresh BER: %v", err)
+			}
+			if _, err := tc.value.MarshalDER(); !errors.Is(err, ber.ErrInvalidValue) {
+				t.Fatalf("DER: %v", err)
+			}
+			var log ber.ViolationLog
+			got, err := tc.value.MarshalBER(ber.WithTolerance(&log))
+			records := log.Snapshot()
+			if err != nil || len(got) == 0 || len(records) != 1 || records[0].Rule.Clause != "8.23.10" || records[0].Offset != nil {
+				t.Fatalf("tolerant=%x err=%v records=%+v", got, err, records)
+			}
+		})
+	}
+}
+
+func TestTolerantReencodeUsesDefaultDiagnosticLimit(t *testing.T) {
+	content := append([]byte{0x80, 1, 1, 0x82, 2, 0xf1, 0x21}, bytes.Repeat([]byte{0x0c, 1, 0xff}, 1025)...)
+	wire, err := ber.EncodeSequence(content)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var value PDPContextInfo
+	var decoded ber.ViolationLog
+	if err := value.UnmarshalBER(wire, ber.WithTolerance(&decoded), ber.WithDiagnosticLimits(ber.DiagnosticLimits{MaxRecords: 2048})); err != nil {
+		t.Fatal(err)
+	}
+	if len(decoded.Snapshot()) != 1025 {
+		t.Fatalf("decode records=%d", len(decoded.Snapshot()))
+	}
+	var encoded ber.ViolationLog
+	if _, err := value.MarshalBER(ber.WithTolerance(&encoded)); !errors.Is(err, ber.ErrResourceLimit) {
+		t.Fatalf("re-encode=%v", err)
+	}
+	if len(encoded.Snapshot()) != 0 {
+		t.Fatalf("failed encode published %+v", encoded.Snapshot())
+	}
+}
+
 // X.680 (02/2021) §51.5: a failed element SIZE constraint identifies the
 // received element, including when the collection is nested in a SEQUENCE.
 func TestPrimitiveCollectionElementLocations(t *testing.T) {
@@ -405,5 +564,223 @@ func TestAllPrimitiveCollectionConstraintLocations(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestR39StrictOpaqueRefusalPath(t *testing.T) {
+	for _, c := range []struct {
+		name, wire string
+		value      interface {
+			UnmarshalBER([]byte, ...ber.DecodeOption) error
+			MarshalBER(...ber.EncodeOption) ([]byte, error)
+		}
+	}{
+		{"extType", "300706022a030c01ff", &PrivateExtension{}},
+		{"container extType", "300ba009300706022a030c01ff", &ExtensionContainer{}},
+		{"addition", "300a8001018202f1210c01ff", &PDPContextInfo{}},
+		{"ros argument", "30090201010201020c01ff", &ros.Invoke{}},
+	} {
+		t.Run(c.name, func(t *testing.T) {
+			var log ber.ViolationLog
+			if err := c.value.UnmarshalBER(opaqueWire(t, c.wire), ber.WithTolerance(&log)); err != nil {
+				t.Fatal(err)
+			}
+			d := log.Snapshot()
+			_, err := c.value.MarshalBER()
+			ve, bare := err.(*ber.ValidationError)
+			if len(d) != 1 || !bare {
+				t.Fatalf("records %v err %T %v", d, err, err)
+			}
+			if ve.Path != d[0].Path || ve.Source != d[0].Source || ve.Rule != d[0].Rule || ve.ObservedValue != d[0].ObservedValue {
+				t.Fatalf("strict=%+v decoded=%+v", ve, d[0])
+			}
+		})
+	}
+}
+
+// X.680 (02/2021) §§22.7, 51.5: a set bit outside every permitted
+// equivalent length is a source SIZE violation, including in builders.
+func TestNamedBitSizeEncodeError(t *testing.T) {
+	bits := runtime.BitString{Bytes: []byte{0, 0x80}, BitLength: 9}
+	value := SGSNCapability{SupportedRATTypesIndicator: &bits}
+	codec := SGSNCapabilityCodec()
+	for _, encode := range []func() ([]byte, error){
+		func() ([]byte, error) { return value.MarshalBER() },
+		func() ([]byte, error) { return value.MarshalBER(ber.WithoutBERReplay()) },
+		value.MarshalDER,
+		func() ([]byte, error) { return codec.EncodeBER(value) },
+		func() ([]byte, error) { return codec.EncodeBER(value, ber.WithoutBERReplay()) },
+		func() ([]byte, error) { return codec.EncodeDER(value) },
+	} {
+		_, err := encode()
+		ve, ok := err.(*ber.ValidationError)
+		if !ok || !errors.Is(err, ber.ErrInvalidValue) {
+			t.Fatalf("error type: %T %v", err, err)
+		}
+		if ve.Constraint != "SIZE (2..8)" || ve.Path != "supportedRAT-TypesIndicator" || ve.Source != "MAP-MS-DataTypes.SGSN-Capability.supportedRAT-TypesIndicator" || ve.Rule.Clause != "51.5" || ve.ObservedLength == nil || *ve.ObservedLength != 9 {
+			t.Fatalf("violation: %+v", ve)
+		}
+	}
+	_, err := NewSupportedRATTypes(8)
+	ve, ok := err.(*ber.ValidationError)
+	if !ok || ve.Path != "" || ve.Source != "MAP-MS-DataTypes.SupportedRAT-Types" || ve.Constraint != "SIZE (2..8)" || ve.Rule.Clause != "51.5" || ve.ObservedLength == nil || *ve.ObservedLength != 9 {
+		t.Fatalf("builder: %T %+v", err, err)
+	}
+	var log ber.ViolationLog
+	got, err := value.MarshalBER(ber.WithTolerance(&log))
+	if err != nil || !bytes.Equal(got, opaqueWire(t, "30058803070080")) || len(log.Snapshot()) != 1 {
+		t.Fatalf("tolerant: %x %v %+v", got, err, log.Snapshot())
+	}
+	bits.Bytes = nil
+	for _, encode := range []func() ([]byte, error){func() ([]byte, error) { return value.MarshalBER() }, func() ([]byte, error) { return value.MarshalBER(ber.WithoutBERReplay()) }, value.MarshalDER} {
+		_, err := encode()
+		path, ok := err.(interface{ ASN1BERPath() string })
+		if !ok || path.ASN1BERPath() != "supportedRAT-TypesIndicator" {
+			t.Fatalf("structural field path: %T %v", err, err)
+		}
+	}
+}
+
+// X.690 (02/2021) §§8.9, 8.23.10: retained additions keep their wire
+// ordinals, and repeated tolerant failures must not repeatedly scan the prefix.
+func TestTolerantOpaqueOrdinalGrowth(t *testing.T) {
+	measure := func(k, e int, replay bool) time.Duration {
+		large := []byte{0x30, 0x80}
+		for range e {
+			large = append(large, 5, 0)
+		}
+		large = append(large, 0, 0)
+		value := PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{large}}
+		for range k {
+			value.ExtData_ = append(value.ExtData_, []byte{12, 1, 255})
+		}
+		var original []byte
+		if replay {
+			var log ber.ViolationLog
+			var err error
+			original, err = value.MarshalBER(ber.WithTolerance(&log))
+			if err != nil {
+				t.Fatal(err)
+			}
+			value = PDPContextInfo{}
+			log.Reset()
+			if err = value.UnmarshalBER(original, ber.WithTolerance(&log), ber.WithDecodeLimits(ber.DecodeLimits{MaxDepth: 64, MaxElements: 1 << 22, MaxWork: 1 << 28})); err != nil {
+				t.Fatal(err)
+			}
+		}
+		best := time.Duration(1<<63 - 1)
+		// Each sample repeats the encode for at least 100ms, so a coarse clock
+		// (about 15.6ms on some Windows hosts) cannot round a fast case to zero.
+		for range 3 {
+			start := time.Now()
+			n := 0
+			for {
+				var log ber.ViolationLog
+				wire, err := value.MarshalBER(ber.WithTolerance(&log))
+				if err != nil {
+					t.Fatal(err)
+				}
+				if n == 0 {
+					rows := log.Snapshot()
+					if len(rows) != k || rows[k-1].Path != fmt.Sprintf("child[%d]", k+2) {
+						t.Fatalf("ordinals: %d %+v", len(rows), rows[len(rows)-1])
+					}
+					if replay && !bytes.Equal(wire, original) {
+						t.Fatal("replay changed bytes")
+					}
+				}
+				n++
+				if time.Since(start) >= 100*time.Millisecond {
+					break
+				}
+			}
+			if perOp := time.Since(start) / time.Duration(n); perOp < best {
+				best = perOp
+			}
+		}
+		return best
+	}
+	// About 16 times the content and failures: linear work grows about 16x, the
+	// old per-failure rescan about 250x. The 64x ceiling leaves room for timing
+	// noise on a loaded machine on both sides.
+	for _, replay := range []bool{false, true} {
+		small := measure(64, 1<<13, replay)
+		large := measure(1000, 1<<17, replay)
+		t.Logf("replay=%v small=%v large=%v ratio=%.2f", replay, small, large, float64(large)/float64(small))
+		if large > 64*small {
+			t.Errorf("sixteenfold content/failures grew more than 64x: %v -> %v", small, large)
+		}
+	}
+}
+
+func TestDEROpaqueValidationError(t *testing.T) {
+	bad := []byte{12, 1, 255}
+	pdp := PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{bad}}
+	open := PrivateExtension{ExtId: runtime.MustObjectIdentifierFromArcs(1, 2, 3), ExtType: &runtime.RawValue{Class: 0, Tag: 12, Bytes: bad}}
+	nested := ExtensionContainer{PrivateExtensionList: &PrivateExtensionList{Values: []PrivateExtension{open}}}
+	for _, item := range []struct {
+		name string
+		ber  func() ([]byte, error)
+		der  func() ([]byte, error)
+	}{
+		{"addition", func() ([]byte, error) { return pdp.MarshalBER() }, pdp.MarshalDER},
+		{"addition codec", func() ([]byte, error) { return PDPContextInfoCodec().EncodeBER(pdp) }, func() ([]byte, error) { return PDPContextInfoCodec().EncodeDER(pdp) }},
+		{"open", func() ([]byte, error) { return open.MarshalBER() }, open.MarshalDER},
+		{"nested open", func() ([]byte, error) { return nested.MarshalBER() }, nested.MarshalDER},
+	} {
+		t.Run(item.name, func(t *testing.T) {
+			_, be := item.ber()
+			_, de := item.der()
+			want, ok := be.(*ber.ValidationError)
+			if !ok {
+				t.Fatalf("BER: %T %v", be, be)
+			}
+			got, ok := de.(*ber.ValidationError)
+			if !ok || !errors.Is(de, ber.ErrInvalidValue) {
+				t.Fatalf("DER: %T %v", de, de)
+			}
+			if !reflect.DeepEqual(got.Violation, want.Violation) {
+				t.Fatalf("DER=%+v BER=%+v", got, want)
+			}
+		})
+	}
+}
+
+// X.680 (02/2021) §22.7: encode-side SIZE diagnostics compare significant
+// length; decode-side diagnostics continue to describe the received length.
+func TestNamedBitEncodeObservedSignificantLength(t *testing.T) {
+	bits := runtime.BitString{Bytes: []byte{0, 0x80}, BitLength: 16}
+	v := SGSNCapability{SupportedRATTypesIndicator: &bits}
+	c := SGSNCapabilityCodec()
+	for _, encode := range []func(...ber.EncodeOption) ([]byte, error){v.MarshalBER, func(o ...ber.EncodeOption) ([]byte, error) { return c.EncodeBER(v, o...) }} {
+		for _, fresh := range []bool{false, true} {
+			var log ber.ViolationLog
+			opts := []ber.EncodeOption{ber.WithTolerance(&log)}
+			if fresh {
+				opts = append(opts, ber.WithoutBERReplay())
+			}
+			wire, err := encode(opts...)
+			if err != nil {
+				t.Fatal(err)
+			}
+			rows := log.Snapshot()
+			if len(rows) != 1 || rows[0].ObservedLength == nil || *rows[0].ObservedLength != 9 {
+				t.Fatalf("encode records=%+v", rows)
+			}
+			var decoded SGSNCapability
+			var dlog ber.ViolationLog
+			if err := decoded.UnmarshalBER(wire, ber.WithTolerance(&dlog)); err != nil {
+				t.Fatal(err)
+			}
+			rows = dlog.Snapshot()
+			if len(rows) != 1 || rows[0].ObservedLength == nil || *rows[0].ObservedLength != 16 {
+				t.Fatalf("decode records=%+v", rows)
+			}
+			_, err = encode()
+			ve, ok := err.(*ber.ValidationError)
+			if !ok || ve.ObservedLength == nil || *ve.ObservedLength != 9 {
+				t.Fatalf("strict: %T %v", err, err)
+			}
+		}
 	}
 }

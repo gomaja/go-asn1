@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/diagnostic_limits_test.go; SHA-256 097b0c28eeceb0c48c547a14769cc2545407724a39c0d7dc65ac076422b7c629.
+// Runtime source: runtime/ber/diagnostic_limits_test.go; SHA-256 ccd893fb3659616b5d691a740a4e58b2d1407b524d18e4cf0c94043aef93d960.
 package ber
 
 import (
@@ -17,7 +17,7 @@ func TestBERDiagnosticDefaultHeapBound(t *testing.T) {
 	for _, entry := range []string{"preflight", "typed", "implicit"} {
 		t.Run(entry, func(t *testing.T) {
 			for _, size := range []int{16 << 10, 64 << 10, 262 << 10} {
-				wire := mustEncode(t)(EncodeUTF8String(string(bytes.Repeat([]byte{255}, size))))
+				wire := encodeUTF8WireForTest(t, string(bytes.Repeat([]byte{255}, size)))
 				_, _, contents, err := DecodeTLV(wire)
 				if err != nil {
 					t.Fatal(err)
@@ -64,7 +64,7 @@ func TestBERDiagnosticBudgetBoundaries(t *testing.T) {
 	for _, limits := range []DiagnosticLimits{{MaxRecords: 2}, {MaxObservedBytes: 4}} {
 		for _, constructed := range []bool{false, true} {
 			for _, count := range []int{1, 2, 3} {
-				wire := mustEncode(t)(EncodeUTF8String(string(bytes.Repeat([]byte{255}, count))))
+				wire := encodeUTF8WireForTest(t, string(bytes.Repeat([]byte{255}, count)))
 				if constructed {
 					fragments := mustEncode(t)(EncodeOctetString(wire[2:]))
 					wire = mustEncode(t)(EncodeTLV(tag.Tag{Number: tag.TagUTF8String, Constructed: true}, fragments))
@@ -81,7 +81,7 @@ func TestBERDiagnosticBudgetBoundaries(t *testing.T) {
 					decoded, _, err = DecodeString(wire, tag.TagUTF8String, child...)
 					childFinish(err == nil)
 					if err == nil {
-						canonical := mustEncode(t)(EncodeUTF8String(decoded))
+						canonical := encodeUTF8WireForTest(t, decoded)
 						if !bytes.Equal(PreserveEncodedBER(canonical, wire, canonical, nil), wire) {
 							t.Fatal("bounded reporting changed replay")
 						}

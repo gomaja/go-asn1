@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 87dab9b9e277c8918d01d16457a10a52e65406a0c353fb44e31a0d45248d60dc.
+// Runtime source: runtime/ber/options.go; SHA-256 870ad6d4bdc7b08cf70cda42b9f0dca00081397c0325888f51884588e90b0ef5.
 package ber
 
 import (
@@ -47,6 +47,8 @@ func DefaultDiagnosticLimits() DiagnosticLimits {
 // WithDiagnosticLimits overrides nonzero diagnostic limits. A generated decode
 // shares the budget across preflight, typed checks and nested calls. Exhaustion
 // returns ErrResourceLimit; diagnostics are never silently dropped.
+// This option applies only to decoding. Encoding always uses
+// DefaultDiagnosticLimits, including after a tolerant decode with a larger budget.
 func WithDiagnosticLimits(limits DiagnosticLimits) DecodeOption {
 	return decodeOptionFunc(func(config *decodeConfig) error {
 		if limits.MaxRecords != 0 {

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 30e82f65c2418a363ff7f84f7d6dba2c322ca615f96cca839f86205052d6b995.
+// Runtime source: runtime/ber/constraints.go; SHA-256 4fcf9ea598a05c49e7b1f6829d8d616772d53b1121fa7fee83cff96d4d5e5983.
 package ber
 
 import (
@@ -18,6 +18,9 @@ const MaxObservedValueBytes = 64
 // Violation describes a failed ASN.1 constraint or protocol rule. Source
 // constraints follow ITU-T X.680 (02/2021) §§49.7, 50.1, 51.2.2, 51.4.2,
 // 51.5.3; Rule identifies the governing document and clause.
+// Decode records use offsets in the received root and physical child indexes.
+// Encode records describe the abstract value; Offset, OctetOffset and
+// ChildIndexes are nil because they have no received-wire coordinates.
 type Violation struct {
 	Kind                ViolationKind
 	Rule                RuleRef
@@ -303,6 +306,8 @@ func (log *ViolationLog) Reset() {
 // their int64 or uint64 representation; failure returns ErrInvalidValue without
 // a report. Arbitrary-width INTEGER fields retain full values. Source value
 // sets follow ITU-T X.680 (02/2021) §§49.7, 50–51.
+// Tolerant encoding uses DefaultDiagnosticLimits (1,024 records); raising a
+// decode budget does not raise the re-encode budget.
 func WithTolerance(reports *ViolationLog) ToleranceOption {
 	return &toleranceOption{violations: reports}
 }

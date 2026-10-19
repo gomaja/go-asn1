@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8_validation_test.go; SHA-256 e7fb9d3ae6bed9285405bd9f01a5681e4483daf2dfab5e0cd4cd15dcb19f1e1e.
+// Runtime source: runtime/ber/utf8_validation_test.go; SHA-256 f507ebaead144f64cece34efb0f5ba7cac5adf5ce82dcadc26294835c3eab7c9.
 package ber
 
 import (
@@ -77,7 +77,7 @@ func TestUTF8StringToleranceRetainsOctets(t *testing.T) {
 					if n != len(wire) || !bytes.Equal([]byte(got), want) {
 						t.Errorf("decoded %x n=%d want %x", got, n, want)
 					}
-					replay, encodeErr := EncodeUTF8String(got)
+					replay, encodeErr := EncodeTLV(tag.Tag{Number: tag.TagUTF8String}, []byte(got))
 					if encodeErr != nil {
 						t.Fatal(encodeErr)
 					}

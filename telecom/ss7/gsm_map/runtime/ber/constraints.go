@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 216e813b09004a36b2dcda1944a116242bbbc2672b944f3b3c9a28b7c224905c.
+// Runtime source: runtime/ber/constraints.go; SHA-256 bd264aff3d7443ed734947f5a721a4050b4b3ab9efc2e8120887e845d44c28e8.
 package ber
 
 import (
@@ -22,6 +22,11 @@ const MaxObservedValueBytes = 64
 // Violation describes a failed ASN.1 constraint or protocol rule. Source
 // constraints follow ITU-T X.680 (02/2021) §§49.7, 50.1, 51.2.2, 51.4.2,
 // 51.5.3; Rule identifies the governing document and clause.
+// Decode records use offsets in the received root and physical child indexes.
+// Encode records describe the abstract value; Offset, OctetOffset and
+// ChildIndexes are nil because they have no received-wire coordinates.
+// Named BIT STRING encode SIZE findings use significant length after trailing
+// zero bits are removed (X.680 (02/2021) §22.7); decode findings use received length.
 type Violation struct {
 	Kind                ViolationKind
 	Rule                RuleRef
@@ -40,6 +45,7 @@ type Violation struct {
 	source       weak.Pointer[byte]
 	origin       weak.Pointer[byte]
 	preflight    bool
+	encodeRecord bool
 	schemaDepth  int
 	observedHash [32]byte
 }
@@ -212,6 +218,12 @@ func (log *ViolationLog) appendBatch(records []Violation) {
 // pending stages need those keys, and their weak identities never keep input
 // buffers reachable, even when a caller retains staged options after finish.
 func publishedViolation(record Violation) Violation {
+	if record.encodeRecord {
+		record.Offset = nil
+		record.OctetOffset = nil
+		record.ChildIndexes = nil
+		record.encodeRecord = false
+	}
 	record.scope = nil
 	record.source = weak.Pointer[byte]{}
 	record.origin = weak.Pointer[byte]{}
@@ -333,6 +345,8 @@ func (log *ViolationLog) Reset() {
 // their int64 or uint64 representation; failure returns ErrInvalidValue without
 // a report. Arbitrary-width INTEGER fields retain full values. Source value
 // sets follow ITU-T X.680 (02/2021) §§49.7, 50–51.
+// Tolerant encoding uses DefaultDiagnosticLimits (1,024 records); raising a
+// decode budget does not raise the re-encode budget.
 func WithTolerance(reports *ViolationLog) ToleranceOption {
 	return &toleranceOption{violations: reports}
 }
@@ -606,7 +620,19 @@ func CheckEncodedLength(options []EncodeOption, path, constraint string, observe
 }
 
 // CheckEncodedValue enforces a generated value-set check or records its violation.
+// With the X.690 §8.23.10 rule, observed is the current UTF8String contents;
+// each invalid octet is reported separately, without parsing an encoded TLV.
 func CheckEncodedValue(options []EncodeOption, path, constraint, observed string) error {
+	config, err := encodeOptions(options)
+	if err != nil {
+		return err
+	}
+	// Generated UTF8String checks pass the current string, rather than a
+	// formatted observation. X.690 (02/2021) §8.23.10 identifies this wire-text
+	// rule explicitly; constraint wording does not select runtime policy.
+	if config.rule.Document == "ITU-T X.690" && config.rule.Clause == "8.23.10" {
+		return checkEncodedUTF8String(observed, options, path)
+	}
 	return checkEncodedConstraint(options, Violation{Path: path, Constraint: constraint, ObservedValue: observed})
 }
 

@@ -56,9 +56,10 @@ func (v *PruAssociationRejParam) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		}
 		children = append(children, enc_newlmfroutingid...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, "SS-Errors.PruAssociationRejParam", children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -110,7 +111,7 @@ func (v *PruAssociationRejParam) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, "SS-Errors.PruAssociationRejParam", children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {

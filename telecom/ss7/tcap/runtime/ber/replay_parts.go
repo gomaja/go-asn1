@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_parts.go; SHA-256 018269046ea7278d7f8fe5410130c2652b79018a79a56ca66cf0131e7b3a5e59.
+// Runtime source: runtime/ber/replay_parts.go; SHA-256 9921b7c8aac19d2837631a1ac2c14c5af18e15bb476c2b44397d344fdfb13c39.
 package ber
 
 import (
@@ -100,12 +100,15 @@ type replayPartPlan struct {
 }
 
 // The profile offsets and received nodes are ordered. Charge each offset once,
-// including findings inside an encapsulated primitive payload.
+// including findings inside an encapsulated primitive payload. The header is
+// repairable only when the outer Q.773 (06/1997) §4.1.1 scan actually found
+// it; X.690 (02/2021) §8.15 leaves foreign headers to their own codec.
 func markReplayPartSafety(part *replayPart, index *replayProfileIndex, cursor *int) {
 	start := *cursor
 	for *cursor < len(index.offsets) && index.offsets[*cursor] < part.start+len(part.header) {
 		*cursor++
 	}
+	part.cleanHeader = *cursor == start
 	for _, child := range part.children {
 		markReplayPartSafety(child, index, cursor)
 	}
@@ -306,7 +309,7 @@ func replayExternalEditedParts(value runtime.External, encoded []byte, options [
 		return encoded
 	}
 	index := new(replayProfileIndex)
-	collectReplayPartViolations(a, index)
+	collectReplayPartViolations(a, index, true, false)
 	markReplayPartBaseline(a, b)
 	cursor := 0
 	markReplayPartSafety(a, index, &cursor)
@@ -317,17 +320,20 @@ func replayExternalEditedParts(value runtime.External, encoded []byte, options [
 	return plan.appendTo(make([]byte, 0, plan.size))
 }
 
-func collectReplayPartViolations(part *replayPart, index *replayProfileIndex) {
-	if !part.cleanHeader {
+func collectReplayPartViolations(part *replayPart, index *replayProfileIndex, owned, encodingPayload bool) {
+	if owned && !part.cleanHeader {
 		index.offsets = append(index.offsets, part.start)
 	}
 	for _, child := range part.children {
 		// X.690 §8.18.6: octet-aligned and arbitrary have their underlying
 		// string types even though their identifiers are IMPLICIT.
-		if part.tag.Class == tag.ClassUniversal && part.tag.Number == tag.TagExternal && child.tag.Class == tag.ClassContextSpecific && child.tag.Constructed && (child.tag.Number == 1 || child.tag.Number == 2) {
+		encoding := part.tag.Class == tag.ClassUniversal && part.tag.Number == tag.TagExternal && child.tag.Class == tag.ClassContextSpecific && child.tag.Number <= 2
+		if owned && encoding && child.tag.Constructed && (child.tag.Number == 1 || child.tag.Number == 2) {
 			index.offsets = append(index.offsets, child.start)
 		}
-		collectReplayPartViolations(child, index)
+		// X.690 (02/2021) §§8.18.9–8.18.11: the choice header is
+		// owned, while the encoded data value is foreign.
+		collectReplayPartViolations(child, index, owned && !encodingPayload, encoding)
 	}
 }
 

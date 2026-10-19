@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/diagnostic_limits_test.go; SHA-256 47d9af950c86c3c500e83d527e961c4413b080bead19fce140dd1f6b72962168.
+// Runtime source: runtime/ber/diagnostic_limits_test.go; SHA-256 094c24ae0b3066d1c09083165e064897c9ff402a4e671288f29a6b6b559c4e3f.
 package ber
 
 import (

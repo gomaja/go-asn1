@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 c477875038e0fc8dfc92be6fca858452090301e80b421bfe76937ddd52c60c62.
+// Runtime source: runtime/ber/work.go; SHA-256 23c4f73af4d24177b95a0ee0eba81e9a643c5208c73c0515e71d842ac2ab009f.
 package ber
 
 import (
@@ -534,15 +534,13 @@ func scannedUTF8Location(data []byte, offset int, stack []berScanFrame, index in
 	}
 	v.ChildIndexes = relative
 	if config.location != nil {
-		if absolute, ok := config.location.wireOffset(data[offset:]); ok {
-			offset = absolute
-		} else {
-			base := config.location.receivedOffset()
-			if base < 0 || base > len(config.location.origin.root) || offset > len(config.location.origin.root)-base {
-				return Violation{}, ErrInvalidLength
-			}
-			offset += base
+		// The scan is enabled only for a subslice of the located root.
+		// The received identifier is therefore always directly locatable.
+		absolute, ok := config.location.wireOffset(data[offset:])
+		if !ok {
+			return Violation{}, ErrInvalidLength
 		}
+		offset = absolute
 		var err error
 		v.ChildIndexes, err = config.location.origin.ancestry(offset)
 		if err != nil {

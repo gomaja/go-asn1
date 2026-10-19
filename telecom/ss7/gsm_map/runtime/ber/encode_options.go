@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/encode_options.go; SHA-256 2d6398f4b2bd008f67158bc0d083d0e3c0d8ce6096adda931de4c036889929f8.
+// Runtime source: runtime/ber/encode_options.go; SHA-256 293570ce8a89aa2fee14d18e24bc4fa1824d41a133d8710c1a20f4a31e0f68c0.
 package ber
 
 import "fmt"
@@ -58,6 +58,8 @@ func BERReplayEnabled(options []EncodeOption) bool {
 	return true
 }
 
+var errOpaqueReplayDisabled = fmt.Errorf("%w: BER replay disabled for opaque open value or unknown extension; a typed value is required", ErrInvalidValue)
+
 // CheckBEROpaqueReplay rejects copying any present opaque open-type value or
 // unknown extension when WithoutBERReplay is requested. The error wraps
 // ErrInvalidValue; constraint tolerance cannot override it. A caller must
@@ -72,7 +74,7 @@ func CheckBEROpaqueReplay(options ...EncodeOption) error {
 		return err
 	}
 	if config.noReplay {
-		return fmt.Errorf("%w: BER replay disabled for opaque open value or unknown extension; a typed value is required", ErrInvalidValue)
+		return errOpaqueReplayDisabled
 	}
 	return nil
 }

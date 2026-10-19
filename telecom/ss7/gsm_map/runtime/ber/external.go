@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 6138b9781809ddcc08f7e6a6706049f210caf4c212b2a102f6ea3ee0acc90fcc.
+// Runtime source: runtime/ber/external.go; SHA-256 3d6a0492951403b4db85d93e950463af64dfb812999036c56e84baeeeef06909.
 package ber
 
 import (
@@ -171,6 +171,13 @@ func encodeExternal(value runtime.External, der bool, options ...EncodeOption) (
 		if err := ValidateRawValueIdentifier(value.SingleASN1Type); err != nil {
 			return nil, err
 		}
+		if !der {
+			// X.690 (02/2021) §§8.18.1, 8.23.10: validate the
+			// retained open value before the unchanged EXTERNAL shortcut.
+			if err := CheckBEROpaqueElement(value.SingleASN1Type.Bytes, options...); err != nil {
+				return nil, err
+			}
+		}
 	}
 	if !der && BERReplayEnabled(options) {
 		if original := value.UnchangedBER(); original != nil {
@@ -201,13 +208,7 @@ func encodeExternal(value runtime.External, der bool, options ...EncodeOption) (
 	}
 	switch value.Encoding {
 	case runtime.ExternalSingleASN1Type:
-		if err := CheckBEROpaqueElement(value.SingleASN1Type.Bytes, options...); err != nil {
-			return nil, err
-		}
 		inner := value.SingleASN1Type.Bytes
-		if err := ValidateBERElement(inner, encodingStructureOption(inner)); err != nil {
-			return nil, err
-		}
 		if der {
 			if err := ValidateDEREncodedElement(inner); err != nil {
 				return nil, err

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8_location_test.go; SHA-256 633f81dd81b3a752bd5fb871255cb90dbd0c6e870ca88c3b4d94faa81617e045.
+// Runtime source: runtime/ber/utf8_location_test.go; SHA-256 4696e18eef28acd7378f617cfc1fadc8e9087d7cc3ba3949c52db1a47f3e32dc.
 package ber
 
 import (
@@ -203,6 +203,25 @@ func TestUTF8TypedImplicitLocation(t *testing.T) {
 	got := reports.Snapshot()
 	if len(got) != 1 || got[0].Path != "text" || got[0].Source != "Module.Message.text" || got[0].Offset == nil || *got[0].Offset != 5 || !slices.Equal(got[0].ChildIndexes, []int{1}) {
 		t.Fatalf("records=%+v", got)
+	}
+}
+
+func TestUTF8NestedFieldWithSameName(t *testing.T) {
+	wire := structureWire(t, "3008a0068001018201ff")
+	var reports ViolationLog
+	options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports)})
+	options = LocateDecodedElement(wire, "Module.Outer", options)
+	MarkPreflightTarget(options, "text", wire[2:])
+	child := ChildDecodeOptions(options, "text")
+	child = LocateDecodedElement(wire[2:], "Module.Inner", child)
+	MarkPreflightTarget(child, "text", wire[7:])
+	if _, err := DecodeImplicitStringValue(tag.TagUTF8String, false, wire[9:], child...); err != nil {
+		t.Fatal(err)
+	}
+	finish(true)
+	got := reports.Snapshot()
+	if len(got) != 1 || got[0].Path != "text.text" || got[0].Source != "Module.Inner.text" || got[0].Offset == nil || *got[0].Offset != 7 || !slices.Equal(got[0].ChildIndexes, []int{0, 1}) {
+		t.Fatalf("reports=%+v", got)
 	}
 }
 

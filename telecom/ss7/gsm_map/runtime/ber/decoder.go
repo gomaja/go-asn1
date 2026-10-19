@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 323147262422d122b719c0827a749589fc062f51d61ba173243e0d13f651055b.
+// Runtime source: runtime/ber/decoder.go; SHA-256 70d47cbc712523cf263ebcefe27e00d9c6a8929a7e81436e6750d1a70f26ff50.
 package ber
 
 import (
@@ -272,6 +272,10 @@ func decodeTLV(data []byte, limits DecodeLimits, form *berFormState) (tag.Tag, i
 }
 
 // ValidateDERElement verifies that data contains exactly one DER TLV.
+// Without a schema, a universal SET is accepted if either SET or SET OF order
+// holds. IMPLICIT application, context-specific and private SETs cannot be
+// recognized here; their ordering remains the schema-aware caller's responsibility.
+// Reported byte offsets are relative to data.
 func ValidateDERElement(data []byte) error {
 	n, err := ValidateDERTLV(data)
 	if err != nil {
@@ -284,14 +288,18 @@ func ValidateDERElement(data []byte) error {
 }
 
 // ValidateDERTLV verifies one definite-length DER TLV and returns its size.
+// It rejects universal SETs that satisfy neither SET nor SET OF order
+// (X.690 (02/2021) §§10.3, 11.6). Byte offsets are relative to data.
 func ValidateDERTLV(data []byte) (int, error) {
-	return validateDERTLV(data, 0, DefaultDecodeLimits().MaxDepth)
+	return validateDERTLV(data, 0, DefaultDecodeLimits().MaxDepth, 0)
 }
 
 // ValidateDEREncodedElement validates a caller-supplied encoding without
 // imposing the depth budget used when examining untrusted DER input.
+// It rejects universal SETs that satisfy neither SET nor SET OF order
+// (X.690 (02/2021) §§10.3, 11.6). Byte offsets are relative to data.
 func ValidateDEREncodedElement(data []byte) error {
-	n, err := validateDERTLV(data, 0, len(data))
+	n, err := validateDERTLV(data, 0, len(data), 0)
 	if err != nil {
 		return err
 	}
@@ -301,7 +309,7 @@ func ValidateDEREncodedElement(data []byte) error {
 	return nil
 }
 
-func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
+func validateDERTLV(data []byte, depth, maxDepth, baseOffset int) (int, error) {
 	if depth > maxDepth {
 		return 0, fmt.Errorf("%w: DER nesting depth exceeded", ErrResourceLimit)
 	}
@@ -370,22 +378,45 @@ func validateDERTLV(data []byte, depth, maxDepth int) (int, error) {
 		}
 	}
 	if t.Constructed {
-		// SET and SET OF have the same universal tag but different DER
-		// ordering rules (X.690 10.3 and 11.6). Only a schema-aware caller
-		// can validate that ordering; this generic pass validates each child.
+		// X.690 (02/2021) §10.3 orders SET components by class and tag
+		// number (X.680 (02/2021) §8.6), with distinct tags (§27.3).
+		// X.690 §11.6 orders SET OF by zero-padded complete encodings.
+		// UNIVERSAL 17 does not distinguish them: retain both possibilities
+		// across the entire container, and reject only if neither survives.
+		isSet := t.Class == tag.ClassUniversal && t.Number == tag.TagSet
+		setOrder, setOfOrder := true, true
+		var previous []byte
+		var previousTag tag.Tag
 		offset := headerLen
 		for offset < end {
 			if depth >= maxDepth {
 				return 0, fmt.Errorf("%w: DER nesting depth exceeded", ErrResourceLimit)
 			}
-			n, err := validateDERTLV(data[offset:end], depth+1, maxDepth)
+			n, err := validateDERTLV(data[offset:end], depth+1, maxDepth, baseOffset+offset)
 			if err != nil {
 				return 0, err
 			}
 			if n <= 0 || n > end-offset {
 				return 0, ErrInvalidLength
 			}
+			if isSet {
+				child := data[offset : offset+n]
+				childTag, _, err := DecodeTag(child)
+				if err != nil {
+					return 0, err
+				}
+				if previous != nil {
+					// The primitive/constructed bit is not part of tag identity.
+					setOrder = setOrder && (previousTag.Class < childTag.Class ||
+						previousTag.Class == childTag.Class && previousTag.Number < childTag.Number)
+					setOfOrder = setOfOrder && compareDEROctetStrings(previous, child) <= 0
+				}
+				previous, previousTag = child, childTag
+			}
 			offset += n
+		}
+		if isSet && !setOrder && !setOfOrder {
+			return 0, fmt.Errorf("%w: DER universal SET at byte %d follows neither SET nor SET OF order", ErrInvalidValue, baseOffset)
 		}
 	}
 	return end, nil
@@ -466,7 +497,7 @@ func validateDERUniversalValue(t tag.Tag, value []byte) error {
 		}
 	case tag.TagUTF8String:
 		if !utf8.Valid(value) {
-			return invalid("UTF8String is not shortest-form UTF-8 scalar text")
+			return errInvalidUTF8String
 		}
 	case tag.TagEmbeddedPDV:
 		if err := validateDEREmbeddedPDV(value); err != nil {
@@ -656,6 +687,8 @@ func validateDERExternal(value []byte) error {
 	return nil
 }
 
+// compareDEROctetStrings applies X.690 (02/2021) §11.6, padding the shorter
+// encoding with trailing zero octets for comparison only.
 func compareDEROctetStrings(left, right []byte) int {
 	length := max(len(left), len(right))
 	for index := 0; index < length; {

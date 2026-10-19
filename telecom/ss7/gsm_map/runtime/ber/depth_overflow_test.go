@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/depth_overflow_test.go; SHA-256 0782318af0b579d4daf285ba0587a9783cecc1453a93d0aefb14b18bbd4ae4c5.
+// Runtime source: runtime/ber/depth_overflow_test.go; SHA-256 6d71e14721c87e6867422fc7effd59f916b3c14427758e687a4b49947a2aeb9c.
 package ber
 
 import (
@@ -17,7 +17,7 @@ func TestNestedDecodeRejectsDepthOverflow(t *testing.T) {
 		{
 			name: "DER",
 			fn: func() error {
-				_, err := validateDERTLV([]byte{0x30, 0x02, 0x05, 0x00}, math.MaxInt, math.MaxInt)
+				_, err := validateDERTLV([]byte{0x30, 0x02, 0x05, 0x00}, math.MaxInt, math.MaxInt, 0)
 				return err
 			},
 		},

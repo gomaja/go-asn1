@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/ber_test.go; SHA-256 77e5a65b1b0207598c2c66aabcc0105a8cea531481ce5f4337c2b595dca91f65.
+// Runtime source: runtime/ber/ber_test.go; SHA-256 6e56d63cafede28956878331ab4d9a22b544f1f2394586bd0413eff5efa96f84.
 package ber
 
 import (
@@ -206,12 +206,12 @@ func TestValidateDERElement(t *testing.T) {
 		t.Fatalf("ValidateDERElement trailing error = %v, want %v", err, ErrExtraData)
 	}
 
-	// A universal SET tag does not reveal whether the schema is SET or SET OF,
-	// whose DER ordering rules differ. Generic validation therefore checks each
-	// child but leaves ordering to the schema-aware encoders.
+	// A universal SET tag does not reveal whether the schema is SET or SET OF.
+	// X.690 (02/2021) §§10.3, 11.6 nevertheless reject components that
+	// follow neither ordering rule, even without a schema.
 	unsortedSetOf := mustEncode(t)(EncodeSet(append(mustEncode(t)(EncodeOctetString([]byte("z"))), mustEncode(t)(EncodeOctetString([]byte("a")))...)))
-	if err := ValidateDERElement(unsortedSetOf); err != nil {
-		t.Fatalf("ValidateDERElement structurally valid SET OF: %v", err)
+	if err := ValidateDERElement(unsortedSetOf); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("ValidateDERElement accepted descending SET OF: %v", err)
 	}
 }
 

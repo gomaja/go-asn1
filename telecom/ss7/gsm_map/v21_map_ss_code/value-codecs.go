@@ -5,9 +5,11 @@ package v21_map_ss_code
 import (
 	"fmt"
 	"math/big"
+	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 )
 
 // ValueCodec is an immutable binding to one source type's BER/DER implementation.
@@ -80,6 +82,7 @@ func compositeValueCodec[T any, P compositeCodecPointer[T]]() ValueCodec[T] {
 type primitiveRule[T any] struct {
 	invalid             func(T) bool
 	length              func(T) int
+	encodedLength       func(T) int
 	observed            func(T) any
 	description, clause string
 }
@@ -104,7 +107,11 @@ func checkPrimitiveRules[T any](value T, rules []primitiveRule[T], source, name 
 		} else {
 			opts := ber.EncodeRule(encode, source, ref)
 			if rule.length != nil {
-				if err := ber.CheckEncodedLength(opts, name, rule.description, rule.length(value)); err != nil {
+				observed := rule.length(value)
+				if rule.encodedLength != nil {
+					observed = rule.encodedLength(value)
+				}
+				if err := ber.CheckEncodedLength(opts, name, rule.description, observed); err != nil {
 					return err
 				}
 			} else {
@@ -339,6 +346,161 @@ func publishDecodedValue[T any](destination, value *T, err *error) {
 	if *err == nil {
 		*destination = *value
 	}
+}
+
+// checkOpaqueElement defers diagnostic metadata until the opaque value fails.
+// CheckBEROpaqueReplay selects the canonical override independently of the
+// internal replay-comparison mode; BERReplayEnabled would conflate the two.
+// No options selects default BER directly, avoiding a policy-selector frame.
+func checkOpaqueElement(data []byte, opts []ber.EncodeOption, component string, index int, source string, children []byte) error {
+	var err error
+	if len(opts) == 0 {
+		err = ber.CheckBEROpaqueElement(data)
+	} else {
+		err = opaqueElementShapeError(data, opts)
+	}
+	if err == nil {
+		return nil
+	}
+	return checkInvalidOpaqueElement(data, opts, component, index, source, children)
+}
+
+// Keep ordinal scans and diagnostic options off the successful check's frame.
+func checkInvalidOpaqueElement(data []byte, opts []ber.EncodeOption, component string, index int, source string, children []byte) error {
+	if index >= 0 {
+		component = fmt.Sprintf("%s[%d]", component, index)
+	}
+	if component != "" {
+		opts = ber.ChildEncodeOptions(opts, component)
+	}
+	return ber.CheckBEROpaqueElement(data, ber.EncodeSource(opts, source)...)
+}
+
+// The extension loop owns one lazy base count. X.690 (02/2021) §8.9:
+// preceding children are scanned once per encode, only on the first failure;
+// each earlier addition is one complete TLV, so later ordinals are base + i.
+func checkOpaqueAddition(data []byte, opts []ber.EncodeOption, source string, children []byte, i int, base *int) error {
+	var err error
+	if len(opts) == 0 {
+		err = ber.CheckBEROpaqueElement(data)
+	} else {
+		err = opaqueElementShapeError(data, opts)
+	}
+	if err == nil {
+		return nil
+	}
+	return checkInvalidOpaqueAddition(data, opts, source, children, i, base)
+}
+func checkInvalidOpaqueAddition(data []byte, opts []ber.EncodeOption, source string, children []byte, i int, base *int) error {
+	if *base < 0 {
+		count, err := encodedChildCount(children)
+		if err != nil {
+			return err
+		}
+		*base = count - i
+	}
+	return checkInvalidOpaqueElement(data, opts, "child", *base+i, source, nil)
+}
+func encodedChildCount(children []byte) (int, error) {
+	count := 0
+	for len(children) != 0 {
+		_, n, _, err := ber.DecodeEncodedTLV(children)
+		if err != nil {
+			return 0, err
+		}
+		children = children[n:]
+		count++
+	}
+	return count, nil
+}
+
+// DER keeps its direct successful check; only a refusal needs metadata.
+func invalidDEROpaqueElement(data []byte, component, source string) error {
+	err := checkInvalidOpaqueElement(data, []ber.EncodeOption{ber.WithoutBERReplay()}, component, -1, source, nil)
+	if _, ok := err.(*ber.ValidationError); ok {
+		return err
+	}
+	return qualifyBERError(ber.ValidateDEREncodedElement(data), component, "encoding", false)
+}
+func invalidDERAddition(data []byte, source string, children []byte, i int) error {
+	count, err := encodedChildCount(children)
+	if err != nil {
+		return err
+	}
+	err = checkInvalidOpaqueElement(data, []ber.EncodeOption{ber.WithoutBERReplay()}, "child", count, source, nil)
+	if _, ok := err.(*ber.ValidationError); ok {
+		return err
+	}
+	return opaqueExtensionError(ber.ValidateDEREncodedElement(data), i)
+}
+
+// X.690 (02/2021) §8.23.10: the primitive contents encoder checks
+// utf8.ValidString on the Go value before any TLV exists. Only malformed
+// text needs diagnostic metadata; the encoded TLV is never parsed again.
+func encodeUTF8String(value string, opts []ber.EncodeOption, component string, index int, source string) ([]byte, error) {
+	if utf8.ValidString(value) {
+		return ber.EncodeTLV(tag.Tag{Number: 12}, []byte(value))
+	}
+	return encodeInvalidUTF8String(value, opts, component, index, source)
+}
+func encodeInvalidUTF8String(value string, opts []ber.EncodeOption, component string, index int, source string) ([]byte, error) {
+	if index >= 0 {
+		component = fmt.Sprintf("%s[%d]", component, index)
+	}
+	rule := ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.10"}
+	if err := ber.CheckEncodedValue(ber.EncodeRule(opts, source, rule), component, "UTF8String shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)", value); err != nil {
+		return nil, err
+	}
+	return ber.EncodeTLV(tag.Tag{Number: 12}, []byte(value))
+}
+
+// Encode diagnostics use the significant length compared by normalization,
+// after trailing zero bits are removed (X.680 (02/2021) §22.7). Decode
+// diagnostics retain the received length; tolerant output keeps its storage.
+func namedBitObservedLength(value runtime.BitString) int {
+	normalized, err := ber.NormalizeNamedBitStringForEncoding(value, nil)
+	if err != nil {
+		return value.BitLength
+	}
+	return normalized.BitLength
+}
+
+// Source and path are applied only when normalization refuses a SIZE.
+func normalizeNamedBits(value runtime.BitString, sets []ber.NamedBitSizeSet, opts []ber.EncodeOption, component, source string) (runtime.BitString, error) {
+	normalized, err := ber.NormalizeNamedBitStringForBEREncoding(value, sets, opts...)
+	if err == nil {
+		return normalized, nil
+	}
+	if ve, ok := err.(*ber.ValidationError); ok && ve.ObservedLength != nil {
+		return runtime.BitString{}, ber.CheckEncodedLength(ber.EncodeRule(opts, source, ve.Rule), component, ve.Constraint, *ve.ObservedLength)
+	}
+	return runtime.BitString{}, qualifyBERError(err, component, "encoding", false)
+}
+func namedBitBuilderResult(value runtime.BitString, err error, source string) (runtime.BitString, error) {
+	if ve, ok := err.(*ber.ValidationError); ok {
+		located := *ve
+		located.Source = source
+		return value, &located
+	}
+	return value, err
+}
+
+// Linear encoders probe the same opaque policy before resolving a failed
+// addition's ordinal. This probe never publishes tolerant reports.
+func opaqueElementShapeError(data []byte, opts []ber.EncodeOption) error {
+	if len(opts) == 0 || ber.CheckBEROpaqueReplay(opts...) == nil {
+		return ber.CheckBEROpaqueElement(data)
+	}
+	return ber.ValidateDEREncodedElement(data)
+}
+
+// Value-rule refusals carry their own wire ordinal in the validation path.
+// Structural failures retain the extension context used by the encoder.
+func opaqueExtensionError(err error, index int) error {
+	if _, ok := err.(*ber.ValidationError); ok {
+		return err
+	}
+	return fmt.Errorf("encoding extension %d: %w", index, err)
 }
 
 // SSSSCodeCodec binds MAP-SS-Code.SS-Code.

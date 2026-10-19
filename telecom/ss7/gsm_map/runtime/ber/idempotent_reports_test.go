@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/idempotent_reports_test.go; SHA-256 e6f6fd581dd270ebc283df3a13b92a3b0842661d102dc67d6e7835976e94bd35.
+// Runtime source: runtime/ber/idempotent_reports_test.go; SHA-256 064fa592b550b4122d8dbad9f384c62ca5113a61fa9efccff87893b536314aae.
 package ber
 
 import (
@@ -343,7 +343,7 @@ func TestViolationLogConcurrentIdempotency(t *testing.T) {
 func TestBERUTF8ReportsLinearCost(t *testing.T) {
 	var baseline int64
 	for _, size := range []int{128, 512, 2048, 8192} {
-		wire := mustEncode(t)(EncodeUTF8String(string(bytes.Repeat([]byte{255}, size))))
+		wire := encodeUTF8WireForTest(t, string(bytes.Repeat([]byte{255}, size)))
 		operation := func() {
 			var reports ViolationLog
 			options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports), WithDiagnosticLimits(DiagnosticLimits{MaxRecords: size})})

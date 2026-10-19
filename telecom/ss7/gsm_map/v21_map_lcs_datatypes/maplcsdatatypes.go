@@ -982,9 +982,10 @@ func (v *LCSRoutingInfoForLCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_0, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -1066,7 +1067,7 @@ func (v *LCSRoutingInfoForLCSArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_0, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -1401,9 +1402,10 @@ func (v *LCSRoutingInfoForLCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		enc_additionalvgmlcaddress = retagged_enc_additionalvgmlcaddress
 		children = append(children, enc_additionalvgmlcaddress...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_1, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -1543,7 +1545,7 @@ func (v *LCSRoutingInfoForLCSRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_1, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -1974,19 +1976,19 @@ func (v *LCSLCSLocationInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_additionalnumber...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		namedBits_SupportedLCSCapabilitySets, namedBitErr_namedBits_SupportedLCSCapabilitySets := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedLCSCapabilitySets != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedLCSCapabilitySets, "supportedLCS-CapabilitySets", "encoding", false)
+		namedBits_SupportedLCSCapabilitySets, namedBitErr_ := normalizeNamedBits(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, opts, "supportedLCS-CapabilitySets", sdb5f76_2)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedLCSCapabilitySets.Bytes, namedBits_SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedLCS-CapabilitySets", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedLCSCapabilitySets).BitLength < 2 || (namedBits_SupportedLCSCapabilitySets).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sdb5f76_2, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", (namedBits_SupportedLCSCapabilitySets).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sdb5f76_2, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", namedBitObservedLength(namedBits_SupportedLCSCapabilitySets)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2002,19 +2004,19 @@ func (v *LCSLCSLocationInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.AdditionalLCSCapabilitySets != nil {
-		namedBits_AdditionalLCSCapabilitySets, namedBitErr_namedBits_AdditionalLCSCapabilitySets := ber.NormalizeNamedBitStringForBEREncoding(*v.AdditionalLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_AdditionalLCSCapabilitySets != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_AdditionalLCSCapabilitySets, "additional-LCS-CapabilitySets", "encoding", false)
+		namedBits_AdditionalLCSCapabilitySets, namedBitErr_ := normalizeNamedBits(*v.AdditionalLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, opts, "additional-LCS-CapabilitySets", sdb5f76_2)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AdditionalLCSCapabilitySets.Bytes, namedBits_AdditionalLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "additional-LCS-CapabilitySets", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_AdditionalLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_AdditionalLCSCapabilitySets).BitLength < 2 || (namedBits_AdditionalLCSCapabilitySets).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sdb5f76_2, "51.5", "additional-LCS-CapabilitySets", "SIZE (2..16)", (namedBits_AdditionalLCSCapabilitySets).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sdb5f76_2, "51.5", "additional-LCS-CapabilitySets", "SIZE (2..16)", namedBitObservedLength(namedBits_AdditionalLCSCapabilitySets)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2097,9 +2099,10 @@ func (v *LCSLCSLocationInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		enc_sgsnrealm = retagged_enc_sgsnrealm
 		children = append(children, enc_sgsnrealm...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_2, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -2203,19 +2206,19 @@ func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_additionalnumber...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		namedBits_SupportedLCSCapabilitySets, namedBitErr_namedBits_SupportedLCSCapabilitySets := ber.NormalizeNamedBitStringForEncoding(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}})
-		if namedBitErr_namedBits_SupportedLCSCapabilitySets != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedLCSCapabilitySets, "supportedLCS-CapabilitySets", "encoding", true)
+		namedBits_SupportedLCSCapabilitySets, namedBitErr_ := normalizeNamedBits(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, nil, "supportedLCS-CapabilitySets", sdb5f76_2)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedLCSCapabilitySets.Bytes, namedBits_SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedLCS-CapabilitySets", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedLCSCapabilitySets).BitLength < 2 || (namedBits_SupportedLCSCapabilitySets).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sdb5f76_2, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", (namedBits_SupportedLCSCapabilitySets).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sdb5f76_2, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", namedBitObservedLength(namedBits_SupportedLCSCapabilitySets)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2231,19 +2234,19 @@ func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.AdditionalLCSCapabilitySets != nil {
-		namedBits_AdditionalLCSCapabilitySets, namedBitErr_namedBits_AdditionalLCSCapabilitySets := ber.NormalizeNamedBitStringForEncoding(*v.AdditionalLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}})
-		if namedBitErr_namedBits_AdditionalLCSCapabilitySets != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_AdditionalLCSCapabilitySets, "additional-LCS-CapabilitySets", "encoding", true)
+		namedBits_AdditionalLCSCapabilitySets, namedBitErr_ := normalizeNamedBits(*v.AdditionalLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, nil, "additional-LCS-CapabilitySets", sdb5f76_2)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AdditionalLCSCapabilitySets.Bytes, namedBits_AdditionalLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "additional-LCS-CapabilitySets", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_AdditionalLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_AdditionalLCSCapabilitySets).BitLength < 2 || (namedBits_AdditionalLCSCapabilitySets).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sdb5f76_2, "51.5", "additional-LCS-CapabilitySets", "SIZE (2..16)", (namedBits_AdditionalLCSCapabilitySets).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sdb5f76_2, "51.5", "additional-LCS-CapabilitySets", "SIZE (2..16)", namedBitObservedLength(namedBits_AdditionalLCSCapabilitySets)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2328,7 +2331,7 @@ func (v *LCSLCSLocationInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_2, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -2976,19 +2979,19 @@ func (v *LCSProvideSubscriberLocationArg) marshalBER(opts ...ber.EncodeOption) (
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SupportedGADShapes != nil {
-		namedBits_SupportedGADShapes, namedBitErr_namedBits_SupportedGADShapes := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedGADShapes, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedGADShapes != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedGADShapes, "supportedGADShapes", "encoding", false)
+		namedBits_SupportedGADShapes, namedBitErr_ := normalizeNamedBits(*v.SupportedGADShapes, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts, "supportedGADShapes", sdb5f76_3)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedGADShapes.Bytes, namedBits_SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedGADShapes", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedGADShapes).BitLength < 7 || (namedBits_SupportedGADShapes).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sdb5f76_3, "51.5", "supportedGADShapes", "SIZE (7..16)", (namedBits_SupportedGADShapes).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sdb5f76_3, "51.5", "supportedGADShapes", "SIZE (7..16)", namedBitObservedLength(namedBits_SupportedGADShapes)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3125,9 +3128,10 @@ func (v *LCSProvideSubscriberLocationArg) marshalBER(opts ...ber.EncodeOption) (
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_reportingplmnlist)
 		children = append(children, enc_reportingplmnlist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_3, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -3319,19 +3323,19 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SupportedGADShapes != nil {
-		namedBits_SupportedGADShapes, namedBitErr_namedBits_SupportedGADShapes := ber.NormalizeNamedBitStringForEncoding(*v.SupportedGADShapes, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
-		if namedBitErr_namedBits_SupportedGADShapes != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedGADShapes, "supportedGADShapes", "encoding", true)
+		namedBits_SupportedGADShapes, namedBitErr_ := normalizeNamedBits(*v.SupportedGADShapes, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, nil, "supportedGADShapes", sdb5f76_3)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedGADShapes.Bytes, namedBits_SupportedGADShapes.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedGADShapes", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedGADShapes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedGADShapes).BitLength < 7 || (namedBits_SupportedGADShapes).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sdb5f76_3, "51.5", "supportedGADShapes", "SIZE (7..16)", (namedBits_SupportedGADShapes).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sdb5f76_3, "51.5", "supportedGADShapes", "SIZE (7..16)", namedBitObservedLength(namedBits_SupportedGADShapes)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3465,7 +3469,7 @@ func (v *LCSProvideSubscriberLocationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_3, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -4296,19 +4300,19 @@ func (v *LCSLocationType) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_locationestimatetype = retagged_enc_locationestimatetype
 	children = append(children, enc_locationestimatetype...)
 	if v.DeferredLocationEventType != nil {
-		namedBits_DeferredLocationEventType, namedBitErr_namedBits_DeferredLocationEventType := ber.NormalizeNamedBitStringForBEREncoding(*v.DeferredLocationEventType, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_DeferredLocationEventType != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_DeferredLocationEventType, "deferredLocationEventType", "encoding", false)
+		namedBits_DeferredLocationEventType, namedBitErr_ := normalizeNamedBits(*v.DeferredLocationEventType, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts, "deferredLocationEventType", sdb5f76_4)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_DeferredLocationEventType.Bytes, namedBits_DeferredLocationEventType.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "deferredLocationEventType", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_DeferredLocationEventType.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_DeferredLocationEventType).BitLength < 1 || (namedBits_DeferredLocationEventType).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sdb5f76_4, "51.5", "deferredLocationEventType", "SIZE (1..16)", (namedBits_DeferredLocationEventType).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sdb5f76_4, "51.5", "deferredLocationEventType", "SIZE (1..16)", namedBitObservedLength(namedBits_DeferredLocationEventType)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4323,9 +4327,10 @@ func (v *LCSLocationType) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_deferredlocationeventtype = retagged_enc_deferredlocationeventtype
 		children = append(children, enc_deferredlocationeventtype...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_4, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -4369,19 +4374,19 @@ func (v *LCSLocationType) MarshalDER() ([]byte, error) {
 	enc_locationestimatetype = retagged_enc_locationestimatetype
 	children = append(children, enc_locationestimatetype...)
 	if v.DeferredLocationEventType != nil {
-		namedBits_DeferredLocationEventType, namedBitErr_namedBits_DeferredLocationEventType := ber.NormalizeNamedBitStringForEncoding(*v.DeferredLocationEventType, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
-		if namedBitErr_namedBits_DeferredLocationEventType != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_DeferredLocationEventType, "deferredLocationEventType", "encoding", true)
+		namedBits_DeferredLocationEventType, namedBitErr_ := normalizeNamedBits(*v.DeferredLocationEventType, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, nil, "deferredLocationEventType", sdb5f76_4)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_DeferredLocationEventType.Bytes, namedBits_DeferredLocationEventType.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "deferredLocationEventType", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_DeferredLocationEventType.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_DeferredLocationEventType).BitLength < 1 || (namedBits_DeferredLocationEventType).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sdb5f76_4, "51.5", "deferredLocationEventType", "SIZE (1..16)", (namedBits_DeferredLocationEventType).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sdb5f76_4, "51.5", "deferredLocationEventType", "SIZE (1..16)", namedBitObservedLength(namedBits_DeferredLocationEventType)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4398,7 +4403,7 @@ func (v *LCSLocationType) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_4, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -4671,9 +4676,10 @@ func (v *LCSLCSClientID) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_lcsrequestorid)
 		children = append(children, enc_lcsrequestorid...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_5, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -4797,7 +4803,7 @@ func (v *LCSLCSClientID) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_5, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -5197,9 +5203,10 @@ func (v *LCSLCSClientName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		enc_lcsformatindicator = retagged_enc_lcsformatindicator
 		children = append(children, enc_lcsformatindicator...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_6, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -5281,7 +5288,7 @@ func (v *LCSLCSClientName) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_6, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -5661,9 +5668,10 @@ func (v *LCSLCSRequestorID) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		enc_lcsformatindicator = retagged_enc_lcsformatindicator
 		children = append(children, enc_lcsformatindicator...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_8, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -5745,7 +5753,7 @@ func (v *LCSLCSRequestorID) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_8, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -6169,9 +6177,10 @@ func (v *LCSLCSQoS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_lcsqosclass = retagged_enc_lcsqosclass
 		children = append(children, enc_lcsqosclass...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_10, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -6294,7 +6303,7 @@ func (v *LCSLCSQoS) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_10, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -6638,9 +6647,10 @@ func (v *LCSResponseTime) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	enc_responsetimecategory := ber.EncodeEnumerated(int64(v.ResponseTimeCategory))
 	children = append(children, enc_responsetimecategory...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, "MAP-LCS-DataTypes.ResponseTime", children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -6674,7 +6684,7 @@ func (v *LCSResponseTime) MarshalDER() ([]byte, error) {
 	children = append(children, enc_responsetimecategory...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, "MAP-LCS-DataTypes.ResponseTime", children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -6822,9 +6832,10 @@ func (v *LCSLCSCodeword) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	enc_lcscodewordstring = retagged_enc_lcscodewordstring
 	children = append(children, enc_lcscodewordstring...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_11, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -6891,7 +6902,7 @@ func (v *LCSLCSCodeword) MarshalDER() ([]byte, error) {
 	children = append(children, enc_lcscodewordstring...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_11, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -7195,9 +7206,10 @@ func (v *LCSLCSPrivacyCheck) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		enc_callsessionrelated = retagged_enc_callsessionrelated
 		children = append(children, enc_callsessionrelated...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_13, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -7251,7 +7263,7 @@ func (v *LCSLCSPrivacyCheck) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_13, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -7458,9 +7470,10 @@ func (v *LCSAreaEventInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		enc_intervaltime = retagged_enc_intervaltime
 		children = append(children, enc_intervaltime...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_14, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -7531,7 +7544,7 @@ func (v *LCSAreaEventInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_14, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -7778,9 +7791,10 @@ func (v *LCSAreaDefinition) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	}
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_arealist)
 	children = append(children, enc_arealist...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_15, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -7830,7 +7844,7 @@ func (v *LCSAreaDefinition) MarshalDER() ([]byte, error) {
 	children = append(children, enc_arealist...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_15, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -8157,9 +8171,10 @@ func (v *LCSArea) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	enc_areaidentification = retagged_enc_areaidentification
 	children = append(children, enc_areaidentification...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_16, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8213,7 +8228,7 @@ func (v *LCSArea) MarshalDER() ([]byte, error) {
 	children = append(children, enc_areaidentification...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_16, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -8400,9 +8415,10 @@ func (v *LCSPeriodicLDRInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_reportingoptionmilliseconds)
 		children = append(children, enc_reportingoptionmilliseconds...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_17, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8466,7 +8482,7 @@ func (v *LCSPeriodicLDRInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_17, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8679,9 +8695,10 @@ func (v *LCSReportingOptionMilliseconds) marshalBER(opts ...ber.EncodeOption) ([
 	}
 	enc_reportingintervalmilliseconds := ber.EncodeInteger(int64(v.ReportingIntervalMilliseconds))
 	children = append(children, enc_reportingintervalmilliseconds...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_18, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8727,7 +8744,7 @@ func (v *LCSReportingOptionMilliseconds) MarshalDER() ([]byte, error) {
 	children = append(children, enc_reportingintervalmilliseconds...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_18, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -8911,9 +8928,10 @@ func (v *LCSReportingPLMNList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_plmnlist)
 	children = append(children, enc_plmnlist...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_19, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8972,7 +8990,7 @@ func (v *LCSReportingPLMNList) MarshalDER() ([]byte, error) {
 	children = append(children, enc_plmnlist...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_19, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -9338,9 +9356,10 @@ func (v *LCSReportingPLMN) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		enc_ranperiodiclocationsupport = retagged_enc_ranperiodiclocationsupport
 		children = append(children, enc_ranperiodiclocationsupport...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_20, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9411,7 +9430,7 @@ func (v *LCSReportingPLMN) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_20, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9864,9 +9883,10 @@ func (v *LCSProvideSubscriberLocationRes) marshalBER(opts ...ber.EncodeOption) (
 		enc_utrancivicaddress = retagged_enc_utrancivicaddress
 		children = append(children, enc_utrancivicaddress...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_21, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -10149,7 +10169,7 @@ func (v *LCSProvideSubscriberLocationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_21, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -11292,9 +11312,10 @@ func (v *LCSSubscriberLocationReportArg) marshalBER(opts ...ber.EncodeOption) ([
 		enc_utrancivicaddress = retagged_enc_utrancivicaddress
 		children = append(children, enc_utrancivicaddress...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_22, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -11782,7 +11803,7 @@ func (v *LCSSubscriberLocationReportArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_22, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -12939,19 +12960,19 @@ func (v *LCSDeferredmtLrData) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		return nil, err
 	}
 	var children []byte
-	namedBits_DeferredLocationEventType, namedBitErr_namedBits_DeferredLocationEventType := ber.NormalizeNamedBitStringForBEREncoding(v.DeferredLocationEventType, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts...)
-	if namedBitErr_namedBits_DeferredLocationEventType != nil {
-		return nil, qualifyBERError(namedBitErr_namedBits_DeferredLocationEventType, "deferredLocationEventType", "encoding", false)
+	namedBits_DeferredLocationEventType, namedBitErr_ := normalizeNamedBits(v.DeferredLocationEventType, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts, "deferredLocationEventType", sdb5f76_23)
+	if namedBitErr_ != nil {
+		return nil, namedBitErr_
 	}
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_DeferredLocationEventType.Bytes, namedBits_DeferredLocationEventType.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "deferredLocationEventType", "encoding", false)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if namedBits_DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
 	if (namedBits_DeferredLocationEventType).BitLength < 1 || (namedBits_DeferredLocationEventType).BitLength > 16 {
-		if constraintErr := checkEncodedLength(opts, sdb5f76_23, "51.5", "deferredLocationEventType", "SIZE (1..16)", (namedBits_DeferredLocationEventType).BitLength); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sdb5f76_23, "51.5", "deferredLocationEventType", "SIZE (1..16)", namedBitObservedLength(namedBits_DeferredLocationEventType)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -12982,9 +13003,10 @@ func (v *LCSDeferredmtLrData) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_lcslocationinfo)
 		children = append(children, enc_lcslocationinfo...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_23, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -13020,19 +13042,19 @@ func (v *LCSDeferredmtLrData) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: LCSDeferredmtLrData receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
-	namedBits_DeferredLocationEventType, namedBitErr_namedBits_DeferredLocationEventType := ber.NormalizeNamedBitStringForEncoding(v.DeferredLocationEventType, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
-	if namedBitErr_namedBits_DeferredLocationEventType != nil {
-		return nil, qualifyBERError(namedBitErr_namedBits_DeferredLocationEventType, "deferredLocationEventType", "encoding", true)
+	namedBits_DeferredLocationEventType, namedBitErr_ := normalizeNamedBits(v.DeferredLocationEventType, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, nil, "deferredLocationEventType", sdb5f76_23)
+	if namedBitErr_ != nil {
+		return nil, namedBitErr_
 	}
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_DeferredLocationEventType.Bytes, namedBits_DeferredLocationEventType.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "deferredLocationEventType", "encoding", true)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if namedBits_DeferredLocationEventType.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
 	if (namedBits_DeferredLocationEventType).BitLength < 1 || (namedBits_DeferredLocationEventType).BitLength > 16 {
-		if constraintErr := checkEncodedLength(nil, sdb5f76_23, "51.5", "deferredLocationEventType", "SIZE (1..16)", (namedBits_DeferredLocationEventType).BitLength); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sdb5f76_23, "51.5", "deferredLocationEventType", "SIZE (1..16)", namedBitObservedLength(namedBits_DeferredLocationEventType)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -13064,7 +13086,7 @@ func (v *LCSDeferredmtLrData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_23, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -13625,9 +13647,10 @@ func (v *LCSSubscriberLocationReportRes) marshalBER(opts ...ber.EncodeOption) ([
 		enc_lcsreferencenumber = retagged_enc_lcsreferencenumber
 		children = append(children, enc_lcsreferencenumber...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sdb5f76_25, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -13771,7 +13794,7 @@ func (v *LCSSubscriberLocationReportRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sdb5f76_25, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {

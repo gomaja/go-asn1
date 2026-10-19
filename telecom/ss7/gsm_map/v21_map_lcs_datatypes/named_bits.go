@@ -8,10 +8,12 @@ import (
 
 // NewLCSDeferredLocationEventType constructs ASN.1 MAP-LCS-DataTypes.DeferredLocationEventType (X.680 (02/2021) §22.7; X.690 (02/2021) §8.6.2.4).
 func NewLCSDeferredLocationEventType(set ...int) (LCSDeferredLocationEventType, error) {
-	return ber.NewNamedBitString([]ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, set...)
+	value, err := ber.NewNamedBitString([]ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, set...)
+	return namedBitBuilderResult(value, err, "MAP-LCS-DataTypes.DeferredLocationEventType")
 }
 
 // NewLCSSupportedGADShapes constructs ASN.1 MAP-LCS-DataTypes.SupportedGADShapes (X.680 (02/2021) §22.7; X.690 (02/2021) §8.6.2.4).
 func NewLCSSupportedGADShapes(set ...int) (LCSSupportedGADShapes, error) {
-	return ber.NewNamedBitString([]ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, set...)
+	value, err := ber.NewNamedBitString([]ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, set...)
+	return namedBitBuilderResult(value, err, "MAP-LCS-DataTypes.SupportedGADShapes")
 }
