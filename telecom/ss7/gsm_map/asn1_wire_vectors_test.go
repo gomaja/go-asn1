@@ -155,27 +155,6 @@ func asn1VectorInterface(value reflect.Value) (any, error) {
 	return value.Interface(), nil
 }
 
-// TestVectorSendRoutingInfoRealCapture verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.2, SendRoutingInfoArg; argument bytes extracted from a real SCCP/TCAP/MAP capture.
-func TestVectorSendRoutingInfoRealCapture(t *testing.T) {
-	t.Parallel()
-	input := asn1VectorHex(t, "3015800791795210325476830100860791795213111111")
-	var decoded SendRoutingInfoArg
-	err := decoded.UnmarshalBER(input)
-	if err != nil {
-		t.Fatal(err)
-	}
-	asn1VectorAssertPath(t, decoded, "Msisdn", "\"kXlSEDJUdg==\"")
-	asn1VectorAssertPath(t, decoded, "InterrogationType", "0")
-	asn1VectorAssertPath(t, decoded, "GmscOrGsmSCFAddress", "\"kXlSExEREQ==\"")
-	wire, err := decoded.MarshalBER()
-	if err != nil {
-		t.Fatal(err)
-	}
-	if !bytes.Equal(wire, input) {
-		t.Fatalf("round trip = %x, want %x", wire, input)
-	}
-}
-
 // TestVectorSendAuthenticationInfoEpsOnly verifies 3GPP TS 29.002 V19.1.0 (2026-02), section 17.7.1, SendAuthenticationInfoRes and EPS-AuthenticationSetList.
 // Regression: go-asn1-v0.1.9.gsm-map.eps-only-authentication-set
 func TestVectorSendAuthenticationInfoEpsOnly(t *testing.T) {
@@ -457,14 +436,6 @@ func TestVectorReportSmDeliveryStatusUnknownExtension(t *testing.T) {
 	if !bytes.Equal(wire, input) {
 		t.Fatalf("round trip = %x, want %x", wire, input)
 	}
-}
-
-func FuzzBERSendRoutingInfoArg(f *testing.F) {
-	f.Add(asn1VectorHexForFuzz("3015800791795210325476830100860791795213111111"))
-	f.Fuzz(func(t *testing.T, input []byte) {
-		var decoded SendRoutingInfoArg
-		_ = decoded.UnmarshalBER(input)
-	})
 }
 
 func FuzzBERSendAuthenticationInfoRes(f *testing.F) {

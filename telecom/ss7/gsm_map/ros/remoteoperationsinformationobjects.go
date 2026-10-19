@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/ber"
-	"github.com/gomaja/go-asn1/runtime/tag"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 )
 
 // Ensure imports are used.
@@ -112,6 +112,7 @@ func (v *Code) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 }
 
 // MarshalDER encodes Code to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *Code) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: Code receiver is nil", ber.ErrInvalidValue)
@@ -142,10 +143,19 @@ func (v *Code) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 }
 
 // UnmarshalBER decodes Code from BER/DER format.
-func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: Code destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ Code
+	v := &berNextValue_
+	defer func() {
+		if returnErr == nil {
+			*destination =
+				*v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -171,6 +181,8 @@ func (v *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Information-Objects.Code", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Code{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Code CHOICE")

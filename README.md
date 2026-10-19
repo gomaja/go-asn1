@@ -429,6 +429,62 @@ The verbatim official MAP-CommonDataTypes comments cite RFC 3588, which
 [RFC 6733](https://www.rfc-editor.org/rfc/rfc6733.html) obsoletes; the
 DiameterIdentity types remain OCTET STRING, so the codec is unaffected.
 
+#### MAP-owned runtime
+
+MAP and all its dependency packages use their own runtime:
+`github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime` and its `ber` and
+`tag` subpackages. Import those packages for MAP options, BIT STRINGs,
+object identifiers and raw values. Values from the shared root runtime
+have a different Go type identity.
+
+| Shared selector | MAP selector (with `mapber` imported below) |
+| --- | --- |
+| `ber.ConstraintError` | `mapber.ValidationError` |
+| `ber.ConstraintViolation` | `mapber.Violation` |
+| `ber.WithConstraintTolerance` | `mapber.WithTolerance` |
+| `ber.DecodeOption`, `ber.EncodeOption`, `ber.ViolationLog` | Same names under `mapber` |
+| `ber.WithoutBERReplay` | `mapber.WithoutBERReplay` |
+
+Strict decoding and encoding enforce the source constraints. Decode constraint failures
+wrap `*mapber.ValidationError` in `*mapber.ElementError`; use `errors.As`
+to inspect the rule, source, path and original-input location. Tolerance
+requires an explicit report sink on both decode and violating replay encode.
+
+```go
+import (
+    "github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
+    mapber "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
+)
+
+func replayMAP(wire []byte) ([]byte, []mapber.Violation, error) {
+    var value gsm_map.PDPContextInfo
+    var reports mapber.ViolationLog
+    option := mapber.WithTolerance(&reports)
+    if err := value.UnmarshalBER(wire, option); err != nil {
+        return nil, nil, err
+    }
+    decodedReports := reports.Snapshot()
+    reports.Reset()
+    encoded, err := value.MarshalBER(option)
+    return encoded, append(decodedReports, reports.Snapshot()...), err
+}
+```
+
+Received-form `Indef_` and BOOLEAN `Raw_` fields are private. Unchanged
+values replay their received bytes; use encoder options to choose a fresh
+form. `ExtCount_`, `ExtPresent_` and `ExtData_` still carry unknown additions.
+`MarshalBER(mapber.WithoutBERReplay())` rebuilds typed fields and accepts
+canonical opaque additions and open values that `MarshalDER` accepts,
+including an unknown `[30]` addition and a private NULL (#156). It refuses
+opaque elements requiring schema-dependent canonicalization. This checks
+visible framing and universal-tag rules; it cannot certify an unknown
+IMPLICIT type, a foreign DEFAULT or schema-specific SET ordering (ITU-T
+X.690 (02/2021) §§10–11).
+
+This runtime drop does not add the TS 29.002 §17.1.1 encoding profile,
+source-aware named-bit builders or operation/context descriptors. Those are
+separate milestones. Procedure and application-context checks belong to wrappers.
+
 #### Standalone operation and error values
 
 Types in `telecom/ss7/gsm_map` and its subpackages that are used directly as an operation
@@ -541,6 +597,9 @@ of `omitzero`. They include `PrivateIEID.Global` in S1AP, X2AP and LPPa,
 SGP.32, and `DefaultSmdpOid` in SGP.32. Construct a CHOICE alternative with
 its generated constructor, such as `NewPrivateIEIDGlobal(oid)` or
 `NewCodeGlobal(oid)`.
+For MAP’s `ros.Code.Global` and `MAPRefuseInfo.AlternativeApplicationContext`,
+use constructors from `github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime`
+to obtain the required MAP-owned object identifier type.
 Replace slice indexing or mutation with construction of a new value;
 `Arcs()` returns an independent `[]uint64` and a success flag, and `BigArcs()`
 returns independently owned arbitrary-precision arcs. `Encoded()` returns
