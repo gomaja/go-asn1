@@ -5,9 +5,9 @@ package v21_map_om_datatypes
 import (
 	"fmt"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/ber"
-	"github.com/gomaja/go-asn1/runtime/tag"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_commondatatypes"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_extensiondatatypes"
 )
@@ -35,37 +35,41 @@ type OMActivateTraceModeArg struct {
 	MdtConfiguration      *OMMDTConfiguration                                              `asn1:"tag:11,context,implicit,optional" json:"MdtConfiguration,omitempty"`
 	ExtCount_             int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_           []bool                                                           `asn1:"-" json:"-"`
-	ExtData_              [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_        *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // OMMDTConfiguration represents the ASN.1 type MDT-Configuration (SEQUENCE).
 type OMMDTConfiguration struct {
-	JobType                  OMJobType                                                        `asn1:""`
-	AreaScope                *OMAreaScope                                                     `asn1:",optional" json:"AreaScope,omitempty"`
-	ListOfMeasurements       *OMListOfMeasurements                                            `asn1:",optional" json:"ListOfMeasurements,omitempty"`
-	ReportingTrigger         *OMReportingTrigger                                              `asn1:"tag:0,context,implicit,optional" json:"ReportingTrigger,omitempty"`
-	ReportInterval           *OMReportInterval                                                `asn1:",optional" json:"ReportInterval,omitempty"`
-	ReportAmount             *OMReportAmount                                                  `asn1:"tag:1,context,implicit,optional" json:"ReportAmount,omitempty"`
-	EventThresholdRSRP       *OMEventThresholdRSRP                                            `asn1:",optional" json:"EventThresholdRSRP,omitempty"`
-	EventThresholdRSRQ       *OMEventThresholdRSRQ                                            `asn1:"tag:2,context,implicit,optional" json:"EventThresholdRSRQ,omitempty"`
-	LoggingInterval          *OMLoggingInterval                                               `asn1:"tag:3,context,implicit,optional" json:"LoggingInterval,omitempty"`
-	LoggingDuration          *OMLoggingDuration                                               `asn1:"tag:4,context,implicit,optional" json:"LoggingDuration,omitempty"`
-	ExtensionContainer       *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	MeasurementPeriodUMTS    *OMPeriodUMTS                                                    `asn1:"tag:6,context,implicit,optional" json:"MeasurementPeriodUMTS,omitempty"`
-	MeasurementPeriodLTE     *OMPeriodLTE                                                     `asn1:"tag:7,context,implicit,optional" json:"MeasurementPeriodLTE,omitempty"`
-	CollectionPeriodRRMUMTS  *OMPeriodUMTS                                                    `asn1:"tag:8,context,implicit,optional" json:"CollectionPeriodRRMUMTS,omitempty"`
-	CollectionPeriodRRMLTE   *OMPeriodLTE                                                     `asn1:"tag:9,context,implicit,optional" json:"CollectionPeriodRRMLTE,omitempty"`
-	PositioningMethod        *OMPositioningMethod                                             `asn1:"tag:10,context,implicit,optional" json:"PositioningMethod,omitempty"`
-	MeasurementQuantity      *OMMeasurementQuantity                                           `asn1:"tag:11,context,implicit,optional" json:"MeasurementQuantity,omitempty"`
-	EventThreshold1F         *OMEventThreshold1F                                              `asn1:"tag:12,context,implicit,optional" json:"EventThreshold1F,omitempty"`
-	EventThreshold1I         *OMEventThreshold1I                                              `asn1:"tag:13,context,implicit,optional" json:"EventThreshold1I,omitempty"`
-	MdtAllowedPLMNList       *OMMDTAllowedPLMNIdList                                          `asn1:"tag:14,context,implicit,optional" json:"MdtAllowedPLMNList,omitempty"`
-	MdtAllowedPLMNListIndef_ bool                                                             `asn1:"-" json:"-"`
-	ExtCount_                int64                                                            `asn1:"-" json:"-"`
-	ExtPresent_              []bool                                                           `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_           *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	JobType                     OMJobType                                                        `asn1:""`
+	AreaScope                   *OMAreaScope                                                     `asn1:",optional" json:"AreaScope,omitempty"`
+	ListOfMeasurements          *OMListOfMeasurements                                            `asn1:",optional" json:"ListOfMeasurements,omitempty"`
+	ReportingTrigger            *OMReportingTrigger                                              `asn1:"tag:0,context,implicit,optional" json:"ReportingTrigger,omitempty"`
+	ReportInterval              *OMReportInterval                                                `asn1:",optional" json:"ReportInterval,omitempty"`
+	ReportAmount                *OMReportAmount                                                  `asn1:"tag:1,context,implicit,optional" json:"ReportAmount,omitempty"`
+	EventThresholdRSRP          *OMEventThresholdRSRP                                            `asn1:",optional" json:"EventThresholdRSRP,omitempty"`
+	EventThresholdRSRQ          *OMEventThresholdRSRQ                                            `asn1:"tag:2,context,implicit,optional" json:"EventThresholdRSRQ,omitempty"`
+	LoggingInterval             *OMLoggingInterval                                               `asn1:"tag:3,context,implicit,optional" json:"LoggingInterval,omitempty"`
+	LoggingDuration             *OMLoggingDuration                                               `asn1:"tag:4,context,implicit,optional" json:"LoggingDuration,omitempty"`
+	ExtensionContainer          *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	MeasurementPeriodUMTS       *OMPeriodUMTS                                                    `asn1:"tag:6,context,implicit,optional" json:"MeasurementPeriodUMTS,omitempty"`
+	MeasurementPeriodLTE        *OMPeriodLTE                                                     `asn1:"tag:7,context,implicit,optional" json:"MeasurementPeriodLTE,omitempty"`
+	CollectionPeriodRRMUMTS     *OMPeriodUMTS                                                    `asn1:"tag:8,context,implicit,optional" json:"CollectionPeriodRRMUMTS,omitempty"`
+	CollectionPeriodRRMLTE      *OMPeriodLTE                                                     `asn1:"tag:9,context,implicit,optional" json:"CollectionPeriodRRMLTE,omitempty"`
+	PositioningMethod           *OMPositioningMethod                                             `asn1:"tag:10,context,implicit,optional" json:"PositioningMethod,omitempty"`
+	MeasurementQuantity         *OMMeasurementQuantity                                           `asn1:"tag:11,context,implicit,optional" json:"MeasurementQuantity,omitempty"`
+	EventThreshold1F            *OMEventThreshold1F                                              `asn1:"tag:12,context,implicit,optional" json:"EventThreshold1F,omitempty"`
+	EventThreshold1I            *OMEventThreshold1I                                              `asn1:"tag:13,context,implicit,optional" json:"EventThreshold1I,omitempty"`
+	MdtAllowedPLMNList          *OMMDTAllowedPLMNIdList                                          `asn1:"tag:14,context,implicit,optional" json:"MdtAllowedPLMNList,omitempty"`
+	berMdtAllowedPLMNListIndef_ bool                                                             `asn1:"-" json:"-"`
+	ExtCount_                   int64                                                            `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                                                           `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // OMMDTAllowedPLMNIdList represents the ASN.1 type MDT-Allowed-PLMNId-List (SEQUENCE_OF).
@@ -205,21 +209,23 @@ func (v OMJobType) String() string {
 
 // OMAreaScope represents the ASN.1 type AreaScope (SEQUENCE).
 type OMAreaScope struct {
-	CgiList                  *OMCGIList                                                       `asn1:"tag:0,context,implicit,optional" json:"CgiList,omitempty"`
-	CgiListIndef_            bool                                                             `asn1:"-" json:"-"`
-	EUtranCgiList            *OMEUTRANCGIList                                                 `asn1:"tag:1,context,implicit,optional" json:"EUtranCgiList,omitempty"`
-	EUtranCgiListIndef_      bool                                                             `asn1:"-" json:"-"`
-	RoutingAreaIdList        *OMRoutingAreaIdList                                             `asn1:"tag:2,context,implicit,optional" json:"RoutingAreaIdList,omitempty"`
-	RoutingAreaIdListIndef_  bool                                                             `asn1:"-" json:"-"`
-	LocationAreaIdList       *OMLocationAreaIdList                                            `asn1:"tag:3,context,implicit,optional" json:"LocationAreaIdList,omitempty"`
-	LocationAreaIdListIndef_ bool                                                             `asn1:"-" json:"-"`
-	TrackingAreaIdList       *OMTrackingAreaIdList                                            `asn1:"tag:4,context,implicit,optional" json:"TrackingAreaIdList,omitempty"`
-	TrackingAreaIdListIndef_ bool                                                             `asn1:"-" json:"-"`
-	ExtensionContainer       *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"ExtensionContainer,omitempty"`
-	ExtCount_                int64                                                            `asn1:"-" json:"-"`
-	ExtPresent_              []bool                                                           `asn1:"-" json:"-"`
-	ExtData_                 [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_           *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	CgiList                     *OMCGIList                                                       `asn1:"tag:0,context,implicit,optional" json:"CgiList,omitempty"`
+	berCgiListIndef_            bool                                                             `asn1:"-" json:"-"`
+	EUtranCgiList               *OMEUTRANCGIList                                                 `asn1:"tag:1,context,implicit,optional" json:"EUtranCgiList,omitempty"`
+	berEUtranCgiListIndef_      bool                                                             `asn1:"-" json:"-"`
+	RoutingAreaIdList           *OMRoutingAreaIdList                                             `asn1:"tag:2,context,implicit,optional" json:"RoutingAreaIdList,omitempty"`
+	berRoutingAreaIdListIndef_  bool                                                             `asn1:"-" json:"-"`
+	LocationAreaIdList          *OMLocationAreaIdList                                            `asn1:"tag:3,context,implicit,optional" json:"LocationAreaIdList,omitempty"`
+	berLocationAreaIdListIndef_ bool                                                             `asn1:"-" json:"-"`
+	TrackingAreaIdList          *OMTrackingAreaIdList                                            `asn1:"tag:4,context,implicit,optional" json:"TrackingAreaIdList,omitempty"`
+	berTrackingAreaIdListIndef_ bool                                                             `asn1:"-" json:"-"`
+	ExtensionContainer          *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:"tag:5,context,implicit,optional" json:"ExtensionContainer,omitempty"`
+	ExtCount_                   int64                                                            `asn1:"-" json:"-"`
+	ExtPresent_                 []bool                                                           `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // OMCGIList represents the ASN.1 type CGI-List (SEQUENCE_OF).
@@ -502,8 +508,10 @@ type OMTraceDepthList struct {
 	ENBTraceDepthExtension  *OMTraceDepthExtension `asn1:"tag:19,context,implicit,optional" json:"ENBTraceDepthExtension,omitempty"`
 	ExtCount_               int64                  `asn1:"-" json:"-"`
 	ExtPresent_             []bool                 `asn1:"-" json:"-"`
-	ExtData_                [][]byte               `asn1:"-" json:"-"`
-	berReplayNode_          *ber.ReplayNode        `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // OMTraceDepth represents the ASN.1 ENUMERATED type TraceDepth.
@@ -578,20 +586,22 @@ const (
 
 // OMTraceInterfaceList represents the ASN.1 type TraceInterfaceList (SEQUENCE).
 type OMTraceInterfaceList struct {
-	MscSList       *OMMSCSInterfaceList `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
-	MgwList        *OMMGWInterfaceList  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
-	SgsnList       *OMSGSNInterfaceList `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
-	GgsnList       *OMGGSNInterfaceList `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
-	RncList        *OMRNCInterfaceList  `asn1:"tag:4,context,implicit,optional" json:"RncList,omitempty"`
-	BmscList       *OMBMSCInterfaceList `asn1:"tag:5,context,implicit,optional" json:"BmscList,omitempty"`
-	MmeList        *OMMMEInterfaceList  `asn1:"tag:6,context,implicit,optional" json:"MmeList,omitempty"`
-	SgwList        *OMSGWInterfaceList  `asn1:"tag:7,context,implicit,optional" json:"SgwList,omitempty"`
-	PgwList        *OMPGWInterfaceList  `asn1:"tag:8,context,implicit,optional" json:"PgwList,omitempty"`
-	ENBList        *OMENBInterfaceList  `asn1:"tag:9,context,implicit,optional" json:"ENBList,omitempty"`
-	ExtCount_      int64                `asn1:"-" json:"-"`
-	ExtPresent_    []bool               `asn1:"-" json:"-"`
-	ExtData_       [][]byte             `asn1:"-" json:"-"`
-	berReplayNode_ *ber.ReplayNode      `asn1:"-" json:"-"`
+	MscSList    *OMMSCSInterfaceList `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
+	MgwList     *OMMGWInterfaceList  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
+	SgsnList    *OMSGSNInterfaceList `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
+	GgsnList    *OMGGSNInterfaceList `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
+	RncList     *OMRNCInterfaceList  `asn1:"tag:4,context,implicit,optional" json:"RncList,omitempty"`
+	BmscList    *OMBMSCInterfaceList `asn1:"tag:5,context,implicit,optional" json:"BmscList,omitempty"`
+	MmeList     *OMMMEInterfaceList  `asn1:"tag:6,context,implicit,optional" json:"MmeList,omitempty"`
+	SgwList     *OMSGWInterfaceList  `asn1:"tag:7,context,implicit,optional" json:"SgwList,omitempty"`
+	PgwList     *OMPGWInterfaceList  `asn1:"tag:8,context,implicit,optional" json:"PgwList,omitempty"`
+	ENBList     *OMENBInterfaceList  `asn1:"tag:9,context,implicit,optional" json:"ENBList,omitempty"`
+	ExtCount_   int64                `asn1:"-" json:"-"`
+	ExtPresent_ []bool               `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // OMMSCSInterfaceList represents the ASN.1 type MSC-S-InterfaceList (BIT_STRING).
@@ -762,18 +772,20 @@ const (
 
 // OMTraceEventList represents the ASN.1 type TraceEventList (SEQUENCE).
 type OMTraceEventList struct {
-	MscSList       *OMMSCSEventList `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
-	MgwList        *OMMGWEventList  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
-	SgsnList       *OMSGSNEventList `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
-	GgsnList       *OMGGSNEventList `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
-	BmscList       *OMBMSCEventList `asn1:"tag:4,context,implicit,optional" json:"BmscList,omitempty"`
-	MmeList        *OMMMEEventList  `asn1:"tag:5,context,implicit,optional" json:"MmeList,omitempty"`
-	SgwList        *OMSGWEventList  `asn1:"tag:6,context,implicit,optional" json:"SgwList,omitempty"`
-	PgwList        *OMPGWEventList  `asn1:"tag:7,context,implicit,optional" json:"PgwList,omitempty"`
-	ExtCount_      int64            `asn1:"-" json:"-"`
-	ExtPresent_    []bool           `asn1:"-" json:"-"`
-	ExtData_       [][]byte         `asn1:"-" json:"-"`
-	berReplayNode_ *ber.ReplayNode  `asn1:"-" json:"-"`
+	MscSList    *OMMSCSEventList `asn1:"tag:0,context,implicit,optional" json:"MscSList,omitempty"`
+	MgwList     *OMMGWEventList  `asn1:"tag:1,context,implicit,optional" json:"MgwList,omitempty"`
+	SgsnList    *OMSGSNEventList `asn1:"tag:2,context,implicit,optional" json:"SgsnList,omitempty"`
+	GgsnList    *OMGGSNEventList `asn1:"tag:3,context,implicit,optional" json:"GgsnList,omitempty"`
+	BmscList    *OMBMSCEventList `asn1:"tag:4,context,implicit,optional" json:"BmscList,omitempty"`
+	MmeList     *OMMMEEventList  `asn1:"tag:5,context,implicit,optional" json:"MmeList,omitempty"`
+	SgwList     *OMSGWEventList  `asn1:"tag:6,context,implicit,optional" json:"SgwList,omitempty"`
+	PgwList     *OMPGWEventList  `asn1:"tag:7,context,implicit,optional" json:"PgwList,omitempty"`
+	ExtCount_   int64            `asn1:"-" json:"-"`
+	ExtPresent_ []bool           `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // OMMSCSEventList represents the ASN.1 type MSC-S-EventList (BIT_STRING).
@@ -893,8 +905,10 @@ type OMTracePropagationList struct {
 	MgwTraceDepthExtension         *OMTraceDepthExtension            `asn1:"tag:14,context,implicit,optional" json:"MgwTraceDepthExtension,omitempty"`
 	ExtCount_                      int64                             `asn1:"-" json:"-"`
 	ExtPresent_                    []bool                            `asn1:"-" json:"-"`
-	ExtData_                       [][]byte                          `asn1:"-" json:"-"`
-	berReplayNode_                 *ber.ReplayNode                   `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // OMActivateTraceModeRes represents the ASN.1 type ActivateTraceModeRes (SEQUENCE).
@@ -903,8 +917,10 @@ type OMActivateTraceModeRes struct {
 	TraceSupportIndicator *struct{}                                                        `asn1:"tag:1,context,implicit,optional" json:"TraceSupportIndicator,omitempty"`
 	ExtCount_             int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_           []bool                                                           `asn1:"-" json:"-"`
-	ExtData_              [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_        *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // OMDeactivateTraceModeArg represents the ASN.1 type DeactivateTraceModeArg (SEQUENCE).
@@ -915,8 +931,10 @@ type OMDeactivateTraceModeArg struct {
 	TraceReference2    *OMTraceReference2                                               `asn1:"tag:3,context,implicit,optional" json:"TraceReference2,omitempty"`
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
-	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // OMDeactivateTraceModeRes represents the ASN.1 type DeactivateTraceModeRes (SEQUENCE).
@@ -924,8 +942,10 @@ type OMDeactivateTraceModeRes struct {
 	ExtensionContainer *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:"tag:0,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
-	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // MarshalBER encodes OMActivateTraceModeArg to BER format.
@@ -959,7 +979,7 @@ func (v *OMActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -975,7 +995,7 @@ func (v *OMActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_imsi...)
 	}
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		if constraintErr := ber.CheckEncodedLength(opts, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -990,7 +1010,7 @@ func (v *OMActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	enc_tracereference = retagged_enc_tracereference
 	children = append(children, enc_tracereference...)
 	if !(int64(v.TraceType) >= 0 && int64(v.TraceType) <= 255) {
-		if constraintErr := ber.CheckEncodedValue(opts, "traceType", "(0..255)", fmt.Sprint(int64(v.TraceType))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "traceType", "(0..255)", ber.ObserveInteger(int64(v.TraceType))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1003,7 +1023,7 @@ func (v *OMActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	children = append(children, enc_tracetype...)
 	if v.OmcId != nil {
 		if len(*v.OmcId) < 1 || len(*v.OmcId) > 20 {
-			if constraintErr := ber.CheckEncodedLength(opts, "omc-Id", "SIZE (1..20)", len(*v.OmcId)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "omc-Id", "SIZE (1..20)", len(*v.OmcId)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1033,7 +1053,7 @@ func (v *OMActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			if constraintErr := ber.CheckEncodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1070,7 +1090,7 @@ func (v *OMActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.TraceNETypeList).BitLength < 6 || (*v.TraceNETypeList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "traceNE-TypeList", "SIZE (6..16)", (*v.TraceNETypeList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceNE-TypeList", "SIZE (6..16)", (*v.TraceNETypeList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1113,7 +1133,7 @@ func (v *OMActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.TraceCollectionEntity != nil {
 		if len(*v.TraceCollectionEntity) < 5 || len(*v.TraceCollectionEntity) > 17 {
-			if constraintErr := ber.CheckEncodedLength(opts, "traceCollectionEntity", "SIZE (5..17)", len(*v.TraceCollectionEntity)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceCollectionEntity", "SIZE (5..17)", len(*v.TraceCollectionEntity)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1142,7 +1162,7 @@ func (v *OMActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_mdtconfiguration...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -1154,7 +1174,7 @@ func (v *OMActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1173,6 +1193,7 @@ func (v *OMActivateTraceModeArg) appendBERLinear(encoder *ber.LinearEncoder, opt
 }
 
 // MarshalDER encodes OMActivateTraceModeArg to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMActivateTraceModeArg receiver is nil", ber.ErrInvalidValue)
@@ -1180,7 +1201,7 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1196,7 +1217,7 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		if constraintErr := ber.CheckEncodedLength(nil, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1211,7 +1232,7 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	enc_tracereference = retagged_enc_tracereference
 	children = append(children, enc_tracereference...)
 	if !(int64(v.TraceType) >= 0 && int64(v.TraceType) <= 255) {
-		if constraintErr := ber.CheckEncodedValue(nil, "traceType", "(0..255)", fmt.Sprint(int64(v.TraceType))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "traceType", "(0..255)", ber.ObserveInteger(int64(v.TraceType))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1224,7 +1245,7 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_tracetype...)
 	if v.OmcId != nil {
 		if len(*v.OmcId) < 1 || len(*v.OmcId) > 20 {
-			if constraintErr := ber.CheckEncodedLength(nil, "omc-Id", "SIZE (1..20)", len(*v.OmcId)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "omc-Id", "SIZE (1..20)", len(*v.OmcId)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1253,7 +1274,7 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			if constraintErr := ber.CheckEncodedLength(nil, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1292,7 +1313,7 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.TraceNETypeList).BitLength < 6 || (*v.TraceNETypeList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "traceNE-TypeList", "SIZE (6..16)", (*v.TraceNETypeList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceNE-TypeList", "SIZE (6..16)", (*v.TraceNETypeList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1333,7 +1354,7 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceCollectionEntity != nil {
 		if len(*v.TraceCollectionEntity) < 5 || len(*v.TraceCollectionEntity) > 17 {
-			if constraintErr := ber.CheckEncodedLength(nil, "traceCollectionEntity", "SIZE (5..17)", len(*v.TraceCollectionEntity)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceCollectionEntity", "SIZE (5..17)", len(*v.TraceCollectionEntity)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1370,7 +1391,7 @@ func (v *OMActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1395,10 +1416,20 @@ func (v *OMActivateTraceModeArg) appendDERLinear(encoder *ber.LinearEncoder) ([]
 }
 
 // UnmarshalBER decodes OMActivateTraceModeArg from BER/DER format.
-func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMActivateTraceModeArg destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMActivateTraceModeArg
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1415,6 +1446,8 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.ActivateTraceModeArg", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMActivateTraceModeArg{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1458,7 +1491,7 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1496,7 +1529,7 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n_tracereference
 		if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-			if constraintErr := ber.CheckDecodedLength(opts, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1531,7 +1564,7 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n_tracetype
 		if !(int64(v.TraceType) >= 0 && int64(v.TraceType) <= 255) {
-			if constraintErr := ber.CheckDecodedValue(opts, "traceType", "(0..255)", fmt.Sprint(int64(v.TraceType))); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "traceType", "(0..255)", ber.ObserveInteger(int64(v.TraceType))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1562,7 +1595,7 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_omcid
 				if len(*v.OmcId) < 1 || len(*v.OmcId) > 20 {
-					if constraintErr := ber.CheckDecodedLength(opts, "omc-Id", "SIZE (1..20)", len(*v.OmcId)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "omc-Id", "SIZE (1..20)", len(*v.OmcId)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1634,7 +1667,7 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_tracereference2
 				if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-					if constraintErr := ber.CheckDecodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1711,7 +1744,7 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				offset += n_tracenetypelist
 				*v.TraceNETypeList = ber.NormalizeNamedBitStringSize(*v.TraceNETypeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, opts...)
 				if (*v.TraceNETypeList).BitLength < 6 || (*v.TraceNETypeList).BitLength > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "traceNE-TypeList", "SIZE (6..16)", (*v.TraceNETypeList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceNE-TypeList", "SIZE (6..16)", (*v.TraceNETypeList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1823,7 +1856,7 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_tracecollectionentity
 				if len(*v.TraceCollectionEntity) < 5 || len(*v.TraceCollectionEntity) > 17 {
-					if constraintErr := ber.CheckDecodedLength(opts, "traceCollectionEntity", "SIZE (5..17)", len(*v.TraceCollectionEntity)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceCollectionEntity", "SIZE (5..17)", len(*v.TraceCollectionEntity)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1879,10 +1912,10 @@ func (v *OMActivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMActivateTraceModeArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1934,7 +1967,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	var children []byte
 	if int64(v.JobType) != 0 && int64(v.JobType) != 1 && int64(v.JobType) != 2 && int64(v.JobType) != 3 {
-		if constraintErr := ber.CheckEncodedValue(opts, "jobType", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(v.JobType))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "jobType", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(v.JobType))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1950,7 +1983,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.ListOfMeasurements != nil {
 		if len(*v.ListOfMeasurements) < 4 || len(*v.ListOfMeasurements) > 4 {
-			if constraintErr := ber.CheckEncodedLength(opts, "listOfMeasurements", "SIZE (4)", len(*v.ListOfMeasurements)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "listOfMeasurements", "SIZE (4)", len(*v.ListOfMeasurements)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1962,7 +1995,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.ReportingTrigger != nil {
 		if len(*v.ReportingTrigger) < 1 || len(*v.ReportingTrigger) > 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "reportingTrigger", "SIZE (1)", len(*v.ReportingTrigger)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "reportingTrigger", "SIZE (1)", len(*v.ReportingTrigger)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1979,7 +2012,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.ReportInterval != nil {
 		if int64(*v.ReportInterval) != 0 && int64(*v.ReportInterval) != 1 && int64(*v.ReportInterval) != 2 && int64(*v.ReportInterval) != 3 && int64(*v.ReportInterval) != 4 && int64(*v.ReportInterval) != 5 && int64(*v.ReportInterval) != 6 && int64(*v.ReportInterval) != 7 && int64(*v.ReportInterval) != 8 && int64(*v.ReportInterval) != 9 && int64(*v.ReportInterval) != 10 && int64(*v.ReportInterval) != 11 && int64(*v.ReportInterval) != 12 && int64(*v.ReportInterval) != 13 && int64(*v.ReportInterval) != 14 && int64(*v.ReportInterval) != 15 && int64(*v.ReportInterval) != 16 && int64(*v.ReportInterval) != 17 && int64(*v.ReportInterval) != 18 && int64(*v.ReportInterval) != 19 && int64(*v.ReportInterval) != 20 && int64(*v.ReportInterval) != 21 && int64(*v.ReportInterval) != 22 && int64(*v.ReportInterval) != 23 && int64(*v.ReportInterval) != 24 && int64(*v.ReportInterval) != 25 && int64(*v.ReportInterval) != 26 && int64(*v.ReportInterval) != 27 {
-			if constraintErr := ber.CheckEncodedValue(opts, "reportInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}", fmt.Sprint(int64(*v.ReportInterval))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "reportInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}", ber.ObserveInteger(int64(*v.ReportInterval))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1988,7 +2021,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.ReportAmount != nil {
 		if int64(*v.ReportAmount) != 0 && int64(*v.ReportAmount) != 1 && int64(*v.ReportAmount) != 2 && int64(*v.ReportAmount) != 3 && int64(*v.ReportAmount) != 4 && int64(*v.ReportAmount) != 5 && int64(*v.ReportAmount) != 6 && int64(*v.ReportAmount) != 7 {
-			if constraintErr := ber.CheckEncodedValue(opts, "reportAmount", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", fmt.Sprint(int64(*v.ReportAmount))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "reportAmount", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.ReportAmount))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2002,7 +2035,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.EventThresholdRSRP != nil {
 		if !(int64(*v.EventThresholdRSRP) >= 0 && int64(*v.EventThresholdRSRP) <= 97) {
-			if constraintErr := ber.CheckEncodedValue(opts, "eventThresholdRSRP", "(0..97)", fmt.Sprint(int64(*v.EventThresholdRSRP))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThresholdRSRP", "(0..97)", ber.ObserveInteger(int64(*v.EventThresholdRSRP))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2011,7 +2044,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.EventThresholdRSRQ != nil {
 		if !(int64(*v.EventThresholdRSRQ) >= 0 && int64(*v.EventThresholdRSRQ) <= 34) {
-			if constraintErr := ber.CheckEncodedValue(opts, "eventThresholdRSRQ", "(0..34)", fmt.Sprint(int64(*v.EventThresholdRSRQ))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThresholdRSRQ", "(0..34)", ber.ObserveInteger(int64(*v.EventThresholdRSRQ))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2025,7 +2058,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.LoggingInterval != nil {
 		if int64(*v.LoggingInterval) != 0 && int64(*v.LoggingInterval) != 1 && int64(*v.LoggingInterval) != 2 && int64(*v.LoggingInterval) != 3 && int64(*v.LoggingInterval) != 4 && int64(*v.LoggingInterval) != 5 && int64(*v.LoggingInterval) != 6 && int64(*v.LoggingInterval) != 7 {
-			if constraintErr := ber.CheckEncodedValue(opts, "loggingInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", fmt.Sprint(int64(*v.LoggingInterval))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "loggingInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.LoggingInterval))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2039,7 +2072,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.LoggingDuration != nil {
 		if int64(*v.LoggingDuration) != 0 && int64(*v.LoggingDuration) != 1 && int64(*v.LoggingDuration) != 2 && int64(*v.LoggingDuration) != 3 && int64(*v.LoggingDuration) != 4 && int64(*v.LoggingDuration) != 5 {
-			if constraintErr := ber.CheckEncodedValue(opts, "loggingDuration", "ENUMERATED {0, 1, 2, 3, 4, 5}", fmt.Sprint(int64(*v.LoggingDuration))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "loggingDuration", "ENUMERATED {0, 1, 2, 3, 4, 5}", ber.ObserveInteger(int64(*v.LoggingDuration))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2066,7 +2099,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.MeasurementPeriodUMTS != nil {
 		if int64(*v.MeasurementPeriodUMTS) != 0 && int64(*v.MeasurementPeriodUMTS) != 1 && int64(*v.MeasurementPeriodUMTS) != 2 && int64(*v.MeasurementPeriodUMTS) != 3 && int64(*v.MeasurementPeriodUMTS) != 4 && int64(*v.MeasurementPeriodUMTS) != 5 && int64(*v.MeasurementPeriodUMTS) != 6 && int64(*v.MeasurementPeriodUMTS) != 7 && int64(*v.MeasurementPeriodUMTS) != 8 && int64(*v.MeasurementPeriodUMTS) != 9 && int64(*v.MeasurementPeriodUMTS) != 10 && int64(*v.MeasurementPeriodUMTS) != 11 && int64(*v.MeasurementPeriodUMTS) != 12 && int64(*v.MeasurementPeriodUMTS) != 13 && int64(*v.MeasurementPeriodUMTS) != 14 {
-			if constraintErr := ber.CheckEncodedValue(opts, "measurementPeriodUMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", fmt.Sprint(int64(*v.MeasurementPeriodUMTS))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "measurementPeriodUMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", ber.ObserveInteger(int64(*v.MeasurementPeriodUMTS))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2080,7 +2113,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.MeasurementPeriodLTE != nil {
 		if int64(*v.MeasurementPeriodLTE) != 0 && int64(*v.MeasurementPeriodLTE) != 1 && int64(*v.MeasurementPeriodLTE) != 2 && int64(*v.MeasurementPeriodLTE) != 3 && int64(*v.MeasurementPeriodLTE) != 4 && int64(*v.MeasurementPeriodLTE) != 5 && int64(*v.MeasurementPeriodLTE) != 6 {
-			if constraintErr := ber.CheckEncodedValue(opts, "measurementPeriodLTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.MeasurementPeriodLTE))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "measurementPeriodLTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.MeasurementPeriodLTE))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2094,7 +2127,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.CollectionPeriodRRMUMTS != nil {
 		if int64(*v.CollectionPeriodRRMUMTS) != 0 && int64(*v.CollectionPeriodRRMUMTS) != 1 && int64(*v.CollectionPeriodRRMUMTS) != 2 && int64(*v.CollectionPeriodRRMUMTS) != 3 && int64(*v.CollectionPeriodRRMUMTS) != 4 && int64(*v.CollectionPeriodRRMUMTS) != 5 && int64(*v.CollectionPeriodRRMUMTS) != 6 && int64(*v.CollectionPeriodRRMUMTS) != 7 && int64(*v.CollectionPeriodRRMUMTS) != 8 && int64(*v.CollectionPeriodRRMUMTS) != 9 && int64(*v.CollectionPeriodRRMUMTS) != 10 && int64(*v.CollectionPeriodRRMUMTS) != 11 && int64(*v.CollectionPeriodRRMUMTS) != 12 && int64(*v.CollectionPeriodRRMUMTS) != 13 && int64(*v.CollectionPeriodRRMUMTS) != 14 {
-			if constraintErr := ber.CheckEncodedValue(opts, "collectionPeriodRRM-UMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", fmt.Sprint(int64(*v.CollectionPeriodRRMUMTS))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "collectionPeriodRRM-UMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", ber.ObserveInteger(int64(*v.CollectionPeriodRRMUMTS))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2108,7 +2141,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.CollectionPeriodRRMLTE != nil {
 		if int64(*v.CollectionPeriodRRMLTE) != 0 && int64(*v.CollectionPeriodRRMLTE) != 1 && int64(*v.CollectionPeriodRRMLTE) != 2 && int64(*v.CollectionPeriodRRMLTE) != 3 && int64(*v.CollectionPeriodRRMLTE) != 4 && int64(*v.CollectionPeriodRRMLTE) != 5 && int64(*v.CollectionPeriodRRMLTE) != 6 {
-			if constraintErr := ber.CheckEncodedValue(opts, "collectionPeriodRRM-LTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.CollectionPeriodRRMLTE))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "collectionPeriodRRM-LTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.CollectionPeriodRRMLTE))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2122,7 +2155,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.PositioningMethod != nil {
 		if len(*v.PositioningMethod) < 1 || len(*v.PositioningMethod) > 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "positioningMethod", "SIZE (1)", len(*v.PositioningMethod)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "positioningMethod", "SIZE (1)", len(*v.PositioningMethod)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2139,7 +2172,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.MeasurementQuantity != nil {
 		if len(*v.MeasurementQuantity) < 1 || len(*v.MeasurementQuantity) > 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "measurementQuantity", "SIZE (1)", len(*v.MeasurementQuantity)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "measurementQuantity", "SIZE (1)", len(*v.MeasurementQuantity)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2156,7 +2189,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.EventThreshold1F != nil {
 		if !(int64(*v.EventThreshold1F) >= -120 && int64(*v.EventThreshold1F) <= 165) {
-			if constraintErr := ber.CheckEncodedValue(opts, "eventThreshold1F", "(-120..165)", fmt.Sprint(int64(*v.EventThreshold1F))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThreshold1F", "(-120..165)", ber.ObserveInteger(int64(*v.EventThreshold1F))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2170,7 +2203,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.EventThreshold1I != nil {
 		if !(int64(*v.EventThreshold1I) >= -120 && int64(*v.EventThreshold1I) <= -25) {
-			if constraintErr := ber.CheckEncodedValue(opts, "eventThreshold1I", "(-120..-25)", fmt.Sprint(int64(*v.EventThreshold1I))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThreshold1I", "(-120..-25)", ber.ObserveInteger(int64(*v.EventThreshold1I))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2184,7 +2217,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	if v.MdtAllowedPLMNList != nil {
 		if len((v.MdtAllowedPLMNList).Values) < 1 || len((v.MdtAllowedPLMNList).Values) > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "mdt-Allowed-PLMN-List", "SIZE (1..16)", len((v.MdtAllowedPLMNList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mdt-Allowed-PLMN-List", "SIZE (1..16)", len((v.MdtAllowedPLMNList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2192,7 +2225,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		if err != nil {
 			return nil, qualifyBERError(err, "mdt-Allowed-PLMN-List", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.MdtAllowedPLMNListIndef_ {
+		if ber.BERReplayEnabled(opts) && v.berMdtAllowedPLMNListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_mdtallowedplmnlist)
 			if tlvErr_ != nil {
@@ -2216,7 +2249,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_mdtallowedplmnlist...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -2228,7 +2261,7 @@ func (v *OMMDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2247,13 +2280,14 @@ func (v *OMMDTConfiguration) appendBERLinear(encoder *ber.LinearEncoder, opts ..
 }
 
 // MarshalDER encodes OMMDTConfiguration to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMMDTConfiguration receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
 	if int64(v.JobType) != 0 && int64(v.JobType) != 1 && int64(v.JobType) != 2 && int64(v.JobType) != 3 {
-		if constraintErr := ber.CheckEncodedValue(nil, "jobType", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(v.JobType))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "jobType", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(v.JobType))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2268,7 +2302,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.ListOfMeasurements != nil {
 		if len(*v.ListOfMeasurements) < 4 || len(*v.ListOfMeasurements) > 4 {
-			if constraintErr := ber.CheckEncodedLength(nil, "listOfMeasurements", "SIZE (4)", len(*v.ListOfMeasurements)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "listOfMeasurements", "SIZE (4)", len(*v.ListOfMeasurements)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2280,7 +2314,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.ReportingTrigger != nil {
 		if len(*v.ReportingTrigger) < 1 || len(*v.ReportingTrigger) > 1 {
-			if constraintErr := ber.CheckEncodedLength(nil, "reportingTrigger", "SIZE (1)", len(*v.ReportingTrigger)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "reportingTrigger", "SIZE (1)", len(*v.ReportingTrigger)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2297,7 +2331,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.ReportInterval != nil {
 		if int64(*v.ReportInterval) != 0 && int64(*v.ReportInterval) != 1 && int64(*v.ReportInterval) != 2 && int64(*v.ReportInterval) != 3 && int64(*v.ReportInterval) != 4 && int64(*v.ReportInterval) != 5 && int64(*v.ReportInterval) != 6 && int64(*v.ReportInterval) != 7 && int64(*v.ReportInterval) != 8 && int64(*v.ReportInterval) != 9 && int64(*v.ReportInterval) != 10 && int64(*v.ReportInterval) != 11 && int64(*v.ReportInterval) != 12 && int64(*v.ReportInterval) != 13 && int64(*v.ReportInterval) != 14 && int64(*v.ReportInterval) != 15 && int64(*v.ReportInterval) != 16 && int64(*v.ReportInterval) != 17 && int64(*v.ReportInterval) != 18 && int64(*v.ReportInterval) != 19 && int64(*v.ReportInterval) != 20 && int64(*v.ReportInterval) != 21 && int64(*v.ReportInterval) != 22 && int64(*v.ReportInterval) != 23 && int64(*v.ReportInterval) != 24 && int64(*v.ReportInterval) != 25 && int64(*v.ReportInterval) != 26 && int64(*v.ReportInterval) != 27 {
-			if constraintErr := ber.CheckEncodedValue(nil, "reportInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}", fmt.Sprint(int64(*v.ReportInterval))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "reportInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}", ber.ObserveInteger(int64(*v.ReportInterval))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2306,7 +2340,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.ReportAmount != nil {
 		if int64(*v.ReportAmount) != 0 && int64(*v.ReportAmount) != 1 && int64(*v.ReportAmount) != 2 && int64(*v.ReportAmount) != 3 && int64(*v.ReportAmount) != 4 && int64(*v.ReportAmount) != 5 && int64(*v.ReportAmount) != 6 && int64(*v.ReportAmount) != 7 {
-			if constraintErr := ber.CheckEncodedValue(nil, "reportAmount", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", fmt.Sprint(int64(*v.ReportAmount))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "reportAmount", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.ReportAmount))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2320,7 +2354,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.EventThresholdRSRP != nil {
 		if !(int64(*v.EventThresholdRSRP) >= 0 && int64(*v.EventThresholdRSRP) <= 97) {
-			if constraintErr := ber.CheckEncodedValue(nil, "eventThresholdRSRP", "(0..97)", fmt.Sprint(int64(*v.EventThresholdRSRP))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThresholdRSRP", "(0..97)", ber.ObserveInteger(int64(*v.EventThresholdRSRP))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2329,7 +2363,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.EventThresholdRSRQ != nil {
 		if !(int64(*v.EventThresholdRSRQ) >= 0 && int64(*v.EventThresholdRSRQ) <= 34) {
-			if constraintErr := ber.CheckEncodedValue(nil, "eventThresholdRSRQ", "(0..34)", fmt.Sprint(int64(*v.EventThresholdRSRQ))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThresholdRSRQ", "(0..34)", ber.ObserveInteger(int64(*v.EventThresholdRSRQ))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2343,7 +2377,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.LoggingInterval != nil {
 		if int64(*v.LoggingInterval) != 0 && int64(*v.LoggingInterval) != 1 && int64(*v.LoggingInterval) != 2 && int64(*v.LoggingInterval) != 3 && int64(*v.LoggingInterval) != 4 && int64(*v.LoggingInterval) != 5 && int64(*v.LoggingInterval) != 6 && int64(*v.LoggingInterval) != 7 {
-			if constraintErr := ber.CheckEncodedValue(nil, "loggingInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", fmt.Sprint(int64(*v.LoggingInterval))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "loggingInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.LoggingInterval))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2357,7 +2391,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.LoggingDuration != nil {
 		if int64(*v.LoggingDuration) != 0 && int64(*v.LoggingDuration) != 1 && int64(*v.LoggingDuration) != 2 && int64(*v.LoggingDuration) != 3 && int64(*v.LoggingDuration) != 4 && int64(*v.LoggingDuration) != 5 {
-			if constraintErr := ber.CheckEncodedValue(nil, "loggingDuration", "ENUMERATED {0, 1, 2, 3, 4, 5}", fmt.Sprint(int64(*v.LoggingDuration))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "loggingDuration", "ENUMERATED {0, 1, 2, 3, 4, 5}", ber.ObserveInteger(int64(*v.LoggingDuration))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2383,7 +2417,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.MeasurementPeriodUMTS != nil {
 		if int64(*v.MeasurementPeriodUMTS) != 0 && int64(*v.MeasurementPeriodUMTS) != 1 && int64(*v.MeasurementPeriodUMTS) != 2 && int64(*v.MeasurementPeriodUMTS) != 3 && int64(*v.MeasurementPeriodUMTS) != 4 && int64(*v.MeasurementPeriodUMTS) != 5 && int64(*v.MeasurementPeriodUMTS) != 6 && int64(*v.MeasurementPeriodUMTS) != 7 && int64(*v.MeasurementPeriodUMTS) != 8 && int64(*v.MeasurementPeriodUMTS) != 9 && int64(*v.MeasurementPeriodUMTS) != 10 && int64(*v.MeasurementPeriodUMTS) != 11 && int64(*v.MeasurementPeriodUMTS) != 12 && int64(*v.MeasurementPeriodUMTS) != 13 && int64(*v.MeasurementPeriodUMTS) != 14 {
-			if constraintErr := ber.CheckEncodedValue(nil, "measurementPeriodUMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", fmt.Sprint(int64(*v.MeasurementPeriodUMTS))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "measurementPeriodUMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", ber.ObserveInteger(int64(*v.MeasurementPeriodUMTS))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2397,7 +2431,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.MeasurementPeriodLTE != nil {
 		if int64(*v.MeasurementPeriodLTE) != 0 && int64(*v.MeasurementPeriodLTE) != 1 && int64(*v.MeasurementPeriodLTE) != 2 && int64(*v.MeasurementPeriodLTE) != 3 && int64(*v.MeasurementPeriodLTE) != 4 && int64(*v.MeasurementPeriodLTE) != 5 && int64(*v.MeasurementPeriodLTE) != 6 {
-			if constraintErr := ber.CheckEncodedValue(nil, "measurementPeriodLTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.MeasurementPeriodLTE))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "measurementPeriodLTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.MeasurementPeriodLTE))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2411,7 +2445,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.CollectionPeriodRRMUMTS != nil {
 		if int64(*v.CollectionPeriodRRMUMTS) != 0 && int64(*v.CollectionPeriodRRMUMTS) != 1 && int64(*v.CollectionPeriodRRMUMTS) != 2 && int64(*v.CollectionPeriodRRMUMTS) != 3 && int64(*v.CollectionPeriodRRMUMTS) != 4 && int64(*v.CollectionPeriodRRMUMTS) != 5 && int64(*v.CollectionPeriodRRMUMTS) != 6 && int64(*v.CollectionPeriodRRMUMTS) != 7 && int64(*v.CollectionPeriodRRMUMTS) != 8 && int64(*v.CollectionPeriodRRMUMTS) != 9 && int64(*v.CollectionPeriodRRMUMTS) != 10 && int64(*v.CollectionPeriodRRMUMTS) != 11 && int64(*v.CollectionPeriodRRMUMTS) != 12 && int64(*v.CollectionPeriodRRMUMTS) != 13 && int64(*v.CollectionPeriodRRMUMTS) != 14 {
-			if constraintErr := ber.CheckEncodedValue(nil, "collectionPeriodRRM-UMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", fmt.Sprint(int64(*v.CollectionPeriodRRMUMTS))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "collectionPeriodRRM-UMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", ber.ObserveInteger(int64(*v.CollectionPeriodRRMUMTS))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2425,7 +2459,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.CollectionPeriodRRMLTE != nil {
 		if int64(*v.CollectionPeriodRRMLTE) != 0 && int64(*v.CollectionPeriodRRMLTE) != 1 && int64(*v.CollectionPeriodRRMLTE) != 2 && int64(*v.CollectionPeriodRRMLTE) != 3 && int64(*v.CollectionPeriodRRMLTE) != 4 && int64(*v.CollectionPeriodRRMLTE) != 5 && int64(*v.CollectionPeriodRRMLTE) != 6 {
-			if constraintErr := ber.CheckEncodedValue(nil, "collectionPeriodRRM-LTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.CollectionPeriodRRMLTE))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "collectionPeriodRRM-LTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.CollectionPeriodRRMLTE))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2439,7 +2473,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.PositioningMethod != nil {
 		if len(*v.PositioningMethod) < 1 || len(*v.PositioningMethod) > 1 {
-			if constraintErr := ber.CheckEncodedLength(nil, "positioningMethod", "SIZE (1)", len(*v.PositioningMethod)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "positioningMethod", "SIZE (1)", len(*v.PositioningMethod)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2456,7 +2490,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.MeasurementQuantity != nil {
 		if len(*v.MeasurementQuantity) < 1 || len(*v.MeasurementQuantity) > 1 {
-			if constraintErr := ber.CheckEncodedLength(nil, "measurementQuantity", "SIZE (1)", len(*v.MeasurementQuantity)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "measurementQuantity", "SIZE (1)", len(*v.MeasurementQuantity)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2473,7 +2507,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.EventThreshold1F != nil {
 		if !(int64(*v.EventThreshold1F) >= -120 && int64(*v.EventThreshold1F) <= 165) {
-			if constraintErr := ber.CheckEncodedValue(nil, "eventThreshold1F", "(-120..165)", fmt.Sprint(int64(*v.EventThreshold1F))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThreshold1F", "(-120..165)", ber.ObserveInteger(int64(*v.EventThreshold1F))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2487,7 +2521,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.EventThreshold1I != nil {
 		if !(int64(*v.EventThreshold1I) >= -120 && int64(*v.EventThreshold1I) <= -25) {
-			if constraintErr := ber.CheckEncodedValue(nil, "eventThreshold1I", "(-120..-25)", fmt.Sprint(int64(*v.EventThreshold1I))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThreshold1I", "(-120..-25)", ber.ObserveInteger(int64(*v.EventThreshold1I))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2501,7 +2535,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	if v.MdtAllowedPLMNList != nil {
 		if len((v.MdtAllowedPLMNList).Values) < 1 || len((v.MdtAllowedPLMNList).Values) > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "mdt-Allowed-PLMN-List", "SIZE (1..16)", len((v.MdtAllowedPLMNList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mdt-Allowed-PLMN-List", "SIZE (1..16)", len((v.MdtAllowedPLMNList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2526,7 +2560,7 @@ func (v *OMMDTConfiguration) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2551,10 +2585,20 @@ func (v *OMMDTConfiguration) appendDERLinear(encoder *ber.LinearEncoder) ([]byte
 }
 
 // UnmarshalBER decodes OMMDTConfiguration from BER/DER format.
-func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMMDTConfiguration destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMMDTConfiguration
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2571,6 +2615,8 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.MDT-Configuration", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMMDTConfiguration{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2606,7 +2652,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 		offset += n
 		if int64(v.JobType) != 0 && int64(v.JobType) != 1 && int64(v.JobType) != 2 && int64(v.JobType) != 3 {
-			if constraintErr := ber.CheckDecodedValue(opts, "jobType", "ENUMERATED {0, 1, 2, 3}", fmt.Sprint(int64(v.JobType))); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "jobType", "ENUMERATED {0, 1, 2, 3}", ber.ObserveInteger(int64(v.JobType))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2660,7 +2706,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n
 				if len(*v.ListOfMeasurements) < 4 || len(*v.ListOfMeasurements) > 4 {
-					if constraintErr := ber.CheckDecodedLength(opts, "listOfMeasurements", "SIZE (4)", len(*v.ListOfMeasurements)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "listOfMeasurements", "SIZE (4)", len(*v.ListOfMeasurements)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2694,7 +2740,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_reportingtrigger
 				if len(*v.ReportingTrigger) < 1 || len(*v.ReportingTrigger) > 1 {
-					if constraintErr := ber.CheckDecodedLength(opts, "reportingTrigger", "SIZE (1)", len(*v.ReportingTrigger)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "reportingTrigger", "SIZE (1)", len(*v.ReportingTrigger)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2720,7 +2766,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n
 				if int64(*v.ReportInterval) != 0 && int64(*v.ReportInterval) != 1 && int64(*v.ReportInterval) != 2 && int64(*v.ReportInterval) != 3 && int64(*v.ReportInterval) != 4 && int64(*v.ReportInterval) != 5 && int64(*v.ReportInterval) != 6 && int64(*v.ReportInterval) != 7 && int64(*v.ReportInterval) != 8 && int64(*v.ReportInterval) != 9 && int64(*v.ReportInterval) != 10 && int64(*v.ReportInterval) != 11 && int64(*v.ReportInterval) != 12 && int64(*v.ReportInterval) != 13 && int64(*v.ReportInterval) != 14 && int64(*v.ReportInterval) != 15 && int64(*v.ReportInterval) != 16 && int64(*v.ReportInterval) != 17 && int64(*v.ReportInterval) != 18 && int64(*v.ReportInterval) != 19 && int64(*v.ReportInterval) != 20 && int64(*v.ReportInterval) != 21 && int64(*v.ReportInterval) != 22 && int64(*v.ReportInterval) != 23 && int64(*v.ReportInterval) != 24 && int64(*v.ReportInterval) != 25 && int64(*v.ReportInterval) != 26 && int64(*v.ReportInterval) != 27 {
-					if constraintErr := ber.CheckDecodedValue(opts, "reportInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}", fmt.Sprint(int64(*v.ReportInterval))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "reportInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27}", ber.ObserveInteger(int64(*v.ReportInterval))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2754,7 +2800,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_reportamount
 				if int64(*v.ReportAmount) != 0 && int64(*v.ReportAmount) != 1 && int64(*v.ReportAmount) != 2 && int64(*v.ReportAmount) != 3 && int64(*v.ReportAmount) != 4 && int64(*v.ReportAmount) != 5 && int64(*v.ReportAmount) != 6 && int64(*v.ReportAmount) != 7 {
-					if constraintErr := ber.CheckDecodedValue(opts, "reportAmount", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", fmt.Sprint(int64(*v.ReportAmount))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "reportAmount", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.ReportAmount))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2780,7 +2826,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n
 				if !(int64(*v.EventThresholdRSRP) >= 0 && int64(*v.EventThresholdRSRP) <= 97) {
-					if constraintErr := ber.CheckDecodedValue(opts, "eventThresholdRSRP", "(0..97)", fmt.Sprint(int64(*v.EventThresholdRSRP))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThresholdRSRP", "(0..97)", ber.ObserveInteger(int64(*v.EventThresholdRSRP))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2814,7 +2860,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_eventthresholdrsrq
 				if !(int64(*v.EventThresholdRSRQ) >= 0 && int64(*v.EventThresholdRSRQ) <= 34) {
-					if constraintErr := ber.CheckDecodedValue(opts, "eventThresholdRSRQ", "(0..34)", fmt.Sprint(int64(*v.EventThresholdRSRQ))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThresholdRSRQ", "(0..34)", ber.ObserveInteger(int64(*v.EventThresholdRSRQ))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2848,7 +2894,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_logginginterval
 				if int64(*v.LoggingInterval) != 0 && int64(*v.LoggingInterval) != 1 && int64(*v.LoggingInterval) != 2 && int64(*v.LoggingInterval) != 3 && int64(*v.LoggingInterval) != 4 && int64(*v.LoggingInterval) != 5 && int64(*v.LoggingInterval) != 6 && int64(*v.LoggingInterval) != 7 {
-					if constraintErr := ber.CheckDecodedValue(opts, "loggingInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", fmt.Sprint(int64(*v.LoggingInterval))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "loggingInterval", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7}", ber.ObserveInteger(int64(*v.LoggingInterval))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2882,7 +2928,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_loggingduration
 				if int64(*v.LoggingDuration) != 0 && int64(*v.LoggingDuration) != 1 && int64(*v.LoggingDuration) != 2 && int64(*v.LoggingDuration) != 3 && int64(*v.LoggingDuration) != 4 && int64(*v.LoggingDuration) != 5 {
-					if constraintErr := ber.CheckDecodedValue(opts, "loggingDuration", "ENUMERATED {0, 1, 2, 3, 4, 5}", fmt.Sprint(int64(*v.LoggingDuration))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "loggingDuration", "ENUMERATED {0, 1, 2, 3, 4, 5}", ber.ObserveInteger(int64(*v.LoggingDuration))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2955,7 +3001,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_measurementperiodumts
 				if int64(*v.MeasurementPeriodUMTS) != 0 && int64(*v.MeasurementPeriodUMTS) != 1 && int64(*v.MeasurementPeriodUMTS) != 2 && int64(*v.MeasurementPeriodUMTS) != 3 && int64(*v.MeasurementPeriodUMTS) != 4 && int64(*v.MeasurementPeriodUMTS) != 5 && int64(*v.MeasurementPeriodUMTS) != 6 && int64(*v.MeasurementPeriodUMTS) != 7 && int64(*v.MeasurementPeriodUMTS) != 8 && int64(*v.MeasurementPeriodUMTS) != 9 && int64(*v.MeasurementPeriodUMTS) != 10 && int64(*v.MeasurementPeriodUMTS) != 11 && int64(*v.MeasurementPeriodUMTS) != 12 && int64(*v.MeasurementPeriodUMTS) != 13 && int64(*v.MeasurementPeriodUMTS) != 14 {
-					if constraintErr := ber.CheckDecodedValue(opts, "measurementPeriodUMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", fmt.Sprint(int64(*v.MeasurementPeriodUMTS))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "measurementPeriodUMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", ber.ObserveInteger(int64(*v.MeasurementPeriodUMTS))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -2989,7 +3035,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_measurementperiodlte
 				if int64(*v.MeasurementPeriodLTE) != 0 && int64(*v.MeasurementPeriodLTE) != 1 && int64(*v.MeasurementPeriodLTE) != 2 && int64(*v.MeasurementPeriodLTE) != 3 && int64(*v.MeasurementPeriodLTE) != 4 && int64(*v.MeasurementPeriodLTE) != 5 && int64(*v.MeasurementPeriodLTE) != 6 {
-					if constraintErr := ber.CheckDecodedValue(opts, "measurementPeriodLTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.MeasurementPeriodLTE))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "measurementPeriodLTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.MeasurementPeriodLTE))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3023,7 +3069,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_collectionperiodrrmumts
 				if int64(*v.CollectionPeriodRRMUMTS) != 0 && int64(*v.CollectionPeriodRRMUMTS) != 1 && int64(*v.CollectionPeriodRRMUMTS) != 2 && int64(*v.CollectionPeriodRRMUMTS) != 3 && int64(*v.CollectionPeriodRRMUMTS) != 4 && int64(*v.CollectionPeriodRRMUMTS) != 5 && int64(*v.CollectionPeriodRRMUMTS) != 6 && int64(*v.CollectionPeriodRRMUMTS) != 7 && int64(*v.CollectionPeriodRRMUMTS) != 8 && int64(*v.CollectionPeriodRRMUMTS) != 9 && int64(*v.CollectionPeriodRRMUMTS) != 10 && int64(*v.CollectionPeriodRRMUMTS) != 11 && int64(*v.CollectionPeriodRRMUMTS) != 12 && int64(*v.CollectionPeriodRRMUMTS) != 13 && int64(*v.CollectionPeriodRRMUMTS) != 14 {
-					if constraintErr := ber.CheckDecodedValue(opts, "collectionPeriodRRM-UMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", fmt.Sprint(int64(*v.CollectionPeriodRRMUMTS))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "collectionPeriodRRM-UMTS", "ENUMERATED {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}", ber.ObserveInteger(int64(*v.CollectionPeriodRRMUMTS))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3057,7 +3103,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_collectionperiodrrmlte
 				if int64(*v.CollectionPeriodRRMLTE) != 0 && int64(*v.CollectionPeriodRRMLTE) != 1 && int64(*v.CollectionPeriodRRMLTE) != 2 && int64(*v.CollectionPeriodRRMLTE) != 3 && int64(*v.CollectionPeriodRRMLTE) != 4 && int64(*v.CollectionPeriodRRMLTE) != 5 && int64(*v.CollectionPeriodRRMLTE) != 6 {
-					if constraintErr := ber.CheckDecodedValue(opts, "collectionPeriodRRM-LTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", fmt.Sprint(int64(*v.CollectionPeriodRRMLTE))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "collectionPeriodRRM-LTE", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.CollectionPeriodRRMLTE))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3091,7 +3137,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_positioningmethod
 				if len(*v.PositioningMethod) < 1 || len(*v.PositioningMethod) > 1 {
-					if constraintErr := ber.CheckDecodedLength(opts, "positioningMethod", "SIZE (1)", len(*v.PositioningMethod)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "positioningMethod", "SIZE (1)", len(*v.PositioningMethod)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3125,7 +3171,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_measurementquantity
 				if len(*v.MeasurementQuantity) < 1 || len(*v.MeasurementQuantity) > 1 {
-					if constraintErr := ber.CheckDecodedLength(opts, "measurementQuantity", "SIZE (1)", len(*v.MeasurementQuantity)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "measurementQuantity", "SIZE (1)", len(*v.MeasurementQuantity)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3159,7 +3205,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_eventthreshold1f
 				if !(int64(*v.EventThreshold1F) >= -120 && int64(*v.EventThreshold1F) <= 165) {
-					if constraintErr := ber.CheckDecodedValue(opts, "eventThreshold1F", "(-120..165)", fmt.Sprint(int64(*v.EventThreshold1F))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThreshold1F", "(-120..165)", ber.ObserveInteger(int64(*v.EventThreshold1F))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3193,7 +3239,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_eventthreshold1i
 				if !(int64(*v.EventThreshold1I) >= -120 && int64(*v.EventThreshold1I) <= -25) {
-					if constraintErr := ber.CheckDecodedValue(opts, "eventThreshold1I", "(-120..-25)", fmt.Sprint(int64(*v.EventThreshold1I))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "eventThreshold1I", "(-120..-25)", ber.ObserveInteger(int64(*v.EventThreshold1I))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3201,7 +3247,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 	}
 	// Decode mdt-Allowed-PLMN-List
-	v.MdtAllowedPLMNListIndef_ = false
+	v.berMdtAllowedPLMNListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3238,7 +3284,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 					}
 
 					if offset+tagSz_ < len(content) && content[offset+tagSz_] == 0x80 {
-						v.MdtAllowedPLMNListIndef_ = true
+						v.berMdtAllowedPLMNListIndef_ = true
 					}
 				}
 				if offset < 0 || offset >
@@ -3249,7 +3295,7 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 				offset += n_mdtallowedplmnlist
 				if len((v.MdtAllowedPLMNList).Values) < 1 || len((v.MdtAllowedPLMNList).Values) > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "mdt-Allowed-PLMN-List", "SIZE (1..16)", len((v.MdtAllowedPLMNList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mdt-Allowed-PLMN-List", "SIZE (1..16)", len((v.MdtAllowedPLMNList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3266,10 +3312,10 @@ func (v *OMMDTConfiguration) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMMDTConfiguration", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Configuration", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -3323,7 +3369,7 @@ func MarshalBEROMMDTAllowedPLMNIdList(collection *OMMDTAllowedPLMNIdList, opts .
 func marshalBEROMMDTAllowedPLMNIdList(collection *OMMDTAllowedPLMNIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 16 {
-		if constraintErr := ber.CheckEncodedCollectionLength(opts, "MDT-Allowed-PLMNId-List", "SIZE (1..16)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMMDTAllowedPLMNIdList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "MDT-Allowed-PLMNId-List", "SIZE (1..16)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3331,7 +3377,7 @@ func marshalBEROMMDTAllowedPLMNIdList(collection *OMMDTAllowedPLMNIdList, opts .
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 3 || len(elem) > 3 {
-			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (3)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMMDTAllowedPLMNIdList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3364,7 +3410,7 @@ func MarshalDEROMMDTAllowedPLMNIdList(collection *OMMDTAllowedPLMNIdList) ([]byt
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 16 {
-		if constraintErr := ber.CheckEncodedCollectionLength(nil, "MDT-Allowed-PLMNId-List", "SIZE (1..16)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Allowed-PLMNId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "MDT-Allowed-PLMNId-List", "SIZE (1..16)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3372,7 +3418,7 @@ func MarshalDEROMMDTAllowedPLMNIdList(collection *OMMDTAllowedPLMNIdList) ([]byt
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 3 || len(elem) > 3 {
-			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (3)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.MDT-Allowed-PLMNId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3422,6 +3468,8 @@ func UnmarshalBEROMMDTAllowedPLMNIdList(data []byte, opts ...ber.DecodeOption) (
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.MDT-Allowed-PLMNId-List", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding OMMDTAllowedPLMNIdList", qualifyBERError(err, "", "decoding", false))
@@ -3444,7 +3492,7 @@ func UnmarshalBEROMMDTAllowedPLMNIdList(data []byte, opts ...ber.DecodeOption) (
 				"decoding", false)
 		}
 		if len(val) < 3 || len(val) > 3 {
-			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (3)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Allowed-PLMNId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (3)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3457,7 +3505,7 @@ func UnmarshalBEROMMDTAllowedPLMNIdList(data []byte, opts ...ber.DecodeOption) (
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 16 {
-		if constraintErr := ber.CheckDecodedCollectionLength(opts, "MDT-Allowed-PLMNId-List", "SIZE (1..16)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.MDT-Allowed-PLMNId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "MDT-Allowed-PLMNId-List", "SIZE (1..16)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3504,7 +3552,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if v.CgiList != nil {
 		if len((v.CgiList).Values) < 1 || len((v.CgiList).Values) > 32 {
-			if constraintErr := ber.CheckEncodedLength(opts, "cgi-List", "SIZE (1..32)", len((v.CgiList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "cgi-List", "SIZE (1..32)", len((v.CgiList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3512,7 +3560,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "cgi-List", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.CgiListIndef_ {
+		if ber.BERReplayEnabled(opts) && v.berCgiListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_cgilist)
 			if tlvErr_ != nil {
@@ -3537,7 +3585,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.EUtranCgiList != nil {
 		if len((v.EUtranCgiList).Values) < 1 || len((v.EUtranCgiList).Values) > 32 {
-			if constraintErr := ber.CheckEncodedLength(opts, "e-utran-cgi-List", "SIZE (1..32)", len((v.EUtranCgiList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "e-utran-cgi-List", "SIZE (1..32)", len((v.EUtranCgiList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3545,7 +3593,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "e-utran-cgi-List", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.EUtranCgiListIndef_ {
+		if ber.BERReplayEnabled(opts) && v.berEUtranCgiListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_eutrancgilist)
 			if tlvErr_ != nil {
@@ -3570,7 +3618,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.RoutingAreaIdList != nil {
 		if len((v.RoutingAreaIdList).Values) < 1 || len((v.RoutingAreaIdList).Values) > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "routingAreaId-List", "SIZE (1..8)", len((v.RoutingAreaIdList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "routingAreaId-List", "SIZE (1..8)", len((v.RoutingAreaIdList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3578,7 +3626,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "routingAreaId-List", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.RoutingAreaIdListIndef_ {
+		if ber.BERReplayEnabled(opts) && v.berRoutingAreaIdListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_routingareaidlist)
 			if tlvErr_ != nil {
@@ -3603,7 +3651,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.LocationAreaIdList != nil {
 		if len((v.LocationAreaIdList).Values) < 1 || len((v.LocationAreaIdList).Values) > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "locationAreaId-List", "SIZE (1..8)", len((v.LocationAreaIdList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "locationAreaId-List", "SIZE (1..8)", len((v.LocationAreaIdList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3611,7 +3659,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "locationAreaId-List", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.LocationAreaIdListIndef_ {
+		if ber.BERReplayEnabled(opts) && v.berLocationAreaIdListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_locationareaidlist)
 			if tlvErr_ != nil {
@@ -3636,7 +3684,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.TrackingAreaIdList != nil {
 		if len((v.TrackingAreaIdList).Values) < 1 || len((v.TrackingAreaIdList).Values) > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "trackingAreaId-List", "SIZE (1..8)", len((v.TrackingAreaIdList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "trackingAreaId-List", "SIZE (1..8)", len((v.TrackingAreaIdList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3644,7 +3692,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if err != nil {
 			return nil, qualifyBERError(err, "trackingAreaId-List", "encoding", false)
 		}
-		if ber.BERReplayEnabled(opts) && v.TrackingAreaIdListIndef_ {
+		if ber.BERReplayEnabled(opts) && v.berTrackingAreaIdListIndef_ {
 			// Strip the outer SEQUENCE tag from marshalBER output to get raw children.
 			_, _, seqContent_, tlvErr_ := ber.DecodeEncodedTLV(enc_trackingareaidlist)
 			if tlvErr_ != nil {
@@ -3681,7 +3729,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -3693,7 +3741,7 @@ func (v *OMAreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3712,6 +3760,7 @@ func (v *OMAreaScope) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.En
 }
 
 // MarshalDER encodes OMAreaScope to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMAreaScope) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMAreaScope receiver is nil", ber.ErrInvalidValue)
@@ -3719,7 +3768,7 @@ func (v *OMAreaScope) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.CgiList != nil {
 		if len((v.CgiList).Values) < 1 || len((v.CgiList).Values) > 32 {
-			if constraintErr := ber.CheckEncodedLength(nil, "cgi-List", "SIZE (1..32)", len((v.CgiList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "cgi-List", "SIZE (1..32)", len((v.CgiList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3736,7 +3785,7 @@ func (v *OMAreaScope) MarshalDER() ([]byte, error) {
 	}
 	if v.EUtranCgiList != nil {
 		if len((v.EUtranCgiList).Values) < 1 || len((v.EUtranCgiList).Values) > 32 {
-			if constraintErr := ber.CheckEncodedLength(nil, "e-utran-cgi-List", "SIZE (1..32)", len((v.EUtranCgiList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "e-utran-cgi-List", "SIZE (1..32)", len((v.EUtranCgiList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3753,7 +3802,7 @@ func (v *OMAreaScope) MarshalDER() ([]byte, error) {
 	}
 	if v.RoutingAreaIdList != nil {
 		if len((v.RoutingAreaIdList).Values) < 1 || len((v.RoutingAreaIdList).Values) > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "routingAreaId-List", "SIZE (1..8)", len((v.RoutingAreaIdList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "routingAreaId-List", "SIZE (1..8)", len((v.RoutingAreaIdList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3770,7 +3819,7 @@ func (v *OMAreaScope) MarshalDER() ([]byte, error) {
 	}
 	if v.LocationAreaIdList != nil {
 		if len((v.LocationAreaIdList).Values) < 1 || len((v.LocationAreaIdList).Values) > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "locationAreaId-List", "SIZE (1..8)", len((v.LocationAreaIdList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "locationAreaId-List", "SIZE (1..8)", len((v.LocationAreaIdList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3787,7 +3836,7 @@ func (v *OMAreaScope) MarshalDER() ([]byte, error) {
 	}
 	if v.TrackingAreaIdList != nil {
 		if len((v.TrackingAreaIdList).Values) < 1 || len((v.TrackingAreaIdList).Values) > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "trackingAreaId-List", "SIZE (1..8)", len((v.TrackingAreaIdList).Values)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "trackingAreaId-List", "SIZE (1..8)", len((v.TrackingAreaIdList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3824,7 +3873,7 @@ func (v *OMAreaScope) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3849,10 +3898,18 @@ func (v *OMAreaScope) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error
 }
 
 // UnmarshalBER decodes OMAreaScope from BER/DER format.
-func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMAreaScope destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMAreaScope
+	v := &berNextValue_
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3869,6 +3926,8 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.AreaScope", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMAreaScope{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -3888,7 +3947,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	}
 	offset := 0
 	// Decode cgi-List
-	v.CgiListIndef_ = false
+	v.berCgiListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3922,7 +3981,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					}
 
 					if offset+tagSz_ < len(content) && content[offset+tagSz_] == 0x80 {
-						v.CgiListIndef_ = true
+						v.berCgiListIndef_ = true
 					}
 				}
 				if offset > len(content) || n_cgilist < 0 || n_cgilist > len(content[offset:]) {
@@ -3931,7 +3990,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 
 				offset += n_cgilist
 				if len((v.CgiList).Values) < 1 || len((v.CgiList).Values) > 32 {
-					if constraintErr := ber.CheckDecodedLength(opts, "cgi-List", "SIZE (1..32)", len((v.CgiList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "cgi-List", "SIZE (1..32)", len((v.CgiList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3939,7 +3998,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 	}
 	// Decode e-utran-cgi-List
-	v.EUtranCgiListIndef_ = false
+	v.berEUtranCgiListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -3976,7 +4035,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					}
 
 					if offset+tagSz_ < len(content) && content[offset+tagSz_] == 0x80 {
-						v.EUtranCgiListIndef_ = true
+						v.berEUtranCgiListIndef_ = true
 					}
 				}
 				if offset < 0 || offset >
@@ -3987,7 +4046,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 
 				offset += n_eutrancgilist
 				if len((v.EUtranCgiList).Values) < 1 || len((v.EUtranCgiList).Values) > 32 {
-					if constraintErr := ber.CheckDecodedLength(opts, "e-utran-cgi-List", "SIZE (1..32)", len((v.EUtranCgiList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "e-utran-cgi-List", "SIZE (1..32)", len((v.EUtranCgiList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3995,7 +4054,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 	}
 	// Decode routingAreaId-List
-	v.RoutingAreaIdListIndef_ = false
+	v.berRoutingAreaIdListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4032,7 +4091,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					}
 
 					if offset+tagSz_ < len(content) && content[offset+tagSz_] == 0x80 {
-						v.RoutingAreaIdListIndef_ = true
+						v.berRoutingAreaIdListIndef_ = true
 					}
 				}
 				if offset < 0 || offset >
@@ -4043,7 +4102,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 
 				offset += n_routingareaidlist
 				if len((v.RoutingAreaIdList).Values) < 1 || len((v.RoutingAreaIdList).Values) > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "routingAreaId-List", "SIZE (1..8)", len((v.RoutingAreaIdList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "routingAreaId-List", "SIZE (1..8)", len((v.RoutingAreaIdList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -4051,7 +4110,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 	}
 	// Decode locationAreaId-List
-	v.LocationAreaIdListIndef_ = false
+	v.berLocationAreaIdListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4088,7 +4147,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					}
 
 					if offset+tagSz_ < len(content) && content[offset+tagSz_] == 0x80 {
-						v.LocationAreaIdListIndef_ = true
+						v.berLocationAreaIdListIndef_ = true
 					}
 				}
 				if offset < 0 || offset >
@@ -4099,7 +4158,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 
 				offset += n_locationareaidlist
 				if len((v.LocationAreaIdList).Values) < 1 || len((v.LocationAreaIdList).Values) > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "locationAreaId-List", "SIZE (1..8)", len((v.LocationAreaIdList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "locationAreaId-List", "SIZE (1..8)", len((v.LocationAreaIdList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -4107,7 +4166,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 	}
 	// Decode trackingAreaId-List
-	v.TrackingAreaIdListIndef_ = false
+	v.berTrackingAreaIdListIndef_ = false
 	if offset < len(content) {
 		peekTag, peekErr := ber.PeekTag(content[offset:])
 		if peekErr == nil {
@@ -4144,7 +4203,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 					}
 
 					if offset+tagSz_ < len(content) && content[offset+tagSz_] == 0x80 {
-						v.TrackingAreaIdListIndef_ = true
+						v.berTrackingAreaIdListIndef_ = true
 					}
 				}
 				if offset < 0 || offset >
@@ -4155,7 +4214,7 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 
 				offset += n_trackingareaidlist
 				if len((v.TrackingAreaIdList).Values) < 1 || len((v.TrackingAreaIdList).Values) > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "trackingAreaId-List", "SIZE (1..8)", len((v.TrackingAreaIdList).Values)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "trackingAreaId-List", "SIZE (1..8)", len((v.TrackingAreaIdList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -4211,10 +4270,10 @@ func (v *OMAreaScope) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMAreaScope", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.AreaScope", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -4268,7 +4327,7 @@ func MarshalBEROMCGIList(collection *OMCGIList, opts ...ber.EncodeOption) (retur
 func marshalBEROMCGIList(collection *OMCGIList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedCollectionLength(opts, "CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMCGIList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4276,7 +4335,7 @@ func marshalBEROMCGIList(collection *OMCGIList, opts ...ber.EncodeOption) ([]byt
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 5 || len(elem) > 7 {
-			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (5..7)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMCGIList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (5..7)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4309,7 +4368,7 @@ func MarshalDEROMCGIList(collection *OMCGIList) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedCollectionLength(nil, "CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.CGI-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4317,7 +4376,7 @@ func MarshalDEROMCGIList(collection *OMCGIList) ([]byte, error) {
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 5 || len(elem) > 7 {
-			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (5..7)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.CGI-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (5..7)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4367,6 +4426,8 @@ func UnmarshalBEROMCGIList(data []byte, opts ...ber.DecodeOption) (returnValue *
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.CGI-List", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding OMCGIList", qualifyBERError(err, "", "decoding", false))
@@ -4389,7 +4450,7 @@ func UnmarshalBEROMCGIList(data []byte, opts ...ber.DecodeOption) (returnValue *
 				"decoding", false)
 		}
 		if len(val) < 5 || len(val) > 7 {
-			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (5..7)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.CGI-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (5..7)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4402,7 +4463,7 @@ func UnmarshalBEROMCGIList(data []byte, opts ...ber.DecodeOption) (returnValue *
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 32 {
-		if constraintErr := ber.CheckDecodedCollectionLength(opts, "CGI-List", "SIZE (1..32)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.CGI-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "CGI-List", "SIZE (1..32)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4450,7 +4511,7 @@ func MarshalBEROMEUTRANCGIList(collection *OMEUTRANCGIList, opts ...ber.EncodeOp
 func marshalBEROMEUTRANCGIList(collection *OMEUTRANCGIList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedCollectionLength(opts, "E-UTRAN-CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMEUTRANCGIList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "E-UTRAN-CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4458,7 +4519,7 @@ func marshalBEROMEUTRANCGIList(collection *OMEUTRANCGIList, opts ...ber.EncodeOp
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 7 || len(elem) > 7 {
-			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (7)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMEUTRANCGIList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (7)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4491,7 +4552,7 @@ func MarshalDEROMEUTRANCGIList(collection *OMEUTRANCGIList) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 32 {
-		if constraintErr := ber.CheckEncodedCollectionLength(nil, "E-UTRAN-CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.E-UTRAN-CGI-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "E-UTRAN-CGI-List", "SIZE (1..32)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4499,7 +4560,7 @@ func MarshalDEROMEUTRANCGIList(collection *OMEUTRANCGIList) ([]byte, error) {
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 7 || len(elem) > 7 {
-			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (7)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.E-UTRAN-CGI-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (7)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4549,6 +4610,8 @@ func UnmarshalBEROMEUTRANCGIList(data []byte, opts ...ber.DecodeOption) (returnV
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.E-UTRAN-CGI-List", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding OMEUTRANCGIList", qualifyBERError(err, "", "decoding", false))
@@ -4571,7 +4634,7 @@ func UnmarshalBEROMEUTRANCGIList(data []byte, opts ...ber.DecodeOption) (returnV
 				"decoding", false)
 		}
 		if len(val) < 7 || len(val) > 7 {
-			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (7)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.E-UTRAN-CGI-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (7)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4584,7 +4647,7 @@ func UnmarshalBEROMEUTRANCGIList(data []byte, opts ...ber.DecodeOption) (returnV
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 32 {
-		if constraintErr := ber.CheckDecodedCollectionLength(opts, "E-UTRAN-CGI-List", "SIZE (1..32)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.E-UTRAN-CGI-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "E-UTRAN-CGI-List", "SIZE (1..32)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4632,7 +4695,7 @@ func MarshalBEROMRoutingAreaIdList(collection *OMRoutingAreaIdList, opts ...ber.
 func marshalBEROMRoutingAreaIdList(collection *OMRoutingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		if constraintErr := ber.CheckEncodedCollectionLength(opts, "RoutingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMRoutingAreaIdList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "RoutingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4640,7 +4703,7 @@ func marshalBEROMRoutingAreaIdList(collection *OMRoutingAreaIdList, opts ...ber.
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 6 || len(elem) > 6 {
-			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (6)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMRoutingAreaIdList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (6)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4673,7 +4736,7 @@ func MarshalDEROMRoutingAreaIdList(collection *OMRoutingAreaIdList) ([]byte, err
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		if constraintErr := ber.CheckEncodedCollectionLength(nil, "RoutingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.RoutingAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "RoutingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4681,7 +4744,7 @@ func MarshalDEROMRoutingAreaIdList(collection *OMRoutingAreaIdList) ([]byte, err
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 6 || len(elem) > 6 {
-			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (6)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.RoutingAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (6)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4731,6 +4794,8 @@ func UnmarshalBEROMRoutingAreaIdList(data []byte, opts ...ber.DecodeOption) (ret
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.RoutingAreaId-List", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding OMRoutingAreaIdList", qualifyBERError(err, "", "decoding", false))
@@ -4753,7 +4818,7 @@ func UnmarshalBEROMRoutingAreaIdList(data []byte, opts ...ber.DecodeOption) (ret
 				"decoding", false)
 		}
 		if len(val) < 6 || len(val) > 6 {
-			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (6)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.RoutingAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (6)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4766,7 +4831,7 @@ func UnmarshalBEROMRoutingAreaIdList(data []byte, opts ...ber.DecodeOption) (ret
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 8 {
-		if constraintErr := ber.CheckDecodedCollectionLength(opts, "RoutingAreaId-List", "SIZE (1..8)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.RoutingAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "RoutingAreaId-List", "SIZE (1..8)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4814,7 +4879,7 @@ func MarshalBEROMLocationAreaIdList(collection *OMLocationAreaIdList, opts ...be
 func marshalBEROMLocationAreaIdList(collection *OMLocationAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		if constraintErr := ber.CheckEncodedCollectionLength(opts, "LocationAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMLocationAreaIdList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "LocationAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4822,7 +4887,7 @@ func marshalBEROMLocationAreaIdList(collection *OMLocationAreaIdList, opts ...be
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 5 || len(elem) > 5 {
-			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMLocationAreaIdList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4855,7 +4920,7 @@ func MarshalDEROMLocationAreaIdList(collection *OMLocationAreaIdList) ([]byte, e
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		if constraintErr := ber.CheckEncodedCollectionLength(nil, "LocationAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.LocationAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "LocationAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4863,7 +4928,7 @@ func MarshalDEROMLocationAreaIdList(collection *OMLocationAreaIdList) ([]byte, e
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 5 || len(elem) > 5 {
-			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.LocationAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4913,6 +4978,8 @@ func UnmarshalBEROMLocationAreaIdList(data []byte, opts ...ber.DecodeOption) (re
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.LocationAreaId-List", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding OMLocationAreaIdList", qualifyBERError(err, "", "decoding", false))
@@ -4935,7 +5002,7 @@ func UnmarshalBEROMLocationAreaIdList(data []byte, opts ...ber.DecodeOption) (re
 				"decoding", false)
 		}
 		if len(val) < 5 || len(val) > 5 {
-			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (5)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.LocationAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (5)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4948,7 +5015,7 @@ func UnmarshalBEROMLocationAreaIdList(data []byte, opts ...ber.DecodeOption) (re
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 8 {
-		if constraintErr := ber.CheckDecodedCollectionLength(opts, "LocationAreaId-List", "SIZE (1..8)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.LocationAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "LocationAreaId-List", "SIZE (1..8)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4996,7 +5063,7 @@ func MarshalBEROMTrackingAreaIdList(collection *OMTrackingAreaIdList, opts ...be
 func marshalBEROMTrackingAreaIdList(collection *OMTrackingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		if constraintErr := ber.CheckEncodedCollectionLength(opts, "TrackingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMTrackingAreaIdList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "TrackingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5004,7 +5071,7 @@ func marshalBEROMTrackingAreaIdList(collection *OMTrackingAreaIdList, opts ...be
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 5 || len(elem) > 5 {
-			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.marshalBEROMTrackingAreaIdList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5037,7 +5104,7 @@ func MarshalDEROMTrackingAreaIdList(collection *OMTrackingAreaIdList) ([]byte, e
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 8 {
-		if constraintErr := ber.CheckEncodedCollectionLength(nil, "TrackingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TrackingAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "TrackingAreaId-List", "SIZE (1..8)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5045,7 +5112,7 @@ func MarshalDEROMTrackingAreaIdList(collection *OMTrackingAreaIdList) ([]byte, e
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 5 || len(elem) > 5 {
-			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TrackingAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (5)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5095,6 +5162,8 @@ func UnmarshalBEROMTrackingAreaIdList(data []byte, opts ...ber.DecodeOption) (re
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.TrackingAreaId-List", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding OMTrackingAreaIdList", qualifyBERError(err, "", "decoding", false))
@@ -5117,7 +5186,7 @@ func UnmarshalBEROMTrackingAreaIdList(data []byte, opts ...ber.DecodeOption) (re
 				"decoding", false)
 		}
 		if len(val) < 5 || len(val) > 5 {
-			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (5)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TrackingAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (5)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5130,7 +5199,7 @@ func UnmarshalBEROMTrackingAreaIdList(data []byte, opts ...ber.DecodeOption) (re
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 8 {
-		if constraintErr := ber.CheckDecodedCollectionLength(opts, "TrackingAreaId-List", "SIZE (1..8)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TrackingAreaId-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "TrackingAreaId-List", "SIZE (1..8)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5356,7 +5425,7 @@ func (v *OMTraceDepthList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_enbtracedepthextension...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -5368,7 +5437,7 @@ func (v *OMTraceDepthList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceDepthList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5387,6 +5456,7 @@ func (v *OMTraceDepthList) appendBERLinear(encoder *ber.LinearEncoder, opts ...b
 }
 
 // MarshalDER encodes OMTraceDepthList to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMTraceDepthList) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMTraceDepthList receiver is nil", ber.ErrInvalidValue)
@@ -5582,7 +5652,7 @@ func (v *OMTraceDepthList) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceDepthList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5607,10 +5677,21 @@ func (v *OMTraceDepthList) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, 
 }
 
 // UnmarshalBER decodes OMTraceDepthList from BER/DER format.
-func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMTraceDepthList destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMTraceDepthList
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination =
+				*v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -5627,6 +5708,8 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.TraceDepthList", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMTraceDepthList{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -6233,10 +6316,10 @@ func (v *OMTraceDepthList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 19) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMTraceDepthList", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceDepthList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -6296,7 +6379,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MscSList).BitLength < 10 || (*v.MscSList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "msc-s-List", "SIZE (10..16)", (*v.MscSList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-List", "SIZE (10..16)", (*v.MscSList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6320,7 +6403,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MgwList).BitLength < 3 || (*v.MgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "mgw-List", "SIZE (3..8)", (*v.MgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-List", "SIZE (3..8)", (*v.MgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6344,7 +6427,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.SgsnList).BitLength < 8 || (*v.SgsnList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "sgsn-List", "SIZE (8..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-List", "SIZE (8..16)", (*v.SgsnList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6368,7 +6451,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.GgsnList).BitLength < 3 || (*v.GgsnList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "ggsn-List", "SIZE (3..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ggsn-List", "SIZE (3..8)", (*v.GgsnList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6392,7 +6475,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.RncList).BitLength < 4 || (*v.RncList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "rnc-List", "SIZE (4..8)", (*v.RncList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "rnc-List", "SIZE (4..8)", (*v.RncList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6416,7 +6499,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6440,7 +6523,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MmeList).BitLength < 5 || (*v.MmeList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "mme-List", "SIZE (5..8)", (*v.MmeList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mme-List", "SIZE (5..8)", (*v.MmeList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6464,7 +6547,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.SgwList).BitLength < 5 || (*v.SgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "sgw-List", "SIZE (5..8)", (*v.SgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgw-List", "SIZE (5..8)", (*v.SgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6488,7 +6571,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.PgwList).BitLength < 8 || (*v.PgwList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "pgw-List", "SIZE (8..16)", (*v.PgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "pgw-List", "SIZE (8..16)", (*v.PgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6512,7 +6595,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.ENBList).BitLength < 3 || (*v.ENBList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "eNB-List", "SIZE (3..8)", (*v.ENBList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "eNB-List", "SIZE (3..8)", (*v.ENBList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6528,7 +6611,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_enblist...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -6540,7 +6623,7 @@ func (v *OMTraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6559,6 +6642,7 @@ func (v *OMTraceInterfaceList) appendBERLinear(encoder *ber.LinearEncoder, opts 
 }
 
 // MarshalDER encodes OMTraceInterfaceList to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMTraceInterfaceList receiver is nil", ber.ErrInvalidValue)
@@ -6576,7 +6660,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MscSList).BitLength < 10 || (*v.MscSList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "msc-s-List", "SIZE (10..16)", (*v.MscSList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-List", "SIZE (10..16)", (*v.MscSList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6603,7 +6687,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MgwList).BitLength < 3 || (*v.MgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "mgw-List", "SIZE (3..8)", (*v.MgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-List", "SIZE (3..8)", (*v.MgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6630,7 +6714,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.SgsnList).BitLength < 8 || (*v.SgsnList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "sgsn-List", "SIZE (8..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-List", "SIZE (8..16)", (*v.SgsnList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6657,7 +6741,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.GgsnList).BitLength < 3 || (*v.GgsnList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "ggsn-List", "SIZE (3..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ggsn-List", "SIZE (3..8)", (*v.GgsnList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6684,7 +6768,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.RncList).BitLength < 4 || (*v.RncList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "rnc-List", "SIZE (4..8)", (*v.RncList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "rnc-List", "SIZE (4..8)", (*v.RncList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6711,7 +6795,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6738,7 +6822,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MmeList).BitLength < 5 || (*v.MmeList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "mme-List", "SIZE (5..8)", (*v.MmeList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mme-List", "SIZE (5..8)", (*v.MmeList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6765,7 +6849,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.SgwList).BitLength < 5 || (*v.SgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "sgw-List", "SIZE (5..8)", (*v.SgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgw-List", "SIZE (5..8)", (*v.SgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6792,7 +6876,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.PgwList).BitLength < 8 || (*v.PgwList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "pgw-List", "SIZE (8..16)", (*v.PgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "pgw-List", "SIZE (8..16)", (*v.PgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6819,7 +6903,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.ENBList).BitLength < 3 || (*v.ENBList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "eNB-List", "SIZE (3..8)", (*v.ENBList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "eNB-List", "SIZE (3..8)", (*v.ENBList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6844,7 +6928,7 @@ func (v *OMTraceInterfaceList) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6869,10 +6953,20 @@ func (v *OMTraceInterfaceList) appendDERLinear(encoder *ber.LinearEncoder) ([]by
 }
 
 // UnmarshalBER decodes OMTraceInterfaceList from BER/DER format.
-func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMTraceInterfaceList destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMTraceInterfaceList
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -6889,6 +6983,8 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.TraceInterfaceList", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMTraceInterfaceList{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -6937,7 +7033,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_mscslist
 				*v.MscSList = ber.NormalizeNamedBitStringSize(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}}, opts...)
 				if (*v.MscSList).BitLength < 10 || (*v.MscSList).BitLength > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "msc-s-List", "SIZE (10..16)", (*v.MscSList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-List", "SIZE (10..16)", (*v.MscSList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -6975,7 +7071,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_mgwlist
 				*v.MgwList = ber.NormalizeNamedBitStringSize(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
 				if (*v.MgwList).BitLength < 3 || (*v.MgwList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "mgw-List", "SIZE (3..8)", (*v.MgwList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-List", "SIZE (3..8)", (*v.MgwList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7013,7 +7109,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_sgsnlist
 				*v.SgsnList = ber.NormalizeNamedBitStringSize(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}}, opts...)
 				if (*v.SgsnList).BitLength < 8 || (*v.SgsnList).BitLength > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "sgsn-List", "SIZE (8..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-List", "SIZE (8..16)", (*v.SgsnList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7051,7 +7147,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_ggsnlist
 				*v.GgsnList = ber.NormalizeNamedBitStringSize(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
 				if (*v.GgsnList).BitLength < 3 || (*v.GgsnList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "ggsn-List", "SIZE (3..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ggsn-List", "SIZE (3..8)", (*v.GgsnList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7089,7 +7185,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_rnclist
 				*v.RncList = ber.NormalizeNamedBitStringSize(*v.RncList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, opts...)
 				if (*v.RncList).BitLength < 4 || (*v.RncList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "rnc-List", "SIZE (4..8)", (*v.RncList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "rnc-List", "SIZE (4..8)", (*v.RncList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7127,7 +7223,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_bmsclist
 				*v.BmscList = ber.NormalizeNamedBitStringSize(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
 				if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7165,7 +7261,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_mmelist
 				*v.MmeList = ber.NormalizeNamedBitStringSize(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}}, opts...)
 				if (*v.MmeList).BitLength < 5 || (*v.MmeList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "mme-List", "SIZE (5..8)", (*v.MmeList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mme-List", "SIZE (5..8)", (*v.MmeList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7203,7 +7299,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_sgwlist
 				*v.SgwList = ber.NormalizeNamedBitStringSize(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}}, opts...)
 				if (*v.SgwList).BitLength < 5 || (*v.SgwList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "sgw-List", "SIZE (5..8)", (*v.SgwList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgw-List", "SIZE (5..8)", (*v.SgwList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7241,7 +7337,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_pgwlist
 				*v.PgwList = ber.NormalizeNamedBitStringSize(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}}, opts...)
 				if (*v.PgwList).BitLength < 8 || (*v.PgwList).BitLength > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "pgw-List", "SIZE (8..16)", (*v.PgwList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "pgw-List", "SIZE (8..16)", (*v.PgwList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7279,7 +7375,7 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 				offset += n_enblist
 				*v.ENBList = ber.NormalizeNamedBitStringSize(*v.ENBList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
 				if (*v.ENBList).BitLength < 3 || (*v.ENBList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "eNB-List", "SIZE (3..8)", (*v.ENBList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "eNB-List", "SIZE (3..8)", (*v.ENBList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7296,10 +7392,10 @@ func (v *OMTraceInterfaceList) UnmarshalBER(data []byte, opts ...ber.DecodeOptio
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMTraceInterfaceList", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceInterfaceList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -7359,7 +7455,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MscSList).BitLength < 5 || (*v.MscSList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "msc-s-List", "SIZE (5..16)", (*v.MscSList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-List", "SIZE (5..16)", (*v.MscSList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7383,7 +7479,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MgwList).BitLength < 1 || (*v.MgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "mgw-List", "SIZE (1..8)", (*v.MgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-List", "SIZE (1..8)", (*v.MgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7407,7 +7503,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.SgsnList).BitLength < 4 || (*v.SgsnList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "sgsn-List", "SIZE (4..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-List", "SIZE (4..16)", (*v.SgsnList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7431,7 +7527,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.GgsnList).BitLength < 2 || (*v.GgsnList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "ggsn-List", "SIZE (2..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ggsn-List", "SIZE (2..8)", (*v.GgsnList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7455,7 +7551,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7479,7 +7575,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MmeList).BitLength < 6 || (*v.MmeList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "mme-List", "SIZE (6..8)", (*v.MmeList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mme-List", "SIZE (6..8)", (*v.MmeList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7503,7 +7599,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.SgwList).BitLength < 3 || (*v.SgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "sgw-List", "SIZE (3..8)", (*v.SgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgw-List", "SIZE (3..8)", (*v.SgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7527,7 +7623,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.PgwList).BitLength < 3 || (*v.PgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "pgw-List", "SIZE (3..8)", (*v.PgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "pgw-List", "SIZE (3..8)", (*v.PgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7543,7 +7639,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_pgwlist...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -7555,7 +7651,7 @@ func (v *OMTraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7574,6 +7670,7 @@ func (v *OMTraceEventList) appendBERLinear(encoder *ber.LinearEncoder, opts ...b
 }
 
 // MarshalDER encodes OMTraceEventList to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMTraceEventList receiver is nil", ber.ErrInvalidValue)
@@ -7591,7 +7688,7 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MscSList).BitLength < 5 || (*v.MscSList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "msc-s-List", "SIZE (5..16)", (*v.MscSList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-List", "SIZE (5..16)", (*v.MscSList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7618,7 +7715,7 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MgwList).BitLength < 1 || (*v.MgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "mgw-List", "SIZE (1..8)", (*v.MgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-List", "SIZE (1..8)", (*v.MgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7645,7 +7742,7 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.SgsnList).BitLength < 4 || (*v.SgsnList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "sgsn-List", "SIZE (4..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-List", "SIZE (4..16)", (*v.SgsnList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7672,7 +7769,7 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.GgsnList).BitLength < 2 || (*v.GgsnList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "ggsn-List", "SIZE (2..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ggsn-List", "SIZE (2..8)", (*v.GgsnList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7699,7 +7796,7 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7726,7 +7823,7 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MmeList).BitLength < 6 || (*v.MmeList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "mme-List", "SIZE (6..8)", (*v.MmeList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mme-List", "SIZE (6..8)", (*v.MmeList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7753,7 +7850,7 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.SgwList).BitLength < 3 || (*v.SgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "sgw-List", "SIZE (3..8)", (*v.SgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgw-List", "SIZE (3..8)", (*v.SgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7780,7 +7877,7 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.PgwList).BitLength < 3 || (*v.PgwList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "pgw-List", "SIZE (3..8)", (*v.PgwList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "pgw-List", "SIZE (3..8)", (*v.PgwList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7805,7 +7902,7 @@ func (v *OMTraceEventList) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7830,10 +7927,21 @@ func (v *OMTraceEventList) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, 
 }
 
 // UnmarshalBER decodes OMTraceEventList from BER/DER format.
-func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMTraceEventList destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMTraceEventList
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination =
+				*v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -7850,6 +7958,8 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.TraceEventList", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMTraceEventList{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -7898,7 +8008,7 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				offset += n_mscslist
 				*v.MscSList = ber.NormalizeNamedBitStringSize(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}}, opts...)
 				if (*v.MscSList).BitLength < 5 || (*v.MscSList).BitLength > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "msc-s-List", "SIZE (5..16)", (*v.MscSList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-List", "SIZE (5..16)", (*v.MscSList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7936,7 +8046,7 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				offset += n_mgwlist
 				*v.MgwList = ber.NormalizeNamedBitStringSize(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
 				if (*v.MgwList).BitLength < 1 || (*v.MgwList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "mgw-List", "SIZE (1..8)", (*v.MgwList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-List", "SIZE (1..8)", (*v.MgwList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7974,7 +8084,7 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				offset += n_sgsnlist
 				*v.SgsnList = ber.NormalizeNamedBitStringSize(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 4, Max: 16}}}, opts...)
 				if (*v.SgsnList).BitLength < 4 || (*v.SgsnList).BitLength > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "sgsn-List", "SIZE (4..16)", (*v.SgsnList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-List", "SIZE (4..16)", (*v.SgsnList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8012,7 +8122,7 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				offset += n_ggsnlist
 				*v.GgsnList = ber.NormalizeNamedBitStringSize(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts...)
 				if (*v.GgsnList).BitLength < 2 || (*v.GgsnList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "ggsn-List", "SIZE (2..8)", (*v.GgsnList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ggsn-List", "SIZE (2..8)", (*v.GgsnList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8050,7 +8160,7 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				offset += n_bmsclist
 				*v.BmscList = ber.NormalizeNamedBitStringSize(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
 				if (*v.BmscList).BitLength < 1 || (*v.BmscList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bmsc-List", "SIZE (1..8)", (*v.BmscList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8088,7 +8198,7 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				offset += n_mmelist
 				*v.MmeList = ber.NormalizeNamedBitStringSize(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 8}}}, opts...)
 				if (*v.MmeList).BitLength < 6 || (*v.MmeList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "mme-List", "SIZE (6..8)", (*v.MmeList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mme-List", "SIZE (6..8)", (*v.MmeList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8126,7 +8236,7 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				offset += n_sgwlist
 				*v.SgwList = ber.NormalizeNamedBitStringSize(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
 				if (*v.SgwList).BitLength < 3 || (*v.SgwList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "sgw-List", "SIZE (3..8)", (*v.SgwList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgw-List", "SIZE (3..8)", (*v.SgwList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8164,7 +8274,7 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 				offset += n_pgwlist
 				*v.PgwList = ber.NormalizeNamedBitStringSize(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
 				if (*v.PgwList).BitLength < 3 || (*v.PgwList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "pgw-List", "SIZE (3..8)", (*v.PgwList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "pgw-List", "SIZE (3..8)", (*v.PgwList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8181,10 +8291,10 @@ func (v *OMTraceEventList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMTraceEventList", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.TraceEventList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -8237,7 +8347,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	var children []byte
 	if v.TraceReference != nil {
 		if len(*v.TraceReference) < 1 || len(*v.TraceReference) > 2 {
-			if constraintErr := ber.CheckEncodedLength(opts, "traceReference", "SIZE (1..2)", len(*v.TraceReference)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference", "SIZE (1..2)", len(*v.TraceReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8254,7 +8364,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.TraceType != nil {
 		if !(int64(*v.TraceType) >= 0 && int64(*v.TraceType) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(opts, "traceType", "(0..255)", fmt.Sprint(int64(*v.TraceType))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "traceType", "(0..255)", ber.ObserveInteger(int64(*v.TraceType))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8268,7 +8378,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			if constraintErr := ber.CheckEncodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8285,7 +8395,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.TraceRecordingSessionReference != nil {
 		if len(*v.TraceRecordingSessionReference) < 2 || len(*v.TraceRecordingSessionReference) > 2 {
-			if constraintErr := ber.CheckEncodedLength(opts, "traceRecordingSessionReference", "SIZE (2)", len(*v.TraceRecordingSessionReference)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceRecordingSessionReference", "SIZE (2)", len(*v.TraceRecordingSessionReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8318,7 +8428,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.RncInterfaceList).BitLength < 4 || (*v.RncInterfaceList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "rnc-InterfaceList", "SIZE (4..8)", (*v.RncInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "rnc-InterfaceList", "SIZE (4..8)", (*v.RncInterfaceList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8351,7 +8461,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MscSInterfaceList).BitLength < 10 || (*v.MscSInterfaceList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "msc-s-InterfaceList", "SIZE (10..16)", (*v.MscSInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-InterfaceList", "SIZE (10..16)", (*v.MscSInterfaceList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8375,7 +8485,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MscSEventList).BitLength < 5 || (*v.MscSEventList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(opts, "msc-s-EventList", "SIZE (5..16)", (*v.MscSEventList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-EventList", "SIZE (5..16)", (*v.MscSEventList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8408,7 +8518,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MgwInterfaceList).BitLength < 3 || (*v.MgwInterfaceList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "mgw-InterfaceList", "SIZE (3..8)", (*v.MgwInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-InterfaceList", "SIZE (3..8)", (*v.MgwInterfaceList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8432,7 +8542,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MgwEventList).BitLength < 1 || (*v.MgwEventList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "mgw-EventList", "SIZE (1..8)", (*v.MgwEventList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-EventList", "SIZE (1..8)", (*v.MgwEventList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8475,7 +8585,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_mgwtracedepthextension...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -8487,7 +8597,7 @@ func (v *OMTracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8506,6 +8616,7 @@ func (v *OMTracePropagationList) appendBERLinear(encoder *ber.LinearEncoder, opt
 }
 
 // MarshalDER encodes OMTracePropagationList to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMTracePropagationList receiver is nil", ber.ErrInvalidValue)
@@ -8513,7 +8624,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.TraceReference != nil {
 		if len(*v.TraceReference) < 1 || len(*v.TraceReference) > 2 {
-			if constraintErr := ber.CheckEncodedLength(nil, "traceReference", "SIZE (1..2)", len(*v.TraceReference)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference", "SIZE (1..2)", len(*v.TraceReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8530,7 +8641,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceType != nil {
 		if !(int64(*v.TraceType) >= 0 && int64(*v.TraceType) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(nil, "traceType", "(0..255)", fmt.Sprint(int64(*v.TraceType))); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "traceType", "(0..255)", ber.ObserveInteger(int64(*v.TraceType))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8544,7 +8655,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			if constraintErr := ber.CheckEncodedLength(nil, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8561,7 +8672,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceRecordingSessionReference != nil {
 		if len(*v.TraceRecordingSessionReference) < 2 || len(*v.TraceRecordingSessionReference) > 2 {
-			if constraintErr := ber.CheckEncodedLength(nil, "traceRecordingSessionReference", "SIZE (2)", len(*v.TraceRecordingSessionReference)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceRecordingSessionReference", "SIZE (2)", len(*v.TraceRecordingSessionReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8597,7 +8708,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.RncInterfaceList).BitLength < 4 || (*v.RncInterfaceList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "rnc-InterfaceList", "SIZE (4..8)", (*v.RncInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "rnc-InterfaceList", "SIZE (4..8)", (*v.RncInterfaceList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8633,7 +8744,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MscSInterfaceList).BitLength < 10 || (*v.MscSInterfaceList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "msc-s-InterfaceList", "SIZE (10..16)", (*v.MscSInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-InterfaceList", "SIZE (10..16)", (*v.MscSInterfaceList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8660,7 +8771,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MscSEventList).BitLength < 5 || (*v.MscSEventList).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(nil, "msc-s-EventList", "SIZE (5..16)", (*v.MscSEventList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-EventList", "SIZE (5..16)", (*v.MscSEventList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8696,7 +8807,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MgwInterfaceList).BitLength < 3 || (*v.MgwInterfaceList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "mgw-InterfaceList", "SIZE (3..8)", (*v.MgwInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-InterfaceList", "SIZE (3..8)", (*v.MgwInterfaceList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8723,7 +8834,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (*v.MgwEventList).BitLength < 1 || (*v.MgwEventList).BitLength > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "mgw-EventList", "SIZE (1..8)", (*v.MgwEventList).BitLength); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-EventList", "SIZE (1..8)", (*v.MgwEventList).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8775,7 +8886,7 @@ func (v *OMTracePropagationList) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8800,10 +8911,20 @@ func (v *OMTracePropagationList) appendDERLinear(encoder *ber.LinearEncoder) ([]
 }
 
 // UnmarshalBER decodes OMTracePropagationList from BER/DER format.
-func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMTracePropagationList destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMTracePropagationList
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -8820,6 +8941,8 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.TracePropagationList", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMTracePropagationList{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -8863,7 +8986,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_tracereference
 				if len(*v.TraceReference) < 1 || len(*v.TraceReference) > 2 {
-					if constraintErr := ber.CheckDecodedLength(opts, "traceReference", "SIZE (1..2)", len(*v.TraceReference)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference", "SIZE (1..2)", len(*v.TraceReference)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8896,7 +9019,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_tracetype
 				if !(int64(*v.TraceType) >= 0 && int64(*v.TraceType) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(opts, "traceType", "(0..255)", fmt.Sprint(int64(*v.TraceType))); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "traceType", "(0..255)", ber.ObserveInteger(int64(*v.TraceType))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8929,7 +9052,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_tracereference2
 				if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-					if constraintErr := ber.CheckDecodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8963,7 +9086,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 				offset += n_tracerecordingsessionreference
 				if len(*v.TraceRecordingSessionReference) < 2 || len(*v.TraceRecordingSessionReference) > 2 {
-					if constraintErr := ber.CheckDecodedLength(opts, "traceRecordingSessionReference", "SIZE (2)", len(*v.TraceRecordingSessionReference)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceRecordingSessionReference", "SIZE (2)", len(*v.TraceRecordingSessionReference)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9030,7 +9153,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				offset += n_rncinterfacelist
 				*v.RncInterfaceList = ber.NormalizeNamedBitStringSize(*v.RncInterfaceList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, opts...)
 				if (*v.RncInterfaceList).BitLength < 4 || (*v.RncInterfaceList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "rnc-InterfaceList", "SIZE (4..8)", (*v.RncInterfaceList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "rnc-InterfaceList", "SIZE (4..8)", (*v.RncInterfaceList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9098,7 +9221,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				offset += n_mscsinterfacelist
 				*v.MscSInterfaceList = ber.NormalizeNamedBitStringSize(*v.MscSInterfaceList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}}, opts...)
 				if (*v.MscSInterfaceList).BitLength < 10 || (*v.MscSInterfaceList).BitLength > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "msc-s-InterfaceList", "SIZE (10..16)", (*v.MscSInterfaceList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-InterfaceList", "SIZE (10..16)", (*v.MscSInterfaceList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9136,7 +9259,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				offset += n_mscseventlist
 				*v.MscSEventList = ber.NormalizeNamedBitStringSize(*v.MscSEventList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}}, opts...)
 				if (*v.MscSEventList).BitLength < 5 || (*v.MscSEventList).BitLength > 16 {
-					if constraintErr := ber.CheckDecodedLength(opts, "msc-s-EventList", "SIZE (5..16)", (*v.MscSEventList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-s-EventList", "SIZE (5..16)", (*v.MscSEventList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9203,7 +9326,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				offset += n_mgwinterfacelist
 				*v.MgwInterfaceList = ber.NormalizeNamedBitStringSize(*v.MgwInterfaceList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
 				if (*v.MgwInterfaceList).BitLength < 3 || (*v.MgwInterfaceList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "mgw-InterfaceList", "SIZE (3..8)", (*v.MgwInterfaceList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-InterfaceList", "SIZE (3..8)", (*v.MgwInterfaceList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9241,7 +9364,7 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 				offset += n_mgweventlist
 				*v.MgwEventList = ber.NormalizeNamedBitStringSize(*v.MgwEventList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
 				if (*v.MgwEventList).BitLength < 1 || (*v.MgwEventList).BitLength > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "mgw-EventList", "SIZE (1..8)", (*v.MgwEventList).BitLength); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mgw-EventList", "SIZE (1..8)", (*v.MgwEventList).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9345,10 +9468,10 @@ func (v *OMTracePropagationList) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMTracePropagationList", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.TracePropagationList", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -9422,7 +9545,7 @@ func (v *OMActivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		children = append(children, enc_tracesupportindicator...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -9434,7 +9557,7 @@ func (v *OMActivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeRes", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9453,6 +9576,7 @@ func (v *OMActivateTraceModeRes) appendBERLinear(encoder *ber.LinearEncoder, opt
 }
 
 // MarshalDER encodes OMActivateTraceModeRes to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMActivateTraceModeRes) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMActivateTraceModeRes receiver is nil", ber.ErrInvalidValue)
@@ -9489,7 +9613,7 @@ func (v *OMActivateTraceModeRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.ActivateTraceModeRes", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9514,10 +9638,20 @@ func (v *OMActivateTraceModeRes) appendDERLinear(encoder *ber.LinearEncoder) ([]
 }
 
 // UnmarshalBER decodes OMActivateTraceModeRes from BER/DER format.
-func (v *OMActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMActivateTraceModeRes destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMActivateTraceModeRes
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -9534,6 +9668,8 @@ func (v *OMActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.ActivateTraceModeRes", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMActivateTraceModeRes{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -9624,10 +9760,10 @@ func (v *OMActivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMActivateTraceModeRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.ActivateTraceModeRes", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -9680,7 +9816,7 @@ func (v *OMDeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9696,7 +9832,7 @@ func (v *OMDeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_imsi...)
 	}
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		if constraintErr := ber.CheckEncodedLength(opts, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9725,7 +9861,7 @@ func (v *OMDeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			if constraintErr := ber.CheckEncodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9741,7 +9877,7 @@ func (v *OMDeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_tracereference2...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -9753,7 +9889,7 @@ func (v *OMDeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9772,6 +9908,7 @@ func (v *OMDeactivateTraceModeArg) appendBERLinear(encoder *ber.LinearEncoder, o
 }
 
 // MarshalDER encodes OMDeactivateTraceModeArg to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMDeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMDeactivateTraceModeArg receiver is nil", ber.ErrInvalidValue)
@@ -9779,7 +9916,7 @@ func (v *OMDeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9795,7 +9932,7 @@ func (v *OMDeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_imsi...)
 	}
 	if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-		if constraintErr := ber.CheckEncodedLength(nil, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9823,7 +9960,7 @@ func (v *OMDeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 	}
 	if v.TraceReference2 != nil {
 		if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-			if constraintErr := ber.CheckEncodedLength(nil, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9848,7 +9985,7 @@ func (v *OMDeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9873,10 +10010,20 @@ func (v *OMDeactivateTraceModeArg) appendDERLinear(encoder *ber.LinearEncoder) (
 }
 
 // UnmarshalBER decodes OMDeactivateTraceModeArg from BER/DER format.
-func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMDeactivateTraceModeArg destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMDeactivateTraceModeArg
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -9893,6 +10040,8 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.DeactivateTraceModeArg", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMDeactivateTraceModeArg{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -9936,7 +10085,7 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9973,7 +10122,7 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 		offset += n_tracereference
 		if len(v.TraceReference) < 1 || len(v.TraceReference) > 2 {
-			if constraintErr := ber.CheckDecodedLength(opts, "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference", "SIZE (1..2)", len(v.TraceReference)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -10044,7 +10193,7 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 				offset += n_tracereference2
 				if len(*v.TraceReference2) < 3 || len(*v.TraceReference2) > 3 {
-					if constraintErr := ber.CheckDecodedLength(opts, "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "traceReference2", "SIZE (3)", len(*v.TraceReference2)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -10061,10 +10210,10 @@ func (v *OMDeactivateTraceModeArg) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMDeactivateTraceModeArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -10129,7 +10278,7 @@ func (v *OMDeactivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -10141,7 +10290,7 @@ func (v *OMDeactivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeRes", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10160,6 +10309,7 @@ func (v *OMDeactivateTraceModeRes) appendBERLinear(encoder *ber.LinearEncoder, o
 }
 
 // MarshalDER encodes OMDeactivateTraceModeRes to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OMDeactivateTraceModeRes) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OMDeactivateTraceModeRes receiver is nil", ber.ErrInvalidValue)
@@ -10187,7 +10337,7 @@ func (v *OMDeactivateTraceModeRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-OM-DataTypes.DeactivateTraceModeRes", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10212,10 +10362,20 @@ func (v *OMDeactivateTraceModeRes) appendDERLinear(encoder *ber.LinearEncoder) (
 }
 
 // UnmarshalBER decodes OMDeactivateTraceModeRes from BER/DER format.
-func (v *OMDeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OMDeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OMDeactivateTraceModeRes destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OMDeactivateTraceModeRes
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -10232,6 +10392,8 @@ func (v *OMDeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-OM-DataTypes.DeactivateTraceModeRes", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OMDeactivateTraceModeRes{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -10295,10 +10457,10 @@ func (v *OMDeactivateTraceModeRes) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "OMDeactivateTraceModeRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-OM-DataTypes.DeactivateTraceModeRes", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}

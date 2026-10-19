@@ -373,31 +373,31 @@ const (
 	ReadyForSM MAPOperationCode = 66
 	// MtForwardSMVGCS identifies mt-ForwardSM-VGCS. Source: map-29002-v22/modules/MAP-ShortMessageServiceOperations.asn; SHA-256 6c8edebb3afbfa8e662db4adfd2da590323343c6df8c82f686761e779ed297bb.
 	MtForwardSMVGCS MAPOperationCode = 21
-	// RegisterSS identifies registerSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// RegisterSS identifies registerSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	RegisterSS MAPOperationCode = 10
-	// EraseSS identifies eraseSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// EraseSS identifies eraseSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	EraseSS MAPOperationCode = 11
-	// ActivateSS identifies activateSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// ActivateSS identifies activateSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	ActivateSS MAPOperationCode = 12
-	// DeactivateSS identifies deactivateSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// DeactivateSS identifies deactivateSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	DeactivateSS MAPOperationCode = 13
-	// InterrogateSS identifies interrogateSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// InterrogateSS identifies interrogateSS. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	InterrogateSS MAPOperationCode = 14
-	// ProcessUnstructuredSSRequest identifies processUnstructuredSS-Request. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// ProcessUnstructuredSSRequest identifies processUnstructuredSS-Request. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	ProcessUnstructuredSSRequest MAPOperationCode = 59
-	// UnstructuredSSRequest identifies unstructuredSS-Request. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// UnstructuredSSRequest identifies unstructuredSS-Request. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	UnstructuredSSRequest MAPOperationCode = 60
-	// UnstructuredSSNotify identifies unstructuredSS-Notify. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// UnstructuredSSNotify identifies unstructuredSS-Notify. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	UnstructuredSSNotify MAPOperationCode = 61
-	// RegisterPassword identifies registerPassword. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// RegisterPassword identifies registerPassword. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	RegisterPassword MAPOperationCode = 17
-	// GetPassword identifies getPassword. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// GetPassword identifies getPassword. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	GetPassword MAPOperationCode = 18
-	// SsInvocationNotification identifies ss-InvocationNotification. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// SsInvocationNotification identifies ss-InvocationNotification. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	SsInvocationNotification MAPOperationCode = 72
-	// RegisterCCEntry identifies registerCC-Entry. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// RegisterCCEntry identifies registerCC-Entry. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	RegisterCCEntry MAPOperationCode = 76
-	// EraseCCEntry identifies eraseCC-Entry. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b257f83655d74e8ed13f747c0ddc858178308c9689f5c4544b9a70c8076e494f.
+	// EraseCCEntry identifies eraseCC-Entry. Source: map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn; SHA-256 b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982.
 	EraseCCEntry MAPOperationCode = 77
 )
 

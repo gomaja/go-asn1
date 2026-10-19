@@ -5,9 +5,9 @@ package v21_map_commondatatypes
 import (
 	"fmt"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/ber"
-	"github.com/gomaja/go-asn1/runtime/tag"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_bs_code"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_extensiondatatypes"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_code"
@@ -373,8 +373,10 @@ type CommonDataTypesExternalSignalInfo struct {
 	ExtensionContainer *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
-	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesSignalInfo represents the ASN.1 type SignalInfo (OCTET_STRING).
@@ -412,8 +414,10 @@ type CommonDataTypesExtExternalSignalInfo struct {
 	ExtensionContainer *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
-	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesExtProtocolId represents the ASN.1 ENUMERATED type Ext-ProtocolId.
@@ -439,8 +443,10 @@ type CommonDataTypesAccessNetworkSignalInfo struct {
 	ExtensionContainer      *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_               int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_             []bool                                                           `asn1:"-" json:"-"`
-	ExtData_                [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_          *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesLongSignalInfo represents the ASN.1 type LongSignalInfo (OCTET_STRING).
@@ -509,12 +515,14 @@ func NewCommonDataTypesIdentityImsiWithLMSI(v CommonDataTypesIMSIWithLMSI) Commo
 
 // CommonDataTypesIMSIWithLMSI represents the ASN.1 type IMSI-WithLMSI (SEQUENCE).
 type CommonDataTypesIMSIWithLMSI struct {
-	Imsi           CommonDataTypesIMSI `asn1:""`
-	Lmsi           CommonDataTypesLMSI `asn1:""`
-	ExtCount_      int64               `asn1:"-" json:"-"`
-	ExtPresent_    []bool              `asn1:"-" json:"-"`
-	ExtData_       [][]byte            `asn1:"-" json:"-"`
-	berReplayNode_ *ber.ReplayNode     `asn1:"-" json:"-"`
+	Imsi        CommonDataTypesIMSI `asn1:""`
+	Lmsi        CommonDataTypesLMSI `asn1:""`
+	ExtCount_   int64               `asn1:"-" json:"-"`
+	ExtPresent_ []bool              `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesASCICallReference represents the ASN.1 type ASCI-CallReference (OCTET_STRING).
@@ -651,8 +659,10 @@ type CommonDataTypesNAEAPreferredCI struct {
 	ExtensionContainer *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
-	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesNAEACIC represents the ASN.1 type NAEA-CIC (OCTET_STRING).
@@ -694,8 +704,10 @@ type CommonDataTypesLCSClientExternalID struct {
 	ExtensionContainer *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:"tag:1,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
-	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesLCSClientInternalID represents the ASN.1 ENUMERATED type LCSClientInternalID.
@@ -857,8 +869,10 @@ type CommonDataTypesEMLPPInfo struct {
 	ExtensionContainer      *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:",optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_               int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_             []bool                                                           `asn1:"-" json:"-"`
-	ExtData_                [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_          *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesEMLPPPriority represents the ASN.1 type EMLPP-Priority (INTEGER).
@@ -873,8 +887,10 @@ type CommonDataTypesMCSSInfo struct {
 	ExtensionContainer *v21_map_extensiondatatypes.ExtensionDataTypesExtensionContainer `asn1:"tag:4,context,implicit,optional" json:"ExtensionContainer,omitempty"`
 	ExtCount_          int64                                                            `asn1:"-" json:"-"`
 	ExtPresent_        []bool                                                           `asn1:"-" json:"-"`
-	ExtData_           [][]byte                                                         `asn1:"-" json:"-"`
-	berReplayNode_     *ber.ReplayNode                                                  `asn1:"-" json:"-"`
+	// ExtData_ retains complete unknown addition TLVs in received order. Fresh
+	// BER and DER copy admissible elements without inferring a foreign schema.
+	ExtData_       [][]byte        `asn1:"-" json:"-"`
+	berReplayNode_ *ber.ReplayNode `asn1:"-" json:"-"`
 }
 
 // CommonDataTypesMaxMCBearers represents the ASN.1 type MaxMC-Bearers (INTEGER).
@@ -919,14 +935,14 @@ func (v *CommonDataTypesExternalSignalInfo) marshalBER(opts ...ber.EncodeOption)
 	}
 	var children []byte
 	if int64(v.ProtocolId) != 1 && int64(v.ProtocolId) != 2 && int64(v.ProtocolId) != 3 && int64(v.ProtocolId) != 4 {
-		if constraintErr := ber.CheckEncodedValue(opts, "protocolId", "ENUMERATED {1, 2, 3, 4}", fmt.Sprint(int64(v.ProtocolId))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "protocolId", "ENUMERATED {1, 2, 3, 4}", ber.ObserveInteger(int64(v.ProtocolId))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_protocolid := ber.EncodeEnumerated(int64(v.ProtocolId))
 	children = append(children, enc_protocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-		if constraintErr := ber.CheckEncodedLength(opts, "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -944,7 +960,7 @@ func (v *CommonDataTypesExternalSignalInfo) marshalBER(opts ...ber.EncodeOption)
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -956,7 +972,7 @@ func (v *CommonDataTypesExternalSignalInfo) marshalBER(opts ...ber.EncodeOption)
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -975,20 +991,21 @@ func (v *CommonDataTypesExternalSignalInfo) appendBERLinear(encoder *ber.LinearE
 }
 
 // MarshalDER encodes CommonDataTypesExternalSignalInfo to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesExternalSignalInfo) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesExternalSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
 	if int64(v.ProtocolId) != 1 && int64(v.ProtocolId) != 2 && int64(v.ProtocolId) != 3 && int64(v.ProtocolId) != 4 {
-		if constraintErr := ber.CheckEncodedValue(nil, "protocolId", "ENUMERATED {1, 2, 3, 4}", fmt.Sprint(int64(v.ProtocolId))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "protocolId", "ENUMERATED {1, 2, 3, 4}", ber.ObserveInteger(int64(v.ProtocolId))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_protocolid := ber.EncodeEnumerated(int64(v.ProtocolId))
 	children = append(children, enc_protocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-		if constraintErr := ber.CheckEncodedLength(nil, "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1014,7 +1031,7 @@ func (v *CommonDataTypesExternalSignalInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1039,10 +1056,20 @@ func (v *CommonDataTypesExternalSignalInfo) appendDERLinear(encoder *ber.LinearE
 }
 
 // UnmarshalBER decodes CommonDataTypesExternalSignalInfo from BER/DER format.
-func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesExternalSignalInfo destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesExternalSignalInfo
+	v :=
+		&berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1059,6 +1086,8 @@ func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, opts ...be
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.ExternalSignalInfo", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesExternalSignalInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1094,7 +1123,7 @@ func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, opts ...be
 
 		offset += n
 		if int64(v.ProtocolId) != 1 && int64(v.ProtocolId) != 2 && int64(v.ProtocolId) != 3 && int64(v.ProtocolId) != 4 {
-			if constraintErr := ber.CheckDecodedValue(opts, "protocolId", "ENUMERATED {1, 2, 3, 4}", fmt.Sprint(int64(v.ProtocolId))); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "protocolId", "ENUMERATED {1, 2, 3, 4}", ber.ObserveInteger(int64(v.ProtocolId))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1117,7 +1146,7 @@ func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, opts ...be
 
 		offset += n
 		if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-			if constraintErr := ber.CheckDecodedLength(opts, "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1162,10 +1191,10 @@ func (v *CommonDataTypesExternalSignalInfo) UnmarshalBER(data []byte, opts ...be
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "CommonDataTypesExternalSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1219,7 +1248,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOpti
 	enc_extprotocolid := ber.EncodeEnumerated(int64(v.ExtProtocolId))
 	children = append(children, enc_extprotocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-		if constraintErr := ber.CheckEncodedLength(opts, "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1237,7 +1266,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOpti
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -1249,7 +1278,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOpti
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1268,6 +1297,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) appendBERLinear(encoder *ber.Line
 }
 
 // MarshalDER encodes CommonDataTypesExtExternalSignalInfo to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesExtExternalSignalInfo) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesExtExternalSignalInfo receiver is nil", ber.ErrInvalidValue)
@@ -1276,7 +1306,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) MarshalDER() ([]byte, error) {
 	enc_extprotocolid := ber.EncodeEnumerated(int64(v.ExtProtocolId))
 	children = append(children, enc_extprotocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-		if constraintErr := ber.CheckEncodedLength(nil, "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1302,7 +1332,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1327,10 +1357,20 @@ func (v *CommonDataTypesExtExternalSignalInfo) appendDERLinear(encoder *ber.Line
 }
 
 // UnmarshalBER decodes CommonDataTypesExtExternalSignalInfo from BER/DER format.
-func (v *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesExtExternalSignalInfo destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesExtExternalSignalInfo
+
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1347,6 +1387,8 @@ func (v *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte, opts ..
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesExtExternalSignalInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1400,7 +1442,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte, opts ..
 
 		offset += n
 		if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-			if constraintErr := ber.CheckDecodedLength(opts, "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1445,10 +1487,10 @@ func (v *CommonDataTypesExtExternalSignalInfo) UnmarshalBER(data []byte, opts ..
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "CommonDataTypesExtExternalSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1502,7 +1544,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOp
 	enc_accessnetworkprotocolid := ber.EncodeEnumerated(int64(v.AccessNetworkProtocolId))
 	children = append(children, enc_accessnetworkprotocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 2560 {
-		if constraintErr := ber.CheckEncodedLength(opts, "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1520,7 +1562,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOp
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -1532,7 +1574,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOp
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1551,6 +1593,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) appendBERLinear(encoder *ber.Li
 }
 
 // MarshalDER encodes CommonDataTypesAccessNetworkSignalInfo to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesAccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesAccessNetworkSignalInfo receiver is nil", ber.ErrInvalidValue)
@@ -1559,7 +1602,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
 	enc_accessnetworkprotocolid := ber.EncodeEnumerated(int64(v.AccessNetworkProtocolId))
 	children = append(children, enc_accessnetworkprotocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 2560 {
-		if constraintErr := ber.CheckEncodedLength(nil, "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1585,7 +1628,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1610,10 +1653,20 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) appendDERLinear(encoder *ber.Li
 }
 
 // UnmarshalBER decodes CommonDataTypesAccessNetworkSignalInfo from BER/DER format.
-func (v *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesAccessNetworkSignalInfo destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesAccessNetworkSignalInfo
+
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1630,6 +1683,8 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte, opts 
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.AccessNetworkSignalInfo", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesAccessNetworkSignalInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1683,7 +1738,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte, opts 
 
 		offset += n
 		if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 2560 {
-			if constraintErr := ber.CheckDecodedLength(opts, "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1728,10 +1783,10 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) UnmarshalBER(data []byte, opts 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "CommonDataTypesAccessNetworkSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1799,7 +1854,7 @@ func (v *CommonDataTypesIdentity) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.Identity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1819,6 +1874,7 @@ func (v *CommonDataTypesIdentity) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 }
 
 // MarshalDER encodes CommonDataTypesIdentity to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesIdentity) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesIdentity receiver is nil", ber.ErrInvalidValue)
@@ -1863,10 +1919,22 @@ func (v *CommonDataTypesIdentity) appendDERLinear(encoder *ber.LinearEncoder) ([
 }
 
 // UnmarshalBER decodes CommonDataTypesIdentity from BER/DER format.
-func (v *CommonDataTypesIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesIdentity destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesIdentity
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+
+			nil {
+			*destination =
+				*v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1892,6 +1960,8 @@ func (v *CommonDataTypesIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.Identity", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesIdentity{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesIdentity CHOICE")
@@ -1923,7 +1993,7 @@ func (v *CommonDataTypesIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		tmp := CommonDataTypesIMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.Identity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1971,7 +2041,7 @@ func (v *CommonDataTypesIMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1981,7 +2051,7 @@ func (v *CommonDataTypesIMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	children = append(children, enc_imsi...)
 	if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
-		if constraintErr := ber.CheckEncodedLength(opts, "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1991,7 +2061,7 @@ func (v *CommonDataTypesIMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	children = append(children, enc_lmsi...)
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -2016,13 +2086,14 @@ func (v *CommonDataTypesIMSIWithLMSI) appendBERLinear(encoder *ber.LinearEncoder
 }
 
 // MarshalDER encodes CommonDataTypesIMSIWithLMSI to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesIMSIWithLMSI) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesIMSIWithLMSI receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(nil, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2032,7 +2103,7 @@ func (v *CommonDataTypesIMSIWithLMSI) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_imsi...)
 	if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
-		if constraintErr := ber.CheckEncodedLength(nil, "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2066,10 +2137,20 @@ func (v *CommonDataTypesIMSIWithLMSI) appendDERLinear(encoder *ber.LinearEncoder
 }
 
 // UnmarshalBER decodes CommonDataTypesIMSIWithLMSI from BER/DER format.
-func (v *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesIMSIWithLMSI destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesIMSIWithLMSI
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2086,6 +2167,8 @@ func (v *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.Deco
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.IMSI-WithLMSI", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesIMSIWithLMSI{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2121,7 +2204,7 @@ func (v *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.Deco
 
 		offset += n
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2144,7 +2227,7 @@ func (v *CommonDataTypesIMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.Deco
 
 		offset += n
 		if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
-			if constraintErr := ber.CheckDecodedLength(opts, "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2221,7 +2304,7 @@ func (v *CommonDataTypesSubscriberId) marshalBER(opts ...ber.EncodeOption) ([]by
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberId", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2240,7 +2323,7 @@ func (v *CommonDataTypesSubscriberId) marshalBER(opts ...ber.EncodeOption) ([]by
 			return nil, qualifyBERError(encodeErr_enc_1, "tmsi", "encoding", false)
 		}
 		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(opts, "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberId", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2256,6 +2339,7 @@ func (v *CommonDataTypesSubscriberId) marshalBER(opts ...ber.EncodeOption) ([]by
 }
 
 // MarshalDER encodes CommonDataTypesSubscriberId to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesSubscriberId) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesSubscriberId receiver is nil", ber.ErrInvalidValue)
@@ -2286,10 +2370,20 @@ func (v *CommonDataTypesSubscriberId) appendDERLinear(encoder *ber.LinearEncoder
 }
 
 // UnmarshalBER decodes CommonDataTypesSubscriberId from BER/DER format.
-func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesSubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesSubscriberId destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesSubscriberId
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2315,6 +2409,8 @@ func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte, opts ...ber.Deco
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.SubscriberId", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesSubscriberId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesSubscriberId CHOICE")
@@ -2348,7 +2444,7 @@ func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte, opts ...ber.Deco
 		tmp := CommonDataTypesIMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberId", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2367,7 +2463,7 @@ func (v *CommonDataTypesSubscriberId) UnmarshalBER(data []byte, opts ...ber.Deco
 		tmp := CommonDataTypesTMSI(decVal)
 		v.Tmsi = &tmp
 		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
-			if constraintErr := ber.CheckDecodedLength(opts, "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberId", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2409,7 +2505,7 @@ func MarshalBERCommonDataTypesHLRList(collection *CommonDataTypesHLRList, opts .
 func marshalBERCommonDataTypesHLRList(collection *CommonDataTypesHLRList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedCollectionLength(opts, "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERCommonDataTypesHLRList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2417,7 +2513,7 @@ func marshalBERCommonDataTypesHLRList(collection *CommonDataTypesHLRList, opts .
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 3 || len(elem) > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERCommonDataTypesHLRList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2450,7 +2546,7 @@ func MarshalDERCommonDataTypesHLRList(collection *CommonDataTypesHLRList) ([]byt
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedCollectionLength(nil, "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.HLR-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2458,7 +2554,7 @@ func MarshalDERCommonDataTypesHLRList(collection *CommonDataTypesHLRList) ([]byt
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 3 || len(elem) > 8 {
-			if constraintErr := ber.CheckEncodedLength(nil, fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.HLR-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2508,6 +2604,8 @@ func UnmarshalBERCommonDataTypesHLRList(data []byte, opts ...ber.DecodeOption) (
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.HLR-List", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding CommonDataTypesHLRList", qualifyBERError(err, "", "decoding", false))
@@ -2530,7 +2628,7 @@ func UnmarshalBERCommonDataTypesHLRList(data []byte, opts ...ber.DecodeOption) (
 				"decoding", false)
 		}
 		if len(val) < 3 || len(val) > 8 {
-			if constraintErr := ber.CheckDecodedLength(opts, fmt.Sprintf("element[%d]", len(result)), "SIZE (3..8)", len(val)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.HLR-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (3..8)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2543,7 +2641,7 @@ func UnmarshalBERCommonDataTypesHLRList(data []byte, opts ...ber.DecodeOption) (
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedCollectionLength(opts, "HLR-List", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.HLR-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "HLR-List", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2589,7 +2687,7 @@ func (v *CommonDataTypesNAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([
 	}
 	var children []byte
 	if len(v.NaeaPreferredCIC) < 3 || len(v.NaeaPreferredCIC) > 3 {
-		if constraintErr := ber.CheckEncodedLength(opts, "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2617,7 +2715,7 @@ func (v *CommonDataTypesNAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -2629,7 +2727,7 @@ func (v *CommonDataTypesNAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2648,13 +2746,14 @@ func (v *CommonDataTypesNAEAPreferredCI) appendBERLinear(encoder *ber.LinearEnco
 }
 
 // MarshalDER encodes CommonDataTypesNAEAPreferredCI to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesNAEAPreferredCI) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesNAEAPreferredCI receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
 	if len(v.NaeaPreferredCIC) < 3 || len(v.NaeaPreferredCIC) > 3 {
-		if constraintErr := ber.CheckEncodedLength(nil, "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2690,7 +2789,7 @@ func (v *CommonDataTypesNAEAPreferredCI) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2715,10 +2814,19 @@ func (v *CommonDataTypesNAEAPreferredCI) appendDERLinear(encoder *ber.LinearEnco
 }
 
 // UnmarshalBER decodes CommonDataTypesNAEAPreferredCI from BER/DER format.
-func (v *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesNAEAPreferredCI destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesNAEAPreferredCI
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2735,6 +2843,8 @@ func (v *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.D
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.NAEA-PreferredCI", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesNAEAPreferredCI{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2782,7 +2892,7 @@ func (v *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.D
 
 		offset += n_naeapreferredcic
 		if len(v.NaeaPreferredCIC) < 3 || len(v.NaeaPreferredCIC) > 3 {
-			if constraintErr := ber.CheckDecodedLength(opts, "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2836,10 +2946,10 @@ func (v *CommonDataTypesNAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.D
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "CommonDataTypesNAEAPreferredCI", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -2907,7 +3017,7 @@ func (v *CommonDataTypesSubscriberIdentity) marshalBER(opts ...ber.EncodeOption)
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2926,12 +3036,12 @@ func (v *CommonDataTypesSubscriberIdentity) marshalBER(opts ...ber.EncodeOption)
 			return nil, qualifyBERError(encodeErr_enc_1, "msisdn", "encoding", false)
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckEncodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2947,6 +3057,7 @@ func (v *CommonDataTypesSubscriberIdentity) marshalBER(opts ...ber.EncodeOption)
 }
 
 // MarshalDER encodes CommonDataTypesSubscriberIdentity to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesSubscriberIdentity) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesSubscriberIdentity receiver is nil", ber.ErrInvalidValue)
@@ -2977,10 +3088,20 @@ func (v *CommonDataTypesSubscriberIdentity) appendDERLinear(encoder *ber.LinearE
 }
 
 // UnmarshalBER decodes CommonDataTypesSubscriberIdentity from BER/DER format.
-func (v *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesSubscriberIdentity destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesSubscriberIdentity
+	v :=
+		&berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3006,6 +3127,8 @@ func (v *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte, opts ...be
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.SubscriberIdentity", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesSubscriberIdentity{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesSubscriberIdentity CHOICE")
@@ -3039,7 +3162,7 @@ func (v *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte, opts ...be
 		tmp := CommonDataTypesIMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(opts, "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3058,12 +3181,12 @@ func (v *CommonDataTypesSubscriberIdentity) UnmarshalBER(data []byte, opts ...be
 		tmp := CommonDataTypesISDNAddressString(decVal)
 		v.Msisdn = &tmp
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckDecodedLength(opts, "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3104,12 +3227,12 @@ func (v *CommonDataTypesLCSClientExternalID) marshalBER(opts ...ber.EncodeOption
 	var children []byte
 	if v.ExternalAddress != nil {
 		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 9 {
-			if constraintErr := ber.CheckEncodedLength(opts, "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 20 {
-			if constraintErr := ber.CheckEncodedLength(opts, "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3138,7 +3261,7 @@ func (v *CommonDataTypesLCSClientExternalID) marshalBER(opts ...ber.EncodeOption
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -3150,7 +3273,7 @@ func (v *CommonDataTypesLCSClientExternalID) marshalBER(opts ...ber.EncodeOption
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3169,6 +3292,7 @@ func (v *CommonDataTypesLCSClientExternalID) appendBERLinear(encoder *ber.Linear
 }
 
 // MarshalDER encodes CommonDataTypesLCSClientExternalID to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesLCSClientExternalID) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesLCSClientExternalID receiver is nil", ber.ErrInvalidValue)
@@ -3176,12 +3300,12 @@ func (v *CommonDataTypesLCSClientExternalID) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.ExternalAddress != nil {
 		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 9 {
-			if constraintErr := ber.CheckEncodedLength(nil, "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 20 {
-			if constraintErr := ber.CheckEncodedLength(nil, "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3218,7 +3342,7 @@ func (v *CommonDataTypesLCSClientExternalID) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3243,10 +3367,19 @@ func (v *CommonDataTypesLCSClientExternalID) appendDERLinear(encoder *ber.Linear
 }
 
 // UnmarshalBER decodes CommonDataTypesLCSClientExternalID from BER/DER format.
-func (v *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesLCSClientExternalID destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesLCSClientExternalID
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3263,6 +3396,8 @@ func (v *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte, opts ...b
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.LCSClientExternalID", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesLCSClientExternalID{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -3306,12 +3441,12 @@ func (v *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte, opts ...b
 
 				offset += n_externaladdress
 				if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 9 {
-					if constraintErr := ber.CheckDecodedLength(opts, "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 20 {
-					if constraintErr := ber.CheckDecodedLength(opts, "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
+					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3365,10 +3500,10 @@ func (v *CommonDataTypesLCSClientExternalID) UnmarshalBER(data []byte, opts ...b
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "CommonDataTypesLCSClientExternalID", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -3420,7 +3555,7 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) marshalBER(opts ...ber.Encod
 	}
 	var children []byte
 	if len(v.DiameterName) < 9 || len(v.DiameterName) > 255 {
-		if constraintErr := ber.CheckEncodedLength(opts, "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3435,7 +3570,7 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) marshalBER(opts ...ber.Encod
 	enc_diametername = retagged_enc_diametername
 	children = append(children, enc_diametername...)
 	if len(v.DiameterRealm) < 9 || len(v.DiameterRealm) > 255 {
-		if constraintErr := ber.CheckEncodedLength(opts, "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3462,13 +3597,14 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) appendBERLinear(encoder *ber
 }
 
 // MarshalDER encodes CommonDataTypesNetworkNodeDiameterAddress to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesNetworkNodeDiameterAddress receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
 	if len(v.DiameterName) < 9 || len(v.DiameterName) > 255 {
-		if constraintErr := ber.CheckEncodedLength(nil, "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3483,7 +3619,7 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalDER() ([]byte, error)
 	enc_diametername = retagged_enc_diametername
 	children = append(children, enc_diametername...)
 	if len(v.DiameterRealm) < 9 || len(v.DiameterRealm) > 255 {
-		if constraintErr := ber.CheckEncodedLength(nil, "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3516,10 +3652,20 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) appendDERLinear(encoder *ber
 }
 
 // UnmarshalBER decodes CommonDataTypesNetworkNodeDiameterAddress from BER/DER format.
-func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesNetworkNodeDiameterAddress destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesNetworkNodeDiameterAddress
+
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3536,6 +3682,8 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, op
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesNetworkNodeDiameterAddress{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -3583,7 +3731,7 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, op
 
 		offset += n_diametername
 		if len(v.DiameterName) < 9 || len(v.DiameterName) > 255 {
-			if constraintErr := ber.CheckDecodedLength(opts, "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3618,7 +3766,7 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) UnmarshalBER(data []byte, op
 
 		offset += n_diameterrealm
 		if len(v.DiameterRealm) < 9 || len(v.DiameterRealm) > 255 {
-			if constraintErr := ber.CheckDecodedLength(opts, "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3675,7 +3823,7 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) marshalBER(opts ...ber
 			return nil, qualifyBERError(encodeErr_enc_0, "cellGlobalIdOrServiceAreaIdFixedLength", "encoding", false)
 		}
 		if len(*v.CellGlobalIdOrServiceAreaIdFixedLength) < 7 || len(*v.CellGlobalIdOrServiceAreaIdFixedLength) > 7 {
-			if constraintErr := ber.CheckEncodedLength(opts, "cellGlobalIdOrServiceAreaIdFixedLength", "SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "cellGlobalIdOrServiceAreaIdFixedLength", "SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3694,7 +3842,7 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) marshalBER(opts ...ber
 			return nil, qualifyBERError(encodeErr_enc_1, "laiFixedLength", "encoding", false)
 		}
 		if len(*v.LaiFixedLength) < 5 || len(*v.LaiFixedLength) > 5 {
-			if constraintErr := ber.CheckEncodedLength(opts, "laiFixedLength", "SIZE (5)", len(*v.LaiFixedLength)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "laiFixedLength", "SIZE (5)", len(*v.LaiFixedLength)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3710,6 +3858,7 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) marshalBER(opts ...ber
 }
 
 // MarshalDER encodes CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI receiver is nil", ber.ErrInvalidValue)
@@ -3740,10 +3889,20 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) appendDERLinear(encode
 }
 
 // UnmarshalBER decodes CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI from BER/DER format.
-func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI
+
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3769,6 +3928,8 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []by
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI CHOICE")
@@ -3802,7 +3963,7 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []by
 		tmp := CommonDataTypesCellGlobalIdOrServiceAreaIdFixedLength(decVal)
 		v.CellGlobalIdOrServiceAreaIdFixedLength = &tmp
 		if len(*v.CellGlobalIdOrServiceAreaIdFixedLength) < 7 || len(*v.CellGlobalIdOrServiceAreaIdFixedLength) > 7 {
-			if constraintErr := ber.CheckDecodedLength(opts, "cellGlobalIdOrServiceAreaIdFixedLength", "SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "cellGlobalIdOrServiceAreaIdFixedLength", "SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3821,7 +3982,7 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []by
 		tmp := CommonDataTypesLAIFixedLength(decVal)
 		v.LaiFixedLength = &tmp
 		if len(*v.LaiFixedLength) < 5 || len(*v.LaiFixedLength) > 5 {
-			if constraintErr := ber.CheckDecodedLength(opts, "laiFixedLength", "SIZE (5)", len(*v.LaiFixedLength)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "laiFixedLength", "SIZE (5)", len(*v.LaiFixedLength)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3877,7 +4038,7 @@ func (v *CommonDataTypesBasicServiceCode) marshalBER(opts ...ber.EncodeOption) (
 			return nil, qualifyBERError(encodeErr_enc_0, "bearerService", "encoding", false)
 		}
 		if len(*v.BearerService) < 1 || len(*v.BearerService) > 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3896,7 +4057,7 @@ func (v *CommonDataTypesBasicServiceCode) marshalBER(opts ...ber.EncodeOption) (
 			return nil, qualifyBERError(encodeErr_enc_1, "teleservice", "encoding", false)
 		}
 		if len(*v.Teleservice) < 1 || len(*v.Teleservice) > 1 {
-			if constraintErr := ber.CheckEncodedLength(opts, "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3912,6 +4073,7 @@ func (v *CommonDataTypesBasicServiceCode) marshalBER(opts ...ber.EncodeOption) (
 }
 
 // MarshalDER encodes CommonDataTypesBasicServiceCode to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesBasicServiceCode) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesBasicServiceCode receiver is nil", ber.ErrInvalidValue)
@@ -3942,10 +4104,20 @@ func (v *CommonDataTypesBasicServiceCode) appendDERLinear(encoder *ber.LinearEnc
 }
 
 // UnmarshalBER decodes CommonDataTypesBasicServiceCode from BER/DER format.
-func (v *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesBasicServiceCode destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesBasicServiceCode
+	v :=
+		&berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3971,6 +4143,8 @@ func (v *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.BasicServiceCode", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesBasicServiceCode{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesBasicServiceCode CHOICE")
@@ -4004,7 +4178,7 @@ func (v *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.
 		tmp := v21_map_bs_code.BSBearerServiceCode(decVal)
 		v.BearerService = &tmp
 		if len(*v.BearerService) < 1 || len(*v.BearerService) > 1 {
-			if constraintErr := ber.CheckDecodedLength(opts, "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4023,7 +4197,7 @@ func (v *CommonDataTypesBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.
 		tmp := v21_map_ts_code.TSTeleserviceCode(decVal)
 		v.Teleservice = &tmp
 		if len(*v.Teleservice) < 1 || len(*v.Teleservice) > 1 {
-			if constraintErr := ber.CheckDecodedLength(opts, "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4079,7 +4253,7 @@ func (v *CommonDataTypesExtBasicServiceCode) marshalBER(opts ...ber.EncodeOption
 			return nil, qualifyBERError(encodeErr_enc_0, "ext-BearerService", "encoding", false)
 		}
 		if len(*v.ExtBearerService) < 1 || len(*v.ExtBearerService) > 5 {
-			if constraintErr := ber.CheckEncodedLength(opts, "ext-BearerService", "SIZE (1..5)", len(*v.ExtBearerService)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.Ext-BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ext-BearerService", "SIZE (1..5)", len(*v.ExtBearerService)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4098,7 +4272,7 @@ func (v *CommonDataTypesExtBasicServiceCode) marshalBER(opts ...ber.EncodeOption
 			return nil, qualifyBERError(encodeErr_enc_1, "ext-Teleservice", "encoding", false)
 		}
 		if len(*v.ExtTeleservice) < 1 || len(*v.ExtTeleservice) > 5 {
-			if constraintErr := ber.CheckEncodedLength(opts, "ext-Teleservice", "SIZE (1..5)", len(*v.ExtTeleservice)); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.Ext-BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ext-Teleservice", "SIZE (1..5)", len(*v.ExtTeleservice)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4114,6 +4288,7 @@ func (v *CommonDataTypesExtBasicServiceCode) marshalBER(opts ...ber.EncodeOption
 }
 
 // MarshalDER encodes CommonDataTypesExtBasicServiceCode to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesExtBasicServiceCode) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesExtBasicServiceCode receiver is nil", ber.ErrInvalidValue)
@@ -4144,10 +4319,19 @@ func (v *CommonDataTypesExtBasicServiceCode) appendDERLinear(encoder *ber.Linear
 }
 
 // UnmarshalBER decodes CommonDataTypesExtBasicServiceCode from BER/DER format.
-func (v *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesExtBasicServiceCode destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesExtBasicServiceCode
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -4173,6 +4357,8 @@ func (v *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte, opts ...b
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.Ext-BasicServiceCode", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesExtBasicServiceCode{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for CommonDataTypesExtBasicServiceCode CHOICE")
@@ -4206,7 +4392,7 @@ func (v *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte, opts ...b
 		tmp := v21_map_bs_code.BSExtBearerServiceCode(decVal)
 		v.ExtBearerService = &tmp
 		if len(*v.ExtBearerService) < 1 || len(*v.ExtBearerService) > 5 {
-			if constraintErr := ber.CheckDecodedLength(opts, "ext-BearerService", "SIZE (1..5)", len(*v.ExtBearerService)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.Ext-BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ext-BearerService", "SIZE (1..5)", len(*v.ExtBearerService)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4225,7 +4411,7 @@ func (v *CommonDataTypesExtBasicServiceCode) UnmarshalBER(data []byte, opts ...b
 		tmp := v21_map_ts_code.TSExtTeleserviceCode(decVal)
 		v.ExtTeleservice = &tmp
 		if len(*v.ExtTeleservice) < 1 || len(*v.ExtTeleservice) > 5 {
-			if constraintErr := ber.CheckDecodedLength(opts, "ext-Teleservice", "SIZE (1..5)", len(*v.ExtTeleservice)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.Ext-BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ext-Teleservice", "SIZE (1..5)", len(*v.ExtTeleservice)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4265,14 +4451,14 @@ func (v *CommonDataTypesEMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	var children []byte
 	if !(int64(v.MaximumentitledPriority) >= 0 && int64(v.MaximumentitledPriority) <= 15) {
-		if constraintErr := ber.CheckEncodedValue(opts, "maximumentitledPriority", "(0..15)", fmt.Sprint(int64(v.MaximumentitledPriority))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "maximumentitledPriority", "(0..15)", ber.ObserveInteger(int64(v.MaximumentitledPriority))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_maximumentitledpriority := ber.EncodeInteger(int64(v.MaximumentitledPriority))
 	children = append(children, enc_maximumentitledpriority...)
 	if !(int64(v.DefaultPriority) >= 0 && int64(v.DefaultPriority) <= 15) {
-		if constraintErr := ber.CheckEncodedValue(opts, "defaultPriority", "(0..15)", fmt.Sprint(int64(v.DefaultPriority))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "defaultPriority", "(0..15)", ber.ObserveInteger(int64(v.DefaultPriority))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4287,7 +4473,7 @@ func (v *CommonDataTypesEMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -4299,7 +4485,7 @@ func (v *CommonDataTypesEMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4318,20 +4504,21 @@ func (v *CommonDataTypesEMLPPInfo) appendBERLinear(encoder *ber.LinearEncoder, o
 }
 
 // MarshalDER encodes CommonDataTypesEMLPPInfo to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesEMLPPInfo) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesEMLPPInfo receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
 	if !(int64(v.MaximumentitledPriority) >= 0 && int64(v.MaximumentitledPriority) <= 15) {
-		if constraintErr := ber.CheckEncodedValue(nil, "maximumentitledPriority", "(0..15)", fmt.Sprint(int64(v.MaximumentitledPriority))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "maximumentitledPriority", "(0..15)", ber.ObserveInteger(int64(v.MaximumentitledPriority))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_maximumentitledpriority := ber.EncodeInteger(int64(v.MaximumentitledPriority))
 	children = append(children, enc_maximumentitledpriority...)
 	if !(int64(v.DefaultPriority) >= 0 && int64(v.DefaultPriority) <= 15) {
-		if constraintErr := ber.CheckEncodedValue(nil, "defaultPriority", "(0..15)", fmt.Sprint(int64(v.DefaultPriority))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "defaultPriority", "(0..15)", ber.ObserveInteger(int64(v.DefaultPriority))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4354,7 +4541,7 @@ func (v *CommonDataTypesEMLPPInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4379,10 +4566,20 @@ func (v *CommonDataTypesEMLPPInfo) appendDERLinear(encoder *ber.LinearEncoder) (
 }
 
 // UnmarshalBER decodes CommonDataTypesEMLPPInfo from BER/DER format.
-func (v *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesEMLPPInfo destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesEMLPPInfo
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -4399,6 +4596,8 @@ func (v *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.EMLPP-Info", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesEMLPPInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -4434,7 +4633,7 @@ func (v *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 		offset += n
 		if !(int64(v.MaximumentitledPriority) >= 0 && int64(v.MaximumentitledPriority) <= 15) {
-			if constraintErr := ber.CheckDecodedValue(opts, "maximumentitledPriority", "(0..15)", fmt.Sprint(int64(v.MaximumentitledPriority))); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "maximumentitledPriority", "(0..15)", ber.ObserveInteger(int64(v.MaximumentitledPriority))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4457,7 +4656,7 @@ func (v *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 		offset += n
 		if !(int64(v.DefaultPriority) >= 0 && int64(v.DefaultPriority) <= 15) {
-			if constraintErr := ber.CheckDecodedValue(opts, "defaultPriority", "(0..15)", fmt.Sprint(int64(v.DefaultPriority))); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "defaultPriority", "(0..15)", ber.ObserveInteger(int64(v.DefaultPriority))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4504,10 +4703,10 @@ func (v *CommonDataTypesEMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeO
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "CommonDataTypesEMLPPInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -4559,7 +4758,7 @@ func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4574,7 +4773,7 @@ func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
 	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
-		if constraintErr := ber.CheckEncodedLength(opts, "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4589,7 +4788,7 @@ func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	enc_ssstatus = retagged_enc_ssstatus
 	children = append(children, enc_ssstatus...)
 	if !(int64(v.NbrSB) >= 2 && int64(v.NbrSB) <= 7) {
-		if constraintErr := ber.CheckEncodedValue(opts, "nbrSB", "(2..7)", fmt.Sprint(int64(v.NbrSB))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrSB", "(2..7)", ber.ObserveInteger(int64(v.NbrSB))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4601,7 +4800,7 @@ func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	enc_nbrsb = retagged_enc_nbrsb
 	children = append(children, enc_nbrsb...)
 	if !(int64(v.NbrUser) >= 1 && int64(v.NbrUser) <= 7) {
-		if constraintErr := ber.CheckEncodedValue(opts, "nbrUser", "(1..7)", fmt.Sprint(int64(v.NbrUser))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrUser", "(1..7)", ber.ObserveInteger(int64(v.NbrUser))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4626,7 +4825,7 @@ func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_extensioncontainer...)
 	}
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
 			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
@@ -4638,7 +4837,7 @@ func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
-			if constraintErr := ber.CheckEncodedValue(opts, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4657,13 +4856,14 @@ func (v *CommonDataTypesMCSSInfo) appendBERLinear(encoder *ber.LinearEncoder, op
 }
 
 // MarshalDER encodes CommonDataTypesMCSSInfo to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *CommonDataTypesMCSSInfo) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesMCSSInfo receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4678,7 +4878,7 @@ func (v *CommonDataTypesMCSSInfo) MarshalDER() ([]byte, error) {
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
 	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
-		if constraintErr := ber.CheckEncodedLength(nil, "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4693,7 +4893,7 @@ func (v *CommonDataTypesMCSSInfo) MarshalDER() ([]byte, error) {
 	enc_ssstatus = retagged_enc_ssstatus
 	children = append(children, enc_ssstatus...)
 	if !(int64(v.NbrSB) >= 2 && int64(v.NbrSB) <= 7) {
-		if constraintErr := ber.CheckEncodedValue(nil, "nbrSB", "(2..7)", fmt.Sprint(int64(v.NbrSB))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrSB", "(2..7)", ber.ObserveInteger(int64(v.NbrSB))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4705,7 +4905,7 @@ func (v *CommonDataTypesMCSSInfo) MarshalDER() ([]byte, error) {
 	enc_nbrsb = retagged_enc_nbrsb
 	children = append(children, enc_nbrsb...)
 	if !(int64(v.NbrUser) >= 1 && int64(v.NbrUser) <= 7) {
-		if constraintErr := ber.CheckEncodedValue(nil, "nbrUser", "(1..7)", fmt.Sprint(int64(v.NbrUser))); constraintErr != nil {
+		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrUser", "(1..7)", ber.ObserveInteger(int64(v.NbrUser))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4738,7 +4938,7 @@ func (v *CommonDataTypesMCSSInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
-			if constraintErr := ber.CheckEncodedValue(nil, "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4763,10 +4963,22 @@ func (v *CommonDataTypesMCSSInfo) appendDERLinear(encoder *ber.LinearEncoder) ([
 }
 
 // UnmarshalBER decodes CommonDataTypesMCSSInfo from BER/DER format.
-func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: CommonDataTypesMCSSInfo destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ CommonDataTypesMCSSInfo
+	v := &berNextValue_
+
+	defer func() {
+		if returnErr ==
+
+			nil {
+			*destination =
+				*v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -4783,6 +4995,8 @@ func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.MC-SS-Info", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CommonDataTypesMCSSInfo{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -4830,7 +5044,7 @@ func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 		offset += n_sscode
 		if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-			if constraintErr := ber.CheckDecodedLength(opts, "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4865,7 +5079,7 @@ func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 		offset += n_ssstatus
 		if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
-			if constraintErr := ber.CheckDecodedLength(opts, "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4900,7 +5114,7 @@ func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 		offset += n_nbrsb
 		if !(int64(v.NbrSB) >= 2 && int64(v.NbrSB) <= 7) {
-			if constraintErr := ber.CheckDecodedValue(opts, "nbrSB", "(2..7)", fmt.Sprint(int64(v.NbrSB))); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrSB", "(2..7)", ber.ObserveInteger(int64(v.NbrSB))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4935,7 +5149,7 @@ func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 		offset += n_nbruser
 		if !(int64(v.NbrUser) >= 1 && int64(v.NbrUser) <= 7) {
-			if constraintErr := ber.CheckDecodedValue(opts, "nbrUser", "(1..7)", fmt.Sprint(int64(v.NbrUser))); constraintErr != nil {
+			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrUser", "(1..7)", ber.ObserveInteger(int64(v.NbrUser))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4989,10 +5203,10 @@ func (v *CommonDataTypesMCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: the first unknown addition must differ from trailing OPTIONAL/DEFAULT tags.
 		if len(v.ExtData_) == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
-			if !ber.ConstraintToleranceEnabled(opts) {
+			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "CommonDataTypesMCSSInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(opts, fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}

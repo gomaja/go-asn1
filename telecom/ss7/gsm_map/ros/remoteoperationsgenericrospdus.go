@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/ber"
-	"github.com/gomaja/go-asn1/runtime/tag"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 )
 
 // Ensure imports are used.
@@ -70,9 +70,11 @@ func NewROSReject(v Reject) ROS {
 
 // Invoke represents the ASN.1 type Invoke (SEQUENCE).
 type Invoke struct {
-	InvokeId       InvokeId          `asn1:""`
-	LinkedId       *InvokeLinkedId   `asn1:",optional" json:"LinkedId,omitempty"`
-	Opcode         Code              `asn1:""`
+	InvokeId InvokeId        `asn1:""`
+	LinkedId *InvokeLinkedId `asn1:",optional" json:"LinkedId,omitempty"`
+	Opcode   Code            `asn1:""`
+	// Argument carries one complete foreign encoding. WithoutBERReplay and DER
+	// copy elements passing generic DER checks; foreign schema rules need a typed binding.
 	Argument       *runtime.RawValue `asn1:",optional" json:"Argument,omitempty" asn1c:"raw-preserve"`
 	berReplayNode_ *ber.ReplayNode   `asn1:"-" json:"-"`
 }
@@ -86,8 +88,10 @@ type ReturnResult struct {
 
 // ReturnError represents the ASN.1 type ReturnError (SEQUENCE).
 type ReturnError struct {
-	InvokeId       InvokeId          `asn1:""`
-	Errcode        Code              `asn1:""`
+	InvokeId InvokeId `asn1:""`
+	Errcode  Code     `asn1:""`
+	// Parameter carries one complete foreign encoding. WithoutBERReplay and DER
+	// copy elements passing generic DER checks; foreign schema rules need a typed binding.
 	Parameter      *runtime.RawValue `asn1:",optional" json:"Parameter,omitempty" asn1c:"raw-preserve"`
 	berReplayNode_ *ber.ReplayNode   `asn1:"-" json:"-"`
 }
@@ -1003,7 +1007,9 @@ func NewROSInvokeLinkedIdAbsent(v struct{}) ROSInvokeLinkedId {
 
 // ROSReturnResultResult represents the ASN.1 type ROS-returnResult-result (SEQUENCE).
 type ROSReturnResultResult struct {
-	Opcode         Code             `asn1:""`
+	Opcode Code `asn1:""`
+	// Result carries one complete foreign encoding. WithoutBERReplay and DER
+	// copy elements passing generic DER checks; foreign schema rules need a typed binding.
 	Result         runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
 	berReplayNode_ *ber.ReplayNode  `asn1:"-" json:"-"`
 }
@@ -1040,7 +1046,9 @@ func NewInvokeLinkedIdAbsent(v struct{}) InvokeLinkedId {
 
 // ReturnResultResult represents the ASN.1 type ReturnResult-result (SEQUENCE).
 type ReturnResultResult struct {
-	Opcode         Code             `asn1:""`
+	Opcode Code `asn1:""`
+	// Result carries one complete foreign encoding. WithoutBERReplay and DER
+	// copy elements passing generic DER checks; foreign schema rules need a typed binding.
 	Result         runtime.RawValue `asn1:"" asn1c:"raw-preserve"`
 	berReplayNode_ *ber.ReplayNode  `asn1:"-" json:"-"`
 }
@@ -1197,6 +1205,7 @@ func (v *ROS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 }
 
 // MarshalDER encodes ROS to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *ROS) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
@@ -1304,10 +1313,18 @@ func (v *ROS) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 }
 
 // UnmarshalBER decodes ROS from BER/DER format.
-func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: ROS destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ ROS
+	v := &berNextValue_
+	defer func() {
+		if returnErr == nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1328,6 +1345,8 @@ func (v *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr err
 		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error { var probe ROS; return probe.UnmarshalBER(data, probeOpts...) })
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ROS", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROS{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROS CHOICE")
@@ -1488,8 +1507,11 @@ func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_opcode)
 	children = append(children, enc_opcode...)
 	if v.Argument != nil {
+		if rawErr := ber.ValidateRawValueIdentifier(*v.Argument); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "argument", "encoding", false)
+		}
 		enc_argument := v.Argument.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(enc_argument, opts...); err != nil {
 			return nil, qualifyBERError(err, "argument", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_argument); rawErr != nil {
@@ -1510,6 +1532,7 @@ func (v *Invoke) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeO
 }
 
 // MarshalDER encodes Invoke to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *Invoke) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
@@ -1536,6 +1559,9 @@ func (v *Invoke) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_opcode...)
 	if v.Argument != nil {
+		if rawErr := ber.ValidateRawValueIdentifier(*v.Argument); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "argument", "encoding", true)
+		}
 		enc_argument := v.Argument.Bytes
 		if rawErr := ber.ValidateDEREncodedElement(enc_argument); rawErr != nil {
 			return nil, qualifyBERError(rawErr, "argument", "encoding", true)
@@ -1561,10 +1587,19 @@ func (v *Invoke) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 }
 
 // UnmarshalBER decodes Invoke from BER/DER format.
-func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: Invoke destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ Invoke
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1581,6 +1616,8 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Invoke", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Invoke{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1686,7 +1723,7 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 	// Decode argument
 	if offset < len(content) {
 		ber.MarkPreflightTarget(opts, "argument", content[offset:])
-		_, n_argument, _, tlvErr_argument := ber.DecodeTLV(content[offset:], opts...)
+		rawTag_argument, n_argument, _, tlvErr_argument := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_argument != nil {
 			return qualifyBERError(tlvErr_argument, "argument", "decoding", false)
 		}
@@ -1697,7 +1734,7 @@ func (v *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 			return fmt.Errorf("invalid BER content window")
 		}
 
-		tmp_argument := runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_argument]...)}
+		tmp_argument := runtime.RawValue{Class: int(rawTag_argument.Class), Tag: rawTag_argument.Number, Constructed: rawTag_argument.Constructed, Bytes: append([]byte(nil), content[offset:offset+n_argument]...)}
 		v.Argument = &tmp_argument
 		if offset < 0 || offset >
 			len(content) || n_argument < 0 || n_argument >
@@ -1772,6 +1809,7 @@ func (v *ReturnResult) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.E
 }
 
 // MarshalDER encodes ReturnResult to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *ReturnResult) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
@@ -1808,10 +1846,19 @@ func (v *ReturnResult) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, erro
 }
 
 // UnmarshalBER decodes ReturnResult from BER/DER format.
-func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: ReturnResult destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ ReturnResult
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -1828,6 +1875,8 @@ func (v *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retu
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ReturnResult", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ReturnResult{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -1948,8 +1997,11 @@ func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_errcode)
 	children = append(children, enc_errcode...)
 	if v.Parameter != nil {
+		if rawErr := ber.ValidateRawValueIdentifier(*v.Parameter); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "parameter", "encoding", false)
+		}
 		enc_parameter := v.Parameter.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(enc_parameter, opts...); err != nil {
 			return nil, qualifyBERError(err, "parameter", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_parameter); rawErr != nil {
@@ -1970,6 +2022,7 @@ func (v *ReturnError) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.En
 }
 
 // MarshalDER encodes ReturnError to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *ReturnError) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
@@ -1986,6 +2039,9 @@ func (v *ReturnError) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_errcode...)
 	if v.Parameter != nil {
+		if rawErr := ber.ValidateRawValueIdentifier(*v.Parameter); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "parameter", "encoding", true)
+		}
 		enc_parameter := v.Parameter.Bytes
 		if rawErr := ber.ValidateDEREncodedElement(enc_parameter); rawErr != nil {
 			return nil, qualifyBERError(rawErr, "parameter", "encoding", true)
@@ -2011,10 +2067,19 @@ func (v *ReturnError) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error
 }
 
 // UnmarshalBER decodes ReturnError from BER/DER format.
-func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: ReturnError destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ ReturnError
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2031,6 +2096,8 @@ func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ReturnError", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ReturnError{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2102,7 +2169,7 @@ func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 	// Decode parameter
 	if offset < len(content) {
 		ber.MarkPreflightTarget(opts, "parameter", content[offset:])
-		_, n_parameter, _, tlvErr_parameter := ber.DecodeTLV(content[offset:], opts...)
+		rawTag_parameter, n_parameter, _, tlvErr_parameter := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_parameter != nil {
 			return qualifyBERError(tlvErr_parameter, "parameter", "decoding", false)
 		}
@@ -2112,7 +2179,7 @@ func (v *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (retur
 			return fmt.Errorf("invalid BER content window")
 		}
 
-		tmp_parameter := runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_parameter]...)}
+		tmp_parameter := runtime.RawValue{Class: int(rawTag_parameter.Class), Tag: rawTag_parameter.Number, Constructed: rawTag_parameter.Constructed, Bytes: append([]byte(nil), content[offset:offset+n_parameter]...)}
 		v.Parameter = &tmp_parameter
 		if offset < 0 || offset >
 			len(content) || n_parameter < 0 || n_parameter > len(content[offset:]) {
@@ -2181,6 +2248,7 @@ func (v *Reject) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeO
 }
 
 // MarshalDER encodes Reject to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *Reject) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
@@ -2215,10 +2283,19 @@ func (v *Reject) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 }
 
 // UnmarshalBER decodes Reject from BER/DER format.
-func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: Reject destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ Reject
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2235,6 +2312,8 @@ func (v *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Reject", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Reject{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -2364,6 +2443,7 @@ func (v *InvokeId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 }
 
 // MarshalDER encodes InvokeId to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *InvokeId) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeId receiver is nil", ber.ErrInvalidValue)
@@ -2394,10 +2474,19 @@ func (v *InvokeId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 }
 
 // UnmarshalBER decodes InvokeId from BER/DER format.
-func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: InvokeId destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ InvokeId
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2423,6 +2512,8 @@ func (v *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnEr
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.InvokeId", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = InvokeId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InvokeId CHOICE")
@@ -2509,8 +2600,11 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.BindInvoke == nil {
 			return nil, fmt.Errorf("%w: choice Bind: bind-invoke is nil", ber.ErrInvalidValue)
 		}
+		if rawErr := ber.ValidateRawValueIdentifier(*v.BindInvoke); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "bind-invoke", "encoding", false)
+		}
 		enc_0 := v.BindInvoke.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(enc_0, opts...); err != nil {
 			return nil, qualifyBERError(err, "bind-invoke", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_0); rawErr != nil {
@@ -2526,8 +2620,11 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.BindResult == nil {
 			return nil, fmt.Errorf("%w: choice Bind: bind-result is nil", ber.ErrInvalidValue)
 		}
+		if rawErr := ber.ValidateRawValueIdentifier(*v.BindResult); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "bind-result", "encoding", false)
+		}
 		enc_1 := v.BindResult.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(enc_1, opts...); err != nil {
 			return nil, qualifyBERError(err, "bind-result", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_1); rawErr != nil {
@@ -2543,8 +2640,11 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.BindError == nil {
 			return nil, fmt.Errorf("%w: choice Bind: bind-error is nil", ber.ErrInvalidValue)
 		}
+		if rawErr := ber.ValidateRawValueIdentifier(*v.BindError); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "bind-error", "encoding", false)
+		}
 		enc_2 := v.BindError.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(enc_2, opts...); err != nil {
 			return nil, qualifyBERError(err, "bind-error", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_2); rawErr != nil {
@@ -2562,6 +2662,7 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 }
 
 // MarshalDER encodes Bind to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *Bind) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: Bind receiver is nil", ber.ErrInvalidValue)
@@ -2594,10 +2695,19 @@ func (v *Bind) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 }
 
 // UnmarshalBER decodes Bind from BER/DER format.
-func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: Bind destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ Bind
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2623,6 +2733,8 @@ func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Bind", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Bind{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Bind CHOICE")
@@ -2645,19 +2757,19 @@ func (v *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr er
 		v.Choice = BindChoiceBindInvoke
 		ber.MarkPreflightTarget(opts, "bind-invoke", choiceData)
 		ber.MarkPreflightOpaque(opts, "bind-invoke", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.BindInvoke = &tmpRaw
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17 {
 		v.Choice = BindChoiceBindResult
 		ber.MarkPreflightTarget(opts, "bind-result", choiceData)
 		ber.MarkPreflightOpaque(opts, "bind-result", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.BindResult = &tmpRaw
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 18 {
 		v.Choice = BindChoiceBindError
 		ber.MarkPreflightTarget(opts, "bind-error", choiceData)
 		ber.MarkPreflightOpaque(opts, "bind-error", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.BindError = &tmpRaw
 	} else {
 		return fmt.Errorf("unknown tag %s for Bind CHOICE", peekTag)
@@ -2706,8 +2818,11 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.UnbindInvoke == nil {
 			return nil, fmt.Errorf("%w: choice Unbind: unbind-invoke is nil", ber.ErrInvalidValue)
 		}
+		if rawErr := ber.ValidateRawValueIdentifier(*v.UnbindInvoke); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "unbind-invoke", "encoding", false)
+		}
 		enc_0 := v.UnbindInvoke.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(enc_0, opts...); err != nil {
 			return nil, qualifyBERError(err, "unbind-invoke", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_0); rawErr != nil {
@@ -2723,8 +2838,11 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.UnbindResult == nil {
 			return nil, fmt.Errorf("%w: choice Unbind: unbind-result is nil", ber.ErrInvalidValue)
 		}
+		if rawErr := ber.ValidateRawValueIdentifier(*v.UnbindResult); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "unbind-result", "encoding", false)
+		}
 		enc_1 := v.UnbindResult.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(enc_1, opts...); err != nil {
 			return nil, qualifyBERError(err, "unbind-result", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_1); rawErr != nil {
@@ -2740,8 +2858,11 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.UnbindError == nil {
 			return nil, fmt.Errorf("%w: choice Unbind: unbind-error is nil", ber.ErrInvalidValue)
 		}
+		if rawErr := ber.ValidateRawValueIdentifier(*v.UnbindError); rawErr != nil {
+			return nil, qualifyBERError(rawErr, "unbind-error", "encoding", false)
+		}
 		enc_2 := v.UnbindError.Bytes
-		if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+		if err := ber.CheckBEROpaqueElement(enc_2, opts...); err != nil {
 			return nil, qualifyBERError(err, "unbind-error", "encoding", false)
 		}
 		if rawErr := ber.ValidateBEREncodedElement(enc_2); rawErr != nil {
@@ -2759,6 +2880,7 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 }
 
 // MarshalDER encodes Unbind to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *Unbind) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: Unbind receiver is nil", ber.ErrInvalidValue)
@@ -2791,10 +2913,19 @@ func (v *Unbind) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, error) {
 }
 
 // UnmarshalBER decodes Unbind from BER/DER format.
-func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: Unbind destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ Unbind
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2820,6 +2951,8 @@ func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Unbind", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Unbind{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for Unbind CHOICE")
@@ -2842,19 +2975,19 @@ func (v *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr 
 		v.Choice = UnbindChoiceUnbindInvoke
 		ber.MarkPreflightTarget(opts, "unbind-invoke", choiceData)
 		ber.MarkPreflightOpaque(opts, "unbind-invoke", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.UnbindInvoke = &tmpRaw
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 20 {
 		v.Choice = UnbindChoiceUnbindResult
 		ber.MarkPreflightTarget(opts, "unbind-result", choiceData)
 		ber.MarkPreflightOpaque(opts, "unbind-result", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.UnbindResult = &tmpRaw
 	} else if peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 21 {
 		v.Choice = UnbindChoiceUnbindError
 		ber.MarkPreflightTarget(opts, "unbind-error", choiceData)
 		ber.MarkPreflightOpaque(opts, "unbind-error", choiceData, len(choiceData))
-		tmpRaw := runtime.RawValue{Bytes: append([]byte(nil), choiceData...)}
+		tmpRaw := runtime.RawValue{Class: int(peekTag.Class), Tag: peekTag.Number, Constructed: peekTag.Constructed, Bytes: append([]byte(nil), choiceData...)}
 		v.UnbindError = &tmpRaw
 	} else {
 		return fmt.Errorf("unknown tag %s for Unbind CHOICE", peekTag)
@@ -2927,6 +3060,7 @@ func (v *ROSInvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 }
 
 // MarshalDER encodes ROSInvokeLinkedId to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *ROSInvokeLinkedId) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
@@ -2957,10 +3091,20 @@ func (v *ROSInvokeLinkedId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte,
 }
 
 // UnmarshalBER decodes ROSInvokeLinkedId from BER/DER format.
-func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: ROSInvokeLinkedId destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ ROSInvokeLinkedId
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination =
+				*v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -2986,6 +3130,8 @@ func (v *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) 
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ROS-invoke-linkedId", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSInvokeLinkedId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for ROSInvokeLinkedId CHOICE")
@@ -3076,8 +3222,11 @@ func (v *ROSReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_opcode)
 	children = append(children, enc_opcode...)
+	if rawErr := ber.ValidateRawValueIdentifier(v.Result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", false)
+	}
 	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+	if err := ber.CheckBEROpaqueElement(enc_result, opts...); err != nil {
 		return nil, qualifyBERError(err, "result", "encoding", false)
 	}
 	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
@@ -3097,6 +3246,7 @@ func (v *ROSReturnResultResult) appendBERLinear(encoder *ber.LinearEncoder, opts
 }
 
 // MarshalDER encodes ROSReturnResultResult to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
@@ -3107,6 +3257,9 @@ func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
 		return nil, qualifyBERError(err, "opcode", "encoding", true)
 	}
 	children = append(children, enc_opcode...)
+	if rawErr := ber.ValidateRawValueIdentifier(v.Result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+	}
 	enc_result := v.Result.Bytes
 	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
 		return nil, qualifyBERError(rawErr, "result", "encoding", true)
@@ -3131,10 +3284,19 @@ func (v *ROSReturnResultResult) appendDERLinear(encoder *ber.LinearEncoder) ([]b
 }
 
 // UnmarshalBER decodes ROSReturnResultResult from BER/DER format.
-func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: ROSReturnResultResult destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ ROSReturnResultResult
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3151,6 +3313,8 @@ func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ROS-returnResult-result", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSReturnResultResult{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -3199,7 +3363,7 @@ func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	}
 	{
 		ber.MarkPreflightTarget(opts, "result", content[offset:])
-		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
+		rawTag_result, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_result != nil {
 			return qualifyBERError(tlvErr_result, "result", "decoding", false)
 		}
@@ -3209,7 +3373,7 @@ func (v *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 			return fmt.Errorf("invalid BER content window")
 		}
 
-		v.Result = runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
+		v.Result = runtime.RawValue{Class: int(rawTag_result.Class), Tag: rawTag_result.Number, Constructed: rawTag_result.Constructed, Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
 		if offset < 0 || offset >
 			len(content) || n_result < 0 || n_result > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -3288,6 +3452,7 @@ func (v *InvokeLinkedId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 }
 
 // MarshalDER encodes InvokeLinkedId to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *InvokeLinkedId) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeLinkedId receiver is nil", ber.ErrInvalidValue)
@@ -3318,10 +3483,19 @@ func (v *InvokeLinkedId) appendDERLinear(encoder *ber.LinearEncoder) ([]byte, er
 }
 
 // UnmarshalBER decodes InvokeLinkedId from BER/DER format.
-func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: InvokeLinkedId destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ InvokeLinkedId
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3347,6 +3521,8 @@ func (v *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Invoke-linkedId", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = InvokeLinkedId{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for InvokeLinkedId CHOICE")
@@ -3437,8 +3613,11 @@ func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_opcode)
 	children = append(children, enc_opcode...)
+	if rawErr := ber.ValidateRawValueIdentifier(v.Result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", false)
+	}
 	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueReplay(opts...); err != nil {
+	if err := ber.CheckBEROpaqueElement(enc_result, opts...); err != nil {
 		return nil, qualifyBERError(err, "result", "encoding", false)
 	}
 	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
@@ -3458,6 +3637,7 @@ func (v *ReturnResultResult) appendBERLinear(encoder *ber.LinearEncoder, opts ..
 }
 
 // MarshalDER encodes ReturnResultResult to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
@@ -3468,6 +3648,9 @@ func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
 		return nil, qualifyBERError(err, "opcode", "encoding", true)
 	}
 	children = append(children, enc_opcode...)
+	if rawErr := ber.ValidateRawValueIdentifier(v.Result); rawErr != nil {
+		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+	}
 	enc_result := v.Result.Bytes
 	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
 		return nil, qualifyBERError(rawErr, "result", "encoding", true)
@@ -3492,10 +3675,20 @@ func (v *ReturnResultResult) appendDERLinear(encoder *ber.LinearEncoder) ([]byte
 }
 
 // UnmarshalBER decodes ReturnResultResult from BER/DER format.
-func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: ReturnResultResult destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ ReturnResultResult
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3512,6 +3705,8 @@ func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ReturnResult-result", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ReturnResultResult{}
 	defer func() {
 		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
@@ -3560,7 +3755,7 @@ func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	}
 	{
 		ber.MarkPreflightTarget(opts, "result", content[offset:])
-		_, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
+		rawTag_result, n_result, _, tlvErr_result := ber.DecodeTLV(content[offset:], opts...)
 		if tlvErr_result != nil {
 			return qualifyBERError(tlvErr_result, "result", "decoding", false)
 		}
@@ -3570,7 +3765,7 @@ func (v *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 			return fmt.Errorf("invalid BER content window")
 		}
 
-		v.Result = runtime.RawValue{Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
+		v.Result = runtime.RawValue{Class: int(rawTag_result.Class), Tag: rawTag_result.Number, Constructed: rawTag_result.Constructed, Bytes: append([]byte(nil), content[offset:offset+n_result]...)}
 		if offset < 0 || offset >
 			len(content) || n_result < 0 || n_result > len(content[offset:]) {
 			return fmt.Errorf("invalid BER content window")
@@ -3683,6 +3878,7 @@ func (v *OperationsRejectProblem) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 }
 
 // MarshalDER encodes OperationsRejectProblem to DER format.
+// Opaque descendants pass generic DER checks; foreign schema rules need a typed binding.
 func (v *OperationsRejectProblem) MarshalDER() ([]byte, error) {
 	if v == nil {
 		return nil, fmt.Errorf("%w: OperationsRejectProblem receiver is nil", ber.ErrInvalidValue)
@@ -3717,10 +3913,19 @@ func (v *OperationsRejectProblem) appendDERLinear(encoder *ber.LinearEncoder) ([
 }
 
 // UnmarshalBER decodes OperationsRejectProblem from BER/DER format.
-func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
-	if v == nil {
+func (destination *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (returnErr error) {
+	if destination == nil {
 		return fmt.Errorf("%w: OperationsRejectProblem destination is nil", ber.ErrInvalidValue)
 	}
+	var berNextValue_ OperationsRejectProblem
+	v := &berNextValue_
+	defer func() {
+		if returnErr ==
+			nil {
+			*destination = *v
+		}
+	}()
+
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
 	opts = ber.TrackBERForm(opts)
@@ -3746,6 +3951,8 @@ func (v *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 		})
 	}
 	data, opts = preparedData, preparedOptions
+	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Reject-problem", opts)
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OperationsRejectProblem{}
 	if len(data) == 0 {
 		return fmt.Errorf("empty data for OperationsRejectProblem CHOICE")

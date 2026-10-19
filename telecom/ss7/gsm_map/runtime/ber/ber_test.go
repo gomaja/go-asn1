@@ -1,0 +1,979 @@
+// Code generated from MAP runtime source. DO NOT EDIT.
+
+// Runtime source: runtime/ber/ber_test.go; SHA-256 77e5a65b1b0207598c2c66aabcc0105a8cea531481ce5f4337c2b595dca91f65.
+package ber
+
+import (
+	"bytes"
+	"encoding/hex"
+	"errors"
+	"math"
+	"math/big"
+	"strings"
+	"testing"
+	"time"
+
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
+)
+
+func TestEncodeDecodeTag(t *testing.T) {
+	tests := []struct {
+		name string
+		tag  tag.Tag
+		hex  string
+	}{
+		{"BOOLEAN", tag.Tag{Class: tag.ClassUniversal, Number: 1}, "01"},
+		{"INTEGER", tag.Tag{Class: tag.ClassUniversal, Number: 2}, "02"},
+		{"SEQUENCE constructed", tag.Tag{Class: tag.ClassUniversal, Number: 16, Constructed: true}, "30"},
+		{"CONTEXT 0", tag.Tag{Class: tag.ClassContextSpecific, Number: 0}, "80"},
+		{"CONTEXT 0 constructed", tag.Tag{Class: tag.ClassContextSpecific, Number: 0, Constructed: true}, "a0"},
+		{"APPLICATION 1 constructed", tag.Tag{Class: tag.ClassApplication, Number: 1, Constructed: true}, "61"},
+		{"APPLICATION 2 constructed", tag.Tag{Class: tag.ClassApplication, Number: 2, Constructed: true}, "62"},
+		{"APPLICATION 4 constructed", tag.Tag{Class: tag.ClassApplication, Number: 4, Constructed: true}, "64"},
+		{"APPLICATION 5 constructed", tag.Tag{Class: tag.ClassApplication, Number: 5, Constructed: true}, "65"},
+		{"APPLICATION 7 constructed", tag.Tag{Class: tag.ClassApplication, Number: 7, Constructed: true}, "67"},
+		{"long form tag 31", tag.Tag{Class: tag.ClassUniversal, Number: 31}, "1f1f"},
+		{"long form tag 128", tag.Tag{Class: tag.ClassUniversal, Number: 128}, "1f8100"},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			encoded := tc.tag.Encode()
+			expectedBytes, _ := hex.DecodeString(tc.hex)
+			if !bytes.Equal(encoded, expectedBytes) {
+				t.Errorf("encode: got %x, want %s", encoded, tc.hex)
+			}
+
+			decoded, consumed, err := DecodeTag(encoded)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if consumed != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+			}
+			if !decoded.Equal(tc.tag) || decoded.Constructed != tc.tag.Constructed {
+				t.Errorf("decode: got %v, want %v", decoded, tc.tag)
+			}
+		})
+	}
+}
+
+func TestDecodeTagRejectsOverflowAndNonMinimalHighTag(t *testing.T) {
+	for _, tc := range []struct {
+		name string
+		wire string
+	}{
+		{"integer collision", "1f82808080808080808002"},
+		{"wrap to tag 32", "1f82808080808080808020"},
+		{"wrap to tag 127", "1f8280808080808080807f"},
+		{"signed overflow", "1f81808080808080808000"},
+		{"short-form number", "1f1e"},
+		{"leading zero group", "1f801f"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			wire, err := hex.DecodeString(tc.wire)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, _, err := DecodeTag(wire); !errors.Is(err, ErrInvalidTag) {
+				t.Fatalf("DecodeTag(%x) error = %v, want ErrInvalidTag", wire, err)
+			}
+		})
+	}
+	maxTag := tag.Tag{Class: tag.ClassContextSpecific, Number: math.MaxInt}
+	if decoded, n, err := DecodeTag(maxTag.Encode()); err != nil || n != len(maxTag.Encode()) || !decoded.Equal(maxTag) {
+		t.Fatalf("maximum tag round trip: decoded=%v bytes=%d error=%v", decoded, n, err)
+	}
+}
+
+func FuzzDecodeTagCanonical(f *testing.F) {
+	for _, wire := range [][]byte{
+		{0x02}, {0x1f, 0x1f}, {0x1f, 0x80, 0x1f},
+		{0x1f, 0x82, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x02},
+		{0x1f, 0x82, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x20},
+		{0x1f, 0x82, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x80, 0x7f},
+	} {
+		f.Add(wire)
+	}
+	f.Fuzz(func(t *testing.T, wire []byte) {
+		decoded, n, err := DecodeTag(wire)
+		if err == nil && (n <= 0 || n > len(wire) || !bytes.Equal(decoded.Encode(), wire[:n])) {
+			t.Fatalf("DecodeTag accepted noncanonical identifier %x as %v (%d bytes)", wire, decoded, n)
+		}
+	})
+}
+
+func TestEncodeDecodeLength(t *testing.T) {
+	tests := []struct {
+		name   string
+		length int
+		hex    string
+	}{
+		{"zero", 0, "00"},
+		{"short 1", 1, "01"},
+		{"short 127", 127, "7f"},
+		{"long 128", 128, "8180"},
+		{"long 256", 256, "820100"},
+		{"long 65535", 65535, "82ffff"},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			encoded := EncodeLength(tc.length)
+			expectedBytes, _ := hex.DecodeString(tc.hex)
+			if !bytes.Equal(encoded, expectedBytes) {
+				t.Errorf("encode: got %x, want %s", encoded, tc.hex)
+			}
+
+			decoded, indefinite, consumed, err := DecodeLength(encoded)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if indefinite {
+				t.Error("unexpected indefinite length")
+			}
+			if consumed != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+			}
+			if decoded != tc.length {
+				t.Errorf("decode: got %d, want %d", decoded, tc.length)
+			}
+		})
+	}
+}
+
+func TestIndefiniteLength(t *testing.T) {
+	data := []byte{0x80}
+	_, indef, consumed, err := DecodeLength(data)
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+	if !indef {
+		t.Error("expected indefinite")
+	}
+	if consumed != 1 {
+		t.Errorf("consumed: got %d, want 1", consumed)
+	}
+}
+
+func TestDecodeLengthRejectsIntOverflow(t *testing.T) {
+	wire := []byte{0x84, 0x80, 0, 0, 0} // 2^31 octets
+	got, indefinite, consumed, err := DecodeLength(wire)
+	if uint64(^uint(0)>>1) < 1<<31 {
+		if err == nil {
+			t.Fatalf("accepted unrepresentable length %d (indefinite=%v, consumed=%d)", got, indefinite, consumed)
+		}
+		return
+	}
+	if err != nil || indefinite || consumed != len(wire) || uint64(got) != 1<<31 {
+		t.Fatalf("length = %d, indefinite=%v, consumed=%d, error=%v", got, indefinite, consumed, err)
+	}
+}
+
+func TestBERLengthCannotWrapSliceBounds(t *testing.T) {
+	for _, tc := range []struct {
+		name string
+		wire []byte
+	}{
+		{"definite", []byte{0x04, 0x84, 0x7f, 0xff, 0xff, 0xff}},
+		{"nested indefinite", []byte{0x30, 0x80, 0x04, 0x84, 0x7f, 0xff, 0xff, 0xff, 0, 0}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if err := ValidateBERElement(tc.wire); err == nil {
+				t.Fatal("accepted BER length beyond input")
+			}
+			if _, _, _, err := DecodeTLV(tc.wire); err == nil {
+				t.Fatal("accepted length beyond input")
+			}
+			if _, err := ValidateDERTLV(tc.wire); err == nil {
+				t.Fatal("accepted truncated DER input")
+			}
+		})
+	}
+}
+
+func TestValidateDERElement(t *testing.T) {
+	if err := ValidateDERElement([]byte{0x30, 0x03, 0x80, 0x01, 0x00}); err != nil {
+		t.Fatalf("ValidateDERElement definite constructed: %v", err)
+	}
+
+	if err := ValidateDERElement([]byte{0x30, 0x80, 0x05, 0x00, 0x00, 0x00}); !errors.Is(err, ErrIndefiniteLength) {
+		t.Fatalf("ValidateDERElement indefinite error = %v, want %v", err, ErrIndefiniteLength)
+	}
+
+	if err := ValidateDERElement([]byte{0x05, 0x00, 0x05, 0x00}); !errors.Is(err, ErrExtraData) {
+		t.Fatalf("ValidateDERElement trailing error = %v, want %v", err, ErrExtraData)
+	}
+
+	// A universal SET tag does not reveal whether the schema is SET or SET OF,
+	// whose DER ordering rules differ. Generic validation therefore checks each
+	// child but leaves ordering to the schema-aware encoders.
+	unsortedSetOf := mustEncode(t)(EncodeSet(append(mustEncode(t)(EncodeOctetString([]byte("z"))), mustEncode(t)(EncodeOctetString([]byte("a")))...)))
+	if err := ValidateDERElement(unsortedSetOf); err != nil {
+		t.Fatalf("ValidateDERElement structurally valid SET OF: %v", err)
+	}
+}
+
+func TestValidateDERUniversalCanonicalValues(t *testing.T) {
+	for _, tc := range []struct{ name, wire string }{
+		{"standalone EOC", "0000"},
+		{"BOOLEAN true", "010101"},
+		{"BOOLEAN empty", "0100"},
+		{"constructed BOOLEAN", "21030101ff"},
+		{"INTEGER empty", "0200"},
+		{"INTEGER leading zero", "02020001"},
+		{"INTEGER leading ff", "0202ffff"},
+		{"ENUMERATED nonminimal", "0a020001"},
+		{"BIT STRING missing unused count", "0300"},
+		{"BIT STRING count too high", "030108"},
+		{"BIT STRING unused bits nonzero", "030207ff"},
+		{"BIT STRING empty with unused bits", "030101"},
+		{"constructed BIT STRING", "2303030100"},
+		{"constructed OCTET STRING", "2403040141"},
+		{"constructed UTF8String", "2c030c0141"},
+		{"NULL nonempty", "050100"},
+		{"OBJECT IDENTIFIER nonminimal arc", "06028000"},
+		{"RELATIVE-OID nonminimal arc", "0d028000"},
+		{"EXTERNAL arbitrary unused bits", "2804820207ff"},
+		{"EXTERNAL constructed octet aligned", "2805a103040141"},
+		{"primitive SEQUENCE", "1000"},
+		{"primitive SET", "1100"},
+		{"UTCTime malformed", "170141"},
+		{"UTCTime missing seconds", "170b393230373232313332315a"},
+		{"GeneralizedTime trailing zero", "181232303234303130323033303430352e31305a"},
+		{"GeneralizedTime comma", "181132303234303130323033303430352c315a"},
+		{"nested invalid BOOLEAN", "3003010101"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			wire, err := hex.DecodeString(tc.wire)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if err := ValidateDERElement(wire); err == nil {
+				t.Fatalf("accepted noncanonical DER %x", wire)
+			}
+		})
+	}
+	for _, wire := range [][]byte{
+		{0x01, 0x01, 0xff}, {0x02, 0x01, 0x80}, {0x03, 0x02, 0x07, 0x80},
+		mustTimeTLV(EncodeUTCTime(mustUTCTime("920722132100Z"))),
+		mustTimeTLV(EncodeGeneralizedTime(mustGeneralizedTime("20240102030405Z"))),
+	} {
+		if err := ValidateDERElement(wire); err != nil {
+			t.Errorf("valid DER %x: %v", wire, err)
+		}
+	}
+}
+
+func TestValidateDERLargeCanonicalOID(t *testing.T) {
+	// X.690 (02/2021) §§8.19–8.20 do not bound subidentifiers to uint64.
+	for _, wire := range []string{
+		"060b2a82808080808080808000",     // 1.2.18446744073709551616
+		"0d0a82808080808080808000",       // relative arc 18446744073709551616
+		"300d060b2a82808080808080808000", // raw DER child
+	} {
+		data, err := hex.DecodeString(wire)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if err := ValidateDERElement(data); err != nil {
+			t.Fatalf("rejected canonical DER %s: %v", wire, err)
+		}
+	}
+	large, _ := hex.DecodeString("060b2a82808080808080808000")
+	if oid, _, err := DecodeObjectIdentifier(large); err != nil || oid.String() != "1.2.18446744073709551616" {
+		t.Fatalf("large OID decode error = %v", err)
+	}
+	for _, wire := range []string{"06028000", "060181", "0d028000", "0d0181"} {
+		data, _ := hex.DecodeString(wire)
+		if err := ValidateDERElement(data); err == nil {
+			t.Fatalf("accepted malformed base-128 OID %s", wire)
+		}
+	}
+}
+
+func TestValidateDERUTF8AndEmbeddedPDV(t *testing.T) {
+	// X.690 (02/2021) §§8.17, 8.23.10; X.680 (02/2021) §36.5.
+	for _, wire := range []string{
+		"0c03636174",                     // UTF8String "cat"
+		"0c03e282ac",                     // U+20AC in its shortest form
+		"2b07a0028500820141",             // fixed identification, data "A"
+		"2b08a00381012a820141",           // syntax OID 1.2, data "A"
+		"2b0da008a00680012a81012b820141", // syntaxes pair
+		"2b08a003820101820141",           // presentation context id
+		"2b0da008a30680010181012a820141", // context negotiation
+		"2b08a00384012a820141",           // transfer syntax
+	} {
+		data, _ := hex.DecodeString(wire)
+		if err := ValidateDERElement(data); err != nil {
+			t.Fatalf("rejected valid DER %s: %v", wire, err)
+		}
+	}
+	for _, tc := range []struct{ wire, reason string }{
+		{"0c01ff", "UTF8String"},                        // invalid byte
+		{"0c02c0af", "UTF8String"},                      // overlong slash
+		{"0c03eda080", "UTF8String"},                    // surrogate
+		{"0c02e282", "UTF8String"},                      // truncated scalar
+		{"2b00", "unexpected end"},                      // no identification or data
+		{"2b03820141", "identification"},                // missing identification
+		{"2b04a0028500", "unexpected end"},              // missing data
+		{"2b0aa0028500810141820141", "data-value"},      // descriptor forbidden
+		{"2b07a0028600820141", "alternative 6"},         // unknown identification alternative
+		{"2b09a00481028000820141", "OBJECT IDENTIFIER"}, // nonminimal OID
+		{"2b08a004820200018200", "nonminimal"},          // nonminimal INTEGER
+		{"2b07a0028500a20141", "primitive [2]"},         // constructed data-value
+	} {
+		data, _ := hex.DecodeString(tc.wire)
+		if err := ValidateDERElement(data); err == nil || !strings.Contains(err.Error(), tc.reason) {
+			t.Fatalf("invalid DER %s: error=%v, want %q", tc.wire, err, tc.reason)
+		}
+		wrapped := mustEncode(t)(EncodeSequence(data))
+		if err := ValidateDERElement(wrapped); err == nil || !strings.Contains(err.Error(), tc.reason) {
+			t.Fatalf("invalid raw child %s: error=%v, want %q", tc.wire, err, tc.reason)
+		}
+	}
+}
+
+func TestDERRejectsNonMinimalIdentifierAndLength(t *testing.T) {
+	tests := []struct {
+		name string
+		wire []byte
+	}{
+		{name: "identifier", wire: []byte{0x1f, 0x02, 0x01, 0x00}},
+		{name: "short length in long form", wire: []byte{0x02, 0x81, 0x01, 0x00}},
+		{name: "long length with leading zero", wire: append([]byte{0x04, 0x82, 0x00, 0x80}, make([]byte, 128)...)},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			if err := ValidateDERElement(test.wire); err == nil {
+				t.Fatal("ValidateDERElement accepted non-minimal DER")
+			}
+			if _, err := EncodeDERSet(test.wire); err == nil {
+				t.Fatal("EncodeDERSet accepted a non-minimal child")
+			}
+		})
+	}
+}
+
+func TestDERSetUsesTagOrderAcrossLongTagWidths(t *testing.T) {
+	lower := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 16383}, []byte{0}))
+	higher := mustEncode(t)(EncodeTLV(tag.Tag{Class: tag.ClassContextSpecific, Number: 16384}, []byte{0}))
+	encoded, err := EncodeDERSet(append(append([]byte(nil), higher...), lower...))
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := mustEncode(t)(EncodeSet(append(append([]byte(nil), lower...), higher...)))
+	if !bytes.Equal(encoded, want) {
+		t.Fatalf("DER SET = %x, want %x", encoded, want)
+	}
+	if err := ValidateDERElement(encoded); err != nil {
+		t.Fatalf("ValidateDERElement rejected a valid DER SET: %v", err)
+	}
+}
+
+func FuzzValidateDERElementNoPanic(f *testing.F) {
+	for _, seed := range [][]byte{
+		{0x02, 0x01, 0x00},
+		{0x02, 0x81, 0x01, 0x00},
+		{0x1f, 0x02, 0x01, 0x00},
+		{0x04, 0x84, 0x7f, 0xff, 0xff, 0xff},
+		{0x31, 0x07, 0x04, 0x05, 'v', 'a', 'l', 'u', 'e'},
+	} {
+		f.Add(seed)
+	}
+	f.Fuzz(func(t *testing.T, data []byte) {
+		_ = ValidateDERElement(data)
+	})
+}
+
+func TestEncodeDERSetOrdering(t *testing.T) {
+	high, err := EncodeImplicitTag(2, EncodeInteger(2))
+	if err != nil {
+		t.Fatal(err)
+	}
+	low, err := EncodeImplicitTag(0, EncodeInteger(1))
+	if err != nil {
+		t.Fatal(err)
+	}
+	gotSet, err := EncodeDERSet(append(high, low...))
+	if err != nil {
+		t.Fatal(err)
+	}
+	wantSet := mustEncode(t)(EncodeSet(append(low, high...)))
+	if !bytes.Equal(gotSet, wantSet) {
+		t.Fatalf("EncodeDERSet = %x, want %x", gotSet, wantSet)
+	}
+
+	z := mustEncode(t)(EncodeOctetString([]byte("z")))
+	a := mustEncode(t)(EncodeOctetString([]byte("a")))
+	gotSetOf, err := EncodeDERSetOf(append(z, a...))
+	if err != nil {
+		t.Fatal(err)
+	}
+	wantSetOf := mustEncode(t)(EncodeSet(append(a, z...)))
+	if !bytes.Equal(gotSetOf, wantSetOf) {
+		t.Fatalf("EncodeDERSetOf = %x, want %x", gotSetOf, wantSetOf)
+	}
+}
+
+func TestEncodeDecodeBoolean(t *testing.T) {
+	for _, val := range []bool{true, false} {
+		encoded := EncodeBoolean(val)
+		decoded, _, consumed, err := DecodeBoolean(encoded)
+		if err != nil {
+			t.Fatalf("bool=%v: decode error: %v", val, err)
+		}
+		if consumed != len(encoded) {
+			t.Errorf("bool=%v: consumed %d, want %d", val, consumed, len(encoded))
+		}
+		if decoded != val {
+			t.Errorf("bool: got %v, want %v", decoded, val)
+		}
+	}
+	// DER: true must encode as 0xFF.
+	encoded := EncodeBoolean(true)
+	if encoded[2] != 0xFF {
+		t.Errorf("DER true: value byte got %02x, want ff", encoded[2])
+	}
+}
+
+func TestEncodeDecodeInteger(t *testing.T) {
+	tests := []struct {
+		name  string
+		value int64
+	}{
+		{"zero", 0},
+		{"positive 1", 1},
+		{"positive 127", 127},
+		{"positive 128", 128},
+		{"positive 256", 256},
+		{"negative -1", -1},
+		{"negative -128", -128},
+		{"negative -129", -129},
+		{"large positive", 1234567890},
+		{"large negative", -1234567890},
+		{"max int64", math.MaxInt64},
+		{"min int64", math.MinInt64},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			encoded := EncodeInteger(tc.value)
+			decoded, consumed, err := DecodeInteger(encoded)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if consumed != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+			}
+			if decoded != tc.value {
+				t.Errorf("got %d, want %d", decoded, tc.value)
+			}
+		})
+	}
+}
+
+func TestEncodeDecodeBigInt(t *testing.T) {
+	tests := []struct {
+		name  string
+		value *big.Int
+	}{
+		{"zero", big.NewInt(0)},
+		{"positive", big.NewInt(42)},
+		{"negative", big.NewInt(-42)},
+		{"large", new(big.Int).Exp(big.NewInt(2), big.NewInt(128), nil)},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			encoded := mustEncode(t)(EncodeBigInt(tc.value))
+			decoded, consumed, err := DecodeBigInt(encoded)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if consumed != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+			}
+			if decoded.Cmp(tc.value) != 0 {
+				t.Errorf("got %s, want %s", decoded, tc.value)
+			}
+		})
+	}
+}
+
+func TestEncodeDecodeBitString(t *testing.T) {
+	tests := []struct {
+		name       string
+		bytes      []byte
+		unusedBits int
+	}{
+		{"empty", nil, 0},
+		{"full byte", []byte{0xFF}, 0},
+		{"7 bits", []byte{0xFE}, 1},
+		{"multi byte", []byte{0xDE, 0xAD, 0xBE, 0xEF}, 0},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			encoded := mustEncode(t)(EncodeBitString(tc.bytes, tc.unusedBits))
+			decoded, unusedBits, consumed, err := DecodeBitString(encoded)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if consumed != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+			}
+			if tc.bytes == nil {
+				if len(decoded) != 0 {
+					t.Errorf("expected empty, got %x", decoded)
+				}
+				return
+			}
+			if !bytes.Equal(decoded, tc.bytes) {
+				t.Errorf("bytes: got %x, want %x", decoded, tc.bytes)
+			}
+			if unusedBits != tc.unusedBits {
+				t.Errorf("unusedBits: got %d, want %d", unusedBits, tc.unusedBits)
+			}
+		})
+	}
+}
+
+func TestEncodeDecodeOctetString(t *testing.T) {
+	tests := []struct {
+		name  string
+		value []byte
+	}{
+		{"empty", []byte{}},
+		{"hello", []byte("hello")},
+		{"binary", []byte{0x00, 0xFF, 0xDE, 0xAD}},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			encoded := mustEncode(t)(EncodeOctetString(tc.value))
+			decoded, consumed, err := DecodeOctetString(encoded)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if consumed != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+			}
+			if !bytes.Equal(decoded, tc.value) {
+				t.Errorf("got %x, want %x", decoded, tc.value)
+			}
+		})
+	}
+}
+
+func TestEncodeDecodeNull(t *testing.T) {
+	encoded := EncodeNull()
+	consumed, err := DecodeNull(encoded)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if consumed != len(encoded) {
+		t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+	}
+	expected, _ := hex.DecodeString("0500")
+	if !bytes.Equal(encoded, expected) {
+		t.Errorf("encoding: got %x, want 0500", encoded)
+	}
+}
+
+func TestEncodeDecodeOID(t *testing.T) {
+	tests := []struct {
+		name string
+		oid  []uint64
+		hex  string
+	}{
+		{"id-at-commonName", []uint64{2, 5, 4, 3}, "0603550403"},
+		{"rsaEncryption", []uint64{1, 2, 840, 113549, 1, 1, 1}, "06092a864886f70d010101"},
+		{"id-ce", []uint64{2, 5, 29}, "0602551d"},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			encoded := mustEncode(t)(EncodeObjectIdentifier(runtime.MustObjectIdentifierFromArcs(tc.oid...)))
+			expected, _ := hex.DecodeString(tc.hex)
+			if !bytes.Equal(encoded, expected) {
+				t.Errorf("encode: got %x, want %s", encoded, tc.hex)
+			}
+
+			decoded, consumed, err := DecodeObjectIdentifier(encoded)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if consumed != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+			}
+			decodedArcs, ok := decoded.Arcs()
+			if !ok {
+				t.Fatal("arc range")
+			}
+			if len(decodedArcs) != len(tc.oid) {
+				t.Fatalf("len: got %d, want %d", len(decodedArcs), len(tc.oid))
+			}
+			for i := range decodedArcs {
+				if decodedArcs[i] != tc.oid[i] {
+					t.Errorf("arc[%d]: got %d, want %d", i, decodedArcs[i], tc.oid[i])
+				}
+			}
+		})
+	}
+}
+
+func TestEncodeDecodeEnumerated(t *testing.T) {
+	for _, v := range []int64{0, 1, -1, 42, 255} {
+		encoded := EncodeEnumerated(v)
+		decoded, consumed, err := DecodeEnumerated(encoded)
+		if err != nil {
+			t.Fatalf("v=%d: decode error: %v", v, err)
+		}
+		if consumed != len(encoded) {
+			t.Errorf("v=%d: consumed %d, want %d", v, consumed, len(encoded))
+		}
+		if decoded != v {
+			t.Errorf("got %d, want %d", decoded, v)
+		}
+	}
+}
+
+func TestEncodeDecodeReal(t *testing.T) {
+	tests := []struct {
+		name  string
+		value float64
+	}{
+		{"zero", 0},
+		{"positive", 3.14},
+		{"negative", -2.718},
+		{"one", 1.0},
+		{"large", 1e100},
+		{"small", 1e-100},
+		{"+inf", math.Inf(1)},
+		{"-inf", math.Inf(-1)},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			encoded, err := EncodeReal(runtime.NewRealFromFloat64(tc.value))
+			if err != nil {
+				t.Fatalf("encode error: %v", err)
+			}
+			decoded, consumed, err := DecodeReal(encoded)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if consumed != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+			}
+			converted, err := decoded.Float64()
+			if err != nil {
+				t.Fatalf("float64 conversion: %v", err)
+			}
+			if math.IsInf(tc.value, 0) {
+				sign := 1
+				if math.Signbit(tc.value) {
+					sign = -1
+				}
+				if !math.IsInf(converted, sign) {
+					t.Errorf("got %v, want %v", converted, tc.value)
+				}
+			} else if tc.value != converted {
+				t.Errorf("got %v, want %v", converted, tc.value)
+			}
+		})
+	}
+
+	// NaN test.
+	encoded, err := EncodeReal(runtime.NewRealFromFloat64(math.NaN()))
+	if err != nil {
+		t.Fatalf("NaN encode error: %v", err)
+	}
+	decoded, _, err := DecodeReal(encoded)
+	if err != nil {
+		t.Fatalf("NaN decode error: %v", err)
+	}
+	converted, err := decoded.Float64()
+	if err != nil {
+		t.Fatalf("NaN conversion error: %v", err)
+	}
+	if !math.IsNaN(converted) {
+		t.Errorf("expected NaN, got %v", converted)
+	}
+}
+
+func TestEncodeDecodeUTCTime(t *testing.T) {
+	now, err := runtime.UTCTimeFromTime(time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC))
+	if err != nil {
+		t.Fatal(err)
+	}
+	encoded := mustTimeTLV(EncodeUTCTime(now))
+	decoded, consumed, err := DecodeUTCTime(encoded)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if consumed != len(encoded) {
+		t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+	}
+	if decoded != now {
+		t.Errorf("got %v, want %v", decoded, now)
+	}
+}
+
+func TestEncodeDecodeGeneralizedTime(t *testing.T) {
+	now, err := runtime.GeneralizedTimeFromTime(time.Date(2024, 3, 15, 10, 30, 45, 0, time.UTC))
+	if err != nil {
+		t.Fatal(err)
+	}
+	encoded := mustTimeTLV(EncodeGeneralizedTime(now))
+	decoded, consumed, err := DecodeGeneralizedTime(encoded)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if consumed != len(encoded) {
+		t.Errorf("consumed: got %d, want %d", consumed, len(encoded))
+	}
+	if decoded != now {
+		t.Errorf("got %v, want %v", decoded, now)
+	}
+}
+
+// X.690 (02/2021) §11.7.3 keeps nonzero fractional seconds and omits
+// trailing zeros in DER.
+func TestGeneralizedTimeDERKeepsFractionalSeconds(t *testing.T) {
+	value, err := runtime.GeneralizedTimeFromTime(time.Date(2024, 3, 15, 10, 30, 45, 520000000, time.UTC))
+	if err != nil {
+		t.Fatal(err)
+	}
+	wire := mustTimeTLV(EncodeGeneralizedTimeDER(value))
+	_, _, contents, err := DecodeTLV(wire)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got, want := string(contents), "20240315103045.52Z"; got != want {
+		t.Fatalf("encoded contents %q, want %q", got, want)
+	}
+	if err := ValidateDEREncodedElement(wire); err != nil {
+		t.Fatalf("DER validation: %v", err)
+	}
+	decoded, _, err := DecodeGeneralizedTime(wire)
+	if err != nil || decoded != value {
+		t.Fatalf("decoded %v, error %v", decoded, err)
+	}
+}
+
+func TestEncodeDecodeUTCTimeValue(t *testing.T) {
+	now := mustUTCTime("2403151030+0100")
+	encoded := mustTimeTLV(EncodeUTCTime(now))
+	_, _, value, err := DecodeTLV(encoded)
+	if err != nil {
+		t.Fatalf("DecodeTLV error: %v", err)
+	}
+	decoded, err := DecodeUTCTimeValue(value)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if decoded != now {
+		t.Errorf("got %v, want %v", decoded, now)
+	}
+}
+
+func TestEncodeDecodeGeneralizedTimeValue(t *testing.T) {
+	now := mustGeneralizedTime("2024031510,5-0130")
+	encoded := mustTimeTLV(EncodeGeneralizedTime(now))
+	_, _, value, err := DecodeTLV(encoded)
+	if err != nil {
+		t.Fatalf("DecodeTLV error: %v", err)
+	}
+	decoded, err := DecodeGeneralizedTimeValue(value)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if decoded != now {
+		t.Errorf("got %v, want %v", decoded, now)
+	}
+}
+
+func TestDecodeUTCTimeValueInvalid(t *testing.T) {
+	if _, err := DecodeUTCTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) || !errors.Is(err, runtime.ErrTimeSyntax) {
+		t.Fatalf("DecodeUTCTimeValue() error = %v, want %v and %v", err, ErrInvalidValue, runtime.ErrTimeSyntax)
+	}
+}
+
+func TestDecodeGeneralizedTimeValueInvalid(t *testing.T) {
+	if _, err := DecodeGeneralizedTimeValue([]byte("not-a-time")); !errors.Is(err, ErrInvalidValue) || !errors.Is(err, runtime.ErrTimeSyntax) {
+		t.Fatalf("DecodeGeneralizedTimeValue() error = %v, want %v and %v", err, ErrInvalidValue, runtime.ErrTimeSyntax)
+	}
+}
+
+func TestEncodeStringTag(t *testing.T) {
+	cases := []struct {
+		name   string
+		tagNum int
+	}{
+		{"UTF8String", tag.TagUTF8String},
+		{"PrintableString", tag.TagPrintableString},
+		{"IA5String", tag.TagIA5String},
+		{"T61String", tag.TagT61String},
+		{"VisibleString", tag.TagVisibleString},
+		{"NumericString", tag.TagNumericString},
+		{"BMPString", tag.TagBMPString},
+		{"UniversalString", tag.TagUniversalString},
+	}
+	for _, c := range cases {
+		t.Run(c.name, func(t *testing.T) {
+			encoded := mustEncode(t)(EncodeStringTag(c.tagNum, "hello"))
+			decoded, n, err := DecodeString(encoded, c.tagNum)
+			if err != nil {
+				t.Fatalf("decode error: %v", err)
+			}
+			if n != len(encoded) {
+				t.Errorf("consumed: got %d, want %d", n, len(encoded))
+			}
+			if decoded != "hello" {
+				t.Errorf("got %q, want %q", decoded, "hello")
+			}
+		})
+	}
+}
+
+func TestEncodeDecodeSequence(t *testing.T) {
+	// Build a SEQUENCE { INTEGER 42, BOOLEAN true }
+	children := append(EncodeInteger(42), EncodeBoolean(true)...)
+	encoded := mustEncode(t)(EncodeSequence(children))
+
+	// Decode the outer TLV.
+	outerTag, total, value, err := DecodeTLV(encoded)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if total != len(encoded) {
+		t.Errorf("consumed: got %d, want %d", total, len(encoded))
+	}
+	if outerTag.Class != tag.ClassUniversal || outerTag.Number != tag.TagSequence || !outerTag.Constructed {
+		t.Errorf("unexpected tag: %v", outerTag)
+	}
+
+	// Decode children.
+	childTLVs, err := DecodeSequenceChildren(value)
+	if err != nil {
+		t.Fatalf("decode children error: %v", err)
+	}
+	if len(childTLVs) != 2 {
+		t.Fatalf("expected 2 children, got %d", len(childTLVs))
+	}
+
+	intVal, _, err := DecodeInteger(childTLVs[0])
+	if err != nil {
+		t.Fatalf("decode integer: %v", err)
+	}
+	if intVal != 42 {
+		t.Errorf("integer: got %d, want 42", intVal)
+	}
+
+	boolVal, _, _, err := DecodeBoolean(childTLVs[1])
+	if err != nil {
+		t.Fatalf("decode boolean: %v", err)
+	}
+	if !boolVal {
+		t.Error("boolean: got false, want true")
+	}
+}
+
+func TestExplicitTag(t *testing.T) {
+	// Encode INTEGER 42, then wrap in EXPLICIT [0].
+	inner := EncodeInteger(42)
+	wrapped := mustEncode(t)(EncodeExplicitTag(0, inner))
+
+	// Decode outer tag.
+	outerTag, _, value, err := DecodeTLV(wrapped)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if outerTag.Class != tag.ClassContextSpecific || outerTag.Number != 0 || !outerTag.Constructed {
+		t.Errorf("unexpected outer tag: %v", outerTag)
+	}
+
+	// Decode inner INTEGER.
+	intVal, _, err := DecodeInteger(value)
+	if err != nil {
+		t.Fatalf("decode inner integer: %v", err)
+	}
+	if intVal != 42 {
+		t.Errorf("got %d, want 42", intVal)
+	}
+}
+
+func TestImplicitTag(t *testing.T) {
+	// Encode OCTET STRING, then re-tag as IMPLICIT [1].
+	inner := mustEncode(t)(EncodeOctetString([]byte("hello")))
+	retagged, err := EncodeImplicitTag(1, inner)
+	if err != nil {
+		t.Fatalf("EncodeImplicitTag: %v", err)
+	}
+
+	// Decode outer tag.
+	outerTag, _, value, err := DecodeTLV(retagged)
+	if err != nil {
+		t.Fatalf("decode error: %v", err)
+	}
+	if outerTag.Class != tag.ClassContextSpecific || outerTag.Number != 1 {
+		t.Errorf("unexpected outer tag: %v", outerTag)
+	}
+	if string(value) != "hello" {
+		t.Errorf("got %q, want %q", string(value), "hello")
+	}
+}
+
+func TestImplicitTagPreservesFormAndLength(t *testing.T) {
+	indefinite := mustEncode(t)(EncodeConstructedIndefinite(
+		tag.Tag{Class: tag.ClassUniversal, Number: tag.TagSequence},
+		EncodeNull(),
+	))
+	got, err := EncodeImplicitTagWithClass(tag.ClassApplication, 12, indefinite)
+	if err != nil {
+		t.Fatalf("EncodeImplicitTagWithClass: %v", err)
+	}
+	want := append([]byte{0x6c}, indefinite[1:]...)
+	if !bytes.Equal(got, want) {
+		t.Fatalf("retagged value = %x, want %x", got, want)
+	}
+}
+
+func TestImplicitTagReconstructionAllocationBudget(t *testing.T) {
+	inner := []byte{0x04, 0x01, 'A'}
+	var encoded []byte
+	canonicalAllocs := testing.AllocsPerRun(1000, func() {
+		var err error
+		encoded, err = EncodeSequence(inner)
+		if err != nil {
+			t.Fatal(err)
+		}
+	})
+	for _, wire := range [][]byte{
+		{0xa0, 0x03, 0x04, 0x01, 'A'},
+		{0xa0, 0x81, 0x03, 0x04, 0x01, 'A'},
+		{0xa0, 0x80, 0x04, 0x01, 'A', 0, 0},
+	} {
+		allocs := testing.AllocsPerRun(1000, func() {
+			var err error
+			encoded, err = EncodeImplicitTagWithClass(tag.ClassUniversal, tag.TagSequence, wire)
+			if err != nil {
+				t.Fatal(err)
+			}
+		})
+		if allocs > canonicalAllocs {
+			t.Fatalf("retagging %x allocated %.0f times, canonical reconstruction allocated %.0f", wire, allocs, canonicalAllocs)
+		}
+	}
+	_ = encoded
+}
+
+func TestImplicitTagRejectsTrailingData(t *testing.T) {
+	input := append(EncodeInteger(1), EncodeNull()...)
+	if _, err := EncodeImplicitTag(1, input); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("EncodeImplicitTag trailing data error = %v, want ErrInvalidValue", err)
+	}
+}

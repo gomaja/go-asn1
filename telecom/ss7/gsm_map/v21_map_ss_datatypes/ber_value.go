@@ -2,7 +2,7 @@
 
 package v21_map_ss_datatypes
 
-import "github.com/gomaja/go-asn1/runtime/ber"
+import "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
 
 // BERValue holds a typed standalone ASN.1 value and private replay metadata.
 // Construct a fresh value with BERValue[T]{Value: v}. Only a generated decoder
