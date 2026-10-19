@@ -8,5 +8,6 @@ import (
 
 // NewSMMWStatus constructs ASN.1 MAP-SM-DataTypes.MW-Status (X.680 (02/2021) §22.7; X.690 (02/2021) §8.6.2.4).
 func NewSMMWStatus(set ...int) (SMMWStatus, error) {
-	return ber.NewNamedBitString([]ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, set...)
+	value, err := ber.NewNamedBitString([]ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, set...)
+	return namedBitBuilderResult(value, err, "MAP-SM-DataTypes.MW-Status")
 }

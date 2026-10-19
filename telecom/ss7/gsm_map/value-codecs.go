@@ -5,9 +5,11 @@ package gsm_map
 import (
 	"fmt"
 	"math/big"
+	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 )
 
 // ValueCodec is an immutable binding to one source type's BER/DER implementation.
@@ -80,6 +82,7 @@ func compositeValueCodec[T any, P compositeCodecPointer[T]]() ValueCodec[T] {
 type primitiveRule[T any] struct {
 	invalid             func(T) bool
 	length              func(T) int
+	encodedLength       func(T) int
 	observed            func(T) any
 	description, clause string
 }
@@ -104,7 +107,11 @@ func checkPrimitiveRules[T any](value T, rules []primitiveRule[T], source, name 
 		} else {
 			opts := ber.EncodeRule(encode, source, ref)
 			if rule.length != nil {
-				if err := ber.CheckEncodedLength(opts, name, rule.description, rule.length(value)); err != nil {
+				observed := rule.length(value)
+				if rule.encodedLength != nil {
+					observed = rule.encodedLength(value)
+				}
+				if err := ber.CheckEncodedLength(opts, name, rule.description, observed); err != nil {
 					return err
 				}
 			} else {
@@ -339,6 +346,161 @@ func publishDecodedValue[T any](destination, value *T, err *error) {
 	if *err == nil {
 		*destination = *value
 	}
+}
+
+// checkOpaqueElement defers diagnostic metadata until the opaque value fails.
+// CheckBEROpaqueReplay selects the canonical override independently of the
+// internal replay-comparison mode; BERReplayEnabled would conflate the two.
+// No options selects default BER directly, avoiding a policy-selector frame.
+func checkOpaqueElement(data []byte, opts []ber.EncodeOption, component string, index int, source string, children []byte) error {
+	var err error
+	if len(opts) == 0 {
+		err = ber.CheckBEROpaqueElement(data)
+	} else {
+		err = opaqueElementShapeError(data, opts)
+	}
+	if err == nil {
+		return nil
+	}
+	return checkInvalidOpaqueElement(data, opts, component, index, source, children)
+}
+
+// Keep ordinal scans and diagnostic options off the successful check's frame.
+func checkInvalidOpaqueElement(data []byte, opts []ber.EncodeOption, component string, index int, source string, children []byte) error {
+	if index >= 0 {
+		component = fmt.Sprintf("%s[%d]", component, index)
+	}
+	if component != "" {
+		opts = ber.ChildEncodeOptions(opts, component)
+	}
+	return ber.CheckBEROpaqueElement(data, ber.EncodeSource(opts, source)...)
+}
+
+// The extension loop owns one lazy base count. X.690 (02/2021) §8.9:
+// preceding children are scanned once per encode, only on the first failure;
+// each earlier addition is one complete TLV, so later ordinals are base + i.
+func checkOpaqueAddition(data []byte, opts []ber.EncodeOption, source string, children []byte, i int, base *int) error {
+	var err error
+	if len(opts) == 0 {
+		err = ber.CheckBEROpaqueElement(data)
+	} else {
+		err = opaqueElementShapeError(data, opts)
+	}
+	if err == nil {
+		return nil
+	}
+	return checkInvalidOpaqueAddition(data, opts, source, children, i, base)
+}
+func checkInvalidOpaqueAddition(data []byte, opts []ber.EncodeOption, source string, children []byte, i int, base *int) error {
+	if *base < 0 {
+		count, err := encodedChildCount(children)
+		if err != nil {
+			return err
+		}
+		*base = count - i
+	}
+	return checkInvalidOpaqueElement(data, opts, "child", *base+i, source, nil)
+}
+func encodedChildCount(children []byte) (int, error) {
+	count := 0
+	for len(children) != 0 {
+		_, n, _, err := ber.DecodeEncodedTLV(children)
+		if err != nil {
+			return 0, err
+		}
+		children = children[n:]
+		count++
+	}
+	return count, nil
+}
+
+// DER keeps its direct successful check; only a refusal needs metadata.
+func invalidDEROpaqueElement(data []byte, component, source string) error {
+	err := checkInvalidOpaqueElement(data, []ber.EncodeOption{ber.WithoutBERReplay()}, component, -1, source, nil)
+	if _, ok := err.(*ber.ValidationError); ok {
+		return err
+	}
+	return qualifyBERError(ber.ValidateDEREncodedElement(data), component, "encoding", false)
+}
+func invalidDERAddition(data []byte, source string, children []byte, i int) error {
+	count, err := encodedChildCount(children)
+	if err != nil {
+		return err
+	}
+	err = checkInvalidOpaqueElement(data, []ber.EncodeOption{ber.WithoutBERReplay()}, "child", count, source, nil)
+	if _, ok := err.(*ber.ValidationError); ok {
+		return err
+	}
+	return opaqueExtensionError(ber.ValidateDEREncodedElement(data), i)
+}
+
+// X.690 (02/2021) §8.23.10: the primitive contents encoder checks
+// utf8.ValidString on the Go value before any TLV exists. Only malformed
+// text needs diagnostic metadata; the encoded TLV is never parsed again.
+func encodeUTF8String(value string, opts []ber.EncodeOption, component string, index int, source string) ([]byte, error) {
+	if utf8.ValidString(value) {
+		return ber.EncodeTLV(tag.Tag{Number: 12}, []byte(value))
+	}
+	return encodeInvalidUTF8String(value, opts, component, index, source)
+}
+func encodeInvalidUTF8String(value string, opts []ber.EncodeOption, component string, index int, source string) ([]byte, error) {
+	if index >= 0 {
+		component = fmt.Sprintf("%s[%d]", component, index)
+	}
+	rule := ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.10"}
+	if err := ber.CheckEncodedValue(ber.EncodeRule(opts, source, rule), component, "UTF8String shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)", value); err != nil {
+		return nil, err
+	}
+	return ber.EncodeTLV(tag.Tag{Number: 12}, []byte(value))
+}
+
+// Encode diagnostics use the significant length compared by normalization,
+// after trailing zero bits are removed (X.680 (02/2021) §22.7). Decode
+// diagnostics retain the received length; tolerant output keeps its storage.
+func namedBitObservedLength(value runtime.BitString) int {
+	normalized, err := ber.NormalizeNamedBitStringForEncoding(value, nil)
+	if err != nil {
+		return value.BitLength
+	}
+	return normalized.BitLength
+}
+
+// Source and path are applied only when normalization refuses a SIZE.
+func normalizeNamedBits(value runtime.BitString, sets []ber.NamedBitSizeSet, opts []ber.EncodeOption, component, source string) (runtime.BitString, error) {
+	normalized, err := ber.NormalizeNamedBitStringForBEREncoding(value, sets, opts...)
+	if err == nil {
+		return normalized, nil
+	}
+	if ve, ok := err.(*ber.ValidationError); ok && ve.ObservedLength != nil {
+		return runtime.BitString{}, ber.CheckEncodedLength(ber.EncodeRule(opts, source, ve.Rule), component, ve.Constraint, *ve.ObservedLength)
+	}
+	return runtime.BitString{}, qualifyBERError(err, component, "encoding", false)
+}
+func namedBitBuilderResult(value runtime.BitString, err error, source string) (runtime.BitString, error) {
+	if ve, ok := err.(*ber.ValidationError); ok {
+		located := *ve
+		located.Source = source
+		return value, &located
+	}
+	return value, err
+}
+
+// Linear encoders probe the same opaque policy before resolving a failed
+// addition's ordinal. This probe never publishes tolerant reports.
+func opaqueElementShapeError(data []byte, opts []ber.EncodeOption) error {
+	if len(opts) == 0 || ber.CheckBEROpaqueReplay(opts...) == nil {
+		return ber.CheckBEROpaqueElement(data)
+	}
+	return ber.ValidateDEREncodedElement(data)
+}
+
+// Value-rule refusals carry their own wire ordinal in the validation path.
+// Structural failures retain the extension context used by the encoder.
+func opaqueExtensionError(err error, index int) error {
+	if _, ok := err.(*ber.ValidationError); ok {
+		return err
+	}
+	return fmt.Errorf("encoding extension %d: %w", index, err)
 }
 
 // BearerServiceCodeCodec binds MAP-BS-Code.BearerServiceCode.
@@ -861,7 +1023,7 @@ func CCBSDataCodec() ValueCodec[CCBSData] {
 
 // ServiceIndicatorCodec binds MAP-SS-DataTypes.ServiceIndicator.
 func ServiceIndicatorCodec() ValueCodec[BERValue[ServiceIndicator]] {
-	return bitValueCodec("MAP-SS-DataTypes.ServiceIndicator", "ServiceIndicator", []primitiveRule[ServiceIndicator]{{invalid: func(value ServiceIndicator) bool { return !(value.BitLength >= 2 && value.BitLength <= 32) }, description: "SIZE (2..32)", clause: "51.5", length: func(value ServiceIndicator) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 32}}})
+	return bitValueCodec("MAP-SS-DataTypes.ServiceIndicator", "ServiceIndicator", []primitiveRule[ServiceIndicator]{{invalid: func(value ServiceIndicator) bool { return !(value.BitLength >= 2 && value.BitLength <= 32) }, description: "SIZE (2..32)", clause: "51.5", length: func(value ServiceIndicator) int { return value.BitLength }, encodedLength: func(value ServiceIndicator) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 32}}})
 }
 
 // RegisterCCEntryResCodec binds MAP-SS-DataTypes.RegisterCC-EntryRes.
@@ -1354,7 +1516,7 @@ func TraceDepthExtensionCodec() ValueCodec[BERValue[TraceDepthExtension]] {
 
 // TraceNETypeListCodec binds MAP-OM-DataTypes.TraceNE-TypeList.
 func TraceNETypeListCodec() ValueCodec[BERValue[TraceNETypeList]] {
-	return bitValueCodec("MAP-OM-DataTypes.TraceNE-TypeList", "TraceNE-TypeList", []primitiveRule[TraceNETypeList]{{invalid: func(value TraceNETypeList) bool { return !(value.BitLength >= 6 && value.BitLength <= 16) }, description: "SIZE (6..16)", clause: "51.5", length: func(value TraceNETypeList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}})
+	return bitValueCodec("MAP-OM-DataTypes.TraceNE-TypeList", "TraceNE-TypeList", []primitiveRule[TraceNETypeList]{{invalid: func(value TraceNETypeList) bool { return !(value.BitLength >= 6 && value.BitLength <= 16) }, description: "SIZE (6..16)", clause: "51.5", length: func(value TraceNETypeList) int { return value.BitLength }, encodedLength: func(value TraceNETypeList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}})
 }
 
 // TraceInterfaceListCodec binds MAP-OM-DataTypes.TraceInterfaceList.
@@ -1364,52 +1526,52 @@ func TraceInterfaceListCodec() ValueCodec[TraceInterfaceList] {
 
 // MSCSInterfaceListCodec binds MAP-OM-DataTypes.MSC-S-InterfaceList.
 func MSCSInterfaceListCodec() ValueCodec[BERValue[MSCSInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.MSC-S-InterfaceList", "MSC-S-InterfaceList", []primitiveRule[MSCSInterfaceList]{{invalid: func(value MSCSInterfaceList) bool { return !(value.BitLength >= 10 && value.BitLength <= 16) }, description: "SIZE (10..16)", clause: "51.5", length: func(value MSCSInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}})
+	return bitValueCodec("MAP-OM-DataTypes.MSC-S-InterfaceList", "MSC-S-InterfaceList", []primitiveRule[MSCSInterfaceList]{{invalid: func(value MSCSInterfaceList) bool { return !(value.BitLength >= 10 && value.BitLength <= 16) }, description: "SIZE (10..16)", clause: "51.5", length: func(value MSCSInterfaceList) int { return value.BitLength }, encodedLength: func(value MSCSInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}})
 }
 
 // MGWInterfaceListCodec binds MAP-OM-DataTypes.MGW-InterfaceList.
 func MGWInterfaceListCodec() ValueCodec[BERValue[MGWInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.MGW-InterfaceList", "MGW-InterfaceList", []primitiveRule[MGWInterfaceList]{{invalid: func(value MGWInterfaceList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value MGWInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.MGW-InterfaceList", "MGW-InterfaceList", []primitiveRule[MGWInterfaceList]{{invalid: func(value MGWInterfaceList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value MGWInterfaceList) int { return value.BitLength }, encodedLength: func(value MGWInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
 }
 
 // SGSNInterfaceListCodec binds MAP-OM-DataTypes.SGSN-InterfaceList.
 func SGSNInterfaceListCodec() ValueCodec[BERValue[SGSNInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.SGSN-InterfaceList", "SGSN-InterfaceList", []primitiveRule[SGSNInterfaceList]{{invalid: func(value SGSNInterfaceList) bool { return !(value.BitLength >= 8 && value.BitLength <= 16) }, description: "SIZE (8..16)", clause: "51.5", length: func(value SGSNInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}})
+	return bitValueCodec("MAP-OM-DataTypes.SGSN-InterfaceList", "SGSN-InterfaceList", []primitiveRule[SGSNInterfaceList]{{invalid: func(value SGSNInterfaceList) bool { return !(value.BitLength >= 8 && value.BitLength <= 16) }, description: "SIZE (8..16)", clause: "51.5", length: func(value SGSNInterfaceList) int { return value.BitLength }, encodedLength: func(value SGSNInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}})
 }
 
 // GGSNInterfaceListCodec binds MAP-OM-DataTypes.GGSN-InterfaceList.
 func GGSNInterfaceListCodec() ValueCodec[BERValue[GGSNInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.GGSN-InterfaceList", "GGSN-InterfaceList", []primitiveRule[GGSNInterfaceList]{{invalid: func(value GGSNInterfaceList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value GGSNInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.GGSN-InterfaceList", "GGSN-InterfaceList", []primitiveRule[GGSNInterfaceList]{{invalid: func(value GGSNInterfaceList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value GGSNInterfaceList) int { return value.BitLength }, encodedLength: func(value GGSNInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
 }
 
 // RNCInterfaceListCodec binds MAP-OM-DataTypes.RNC-InterfaceList.
 func RNCInterfaceListCodec() ValueCodec[BERValue[RNCInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.RNC-InterfaceList", "RNC-InterfaceList", []primitiveRule[RNCInterfaceList]{{invalid: func(value RNCInterfaceList) bool { return !(value.BitLength >= 4 && value.BitLength <= 8) }, description: "SIZE (4..8)", clause: "51.5", length: func(value RNCInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.RNC-InterfaceList", "RNC-InterfaceList", []primitiveRule[RNCInterfaceList]{{invalid: func(value RNCInterfaceList) bool { return !(value.BitLength >= 4 && value.BitLength <= 8) }, description: "SIZE (4..8)", clause: "51.5", length: func(value RNCInterfaceList) int { return value.BitLength }, encodedLength: func(value RNCInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}})
 }
 
 // BMSCInterfaceListCodec binds MAP-OM-DataTypes.BMSC-InterfaceList.
 func BMSCInterfaceListCodec() ValueCodec[BERValue[BMSCInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.BMSC-InterfaceList", "BMSC-InterfaceList", []primitiveRule[BMSCInterfaceList]{{invalid: func(value BMSCInterfaceList) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value BMSCInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.BMSC-InterfaceList", "BMSC-InterfaceList", []primitiveRule[BMSCInterfaceList]{{invalid: func(value BMSCInterfaceList) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value BMSCInterfaceList) int { return value.BitLength }, encodedLength: func(value BMSCInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
 }
 
 // MMEInterfaceListCodec binds MAP-OM-DataTypes.MME-InterfaceList.
 func MMEInterfaceListCodec() ValueCodec[BERValue[MMEInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.MME-InterfaceList", "MME-InterfaceList", []primitiveRule[MMEInterfaceList]{{invalid: func(value MMEInterfaceList) bool { return !(value.BitLength >= 5 && value.BitLength <= 8) }, description: "SIZE (5..8)", clause: "51.5", length: func(value MMEInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.MME-InterfaceList", "MME-InterfaceList", []primitiveRule[MMEInterfaceList]{{invalid: func(value MMEInterfaceList) bool { return !(value.BitLength >= 5 && value.BitLength <= 8) }, description: "SIZE (5..8)", clause: "51.5", length: func(value MMEInterfaceList) int { return value.BitLength }, encodedLength: func(value MMEInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}})
 }
 
 // SGWInterfaceListCodec binds MAP-OM-DataTypes.SGW-InterfaceList.
 func SGWInterfaceListCodec() ValueCodec[BERValue[SGWInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.SGW-InterfaceList", "SGW-InterfaceList", []primitiveRule[SGWInterfaceList]{{invalid: func(value SGWInterfaceList) bool { return !(value.BitLength >= 5 && value.BitLength <= 8) }, description: "SIZE (5..8)", clause: "51.5", length: func(value SGWInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.SGW-InterfaceList", "SGW-InterfaceList", []primitiveRule[SGWInterfaceList]{{invalid: func(value SGWInterfaceList) bool { return !(value.BitLength >= 5 && value.BitLength <= 8) }, description: "SIZE (5..8)", clause: "51.5", length: func(value SGWInterfaceList) int { return value.BitLength }, encodedLength: func(value SGWInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}})
 }
 
 // PGWInterfaceListCodec binds MAP-OM-DataTypes.PGW-InterfaceList.
 func PGWInterfaceListCodec() ValueCodec[BERValue[PGWInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.PGW-InterfaceList", "PGW-InterfaceList", []primitiveRule[PGWInterfaceList]{{invalid: func(value PGWInterfaceList) bool { return !(value.BitLength >= 8 && value.BitLength <= 16) }, description: "SIZE (8..16)", clause: "51.5", length: func(value PGWInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}})
+	return bitValueCodec("MAP-OM-DataTypes.PGW-InterfaceList", "PGW-InterfaceList", []primitiveRule[PGWInterfaceList]{{invalid: func(value PGWInterfaceList) bool { return !(value.BitLength >= 8 && value.BitLength <= 16) }, description: "SIZE (8..16)", clause: "51.5", length: func(value PGWInterfaceList) int { return value.BitLength }, encodedLength: func(value PGWInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}})
 }
 
 // ENBInterfaceListCodec binds MAP-OM-DataTypes.ENB-InterfaceList.
 func ENBInterfaceListCodec() ValueCodec[BERValue[ENBInterfaceList]] {
-	return bitValueCodec("MAP-OM-DataTypes.ENB-InterfaceList", "ENB-InterfaceList", []primitiveRule[ENBInterfaceList]{{invalid: func(value ENBInterfaceList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value ENBInterfaceList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.ENB-InterfaceList", "ENB-InterfaceList", []primitiveRule[ENBInterfaceList]{{invalid: func(value ENBInterfaceList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value ENBInterfaceList) int { return value.BitLength }, encodedLength: func(value ENBInterfaceList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
 }
 
 // TraceEventListCodec binds MAP-OM-DataTypes.TraceEventList.
@@ -1419,42 +1581,42 @@ func TraceEventListCodec() ValueCodec[TraceEventList] {
 
 // MSCSEventListCodec binds MAP-OM-DataTypes.MSC-S-EventList.
 func MSCSEventListCodec() ValueCodec[BERValue[MSCSEventList]] {
-	return bitValueCodec("MAP-OM-DataTypes.MSC-S-EventList", "MSC-S-EventList", []primitiveRule[MSCSEventList]{{invalid: func(value MSCSEventList) bool { return !(value.BitLength >= 5 && value.BitLength <= 16) }, description: "SIZE (5..16)", clause: "51.5", length: func(value MSCSEventList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}})
+	return bitValueCodec("MAP-OM-DataTypes.MSC-S-EventList", "MSC-S-EventList", []primitiveRule[MSCSEventList]{{invalid: func(value MSCSEventList) bool { return !(value.BitLength >= 5 && value.BitLength <= 16) }, description: "SIZE (5..16)", clause: "51.5", length: func(value MSCSEventList) int { return value.BitLength }, encodedLength: func(value MSCSEventList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}})
 }
 
 // MGWEventListCodec binds MAP-OM-DataTypes.MGW-EventList.
 func MGWEventListCodec() ValueCodec[BERValue[MGWEventList]] {
-	return bitValueCodec("MAP-OM-DataTypes.MGW-EventList", "MGW-EventList", []primitiveRule[MGWEventList]{{invalid: func(value MGWEventList) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value MGWEventList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.MGW-EventList", "MGW-EventList", []primitiveRule[MGWEventList]{{invalid: func(value MGWEventList) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value MGWEventList) int { return value.BitLength }, encodedLength: func(value MGWEventList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
 }
 
 // SGSNEventListCodec binds MAP-OM-DataTypes.SGSN-EventList.
 func SGSNEventListCodec() ValueCodec[BERValue[SGSNEventList]] {
-	return bitValueCodec("MAP-OM-DataTypes.SGSN-EventList", "SGSN-EventList", []primitiveRule[SGSNEventList]{{invalid: func(value SGSNEventList) bool { return !(value.BitLength >= 4 && value.BitLength <= 16) }, description: "SIZE (4..16)", clause: "51.5", length: func(value SGSNEventList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 16}}})
+	return bitValueCodec("MAP-OM-DataTypes.SGSN-EventList", "SGSN-EventList", []primitiveRule[SGSNEventList]{{invalid: func(value SGSNEventList) bool { return !(value.BitLength >= 4 && value.BitLength <= 16) }, description: "SIZE (4..16)", clause: "51.5", length: func(value SGSNEventList) int { return value.BitLength }, encodedLength: func(value SGSNEventList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 16}}})
 }
 
 // GGSNEventListCodec binds MAP-OM-DataTypes.GGSN-EventList.
 func GGSNEventListCodec() ValueCodec[BERValue[GGSNEventList]] {
-	return bitValueCodec("MAP-OM-DataTypes.GGSN-EventList", "GGSN-EventList", []primitiveRule[GGSNEventList]{{invalid: func(value GGSNEventList) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value GGSNEventList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.GGSN-EventList", "GGSN-EventList", []primitiveRule[GGSNEventList]{{invalid: func(value GGSNEventList) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value GGSNEventList) int { return value.BitLength }, encodedLength: func(value GGSNEventList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
 }
 
 // BMSCEventListCodec binds MAP-OM-DataTypes.BMSC-EventList.
 func BMSCEventListCodec() ValueCodec[BERValue[BMSCEventList]] {
-	return bitValueCodec("MAP-OM-DataTypes.BMSC-EventList", "BMSC-EventList", []primitiveRule[BMSCEventList]{{invalid: func(value BMSCEventList) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value BMSCEventList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.BMSC-EventList", "BMSC-EventList", []primitiveRule[BMSCEventList]{{invalid: func(value BMSCEventList) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value BMSCEventList) int { return value.BitLength }, encodedLength: func(value BMSCEventList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
 }
 
 // MMEEventListCodec binds MAP-OM-DataTypes.MME-EventList.
 func MMEEventListCodec() ValueCodec[BERValue[MMEEventList]] {
-	return bitValueCodec("MAP-OM-DataTypes.MME-EventList", "MME-EventList", []primitiveRule[MMEEventList]{{invalid: func(value MMEEventList) bool { return !(value.BitLength >= 6 && value.BitLength <= 8) }, description: "SIZE (6..8)", clause: "51.5", length: func(value MMEEventList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.MME-EventList", "MME-EventList", []primitiveRule[MMEEventList]{{invalid: func(value MMEEventList) bool { return !(value.BitLength >= 6 && value.BitLength <= 8) }, description: "SIZE (6..8)", clause: "51.5", length: func(value MMEEventList) int { return value.BitLength }, encodedLength: func(value MMEEventList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 8}}})
 }
 
 // SGWEventListCodec binds MAP-OM-DataTypes.SGW-EventList.
 func SGWEventListCodec() ValueCodec[BERValue[SGWEventList]] {
-	return bitValueCodec("MAP-OM-DataTypes.SGW-EventList", "SGW-EventList", []primitiveRule[SGWEventList]{{invalid: func(value SGWEventList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value SGWEventList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.SGW-EventList", "SGW-EventList", []primitiveRule[SGWEventList]{{invalid: func(value SGWEventList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value SGWEventList) int { return value.BitLength }, encodedLength: func(value SGWEventList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
 }
 
 // PGWEventListCodec binds MAP-OM-DataTypes.PGW-EventList.
 func PGWEventListCodec() ValueCodec[BERValue[PGWEventList]] {
-	return bitValueCodec("MAP-OM-DataTypes.PGW-EventList", "PGW-EventList", []primitiveRule[PGWEventList]{{invalid: func(value PGWEventList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value PGWEventList) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
+	return bitValueCodec("MAP-OM-DataTypes.PGW-EventList", "PGW-EventList", []primitiveRule[PGWEventList]{{invalid: func(value PGWEventList) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value PGWEventList) int { return value.BitLength }, encodedLength: func(value PGWEventList) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
 }
 
 // TracePropagationListCodec binds MAP-OM-DataTypes.TracePropagationList.
@@ -1489,7 +1651,7 @@ func VLRCapabilityCodec() ValueCodec[VLRCapability] {
 
 // SupportedRATTypesCodec binds MAP-MS-DataTypes.SupportedRAT-Types.
 func SupportedRATTypesCodec() ValueCodec[BERValue[SupportedRATTypes]] {
-	return bitValueCodec("MAP-MS-DataTypes.SupportedRAT-Types", "SupportedRAT-Types", []primitiveRule[SupportedRATTypes]{{invalid: func(value SupportedRATTypes) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value SupportedRATTypes) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.SupportedRAT-Types", "SupportedRAT-Types", []primitiveRule[SupportedRATTypes]{{invalid: func(value SupportedRATTypes) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value SupportedRATTypes) int { return value.BitLength }, encodedLength: func(value SupportedRATTypes) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
 }
 
 // SuperChargerInfoCodec binds MAP-MS-DataTypes.SuperChargerInfo.
@@ -1509,7 +1671,7 @@ func ISTSupportIndicatorCodec() ValueCodec[BERValue[ISTSupportIndicator]] {
 
 // SupportedLCSCapabilitySetsCodec binds MAP-MS-DataTypes.SupportedLCS-CapabilitySets.
 func SupportedLCSCapabilitySetsCodec() ValueCodec[BERValue[SupportedLCSCapabilitySets]] {
-	return bitValueCodec("MAP-MS-DataTypes.SupportedLCS-CapabilitySets", "SupportedLCS-CapabilitySets", []primitiveRule[SupportedLCSCapabilitySets]{{invalid: func(value SupportedLCSCapabilitySets) bool { return !(value.BitLength >= 2 && value.BitLength <= 16) }, description: "SIZE (2..16)", clause: "51.5", length: func(value SupportedLCSCapabilitySets) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}})
+	return bitValueCodec("MAP-MS-DataTypes.SupportedLCS-CapabilitySets", "SupportedLCS-CapabilitySets", []primitiveRule[SupportedLCSCapabilitySets]{{invalid: func(value SupportedLCSCapabilitySets) bool { return !(value.BitLength >= 2 && value.BitLength <= 16) }, description: "SIZE (2..16)", clause: "51.5", length: func(value SupportedLCSCapabilitySets) int { return value.BitLength }, encodedLength: func(value SupportedLCSCapabilitySets) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}})
 }
 
 // UpdateLocationResCodec binds MAP-MS-DataTypes.UpdateLocationRes.
@@ -1719,7 +1881,7 @@ func PDNGWUpdateCodec() ValueCodec[PDNGWUpdate] {
 
 // ISRInformationCodec binds MAP-MS-DataTypes.ISR-Information.
 func ISRInformationCodec() ValueCodec[BERValue[ISRInformation]] {
-	return bitValueCodec("MAP-MS-DataTypes.ISR-Information", "ISR-Information", []primitiveRule[ISRInformation]{{invalid: func(value ISRInformation) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value ISRInformation) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.ISR-Information", "ISR-Information", []primitiveRule[ISRInformation]{{invalid: func(value ISRInformation) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value ISRInformation) int { return value.BitLength }, encodedLength: func(value ISRInformation) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
 }
 
 // SGSNCapabilityCodec binds MAP-MS-DataTypes.SGSN-Capability.
@@ -1729,12 +1891,12 @@ func SGSNCapabilityCodec() ValueCodec[SGSNCapability] {
 
 // SupportedFeaturesCodec binds MAP-MS-DataTypes.SupportedFeatures.
 func SupportedFeaturesCodec() ValueCodec[BERValue[SupportedFeatures]] {
-	return bitValueCodec("MAP-MS-DataTypes.SupportedFeatures", "SupportedFeatures", []primitiveRule[SupportedFeatures]{{invalid: func(value SupportedFeatures) bool { return !(value.BitLength >= 26 && value.BitLength <= 40) }, description: "SIZE (26..40)", clause: "51.5", length: func(value SupportedFeatures) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}})
+	return bitValueCodec("MAP-MS-DataTypes.SupportedFeatures", "SupportedFeatures", []primitiveRule[SupportedFeatures]{{invalid: func(value SupportedFeatures) bool { return !(value.BitLength >= 26 && value.BitLength <= 40) }, description: "SIZE (26..40)", clause: "51.5", length: func(value SupportedFeatures) int { return value.BitLength }, encodedLength: func(value SupportedFeatures) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}})
 }
 
 // ExtSupportedFeaturesCodec binds MAP-MS-DataTypes.Ext-SupportedFeatures.
 func ExtSupportedFeaturesCodec() ValueCodec[BERValue[ExtSupportedFeatures]] {
-	return bitValueCodec("MAP-MS-DataTypes.Ext-SupportedFeatures", "Ext-SupportedFeatures", []primitiveRule[ExtSupportedFeatures]{{invalid: func(value ExtSupportedFeatures) bool { return !(value.BitLength >= 1 && value.BitLength <= 40) }, description: "SIZE (1..40)", clause: "51.5", length: func(value ExtSupportedFeatures) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}})
+	return bitValueCodec("MAP-MS-DataTypes.Ext-SupportedFeatures", "Ext-SupportedFeatures", []primitiveRule[ExtSupportedFeatures]{{invalid: func(value ExtSupportedFeatures) bool { return !(value.BitLength >= 1 && value.BitLength <= 40) }, description: "SIZE (1..40)", clause: "51.5", length: func(value ExtSupportedFeatures) int { return value.BitLength }, encodedLength: func(value ExtSupportedFeatures) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}})
 }
 
 // UESRVCCCapabilityCodec binds MAP-MS-DataTypes.UE-SRVCC-Capability.
@@ -1799,12 +1961,12 @@ func LCLSGlobalCallReferenceCodec() ValueCodec[BERValue[LCLSGlobalCallReference]
 
 // LCLSNegotiationCodec binds MAP-MS-DataTypes.LCLS-Negotiation.
 func LCLSNegotiationCodec() ValueCodec[BERValue[LCLSNegotiation]] {
-	return bitValueCodec("MAP-MS-DataTypes.LCLS-Negotiation", "LCLS-Negotiation", []primitiveRule[LCLSNegotiation]{{invalid: func(value LCLSNegotiation) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value LCLSNegotiation) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.LCLS-Negotiation", "LCLS-Negotiation", []primitiveRule[LCLSNegotiation]{{invalid: func(value LCLSNegotiation) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value LCLSNegotiation) int { return value.BitLength }, encodedLength: func(value LCLSNegotiation) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
 }
 
 // LCLSConfigurationPreferenceCodec binds MAP-MS-DataTypes.LCLS-ConfigurationPreference.
 func LCLSConfigurationPreferenceCodec() ValueCodec[BERValue[LCLSConfigurationPreference]] {
-	return bitValueCodec("MAP-MS-DataTypes.LCLS-ConfigurationPreference", "LCLS-ConfigurationPreference", []primitiveRule[LCLSConfigurationPreference]{{invalid: func(value LCLSConfigurationPreference) bool { return !(value.BitLength >= 4 && value.BitLength <= 8) }, description: "SIZE (4..8)", clause: "51.5", length: func(value LCLSConfigurationPreference) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.LCLS-ConfigurationPreference", "LCLS-ConfigurationPreference", []primitiveRule[LCLSConfigurationPreference]{{invalid: func(value LCLSConfigurationPreference) bool { return !(value.BitLength >= 4 && value.BitLength <= 8) }, description: "SIZE (4..8)", clause: "51.5", length: func(value LCLSConfigurationPreference) int { return value.BitLength }, encodedLength: func(value LCLSConfigurationPreference) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}})
 }
 
 // BSSMAPServiceHandoverListCodec binds MAP-MS-DataTypes.BSSMAP-ServiceHandoverList.
@@ -2029,7 +2191,7 @@ func CheckIMEIResCodec() ValueCodec[CheckIMEIRes] {
 
 // RequestedEquipmentInfoCodec binds MAP-MS-DataTypes.RequestedEquipmentInfo.
 func RequestedEquipmentInfoCodec() ValueCodec[BERValue[RequestedEquipmentInfo]] {
-	return bitValueCodec("MAP-MS-DataTypes.RequestedEquipmentInfo", "RequestedEquipmentInfo", []primitiveRule[RequestedEquipmentInfo]{{invalid: func(value RequestedEquipmentInfo) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value RequestedEquipmentInfo) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.RequestedEquipmentInfo", "RequestedEquipmentInfo", []primitiveRule[RequestedEquipmentInfo]{{invalid: func(value RequestedEquipmentInfo) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value RequestedEquipmentInfo) int { return value.BitLength }, encodedLength: func(value RequestedEquipmentInfo) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
 }
 
 // UESBIIuCodec binds MAP-MS-DataTypes.UESBI-Iu.
@@ -2260,12 +2422,12 @@ func WLANOffloadabilityIndicationCodec() ValueCodec[BERValue[WLANOffloadabilityI
 
 // AccessRestrictionDataCodec binds MAP-MS-DataTypes.AccessRestrictionData.
 func AccessRestrictionDataCodec() ValueCodec[BERValue[AccessRestrictionData]] {
-	return bitValueCodec("MAP-MS-DataTypes.AccessRestrictionData", "AccessRestrictionData", []primitiveRule[AccessRestrictionData]{{invalid: func(value AccessRestrictionData) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value AccessRestrictionData) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.AccessRestrictionData", "AccessRestrictionData", []primitiveRule[AccessRestrictionData]{{invalid: func(value AccessRestrictionData) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value AccessRestrictionData) int { return value.BitLength }, encodedLength: func(value AccessRestrictionData) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
 }
 
 // ExtAccessRestrictionDataCodec binds MAP-MS-DataTypes.Ext-AccessRestrictionData.
 func ExtAccessRestrictionDataCodec() ValueCodec[BERValue[ExtAccessRestrictionData]] {
-	return bitValueCodec("MAP-MS-DataTypes.Ext-AccessRestrictionData", "Ext-AccessRestrictionData", []primitiveRule[ExtAccessRestrictionData]{{invalid: func(value ExtAccessRestrictionData) bool { return !(value.BitLength >= 1 && value.BitLength <= 32) }, description: "SIZE (1..32)", clause: "51.5", length: func(value ExtAccessRestrictionData) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}})
+	return bitValueCodec("MAP-MS-DataTypes.Ext-AccessRestrictionData", "Ext-AccessRestrictionData", []primitiveRule[ExtAccessRestrictionData]{{invalid: func(value ExtAccessRestrictionData) bool { return !(value.BitLength >= 1 && value.BitLength <= 32) }, description: "SIZE (1..32)", clause: "51.5", length: func(value ExtAccessRestrictionData) int { return value.BitLength }, encodedLength: func(value ExtAccessRestrictionData) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}})
 }
 
 // AdjacentAccessRestrictionDataListCodec binds MAP-MS-DataTypes.AdjacentAccessRestrictionDataList.
@@ -2485,12 +2647,12 @@ func ODBDataCodec() ValueCodec[ODBData] {
 
 // ODBGeneralDataCodec binds MAP-MS-DataTypes.ODB-GeneralData.
 func ODBGeneralDataCodec() ValueCodec[BERValue[ODBGeneralData]] {
-	return bitValueCodec("MAP-MS-DataTypes.ODB-GeneralData", "ODB-GeneralData", []primitiveRule[ODBGeneralData]{{invalid: func(value ODBGeneralData) bool { return !(value.BitLength >= 15 && value.BitLength <= 32) }, description: "SIZE (15..32)", clause: "51.5", length: func(value ODBGeneralData) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}})
+	return bitValueCodec("MAP-MS-DataTypes.ODB-GeneralData", "ODB-GeneralData", []primitiveRule[ODBGeneralData]{{invalid: func(value ODBGeneralData) bool { return !(value.BitLength >= 15 && value.BitLength <= 32) }, description: "SIZE (15..32)", clause: "51.5", length: func(value ODBGeneralData) int { return value.BitLength }, encodedLength: func(value ODBGeneralData) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}})
 }
 
 // ODBHPLMNDataCodec binds MAP-MS-DataTypes.ODB-HPLMN-Data.
 func ODBHPLMNDataCodec() ValueCodec[BERValue[ODBHPLMNData]] {
-	return bitValueCodec("MAP-MS-DataTypes.ODB-HPLMN-Data", "ODB-HPLMN-Data", []primitiveRule[ODBHPLMNData]{{invalid: func(value ODBHPLMNData) bool { return !(value.BitLength >= 4 && value.BitLength <= 32) }, description: "SIZE (4..32)", clause: "51.5", length: func(value ODBHPLMNData) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 32}}})
+	return bitValueCodec("MAP-MS-DataTypes.ODB-HPLMN-Data", "ODB-HPLMN-Data", []primitiveRule[ODBHPLMNData]{{invalid: func(value ODBHPLMNData) bool { return !(value.BitLength >= 4 && value.BitLength <= 32) }, description: "SIZE (4..32)", clause: "51.5", length: func(value ODBHPLMNData) int { return value.BitLength }, encodedLength: func(value ODBHPLMNData) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 4, Max: 32}}})
 }
 
 // ExtSSInfoListCodec binds MAP-MS-DataTypes.Ext-SS-InfoList.
@@ -2687,7 +2849,7 @@ func DeleteSubscriberDataArgCodec() ValueCodec[DeleteSubscriberDataArg] {
 
 // SpecificCSIWithdrawCodec binds MAP-MS-DataTypes.SpecificCSI-Withdraw.
 func SpecificCSIWithdrawCodec() ValueCodec[BERValue[SpecificCSIWithdraw]] {
-	return bitValueCodec("MAP-MS-DataTypes.SpecificCSI-Withdraw", "SpecificCSI-Withdraw", []primitiveRule[SpecificCSIWithdraw]{{invalid: func(value SpecificCSIWithdraw) bool { return !(value.BitLength >= 8 && value.BitLength <= 32) }, description: "SIZE (8..32)", clause: "51.5", length: func(value SpecificCSIWithdraw) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}})
+	return bitValueCodec("MAP-MS-DataTypes.SpecificCSI-Withdraw", "SpecificCSI-Withdraw", []primitiveRule[SpecificCSIWithdraw]{{invalid: func(value SpecificCSIWithdraw) bool { return !(value.BitLength >= 8 && value.BitLength <= 32) }, description: "SIZE (8..32)", clause: "51.5", length: func(value SpecificCSIWithdraw) int { return value.BitLength }, encodedLength: func(value SpecificCSIWithdraw) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}})
 }
 
 // GPRSSubscriptionDataWithdrawCodec binds MAP-MS-DataTypes.GPRSSubscriptionDataWithdraw.
@@ -2882,19 +3044,19 @@ func CamelCapabilityHandlingCodec() ValueCodec[BERValue[CamelCapabilityHandling]
 
 // SupportedCamelPhasesCodec binds MAP-MS-DataTypes.SupportedCamelPhases.
 func SupportedCamelPhasesCodec() ValueCodec[BERValue[SupportedCamelPhases]] {
-	return bitValueCodec("MAP-MS-DataTypes.SupportedCamelPhases", "SupportedCamelPhases", []primitiveRule[SupportedCamelPhases]{{invalid: func(value SupportedCamelPhases) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value SupportedCamelPhases) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
+	return bitValueCodec("MAP-MS-DataTypes.SupportedCamelPhases", "SupportedCamelPhases", []primitiveRule[SupportedCamelPhases]{{invalid: func(value SupportedCamelPhases) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value SupportedCamelPhases) int { return value.BitLength }, encodedLength: func(value SupportedCamelPhases) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
 }
 
 // OfferedCamel4CSIsCodec binds MAP-MS-DataTypes.OfferedCamel4CSIs.
 func OfferedCamel4CSIsCodec() ValueCodec[BERValue[OfferedCamel4CSIs]] {
-	return bitValueCodec("MAP-MS-DataTypes.OfferedCamel4CSIs", "OfferedCamel4CSIs", []primitiveRule[OfferedCamel4CSIs]{{invalid: func(value OfferedCamel4CSIs) bool { return !(value.BitLength >= 7 && value.BitLength <= 16) }, description: "SIZE (7..16)", clause: "51.5", length: func(value OfferedCamel4CSIs) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
+	return bitValueCodec("MAP-MS-DataTypes.OfferedCamel4CSIs", "OfferedCamel4CSIs", []primitiveRule[OfferedCamel4CSIs]{{invalid: func(value OfferedCamel4CSIs) bool { return !(value.BitLength >= 7 && value.BitLength <= 16) }, description: "SIZE (7..16)", clause: "51.5", length: func(value OfferedCamel4CSIs) int { return value.BitLength }, encodedLength: func(value OfferedCamel4CSIs) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
 }
 
 // OfferedCamel4FunctionalitiesCodec binds MAP-MS-DataTypes.OfferedCamel4Functionalities.
 func OfferedCamel4FunctionalitiesCodec() ValueCodec[BERValue[OfferedCamel4Functionalities]] {
 	return bitValueCodec("MAP-MS-DataTypes.OfferedCamel4Functionalities", "OfferedCamel4Functionalities", []primitiveRule[OfferedCamel4Functionalities]{{invalid: func(value OfferedCamel4Functionalities) bool {
 		return !(value.BitLength >= 15 && value.BitLength <= 64)
-	}, description: "SIZE (15..64)", clause: "51.5", length: func(value OfferedCamel4Functionalities) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 15, Max: 64}}})
+	}, description: "SIZE (15..64)", clause: "51.5", length: func(value OfferedCamel4Functionalities) int { return value.BitLength }, encodedLength: func(value OfferedCamel4Functionalities) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 15, Max: 64}}})
 }
 
 // SMSCSICodec binds MAP-MS-DataTypes.SMS-CSI.
@@ -3034,7 +3196,7 @@ func AdditionalInfoCodec() ValueCodec[BERValue[AdditionalInfo]] {
 
 // AdditionalSubscriptionsCodec binds MAP-MS-DataTypes.AdditionalSubscriptions.
 func AdditionalSubscriptionsCodec() ValueCodec[BERValue[AdditionalSubscriptions]] {
-	return bitValueCodec("MAP-MS-DataTypes.AdditionalSubscriptions", "AdditionalSubscriptions", []primitiveRule[AdditionalSubscriptions]{{invalid: func(value AdditionalSubscriptions) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value AdditionalSubscriptions) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.AdditionalSubscriptions", "AdditionalSubscriptions", []primitiveRule[AdditionalSubscriptions]{{invalid: func(value AdditionalSubscriptions) bool { return !(value.BitLength >= 3 && value.BitLength <= 8) }, description: "SIZE (3..8)", clause: "51.5", length: func(value AdditionalSubscriptions) int { return value.BitLength }, encodedLength: func(value AdditionalSubscriptions) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
 }
 
 // VoiceBroadcastDataCodec binds MAP-MS-DataTypes.VoiceBroadcastData.
@@ -3133,7 +3295,7 @@ func DomainTypeCodec() ValueCodec[BERValue[DomainType]] {
 
 // RequestedNodesCodec binds MAP-MS-DataTypes.RequestedNodes.
 func RequestedNodesCodec() ValueCodec[BERValue[RequestedNodes]] {
-	return bitValueCodec("MAP-MS-DataTypes.RequestedNodes", "RequestedNodes", []primitiveRule[RequestedNodes]{{invalid: func(value RequestedNodes) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value RequestedNodes) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.RequestedNodes", "RequestedNodes", []primitiveRule[RequestedNodes]{{invalid: func(value RequestedNodes) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value RequestedNodes) int { return value.BitLength }, encodedLength: func(value RequestedNodes) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
 }
 
 // LocationInformationCodec binds MAP-MS-DataTypes.LocationInformation.
@@ -3367,12 +3529,12 @@ func ModificationRequestForCSGCodec() ValueCodec[ModificationRequestForCSG] {
 
 // RequestedServingNodeCodec binds MAP-MS-DataTypes.RequestedServingNode.
 func RequestedServingNodeCodec() ValueCodec[BERValue[RequestedServingNode]] {
-	return bitValueCodec("MAP-MS-DataTypes.RequestedServingNode", "RequestedServingNode", []primitiveRule[RequestedServingNode]{{invalid: func(value RequestedServingNode) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value RequestedServingNode) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.RequestedServingNode", "RequestedServingNode", []primitiveRule[RequestedServingNode]{{invalid: func(value RequestedServingNode) bool { return !(value.BitLength >= 1 && value.BitLength <= 8) }, description: "SIZE (1..8)", clause: "51.5", length: func(value RequestedServingNode) int { return value.BitLength }, encodedLength: func(value RequestedServingNode) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
 }
 
 // ServingNodeCodec binds MAP-MS-DataTypes.ServingNode.
 func ServingNodeCodec() ValueCodec[BERValue[ServingNode]] {
-	return bitValueCodec("MAP-MS-DataTypes.ServingNode", "ServingNode", []primitiveRule[ServingNode]{{invalid: func(value ServingNode) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value ServingNode) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
+	return bitValueCodec("MAP-MS-DataTypes.ServingNode", "ServingNode", []primitiveRule[ServingNode]{{invalid: func(value ServingNode) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value ServingNode) int { return value.BitLength }, encodedLength: func(value ServingNode) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
 }
 
 // AnyTimeModificationResCodec binds MAP-MS-DataTypes.AnyTimeModificationRes.
@@ -3487,7 +3649,7 @@ func SuppressionOfAnnouncementCodec() ValueCodec[BERValue[SuppressionOfAnnouncem
 
 // SuppressMTSSCodec binds MAP-CH-DataTypes.SuppressMTSS.
 func SuppressMTSSCodec() ValueCodec[BERValue[SuppressMTSS]] {
-	return bitValueCodec("MAP-CH-DataTypes.SuppressMTSS", "SuppressMTSS", []primitiveRule[SuppressMTSS]{{invalid: func(value SuppressMTSS) bool { return !(value.BitLength >= 2 && value.BitLength <= 16) }, description: "SIZE (2..16)", clause: "51.5", length: func(value SuppressMTSS) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}})
+	return bitValueCodec("MAP-CH-DataTypes.SuppressMTSS", "SuppressMTSS", []primitiveRule[SuppressMTSS]{{invalid: func(value SuppressMTSS) bool { return !(value.BitLength >= 2 && value.BitLength <= 16) }, description: "SIZE (2..16)", clause: "51.5", length: func(value SuppressMTSS) int { return value.BitLength }, encodedLength: func(value SuppressMTSS) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}})
 }
 
 // InterrogationTypeCodec binds MAP-CH-DataTypes.InterrogationType.
@@ -3529,7 +3691,7 @@ func SendRoutingInfoResCodec() ValueCodec[SendRoutingInfoRes] {
 
 // AllowedServicesCodec binds MAP-CH-DataTypes.AllowedServices.
 func AllowedServicesCodec() ValueCodec[BERValue[AllowedServices]] {
-	return bitValueCodec("MAP-CH-DataTypes.AllowedServices", "AllowedServices", []primitiveRule[AllowedServices]{{invalid: func(value AllowedServices) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value AllowedServices) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
+	return bitValueCodec("MAP-CH-DataTypes.AllowedServices", "AllowedServices", []primitiveRule[AllowedServices]{{invalid: func(value AllowedServices) bool { return !(value.BitLength >= 2 && value.BitLength <= 8) }, description: "SIZE (2..8)", clause: "51.5", length: func(value AllowedServices) int { return value.BitLength }, encodedLength: func(value AllowedServices) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
 }
 
 // UnavailabilityCauseCodec binds MAP-CH-DataTypes.UnavailabilityCause.
@@ -3978,7 +4140,7 @@ func InformServiceCentreArgCodec() ValueCodec[InformServiceCentreArg] {
 
 // MWStatusCodec binds MAP-SM-DataTypes.MW-Status.
 func MWStatusCodec() ValueCodec[BERValue[MWStatus]] {
-	return bitValueCodec("MAP-SM-DataTypes.MW-Status", "MW-Status", []primitiveRule[MWStatus]{{invalid: func(value MWStatus) bool { return !(value.BitLength >= 6 && value.BitLength <= 16) }, description: "SIZE (6..16)", clause: "51.5", length: func(value MWStatus) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}})
+	return bitValueCodec("MAP-SM-DataTypes.MW-Status", "MW-Status", []primitiveRule[MWStatus]{{invalid: func(value MWStatus) bool { return !(value.BitLength >= 6 && value.BitLength <= 16) }, description: "SIZE (6..16)", clause: "51.5", length: func(value MWStatus) int { return value.BitLength }, encodedLength: func(value MWStatus) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}})
 }
 
 // ReadyForSMArgCodec binds MAP-SM-DataTypes.ReadyForSM-Arg.
@@ -4048,7 +4210,7 @@ func LocationEstimateTypeCodec() ValueCodec[BERValue[LocationEstimateType]] {
 
 // DeferredLocationEventTypeCodec binds MAP-LCS-DataTypes.DeferredLocationEventType.
 func DeferredLocationEventTypeCodec() ValueCodec[BERValue[DeferredLocationEventType]] {
-	return bitValueCodec("MAP-LCS-DataTypes.DeferredLocationEventType", "DeferredLocationEventType", []primitiveRule[DeferredLocationEventType]{{invalid: func(value DeferredLocationEventType) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value DeferredLocationEventType) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
+	return bitValueCodec("MAP-LCS-DataTypes.DeferredLocationEventType", "DeferredLocationEventType", []primitiveRule[DeferredLocationEventType]{{invalid: func(value DeferredLocationEventType) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value DeferredLocationEventType) int { return value.BitLength }, encodedLength: func(value DeferredLocationEventType) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
 }
 
 // LCSClientIDCodec binds MAP-LCS-DataTypes.LCS-ClientID.
@@ -4123,7 +4285,7 @@ func LCSQoSClassCodec() ValueCodec[BERValue[LCSQoSClass]] {
 
 // SupportedGADShapesCodec binds MAP-LCS-DataTypes.SupportedGADShapes.
 func SupportedGADShapesCodec() ValueCodec[BERValue[SupportedGADShapes]] {
-	return bitValueCodec("MAP-LCS-DataTypes.SupportedGADShapes", "SupportedGADShapes", []primitiveRule[SupportedGADShapes]{{invalid: func(value SupportedGADShapes) bool { return !(value.BitLength >= 7 && value.BitLength <= 16) }, description: "SIZE (7..16)", clause: "51.5", length: func(value SupportedGADShapes) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
+	return bitValueCodec("MAP-LCS-DataTypes.SupportedGADShapes", "SupportedGADShapes", []primitiveRule[SupportedGADShapes]{{invalid: func(value SupportedGADShapes) bool { return !(value.BitLength >= 7 && value.BitLength <= 16) }, description: "SIZE (7..16)", clause: "51.5", length: func(value SupportedGADShapes) int { return value.BitLength }, encodedLength: func(value SupportedGADShapes) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
 }
 
 // LCSReferenceNumberCodec binds MAP-LCS-DataTypes.LCS-ReferenceNumber.
@@ -4475,12 +4637,12 @@ func LocationNotificationArgCodec() ValueCodec[LocationNotificationArg] {
 
 // DeferredLocationExtCodec binds SS-DataTypes.DeferredLocationExt.
 func DeferredLocationExtCodec() ValueCodec[BERValue[DeferredLocationExt]] {
-	return bitValueCodec("SS-DataTypes.DeferredLocationExt", "DeferredLocationExt", []primitiveRule[DeferredLocationExt]{{invalid: func(value DeferredLocationExt) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value DeferredLocationExt) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
+	return bitValueCodec("SS-DataTypes.DeferredLocationExt", "DeferredLocationExt", []primitiveRule[DeferredLocationExt]{{invalid: func(value DeferredLocationExt) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value DeferredLocationExt) int { return value.BitLength }, encodedLength: func(value DeferredLocationExt) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
 }
 
 // RangingSlExtCodec binds SS-DataTypes.RangingSlExt.
 func RangingSlExtCodec() ValueCodec[BERValue[RangingSlExt]] {
-	return bitValueCodec("SS-DataTypes.RangingSlExt", "RangingSlExt", []primitiveRule[RangingSlExt]{{invalid: func(value RangingSlExt) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value RangingSlExt) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
+	return bitValueCodec("SS-DataTypes.RangingSlExt", "RangingSlExt", []primitiveRule[RangingSlExt]{{invalid: func(value RangingSlExt) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value RangingSlExt) int { return value.BitLength }, encodedLength: func(value RangingSlExt) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
 }
 
 // LocationNotificationResCodec binds SS-DataTypes.LocationNotificationRes.
@@ -4795,7 +4957,7 @@ func DurationCodec() ValueCodec[BERValue[Duration]] {
 
 // LocationInfoCodec binds SS-DataTypes.LocationInfo.
 func LocationInfoCodec() ValueCodec[BERValue[LocationInfo]] {
-	return bitValueCodec("SS-DataTypes.LocationInfo", "LocationInfo", []primitiveRule[LocationInfo]{{invalid: func(value LocationInfo) bool { return !(value.BitLength >= 1 && value.BitLength <= 32) }, description: "SIZE (1..32)", clause: "51.5", length: func(value LocationInfo) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}})
+	return bitValueCodec("SS-DataTypes.LocationInfo", "LocationInfo", []primitiveRule[LocationInfo]{{invalid: func(value LocationInfo) bool { return !(value.BitLength >= 1 && value.BitLength <= 32) }, description: "SIZE (1..32)", clause: "51.5", length: func(value LocationInfo) int { return value.BitLength }, encodedLength: func(value LocationInfo) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}})
 }
 
 // MotionEventReportingCodec binds SS-DataTypes.MotionEventReporting.
@@ -4815,7 +4977,7 @@ func LCSReferenceNumberExtCodec() ValueCodec[BERValue[LCSReferenceNumberExt]] {
 
 // ReportingAccessTypesCodec binds SS-DataTypes.ReportingAccessTypes.
 func ReportingAccessTypesCodec() ValueCodec[BERValue[ReportingAccessTypes]] {
-	return bitValueCodec("SS-DataTypes.ReportingAccessTypes", "ReportingAccessTypes", []primitiveRule[ReportingAccessTypes]{{invalid: func(value ReportingAccessTypes) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value ReportingAccessTypes) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
+	return bitValueCodec("SS-DataTypes.ReportingAccessTypes", "ReportingAccessTypes", []primitiveRule[ReportingAccessTypes]{{invalid: func(value ReportingAccessTypes) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value ReportingAccessTypes) int { return value.BitLength }, encodedLength: func(value ReportingAccessTypes) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
 }
 
 // ReportingIndCodec binds SS-DataTypes.ReportingInd.
@@ -4964,7 +5126,7 @@ func LCSPeriodicUpdateTimerCodec() ValueCodec[BERValue[LCSPeriodicUpdateTimer]] 
 
 // LCSPruUpdateTriggerCodec binds SS-DataTypes.LCS-PruUpdateTrigger.
 func LCSPruUpdateTriggerCodec() ValueCodec[BERValue[LCSPruUpdateTrigger]] {
-	return bitValueCodec("SS-DataTypes.LCS-PruUpdateTrigger", "LCS-PruUpdateTrigger", []primitiveRule[LCSPruUpdateTrigger]{{invalid: func(value LCSPruUpdateTrigger) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value LCSPruUpdateTrigger) int { return value.BitLength }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
+	return bitValueCodec("SS-DataTypes.LCS-PruUpdateTrigger", "LCS-PruUpdateTrigger", []primitiveRule[LCSPruUpdateTrigger]{{invalid: func(value LCSPruUpdateTrigger) bool { return !(value.BitLength >= 1 && value.BitLength <= 16) }, description: "SIZE (1..16)", clause: "51.5", length: func(value LCSPruUpdateTrigger) int { return value.BitLength }, encodedLength: func(value LCSPruUpdateTrigger) int { return namedBitObservedLength(value) }}}, true, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
 }
 
 // LCSPruDisassociationArgCodec binds SS-DataTypes.LCS-PruDisassociationArg.

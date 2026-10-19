@@ -1,11 +1,10 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 2f8a7a36c1d3a216dd84283fd69cce892436d20cb9a7a6023e5ab3d8c012a3b4.
+// Runtime source: runtime/ber/utf8.go; SHA-256 66bb6ca7aa9c7735aca6ba42a9cbcce178aa047a446e470df4cbebdf3f9a30df.
 package ber
 
 import (
 	"fmt"
-	"strings"
 	"unicode/utf8"
 	"weak"
 
@@ -41,7 +40,7 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 			leaf = config.location.fieldName()
 		}
 		located.Path = qualifyConstraintPath(options, "")
-		if leaf != "" && located.Path != leaf && !strings.HasSuffix(located.Path, "."+leaf) {
+		if leaf != "" && !config.location.fieldAlreadyApplied(options) {
 			located.Path = joinUTF8Path(located.Path, leaf)
 		}
 		located, err := locateViolation(config, located, leaf)

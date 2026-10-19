@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 1ebaa16e6b85e3c14fde093fecd811cc1dee1e0a961cc2f4f714071b98e351d5.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 c06fa482032c6e6ead3c068fc42faaa47b4014d84fe735995a2750ccb6d937a9.
 package ber
 
 import (
@@ -21,7 +21,8 @@ func (option tcapProfileOption) applyDecode(c *decodeConfig) error {
 	return nil
 }
 
-// TrackTCAPForm applies Q.773 (06/1997) §4.1.1 to a generated decode.
+// TrackTCAPForm applies Q.773 (06/1997) §4.1.1 to TCAP-owned syntax in a
+// generated decode; X.690 (02/2021) §8.15 open-type values remain foreign.
 // Generic BER helpers remain usable independently of that protocol profile.
 func TrackTCAPForm(options []DecodeOption, source ...string) []DecodeOption {
 	name := ""
@@ -56,6 +57,24 @@ func TrackTCAPForm(options []DecodeOption, source ...string) []DecodeOption {
 
 func tcapProfileViolation(data []byte, pos, tagLen, lenLen int, indefinite bool, t tag.Tag, kind string) bool {
 	return !indefinite && lenLen > 1 && (data[pos+tagLen+1] == 0 || lenLen == 2 && data[pos+tagLen+1] < 128) || t.Constructed && (kind == "OctetString" || kind == "BitString" || t.Class == tag.ClassUniversal && (t.Number == tag.TagOctetString || t.Number == tag.TagBitString))
+}
+
+// Q.773 (06/1997) §4.1.1 applies to the TC message and the dialogue
+// abstract syntaxes in §§3.2 and 4.2.3. An X.690 (02/2021) §8.15 open type
+// begins with its own identifier, so even that header belongs to the
+// TC-user's syntax. X.690 §8.18.6–8.18.11 keeps EXTERNAL's encoding-choice
+// header in the containing syntax; only its value belongs to the identified
+// syntax. Q.773 dialogue is owned (§4.2.3); X.880 (07/1994) Annex A linkedId [0]/[1] puts opcode at index 2.
+func tcapProfileOwnsChild(parent string, index int, linked bool) bool {
+	switch parent {
+	case "Invoke":
+		return index < 2 || linked && index == 2
+	case "ReturnResultResult":
+		return index == 0
+	case "ReturnError":
+		return index < 2
+	}
+	return true
 }
 
 func checkTCAPProfileElement(data []byte, pos, tagLen, lenLen int, indefinite bool, t tag.Tag, indexes []int, config decodeConfig, options []DecodeOption, kind, path string) error {
@@ -103,6 +122,9 @@ func checkTCAPProfileElement(data []byte, pos, tagLen, lenLen int, indefinite bo
 	return nil
 }
 
+// The IMPLICIT string-form check covers TCAP-owned fields; nested foreign
+// content has its own encoding rules (Q.773 (06/1997) §4.1.1; X.690
+// (02/2021) §§8.15, 8.18.10–8.18.11).
 func checkTCAPStringForm(constructed bool, kind int, options []DecodeOption) error {
 	config, err := decodeOptions(options)
 	if err != nil {
@@ -477,4 +499,73 @@ func sourceAssignment(source []string) string {
 		return source[0]
 	}
 	return ""
+}
+
+// Resolve ownership only for a profile violation. Q.773 (06/1997) §4.1.1
+// governs TCAP's syntax; X.690 (02/2021) §§8.15, 8.18.6–8.18.11 leave
+// open-type data foreign while retaining EXTERNAL choice and segment headers.
+func tcapProfileOwnsElement(data []byte, stack []berScanFrame, parent berScanFrame) bool {
+	if !tcapProfileOwnsChildAt(data, parent, parent.nextChild) {
+		return false
+	}
+	outer := stack[0]
+	for _, ancestor := range stack[1:] {
+		if !tcapProfileOwnsChildAt(data, outer, ancestor.index) {
+			return false
+		}
+		if outer.profileType != "External" && outer.profileType != "DialogueExternal" {
+			outer = ancestor
+			continue
+		}
+		identifier, _, err := DecodeTag(data[ancestor.offset:])
+		if err != nil {
+			// The scanner already decoded this ancestor. If its record is
+			// inconsistent, keep the profile check rather than waive it.
+			return true
+		}
+		if identifier.Class == tag.ClassContextSpecific &&
+			!(identifier.Constructed && (identifier.Number == 1 || identifier.Number == 2) ||
+				outer.profileType == "DialogueExternal" && outer.dialogueSyntax > 0) {
+			return false
+		}
+		outer = ancestor
+	}
+	return true
+}
+
+func tcapProfileOwnsChildAt(data []byte, parent berScanFrame, index int) bool {
+	linked := parent.profileType == "Invoke" && index == 2 && tcapProfileInvokeLinked(data, parent.offset)
+	return tcapProfileOwnsChild(parent.profileType, index, linked)
+}
+
+// X.880 (07/1994) Annex A defines linkedId [0]/[1] between invokeId and
+// opcode. The scanner has already accepted both preceding elements; reread
+// their headers only when a profile violation needs ownership classification.
+func tcapProfileInvokeLinked(data []byte, invokeOffset int) bool {
+	invoke := data[invokeOffset:]
+	_, tagLen, err := DecodeTag(invoke)
+	if err != nil {
+		return false
+	}
+	withoutTag := invoke[tagLen:]
+	_, _, lenLen, err := DecodeLength(withoutTag)
+	if err != nil {
+		return false
+	}
+	first := withoutTag[lenLen:]
+	_, firstTagLen, err := DecodeTag(first)
+	if err != nil {
+		return false
+	}
+	withoutFirstTag := first[firstTagLen:]
+	firstLength, indefinite, firstLenLen, err := DecodeLength(withoutFirstTag)
+	if err != nil || indefinite {
+		return false
+	}
+	firstValue := withoutFirstTag[firstLenLen:]
+	if firstLength > len(firstValue) {
+		return false
+	}
+	identifier, _, err := DecodeTag(firstValue[firstLength:])
+	return err == nil && identifier.Class == tag.ClassContextSpecific && (identifier.Number == 0 || identifier.Number == 1)
 }

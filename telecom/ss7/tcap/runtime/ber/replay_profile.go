@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_profile.go; SHA-256 cf891f3becb99c79e32988fb49aaaff1b405f67d0a1bd763713f5d8590ff8272.
+// Runtime source: runtime/ber/replay_profile.go; SHA-256 96485cb695b26cf58e7947d8f1b4b4c5f64e69109e5ed8bc712111593149a6a9.
 package ber
 
 import (
@@ -8,8 +8,10 @@ import (
 	"slices"
 )
 
-// The outer profile scan precedes child capture. Its located records identify
-// exactly which received subtrees must be rebuilt after an edit. Value and
+// The outer profile scan precedes child capture. Under Q.773 (06/1997)
+// §4.1.1 and X.690 (02/2021) §8.15, its located records cover TCAP-owned
+// TLVs only; foreign open-type values never enter the replay repair index.
+// These records identify which received subtrees must be rebuilt. Value and
 // text rules still run on the whole current value before any strict replay.
 // Q.773 (06/1997) §§4.1.1, 4.2.2.2, 4.2.3.
 type replayProfileIndex struct {

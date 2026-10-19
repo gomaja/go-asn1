@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/idempotent_reports_test.go; SHA-256 323c1dda51c46500a216d72608003ccc8f57adf97c0c9395f61f5707a4b794c0.
+// Runtime source: runtime/ber/idempotent_reports_test.go; SHA-256 c05b6781781bba4f8629f030dd1b250f1499b4ccb3971026f11f15e60dbd12b1.
 package ber
 
 import (
@@ -255,6 +255,39 @@ func TestViolationLogConcurrentIdempotency(t *testing.T) {
 	finish(true)
 	if len(reports.Snapshot()) != 1 {
 		t.Fatal("concurrent reports were not idempotent")
+	}
+}
+
+func TestBERUTF8ReportsLinearCost(t *testing.T) {
+	var baseline int64
+	for _, size := range []int{128, 512, 2048, 8192} {
+		wire := encodeUTF8WireForTest(t, string(bytes.Repeat([]byte{255}, size)))
+		operation := func() {
+			var reports ViolationLog
+			options, finish := StageDecodeReports([]DecodeOption{WithTolerance(&reports), WithDiagnosticLimits(DiagnosticLimits{MaxRecords: size})})
+			if err := ValidateBERElement(wire, options...); err != nil {
+				t.Fatal(err)
+			}
+			if _, _, err := DecodeString(wire, tag.TagUTF8String, options...); err != nil {
+				t.Fatal(err)
+			}
+			finish(true)
+			if len(reports.Snapshot()) != size {
+				t.Fatal("malformed octets collapsed or duplicated")
+			}
+		}
+		allocated, _ := allocationCost(t, 5, operation)
+		// Rule identities and wire ancestry enlarge each retained record.
+		// Keep a fixed per-input bound, including staged histories and ledgers.
+		// Repeated scans can be quadratic without allocating more memory.
+		elapsed := minimumTime(t, operation)
+		if baseline == 0 {
+			baseline = max(1, elapsed.Nanoseconds())
+		}
+		if int64(allocated) > int64(8192*len(wire)+8192) || elapsed.Nanoseconds() > 16*baseline*int64(size/128) {
+			t.Fatalf("%d octets: nonlinear cost: %s, %d bytes", size, elapsed, allocated)
+		}
+		t.Logf("%d malformed octets: %s, %d bytes", size, elapsed, allocated)
 	}
 }
 

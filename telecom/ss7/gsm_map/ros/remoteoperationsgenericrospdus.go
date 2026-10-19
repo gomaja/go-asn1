@@ -1470,11 +1470,8 @@ func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(rawErr, "argument", "encoding", false)
 		}
 		enc_argument := v.Argument.Bytes
-		if err := ber.CheckBEROpaqueElement(enc_argument, opts...); err != nil {
+		if err := checkOpaqueElement(enc_argument, opts, "argument", -1, "Remote-Operations-Generic-ROS-PDUs.Invoke.argument", nil); err != nil {
 			return nil, qualifyBERError(err, "argument", "encoding", false)
-		}
-		if rawErr := ber.ValidateBEREncodedElement(enc_argument); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "argument", "encoding", false)
 		}
 		children = append(children, enc_argument...)
 	}
@@ -1523,7 +1520,7 @@ func (v *Invoke) MarshalDER() ([]byte, error) {
 		}
 		enc_argument := v.Argument.Bytes
 		if rawErr := ber.ValidateDEREncodedElement(enc_argument); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "argument", "encoding", true)
+			return nil, invalidDEROpaqueElement(enc_argument, "argument", "Remote-Operations-Generic-ROS-PDUs.Invoke.argument")
 		}
 		children = append(children, enc_argument...)
 	}
@@ -1896,11 +1893,8 @@ func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(rawErr, "parameter", "encoding", false)
 		}
 		enc_parameter := v.Parameter.Bytes
-		if err := ber.CheckBEROpaqueElement(enc_parameter, opts...); err != nil {
+		if err := checkOpaqueElement(enc_parameter, opts, "parameter", -1, "Remote-Operations-Generic-ROS-PDUs.ReturnError.parameter", nil); err != nil {
 			return nil, qualifyBERError(err, "parameter", "encoding", false)
-		}
-		if rawErr := ber.ValidateBEREncodedElement(enc_parameter); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "parameter", "encoding", false)
 		}
 		children = append(children, enc_parameter...)
 	}
@@ -1939,7 +1933,7 @@ func (v *ReturnError) MarshalDER() ([]byte, error) {
 		}
 		enc_parameter := v.Parameter.Bytes
 		if rawErr := ber.ValidateDEREncodedElement(enc_parameter); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "parameter", "encoding", true)
+			return nil, invalidDEROpaqueElement(enc_parameter, "parameter", "Remote-Operations-Generic-ROS-PDUs.ReturnError.parameter")
 		}
 		children = append(children, enc_parameter...)
 	}
@@ -2863,11 +2857,8 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(rawErr, "bind-invoke", "encoding", false)
 		}
 		enc_0 := v.BindInvoke.Bytes
-		if err := ber.CheckBEROpaqueElement(enc_0, opts...); err != nil {
+		if err := checkOpaqueElement(enc_0, opts, "bind-invoke", -1, "Remote-Operations-Generic-ROS-PDUs.Bind.bind-invoke", nil); err != nil {
 			return nil, qualifyBERError(err, "bind-invoke", "encoding", false)
-		}
-		if rawErr := ber.ValidateBEREncodedElement(enc_0); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "bind-invoke", "encoding", false)
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 16, enc_0)
 		if tagErr_enc_0 != nil {
@@ -2883,11 +2874,8 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(rawErr, "bind-result", "encoding", false)
 		}
 		enc_1 := v.BindResult.Bytes
-		if err := ber.CheckBEROpaqueElement(enc_1, opts...); err != nil {
+		if err := checkOpaqueElement(enc_1, opts, "bind-result", -1, "Remote-Operations-Generic-ROS-PDUs.Bind.bind-result", nil); err != nil {
 			return nil, qualifyBERError(err, "bind-result", "encoding", false)
-		}
-		if rawErr := ber.ValidateBEREncodedElement(enc_1); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "bind-result", "encoding", false)
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 17, enc_1)
 		if tagErr_enc_1 != nil {
@@ -2903,11 +2891,8 @@ func (v *Bind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(rawErr, "bind-error", "encoding", false)
 		}
 		enc_2 := v.BindError.Bytes
-		if err := ber.CheckBEROpaqueElement(enc_2, opts...); err != nil {
+		if err := checkOpaqueElement(enc_2, opts, "bind-error", -1, "Remote-Operations-Generic-ROS-PDUs.Bind.bind-error", nil); err != nil {
 			return nil, qualifyBERError(err, "bind-error", "encoding", false)
-		}
-		if rawErr := ber.ValidateBEREncodedElement(enc_2); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "bind-error", "encoding", false)
 		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 18, enc_2)
 		if tagErr_enc_2 != nil {
@@ -3049,11 +3034,8 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(rawErr, "unbind-invoke", "encoding", false)
 		}
 		enc_0 := v.UnbindInvoke.Bytes
-		if err := ber.CheckBEROpaqueElement(enc_0, opts...); err != nil {
+		if err := checkOpaqueElement(enc_0, opts, "unbind-invoke", -1, "Remote-Operations-Generic-ROS-PDUs.Unbind.unbind-invoke", nil); err != nil {
 			return nil, qualifyBERError(err, "unbind-invoke", "encoding", false)
-		}
-		if rawErr := ber.ValidateBEREncodedElement(enc_0); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "unbind-invoke", "encoding", false)
 		}
 		retagged_enc_0, tagErr_enc_0 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 19, enc_0)
 		if tagErr_enc_0 != nil {
@@ -3069,11 +3051,8 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(rawErr, "unbind-result", "encoding", false)
 		}
 		enc_1 := v.UnbindResult.Bytes
-		if err := ber.CheckBEROpaqueElement(enc_1, opts...); err != nil {
+		if err := checkOpaqueElement(enc_1, opts, "unbind-result", -1, "Remote-Operations-Generic-ROS-PDUs.Unbind.unbind-result", nil); err != nil {
 			return nil, qualifyBERError(err, "unbind-result", "encoding", false)
-		}
-		if rawErr := ber.ValidateBEREncodedElement(enc_1); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "unbind-result", "encoding", false)
 		}
 		retagged_enc_1, tagErr_enc_1 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 20, enc_1)
 		if tagErr_enc_1 != nil {
@@ -3089,11 +3068,8 @@ func (v *Unbind) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(rawErr, "unbind-error", "encoding", false)
 		}
 		enc_2 := v.UnbindError.Bytes
-		if err := ber.CheckBEROpaqueElement(enc_2, opts...); err != nil {
+		if err := checkOpaqueElement(enc_2, opts, "unbind-error", -1, "Remote-Operations-Generic-ROS-PDUs.Unbind.unbind-error", nil); err != nil {
 			return nil, qualifyBERError(err, "unbind-error", "encoding", false)
-		}
-		if rawErr := ber.ValidateBEREncodedElement(enc_2); rawErr != nil {
-			return nil, qualifyBERError(rawErr, "unbind-error", "encoding", false)
 		}
 		retagged_enc_2, tagErr_enc_2 := ber.EncodeImplicitTagWithClass(tag.ClassContextSpecific, 21, enc_2)
 		if tagErr_enc_2 != nil {
@@ -3388,11 +3364,8 @@ func (v *ROSReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueElement(enc_result, opts...); err != nil {
+	if err := checkOpaqueElement(enc_result, opts, "result", -1, "Remote-Operations-Generic-ROS-PDUs.ROS-returnResult-result.result", nil); err != nil {
 		return nil, qualifyBERError(err, "result", "encoding", false)
-	}
-	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	children = append(children, enc_result...)
 	ber.RecordGeneratedBERContainer(opts, children)
@@ -3424,7 +3397,7 @@ func (v *ROSReturnResultResult) MarshalDER() ([]byte, error) {
 	}
 	enc_result := v.Result.Bytes
 	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+		return nil, invalidDEROpaqueElement(enc_result, "result", "Remote-Operations-Generic-ROS-PDUs.ROS-returnResult-result.result")
 	}
 	children = append(children, enc_result...)
 	encoded, setErr := ber.EncodeSequence(children)
@@ -3715,11 +3688,8 @@ func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueElement(enc_result, opts...); err != nil {
+	if err := checkOpaqueElement(enc_result, opts, "result", -1, "Remote-Operations-Generic-ROS-PDUs.ReturnResult-result.result", nil); err != nil {
 		return nil, qualifyBERError(err, "result", "encoding", false)
-	}
-	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	children = append(children, enc_result...)
 	ber.RecordGeneratedBERContainer(opts, children)
@@ -3751,7 +3721,7 @@ func (v *ReturnResultResult) MarshalDER() ([]byte, error) {
 	}
 	enc_result := v.Result.Bytes
 	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+		return nil, invalidDEROpaqueElement(enc_result, "result", "Remote-Operations-Generic-ROS-PDUs.ReturnResult-result.result")
 	}
 	children = append(children, enc_result...)
 	encoded, setErr := ber.EncodeSequence(children)

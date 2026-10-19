@@ -1443,11 +1443,8 @@ func (v *ROSSingleASReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]
 		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueElement(enc_result, opts...); err != nil {
+	if err := checkOpaqueElement(enc_result, opts, "result", -1, "Remote-Operations-Useful-Definitions.ROS-SingleAS-returnResult-result.result", nil); err != nil {
 		return nil, qualifyBERError(err, "result", "encoding", false)
-	}
-	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	children = append(children, enc_result...)
 	ber.RecordGeneratedBERContainer(opts, children)
@@ -1479,7 +1476,7 @@ func (v *ROSSingleASReturnResultResult) MarshalDER() ([]byte, error) {
 	}
 	enc_result := v.Result.Bytes
 	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+		return nil, invalidDEROpaqueElement(enc_result, "result", "Remote-Operations-Useful-Definitions.ROS-SingleAS-returnResult-result.result")
 	}
 	children = append(children, enc_result...)
 	encoded, setErr := ber.EncodeSequence(children)
@@ -1770,11 +1767,8 @@ func (v *ROSConsumerASReturnResultResult) marshalBER(opts ...ber.EncodeOption) (
 		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueElement(enc_result, opts...); err != nil {
+	if err := checkOpaqueElement(enc_result, opts, "result", -1, "Remote-Operations-Useful-Definitions.ROS-ConsumerAS-returnResult-result.result", nil); err != nil {
 		return nil, qualifyBERError(err, "result", "encoding", false)
-	}
-	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	children = append(children, enc_result...)
 	ber.RecordGeneratedBERContainer(opts, children)
@@ -1806,7 +1800,7 @@ func (v *ROSConsumerASReturnResultResult) MarshalDER() ([]byte, error) {
 	}
 	enc_result := v.Result.Bytes
 	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+		return nil, invalidDEROpaqueElement(enc_result, "result", "Remote-Operations-Useful-Definitions.ROS-ConsumerAS-returnResult-result.result")
 	}
 	children = append(children, enc_result...)
 	encoded, setErr := ber.EncodeSequence(children)
@@ -2097,11 +2091,8 @@ func (v *ROSSupplierASReturnResultResult) marshalBER(opts ...ber.EncodeOption) (
 		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	enc_result := v.Result.Bytes
-	if err := ber.CheckBEROpaqueElement(enc_result, opts...); err != nil {
+	if err := checkOpaqueElement(enc_result, opts, "result", -1, "Remote-Operations-Useful-Definitions.ROS-SupplierAS-returnResult-result.result", nil); err != nil {
 		return nil, qualifyBERError(err, "result", "encoding", false)
-	}
-	if rawErr := ber.ValidateBEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", false)
 	}
 	children = append(children, enc_result...)
 	ber.RecordGeneratedBERContainer(opts, children)
@@ -2133,7 +2124,7 @@ func (v *ROSSupplierASReturnResultResult) MarshalDER() ([]byte, error) {
 	}
 	enc_result := v.Result.Bytes
 	if rawErr := ber.ValidateDEREncodedElement(enc_result); rawErr != nil {
-		return nil, qualifyBERError(rawErr, "result", "encoding", true)
+		return nil, invalidDEROpaqueElement(enc_result, "result", "Remote-Operations-Useful-Definitions.ROS-SupplierAS-returnResult-result.result")
 	}
 	children = append(children, enc_result...)
 	encoded, setErr := ber.EncodeSequence(children)

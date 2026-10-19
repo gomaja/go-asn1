@@ -1,11 +1,12 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/named_bit_encoding.go; SHA-256 bf71d2f77b165ac3693d8d8fc6a0f2fac2f2c929a6b8cba70a84ec30d84e1e4c.
+// Runtime source: runtime/ber/named_bit_encoding.go; SHA-256 0b4f3c404aae55e9d116aa29578ad1b5cdb85d2b6a8ef293e5af302f83c2c348.
 package ber
 
 import (
 	"fmt"
 	"math/bits"
+	"strings"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
 )
@@ -41,7 +42,7 @@ func namedBitEncodingLength(significant int, sets []NamedBitSizeSet) (int, error
 			}
 			if !matched {
 				if !foundAbove {
-					return 0, &namedBitSizeError{significant: significant}
+					return 0, namedBitSizeViolation(significant, sets)
 				}
 				if above > next {
 					next = above
@@ -103,6 +104,8 @@ func NormalizeNamedBitStringForEncoding(value runtime.BitString, sets []NamedBit
 // NewNamedBitString constructs named bits using the complete source SIZE
 // intersection. Numeric positions need not appear in the NamedBitList
 // (X.680 (02/2021) §22.6). The runtime builder's allocation ceiling applies.
+// Validation errors have an empty Source because this generic builder has no
+// declaring type identity. Generated builders attach their type's Source.
 // X.680 (02/2021) §22.7; X.690 (02/2021) §8.6.2.4.
 func NewNamedBitString(sets []NamedBitSizeSet, set ...int) (runtime.BitString, error) {
 	significant := 0
@@ -138,7 +141,7 @@ func NormalizeNamedBitStringForBEREncoding(value runtime.BitString, sets []Named
 	if err == nil {
 		return normalized, nil
 	}
-	if _, sizeFailure := err.(*namedBitSizeError); !sizeFailure || !config.tolerant {
+	if _, sizeFailure := err.(*ValidationError); !sizeFailure || !config.tolerant {
 		return runtime.BitString{}, err
 	}
 	// A fixed copy length preserves the caller's observed SIZE and clears unused
@@ -146,9 +149,22 @@ func NormalizeNamedBitStringForBEREncoding(value runtime.BitString, sets []Named
 	return NormalizeNamedBitStringForEncoding(value, []NamedBitSizeSet{{{Min: value.BitLength, Max: value.BitLength}}})
 }
 
-type namedBitSizeError struct{ significant int }
-
-func (err *namedBitSizeError) Error() string {
-	return fmt.Sprintf("%v: named BIT STRING significant length %d has no permitted SIZE", ErrInvalidValue, err.significant)
+// X.680 (02/2021) §51.5: no source-permitted equivalent can contain
+// these significant bits. Keep this a constraint error, like unnamed bits.
+func namedBitSizeViolation(significant int, sets []NamedBitSizeSet) error {
+	descriptions := make([]string, 0, len(sets))
+	for _, set := range sets {
+		intervals := make([]string, 0, len(set))
+		for _, interval := range set {
+			bound := fmt.Sprint(interval.Min)
+			if interval.Max < 0 {
+				bound += "..MAX"
+			} else if interval.Max != interval.Min {
+				bound += fmt.Sprintf("..%d", interval.Max)
+			}
+			intervals = append(intervals, bound)
+		}
+		descriptions = append(descriptions, strings.Join(intervals, " | "))
+	}
+	return &ValidationError{boundedViolation(identifyViolation(Violation{Constraint: "SIZE (" + strings.Join(descriptions, " ^ ") + ")", ObservedLength: &significant, Rule: RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}}))}
 }
-func (*namedBitSizeError) Unwrap() error { return ErrInvalidValue }

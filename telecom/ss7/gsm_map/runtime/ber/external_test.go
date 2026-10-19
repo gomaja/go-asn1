@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/external_test.go; SHA-256 52b2d317f4b2b4cab469ee676632b5291888b07f3d6ae73e44c86a1989fcf9fd.
+// Runtime source: runtime/ber/external_test.go; SHA-256 1e03bc668230073dcf923af90081c9f87499598ed5987d5182ac78246d257ca7.
 package ber
 
 import (
@@ -58,6 +58,32 @@ func TestExternalAlternatives(t *testing.T) {
 				t.Fatalf("field edit did not reencode: %x: %v", changed, err)
 			}
 		})
+	}
+}
+
+// X.690 (02/2021) §§8.18.1, 8.23.10: single-ASN1-type is open
+// content, but its universal UTF8String encoding still needs validation.
+func TestExternalOpaqueUTF8Encoding(t *testing.T) {
+	value := runtime.External{IndirectReference: big.NewInt(1), Encoding: runtime.ExternalSingleASN1Type, SingleASN1Type: runtime.RawValue{Class: 0, Tag: 12, Bytes: []byte{0x0c, 1, 0xff}}}
+	if _, err := EncodeExternal(value); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("strict encoding: %v", err)
+	}
+	var reports ViolationLog
+	if _, err := EncodeExternal(value, WithTolerance(&reports)); err != nil || len(reports.Snapshot()) != 1 {
+		t.Fatalf("tolerant encoding: %v reports=%+v", err, reports.Snapshot())
+	}
+	wire := []byte{0x28, 8, 2, 1, 1, 0xa0, 3, 0x0c, 1, 0xff}
+	decoded, n, err := DecodeExternal(wire)
+	if err != nil || n != len(wire) {
+		t.Fatalf("decode: %v size=%d", err, n)
+	}
+	if _, err := EncodeExternal(decoded); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("strict retained encoding: %v", err)
+	}
+	reports.Reset()
+	got, err := EncodeExternal(decoded, WithTolerance(&reports))
+	if err != nil || !bytes.Equal(got, wire) || len(reports.Snapshot()) != 1 {
+		t.Fatalf("tolerant retained encoding: %x %v reports=%+v", got, err, reports.Snapshot())
 	}
 }
 

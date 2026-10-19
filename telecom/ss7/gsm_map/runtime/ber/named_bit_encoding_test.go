@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/named_bit_encoding_test.go; SHA-256 f9b54ce74b689c23e2518d032d5c1632bfc43431b980d4a745f156f0b8b2c1a7.
+// Runtime source: runtime/ber/named_bit_encoding_test.go; SHA-256 6b88ae496778caa93db87531b710a4807456ecf4283e5629fce228287727b095.
 package ber
 
 import (
@@ -137,5 +137,24 @@ func TestNamedBitEncodingToleranceOnlyPermitsSourceSizeFailure(t *testing.T) {
 	}
 	if _, err := NormalizeNamedBitStringForBEREncoding(value, sets, nil); err == nil {
 		t.Fatal("ignored invalid encode option")
+	}
+}
+
+func TestNamedBitSizeValidationError(t *testing.T) {
+	sets := []NamedBitSizeSet{{{Min: 2, Max: 8}}}
+	value := runtime.BitString{Bytes: []byte{0, 0x80}, BitLength: 9}
+	for _, f := range []func() (runtime.BitString, error){
+		func() (runtime.BitString, error) { return NewNamedBitString(sets, 8) },
+		func() (runtime.BitString, error) { return NormalizeNamedBitStringForEncoding(value, sets) },
+		func() (runtime.BitString, error) { return NormalizeNamedBitStringForBEREncoding(value, sets) },
+	} {
+		_, err := f()
+		ve, ok := err.(*ValidationError)
+		if !ok || !errors.Is(err, ErrInvalidValue) {
+			t.Fatalf("error: %T %v", err, err)
+		}
+		if ve.Constraint != "SIZE (2..8)" || ve.Rule.Clause != "51.5" || ve.ObservedLength == nil || *ve.ObservedLength != 9 || ve.Path != "" {
+			t.Fatalf("violation: %+v", ve)
+		}
 	}
 }

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 e255b0a02f9c7157175b7b3a1d11a3cbd707a805b9ba56760564ea88d96653ea.
+// Runtime source: runtime/ber/work.go; SHA-256 446d1d5ccd4db5cb9fb12b3a43bf069e6d8223b20e86c54323872143feae9357.
 package ber
 
 import (
@@ -258,37 +258,39 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		work += charge
 		kind := tcapElementType(config.profileType, parent.profileType, t, len(stack) == 1, parent.dialogueSyntax)
 		if config.profile && !config.collectPositionsOnly && tcapProfileViolation(data, pos, tagLen, lenLen, indefinite, t, kind) {
-			var indexes []int
-			if len(stack) > 1 {
-				for _, ancestor := range stack[2:] {
-					indexes = append(indexes, ancestor.index)
-				}
-				indexes = append(indexes, parent.nextChild)
-			}
-			path := qualifyConstraintPath(options, "")
-			parentType := ""
-			appendSegment := func(segment string) {
-				if segment != "" {
-					if path != "" {
-						path += "."
+			if tcapProfileOwnsElement(data, stack, parent) {
+				var indexes []int
+				if len(stack) > 1 {
+					for _, ancestor := range stack[2:] {
+						indexes = append(indexes, ancestor.index)
 					}
-					path += segment
+					indexes = append(indexes, parent.nextChild)
 				}
-			}
-			for index, ancestor := range stack[1:] {
-				ancestorTag, _, _ := DecodeTag(data[ancestor.offset:])
-				appendSegment(tcapPathSegment(config.profileType, parentType, ancestor.profileType, ancestorTag, ancestor.index, index == 0))
-				parentType = ancestor.profileType
-			}
-			appendSegment(tcapPathSegment(config.profileType, parentType, kind, t, parent.nextChild, len(stack) == 1))
-			if path == "" {
-				path = config.profileType
+				path := qualifyConstraintPath(options, "")
+				parentType := ""
+				appendSegment := func(segment string) {
+					if segment != "" {
+						if path != "" {
+							path += "."
+						}
+						path += segment
+					}
+				}
+				for index, ancestor := range stack[1:] {
+					ancestorTag, _, _ := DecodeTag(data[ancestor.offset:])
+					appendSegment(tcapPathSegment(config.profileType, parentType, ancestor.profileType, ancestorTag, ancestor.index, index == 0))
+					parentType = ancestor.profileType
+				}
+				appendSegment(tcapPathSegment(config.profileType, parentType, kind, t, parent.nextChild, len(stack) == 1))
 				if path == "" {
-					path = "TCAP"
+					path = config.profileType
+					if path == "" {
+						path = "TCAP"
+					}
 				}
-			}
-			if err := checkTCAPProfileElement(data, pos, tagLen, lenLen, indefinite, t, indexes, config, options, kind, path); err != nil {
-				return err
+				if err := checkTCAPProfileElement(data, pos, tagLen, lenLen, indefinite, t, indexes, config, options, kind, path); err != nil {
+					return err
+				}
 			}
 		}
 		// Checked before either length branch, so an indefinite length

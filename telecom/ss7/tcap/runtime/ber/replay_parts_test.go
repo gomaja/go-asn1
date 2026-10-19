@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_parts_test.go; SHA-256 b3c792ab658d9599e847fe0d5390221a72d90cd3c711a91d4f423195739582fe.
+// Runtime source: runtime/ber/replay_parts_test.go; SHA-256 2d8aadffdbaaa6c612fe0c95e06d089a427fd4897878b10a1d246daa9526aece.
 package ber
 
 import (
@@ -52,6 +52,36 @@ func TestRepairKeepsPrimitiveForms(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+// A Q.773 (06/1997) §4.1.1 finding on an owned sibling cannot turn an
+// X.690 (02/2021) §8.15 open-type header into a TCAP repair target.
+func TestRepairPreservesForeignHeaderWithoutProfileFinding(t *testing.T) {
+	received := repairHex(t, "300a04810101308103040100")
+	baseline := repairHex(t, "30080401013003040100")
+	current := repairHex(t, "30080401023003040100")
+	state := &ReplayState{decodeTolerant: true, baselineBytes: baseline, profileIndex: &replayProfileIndex{offsets: []int{2}}}
+	node := &ReplayNode{state: state, original: received}
+	state.root = node
+	got := replayUnchangedParts(current, node)
+	want := repairHex(t, "3009040102308103040100")
+	if !bytes.Equal(got, want) {
+		t.Fatalf("foreign header changed: %x want %x", got, want)
+	}
+}
+
+func TestExternalRepairIndexesChoiceButNotForeignValue(t *testing.T) {
+	// Q.773 (06/1997) §4.1.1 covers EXTERNAL's choice header; X.690
+	// (02/2021) §8.18.9 leaves the complete single-ASN1-type TLV foreign.
+	part := replayPartRoot(repairHex(t, "280d06022a03a08106308103040100"))
+	if part == nil {
+		t.Fatal("synthetic EXTERNAL did not parse")
+	}
+	index := new(replayProfileIndex)
+	collectReplayPartViolations(part, index, true, false)
+	if len(index.offsets) != 1 || index.offsets[0] != 6 {
+		t.Fatalf("profile offsets %v, want choice header only", index.offsets)
 	}
 }
 

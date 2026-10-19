@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 317f731250a3b947c262ec430dd09c3071416cbe28f220b8562426057478fb7b.
+// Runtime source: runtime/ber/options.go; SHA-256 c8387d70b8db8a6be3eed00b9bbc9d3ca7702ade9f69d39fb0b3c2cf5fd579c5.
 package ber
 
 import (
@@ -46,6 +46,8 @@ func DefaultDiagnosticLimits() DiagnosticLimits {
 // WithDiagnosticLimits overrides nonzero diagnostic limits. A generated decode
 // shares the budget across preflight, typed checks and nested calls. Exhaustion
 // returns ErrResourceLimit; diagnostics are never silently dropped.
+// This option applies only to decoding. Encoding always uses
+// DefaultDiagnosticLimits, including after a tolerant decode with a larger budget.
 func WithDiagnosticLimits(limits DiagnosticLimits) DecodeOption {
 	return decodeOptionFunc(func(config *decodeConfig) error {
 		if limits.MaxRecords != 0 {

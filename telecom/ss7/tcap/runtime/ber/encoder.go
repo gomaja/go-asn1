@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/encoder.go; SHA-256 6028c08eec42745f94f15c6c06e287f061ed4c8e2d824e54b43735c59b3086b1.
+// Runtime source: runtime/ber/encoder.go; SHA-256 5ae85b88d3521e87bb993090d0a302609fd5873283de18a870079ca7a69de42e.
 package ber
 
 import (
@@ -355,9 +355,15 @@ func EncodeStringValueTagChecked(tagNum int, v string) ([]byte, error) {
 
 func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 	switch tagNum {
+	case tag.TagUTF8String:
+		// X.690 (02/2021) §8.23.10 requires shortest-form UTF-8.
+		if !utf8.ValidString(v) {
+			return nil, fmt.Errorf("%w: UTF8String is not shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)", ErrInvalidValue)
+		}
+		return []byte(v), nil
 	case tag.TagBMPString:
 		if !utf8.ValidString(v) {
-			return nil, fmt.Errorf("BMPString contains invalid UTF-8")
+			return nil, fmt.Errorf("%w: BMPString contains invalid UTF-8", ErrInvalidValue)
 		}
 		capacity, err := fixedWidthStringCapacity(utf8.RuneCountInString(v), 2)
 		if err != nil {
@@ -373,7 +379,7 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		return value, nil
 	case tag.TagUniversalString:
 		if !utf8.ValidString(v) {
-			return nil, fmt.Errorf("UniversalString contains invalid UTF-8")
+			return nil, fmt.Errorf("%w: UniversalString contains invalid UTF-8", ErrInvalidValue)
 		}
 		capacity, err := fixedWidthStringCapacity(utf8.RuneCountInString(v), 4)
 		if err != nil {

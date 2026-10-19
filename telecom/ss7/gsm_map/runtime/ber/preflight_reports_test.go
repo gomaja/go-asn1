@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_reports_test.go; SHA-256 4737fab5d3649b0dfe5167a7d687afb013381e00b17bf812718a17ada3196a0c.
+// Runtime source: runtime/ber/preflight_reports_test.go; SHA-256 b4b26c10391510d083f27356122cdc63a2e42edebe5406352fac4c0aafc28414.
 package ber
 
 import (
@@ -50,12 +50,12 @@ func TestBERPreflightTypedUTF8Reports(t *testing.T) {
 					}
 					// The generated snapshot contains the typed octets; replay
 					// retains the original length and fragment spelling as well.
-					snapshot := mustEncode(t)(EncodeUTF8String(text))
-					rebuilt := mustEncode(t)(EncodeUTF8String(text))
+					snapshot := encodeUTF8WireForTest(t, text)
+					rebuilt := encodeUTF8WireForTest(t, text)
 					if replay := PreserveEncodedBER(rebuilt, wire, snapshot, nil); !bytes.Equal(replay, wire) {
 						t.Fatalf("replay %x want %x", replay, wire)
 					}
-					changed := mustEncode(t)(EncodeUTF8String(text + "A"))
+					changed := encodeUTF8WireForTest(t, text+"A")
 					if replay := PreserveEncodedBER(changed, wire, snapshot, nil); !bytes.Equal(replay, changed) {
 						t.Fatal("changed typed text replayed the original")
 					}

@@ -5698,9 +5698,10 @@ func (v *MSUpdateLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_mmediameteraddress)
 		children = append(children, enc_mmediameteraddress...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_0, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -5930,7 +5931,7 @@ func (v *MSUpdateLocationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_0, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -6563,19 +6564,19 @@ func (v *MSVLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if v.SupportedCamelPhases != nil {
-		namedBits_SupportedCamelPhases, namedBitErr_namedBits_SupportedCamelPhases := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedCamelPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedCamelPhases, "supportedCamelPhases", "encoding", false)
+		namedBits_SupportedCamelPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts, "supportedCamelPhases", s02f799_1)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhases.Bytes, namedBits_SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhases", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedCamelPhases).BitLength < 1 || (namedBits_SupportedCamelPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_1, "51.5", "supportedCamelPhases", "SIZE (1..16)", (namedBits_SupportedCamelPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_1, "51.5", "supportedCamelPhases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedCamelPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6641,19 +6642,19 @@ func (v *MSVLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_longftnsupported...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		namedBits_SupportedLCSCapabilitySets, namedBitErr_namedBits_SupportedLCSCapabilitySets := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedLCSCapabilitySets != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedLCSCapabilitySets, "supportedLCS-CapabilitySets", "encoding", false)
+		namedBits_SupportedLCSCapabilitySets, namedBitErr_ := normalizeNamedBits(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, opts, "supportedLCS-CapabilitySets", s02f799_1)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedLCSCapabilitySets.Bytes, namedBits_SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedLCS-CapabilitySets", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedLCSCapabilitySets).BitLength < 2 || (namedBits_SupportedLCSCapabilitySets).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_1, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", (namedBits_SupportedLCSCapabilitySets).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_1, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", namedBitObservedLength(namedBits_SupportedLCSCapabilitySets)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6669,19 +6670,19 @@ func (v *MSVLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		namedBits_OfferedCamel4CSIs, namedBitErr_namedBits_OfferedCamel4CSIs := ber.NormalizeNamedBitStringForBEREncoding(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_OfferedCamel4CSIs != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIs, "offeredCamel4CSIs", "encoding", false)
+		namedBits_OfferedCamel4CSIs, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts, "offeredCamel4CSIs", s02f799_1)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIs.Bytes, namedBits_OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIs", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIs).BitLength < 7 || (namedBits_OfferedCamel4CSIs).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_1, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", (namedBits_OfferedCamel4CSIs).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_1, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIs)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6697,19 +6698,19 @@ func (v *MSVLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_offeredcamel4csis...)
 	}
 	if v.SupportedRATTypesIndicator != nil {
-		namedBits_SupportedRATTypesIndicator, namedBitErr_namedBits_SupportedRATTypesIndicator := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedRATTypesIndicator, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_SupportedRATTypesIndicator != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedRATTypesIndicator, "supportedRAT-TypesIndicator", "encoding", false)
+		namedBits_SupportedRATTypesIndicator, namedBitErr_ := normalizeNamedBits(*v.SupportedRATTypesIndicator, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts, "supportedRAT-TypesIndicator", s02f799_1)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedRATTypesIndicator.Bytes, namedBits_SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedRAT-TypesIndicator", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedRATTypesIndicator).BitLength < 2 || (namedBits_SupportedRATTypesIndicator).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_1, "51.5", "supportedRAT-TypesIndicator", "SIZE (2..8)", (namedBits_SupportedRATTypesIndicator).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_1, "51.5", "supportedRAT-TypesIndicator", "SIZE (2..8)", namedBitObservedLength(namedBits_SupportedRATTypesIndicator)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6760,9 +6761,10 @@ func (v *MSVLRCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_resetidssupported = retagged_enc_resetidssupported
 		children = append(children, enc_resetidssupported...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_1, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -6799,19 +6801,19 @@ func (v *MSVLRCapability) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.SupportedCamelPhases != nil {
-		namedBits_SupportedCamelPhases, namedBitErr_namedBits_SupportedCamelPhases := ber.NormalizeNamedBitStringForEncoding(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
-		if namedBitErr_namedBits_SupportedCamelPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedCamelPhases, "supportedCamelPhases", "encoding", true)
+		namedBits_SupportedCamelPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, nil, "supportedCamelPhases", s02f799_1)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhases.Bytes, namedBits_SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhases", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedCamelPhases).BitLength < 1 || (namedBits_SupportedCamelPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_1, "51.5", "supportedCamelPhases", "SIZE (1..16)", (namedBits_SupportedCamelPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_1, "51.5", "supportedCamelPhases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedCamelPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6875,19 +6877,19 @@ func (v *MSVLRCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_longftnsupported...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		namedBits_SupportedLCSCapabilitySets, namedBitErr_namedBits_SupportedLCSCapabilitySets := ber.NormalizeNamedBitStringForEncoding(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}})
-		if namedBitErr_namedBits_SupportedLCSCapabilitySets != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedLCSCapabilitySets, "supportedLCS-CapabilitySets", "encoding", true)
+		namedBits_SupportedLCSCapabilitySets, namedBitErr_ := normalizeNamedBits(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, nil, "supportedLCS-CapabilitySets", s02f799_1)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedLCSCapabilitySets.Bytes, namedBits_SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedLCS-CapabilitySets", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedLCSCapabilitySets).BitLength < 2 || (namedBits_SupportedLCSCapabilitySets).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_1, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", (namedBits_SupportedLCSCapabilitySets).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_1, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", namedBitObservedLength(namedBits_SupportedLCSCapabilitySets)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6903,19 +6905,19 @@ func (v *MSVLRCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		namedBits_OfferedCamel4CSIs, namedBitErr_namedBits_OfferedCamel4CSIs := ber.NormalizeNamedBitStringForEncoding(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
-		if namedBitErr_namedBits_OfferedCamel4CSIs != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIs, "offeredCamel4CSIs", "encoding", true)
+		namedBits_OfferedCamel4CSIs, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, nil, "offeredCamel4CSIs", s02f799_1)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIs.Bytes, namedBits_OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIs", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIs).BitLength < 7 || (namedBits_OfferedCamel4CSIs).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_1, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", (namedBits_OfferedCamel4CSIs).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_1, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIs)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6931,19 +6933,19 @@ func (v *MSVLRCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csis...)
 	}
 	if v.SupportedRATTypesIndicator != nil {
-		namedBits_SupportedRATTypesIndicator, namedBitErr_namedBits_SupportedRATTypesIndicator := ber.NormalizeNamedBitStringForEncoding(*v.SupportedRATTypesIndicator, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
-		if namedBitErr_namedBits_SupportedRATTypesIndicator != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedRATTypesIndicator, "supportedRAT-TypesIndicator", "encoding", true)
+		namedBits_SupportedRATTypesIndicator, namedBitErr_ := normalizeNamedBits(*v.SupportedRATTypesIndicator, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, nil, "supportedRAT-TypesIndicator", s02f799_1)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedRATTypesIndicator.Bytes, namedBits_SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedRAT-TypesIndicator", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedRATTypesIndicator).BitLength < 2 || (namedBits_SupportedRATTypesIndicator).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_1, "51.5", "supportedRAT-TypesIndicator", "SIZE (2..8)", (namedBits_SupportedRATTypesIndicator).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_1, "51.5", "supportedRAT-TypesIndicator", "SIZE (2..8)", namedBitObservedLength(namedBits_SupportedRATTypesIndicator)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6996,7 +6998,7 @@ func (v *MSVLRCapability) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_1, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -7730,9 +7732,10 @@ func (v *MSUpdateLocationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		enc_pagingareacapability = retagged_enc_pagingareacapability
 		children = append(children, enc_pagingareacapability...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_2, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -7805,7 +7808,7 @@ func (v *MSUpdateLocationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_2, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8050,9 +8053,10 @@ func (v *MSADDInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_skipsubscriberdataupdate = retagged_enc_skipsubscriberdataupdate
 		children = append(children, enc_skipsubscriberdataupdate...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_3, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8114,7 +8118,7 @@ func (v *MSADDInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_3, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8742,9 +8746,10 @@ func (v *MSCancelLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		enc_reattachrequired = retagged_enc_reattachrequired
 		children = append(children, enc_reattachrequired...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_5, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8895,7 +8900,7 @@ func (v *MSCancelLocationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_5, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9321,9 +9326,10 @@ func (v *MSCancelLocationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_6, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9368,7 +9374,7 @@ func (v *MSCancelLocationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_6, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9612,9 +9618,10 @@ func (v *MSPurgeMSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_locationinformationeps)
 		children = append(children, enc_locationinformationeps...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_7, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9749,7 +9756,7 @@ func (v *MSPurgeMSArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_7, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -10154,9 +10161,10 @@ func (v *MSPurgeMSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_freezemtmsi = retagged_enc_freezemtmsi
 		children = append(children, enc_freezemtmsi...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_8, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -10228,7 +10236,7 @@ func (v *MSPurgeMSRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_8, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -10580,9 +10588,10 @@ func (v *MSSendIdentificationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		enc_newlmsi = retagged_enc_newlmsi
 		children = append(children, enc_newlmsi...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_9, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -10746,7 +10755,7 @@ func (v *MSSendIdentificationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_9, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -11230,9 +11239,10 @@ func (v *MSSendIdentificationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		enc_mtcallpendingflag = retagged_enc_mtcallpendingflag
 		children = append(children, enc_mtcallpendingflag...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_10, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -11341,7 +11351,7 @@ func (v *MSSendIdentificationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_10, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -12227,9 +12237,10 @@ func (v *MSAuthenticationTriplet) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		return nil, qualifyBERError(encodeErr_enc_kc, "kc", "encoding", false)
 	}
 	children = append(children, enc_kc...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_12, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -12291,7 +12302,7 @@ func (v *MSAuthenticationTriplet) MarshalDER() ([]byte, error) {
 	children = append(children, enc_kc...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_12, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -12505,9 +12516,10 @@ func (v *MSAuthenticationQuintuplet) marshalBER(opts ...ber.EncodeOption) ([]byt
 		return nil, qualifyBERError(encodeErr_enc_autn, "autn", "encoding", false)
 	}
 	children = append(children, enc_autn...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_13, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -12589,7 +12601,7 @@ func (v *MSAuthenticationQuintuplet) MarshalDER() ([]byte, error) {
 	children = append(children, enc_autn...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_13, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -13030,9 +13042,10 @@ func (v *MSGSMSecurityContextData) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		return nil, qualifyBERError(encodeErr_enc_cksn, "cksn", "encoding", false)
 	}
 	children = append(children, enc_cksn...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_14, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -13084,7 +13097,7 @@ func (v *MSGSMSecurityContextData) MarshalDER() ([]byte, error) {
 	children = append(children, enc_cksn...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_14, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -13255,9 +13268,10 @@ func (v *MSUMTSSecurityContextData) marshalBER(opts ...ber.EncodeOption) ([]byte
 		return nil, qualifyBERError(encodeErr_enc_ksi, "ksi", "encoding", false)
 	}
 	children = append(children, enc_ksi...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_15, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -13319,7 +13333,7 @@ func (v *MSUMTSSecurityContextData) MarshalDER() ([]byte, error) {
 	children = append(children, enc_ksi...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_15, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -13577,9 +13591,10 @@ func (v *MSAuthenticationFailureReportArg) marshalBER(opts ...ber.EncodeOption) 
 		enc_sgsnnumber = retagged_enc_sgsnnumber
 		children = append(children, enc_sgsnnumber...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_16, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -13705,7 +13720,7 @@ func (v *MSAuthenticationFailureReportArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_16, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -14047,9 +14062,10 @@ func (v *MSAuthenticationFailureReportRes) marshalBER(opts ...ber.EncodeOption) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_17, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -14094,7 +14110,7 @@ func (v *MSAuthenticationFailureReportRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_17, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -14595,9 +14611,10 @@ func (v *MSUpdateGprsLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_adjacentplmnlist)
 		children = append(children, enc_adjacentplmnlist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_18, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -14957,7 +14974,7 @@ func (v *MSUpdateGprsLocationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_18, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -15967,9 +15984,9 @@ func (v *MSEPSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if v.IsrInformation == nil {
 			return nil, qualifyBERError(fmt.Errorf("%w: selected BIT STRING is nil", ber.ErrInvalidValue), "isr-Information", "encoding", false)
 		}
-		namedBits_choice, namedBitErr_namedBits_choice := ber.NormalizeNamedBitStringForBEREncoding(*v.IsrInformation, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_choice != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_choice, "isr-Information", "encoding", false)
+		namedBits_choice, namedBitErr_ := normalizeNamedBits(*v.IsrInformation, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts, "isr-Information", s02f799_19)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		namedValue_ := *v
 		namedValue_.IsrInformation = &namedBits_choice
@@ -15977,7 +15994,7 @@ func (v *MSEPSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.IsrInformation.Bytes, v.IsrInformation.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "isr-Information", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2909
+		// arithmetic pattern BER_BITSTRING_CHOICE: 0 <= bit length before modulo and subtraction; gen/codegen.go:2926
 		if v.IsrInformation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -15986,7 +16003,7 @@ func (v *MSEPSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_1, "isr-Information", "encoding", false)
 		}
 		if (*v.IsrInformation).BitLength < 3 || (*v.IsrInformation).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_19, "51.5", "isr-Information", "SIZE (3..8)", (*v.IsrInformation).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_19, "51.5", "isr-Information", "SIZE (3..8)", namedBitObservedLength(*v.IsrInformation)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -16029,9 +16046,9 @@ func (v *MSEPSInfo) MarshalDER() ([]byte, error) {
 		if v.IsrInformation == nil {
 			return nil, fmt.Errorf("%w: choice MSEPSInfo: isr-Information is nil", ber.ErrInvalidValue)
 		}
-		namedBits_choice, namedBitErr_namedBits_choice := ber.NormalizeNamedBitStringForEncoding(*v.IsrInformation, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
-		if namedBitErr_namedBits_choice != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_choice, "isr-Information", "encoding", true)
+		namedBits_choice, namedBitErr_ := normalizeNamedBits(*v.IsrInformation, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, nil, "isr-Information", s02f799_19)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		namedValue_ := *v
 		namedValue_.IsrInformation = &namedBits_choice
@@ -16041,7 +16058,7 @@ func (v *MSEPSInfo) MarshalDER() ([]byte, error) {
 			return nil, qualifyBERError(err, "isr-Information", "encoding", true)
 		}
 		if (*v.IsrInformation).BitLength < 3 || (*v.IsrInformation).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_19, "51.5", "isr-Information", "SIZE (3..8)", (*v.IsrInformation).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_19, "51.5", "isr-Information", "SIZE (3..8)", namedBitObservedLength(*v.IsrInformation)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -16248,9 +16265,10 @@ func (v *MSPDNGWUpdate) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_20, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -16343,7 +16361,7 @@ func (v *MSPDNGWUpdate) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_20, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -16642,19 +16660,19 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_gprsenhancementssupportindicator...)
 	}
 	if v.SupportedCamelPhases != nil {
-		namedBits_SupportedCamelPhases, namedBitErr_namedBits_SupportedCamelPhases := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedCamelPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedCamelPhases, "supportedCamelPhases", "encoding", false)
+		namedBits_SupportedCamelPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts, "supportedCamelPhases", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhases.Bytes, namedBits_SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhases", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedCamelPhases).BitLength < 1 || (namedBits_SupportedCamelPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "supportedCamelPhases", "SIZE (1..16)", (namedBits_SupportedCamelPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "supportedCamelPhases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedCamelPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -16670,19 +16688,19 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_supportedcamelphases...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		namedBits_SupportedLCSCapabilitySets, namedBitErr_namedBits_SupportedLCSCapabilitySets := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedLCSCapabilitySets != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedLCSCapabilitySets, "supportedLCS-CapabilitySets", "encoding", false)
+		namedBits_SupportedLCSCapabilitySets, namedBitErr_ := normalizeNamedBits(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, opts, "supportedLCS-CapabilitySets", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedLCSCapabilitySets.Bytes, namedBits_SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedLCS-CapabilitySets", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedLCSCapabilitySets).BitLength < 2 || (namedBits_SupportedLCSCapabilitySets).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", (namedBits_SupportedLCSCapabilitySets).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", namedBitObservedLength(namedBits_SupportedLCSCapabilitySets)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -16698,19 +16716,19 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		namedBits_OfferedCamel4CSIs, namedBitErr_namedBits_OfferedCamel4CSIs := ber.NormalizeNamedBitStringForBEREncoding(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_OfferedCamel4CSIs != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIs, "offeredCamel4CSIs", "encoding", false)
+		namedBits_OfferedCamel4CSIs, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts, "offeredCamel4CSIs", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIs.Bytes, namedBits_OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIs", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIs).BitLength < 7 || (namedBits_OfferedCamel4CSIs).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", (namedBits_OfferedCamel4CSIs).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIs)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -16735,19 +16753,19 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_smscallbarringsupportindicator...)
 	}
 	if v.SupportedRATTypesIndicator != nil {
-		namedBits_SupportedRATTypesIndicator, namedBitErr_namedBits_SupportedRATTypesIndicator := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedRATTypesIndicator, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_SupportedRATTypesIndicator != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedRATTypesIndicator, "supportedRAT-TypesIndicator", "encoding", false)
+		namedBits_SupportedRATTypesIndicator, namedBitErr_ := normalizeNamedBits(*v.SupportedRATTypesIndicator, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts, "supportedRAT-TypesIndicator", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedRATTypesIndicator.Bytes, namedBits_SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedRAT-TypesIndicator", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedRATTypesIndicator).BitLength < 2 || (namedBits_SupportedRATTypesIndicator).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "supportedRAT-TypesIndicator", "SIZE (2..8)", (namedBits_SupportedRATTypesIndicator).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "supportedRAT-TypesIndicator", "SIZE (2..8)", namedBitObservedLength(namedBits_SupportedRATTypesIndicator)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -16763,19 +16781,19 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_supportedrattypesindicator...)
 	}
 	if v.SupportedFeatures != nil {
-		namedBits_SupportedFeatures, namedBitErr_namedBits_SupportedFeatures := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedFeatures, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}}, opts...)
-		if namedBitErr_namedBits_SupportedFeatures != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedFeatures, "supportedFeatures", "encoding", false)
+		namedBits_SupportedFeatures, namedBitErr_ := normalizeNamedBits(*v.SupportedFeatures, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}}, opts, "supportedFeatures", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedFeatures.Bytes, namedBits_SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedFeatures", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedFeatures).BitLength < 26 || (namedBits_SupportedFeatures).BitLength > 40 {
-			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "supportedFeatures", "SIZE (26..40)", (namedBits_SupportedFeatures).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "supportedFeatures", "SIZE (26..40)", namedBitObservedLength(namedBits_SupportedFeatures)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -16850,19 +16868,19 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_resetidssupported...)
 	}
 	if v.ExtSupportedFeatures != nil {
-		namedBits_ExtSupportedFeatures, namedBitErr_namedBits_ExtSupportedFeatures := ber.NormalizeNamedBitStringForBEREncoding(*v.ExtSupportedFeatures, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}}, opts...)
-		if namedBitErr_namedBits_ExtSupportedFeatures != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ExtSupportedFeatures, "ext-SupportedFeatures", "encoding", false)
+		namedBits_ExtSupportedFeatures, namedBitErr_ := normalizeNamedBits(*v.ExtSupportedFeatures, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}}, opts, "ext-SupportedFeatures", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ExtSupportedFeatures.Bytes, namedBits_ExtSupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ext-SupportedFeatures", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ExtSupportedFeatures).BitLength < 1 || (namedBits_ExtSupportedFeatures).BitLength > 40 {
-			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "ext-SupportedFeatures", "SIZE (1..40)", (namedBits_ExtSupportedFeatures).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_21, "51.5", "ext-SupportedFeatures", "SIZE (1..40)", namedBitObservedLength(namedBits_ExtSupportedFeatures)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -16877,9 +16895,10 @@ func (v *MSSGSNCapability) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		enc_extsupportedfeatures = retagged_enc_extsupportedfeatures
 		children = append(children, enc_extsupportedfeatures...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_21, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -16955,19 +16974,19 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_gprsenhancementssupportindicator...)
 	}
 	if v.SupportedCamelPhases != nil {
-		namedBits_SupportedCamelPhases, namedBitErr_namedBits_SupportedCamelPhases := ber.NormalizeNamedBitStringForEncoding(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
-		if namedBitErr_namedBits_SupportedCamelPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedCamelPhases, "supportedCamelPhases", "encoding", true)
+		namedBits_SupportedCamelPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, nil, "supportedCamelPhases", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhases.Bytes, namedBits_SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhases", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedCamelPhases).BitLength < 1 || (namedBits_SupportedCamelPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "supportedCamelPhases", "SIZE (1..16)", (namedBits_SupportedCamelPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "supportedCamelPhases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedCamelPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -16983,19 +17002,19 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedcamelphases...)
 	}
 	if v.SupportedLCSCapabilitySets != nil {
-		namedBits_SupportedLCSCapabilitySets, namedBitErr_namedBits_SupportedLCSCapabilitySets := ber.NormalizeNamedBitStringForEncoding(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}})
-		if namedBitErr_namedBits_SupportedLCSCapabilitySets != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedLCSCapabilitySets, "supportedLCS-CapabilitySets", "encoding", true)
+		namedBits_SupportedLCSCapabilitySets, namedBitErr_ := normalizeNamedBits(*v.SupportedLCSCapabilitySets, []ber.NamedBitSizeSet{{{Min: 2, Max: 16}}}, nil, "supportedLCS-CapabilitySets", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedLCSCapabilitySets.Bytes, namedBits_SupportedLCSCapabilitySets.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedLCS-CapabilitySets", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedLCSCapabilitySets.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedLCSCapabilitySets).BitLength < 2 || (namedBits_SupportedLCSCapabilitySets).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", (namedBits_SupportedLCSCapabilitySets).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "supportedLCS-CapabilitySets", "SIZE (2..16)", namedBitObservedLength(namedBits_SupportedLCSCapabilitySets)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -17011,19 +17030,19 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedlcscapabilitysets...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		namedBits_OfferedCamel4CSIs, namedBitErr_namedBits_OfferedCamel4CSIs := ber.NormalizeNamedBitStringForEncoding(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
-		if namedBitErr_namedBits_OfferedCamel4CSIs != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIs, "offeredCamel4CSIs", "encoding", true)
+		namedBits_OfferedCamel4CSIs, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, nil, "offeredCamel4CSIs", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIs.Bytes, namedBits_OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIs", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIs).BitLength < 7 || (namedBits_OfferedCamel4CSIs).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", (namedBits_OfferedCamel4CSIs).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIs)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -17048,19 +17067,19 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_smscallbarringsupportindicator...)
 	}
 	if v.SupportedRATTypesIndicator != nil {
-		namedBits_SupportedRATTypesIndicator, namedBitErr_namedBits_SupportedRATTypesIndicator := ber.NormalizeNamedBitStringForEncoding(*v.SupportedRATTypesIndicator, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
-		if namedBitErr_namedBits_SupportedRATTypesIndicator != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedRATTypesIndicator, "supportedRAT-TypesIndicator", "encoding", true)
+		namedBits_SupportedRATTypesIndicator, namedBitErr_ := normalizeNamedBits(*v.SupportedRATTypesIndicator, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, nil, "supportedRAT-TypesIndicator", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedRATTypesIndicator.Bytes, namedBits_SupportedRATTypesIndicator.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedRAT-TypesIndicator", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedRATTypesIndicator.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedRATTypesIndicator).BitLength < 2 || (namedBits_SupportedRATTypesIndicator).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "supportedRAT-TypesIndicator", "SIZE (2..8)", (namedBits_SupportedRATTypesIndicator).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "supportedRAT-TypesIndicator", "SIZE (2..8)", namedBitObservedLength(namedBits_SupportedRATTypesIndicator)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -17076,19 +17095,19 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedrattypesindicator...)
 	}
 	if v.SupportedFeatures != nil {
-		namedBits_SupportedFeatures, namedBitErr_namedBits_SupportedFeatures := ber.NormalizeNamedBitStringForEncoding(*v.SupportedFeatures, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}})
-		if namedBitErr_namedBits_SupportedFeatures != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedFeatures, "supportedFeatures", "encoding", true)
+		namedBits_SupportedFeatures, namedBitErr_ := normalizeNamedBits(*v.SupportedFeatures, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}}, nil, "supportedFeatures", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedFeatures.Bytes, namedBits_SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedFeatures", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedFeatures).BitLength < 26 || (namedBits_SupportedFeatures).BitLength > 40 {
-			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "supportedFeatures", "SIZE (26..40)", (namedBits_SupportedFeatures).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "supportedFeatures", "SIZE (26..40)", namedBitObservedLength(namedBits_SupportedFeatures)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -17158,19 +17177,19 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 		children = append(children, enc_resetidssupported...)
 	}
 	if v.ExtSupportedFeatures != nil {
-		namedBits_ExtSupportedFeatures, namedBitErr_namedBits_ExtSupportedFeatures := ber.NormalizeNamedBitStringForEncoding(*v.ExtSupportedFeatures, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}})
-		if namedBitErr_namedBits_ExtSupportedFeatures != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ExtSupportedFeatures, "ext-SupportedFeatures", "encoding", true)
+		namedBits_ExtSupportedFeatures, namedBitErr_ := normalizeNamedBits(*v.ExtSupportedFeatures, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}}, nil, "ext-SupportedFeatures", s02f799_21)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ExtSupportedFeatures.Bytes, namedBits_ExtSupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ext-SupportedFeatures", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ExtSupportedFeatures).BitLength < 1 || (namedBits_ExtSupportedFeatures).BitLength > 40 {
-			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "ext-SupportedFeatures", "SIZE (1..40)", (namedBits_ExtSupportedFeatures).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_21, "51.5", "ext-SupportedFeatures", "SIZE (1..40)", namedBitObservedLength(namedBits_ExtSupportedFeatures)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -17187,7 +17206,7 @@ func (v *MSSGSNCapability) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_21, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -17899,9 +17918,10 @@ func (v *MSUpdateGprsLocationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		enc_mmeregisteredforsms = retagged_enc_mmeregisteredforsms
 		children = append(children, enc_mmeregisteredforsms...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_22, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -17983,7 +18003,7 @@ func (v *MSUpdateGprsLocationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_22, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -18906,9 +18926,10 @@ func (v *MSForwardAccessSignallingArg) marshalBER(opts ...ber.EncodeOption) ([]b
 		enc_imeisv = retagged_enc_imeisv
 		children = append(children, enc_imeisv...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_25, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -19262,7 +19283,7 @@ func (v *MSForwardAccessSignallingArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_25, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -20223,9 +20244,10 @@ func (v *MSAllowedUMTSAlgorithms) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_26, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -20309,7 +20331,7 @@ func (v *MSAllowedUMTSAlgorithms) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_26, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -21012,19 +21034,19 @@ func (v *MSPrepareHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_lclsglobalcallreference...)
 	}
 	if v.LclsNegotiation != nil {
-		namedBits_LclsNegotiation, namedBitErr_namedBits_LclsNegotiation := ber.NormalizeNamedBitStringForBEREncoding(*v.LclsNegotiation, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_LclsNegotiation != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_LclsNegotiation, "lcls-Negotiation", "encoding", false)
+		namedBits_LclsNegotiation, namedBitErr_ := normalizeNamedBits(*v.LclsNegotiation, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts, "lcls-Negotiation", s02f799_27)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_LclsNegotiation.Bytes, namedBits_LclsNegotiation.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "lcls-Negotiation", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_LclsNegotiation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_LclsNegotiation).BitLength < 2 || (namedBits_LclsNegotiation).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_27, "51.5", "lcls-Negotiation", "SIZE (2..8)", (namedBits_LclsNegotiation).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_27, "51.5", "lcls-Negotiation", "SIZE (2..8)", namedBitObservedLength(namedBits_LclsNegotiation)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -21040,19 +21062,19 @@ func (v *MSPrepareHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_lclsnegotiation...)
 	}
 	if v.LclsConfigurationPreference != nil {
-		namedBits_LclsConfigurationPreference, namedBitErr_namedBits_LclsConfigurationPreference := ber.NormalizeNamedBitStringForBEREncoding(*v.LclsConfigurationPreference, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_LclsConfigurationPreference != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_LclsConfigurationPreference, "lcls-Configuration-Preference", "encoding", false)
+		namedBits_LclsConfigurationPreference, namedBitErr_ := normalizeNamedBits(*v.LclsConfigurationPreference, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, opts, "lcls-Configuration-Preference", s02f799_27)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_LclsConfigurationPreference.Bytes, namedBits_LclsConfigurationPreference.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "lcls-Configuration-Preference", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_LclsConfigurationPreference.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_LclsConfigurationPreference).BitLength < 4 || (namedBits_LclsConfigurationPreference).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_27, "51.5", "lcls-Configuration-Preference", "SIZE (4..8)", (namedBits_LclsConfigurationPreference).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_27, "51.5", "lcls-Configuration-Preference", "SIZE (4..8)", namedBitObservedLength(namedBits_LclsConfigurationPreference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -21100,9 +21122,10 @@ func (v *MSPrepareHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_csgsubscriptiondatalist)
 		children = append(children, enc_csgsubscriptiondatalist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_27, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -21565,19 +21588,19 @@ func (v *MSPrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lclsglobalcallreference...)
 	}
 	if v.LclsNegotiation != nil {
-		namedBits_LclsNegotiation, namedBitErr_namedBits_LclsNegotiation := ber.NormalizeNamedBitStringForEncoding(*v.LclsNegotiation, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
-		if namedBitErr_namedBits_LclsNegotiation != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_LclsNegotiation, "lcls-Negotiation", "encoding", true)
+		namedBits_LclsNegotiation, namedBitErr_ := normalizeNamedBits(*v.LclsNegotiation, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, nil, "lcls-Negotiation", s02f799_27)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_LclsNegotiation.Bytes, namedBits_LclsNegotiation.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "lcls-Negotiation", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_LclsNegotiation.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_LclsNegotiation).BitLength < 2 || (namedBits_LclsNegotiation).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_27, "51.5", "lcls-Negotiation", "SIZE (2..8)", (namedBits_LclsNegotiation).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_27, "51.5", "lcls-Negotiation", "SIZE (2..8)", namedBitObservedLength(namedBits_LclsNegotiation)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -21593,19 +21616,19 @@ func (v *MSPrepareHOArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_lclsnegotiation...)
 	}
 	if v.LclsConfigurationPreference != nil {
-		namedBits_LclsConfigurationPreference, namedBitErr_namedBits_LclsConfigurationPreference := ber.NormalizeNamedBitStringForEncoding(*v.LclsConfigurationPreference, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}})
-		if namedBitErr_namedBits_LclsConfigurationPreference != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_LclsConfigurationPreference, "lcls-Configuration-Preference", "encoding", true)
+		namedBits_LclsConfigurationPreference, namedBitErr_ := normalizeNamedBits(*v.LclsConfigurationPreference, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, nil, "lcls-Configuration-Preference", s02f799_27)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_LclsConfigurationPreference.Bytes, namedBits_LclsConfigurationPreference.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "lcls-Configuration-Preference", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_LclsConfigurationPreference.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_LclsConfigurationPreference).BitLength < 4 || (namedBits_LclsConfigurationPreference).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_27, "51.5", "lcls-Configuration-Preference", "SIZE (4..8)", (namedBits_LclsConfigurationPreference).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_27, "51.5", "lcls-Configuration-Preference", "SIZE (4..8)", namedBitObservedLength(namedBits_LclsConfigurationPreference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -21639,7 +21662,7 @@ func (v *MSPrepareHOArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_27, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -23117,9 +23140,10 @@ func (v *MSBSSMAPServiceHandoverInfo) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	enc_rabid := ber.EncodeInteger(int64(v.RabId))
 	children = append(children, enc_rabid...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_28, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -23168,7 +23192,7 @@ func (v *MSBSSMAPServiceHandoverInfo) MarshalDER() ([]byte, error) {
 	children = append(children, enc_rabid...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_28, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -23481,9 +23505,10 @@ func (v *MSRadioResource) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	enc_rabid := ber.EncodeInteger(int64(v.RabId))
 	children = append(children, enc_rabid...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_29, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -23532,7 +23557,7 @@ func (v *MSRadioResource) MarshalDER() ([]byte, error) {
 	children = append(children, enc_rabid...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_29, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -23858,9 +23883,10 @@ func (v *MSPrepareHORes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_aoipavailablecodecslistmap)
 		children = append(children, enc_aoipavailablecodecslistmap...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_30, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -24061,7 +24087,7 @@ func (v *MSPrepareHORes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_30, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -24678,9 +24704,10 @@ func (v *MSSelectedUMTSAlgorithms) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_31, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -24764,7 +24791,7 @@ func (v *MSSelectedUMTSAlgorithms) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_31, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -25019,9 +25046,10 @@ func (v *MSChosenRadioResourceInformation) marshalBER(opts ...ber.EncodeOption) 
 		enc_chosenspeechversion = retagged_enc_chosenspeechversion
 		children = append(children, enc_chosenspeechversion...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_32, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -25093,7 +25121,7 @@ func (v *MSChosenRadioResourceInformation) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_32, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -25394,9 +25422,10 @@ func (v *MSPrepareSubsequentHOArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		enc_rabconfigurationindicator = retagged_enc_rabconfigurationindicator
 		children = append(children, enc_rabconfigurationindicator...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_33, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -25552,7 +25581,7 @@ func (v *MSPrepareSubsequentHOArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_33, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -25969,9 +25998,10 @@ func (v *MSPrepareSubsequentHORes) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_34, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -26026,7 +26056,7 @@ func (v *MSPrepareSubsequentHORes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_34, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -26348,9 +26378,10 @@ func (v *MSProcessAccessSignallingArg) marshalBER(opts ...ber.EncodeOption) ([]b
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_aoipavailablecodecslistmap)
 		children = append(children, enc_aoipavailablecodecslistmap...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_35, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -26518,7 +26549,7 @@ func (v *MSProcessAccessSignallingArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_35, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -27139,9 +27170,10 @@ func (v *MSAoIPCodecsList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_36, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -27325,7 +27357,7 @@ func (v *MSAoIPCodecsList) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_36, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -27783,9 +27815,10 @@ func (v *MSSupportedCodecsList) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_37, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -27859,7 +27892,7 @@ func (v *MSSupportedCodecsList) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_37, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -28232,9 +28265,10 @@ func (v *MSCodecList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_38, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -28418,7 +28452,7 @@ func (v *MSCodecList) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_38, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -28855,9 +28889,10 @@ func (v *MSSendEndSignalArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_39, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -28912,7 +28947,7 @@ func (v *MSSendEndSignalArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_39, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -29111,9 +29146,10 @@ func (v *MSSendEndSignalRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_40, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -29163,7 +29199,7 @@ func (v *MSSendEndSignalRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_40, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -29490,9 +29526,10 @@ func (v *MSRelocationNumber) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	enc_rabid := ber.EncodeInteger(int64(v.RabId))
 	children = append(children, enc_rabid...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_41, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -29546,7 +29583,7 @@ func (v *MSRelocationNumber) MarshalDER() ([]byte, error) {
 	children = append(children, enc_rabid...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_41, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -29806,9 +29843,10 @@ func (v *MSSendAuthenticationInfoArg) marshalBER(opts ...ber.EncodeOption) ([]by
 		enc_ueusagetyperequestindication = retagged_enc_ueusagetyperequestindication
 		children = append(children, enc_ueusagetyperequestindication...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_42, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -29958,7 +29996,7 @@ func (v *MSSendAuthenticationInfoArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_42, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -30415,9 +30453,10 @@ func (v *MSReSynchronisationInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		return nil, qualifyBERError(encodeErr_enc_auts, "auts", "encoding", false)
 	}
 	children = append(children, enc_auts...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_43, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -30469,7 +30508,7 @@ func (v *MSReSynchronisationInfo) MarshalDER() ([]byte, error) {
 	children = append(children, enc_auts...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_43, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -30676,9 +30715,10 @@ func (v *MSSendAuthenticationInfoRes) marshalBER(opts ...ber.EncodeOption) ([]by
 		enc_ueusagetype = retagged_enc_ueusagetype
 		children = append(children, enc_ueusagetype...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_44, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -30764,7 +30804,7 @@ func (v *MSSendAuthenticationInfoRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_44, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -31237,9 +31277,10 @@ func (v *MSEPCAV) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_45, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -31324,7 +31365,7 @@ func (v *MSEPCAV) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_45, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -31571,19 +31612,19 @@ func (v *MSCheckIMEIArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, qualifyBERError(encodeErr_enc_imei, "imei", "encoding", false)
 	}
 	children = append(children, enc_imei...)
-	namedBits_RequestedEquipmentInfo, namedBitErr_namedBits_RequestedEquipmentInfo := ber.NormalizeNamedBitStringForBEREncoding(v.RequestedEquipmentInfo, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts...)
-	if namedBitErr_namedBits_RequestedEquipmentInfo != nil {
-		return nil, qualifyBERError(namedBitErr_namedBits_RequestedEquipmentInfo, "requestedEquipmentInfo", "encoding", false)
+	namedBits_RequestedEquipmentInfo, namedBitErr_ := normalizeNamedBits(v.RequestedEquipmentInfo, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts, "requestedEquipmentInfo", s02f799_46)
+	if namedBitErr_ != nil {
+		return nil, namedBitErr_
 	}
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_RequestedEquipmentInfo.Bytes, namedBits_RequestedEquipmentInfo.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "requestedEquipmentInfo", "encoding", false)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if namedBits_RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
 	if (namedBits_RequestedEquipmentInfo).BitLength < 2 || (namedBits_RequestedEquipmentInfo).BitLength > 8 {
-		if constraintErr := checkEncodedLength(opts, s02f799_46, "51.5", "requestedEquipmentInfo", "SIZE (2..8)", (namedBits_RequestedEquipmentInfo).BitLength); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s02f799_46, "51.5", "requestedEquipmentInfo", "SIZE (2..8)", namedBitObservedLength(namedBits_RequestedEquipmentInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -31600,9 +31641,10 @@ func (v *MSCheckIMEIArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_46, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -31648,19 +31690,19 @@ func (v *MSCheckIMEIArg) MarshalDER() ([]byte, error) {
 		return nil, qualifyBERError(encodeErr_enc_imei, "imei", "encoding", true)
 	}
 	children = append(children, enc_imei...)
-	namedBits_RequestedEquipmentInfo, namedBitErr_namedBits_RequestedEquipmentInfo := ber.NormalizeNamedBitStringForEncoding(v.RequestedEquipmentInfo, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
-	if namedBitErr_namedBits_RequestedEquipmentInfo != nil {
-		return nil, qualifyBERError(namedBitErr_namedBits_RequestedEquipmentInfo, "requestedEquipmentInfo", "encoding", true)
+	namedBits_RequestedEquipmentInfo, namedBitErr_ := normalizeNamedBits(v.RequestedEquipmentInfo, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, nil, "requestedEquipmentInfo", s02f799_46)
+	if namedBitErr_ != nil {
+		return nil, namedBitErr_
 	}
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_RequestedEquipmentInfo.Bytes, namedBits_RequestedEquipmentInfo.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "requestedEquipmentInfo", "encoding", true)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if namedBits_RequestedEquipmentInfo.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
 	if (namedBits_RequestedEquipmentInfo).BitLength < 2 || (namedBits_RequestedEquipmentInfo).BitLength > 8 {
-		if constraintErr := checkEncodedLength(nil, s02f799_46, "51.5", "requestedEquipmentInfo", "SIZE (2..8)", (namedBits_RequestedEquipmentInfo).BitLength); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s02f799_46, "51.5", "requestedEquipmentInfo", "SIZE (2..8)", namedBitObservedLength(namedBits_RequestedEquipmentInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -31678,7 +31720,7 @@ func (v *MSCheckIMEIArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_46, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -31905,9 +31947,10 @@ func (v *MSCheckIMEIRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_47, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -31973,7 +32016,7 @@ func (v *MSCheckIMEIRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_47, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -32186,7 +32229,7 @@ func (v *MSUESBIIu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuA.Bytes, v.UesbiIuA.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "uesbi-IuA", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -32210,7 +32253,7 @@ func (v *MSUESBIIu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuB.Bytes, v.UesbiIuB.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "uesbi-IuB", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -32230,9 +32273,10 @@ func (v *MSUESBIIu) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_uesbiiub = retagged_enc_uesbiiub
 		children = append(children, enc_uesbiiub...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_48, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -32272,7 +32316,7 @@ func (v *MSUESBIIu) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuA.Bytes, v.UesbiIuA.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "uesbi-IuA", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if v.UesbiIuA.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -32296,7 +32340,7 @@ func (v *MSUESBIIu) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.UesbiIuB.Bytes, v.UesbiIuB.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "uesbi-IuB", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if v.UesbiIuB.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -32318,7 +32362,7 @@ func (v *MSUESBIIu) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_48, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -32992,19 +33036,19 @@ func (v *MSInsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_chargingcharacteristics...)
 	}
 	if v.AccessRestrictionData != nil {
-		namedBits_AccessRestrictionData, namedBitErr_namedBits_AccessRestrictionData := ber.NormalizeNamedBitStringForBEREncoding(*v.AccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_AccessRestrictionData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_AccessRestrictionData, "accessRestrictionData", "encoding", false)
+		namedBits_AccessRestrictionData, namedBitErr_ := normalizeNamedBits(*v.AccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts, "accessRestrictionData", s02f799_49)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AccessRestrictionData.Bytes, namedBits_AccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "accessRestrictionData", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_AccessRestrictionData).BitLength < 2 || (namedBits_AccessRestrictionData).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_49, "51.5", "accessRestrictionData", "SIZE (2..8)", (namedBits_AccessRestrictionData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_49, "51.5", "accessRestrictionData", "SIZE (2..8)", namedBitObservedLength(namedBits_AccessRestrictionData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -33442,19 +33486,19 @@ func (v *MSInsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_edrxcyclelengthlist...)
 	}
 	if v.ExtAccessRestrictionData != nil {
-		namedBits_ExtAccessRestrictionData, namedBitErr_namedBits_ExtAccessRestrictionData := ber.NormalizeNamedBitStringForBEREncoding(*v.ExtAccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}}, opts...)
-		if namedBitErr_namedBits_ExtAccessRestrictionData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ExtAccessRestrictionData, "ext-AccessRestrictionData", "encoding", false)
+		namedBits_ExtAccessRestrictionData, namedBitErr_ := normalizeNamedBits(*v.ExtAccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}}, opts, "ext-AccessRestrictionData", s02f799_49)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ExtAccessRestrictionData.Bytes, namedBits_ExtAccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ext-AccessRestrictionData", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ExtAccessRestrictionData).BitLength < 1 || (namedBits_ExtAccessRestrictionData).BitLength > 32 {
-			if constraintErr := checkEncodedLength(opts, s02f799_49, "51.5", "ext-AccessRestrictionData", "SIZE (1..32)", (namedBits_ExtAccessRestrictionData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_49, "51.5", "ext-AccessRestrictionData", "SIZE (1..32)", namedBitObservedLength(namedBits_ExtAccessRestrictionData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -33478,9 +33522,10 @@ func (v *MSInsertSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 		enc_iaboperationallowedindicator = retagged_enc_iaboperationallowedindicator
 		children = append(children, enc_iaboperationallowedindicator...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_49, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -33898,19 +33943,19 @@ func (v *MSInsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_chargingcharacteristics...)
 	}
 	if v.AccessRestrictionData != nil {
-		namedBits_AccessRestrictionData, namedBitErr_namedBits_AccessRestrictionData := ber.NormalizeNamedBitStringForEncoding(*v.AccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
-		if namedBitErr_namedBits_AccessRestrictionData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_AccessRestrictionData, "accessRestrictionData", "encoding", true)
+		namedBits_AccessRestrictionData, namedBitErr_ := normalizeNamedBits(*v.AccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, nil, "accessRestrictionData", s02f799_49)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AccessRestrictionData.Bytes, namedBits_AccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "accessRestrictionData", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_AccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_AccessRestrictionData).BitLength < 2 || (namedBits_AccessRestrictionData).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_49, "51.5", "accessRestrictionData", "SIZE (2..8)", (namedBits_AccessRestrictionData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_49, "51.5", "accessRestrictionData", "SIZE (2..8)", namedBitObservedLength(namedBits_AccessRestrictionData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -34241,19 +34286,19 @@ func (v *MSInsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_edrxcyclelengthlist...)
 	}
 	if v.ExtAccessRestrictionData != nil {
-		namedBits_ExtAccessRestrictionData, namedBitErr_namedBits_ExtAccessRestrictionData := ber.NormalizeNamedBitStringForEncoding(*v.ExtAccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}})
-		if namedBitErr_namedBits_ExtAccessRestrictionData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ExtAccessRestrictionData, "ext-AccessRestrictionData", "encoding", true)
+		namedBits_ExtAccessRestrictionData, namedBitErr_ := normalizeNamedBits(*v.ExtAccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}}, nil, "ext-AccessRestrictionData", s02f799_49)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ExtAccessRestrictionData.Bytes, namedBits_ExtAccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ext-AccessRestrictionData", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ExtAccessRestrictionData).BitLength < 1 || (namedBits_ExtAccessRestrictionData).BitLength > 32 {
-			if constraintErr := checkEncodedLength(nil, s02f799_49, "51.5", "ext-AccessRestrictionData", "SIZE (1..32)", (namedBits_ExtAccessRestrictionData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_49, "51.5", "ext-AccessRestrictionData", "SIZE (1..32)", namedBitObservedLength(namedBits_ExtAccessRestrictionData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -34279,7 +34324,7 @@ func (v *MSInsertSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_49, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -36594,9 +36639,10 @@ func (v *MSEDRXCycleLength) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 	}
 	enc_edrxcyclelengthvalue = retagged_enc_edrxcyclelengthvalue
 	children = append(children, enc_edrxcyclelengthvalue...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_50, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -36650,7 +36696,7 @@ func (v *MSEDRXCycleLength) MarshalDER() ([]byte, error) {
 	children = append(children, enc_edrxcyclelengthvalue...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_50, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -37168,9 +37214,10 @@ func (v *MSIMSIGroupId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	enc_localgroupid = retagged_enc_localgroupid
 	children = append(children, enc_localgroupid...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_52, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -37244,7 +37291,7 @@ func (v *MSIMSIGroupId) MarshalDER() ([]byte, error) {
 	children = append(children, enc_localgroupid...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_52, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -37602,7 +37649,7 @@ func (v *MSCSGSubscriptionData) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	if bitStringErr := ber.ValidateBitStringLength(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "csg-Id", "encoding", false)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -37686,9 +37733,10 @@ func (v *MSCSGSubscriptionData) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		enc_plmnid = retagged_enc_plmnid
 		children = append(children, enc_plmnid...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_53, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -37727,7 +37775,7 @@ func (v *MSCSGSubscriptionData) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "csg-Id", "encoding", true)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -37796,7 +37844,7 @@ func (v *MSCSGSubscriptionData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_53, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -38518,9 +38566,10 @@ func (v *MSEPSSubscriptionData) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		enc_subscribedvsrvcc = retagged_enc_subscribedvsrvcc
 		children = append(children, enc_subscribedvsrvcc...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_55, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -38674,7 +38723,7 @@ func (v *MSEPSSubscriptionData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_55, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -39158,9 +39207,10 @@ func (v *MSAPNConfigurationProfile) marshalBER(opts ...ber.EncodeOption) ([]byte
 		enc_additionaldefaultcontext = retagged_enc_additionaldefaultcontext
 		children = append(children, enc_additionaldefaultcontext...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_56, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -39253,7 +39303,7 @@ func (v *MSAPNConfigurationProfile) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_56, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -40037,9 +40087,10 @@ func (v *MSAPNConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		enc_pdnconnectioncontinuity = retagged_enc_pdnconnectioncontinuity
 		children = append(children, enc_pdnconnectioncontinuity...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_57, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -40398,7 +40449,7 @@ func (v *MSAPNConfiguration) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_57, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -41361,9 +41412,10 @@ func (v *MSEPSQoSSubscribed) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_58, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -41435,7 +41487,7 @@ func (v *MSEPSQoSSubscribed) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_58, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -41726,9 +41778,10 @@ func (v *MSAMBR) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_extendedmaxrequestedbandwidthdl = retagged_enc_extendedmaxrequestedbandwidthdl
 		children = append(children, enc_extendedmaxrequestedbandwidthdl...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_59, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -41828,7 +41881,7 @@ func (v *MSAMBR) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_59, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -42292,9 +42345,10 @@ func (v *MSSpecificAPNInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_60, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -42369,7 +42423,7 @@ func (v *MSSpecificAPNInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_60, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -42649,9 +42703,10 @@ func (v *MSAllocationRetentionPriority) marshalBER(opts ...ber.EncodeOption) ([]
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_61, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -42732,7 +42787,7 @@ func (v *MSAllocationRetentionPriority) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_61, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -43045,9 +43100,10 @@ func (v *MSPDNGWIdentity) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_62, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -43148,7 +43204,7 @@ func (v *MSPDNGWIdentity) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_62, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -43442,9 +43498,10 @@ func (v *MSWLANOffloadability) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_63, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -43522,7 +43579,7 @@ func (v *MSWLANOffloadability) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_63, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -43913,19 +43970,19 @@ func (v *MSAdjacentAccessRestrictionData) marshalBER(opts ...ber.EncodeOption) (
 	}
 	enc_plmnid = retagged_enc_plmnid
 	children = append(children, enc_plmnid...)
-	namedBits_AccessRestrictionData, namedBitErr_namedBits_AccessRestrictionData := ber.NormalizeNamedBitStringForBEREncoding(v.AccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts...)
-	if namedBitErr_namedBits_AccessRestrictionData != nil {
-		return nil, qualifyBERError(namedBitErr_namedBits_AccessRestrictionData, "accessRestrictionData", "encoding", false)
+	namedBits_AccessRestrictionData, namedBitErr_ := normalizeNamedBits(v.AccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts, "accessRestrictionData", s02f799_64)
+	if namedBitErr_ != nil {
+		return nil, namedBitErr_
 	}
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_AccessRestrictionData.Bytes, namedBits_AccessRestrictionData.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "accessRestrictionData", "encoding", false)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if namedBits_AccessRestrictionData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
 	if (namedBits_AccessRestrictionData).BitLength < 2 || (namedBits_AccessRestrictionData).BitLength > 8 {
-		if constraintErr := checkEncodedLength(opts, s02f799_64, "51.5", "accessRestrictionData", "SIZE (2..8)", (namedBits_AccessRestrictionData).BitLength); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s02f799_64, "51.5", "accessRestrictionData", "SIZE (2..8)", namedBitObservedLength(namedBits_AccessRestrictionData)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -43940,19 +43997,19 @@ func (v *MSAdjacentAccessRestrictionData) marshalBER(opts ...ber.EncodeOption) (
 	enc_accessrestrictiondata = retagged_enc_accessrestrictiondata
 	children = append(children, enc_accessrestrictiondata...)
 	if v.ExtAccessRestrictionData != nil {
-		namedBits_ExtAccessRestrictionData, namedBitErr_namedBits_ExtAccessRestrictionData := ber.NormalizeNamedBitStringForBEREncoding(*v.ExtAccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}}, opts...)
-		if namedBitErr_namedBits_ExtAccessRestrictionData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ExtAccessRestrictionData, "ext-AccessRestrictionData", "encoding", false)
+		namedBits_ExtAccessRestrictionData, namedBitErr_ := normalizeNamedBits(*v.ExtAccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}}, opts, "ext-AccessRestrictionData", s02f799_64)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ExtAccessRestrictionData.Bytes, namedBits_ExtAccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ext-AccessRestrictionData", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ExtAccessRestrictionData).BitLength < 1 || (namedBits_ExtAccessRestrictionData).BitLength > 32 {
-			if constraintErr := checkEncodedLength(opts, s02f799_64, "51.5", "ext-AccessRestrictionData", "SIZE (1..32)", (namedBits_ExtAccessRestrictionData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_64, "51.5", "ext-AccessRestrictionData", "SIZE (1..32)", namedBitObservedLength(namedBits_ExtAccessRestrictionData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -43967,9 +44024,10 @@ func (v *MSAdjacentAccessRestrictionData) marshalBER(opts ...ber.EncodeOption) (
 		enc_extaccessrestrictiondata = retagged_enc_extaccessrestrictiondata
 		children = append(children, enc_extaccessrestrictiondata...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_64, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -44020,19 +44078,19 @@ func (v *MSAdjacentAccessRestrictionData) MarshalDER() ([]byte, error) {
 	}
 	enc_plmnid = retagged_enc_plmnid
 	children = append(children, enc_plmnid...)
-	namedBits_AccessRestrictionData, namedBitErr_namedBits_AccessRestrictionData := ber.NormalizeNamedBitStringForEncoding(v.AccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
-	if namedBitErr_namedBits_AccessRestrictionData != nil {
-		return nil, qualifyBERError(namedBitErr_namedBits_AccessRestrictionData, "accessRestrictionData", "encoding", true)
+	namedBits_AccessRestrictionData, namedBitErr_ := normalizeNamedBits(v.AccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, nil, "accessRestrictionData", s02f799_64)
+	if namedBitErr_ != nil {
+		return nil, namedBitErr_
 	}
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_AccessRestrictionData.Bytes, namedBits_AccessRestrictionData.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "accessRestrictionData", "encoding", true)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if namedBits_AccessRestrictionData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
 	if (namedBits_AccessRestrictionData).BitLength < 2 || (namedBits_AccessRestrictionData).BitLength > 8 {
-		if constraintErr := checkEncodedLength(nil, s02f799_64, "51.5", "accessRestrictionData", "SIZE (2..8)", (namedBits_AccessRestrictionData).BitLength); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s02f799_64, "51.5", "accessRestrictionData", "SIZE (2..8)", namedBitObservedLength(namedBits_AccessRestrictionData)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -44047,19 +44105,19 @@ func (v *MSAdjacentAccessRestrictionData) MarshalDER() ([]byte, error) {
 	enc_accessrestrictiondata = retagged_enc_accessrestrictiondata
 	children = append(children, enc_accessrestrictiondata...)
 	if v.ExtAccessRestrictionData != nil {
-		namedBits_ExtAccessRestrictionData, namedBitErr_namedBits_ExtAccessRestrictionData := ber.NormalizeNamedBitStringForEncoding(*v.ExtAccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}})
-		if namedBitErr_namedBits_ExtAccessRestrictionData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ExtAccessRestrictionData, "ext-AccessRestrictionData", "encoding", true)
+		namedBits_ExtAccessRestrictionData, namedBitErr_ := normalizeNamedBits(*v.ExtAccessRestrictionData, []ber.NamedBitSizeSet{{{Min: 1, Max: 32}}}, nil, "ext-AccessRestrictionData", s02f799_64)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ExtAccessRestrictionData.Bytes, namedBits_ExtAccessRestrictionData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ext-AccessRestrictionData", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ExtAccessRestrictionData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ExtAccessRestrictionData).BitLength < 1 || (namedBits_ExtAccessRestrictionData).BitLength > 32 {
-			if constraintErr := checkEncodedLength(nil, s02f799_64, "51.5", "ext-AccessRestrictionData", "SIZE (1..32)", (namedBits_ExtAccessRestrictionData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_64, "51.5", "ext-AccessRestrictionData", "SIZE (1..32)", namedBitObservedLength(namedBits_ExtAccessRestrictionData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -44076,7 +44134,7 @@ func (v *MSAdjacentAccessRestrictionData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_64, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -44437,9 +44495,10 @@ func (v *MSLCSInformation) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_addlcsprivacyexceptionlist)
 		children = append(children, enc_addlcsprivacyexceptionlist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_65, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -44545,7 +44604,7 @@ func (v *MSLCSInformation) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_65, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -45537,9 +45596,10 @@ func (v *MSPDPContext) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_scefid = retagged_enc_scefid
 		children = append(children, enc_scefid...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_67, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -45905,7 +45965,7 @@ func (v *MSPDPContext) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_67, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -46825,9 +46885,10 @@ func (v *MSGPRSSubscriptionData) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		enc_apnoireplacement = retagged_enc_apnoireplacement
 		children = append(children, enc_apnoireplacement...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_68, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -46916,7 +46977,7 @@ func (v *MSGPRSSubscriptionData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_68, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -47278,9 +47339,10 @@ func (v *MSSGSNCAMELSubscriptionInfo) marshalBER(opts ...ber.EncodeOption) ([]by
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_mgcsi)
 		children = append(children, enc_mgcsi...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_69, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -47395,7 +47457,7 @@ func (v *MSSGSNCAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_69, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -47827,9 +47889,10 @@ func (v *MSGPRSCSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_csiactive = retagged_enc_csiactive
 		children = append(children, enc_csiactive...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_70, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -47928,7 +47991,7 @@ func (v *MSGPRSCSI) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_70, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -48435,9 +48498,10 @@ func (v *MSGPRSCamelTDPData) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_71, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -48533,7 +48597,7 @@ func (v *MSGPRSCamelTDPData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_71, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -49030,9 +49094,10 @@ func (v *MSLSAData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_72, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -49121,7 +49186,7 @@ func (v *MSLSAData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_72, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -49435,9 +49500,10 @@ func (v *MSLSAInformation) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_73, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -49522,7 +49588,7 @@ func (v *MSLSAInformation) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_73, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -51213,19 +51279,19 @@ func (v *MSODBData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		return nil, err
 	}
 	var children []byte
-	namedBits_OdbGeneralData, namedBitErr_namedBits_OdbGeneralData := ber.NormalizeNamedBitStringForBEREncoding(v.OdbGeneralData, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}}, opts...)
-	if namedBitErr_namedBits_OdbGeneralData != nil {
-		return nil, qualifyBERError(namedBitErr_namedBits_OdbGeneralData, "odb-GeneralData", "encoding", false)
+	namedBits_OdbGeneralData, namedBitErr_ := normalizeNamedBits(v.OdbGeneralData, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}}, opts, "odb-GeneralData", s02f799_77)
+	if namedBitErr_ != nil {
+		return nil, namedBitErr_
 	}
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_OdbGeneralData.Bytes, namedBits_OdbGeneralData.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "odb-GeneralData", "encoding", false)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if namedBits_OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
 	if (namedBits_OdbGeneralData).BitLength < 15 || (namedBits_OdbGeneralData).BitLength > 32 {
-		if constraintErr := checkEncodedLength(opts, s02f799_77, "51.5", "odb-GeneralData", "SIZE (15..32)", (namedBits_OdbGeneralData).BitLength); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s02f799_77, "51.5", "odb-GeneralData", "SIZE (15..32)", namedBitObservedLength(namedBits_OdbGeneralData)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -51235,19 +51301,19 @@ func (v *MSODBData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_odbgeneraldata...)
 	if v.OdbHPLMNData != nil {
-		namedBits_OdbHPLMNData, namedBitErr_namedBits_OdbHPLMNData := ber.NormalizeNamedBitStringForBEREncoding(*v.OdbHPLMNData, []ber.NamedBitSizeSet{{{Min: 4, Max: 32}}}, opts...)
-		if namedBitErr_namedBits_OdbHPLMNData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OdbHPLMNData, "odb-HPLMN-Data", "encoding", false)
+		namedBits_OdbHPLMNData, namedBitErr_ := normalizeNamedBits(*v.OdbHPLMNData, []ber.NamedBitSizeSet{{{Min: 4, Max: 32}}}, opts, "odb-HPLMN-Data", s02f799_77)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OdbHPLMNData.Bytes, namedBits_OdbHPLMNData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "odb-HPLMN-Data", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OdbHPLMNData).BitLength < 4 || (namedBits_OdbHPLMNData).BitLength > 32 {
-			if constraintErr := checkEncodedLength(opts, s02f799_77, "51.5", "odb-HPLMN-Data", "SIZE (4..32)", (namedBits_OdbHPLMNData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_77, "51.5", "odb-HPLMN-Data", "SIZE (4..32)", namedBitObservedLength(namedBits_OdbHPLMNData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -51265,9 +51331,10 @@ func (v *MSODBData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_77, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -51303,19 +51370,19 @@ func (v *MSODBData) MarshalDER() ([]byte, error) {
 		return nil, fmt.Errorf("%w: MSODBData receiver is nil", ber.ErrInvalidValue)
 	}
 	var children []byte
-	namedBits_OdbGeneralData, namedBitErr_namedBits_OdbGeneralData := ber.NormalizeNamedBitStringForEncoding(v.OdbGeneralData, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}})
-	if namedBitErr_namedBits_OdbGeneralData != nil {
-		return nil, qualifyBERError(namedBitErr_namedBits_OdbGeneralData, "odb-GeneralData", "encoding", true)
+	namedBits_OdbGeneralData, namedBitErr_ := normalizeNamedBits(v.OdbGeneralData, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}}, nil, "odb-GeneralData", s02f799_77)
+	if namedBitErr_ != nil {
+		return nil, namedBitErr_
 	}
 	if bitStringErr := ber.ValidateBitStringLength(namedBits_OdbGeneralData.Bytes, namedBits_OdbGeneralData.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "odb-GeneralData", "encoding", true)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if namedBits_OdbGeneralData.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
 	if (namedBits_OdbGeneralData).BitLength < 15 || (namedBits_OdbGeneralData).BitLength > 32 {
-		if constraintErr := checkEncodedLength(nil, s02f799_77, "51.5", "odb-GeneralData", "SIZE (15..32)", (namedBits_OdbGeneralData).BitLength); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s02f799_77, "51.5", "odb-GeneralData", "SIZE (15..32)", namedBitObservedLength(namedBits_OdbGeneralData)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -51325,19 +51392,19 @@ func (v *MSODBData) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_odbgeneraldata...)
 	if v.OdbHPLMNData != nil {
-		namedBits_OdbHPLMNData, namedBitErr_namedBits_OdbHPLMNData := ber.NormalizeNamedBitStringForEncoding(*v.OdbHPLMNData, []ber.NamedBitSizeSet{{{Min: 4, Max: 32}}})
-		if namedBitErr_namedBits_OdbHPLMNData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OdbHPLMNData, "odb-HPLMN-Data", "encoding", true)
+		namedBits_OdbHPLMNData, namedBitErr_ := normalizeNamedBits(*v.OdbHPLMNData, []ber.NamedBitSizeSet{{{Min: 4, Max: 32}}}, nil, "odb-HPLMN-Data", s02f799_77)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OdbHPLMNData.Bytes, namedBits_OdbHPLMNData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "odb-HPLMN-Data", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OdbHPLMNData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OdbHPLMNData).BitLength < 4 || (namedBits_OdbHPLMNData).BitLength > 32 {
-			if constraintErr := checkEncodedLength(nil, s02f799_77, "51.5", "odb-HPLMN-Data", "SIZE (4..32)", (namedBits_OdbHPLMNData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_77, "51.5", "odb-HPLMN-Data", "SIZE (4..32)", namedBitObservedLength(namedBits_OdbHPLMNData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -51356,7 +51423,7 @@ func (v *MSODBData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_77, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -52121,9 +52188,10 @@ func (v *MSExtForwInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_78, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -52196,7 +52264,7 @@ func (v *MSExtForwInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_78, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -52697,9 +52765,10 @@ func (v *MSExtForwFeature) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		enc_longforwardedtonumber = retagged_enc_longforwardedtonumber
 		children = append(children, enc_longforwardedtonumber...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_79, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -52863,7 +52932,7 @@ func (v *MSExtForwFeature) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_79, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -53292,9 +53361,10 @@ func (v *MSExtCallBarInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_80, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -53362,7 +53432,7 @@ func (v *MSExtCallBarInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_80, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -53760,9 +53830,10 @@ func (v *MSExtCallBarringFeature) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_81, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -53829,7 +53900,7 @@ func (v *MSExtCallBarringFeature) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_81, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -54079,9 +54150,10 @@ func (v *MSCUGInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_82, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -54156,7 +54228,7 @@ func (v *MSCUGInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_82, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -54600,9 +54672,10 @@ func (v *MSCUGSubscription) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_83, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -54688,7 +54761,7 @@ func (v *MSCUGSubscription) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_83, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -55300,9 +55373,10 @@ func (v *MSCUGFeature) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_84, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -55373,7 +55447,7 @@ func (v *MSCUGFeature) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_84, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -55655,9 +55729,10 @@ func (v *MSExtSSData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_85, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -55751,7 +55826,7 @@ func (v *MSExtSSData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_85, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -56367,9 +56442,10 @@ func (v *MSLCSPrivacyClass) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_servicetypelist)
 		children = append(children, enc_servicetypelist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_86, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -56516,7 +56592,7 @@ func (v *MSLCSPrivacyClass) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_86, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -57446,9 +57522,10 @@ func (v *MSExternalClient) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_87, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -57521,7 +57598,7 @@ func (v *MSExternalClient) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_87, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -57950,9 +58027,10 @@ func (v *MSServiceType) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_88, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -58027,7 +58105,7 @@ func (v *MSServiceType) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_88, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -58448,9 +58526,10 @@ func (v *MSMOLRClass) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_89, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -58520,7 +58599,7 @@ func (v *MSMOLRClass) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_89, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -58978,19 +59057,19 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_sslist...)
 	}
 	if v.OdbGeneralData != nil {
-		namedBits_OdbGeneralData, namedBitErr_namedBits_OdbGeneralData := ber.NormalizeNamedBitStringForBEREncoding(*v.OdbGeneralData, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}}, opts...)
-		if namedBitErr_namedBits_OdbGeneralData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OdbGeneralData, "odb-GeneralData", "encoding", false)
+		namedBits_OdbGeneralData, namedBitErr_ := normalizeNamedBits(*v.OdbGeneralData, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}}, opts, "odb-GeneralData", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OdbGeneralData.Bytes, namedBits_OdbGeneralData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "odb-GeneralData", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OdbGeneralData).BitLength < 15 || (namedBits_OdbGeneralData).BitLength > 32 {
-			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "odb-GeneralData", "SIZE (15..32)", (namedBits_OdbGeneralData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "odb-GeneralData", "SIZE (15..32)", namedBitObservedLength(namedBits_OdbGeneralData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59020,19 +59099,19 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_regionalsubscriptionresponse...)
 	}
 	if v.SupportedCamelPhases != nil {
-		namedBits_SupportedCamelPhases, namedBitErr_namedBits_SupportedCamelPhases := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedCamelPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedCamelPhases, "supportedCamelPhases", "encoding", false)
+		namedBits_SupportedCamelPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts, "supportedCamelPhases", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhases.Bytes, namedBits_SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhases", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedCamelPhases).BitLength < 1 || (namedBits_SupportedCamelPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "supportedCamelPhases", "SIZE (1..16)", (namedBits_SupportedCamelPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "supportedCamelPhases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedCamelPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59061,19 +59140,19 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		namedBits_OfferedCamel4CSIs, namedBitErr_namedBits_OfferedCamel4CSIs := ber.NormalizeNamedBitStringForBEREncoding(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_OfferedCamel4CSIs != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIs, "offeredCamel4CSIs", "encoding", false)
+		namedBits_OfferedCamel4CSIs, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts, "offeredCamel4CSIs", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIs.Bytes, namedBits_OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIs", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIs).BitLength < 7 || (namedBits_OfferedCamel4CSIs).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", (namedBits_OfferedCamel4CSIs).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIs)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59089,19 +59168,19 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_offeredcamel4csis...)
 	}
 	if v.SupportedFeatures != nil {
-		namedBits_SupportedFeatures, namedBitErr_namedBits_SupportedFeatures := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedFeatures, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}}, opts...)
-		if namedBitErr_namedBits_SupportedFeatures != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedFeatures, "supportedFeatures", "encoding", false)
+		namedBits_SupportedFeatures, namedBitErr_ := normalizeNamedBits(*v.SupportedFeatures, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}}, opts, "supportedFeatures", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedFeatures.Bytes, namedBits_SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedFeatures", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedFeatures).BitLength < 26 || (namedBits_SupportedFeatures).BitLength > 40 {
-			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "supportedFeatures", "SIZE (26..40)", (namedBits_SupportedFeatures).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "supportedFeatures", "SIZE (26..40)", namedBitObservedLength(namedBits_SupportedFeatures)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59117,19 +59196,19 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_supportedfeatures...)
 	}
 	if v.ExtSupportedFeatures != nil {
-		namedBits_ExtSupportedFeatures, namedBitErr_namedBits_ExtSupportedFeatures := ber.NormalizeNamedBitStringForBEREncoding(*v.ExtSupportedFeatures, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}}, opts...)
-		if namedBitErr_namedBits_ExtSupportedFeatures != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ExtSupportedFeatures, "ext-SupportedFeatures", "encoding", false)
+		namedBits_ExtSupportedFeatures, namedBitErr_ := normalizeNamedBits(*v.ExtSupportedFeatures, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}}, opts, "ext-SupportedFeatures", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ExtSupportedFeatures.Bytes, namedBits_ExtSupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ext-SupportedFeatures", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ExtSupportedFeatures).BitLength < 1 || (namedBits_ExtSupportedFeatures).BitLength > 40 {
-			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "ext-SupportedFeatures", "SIZE (1..40)", (namedBits_ExtSupportedFeatures).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_91, "51.5", "ext-SupportedFeatures", "SIZE (1..40)", namedBitObservedLength(namedBits_ExtSupportedFeatures)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59144,9 +59223,10 @@ func (v *MSInsertSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		enc_extsupportedfeatures = retagged_enc_extsupportedfeatures
 		children = append(children, enc_extsupportedfeatures...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_91, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -59234,19 +59314,19 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sslist...)
 	}
 	if v.OdbGeneralData != nil {
-		namedBits_OdbGeneralData, namedBitErr_namedBits_OdbGeneralData := ber.NormalizeNamedBitStringForEncoding(*v.OdbGeneralData, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}})
-		if namedBitErr_namedBits_OdbGeneralData != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OdbGeneralData, "odb-GeneralData", "encoding", true)
+		namedBits_OdbGeneralData, namedBitErr_ := normalizeNamedBits(*v.OdbGeneralData, []ber.NamedBitSizeSet{{{Min: 15, Max: 32}}}, nil, "odb-GeneralData", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OdbGeneralData.Bytes, namedBits_OdbGeneralData.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "odb-GeneralData", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OdbGeneralData.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OdbGeneralData).BitLength < 15 || (namedBits_OdbGeneralData).BitLength > 32 {
-			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "odb-GeneralData", "SIZE (15..32)", (namedBits_OdbGeneralData).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "odb-GeneralData", "SIZE (15..32)", namedBitObservedLength(namedBits_OdbGeneralData)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59276,19 +59356,19 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_regionalsubscriptionresponse...)
 	}
 	if v.SupportedCamelPhases != nil {
-		namedBits_SupportedCamelPhases, namedBitErr_namedBits_SupportedCamelPhases := ber.NormalizeNamedBitStringForEncoding(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
-		if namedBitErr_namedBits_SupportedCamelPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedCamelPhases, "supportedCamelPhases", "encoding", true)
+		namedBits_SupportedCamelPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedCamelPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, nil, "supportedCamelPhases", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCamelPhases.Bytes, namedBits_SupportedCamelPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCamelPhases", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedCamelPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedCamelPhases).BitLength < 1 || (namedBits_SupportedCamelPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "supportedCamelPhases", "SIZE (1..16)", (namedBits_SupportedCamelPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "supportedCamelPhases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedCamelPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59316,19 +59396,19 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OfferedCamel4CSIs != nil {
-		namedBits_OfferedCamel4CSIs, namedBitErr_namedBits_OfferedCamel4CSIs := ber.NormalizeNamedBitStringForEncoding(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
-		if namedBitErr_namedBits_OfferedCamel4CSIs != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIs, "offeredCamel4CSIs", "encoding", true)
+		namedBits_OfferedCamel4CSIs, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIs, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, nil, "offeredCamel4CSIs", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIs.Bytes, namedBits_OfferedCamel4CSIs.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIs", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIs.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIs).BitLength < 7 || (namedBits_OfferedCamel4CSIs).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", (namedBits_OfferedCamel4CSIs).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "offeredCamel4CSIs", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIs)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59344,19 +59424,19 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csis...)
 	}
 	if v.SupportedFeatures != nil {
-		namedBits_SupportedFeatures, namedBitErr_namedBits_SupportedFeatures := ber.NormalizeNamedBitStringForEncoding(*v.SupportedFeatures, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}})
-		if namedBitErr_namedBits_SupportedFeatures != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedFeatures, "supportedFeatures", "encoding", true)
+		namedBits_SupportedFeatures, namedBitErr_ := normalizeNamedBits(*v.SupportedFeatures, []ber.NamedBitSizeSet{{{Min: 26, Max: 40}}}, nil, "supportedFeatures", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedFeatures.Bytes, namedBits_SupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedFeatures", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedFeatures).BitLength < 26 || (namedBits_SupportedFeatures).BitLength > 40 {
-			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "supportedFeatures", "SIZE (26..40)", (namedBits_SupportedFeatures).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "supportedFeatures", "SIZE (26..40)", namedBitObservedLength(namedBits_SupportedFeatures)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59372,19 +59452,19 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedfeatures...)
 	}
 	if v.ExtSupportedFeatures != nil {
-		namedBits_ExtSupportedFeatures, namedBitErr_namedBits_ExtSupportedFeatures := ber.NormalizeNamedBitStringForEncoding(*v.ExtSupportedFeatures, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}})
-		if namedBitErr_namedBits_ExtSupportedFeatures != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ExtSupportedFeatures, "ext-SupportedFeatures", "encoding", true)
+		namedBits_ExtSupportedFeatures, namedBitErr_ := normalizeNamedBits(*v.ExtSupportedFeatures, []ber.NamedBitSizeSet{{{Min: 1, Max: 40}}}, nil, "ext-SupportedFeatures", s02f799_91)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ExtSupportedFeatures.Bytes, namedBits_ExtSupportedFeatures.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ext-SupportedFeatures", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ExtSupportedFeatures.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ExtSupportedFeatures).BitLength < 1 || (namedBits_ExtSupportedFeatures).BitLength > 40 {
-			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "ext-SupportedFeatures", "SIZE (1..40)", (namedBits_ExtSupportedFeatures).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_91, "51.5", "ext-SupportedFeatures", "SIZE (1..40)", namedBitObservedLength(namedBits_ExtSupportedFeatures)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -59401,7 +59481,7 @@ func (v *MSInsertSubscriberDataRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_91, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -60145,19 +60225,19 @@ func (v *MSDeleteSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 		children = append(children, enc_istinformationwithdraw...)
 	}
 	if v.SpecificCSIWithdraw != nil {
-		namedBits_SpecificCSIWithdraw, namedBitErr_namedBits_SpecificCSIWithdraw := ber.NormalizeNamedBitStringForBEREncoding(*v.SpecificCSIWithdraw, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}}, opts...)
-		if namedBitErr_namedBits_SpecificCSIWithdraw != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SpecificCSIWithdraw, "specificCSI-Withdraw", "encoding", false)
+		namedBits_SpecificCSIWithdraw, namedBitErr_ := normalizeNamedBits(*v.SpecificCSIWithdraw, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}}, opts, "specificCSI-Withdraw", s02f799_92)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SpecificCSIWithdraw.Bytes, namedBits_SpecificCSIWithdraw.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "specificCSI-Withdraw", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SpecificCSIWithdraw).BitLength < 8 || (namedBits_SpecificCSIWithdraw).BitLength > 32 {
-			if constraintErr := checkEncodedLength(opts, s02f799_92, "51.5", "specificCSI-Withdraw", "SIZE (8..32)", (namedBits_SpecificCSIWithdraw).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_92, "51.5", "specificCSI-Withdraw", "SIZE (8..32)", namedBitObservedLength(namedBits_SpecificCSIWithdraw)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -60331,9 +60411,10 @@ func (v *MSDeleteSubscriberDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 		enc_iaboperationwithdraw = retagged_enc_iaboperationwithdraw
 		children = append(children, enc_iaboperationwithdraw...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_92, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -60539,19 +60620,19 @@ func (v *MSDeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_istinformationwithdraw...)
 	}
 	if v.SpecificCSIWithdraw != nil {
-		namedBits_SpecificCSIWithdraw, namedBitErr_namedBits_SpecificCSIWithdraw := ber.NormalizeNamedBitStringForEncoding(*v.SpecificCSIWithdraw, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}})
-		if namedBitErr_namedBits_SpecificCSIWithdraw != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SpecificCSIWithdraw, "specificCSI-Withdraw", "encoding", true)
+		namedBits_SpecificCSIWithdraw, namedBitErr_ := normalizeNamedBits(*v.SpecificCSIWithdraw, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}}, nil, "specificCSI-Withdraw", s02f799_92)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SpecificCSIWithdraw.Bytes, namedBits_SpecificCSIWithdraw.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "specificCSI-Withdraw", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SpecificCSIWithdraw.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SpecificCSIWithdraw).BitLength < 8 || (namedBits_SpecificCSIWithdraw).BitLength > 32 {
-			if constraintErr := checkEncodedLength(nil, s02f799_92, "51.5", "specificCSI-Withdraw", "SIZE (8..32)", (namedBits_SpecificCSIWithdraw).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_92, "51.5", "specificCSI-Withdraw", "SIZE (8..32)", namedBitObservedLength(namedBits_SpecificCSIWithdraw)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -60726,7 +60807,7 @@ func (v *MSDeleteSubscriberDataArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_92, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -62796,9 +62877,10 @@ func (v *MSDeleteSubscriberDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_98, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -62857,7 +62939,7 @@ func (v *MSDeleteSubscriberDataRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_98, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -63249,9 +63331,10 @@ func (v *MSVlrCamelSubscriptionInfo) marshalBER(opts ...ber.EncodeOption) ([]byt
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_mtsmscameltdpcriterialist)
 		children = append(children, enc_mtsmscameltdpcriterialist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_99, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -63445,7 +63528,7 @@ func (v *MSVlrCamelSubscriptionInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_99, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -64240,9 +64323,10 @@ func (v *MSMTSmsCAMELTDPCriteria) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_tpdutypecriterion)
 		children = append(children, enc_tpdutypecriterion...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_100, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -64299,7 +64383,7 @@ func (v *MSMTSmsCAMELTDPCriteria) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_100, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -64696,9 +64780,10 @@ func (v *MSDCSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_csiactive = retagged_enc_csiactive
 		children = append(children, enc_csiactive...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_101, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -64797,7 +64882,7 @@ func (v *MSDCSI) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_101, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -65293,9 +65378,10 @@ func (v *MSDPAnalysedInfoCriterium) marshalBER(opts ...ber.EncodeOption) ([]byte
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_102, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -65379,7 +65465,7 @@ func (v *MSDPAnalysedInfoCriterium) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_102, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -65654,9 +65740,10 @@ func (v *MSSSCSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_csiactive = retagged_enc_csiactive
 		children = append(children, enc_csiactive...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_103, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -65724,7 +65811,7 @@ func (v *MSSSCSI) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_103, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -65990,9 +66077,10 @@ func (v *MSSSCamelData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_104, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -66070,7 +66158,7 @@ func (v *MSSSCamelData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_104, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -66504,9 +66592,10 @@ func (v *MSOCSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_csiactive = retagged_enc_csiactive
 		children = append(children, enc_csiactive...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_106, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -66596,7 +66685,7 @@ func (v *MSOCSI) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_106, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -67075,9 +67164,10 @@ func (v *MSOBcsmCamelTDPData) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_107, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -67163,7 +67253,7 @@ func (v *MSOBcsmCamelTDPData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_107, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -67846,9 +67936,10 @@ func (v *MSOBcsmCamelTDPCriteria) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_108, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -67960,7 +68051,7 @@ func (v *MSOBcsmCamelTDPCriteria) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_108, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -68383,9 +68474,10 @@ func (v *MSTBCSMCAMELTDPCriteria) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_tcausevaluecriteria)
 		children = append(children, enc_tcausevaluecriteria...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_109, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -68459,7 +68551,7 @@ func (v *MSTBCSMCAMELTDPCriteria) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_109, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -68781,9 +68873,10 @@ func (v *MSDestinationNumberCriteria) marshalBER(opts ...ber.EncodeOption) ([]by
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_destinationnumberlengthlist)
 		children = append(children, enc_destinationnumberlengthlist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_110, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -68867,7 +68960,7 @@ func (v *MSDestinationNumberCriteria) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_110, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -70002,9 +70095,10 @@ func (v *MSSMSCSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_csiactive = retagged_enc_csiactive
 		children = append(children, enc_csiactive...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_115, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -70103,7 +70197,7 @@ func (v *MSSMSCSI) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_115, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -70611,9 +70705,10 @@ func (v *MSSMSCAMELTDPData) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_116, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -70709,7 +70804,7 @@ func (v *MSSMSCAMELTDPData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_116, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -71071,9 +71166,10 @@ func (v *MSMCSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_csiactive = retagged_enc_csiactive
 		children = append(children, enc_csiactive...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_117, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -71181,7 +71277,7 @@ func (v *MSMCSI) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_117, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -71565,9 +71661,10 @@ func (v *MSMGCSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_csiactive = retagged_enc_csiactive
 		children = append(children, enc_csiactive...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_118, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -71675,7 +71772,7 @@ func (v *MSMGCSI) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_118, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -72201,9 +72298,10 @@ func (v *MSTCSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_csiactive = retagged_enc_csiactive
 		children = append(children, enc_csiactive...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_120, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -72293,7 +72391,7 @@ func (v *MSTCSI) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_120, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -72772,9 +72870,10 @@ func (v *MSTBcsmCamelTDPData) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_121, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -72860,7 +72959,7 @@ func (v *MSTBcsmCamelTDPData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_121, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -73190,9 +73289,10 @@ func (v *MSSendRoutingInfoForGprsArg) marshalBER(opts ...ber.EncodeOption) ([]by
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_122, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -73294,7 +73394,7 @@ func (v *MSSendRoutingInfoForGprsArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_122, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -73612,9 +73712,10 @@ func (v *MSSendRoutingInfoForGprsRes) marshalBER(opts ...ber.EncodeOption) ([]by
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_123, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -73710,7 +73811,7 @@ func (v *MSSendRoutingInfoForGprsRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_123, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -74028,9 +74129,10 @@ func (v *MSFailureReportArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_124, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -74132,7 +74234,7 @@ func (v *MSFailureReportArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_124, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -74423,9 +74525,10 @@ func (v *MSFailureReportRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_125, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -74492,7 +74595,7 @@ func (v *MSFailureReportRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_125, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -74738,9 +74841,10 @@ func (v *MSNoteMsPresentForGprsArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_126, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -74837,7 +74941,7 @@ func (v *MSNoteMsPresentForGprsArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_126, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -75106,9 +75210,10 @@ func (v *MSNoteMsPresentForGprsRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_127, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -75158,7 +75263,7 @@ func (v *MSNoteMsPresentForGprsRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_127, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -75399,9 +75504,10 @@ func (v *MSResetArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_subscriptiondatadeletion)
 		children = append(children, enc_subscriptiondatadeletion...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_128, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -75509,7 +75615,7 @@ func (v *MSResetArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_128, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -76110,9 +76216,10 @@ func (v *MSRestoreDataArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		enc_restorationindicator = retagged_enc_restorationindicator
 		children = append(children, enc_restorationindicator...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_130, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -76200,7 +76307,7 @@ func (v *MSRestoreDataArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_130, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -76488,9 +76595,10 @@ func (v *MSRestoreDataRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_131, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -76554,7 +76662,7 @@ func (v *MSRestoreDataRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_131, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -77077,19 +77185,19 @@ func (v *MSVoiceGroupCallData) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.AdditionalSubscriptions != nil {
-		namedBits_AdditionalSubscriptions, namedBitErr_namedBits_AdditionalSubscriptions := ber.NormalizeNamedBitStringForBEREncoding(*v.AdditionalSubscriptions, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_AdditionalSubscriptions != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_AdditionalSubscriptions, "additionalSubscriptions", "encoding", false)
+		namedBits_AdditionalSubscriptions, namedBitErr_ := normalizeNamedBits(*v.AdditionalSubscriptions, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts, "additionalSubscriptions", s02f799_132)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AdditionalSubscriptions.Bytes, namedBits_AdditionalSubscriptions.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "additionalSubscriptions", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_AdditionalSubscriptions).BitLength < 3 || (namedBits_AdditionalSubscriptions).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_132, "51.5", "additionalSubscriptions", "SIZE (3..8)", (namedBits_AdditionalSubscriptions).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_132, "51.5", "additionalSubscriptions", "SIZE (3..8)", namedBitObservedLength(namedBits_AdditionalSubscriptions)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -77103,7 +77211,7 @@ func (v *MSVoiceGroupCallData) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalInfo.Bytes, v.AdditionalInfo.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "additionalInfo", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -77140,9 +77248,10 @@ func (v *MSVoiceGroupCallData) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		enc_longgroupid = retagged_enc_longgroupid
 		children = append(children, enc_longgroupid...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_132, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -77196,19 +77305,19 @@ func (v *MSVoiceGroupCallData) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.AdditionalSubscriptions != nil {
-		namedBits_AdditionalSubscriptions, namedBitErr_namedBits_AdditionalSubscriptions := ber.NormalizeNamedBitStringForEncoding(*v.AdditionalSubscriptions, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
-		if namedBitErr_namedBits_AdditionalSubscriptions != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_AdditionalSubscriptions, "additionalSubscriptions", "encoding", true)
+		namedBits_AdditionalSubscriptions, namedBitErr_ := normalizeNamedBits(*v.AdditionalSubscriptions, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, nil, "additionalSubscriptions", s02f799_132)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_AdditionalSubscriptions.Bytes, namedBits_AdditionalSubscriptions.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "additionalSubscriptions", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_AdditionalSubscriptions.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_AdditionalSubscriptions).BitLength < 3 || (namedBits_AdditionalSubscriptions).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_132, "51.5", "additionalSubscriptions", "SIZE (3..8)", (namedBits_AdditionalSubscriptions).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_132, "51.5", "additionalSubscriptions", "SIZE (3..8)", namedBitObservedLength(namedBits_AdditionalSubscriptions)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -77222,7 +77331,7 @@ func (v *MSVoiceGroupCallData) MarshalDER() ([]byte, error) {
 		if bitStringErr := ber.ValidateBitStringLength(v.AdditionalInfo.Bytes, v.AdditionalInfo.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "additionalInfo", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if v.AdditionalInfo.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
@@ -77261,7 +77370,7 @@ func (v *MSVoiceGroupCallData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_132, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -77570,9 +77679,10 @@ func (v *MSVoiceBroadcastData) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		enc_longgroupid = retagged_enc_longgroupid
 		children = append(children, enc_longgroupid...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_133, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -77648,7 +77758,7 @@ func (v *MSVoiceBroadcastData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_133, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -78146,9 +78256,10 @@ func (v *MSProvideSubscriberInfoArg) marshalBER(opts ...ber.EncodeOption) ([]byt
 		enc_callpriority = retagged_enc_callpriority
 		children = append(children, enc_callpriority...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_134, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -78254,7 +78365,7 @@ func (v *MSProvideSubscriberInfoArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_134, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -78560,9 +78671,10 @@ func (v *MSProvideSubscriberInfoRes) marshalBER(opts ...ber.EncodeOption) ([]byt
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_135, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -78612,7 +78724,7 @@ func (v *MSProvideSubscriberInfoRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_135, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -79024,9 +79136,10 @@ func (v *MSSubscriberInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_locationinformation5gs)
 		children = append(children, enc_locationinformation5gs...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_136, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -79295,7 +79408,7 @@ func (v *MSSubscriberInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_136, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -80096,9 +80209,10 @@ func (v *MSMNPInfoRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_137, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -80213,7 +80327,7 @@ func (v *MSMNPInfoRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_137, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -80919,19 +81033,19 @@ func (v *MSRequestedInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_tadsdata...)
 	}
 	if v.RequestedNodes != nil {
-		namedBits_RequestedNodes, namedBitErr_namedBits_RequestedNodes := ber.NormalizeNamedBitStringForBEREncoding(*v.RequestedNodes, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_RequestedNodes != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_RequestedNodes, "requestedNodes", "encoding", false)
+		namedBits_RequestedNodes, namedBitErr_ := normalizeNamedBits(*v.RequestedNodes, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts, "requestedNodes", s02f799_139)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_RequestedNodes.Bytes, namedBits_RequestedNodes.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "requestedNodes", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_RequestedNodes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_RequestedNodes).BitLength < 1 || (namedBits_RequestedNodes).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_139, "51.5", "requestedNodes", "SIZE (1..8)", (namedBits_RequestedNodes).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_139, "51.5", "requestedNodes", "SIZE (1..8)", namedBitObservedLength(namedBits_RequestedNodes)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -80964,9 +81078,10 @@ func (v *MSRequestedInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_localtimezonerequest = retagged_enc_localtimezonerequest
 		children = append(children, enc_localtimezonerequest...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_139, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -81096,19 +81211,19 @@ func (v *MSRequestedInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_tadsdata...)
 	}
 	if v.RequestedNodes != nil {
-		namedBits_RequestedNodes, namedBitErr_namedBits_RequestedNodes := ber.NormalizeNamedBitStringForEncoding(*v.RequestedNodes, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
-		if namedBitErr_namedBits_RequestedNodes != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_RequestedNodes, "requestedNodes", "encoding", true)
+		namedBits_RequestedNodes, namedBitErr_ := normalizeNamedBits(*v.RequestedNodes, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, nil, "requestedNodes", s02f799_139)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_RequestedNodes.Bytes, namedBits_RequestedNodes.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "requestedNodes", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_RequestedNodes.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_RequestedNodes).BitLength < 1 || (namedBits_RequestedNodes).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_139, "51.5", "requestedNodes", "SIZE (1..8)", (namedBits_RequestedNodes).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_139, "51.5", "requestedNodes", "SIZE (1..8)", namedBitObservedLength(namedBits_RequestedNodes)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -81143,7 +81258,7 @@ func (v *MSRequestedInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_139, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -81823,9 +81938,10 @@ func (v *MSLocationInformation) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_usercsginformation)
 		children = append(children, enc_usercsginformation...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_140, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -82052,7 +82168,7 @@ func (v *MSLocationInformation) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_140, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -82730,9 +82846,10 @@ func (v *MSLocationInformationEPS) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		enc_mmename = retagged_enc_mmename
 		children = append(children, enc_mmename...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_141, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -82890,7 +83007,7 @@ func (v *MSLocationInformationEPS) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_141, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -83436,9 +83553,10 @@ func (v *MSLocationInformationGPRS) marshalBER(opts ...ber.EncodeOption) ([]byte
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_usercsginformation)
 		children = append(children, enc_usercsginformation...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_142, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -83636,7 +83754,7 @@ func (v *MSLocationInformationGPRS) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_142, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -84324,9 +84442,10 @@ func (v *MSLocationInformation5GS) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		enc_nrtrackingareaidentity = retagged_enc_nrtrackingareaidentity
 		children = append(children, enc_nrtrackingareaidentity...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_143, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -84561,7 +84680,7 @@ func (v *MSLocationInformation5GS) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_143, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -85108,7 +85227,7 @@ func (v *MSUserCSGInformation) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	if bitStringErr := ber.ValidateBitStringLength(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "csg-Id", "encoding", false)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -85174,9 +85293,10 @@ func (v *MSUserCSGInformation) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		enc_cmi = retagged_enc_cmi
 		children = append(children, enc_cmi...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_144, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -85215,7 +85335,7 @@ func (v *MSUserCSGInformation) MarshalDER() ([]byte, error) {
 	if bitStringErr := ber.ValidateBitStringLength(v.CsgId.Bytes, v.CsgId.BitLength); bitStringErr != nil {
 		return nil, qualifyBERError(bitStringErr, "csg-Id", "encoding", true)
 	}
-	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+	// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 	if v.CsgId.BitLength < 0 {
 		return nil, fmt.Errorf("negative bit string length")
 	}
@@ -85282,7 +85402,7 @@ func (v *MSUserCSGInformation) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_144, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -86733,9 +86853,10 @@ func (v *MSPDPContextInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		enc_extpdpaddress = retagged_enc_extpdpaddress
 		children = append(children, enc_extpdpaddress...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_146, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -87243,7 +87364,7 @@ func (v *MSPDPContextInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_146, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -88393,9 +88514,10 @@ func (v *MSAnyTimeInterrogationArg) marshalBER(opts ...ber.EncodeOption) ([]byte
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_147, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -88487,7 +88609,7 @@ func (v *MSAnyTimeInterrogationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_147, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -88769,9 +88891,10 @@ func (v *MSAnyTimeInterrogationRes) marshalBER(opts ...ber.EncodeOption) ([]byte
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_148, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -88821,7 +88944,7 @@ func (v *MSAnyTimeInterrogationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_148, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -89058,9 +89181,10 @@ func (v *MSAnyTimeSubscriptionInterrogationArg) marshalBER(opts ...ber.EncodeOpt
 		enc_longftnsupported = retagged_enc_longftnsupported
 		children = append(children, enc_longftnsupported...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_149, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -89161,7 +89285,7 @@ func (v *MSAnyTimeSubscriptionInterrogationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_149, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -89508,19 +89632,19 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOpt
 		children = append(children, enc_camelsubscriptioninfo...)
 	}
 	if v.SupportedVLRCAMELPhases != nil {
-		namedBits_SupportedVLRCAMELPhases, namedBitErr_namedBits_SupportedVLRCAMELPhases := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedVLRCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedVLRCAMELPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedVLRCAMELPhases, "supportedVLR-CAMEL-Phases", "encoding", false)
+		namedBits_SupportedVLRCAMELPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedVLRCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts, "supportedVLR-CAMEL-Phases", s02f799_150)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedVLRCAMELPhases.Bytes, namedBits_SupportedVLRCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedVLR-CAMEL-Phases", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedVLRCAMELPhases).BitLength < 1 || (namedBits_SupportedVLRCAMELPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_150, "51.5", "supportedVLR-CAMEL-Phases", "SIZE (1..16)", (namedBits_SupportedVLRCAMELPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_150, "51.5", "supportedVLR-CAMEL-Phases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedVLRCAMELPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -89536,19 +89660,19 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOpt
 		children = append(children, enc_supportedvlrcamelphases...)
 	}
 	if v.SupportedSGSNCAMELPhases != nil {
-		namedBits_SupportedSGSNCAMELPhases, namedBitErr_namedBits_SupportedSGSNCAMELPhases := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedSGSNCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedSGSNCAMELPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedSGSNCAMELPhases, "supportedSGSN-CAMEL-Phases", "encoding", false)
+		namedBits_SupportedSGSNCAMELPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedSGSNCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts, "supportedSGSN-CAMEL-Phases", s02f799_150)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedSGSNCAMELPhases.Bytes, namedBits_SupportedSGSNCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedSGSN-CAMEL-Phases", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedSGSNCAMELPhases).BitLength < 1 || (namedBits_SupportedSGSNCAMELPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_150, "51.5", "supportedSGSN-CAMEL-Phases", "SIZE (1..16)", (namedBits_SupportedSGSNCAMELPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_150, "51.5", "supportedSGSN-CAMEL-Phases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedSGSNCAMELPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -89577,19 +89701,19 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOpt
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OfferedCamel4CSIsInVLR != nil {
-		namedBits_OfferedCamel4CSIsInVLR, namedBitErr_namedBits_OfferedCamel4CSIsInVLR := ber.NormalizeNamedBitStringForBEREncoding(*v.OfferedCamel4CSIsInVLR, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_OfferedCamel4CSIsInVLR != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIsInVLR, "offeredCamel4CSIsInVLR", "encoding", false)
+		namedBits_OfferedCamel4CSIsInVLR, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIsInVLR, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts, "offeredCamel4CSIsInVLR", s02f799_150)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIsInVLR.Bytes, namedBits_OfferedCamel4CSIsInVLR.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIsInVLR", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIsInVLR).BitLength < 7 || (namedBits_OfferedCamel4CSIsInVLR).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_150, "51.5", "offeredCamel4CSIsInVLR", "SIZE (7..16)", (namedBits_OfferedCamel4CSIsInVLR).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_150, "51.5", "offeredCamel4CSIsInVLR", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIsInVLR)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -89605,19 +89729,19 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOpt
 		children = append(children, enc_offeredcamel4csisinvlr...)
 	}
 	if v.OfferedCamel4CSIsInSGSN != nil {
-		namedBits_OfferedCamel4CSIsInSGSN, namedBitErr_namedBits_OfferedCamel4CSIsInSGSN := ber.NormalizeNamedBitStringForBEREncoding(*v.OfferedCamel4CSIsInSGSN, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_OfferedCamel4CSIsInSGSN != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIsInSGSN, "offeredCamel4CSIsInSGSN", "encoding", false)
+		namedBits_OfferedCamel4CSIsInSGSN, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIsInSGSN, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, opts, "offeredCamel4CSIsInSGSN", s02f799_150)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIsInSGSN.Bytes, namedBits_OfferedCamel4CSIsInSGSN.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIsInSGSN", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIsInSGSN).BitLength < 7 || (namedBits_OfferedCamel4CSIsInSGSN).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_150, "51.5", "offeredCamel4CSIsInSGSN", "SIZE (7..16)", (namedBits_OfferedCamel4CSIsInSGSN).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_150, "51.5", "offeredCamel4CSIsInSGSN", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIsInSGSN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -89763,9 +89887,10 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) marshalBER(opts ...ber.EncodeOpt
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_ectdata)
 		children = append(children, enc_ectdata...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_150, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -89850,19 +89975,19 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_camelsubscriptioninfo...)
 	}
 	if v.SupportedVLRCAMELPhases != nil {
-		namedBits_SupportedVLRCAMELPhases, namedBitErr_namedBits_SupportedVLRCAMELPhases := ber.NormalizeNamedBitStringForEncoding(*v.SupportedVLRCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
-		if namedBitErr_namedBits_SupportedVLRCAMELPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedVLRCAMELPhases, "supportedVLR-CAMEL-Phases", "encoding", true)
+		namedBits_SupportedVLRCAMELPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedVLRCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, nil, "supportedVLR-CAMEL-Phases", s02f799_150)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedVLRCAMELPhases.Bytes, namedBits_SupportedVLRCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedVLR-CAMEL-Phases", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedVLRCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedVLRCAMELPhases).BitLength < 1 || (namedBits_SupportedVLRCAMELPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_150, "51.5", "supportedVLR-CAMEL-Phases", "SIZE (1..16)", (namedBits_SupportedVLRCAMELPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_150, "51.5", "supportedVLR-CAMEL-Phases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedVLRCAMELPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -89878,19 +90003,19 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_supportedvlrcamelphases...)
 	}
 	if v.SupportedSGSNCAMELPhases != nil {
-		namedBits_SupportedSGSNCAMELPhases, namedBitErr_namedBits_SupportedSGSNCAMELPhases := ber.NormalizeNamedBitStringForEncoding(*v.SupportedSGSNCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
-		if namedBitErr_namedBits_SupportedSGSNCAMELPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedSGSNCAMELPhases, "supportedSGSN-CAMEL-Phases", "encoding", true)
+		namedBits_SupportedSGSNCAMELPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedSGSNCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, nil, "supportedSGSN-CAMEL-Phases", s02f799_150)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedSGSNCAMELPhases.Bytes, namedBits_SupportedSGSNCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedSGSN-CAMEL-Phases", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedSGSNCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedSGSNCAMELPhases).BitLength < 1 || (namedBits_SupportedSGSNCAMELPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_150, "51.5", "supportedSGSN-CAMEL-Phases", "SIZE (1..16)", (namedBits_SupportedSGSNCAMELPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_150, "51.5", "supportedSGSN-CAMEL-Phases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedSGSNCAMELPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -89918,19 +90043,19 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.OfferedCamel4CSIsInVLR != nil {
-		namedBits_OfferedCamel4CSIsInVLR, namedBitErr_namedBits_OfferedCamel4CSIsInVLR := ber.NormalizeNamedBitStringForEncoding(*v.OfferedCamel4CSIsInVLR, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
-		if namedBitErr_namedBits_OfferedCamel4CSIsInVLR != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIsInVLR, "offeredCamel4CSIsInVLR", "encoding", true)
+		namedBits_OfferedCamel4CSIsInVLR, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIsInVLR, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, nil, "offeredCamel4CSIsInVLR", s02f799_150)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIsInVLR.Bytes, namedBits_OfferedCamel4CSIsInVLR.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIsInVLR", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIsInVLR.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIsInVLR).BitLength < 7 || (namedBits_OfferedCamel4CSIsInVLR).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_150, "51.5", "offeredCamel4CSIsInVLR", "SIZE (7..16)", (namedBits_OfferedCamel4CSIsInVLR).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_150, "51.5", "offeredCamel4CSIsInVLR", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIsInVLR)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -89946,19 +90071,19 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 		children = append(children, enc_offeredcamel4csisinvlr...)
 	}
 	if v.OfferedCamel4CSIsInSGSN != nil {
-		namedBits_OfferedCamel4CSIsInSGSN, namedBitErr_namedBits_OfferedCamel4CSIsInSGSN := ber.NormalizeNamedBitStringForEncoding(*v.OfferedCamel4CSIsInSGSN, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}})
-		if namedBitErr_namedBits_OfferedCamel4CSIsInSGSN != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4CSIsInSGSN, "offeredCamel4CSIsInSGSN", "encoding", true)
+		namedBits_OfferedCamel4CSIsInSGSN, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4CSIsInSGSN, []ber.NamedBitSizeSet{{{Min: 7, Max: 16}}}, nil, "offeredCamel4CSIsInSGSN", s02f799_150)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4CSIsInSGSN.Bytes, namedBits_OfferedCamel4CSIsInSGSN.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4CSIsInSGSN", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4CSIsInSGSN.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4CSIsInSGSN).BitLength < 7 || (namedBits_OfferedCamel4CSIsInSGSN).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_150, "51.5", "offeredCamel4CSIsInSGSN", "SIZE (7..16)", (namedBits_OfferedCamel4CSIsInSGSN).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_150, "51.5", "offeredCamel4CSIsInSGSN", "SIZE (7..16)", namedBitObservedLength(namedBits_OfferedCamel4CSIsInSGSN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -90069,7 +90194,7 @@ func (v *MSAnyTimeSubscriptionInterrogationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_150, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -90856,9 +90981,10 @@ func (v *MSCallWaitingData) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		enc_notificationtocse = retagged_enc_notificationtocse
 		children = append(children, enc_notificationtocse...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_151, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -90923,7 +91049,7 @@ func (v *MSCallWaitingData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_151, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -91302,9 +91428,10 @@ func (v *MSExtCwFeature) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	enc_ssstatus = retagged_enc_ssstatus
 	children = append(children, enc_ssstatus...)
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_152, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		_, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -91363,7 +91490,7 @@ func (v *MSExtCwFeature) MarshalDER() ([]byte, error) {
 	children = append(children, enc_ssstatus...)
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_152, children, i)
 		}
 		children = append(children, ext...)
 	}
@@ -91566,9 +91693,10 @@ func (v *MSClipData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_notificationtocse = retagged_enc_notificationtocse
 		children = append(children, enc_notificationtocse...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_153, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -91642,7 +91770,7 @@ func (v *MSClipData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_153, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -91891,9 +92019,10 @@ func (v *MSClirData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_notificationtocse = retagged_enc_notificationtocse
 		children = append(children, enc_notificationtocse...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_154, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -91969,7 +92098,7 @@ func (v *MSClirData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_154, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -92202,9 +92331,10 @@ func (v *MSCallHoldData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_notificationtocse = retagged_enc_notificationtocse
 		children = append(children, enc_notificationtocse...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_155, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -92266,7 +92396,7 @@ func (v *MSCallHoldData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_155, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -92466,9 +92596,10 @@ func (v *MSEctData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_notificationtocse = retagged_enc_notificationtocse
 		children = append(children, enc_notificationtocse...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_156, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -92530,7 +92661,7 @@ func (v *MSEctData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_156, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -92844,9 +92975,10 @@ func (v *MSRequestedSubscriptionInfo) marshalBER(opts ...ber.EncodeOption) ([]by
 		enc_ectinfo = retagged_enc_ectinfo
 		children = append(children, enc_ectinfo...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_157, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -93021,7 +93153,7 @@ func (v *MSRequestedSubscriptionInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_157, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -93750,9 +93882,10 @@ func (v *MSMSISDNBS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_158, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -93834,7 +93967,7 @@ func (v *MSMSISDNBS) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_158, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -94101,9 +94234,10 @@ func (v *MSCallForwardingData) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_159, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -94170,7 +94304,7 @@ func (v *MSCallForwardingData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_159, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -94438,9 +94572,10 @@ func (v *MSCallBarringData) marshalBER(opts ...ber.EncodeOption) ([]byte, error)
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_160, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -94531,7 +94666,7 @@ func (v *MSCallBarringData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_160, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -94816,9 +94951,10 @@ func (v *MSODBInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_161, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -94872,7 +95008,7 @@ func (v *MSODBInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_161, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -95297,19 +95433,19 @@ func (v *MSCAMELSubscriptionInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SpecificCSIDeletedList != nil {
-		namedBits_SpecificCSIDeletedList, namedBitErr_namedBits_SpecificCSIDeletedList := ber.NormalizeNamedBitStringForBEREncoding(*v.SpecificCSIDeletedList, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}}, opts...)
-		if namedBitErr_namedBits_SpecificCSIDeletedList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SpecificCSIDeletedList, "specificCSIDeletedList", "encoding", false)
+		namedBits_SpecificCSIDeletedList, namedBitErr_ := normalizeNamedBits(*v.SpecificCSIDeletedList, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}}, opts, "specificCSIDeletedList", s02f799_162)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SpecificCSIDeletedList.Bytes, namedBits_SpecificCSIDeletedList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "specificCSIDeletedList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SpecificCSIDeletedList).BitLength < 8 || (namedBits_SpecificCSIDeletedList).BitLength > 32 {
-			if constraintErr := checkEncodedLength(opts, s02f799_162, "51.5", "specificCSIDeletedList", "SIZE (8..32)", (namedBits_SpecificCSIDeletedList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_162, "51.5", "specificCSIDeletedList", "SIZE (8..32)", namedBitObservedLength(namedBits_SpecificCSIDeletedList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -95488,9 +95624,10 @@ func (v *MSCAMELSubscriptionInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_vtimbcsmcameltdpcriterialist)
 		children = append(children, enc_vtimbcsmcameltdpcriterialist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_162, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -95704,19 +95841,19 @@ func (v *MSCAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.SpecificCSIDeletedList != nil {
-		namedBits_SpecificCSIDeletedList, namedBitErr_namedBits_SpecificCSIDeletedList := ber.NormalizeNamedBitStringForEncoding(*v.SpecificCSIDeletedList, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}})
-		if namedBitErr_namedBits_SpecificCSIDeletedList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SpecificCSIDeletedList, "specificCSIDeletedList", "encoding", true)
+		namedBits_SpecificCSIDeletedList, namedBitErr_ := normalizeNamedBits(*v.SpecificCSIDeletedList, []ber.NamedBitSizeSet{{{Min: 8, Max: 32}}}, nil, "specificCSIDeletedList", s02f799_162)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SpecificCSIDeletedList.Bytes, namedBits_SpecificCSIDeletedList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "specificCSIDeletedList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SpecificCSIDeletedList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SpecificCSIDeletedList).BitLength < 8 || (namedBits_SpecificCSIDeletedList).BitLength > 32 {
-			if constraintErr := checkEncodedLength(nil, s02f799_162, "51.5", "specificCSIDeletedList", "SIZE (8..32)", (namedBits_SpecificCSIDeletedList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_162, "51.5", "specificCSIDeletedList", "SIZE (8..32)", namedBitObservedLength(namedBits_SpecificCSIDeletedList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -95844,7 +95981,7 @@ func (v *MSCAMELSubscriptionInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_162, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -97026,19 +97163,19 @@ func (v *MSAnyTimeModificationArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_modificationrequestforipsmgwdata...)
 	}
 	if v.ActivationRequestForUEReachability != nil {
-		namedBits_ActivationRequestForUEReachability, namedBitErr_namedBits_ActivationRequestForUEReachability := ber.NormalizeNamedBitStringForBEREncoding(*v.ActivationRequestForUEReachability, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_ActivationRequestForUEReachability != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ActivationRequestForUEReachability, "activationRequestForUE-reachability", "encoding", false)
+		namedBits_ActivationRequestForUEReachability, namedBitErr_ := normalizeNamedBits(*v.ActivationRequestForUEReachability, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts, "activationRequestForUE-reachability", s02f799_163)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ActivationRequestForUEReachability.Bytes, namedBits_ActivationRequestForUEReachability.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "activationRequestForUE-reachability", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ActivationRequestForUEReachability.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ActivationRequestForUEReachability).BitLength < 1 || (namedBits_ActivationRequestForUEReachability).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_163, "51.5", "activationRequestForUE-reachability", "SIZE (1..8)", (namedBits_ActivationRequestForUEReachability).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_163, "51.5", "activationRequestForUE-reachability", "SIZE (1..8)", namedBitObservedLength(namedBits_ActivationRequestForUEReachability)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -97131,9 +97268,10 @@ func (v *MSAnyTimeModificationArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_modificationrequestforectdata)
 		children = append(children, enc_modificationrequestforectdata...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_163, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -97283,19 +97421,19 @@ func (v *MSAnyTimeModificationArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_modificationrequestforipsmgwdata...)
 	}
 	if v.ActivationRequestForUEReachability != nil {
-		namedBits_ActivationRequestForUEReachability, namedBitErr_namedBits_ActivationRequestForUEReachability := ber.NormalizeNamedBitStringForEncoding(*v.ActivationRequestForUEReachability, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
-		if namedBitErr_namedBits_ActivationRequestForUEReachability != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ActivationRequestForUEReachability, "activationRequestForUE-reachability", "encoding", true)
+		namedBits_ActivationRequestForUEReachability, namedBitErr_ := normalizeNamedBits(*v.ActivationRequestForUEReachability, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, nil, "activationRequestForUE-reachability", s02f799_163)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ActivationRequestForUEReachability.Bytes, namedBits_ActivationRequestForUEReachability.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "activationRequestForUE-reachability", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ActivationRequestForUEReachability.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ActivationRequestForUEReachability).BitLength < 1 || (namedBits_ActivationRequestForUEReachability).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_163, "51.5", "activationRequestForUE-reachability", "SIZE (1..8)", (namedBits_ActivationRequestForUEReachability).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_163, "51.5", "activationRequestForUE-reachability", "SIZE (1..8)", namedBitObservedLength(namedBits_ActivationRequestForUEReachability)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -97384,7 +97522,7 @@ func (v *MSAnyTimeModificationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_163, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -98167,9 +98305,10 @@ func (v *MSModificationRequestForCWInfo) marshalBER(opts ...ber.EncodeOption) ([
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_164, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -98264,7 +98403,7 @@ func (v *MSModificationRequestForCWInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_164, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -98564,9 +98703,10 @@ func (v *MSModificationRequestForCHInfo) marshalBER(opts ...ber.EncodeOption) ([
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_165, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -98647,7 +98787,7 @@ func (v *MSModificationRequestForCHInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_165, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -98911,9 +99051,10 @@ func (v *MSModificationRequestForECTInfo) marshalBER(opts ...ber.EncodeOption) (
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_166, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -98994,7 +99135,7 @@ func (v *MSModificationRequestForECTInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_166, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -99270,9 +99411,10 @@ func (v *MSModificationRequestForCLIRInfo) marshalBER(opts ...ber.EncodeOption) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_167, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -99367,7 +99509,7 @@ func (v *MSModificationRequestForCLIRInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_167, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -99676,9 +99818,10 @@ func (v *MSModificationRequestForCLIPInfo) marshalBER(opts ...ber.EncodeOption) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_168, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -99773,7 +99916,7 @@ func (v *MSModificationRequestForCLIPInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_168, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -100051,9 +100194,10 @@ func (v *MSModificationRequestForCSG) marshalBER(opts ...ber.EncodeOption) ([]by
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_169, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -100117,7 +100261,7 @@ func (v *MSModificationRequestForCSG) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_169, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -100437,9 +100581,10 @@ func (v *MSAnyTimeModificationRes) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		enc_servicecentreaddress = retagged_enc_servicecentreaddress
 		children = append(children, enc_servicecentreaddress...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_170, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -100604,7 +100749,7 @@ func (v *MSAnyTimeModificationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_170, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -101210,9 +101355,10 @@ func (v *MSModificationRequestForCFInfo) marshalBER(opts ...ber.EncodeOption) ([
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_171, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -101370,7 +101516,7 @@ func (v *MSModificationRequestForCFInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_171, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -101875,9 +102021,10 @@ func (v *MSModificationRequestForCBInfo) marshalBER(opts ...ber.EncodeOption) ([
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_172, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -102026,7 +102173,7 @@ func (v *MSModificationRequestForCBInfo) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_172, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -102431,9 +102578,10 @@ func (v *MSModificationRequestForODBData) marshalBER(opts ...ber.EncodeOption) (
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_173, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -102509,7 +102657,7 @@ func (v *MSModificationRequestForODBData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_173, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -102792,9 +102940,10 @@ func (v *MSModificationRequestForCSI) marshalBER(opts ...ber.EncodeOption) ([]by
 		enc_additionalrequestedcamelsubscriptioninfo = retagged_enc_additionalrequestedcamelsubscriptioninfo
 		children = append(children, enc_additionalrequestedcamelsubscriptioninfo...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_174, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -102893,7 +103042,7 @@ func (v *MSModificationRequestForCSI) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_174, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -103216,9 +103365,10 @@ func (v *MSModificationRequestForIPSMGWData) marshalBER(opts ...ber.EncodeOption
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_ipsmgwdiameteraddress)
 		children = append(children, enc_ipsmgwdiameteraddress...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_175, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -103294,7 +103444,7 @@ func (v *MSModificationRequestForIPSMGWData) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_175, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -103610,19 +103760,19 @@ func (v *MSNoteSubscriberDataModifiedArg) marshalBER(opts ...ber.EncodeOption) (
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.UeReachable != nil {
-		namedBits_UeReachable, namedBitErr_namedBits_UeReachable := ber.NormalizeNamedBitStringForBEREncoding(*v.UeReachable, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_UeReachable != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_UeReachable, "ue-reachable", "encoding", false)
+		namedBits_UeReachable, namedBitErr_ := normalizeNamedBits(*v.UeReachable, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts, "ue-reachable", s02f799_176)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_UeReachable.Bytes, namedBits_UeReachable.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ue-reachable", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_UeReachable.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_UeReachable).BitLength < 2 || (namedBits_UeReachable).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, s02f799_176, "51.5", "ue-reachable", "SIZE (2..8)", (namedBits_UeReachable).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_176, "51.5", "ue-reachable", "SIZE (2..8)", namedBitObservedLength(namedBits_UeReachable)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -103735,9 +103885,10 @@ func (v *MSNoteSubscriberDataModifiedArg) marshalBER(opts ...ber.EncodeOption) (
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_ectdata)
 		children = append(children, enc_ectdata...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_176, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -103863,19 +104014,19 @@ func (v *MSNoteSubscriberDataModifiedArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_extensioncontainer...)
 	}
 	if v.UeReachable != nil {
-		namedBits_UeReachable, namedBitErr_namedBits_UeReachable := ber.NormalizeNamedBitStringForEncoding(*v.UeReachable, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
-		if namedBitErr_namedBits_UeReachable != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_UeReachable, "ue-reachable", "encoding", true)
+		namedBits_UeReachable, namedBitErr_ := normalizeNamedBits(*v.UeReachable, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, nil, "ue-reachable", s02f799_176)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_UeReachable.Bytes, namedBits_UeReachable.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ue-reachable", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_UeReachable.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_UeReachable).BitLength < 2 || (namedBits_UeReachable).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, s02f799_176, "51.5", "ue-reachable", "SIZE (2..8)", (namedBits_UeReachable).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_176, "51.5", "ue-reachable", "SIZE (2..8)", namedBitObservedLength(namedBits_UeReachable)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -103969,7 +104120,7 @@ func (v *MSNoteSubscriberDataModifiedArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_176, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -104629,9 +104780,10 @@ func (v *MSNoteSubscriberDataModifiedRes) marshalBER(opts ...ber.EncodeOption) (
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_177, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -104676,7 +104828,7 @@ func (v *MSNoteSubscriberDataModifiedRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_177, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -104890,19 +105042,19 @@ func (v *MSNoteMMEventArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_locationinformation...)
 	}
 	if v.SupportedCAMELPhases != nil {
-		namedBits_SupportedCAMELPhases, namedBitErr_namedBits_SupportedCAMELPhases := ber.NormalizeNamedBitStringForBEREncoding(*v.SupportedCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SupportedCAMELPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedCAMELPhases, "supportedCAMELPhases", "encoding", false)
+		namedBits_SupportedCAMELPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, opts, "supportedCAMELPhases", s02f799_178)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCAMELPhases.Bytes, namedBits_SupportedCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCAMELPhases", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedCAMELPhases).BitLength < 1 || (namedBits_SupportedCAMELPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, s02f799_178, "51.5", "supportedCAMELPhases", "SIZE (1..16)", (namedBits_SupportedCAMELPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_178, "51.5", "supportedCAMELPhases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedCAMELPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -104944,19 +105096,19 @@ func (v *MSNoteMMEventArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		children = append(children, enc_locationinformationgprs...)
 	}
 	if v.OfferedCamel4Functionalities != nil {
-		namedBits_OfferedCamel4Functionalities, namedBitErr_namedBits_OfferedCamel4Functionalities := ber.NormalizeNamedBitStringForBEREncoding(*v.OfferedCamel4Functionalities, []ber.NamedBitSizeSet{{{Min: 15, Max: 64}}}, opts...)
-		if namedBitErr_namedBits_OfferedCamel4Functionalities != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4Functionalities, "offeredCamel4Functionalities", "encoding", false)
+		namedBits_OfferedCamel4Functionalities, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4Functionalities, []ber.NamedBitSizeSet{{{Min: 15, Max: 64}}}, opts, "offeredCamel4Functionalities", s02f799_178)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4Functionalities.Bytes, namedBits_OfferedCamel4Functionalities.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4Functionalities", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4Functionalities).BitLength < 15 || (namedBits_OfferedCamel4Functionalities).BitLength > 64 {
-			if constraintErr := checkEncodedLength(opts, s02f799_178, "51.5", "offeredCamel4Functionalities", "SIZE (15..64)", (namedBits_OfferedCamel4Functionalities).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s02f799_178, "51.5", "offeredCamel4Functionalities", "SIZE (15..64)", namedBitObservedLength(namedBits_OfferedCamel4Functionalities)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -104971,9 +105123,10 @@ func (v *MSNoteMMEventArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		enc_offeredcamel4functionalities = retagged_enc_offeredcamel4functionalities
 		children = append(children, enc_offeredcamel4functionalities...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_178, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -105079,19 +105232,19 @@ func (v *MSNoteMMEventArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_locationinformation...)
 	}
 	if v.SupportedCAMELPhases != nil {
-		namedBits_SupportedCAMELPhases, namedBitErr_namedBits_SupportedCAMELPhases := ber.NormalizeNamedBitStringForEncoding(*v.SupportedCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}})
-		if namedBitErr_namedBits_SupportedCAMELPhases != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SupportedCAMELPhases, "supportedCAMELPhases", "encoding", true)
+		namedBits_SupportedCAMELPhases, namedBitErr_ := normalizeNamedBits(*v.SupportedCAMELPhases, []ber.NamedBitSizeSet{{{Min: 1, Max: 16}}}, nil, "supportedCAMELPhases", s02f799_178)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SupportedCAMELPhases.Bytes, namedBits_SupportedCAMELPhases.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "supportedCAMELPhases", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SupportedCAMELPhases.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SupportedCAMELPhases).BitLength < 1 || (namedBits_SupportedCAMELPhases).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, s02f799_178, "51.5", "supportedCAMELPhases", "SIZE (1..16)", (namedBits_SupportedCAMELPhases).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_178, "51.5", "supportedCAMELPhases", "SIZE (1..16)", namedBitObservedLength(namedBits_SupportedCAMELPhases)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -105131,19 +105284,19 @@ func (v *MSNoteMMEventArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_locationinformationgprs...)
 	}
 	if v.OfferedCamel4Functionalities != nil {
-		namedBits_OfferedCamel4Functionalities, namedBitErr_namedBits_OfferedCamel4Functionalities := ber.NormalizeNamedBitStringForEncoding(*v.OfferedCamel4Functionalities, []ber.NamedBitSizeSet{{{Min: 15, Max: 64}}})
-		if namedBitErr_namedBits_OfferedCamel4Functionalities != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_OfferedCamel4Functionalities, "offeredCamel4Functionalities", "encoding", true)
+		namedBits_OfferedCamel4Functionalities, namedBitErr_ := normalizeNamedBits(*v.OfferedCamel4Functionalities, []ber.NamedBitSizeSet{{{Min: 15, Max: 64}}}, nil, "offeredCamel4Functionalities", s02f799_178)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_OfferedCamel4Functionalities.Bytes, namedBits_OfferedCamel4Functionalities.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "offeredCamel4Functionalities", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_OfferedCamel4Functionalities.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_OfferedCamel4Functionalities).BitLength < 15 || (namedBits_OfferedCamel4Functionalities).BitLength > 64 {
-			if constraintErr := checkEncodedLength(nil, s02f799_178, "51.5", "offeredCamel4Functionalities", "SIZE (15..64)", (namedBits_OfferedCamel4Functionalities).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s02f799_178, "51.5", "offeredCamel4Functionalities", "SIZE (15..64)", namedBitObservedLength(namedBits_OfferedCamel4Functionalities)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -105160,7 +105313,7 @@ func (v *MSNoteMMEventArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_178, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -105610,9 +105763,10 @@ func (v *MSNoteMMEventRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_179, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -105657,7 +105811,7 @@ func (v *MSNoteMMEventRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_179, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -106084,9 +106238,10 @@ func (v *MSExtForwardingInfoForCSE) marshalBER(opts ...ber.EncodeOption) ([]byte
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_180, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -106178,7 +106333,7 @@ func (v *MSExtForwardingInfoForCSE) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_180, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -106561,9 +106716,10 @@ func (v *MSExtCallBarringInfoForCSE) marshalBER(opts ...ber.EncodeOption) ([]byt
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_181, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -106694,7 +106850,7 @@ func (v *MSExtCallBarringInfoForCSE) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_181, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -107125,9 +107281,10 @@ func (v *MSUpdateVcsgLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_182, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -107248,7 +107405,7 @@ func (v *MSUpdateVcsgLocationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_182, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -107543,9 +107700,10 @@ func (v *MSUpdateVcsgLocationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_183, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -107594,7 +107752,7 @@ func (v *MSUpdateVcsgLocationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_183, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -107774,9 +107932,10 @@ func (v *MSCancelVcsgLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_184, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -107826,7 +107985,7 @@ func (v *MSCancelVcsgLocationArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_184, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -108005,9 +108164,10 @@ func (v *MSCancelVcsgLocationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, s02f799_185, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -108052,7 +108212,7 @@ func (v *MSCancelVcsgLocationRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, s02f799_185, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {

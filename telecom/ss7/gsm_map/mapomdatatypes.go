@@ -1065,19 +1065,19 @@ func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_tracedepthlist...)
 	}
 	if v.TraceNETypeList != nil {
-		namedBits_TraceNETypeList, namedBitErr_namedBits_TraceNETypeList := ber.NormalizeNamedBitStringForBEREncoding(*v.TraceNETypeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_TraceNETypeList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_TraceNETypeList, "traceNE-TypeList", "encoding", false)
+		namedBits_TraceNETypeList, namedBitErr_ := normalizeNamedBits(*v.TraceNETypeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, opts, "traceNE-TypeList", sf38eb6_0)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_TraceNETypeList.Bytes, namedBits_TraceNETypeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "traceNE-TypeList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_TraceNETypeList).BitLength < 6 || (namedBits_TraceNETypeList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_0, "51.5", "traceNE-TypeList", "SIZE (6..16)", (namedBits_TraceNETypeList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_0, "51.5", "traceNE-TypeList", "SIZE (6..16)", namedBitObservedLength(namedBits_TraceNETypeList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1148,9 +1148,10 @@ func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_mdtconfiguration)
 		children = append(children, enc_mdtconfiguration...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_0, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -1289,19 +1290,19 @@ func (v *ActivateTraceModeArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_tracedepthlist...)
 	}
 	if v.TraceNETypeList != nil {
-		namedBits_TraceNETypeList, namedBitErr_namedBits_TraceNETypeList := ber.NormalizeNamedBitStringForEncoding(*v.TraceNETypeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}})
-		if namedBitErr_namedBits_TraceNETypeList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_TraceNETypeList, "traceNE-TypeList", "encoding", true)
+		namedBits_TraceNETypeList, namedBitErr_ := normalizeNamedBits(*v.TraceNETypeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, nil, "traceNE-TypeList", sf38eb6_0)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_TraceNETypeList.Bytes, namedBits_TraceNETypeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "traceNE-TypeList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_TraceNETypeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_TraceNETypeList).BitLength < 6 || (namedBits_TraceNETypeList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_0, "51.5", "traceNE-TypeList", "SIZE (6..16)", (namedBits_TraceNETypeList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_0, "51.5", "traceNE-TypeList", "SIZE (6..16)", namedBitObservedLength(namedBits_TraceNETypeList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1371,7 +1372,7 @@ func (v *ActivateTraceModeArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_0, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -2201,9 +2202,10 @@ func (v *MDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_mdtallowedplmnlist)
 		children = append(children, enc_mdtallowedplmnlist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_1, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -2505,7 +2507,7 @@ func (v *MDTConfiguration) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_1, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -3624,9 +3626,10 @@ func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_3, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -3761,7 +3764,7 @@ func (v *AreaScope) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_3, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -5169,9 +5172,10 @@ func (v *TraceDepthList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_enbtracedepthextension = retagged_enc_enbtracedepthextension
 		children = append(children, enc_enbtracedepthextension...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_9, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -5389,7 +5393,7 @@ func (v *TraceDepthList) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_9, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -6083,19 +6087,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	var children []byte
 	if v.MscSList != nil {
-		namedBits_MscSList, namedBitErr_namedBits_MscSList := ber.NormalizeNamedBitStringForBEREncoding(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_MscSList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MscSList, "msc-s-List", "encoding", false)
+		namedBits_MscSList, namedBitErr_ := normalizeNamedBits(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}}, opts, "msc-s-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MscSList.Bytes, namedBits_MscSList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MscSList).BitLength < 10 || (namedBits_MscSList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "msc-s-List", "SIZE (10..16)", (namedBits_MscSList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "msc-s-List", "SIZE (10..16)", namedBitObservedLength(namedBits_MscSList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6111,19 +6115,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
-		namedBits_MgwList, namedBitErr_namedBits_MgwList := ber.NormalizeNamedBitStringForBEREncoding(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_MgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MgwList, "mgw-List", "encoding", false)
+		namedBits_MgwList, namedBitErr_ := normalizeNamedBits(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts, "mgw-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MgwList.Bytes, namedBits_MgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MgwList).BitLength < 3 || (namedBits_MgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "mgw-List", "SIZE (3..8)", (namedBits_MgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "mgw-List", "SIZE (3..8)", namedBitObservedLength(namedBits_MgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6139,19 +6143,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
-		namedBits_SgsnList, namedBitErr_namedBits_SgsnList := ber.NormalizeNamedBitStringForBEREncoding(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SgsnList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SgsnList, "sgsn-List", "encoding", false)
+		namedBits_SgsnList, namedBitErr_ := normalizeNamedBits(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}}, opts, "sgsn-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SgsnList.Bytes, namedBits_SgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgsn-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SgsnList).BitLength < 8 || (namedBits_SgsnList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "sgsn-List", "SIZE (8..16)", (namedBits_SgsnList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "sgsn-List", "SIZE (8..16)", namedBitObservedLength(namedBits_SgsnList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6167,19 +6171,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
-		namedBits_GgsnList, namedBitErr_namedBits_GgsnList := ber.NormalizeNamedBitStringForBEREncoding(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_GgsnList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_GgsnList, "ggsn-List", "encoding", false)
+		namedBits_GgsnList, namedBitErr_ := normalizeNamedBits(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts, "ggsn-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_GgsnList.Bytes, namedBits_GgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ggsn-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_GgsnList).BitLength < 3 || (namedBits_GgsnList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "ggsn-List", "SIZE (3..8)", (namedBits_GgsnList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "ggsn-List", "SIZE (3..8)", namedBitObservedLength(namedBits_GgsnList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6195,19 +6199,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.RncList != nil {
-		namedBits_RncList, namedBitErr_namedBits_RncList := ber.NormalizeNamedBitStringForBEREncoding(*v.RncList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_RncList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_RncList, "rnc-List", "encoding", false)
+		namedBits_RncList, namedBitErr_ := normalizeNamedBits(*v.RncList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, opts, "rnc-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_RncList.Bytes, namedBits_RncList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "rnc-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_RncList).BitLength < 4 || (namedBits_RncList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "rnc-List", "SIZE (4..8)", (namedBits_RncList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "rnc-List", "SIZE (4..8)", namedBitObservedLength(namedBits_RncList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6223,19 +6227,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_rnclist...)
 	}
 	if v.BmscList != nil {
-		namedBits_BmscList, namedBitErr_namedBits_BmscList := ber.NormalizeNamedBitStringForBEREncoding(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_BmscList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_BmscList, "bmsc-List", "encoding", false)
+		namedBits_BmscList, namedBitErr_ := normalizeNamedBits(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts, "bmsc-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_BmscList.Bytes, namedBits_BmscList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "bmsc-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_BmscList).BitLength < 1 || (namedBits_BmscList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "bmsc-List", "SIZE (1..8)", (namedBits_BmscList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "bmsc-List", "SIZE (1..8)", namedBitObservedLength(namedBits_BmscList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6251,19 +6255,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_bmsclist...)
 	}
 	if v.MmeList != nil {
-		namedBits_MmeList, namedBitErr_namedBits_MmeList := ber.NormalizeNamedBitStringForBEREncoding(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_MmeList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MmeList, "mme-List", "encoding", false)
+		namedBits_MmeList, namedBitErr_ := normalizeNamedBits(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}}, opts, "mme-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MmeList.Bytes, namedBits_MmeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mme-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MmeList).BitLength < 5 || (namedBits_MmeList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "mme-List", "SIZE (5..8)", (namedBits_MmeList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "mme-List", "SIZE (5..8)", namedBitObservedLength(namedBits_MmeList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6279,19 +6283,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_mmelist...)
 	}
 	if v.SgwList != nil {
-		namedBits_SgwList, namedBitErr_namedBits_SgwList := ber.NormalizeNamedBitStringForBEREncoding(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_SgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SgwList, "sgw-List", "encoding", false)
+		namedBits_SgwList, namedBitErr_ := normalizeNamedBits(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}}, opts, "sgw-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SgwList.Bytes, namedBits_SgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SgwList).BitLength < 5 || (namedBits_SgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "sgw-List", "SIZE (5..8)", (namedBits_SgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "sgw-List", "SIZE (5..8)", namedBitObservedLength(namedBits_SgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6307,19 +6311,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_sgwlist...)
 	}
 	if v.PgwList != nil {
-		namedBits_PgwList, namedBitErr_namedBits_PgwList := ber.NormalizeNamedBitStringForBEREncoding(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_PgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_PgwList, "pgw-List", "encoding", false)
+		namedBits_PgwList, namedBitErr_ := normalizeNamedBits(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}}, opts, "pgw-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_PgwList.Bytes, namedBits_PgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "pgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_PgwList).BitLength < 8 || (namedBits_PgwList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "pgw-List", "SIZE (8..16)", (namedBits_PgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "pgw-List", "SIZE (8..16)", namedBitObservedLength(namedBits_PgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6335,19 +6339,19 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		children = append(children, enc_pgwlist...)
 	}
 	if v.ENBList != nil {
-		namedBits_ENBList, namedBitErr_namedBits_ENBList := ber.NormalizeNamedBitStringForBEREncoding(*v.ENBList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_ENBList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ENBList, "eNB-List", "encoding", false)
+		namedBits_ENBList, namedBitErr_ := normalizeNamedBits(*v.ENBList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts, "eNB-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ENBList.Bytes, namedBits_ENBList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "eNB-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ENBList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ENBList).BitLength < 3 || (namedBits_ENBList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "eNB-List", "SIZE (3..8)", (namedBits_ENBList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_10, "51.5", "eNB-List", "SIZE (3..8)", namedBitObservedLength(namedBits_ENBList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6362,9 +6366,10 @@ func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		enc_enblist = retagged_enc_enblist
 		children = append(children, enc_enblist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_10, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -6401,19 +6406,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.MscSList != nil {
-		namedBits_MscSList, namedBitErr_namedBits_MscSList := ber.NormalizeNamedBitStringForEncoding(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}})
-		if namedBitErr_namedBits_MscSList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MscSList, "msc-s-List", "encoding", true)
+		namedBits_MscSList, namedBitErr_ := normalizeNamedBits(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}}, nil, "msc-s-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MscSList.Bytes, namedBits_MscSList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MscSList).BitLength < 10 || (namedBits_MscSList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "msc-s-List", "SIZE (10..16)", (namedBits_MscSList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "msc-s-List", "SIZE (10..16)", namedBitObservedLength(namedBits_MscSList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6429,19 +6434,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
-		namedBits_MgwList, namedBitErr_namedBits_MgwList := ber.NormalizeNamedBitStringForEncoding(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
-		if namedBitErr_namedBits_MgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MgwList, "mgw-List", "encoding", true)
+		namedBits_MgwList, namedBitErr_ := normalizeNamedBits(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, nil, "mgw-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MgwList.Bytes, namedBits_MgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MgwList).BitLength < 3 || (namedBits_MgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "mgw-List", "SIZE (3..8)", (namedBits_MgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "mgw-List", "SIZE (3..8)", namedBitObservedLength(namedBits_MgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6457,19 +6462,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
-		namedBits_SgsnList, namedBitErr_namedBits_SgsnList := ber.NormalizeNamedBitStringForEncoding(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}})
-		if namedBitErr_namedBits_SgsnList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SgsnList, "sgsn-List", "encoding", true)
+		namedBits_SgsnList, namedBitErr_ := normalizeNamedBits(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}}, nil, "sgsn-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SgsnList.Bytes, namedBits_SgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgsn-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SgsnList).BitLength < 8 || (namedBits_SgsnList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "sgsn-List", "SIZE (8..16)", (namedBits_SgsnList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "sgsn-List", "SIZE (8..16)", namedBitObservedLength(namedBits_SgsnList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6485,19 +6490,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
-		namedBits_GgsnList, namedBitErr_namedBits_GgsnList := ber.NormalizeNamedBitStringForEncoding(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
-		if namedBitErr_namedBits_GgsnList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_GgsnList, "ggsn-List", "encoding", true)
+		namedBits_GgsnList, namedBitErr_ := normalizeNamedBits(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, nil, "ggsn-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_GgsnList.Bytes, namedBits_GgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ggsn-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_GgsnList).BitLength < 3 || (namedBits_GgsnList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "ggsn-List", "SIZE (3..8)", (namedBits_GgsnList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "ggsn-List", "SIZE (3..8)", namedBitObservedLength(namedBits_GgsnList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6513,19 +6518,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.RncList != nil {
-		namedBits_RncList, namedBitErr_namedBits_RncList := ber.NormalizeNamedBitStringForEncoding(*v.RncList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}})
-		if namedBitErr_namedBits_RncList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_RncList, "rnc-List", "encoding", true)
+		namedBits_RncList, namedBitErr_ := normalizeNamedBits(*v.RncList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, nil, "rnc-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_RncList.Bytes, namedBits_RncList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "rnc-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_RncList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_RncList).BitLength < 4 || (namedBits_RncList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "rnc-List", "SIZE (4..8)", (namedBits_RncList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "rnc-List", "SIZE (4..8)", namedBitObservedLength(namedBits_RncList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6541,19 +6546,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rnclist...)
 	}
 	if v.BmscList != nil {
-		namedBits_BmscList, namedBitErr_namedBits_BmscList := ber.NormalizeNamedBitStringForEncoding(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
-		if namedBitErr_namedBits_BmscList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_BmscList, "bmsc-List", "encoding", true)
+		namedBits_BmscList, namedBitErr_ := normalizeNamedBits(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, nil, "bmsc-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_BmscList.Bytes, namedBits_BmscList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "bmsc-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_BmscList).BitLength < 1 || (namedBits_BmscList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "bmsc-List", "SIZE (1..8)", (namedBits_BmscList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "bmsc-List", "SIZE (1..8)", namedBitObservedLength(namedBits_BmscList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6569,19 +6574,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bmsclist...)
 	}
 	if v.MmeList != nil {
-		namedBits_MmeList, namedBitErr_namedBits_MmeList := ber.NormalizeNamedBitStringForEncoding(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}})
-		if namedBitErr_namedBits_MmeList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MmeList, "mme-List", "encoding", true)
+		namedBits_MmeList, namedBitErr_ := normalizeNamedBits(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}}, nil, "mme-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MmeList.Bytes, namedBits_MmeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mme-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MmeList).BitLength < 5 || (namedBits_MmeList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "mme-List", "SIZE (5..8)", (namedBits_MmeList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "mme-List", "SIZE (5..8)", namedBitObservedLength(namedBits_MmeList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6597,19 +6602,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mmelist...)
 	}
 	if v.SgwList != nil {
-		namedBits_SgwList, namedBitErr_namedBits_SgwList := ber.NormalizeNamedBitStringForEncoding(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}})
-		if namedBitErr_namedBits_SgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SgwList, "sgw-List", "encoding", true)
+		namedBits_SgwList, namedBitErr_ := normalizeNamedBits(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 5, Max: 8}}}, nil, "sgw-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SgwList.Bytes, namedBits_SgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SgwList).BitLength < 5 || (namedBits_SgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "sgw-List", "SIZE (5..8)", (namedBits_SgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "sgw-List", "SIZE (5..8)", namedBitObservedLength(namedBits_SgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6625,19 +6630,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgwlist...)
 	}
 	if v.PgwList != nil {
-		namedBits_PgwList, namedBitErr_namedBits_PgwList := ber.NormalizeNamedBitStringForEncoding(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}})
-		if namedBitErr_namedBits_PgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_PgwList, "pgw-List", "encoding", true)
+		namedBits_PgwList, namedBitErr_ := normalizeNamedBits(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 8, Max: 16}}}, nil, "pgw-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_PgwList.Bytes, namedBits_PgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "pgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_PgwList).BitLength < 8 || (namedBits_PgwList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "pgw-List", "SIZE (8..16)", (namedBits_PgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "pgw-List", "SIZE (8..16)", namedBitObservedLength(namedBits_PgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6653,19 +6658,19 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_pgwlist...)
 	}
 	if v.ENBList != nil {
-		namedBits_ENBList, namedBitErr_namedBits_ENBList := ber.NormalizeNamedBitStringForEncoding(*v.ENBList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
-		if namedBitErr_namedBits_ENBList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_ENBList, "eNB-List", "encoding", true)
+		namedBits_ENBList, namedBitErr_ := normalizeNamedBits(*v.ENBList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, nil, "eNB-List", sf38eb6_10)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_ENBList.Bytes, namedBits_ENBList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "eNB-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_ENBList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_ENBList).BitLength < 3 || (namedBits_ENBList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "eNB-List", "SIZE (3..8)", (namedBits_ENBList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_10, "51.5", "eNB-List", "SIZE (3..8)", namedBitObservedLength(namedBits_ENBList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6682,7 +6687,7 @@ func (v *TraceInterfaceList) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_10, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -7177,19 +7182,19 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if v.MscSList != nil {
-		namedBits_MscSList, namedBitErr_namedBits_MscSList := ber.NormalizeNamedBitStringForBEREncoding(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_MscSList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MscSList, "msc-s-List", "encoding", false)
+		namedBits_MscSList, namedBitErr_ := normalizeNamedBits(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}}, opts, "msc-s-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MscSList.Bytes, namedBits_MscSList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MscSList).BitLength < 5 || (namedBits_MscSList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "msc-s-List", "SIZE (5..16)", (namedBits_MscSList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "msc-s-List", "SIZE (5..16)", namedBitObservedLength(namedBits_MscSList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7205,19 +7210,19 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
-		namedBits_MgwList, namedBitErr_namedBits_MgwList := ber.NormalizeNamedBitStringForBEREncoding(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_MgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MgwList, "mgw-List", "encoding", false)
+		namedBits_MgwList, namedBitErr_ := normalizeNamedBits(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts, "mgw-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MgwList.Bytes, namedBits_MgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MgwList).BitLength < 1 || (namedBits_MgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "mgw-List", "SIZE (1..8)", (namedBits_MgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "mgw-List", "SIZE (1..8)", namedBitObservedLength(namedBits_MgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7233,19 +7238,19 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
-		namedBits_SgsnList, namedBitErr_namedBits_SgsnList := ber.NormalizeNamedBitStringForBEREncoding(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 4, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_SgsnList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SgsnList, "sgsn-List", "encoding", false)
+		namedBits_SgsnList, namedBitErr_ := normalizeNamedBits(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 4, Max: 16}}}, opts, "sgsn-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SgsnList.Bytes, namedBits_SgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgsn-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SgsnList).BitLength < 4 || (namedBits_SgsnList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "sgsn-List", "SIZE (4..16)", (namedBits_SgsnList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "sgsn-List", "SIZE (4..16)", namedBitObservedLength(namedBits_SgsnList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7261,19 +7266,19 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
-		namedBits_GgsnList, namedBitErr_namedBits_GgsnList := ber.NormalizeNamedBitStringForBEREncoding(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_GgsnList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_GgsnList, "ggsn-List", "encoding", false)
+		namedBits_GgsnList, namedBitErr_ := normalizeNamedBits(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, opts, "ggsn-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_GgsnList.Bytes, namedBits_GgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ggsn-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_GgsnList).BitLength < 2 || (namedBits_GgsnList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "ggsn-List", "SIZE (2..8)", (namedBits_GgsnList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "ggsn-List", "SIZE (2..8)", namedBitObservedLength(namedBits_GgsnList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7289,19 +7294,19 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.BmscList != nil {
-		namedBits_BmscList, namedBitErr_namedBits_BmscList := ber.NormalizeNamedBitStringForBEREncoding(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_BmscList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_BmscList, "bmsc-List", "encoding", false)
+		namedBits_BmscList, namedBitErr_ := normalizeNamedBits(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts, "bmsc-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_BmscList.Bytes, namedBits_BmscList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "bmsc-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_BmscList).BitLength < 1 || (namedBits_BmscList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "bmsc-List", "SIZE (1..8)", (namedBits_BmscList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "bmsc-List", "SIZE (1..8)", namedBitObservedLength(namedBits_BmscList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7317,19 +7322,19 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_bmsclist...)
 	}
 	if v.MmeList != nil {
-		namedBits_MmeList, namedBitErr_namedBits_MmeList := ber.NormalizeNamedBitStringForBEREncoding(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_MmeList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MmeList, "mme-List", "encoding", false)
+		namedBits_MmeList, namedBitErr_ := normalizeNamedBits(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 8}}}, opts, "mme-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MmeList.Bytes, namedBits_MmeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mme-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MmeList).BitLength < 6 || (namedBits_MmeList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "mme-List", "SIZE (6..8)", (namedBits_MmeList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "mme-List", "SIZE (6..8)", namedBitObservedLength(namedBits_MmeList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7345,19 +7350,19 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_mmelist...)
 	}
 	if v.SgwList != nil {
-		namedBits_SgwList, namedBitErr_namedBits_SgwList := ber.NormalizeNamedBitStringForBEREncoding(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_SgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SgwList, "sgw-List", "encoding", false)
+		namedBits_SgwList, namedBitErr_ := normalizeNamedBits(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts, "sgw-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SgwList.Bytes, namedBits_SgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SgwList).BitLength < 3 || (namedBits_SgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "sgw-List", "SIZE (3..8)", (namedBits_SgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "sgw-List", "SIZE (3..8)", namedBitObservedLength(namedBits_SgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7373,19 +7378,19 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		children = append(children, enc_sgwlist...)
 	}
 	if v.PgwList != nil {
-		namedBits_PgwList, namedBitErr_namedBits_PgwList := ber.NormalizeNamedBitStringForBEREncoding(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_PgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_PgwList, "pgw-List", "encoding", false)
+		namedBits_PgwList, namedBitErr_ := normalizeNamedBits(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts, "pgw-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_PgwList.Bytes, namedBits_PgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "pgw-List", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_PgwList).BitLength < 3 || (namedBits_PgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "pgw-List", "SIZE (3..8)", (namedBits_PgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_11, "51.5", "pgw-List", "SIZE (3..8)", namedBitObservedLength(namedBits_PgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7400,9 +7405,10 @@ func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		enc_pgwlist = retagged_enc_pgwlist
 		children = append(children, enc_pgwlist...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_11, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -7439,19 +7445,19 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if v.MscSList != nil {
-		namedBits_MscSList, namedBitErr_namedBits_MscSList := ber.NormalizeNamedBitStringForEncoding(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}})
-		if namedBitErr_namedBits_MscSList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MscSList, "msc-s-List", "encoding", true)
+		namedBits_MscSList, namedBitErr_ := normalizeNamedBits(*v.MscSList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}}, nil, "msc-s-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MscSList.Bytes, namedBits_MscSList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MscSList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MscSList).BitLength < 5 || (namedBits_MscSList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "msc-s-List", "SIZE (5..16)", (namedBits_MscSList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "msc-s-List", "SIZE (5..16)", namedBitObservedLength(namedBits_MscSList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7467,19 +7473,19 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscslist...)
 	}
 	if v.MgwList != nil {
-		namedBits_MgwList, namedBitErr_namedBits_MgwList := ber.NormalizeNamedBitStringForEncoding(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
-		if namedBitErr_namedBits_MgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MgwList, "mgw-List", "encoding", true)
+		namedBits_MgwList, namedBitErr_ := normalizeNamedBits(*v.MgwList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, nil, "mgw-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MgwList.Bytes, namedBits_MgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MgwList).BitLength < 1 || (namedBits_MgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "mgw-List", "SIZE (1..8)", (namedBits_MgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "mgw-List", "SIZE (1..8)", namedBitObservedLength(namedBits_MgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7495,19 +7501,19 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwlist...)
 	}
 	if v.SgsnList != nil {
-		namedBits_SgsnList, namedBitErr_namedBits_SgsnList := ber.NormalizeNamedBitStringForEncoding(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 4, Max: 16}}})
-		if namedBitErr_namedBits_SgsnList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SgsnList, "sgsn-List", "encoding", true)
+		namedBits_SgsnList, namedBitErr_ := normalizeNamedBits(*v.SgsnList, []ber.NamedBitSizeSet{{{Min: 4, Max: 16}}}, nil, "sgsn-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SgsnList.Bytes, namedBits_SgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgsn-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SgsnList).BitLength < 4 || (namedBits_SgsnList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "sgsn-List", "SIZE (4..16)", (namedBits_SgsnList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "sgsn-List", "SIZE (4..16)", namedBitObservedLength(namedBits_SgsnList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7523,19 +7529,19 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgsnlist...)
 	}
 	if v.GgsnList != nil {
-		namedBits_GgsnList, namedBitErr_namedBits_GgsnList := ber.NormalizeNamedBitStringForEncoding(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}})
-		if namedBitErr_namedBits_GgsnList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_GgsnList, "ggsn-List", "encoding", true)
+		namedBits_GgsnList, namedBitErr_ := normalizeNamedBits(*v.GgsnList, []ber.NamedBitSizeSet{{{Min: 2, Max: 8}}}, nil, "ggsn-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_GgsnList.Bytes, namedBits_GgsnList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "ggsn-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_GgsnList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_GgsnList).BitLength < 2 || (namedBits_GgsnList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "ggsn-List", "SIZE (2..8)", (namedBits_GgsnList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "ggsn-List", "SIZE (2..8)", namedBitObservedLength(namedBits_GgsnList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7551,19 +7557,19 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_ggsnlist...)
 	}
 	if v.BmscList != nil {
-		namedBits_BmscList, namedBitErr_namedBits_BmscList := ber.NormalizeNamedBitStringForEncoding(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
-		if namedBitErr_namedBits_BmscList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_BmscList, "bmsc-List", "encoding", true)
+		namedBits_BmscList, namedBitErr_ := normalizeNamedBits(*v.BmscList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, nil, "bmsc-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_BmscList.Bytes, namedBits_BmscList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "bmsc-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_BmscList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_BmscList).BitLength < 1 || (namedBits_BmscList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "bmsc-List", "SIZE (1..8)", (namedBits_BmscList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "bmsc-List", "SIZE (1..8)", namedBitObservedLength(namedBits_BmscList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7579,19 +7585,19 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_bmsclist...)
 	}
 	if v.MmeList != nil {
-		namedBits_MmeList, namedBitErr_namedBits_MmeList := ber.NormalizeNamedBitStringForEncoding(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 8}}})
-		if namedBitErr_namedBits_MmeList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MmeList, "mme-List", "encoding", true)
+		namedBits_MmeList, namedBitErr_ := normalizeNamedBits(*v.MmeList, []ber.NamedBitSizeSet{{{Min: 6, Max: 8}}}, nil, "mme-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MmeList.Bytes, namedBits_MmeList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mme-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MmeList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MmeList).BitLength < 6 || (namedBits_MmeList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "mme-List", "SIZE (6..8)", (namedBits_MmeList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "mme-List", "SIZE (6..8)", namedBitObservedLength(namedBits_MmeList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7607,19 +7613,19 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mmelist...)
 	}
 	if v.SgwList != nil {
-		namedBits_SgwList, namedBitErr_namedBits_SgwList := ber.NormalizeNamedBitStringForEncoding(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
-		if namedBitErr_namedBits_SgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_SgwList, "sgw-List", "encoding", true)
+		namedBits_SgwList, namedBitErr_ := normalizeNamedBits(*v.SgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, nil, "sgw-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_SgwList.Bytes, namedBits_SgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "sgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_SgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_SgwList).BitLength < 3 || (namedBits_SgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "sgw-List", "SIZE (3..8)", (namedBits_SgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "sgw-List", "SIZE (3..8)", namedBitObservedLength(namedBits_SgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7635,19 +7641,19 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_sgwlist...)
 	}
 	if v.PgwList != nil {
-		namedBits_PgwList, namedBitErr_namedBits_PgwList := ber.NormalizeNamedBitStringForEncoding(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
-		if namedBitErr_namedBits_PgwList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_PgwList, "pgw-List", "encoding", true)
+		namedBits_PgwList, namedBitErr_ := normalizeNamedBits(*v.PgwList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, nil, "pgw-List", sf38eb6_11)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_PgwList.Bytes, namedBits_PgwList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "pgw-List", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_PgwList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_PgwList).BitLength < 3 || (namedBits_PgwList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "pgw-List", "SIZE (3..8)", (namedBits_PgwList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_11, "51.5", "pgw-List", "SIZE (3..8)", namedBitObservedLength(namedBits_PgwList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7664,7 +7670,7 @@ func (v *TraceEventList) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_11, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8157,19 +8163,19 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_rnctracedepth...)
 	}
 	if v.RncInterfaceList != nil {
-		namedBits_RncInterfaceList, namedBitErr_namedBits_RncInterfaceList := ber.NormalizeNamedBitStringForBEREncoding(*v.RncInterfaceList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_RncInterfaceList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_RncInterfaceList, "rnc-InterfaceList", "encoding", false)
+		namedBits_RncInterfaceList, namedBitErr_ := normalizeNamedBits(*v.RncInterfaceList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, opts, "rnc-InterfaceList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_RncInterfaceList.Bytes, namedBits_RncInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "rnc-InterfaceList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_RncInterfaceList).BitLength < 4 || (namedBits_RncInterfaceList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "rnc-InterfaceList", "SIZE (4..8)", (namedBits_RncInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "rnc-InterfaceList", "SIZE (4..8)", namedBitObservedLength(namedBits_RncInterfaceList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8194,19 +8200,19 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_mscstracedepth...)
 	}
 	if v.MscSInterfaceList != nil {
-		namedBits_MscSInterfaceList, namedBitErr_namedBits_MscSInterfaceList := ber.NormalizeNamedBitStringForBEREncoding(*v.MscSInterfaceList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_MscSInterfaceList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MscSInterfaceList, "msc-s-InterfaceList", "encoding", false)
+		namedBits_MscSInterfaceList, namedBitErr_ := normalizeNamedBits(*v.MscSInterfaceList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}}, opts, "msc-s-InterfaceList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MscSInterfaceList.Bytes, namedBits_MscSInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-InterfaceList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MscSInterfaceList).BitLength < 10 || (namedBits_MscSInterfaceList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "msc-s-InterfaceList", "SIZE (10..16)", (namedBits_MscSInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "msc-s-InterfaceList", "SIZE (10..16)", namedBitObservedLength(namedBits_MscSInterfaceList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8222,19 +8228,19 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_mscsinterfacelist...)
 	}
 	if v.MscSEventList != nil {
-		namedBits_MscSEventList, namedBitErr_namedBits_MscSEventList := ber.NormalizeNamedBitStringForBEREncoding(*v.MscSEventList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}}, opts...)
-		if namedBitErr_namedBits_MscSEventList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MscSEventList, "msc-s-EventList", "encoding", false)
+		namedBits_MscSEventList, namedBitErr_ := normalizeNamedBits(*v.MscSEventList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}}, opts, "msc-s-EventList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MscSEventList.Bytes, namedBits_MscSEventList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-EventList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MscSEventList).BitLength < 5 || (namedBits_MscSEventList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "msc-s-EventList", "SIZE (5..16)", (namedBits_MscSEventList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "msc-s-EventList", "SIZE (5..16)", namedBitObservedLength(namedBits_MscSEventList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8259,19 +8265,19 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_mgwtracedepth...)
 	}
 	if v.MgwInterfaceList != nil {
-		namedBits_MgwInterfaceList, namedBitErr_namedBits_MgwInterfaceList := ber.NormalizeNamedBitStringForBEREncoding(*v.MgwInterfaceList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_MgwInterfaceList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MgwInterfaceList, "mgw-InterfaceList", "encoding", false)
+		namedBits_MgwInterfaceList, namedBitErr_ := normalizeNamedBits(*v.MgwInterfaceList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, opts, "mgw-InterfaceList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MgwInterfaceList.Bytes, namedBits_MgwInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-InterfaceList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MgwInterfaceList).BitLength < 3 || (namedBits_MgwInterfaceList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "mgw-InterfaceList", "SIZE (3..8)", (namedBits_MgwInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "mgw-InterfaceList", "SIZE (3..8)", namedBitObservedLength(namedBits_MgwInterfaceList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8287,19 +8293,19 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		children = append(children, enc_mgwinterfacelist...)
 	}
 	if v.MgwEventList != nil {
-		namedBits_MgwEventList, namedBitErr_namedBits_MgwEventList := ber.NormalizeNamedBitStringForBEREncoding(*v.MgwEventList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts...)
-		if namedBitErr_namedBits_MgwEventList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MgwEventList, "mgw-EventList", "encoding", false)
+		namedBits_MgwEventList, namedBitErr_ := normalizeNamedBits(*v.MgwEventList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, opts, "mgw-EventList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MgwEventList.Bytes, namedBits_MgwEventList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-EventList", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MgwEventList).BitLength < 1 || (namedBits_MgwEventList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "mgw-EventList", "SIZE (1..8)", (namedBits_MgwEventList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sf38eb6_12, "51.5", "mgw-EventList", "SIZE (1..8)", namedBitObservedLength(namedBits_MgwEventList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8341,9 +8347,10 @@ func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		enc_mgwtracedepthextension = retagged_enc_mgwtracedepthextension
 		children = append(children, enc_mgwtracedepthextension...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_12, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -8454,19 +8461,19 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_rnctracedepth...)
 	}
 	if v.RncInterfaceList != nil {
-		namedBits_RncInterfaceList, namedBitErr_namedBits_RncInterfaceList := ber.NormalizeNamedBitStringForEncoding(*v.RncInterfaceList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}})
-		if namedBitErr_namedBits_RncInterfaceList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_RncInterfaceList, "rnc-InterfaceList", "encoding", true)
+		namedBits_RncInterfaceList, namedBitErr_ := normalizeNamedBits(*v.RncInterfaceList, []ber.NamedBitSizeSet{{{Min: 4, Max: 8}}}, nil, "rnc-InterfaceList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_RncInterfaceList.Bytes, namedBits_RncInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "rnc-InterfaceList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_RncInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_RncInterfaceList).BitLength < 4 || (namedBits_RncInterfaceList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "rnc-InterfaceList", "SIZE (4..8)", (namedBits_RncInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "rnc-InterfaceList", "SIZE (4..8)", namedBitObservedLength(namedBits_RncInterfaceList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8491,19 +8498,19 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscstracedepth...)
 	}
 	if v.MscSInterfaceList != nil {
-		namedBits_MscSInterfaceList, namedBitErr_namedBits_MscSInterfaceList := ber.NormalizeNamedBitStringForEncoding(*v.MscSInterfaceList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}})
-		if namedBitErr_namedBits_MscSInterfaceList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MscSInterfaceList, "msc-s-InterfaceList", "encoding", true)
+		namedBits_MscSInterfaceList, namedBitErr_ := normalizeNamedBits(*v.MscSInterfaceList, []ber.NamedBitSizeSet{{{Min: 10, Max: 16}}}, nil, "msc-s-InterfaceList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MscSInterfaceList.Bytes, namedBits_MscSInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-InterfaceList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MscSInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MscSInterfaceList).BitLength < 10 || (namedBits_MscSInterfaceList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "msc-s-InterfaceList", "SIZE (10..16)", (namedBits_MscSInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "msc-s-InterfaceList", "SIZE (10..16)", namedBitObservedLength(namedBits_MscSInterfaceList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8519,19 +8526,19 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mscsinterfacelist...)
 	}
 	if v.MscSEventList != nil {
-		namedBits_MscSEventList, namedBitErr_namedBits_MscSEventList := ber.NormalizeNamedBitStringForEncoding(*v.MscSEventList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}})
-		if namedBitErr_namedBits_MscSEventList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MscSEventList, "msc-s-EventList", "encoding", true)
+		namedBits_MscSEventList, namedBitErr_ := normalizeNamedBits(*v.MscSEventList, []ber.NamedBitSizeSet{{{Min: 5, Max: 16}}}, nil, "msc-s-EventList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MscSEventList.Bytes, namedBits_MscSEventList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "msc-s-EventList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MscSEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MscSEventList).BitLength < 5 || (namedBits_MscSEventList).BitLength > 16 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "msc-s-EventList", "SIZE (5..16)", (namedBits_MscSEventList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "msc-s-EventList", "SIZE (5..16)", namedBitObservedLength(namedBits_MscSEventList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8556,19 +8563,19 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwtracedepth...)
 	}
 	if v.MgwInterfaceList != nil {
-		namedBits_MgwInterfaceList, namedBitErr_namedBits_MgwInterfaceList := ber.NormalizeNamedBitStringForEncoding(*v.MgwInterfaceList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}})
-		if namedBitErr_namedBits_MgwInterfaceList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MgwInterfaceList, "mgw-InterfaceList", "encoding", true)
+		namedBits_MgwInterfaceList, namedBitErr_ := normalizeNamedBits(*v.MgwInterfaceList, []ber.NamedBitSizeSet{{{Min: 3, Max: 8}}}, nil, "mgw-InterfaceList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MgwInterfaceList.Bytes, namedBits_MgwInterfaceList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-InterfaceList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MgwInterfaceList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MgwInterfaceList).BitLength < 3 || (namedBits_MgwInterfaceList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "mgw-InterfaceList", "SIZE (3..8)", (namedBits_MgwInterfaceList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "mgw-InterfaceList", "SIZE (3..8)", namedBitObservedLength(namedBits_MgwInterfaceList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8584,19 +8591,19 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 		children = append(children, enc_mgwinterfacelist...)
 	}
 	if v.MgwEventList != nil {
-		namedBits_MgwEventList, namedBitErr_namedBits_MgwEventList := ber.NormalizeNamedBitStringForEncoding(*v.MgwEventList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}})
-		if namedBitErr_namedBits_MgwEventList != nil {
-			return nil, qualifyBERError(namedBitErr_namedBits_MgwEventList, "mgw-EventList", "encoding", true)
+		namedBits_MgwEventList, namedBitErr_ := normalizeNamedBits(*v.MgwEventList, []ber.NamedBitSizeSet{{{Min: 1, Max: 8}}}, nil, "mgw-EventList", sf38eb6_12)
+		if namedBitErr_ != nil {
+			return nil, namedBitErr_
 		}
 		if bitStringErr := ber.ValidateBitStringLength(namedBits_MgwEventList.Bytes, namedBits_MgwEventList.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mgw-EventList", "encoding", true)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:750
 		if namedBits_MgwEventList.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
 		if (namedBits_MgwEventList).BitLength < 1 || (namedBits_MgwEventList).BitLength > 8 {
-			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "mgw-EventList", "SIZE (1..8)", (namedBits_MgwEventList).BitLength); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sf38eb6_12, "51.5", "mgw-EventList", "SIZE (1..8)", namedBitObservedLength(namedBits_MgwEventList)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8640,7 +8647,7 @@ func (v *TracePropagationList) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_12, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9277,9 +9284,10 @@ func (v *ActivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		enc_tracesupportindicator = retagged_enc_tracesupportindicator
 		children = append(children, enc_tracesupportindicator...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_13, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9338,7 +9346,7 @@ func (v *ActivateTraceModeRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_13, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9577,9 +9585,10 @@ func (v *DeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		enc_tracereference2 = retagged_enc_tracereference2
 		children = append(children, enc_tracereference2...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_14, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9678,7 +9687,7 @@ func (v *DeactivateTraceModeArg) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_14, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9946,9 +9955,10 @@ func (v *DeactivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_extensioncontainer)
 		children = append(children, enc_extensioncontainer...)
 	}
+	base_ := -1
 	for i, ext := range v.ExtData_ {
-		if err := ber.CheckBEROpaqueElement(ext, opts...); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+		if err := checkOpaqueAddition(ext, opts, sf38eb6_15, children, i, &base_); err != nil {
+			return nil, opaqueExtensionError(err, i)
 		}
 		peekTag, n, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {
@@ -9998,7 +10008,7 @@ func (v *DeactivateTraceModeRes) MarshalDER() ([]byte, error) {
 	}
 	for i, ext := range v.ExtData_ {
 		if err := ber.ValidateDEREncodedElement(ext); err != nil {
-			return nil, fmt.Errorf("encoding extension %d: %w", i, err)
+			return nil, invalidDERAddition(ext, sf38eb6_15, children, i)
 		}
 		peekTag, _, _, extErr := ber.DecodeEncodedTLV(ext)
 		if extErr != nil {

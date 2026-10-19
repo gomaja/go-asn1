@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/encoder.go; SHA-256 1a703f451b920e3321c3191653129925d30c02672059c6f0501f26789f47151d.
+// Runtime source: runtime/ber/encoder.go; SHA-256 2f99484545a6cbcc50d8fc8d098f9ac067f94ac90f0532eeedac49632326e667.
 package ber
 
 import (
@@ -407,7 +407,7 @@ func decimalRealCapacity(mantissa, exponent int) (int, error) {
 
 // EncodeUTF8String encodes a UTF8String.
 func EncodeUTF8String(v string) ([]byte, error) {
-	return EncodeTLV(tag.Tag{Class: tag.ClassUniversal, Number: tag.TagUTF8String}, []byte(v))
+	return EncodeStringTagChecked(tag.TagUTF8String, v)
 }
 
 // EncodeIA5String encodes an IA5String.
@@ -445,9 +445,19 @@ func EncodeStringValueTagChecked(tagNum int, v string) ([]byte, error) {
 
 func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 	switch tagNum {
+	case tag.TagUTF8String:
+		// X.690 (02/2021) §8.23.10 requires shortest-form UTF-8.
+		if !utf8.ValidString(v) {
+			return nil, &ValidationError{Violation: Violation{
+				Rule:          RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.23.10"},
+				Constraint:    "UTF8String shortest-form UTF-8 scalar text (X.690 (02/2021) §8.23.10)",
+				ObservedValue: "invalid UTF-8",
+			}}
+		}
+		return []byte(v), nil
 	case tag.TagBMPString:
 		if !utf8.ValidString(v) {
-			return nil, fmt.Errorf("BMPString contains invalid UTF-8")
+			return nil, fmt.Errorf("%w: BMPString contains invalid UTF-8", ErrInvalidValue)
 		}
 		capacity, err := fixedWidthStringCapacity(utf8.RuneCountInString(v), 2)
 		if err != nil {
@@ -463,7 +473,7 @@ func encodeStringValueTag(tagNum int, v string) ([]byte, error) {
 		return value, nil
 	case tag.TagUniversalString:
 		if !utf8.ValidString(v) {
-			return nil, fmt.Errorf("UniversalString contains invalid UTF-8")
+			return nil, fmt.Errorf("%w: UniversalString contains invalid UTF-8", ErrInvalidValue)
 		}
 		capacity, err := fixedWidthStringCapacity(utf8.RuneCountInString(v), 4)
 		if err != nil {
