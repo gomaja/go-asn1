@@ -1105,27 +1105,12 @@ func NewOperationsRejectProblemReturnError(v ReturnErrorProblem) OperationsRejec
 
 // MarshalBER encodes ROS to BER format.
 func (v *ROS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROS).MarshalBER, (*ROS).marshalBER, true)
+
 }
 func (v *ROS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -1317,35 +1302,24 @@ func (destination *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 	if destination == nil {
 		return fmt.Errorf("%w: ROS destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ ROS
-	v := &berNextValue_
-	defer func() {
-		if returnErr == nil {
-			*destination = *v
-		}
-	}()
+	v := new(ROS)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROS, replayOpts ...ber.EncodeOption) ([]byte, error) { return base.MarshalBER(replayOpts...) })
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.ROS", "child", (*ROS).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error { var probe ROS; return probe.UnmarshalBER(data, probeOpts...) })
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ROS", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*ROS).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROS{}
 	if len(data) == 0 {
@@ -1456,27 +1430,12 @@ func (destination *ROS) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (ret
 
 // MarshalBER encodes Invoke to BER format.
 func (v *Invoke) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Invoke).MarshalBER, (*Invoke).marshalBER, true)
+
 }
 func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1591,42 +1550,25 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if destination == nil {
 		return fmt.Errorf("%w: Invoke destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ Invoke
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(Invoke)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.Invoke", "child", (*Invoke).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe Invoke
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Invoke", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Invoke{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*Invoke).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *Invoke, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1755,27 +1697,12 @@ func (destination *Invoke) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 
 // MarshalBER encodes ReturnResult to BER format.
 func (v *ReturnResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ReturnResult).MarshalBER, (*ReturnResult).marshalBER, true)
+
 }
 func (v *ReturnResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1850,42 +1777,25 @@ func (destination *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if destination == nil {
 		return fmt.Errorf("%w: ReturnResult destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ ReturnResult
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(ReturnResult)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.ReturnResult", "child", (*ReturnResult).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ReturnResult
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ReturnResult", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ReturnResult{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*ReturnResult).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ReturnResult, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1957,27 +1867,12 @@ func (destination *ReturnResult) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 // MarshalBER encodes ReturnError to BER format.
 func (v *ReturnError) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ReturnError).MarshalBER, (*ReturnError).marshalBER, true)
+
 }
 func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2071,42 +1966,25 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if destination == nil {
 		return fmt.Errorf("%w: ReturnError destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ ReturnError
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(ReturnError)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.ReturnError", "child", (*ReturnError).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ReturnError
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ReturnError", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ReturnError{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*ReturnError).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ReturnError, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2196,27 +2074,12 @@ func (destination *ReturnError) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 // MarshalBER encodes Reject to BER format.
 func (v *Reject) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Reject).MarshalBER, (*Reject).marshalBER, true)
+
 }
 func (v *Reject) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2287,42 +2150,25 @@ func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if destination == nil {
 		return fmt.Errorf("%w: Reject destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ Reject
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(Reject)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.Reject", "child", (*Reject).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe Reject
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Reject", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Reject{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*Reject).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *Reject, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2388,29 +2234,474 @@ func (destination *Reject) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	return nil
 }
 
+// MarshalBERGeneralProblem encodes a typed standalone GeneralProblem, preserving unchanged received BER.
+func MarshalBERGeneralProblem(value *BERValue[GeneralProblem], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required GeneralProblem is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERGeneralProblem, marshalBERGeneralProblem, false)
+
+}
+func marshalBERGeneralProblem(value *BERValue[GeneralProblem], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value GeneralProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding GeneralProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERGeneralProblem encodes a typed standalone GeneralProblem using DER.
+func MarshalDERGeneralProblem(value *BERValue[GeneralProblem]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required GeneralProblem is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value GeneralProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding GeneralProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERGeneralProblem decodes one complete typed standalone GeneralProblem from BER/DER.
+func UnmarshalBERGeneralProblem(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[GeneralProblem], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.GeneralProblem", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERGeneralProblem(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value GeneralProblem }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "GeneralProblem", content[offset:])
+		val_value, n, err := ber.DecodeBigInt(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding GeneralProblem", qualifyBERError(err, "", "decoding", false))
+		}
+		var named_value GeneralProblem
+		if namedErr := named_value.UnmarshalText([]byte(val_value.String())); namedErr != nil {
+			return fmt.Errorf("%s: %w", "decoding GeneralProblem", qualifyBERError(namedErr, "", "decoding", false))
+		}
+		v.Value = named_value
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[GeneralProblem]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERGeneralProblem); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
+}
+
+// MarshalBERInvokeProblem encodes a typed standalone InvokeProblem, preserving unchanged received BER.
+func MarshalBERInvokeProblem(value *BERValue[InvokeProblem], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required InvokeProblem is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERInvokeProblem, marshalBERInvokeProblem, false)
+
+}
+func marshalBERInvokeProblem(value *BERValue[InvokeProblem], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value InvokeProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding InvokeProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERInvokeProblem encodes a typed standalone InvokeProblem using DER.
+func MarshalDERInvokeProblem(value *BERValue[InvokeProblem]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required InvokeProblem is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value InvokeProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding InvokeProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERInvokeProblem decodes one complete typed standalone InvokeProblem from BER/DER.
+func UnmarshalBERInvokeProblem(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[InvokeProblem], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.InvokeProblem", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERInvokeProblem(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value InvokeProblem }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "InvokeProblem", content[offset:])
+		val_value, n, err := ber.DecodeBigInt(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding InvokeProblem", qualifyBERError(err, "", "decoding", false))
+		}
+		var named_value InvokeProblem
+		if namedErr := named_value.UnmarshalText([]byte(val_value.String())); namedErr != nil {
+			return fmt.Errorf("%s: %w", "decoding InvokeProblem", qualifyBERError(namedErr, "", "decoding", false))
+		}
+		v.Value = named_value
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[InvokeProblem]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERInvokeProblem); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
+}
+
+// MarshalBERReturnResultProblem encodes a typed standalone ReturnResultProblem, preserving unchanged received BER.
+func MarshalBERReturnResultProblem(value *BERValue[ReturnResultProblem], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required ReturnResultProblem is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERReturnResultProblem, marshalBERReturnResultProblem, false)
+
+}
+func marshalBERReturnResultProblem(value *BERValue[ReturnResultProblem], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value ReturnResultProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding ReturnResultProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERReturnResultProblem encodes a typed standalone ReturnResultProblem using DER.
+func MarshalDERReturnResultProblem(value *BERValue[ReturnResultProblem]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required ReturnResultProblem is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value ReturnResultProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding ReturnResultProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERReturnResultProblem decodes one complete typed standalone ReturnResultProblem from BER/DER.
+func UnmarshalBERReturnResultProblem(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[ReturnResultProblem], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.ReturnResultProblem", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERReturnResultProblem(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value ReturnResultProblem }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "ReturnResultProblem", content[offset:])
+		val_value, n, err := ber.DecodeBigInt(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding ReturnResultProblem", qualifyBERError(err, "", "decoding", false))
+		}
+		var named_value ReturnResultProblem
+		if namedErr := named_value.UnmarshalText([]byte(val_value.String())); namedErr != nil {
+			return fmt.Errorf("%s: %w", "decoding ReturnResultProblem", qualifyBERError(namedErr, "", "decoding", false))
+		}
+		v.Value = named_value
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[ReturnResultProblem]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERReturnResultProblem); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
+}
+
+// MarshalBERReturnErrorProblem encodes a typed standalone ReturnErrorProblem, preserving unchanged received BER.
+func MarshalBERReturnErrorProblem(value *BERValue[ReturnErrorProblem], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required ReturnErrorProblem is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERReturnErrorProblem, marshalBERReturnErrorProblem, false)
+
+}
+func marshalBERReturnErrorProblem(value *BERValue[ReturnErrorProblem], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value ReturnErrorProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding ReturnErrorProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERReturnErrorProblem encodes a typed standalone ReturnErrorProblem using DER.
+func MarshalDERReturnErrorProblem(value *BERValue[ReturnErrorProblem]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required ReturnErrorProblem is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value ReturnErrorProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding ReturnErrorProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERReturnErrorProblem decodes one complete typed standalone ReturnErrorProblem from BER/DER.
+func UnmarshalBERReturnErrorProblem(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[ReturnErrorProblem], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.ReturnErrorProblem", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERReturnErrorProblem(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value ReturnErrorProblem }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "ReturnErrorProblem", content[offset:])
+		val_value, n, err := ber.DecodeBigInt(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding ReturnErrorProblem", qualifyBERError(err, "", "decoding", false))
+		}
+		var named_value ReturnErrorProblem
+		if namedErr := named_value.UnmarshalText([]byte(val_value.String())); namedErr != nil {
+			return fmt.Errorf("%s: %w", "decoding ReturnErrorProblem", qualifyBERError(namedErr, "", "decoding", false))
+		}
+		v.Value = named_value
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[ReturnErrorProblem]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERReturnErrorProblem); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
+}
+
+// MarshalBERRejectProblem encodes a typed standalone RejectProblem, preserving unchanged received BER.
+func MarshalBERRejectProblem(value *BERValue[RejectProblem], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required RejectProblem is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERRejectProblem, marshalBERRejectProblem, false)
+
+}
+func marshalBERRejectProblem(value *BERValue[RejectProblem], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value RejectProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding RejectProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERRejectProblem encodes a typed standalone RejectProblem using DER.
+func MarshalDERRejectProblem(value *BERValue[RejectProblem]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required RejectProblem is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value RejectProblem }{Value: value.Value}
+	_ = v
+	var children []byte
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt((v.Value).BigInt())
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding RejectProblem", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERRejectProblem decodes one complete typed standalone RejectProblem from BER/DER.
+func UnmarshalBERRejectProblem(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[RejectProblem], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.RejectProblem", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERRejectProblem(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value RejectProblem }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "RejectProblem", content[offset:])
+		val_value, n, err := ber.DecodeBigInt(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding RejectProblem", qualifyBERError(err, "", "decoding", false))
+		}
+		var named_value RejectProblem
+		if namedErr := named_value.UnmarshalText([]byte(val_value.String())); namedErr != nil {
+			return fmt.Errorf("%s: %w", "decoding RejectProblem", qualifyBERError(namedErr, "", "decoding", false))
+		}
+		v.Value = named_value
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[RejectProblem]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERRejectProblem); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
+}
+
 // MarshalBER encodes InvokeId to BER format.
 func (v *InvokeId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeId receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*InvokeId).MarshalBER, (*InvokeId).marshalBER, true)
+
 }
 func (v *InvokeId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -2478,41 +2769,24 @@ func (destination *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if destination == nil {
 		return fmt.Errorf("%w: InvokeId destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ InvokeId
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(InvokeId)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *InvokeId, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.InvokeId", "child", (*InvokeId).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe InvokeId
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.InvokeId", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*InvokeId).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = InvokeId{}
 	if len(data) == 0 {
@@ -2561,27 +2835,12 @@ func (destination *InvokeId) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 // MarshalBER encodes Bind to BER format.
 func (v *Bind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Bind receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Bind).MarshalBER, (*Bind).marshalBER, true)
+
 }
 func (v *Bind) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -2699,41 +2958,24 @@ func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if destination == nil {
 		return fmt.Errorf("%w: Bind destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ Bind
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(Bind)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *Bind, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.Bind", "child", (*Bind).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe Bind
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Bind", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*Bind).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Bind{}
 	if len(data) == 0 {
@@ -2779,27 +3021,12 @@ func (destination *Bind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 
 // MarshalBER encodes Unbind to BER format.
 func (v *Unbind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Unbind receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Unbind).MarshalBER, (*Unbind).marshalBER, true)
+
 }
 func (v *Unbind) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -2917,41 +3144,24 @@ func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 	if destination == nil {
 		return fmt.Errorf("%w: Unbind destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ Unbind
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(Unbind)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *Unbind, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.Unbind", "child", (*Unbind).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe Unbind
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Unbind", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*Unbind).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Unbind{}
 	if len(data) == 0 {
@@ -2997,27 +3207,12 @@ func (destination *Unbind) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (
 
 // MarshalBER encodes ROSInvokeLinkedId to BER format.
 func (v *ROSInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSInvokeLinkedId).MarshalBER, (*ROSInvokeLinkedId).marshalBER, true)
+
 }
 func (v *ROSInvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -3095,42 +3290,24 @@ func (destination *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 	if destination == nil {
 		return fmt.Errorf("%w: ROSInvokeLinkedId destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ ROSInvokeLinkedId
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination =
-				*v
-		}
-	}()
+	v := new(ROSInvokeLinkedId)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSInvokeLinkedId, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.ROS-invoke-linkedId", "child", (*ROSInvokeLinkedId).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSInvokeLinkedId
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ROS-invoke-linkedId", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*ROSInvokeLinkedId).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSInvokeLinkedId{}
 	if len(data) == 0 {
@@ -3189,27 +3366,12 @@ func (destination *ROSInvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.Deco
 
 // MarshalBER encodes ROSReturnResultResult to BER format.
 func (v *ROSReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSReturnResultResult).MarshalBER, (*ROSReturnResultResult).marshalBER, true)
+
 }
 func (v *ROSReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3288,42 +3450,25 @@ func (destination *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 	if destination == nil {
 		return fmt.Errorf("%w: ROSReturnResultResult destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ ROSReturnResultResult
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(ROSReturnResultResult)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.ROS-returnResult-result", "child", (*ROSReturnResultResult).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ROSReturnResultResult
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ROS-returnResult-result", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ROSReturnResultResult{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*ROSReturnResultResult).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ROSReturnResultResult, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -3389,27 +3534,12 @@ func (destination *ROSReturnResultResult) UnmarshalBER(data []byte, opts ...ber.
 
 // MarshalBER encodes InvokeLinkedId to BER format.
 func (v *InvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*InvokeLinkedId).MarshalBER, (*InvokeLinkedId).marshalBER, true)
+
 }
 func (v *InvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -3487,41 +3617,24 @@ func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if destination == nil {
 		return fmt.Errorf("%w: InvokeLinkedId destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ InvokeLinkedId
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(InvokeLinkedId)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *InvokeLinkedId, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.Invoke-linkedId", "child", (*InvokeLinkedId).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe InvokeLinkedId
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Invoke-linkedId", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*InvokeLinkedId).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = InvokeLinkedId{}
 	if len(data) == 0 {
@@ -3580,27 +3693,12 @@ func (destination *InvokeLinkedId) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 // MarshalBER encodes ReturnResultResult to BER format.
 func (v *ReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ReturnResultResult).MarshalBER, (*ReturnResultResult).marshalBER, true)
+
 }
 func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3679,43 +3777,25 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 	if destination == nil {
 		return fmt.Errorf("%w: ReturnResultResult destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ ReturnResultResult
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(ReturnResultResult)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.ReturnResult-result", "child", (*ReturnResultResult).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ReturnResultResult
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.ReturnResult-result", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ReturnResultResult{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*ReturnResultResult).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ReturnResultResult, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -3781,27 +3861,12 @@ func (destination *ReturnResultResult) UnmarshalBER(data []byte, opts ...ber.Dec
 
 // MarshalBER encodes OperationsRejectProblem to BER format.
 func (v *OperationsRejectProblem) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: OperationsRejectProblem receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*OperationsRejectProblem).MarshalBER, (*OperationsRejectProblem).marshalBER, true)
+
 }
 func (v *OperationsRejectProblem) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -3917,41 +3982,24 @@ func (destination *OperationsRejectProblem) UnmarshalBER(data []byte, opts ...be
 	if destination == nil {
 		return fmt.Errorf("%w: OperationsRejectProblem destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ OperationsRejectProblem
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(OperationsRejectProblem)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *OperationsRejectProblem, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Generic-ROS-PDUs.Reject-problem", "child", (*OperationsRejectProblem).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe OperationsRejectProblem
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Generic-ROS-PDUs.Reject-problem", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*OperationsRejectProblem).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = OperationsRejectProblem{}
 	if len(data) == 0 {

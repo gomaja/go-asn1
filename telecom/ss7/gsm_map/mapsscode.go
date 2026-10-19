@@ -241,26 +241,12 @@ type SSCode = []byte
 
 // MarshalBERSSCode encodes a typed standalone SSCode, preserving unchanged received BER.
 func MarshalBERSSCode(value *BERValue[SSCode], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if value == nil {
 		return nil, fmt.Errorf("%w: required SSCode is nil", ber.ErrInvalidValue)
 	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(value.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
-		return MarshalBERSSCode(value, []ber.EncodeOption{mode}...)
-	}, value)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(value.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := marshalBERSSCode(value, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, value.berReplayNode_, opts), nil
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERSSCode, marshalBERSSCode, false)
+
 }
 func marshalBERSSCode(value *BERValue[SSCode], opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -270,7 +256,7 @@ func marshalBERSSCode(value *BERValue[SSCode], opts ...ber.EncodeOption) ([]byte
 	_ = v
 	var children []byte
 	if len(v.Value) < 1 || len(v.Value) > 1 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SS-Code.marshalBERSSCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, "MAP-SS-Code.marshalBERSSCode", "51.5", "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -291,7 +277,7 @@ func MarshalDERSSCode(value *BERValue[SSCode]) ([]byte, error) {
 	_ = v
 	var children []byte
 	if len(v.Value) < 1 || len(v.Value) > 1 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SS-Code.SS-Code", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, "MAP-SS-Code.SS-Code", "51.5", "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -307,21 +293,17 @@ func MarshalDERSSCode(value *BERValue[SSCode]) ([]byte, error) {
 func UnmarshalBERSSCode(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[SSCode], returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return nil, ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "MAP-SS-Code.SS-Code", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERSSCode(data, probeOpts...)
+		return probeErr
+	})
 	if prepareErr != nil {
-		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			_, probeErr := UnmarshalBERSSCode(data, probeOpts...)
-			return probeErr
-		})
+		return nil, prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SS-Code.SS-Code", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	v := &struct{ Value SSCode }{}
 	decode := func() error {
@@ -339,7 +321,7 @@ func UnmarshalBERSSCode(data []byte, opts ...ber.DecodeOption) (returnValue *BER
 
 		offset += n
 		if len(v.Value) < 1 || len(v.Value) > 1 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SS-Code.SS-Code", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, "MAP-SS-Code.SS-Code", "51.5", "SS-Code", "SIZE (1)", len(v.Value)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -352,13 +334,10 @@ func UnmarshalBERSSCode(data []byte, opts ...ber.DecodeOption) (returnValue *BER
 		return nil, err
 	}
 	decoded := &BERValue[SSCode]{Value: v.Value}
-	if ber.BERNeedsPreservation(opts) {
-		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *BERValue[SSCode], replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return MarshalBERSSCode(base, replayOpts...)
-		}); replayErr != nil {
-			return nil, replayErr
-		}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERSSCode); replayErr != nil {
+		return nil, replayErr
 	}
+
 	return decoded, nil
 }

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/named_bit_size.go; SHA-256 59a54170b1eb059f8dd824fe62c4c8db749603dd3a09e43c090a310085c18aaf.
+// Runtime source: runtime/ber/named_bit_size.go; SHA-256 3a0ac086c1beea2d33677abf401645f4bf98aef1ac87fade5f71e429889fb02c.
 package ber
 
 import (
@@ -20,7 +20,7 @@ type NamedBitSizeSet []NamedBitSizeRange
 // A failed intersection leaves the value for the generated constraint checks.
 // ITU-T X.680 (02/2021) §22.7; X.690 (02/2021) §§8.6.2.4, 11.2.2 NOTE 1.
 func NormalizeNamedBitStringSize(value runtime.BitString, sets []NamedBitSizeSet, options ...DecodeOption) runtime.BitString {
-	if value.BitLength < 0 || len(sets) == 0 {
+	if value.BitLength < 0 {
 		return value
 	}
 	// Leave malformed shapes to the generated structural checks. Unused

@@ -561,27 +561,12 @@ type SMAdditionalDispatcherList struct {
 
 // MarshalBER encodes SMRoutingInfoForSMArg to BER format.
 func (v *SMRoutingInfoForSMArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMRoutingInfoForSMArg receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMRoutingInfoForSMArg).MarshalBER, (*SMRoutingInfoForSMArg).marshalBER, true)
+
 }
 func (v *SMRoutingInfoForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -589,12 +574,12 @@ func (v *SMRoutingInfoForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_0, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_0, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -621,7 +606,7 @@ func (v *SMRoutingInfoForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	enc_smrppri = retagged_enc_smrppri
 	children = append(children, enc_smrppri...)
 	if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_0, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -659,7 +644,7 @@ func (v *SMRoutingInfoForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	if v.SmRPMTI != nil {
 		if !(int64(*v.SmRPMTI) >= 0 && int64(*v.SmRPMTI) <= 10) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "sm-RP-MTI", "(0..10)", ber.ObserveInteger(int64(*v.SmRPMTI))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_0, "51.4", "sm-RP-MTI", "(0..10)", ber.ObserveInteger(int64(*v.SmRPMTI))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -673,7 +658,7 @@ func (v *SMRoutingInfoForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	if v.SmRPSMEA != nil {
 		if len(*v.SmRPSMEA) < 1 || len(*v.SmRPSMEA) > 12 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-SMEA", "SIZE (1..12)", len(*v.SmRPSMEA)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_0, "51.5", "sm-RP-SMEA", "SIZE (1..12)", len(*v.SmRPSMEA)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -708,7 +693,7 @@ func (v *SMRoutingInfoForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_0, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -776,7 +761,7 @@ func (v *SMRoutingInfoForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -802,12 +787,12 @@ func (v *SMRoutingInfoForSMArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_0, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_0, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -829,7 +814,7 @@ func (v *SMRoutingInfoForSMArg) MarshalDER() ([]byte, error) {
 	enc_smrppri = retagged_enc_smrppri
 	children = append(children, enc_smrppri...)
 	if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_0, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -866,7 +851,7 @@ func (v *SMRoutingInfoForSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmRPMTI != nil {
 		if !(int64(*v.SmRPMTI) >= 0 && int64(*v.SmRPMTI) <= 10) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "sm-RP-MTI", "(0..10)", ber.ObserveInteger(int64(*v.SmRPMTI))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_0, "51.4", "sm-RP-MTI", "(0..10)", ber.ObserveInteger(int64(*v.SmRPMTI))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -880,7 +865,7 @@ func (v *SMRoutingInfoForSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmRPSMEA != nil {
 		if len(*v.SmRPSMEA) < 1 || len(*v.SmRPSMEA) > 12 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-SMEA", "SIZE (1..12)", len(*v.SmRPSMEA)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_0, "51.5", "sm-RP-SMEA", "SIZE (1..12)", len(*v.SmRPSMEA)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -915,7 +900,7 @@ func (v *SMRoutingInfoForSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_0, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -979,7 +964,7 @@ func (v *SMRoutingInfoForSMArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1008,43 +993,26 @@ func (destination *SMRoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.
 	if destination == nil {
 		return fmt.Errorf("%w: SMRoutingInfoForSMArg destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMRoutingInfoForSMArg
-	v := &berNextValue_
+	v := new(SMRoutingInfoForSMArg)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_0, "child", (*SMRoutingInfoForSMArg).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMRoutingInfoForSMArg
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMRoutingInfoForSMArg{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMRoutingInfoForSMArg).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMRoutingInfoForSMArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1083,12 +1051,12 @@ func (destination *SMRoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.
 
 		offset += n_msisdn
 		if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_0, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_0, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1160,7 +1128,7 @@ func (destination *SMRoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.
 
 		offset += n_servicecentreaddress
 		if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_0, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1257,7 +1225,7 @@ func (destination *SMRoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n_smrpmti
 				if !(int64(*v.SmRPMTI) >= 0 && int64(*v.SmRPMTI) <= 10) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "sm-RP-MTI", "(0..10)", ber.ObserveInteger(int64(*v.SmRPMTI))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_0, "51.4", "sm-RP-MTI", "(0..10)", ber.ObserveInteger(int64(*v.SmRPMTI))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1290,7 +1258,7 @@ func (destination *SMRoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n_smrpsmea
 				if len(*v.SmRPSMEA) < 1 || len(*v.SmRPSMEA) > 12 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-SMEA", "SIZE (1..12)", len(*v.SmRPSMEA)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_0, "51.5", "sm-RP-SMEA", "SIZE (1..12)", len(*v.SmRPSMEA)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1379,7 +1347,7 @@ func (destination *SMRoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_0, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1517,7 +1485,7 @@ func (destination *SMRoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMRoutingInfoForSMArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1541,27 +1509,12 @@ func (destination *SMRoutingInfoForSMArg) UnmarshalBER(data []byte, opts ...ber.
 
 // MarshalBER encodes SMRoutingInfoForSMRes to BER format.
 func (v *SMRoutingInfoForSMRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMRoutingInfoForSMRes receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMRoutingInfoForSMRes).MarshalBER, (*SMRoutingInfoForSMRes).marshalBER, true)
+
 }
 func (v *SMRoutingInfoForSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1569,7 +1522,7 @@ func (v *SMRoutingInfoForSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_1, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1628,7 +1581,7 @@ func (v *SMRoutingInfoForSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1654,7 +1607,7 @@ func (v *SMRoutingInfoForSMRes) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.RoutingInfoForSM-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_1, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1707,7 +1660,7 @@ func (v *SMRoutingInfoForSMRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.RoutingInfoForSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1736,43 +1689,26 @@ func (destination *SMRoutingInfoForSMRes) UnmarshalBER(data []byte, opts ...ber.
 	if destination == nil {
 		return fmt.Errorf("%w: SMRoutingInfoForSMRes destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMRoutingInfoForSMRes
-	v := &berNextValue_
+	v := new(SMRoutingInfoForSMRes)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_1, "child", (*SMRoutingInfoForSMRes).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMRoutingInfoForSMRes
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.RoutingInfoForSM-Res", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMRoutingInfoForSMRes{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMRoutingInfoForSMRes).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMRoutingInfoForSMRes, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1799,7 +1735,7 @@ func (destination *SMRoutingInfoForSMRes) UnmarshalBER(data []byte, opts ...ber.
 
 		offset += n
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_1, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1933,7 +1869,7 @@ func (destination *SMRoutingInfoForSMRes) UnmarshalBER(data []byte, opts ...ber.
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMRoutingInfoForSMRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.RoutingInfoForSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1957,27 +1893,12 @@ func (destination *SMRoutingInfoForSMRes) UnmarshalBER(data []byte, opts ...ber.
 
 // MarshalBER encodes SMIPSMGWGuidance to BER format.
 func (v *SMIPSMGWGuidance) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMIPSMGWGuidance receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMIPSMGWGuidance).MarshalBER, (*SMIPSMGWGuidance).marshalBER, true)
+
 }
 func (v *SMIPSMGWGuidance) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1985,14 +1906,14 @@ func (v *SMIPSMGWGuidance) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	}
 	var children []byte
 	if !(int64(v.MinimumDeliveryTimeValue) >= 30 && int64(v.MinimumDeliveryTimeValue) <= 600) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.IP-SM-GW-Guidance", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "minimumDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.MinimumDeliveryTimeValue))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, sffc5a6_2, "51.4", "minimumDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.MinimumDeliveryTimeValue))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_minimumdeliverytimevalue := ber.EncodeInteger(int64(v.MinimumDeliveryTimeValue))
 	children = append(children, enc_minimumdeliverytimevalue...)
 	if !(int64(v.RecommendedDeliveryTimeValue) >= 30 && int64(v.RecommendedDeliveryTimeValue) <= 600) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.IP-SM-GW-Guidance", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "recommendedDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.RecommendedDeliveryTimeValue))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, sffc5a6_2, "51.4", "recommendedDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.RecommendedDeliveryTimeValue))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2019,7 +1940,7 @@ func (v *SMIPSMGWGuidance) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.IP-SM-GW-Guidance", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2045,14 +1966,14 @@ func (v *SMIPSMGWGuidance) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if !(int64(v.MinimumDeliveryTimeValue) >= 30 && int64(v.MinimumDeliveryTimeValue) <= 600) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.IP-SM-GW-Guidance", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "minimumDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.MinimumDeliveryTimeValue))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, sffc5a6_2, "51.4", "minimumDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.MinimumDeliveryTimeValue))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_minimumdeliverytimevalue := ber.EncodeInteger(int64(v.MinimumDeliveryTimeValue))
 	children = append(children, enc_minimumdeliverytimevalue...)
 	if !(int64(v.RecommendedDeliveryTimeValue) >= 30 && int64(v.RecommendedDeliveryTimeValue) <= 600) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.IP-SM-GW-Guidance", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "recommendedDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.RecommendedDeliveryTimeValue))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, sffc5a6_2, "51.4", "recommendedDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.RecommendedDeliveryTimeValue))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2075,7 +1996,7 @@ func (v *SMIPSMGWGuidance) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.IP-SM-GW-Guidance", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2104,44 +2025,26 @@ func (destination *SMIPSMGWGuidance) UnmarshalBER(data []byte, opts ...ber.Decod
 	if destination == nil {
 		return fmt.Errorf("%w: SMIPSMGWGuidance destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMIPSMGWGuidance
-	v := &berNextValue_
+	v := new(SMIPSMGWGuidance)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination =
-				*v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_2, "child", (*SMIPSMGWGuidance).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMIPSMGWGuidance
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.IP-SM-GW-Guidance", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMIPSMGWGuidance{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMIPSMGWGuidance).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMIPSMGWGuidance, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2168,7 +2071,7 @@ func (destination *SMIPSMGWGuidance) UnmarshalBER(data []byte, opts ...ber.Decod
 
 		offset += n
 		if !(int64(v.MinimumDeliveryTimeValue) >= 30 && int64(v.MinimumDeliveryTimeValue) <= 600) {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.IP-SM-GW-Guidance", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "minimumDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.MinimumDeliveryTimeValue))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, sffc5a6_2, "51.4", "minimumDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.MinimumDeliveryTimeValue))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2191,7 +2094,7 @@ func (destination *SMIPSMGWGuidance) UnmarshalBER(data []byte, opts ...ber.Decod
 
 		offset += n
 		if !(int64(v.RecommendedDeliveryTimeValue) >= 30 && int64(v.RecommendedDeliveryTimeValue) <= 600) {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.IP-SM-GW-Guidance", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "recommendedDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.RecommendedDeliveryTimeValue))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, sffc5a6_2, "51.4", "recommendedDeliveryTimeValue", "(30..600)", ber.ObserveInteger(int64(v.RecommendedDeliveryTimeValue))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2241,7 +2144,7 @@ func (destination *SMIPSMGWGuidance) UnmarshalBER(data []byte, opts ...ber.Decod
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMIPSMGWGuidance", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.IP-SM-GW-Guidance", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -2265,27 +2168,12 @@ func (destination *SMIPSMGWGuidance) UnmarshalBER(data []byte, opts ...ber.Decod
 
 // MarshalBER encodes SMLocationInfoWithLMSI to BER format.
 func (v *SMLocationInfoWithLMSI) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMLocationInfoWithLMSI receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMLocationInfoWithLMSI).MarshalBER, (*SMLocationInfoWithLMSI).marshalBER, true)
+
 }
 func (v *SMLocationInfoWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2293,12 +2181,12 @@ func (v *SMLocationInfoWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	var children []byte
 	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "networkNode-Number", "SIZE (1..9)", len(v.NetworkNodeNumber)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_3, "51.5", "networkNode-Number", "SIZE (1..9)", len(v.NetworkNodeNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "networkNode-Number", "SIZE (1..20)", len(v.NetworkNodeNumber)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_3, "51.5", "networkNode-Number", "SIZE (1..20)", len(v.NetworkNodeNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2314,7 +2202,7 @@ func (v *SMLocationInfoWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	children = append(children, enc_networknodenumber...)
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_3, "51.5", "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2421,12 +2309,12 @@ func (v *SMLocationInfoWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.Smsf3gppNumber != nil {
 		if len(*v.Smsf3gppNumber) < 1 || len(*v.Smsf3gppNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-3gpp-Number", "SIZE (1..9)", len(*v.Smsf3gppNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_3, "51.5", "smsf-3gpp-Number", "SIZE (1..9)", len(*v.Smsf3gppNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.Smsf3gppNumber) < 1 || len(*v.Smsf3gppNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-3gpp-Number", "SIZE (1..20)", len(*v.Smsf3gppNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_3, "51.5", "smsf-3gpp-Number", "SIZE (1..20)", len(*v.Smsf3gppNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2456,12 +2344,12 @@ func (v *SMLocationInfoWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 	}
 	if v.SmsfNon3gppNumber != nil {
 		if len(*v.SmsfNon3gppNumber) < 1 || len(*v.SmsfNon3gppNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-non-3gpp-Number", "SIZE (1..9)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_3, "51.5", "smsf-non-3gpp-Number", "SIZE (1..9)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.SmsfNon3gppNumber) < 1 || len(*v.SmsfNon3gppNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-non-3gpp-Number", "SIZE (1..20)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_3, "51.5", "smsf-non-3gpp-Number", "SIZE (1..20)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2520,7 +2408,7 @@ func (v *SMLocationInfoWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, e
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2546,12 +2434,12 @@ func (v *SMLocationInfoWithLMSI) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "networkNode-Number", "SIZE (1..9)", len(v.NetworkNodeNumber)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_3, "51.5", "networkNode-Number", "SIZE (1..9)", len(v.NetworkNodeNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "networkNode-Number", "SIZE (1..20)", len(v.NetworkNodeNumber)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_3, "51.5", "networkNode-Number", "SIZE (1..20)", len(v.NetworkNodeNumber)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2567,7 +2455,7 @@ func (v *SMLocationInfoWithLMSI) MarshalDER() ([]byte, error) {
 	children = append(children, enc_networknodenumber...)
 	if v.Lmsi != nil {
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_3, "51.5", "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2668,12 +2556,12 @@ func (v *SMLocationInfoWithLMSI) MarshalDER() ([]byte, error) {
 	}
 	if v.Smsf3gppNumber != nil {
 		if len(*v.Smsf3gppNumber) < 1 || len(*v.Smsf3gppNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-3gpp-Number", "SIZE (1..9)", len(*v.Smsf3gppNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_3, "51.5", "smsf-3gpp-Number", "SIZE (1..9)", len(*v.Smsf3gppNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.Smsf3gppNumber) < 1 || len(*v.Smsf3gppNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-3gpp-Number", "SIZE (1..20)", len(*v.Smsf3gppNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_3, "51.5", "smsf-3gpp-Number", "SIZE (1..20)", len(*v.Smsf3gppNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2702,12 +2590,12 @@ func (v *SMLocationInfoWithLMSI) MarshalDER() ([]byte, error) {
 	}
 	if v.SmsfNon3gppNumber != nil {
 		if len(*v.SmsfNon3gppNumber) < 1 || len(*v.SmsfNon3gppNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-non-3gpp-Number", "SIZE (1..9)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_3, "51.5", "smsf-non-3gpp-Number", "SIZE (1..9)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.SmsfNon3gppNumber) < 1 || len(*v.SmsfNon3gppNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-non-3gpp-Number", "SIZE (1..20)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_3, "51.5", "smsf-non-3gpp-Number", "SIZE (1..20)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2762,7 +2650,7 @@ func (v *SMLocationInfoWithLMSI) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2791,43 +2679,26 @@ func (destination *SMLocationInfoWithLMSI) UnmarshalBER(data []byte, opts ...ber
 	if destination == nil {
 		return fmt.Errorf("%w: SMLocationInfoWithLMSI destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMLocationInfoWithLMSI
-	v := &berNextValue_
+	v := new(SMLocationInfoWithLMSI)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_3, "child", (*SMLocationInfoWithLMSI).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMLocationInfoWithLMSI
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.LocationInfoWithLMSI", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMLocationInfoWithLMSI{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMLocationInfoWithLMSI).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMLocationInfoWithLMSI, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2866,12 +2737,12 @@ func (destination *SMLocationInfoWithLMSI) UnmarshalBER(data []byte, opts ...ber
 
 		offset += n_networknodenumber
 		if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "networkNode-Number", "SIZE (1..9)", len(v.NetworkNodeNumber)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_3, "51.5", "networkNode-Number", "SIZE (1..9)", len(v.NetworkNodeNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.NetworkNodeNumber) < 1 || len(v.NetworkNodeNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "networkNode-Number", "SIZE (1..20)", len(v.NetworkNodeNumber)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_3, "51.5", "networkNode-Number", "SIZE (1..20)", len(v.NetworkNodeNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2895,7 +2766,7 @@ func (destination *SMLocationInfoWithLMSI) UnmarshalBER(data []byte, opts ...ber
 
 				offset += n
 				if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_3, "51.5", "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3205,12 +3076,12 @@ func (destination *SMLocationInfoWithLMSI) UnmarshalBER(data []byte, opts ...ber
 
 				offset += n_smsf3gppnumber
 				if len(*v.Smsf3gppNumber) < 1 || len(*v.Smsf3gppNumber) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-3gpp-Number", "SIZE (1..9)", len(*v.Smsf3gppNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_3, "51.5", "smsf-3gpp-Number", "SIZE (1..9)", len(*v.Smsf3gppNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.Smsf3gppNumber) < 1 || len(*v.Smsf3gppNumber) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-3gpp-Number", "SIZE (1..20)", len(*v.Smsf3gppNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_3, "51.5", "smsf-3gpp-Number", "SIZE (1..20)", len(*v.Smsf3gppNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3283,12 +3154,12 @@ func (destination *SMLocationInfoWithLMSI) UnmarshalBER(data []byte, opts ...ber
 
 				offset += n_smsfnon3gppnumber
 				if len(*v.SmsfNon3gppNumber) < 1 || len(*v.SmsfNon3gppNumber) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-non-3gpp-Number", "SIZE (1..9)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_3, "51.5", "smsf-non-3gpp-Number", "SIZE (1..9)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.SmsfNon3gppNumber) < 1 || len(*v.SmsfNon3gppNumber) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsf-non-3gpp-Number", "SIZE (1..20)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_3, "51.5", "smsf-non-3gpp-Number", "SIZE (1..20)", len(*v.SmsfNon3gppNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3401,7 +3272,7 @@ func (destination *SMLocationInfoWithLMSI) UnmarshalBER(data []byte, opts ...ber
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMLocationInfoWithLMSI", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.LocationInfoWithLMSI", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -3425,27 +3296,12 @@ func (destination *SMLocationInfoWithLMSI) UnmarshalBER(data []byte, opts ...ber
 
 // MarshalBER encodes SMAdditionalNumber to BER format.
 func (v *SMAdditionalNumber) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMAdditionalNumber receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMAdditionalNumber).MarshalBER, (*SMAdditionalNumber).marshalBER, true)
+
 }
 func (v *SMAdditionalNumber) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -3469,12 +3325,12 @@ func (v *SMAdditionalNumber) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			return nil, qualifyBERError(encodeErr_enc_0, "msc-Number", "encoding", false)
 		}
 		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.Additional-Number", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-Number", "SIZE (1..9)", len(*v.MscNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_4, "51.5", "msc-Number", "SIZE (1..9)", len(*v.MscNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.Additional-Number", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-Number", "SIZE (1..20)", len(*v.MscNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_4, "51.5", "msc-Number", "SIZE (1..20)", len(*v.MscNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3493,12 +3349,12 @@ func (v *SMAdditionalNumber) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			return nil, qualifyBERError(encodeErr_enc_1, "sgsn-Number", "encoding", false)
 		}
 		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.Additional-Number", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-Number", "SIZE (1..9)", len(*v.SgsnNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_4, "51.5", "sgsn-Number", "SIZE (1..9)", len(*v.SgsnNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.Additional-Number", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-Number", "SIZE (1..20)", len(*v.SgsnNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_4, "51.5", "sgsn-Number", "SIZE (1..20)", len(*v.SgsnNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3549,42 +3405,25 @@ func (destination *SMAdditionalNumber) UnmarshalBER(data []byte, opts ...ber.Dec
 	if destination == nil {
 		return fmt.Errorf("%w: SMAdditionalNumber destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMAdditionalNumber
-	v := &berNextValue_
+	v := new(SMAdditionalNumber)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMAdditionalNumber, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_4, "child", (*SMAdditionalNumber).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMAdditionalNumber
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.Additional-Number", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMAdditionalNumber).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMAdditionalNumber{}
 	if len(data) == 0 {
@@ -3619,12 +3458,12 @@ func (destination *SMAdditionalNumber) UnmarshalBER(data []byte, opts ...ber.Dec
 		tmp := v21_map_commondatatypes.CommonDataTypesISDNAddressString(decVal)
 		v.MscNumber = &tmp
 		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.Additional-Number", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-Number", "SIZE (1..9)", len(*v.MscNumber)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_4, "51.5", "msc-Number", "SIZE (1..9)", len(*v.MscNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(*v.MscNumber) < 1 || len(*v.MscNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.Additional-Number", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msc-Number", "SIZE (1..20)", len(*v.MscNumber)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_4, "51.5", "msc-Number", "SIZE (1..20)", len(*v.MscNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3643,12 +3482,12 @@ func (destination *SMAdditionalNumber) UnmarshalBER(data []byte, opts ...ber.Dec
 		tmp := v21_map_commondatatypes.CommonDataTypesISDNAddressString(decVal)
 		v.SgsnNumber = &tmp
 		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.Additional-Number", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-Number", "SIZE (1..9)", len(*v.SgsnNumber)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_4, "51.5", "sgsn-Number", "SIZE (1..9)", len(*v.SgsnNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(*v.SgsnNumber) < 1 || len(*v.SgsnNumber) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.Additional-Number", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sgsn-Number", "SIZE (1..20)", len(*v.SgsnNumber)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_4, "51.5", "sgsn-Number", "SIZE (1..20)", len(*v.SgsnNumber)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3660,27 +3499,12 @@ func (destination *SMAdditionalNumber) UnmarshalBER(data []byte, opts ...ber.Dec
 
 // MarshalBER encodes SMMOForwardSMArg to BER format.
 func (v *SMMOForwardSMArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMMOForwardSMArg receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMMOForwardSMArg).MarshalBER, (*SMMOForwardSMArg).marshalBER, true)
+
 }
 func (v *SMMOForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3700,7 +3524,7 @@ func (v *SMMOForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_smrpoa)
 	children = append(children, enc_smrpoa...)
 	if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_5, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3719,7 +3543,7 @@ func (v *SMMOForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_5, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3744,7 +3568,7 @@ func (v *SMMOForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	}
 	if v.SmDeliveryOutcome != nil {
 		if int64(*v.SmDeliveryOutcome) != 0 && int64(*v.SmDeliveryOutcome) != 1 && int64(*v.SmDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_5, "20", "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3769,7 +3593,7 @@ func (v *SMMOForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_5, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3805,7 +3629,7 @@ func (v *SMMOForwardSMArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_smrpoa...)
 	if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_5, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3823,7 +3647,7 @@ func (v *SMMOForwardSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_5, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3847,7 +3671,7 @@ func (v *SMMOForwardSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmDeliveryOutcome != nil {
 		if int64(*v.SmDeliveryOutcome) != 0 && int64(*v.SmDeliveryOutcome) != 1 && int64(*v.SmDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_5, "20", "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3869,7 +3693,7 @@ func (v *SMMOForwardSMArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_5, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3898,44 +3722,26 @@ func (destination *SMMOForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 	if destination == nil {
 		return fmt.Errorf("%w: SMMOForwardSMArg destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMMOForwardSMArg
-	v := &berNextValue_
+	v := new(SMMOForwardSMArg)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination =
-				*v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_5, "child", (*SMMOForwardSMArg).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMMOForwardSMArg
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.MO-ForwardSM-Arg", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMMOForwardSMArg{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMMOForwardSMArg).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMMOForwardSMArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -4013,7 +3819,7 @@ func (destination *SMMOForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 		offset += n
 		if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_5, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4069,7 +3875,7 @@ func (destination *SMMOForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 				offset += n
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_5, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -4142,7 +3948,7 @@ func (destination *SMMOForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 				offset += n_smdeliveryoutcome
 				if int64(*v.SmDeliveryOutcome) != 0 && int64(*v.SmDeliveryOutcome) != 1 && int64(*v.SmDeliveryOutcome) != 2 {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmDeliveryOutcome))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_5, "20", "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmDeliveryOutcome))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -4162,7 +3968,7 @@ func (destination *SMMOForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMMOForwardSMArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_5, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -4186,27 +3992,12 @@ func (destination *SMMOForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 // MarshalBER encodes SMMOForwardSMRes to BER format.
 func (v *SMMOForwardSMRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMMOForwardSMRes receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMMOForwardSMRes).MarshalBER, (*SMMOForwardSMRes).marshalBER, true)
+
 }
 func (v *SMMOForwardSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -4215,7 +4006,7 @@ func (v *SMMOForwardSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	var children []byte
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_6, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4246,7 +4037,7 @@ func (v *SMMOForwardSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4273,7 +4064,7 @@ func (v *SMMOForwardSMRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MO-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_6, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4300,7 +4091,7 @@ func (v *SMMOForwardSMRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.MO-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4329,44 +4120,26 @@ func (destination *SMMOForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 	if destination == nil {
 		return fmt.Errorf("%w: SMMOForwardSMRes destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMMOForwardSMRes
-	v := &berNextValue_
+	v := new(SMMOForwardSMRes)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination =
-				*v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_6, "child", (*SMMOForwardSMRes).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMMOForwardSMRes
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.MO-ForwardSM-Res", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMMOForwardSMRes{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMMOForwardSMRes).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMMOForwardSMRes, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -4394,7 +4167,7 @@ func (destination *SMMOForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 
 				offset += n
 				if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_6, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -4446,7 +4219,7 @@ func (destination *SMMOForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMMOForwardSMRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.MO-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -4470,27 +4243,12 @@ func (destination *SMMOForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 
 // MarshalBER encodes SMMTForwardSMArg to BER format.
 func (v *SMMTForwardSMArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMMTForwardSMArg receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMMTForwardSMArg).MarshalBER, (*SMMTForwardSMArg).marshalBER, true)
+
 }
 func (v *SMMTForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -4510,7 +4268,7 @@ func (v *SMMTForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_smrpoa)
 	children = append(children, enc_smrpoa...)
 	if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_7, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4533,7 +4291,7 @@ func (v *SMMTForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	}
 	if v.SmDeliveryTimer != nil {
 		if !(int64(*v.SmDeliveryTimer) >= 30 && int64(*v.SmDeliveryTimer) <= 600) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smDeliveryTimer", "(30..600)", ber.ObserveInteger(int64(*v.SmDeliveryTimer))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_7, "51.4", "smDeliveryTimer", "(30..600)", ber.ObserveInteger(int64(*v.SmDeliveryTimer))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4542,7 +4300,7 @@ func (v *SMMTForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	}
 	if v.SmDeliveryStartTime != nil {
 		if len(*v.SmDeliveryStartTime) < 4 || len(*v.SmDeliveryStartTime) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smDeliveryStartTime", "SIZE (4)", len(*v.SmDeliveryStartTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_7, "51.5", "smDeliveryStartTime", "SIZE (4)", len(*v.SmDeliveryStartTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4576,7 +4334,7 @@ func (v *SMMTForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	}
 	if v.MaximumRetransmissionTime != nil {
 		if len(*v.MaximumRetransmissionTime) < 4 || len(*v.MaximumRetransmissionTime) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "maximumRetransmissionTime", "SIZE (4)", len(*v.MaximumRetransmissionTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_7, "51.5", "maximumRetransmissionTime", "SIZE (4)", len(*v.MaximumRetransmissionTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4593,12 +4351,12 @@ func (v *SMMTForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	}
 	if v.SmsGmscAddress != nil {
 		if len(*v.SmsGmscAddress) < 1 || len(*v.SmsGmscAddress) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsGmscAddress", "SIZE (1..9)", len(*v.SmsGmscAddress)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_7, "51.5", "smsGmscAddress", "SIZE (1..9)", len(*v.SmsGmscAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.SmsGmscAddress) < 1 || len(*v.SmsGmscAddress) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsGmscAddress", "SIZE (1..20)", len(*v.SmsGmscAddress)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_7, "51.5", "smsGmscAddress", "SIZE (1..20)", len(*v.SmsGmscAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4639,7 +4397,7 @@ func (v *SMMTForwardSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_7, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4675,7 +4433,7 @@ func (v *SMMTForwardSMArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_smrpoa...)
 	if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_7, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4697,7 +4455,7 @@ func (v *SMMTForwardSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmDeliveryTimer != nil {
 		if !(int64(*v.SmDeliveryTimer) >= 30 && int64(*v.SmDeliveryTimer) <= 600) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smDeliveryTimer", "(30..600)", ber.ObserveInteger(int64(*v.SmDeliveryTimer))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_7, "51.4", "smDeliveryTimer", "(30..600)", ber.ObserveInteger(int64(*v.SmDeliveryTimer))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4706,7 +4464,7 @@ func (v *SMMTForwardSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmDeliveryStartTime != nil {
 		if len(*v.SmDeliveryStartTime) < 4 || len(*v.SmDeliveryStartTime) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smDeliveryStartTime", "SIZE (4)", len(*v.SmDeliveryStartTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_7, "51.5", "smDeliveryStartTime", "SIZE (4)", len(*v.SmDeliveryStartTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4739,7 +4497,7 @@ func (v *SMMTForwardSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.MaximumRetransmissionTime != nil {
 		if len(*v.MaximumRetransmissionTime) < 4 || len(*v.MaximumRetransmissionTime) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "maximumRetransmissionTime", "SIZE (4)", len(*v.MaximumRetransmissionTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_7, "51.5", "maximumRetransmissionTime", "SIZE (4)", len(*v.MaximumRetransmissionTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4756,12 +4514,12 @@ func (v *SMMTForwardSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmsGmscAddress != nil {
 		if len(*v.SmsGmscAddress) < 1 || len(*v.SmsGmscAddress) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsGmscAddress", "SIZE (1..9)", len(*v.SmsGmscAddress)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_7, "51.5", "smsGmscAddress", "SIZE (1..9)", len(*v.SmsGmscAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.SmsGmscAddress) < 1 || len(*v.SmsGmscAddress) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsGmscAddress", "SIZE (1..20)", len(*v.SmsGmscAddress)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_7, "51.5", "smsGmscAddress", "SIZE (1..20)", len(*v.SmsGmscAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4798,7 +4556,7 @@ func (v *SMMTForwardSMArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_7, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4827,44 +4585,26 @@ func (destination *SMMTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 	if destination == nil {
 		return fmt.Errorf("%w: SMMTForwardSMArg destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMMTForwardSMArg
-	v := &berNextValue_
+	v := new(SMMTForwardSMArg)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination =
-				*v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_7, "child", (*SMMTForwardSMArg).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMMTForwardSMArg
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.MT-ForwardSM-Arg", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMMTForwardSMArg{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMMTForwardSMArg).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMMTForwardSMArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -4942,7 +4682,7 @@ func (destination *SMMTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 		offset += n
 		if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_7, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -5018,7 +4758,7 @@ func (destination *SMMTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 				offset += n
 				if !(int64(*v.SmDeliveryTimer) >= 30 && int64(*v.SmDeliveryTimer) <= 600) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smDeliveryTimer", "(30..600)", ber.ObserveInteger(int64(*v.SmDeliveryTimer))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_7, "51.4", "smDeliveryTimer", "(30..600)", ber.ObserveInteger(int64(*v.SmDeliveryTimer))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -5044,7 +4784,7 @@ func (destination *SMMTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 				offset += n
 				if len(*v.SmDeliveryStartTime) < 4 || len(*v.SmDeliveryStartTime) > 4 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smDeliveryStartTime", "SIZE (4)", len(*v.SmDeliveryStartTime)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_7, "51.5", "smDeliveryStartTime", "SIZE (4)", len(*v.SmDeliveryStartTime)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -5144,7 +4884,7 @@ func (destination *SMMTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 				offset += n_maximumretransmissiontime
 				if len(*v.MaximumRetransmissionTime) < 4 || len(*v.MaximumRetransmissionTime) > 4 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "maximumRetransmissionTime", "SIZE (4)", len(*v.MaximumRetransmissionTime)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_7, "51.5", "maximumRetransmissionTime", "SIZE (4)", len(*v.MaximumRetransmissionTime)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -5178,12 +4918,12 @@ func (destination *SMMTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 				offset += n_smsgmscaddress
 				if len(*v.SmsGmscAddress) < 1 || len(*v.SmsGmscAddress) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsGmscAddress", "SIZE (1..9)", len(*v.SmsGmscAddress)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_7, "51.5", "smsGmscAddress", "SIZE (1..9)", len(*v.SmsGmscAddress)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.SmsGmscAddress) < 1 || len(*v.SmsGmscAddress) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "smsGmscAddress", "SIZE (1..20)", len(*v.SmsGmscAddress)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_7, "51.5", "smsGmscAddress", "SIZE (1..20)", len(*v.SmsGmscAddress)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -5242,7 +4982,7 @@ func (destination *SMMTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMMTForwardSMArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_7, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -5266,27 +5006,12 @@ func (destination *SMMTForwardSMArg) UnmarshalBER(data []byte, opts ...ber.Decod
 
 // MarshalBER encodes SMCorrelationID to BER format.
 func (v *SMCorrelationID) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMCorrelationID receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMCorrelationID).MarshalBER, (*SMCorrelationID).marshalBER, true)
+
 }
 func (v *SMCorrelationID) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -5295,7 +5020,7 @@ func (v *SMCorrelationID) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if v.HlrId != nil {
 		if len(*v.HlrId) < 3 || len(*v.HlrId) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.CorrelationID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "hlr-id", "SIZE (3..8)", len(*v.HlrId)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_8, "51.5", "hlr-id", "SIZE (3..8)", len(*v.HlrId)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5353,7 +5078,7 @@ func (v *SMCorrelationID) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.HlrId != nil {
 		if len(*v.HlrId) < 3 || len(*v.HlrId) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.CorrelationID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "hlr-id", "SIZE (3..8)", len(*v.HlrId)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_8, "51.5", "hlr-id", "SIZE (3..8)", len(*v.HlrId)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5413,42 +5138,26 @@ func (destination *SMCorrelationID) UnmarshalBER(data []byte, opts ...ber.Decode
 	if destination == nil {
 		return fmt.Errorf("%w: SMCorrelationID destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMCorrelationID
-	v := &berNextValue_
+	v := new(SMCorrelationID)
 
-	defer func() {
-		if returnErr == nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_8, "child", (*SMCorrelationID).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMCorrelationID
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.CorrelationID", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMCorrelationID{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMCorrelationID).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMCorrelationID, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -5483,7 +5192,7 @@ func (destination *SMCorrelationID) UnmarshalBER(data []byte, opts ...ber.Decode
 
 				offset += n_hlrid
 				if len(*v.HlrId) < 3 || len(*v.HlrId) > 8 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.CorrelationID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "hlr-id", "SIZE (3..8)", len(*v.HlrId)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_8, "51.5", "hlr-id", "SIZE (3..8)", len(*v.HlrId)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -5556,27 +5265,12 @@ func (destination *SMCorrelationID) UnmarshalBER(data []byte, opts ...ber.Decode
 
 // MarshalBER encodes SMMTForwardSMRes to BER format.
 func (v *SMMTForwardSMRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMMTForwardSMRes receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMMTForwardSMRes).MarshalBER, (*SMMTForwardSMRes).marshalBER, true)
+
 }
 func (v *SMMTForwardSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -5585,7 +5279,7 @@ func (v *SMMTForwardSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 	var children []byte
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_9, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5616,7 +5310,7 @@ func (v *SMMTForwardSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_9, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5643,7 +5337,7 @@ func (v *SMMTForwardSMRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_9, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5670,7 +5364,7 @@ func (v *SMMTForwardSMRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_9, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5699,44 +5393,26 @@ func (destination *SMMTForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 	if destination == nil {
 		return fmt.Errorf("%w: SMMTForwardSMRes destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMMTForwardSMRes
-	v := &berNextValue_
+	v := new(SMMTForwardSMRes)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination =
-				*v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_9, "child", (*SMMTForwardSMRes).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMMTForwardSMRes
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.MT-ForwardSM-Res", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMMTForwardSMRes{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMMTForwardSMRes).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMMTForwardSMRes, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -5764,7 +5440,7 @@ func (destination *SMMTForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 
 				offset += n
 				if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_9, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -5816,7 +5492,7 @@ func (destination *SMMTForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMMTForwardSMRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_9, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -5840,27 +5516,12 @@ func (destination *SMMTForwardSMRes) UnmarshalBER(data []byte, opts ...ber.Decod
 
 // MarshalBER encodes SMSMRPDA to BER format.
 func (v *SMSMRPDA) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMSMRPDA receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMSMRPDA).MarshalBER, (*SMSMRPDA).marshalBER, true)
+
 }
 func (v *SMSMRPDA) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -5884,7 +5545,7 @@ func (v *SMSMRPDA) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.SM-RP-DA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_10, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5903,7 +5564,7 @@ func (v *SMSMRPDA) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_1, "lmsi", "encoding", false)
 		}
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.SM-RP-DA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_10, "51.5", "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5922,7 +5583,7 @@ func (v *SMSMRPDA) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_2, "serviceCentreAddressDA", "encoding", false)
 		}
 		if len(*v.ServiceCentreAddressDA) < 1 || len(*v.ServiceCentreAddressDA) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.SM-RP-DA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddressDA", "SIZE (1..20)", len(*v.ServiceCentreAddressDA)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_10, "51.5", "serviceCentreAddressDA", "SIZE (1..20)", len(*v.ServiceCentreAddressDA)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5985,40 +5646,24 @@ func (destination *SMSMRPDA) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if destination == nil {
 		return fmt.Errorf("%w: SMSMRPDA destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMSMRPDA
-	v := &berNextValue_
-	defer func() {
-		if returnErr == nil {
-			*destination = *v
-		}
-	}()
+	v := new(SMSMRPDA)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMSMRPDA, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_10, "child", (*SMSMRPDA).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMSMRPDA
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.SM-RP-DA", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMSMRPDA).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMSMRPDA{}
 	if len(data) == 0 {
@@ -6056,7 +5701,7 @@ func (destination *SMSMRPDA) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		tmp := v21_map_commondatatypes.CommonDataTypesIMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.SM-RP-DA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_10, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -6075,7 +5720,7 @@ func (destination *SMSMRPDA) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		tmp := v21_map_commondatatypes.CommonDataTypesLMSI(decVal)
 		v.Lmsi = &tmp
 		if len(*v.Lmsi) < 4 || len(*v.Lmsi) > 4 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.SM-RP-DA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_10, "51.5", "lmsi", "SIZE (4)", len(*v.Lmsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -6094,7 +5739,7 @@ func (destination *SMSMRPDA) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		tmp := v21_map_commondatatypes.CommonDataTypesAddressString(decVal)
 		v.ServiceCentreAddressDA = &tmp
 		if len(*v.ServiceCentreAddressDA) < 1 || len(*v.ServiceCentreAddressDA) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.SM-RP-DA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddressDA", "SIZE (1..20)", len(*v.ServiceCentreAddressDA)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_10, "51.5", "serviceCentreAddressDA", "SIZE (1..20)", len(*v.ServiceCentreAddressDA)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -6118,27 +5763,12 @@ func (destination *SMSMRPDA) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 // MarshalBER encodes SMSMRPOA to BER format.
 func (v *SMSMRPOA) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMSMRPOA receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMSMRPOA).MarshalBER, (*SMSMRPOA).marshalBER, true)
+
 }
 func (v *SMSMRPOA) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -6162,12 +5792,12 @@ func (v *SMSMRPOA) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "msisdn", "encoding", false)
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.SM-RP-OA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_11, "51.5", "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.SM-RP-OA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_11, "51.5", "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6186,7 +5816,7 @@ func (v *SMSMRPOA) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_1, "serviceCentreAddressOA", "encoding", false)
 		}
 		if len(*v.ServiceCentreAddressOA) < 1 || len(*v.ServiceCentreAddressOA) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.SM-RP-OA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddressOA", "SIZE (1..20)", len(*v.ServiceCentreAddressOA)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_11, "51.5", "serviceCentreAddressOA", "SIZE (1..20)", len(*v.ServiceCentreAddressOA)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6247,40 +5877,24 @@ func (destination *SMSMRPOA) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if destination == nil {
 		return fmt.Errorf("%w: SMSMRPOA destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMSMRPOA
-	v := &berNextValue_
-	defer func() {
-		if returnErr == nil {
-			*destination = *v
-		}
-	}()
+	v := new(SMSMRPOA)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMSMRPOA, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_11, "child", (*SMSMRPOA).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMSMRPOA
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.SM-RP-OA", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMSMRPOA).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMSMRPOA{}
 	if len(data) == 0 {
@@ -6318,12 +5932,12 @@ func (destination *SMSMRPOA) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		tmp := v21_map_commondatatypes.CommonDataTypesISDNAddressString(decVal)
 		v.Msisdn = &tmp
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.SM-RP-OA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_11, "51.5", "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.SM-RP-OA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_11, "51.5", "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -6342,7 +5956,7 @@ func (destination *SMSMRPOA) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		tmp := v21_map_commondatatypes.CommonDataTypesAddressString(decVal)
 		v.ServiceCentreAddressOA = &tmp
 		if len(*v.ServiceCentreAddressOA) < 1 || len(*v.ServiceCentreAddressOA) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.SM-RP-OA", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddressOA", "SIZE (1..20)", len(*v.ServiceCentreAddressOA)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_11, "51.5", "serviceCentreAddressOA", "SIZE (1..20)", len(*v.ServiceCentreAddressOA)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -6366,27 +5980,12 @@ func (destination *SMSMRPOA) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 // MarshalBER encodes SMReportSMDeliveryStatusArg to BER format.
 func (v *SMReportSMDeliveryStatusArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMReportSMDeliveryStatusArg receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMReportSMDeliveryStatusArg).MarshalBER, (*SMReportSMDeliveryStatusArg).marshalBER, true)
+
 }
 func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -6394,12 +5993,12 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_12, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_12, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -6409,7 +6008,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	children = append(children, enc_msisdn...)
 	if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_12, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -6419,7 +6018,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	children = append(children, enc_servicecentreaddress...)
 	if int64(v.SmDeliveryOutcome) != 0 && int64(v.SmDeliveryOutcome) != 1 && int64(v.SmDeliveryOutcome) != 2 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.SmDeliveryOutcome))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, sffc5a6_12, "20", "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.SmDeliveryOutcome))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -6427,7 +6026,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	children = append(children, enc_smdeliveryoutcome...)
 	if v.AbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_12, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6472,7 +6071,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	if v.AdditionalSMDeliveryOutcome != nil {
 		if int64(*v.AdditionalSMDeliveryOutcome) != 0 && int64(*v.AdditionalSMDeliveryOutcome) != 1 && int64(*v.AdditionalSMDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "additionalSM-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.AdditionalSMDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_12, "20", "additionalSM-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.AdditionalSMDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6486,7 +6085,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	if v.AdditionalAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AdditionalAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AdditionalAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_12, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6509,7 +6108,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	if v.IpSmGwSmDeliveryOutcome != nil {
 		if int64(*v.IpSmGwSmDeliveryOutcome) != 0 && int64(*v.IpSmGwSmDeliveryOutcome) != 1 && int64(*v.IpSmGwSmDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "ip-sm-gw-sm-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.IpSmGwSmDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_12, "20", "ip-sm-gw-sm-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.IpSmGwSmDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6523,7 +6122,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	if v.IpSmGwAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.IpSmGwAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.IpSmGwAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "ip-sm-gw-absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.IpSmGwAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_12, "51.4", "ip-sm-gw-absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.IpSmGwAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6537,7 +6136,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_12, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6585,7 +6184,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	if v.Smsf3gppDeliveryOutcome != nil {
 		if int64(*v.Smsf3gppDeliveryOutcome) != 0 && int64(*v.Smsf3gppDeliveryOutcome) != 1 && int64(*v.Smsf3gppDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "smsf-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.Smsf3gppDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_12, "20", "smsf-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.Smsf3gppDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6599,7 +6198,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	if v.Smsf3gppAbsentSubscriberDiagSM != nil {
 		if !(int64(*v.Smsf3gppAbsentSubscriberDiagSM) >= 0 && int64(*v.Smsf3gppAbsentSubscriberDiagSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsf-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_12, "51.4", "smsf-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6622,7 +6221,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	if v.SmsfNon3gppDeliveryOutcome != nil {
 		if int64(*v.SmsfNon3gppDeliveryOutcome) != 0 && int64(*v.SmsfNon3gppDeliveryOutcome) != 1 && int64(*v.SmsfNon3gppDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "smsf-non-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmsfNon3gppDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_12, "20", "smsf-non-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmsfNon3gppDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6636,7 +6235,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 	}
 	if v.SmsfNon3gppAbsentSubscriberDiagSM != nil {
 		if !(int64(*v.SmsfNon3gppAbsentSubscriberDiagSM) >= 0 && int64(*v.SmsfNon3gppAbsentSubscriberDiagSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsf-non-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_12, "51.4", "smsf-non-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6661,7 +6260,7 @@ func (v *SMReportSMDeliveryStatusArg) marshalBER(opts ...ber.EncodeOption) ([]by
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_12, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6687,12 +6286,12 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_12, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_12, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -6702,7 +6301,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_msisdn...)
 	if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_12, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -6712,7 +6311,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_servicecentreaddress...)
 	if int64(v.SmDeliveryOutcome) != 0 && int64(v.SmDeliveryOutcome) != 1 && int64(v.SmDeliveryOutcome) != 2 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.SmDeliveryOutcome))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, sffc5a6_12, "20", "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.SmDeliveryOutcome))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -6720,7 +6319,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_smdeliveryoutcome...)
 	if v.AbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_12, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6764,7 +6363,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalSMDeliveryOutcome != nil {
 		if int64(*v.AdditionalSMDeliveryOutcome) != 0 && int64(*v.AdditionalSMDeliveryOutcome) != 1 && int64(*v.AdditionalSMDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "additionalSM-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.AdditionalSMDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_12, "20", "additionalSM-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.AdditionalSMDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6778,7 +6377,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AdditionalAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AdditionalAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_12, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6801,7 +6400,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	if v.IpSmGwSmDeliveryOutcome != nil {
 		if int64(*v.IpSmGwSmDeliveryOutcome) != 0 && int64(*v.IpSmGwSmDeliveryOutcome) != 1 && int64(*v.IpSmGwSmDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "ip-sm-gw-sm-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.IpSmGwSmDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_12, "20", "ip-sm-gw-sm-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.IpSmGwSmDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6815,7 +6414,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	if v.IpSmGwAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.IpSmGwAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.IpSmGwAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "ip-sm-gw-absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.IpSmGwAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_12, "51.4", "ip-sm-gw-absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.IpSmGwAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6829,7 +6428,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_12, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6876,7 +6475,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Smsf3gppDeliveryOutcome != nil {
 		if int64(*v.Smsf3gppDeliveryOutcome) != 0 && int64(*v.Smsf3gppDeliveryOutcome) != 1 && int64(*v.Smsf3gppDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "smsf-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.Smsf3gppDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_12, "20", "smsf-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.Smsf3gppDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6890,7 +6489,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Smsf3gppAbsentSubscriberDiagSM != nil {
 		if !(int64(*v.Smsf3gppAbsentSubscriberDiagSM) >= 0 && int64(*v.Smsf3gppAbsentSubscriberDiagSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsf-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_12, "51.4", "smsf-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6913,7 +6512,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmsfNon3gppDeliveryOutcome != nil {
 		if int64(*v.SmsfNon3gppDeliveryOutcome) != 0 && int64(*v.SmsfNon3gppDeliveryOutcome) != 1 && int64(*v.SmsfNon3gppDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "smsf-non-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmsfNon3gppDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_12, "20", "smsf-non-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmsfNon3gppDeliveryOutcome))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6927,7 +6526,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmsfNon3gppAbsentSubscriberDiagSM != nil {
 		if !(int64(*v.SmsfNon3gppAbsentSubscriberDiagSM) >= 0 && int64(*v.SmsfNon3gppAbsentSubscriberDiagSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsf-non-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_12, "51.4", "smsf-non-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6949,7 +6548,7 @@ func (v *SMReportSMDeliveryStatusArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 17) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 15) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 14) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 13) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 12) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 11) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 10) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 9) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 8) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_12, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -6978,42 +6577,26 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 	if destination == nil {
 		return fmt.Errorf("%w: SMReportSMDeliveryStatusArg destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMReportSMDeliveryStatusArg
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(SMReportSMDeliveryStatusArg)
+
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_12, "child", (*SMReportSMDeliveryStatusArg).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMReportSMDeliveryStatusArg
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMReportSMDeliveryStatusArg{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMReportSMDeliveryStatusArg).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMReportSMDeliveryStatusArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -7040,12 +6623,12 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 		offset += n
 		if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_12, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_12, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -7068,7 +6651,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 		offset += n
 		if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_12, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -7091,7 +6674,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 		offset += n
 		if int64(v.SmDeliveryOutcome) != 0 && int64(v.SmDeliveryOutcome) != 1 && int64(v.SmDeliveryOutcome) != 2 {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.SmDeliveryOutcome))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, sffc5a6_12, "20", "sm-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.SmDeliveryOutcome))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -7123,7 +6706,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_absentsubscriberdiagnosticsm
 				if !(int64(*v.AbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_12, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7248,7 +6831,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_additionalsmdeliveryoutcome
 				if int64(*v.AdditionalSMDeliveryOutcome) != 0 && int64(*v.AdditionalSMDeliveryOutcome) != 1 && int64(*v.AdditionalSMDeliveryOutcome) != 2 {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "additionalSM-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.AdditionalSMDeliveryOutcome))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_12, "20", "additionalSM-DeliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.AdditionalSMDeliveryOutcome))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7282,7 +6865,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_additionalabsentsubscriberdiagnosticsm
 				if !(int64(*v.AdditionalAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AdditionalAbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_12, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7342,7 +6925,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_ipsmgwsmdeliveryoutcome
 				if int64(*v.IpSmGwSmDeliveryOutcome) != 0 && int64(*v.IpSmGwSmDeliveryOutcome) != 1 && int64(*v.IpSmGwSmDeliveryOutcome) != 2 {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "ip-sm-gw-sm-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.IpSmGwSmDeliveryOutcome))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_12, "20", "ip-sm-gw-sm-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.IpSmGwSmDeliveryOutcome))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7376,7 +6959,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_ipsmgwabsentsubscriberdiagnosticsm
 				if !(int64(*v.IpSmGwAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.IpSmGwAbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "ip-sm-gw-absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.IpSmGwAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_12, "51.4", "ip-sm-gw-absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.IpSmGwAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7409,7 +6992,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_imsi
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_12, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7534,7 +7117,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_smsf3gppdeliveryoutcome
 				if int64(*v.Smsf3gppDeliveryOutcome) != 0 && int64(*v.Smsf3gppDeliveryOutcome) != 1 && int64(*v.Smsf3gppDeliveryOutcome) != 2 {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "smsf-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.Smsf3gppDeliveryOutcome))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_12, "20", "smsf-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.Smsf3gppDeliveryOutcome))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7568,7 +7151,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_smsf3gppabsentsubscriberdiagsm
 				if !(int64(*v.Smsf3gppAbsentSubscriberDiagSM) >= 0 && int64(*v.Smsf3gppAbsentSubscriberDiagSM) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsf-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_12, "51.4", "smsf-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7629,7 +7212,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_smsfnon3gppdeliveryoutcome
 				if int64(*v.SmsfNon3gppDeliveryOutcome) != 0 && int64(*v.SmsfNon3gppDeliveryOutcome) != 1 && int64(*v.SmsfNon3gppDeliveryOutcome) != 2 {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "smsf-non-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmsfNon3gppDeliveryOutcome))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_12, "20", "smsf-non-3gpp-deliveryOutcome", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(*v.SmsfNon3gppDeliveryOutcome))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7663,7 +7246,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 				offset += n_smsfnon3gppabsentsubscriberdiagsm
 				if !(int64(*v.SmsfNon3gppAbsentSubscriberDiagSM) >= 0 && int64(*v.SmsfNon3gppAbsentSubscriberDiagSM) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsf-non-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_12, "51.4", "smsf-non-3gpp-absentSubscriberDiagSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7683,7 +7266,7 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMReportSMDeliveryStatusArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_12, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -7707,27 +7290,12 @@ func (destination *SMReportSMDeliveryStatusArg) UnmarshalBER(data []byte, opts .
 
 // MarshalBER encodes SMReportSMDeliveryStatusRes to BER format.
 func (v *SMReportSMDeliveryStatusRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMReportSMDeliveryStatusRes receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMReportSMDeliveryStatusRes).MarshalBER, (*SMReportSMDeliveryStatusRes).marshalBER, true)
+
 }
 func (v *SMReportSMDeliveryStatusRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -7736,12 +7304,12 @@ func (v *SMReportSMDeliveryStatusRes) marshalBER(opts ...ber.EncodeOption) ([]by
 	var children []byte
 	if v.StoredMSISDN != nil {
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_13, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_13, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7772,7 +7340,7 @@ func (v *SMReportSMDeliveryStatusRes) marshalBER(opts ...ber.EncodeOption) ([]by
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_13, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7799,12 +7367,12 @@ func (v *SMReportSMDeliveryStatusRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.StoredMSISDN != nil {
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_13, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_13, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7831,7 +7399,7 @@ func (v *SMReportSMDeliveryStatusRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_13, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -7860,42 +7428,26 @@ func (destination *SMReportSMDeliveryStatusRes) UnmarshalBER(data []byte, opts .
 	if destination == nil {
 		return fmt.Errorf("%w: SMReportSMDeliveryStatusRes destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMReportSMDeliveryStatusRes
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(SMReportSMDeliveryStatusRes)
+
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_13, "child", (*SMReportSMDeliveryStatusRes).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMReportSMDeliveryStatusRes
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMReportSMDeliveryStatusRes{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMReportSMDeliveryStatusRes).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMReportSMDeliveryStatusRes, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -7923,12 +7475,12 @@ func (destination *SMReportSMDeliveryStatusRes) UnmarshalBER(data []byte, opts .
 
 				offset += n
 				if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_13, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_13, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -7978,7 +7530,7 @@ func (destination *SMReportSMDeliveryStatusRes) UnmarshalBER(data []byte, opts .
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMReportSMDeliveryStatusRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_13, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -8002,27 +7554,12 @@ func (destination *SMReportSMDeliveryStatusRes) UnmarshalBER(data []byte, opts .
 
 // MarshalBER encodes SMAlertServiceCentreArg to BER format.
 func (v *SMAlertServiceCentreArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMAlertServiceCentreArg receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMAlertServiceCentreArg).MarshalBER, (*SMAlertServiceCentreArg).marshalBER, true)
+
 }
 func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -8030,12 +7567,12 @@ func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8045,7 +7582,7 @@ func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	children = append(children, enc_msisdn...)
 	if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8056,7 +7593,7 @@ func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	children = append(children, enc_servicecentreaddress...)
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8076,7 +7613,7 @@ func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.MaximumUeAvailabilityTime != nil {
 		if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8093,7 +7630,7 @@ func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.SmsGmscAlertEvent != nil {
 		if int64(*v.SmsGmscAlertEvent) != 0 && int64(*v.SmsGmscAlertEvent) != 1 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_14, "20", "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8120,12 +7657,12 @@ func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.NewSGSNNumber != nil {
 		if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8155,12 +7692,12 @@ func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.NewMMENumber != nil {
 		if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8190,12 +7727,12 @@ func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	}
 	if v.NewMSCNumber != nil {
 		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_14, "51.5", "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8223,7 +7760,7 @@ func (v *SMAlertServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_14, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8249,12 +7786,12 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8264,7 +7801,7 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_msisdn...)
 	if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -8275,7 +7812,7 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	children = append(children, enc_servicecentreaddress...)
 	if v.Imsi != nil {
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8294,7 +7831,7 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.MaximumUeAvailabilityTime != nil {
 		if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8311,7 +7848,7 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmsGmscAlertEvent != nil {
 		if int64(*v.SmsGmscAlertEvent) != 0 && int64(*v.SmsGmscAlertEvent) != 1 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_14, "20", "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8337,12 +7874,12 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.NewSGSNNumber != nil {
 		if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8371,12 +7908,12 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.NewMMENumber != nil {
 		if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8405,12 +7942,12 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.NewMSCNumber != nil {
 		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_14, "51.5", "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8435,7 +7972,7 @@ func (v *SMAlertServiceCentreArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 7) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 6) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_14, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8464,43 +8001,26 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 	if destination == nil {
 		return fmt.Errorf("%w: SMAlertServiceCentreArg destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMAlertServiceCentreArg
-	v := &berNextValue_
+	v := new(SMAlertServiceCentreArg)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_14, "child", (*SMAlertServiceCentreArg).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMAlertServiceCentreArg
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.AlertServiceCentreArg", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMAlertServiceCentreArg{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMAlertServiceCentreArg).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMAlertServiceCentreArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -8527,12 +8047,12 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 
 		offset += n
 		if len(v.Msisdn) < 1 || len(v.Msisdn) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "msisdn", "SIZE (1..9)", len(v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.Msisdn) < 1 || len(v.Msisdn) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "msisdn", "SIZE (1..20)", len(v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -8555,7 +8075,7 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 
 		offset += n
 		if len(v.ServiceCentreAddress) < 1 || len(v.ServiceCentreAddress) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "serviceCentreAddress", "SIZE (1..20)", len(v.ServiceCentreAddress)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -8579,7 +8099,7 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n
 				if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8643,7 +8163,7 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_maximumueavailabilitytime
 				if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8677,7 +8197,7 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_smsgmscalertevent
 				if int64(*v.SmsGmscAlertEvent) != 0 && int64(*v.SmsGmscAlertEvent) != 1 {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_14, "20", "smsGmscAlertEvent", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.SmsGmscAlertEvent))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8749,12 +8269,12 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_newsgsnnumber
 				if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "newSGSNNumber", "SIZE (1..9)", len(*v.NewSGSNNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.NewSGSNNumber) < 1 || len(*v.NewSGSNNumber) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "newSGSNNumber", "SIZE (1..20)", len(*v.NewSGSNNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8826,12 +8346,12 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_newmmenumber
 				if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "newMMENumber", "SIZE (1..9)", len(*v.NewMMENumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.NewMMENumber) < 1 || len(*v.NewMMENumber) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "newMMENumber", "SIZE (1..20)", len(*v.NewMMENumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8903,12 +8423,12 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 
 				offset += n_newmscnumber
 				if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "newMSCNumber", "SIZE (1..9)", len(*v.NewMSCNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.NewMSCNumber) < 1 || len(*v.NewMSCNumber) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_14, "51.5", "newMSCNumber", "SIZE (1..20)", len(*v.NewMSCNumber)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -8928,7 +8448,7 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMAlertServiceCentreArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.AlertServiceCentreArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_14, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -8952,27 +8472,12 @@ func (destination *SMAlertServiceCentreArg) UnmarshalBER(data []byte, opts ...be
 
 // MarshalBER encodes SMInformServiceCentreArg to BER format.
 func (v *SMInformServiceCentreArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMInformServiceCentreArg receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMInformServiceCentreArg).MarshalBER, (*SMInformServiceCentreArg).marshalBER, true)
+
 }
 func (v *SMInformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -8981,12 +8486,12 @@ func (v *SMInformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	var children []byte
 	if v.StoredMSISDN != nil {
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_15, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_15, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -8997,19 +8502,23 @@ func (v *SMInformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		children = append(children, enc_storedmsisdn...)
 	}
 	if v.MwStatus != nil {
-		if bitStringErr := ber.ValidateBitStringLength(v.MwStatus.Bytes, v.MwStatus.BitLength); bitStringErr != nil {
+		namedBits_MwStatus, namedBitErr_namedBits_MwStatus := ber.NormalizeNamedBitStringForBEREncoding(*v.MwStatus, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, opts...)
+		if namedBitErr_namedBits_MwStatus != nil {
+			return nil, qualifyBERError(namedBitErr_namedBits_MwStatus, "mw-Status", "encoding", false)
+		}
+		if bitStringErr := ber.ValidateBitStringLength(namedBits_MwStatus.Bytes, namedBits_MwStatus.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mw-Status", "encoding", false)
 		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
-		if v.MwStatus.BitLength < 0 {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		if namedBits_MwStatus.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
-		if (*v.MwStatus).BitLength < 6 || (*v.MwStatus).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mw-Status", "SIZE (6..16)", (*v.MwStatus).BitLength); constraintErr != nil {
+		if (namedBits_MwStatus).BitLength < 6 || (namedBits_MwStatus).BitLength > 16 {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_15, "51.5", "mw-Status", "SIZE (6..16)", (namedBits_MwStatus).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
-		enc_mwstatus, encodeErr_enc_mwstatus := ber.EncodeBitString(v.MwStatus.Bytes, ber.UnusedBitCount(v.MwStatus.BitLength))
+		enc_mwstatus, encodeErr_enc_mwstatus := ber.EncodeBitString(namedBits_MwStatus.Bytes, ber.UnusedBitCount(namedBits_MwStatus.BitLength))
 		if encodeErr_enc_mwstatus != nil {
 			return nil, qualifyBERError(encodeErr_enc_mwstatus, "mw-Status", "encoding", false)
 		}
@@ -9025,7 +8534,7 @@ func (v *SMInformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	if v.AbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_15, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9034,7 +8543,7 @@ func (v *SMInformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	if v.AdditionalAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AdditionalAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AdditionalAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_15, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9048,7 +8557,7 @@ func (v *SMInformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	if v.Smsf3gppAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_15, "51.4", "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9062,7 +8571,7 @@ func (v *SMInformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 	}
 	if v.SmsfNon3gppAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sffc5a6_15, "51.4", "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9087,7 +8596,7 @@ func (v *SMInformServiceCentreArg) marshalBER(opts ...ber.EncodeOption) ([]byte,
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 3) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9114,12 +8623,12 @@ func (v *SMInformServiceCentreArg) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.StoredMSISDN != nil {
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_15, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_15, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9130,22 +8639,23 @@ func (v *SMInformServiceCentreArg) MarshalDER() ([]byte, error) {
 		children = append(children, enc_storedmsisdn...)
 	}
 	if v.MwStatus != nil {
-		if bitStringErr := ber.ValidateBitStringLength(v.MwStatus.Bytes, v.MwStatus.BitLength); bitStringErr != nil {
+		namedBits_MwStatus, namedBitErr_namedBits_MwStatus := ber.NormalizeNamedBitStringForEncoding(*v.MwStatus, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}})
+		if namedBitErr_namedBits_MwStatus != nil {
+			return nil, qualifyBERError(namedBitErr_namedBits_MwStatus, "mw-Status", "encoding", true)
+		}
+		if bitStringErr := ber.ValidateBitStringLength(namedBits_MwStatus.Bytes, namedBits_MwStatus.BitLength); bitStringErr != nil {
 			return nil, qualifyBERError(bitStringErr, "mw-Status", "encoding", true)
 		}
-		if bitStringErr := ber.ValidateDERBitString(v.MwStatus.Bytes, v.MwStatus.BitLength); bitStringErr != nil {
-			return nil, qualifyBERError(bitStringErr, "mw-Status", "encoding", true)
-		}
-		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:743
-		if v.MwStatus.BitLength < 0 {
+		// arithmetic pattern BER_BITSTRING_FIELD: 0 <= bit length before modulo and subtraction; gen/codegen.go:749
+		if namedBits_MwStatus.BitLength < 0 {
 			return nil, fmt.Errorf("negative bit string length")
 		}
-		if (*v.MwStatus).BitLength < 6 || (*v.MwStatus).BitLength > 16 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mw-Status", "SIZE (6..16)", (*v.MwStatus).BitLength); constraintErr != nil {
+		if (namedBits_MwStatus).BitLength < 6 || (namedBits_MwStatus).BitLength > 16 {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_15, "51.5", "mw-Status", "SIZE (6..16)", (namedBits_MwStatus).BitLength); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
-		enc_mwstatus, encodeErr_enc_mwstatus := ber.EncodeDERNamedBitString(v.MwStatus.Bytes, v.MwStatus.BitLength)
+		enc_mwstatus, encodeErr_enc_mwstatus := ber.EncodeDERNamedBitString(namedBits_MwStatus.Bytes, namedBits_MwStatus.BitLength)
 		if encodeErr_enc_mwstatus != nil {
 			return nil, qualifyBERError(encodeErr_enc_mwstatus, "mw-Status", "encoding", true)
 		}
@@ -9160,7 +8670,7 @@ func (v *SMInformServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_15, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9169,7 +8679,7 @@ func (v *SMInformServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.AdditionalAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AdditionalAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_15, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9183,7 +8693,7 @@ func (v *SMInformServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.Smsf3gppAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_15, "51.4", "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9197,7 +8707,7 @@ func (v *SMInformServiceCentreArg) MarshalDER() ([]byte, error) {
 	}
 	if v.SmsfNon3gppAbsentSubscriberDiagnosticSM != nil {
 		if !(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) <= 255) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(nil, sffc5a6_15, "51.4", "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9219,7 +8729,7 @@ func (v *SMInformServiceCentreArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 3) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 4)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9248,43 +8758,26 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 	if destination == nil {
 		return fmt.Errorf("%w: SMInformServiceCentreArg destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMInformServiceCentreArg
-	v := &berNextValue_
+	v := new(SMInformServiceCentreArg)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_15, "child", (*SMInformServiceCentreArg).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMInformServiceCentreArg
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.InformServiceCentreArg", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMInformServiceCentreArg{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMInformServiceCentreArg).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMInformServiceCentreArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -9312,12 +8805,12 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 
 				offset += n
 				if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_15, "51.5", "storedMSISDN", "SIZE (1..9)", len(*v.StoredMSISDN)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.StoredMSISDN) < 1 || len(*v.StoredMSISDN) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_15, "51.5", "storedMSISDN", "SIZE (1..20)", len(*v.StoredMSISDN)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9348,7 +8841,7 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 				offset += n
 				*v.MwStatus = ber.NormalizeNamedBitStringSize(*v.MwStatus, []ber.NamedBitSizeSet{{{Min: 6, Max: 16}}}, opts...)
 				if (*v.MwStatus).BitLength < 6 || (*v.MwStatus).BitLength > 16 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "mw-Status", "SIZE (6..16)", (*v.MwStatus).BitLength); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_15, "51.5", "mw-Status", "SIZE (6..16)", (*v.MwStatus).BitLength); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9406,7 +8899,7 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 
 				offset += n
 				if !(int64(*v.AbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_15, "51.4", "absentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9440,7 +8933,7 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 
 				offset += n_additionalabsentsubscriberdiagnosticsm
 				if !(int64(*v.AdditionalAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.AdditionalAbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_15, "51.4", "additionalAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.AdditionalAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9474,7 +8967,7 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 
 				offset += n_smsf3gppabsentsubscriberdiagnosticsm
 				if !(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_15, "51.4", "smsf3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.Smsf3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9508,7 +9001,7 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 
 				offset += n_smsfnon3gppabsentsubscriberdiagnosticsm
 				if !(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) >= 0 && int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM) <= 255) {
-					if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
+					if constraintErr := checkDecodedValue(opts, sffc5a6_15, "51.4", "smsfNon3gppAbsentSubscriberDiagnosticSM", "(0..255)", ber.ObserveInteger(int64(*v.SmsfNon3gppAbsentSubscriberDiagnosticSM))); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9528,7 +9021,7 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMInformServiceCentreArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.InformServiceCentreArg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -9552,27 +9045,12 @@ func (destination *SMInformServiceCentreArg) UnmarshalBER(data []byte, opts ...b
 
 // MarshalBER encodes SMReadyForSMArg to BER format.
 func (v *SMReadyForSMArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMReadyForSMArg receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMReadyForSMArg).MarshalBER, (*SMReadyForSMArg).marshalBER, true)
+
 }
 func (v *SMReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -9580,7 +9058,7 @@ func (v *SMReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_16, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9595,7 +9073,7 @@ func (v *SMReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if int64(v.AlertReason) != 0 && int64(v.AlertReason) != 1 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, sffc5a6_16, "20", "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9624,7 +9102,7 @@ func (v *SMReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.MaximumUeAvailabilityTime != nil {
 		if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_16, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9647,7 +9125,7 @@ func (v *SMReadyForSMArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9673,7 +9151,7 @@ func (v *SMReadyForSMArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_16, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9688,7 +9166,7 @@ func (v *SMReadyForSMArg) MarshalDER() ([]byte, error) {
 	enc_imsi = retagged_enc_imsi
 	children = append(children, enc_imsi...)
 	if int64(v.AlertReason) != 0 && int64(v.AlertReason) != 1 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, sffc5a6_16, "20", "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -9716,7 +9194,7 @@ func (v *SMReadyForSMArg) MarshalDER() ([]byte, error) {
 	}
 	if v.MaximumUeAvailabilityTime != nil {
 		if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_16, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9736,7 +9214,7 @@ func (v *SMReadyForSMArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 4) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -9765,42 +9243,26 @@ func (destination *SMReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.Decode
 	if destination == nil {
 		return fmt.Errorf("%w: SMReadyForSMArg destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMReadyForSMArg
-	v := &berNextValue_
+	v := new(SMReadyForSMArg)
 
-	defer func() {
-		if returnErr == nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_16, "child", (*SMReadyForSMArg).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMReadyForSMArg
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.ReadyForSM-Arg", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMReadyForSMArg{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMReadyForSMArg).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMReadyForSMArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -9839,7 +9301,7 @@ func (destination *SMReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.Decode
 
 		offset += n_imsi
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_16, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -9862,7 +9324,7 @@ func (destination *SMReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.Decode
 
 		offset += n
 		if int64(v.AlertReason) != 0 && int64(v.AlertReason) != 1 {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, sffc5a6_16, "20", "alertReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.AlertReason))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -9965,7 +9427,7 @@ func (destination *SMReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.Decode
 
 				offset += n
 				if len(*v.MaximumUeAvailabilityTime) < 4 || len(*v.MaximumUeAvailabilityTime) > 4 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_16, "51.5", "maximumUeAvailabilityTime", "SIZE (4)", len(*v.MaximumUeAvailabilityTime)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -9985,7 +9447,7 @@ func (destination *SMReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.Decode
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMReadyForSMArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -10009,27 +9471,12 @@ func (destination *SMReadyForSMArg) UnmarshalBER(data []byte, opts ...ber.Decode
 
 // MarshalBER encodes SMReadyForSMRes to BER format.
 func (v *SMReadyForSMRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMReadyForSMRes receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMReadyForSMRes).MarshalBER, (*SMReadyForSMRes).marshalBER, true)
+
 }
 func (v *SMReadyForSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -10057,7 +9504,7 @@ func (v *SMReadyForSMRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10099,7 +9546,7 @@ func (v *SMReadyForSMRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.ReadyForSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10128,42 +9575,26 @@ func (destination *SMReadyForSMRes) UnmarshalBER(data []byte, opts ...ber.Decode
 	if destination == nil {
 		return fmt.Errorf("%w: SMReadyForSMRes destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMReadyForSMRes
-	v := &berNextValue_
+	v := new(SMReadyForSMRes)
 
-	defer func() {
-		if returnErr == nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_17, "child", (*SMReadyForSMRes).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMReadyForSMRes
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.ReadyForSM-Res", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMReadyForSMRes{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMReadyForSMRes).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMReadyForSMRes, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -10214,7 +9645,7 @@ func (destination *SMReadyForSMRes) UnmarshalBER(data []byte, opts ...ber.Decode
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMReadyForSMRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.ReadyForSM-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_17, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -10238,27 +9669,12 @@ func (destination *SMReadyForSMRes) UnmarshalBER(data []byte, opts ...ber.Decode
 
 // MarshalBER encodes SMMTForwardSMVGCSArg to BER format.
 func (v *SMMTForwardSMVGCSArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMMTForwardSMVGCSArg receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMMTForwardSMVGCSArg).MarshalBER, (*SMMTForwardSMVGCSArg).marshalBER, true)
+
 }
 func (v *SMMTForwardSMVGCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -10266,7 +9682,7 @@ func (v *SMMTForwardSMVGCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	var children []byte
 	if len(v.AsciCallReference) < 1 || len(v.AsciCallReference) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_18, "51.5", "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10282,7 +9698,7 @@ func (v *SMMTForwardSMVGCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	ber.RecordGeneratedBERChildPlacement(opts, len(children), enc_smrpoa)
 	children = append(children, enc_smrpoa...)
 	if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, sffc5a6_18, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10312,7 +9728,7 @@ func (v *SMMTForwardSMVGCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10338,7 +9754,7 @@ func (v *SMMTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.AsciCallReference) < 1 || len(v.AsciCallReference) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_18, "51.5", "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10353,7 +9769,7 @@ func (v *SMMTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_smrpoa...)
 	if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, sffc5a6_18, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -10379,7 +9795,7 @@ func (v *SMMTForwardSMVGCSArg) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10408,43 +9824,26 @@ func (destination *SMMTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.D
 	if destination == nil {
 		return fmt.Errorf("%w: SMMTForwardSMVGCSArg destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMMTForwardSMVGCSArg
-	v := &berNextValue_
+	v := new(SMMTForwardSMVGCSArg)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_18, "child", (*SMMTForwardSMVGCSArg).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMMTForwardSMVGCSArg
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMMTForwardSMVGCSArg{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMMTForwardSMVGCSArg).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMMTForwardSMVGCSArg, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -10471,7 +9870,7 @@ func (destination *SMMTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.D
 
 		offset += n
 		if len(v.AsciCallReference) < 1 || len(v.AsciCallReference) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_18, "51.5", "asciCallReference", "SIZE (1..8)", len(v.AsciCallReference)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -10520,7 +9919,7 @@ func (destination *SMMTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.D
 
 		offset += n
 		if len(v.SmRPUI) < 1 || len(v.SmRPUI) > 200 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_18, "51.5", "sm-RP-UI", "SIZE (1..200)", len(v.SmRPUI)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -10570,7 +9969,7 @@ func (destination *SMMTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.D
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMMTForwardSMVGCSArg", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_18, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -10594,27 +9993,12 @@ func (destination *SMMTForwardSMVGCSArg) UnmarshalBER(data []byte, opts ...ber.D
 
 // MarshalBER encodes SMMTForwardSMVGCSRes to BER format.
 func (v *SMMTForwardSMVGCSRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SMMTForwardSMVGCSRes receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SMMTForwardSMVGCSRes).MarshalBER, (*SMMTForwardSMVGCSRes).marshalBER, true)
+
 }
 func (v *SMMTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -10623,7 +10007,7 @@ func (v *SMMTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	var children []byte
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_19, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10640,7 +10024,7 @@ func (v *SMMTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	if v.DispatcherList != nil {
 		if len((v.DispatcherList).Values) < 1 || len((v.DispatcherList).Values) > 5 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_19, "51.5", "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10690,7 +10074,7 @@ func (v *SMMTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	if v.AdditionalDispatcherList != nil {
 		if len((v.AdditionalDispatcherList).Values) < 1 || len((v.AdditionalDispatcherList).Values) > 15 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sffc5a6_19, "51.5", "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10734,7 +10118,7 @@ func (v *SMMTForwardSMVGCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sffc5a6_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10761,7 +10145,7 @@ func (v *SMMTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.SmRPUI != nil {
 		if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_19, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10778,7 +10162,7 @@ func (v *SMMTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 	}
 	if v.DispatcherList != nil {
 		if len((v.DispatcherList).Values) < 1 || len((v.DispatcherList).Values) > 5 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_19, "51.5", "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10811,7 +10195,7 @@ func (v *SMMTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 	}
 	if v.AdditionalDispatcherList != nil {
 		if len((v.AdditionalDispatcherList).Values) < 1 || len((v.AdditionalDispatcherList).Values) > 15 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_19, "51.5", "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10836,7 +10220,7 @@ func (v *SMMTForwardSMVGCSRes) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 3) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 2) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 5) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sffc5a6_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -10865,43 +10249,26 @@ func (destination *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.D
 	if destination == nil {
 		return fmt.Errorf("%w: SMMTForwardSMVGCSRes destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SMMTForwardSMVGCSRes
-	v := &berNextValue_
+	v := new(SMMTForwardSMVGCSRes)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sffc5a6_19, "child", (*SMMTForwardSMVGCSRes).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SMMTForwardSMVGCSRes
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SMMTForwardSMVGCSRes{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SMMTForwardSMVGCSRes).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SMMTForwardSMVGCSRes, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -10936,7 +10303,7 @@ func (destination *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.D
 
 				offset += n_smrpui
 				if len(*v.SmRPUI) < 1 || len(*v.SmRPUI) > 200 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_19, "51.5", "sm-RP-UI", "SIZE (1..200)", len(*v.SmRPUI)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -10990,7 +10357,7 @@ func (destination *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.D
 
 				offset += n_dispatcherlist
 				if len((v.DispatcherList).Values) < 1 || len((v.DispatcherList).Values) > 5 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_19, "51.5", "dispatcherList", "SIZE (1..5)", len((v.DispatcherList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -11105,7 +10472,7 @@ func (destination *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.D
 
 				offset += n_additionaldispatcherlist
 				if len((v.AdditionalDispatcherList).Values) < 1 || len((v.AdditionalDispatcherList).Values) > 15 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sffc5a6_19, "51.5", "additionalDispatcherList", "SIZE (1..15)", len((v.AdditionalDispatcherList).Values)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -11125,7 +10492,7 @@ func (destination *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.D
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "SMMTForwardSMVGCSRes", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sffc5a6_19, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -11149,37 +10516,20 @@ func (destination *SMMTForwardSMVGCSRes) UnmarshalBER(data []byte, opts ...ber.D
 
 // MarshalBERSMDispatcherList encodes a SMDispatcherList list to BER.
 func MarshalBERSMDispatcherList(collection *SMDispatcherList, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	if collection.berReplayNode_ == nil {
-		return marshalBERSMDispatcherList(collection, opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
-		return MarshalBERSMDispatcherList(collection, []ber.EncodeOption{mode}...)
-	}, collection)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := marshalBERSMDispatcherList(collection, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERSMDispatcherList, marshalBERSMDispatcherList, true)
+
 }
 func marshalBERSMDispatcherList(collection *SMDispatcherList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.marshalBERSMDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "DispatcherList", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, "MAP-SM-DataTypes.marshalBERSMDispatcherList", "51.5", "DispatcherList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11187,12 +10537,12 @@ func marshalBERSMDispatcherList(collection *SMDispatcherList, opts ...ber.Encode
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.marshalBERSMDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, "MAP-SM-DataTypes.marshalBERSMDispatcherList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(elem) < 1 || len(elem) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.marshalBERSMDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, "MAP-SM-DataTypes.marshalBERSMDispatcherList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11225,7 +10575,7 @@ func MarshalDERSMDispatcherList(collection *SMDispatcherList) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 5 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.DispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "DispatcherList", "SIZE (1..5)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(nil, sffc5a6_20, "51.5", "DispatcherList", "SIZE (1..5)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11233,12 +10583,12 @@ func MarshalDERSMDispatcherList(collection *SMDispatcherList) ([]byte, error) {
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.DispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_20, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(elem) < 1 || len(elem) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.DispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_20, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11274,21 +10624,17 @@ func appendDERLinearSMDispatcherList(encoder *ber.LinearEncoder, collection *SMD
 func UnmarshalBERSMDispatcherList(data []byte, opts ...ber.DecodeOption) (returnValue *SMDispatcherList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return nil, ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, sffc5a6_20, "element", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERSMDispatcherList(data, probeOpts...)
+		return probeErr
+	})
 	if prepareErr != nil {
-		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
-			_, probeErr := UnmarshalBERSMDispatcherList(data, probeOpts...)
-			return probeErr
-		})
+		return nil, prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.DispatcherList", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -11312,12 +10658,12 @@ func UnmarshalBERSMDispatcherList(data []byte, opts ...ber.DecodeOption) (return
 				"decoding", false)
 		}
 		if len(val) < 1 || len(val) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.DispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_20, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(val) < 1 || len(val) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.DispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_20, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11330,55 +10676,35 @@ func UnmarshalBERSMDispatcherList(data []byte, opts ...ber.DecodeOption) (return
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 5 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.DispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "DispatcherList", "SIZE (1..5)", len(result)); constraintErr != nil {
+		if constraintErr := checkDecodedCollectionLength(opts, sffc5a6_20, "51.5", "DispatcherList", "SIZE (1..5)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	decoded := &SMDispatcherList{Values: result}
-	if ber.BERNeedsPreservation(opts) {
-		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *SMDispatcherList, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return MarshalBERSMDispatcherList(base, replayOpts...)
-		}); replayErr != nil {
-			return nil, replayErr
-		}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERSMDispatcherList); replayErr != nil {
+		return nil, replayErr
 	}
+
 	return decoded, nil
 }
 
 // MarshalBERSMAdditionalDispatcherList encodes a SMAdditionalDispatcherList list to BER.
 func MarshalBERSMAdditionalDispatcherList(collection *SMAdditionalDispatcherList, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	if collection.berReplayNode_ == nil {
-		return marshalBERSMAdditionalDispatcherList(collection, opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
-		return MarshalBERSMAdditionalDispatcherList(collection, []ber.EncodeOption{mode}...)
-	}, collection)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := marshalBERSMAdditionalDispatcherList(collection, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERSMAdditionalDispatcherList, marshalBERSMAdditionalDispatcherList, true)
+
 }
 func marshalBERSMAdditionalDispatcherList(collection *SMAdditionalDispatcherList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 15 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.marshalBERSMAdditionalDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "AdditionalDispatcherList", "SIZE (1..15)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, "MAP-SM-DataTypes.marshalBERSMAdditionalDispatcherList", "51.5", "AdditionalDispatcherList", "SIZE (1..15)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11386,12 +10712,12 @@ func marshalBERSMAdditionalDispatcherList(collection *SMAdditionalDispatcherList
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.marshalBERSMAdditionalDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, "MAP-SM-DataTypes.marshalBERSMAdditionalDispatcherList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(elem) < 1 || len(elem) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-SM-DataTypes.marshalBERSMAdditionalDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, "MAP-SM-DataTypes.marshalBERSMAdditionalDispatcherList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11424,7 +10750,7 @@ func MarshalDERSMAdditionalDispatcherList(collection *SMAdditionalDispatcherList
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 15 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AdditionalDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "AdditionalDispatcherList", "SIZE (1..15)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(nil, sffc5a6_21, "51.5", "AdditionalDispatcherList", "SIZE (1..15)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -11432,12 +10758,12 @@ func MarshalDERSMAdditionalDispatcherList(collection *SMAdditionalDispatcherList
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 1 || len(elem) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AdditionalDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_21, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..9)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(elem) < 1 || len(elem) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-SM-DataTypes.AdditionalDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sffc5a6_21, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (1..20)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11473,21 +10799,17 @@ func appendDERLinearSMAdditionalDispatcherList(encoder *ber.LinearEncoder, colle
 func UnmarshalBERSMAdditionalDispatcherList(data []byte, opts ...ber.DecodeOption) (returnValue *SMAdditionalDispatcherList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return nil, ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, sffc5a6_21, "element", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERSMAdditionalDispatcherList(data, probeOpts...)
+		return probeErr
+	})
 	if prepareErr != nil {
-		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
-			_, probeErr := UnmarshalBERSMAdditionalDispatcherList(data, probeOpts...)
-			return probeErr
-		})
+		return nil, prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-SM-DataTypes.AdditionalDispatcherList", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -11511,12 +10833,12 @@ func UnmarshalBERSMAdditionalDispatcherList(data []byte, opts ...ber.DecodeOptio
 				"decoding", false)
 		}
 		if len(val) < 1 || len(val) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AdditionalDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_21, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..9)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(val) < 1 || len(val) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AdditionalDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, sffc5a6_21, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (1..20)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -11529,18 +10851,40 @@ func UnmarshalBERSMAdditionalDispatcherList(data []byte, opts ...ber.DecodeOptio
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 15 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-SM-DataTypes.AdditionalDispatcherList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "AdditionalDispatcherList", "SIZE (1..15)", len(result)); constraintErr != nil {
+		if constraintErr := checkDecodedCollectionLength(opts, sffc5a6_21, "51.5", "AdditionalDispatcherList", "SIZE (1..15)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	decoded := &SMAdditionalDispatcherList{Values: result}
-	if ber.BERNeedsPreservation(opts) {
-		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *SMAdditionalDispatcherList, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return MarshalBERSMAdditionalDispatcherList(base, replayOpts...)
-		}); replayErr != nil {
-			return nil, replayErr
-		}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERSMAdditionalDispatcherList); replayErr != nil {
+		return nil, replayErr
 	}
+
 	return decoded, nil
 }
+
+const (
+	sffc5a6_0  = "MAP-SM-DataTypes.RoutingInfoForSM-Arg"
+	sffc5a6_1  = "MAP-SM-DataTypes.RoutingInfoForSM-Res"
+	sffc5a6_2  = "MAP-SM-DataTypes.IP-SM-GW-Guidance"
+	sffc5a6_3  = "MAP-SM-DataTypes.LocationInfoWithLMSI"
+	sffc5a6_4  = "MAP-SM-DataTypes.Additional-Number"
+	sffc5a6_5  = "MAP-SM-DataTypes.MO-ForwardSM-Arg"
+	sffc5a6_6  = "MAP-SM-DataTypes.MO-ForwardSM-Res"
+	sffc5a6_7  = "MAP-SM-DataTypes.MT-ForwardSM-Arg"
+	sffc5a6_8  = "MAP-SM-DataTypes.CorrelationID"
+	sffc5a6_9  = "MAP-SM-DataTypes.MT-ForwardSM-Res"
+	sffc5a6_10 = "MAP-SM-DataTypes.SM-RP-DA"
+	sffc5a6_11 = "MAP-SM-DataTypes.SM-RP-OA"
+	sffc5a6_12 = "MAP-SM-DataTypes.ReportSM-DeliveryStatusArg"
+	sffc5a6_13 = "MAP-SM-DataTypes.ReportSM-DeliveryStatusRes"
+	sffc5a6_14 = "MAP-SM-DataTypes.AlertServiceCentreArg"
+	sffc5a6_15 = "MAP-SM-DataTypes.InformServiceCentreArg"
+	sffc5a6_16 = "MAP-SM-DataTypes.ReadyForSM-Arg"
+	sffc5a6_17 = "MAP-SM-DataTypes.ReadyForSM-Res"
+	sffc5a6_18 = "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Arg"
+	sffc5a6_19 = "MAP-SM-DataTypes.MT-ForwardSM-VGCS-Res"
+	sffc5a6_20 = "MAP-SM-DataTypes.DispatcherList"
+	sffc5a6_21 = "MAP-SM-DataTypes.AdditionalDispatcherList"
+)

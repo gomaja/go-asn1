@@ -903,26 +903,12 @@ type AgeOfLocationInformation = int64
 
 // MarshalBERISDNAddressString encodes a typed standalone ISDNAddressString, preserving unchanged received BER.
 func MarshalBERISDNAddressString(value *BERValue[ISDNAddressString], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if value == nil {
 		return nil, fmt.Errorf("%w: required ISDNAddressString is nil", ber.ErrInvalidValue)
 	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(value.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
-		return MarshalBERISDNAddressString(value, []ber.EncodeOption{mode}...)
-	}, value)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(value.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := marshalBERISDNAddressString(value, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, value.berReplayNode_, opts), nil
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERISDNAddressString, marshalBERISDNAddressString, false)
+
 }
 func marshalBERISDNAddressString(value *BERValue[ISDNAddressString], opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -932,12 +918,12 @@ func marshalBERISDNAddressString(value *BERValue[ISDNAddressString], opts ...ber
 	_ = v
 	var children []byte
 	if len(v.Value) < 1 || len(v.Value) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERISDNAddressString", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ISDN-AddressString", "SIZE (1..9)", len(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.marshalBERISDNAddressString", "51.5", "ISDN-AddressString", "SIZE (1..9)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Value) < 1 || len(v.Value) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERISDNAddressString", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ISDN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.marshalBERISDNAddressString", "51.5", "ISDN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -958,12 +944,12 @@ func MarshalDERISDNAddressString(value *BERValue[ISDNAddressString]) ([]byte, er
 	_ = v
 	var children []byte
 	if len(v.Value) < 1 || len(v.Value) > 9 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.ISDN-AddressString", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ISDN-AddressString", "SIZE (1..9)", len(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_0, "51.5", "ISDN-AddressString", "SIZE (1..9)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	if len(v.Value) < 1 || len(v.Value) > 20 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.ISDN-AddressString", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ISDN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_0, "51.5", "ISDN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -979,21 +965,17 @@ func MarshalDERISDNAddressString(value *BERValue[ISDNAddressString]) ([]byte, er
 func UnmarshalBERISDNAddressString(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[ISDNAddressString], returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return nil, ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, s6f8409_0, "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERISDNAddressString(data, probeOpts...)
+		return probeErr
+	})
 	if prepareErr != nil {
-		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			_, probeErr := UnmarshalBERISDNAddressString(data, probeOpts...)
-			return probeErr
-		})
+		return nil, prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.ISDN-AddressString", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	v := &struct{ Value ISDNAddressString }{}
 	decode := func() error {
@@ -1011,12 +993,12 @@ func UnmarshalBERISDNAddressString(data []byte, opts ...ber.DecodeOption) (retur
 
 		offset += n
 		if len(v.Value) < 1 || len(v.Value) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.ISDN-AddressString", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ISDN-AddressString", "SIZE (1..9)", len(v.Value)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_0, "51.5", "ISDN-AddressString", "SIZE (1..9)", len(v.Value)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(v.Value) < 1 || len(v.Value) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.ISDN-AddressString", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ISDN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_0, "51.5", "ISDN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1029,40 +1011,140 @@ func UnmarshalBERISDNAddressString(data []byte, opts ...ber.DecodeOption) (retur
 		return nil, err
 	}
 	decoded := &BERValue[ISDNAddressString]{Value: v.Value}
-	if ber.BERNeedsPreservation(opts) {
-		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *BERValue[ISDNAddressString], replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return MarshalBERISDNAddressString(base, replayOpts...)
-		}); replayErr != nil {
-			return nil, replayErr
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERISDNAddressString); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
+}
+
+// MarshalBERFTNAddressString encodes a typed standalone FTNAddressString, preserving unchanged received BER.
+func MarshalBERFTNAddressString(value *BERValue[FTNAddressString], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required FTNAddressString is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERFTNAddressString, marshalBERFTNAddressString, false)
+
+}
+func marshalBERFTNAddressString(value *BERValue[FTNAddressString], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value FTNAddressString }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 1 || len(v.Value) > 15 {
+		if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.marshalBERFTNAddressString", "51.5", "FTN-AddressString", "SIZE (1..15)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
 		}
 	}
+	if len(v.Value) < 1 || len(v.Value) > 20 {
+		if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.marshalBERFTNAddressString", "51.5", "FTN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding FTN-AddressString", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERFTNAddressString encodes a typed standalone FTNAddressString using DER.
+func MarshalDERFTNAddressString(value *BERValue[FTNAddressString]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required FTNAddressString is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value FTNAddressString }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 1 || len(v.Value) > 15 {
+		if constraintErr := checkEncodedLength(nil, s6f8409_1, "51.5", "FTN-AddressString", "SIZE (1..15)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	if len(v.Value) < 1 || len(v.Value) > 20 {
+		if constraintErr := checkEncodedLength(nil, s6f8409_1, "51.5", "FTN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding FTN-AddressString", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERFTNAddressString decodes one complete typed standalone FTNAddressString from BER/DER.
+func UnmarshalBERFTNAddressString(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[FTNAddressString], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, s6f8409_1, "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERFTNAddressString(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value FTNAddressString }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "FTN-AddressString", content[offset:])
+		val_value, n, err := ber.DecodeOctetString(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding FTN-AddressString", qualifyBERError(err, "", "decoding", false))
+		}
+		v.Value = FTNAddressString(val_value)
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if len(v.Value) < 1 || len(v.Value) > 15 {
+			if constraintErr := checkDecodedLength(opts, s6f8409_1, "51.5", "FTN-AddressString", "SIZE (1..15)", len(v.Value)); constraintErr != nil {
+				return constraintErr
+			}
+		}
+		if len(v.Value) < 1 || len(v.Value) > 20 {
+			if constraintErr := checkDecodedLength(opts, s6f8409_1, "51.5", "FTN-AddressString", "SIZE (1..20)", len(v.Value)); constraintErr != nil {
+				return constraintErr
+			}
+		}
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[FTNAddressString]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERFTNAddressString); replayErr != nil {
+		return nil, replayErr
+	}
+
 	return decoded, nil
 }
 
 // MarshalBER encodes ExternalSignalInfo to BER format.
 func (v *ExternalSignalInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ExternalSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ExternalSignalInfo).MarshalBER, (*ExternalSignalInfo).marshalBER, true)
+
 }
 func (v *ExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1070,14 +1152,14 @@ func (v *ExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 	}
 	var children []byte
 	if int64(v.ProtocolId) != 1 && int64(v.ProtocolId) != 2 && int64(v.ProtocolId) != 3 && int64(v.ProtocolId) != 4 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "protocolId", "ENUMERATED {1, 2, 3, 4}", ber.ObserveInteger(int64(v.ProtocolId))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, s6f8409_2, "20", "protocolId", "ENUMERATED {1, 2, 3, 4}", ber.ObserveInteger(int64(v.ProtocolId))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_protocolid := ber.EncodeEnumerated(int64(v.ProtocolId))
 	children = append(children, enc_protocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_2, "51.5", "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1107,7 +1189,7 @@ func (v *ExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s6f8409_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1133,14 +1215,14 @@ func (v *ExternalSignalInfo) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if int64(v.ProtocolId) != 1 && int64(v.ProtocolId) != 2 && int64(v.ProtocolId) != 3 && int64(v.ProtocolId) != 4 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "protocolId", "ENUMERATED {1, 2, 3, 4}", ber.ObserveInteger(int64(v.ProtocolId))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, s6f8409_2, "20", "protocolId", "ENUMERATED {1, 2, 3, 4}", ber.ObserveInteger(int64(v.ProtocolId))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_protocolid := ber.EncodeEnumerated(int64(v.ProtocolId))
 	children = append(children, enc_protocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_2, "51.5", "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1166,7 +1248,7 @@ func (v *ExternalSignalInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s6f8409_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1195,43 +1277,26 @@ func (destination *ExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 	if destination == nil {
 		return fmt.Errorf("%w: ExternalSignalInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ ExternalSignalInfo
-	v := &berNextValue_
+	v := new(ExternalSignalInfo)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_2, "child", (*ExternalSignalInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ExternalSignalInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.ExternalSignalInfo", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ExternalSignalInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*ExternalSignalInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ExternalSignalInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1258,7 +1323,7 @@ func (destination *ExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 
 		offset += n
 		if int64(v.ProtocolId) != 1 && int64(v.ProtocolId) != 2 && int64(v.ProtocolId) != 3 && int64(v.ProtocolId) != 4 {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "protocolId", "ENUMERATED {1, 2, 3, 4}", ber.ObserveInteger(int64(v.ProtocolId))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s6f8409_2, "20", "protocolId", "ENUMERATED {1, 2, 3, 4}", ber.ObserveInteger(int64(v.ProtocolId))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1281,7 +1346,7 @@ func (destination *ExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 
 		offset += n
 		if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_2, "51.5", "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1331,7 +1396,7 @@ func (destination *ExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "ExternalSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1355,27 +1420,12 @@ func (destination *ExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.Dec
 
 // MarshalBER encodes ExtExternalSignalInfo to BER format.
 func (v *ExtExternalSignalInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ExtExternalSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ExtExternalSignalInfo).MarshalBER, (*ExtExternalSignalInfo).marshalBER, true)
+
 }
 func (v *ExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1385,7 +1435,7 @@ func (v *ExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 	enc_extprotocolid := ber.EncodeEnumerated(int64(v.ExtProtocolId))
 	children = append(children, enc_extprotocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_3, "51.5", "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1415,7 +1465,7 @@ func (v *ExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, er
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s6f8409_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1443,7 +1493,7 @@ func (v *ExtExternalSignalInfo) MarshalDER() ([]byte, error) {
 	enc_extprotocolid := ber.EncodeEnumerated(int64(v.ExtProtocolId))
 	children = append(children, enc_extprotocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_3, "51.5", "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1469,7 +1519,7 @@ func (v *ExtExternalSignalInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s6f8409_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1498,43 +1548,26 @@ func (destination *ExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.
 	if destination == nil {
 		return fmt.Errorf("%w: ExtExternalSignalInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ ExtExternalSignalInfo
-	v := &berNextValue_
+	v := new(ExtExternalSignalInfo)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_3, "child", (*ExtExternalSignalInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ExtExternalSignalInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ExtExternalSignalInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*ExtExternalSignalInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ExtExternalSignalInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1579,7 +1612,7 @@ func (destination *ExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.
 
 		offset += n
 		if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 200 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_3, "51.5", "signalInfo", "SIZE (1..200)", len(v.SignalInfo)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1629,7 +1662,7 @@ func (destination *ExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "ExtExternalSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.Ext-ExternalSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1653,27 +1686,12 @@ func (destination *ExtExternalSignalInfo) UnmarshalBER(data []byte, opts ...ber.
 
 // MarshalBER encodes AccessNetworkSignalInfo to BER format.
 func (v *AccessNetworkSignalInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: AccessNetworkSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*AccessNetworkSignalInfo).MarshalBER, (*AccessNetworkSignalInfo).marshalBER, true)
+
 }
 func (v *AccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1683,7 +1701,7 @@ func (v *AccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 	enc_accessnetworkprotocolid := ber.EncodeEnumerated(int64(v.AccessNetworkProtocolId))
 	children = append(children, enc_accessnetworkprotocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 2560 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_4, "51.5", "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1713,7 +1731,7 @@ func (v *AccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s6f8409_4, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1741,7 +1759,7 @@ func (v *AccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
 	enc_accessnetworkprotocolid := ber.EncodeEnumerated(int64(v.AccessNetworkProtocolId))
 	children = append(children, enc_accessnetworkprotocolid...)
 	if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 2560 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_4, "51.5", "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1767,7 +1785,7 @@ func (v *AccessNetworkSignalInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s6f8409_4, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1796,43 +1814,26 @@ func (destination *AccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...be
 	if destination == nil {
 		return fmt.Errorf("%w: AccessNetworkSignalInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ AccessNetworkSignalInfo
-	v := &berNextValue_
+	v := new(AccessNetworkSignalInfo)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_4, "child", (*AccessNetworkSignalInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe AccessNetworkSignalInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.AccessNetworkSignalInfo", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = AccessNetworkSignalInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*AccessNetworkSignalInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *AccessNetworkSignalInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1877,7 +1878,7 @@ func (destination *AccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...be
 
 		offset += n
 		if len(v.SignalInfo) < 1 || len(v.SignalInfo) > 2560 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_4, "51.5", "signalInfo", "SIZE (1..2560)", len(v.SignalInfo)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1927,7 +1928,7 @@ func (destination *AccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...be
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "AccessNetworkSignalInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.AccessNetworkSignalInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_4, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1951,24 +1952,12 @@ func (destination *AccessNetworkSignalInfo) UnmarshalBER(data []byte, opts ...be
 
 // MarshalBERIMSI encodes a typed standalone IMSI, preserving unchanged received BER.
 func MarshalBERIMSI(value *BERValue[IMSI], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if value == nil {
 		return nil, fmt.Errorf("%w: required IMSI is nil", ber.ErrInvalidValue)
 	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(value.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return MarshalBERIMSI(value, []ber.EncodeOption{mode}...) }, value)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(value.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := marshalBERIMSI(value, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, value.berReplayNode_, opts), nil
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERIMSI, marshalBERIMSI, false)
+
 }
 func marshalBERIMSI(value *BERValue[IMSI], opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1978,7 +1967,7 @@ func marshalBERIMSI(value *BERValue[IMSI], opts ...ber.EncodeOption) ([]byte, er
 	_ = v
 	var children []byte
 	if len(v.Value) < 3 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERIMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.marshalBERIMSI", "51.5", "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1999,7 +1988,7 @@ func MarshalDERIMSI(value *BERValue[IMSI]) ([]byte, error) {
 	_ = v
 	var children []byte
 	if len(v.Value) < 3 || len(v.Value) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.IMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, "MAP-CommonDataTypes.IMSI", "51.5", "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2015,21 +2004,17 @@ func MarshalDERIMSI(value *BERValue[IMSI]) ([]byte, error) {
 func UnmarshalBERIMSI(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[IMSI], returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return nil, ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "MAP-CommonDataTypes.IMSI", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERIMSI(data, probeOpts...)
+		return probeErr
+	})
 	if prepareErr != nil {
-		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			_, probeErr := UnmarshalBERIMSI(data, probeOpts...)
-			return probeErr
-		})
+		return nil, prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.IMSI", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	v := &struct{ Value IMSI }{}
 	decode := func() error {
@@ -2047,7 +2032,7 @@ func UnmarshalBERIMSI(data []byte, opts ...ber.DecodeOption) (returnValue *BERVa
 
 		offset += n
 		if len(v.Value) < 3 || len(v.Value) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.IMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, "MAP-CommonDataTypes.IMSI", "51.5", "IMSI", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2060,40 +2045,22 @@ func UnmarshalBERIMSI(data []byte, opts ...ber.DecodeOption) (returnValue *BERVa
 		return nil, err
 	}
 	decoded := &BERValue[IMSI]{Value: v.Value}
-	if ber.BERNeedsPreservation(opts) {
-		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *BERValue[IMSI], replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return MarshalBERIMSI(base, replayOpts...)
-		}); replayErr != nil {
-			return nil, replayErr
-		}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERIMSI); replayErr != nil {
+		return nil, replayErr
 	}
+
 	return decoded, nil
 }
 
 // MarshalBER encodes Identity to BER format.
 func (v *Identity) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Identity receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Identity).MarshalBER, (*Identity).marshalBER, true)
+
 }
 func (v *Identity) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -2117,7 +2084,7 @@ func (v *Identity) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.Identity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.Identity", "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2186,41 +2153,24 @@ func (destination *Identity) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if destination == nil {
 		return fmt.Errorf("%w: Identity destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ Identity
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(Identity)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *Identity, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "MAP-CommonDataTypes.Identity", "child", (*Identity).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe Identity
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.Identity", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*Identity).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Identity{}
 	if len(data) == 0 {
@@ -2253,7 +2203,7 @@ func (destination *Identity) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 		tmp := IMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.Identity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, "MAP-CommonDataTypes.Identity", "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2273,27 +2223,12 @@ func (destination *Identity) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 // MarshalBER encodes IMSIWithLMSI to BER format.
 func (v *IMSIWithLMSI) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: IMSIWithLMSI receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*IMSIWithLMSI).MarshalBER, (*IMSIWithLMSI).marshalBER, true)
+
 }
 func (v *IMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2301,7 +2236,7 @@ func (v *IMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_5, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2311,7 +2246,7 @@ func (v *IMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	children = append(children, enc_imsi...)
 	if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_5, "51.5", "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2353,7 +2288,7 @@ func (v *IMSIWithLMSI) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_5, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2363,7 +2298,7 @@ func (v *IMSIWithLMSI) MarshalDER() ([]byte, error) {
 	}
 	children = append(children, enc_imsi...)
 	if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_5, "51.5", "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2401,42 +2336,25 @@ func (destination *IMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if destination == nil {
 		return fmt.Errorf("%w: IMSIWithLMSI destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ IMSIWithLMSI
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(IMSIWithLMSI)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_5, "child", (*IMSIWithLMSI).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe IMSIWithLMSI
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.IMSI-WithLMSI", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = IMSIWithLMSI{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*IMSIWithLMSI).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *IMSIWithLMSI, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2463,7 +2381,7 @@ func (destination *IMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n
 		if len(v.Imsi) < 3 || len(v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_5, "51.5", "imsi", "SIZE (3..8)", len(v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2486,7 +2404,7 @@ func (destination *IMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 		offset += n
 		if len(v.Lmsi) < 4 || len(v.Lmsi) > 4 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.IMSI-WithLMSI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_5, "51.5", "lmsi", "SIZE (4)", len(v.Lmsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2517,29 +2435,117 @@ func (destination *IMSIWithLMSI) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	return nil
 }
 
+// MarshalBERASCICallReference encodes a typed standalone ASCICallReference, preserving unchanged received BER.
+func MarshalBERASCICallReference(value *BERValue[ASCICallReference], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required ASCICallReference is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERASCICallReference, marshalBERASCICallReference, false)
+
+}
+func marshalBERASCICallReference(value *BERValue[ASCICallReference], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value ASCICallReference }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 1 || len(v.Value) > 8 {
+		if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.marshalBERASCICallReference", "51.5", "ASCI-CallReference", "SIZE (1..8)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding ASCI-CallReference", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERASCICallReference encodes a typed standalone ASCICallReference using DER.
+func MarshalDERASCICallReference(value *BERValue[ASCICallReference]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required ASCICallReference is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value ASCICallReference }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 1 || len(v.Value) > 8 {
+		if constraintErr := checkEncodedLength(nil, "MAP-CommonDataTypes.ASCI-CallReference", "51.5", "ASCI-CallReference", "SIZE (1..8)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding ASCI-CallReference", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERASCICallReference decodes one complete typed standalone ASCICallReference from BER/DER.
+func UnmarshalBERASCICallReference(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[ASCICallReference], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "MAP-CommonDataTypes.ASCI-CallReference", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERASCICallReference(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value ASCICallReference }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "ASCI-CallReference", content[offset:])
+		val_value, n, err := ber.DecodeOctetString(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding ASCI-CallReference", qualifyBERError(err, "", "decoding", false))
+		}
+		v.Value = ASCICallReference(val_value)
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if len(v.Value) < 1 || len(v.Value) > 8 {
+			if constraintErr := checkDecodedLength(opts, "MAP-CommonDataTypes.ASCI-CallReference", "51.5", "ASCI-CallReference", "SIZE (1..8)", len(v.Value)); constraintErr != nil {
+				return constraintErr
+			}
+		}
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[ASCICallReference]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERASCICallReference); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
+}
+
 // MarshalBER encodes SubscriberId to BER format.
 func (v *SubscriberId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SubscriberId receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SubscriberId).MarshalBER, (*SubscriberId).marshalBER, true)
+
 }
 func (v *SubscriberId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -2563,7 +2569,7 @@ func (v *SubscriberId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberId", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_6, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2582,7 +2588,7 @@ func (v *SubscriberId) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 			return nil, qualifyBERError(encodeErr_enc_1, "tmsi", "encoding", false)
 		}
 		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberId", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_6, "51.5", "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2633,41 +2639,24 @@ func (destination *SubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if destination == nil {
 		return fmt.Errorf("%w: SubscriberId destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SubscriberId
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(SubscriberId)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SubscriberId, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_6, "child", (*SubscriberId).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SubscriberId
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.SubscriberId", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SubscriberId).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SubscriberId{}
 	if len(data) == 0 {
@@ -2702,7 +2691,7 @@ func (destination *SubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		tmp := IMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberId", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_6, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2721,7 +2710,7 @@ func (destination *SubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 		tmp := TMSI(decVal)
 		v.Tmsi = &tmp
 		if len(*v.Tmsi) < 1 || len(*v.Tmsi) > 4 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberId", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_6, "51.5", "tmsi", "SIZE (1..4)", len(*v.Tmsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2731,39 +2720,228 @@ func (destination *SubscriberId) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	return nil
 }
 
+// MarshalBERIMEI encodes a typed standalone IMEI, preserving unchanged received BER.
+func MarshalBERIMEI(value *BERValue[IMEI], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required IMEI is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERIMEI, marshalBERIMEI, false)
+
+}
+func marshalBERIMEI(value *BERValue[IMEI], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value IMEI }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 8 || len(v.Value) > 8 {
+		if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.marshalBERIMEI", "51.5", "IMEI", "SIZE (8)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding IMEI", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERIMEI encodes a typed standalone IMEI using DER.
+func MarshalDERIMEI(value *BERValue[IMEI]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required IMEI is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value IMEI }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 8 || len(v.Value) > 8 {
+		if constraintErr := checkEncodedLength(nil, "MAP-CommonDataTypes.IMEI", "51.5", "IMEI", "SIZE (8)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding IMEI", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERIMEI decodes one complete typed standalone IMEI from BER/DER.
+func UnmarshalBERIMEI(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[IMEI], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "MAP-CommonDataTypes.IMEI", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERIMEI(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value IMEI }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "IMEI", content[offset:])
+		val_value, n, err := ber.DecodeOctetString(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding IMEI", qualifyBERError(err, "", "decoding", false))
+		}
+		v.Value = IMEI(val_value)
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if len(v.Value) < 8 || len(v.Value) > 8 {
+			if constraintErr := checkDecodedLength(opts, "MAP-CommonDataTypes.IMEI", "51.5", "IMEI", "SIZE (8)", len(v.Value)); constraintErr != nil {
+				return constraintErr
+			}
+		}
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[IMEI]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERIMEI); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
+}
+
+// MarshalBERHLRId encodes a typed standalone HLRId, preserving unchanged received BER.
+func MarshalBERHLRId(value *BERValue[HLRId], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required HLRId is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERHLRId, marshalBERHLRId, false)
+
+}
+func marshalBERHLRId(value *BERValue[HLRId], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value HLRId }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 3 || len(v.Value) > 8 {
+		if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.marshalBERHLRId", "51.5", "HLR-Id", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding HLR-Id", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERHLRId encodes a typed standalone HLRId using DER.
+func MarshalDERHLRId(value *BERValue[HLRId]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required HLRId is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value HLRId }{Value: value.Value}
+	_ = v
+	var children []byte
+	if len(v.Value) < 3 || len(v.Value) > 8 {
+		if constraintErr := checkEncodedLength(nil, "MAP-CommonDataTypes.HLR-Id", "51.5", "HLR-Id", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeOctetString([]byte(v.Value))
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding HLR-Id", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERHLRId decodes one complete typed standalone HLRId from BER/DER.
+func UnmarshalBERHLRId(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[HLRId], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "MAP-CommonDataTypes.HLR-Id", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERHLRId(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value HLRId }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "HLR-Id", content[offset:])
+		val_value, n, err := ber.DecodeOctetString(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding HLR-Id", qualifyBERError(err, "", "decoding", false))
+		}
+		v.Value = HLRId(val_value)
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if len(v.Value) < 3 || len(v.Value) > 8 {
+			if constraintErr := checkDecodedLength(opts, "MAP-CommonDataTypes.HLR-Id", "51.5", "HLR-Id", "SIZE (3..8)", len(v.Value)); constraintErr != nil {
+				return constraintErr
+			}
+		}
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[HLRId]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERHLRId); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
+}
+
 // MarshalBERHLRList encodes a HLRList list to BER.
 func MarshalBERHLRList(collection *HLRList, opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
 		return nil, err
 	}
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	if collection.berReplayNode_ == nil {
-		return marshalBERHLRList(collection, opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(collection.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) {
-		return MarshalBERHLRList(collection, []ber.EncodeOption{mode}...)
-	}, collection)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(collection.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := marshalBERHLRList(collection, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, collection.berReplayNode_, opts), nil
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERHLRList, marshalBERHLRList, true)
+
 }
 func marshalBERHLRList(collection *HLRList, opts ...ber.EncodeOption) ([]byte, error) {
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERHLRList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(opts, "MAP-CommonDataTypes.marshalBERHLRList", "51.5", "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2771,7 +2949,7 @@ func marshalBERHLRList(collection *HLRList, opts ...ber.EncodeOption) ([]byte, e
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 3 || len(elem) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.marshalBERHLRList", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, "MAP-CommonDataTypes.marshalBERHLRList", "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2804,7 +2982,7 @@ func MarshalDERHLRList(collection *HLRList) ([]byte, error) {
 	}
 	list := collection.Values
 	if len(list) < 1 || len(list) > 50 {
-		if constraintErr := ber.CheckEncodedCollectionLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.HLR-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
+		if constraintErr := checkEncodedCollectionLength(nil, s6f8409_7, "51.5", "HLR-List", "SIZE (1..50)", len(list)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2812,7 +2990,7 @@ func MarshalDERHLRList(collection *HLRList) ([]byte, error) {
 	for elemIndex, elem := range list {
 		_ = elemIndex
 		if len(elem) < 3 || len(elem) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.HLR-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s6f8409_7, "51.5", fmt.Sprintf("element[%d]", elemIndex), "SIZE (3..8)", len(elem)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2848,21 +3026,17 @@ func appendDERLinearHLRList(encoder *ber.LinearEncoder, collection *HLRList) ([]
 func UnmarshalBERHLRList(data []byte, opts ...ber.DecodeOption) (returnValue *HLRList, returnErr error) {
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return nil, ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, s6f8409_7, "element", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERHLRList(data, probeOpts...)
+		return probeErr
+	})
 	if prepareErr != nil {
-		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
-			_, probeErr := UnmarshalBERHLRList(data, probeOpts...)
-			return probeErr
-		})
+		return nil, prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.HLR-List", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2886,7 +3060,7 @@ func UnmarshalBERHLRList(data []byte, opts ...ber.DecodeOption) (returnValue *HL
 				"decoding", false)
 		}
 		if len(val) < 3 || len(val) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.HLR-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), fmt.Sprintf("element[%d]", len(result)), "SIZE (3..8)", len(val)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_7, "51.5", fmt.Sprintf("element[%d]", len(result)), "SIZE (3..8)", len(val)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2899,45 +3073,27 @@ func UnmarshalBERHLRList(data []byte, opts ...ber.DecodeOption) (returnValue *HL
 		offset += n
 	}
 	if len(result) < 1 || len(result) > 50 {
-		if constraintErr := ber.CheckDecodedCollectionLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.HLR-List", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "HLR-List", "SIZE (1..50)", len(result)); constraintErr != nil {
+		if constraintErr := checkDecodedCollectionLength(opts, s6f8409_7, "51.5", "HLR-List", "SIZE (1..50)", len(result)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	decoded := &HLRList{Values: result}
-	if ber.BERNeedsPreservation(opts) {
-		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		if replayErr := ber.CompleteGeneratedBERDecode(opts, decoded, func(base *HLRList, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return MarshalBERHLRList(base, replayOpts...)
-		}); replayErr != nil {
-			return nil, replayErr
-		}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERHLRList); replayErr != nil {
+		return nil, replayErr
 	}
+
 	return decoded, nil
 }
 
 // MarshalBER encodes NAEAPreferredCI to BER format.
 func (v *NAEAPreferredCI) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: NAEAPreferredCI receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*NAEAPreferredCI).MarshalBER, (*NAEAPreferredCI).marshalBER, true)
+
 }
 func (v *NAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2945,7 +3101,7 @@ func (v *NAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.NaeaPreferredCIC) < 3 || len(v.NaeaPreferredCIC) > 3 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_8, "51.5", "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2985,7 +3141,7 @@ func (v *NAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s6f8409_8, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3011,7 +3167,7 @@ func (v *NAEAPreferredCI) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.NaeaPreferredCIC) < 3 || len(v.NaeaPreferredCIC) > 3 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_8, "51.5", "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3047,7 +3203,7 @@ func (v *NAEAPreferredCI) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s6f8409_8, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3076,42 +3232,25 @@ func (destination *NAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.Decode
 	if destination == nil {
 		return fmt.Errorf("%w: NAEAPreferredCI destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ NAEAPreferredCI
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(NAEAPreferredCI)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_8, "child", (*NAEAPreferredCI).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe NAEAPreferredCI
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.NAEA-PreferredCI", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = NAEAPreferredCI{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*NAEAPreferredCI).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *NAEAPreferredCI, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -3150,7 +3289,7 @@ func (destination *NAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.Decode
 
 		offset += n_naeapreferredcic
 		if len(v.NaeaPreferredCIC) < 3 || len(v.NaeaPreferredCIC) > 3 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_8, "51.5", "naea-PreferredCIC", "SIZE (3)", len(v.NaeaPreferredCIC)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3207,7 +3346,7 @@ func (destination *NAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.Decode
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "NAEAPreferredCI", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.NAEA-PreferredCI", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_8, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -3231,27 +3370,12 @@ func (destination *NAEAPreferredCI) UnmarshalBER(data []byte, opts ...ber.Decode
 
 // MarshalBER encodes SubscriberIdentity to BER format.
 func (v *SubscriberIdentity) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: SubscriberIdentity receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SubscriberIdentity).MarshalBER, (*SubscriberIdentity).marshalBER, true)
+
 }
 func (v *SubscriberIdentity) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -3275,7 +3399,7 @@ func (v *SubscriberIdentity) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			return nil, qualifyBERError(encodeErr_enc_0, "imsi", "encoding", false)
 		}
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_9, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3294,12 +3418,12 @@ func (v *SubscriberIdentity) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 			return nil, qualifyBERError(encodeErr_enc_1, "msisdn", "encoding", false)
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_9, "51.5", "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_9, "51.5", "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3350,42 +3474,25 @@ func (destination *SubscriberIdentity) UnmarshalBER(data []byte, opts ...ber.Dec
 	if destination == nil {
 		return fmt.Errorf("%w: SubscriberIdentity destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ SubscriberIdentity
-	v := &berNextValue_
+	v := new(SubscriberIdentity)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *SubscriberIdentity, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_9, "child", (*SubscriberIdentity).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe SubscriberIdentity
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.SubscriberIdentity", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*SubscriberIdentity).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = SubscriberIdentity{}
 	if len(data) == 0 {
@@ -3420,7 +3527,7 @@ func (destination *SubscriberIdentity) UnmarshalBER(data []byte, opts ...ber.Dec
 		tmp := IMSI(decVal)
 		v.Imsi = &tmp
 		if len(*v.Imsi) < 3 || len(*v.Imsi) > 8 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_9, "51.5", "imsi", "SIZE (3..8)", len(*v.Imsi)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3439,12 +3546,12 @@ func (destination *SubscriberIdentity) UnmarshalBER(data []byte, opts ...ber.Dec
 		tmp := ISDNAddressString(decVal)
 		v.Msisdn = &tmp
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 9 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_9, "51.5", "msisdn", "SIZE (1..9)", len(*v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
 		if len(*v.Msisdn) < 1 || len(*v.Msisdn) > 20 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.SubscriberIdentity", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_9, "51.5", "msisdn", "SIZE (1..20)", len(*v.Msisdn)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -3456,27 +3563,12 @@ func (destination *SubscriberIdentity) UnmarshalBER(data []byte, opts ...ber.Dec
 
 // MarshalBER encodes LCSClientExternalID to BER format.
 func (v *LCSClientExternalID) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSClientExternalID receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSClientExternalID).MarshalBER, (*LCSClientExternalID).marshalBER, true)
+
 }
 func (v *LCSClientExternalID) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3485,12 +3577,12 @@ func (v *LCSClientExternalID) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 	var children []byte
 	if v.ExternalAddress != nil {
 		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_10, "51.5", "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_10, "51.5", "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3531,7 +3623,7 @@ func (v *LCSClientExternalID) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s6f8409_10, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3558,12 +3650,12 @@ func (v *LCSClientExternalID) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.ExternalAddress != nil {
 		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 9 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s6f8409_10, "51.5", "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
 		if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, s6f8409_10, "51.5", "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3600,7 +3692,7 @@ func (v *LCSClientExternalID) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s6f8409_10, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -3629,43 +3721,26 @@ func (destination *LCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.De
 	if destination == nil {
 		return fmt.Errorf("%w: LCSClientExternalID destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ LCSClientExternalID
-	v := &berNextValue_
+	v := new(LCSClientExternalID)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_10, "child", (*LCSClientExternalID).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe LCSClientExternalID
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.LCSClientExternalID", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = LCSClientExternalID{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*LCSClientExternalID).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *LCSClientExternalID, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -3700,12 +3775,12 @@ func (destination *LCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.De
 
 				offset += n_externaladdress
 				if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 9 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s6f8409_10, "51.5", "externalAddress", "SIZE (1..9)", len(*v.ExternalAddress)); constraintErr != nil {
 						return constraintErr
 					}
 				}
 				if len(*v.ExternalAddress) < 1 || len(*v.ExternalAddress) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, s6f8409_10, "51.5", "externalAddress", "SIZE (1..20)", len(*v.ExternalAddress)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -3764,7 +3839,7 @@ func (destination *LCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.De
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "LCSClientExternalID", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.LCSClientExternalID", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_10, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -3788,27 +3863,12 @@ func (destination *LCSClientExternalID) UnmarshalBER(data []byte, opts ...ber.De
 
 // MarshalBER encodes NetworkNodeDiameterAddress to BER format.
 func (v *NetworkNodeDiameterAddress) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: NetworkNodeDiameterAddress receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*NetworkNodeDiameterAddress).MarshalBER, (*NetworkNodeDiameterAddress).marshalBER, true)
+
 }
 func (v *NetworkNodeDiameterAddress) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -3816,7 +3876,7 @@ func (v *NetworkNodeDiameterAddress) marshalBER(opts ...ber.EncodeOption) ([]byt
 	}
 	var children []byte
 	if len(v.DiameterName) < 9 || len(v.DiameterName) > 255 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_11, "51.5", "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3831,7 +3891,7 @@ func (v *NetworkNodeDiameterAddress) marshalBER(opts ...ber.EncodeOption) ([]byt
 	enc_diametername = retagged_enc_diametername
 	children = append(children, enc_diametername...)
 	if len(v.DiameterRealm) < 9 || len(v.DiameterRealm) > 255 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_11, "51.5", "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3865,7 +3925,7 @@ func (v *NetworkNodeDiameterAddress) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.DiameterName) < 9 || len(v.DiameterName) > 255 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_11, "51.5", "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3880,7 +3940,7 @@ func (v *NetworkNodeDiameterAddress) MarshalDER() ([]byte, error) {
 	enc_diametername = retagged_enc_diametername
 	children = append(children, enc_diametername...)
 	if len(v.DiameterRealm) < 9 || len(v.DiameterRealm) > 255 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_11, "51.5", "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -3917,43 +3977,26 @@ func (destination *NetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ..
 	if destination == nil {
 		return fmt.Errorf("%w: NetworkNodeDiameterAddress destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ NetworkNodeDiameterAddress
-	v := &berNextValue_
+	v := new(NetworkNodeDiameterAddress)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_11, "child", (*NetworkNodeDiameterAddress).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe NetworkNodeDiameterAddress
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = NetworkNodeDiameterAddress{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*NetworkNodeDiameterAddress).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *NetworkNodeDiameterAddress, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -3992,7 +4035,7 @@ func (destination *NetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ..
 
 		offset += n_diametername
 		if len(v.DiameterName) < 9 || len(v.DiameterName) > 255 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_11, "51.5", "diameter-Name", "SIZE (9..255)", len(v.DiameterName)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4027,7 +4070,7 @@ func (destination *NetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ..
 
 		offset += n_diameterrealm
 		if len(v.DiameterRealm) < 9 || len(v.DiameterRealm) > 255 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.NetworkNodeDiameterAddress", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_11, "51.5", "diameter-Realm", "SIZE (9..255)", len(v.DiameterRealm)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4040,27 +4083,12 @@ func (destination *NetworkNodeDiameterAddress) UnmarshalBER(data []byte, opts ..
 
 // MarshalBER encodes CellGlobalIdOrServiceAreaIdOrLAI to BER format.
 func (v *CellGlobalIdOrServiceAreaIdOrLAI) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: CellGlobalIdOrServiceAreaIdOrLAI receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CellGlobalIdOrServiceAreaIdOrLAI).MarshalBER, (*CellGlobalIdOrServiceAreaIdOrLAI).marshalBER, true)
+
 }
 func (v *CellGlobalIdOrServiceAreaIdOrLAI) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -4084,7 +4112,7 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI) marshalBER(opts ...ber.EncodeOption) 
 			return nil, qualifyBERError(encodeErr_enc_0, "cellGlobalIdOrServiceAreaIdFixedLength", "encoding", false)
 		}
 		if len(*v.CellGlobalIdOrServiceAreaIdFixedLength) < 7 || len(*v.CellGlobalIdOrServiceAreaIdFixedLength) > 7 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "cellGlobalIdOrServiceAreaIdFixedLength", "SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_12, "51.5", "cellGlobalIdOrServiceAreaIdFixedLength", "SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4103,7 +4131,7 @@ func (v *CellGlobalIdOrServiceAreaIdOrLAI) marshalBER(opts ...ber.EncodeOption) 
 			return nil, qualifyBERError(encodeErr_enc_1, "laiFixedLength", "encoding", false)
 		}
 		if len(*v.LaiFixedLength) < 5 || len(*v.LaiFixedLength) > 5 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "laiFixedLength", "SIZE (5)", len(*v.LaiFixedLength)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_12, "51.5", "laiFixedLength", "SIZE (5)", len(*v.LaiFixedLength)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4154,43 +4182,25 @@ func (destination *CellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte, o
 	if destination == nil {
 		return fmt.Errorf("%w: CellGlobalIdOrServiceAreaIdOrLAI destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ CellGlobalIdOrServiceAreaIdOrLAI
-	v :=
+	v := new(CellGlobalIdOrServiceAreaIdOrLAI)
 
-		&berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *CellGlobalIdOrServiceAreaIdOrLAI, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_12, "child", (*CellGlobalIdOrServiceAreaIdOrLAI).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe CellGlobalIdOrServiceAreaIdOrLAI
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*CellGlobalIdOrServiceAreaIdOrLAI).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = CellGlobalIdOrServiceAreaIdOrLAI{}
 	if len(data) == 0 {
@@ -4225,7 +4235,7 @@ func (destination *CellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte, o
 		tmp := CellGlobalIdOrServiceAreaIdFixedLength(decVal)
 		v.CellGlobalIdOrServiceAreaIdFixedLength = &tmp
 		if len(*v.CellGlobalIdOrServiceAreaIdFixedLength) < 7 || len(*v.CellGlobalIdOrServiceAreaIdFixedLength) > 7 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "cellGlobalIdOrServiceAreaIdFixedLength", "SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_12, "51.5", "cellGlobalIdOrServiceAreaIdFixedLength", "SIZE (7)", len(*v.CellGlobalIdOrServiceAreaIdFixedLength)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4244,7 +4254,7 @@ func (destination *CellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte, o
 		tmp := LAIFixedLength(decVal)
 		v.LaiFixedLength = &tmp
 		if len(*v.LaiFixedLength) < 5 || len(*v.LaiFixedLength) > 5 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "laiFixedLength", "SIZE (5)", len(*v.LaiFixedLength)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_12, "51.5", "laiFixedLength", "SIZE (5)", len(*v.LaiFixedLength)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4256,27 +4266,12 @@ func (destination *CellGlobalIdOrServiceAreaIdOrLAI) UnmarshalBER(data []byte, o
 
 // MarshalBER encodes BasicServiceCode to BER format.
 func (v *BasicServiceCode) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: BasicServiceCode receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*BasicServiceCode).MarshalBER, (*BasicServiceCode).marshalBER, true)
+
 }
 func (v *BasicServiceCode) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -4300,7 +4295,7 @@ func (v *BasicServiceCode) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, qualifyBERError(encodeErr_enc_0, "bearerService", "encoding", false)
 		}
 		if len(*v.BearerService) < 1 || len(*v.BearerService) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_13, "51.5", "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4319,7 +4314,7 @@ func (v *BasicServiceCode) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 			return nil, qualifyBERError(encodeErr_enc_1, "teleservice", "encoding", false)
 		}
 		if len(*v.Teleservice) < 1 || len(*v.Teleservice) > 1 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_13, "51.5", "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4370,41 +4365,24 @@ func (destination *BasicServiceCode) UnmarshalBER(data []byte, opts ...ber.Decod
 	if destination == nil {
 		return fmt.Errorf("%w: BasicServiceCode destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ BasicServiceCode
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(BasicServiceCode)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *BasicServiceCode, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_13, "child", (*BasicServiceCode).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe BasicServiceCode
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.BasicServiceCode", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*BasicServiceCode).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = BasicServiceCode{}
 	if len(data) == 0 {
@@ -4439,7 +4417,7 @@ func (destination *BasicServiceCode) UnmarshalBER(data []byte, opts ...ber.Decod
 		tmp := BearerServiceCode(decVal)
 		v.BearerService = &tmp
 		if len(*v.BearerService) < 1 || len(*v.BearerService) > 1 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_13, "51.5", "bearerService", "SIZE (1)", len(*v.BearerService)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4458,7 +4436,7 @@ func (destination *BasicServiceCode) UnmarshalBER(data []byte, opts ...ber.Decod
 		tmp := TeleserviceCode(decVal)
 		v.Teleservice = &tmp
 		if len(*v.Teleservice) < 1 || len(*v.Teleservice) > 1 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_13, "51.5", "teleservice", "SIZE (1)", len(*v.Teleservice)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4470,27 +4448,12 @@ func (destination *BasicServiceCode) UnmarshalBER(data []byte, opts ...ber.Decod
 
 // MarshalBER encodes ExtBasicServiceCode to BER format.
 func (v *ExtBasicServiceCode) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: ExtBasicServiceCode receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ExtBasicServiceCode).MarshalBER, (*ExtBasicServiceCode).marshalBER, true)
+
 }
 func (v *ExtBasicServiceCode) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -4514,7 +4477,7 @@ func (v *ExtBasicServiceCode) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 			return nil, qualifyBERError(encodeErr_enc_0, "ext-BearerService", "encoding", false)
 		}
 		if len(*v.ExtBearerService) < 1 || len(*v.ExtBearerService) > 5 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.Ext-BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ext-BearerService", "SIZE (1..5)", len(*v.ExtBearerService)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_14, "51.5", "ext-BearerService", "SIZE (1..5)", len(*v.ExtBearerService)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4533,7 +4496,7 @@ func (v *ExtBasicServiceCode) marshalBER(opts ...ber.EncodeOption) ([]byte, erro
 			return nil, qualifyBERError(encodeErr_enc_1, "ext-Teleservice", "encoding", false)
 		}
 		if len(*v.ExtTeleservice) < 1 || len(*v.ExtTeleservice) > 5 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.Ext-BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ext-Teleservice", "SIZE (1..5)", len(*v.ExtTeleservice)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, s6f8409_14, "51.5", "ext-Teleservice", "SIZE (1..5)", len(*v.ExtTeleservice)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4584,42 +4547,25 @@ func (destination *ExtBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.De
 	if destination == nil {
 		return fmt.Errorf("%w: ExtBasicServiceCode destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ ExtBasicServiceCode
-	v := &berNextValue_
+	v := new(ExtBasicServiceCode)
 
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *ExtBasicServiceCode, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_14, "child", (*ExtBasicServiceCode).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe ExtBasicServiceCode
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.Ext-BasicServiceCode", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*ExtBasicServiceCode).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = ExtBasicServiceCode{}
 	if len(data) == 0 {
@@ -4654,7 +4600,7 @@ func (destination *ExtBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.De
 		tmp := ExtBearerServiceCode(decVal)
 		v.ExtBearerService = &tmp
 		if len(*v.ExtBearerService) < 1 || len(*v.ExtBearerService) > 5 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.Ext-BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ext-BearerService", "SIZE (1..5)", len(*v.ExtBearerService)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_14, "51.5", "ext-BearerService", "SIZE (1..5)", len(*v.ExtBearerService)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4673,7 +4619,7 @@ func (destination *ExtBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.De
 		tmp := ExtTeleserviceCode(decVal)
 		v.ExtTeleservice = &tmp
 		if len(*v.ExtTeleservice) < 1 || len(*v.ExtTeleservice) > 5 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.Ext-BasicServiceCode", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ext-Teleservice", "SIZE (1..5)", len(*v.ExtTeleservice)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_14, "51.5", "ext-Teleservice", "SIZE (1..5)", len(*v.ExtTeleservice)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4685,27 +4631,12 @@ func (destination *ExtBasicServiceCode) UnmarshalBER(data []byte, opts ...ber.De
 
 // MarshalBER encodes EMLPPInfo to BER format.
 func (v *EMLPPInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: EMLPPInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*EMLPPInfo).MarshalBER, (*EMLPPInfo).marshalBER, true)
+
 }
 func (v *EMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -4713,14 +4644,14 @@ func (v *EMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if !(int64(v.MaximumentitledPriority) >= 0 && int64(v.MaximumentitledPriority) <= 15) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "maximumentitledPriority", "(0..15)", ber.ObserveInteger(int64(v.MaximumentitledPriority))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, s6f8409_15, "51.4", "maximumentitledPriority", "(0..15)", ber.ObserveInteger(int64(v.MaximumentitledPriority))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_maximumentitledpriority := ber.EncodeInteger(int64(v.MaximumentitledPriority))
 	children = append(children, enc_maximumentitledpriority...)
 	if !(int64(v.DefaultPriority) >= 0 && int64(v.DefaultPriority) <= 15) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "defaultPriority", "(0..15)", ber.ObserveInteger(int64(v.DefaultPriority))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, s6f8409_15, "51.4", "defaultPriority", "(0..15)", ber.ObserveInteger(int64(v.DefaultPriority))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4747,7 +4678,7 @@ func (v *EMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s6f8409_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4773,14 +4704,14 @@ func (v *EMLPPInfo) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if !(int64(v.MaximumentitledPriority) >= 0 && int64(v.MaximumentitledPriority) <= 15) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "maximumentitledPriority", "(0..15)", ber.ObserveInteger(int64(v.MaximumentitledPriority))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, s6f8409_15, "51.4", "maximumentitledPriority", "(0..15)", ber.ObserveInteger(int64(v.MaximumentitledPriority))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
 	enc_maximumentitledpriority := ber.EncodeInteger(int64(v.MaximumentitledPriority))
 	children = append(children, enc_maximumentitledpriority...)
 	if !(int64(v.DefaultPriority) >= 0 && int64(v.DefaultPriority) <= 15) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "defaultPriority", "(0..15)", ber.ObserveInteger(int64(v.DefaultPriority))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, s6f8409_15, "51.4", "defaultPriority", "(0..15)", ber.ObserveInteger(int64(v.DefaultPriority))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -4803,7 +4734,7 @@ func (v *EMLPPInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s6f8409_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -4832,42 +4763,25 @@ func (destination *EMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	if destination == nil {
 		return fmt.Errorf("%w: EMLPPInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ EMLPPInfo
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(EMLPPInfo)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_15, "child", (*EMLPPInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe EMLPPInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.EMLPP-Info", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = EMLPPInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*EMLPPInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *EMLPPInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -4894,7 +4808,7 @@ func (destination *EMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 		offset += n
 		if !(int64(v.MaximumentitledPriority) >= 0 && int64(v.MaximumentitledPriority) <= 15) {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "maximumentitledPriority", "(0..15)", ber.ObserveInteger(int64(v.MaximumentitledPriority))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s6f8409_15, "51.4", "maximumentitledPriority", "(0..15)", ber.ObserveInteger(int64(v.MaximumentitledPriority))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4917,7 +4831,7 @@ func (destination *EMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 		offset += n
 		if !(int64(v.DefaultPriority) >= 0 && int64(v.DefaultPriority) <= 15) {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "defaultPriority", "(0..15)", ber.ObserveInteger(int64(v.DefaultPriority))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s6f8409_15, "51.4", "defaultPriority", "(0..15)", ber.ObserveInteger(int64(v.DefaultPriority))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -4967,7 +4881,7 @@ func (destination *EMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "EMLPPInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.EMLPP-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_15, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -4991,27 +4905,12 @@ func (destination *EMLPPInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 
 // MarshalBER encodes MCSSInfo to BER format.
 func (v *MCSSInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: MCSSInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MCSSInfo).MarshalBER, (*MCSSInfo).marshalBER, true)
+
 }
 func (v *MCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -5019,7 +4918,7 @@ func (v *MCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_16, "51.5", "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5034,7 +4933,7 @@ func (v *MCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
 	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(opts, s6f8409_16, "51.5", "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5049,7 +4948,7 @@ func (v *MCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_ssstatus = retagged_enc_ssstatus
 	children = append(children, enc_ssstatus...)
 	if !(int64(v.NbrSB) >= 2 && int64(v.NbrSB) <= 7) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrSB", "(2..7)", ber.ObserveInteger(int64(v.NbrSB))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, s6f8409_16, "51.4", "nbrSB", "(2..7)", ber.ObserveInteger(int64(v.NbrSB))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5061,7 +4960,7 @@ func (v *MCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	enc_nbrsb = retagged_enc_nbrsb
 	children = append(children, enc_nbrsb...)
 	if !(int64(v.NbrUser) >= 1 && int64(v.NbrUser) <= 7) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrUser", "(1..7)", ber.ObserveInteger(int64(v.NbrUser))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, s6f8409_16, "51.4", "nbrUser", "(1..7)", ber.ObserveInteger(int64(v.NbrUser))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5098,7 +4997,7 @@ func (v *MCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, s6f8409_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5124,7 +5023,7 @@ func (v *MCSSInfo) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_16, "51.5", "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5139,7 +5038,7 @@ func (v *MCSSInfo) MarshalDER() ([]byte, error) {
 	enc_sscode = retagged_enc_sscode
 	children = append(children, enc_sscode...)
 	if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
-		if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
+		if constraintErr := checkEncodedLength(nil, s6f8409_16, "51.5", "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5154,7 +5053,7 @@ func (v *MCSSInfo) MarshalDER() ([]byte, error) {
 	enc_ssstatus = retagged_enc_ssstatus
 	children = append(children, enc_ssstatus...)
 	if !(int64(v.NbrSB) >= 2 && int64(v.NbrSB) <= 7) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrSB", "(2..7)", ber.ObserveInteger(int64(v.NbrSB))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, s6f8409_16, "51.4", "nbrSB", "(2..7)", ber.ObserveInteger(int64(v.NbrSB))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5166,7 +5065,7 @@ func (v *MCSSInfo) MarshalDER() ([]byte, error) {
 	enc_nbrsb = retagged_enc_nbrsb
 	children = append(children, enc_nbrsb...)
 	if !(int64(v.NbrUser) >= 1 && int64(v.NbrUser) <= 7) {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrUser", "(1..7)", ber.ObserveInteger(int64(v.NbrUser))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, s6f8409_16, "51.4", "nbrUser", "(1..7)", ber.ObserveInteger(int64(v.NbrUser))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -5199,7 +5098,7 @@ func (v *MCSSInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 4) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, s6f8409_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -5228,42 +5127,25 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	if destination == nil {
 		return fmt.Errorf("%w: MCSSInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ MCSSInfo
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(MCSSInfo)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, s6f8409_16, "child", (*MCSSInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe MCSSInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-CommonDataTypes.MC-SS-Info", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = MCSSInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*MCSSInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MCSSInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -5302,7 +5184,7 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 		offset += n_sscode
 		if len(v.SsCode) < 1 || len(v.SsCode) > 1 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_16, "51.5", "ss-Code", "SIZE (1)", len(v.SsCode)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -5337,7 +5219,7 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 		offset += n_ssstatus
 		if len(v.SsStatus) < 1 || len(v.SsStatus) > 5 {
-			if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
+			if constraintErr := checkDecodedLength(opts, s6f8409_16, "51.5", "ss-Status", "SIZE (1..5)", len(v.SsStatus)); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -5372,7 +5254,7 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 		offset += n_nbrsb
 		if !(int64(v.NbrSB) >= 2 && int64(v.NbrSB) <= 7) {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrSB", "(2..7)", ber.ObserveInteger(int64(v.NbrSB))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s6f8409_16, "51.4", "nbrSB", "(2..7)", ber.ObserveInteger(int64(v.NbrSB))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -5408,7 +5290,7 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 
 		offset += n_nbruser
 		if !(int64(v.NbrUser) >= 1 && int64(v.NbrUser) <= 7) {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.4"}), "nbrUser", "(1..7)", ber.ObserveInteger(int64(v.NbrUser))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, s6f8409_16, "51.4", "nbrUser", "(1..7)", ber.ObserveInteger(int64(v.NbrUser))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -5465,7 +5347,7 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "MCSSInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-CommonDataTypes.MC-SS-Info", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, s6f8409_16, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -5486,3 +5368,23 @@ func (destination *MCSSInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOption)
 	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
+
+const (
+	s6f8409_0  = "MAP-CommonDataTypes.ISDN-AddressString"
+	s6f8409_1  = "MAP-CommonDataTypes.FTN-AddressString"
+	s6f8409_2  = "MAP-CommonDataTypes.ExternalSignalInfo"
+	s6f8409_3  = "MAP-CommonDataTypes.Ext-ExternalSignalInfo"
+	s6f8409_4  = "MAP-CommonDataTypes.AccessNetworkSignalInfo"
+	s6f8409_5  = "MAP-CommonDataTypes.IMSI-WithLMSI"
+	s6f8409_6  = "MAP-CommonDataTypes.SubscriberId"
+	s6f8409_7  = "MAP-CommonDataTypes.HLR-List"
+	s6f8409_8  = "MAP-CommonDataTypes.NAEA-PreferredCI"
+	s6f8409_9  = "MAP-CommonDataTypes.SubscriberIdentity"
+	s6f8409_10 = "MAP-CommonDataTypes.LCSClientExternalID"
+	s6f8409_11 = "MAP-CommonDataTypes.NetworkNodeDiameterAddress"
+	s6f8409_12 = "MAP-CommonDataTypes.CellGlobalIdOrServiceAreaIdOrLAI"
+	s6f8409_13 = "MAP-CommonDataTypes.BasicServiceCode"
+	s6f8409_14 = "MAP-CommonDataTypes.Ext-BasicServiceCode"
+	s6f8409_15 = "MAP-CommonDataTypes.EMLPP-Info"
+	s6f8409_16 = "MAP-CommonDataTypes.MC-SS-Info"
+)

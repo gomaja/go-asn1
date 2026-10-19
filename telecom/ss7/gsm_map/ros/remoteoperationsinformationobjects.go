@@ -53,27 +53,12 @@ type Priority = *big.Int
 
 // MarshalBER encodes Code to BER format.
 func (v *Code) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: Code receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Code).MarshalBER, (*Code).marshalBER, true)
+
 }
 func (v *Code) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -147,41 +132,24 @@ func (destination *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 	if destination == nil {
 		return fmt.Errorf("%w: Code destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ Code
-	v := &berNextValue_
-	defer func() {
-		if returnErr == nil {
-			*destination =
-				*v
-		}
-	}()
+	v := new(Code)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *Code, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "Remote-Operations-Information-Objects.Code", "child", (*Code).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe Code
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "Remote-Operations-Information-Objects.Code", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*Code).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = Code{}
 	if len(data) == 0 {
@@ -228,4 +196,113 @@ func (destination *Code) UnmarshalBER(data []byte, opts ...ber.DecodeOption) (re
 		return fmt.Errorf("unknown tag %s for Code CHOICE", peekTag)
 	}
 	return nil
+}
+
+// MarshalBERPriority encodes a typed standalone Priority, preserving unchanged received BER.
+func MarshalBERPriority(value *BERValue[Priority], opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
+
+	if value == nil {
+		return nil, fmt.Errorf("%w: required Priority is nil", ber.ErrInvalidValue)
+	}
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERPriority, marshalBERPriority, false)
+
+}
+func marshalBERPriority(value *BERValue[Priority], opts ...ber.EncodeOption) ([]byte, error) {
+	if err := ber.ValidateEncodeOptions(opts...); err != nil {
+		return nil, err
+	}
+	v := &struct{ Value Priority }{Value: value.Value}
+	_ = v
+	var children []byte
+	if v.Value == nil {
+		return nil, fmt.Errorf("%s: %w", "encoding Priority", qualifyBERError(fmt.Errorf("%w: required INTEGER is nil", ber.ErrInvalidValue), "", "encoding", false))
+	}
+	if !(v.Value.Cmp(runtime.MustParseBigIntDecimal("0")) >= 0) {
+		if constraintErr := checkEncodedValue(opts, "Remote-Operations-Information-Objects.marshalBERPriority", "51.4", "Priority", "(0..MAX)", ber.ObserveInteger(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt(v.Value)
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding Priority", qualifyBERError(encodeErr_enc_value, "", "encoding", false))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// MarshalDERPriority encodes a typed standalone Priority using DER.
+func MarshalDERPriority(value *BERValue[Priority]) ([]byte, error) {
+	if value == nil {
+		return nil, fmt.Errorf("%w: required Priority is nil", ber.ErrInvalidValue)
+	}
+	v := &struct{ Value Priority }{Value: value.Value}
+	_ = v
+	var children []byte
+	if v.Value == nil {
+		return nil, fmt.Errorf("%s: %w", "encoding Priority", qualifyBERError(fmt.Errorf("%w: required INTEGER is nil", ber.ErrInvalidValue), "", "encoding", true))
+	}
+	if !(v.Value.Cmp(runtime.MustParseBigIntDecimal("0")) >= 0) {
+		if constraintErr := checkEncodedValue(nil, "Remote-Operations-Information-Objects.Priority", "51.4", "Priority", "(0..MAX)", ber.ObserveInteger(v.Value)); constraintErr != nil {
+			return nil, constraintErr
+		}
+	}
+	enc_value, encodeErr_enc_value := ber.EncodeBigInt(v.Value)
+	if encodeErr_enc_value != nil {
+		return nil, fmt.Errorf("%s: %w", "encoding Priority", qualifyBERError(encodeErr_enc_value, "", "encoding", true))
+	}
+	children = append(children, enc_value...)
+	return children, nil
+}
+
+// UnmarshalBERPriority decodes one complete typed standalone Priority from BER/DER.
+func UnmarshalBERPriority(data []byte, opts ...ber.DecodeOption) (returnValue *BERValue[Priority], returnErr error) {
+	opts, commitReports := ber.StageDecodeReports(opts)
+	defer func() { commitReports(returnErr == nil) }()
+	preparedData, preparedOptions, prepareErr := prepareValueBER(data, opts, "Remote-Operations-Information-Objects.Priority", "child", func(data []byte,
+
+		probeOpts []ber.DecodeOption) error {
+		_, probeErr := UnmarshalBERPriority(data, probeOpts...)
+		return probeErr
+	})
+	if prepareErr != nil {
+		return nil, prepareErr
+	}
+	data, opts = preparedData, preparedOptions
+
+	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
+	v := &struct{ Value Priority }{}
+	decode := func() error {
+		content := data
+		offset := 0
+		ber.MarkPreflightTarget(opts, "Priority", content[offset:])
+		val_value, n, err := ber.DecodeBigInt(content[offset:], opts...)
+		if err != nil {
+			return fmt.Errorf("%s: %w", "decoding Priority", qualifyBERError(err, "", "decoding", false))
+		}
+		v.Value = val_value
+		if offset > len(content) || n < 0 || n > len(content[offset:]) {
+			return fmt.Errorf("invalid BER content window")
+		}
+
+		offset += n
+		if !(v.Value.Cmp(runtime.MustParseBigIntDecimal("0")) >= 0) {
+			if constraintErr := checkDecodedValue(opts, "Remote-Operations-Information-Objects.Priority", "51.4", "Priority", "(0..MAX)", ber.ObserveInteger(v.Value)); constraintErr != nil {
+				return constraintErr
+			}
+		}
+		if offset != len(content) {
+			return ber.ErrExtraData
+		}
+		return nil
+	}
+	if err := decode(); err != nil {
+		return nil, err
+	}
+	decoded := &BERValue[Priority]{Value: v.Value}
+	if replayErr := completeValueBER(data,
+		opts, decoded, &decoded.berReplayNode_, MarshalBERPriority); replayErr != nil {
+		return nil, replayErr
+	}
+
+	return decoded, nil
 }

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/errors.go; SHA-256 5150fedb52b5f94816f3cc7bbf4fb9bd422c7c8cf92e12b8ea3e42fcdda74127.
+// Runtime source: runtime/ber/errors.go; SHA-256 8a4f317f2a6cdfd032dd903c2ee49f38e30e8bc56b088b724e0f1302c560e01a.
 // Package ber provides BER/DER encoding and decoding primitives.
 package ber
 
@@ -18,6 +18,8 @@ var (
 	ErrInvalidValue     = errors.New("ber: invalid value encoding")
 	ErrUnsupported      = errors.New("ber: unsupported encoding")
 	ErrResourceLimit    = errors.New("ber: resource limit exceeded")
+	ErrInvalidCodec     = errors.New("ber: invalid value codec")
+	ErrInvalidBinding   = errors.New("ber: invalid operation or error binding")
 )
 
 // DecodeError provides context about where a decode failure occurred.
