@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/entry_options_test.go; SHA-256 f646c7ac8ffe5522288411df2d4ec4b40cc6cd67afe0907607056651d8c6414f.
+// Runtime source: runtime/ber/entry_options_test.go; SHA-256 99e4a3a11c32b9ad335e0da6d546444e78513939bebf3b9bb11f374ae5eccf13.
 package ber
 
 import (
@@ -69,6 +69,8 @@ var berOptionEntries = map[string]any{
 	"CheckEncodedCollectionLength":       CheckEncodedCollectionLength,
 	"CheckBEROpaqueElement":              CheckBEROpaqueElement,
 	"CheckBEROpaqueReplay":               CheckBEROpaqueReplay,
+
+	"NormalizeNamedBitStringForBEREncoding": NormalizeNamedBitStringForBEREncoding,
 }
 
 // These generated-code orchestration helpers consume options after the public

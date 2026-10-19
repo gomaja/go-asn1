@@ -310,27 +310,12 @@ func (v MAPProviderAbortReason) String() string {
 
 // MarshalBER encodes MAPDialoguePDU to BER format.
 func (v *MAPDialoguePDU) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPDialoguePDU receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPDialoguePDU).MarshalBER, (*MAPDialoguePDU).marshalBER, true)
+
 }
 func (v *MAPDialoguePDU) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -582,41 +567,24 @@ func (destination *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeO
 	if destination == nil {
 		return fmt.Errorf("%w: MAPDialoguePDU destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ MAPDialoguePDU
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(MAPDialoguePDU)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MAPDialoguePDU, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, "MAP-DialogueInformation.MAP-DialoguePDU", "child", (*MAPDialoguePDU).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe MAPDialoguePDU
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-DialogueInformation.MAP-DialoguePDU", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*MAPDialoguePDU).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = MAPDialoguePDU{}
 	if len(data) == 0 {
@@ -764,27 +732,12 @@ func (destination *MAPDialoguePDU) UnmarshalBER(data []byte, opts ...ber.DecodeO
 
 // MarshalBER encodes MAPOpenInfo to BER format.
 func (v *MAPOpenInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPOpenInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPOpenInfo).MarshalBER, (*MAPOpenInfo).marshalBER, true)
+
 }
 func (v *MAPOpenInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -793,7 +746,7 @@ func (v *MAPOpenInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	var children []byte
 	if v.DestinationReference != nil {
 		if len(*v.DestinationReference) < 1 || len(*v.DestinationReference) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-OpenInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sc55658_0, "51.5", "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -810,7 +763,7 @@ func (v *MAPOpenInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	if v.OriginationReference != nil {
 		if len(*v.OriginationReference) < 1 || len(*v.OriginationReference) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-OpenInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(opts, sc55658_0, "51.5", "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -846,7 +799,7 @@ func (v *MAPOpenInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-OpenInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sc55658_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -873,7 +826,7 @@ func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 	var children []byte
 	if v.DestinationReference != nil {
 		if len(*v.DestinationReference) < 1 || len(*v.DestinationReference) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-OpenInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sc55658_0, "51.5", "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -890,7 +843,7 @@ func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 	}
 	if v.OriginationReference != nil {
 		if len(*v.OriginationReference) < 1 || len(*v.OriginationReference) > 20 {
-			if constraintErr := ber.CheckEncodedLength(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-OpenInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
+			if constraintErr := checkEncodedLength(nil, sc55658_0, "51.5", "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -922,7 +875,7 @@ func (v *MAPOpenInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 1) || (peekTag.Class == tag.ClassContextSpecific && peekTag.Number == 0)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-OpenInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sc55658_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -951,44 +904,25 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 	if destination == nil {
 		return fmt.Errorf("%w: MAPOpenInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ MAPOpenInfo
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-
-			nil {
-			*destination =
-				*v
-		}
-	}()
+	v := new(MAPOpenInfo)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sc55658_0, "child", (*MAPOpenInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe MAPOpenInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-DialogueInformation.MAP-OpenInfo", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = MAPOpenInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*MAPOpenInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MAPOpenInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1024,7 +958,7 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_destinationreference
 				if len(*v.DestinationReference) < 1 || len(*v.DestinationReference) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-OpenInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sc55658_0, "51.5", "destinationReference", "SIZE (1..20)", len(*v.DestinationReference)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1058,7 +992,7 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 				offset += n_originationreference
 				if len(*v.OriginationReference) < 1 || len(*v.OriginationReference) > 20 {
-					if constraintErr := ber.CheckDecodedLength(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-OpenInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "51.5"}), "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
+					if constraintErr := checkDecodedLength(opts, sc55658_0, "51.5", "originationReference", "SIZE (1..20)", len(*v.OriginationReference)); constraintErr != nil {
 						return constraintErr
 					}
 				}
@@ -1110,7 +1044,7 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "MAPOpenInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-OpenInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_0, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1134,27 +1068,12 @@ func (destination *MAPOpenInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpti
 
 // MarshalBER encodes MAPAcceptInfo to BER format.
 func (v *MAPAcceptInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPAcceptInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPAcceptInfo).MarshalBER, (*MAPAcceptInfo).marshalBER, true)
+
 }
 func (v *MAPAcceptInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1182,7 +1101,7 @@ func (v *MAPAcceptInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-AcceptInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sc55658_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1224,7 +1143,7 @@ func (v *MAPAcceptInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-AcceptInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sc55658_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1253,42 +1172,25 @@ func (destination *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if destination == nil {
 		return fmt.Errorf("%w: MAPAcceptInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ MAPAcceptInfo
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(MAPAcceptInfo)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sc55658_1, "child", (*MAPAcceptInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe MAPAcceptInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-DialogueInformation.MAP-AcceptInfo", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = MAPAcceptInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*MAPAcceptInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MAPAcceptInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1339,7 +1241,7 @@ func (destination *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "MAPAcceptInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-AcceptInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_1, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1363,27 +1265,12 @@ func (destination *MAPAcceptInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 // MarshalBER encodes MAPCloseInfo to BER format.
 func (v *MAPCloseInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPCloseInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPCloseInfo).MarshalBER, (*MAPCloseInfo).marshalBER, true)
+
 }
 func (v *MAPCloseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1411,7 +1298,7 @@ func (v *MAPCloseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-CloseInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sc55658_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1453,7 +1340,7 @@ func (v *MAPCloseInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-CloseInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sc55658_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1482,42 +1369,25 @@ func (destination *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 	if destination == nil {
 		return fmt.Errorf("%w: MAPCloseInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ MAPCloseInfo
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(MAPCloseInfo)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sc55658_2, "child", (*MAPCloseInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe MAPCloseInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-DialogueInformation.MAP-CloseInfo", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = MAPCloseInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*MAPCloseInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MAPCloseInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1570,7 +1440,7 @@ func (destination *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "MAPCloseInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-CloseInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_2, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1594,27 +1464,12 @@ func (destination *MAPCloseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOpt
 
 // MarshalBER encodes MAPRefuseInfo to BER format.
 func (v *MAPRefuseInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPRefuseInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPRefuseInfo).MarshalBER, (*MAPRefuseInfo).marshalBER, true)
+
 }
 func (v *MAPRefuseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1622,7 +1477,7 @@ func (v *MAPRefuseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	}
 	var children []byte
 	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-RefuseInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, sc55658_3, "20", "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1656,7 +1511,7 @@ func (v *MAPRefuseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 6) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-RefuseInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sc55658_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1682,7 +1537,7 @@ func (v *MAPRefuseInfo) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-RefuseInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, sc55658_3, "20", "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -1712,7 +1567,7 @@ func (v *MAPRefuseInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && ((peekTag.Class == tag.ClassUniversal && peekTag.Number == 6) || (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16)) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-RefuseInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sc55658_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1741,42 +1596,25 @@ func (destination *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 	if destination == nil {
 		return fmt.Errorf("%w: MAPRefuseInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ MAPRefuseInfo
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(MAPRefuseInfo)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sc55658_3, "child", (*MAPRefuseInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe MAPRefuseInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-DialogueInformation.MAP-RefuseInfo", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = MAPRefuseInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*MAPRefuseInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MAPRefuseInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -1803,7 +1641,7 @@ func (destination *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 		offset += n
 		if int64(v.Reason) != 0 && int64(v.Reason) != 1 && int64(v.Reason) != 2 {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-RefuseInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, sc55658_3, "20", "reason", "ENUMERATED {0, 1, 2}", ber.ObserveInteger(int64(v.Reason))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -1874,7 +1712,7 @@ func (destination *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "MAPRefuseInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-RefuseInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_3, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -1898,27 +1736,12 @@ func (destination *MAPRefuseInfo) UnmarshalBER(data []byte, opts ...ber.DecodeOp
 
 // MarshalBER encodes MAPUserAbortInfo to BER format.
 func (v *MAPUserAbortInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPUserAbortInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPUserAbortInfo).MarshalBER, (*MAPUserAbortInfo).marshalBER, true)
+
 }
 func (v *MAPUserAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -1952,7 +1775,7 @@ func (v *MAPUserAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) 
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-UserAbortInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sc55658_4, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -1999,7 +1822,7 @@ func (v *MAPUserAbortInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-UserAbortInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sc55658_4, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2028,42 +1851,25 @@ func (destination *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 	if destination == nil {
 		return fmt.Errorf("%w: MAPUserAbortInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ MAPUserAbortInfo
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(MAPUserAbortInfo)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sc55658_4, "child", (*MAPUserAbortInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe MAPUserAbortInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-DialogueInformation.MAP-UserAbortInfo", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = MAPUserAbortInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*MAPUserAbortInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MAPUserAbortInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2144,7 +1950,7 @@ func (destination *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "MAPUserAbortInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-UserAbortInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_4, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -2168,27 +1974,12 @@ func (destination *MAPUserAbortInfo) UnmarshalBER(data []byte, opts ...ber.Decod
 
 // MarshalBER encodes MAPUserAbortChoice to BER format.
 func (v *MAPUserAbortChoice) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPUserAbortChoice receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPUserAbortChoice).MarshalBER, (*MAPUserAbortChoice).marshalBER, true)
+
 }
 func (v *MAPUserAbortChoice) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
 	encoded, err := v.MarshalBER(opts...)
@@ -2225,7 +2016,7 @@ func (v *MAPUserAbortChoice) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		enc_2 := ber.EncodeEnumerated(int64(*v.ResourceUnavailable))
 		if int64(*v.ResourceUnavailable) != 0 && int64(*v.ResourceUnavailable) != 1 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-UserAbortChoice", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "resourceUnavailable", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.ResourceUnavailable))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sc55658_5, "20", "resourceUnavailable", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.ResourceUnavailable))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2241,7 +2032,7 @@ func (v *MAPUserAbortChoice) marshalBER(opts ...ber.EncodeOption) ([]byte, error
 		}
 		enc_3 := ber.EncodeEnumerated(int64(*v.ApplicationProcedureCancellation))
 		if int64(*v.ApplicationProcedureCancellation) != 0 && int64(*v.ApplicationProcedureCancellation) != 1 && int64(*v.ApplicationProcedureCancellation) != 2 && int64(*v.ApplicationProcedureCancellation) != 3 && int64(*v.ApplicationProcedureCancellation) != 4 && int64(*v.ApplicationProcedureCancellation) != 5 && int64(*v.ApplicationProcedureCancellation) != 6 {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-UserAbortChoice", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
+			if constraintErr := checkEncodedValue(opts, sc55658_5, "20", "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2296,41 +2087,24 @@ func (destination *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.Dec
 	if destination == nil {
 		return fmt.Errorf("%w: MAPUserAbortChoice destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ MAPUserAbortChoice
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(MAPUserAbortChoice)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
-		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MAPUserAbortChoice, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
-	}()
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sc55658_5, "child", (*MAPUserAbortChoice).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe MAPUserAbortChoice
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-DialogueInformation.MAP-UserAbortChoice", opts)
+	defer func() {
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*MAPUserAbortChoice).MarshalBER)
+		}
+
+	}()
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = MAPUserAbortChoice{}
 	if len(data) == 0 {
@@ -2401,7 +2175,7 @@ func (destination *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.Dec
 		tmp := ResourceUnavailableReason(decVal)
 		v.ResourceUnavailable = &tmp
 		if int64(*v.ResourceUnavailable) != 0 && int64(*v.ResourceUnavailable) != 1 {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-UserAbortChoice", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "resourceUnavailable", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.ResourceUnavailable))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, sc55658_5, "20", "resourceUnavailable", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(*v.ResourceUnavailable))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2420,7 +2194,7 @@ func (destination *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.Dec
 		tmp := ProcedureCancellationReason(decVal)
 		v.ApplicationProcedureCancellation = &tmp
 		if int64(*v.ApplicationProcedureCancellation) != 0 && int64(*v.ApplicationProcedureCancellation) != 1 && int64(*v.ApplicationProcedureCancellation) != 2 && int64(*v.ApplicationProcedureCancellation) != 3 && int64(*v.ApplicationProcedureCancellation) != 4 && int64(*v.ApplicationProcedureCancellation) != 5 && int64(*v.ApplicationProcedureCancellation) != 6 {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-UserAbortChoice", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, sc55658_5, "20", "applicationProcedureCancellation", "ENUMERATED {0, 1, 2, 3, 4, 5, 6}", ber.ObserveInteger(int64(*v.ApplicationProcedureCancellation))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2432,27 +2206,12 @@ func (destination *MAPUserAbortChoice) UnmarshalBER(data []byte, opts ...ber.Dec
 
 // MarshalBER encodes MAPProviderAbortInfo to BER format.
 func (v *MAPProviderAbortInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnErr error) {
-	opts, commitReports := ber.StageEncodeReports(opts)
-	defer func() { commitReports(returnErr == nil) }()
+
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPProviderAbortInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	if v.berReplayNode_ == nil {
-		return v.marshalBER(opts...)
-	}
-	var replayErr error
-	opts, replayErr = ber.PrepareBERReplay(v.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return v.MarshalBER([]ber.EncodeOption{mode}...) }, v)
-	if replayErr != nil {
-		return nil, replayErr
-	}
-	if replayBytes, ok := ber.PreparedBERReplay(v.berReplayNode_, opts); ok {
-		return replayBytes, nil
-	}
-	encoded, err := v.marshalBER(opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(encoded, v.berReplayNode_, opts), nil
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPProviderAbortInfo).MarshalBER, (*MAPProviderAbortInfo).marshalBER, true)
+
 }
 func (v *MAPProviderAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
 	if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -2460,7 +2219,7 @@ func (v *MAPProviderAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 	}
 	var children []byte
 	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-ProviderAbortInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(opts, sc55658_6, "20", "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2487,7 +2246,7 @@ func (v *MAPProviderAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, err
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, "MAP-DialogueInformation.MAP-ProviderAbortInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(opts, sc55658_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2513,7 +2272,7 @@ func (v *MAPProviderAbortInfo) MarshalDER() ([]byte, error) {
 	}
 	var children []byte
 	if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
-		if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-ProviderAbortInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
+		if constraintErr := checkEncodedValue(nil, sc55658_6, "20", "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
 			return nil, constraintErr
 		}
 	}
@@ -2536,7 +2295,7 @@ func (v *MAPProviderAbortInfo) MarshalDER() ([]byte, error) {
 		}
 		// X.680 (02/2021) §§25.6.1, 25.6.3, 52.7.3 NOTE b: only the first addition is restricted.
 		if i == 0 && (peekTag.Class == tag.ClassUniversal && peekTag.Number == 16) {
-			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, "MAP-DialogueInformation.MAP-ProviderAbortInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
+			if constraintErr := ber.CheckEncodedValue(ber.EncodeRule(nil, sc55658_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), "ExtData_[0]", "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); constraintErr != nil {
 				return nil, constraintErr
 			}
 		}
@@ -2565,42 +2324,25 @@ func (destination *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.D
 	if destination == nil {
 		return fmt.Errorf("%w: MAPProviderAbortInfo destination is nil", ber.ErrInvalidValue)
 	}
-	var berNextValue_ MAPProviderAbortInfo
-	v := &berNextValue_
-	defer func() {
-		if returnErr ==
-			nil {
-			*destination = *v
-		}
-	}()
+	v := new(MAPProviderAbortInfo)
+	defer publishDecodedValue(destination, v, &returnErr)
 
 	opts, commitReports := ber.StageDecodeReports(opts)
 	defer func() { commitReports(returnErr == nil) }()
-	opts = ber.TrackBERForm(opts)
-	ownedData, ownErr := ber.OwnGeneratedBERInput(data, opts)
-	if ownErr != nil {
-		return ownErr
-	}
-	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
+	preparedData, preparedOptions, prepareErr := prepareCompositeBER(data, opts, sc55658_6, "child", (*MAPProviderAbortInfo).UnmarshalBER)
 	if prepareErr != nil {
-		return ber.DiagnosePreflight(prepareErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
-			var probe MAPProviderAbortInfo
-			return probe.UnmarshalBER(data, probeOpts...)
-		})
+		return prepareErr
 	}
 	data, opts = preparedData, preparedOptions
-	opts = ber.LocateDecodedElement(data, "MAP-DialogueInformation.MAP-ProviderAbortInfo", opts)
+
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
 	*v = MAPProviderAbortInfo{}
 	defer func() {
-		if returnErr != nil || !ber.BERNeedsPreservation(opts) {
-			return
+		if returnErr == nil {
+			returnErr = completeValueBER(data,
+				opts, v, &v.berReplayNode_, (*MAPProviderAbortInfo).MarshalBER)
 		}
-		v.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)
-		returnErr = ber.CompleteGeneratedBERDecode(opts, v, func(base *MAPProviderAbortInfo, replayOpts ...ber.EncodeOption) ([]byte, error) {
-			return base.MarshalBER(replayOpts...)
-		})
+
 	}()
 	content, total, err := ber.DecodeSequenceContent(data, opts...)
 	if err != nil {
@@ -2627,7 +2369,7 @@ func (destination *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.D
 
 		offset += n
 		if int64(v.MapProviderAbortReason) != 0 && int64(v.MapProviderAbortReason) != 1 {
-			if constraintErr := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-ProviderAbortInfo", ber.RuleRef{Document: "ITU-T X.680", Edition: "02/2021", Clause: "20"}), "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
+			if constraintErr := checkDecodedValue(opts, sc55658_6, "20", "map-ProviderAbortReason", "ENUMERATED {0, 1}", ber.ObserveInteger(int64(v.MapProviderAbortReason))); constraintErr != nil {
 				return constraintErr
 			}
 		}
@@ -2677,7 +2419,7 @@ func (destination *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.D
 			if !ber.ToleranceEnabled(opts) {
 				return &ber.DecodeError{Offset: offset, TypeName: "MAPProviderAbortInfo", Cause: fmt.Errorf("%w: repeated or out-of-order SEQUENCE component tag %s", ber.ErrInvalidTag, peekTag)}
 			}
-			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, "MAP-DialogueInformation.MAP-ProviderAbortInfo", ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
+			if orderErr_ := ber.CheckDecodedValue(ber.DecodeRule(opts, sc55658_6, ber.RuleRef{Document: "ITU-T X.690", Edition: "02/2021", Clause: "8.9.2–8.9.3"}), fmt.Sprintf("ExtData_[%d]", len(v.ExtData_)), "SEQUENCE component order (X.690 (02/2021) §§8.9.2–8.9.3)", peekTag.String()); orderErr_ != nil {
 				return orderErr_
 			}
 		}
@@ -2698,3 +2440,13 @@ func (destination *MAPProviderAbortInfo) UnmarshalBER(data []byte, opts ...ber.D
 	v.ExtCount_ = int64(len(v.ExtData_))
 	return nil
 }
+
+const (
+	sc55658_0 = "MAP-DialogueInformation.MAP-OpenInfo"
+	sc55658_1 = "MAP-DialogueInformation.MAP-AcceptInfo"
+	sc55658_2 = "MAP-DialogueInformation.MAP-CloseInfo"
+	sc55658_3 = "MAP-DialogueInformation.MAP-RefuseInfo"
+	sc55658_4 = "MAP-DialogueInformation.MAP-UserAbortInfo"
+	sc55658_5 = "MAP-DialogueInformation.MAP-UserAbortChoice"
+	sc55658_6 = "MAP-DialogueInformation.MAP-ProviderAbortInfo"
+)
