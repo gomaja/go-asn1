@@ -1,0 +1,4207 @@
+{
+  "format": 1,
+  "compiler": {
+    "commit": "5559c9e92ecd211c6894b5ef78836dacc5347e83",
+    "tree": "b73a212c07dab4900ecbefd2f62768efb4e0b45b",
+    "dirty": false
+  },
+  "source_lock": {
+    "version": 1,
+    "source_commit": "12ad6304593d393dedf2798d2f56cbec1be55b91",
+    "archives": [
+      {
+        "collection": "map-29002-v22",
+        "url": "https://www.3gpp.org/ftp/Specs/archive/29_series/29.002/29002-j10.zip",
+        "retrieved_utc": "2026-10-18T10:54:23.986741+00:00",
+        "size": 6379182,
+        "sha256": "ce8369c9fd6d8e8d5d2a226b89a0d059e02f72b7e8e85fd00b4328edaa262e64",
+        "file": "29002-j10.zip",
+        "member": "29002-j10.docx",
+        "member_sha256": "a5e36409fe8c63acae203924c9e8b304c51704bb8c7a65b4efae34d30cc4aa1a",
+        "extraction": "3gpp-docx-asn1-v1",
+        "document": "3GPP TS 29.002 V19.1.0 (Release 19)"
+      },
+      {
+        "collection": "x880-tc1-ros-pdus",
+        "url": "https://www.itu.int/wftp3/Public/t/fl/itu-t/x/x880/1994-TC1/Remote-Operations-Generic-ROS-PDUs.asn",
+        "retrieved_utc": "2026-10-18T10:54:25.303928+00:00",
+        "size": 6031,
+        "sha256": "b21f6f216c33d257ec22b5fa48761f0948cd55aadd154fa57ee394d02661f8dd",
+        "file": "Remote-Operations-Generic-ROS-PDUs.asn",
+        "member": "Remote-Operations-Generic-ROS-PDUs.asn",
+        "member_sha256": "b21f6f216c33d257ec22b5fa48761f0948cd55aadd154fa57ee394d02661f8dd",
+        "extraction": "asn1-file-v1",
+        "document": "ITU-T X.880 (07/1994) with Technical Corrigendum 1 (07/1995)"
+      },
+      {
+        "collection": "x880-tc1-information-objects",
+        "url": "https://www.itu.int/wftp3/Public/t/fl/itu-t/x/x880/1994-TC1/Remote-Operations-Information-Objects.asn",
+        "retrieved_utc": "2026-10-18T10:54:25.323550+00:00",
+        "size": 3443,
+        "sha256": "2a3c415b6268d1231b2cc733aaa73dfc66eb67f36356d23286941cf0881de6b9",
+        "file": "Remote-Operations-Information-Objects.asn",
+        "member": "Remote-Operations-Information-Objects.asn",
+        "member_sha256": "2a3c415b6268d1231b2cc733aaa73dfc66eb67f36356d23286941cf0881de6b9",
+        "extraction": "asn1-file-v1",
+        "document": "ITU-T X.880 (07/1994) with Technical Corrigendum 1 (07/1995)"
+      },
+      {
+        "collection": "x880-tc1-useful-definitions",
+        "url": "https://www.itu.int/wftp3/Public/t/fl/itu-t/x/x880/1994-TC1/Remote-Operations-Useful-Definitions.asn",
+        "retrieved_utc": "2026-10-18T10:54:25.421019+00:00",
+        "size": 3310,
+        "sha256": "5c710fb2e552c81149924d29312b4abf00a94980b61cb0198869e0823d6c9e40",
+        "file": "Remote-Operations-Useful-Definitions.asn",
+        "member": "Remote-Operations-Useful-Definitions.asn",
+        "member_sha256": "5c710fb2e552c81149924d29312b4abf00a94980b61cb0198869e0823d6c9e40",
+        "extraction": "asn1-file-v1",
+        "document": "ITU-T X.880 (07/1994) with Technical Corrigendum 1 (07/1995)"
+      },
+      {
+        "collection": "map-29002-v21",
+        "url": "https://www.3gpp.org/ftp/Specs/archive/29_series/29.002/29002-i00.zip",
+        "retrieved_utc": "2026-10-18T10:54:24.018720+00:00",
+        "size": 6350211,
+        "sha256": "db726a6ff8bece68f8f8c14b30020dd2c3e32f84d7e65cf9d57d9d9cfa820533",
+        "file": "29002-i00.zip",
+        "member": "29002-i00.docx",
+        "member_sha256": "f1c77867b3b42d01565f544ec2e8b0541df1646b5158d8e6ffed3fe19f95a4ac",
+        "extraction": "3gpp-docx-asn1-v1",
+        "document": "3GPP TS 29.002 V18.0.0 (Release 18)"
+      },
+      {
+        "collection": "etr091",
+        "url": "https://www.etsi.org/deliver/etsi_etr/001_099/091/01_60/etr_091e01p.pdf",
+        "retrieved_utc": "2026-10-18T10:54:24.063423+00:00",
+        "size": 23930,
+        "sha256": "a2b54b2897690d9e2c6dfc5f6c8256e3609aa43d129d4f07044c46d0533ee141",
+        "file": "etr_091e01p.pdf",
+        "member": "etr_091e01p.pdf",
+        "member_sha256": "a2b54b2897690d9e2c6dfc5f6c8256e3609aa43d129d4f07044c46d0533ee141",
+        "extraction": "etr091-pdf-v1",
+        "document": "ETSI ETR 091 edition 1 (July 1993)"
+      },
+      {
+        "collection": "ss-24080-v19",
+        "url": "https://www.3gpp.org/ftp/Specs/archive/24_series/24.080/24080-j40.zip",
+        "retrieved_utc": "2026-10-18T10:56:58.470788+00:00",
+        "size": 233988,
+        "sha256": "2aeb4c0269ff6d7294fec1b1144a5e49cb4fce494af4aaeb9d6a07ed59b2b36f",
+        "file": "24080-j40.zip",
+        "member": "24080-j40.docx",
+        "member_sha256": "4450e1c50e02ba2a1b82c32ebf73ce8e2cfefe9ebedb249232c3b23ebaa90b0a",
+        "extraction": "3gpp-docx-asn1-v1",
+        "document": "3GPP TS 24.080 V19.4.0 (Release 19)"
+      }
+    ],
+    "files": [
+      {
+        "file": "etr091/modules/MobileDomainDefinitions.asn",
+        "size": 967,
+        "sha256": "801ba400996edc73da1f27d7df2ec773efc6817393541adea62b3d92c8195483",
+        "module": "MobileDomainDefinitions",
+        "definitive_oid": "{ccitt (0) identified-organization (4) etsi (0) mobileDomain (0) mobileDomainDefinitions (0) version1 (1)}",
+        "source_version": "ETSI ETR 091 edition 1 (July 1993)",
+        "collection": "etr091"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-BS-Code.asn",
+        "size": 5010,
+        "sha256": "36d465c36d8a195b55e45be3af8ce14a7c0a96d33823c091393594496e8443af",
+        "module": "MAP-BS-Code",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-BS-Code (20) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-CommonDataTypes.asn",
+        "size": 20683,
+        "sha256": "eb14d97455c5316ded1ba6a3248a0bd5a20313f2f2fafc567f837fc6f500e707",
+        "module": "MAP-CommonDataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-CommonDataTypes (18) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-ER-DataTypes.asn",
+        "size": 12281,
+        "sha256": "da48acfc87a6008e31da8e241e47992669f38413c4e4d56c118fae8f780acb8e",
+        "module": "MAP-ER-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ER-DataTypes (17) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-Errors.asn",
+        "size": 9587,
+        "sha256": "0d1e884296d5c4ec0449110ca328008f7c263b331c78e4f5118b97945fe3a054",
+        "module": "MAP-Errors",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-Errors (10) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-ExtensionDataTypes.asn",
+        "size": 1460,
+        "sha256": "60942c5df487d72e41ad0350ba9d527879f4c277233797e5747e74519fe629b0",
+        "module": "MAP-ExtensionDataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ExtensionDataTypes (21) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-LCS-DataTypes.asn",
+        "size": 27141,
+        "sha256": "c52a3c4c7507b1085b593ab1a853a80c29e9c2eb7af241d766b495a1864d790f",
+        "module": "MAP-LCS-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-LCS-DataTypes (25) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-MS-DataTypes.asn",
+        "size": 118849,
+        "sha256": "fe9177d43bfe48f860eb34c03bd78759bf33b3c13143a3994a9bd4f695a97c6b",
+        "module": "MAP-MS-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-MS-DataTypes (11) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-OM-DataTypes.asn",
+        "size": 12948,
+        "sha256": "f75de8eed2ea61d21c1f97ec3a4d6037a102e60517ec9bac05470f147cf6751d",
+        "module": "MAP-OM-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-OM-DataTypes (12) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-SM-DataTypes.asn",
+        "size": 12997,
+        "sha256": "9455e3d6da4d93126707634a6b75c12198c404acb89dd48390cb9d9aca565f5a",
+        "module": "MAP-SM-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SM-DataTypes (16) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-SS-Code.asn",
+        "size": 6221,
+        "sha256": "57c80d57b7898d1858de93c7963913cd92e312b146599d1f3aa370e36c17eca0",
+        "module": "MAP-SS-Code",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SS-Code (15) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-SS-DataTypes.asn",
+        "size": 8424,
+        "sha256": "94f0f3d9f4b43ad96d83358d0aa6e76f4ffc80a2915e03f48817db11a8ee28f9",
+        "module": "MAP-SS-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SS-DataTypes (14) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v21/modules/MAP-TS-Code.asn",
+        "size": 3319,
+        "sha256": "f3a08cd5120cf094f8869b841bf6309fc01a291beb39268f0494234de4b3809d",
+        "module": "MAP-TS-Code",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-TS-Code (19) version21 (21)}",
+        "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+        "collection": "map-29002-v21"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-ApplicationContexts.asn",
+        "size": 7454,
+        "sha256": "e044fb2f4876170b1de2199c25c3e94c0e92573a48d325b8f6f9feddeb1c8354",
+        "module": "MAP-ApplicationContexts",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ApplicationContexts (2) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-BS-Code.asn",
+        "size": 5010,
+        "sha256": "1990ae8219c6db63ae424103dc2df11f777655d7ea86c990f4e838d95ecf5e7b",
+        "module": "MAP-BS-Code",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-BS-Code (20) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-CH-DataTypes.asn",
+        "size": 14737,
+        "sha256": "9b49c9c546512ec4cf1318ba34d6b6c5bab7abb46832f7c0f4c06fdacc93151f",
+        "module": "MAP-CH-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-CH-DataTypes (13) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-CallHandlingOperations.asn",
+        "size": 4076,
+        "sha256": "c61f10b3a81b1206acd7d36318c56a7cb3e0a212a4de53d2f5f705bf7cde4a1d",
+        "module": "MAP-CallHandlingOperations",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-CallHandlingOperations (7) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-CommonDataTypes.asn",
+        "size": 20683,
+        "sha256": "036460ae4bd3805ecea39fae3c9f81e4aebec1384f65cd0c034ae883da28cffc",
+        "module": "MAP-CommonDataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-CommonDataTypes (18) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-DialogueInformation.asn",
+        "size": 3128,
+        "sha256": "1bf9a68e837a0bb2ef54acc6bb87539a953ec362be6bab01516825dd9d8e29a6",
+        "module": "MAP-DialogueInformation",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-DialogueInformation (3) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-ER-DataTypes.asn",
+        "size": 12281,
+        "sha256": "24e3e0e5811551477eb8b6eaa6d42beee8835a1c3a48dcd2bd0c424a22d1bef5",
+        "module": "MAP-ER-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ER-DataTypes (17) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-Errors.asn",
+        "size": 9587,
+        "sha256": "fbe39b6070e3fb7e2a3a6f55b319b24491a8b413321507ddd7145b1a7b4a3346",
+        "module": "MAP-Errors",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-Errors (10) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-ExtensionDataTypes.asn",
+        "size": 1460,
+        "sha256": "24e5cca23c49cdd2870f24c9da89c4c3de4cadc88be2a852127c46f641198362",
+        "module": "MAP-ExtensionDataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ExtensionDataTypes (21) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-GR-DataTypes.asn",
+        "size": 5457,
+        "sha256": "b190fc5fb42c6a9a73d0d4c3af434b65cd2e47f2b100f19903b67eab1f56962f",
+        "module": "MAP-GR-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-GR-DataTypes (23) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-Group-Call-Operations.asn",
+        "size": 1961,
+        "sha256": "2047261424cb7e0de50d6507e142ce3c4439a628ad5a273efc8e4ddefe1087f6",
+        "module": "MAP-Group-Call-Operations",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-Group-Call-Operations (22) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-LCS-DataTypes.asn",
+        "size": 27141,
+        "sha256": "b4af5e6b6b8952da886d7d4734842210fc05f812c1f0321312c9be22c6e77b72",
+        "module": "MAP-LCS-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-LCS-DataTypes (25) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-LocationServiceOperations.asn",
+        "size": 2251,
+        "sha256": "280414f331b25e83c672dc7ce1773e9e4f1585f1d0f3f374bd98637e11ad6b0a",
+        "module": "MAP-LocationServiceOperations",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-LocationServiceOperations (24) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-MS-DataTypes.asn",
+        "size": 118849,
+        "sha256": "12db45b48c9371eb3dbf94ab8e20f9b41bf19003baf8d922d340261302ea8f74",
+        "module": "MAP-MS-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-MS-DataTypes (11) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-MobileServiceOperations.asn",
+        "size": 10431,
+        "sha256": "1ff741e4cfa8e39efd9585cd08d7c5196d14b483dc2776ebc4e8c6e07babc496",
+        "module": "MAP-MobileServiceOperations",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-MobileServiceOperations (5) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-OM-DataTypes.asn",
+        "size": 12948,
+        "sha256": "d2831377bdd93c2baea25cf93fff3432c8a9be1380019d21f7e11bd1cfe9253a",
+        "module": "MAP-OM-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-OM-DataTypes (12) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-OperationAndMaintenanceOperations.asn",
+        "size": 1853,
+        "sha256": "7f706f72645f72d54c8add36cc083c7d20ccbc42f5bdbae5e3cfaf765e369845",
+        "module": "MAP-OperationAndMaintenanceOperations",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-OperationAndMaintenanceOperations (6) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-Protocol.asn",
+        "size": 6027,
+        "sha256": "9c78dd5c72f64ca63e641198ef5222bd716704535670cef491300878b60c36c4",
+        "module": "MAP-Protocol",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-Protocol (4) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-SM-DataTypes.asn",
+        "size": 13667,
+        "sha256": "2293b763abbc18e87a8595da324ab9a1f27d7a042513ea846b3b95667ef18736",
+        "module": "MAP-SM-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SM-DataTypes (16) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-SS-Code.asn",
+        "size": 6221,
+        "sha256": "95f3cd15835881073dca9a3d8c5a295ff5832b0dca7b5d0e2c408a2ae779564a",
+        "module": "MAP-SS-Code",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SS-Code (15) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-SS-DataTypes.asn",
+        "size": 8424,
+        "sha256": "f8ae1748c98747f8cc2c9489250966a81f2b947b805121fac3eb643c74d8bbaa",
+        "module": "MAP-SS-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SS-DataTypes (14) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-ShortMessageServiceOperations.asn",
+        "size": 3312,
+        "sha256": "6c8edebb3afbfa8e662db4adfd2da590323343c6df8c82f686761e779ed297bb",
+        "module": "MAP-ShortMessageServiceOperations",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ShortMessageServiceOperations (9) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-SupplementaryServiceOperations.asn",
+        "size": 5452,
+        "sha256": "b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982",
+        "module": "MAP-SupplementaryServiceOperations",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SupplementaryServiceOperations (8) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "map-29002-v22/modules/MAP-TS-Code.asn",
+        "size": 3319,
+        "sha256": "66b31cd0f5c057857b0c009e7300dd9c506dd4d84561c14222986c0cebd58458",
+        "module": "MAP-TS-Code",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-TS-Code (19) version22 (22)}",
+        "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+        "collection": "map-29002-v22"
+      },
+      {
+        "file": "ss-24080-v19/modules/SS-DataTypes.asn",
+        "size": 37623,
+        "sha256": "1753360aa3e7a42c009d15e4f52dc4047621d42498358ab7296fee22745805a9",
+        "module": "SS-DataTypes",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Access (2) modules (3) ss-DataTypes (2) version18 (18)}",
+        "source_version": "3GPP TS 24.080 V19.4.0 (Release 19)",
+        "collection": "ss-24080-v19"
+      },
+      {
+        "file": "ss-24080-v19/modules/SS-Errors.asn",
+        "size": 1530,
+        "sha256": "b81d2a668e33702414eec4d9210bd4922f1104ccc4384cb6d8d3301ce8fa129e",
+        "module": "SS-Errors",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Access (2) modules (3) ss-Errors (1) version18 (18)}",
+        "source_version": "3GPP TS 24.080 V19.4.0 (Release 19)",
+        "collection": "ss-24080-v19"
+      },
+      {
+        "file": "ss-24080-v19/modules/SS-Operations.asn",
+        "size": 10982,
+        "sha256": "d3eba960d95875df7ffb757f3e944ee68d3172f407fb27cdeebec4e6e1317673",
+        "module": "SS-Operations",
+        "definitive_oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Access (2) modules (3) ss-Operations (0) version18 (18)}",
+        "source_version": "3GPP TS 24.080 V19.4.0 (Release 19)",
+        "collection": "ss-24080-v19"
+      },
+      {
+        "file": "x880-tc1-information-objects/modules/Remote-Operations-Information-Objects.asn",
+        "size": 3443,
+        "sha256": "2a3c415b6268d1231b2cc733aaa73dfc66eb67f36356d23286941cf0881de6b9",
+        "module": "Remote-Operations-Information-Objects",
+        "definitive_oid": "{joint-iso-itu-t remote-operations(4) informationObjects(5) version1(0)}",
+        "source_version": "ITU-T X.880 (07/1994) with Technical Corrigendum 1 (07/1995)",
+        "collection": "x880-tc1-information-objects"
+      },
+      {
+        "file": "x880-tc1-ros-pdus/modules/Remote-Operations-Generic-ROS-PDUs.asn",
+        "size": 6031,
+        "sha256": "b21f6f216c33d257ec22b5fa48761f0948cd55aadd154fa57ee394d02661f8dd",
+        "module": "Remote-Operations-Generic-ROS-PDUs",
+        "definitive_oid": "{joint-iso-itu-t remote-operations(4) generic-ROS-PDUs(6) version1(0)}",
+        "source_version": "ITU-T X.880 (07/1994) with Technical Corrigendum 1 (07/1995)",
+        "collection": "x880-tc1-ros-pdus"
+      },
+      {
+        "file": "x880-tc1-useful-definitions/modules/Remote-Operations-Useful-Definitions.asn",
+        "size": 3310,
+        "sha256": "5c710fb2e552c81149924d29312b4abf00a94980b61cb0198869e0823d6c9e40",
+        "module": "Remote-Operations-Useful-Definitions",
+        "definitive_oid": "{joint-iso-itu-t remote-operations(4) useful-definitions(7) version1(0)}",
+        "source_version": "ITU-T X.880 (07/1994) with Technical Corrigendum 1 (07/1995)",
+        "collection": "x880-tc1-useful-definitions"
+      },
+      {
+        "file": "map-29002-v22/schema/CMakeLists.txt",
+        "size": 1265,
+        "sha256": "5fb2be61fa777df61c4d19d0741402e38ad8648c510021dc62f08ad89cec5d2b",
+        "kind": "root-selection"
+      }
+    ],
+    "root_selection": {
+      "source_commit": "12ad6304593d393dedf2798d2f56cbec1be55b91",
+      "source_path": "docs/asn1-map-29002-v22/schema/CMakeLists.txt",
+      "original": "set(PROTOCOL_NAME gsm_map)\n\nset(EXT_ASN_FILE_LIST\n\t../../asn1-x880-tc1/x880-tc1-information-objects/modules/Remote-Operations-Information-Objects.asn\n)\n\nset(ASN_FILE_LIST\n\t../../asn1-etr091/modules/MobileDomainDefinitions.asn\n\t../modules/MAP-ApplicationContexts.asn\n\t../modules/MAP-BS-Code.asn\n\t../modules/MAP-CH-DataTypes.asn\n\t../modules/MAP-CallHandlingOperations.asn\n\t../modules/MAP-CommonDataTypes.asn\n\t../modules/MAP-DialogueInformation.asn\n\t../modules/MAP-ER-DataTypes.asn\n\t../modules/MAP-Errors.asn\n\t../modules/MAP-ExtensionDataTypes.asn\n\t../modules/MAP-GR-DataTypes.asn\n\t../modules/MAP-Group-Call-Operations.asn\n\t../modules/MAP-LCS-DataTypes.asn\n\t../modules/MAP-LocationServiceOperations.asn\n\t../modules/MAP-MS-DataTypes.asn\n\t../modules/MAP-MobileServiceOperations.asn\n\t../modules/MAP-OM-DataTypes.asn\n\t../modules/MAP-OperationAndMaintenanceOperations.asn\n\t../modules/MAP-Protocol.asn\n\t../modules/MAP-SM-DataTypes.asn\n\t../modules/MAP-SS-Code.asn\n\t../modules/MAP-SS-DataTypes.asn\n\t../modules/MAP-ShortMessageServiceOperations.asn\n\t../modules/MAP-SupplementaryServiceOperations.asn\n\t../modules/MAP-TS-Code.asn\n\t../../asn1-ss-24080-v19/modules/SS-DataTypes.asn\n\t../../asn1-ss-24080-v19/modules/SS-Operations.asn\n)\n\nset(SRC_FILES ${EXT_ASN_FILE_LIST} ${ASN_FILE_LIST})\nset(A2W_FLAGS -b -N)\n",
+      "original_sha256": "30e485096e7c3dc3a48e0c50998cfc1683c22562d24ffec618c0e3914b65c157",
+      "relocations": [
+        {
+          "from": "../../asn1-x880-tc1/",
+          "to": "../../",
+          "count": 1
+        },
+        {
+          "from": "../../asn1-etr091/",
+          "to": "../../etr091/",
+          "count": 1
+        },
+        {
+          "from": "../../asn1-ss-24080-v19/",
+          "to": "../../ss-24080-v19/",
+          "count": 2
+        }
+      ]
+    }
+  },
+  "source_lock_sha256": "9cee0fe527cac02cf5d409e3cb9f1415ed3f007a9070aa1ae4b6c7131f6f982a",
+  "frontend_source_lock_sha256": "a5601b2e388a50fa6a4bc934f12cf7405da62609f527b6f44ed3041d84a29b11",
+  "modules": [
+    {
+      "name": "MAP-ApplicationContexts",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ApplicationContexts (2) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "e044fb2f4876170b1de2199c25c3e94c0e92573a48d325b8f6f9feddeb1c8354"
+    },
+    {
+      "name": "MAP-BS-Code",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-BS-Code (20) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "1990ae8219c6db63ae424103dc2df11f777655d7ea86c990f4e838d95ecf5e7b"
+    },
+    {
+      "name": "MAP-BS-Code",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-BS-Code (20) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "36d465c36d8a195b55e45be3af8ce14a7c0a96d33823c091393594496e8443af"
+    },
+    {
+      "name": "MAP-CH-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-CH-DataTypes (13) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "9b49c9c546512ec4cf1318ba34d6b6c5bab7abb46832f7c0f4c06fdacc93151f"
+    },
+    {
+      "name": "MAP-CallHandlingOperations",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-CallHandlingOperations (7) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "c61f10b3a81b1206acd7d36318c56a7cb3e0a212a4de53d2f5f705bf7cde4a1d"
+    },
+    {
+      "name": "MAP-CommonDataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-CommonDataTypes (18) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "036460ae4bd3805ecea39fae3c9f81e4aebec1384f65cd0c034ae883da28cffc"
+    },
+    {
+      "name": "MAP-CommonDataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-CommonDataTypes (18) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "eb14d97455c5316ded1ba6a3248a0bd5a20313f2f2fafc567f837fc6f500e707"
+    },
+    {
+      "name": "MAP-DialogueInformation",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-DialogueInformation (3) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "1bf9a68e837a0bb2ef54acc6bb87539a953ec362be6bab01516825dd9d8e29a6"
+    },
+    {
+      "name": "MAP-ER-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ER-DataTypes (17) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "24e3e0e5811551477eb8b6eaa6d42beee8835a1c3a48dcd2bd0c424a22d1bef5"
+    },
+    {
+      "name": "MAP-ER-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ER-DataTypes (17) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "da48acfc87a6008e31da8e241e47992669f38413c4e4d56c118fae8f780acb8e"
+    },
+    {
+      "name": "MAP-Errors",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-Errors (10) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "0d1e884296d5c4ec0449110ca328008f7c263b331c78e4f5118b97945fe3a054"
+    },
+    {
+      "name": "MAP-Errors",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-Errors (10) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "fbe39b6070e3fb7e2a3a6f55b319b24491a8b413321507ddd7145b1a7b4a3346"
+    },
+    {
+      "name": "MAP-ExtensionDataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ExtensionDataTypes (21) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "24e5cca23c49cdd2870f24c9da89c4c3de4cadc88be2a852127c46f641198362"
+    },
+    {
+      "name": "MAP-ExtensionDataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ExtensionDataTypes (21) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "60942c5df487d72e41ad0350ba9d527879f4c277233797e5747e74519fe629b0"
+    },
+    {
+      "name": "MAP-GR-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-GR-DataTypes (23) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "b190fc5fb42c6a9a73d0d4c3af434b65cd2e47f2b100f19903b67eab1f56962f"
+    },
+    {
+      "name": "MAP-Group-Call-Operations",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-Group-Call-Operations (22) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "2047261424cb7e0de50d6507e142ce3c4439a628ad5a273efc8e4ddefe1087f6"
+    },
+    {
+      "name": "MAP-LCS-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-LCS-DataTypes (25) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "b4af5e6b6b8952da886d7d4734842210fc05f812c1f0321312c9be22c6e77b72"
+    },
+    {
+      "name": "MAP-LCS-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-LCS-DataTypes (25) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "c52a3c4c7507b1085b593ab1a853a80c29e9c2eb7af241d766b495a1864d790f"
+    },
+    {
+      "name": "MAP-LocationServiceOperations",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-LocationServiceOperations (24) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "280414f331b25e83c672dc7ce1773e9e4f1585f1d0f3f374bd98637e11ad6b0a"
+    },
+    {
+      "name": "MAP-MS-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-MS-DataTypes (11) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "12db45b48c9371eb3dbf94ab8e20f9b41bf19003baf8d922d340261302ea8f74"
+    },
+    {
+      "name": "MAP-MS-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-MS-DataTypes (11) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "fe9177d43bfe48f860eb34c03bd78759bf33b3c13143a3994a9bd4f695a97c6b"
+    },
+    {
+      "name": "MAP-MobileServiceOperations",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-MobileServiceOperations (5) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "1ff741e4cfa8e39efd9585cd08d7c5196d14b483dc2776ebc4e8c6e07babc496"
+    },
+    {
+      "name": "MAP-OM-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-OM-DataTypes (12) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "d2831377bdd93c2baea25cf93fff3432c8a9be1380019d21f7e11bd1cfe9253a"
+    },
+    {
+      "name": "MAP-OM-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-OM-DataTypes (12) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "f75de8eed2ea61d21c1f97ec3a4d6037a102e60517ec9bac05470f147cf6751d"
+    },
+    {
+      "name": "MAP-OperationAndMaintenanceOperations",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-OperationAndMaintenanceOperations (6) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "7f706f72645f72d54c8add36cc083c7d20ccbc42f5bdbae5e3cfaf765e369845"
+    },
+    {
+      "name": "MAP-Protocol",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-Protocol (4) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "9c78dd5c72f64ca63e641198ef5222bd716704535670cef491300878b60c36c4"
+    },
+    {
+      "name": "MAP-SM-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SM-DataTypes (16) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "2293b763abbc18e87a8595da324ab9a1f27d7a042513ea846b3b95667ef18736"
+    },
+    {
+      "name": "MAP-SM-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SM-DataTypes (16) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "9455e3d6da4d93126707634a6b75c12198c404acb89dd48390cb9d9aca565f5a"
+    },
+    {
+      "name": "MAP-SS-Code",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SS-Code (15) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "57c80d57b7898d1858de93c7963913cd92e312b146599d1f3aa370e36c17eca0"
+    },
+    {
+      "name": "MAP-SS-Code",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SS-Code (15) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "95f3cd15835881073dca9a3d8c5a295ff5832b0dca7b5d0e2c408a2ae779564a"
+    },
+    {
+      "name": "MAP-SS-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SS-DataTypes (14) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "94f0f3d9f4b43ad96d83358d0aa6e76f4ffc80a2915e03f48817db11a8ee28f9"
+    },
+    {
+      "name": "MAP-SS-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SS-DataTypes (14) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "f8ae1748c98747f8cc2c9489250966a81f2b947b805121fac3eb643c74d8bbaa"
+    },
+    {
+      "name": "MAP-ShortMessageServiceOperations",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-ShortMessageServiceOperations (9) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "6c8edebb3afbfa8e662db4adfd2da590323343c6df8c82f686761e779ed297bb"
+    },
+    {
+      "name": "MAP-SupplementaryServiceOperations",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-SupplementaryServiceOperations (8) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "b7a0e89547f549f31436610aca8c22b3889ec8e7d8da2928cc0e9c0c392d4982"
+    },
+    {
+      "name": "MAP-TS-Code",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-TS-Code (19) version22 (22)}",
+      "source_version": "3GPP TS 29.002 V19.1.0 (Release 19)",
+      "source_sha256": "66b31cd0f5c057857b0c009e7300dd9c506dd4d84561c14222986c0cebd58458"
+    },
+    {
+      "name": "MAP-TS-Code",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Network (1) modules (3) map-TS-Code (19) version21 (21)}",
+      "source_version": "3GPP TS 29.002 V18.0.0 (Release 18)",
+      "source_sha256": "f3a08cd5120cf094f8869b841bf6309fc01a291beb39268f0494234de4b3809d"
+    },
+    {
+      "name": "MobileDomainDefinitions",
+      "oid": "{ccitt (0) identified-organization (4) etsi (0) mobileDomain (0) mobileDomainDefinitions (0) version1 (1)}",
+      "source_version": "ETSI ETR 091 edition 1 (July 1993)",
+      "source_sha256": "801ba400996edc73da1f27d7df2ec773efc6817393541adea62b3d92c8195483"
+    },
+    {
+      "name": "Remote-Operations-Generic-ROS-PDUs",
+      "oid": "{joint-iso-itu-t remote-operations(4) generic-ROS-PDUs(6) version1(0)}",
+      "source_version": "ITU-T X.880 (07/1994) with Technical Corrigendum 1 (07/1995)",
+      "source_sha256": "b21f6f216c33d257ec22b5fa48761f0948cd55aadd154fa57ee394d02661f8dd"
+    },
+    {
+      "name": "Remote-Operations-Information-Objects",
+      "oid": "{joint-iso-itu-t remote-operations(4) informationObjects(5) version1(0)}",
+      "source_version": "ITU-T X.880 (07/1994) with Technical Corrigendum 1 (07/1995)",
+      "source_sha256": "2a3c415b6268d1231b2cc733aaa73dfc66eb67f36356d23286941cf0881de6b9"
+    },
+    {
+      "name": "Remote-Operations-Useful-Definitions",
+      "oid": "{joint-iso-itu-t remote-operations(4) useful-definitions(7) version1(0)}",
+      "source_version": "ITU-T X.880 (07/1994) with Technical Corrigendum 1 (07/1995)",
+      "source_sha256": "5c710fb2e552c81149924d29312b4abf00a94980b61cb0198869e0823d6c9e40"
+    },
+    {
+      "name": "SS-DataTypes",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Access (2) modules (3) ss-DataTypes (2) version18 (18)}",
+      "source_version": "3GPP TS 24.080 V19.4.0 (Release 19)",
+      "source_sha256": "1753360aa3e7a42c009d15e4f52dc4047621d42498358ab7296fee22745805a9"
+    },
+    {
+      "name": "SS-Errors",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Access (2) modules (3) ss-Errors (1) version18 (18)}",
+      "source_version": "3GPP TS 24.080 V19.4.0 (Release 19)",
+      "source_sha256": "b81d2a668e33702414eec4d9210bd4922f1104ccc4384cb6d8d3301ce8fa129e"
+    },
+    {
+      "name": "SS-Operations",
+      "oid": "{ itu-t identified-organization (4) etsi (0) mobileDomain (0) gsm-Access (2) modules (3) ss-Operations (0) version18 (18)}",
+      "source_version": "3GPP TS 24.080 V19.4.0 (Release 19)",
+      "source_sha256": "d3eba960d95875df7ffb757f3e944ee68d3172f407fb27cdeebec4e6e1317673"
+    }
+  ],
+  "parser": {
+    "lock": {
+      "repository": "https://github.com/gomaja/pycrate.git",
+      "commit": "10a62a7dd4c835e94ca9bca743d5faf9545404d6"
+    },
+    "lock_sha256": "d7a63c08c987daeb96d24316c040fd3fa892ce8bdc12c000ff33f0e2d9c36632",
+    "commit": "10a62a7dd4c835e94ca9bca743d5faf9545404d6"
+  },
+  "runtime_original": [
+    {
+      "path": "ber/ber_test.go",
+      "mode": "0644",
+      "size": 30141,
+      "sha256": "6e56d63cafede28956878331ab4d9a22b544f1f2394586bd0413eff5efa96f84"
+    },
+    {
+      "path": "ber/bigint_value_test.go",
+      "mode": "0644",
+      "size": 1756,
+      "sha256": "d036dfbee81c7fbc6d4c1b9bc70eff900b0cee3e469b05c8dffba0a3035c1804"
+    },
+    {
+      "path": "ber/bit_length.go",
+      "mode": "0644",
+      "size": 633,
+      "sha256": "c5914dd5fc1cfbde915f049d29951d0f7b9286890371e7eac22d29e48ca9e26e"
+    },
+    {
+      "path": "ber/bit_length_test.go",
+      "mode": "0644",
+      "size": 838,
+      "sha256": "2efe9cdcea0e580674a2d818354c74155235b7c5bf2dda255e6caa44b136938e"
+    },
+    {
+      "path": "ber/bit_string_encode_bounds_test.go",
+      "mode": "0644",
+      "size": 687,
+      "sha256": "07dda2b75450d4f36084215abe6a28e1e3b8eb9377594807f8904ccd5c101a97"
+    },
+    {
+      "path": "ber/bitstring_length.go",
+      "mode": "0644",
+      "size": 1021,
+      "sha256": "eb69028cff276d6816136653a153a71d73cdd4775d03388db1897664282359a5"
+    },
+    {
+      "path": "ber/bounded_cost_test.go",
+      "mode": "0644",
+      "size": 8083,
+      "sha256": "2892ec9a74ee7f3782848feb955d5035e5da03ea27916940031d637997623685"
+    },
+    {
+      "path": "ber/collection_tag.go",
+      "mode": "0644",
+      "size": 3851,
+      "sha256": "ce1d4cae467f727925d7c77d48b37374d772758af1f7e964f57208816fa06ad2"
+    },
+    {
+      "path": "ber/collection_tag_test.go",
+      "mode": "0644",
+      "size": 1593,
+      "sha256": "6d58b54840d62bb27fd269abdc6a68c484d0fd1e0454dd050a7dd1d16453c485"
+    },
+    {
+      "path": "ber/constraints.go",
+      "mode": "0644",
+      "size": 36278,
+      "sha256": "6fe190d0cd6c5b53160607eb14f03aafe48a430bc2c2f7bfbd0457b6af66f1fe"
+    },
+    {
+      "path": "ber/constraints_example_test.go",
+      "mode": "0644",
+      "size": 491,
+      "sha256": "803200ad5d767d5d1907900bafc0222dc9bf769e5c44ae8c4a6bf9188ea90cf7"
+    },
+    {
+      "path": "ber/constraints_fuzz_test.go",
+      "mode": "0644",
+      "size": 4414,
+      "sha256": "b08d033eda135b9ced0c08a8c9abbda9a72e01399f393d2ece7a0a01436ec27a"
+    },
+    {
+      "path": "ber/constraints_test.go",
+      "mode": "0644",
+      "size": 4090,
+      "sha256": "eea82c74ce1a4d771a74be7e6d053efa22f7d6e47e161e907b1a7dff2233eb99"
+    },
+    {
+      "path": "ber/constructed_bit_string_test.go",
+      "mode": "0644",
+      "size": 4910,
+      "sha256": "045b3115ccfb9bd5468110c070d00557876e6d009facf06815b403b123c71860"
+    },
+    {
+      "path": "ber/cost_clock_test.go",
+      "mode": "0644",
+      "size": 934,
+      "sha256": "784d4c9d060190af39ff19431210ec82f8f8cdcb3c10d14ede8667a5da40930b"
+    },
+    {
+      "path": "ber/cost_test.go",
+      "mode": "0644",
+      "size": 1937,
+      "sha256": "6fd089459eba7b75f91880b693017d3136f4f8fc90feedae59dd25fee70b34d2"
+    },
+    {
+      "path": "ber/decoder.go",
+      "mode": "0644",
+      "size": 64031,
+      "sha256": "74f414c21f2dbb14af1b1f20522d931dee38b242e2d96f83023fcdbaad2a7fe0"
+    },
+    {
+      "path": "ber/depth_overflow_test.go",
+      "mode": "0644",
+      "size": 1007,
+      "sha256": "6d71e14721c87e6867422fc7effd59f916b3c14427758e687a4b49947a2aeb9c"
+    },
+    {
+      "path": "ber/der_real_cost_test.go",
+      "mode": "0644",
+      "size": 955,
+      "sha256": "89984cf2f12b1957d75ad89d3ead86e2cbf6aca72278e6fe8a43e689ed032465"
+    },
+    {
+      "path": "ber/der_set_order_test.go",
+      "mode": "0644",
+      "size": 5967,
+      "sha256": "e2db0853e2517036755529aa51be0a1b84430d517ebefae53df65bcc87e16b56"
+    },
+    {
+      "path": "ber/diagnostic_limits_test.go",
+      "mode": "0644",
+      "size": 6765,
+      "sha256": "ccd893fb3659616b5d691a740a4e58b2d1407b524d18e4cf0c94043aef93d960"
+    },
+    {
+      "path": "ber/diagnostic_retention_test.go",
+      "mode": "0644",
+      "size": 3541,
+      "sha256": "667ef640c7bd9e8b9281136632950c96a63e2be320fac970ecdbc24fdbe0a8cd"
+    },
+    {
+      "path": "ber/direct_operation_test.go",
+      "mode": "0644",
+      "size": 1169,
+      "sha256": "6777125321792e426d27c76c326a42bf80819f686fa43bef660559bd58938b51"
+    },
+    {
+      "path": "ber/dual_tagged_choice_test.go",
+      "mode": "0644",
+      "size": 1918,
+      "sha256": "4dd42394bc0e569a4ef71c45e40312edb72b9a6221cdde4b0055cb514828ec43"
+    },
+    {
+      "path": "ber/encode_options.go",
+      "mode": "0644",
+      "size": 3527,
+      "sha256": "16651265bdc12a9a653703c966deb87265620ad6f1c8607509baddfd2d5c2c7d"
+    },
+    {
+      "path": "ber/encoder.go",
+      "mode": "0644",
+      "size": 26868,
+      "sha256": "2f99484545a6cbcc50d8fc8d098f9ac067f94ac90f0532eeedac49632326e667"
+    },
+    {
+      "path": "ber/encoder_limit_test.go",
+      "mode": "0644",
+      "size": 3169,
+      "sha256": "f4510740fa0476c22c0751aafe0e1363d3b2021a819ef0e8d206bb73199c35fc"
+    },
+    {
+      "path": "ber/encoder_test_helpers_test.go",
+      "mode": "0644",
+      "size": 243,
+      "sha256": "ea4eafe10bf3e04233ec131db8b1458ce0d9f6daba7d8d1bfcde11b4665a6111"
+    },
+    {
+      "path": "ber/entry_options_test.go",
+      "mode": "0644",
+      "size": 8544,
+      "sha256": "15fe6da2f7a1f4eda3fecb8010c9eb729ddc0f7a631027bfebd1dad037206eab"
+    },
+    {
+      "path": "ber/errors.go",
+      "mode": "0644",
+      "size": 2458,
+      "sha256": "8a4f317f2a6cdfd032dd903c2ee49f38e30e8bc56b088b724e0f1302c560e01a"
+    },
+    {
+      "path": "ber/external.go",
+      "mode": "0644",
+      "size": 9489,
+      "sha256": "a4a4a440084963123eafa71be7dcfe5801cfc1a0e8a7fcda374de494fcfae9ab"
+    },
+    {
+      "path": "ber/external_limits_test.go",
+      "mode": "0644",
+      "size": 4270,
+      "sha256": "e5214e9057358096407e0e9825fe0b5860fd534332e442cb61e239b8fee6824a"
+    },
+    {
+      "path": "ber/external_options_test.go",
+      "mode": "0644",
+      "size": 4066,
+      "sha256": "3f0ffed1e3f3a6d1fdc9c1d5cca8293ee408d3085697d5b629eae506894f5592"
+    },
+    {
+      "path": "ber/external_test.go",
+      "mode": "0644",
+      "size": 5758,
+      "sha256": "1e03bc668230073dcf923af90081c9f87499598ed5987d5182ac78246d257ca7"
+    },
+    {
+      "path": "ber/form_alloc_test.go",
+      "mode": "0644",
+      "size": 1915,
+      "sha256": "f551152c3e0d406b5307b4b547aac3ba66477c1815c54771a34ffa45f68c324f"
+    },
+    {
+      "path": "ber/form_options_concurrency_test.go",
+      "mode": "0644",
+      "size": 567,
+      "sha256": "0b32b73dba547b881c87f3cfe8cba034596e1efb29a0d86ca78a9ee041f0538f"
+    },
+    {
+      "path": "ber/form_options_reuse_test.go",
+      "mode": "0644",
+      "size": 4307,
+      "sha256": "f074208ce9bd7f7af19411dd77787274986e20ae7bddbf6ec883ec63a7c8c51b"
+    },
+    {
+      "path": "ber/form_tracking_test.go",
+      "mode": "0644",
+      "size": 8738,
+      "sha256": "f990ce947e46c129413e1cfa112c14c077e394ccb394b6327ff41cf183a0489e"
+    },
+    {
+      "path": "ber/generated_context.go",
+      "mode": "0644",
+      "size": 30850,
+      "sha256": "76f541c7c686a4413eaf6649b3b5047b93f58f0f3c64e356b58835583c5f8966"
+    },
+    {
+      "path": "ber/generated_context_external_test.go",
+      "mode": "0644",
+      "size": 5965,
+      "sha256": "51496614df6778f39b0d4d0fe049cab57ef328a5814c3e8ae6f308fecb225bf5"
+    },
+    {
+      "path": "ber/generated_context_test.go",
+      "mode": "0644",
+      "size": 27063,
+      "sha256": "afc8dfecdfc5f49eef0b4ebce7c7e621d8ac23654cec504fdb7e8e7fab83acb6"
+    },
+    {
+      "path": "ber/generated_encode_options.go",
+      "mode": "0644",
+      "size": 5090,
+      "sha256": "e62e513c5b0ce0d5f7c51cb60c314c6cb88fce2c1036827ef9a2a34baabe020d"
+    },
+    {
+      "path": "ber/generated_encode_options_test.go",
+      "mode": "0644",
+      "size": 6786,
+      "sha256": "81a48c095b9069a5926fc4bd9c469f1762c0ba295b1fd6adb6254b736a959002"
+    },
+    {
+      "path": "ber/hardening_test.go",
+      "mode": "0644",
+      "size": 8174,
+      "sha256": "93745662efa8ce2e3fdae238e7ff35ad3ed4596c7d622433e049efad65cb805f"
+    },
+    {
+      "path": "ber/idempotent_reports_test.go",
+      "mode": "0644",
+      "size": 13615,
+      "sha256": "064fa592b550b4122d8dbad9f384c62ca5113a61fa9efccff87893b536314aae"
+    },
+    {
+      "path": "ber/integer_minimal_test.go",
+      "mode": "0644",
+      "size": 2439,
+      "sha256": "4d0eab8382ba86e5cc2fbc4c4302070a9a940fbd88eee2c699694905736e3e86"
+    },
+    {
+      "path": "ber/lazy_location_test.go",
+      "mode": "0644",
+      "size": 7823,
+      "sha256": "114cbcde2442efb2d3fa87c91682318f64be316b76d33c761d987ebab47c95a0"
+    },
+    {
+      "path": "ber/length_long_form_test.go",
+      "mode": "0644",
+      "size": 2062,
+      "sha256": "840bd2965df1935c29810b098010084dfd3ed96f914a904036971274855427a3"
+    },
+    {
+      "path": "ber/linear_encoder.go",
+      "mode": "0644",
+      "size": 13108,
+      "sha256": "62fafabeb884efbd8b2fe4b7544ca29650a6f49916480455ba27c16483917d11"
+    },
+    {
+      "path": "ber/linear_encoder_test.go",
+      "mode": "0644",
+      "size": 7814,
+      "sha256": "ac8947f9e6cff2944df80b4022e93ef95865d3b2864fdef04d2348b5d65ef53e"
+    },
+    {
+      "path": "ber/map_profile.go",
+      "mode": "0644",
+      "size": 18646,
+      "sha256": "b279d6e769fcc2f76d2e1daeef34d609a6c1ed994c06ad8e03a5f59813a5ae78"
+    },
+    {
+      "path": "ber/map_profile_resource_test.go",
+      "mode": "0644",
+      "size": 1809,
+      "sha256": "ee1e9f78860344f93eb93c1609145efa0d043a62e1349a04bfb14fd9ececc20d"
+    },
+    {
+      "path": "ber/map_profile_test.go",
+      "mode": "0644",
+      "size": 14805,
+      "sha256": "3b4f516ebe0d9d51365e35c9dfaeaa012093fda5465eb8e026f4806799339ea7"
+    },
+    {
+      "path": "ber/named_bit_encoding.go",
+      "mode": "0644",
+      "size": 6492,
+      "sha256": "0b4f3c404aae55e9d116aa29578ad1b5cdb85d2b6a8ef293e5af302f83c2c348"
+    },
+    {
+      "path": "ber/named_bit_encoding_test.go",
+      "mode": "0644",
+      "size": 6290,
+      "sha256": "6b88ae496778caa93db87531b710a4807456ecf4283e5629fce228287727b095"
+    },
+    {
+      "path": "ber/named_bit_input_padding_test.go",
+      "mode": "0644",
+      "size": 1298,
+      "sha256": "983b2962020b4fdb63604adb057c390f6704b78a5a88aba6db1b293ed473d1e7"
+    },
+    {
+      "path": "ber/named_bit_size.go",
+      "mode": "0644",
+      "size": 2716,
+      "sha256": "3a0ac086c1beea2d33677abf401645f4bf98aef1ac87fade5f71e429889fb02c"
+    },
+    {
+      "path": "ber/named_bit_size_test.go",
+      "mode": "0644",
+      "size": 1736,
+      "sha256": "3f6330c82a1d146a75e55361016ce12190776e56ea0742514103f1c990eb476e"
+    },
+    {
+      "path": "ber/named_bitstring_test.go",
+      "mode": "0644",
+      "size": 990,
+      "sha256": "93f5176a9a49b06d32151364a5c7b7fbf778ec3c70772a65be2b02e91af667e3"
+    },
+    {
+      "path": "ber/oid_checked_test.go",
+      "mode": "0644",
+      "size": 2422,
+      "sha256": "02e0df136c4a285d826b49e725b28d19bd541864cb4de300ac140d5780c28fcc"
+    },
+    {
+      "path": "ber/oid_wide_test.go",
+      "mode": "0644",
+      "size": 496,
+      "sha256": "92a9c4564140356fb9e09cf055528272ebeff06fd8cf641fee60ab7943614c61"
+    },
+    {
+      "path": "ber/opaque.go",
+      "mode": "0644",
+      "size": 3941,
+      "sha256": "32c7a7868a4b51d49e0d80604210ac0753f0d7d7c966cb70f15fa7f409a5fd22"
+    },
+    {
+      "path": "ber/opaque_alias_test.go",
+      "mode": "0644",
+      "size": 1528,
+      "sha256": "820a1730fb1c7a31d606dec074847c03f1c876bc79c533cf43ce9acd8cebf5c2"
+    },
+    {
+      "path": "ber/opaque_structural_error_test.go",
+      "mode": "0644",
+      "size": 1297,
+      "sha256": "685042a8f6c8e41b07410198f22bf4f9dca833b549d85b1bd76acf7d5e137b8b"
+    },
+    {
+      "path": "ber/opaque_test.go",
+      "mode": "0644",
+      "size": 5146,
+      "sha256": "aead4d984d5b9ffe29f37baa3741eba48e11cddbda8334f0b52bfb93bbe33eb4"
+    },
+    {
+      "path": "ber/option_resolution_fast_path_test.go",
+      "mode": "0644",
+      "size": 1052,
+      "sha256": "b7b53600526bf54be4045f148208905200876c08830f2b39640de00642bac3a2"
+    },
+    {
+      "path": "ber/options.go",
+      "mode": "0644",
+      "size": 9209,
+      "sha256": "5fa5b575c3af9bf590ea3e0e67b4279fe3a221e1c4722fe2aa96dd0e3da6afb2"
+    },
+    {
+      "path": "ber/owned_mechanisms_test.go",
+      "mode": "0644",
+      "size": 3605,
+      "sha256": "2fe379c908e52bd477df9f5d06334a4c66609fd5275aa2fb90ffb1f0832bbfc3"
+    },
+    {
+      "path": "ber/preflight_location_test.go",
+      "mode": "0644",
+      "size": 9646,
+      "sha256": "d3e1663e06ad04f3e757e77723246565c7dd77597c830af15bc44dcd6a5c1342"
+    },
+    {
+      "path": "ber/preflight_path.go",
+      "mode": "0644",
+      "size": 7089,
+      "sha256": "700848c300a2b21c681493feba3edb7b427e56cc17ebc411fd680fab4b984f04"
+    },
+    {
+      "path": "ber/preflight_path_test.go",
+      "mode": "0644",
+      "size": 9455,
+      "sha256": "a8f504c36cccacb369c103f6a6054a42b7b3ac1ad43cc8ab6c1eb3d3aa4d0eb2"
+    },
+    {
+      "path": "ber/preflight_reports_test.go",
+      "mode": "0644",
+      "size": 5691,
+      "sha256": "b4b26c10391510d083f27356122cdc63a2e42edebe5406352fac4c0aafc28414"
+    },
+    {
+      "path": "ber/present_empty_test.go",
+      "mode": "0644",
+      "size": 2044,
+      "sha256": "16aee51ce83422e200759a3230f7132bda29bc687845a7f98058ec790a349da5"
+    },
+    {
+      "path": "ber/primitive_options_test.go",
+      "mode": "0644",
+      "size": 3082,
+      "sha256": "4d13972924a770b122ae05029ab8d8b5141123a9c909b16d2c6dc5acd498b779"
+    },
+    {
+      "path": "ber/raw_identifier_test.go",
+      "mode": "0644",
+      "size": 1656,
+      "sha256": "86783608bfb8fe0bf1f7ecaeb5f1c62f8fe36fad71895335a32b88837a7c7986"
+    },
+    {
+      "path": "ber/raw_metadata_test.go",
+      "mode": "0644",
+      "size": 1243,
+      "sha256": "fce85297337a2fb4715552e0889d4cea7f5b7a756a2e094d44e562a9bf4c07f6"
+    },
+    {
+      "path": "ber/raw_value.go",
+      "mode": "0644",
+      "size": 833,
+      "sha256": "4f2a12af32ec708fd70bd550e1bd470ffe37543435c9f697aa04a78adcbc000d"
+    },
+    {
+      "path": "ber/real_capacity_test.go",
+      "mode": "0644",
+      "size": 539,
+      "sha256": "4848f49c63b74cdf75d0383f749e6b3f0f5fe943c4395b8de755ff92e5b6b55e"
+    },
+    {
+      "path": "ber/real_constraint.go",
+      "mode": "0644",
+      "size": 5147,
+      "sha256": "a3b8b6b1977af4dc416af33b47cc29ad0d5b4d66bb9d997a7f93419fcea2871b"
+    },
+    {
+      "path": "ber/real_constraint_test.go",
+      "mode": "0644",
+      "size": 1911,
+      "sha256": "7bf1e86eadb72226b367b02cbad354979685253f67fbfa1d94f31744f450feed"
+    },
+    {
+      "path": "ber/real_decimal_fastpath_test.go",
+      "mode": "0644",
+      "size": 4188,
+      "sha256": "6ea7b1b4fdf616c68ebef794a036151eeeb2143adc26a9f4eb10c1f09813351d"
+    },
+    {
+      "path": "ber/real_decimal_test.go",
+      "mode": "0644",
+      "size": 11473,
+      "sha256": "74f5431276e4b36fecbcde32b0b7d08370e3e23b1f81308ca6e6124726966c46"
+    },
+    {
+      "path": "ber/real_default.go",
+      "mode": "0644",
+      "size": 2512,
+      "sha256": "243e1bc02877970fe1a4887ace6a1b9f3ac60e5814baa6f9c49780107d6a4fe8"
+    },
+    {
+      "path": "ber/real_default_test.go",
+      "mode": "0644",
+      "size": 3413,
+      "sha256": "b1536d75de63c2c51cba8f53bae7047cd580d3dce9a7a5ffd23b1c3ecdcc582b"
+    },
+    {
+      "path": "ber/real_limits_test.go",
+      "mode": "0644",
+      "size": 2831,
+      "sha256": "cd1e386685b8676d5efbfe23cbc612f1d16edc9278531eb51c6a6fd809a64b4e"
+    },
+    {
+      "path": "ber/replay_comparator_plan_test.go",
+      "mode": "0644",
+      "size": 8708,
+      "sha256": "a08a7286f8cc2bb6ed645bab2295a8fefbd4fdc5a91f13de15a79901523416ad"
+    },
+    {
+      "path": "ber/replay_comparator_reference_test.go",
+      "mode": "0644",
+      "size": 12516,
+      "sha256": "03c47167ff9fe09b527e0a3d3bbb2f60483a2ddfd9526f95f13f2a5e199922b9"
+    },
+    {
+      "path": "ber/replay_compare.go",
+      "mode": "0644",
+      "size": 6460,
+      "sha256": "e66aa3627f939085b8a1e1251e9408a208bd74ed02e7212e2f67fc1c9852f47b"
+    },
+    {
+      "path": "ber/replay_context.go",
+      "mode": "0644",
+      "size": 53954,
+      "sha256": "e2355570b2ef60053000131c755c8c5179b8576c92e181425efdf7d22ec84bd7"
+    },
+    {
+      "path": "ber/replay_context_test.go",
+      "mode": "0644",
+      "size": 38580,
+      "sha256": "4370a8e6bcada51066d9328134c893490398356d720704428ddacfab516e4997"
+    },
+    {
+      "path": "ber/replay_external_forms_test.go",
+      "mode": "0644",
+      "size": 4293,
+      "sha256": "4266bf635538cb61d8b3ba2fedca9d69ce4ee58bbbce069dc1832242a2af8fa3"
+    },
+    {
+      "path": "ber/replay_marker_integration_test.go",
+      "mode": "0644",
+      "size": 2395,
+      "sha256": "e53a5a0bed42df4d0bd7c181c9d76041d5a24bbaedfa544e10149b783f26fbe6"
+    },
+    {
+      "path": "ber/replay_parts.go",
+      "mode": "0644",
+      "size": 13263,
+      "sha256": "8c3ada856bf19ff109f4b2ad86127a5ff816f73600d8e597d326c6bb370285c3"
+    },
+    {
+      "path": "ber/replay_parts_depth_test.go",
+      "mode": "0644",
+      "size": 733,
+      "sha256": "b08765530676296cbc3dd1db72273f076815105177644c4ffe3fdc85a685e44f"
+    },
+    {
+      "path": "ber/replay_parts_test.go",
+      "mode": "0644",
+      "size": 8461,
+      "sha256": "9a19571c98d083c75616d2e41522ad3fc76ce716888a970555113cb210fbf400"
+    },
+    {
+      "path": "ber/replay_profile.go",
+      "mode": "0644",
+      "size": 5348,
+      "sha256": "e0e7568f93fd851b2ab358f57385d2572d1fc04db67864e383f26cdb6e0e9dcd"
+    },
+    {
+      "path": "ber/replay_profile_position_test.go",
+      "mode": "0644",
+      "size": 3625,
+      "sha256": "e34fa85228067fce9ea4a28e99dded830185dbd99eb28e49c5da407ee0af7f50"
+    },
+    {
+      "path": "ber/replay_unknown_test.go",
+      "mode": "0644",
+      "size": 1563,
+      "sha256": "84d0faeaea5af802b9afd3845b6006ba222508b469c8b477e7ec6b5c1c5c1750"
+    },
+    {
+      "path": "ber/replay_verdict_round15_test.go",
+      "mode": "0644",
+      "size": 7404,
+      "sha256": "ccc1972744946704150bac6980bdff84d092d1a9e88165b4137a419076c12a98"
+    },
+    {
+      "path": "ber/resource_limits_test.go",
+      "mode": "0644",
+      "size": 1606,
+      "sha256": "df76bd416004e63db4dd45b20f4596f16d168b423e35f6970a1720982bedbd14"
+    },
+    {
+      "path": "ber/retag_capacity_test.go",
+      "mode": "0644",
+      "size": 562,
+      "sha256": "2eb7557dfd0bee11d80a4b40f173c136600d2ee6529b00d903c07a555c802156"
+    },
+    {
+      "path": "ber/rules.go",
+      "mode": "0644",
+      "size": 1062,
+      "sha256": "355b2a0222933d8b4bcc618c1a37d2948a170213d68ebb1e25bc16ceec9e0848"
+    },
+    {
+      "path": "ber/rules_test.go",
+      "mode": "0644",
+      "size": 1549,
+      "sha256": "c6b08b82df7059f45c27cbec098384b2e02851b1d29f7b8afc71c2ed16c83815"
+    },
+    {
+      "path": "ber/selective_replay_test.go",
+      "mode": "0644",
+      "size": 2435,
+      "sha256": "9e63c76443fefd85e36131a2ecaa1f7bb21559c22f2c647579582d0f202ec1d4"
+    },
+    {
+      "path": "ber/set_order_test.go",
+      "mode": "0644",
+      "size": 3452,
+      "sha256": "4b9fe95db28c90dfbefbde01cdb1e48415a709edf240e53e99875bd2c471d6af"
+    },
+    {
+      "path": "ber/stage_fast_path_test.go",
+      "mode": "0644",
+      "size": 2800,
+      "sha256": "80202987ac3f8b983df5640e341205ce0f56a717303e366500603308e82cf610"
+    },
+    {
+      "path": "ber/staged_depth_test.go",
+      "mode": "0644",
+      "size": 867,
+      "sha256": "ed22fed7f1ac335e4169f1669f91b60c42d44375d6f26f310c1d4abec8f4b25b"
+    },
+    {
+      "path": "ber/string_capacity_test.go",
+      "mode": "0644",
+      "size": 507,
+      "sha256": "3dabac02d70432b0ce4cc79ee09a0bd1d6e3688619bd0dc13afe9df0c3e3bb00"
+    },
+    {
+      "path": "ber/string_fixed_width_test.go",
+      "mode": "0644",
+      "size": 5679,
+      "sha256": "10651529b7c4b27c527c284b832f095809321b91e2343967ceedc3bf8a7b7695"
+    },
+    {
+      "path": "ber/time_test.go",
+      "mode": "0644",
+      "size": 11982,
+      "sha256": "098e82a532379a80f04bff6d5bf4e6a6bbe694c0c3fc5ec52d54e7be01511d79"
+    },
+    {
+      "path": "ber/triage_encode_policy_test.go",
+      "mode": "0644",
+      "size": 5208,
+      "sha256": "204e333691f8fa9b32e797335ee8e2fbd80aeb8f4ecf7268d100d933576825d8"
+    },
+    {
+      "path": "ber/triage_indefinite_error_test.go",
+      "mode": "0644",
+      "size": 1135,
+      "sha256": "5d70568bf04fcf7370a38a3c2e2366e907141e2a7055ee3269e3bfa480b83cc7"
+    },
+    {
+      "path": "ber/triage_named_bit_size_test.go",
+      "mode": "0644",
+      "size": 2813,
+      "sha256": "ee34dfa843a4b5ee4f85c8ffa76b37fafc6e6b467f6b49a3784c132000b76653"
+    },
+    {
+      "path": "ber/triage_options_test.go",
+      "mode": "0644",
+      "size": 14905,
+      "sha256": "b41723eb9a0397ca7340dee7415fc49a7d61365d0d1a67cf00f538271c18502a"
+    },
+    {
+      "path": "ber/triage_padding_test.go",
+      "mode": "0644",
+      "size": 3434,
+      "sha256": "6e7e562378969baeff66c66c57ec3df6f707d1afa1dc12b7ea679dd09a37cd90"
+    },
+    {
+      "path": "ber/triage_segmented_test.go",
+      "mode": "0644",
+      "size": 1288,
+      "sha256": "b97e28f6bc20bb41d2b3b57ff52f6cbfe756b71a84c1d0e790b44293632dcc6d"
+    },
+    {
+      "path": "ber/triage_structure_test.go",
+      "mode": "0644",
+      "size": 4658,
+      "sha256": "7acf6515a1f8483d0fdca9a1bed00d716754957284376e0caf90ae926253e53f"
+    },
+    {
+      "path": "ber/universal_form_test.go",
+      "mode": "0644",
+      "size": 5154,
+      "sha256": "964917ef0092b1122fe740498ba2fbfa4e6732fa22ed26b6232ab3a4197c74b4"
+    },
+    {
+      "path": "ber/unused_bits.go",
+      "mode": "0644",
+      "size": 287,
+      "sha256": "1bc247977170dc362a5f5300cfae54a9a6362b561fabab065938299bb7d593dd"
+    },
+    {
+      "path": "ber/unused_bits_test.go",
+      "mode": "0644",
+      "size": 330,
+      "sha256": "72c3222eedf8117c588ef5c2aa2ffff63ededcd5ed701491d14b8918856e7350"
+    },
+    {
+      "path": "ber/utf8.go",
+      "mode": "0644",
+      "size": 3316,
+      "sha256": "d4f96047a734a5fca2bf2bb7c5af1f71d54efbc3769deab4427ce1df3055755b"
+    },
+    {
+      "path": "ber/utf8_encode.go",
+      "mode": "0644",
+      "size": 1587,
+      "sha256": "346200f8cf9f2f387c5ced23a2417eebf26d1c98a5a81aa131b01e4cf2d72e2f"
+    },
+    {
+      "path": "ber/utf8_encode_direct_test.go",
+      "mode": "0644",
+      "size": 3474,
+      "sha256": "9b00b0331336f8fdd41e754c6fc362b2ab5393c487e897d0f984e24981920160"
+    },
+    {
+      "path": "ber/utf8_encode_test.go",
+      "mode": "0644",
+      "size": 2256,
+      "sha256": "64cf51cb1fdb53c8b87d7c22717b33b57c7d3735b5718dcc4b50a614a3195727"
+    },
+    {
+      "path": "ber/utf8_generated_field_test.go",
+      "mode": "0644",
+      "size": 1839,
+      "sha256": "4b1e802733198b11fe91473137c8e1d43b1bfcfa7afa70048c50f2cf7c4eb89f"
+    },
+    {
+      "path": "ber/utf8_location_test.go",
+      "mode": "0644",
+      "size": 9352,
+      "sha256": "4696e18eef28acd7378f617cfc1fadc8e9087d7cc3ba3949c52db1a47f3e32dc"
+    },
+    {
+      "path": "ber/utf8_reconciliation_test.go",
+      "mode": "0644",
+      "size": 3455,
+      "sha256": "d81b601c1ef7806bba5c36f8b27f7c1c8d8701129974c8acf8eb3302624fdffc"
+    },
+    {
+      "path": "ber/utf8_validation_test.go",
+      "mode": "0644",
+      "size": 6865,
+      "sha256": "f507ebaead144f64cece34efb0f5ba7cac5adf5ce82dcadc26294835c3eab7c9"
+    },
+    {
+      "path": "ber/validation.go",
+      "mode": "0644",
+      "size": 17637,
+      "sha256": "d6479afa0005e26befddab38709052cef9f91cb33d96db6a7c5848bfd8827ea6"
+    },
+    {
+      "path": "ber/work.go",
+      "mode": "0644",
+      "size": 21393,
+      "sha256": "f20463d830cec46c327863ef5146a953dd8e7d829dcd8e0652967339789ebbc8"
+    },
+    {
+      "path": "ber/work_encode_test.go",
+      "mode": "0644",
+      "size": 824,
+      "sha256": "7f11560bef6dc49e2923197fff127e50c0c780bc78d647bab6236294d4fc0c14"
+    },
+    {
+      "path": "ber/work_limit_test.go",
+      "mode": "0644",
+      "size": 3865,
+      "sha256": "bfdff6d0074ac8e41e832cc2bb9734a15f59bc464935e8389ca95f459da64382"
+    },
+    {
+      "path": "ber_choice.go",
+      "mode": "0644",
+      "size": 387,
+      "sha256": "c47b9d6c0da3ae481c993e969ab1ef593332590f9ced7f45c510f177411e2ee5"
+    },
+    {
+      "path": "bitstring_builder.go",
+      "mode": "0644",
+      "size": 3882,
+      "sha256": "1531e77023ccabac302dbfa2d73a17649a77ca5bdf87f3631df526b4cda73f1e"
+    },
+    {
+      "path": "bitstring_builder_test.go",
+      "mode": "0644",
+      "size": 6425,
+      "sha256": "0206e02672945837ba69e409f1e04a0907d8373d1c9f4a591bcace7ce7253653"
+    },
+    {
+      "path": "constraint/constraint.go",
+      "mode": "0644",
+      "size": 534,
+      "sha256": "7dc71a4d0779ac37738a3ba8a20fb1089a2a9738c3e4f3264d573a1868b64a52"
+    },
+    {
+      "path": "cost_test.go",
+      "mode": "0644",
+      "size": 1846,
+      "sha256": "015198c339e0e03ec997a377c65807e7d0bb0bb4b987570526288e5365b8ed6d"
+    },
+    {
+      "path": "decode_path.go",
+      "mode": "0644",
+      "size": 917,
+      "sha256": "bd44776781516e76f6dc66a0355be48d9d799ae1d088e50f78915bfbc2a004c4"
+    },
+    {
+      "path": "decode_path_test.go",
+      "mode": "0644",
+      "size": 1335,
+      "sha256": "88defea1beb0fb532f6e794eb14c79c201905abaee6604bcf762ede8490fd17c"
+    },
+    {
+      "path": "external.go",
+      "mode": "0644",
+      "size": 1876,
+      "sha256": "e2c8798ead4ddd0a812600b1a2241ca134ba8ba6cdbce828b8008426ef6bd910"
+    },
+    {
+      "path": "integer_value.go",
+      "mode": "0644",
+      "size": 2920,
+      "sha256": "c61cdcfa8f4081d6ce136abd57e34e716a85398b7ab56d81d9e974b2ceae1763"
+    },
+    {
+      "path": "integer_value_test.go",
+      "mode": "0644",
+      "size": 3391,
+      "sha256": "766d77d17bd7576cb0e35266996a060d6ec44ad22916b9d3f458a5cf8a06e49c"
+    },
+    {
+      "path": "oid.go",
+      "mode": "0644",
+      "size": 18903,
+      "sha256": "6fe90b8f35a515302743b348c86d5660c046cf1b8e0f2540d289d15450002c1b"
+    },
+    {
+      "path": "oid_limits_test.go",
+      "mode": "0644",
+      "size": 8829,
+      "sha256": "928fdb2f5d6cccab7afc1eb6a2ba53a4635e4d5802bbb31d58e97d930c8327bf"
+    },
+    {
+      "path": "oid_test.go",
+      "mode": "0644",
+      "size": 12348,
+      "sha256": "8b9e2283fbf75f5af4b5453668e35dd547f03522886bf1e39d0218a041922274"
+    },
+    {
+      "path": "raw_json_test.go",
+      "mode": "0644",
+      "size": 2032,
+      "sha256": "39912da57388f8778ff68d764dc04084bc1c6056dd9f4eebddb238b3a2ee0ce1"
+    },
+    {
+      "path": "real.go",
+      "mode": "0644",
+      "size": 9430,
+      "sha256": "13b3474f95b00afe4677e8bdf5e1611af93dcd70c37141eca46fbf70cb58d299"
+    },
+    {
+      "path": "real_decimal_complexity_test.go",
+      "mode": "0644",
+      "size": 3060,
+      "sha256": "e5b21d3d564df3dea029501872fac709e2d797efaafc18100b9c1d48cd60765e"
+    },
+    {
+      "path": "real_test.go",
+      "mode": "0644",
+      "size": 3867,
+      "sha256": "9b2375a1368a2cdce8d7f4c60af52c5e94e0bb23b31d90be4bc1a5728948ad67"
+    },
+    {
+      "path": "tag/tag.go",
+      "mode": "0644",
+      "size": 2611,
+      "sha256": "3348e795138c1e838b79aee389b1028b562735a064f9c930c9b5494b69a9a3d2"
+    },
+    {
+      "path": "tag/tag_test.go",
+      "mode": "0644",
+      "size": 1029,
+      "sha256": "02d506480a3e8e7ad1bccb90c50e2c78f9ff05f40201a4867c3154781b15742c"
+    },
+    {
+      "path": "time.go",
+      "mode": "0644",
+      "size": 18439,
+      "sha256": "37ee95854474363fcdf5424cd1ca6aa11199c49122acf835b74d05e691e10fca"
+    },
+    {
+      "path": "time_test.go",
+      "mode": "0644",
+      "size": 23564,
+      "sha256": "b6db4edb560af1dc163aae63514be3ae4fd9b868b491756dec70a24768a11fae"
+    },
+    {
+      "path": "types.go",
+      "mode": "0644",
+      "size": 5140,
+      "sha256": "11b3543292920e30c16309da1daf454d936cca520eb02be62ac40b239192c993"
+    },
+    {
+      "path": "types_test.go",
+      "mode": "0644",
+      "size": 3827,
+      "sha256": "cb9e2f1c0cbc3b91b2d6d2cb05e41e64a99a2079920c990e466383278e953fee"
+    }
+  ],
+  "runtime_emitted": [
+    {
+      "path": "ber/ber_test.go",
+      "mode": "0644",
+      "size": 30326,
+      "sha256": "1a10ce5851191f55b204b8616553e1bc3a0401d1c01a8af4356480e9c5cab69c"
+    },
+    {
+      "path": "ber/bigint_value_test.go",
+      "mode": "0644",
+      "size": 1940,
+      "sha256": "1245f92f4bd19eaff4baf4f377f02776649d7851cce737aac3ca4334b137df6a"
+    },
+    {
+      "path": "ber/bit_length.go",
+      "mode": "0644",
+      "size": 810,
+      "sha256": "c37ebeff978ab47e8b0d8a31d9cd21bcc13b9991e2424a6f095074e8436bdd62"
+    },
+    {
+      "path": "ber/bit_length_test.go",
+      "mode": "0644",
+      "size": 1020,
+      "sha256": "de12d9ed705ca00df344a9fad290ebf811c7795658b8fde8564af784347687d0"
+    },
+    {
+      "path": "ber/bit_string_encode_bounds_test.go",
+      "mode": "0644",
+      "size": 883,
+      "sha256": "86fdac209180c9e24e8bcf6bde6cbae58a563320c778923b166822f23d7414f3"
+    },
+    {
+      "path": "ber/bitstring_length.go",
+      "mode": "0644",
+      "size": 1204,
+      "sha256": "7a0fa0e77a10bd3dd6d710441584e9eb290414ab39f42b5f734874ec04fb135f"
+    },
+    {
+      "path": "ber/bounded_cost_test.go",
+      "mode": "0644",
+      "size": 8272,
+      "sha256": "4a5d125b9c5d0110e32a16b22a59741df0a70f85ceeb40d46c97184e7945655c"
+    },
+    {
+      "path": "ber/collection_tag.go",
+      "mode": "0644",
+      "size": 4037,
+      "sha256": "cd9d0e8cd0d9b5015ebe6c1e7c1316eb3a98a4adceac05b83673100dfdd9dcfb"
+    },
+    {
+      "path": "ber/collection_tag_test.go",
+      "mode": "0644",
+      "size": 1784,
+      "sha256": "f8b28e9ae7c443fd95dfddf8a36b162bb32a48004c7fe8638251609e16f9e8ad"
+    },
+    {
+      "path": "ber/constraints.go",
+      "mode": "0644",
+      "size": 36461,
+      "sha256": "efc0d63c2571bbaa8966de9c29856be7af7150a46caef5c36284efa8cfe88be4"
+    },
+    {
+      "path": "ber/constraints_example_test.go",
+      "mode": "0644",
+      "size": 682,
+      "sha256": "69273dd90b6bf012aa16b79dae20c00eaa517348a7b737bcfc78a9cf8cc8c7aa"
+    },
+    {
+      "path": "ber/constraints_fuzz_test.go",
+      "mode": "0644",
+      "size": 4607,
+      "sha256": "d3e210ec8629502ca6a38c4c76962fa7b91d02b5b1d2bdaac2d5eece956975b4"
+    },
+    {
+      "path": "ber/constraints_test.go",
+      "mode": "0644",
+      "size": 4273,
+      "sha256": "4cc8c4b2dad6965339c7f179eff4574e9f88882f922965a091f6e2466982417c"
+    },
+    {
+      "path": "ber/constructed_bit_string_test.go",
+      "mode": "0644",
+      "size": 5109,
+      "sha256": "0e5c0990a89b3e7a878ab85a7298e9d37a2e807337bf24fc8eb0e964656381dd"
+    },
+    {
+      "path": "ber/cost_clock_test.go",
+      "mode": "0644",
+      "size": 1116,
+      "sha256": "5922d1ce209be08dd039e696d7379b7ac06f4ef5bdcdc864ad76d92cf017e925"
+    },
+    {
+      "path": "ber/cost_test.go",
+      "mode": "0644",
+      "size": 2113,
+      "sha256": "dd9df006810e694c4be383777f60ba1b84d4894e75c7d7c2c9ca64d76fcca305"
+    },
+    {
+      "path": "ber/decoder.go",
+      "mode": "0644",
+      "size": 64215,
+      "sha256": "d53e0261901ffad5e21ebf7b7349fad2fa00cce891d3fcaf0d999f040d70a6eb"
+    },
+    {
+      "path": "ber/depth_overflow_test.go",
+      "mode": "0644",
+      "size": 1193,
+      "sha256": "62becc87c5810e2044ee9120eb1b5f81b697e8f4b6384458b7bd381dc3d8a1f3"
+    },
+    {
+      "path": "ber/der_real_cost_test.go",
+      "mode": "0644",
+      "size": 1145,
+      "sha256": "85e39ae7c710109b7456b2a7a61ad2f570c91cfbecdbec1642513579ad0d490c"
+    },
+    {
+      "path": "ber/der_set_order_test.go",
+      "mode": "0644",
+      "size": 6157,
+      "sha256": "9fcaea47cfd5dd2ecc2b0091b3e14e2e88240af097fda32bb01ab8a9ac887018"
+    },
+    {
+      "path": "ber/diagnostic_limits_test.go",
+      "mode": "0644",
+      "size": 6959,
+      "sha256": "b1470f606713092a036d3ed8de285d564adab2b98820fefa1e2d061d68ab7fb4"
+    },
+    {
+      "path": "ber/diagnostic_retention_test.go",
+      "mode": "0644",
+      "size": 3738,
+      "sha256": "15e145f40ba6a545bde6133e3524eca06f0d1713ef1427f473a569eb9d75f3f2"
+    },
+    {
+      "path": "ber/direct_operation_test.go",
+      "mode": "0644",
+      "size": 1362,
+      "sha256": "0c6afebe6a25154e9983ab2b62267aedfd0e85089e0abca7e7e07693e5fbf3c7"
+    },
+    {
+      "path": "ber/dual_tagged_choice_test.go",
+      "mode": "0644",
+      "size": 2113,
+      "sha256": "da9682c7dceb7f8fa7fcd3168d89c3a4926168fcca4e939f5160ce3ac154c581"
+    },
+    {
+      "path": "ber/encode_options.go",
+      "mode": "0644",
+      "size": 3708,
+      "sha256": "5450696297f337a25b9f14cb5a2b58e63aae2b81c65e4a13d1c33b2daf0c382c"
+    },
+    {
+      "path": "ber/encoder.go",
+      "mode": "0644",
+      "size": 27052,
+      "sha256": "0c3984a422020f1c2647654c20e2d5c8b42df4f293d03ac2dc00d63afea60ab7"
+    },
+    {
+      "path": "ber/encoder_limit_test.go",
+      "mode": "0644",
+      "size": 3359,
+      "sha256": "acbb0e2af0762f082c4da5750afcfa788acf4ad35128cf3ed199cd8f4e8292fc"
+    },
+    {
+      "path": "ber/encoder_test_helpers_test.go",
+      "mode": "0644",
+      "size": 435,
+      "sha256": "0a4e9cbb998b5329708cc5a4754c542bf49977bc8811a83f83d19d9c32df608b"
+    },
+    {
+      "path": "ber/entry_options_test.go",
+      "mode": "0644",
+      "size": 8729,
+      "sha256": "17ba4613369a06f6beb63fb3757990fecf3a808f99c2614778ea5733a72f945b"
+    },
+    {
+      "path": "ber/errors.go",
+      "mode": "0644",
+      "size": 2631,
+      "sha256": "f457581159c291d8fbaf44f6c4a39de029e7087877af9dcaa448372f935a565f"
+    },
+    {
+      "path": "ber/external.go",
+      "mode": "0644",
+      "size": 9674,
+      "sha256": "e911e4b0b58df5a40589f6686f2db4e0a34ae424e64f9f8b1fd15f5e6473d468"
+    },
+    {
+      "path": "ber/external_limits_test.go",
+      "mode": "0644",
+      "size": 4467,
+      "sha256": "7b481d14c6f39c01f55de9989b3fb04d9e5ac28e8466a03a531d06f70150710b"
+    },
+    {
+      "path": "ber/external_options_test.go",
+      "mode": "0644",
+      "size": 4259,
+      "sha256": "b384fb42fa40fa13890a5d5f31a79d9e88c20b7c6ee338976fb4f14c0ea36543"
+    },
+    {
+      "path": "ber/external_test.go",
+      "mode": "0644",
+      "size": 5943,
+      "sha256": "6d8c12b6b4cdd6bf1289a5307df05984e1c585eec8a347bcc25e3be9e23ecd4a"
+    },
+    {
+      "path": "ber/form_alloc_test.go",
+      "mode": "0644",
+      "size": 2097,
+      "sha256": "659a196740a88e8d8f316b4b7a68ffae2b2db218c2d90f016897f18fbead915a"
+    },
+    {
+      "path": "ber/form_options_concurrency_test.go",
+      "mode": "0644",
+      "size": 763,
+      "sha256": "1f2f8fbefacc279e1429d959496512786e3bf0a7518c19fe8692c01631ba8e25"
+    },
+    {
+      "path": "ber/form_options_reuse_test.go",
+      "mode": "0644",
+      "size": 4497,
+      "sha256": "ea986772f7e6cda793828ce11415f258dcf78ce9671928353cec592f525a7227"
+    },
+    {
+      "path": "ber/form_tracking_test.go",
+      "mode": "0644",
+      "size": 8923,
+      "sha256": "4de4149eadf0fcfe30688becead4957f47c2ba241f5145bda87a6412cd53f2cd"
+    },
+    {
+      "path": "ber/generated_context.go",
+      "mode": "0644",
+      "size": 31039,
+      "sha256": "a6f1b4425d3c0589a83c4b569b4b0ba5e253e4be225603bb2dd98f5ca625c965"
+    },
+    {
+      "path": "ber/generated_context_external_test.go",
+      "mode": "0644",
+      "size": 6168,
+      "sha256": "57a1606a669ec1a1ab5ea7542ed3760039e980e00b636c5e502888cb195f4f60"
+    },
+    {
+      "path": "ber/generated_context_test.go",
+      "mode": "0644",
+      "size": 27252,
+      "sha256": "d44d595f051c0ff4cdf484cd7002d73df5f94b3fa7f60879ec55a97d34a2cc13"
+    },
+    {
+      "path": "ber/generated_encode_options.go",
+      "mode": "0644",
+      "size": 5281,
+      "sha256": "e8377ff43b1f6f8d5f9a5d7016a643a03dc60e93defa3561329b928f953be73a"
+    },
+    {
+      "path": "ber/generated_encode_options_test.go",
+      "mode": "0644",
+      "size": 6982,
+      "sha256": "167d6b1a8872b17c71f543d01e6742ff476ec4ce8b351900d1cb3e0058dbe8b1"
+    },
+    {
+      "path": "ber/hardening_test.go",
+      "mode": "0644",
+      "size": 8365,
+      "sha256": "dafa7fa1205bc3dbffea4874fbc933f477bf8313a41497300cd6a0333de34be9"
+    },
+    {
+      "path": "ber/idempotent_reports_test.go",
+      "mode": "0644",
+      "size": 13815,
+      "sha256": "8ed40392f3b7d428a83aea06459d79bea175923cc11610ad3dd49022ea55a682"
+    },
+    {
+      "path": "ber/integer_minimal_test.go",
+      "mode": "0644",
+      "size": 2626,
+      "sha256": "b6e840826d8ae85ba2a108238f676c4168f54a3693ef29fa04f765bafb9bd9ac"
+    },
+    {
+      "path": "ber/lazy_location_test.go",
+      "mode": "0644",
+      "size": 8013,
+      "sha256": "c3bf55f2256e30ad06ae2f7dd9ae6eeebd3b62c59d1cc5561aa603a1d2e15b38"
+    },
+    {
+      "path": "ber/length_long_form_test.go",
+      "mode": "0644",
+      "size": 2250,
+      "sha256": "b19f72eca15bad16b2397a9d65907981dbc9050c3b0efcfbb796b842090b8064"
+    },
+    {
+      "path": "ber/linear_encoder.go",
+      "mode": "0644",
+      "size": 13294,
+      "sha256": "ab64fda3e96d695678b9cf041446159156a33cb884282699ebd401c50e95106f"
+    },
+    {
+      "path": "ber/linear_encoder_test.go",
+      "mode": "0644",
+      "size": 8005,
+      "sha256": "145ab8488c324b689b60e2e4c07b326656adc9a71e29944fd8fbcfc520c8166d"
+    },
+    {
+      "path": "ber/map_profile.go",
+      "mode": "0644",
+      "size": 18829,
+      "sha256": "94a8b890fda7c0d80f742e4fb313abd01362495a8069563c4f19a62018f3951b"
+    },
+    {
+      "path": "ber/map_profile_resource_test.go",
+      "mode": "0644",
+      "size": 2001,
+      "sha256": "32f73743e3f968b1dfaa49b7594993d585943c2d5affdb68ffdb9be3d7156a73"
+    },
+    {
+      "path": "ber/map_profile_test.go",
+      "mode": "0644",
+      "size": 14993,
+      "sha256": "2b1ad9bda3bb810dedb14dbe2de2d3e97ed625dbef960fb10efdc99ec7d2f16c"
+    },
+    {
+      "path": "ber/named_bit_encoding.go",
+      "mode": "0644",
+      "size": 6682,
+      "sha256": "1d2048ae35671ec5f35aacbba793641c1fb9f4d5465921c42e7406bd2c75a1f7"
+    },
+    {
+      "path": "ber/named_bit_encoding_test.go",
+      "mode": "0644",
+      "size": 6485,
+      "sha256": "01dac435790458234a005f5df576c89e2e12c57edc4744b0b580a8a38b57bb82"
+    },
+    {
+      "path": "ber/named_bit_input_padding_test.go",
+      "mode": "0644",
+      "size": 1498,
+      "sha256": "3cb0f7fc4fb509a98a158b780a090efa4a8a7fc7843a3f0b3cf8ee0974e0e3db"
+    },
+    {
+      "path": "ber/named_bit_size.go",
+      "mode": "0644",
+      "size": 2902,
+      "sha256": "81f2979bf240919f98ea27442cc91e8fdae13d519e180f2fcc28de4de100ed52"
+    },
+    {
+      "path": "ber/named_bit_size_test.go",
+      "mode": "0644",
+      "size": 1927,
+      "sha256": "59d6fc9cb2dbdc4ccc4676049cf1fcf8945c8d7d57fc679949d38589dc74be76"
+    },
+    {
+      "path": "ber/named_bitstring_test.go",
+      "mode": "0644",
+      "size": 1177,
+      "sha256": "53231d8eb2eda8e4a8de15fc3e4eef7d121eacb7191f5da074e0049285829e58"
+    },
+    {
+      "path": "ber/oid_checked_test.go",
+      "mode": "0644",
+      "size": 2610,
+      "sha256": "bcfbc832bebd31d3f56b43cccf7600a122c7beb81ba2de080dfc891f9961b3fd"
+    },
+    {
+      "path": "ber/oid_wide_test.go",
+      "mode": "0644",
+      "size": 676,
+      "sha256": "12d15d1925f05ddeb343e586ee7b9f862f1986606e4ebebb5d5ae7925f847ae0"
+    },
+    {
+      "path": "ber/opaque.go",
+      "mode": "0644",
+      "size": 4114,
+      "sha256": "089fd1fd82d23ef47b04816453f1e1b6ee205cb22c39a0afaa6492d18a323130"
+    },
+    {
+      "path": "ber/opaque_alias_test.go",
+      "mode": "0644",
+      "size": 1712,
+      "sha256": "9e148437dccb465aec17e42819f47618c3664e4093b55696ef86be248ae599cd"
+    },
+    {
+      "path": "ber/opaque_structural_error_test.go",
+      "mode": "0644",
+      "size": 1492,
+      "sha256": "9a1de90a5636e243910241a1425a20e3519c0b1c57baaa1787066eceab9193e4"
+    },
+    {
+      "path": "ber/opaque_test.go",
+      "mode": "0644",
+      "size": 5324,
+      "sha256": "ad4d58023de5f9f06ea232439ada6b4a8e370840d5cb76e5ac68feb191eeba97"
+    },
+    {
+      "path": "ber/option_resolution_fast_path_test.go",
+      "mode": "0644",
+      "size": 1251,
+      "sha256": "60146c9d6b0a8ad862d544bafc369f60faf9cbd03aaefb39fae8a86146b2fff7"
+    },
+    {
+      "path": "ber/options.go",
+      "mode": "0644",
+      "size": 9388,
+      "sha256": "f378639d0fa185035b97d4d8afbef2da28d1568016db55803448792c0a88cff6"
+    },
+    {
+      "path": "ber/owned_mechanisms_test.go",
+      "mode": "0644",
+      "size": 3793,
+      "sha256": "e69d2f534bdd022037d72a5e4b6874b8fef349bb49c23fc5bde4f53ba10f5fbe"
+    },
+    {
+      "path": "ber/preflight_location_test.go",
+      "mode": "0644",
+      "size": 9836,
+      "sha256": "40e532a33745556c3c426caae98e62df81a4fa089b9bdcbccf1c49ff5102d9d5"
+    },
+    {
+      "path": "ber/preflight_path.go",
+      "mode": "0644",
+      "size": 7270,
+      "sha256": "b4e3aa87b7faace6cbc4b1d779ab95f94d89effe793593b9912abd917e206b1f"
+    },
+    {
+      "path": "ber/preflight_path_test.go",
+      "mode": "0644",
+      "size": 9641,
+      "sha256": "07c1cbf948e16e59bafeb48ba47ed01c506c486d5e1358bdcb0a05a857ca8994"
+    },
+    {
+      "path": "ber/preflight_reports_test.go",
+      "mode": "0644",
+      "size": 5885,
+      "sha256": "6785ba066589c7dcdf1bd08eb08aa3aad0058099afb6fb638a99ca9c11e7d2cc"
+    },
+    {
+      "path": "ber/present_empty_test.go",
+      "mode": "0644",
+      "size": 2229,
+      "sha256": "62754f31959f042a8affb26a4aa08c499ae5bf3142ae474da82f4f6efbb23904"
+    },
+    {
+      "path": "ber/primitive_options_test.go",
+      "mode": "0644",
+      "size": 3276,
+      "sha256": "83240f58c504288a86bf5a1575b4e2b783f67db54914c4ea847b3b767b630f43"
+    },
+    {
+      "path": "ber/raw_identifier_test.go",
+      "mode": "0644",
+      "size": 1847,
+      "sha256": "b146bc07d63bf0d8978354a8f013f666eda1fc3c5c81e1d5add0cb9a953f4c5f"
+    },
+    {
+      "path": "ber/raw_metadata_test.go",
+      "mode": "0644",
+      "size": 1432,
+      "sha256": "79ad1b6c6e4b5de7d83f82f3117a61a1f036ccb95d63720f787ea7323eb5e49a"
+    },
+    {
+      "path": "ber/raw_value.go",
+      "mode": "0644",
+      "size": 1014,
+      "sha256": "832e33275bb29045c1a61d59cde55c1948a4379d2f1b88e9b78f641eef4209df"
+    },
+    {
+      "path": "ber/real_capacity_test.go",
+      "mode": "0644",
+      "size": 724,
+      "sha256": "44730d269e3a6d6f8cdc4146f32e4e8ad287c54bb46d0a3f3f0637bfee822496"
+    },
+    {
+      "path": "ber/real_constraint.go",
+      "mode": "0644",
+      "size": 5334,
+      "sha256": "ca9c3f302edcdae75076ebc871cc57dcc06fcc5b4a96e012919911d9f12fa8a3"
+    },
+    {
+      "path": "ber/real_constraint_test.go",
+      "mode": "0644",
+      "size": 2103,
+      "sha256": "65a740e3cc4577c88ce9df7e5629da18e14b18708411c9f52124997d31c518a4"
+    },
+    {
+      "path": "ber/real_decimal_fastpath_test.go",
+      "mode": "0644",
+      "size": 4391,
+      "sha256": "df40a8955c667815d90cf829e4d43064992986c490e1a8c2b9a6dc6ee899ab71"
+    },
+    {
+      "path": "ber/real_decimal_test.go",
+      "mode": "0644",
+      "size": 11667,
+      "sha256": "b8af66a834788b7f7c81f23e990074441aee7db4b45c77b464343fee6ffe45d6"
+    },
+    {
+      "path": "ber/real_default.go",
+      "mode": "0644",
+      "size": 2696,
+      "sha256": "18a9a03242c776335ef1395271aa52798435a829f5414923586c68d113728e39"
+    },
+    {
+      "path": "ber/real_default_test.go",
+      "mode": "0644",
+      "size": 3602,
+      "sha256": "0352dd5732f33d481a28e69149f2ffe4ca17a410d5b66451ec9043c6e123c037"
+    },
+    {
+      "path": "ber/real_limits_test.go",
+      "mode": "0644",
+      "size": 3019,
+      "sha256": "2953dcceb5b6e2802ff28829614f5f2063ac4827c3f59956ef3dfa685888067a"
+    },
+    {
+      "path": "ber/replay_comparator_plan_test.go",
+      "mode": "0644",
+      "size": 8907,
+      "sha256": "97999473948732ab9845cdb03be9790b0cf1248284e7209439af507fa9cf7a23"
+    },
+    {
+      "path": "ber/replay_comparator_reference_test.go",
+      "mode": "0644",
+      "size": 12720,
+      "sha256": "53d77dfd9c45564738ad8802cc2bb356daae97c0ac6b484ab619c7cdc643b815"
+    },
+    {
+      "path": "ber/replay_compare.go",
+      "mode": "0644",
+      "size": 6646,
+      "sha256": "d0533082413e4ce0fb9b7de0f9c17ee011c37b9a59d1410f87cd6a0f2d02a161"
+    },
+    {
+      "path": "ber/replay_context.go",
+      "mode": "0644",
+      "size": 54145,
+      "sha256": "4965610f933760710a9623cfef379a5f157f4545e3f159bfab97ef654ceecd6d"
+    },
+    {
+      "path": "ber/replay_context_test.go",
+      "mode": "0644",
+      "size": 38771,
+      "sha256": "a51bc11ac9b347b3bb62511ca5e49754a2e734b0c2b5a370c762353f7efb4fc6"
+    },
+    {
+      "path": "ber/replay_external_forms_test.go",
+      "mode": "0644",
+      "size": 4491,
+      "sha256": "1db6cea1ba1a10845f889d12697b9cb3a559371de25ddbb609af047cdc274f50"
+    },
+    {
+      "path": "ber/replay_marker_integration_test.go",
+      "mode": "0644",
+      "size": 2592,
+      "sha256": "e0a65404eac2744cc941afba71bd90141c0c7298c291c169356ada29877d6cf5"
+    },
+    {
+      "path": "ber/replay_parts.go",
+      "mode": "0644",
+      "size": 13452,
+      "sha256": "52c91a88a1438f1c8152ba094c5d255ded553fa235641133a8148cdec927506d"
+    },
+    {
+      "path": "ber/replay_parts_depth_test.go",
+      "mode": "0644",
+      "size": 923,
+      "sha256": "8dcc1eee98d5c6ad54d3de8d8aa7bb7fb6b35897a4d6c1afd323c8ec1a0dd60b"
+    },
+    {
+      "path": "ber/replay_parts_test.go",
+      "mode": "0644",
+      "size": 8650,
+      "sha256": "80a9754015abb5b15277c57901964ef3170041dbfc6e48a2cc84e83e00e5ea3c"
+    },
+    {
+      "path": "ber/replay_profile.go",
+      "mode": "0644",
+      "size": 5534,
+      "sha256": "854f8abeaa98cf4dc6201935ac1bc2cd9534713ad2b1808f93d3be14e31f4c93"
+    },
+    {
+      "path": "ber/replay_profile_position_test.go",
+      "mode": "0644",
+      "size": 3820,
+      "sha256": "a936f83bd6be24e1bf63914a4df11c5982dfb4da0324c9ed7aab8560ecda55ca"
+    },
+    {
+      "path": "ber/replay_unknown_test.go",
+      "mode": "0644",
+      "size": 1749,
+      "sha256": "06e46a4e1ac49b0c54e4429f764c95350e94c63bc91dbe8c624292f98b5bff4b"
+    },
+    {
+      "path": "ber/replay_verdict_round15_test.go",
+      "mode": "0644",
+      "size": 7603,
+      "sha256": "ca09334ad51b3badcaa1b337f9d04ed9d5a950b89d12c1ca395fa8946e73f627"
+    },
+    {
+      "path": "ber/resource_limits_test.go",
+      "mode": "0644",
+      "size": 1798,
+      "sha256": "7a5aa7567af9f266a747e9377806043a5c0214cdaf283e423c1b8a226530b3c4"
+    },
+    {
+      "path": "ber/retag_capacity_test.go",
+      "mode": "0644",
+      "size": 748,
+      "sha256": "cd567881ecf255902797c6b46b235950c69adae629263f988c7f8109c982b70b"
+    },
+    {
+      "path": "ber/rules.go",
+      "mode": "0644",
+      "size": 1234,
+      "sha256": "47677c7682fc8dce046ca7e0f5a5d29eb5361a25c9cbda864e9920c4e97aa012"
+    },
+    {
+      "path": "ber/rules_test.go",
+      "mode": "0644",
+      "size": 1726,
+      "sha256": "3cb990c0ab9ffd4b26f20cb30d0431d016dd6f922bbe7ac14f04c803bdf0b58b"
+    },
+    {
+      "path": "ber/selective_replay_test.go",
+      "mode": "0644",
+      "size": 2623,
+      "sha256": "7fffa16bfa349593594a368f66ea579cda7649aabce8b1b04f327b9112658286"
+    },
+    {
+      "path": "ber/set_order_test.go",
+      "mode": "0644",
+      "size": 3638,
+      "sha256": "a6bc558b92ef2c75081092b85279a901f52752b492224fdc852477ac97bfeaf3"
+    },
+    {
+      "path": "ber/stage_fast_path_test.go",
+      "mode": "0644",
+      "size": 2987,
+      "sha256": "32e6bfe518d4acc083d987467b443308edb09fbe170afdf9bd607acd8892ac59"
+    },
+    {
+      "path": "ber/staged_depth_test.go",
+      "mode": "0644",
+      "size": 1051,
+      "sha256": "350047eb345781976e457091d400eb2c81361fd5e0991a092b9b4eedf3461ce9"
+    },
+    {
+      "path": "ber/string_capacity_test.go",
+      "mode": "0644",
+      "size": 694,
+      "sha256": "9ec3d7791ded599f435230bcc5c9bf7896e601bad5bcf41d65e170b342fb6dd1"
+    },
+    {
+      "path": "ber/string_fixed_width_test.go",
+      "mode": "0644",
+      "size": 5874,
+      "sha256": "599424233b9db58425b41571b2752a367add73b503445c10fca6def54639897a"
+    },
+    {
+      "path": "ber/time_test.go",
+      "mode": "0644",
+      "size": 12168,
+      "sha256": "17a4ba3d7d10ce6a3296b4904a35bd69074f57de725d807ceb792affd6f04c27"
+    },
+    {
+      "path": "ber/triage_encode_policy_test.go",
+      "mode": "0644",
+      "size": 5400,
+      "sha256": "41441c50380ce4dac8b4630af112ec9a92f94d177cb9632ceb3ecb801742e233"
+    },
+    {
+      "path": "ber/triage_indefinite_error_test.go",
+      "mode": "0644",
+      "size": 1330,
+      "sha256": "5b8c6954100c5eb0a68b12b23f8224431b76ee915770ac6c5b8a827a473e9b35"
+    },
+    {
+      "path": "ber/triage_named_bit_size_test.go",
+      "mode": "0644",
+      "size": 3011,
+      "sha256": "2327472194deb588b96aa5061d63425daeb4d07119859e99ed39842e48f58789"
+    },
+    {
+      "path": "ber/triage_options_test.go",
+      "mode": "0644",
+      "size": 15096,
+      "sha256": "7999bd6a0654727590d81814a37033f570b822874bf9d5c46cf900e494a6d1ca"
+    },
+    {
+      "path": "ber/triage_padding_test.go",
+      "mode": "0644",
+      "size": 3625,
+      "sha256": "e531e3c55b746911e2eda4d0fe917e171b42481cc0d81cf7f9aa1bbf96db849a"
+    },
+    {
+      "path": "ber/triage_segmented_test.go",
+      "mode": "0644",
+      "size": 1476,
+      "sha256": "b224b32df1da878669f128705b70f1e410f92c2261bfaa85344afec463fd1eb4"
+    },
+    {
+      "path": "ber/triage_structure_test.go",
+      "mode": "0644",
+      "size": 4846,
+      "sha256": "4592d59f10c5fb66f144fc27802f6378f27d6de6549f5129f0883eb5e998143a"
+    },
+    {
+      "path": "ber/universal_form_test.go",
+      "mode": "0644",
+      "size": 5340,
+      "sha256": "b85147f874f7dca09a1cc5d874a4a078e3af999e5a67fe87465452e340f22139"
+    },
+    {
+      "path": "ber/unused_bits.go",
+      "mode": "0644",
+      "size": 465,
+      "sha256": "7eefbd064b32f50f8efb975493066ba3db3bd9870fc02088656080dfb885ebb2"
+    },
+    {
+      "path": "ber/unused_bits_test.go",
+      "mode": "0644",
+      "size": 513,
+      "sha256": "25171baf3d935f8d433555066fc1f0e72713441d104b4fd62b79de1cf886f1f3"
+    },
+    {
+      "path": "ber/utf8.go",
+      "mode": "0644",
+      "size": 3492,
+      "sha256": "54bc9bf03f49cd0a0c5297c53b112363333c6df1ff8f6555abb991b05cf1b169"
+    },
+    {
+      "path": "ber/utf8_encode.go",
+      "mode": "0644",
+      "size": 1765,
+      "sha256": "3291925e79d0a0e2c27265fe4f2eedbd768cb082971cceb1748f9f594b6d4141"
+    },
+    {
+      "path": "ber/utf8_encode_direct_test.go",
+      "mode": "0644",
+      "size": 3669,
+      "sha256": "28f3bc9fb9e03977f43555d58803b86d591352b014c33e601b88d52ede028fbd"
+    },
+    {
+      "path": "ber/utf8_encode_test.go",
+      "mode": "0644",
+      "size": 2444,
+      "sha256": "ca4bb08ec22bfc3a316ca7ef962bbfa8b8f77101039055a000df2ba82ba14c6c"
+    },
+    {
+      "path": "ber/utf8_generated_field_test.go",
+      "mode": "0644",
+      "size": 2036,
+      "sha256": "51e75e3c60cf1583300b896fb72f85b2ce2be7e952a84728ce628349cbd1cfd4"
+    },
+    {
+      "path": "ber/utf8_location_test.go",
+      "mode": "0644",
+      "size": 9542,
+      "sha256": "2942014d59d08970dd6f284f5d85cf2737d48dfb28f07bbefe9f985d20c54844"
+    },
+    {
+      "path": "ber/utf8_reconciliation_test.go",
+      "mode": "0644",
+      "size": 3651,
+      "sha256": "8c20500defc6520db8c0dd2daaee228c133cf248f8d460133e5e77d2a1b10b57"
+    },
+    {
+      "path": "ber/utf8_validation_test.go",
+      "mode": "0644",
+      "size": 7057,
+      "sha256": "e22e4ef3bab42205b2528a79f82aed965894d78dcf0493cfd423897c8a68b023"
+    },
+    {
+      "path": "ber/validation.go",
+      "mode": "0644",
+      "size": 17814,
+      "sha256": "fcf124e786c6b7429fc2e6d4fa7d362349d312e1295a83ddfd64a3e7cd310769"
+    },
+    {
+      "path": "ber/work.go",
+      "mode": "0644",
+      "size": 21569,
+      "sha256": "29ad0c8c4e951b86b3ee91df4ca30ddd8d0f0ce910783cde3f18fd42b642386b"
+    },
+    {
+      "path": "ber/work_encode_test.go",
+      "mode": "0644",
+      "size": 1007,
+      "sha256": "5cad59ad2fbd3fdfac317b7afd9961973a0334f8b04bff88e6db11f7eb59be8c"
+    },
+    {
+      "path": "ber/work_limit_test.go",
+      "mode": "0644",
+      "size": 4047,
+      "sha256": "29a00a264e449d673d505bfa8f7efb6042e1fed33f7c0651a91f807f650792bf"
+    },
+    {
+      "path": "ber_choice.go",
+      "mode": "0644",
+      "size": 560,
+      "sha256": "2f550ebbb00c80df0b41473ebab55168c1b4a658f6802c63391adfb1a363118f"
+    },
+    {
+      "path": "bitstring_builder.go",
+      "mode": "0644",
+      "size": 4062,
+      "sha256": "64ad22a40f8ff83d6478f648c96d3daf2d3a11c9642f36bdd3585a94222e2d3a"
+    },
+    {
+      "path": "bitstring_builder_test.go",
+      "mode": "0644",
+      "size": 6610,
+      "sha256": "b66bb2f67b96c6dd0e2836d8941f3c68745cc58d51cc6c33716d5fe22bf8fdac"
+    },
+    {
+      "path": "cost_test.go",
+      "mode": "0644",
+      "size": 2018,
+      "sha256": "fe38398fa2ddcd3daefef92c324dc7f57ebbc1ced99131ab5ff2d771f0acafd4"
+    },
+    {
+      "path": "decode_path.go",
+      "mode": "0644",
+      "size": 1091,
+      "sha256": "a056d97bb3a99f3f41255614407c72de75e0cfed3ff00909879eaa4a06218624"
+    },
+    {
+      "path": "decode_path_test.go",
+      "mode": "0644",
+      "size": 1514,
+      "sha256": "9b79198201bccd4b1f13afb0764f408f9320217b25e4c82a54fee3631dcd7cd3"
+    },
+    {
+      "path": "external.go",
+      "mode": "0644",
+      "size": 2047,
+      "sha256": "c89e2753e4446690cfdeae166f1b9d9fa09a13c9e3470e5789ab6a4d78461fab"
+    },
+    {
+      "path": "integer_value.go",
+      "mode": "0644",
+      "size": 3096,
+      "sha256": "104630a9cb88291740beda7ac30c651a729a3978d75c4c8146fa96a361b519c3"
+    },
+    {
+      "path": "integer_value_test.go",
+      "mode": "0644",
+      "size": 3572,
+      "sha256": "b645ef832acf44fd6ddc244a547baec99ed76bdb57ab02867f947fc7336383fc"
+    },
+    {
+      "path": "oid.go",
+      "mode": "0644",
+      "size": 19069,
+      "sha256": "814d09bfa9b1c630fdbec9839b36fc4705e1f0d2bf89d9dd0d5514ae79c872b1"
+    },
+    {
+      "path": "oid_limits_test.go",
+      "mode": "0644",
+      "size": 9012,
+      "sha256": "d2864d4598d0005afb97fe4eecc3e41ea345145e17a6cd110768ccf45f7497f6"
+    },
+    {
+      "path": "oid_test.go",
+      "mode": "0644",
+      "size": 12529,
+      "sha256": "6a98d73e435727446bbb2e3d57b6713331940386d4ab3dd827d82bd1575be059"
+    },
+    {
+      "path": "raw_json_test.go",
+      "mode": "0644",
+      "size": 2218,
+      "sha256": "780e01e59ad078e192778129e82c61f0c000198f773e5d61039116cc7e65eb4e"
+    },
+    {
+      "path": "real.go",
+      "mode": "0644",
+      "size": 9597,
+      "sha256": "6a63b8ae8343f8fd1e4965580032fa4e7b6fb0f2269b78a16d3d77306785d6e8"
+    },
+    {
+      "path": "real_decimal_complexity_test.go",
+      "mode": "0644",
+      "size": 3256,
+      "sha256": "7a024c54252d2e5d10b3d5e8f2e4da33eb52f00f26a8b00f5a1f53aa97da4a21"
+    },
+    {
+      "path": "real_test.go",
+      "mode": "0644",
+      "size": 4039,
+      "sha256": "8ba443b342653893048ef39ef7a362e9ca8d7321deb47677cde00ea7d07a5f5c"
+    },
+    {
+      "path": "tag/tag.go",
+      "mode": "0644",
+      "size": 2781,
+      "sha256": "165fdc78ac42781c99afb5ddfa31c3e4a8737acf5cfc7b835df8af6be0a4946d"
+    },
+    {
+      "path": "tag/tag_test.go",
+      "mode": "0644",
+      "size": 1204,
+      "sha256": "ed96fa5de423cf27ad78a3765e638d6eba18f1557eaee6db7c8968f60480a88f"
+    },
+    {
+      "path": "time.go",
+      "mode": "0644",
+      "size": 18606,
+      "sha256": "42537d9dd799cc52a02fc5143e574ca6b83b4136ad74b949feac1e4ca52f565d"
+    },
+    {
+      "path": "time_test.go",
+      "mode": "0644",
+      "size": 23736,
+      "sha256": "074f762a27dfa38db2367b5b5d4409d343e8d1e6d1d48b8f14a738d73eadc1d1"
+    },
+    {
+      "path": "types.go",
+      "mode": "0644",
+      "size": 5308,
+      "sha256": "ceb86ad6202c22619f6bee7d210f38032c7d8de79d4ce1e28f8d4988b9cc7865"
+    },
+    {
+      "path": "types_test.go",
+      "mode": "0644",
+      "size": 4000,
+      "sha256": "e12e640db7b17f3f265ef801d13f6f2e753fb53b6acb94f00263352b82cca8b2"
+    }
+  ],
+  "files": [
+    {
+      "path": "asn1_contract_vectors_test.go",
+      "mode": "0644",
+      "size": 1604,
+      "sha256": "19dfe42a60dbf90798bfeea167897c3e5b7d70e9277ff56a26e0c1bdce15b9d3"
+    },
+    {
+      "path": "asn1_wire_vectors_test.go",
+      "mode": "0644",
+      "size": 19066,
+      "sha256": "737fd13ec852ba554bc6338e6539358a3d53a09d7be48710098a31b2705868e9"
+    },
+    {
+      "path": "ber-error-paths.go",
+      "mode": "0644",
+      "size": 2489,
+      "sha256": "61b235aa34d3b240f7815156923020ffc56c9bcdac3fb1f980fd068369417aa1"
+    },
+    {
+      "path": "ber_value.go",
+      "mode": "0644",
+      "size": 575,
+      "sha256": "becd0094fff8564456a4a84ed7d9a94687ccf2a38457c36854d03c759cfdb282"
+    },
+    {
+      "path": "bindings/descriptors.go",
+      "mode": "0644",
+      "size": 449732,
+      "sha256": "ff3a69fc85c7e8e16a8e1c59514a7ed2eab0f86ceb1e1117ea4c8fdd9a175ab1"
+    },
+    {
+      "path": "bindings/value-codecs.go",
+      "mode": "0644",
+      "size": 139160,
+      "sha256": "731548b61829e6a0357e6aad904922d121fc83baf2565fa818cdbcc4419dccbd"
+    },
+    {
+      "path": "code_types.go",
+      "mode": "0644",
+      "size": 48320,
+      "sha256": "9593fca5a81a4269a780a96e5b3ca8a5d04fbf665d90ba2711433d647eb0e302"
+    },
+    {
+      "path": "descriptors.go",
+      "mode": "0644",
+      "size": 216066,
+      "sha256": "154e06ee80a16f2cd1551ef11426369ab8efca4660fb4cb12fafd227cb899354"
+    },
+    {
+      "path": "etr091_mobiledomaindefinitions/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2512,
+      "sha256": "76b66c65307617c106d19f353b940aa99d94856a1d08b70ecc65daa0c5d13967"
+    },
+    {
+      "path": "etr091_mobiledomaindefinitions/ber_value.go",
+      "mode": "0644",
+      "size": 598,
+      "sha256": "8e2109064b9a74f15679b6e428ecc2ca7ecc99aaa77716a63572ec4caccaeb16"
+    },
+    {
+      "path": "etr091_mobiledomaindefinitions/mobiledomaindefinitions.go",
+      "mode": "0644",
+      "size": 1773,
+      "sha256": "f7fb8adabb333ef97f56d4d856c293b43c09cc642b4ec64156e8264438a0b98f"
+    },
+    {
+      "path": "etr091_mobiledomaindefinitions/value-codecs.go",
+      "mode": "0644",
+      "size": 25615,
+      "sha256": "0bac320136d0d3568bc28c6c2c51fc920a1762c39acdc1e5185b0b1a501dcd49"
+    },
+    {
+      "path": "mapapplicationcontexts.go",
+      "mode": "0644",
+      "size": 10617,
+      "sha256": "3aa41df0ed31f8407073af6d7e794f7db30784db8ea489de23c9c2864de91fc4"
+    },
+    {
+      "path": "mapbscode.go",
+      "mode": "0644",
+      "size": 6043,
+      "sha256": "a5ad64f236ab1d0622945745deb11bbe0edbfe6e824635290b876a0387b4c7ac"
+    },
+    {
+      "path": "mapcallhandlingoperations.go",
+      "mode": "0644",
+      "size": 388,
+      "sha256": "3175b93411eda97cbfb934e1c253eb10e52c49ae5b069eebcdec46b51ab93b1d"
+    },
+    {
+      "path": "mapchdatatypes.go",
+      "mode": "0644",
+      "size": 778342,
+      "sha256": "77d42fd53033d874cb354b2edff24d9c7e5cd33917f73bd9399b03d5af37f590"
+    },
+    {
+      "path": "mapcommondatatypes.go",
+      "mode": "0644",
+      "size": 214196,
+      "sha256": "bd98ae0e2c523d5f9a3c7f78647507143155937e79500e1a1c773e3befc59fdf"
+    },
+    {
+      "path": "mapdialogueinformation.go",
+      "mode": "0644",
+      "size": 107244,
+      "sha256": "e296765d55aadda69eb90c82e29615e91f7fd8a8bda7bc7470263673e23b254e"
+    },
+    {
+      "path": "maperdatatypes.go",
+      "mode": "0644",
+      "size": 531695,
+      "sha256": "10e3554593cf4f1b3c607949c6919d0c1cc18b5f734ae5f01210a015fd376306"
+    },
+    {
+      "path": "maperrors.go",
+      "mode": "0644",
+      "size": 372,
+      "sha256": "5683cd3bec4abc146000364795a552c440135cd535d8e2d76b98752c4b7425b9"
+    },
+    {
+      "path": "mapextensiondatatypes.go",
+      "mode": "0644",
+      "size": 59584,
+      "sha256": "1d867c8fa7a8365f76e3d9a81ea6d765eb9f6d87a02bf18f036afade569b039f"
+    },
+    {
+      "path": "mapgrdatatypes.go",
+      "mode": "0644",
+      "size": 249859,
+      "sha256": "607e97d53f727c945aabfca38aa779b308013f422617ed5baec13c0c9078b634"
+    },
+    {
+      "path": "mapgroupcalloperations.go",
+      "mode": "0644",
+      "size": 387,
+      "sha256": "a0629f4a695f34fee3f06b7f37ba0076bd09e98f2a209303823aad21657901bf"
+    },
+    {
+      "path": "maplcsdatatypes.go",
+      "mode": "0644",
+      "size": 699449,
+      "sha256": "4cfebfd6d39c53698ddd5b88719e482ffc13d2240690b9c6fd0a72a4be313201"
+    },
+    {
+      "path": "maplocationserviceoperations.go",
+      "mode": "0644",
+      "size": 391,
+      "sha256": "b610e525da22c71923a5c29aa79ccef06d1ffd7dbfa712727b5ee637c0dc866d"
+    },
+    {
+      "path": "mapmobileserviceoperations.go",
+      "mode": "0644",
+      "size": 389,
+      "sha256": "cd63fbfed14bb223ceed25999ed5e43ecb5b9b2430e7850ae18a6aae24545015"
+    },
+    {
+      "path": "mapmsdatatypes.go",
+      "mode": "0644",
+      "size": 5343902,
+      "sha256": "602a3fa396728fe92a052435b0ce986c7b4cfdf6b3edd3a489c4bd393936703c"
+    },
+    {
+      "path": "mapomdatatypes.go",
+      "mode": "0644",
+      "size": 520120,
+      "sha256": "6cee931752af890f0a3fd948426afb481e815e3a77b440f575e32fb451701756"
+    },
+    {
+      "path": "mapoperationandmaintenanceoperations.go",
+      "mode": "0644",
+      "size": 399,
+      "sha256": "06157965b4f6f318959e45a2887a06122beacb0254b64f7a408df2057eea47db"
+    },
+    {
+      "path": "mapprotocol.go",
+      "mode": "0644",
+      "size": 374,
+      "sha256": "e90eea3a87442258fa729add2c7f0aafe7cb2743a9075a745af3a057b68cfdb0"
+    },
+    {
+      "path": "mapshortmessageserviceoperations.go",
+      "mode": "0644",
+      "size": 395,
+      "sha256": "9c423e71bd128b92f32e5429f45cb319dd7bb36eeaa899093037a420016b759f"
+    },
+    {
+      "path": "mapsmdatatypes.go",
+      "mode": "0644",
+      "size": 564470,
+      "sha256": "536b403b389b7c6890ac92c46d51903f82582b83a11ba187ab7b0fd00c094e9a"
+    },
+    {
+      "path": "mapsscode.go",
+      "mode": "0644",
+      "size": 10472,
+      "sha256": "a2a18e93b308cde8b05cb2b0713d890abc3fadca267569325409ba49b7b3a539"
+    },
+    {
+      "path": "mapssdatatypes.go",
+      "mode": "0644",
+      "size": 429893,
+      "sha256": "dbee66943000181a7ab19674aeb084bb70097c5c8ab33612378c28a7ce720df3"
+    },
+    {
+      "path": "mapsupplementaryserviceoperations.go",
+      "mode": "0644",
+      "size": 396,
+      "sha256": "1133babb931b35c299d92d495366cd25a411cc499928b39269983e30a8e24ce5"
+    },
+    {
+      "path": "maptscode.go",
+      "mode": "0644",
+      "size": 3997,
+      "sha256": "7e60f8e26108be836b00107e90f4f7de9b6ea8db7f456f3b8d1a206ba1d1db66"
+    },
+    {
+      "path": "named_bits.go",
+      "mode": "0644",
+      "size": 18475,
+      "sha256": "98ea3de8293d4c8725575ccb2978e31f3b2df1ab47baf2e37b08fb1223255bcc"
+    },
+    {
+      "path": "owned-runtime_test.go",
+      "mode": "0644",
+      "size": 78862,
+      "sha256": "30e68ba51b35f220692beed84fe17707ee991e1e36ca74a97e57b6a287775861"
+    },
+    {
+      "path": "ros/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2485,
+      "sha256": "6771daba27e6bf8576331874537eba6365415b68a8d369a8faa99d077f393064"
+    },
+    {
+      "path": "ros/ber_value.go",
+      "mode": "0644",
+      "size": 571,
+      "sha256": "4539c365816616c90ad66ca924e6001c9c1b69a4dde03bc5f836e924960a812f"
+    },
+    {
+      "path": "ros/code_types.go",
+      "mode": "0644",
+      "size": 1128,
+      "sha256": "265695877a941e04eb1068de479b3ccd11b671aeaeefe42ae1314e92912f1584"
+    },
+    {
+      "path": "ros/remoteoperationsgenericrospdus.go",
+      "mode": "0644",
+      "size": 155700,
+      "sha256": "4b10e2f818cb9cfb03cc5eed323e17f6e7eb286f459c3ab7918847175cf67b26"
+    },
+    {
+      "path": "ros/remoteoperationsinformationobjects.go",
+      "mode": "0644",
+      "size": 10680,
+      "sha256": "1f477c959a3a1a72e444211946bd4cc9c1eb3be77456dc1eaa9280672048d27c"
+    },
+    {
+      "path": "ros/remoteoperationsusefuldefinitions.go",
+      "mode": "0644",
+      "size": 89531,
+      "sha256": "93eff03602f6a09be59368cca540b67de0d0bae33561f7b45b9bdbe18305c110"
+    },
+    {
+      "path": "ros/value-codecs.go",
+      "mode": "0644",
+      "size": 31663,
+      "sha256": "721affcfd20c9589ffec22bedfc5c1f7abc82f10a21ed9054519f2d9aa8d5ceb"
+    },
+    {
+      "path": "runtime/ber/ber_test.go",
+      "mode": "0644",
+      "size": 30326,
+      "sha256": "1a10ce5851191f55b204b8616553e1bc3a0401d1c01a8af4356480e9c5cab69c"
+    },
+    {
+      "path": "runtime/ber/bigint_value_test.go",
+      "mode": "0644",
+      "size": 1940,
+      "sha256": "1245f92f4bd19eaff4baf4f377f02776649d7851cce737aac3ca4334b137df6a"
+    },
+    {
+      "path": "runtime/ber/bit_length.go",
+      "mode": "0644",
+      "size": 810,
+      "sha256": "c37ebeff978ab47e8b0d8a31d9cd21bcc13b9991e2424a6f095074e8436bdd62"
+    },
+    {
+      "path": "runtime/ber/bit_length_test.go",
+      "mode": "0644",
+      "size": 1020,
+      "sha256": "de12d9ed705ca00df344a9fad290ebf811c7795658b8fde8564af784347687d0"
+    },
+    {
+      "path": "runtime/ber/bit_string_encode_bounds_test.go",
+      "mode": "0644",
+      "size": 883,
+      "sha256": "86fdac209180c9e24e8bcf6bde6cbae58a563320c778923b166822f23d7414f3"
+    },
+    {
+      "path": "runtime/ber/bitstring_length.go",
+      "mode": "0644",
+      "size": 1204,
+      "sha256": "7a0fa0e77a10bd3dd6d710441584e9eb290414ab39f42b5f734874ec04fb135f"
+    },
+    {
+      "path": "runtime/ber/bounded_cost_test.go",
+      "mode": "0644",
+      "size": 8272,
+      "sha256": "4a5d125b9c5d0110e32a16b22a59741df0a70f85ceeb40d46c97184e7945655c"
+    },
+    {
+      "path": "runtime/ber/collection_tag.go",
+      "mode": "0644",
+      "size": 4037,
+      "sha256": "cd9d0e8cd0d9b5015ebe6c1e7c1316eb3a98a4adceac05b83673100dfdd9dcfb"
+    },
+    {
+      "path": "runtime/ber/collection_tag_test.go",
+      "mode": "0644",
+      "size": 1784,
+      "sha256": "f8b28e9ae7c443fd95dfddf8a36b162bb32a48004c7fe8638251609e16f9e8ad"
+    },
+    {
+      "path": "runtime/ber/constraints.go",
+      "mode": "0644",
+      "size": 36461,
+      "sha256": "efc0d63c2571bbaa8966de9c29856be7af7150a46caef5c36284efa8cfe88be4"
+    },
+    {
+      "path": "runtime/ber/constraints_example_test.go",
+      "mode": "0644",
+      "size": 682,
+      "sha256": "69273dd90b6bf012aa16b79dae20c00eaa517348a7b737bcfc78a9cf8cc8c7aa"
+    },
+    {
+      "path": "runtime/ber/constraints_fuzz_test.go",
+      "mode": "0644",
+      "size": 4607,
+      "sha256": "d3e210ec8629502ca6a38c4c76962fa7b91d02b5b1d2bdaac2d5eece956975b4"
+    },
+    {
+      "path": "runtime/ber/constraints_test.go",
+      "mode": "0644",
+      "size": 4273,
+      "sha256": "4cc8c4b2dad6965339c7f179eff4574e9f88882f922965a091f6e2466982417c"
+    },
+    {
+      "path": "runtime/ber/constructed_bit_string_test.go",
+      "mode": "0644",
+      "size": 5109,
+      "sha256": "0e5c0990a89b3e7a878ab85a7298e9d37a2e807337bf24fc8eb0e964656381dd"
+    },
+    {
+      "path": "runtime/ber/cost_clock_test.go",
+      "mode": "0644",
+      "size": 1116,
+      "sha256": "5922d1ce209be08dd039e696d7379b7ac06f4ef5bdcdc864ad76d92cf017e925"
+    },
+    {
+      "path": "runtime/ber/cost_test.go",
+      "mode": "0644",
+      "size": 2113,
+      "sha256": "dd9df006810e694c4be383777f60ba1b84d4894e75c7d7c2c9ca64d76fcca305"
+    },
+    {
+      "path": "runtime/ber/decoder.go",
+      "mode": "0644",
+      "size": 64215,
+      "sha256": "d53e0261901ffad5e21ebf7b7349fad2fa00cce891d3fcaf0d999f040d70a6eb"
+    },
+    {
+      "path": "runtime/ber/depth_overflow_test.go",
+      "mode": "0644",
+      "size": 1193,
+      "sha256": "62becc87c5810e2044ee9120eb1b5f81b697e8f4b6384458b7bd381dc3d8a1f3"
+    },
+    {
+      "path": "runtime/ber/der_real_cost_test.go",
+      "mode": "0644",
+      "size": 1145,
+      "sha256": "85e39ae7c710109b7456b2a7a61ad2f570c91cfbecdbec1642513579ad0d490c"
+    },
+    {
+      "path": "runtime/ber/der_set_order_test.go",
+      "mode": "0644",
+      "size": 6157,
+      "sha256": "9fcaea47cfd5dd2ecc2b0091b3e14e2e88240af097fda32bb01ab8a9ac887018"
+    },
+    {
+      "path": "runtime/ber/diagnostic_limits_test.go",
+      "mode": "0644",
+      "size": 6959,
+      "sha256": "b1470f606713092a036d3ed8de285d564adab2b98820fefa1e2d061d68ab7fb4"
+    },
+    {
+      "path": "runtime/ber/diagnostic_retention_test.go",
+      "mode": "0644",
+      "size": 3738,
+      "sha256": "15e145f40ba6a545bde6133e3524eca06f0d1713ef1427f473a569eb9d75f3f2"
+    },
+    {
+      "path": "runtime/ber/direct_operation_test.go",
+      "mode": "0644",
+      "size": 1362,
+      "sha256": "0c6afebe6a25154e9983ab2b62267aedfd0e85089e0abca7e7e07693e5fbf3c7"
+    },
+    {
+      "path": "runtime/ber/dual_tagged_choice_test.go",
+      "mode": "0644",
+      "size": 2113,
+      "sha256": "da9682c7dceb7f8fa7fcd3168d89c3a4926168fcca4e939f5160ce3ac154c581"
+    },
+    {
+      "path": "runtime/ber/encode_options.go",
+      "mode": "0644",
+      "size": 3708,
+      "sha256": "5450696297f337a25b9f14cb5a2b58e63aae2b81c65e4a13d1c33b2daf0c382c"
+    },
+    {
+      "path": "runtime/ber/encoder.go",
+      "mode": "0644",
+      "size": 27052,
+      "sha256": "0c3984a422020f1c2647654c20e2d5c8b42df4f293d03ac2dc00d63afea60ab7"
+    },
+    {
+      "path": "runtime/ber/encoder_limit_test.go",
+      "mode": "0644",
+      "size": 3359,
+      "sha256": "acbb0e2af0762f082c4da5750afcfa788acf4ad35128cf3ed199cd8f4e8292fc"
+    },
+    {
+      "path": "runtime/ber/encoder_test_helpers_test.go",
+      "mode": "0644",
+      "size": 435,
+      "sha256": "0a4e9cbb998b5329708cc5a4754c542bf49977bc8811a83f83d19d9c32df608b"
+    },
+    {
+      "path": "runtime/ber/entry_options_test.go",
+      "mode": "0644",
+      "size": 8729,
+      "sha256": "17ba4613369a06f6beb63fb3757990fecf3a808f99c2614778ea5733a72f945b"
+    },
+    {
+      "path": "runtime/ber/errors.go",
+      "mode": "0644",
+      "size": 2631,
+      "sha256": "f457581159c291d8fbaf44f6c4a39de029e7087877af9dcaa448372f935a565f"
+    },
+    {
+      "path": "runtime/ber/external.go",
+      "mode": "0644",
+      "size": 9674,
+      "sha256": "e911e4b0b58df5a40589f6686f2db4e0a34ae424e64f9f8b1fd15f5e6473d468"
+    },
+    {
+      "path": "runtime/ber/external_limits_test.go",
+      "mode": "0644",
+      "size": 4467,
+      "sha256": "7b481d14c6f39c01f55de9989b3fb04d9e5ac28e8466a03a531d06f70150710b"
+    },
+    {
+      "path": "runtime/ber/external_options_test.go",
+      "mode": "0644",
+      "size": 4259,
+      "sha256": "b384fb42fa40fa13890a5d5f31a79d9e88c20b7c6ee338976fb4f14c0ea36543"
+    },
+    {
+      "path": "runtime/ber/external_test.go",
+      "mode": "0644",
+      "size": 5943,
+      "sha256": "6d8c12b6b4cdd6bf1289a5307df05984e1c585eec8a347bcc25e3be9e23ecd4a"
+    },
+    {
+      "path": "runtime/ber/form_alloc_test.go",
+      "mode": "0644",
+      "size": 2097,
+      "sha256": "659a196740a88e8d8f316b4b7a68ffae2b2db218c2d90f016897f18fbead915a"
+    },
+    {
+      "path": "runtime/ber/form_options_concurrency_test.go",
+      "mode": "0644",
+      "size": 763,
+      "sha256": "1f2f8fbefacc279e1429d959496512786e3bf0a7518c19fe8692c01631ba8e25"
+    },
+    {
+      "path": "runtime/ber/form_options_reuse_test.go",
+      "mode": "0644",
+      "size": 4497,
+      "sha256": "ea986772f7e6cda793828ce11415f258dcf78ce9671928353cec592f525a7227"
+    },
+    {
+      "path": "runtime/ber/form_tracking_test.go",
+      "mode": "0644",
+      "size": 8923,
+      "sha256": "4de4149eadf0fcfe30688becead4957f47c2ba241f5145bda87a6412cd53f2cd"
+    },
+    {
+      "path": "runtime/ber/generated_context.go",
+      "mode": "0644",
+      "size": 31039,
+      "sha256": "a6f1b4425d3c0589a83c4b569b4b0ba5e253e4be225603bb2dd98f5ca625c965"
+    },
+    {
+      "path": "runtime/ber/generated_context_external_test.go",
+      "mode": "0644",
+      "size": 6168,
+      "sha256": "57a1606a669ec1a1ab5ea7542ed3760039e980e00b636c5e502888cb195f4f60"
+    },
+    {
+      "path": "runtime/ber/generated_context_test.go",
+      "mode": "0644",
+      "size": 27252,
+      "sha256": "d44d595f051c0ff4cdf484cd7002d73df5f94b3fa7f60879ec55a97d34a2cc13"
+    },
+    {
+      "path": "runtime/ber/generated_encode_options.go",
+      "mode": "0644",
+      "size": 5281,
+      "sha256": "e8377ff43b1f6f8d5f9a5d7016a643a03dc60e93defa3561329b928f953be73a"
+    },
+    {
+      "path": "runtime/ber/generated_encode_options_test.go",
+      "mode": "0644",
+      "size": 6982,
+      "sha256": "167d6b1a8872b17c71f543d01e6742ff476ec4ce8b351900d1cb3e0058dbe8b1"
+    },
+    {
+      "path": "runtime/ber/hardening_test.go",
+      "mode": "0644",
+      "size": 8365,
+      "sha256": "dafa7fa1205bc3dbffea4874fbc933f477bf8313a41497300cd6a0333de34be9"
+    },
+    {
+      "path": "runtime/ber/idempotent_reports_test.go",
+      "mode": "0644",
+      "size": 13815,
+      "sha256": "8ed40392f3b7d428a83aea06459d79bea175923cc11610ad3dd49022ea55a682"
+    },
+    {
+      "path": "runtime/ber/integer_minimal_test.go",
+      "mode": "0644",
+      "size": 2626,
+      "sha256": "b6e840826d8ae85ba2a108238f676c4168f54a3693ef29fa04f765bafb9bd9ac"
+    },
+    {
+      "path": "runtime/ber/lazy_location_test.go",
+      "mode": "0644",
+      "size": 8013,
+      "sha256": "c3bf55f2256e30ad06ae2f7dd9ae6eeebd3b62c59d1cc5561aa603a1d2e15b38"
+    },
+    {
+      "path": "runtime/ber/length_long_form_test.go",
+      "mode": "0644",
+      "size": 2250,
+      "sha256": "b19f72eca15bad16b2397a9d65907981dbc9050c3b0efcfbb796b842090b8064"
+    },
+    {
+      "path": "runtime/ber/linear_encoder.go",
+      "mode": "0644",
+      "size": 13294,
+      "sha256": "ab64fda3e96d695678b9cf041446159156a33cb884282699ebd401c50e95106f"
+    },
+    {
+      "path": "runtime/ber/linear_encoder_test.go",
+      "mode": "0644",
+      "size": 8005,
+      "sha256": "145ab8488c324b689b60e2e4c07b326656adc9a71e29944fd8fbcfc520c8166d"
+    },
+    {
+      "path": "runtime/ber/map_profile.go",
+      "mode": "0644",
+      "size": 18829,
+      "sha256": "94a8b890fda7c0d80f742e4fb313abd01362495a8069563c4f19a62018f3951b"
+    },
+    {
+      "path": "runtime/ber/map_profile_resource_test.go",
+      "mode": "0644",
+      "size": 2001,
+      "sha256": "32f73743e3f968b1dfaa49b7594993d585943c2d5affdb68ffdb9be3d7156a73"
+    },
+    {
+      "path": "runtime/ber/map_profile_test.go",
+      "mode": "0644",
+      "size": 14993,
+      "sha256": "2b1ad9bda3bb810dedb14dbe2de2d3e97ed625dbef960fb10efdc99ec7d2f16c"
+    },
+    {
+      "path": "runtime/ber/named_bit_encoding.go",
+      "mode": "0644",
+      "size": 6682,
+      "sha256": "1d2048ae35671ec5f35aacbba793641c1fb9f4d5465921c42e7406bd2c75a1f7"
+    },
+    {
+      "path": "runtime/ber/named_bit_encoding_test.go",
+      "mode": "0644",
+      "size": 6485,
+      "sha256": "01dac435790458234a005f5df576c89e2e12c57edc4744b0b580a8a38b57bb82"
+    },
+    {
+      "path": "runtime/ber/named_bit_input_padding_test.go",
+      "mode": "0644",
+      "size": 1498,
+      "sha256": "3cb0f7fc4fb509a98a158b780a090efa4a8a7fc7843a3f0b3cf8ee0974e0e3db"
+    },
+    {
+      "path": "runtime/ber/named_bit_size.go",
+      "mode": "0644",
+      "size": 2902,
+      "sha256": "81f2979bf240919f98ea27442cc91e8fdae13d519e180f2fcc28de4de100ed52"
+    },
+    {
+      "path": "runtime/ber/named_bit_size_test.go",
+      "mode": "0644",
+      "size": 1927,
+      "sha256": "59d6fc9cb2dbdc4ccc4676049cf1fcf8945c8d7d57fc679949d38589dc74be76"
+    },
+    {
+      "path": "runtime/ber/named_bitstring_test.go",
+      "mode": "0644",
+      "size": 1177,
+      "sha256": "53231d8eb2eda8e4a8de15fc3e4eef7d121eacb7191f5da074e0049285829e58"
+    },
+    {
+      "path": "runtime/ber/oid_checked_test.go",
+      "mode": "0644",
+      "size": 2610,
+      "sha256": "bcfbc832bebd31d3f56b43cccf7600a122c7beb81ba2de080dfc891f9961b3fd"
+    },
+    {
+      "path": "runtime/ber/oid_wide_test.go",
+      "mode": "0644",
+      "size": 676,
+      "sha256": "12d15d1925f05ddeb343e586ee7b9f862f1986606e4ebebb5d5ae7925f847ae0"
+    },
+    {
+      "path": "runtime/ber/opaque.go",
+      "mode": "0644",
+      "size": 4114,
+      "sha256": "089fd1fd82d23ef47b04816453f1e1b6ee205cb22c39a0afaa6492d18a323130"
+    },
+    {
+      "path": "runtime/ber/opaque_alias_test.go",
+      "mode": "0644",
+      "size": 1712,
+      "sha256": "9e148437dccb465aec17e42819f47618c3664e4093b55696ef86be248ae599cd"
+    },
+    {
+      "path": "runtime/ber/opaque_structural_error_test.go",
+      "mode": "0644",
+      "size": 1492,
+      "sha256": "9a1de90a5636e243910241a1425a20e3519c0b1c57baaa1787066eceab9193e4"
+    },
+    {
+      "path": "runtime/ber/opaque_test.go",
+      "mode": "0644",
+      "size": 5324,
+      "sha256": "ad4d58023de5f9f06ea232439ada6b4a8e370840d5cb76e5ac68feb191eeba97"
+    },
+    {
+      "path": "runtime/ber/option_resolution_fast_path_test.go",
+      "mode": "0644",
+      "size": 1251,
+      "sha256": "60146c9d6b0a8ad862d544bafc369f60faf9cbd03aaefb39fae8a86146b2fff7"
+    },
+    {
+      "path": "runtime/ber/options.go",
+      "mode": "0644",
+      "size": 9388,
+      "sha256": "f378639d0fa185035b97d4d8afbef2da28d1568016db55803448792c0a88cff6"
+    },
+    {
+      "path": "runtime/ber/owned_mechanisms_test.go",
+      "mode": "0644",
+      "size": 3793,
+      "sha256": "e69d2f534bdd022037d72a5e4b6874b8fef349bb49c23fc5bde4f53ba10f5fbe"
+    },
+    {
+      "path": "runtime/ber/preflight_location_test.go",
+      "mode": "0644",
+      "size": 9836,
+      "sha256": "40e532a33745556c3c426caae98e62df81a4fa089b9bdcbccf1c49ff5102d9d5"
+    },
+    {
+      "path": "runtime/ber/preflight_path.go",
+      "mode": "0644",
+      "size": 7270,
+      "sha256": "b4e3aa87b7faace6cbc4b1d779ab95f94d89effe793593b9912abd917e206b1f"
+    },
+    {
+      "path": "runtime/ber/preflight_path_test.go",
+      "mode": "0644",
+      "size": 9641,
+      "sha256": "07c1cbf948e16e59bafeb48ba47ed01c506c486d5e1358bdcb0a05a857ca8994"
+    },
+    {
+      "path": "runtime/ber/preflight_reports_test.go",
+      "mode": "0644",
+      "size": 5885,
+      "sha256": "6785ba066589c7dcdf1bd08eb08aa3aad0058099afb6fb638a99ca9c11e7d2cc"
+    },
+    {
+      "path": "runtime/ber/present_empty_test.go",
+      "mode": "0644",
+      "size": 2229,
+      "sha256": "62754f31959f042a8affb26a4aa08c499ae5bf3142ae474da82f4f6efbb23904"
+    },
+    {
+      "path": "runtime/ber/primitive_options_test.go",
+      "mode": "0644",
+      "size": 3276,
+      "sha256": "83240f58c504288a86bf5a1575b4e2b783f67db54914c4ea847b3b767b630f43"
+    },
+    {
+      "path": "runtime/ber/raw_identifier_test.go",
+      "mode": "0644",
+      "size": 1847,
+      "sha256": "b146bc07d63bf0d8978354a8f013f666eda1fc3c5c81e1d5add0cb9a953f4c5f"
+    },
+    {
+      "path": "runtime/ber/raw_metadata_test.go",
+      "mode": "0644",
+      "size": 1432,
+      "sha256": "79ad1b6c6e4b5de7d83f82f3117a61a1f036ccb95d63720f787ea7323eb5e49a"
+    },
+    {
+      "path": "runtime/ber/raw_value.go",
+      "mode": "0644",
+      "size": 1014,
+      "sha256": "832e33275bb29045c1a61d59cde55c1948a4379d2f1b88e9b78f641eef4209df"
+    },
+    {
+      "path": "runtime/ber/real_capacity_test.go",
+      "mode": "0644",
+      "size": 724,
+      "sha256": "44730d269e3a6d6f8cdc4146f32e4e8ad287c54bb46d0a3f3f0637bfee822496"
+    },
+    {
+      "path": "runtime/ber/real_constraint.go",
+      "mode": "0644",
+      "size": 5334,
+      "sha256": "ca9c3f302edcdae75076ebc871cc57dcc06fcc5b4a96e012919911d9f12fa8a3"
+    },
+    {
+      "path": "runtime/ber/real_constraint_test.go",
+      "mode": "0644",
+      "size": 2103,
+      "sha256": "65a740e3cc4577c88ce9df7e5629da18e14b18708411c9f52124997d31c518a4"
+    },
+    {
+      "path": "runtime/ber/real_decimal_fastpath_test.go",
+      "mode": "0644",
+      "size": 4391,
+      "sha256": "df40a8955c667815d90cf829e4d43064992986c490e1a8c2b9a6dc6ee899ab71"
+    },
+    {
+      "path": "runtime/ber/real_decimal_test.go",
+      "mode": "0644",
+      "size": 11667,
+      "sha256": "b8af66a834788b7f7c81f23e990074441aee7db4b45c77b464343fee6ffe45d6"
+    },
+    {
+      "path": "runtime/ber/real_default.go",
+      "mode": "0644",
+      "size": 2696,
+      "sha256": "18a9a03242c776335ef1395271aa52798435a829f5414923586c68d113728e39"
+    },
+    {
+      "path": "runtime/ber/real_default_test.go",
+      "mode": "0644",
+      "size": 3602,
+      "sha256": "0352dd5732f33d481a28e69149f2ffe4ca17a410d5b66451ec9043c6e123c037"
+    },
+    {
+      "path": "runtime/ber/real_limits_test.go",
+      "mode": "0644",
+      "size": 3019,
+      "sha256": "2953dcceb5b6e2802ff28829614f5f2063ac4827c3f59956ef3dfa685888067a"
+    },
+    {
+      "path": "runtime/ber/replay_comparator_plan_test.go",
+      "mode": "0644",
+      "size": 8907,
+      "sha256": "97999473948732ab9845cdb03be9790b0cf1248284e7209439af507fa9cf7a23"
+    },
+    {
+      "path": "runtime/ber/replay_comparator_reference_test.go",
+      "mode": "0644",
+      "size": 12720,
+      "sha256": "53d77dfd9c45564738ad8802cc2bb356daae97c0ac6b484ab619c7cdc643b815"
+    },
+    {
+      "path": "runtime/ber/replay_compare.go",
+      "mode": "0644",
+      "size": 6646,
+      "sha256": "d0533082413e4ce0fb9b7de0f9c17ee011c37b9a59d1410f87cd6a0f2d02a161"
+    },
+    {
+      "path": "runtime/ber/replay_context.go",
+      "mode": "0644",
+      "size": 54145,
+      "sha256": "4965610f933760710a9623cfef379a5f157f4545e3f159bfab97ef654ceecd6d"
+    },
+    {
+      "path": "runtime/ber/replay_context_test.go",
+      "mode": "0644",
+      "size": 38771,
+      "sha256": "a51bc11ac9b347b3bb62511ca5e49754a2e734b0c2b5a370c762353f7efb4fc6"
+    },
+    {
+      "path": "runtime/ber/replay_external_forms_test.go",
+      "mode": "0644",
+      "size": 4491,
+      "sha256": "1db6cea1ba1a10845f889d12697b9cb3a559371de25ddbb609af047cdc274f50"
+    },
+    {
+      "path": "runtime/ber/replay_marker_integration_test.go",
+      "mode": "0644",
+      "size": 2592,
+      "sha256": "e0a65404eac2744cc941afba71bd90141c0c7298c291c169356ada29877d6cf5"
+    },
+    {
+      "path": "runtime/ber/replay_parts.go",
+      "mode": "0644",
+      "size": 13452,
+      "sha256": "52c91a88a1438f1c8152ba094c5d255ded553fa235641133a8148cdec927506d"
+    },
+    {
+      "path": "runtime/ber/replay_parts_depth_test.go",
+      "mode": "0644",
+      "size": 923,
+      "sha256": "8dcc1eee98d5c6ad54d3de8d8aa7bb7fb6b35897a4d6c1afd323c8ec1a0dd60b"
+    },
+    {
+      "path": "runtime/ber/replay_parts_test.go",
+      "mode": "0644",
+      "size": 8650,
+      "sha256": "80a9754015abb5b15277c57901964ef3170041dbfc6e48a2cc84e83e00e5ea3c"
+    },
+    {
+      "path": "runtime/ber/replay_profile.go",
+      "mode": "0644",
+      "size": 5534,
+      "sha256": "854f8abeaa98cf4dc6201935ac1bc2cd9534713ad2b1808f93d3be14e31f4c93"
+    },
+    {
+      "path": "runtime/ber/replay_profile_position_test.go",
+      "mode": "0644",
+      "size": 3820,
+      "sha256": "a936f83bd6be24e1bf63914a4df11c5982dfb4da0324c9ed7aab8560ecda55ca"
+    },
+    {
+      "path": "runtime/ber/replay_unknown_test.go",
+      "mode": "0644",
+      "size": 1749,
+      "sha256": "06e46a4e1ac49b0c54e4429f764c95350e94c63bc91dbe8c624292f98b5bff4b"
+    },
+    {
+      "path": "runtime/ber/replay_verdict_round15_test.go",
+      "mode": "0644",
+      "size": 7603,
+      "sha256": "ca09334ad51b3badcaa1b337f9d04ed9d5a950b89d12c1ca395fa8946e73f627"
+    },
+    {
+      "path": "runtime/ber/resource_limits_test.go",
+      "mode": "0644",
+      "size": 1798,
+      "sha256": "7a5aa7567af9f266a747e9377806043a5c0214cdaf283e423c1b8a226530b3c4"
+    },
+    {
+      "path": "runtime/ber/retag_capacity_test.go",
+      "mode": "0644",
+      "size": 748,
+      "sha256": "cd567881ecf255902797c6b46b235950c69adae629263f988c7f8109c982b70b"
+    },
+    {
+      "path": "runtime/ber/rules.go",
+      "mode": "0644",
+      "size": 1234,
+      "sha256": "47677c7682fc8dce046ca7e0f5a5d29eb5361a25c9cbda864e9920c4e97aa012"
+    },
+    {
+      "path": "runtime/ber/rules_test.go",
+      "mode": "0644",
+      "size": 1726,
+      "sha256": "3cb990c0ab9ffd4b26f20cb30d0431d016dd6f922bbe7ac14f04c803bdf0b58b"
+    },
+    {
+      "path": "runtime/ber/selective_replay_test.go",
+      "mode": "0644",
+      "size": 2623,
+      "sha256": "7fffa16bfa349593594a368f66ea579cda7649aabce8b1b04f327b9112658286"
+    },
+    {
+      "path": "runtime/ber/set_order_test.go",
+      "mode": "0644",
+      "size": 3638,
+      "sha256": "a6bc558b92ef2c75081092b85279a901f52752b492224fdc852477ac97bfeaf3"
+    },
+    {
+      "path": "runtime/ber/stage_fast_path_test.go",
+      "mode": "0644",
+      "size": 2987,
+      "sha256": "32e6bfe518d4acc083d987467b443308edb09fbe170afdf9bd607acd8892ac59"
+    },
+    {
+      "path": "runtime/ber/staged_depth_test.go",
+      "mode": "0644",
+      "size": 1051,
+      "sha256": "350047eb345781976e457091d400eb2c81361fd5e0991a092b9b4eedf3461ce9"
+    },
+    {
+      "path": "runtime/ber/string_capacity_test.go",
+      "mode": "0644",
+      "size": 694,
+      "sha256": "9ec3d7791ded599f435230bcc5c9bf7896e601bad5bcf41d65e170b342fb6dd1"
+    },
+    {
+      "path": "runtime/ber/string_fixed_width_test.go",
+      "mode": "0644",
+      "size": 5874,
+      "sha256": "599424233b9db58425b41571b2752a367add73b503445c10fca6def54639897a"
+    },
+    {
+      "path": "runtime/ber/time_test.go",
+      "mode": "0644",
+      "size": 12168,
+      "sha256": "17a4ba3d7d10ce6a3296b4904a35bd69074f57de725d807ceb792affd6f04c27"
+    },
+    {
+      "path": "runtime/ber/triage_encode_policy_test.go",
+      "mode": "0644",
+      "size": 5400,
+      "sha256": "41441c50380ce4dac8b4630af112ec9a92f94d177cb9632ceb3ecb801742e233"
+    },
+    {
+      "path": "runtime/ber/triage_indefinite_error_test.go",
+      "mode": "0644",
+      "size": 1330,
+      "sha256": "5b8c6954100c5eb0a68b12b23f8224431b76ee915770ac6c5b8a827a473e9b35"
+    },
+    {
+      "path": "runtime/ber/triage_named_bit_size_test.go",
+      "mode": "0644",
+      "size": 3011,
+      "sha256": "2327472194deb588b96aa5061d63425daeb4d07119859e99ed39842e48f58789"
+    },
+    {
+      "path": "runtime/ber/triage_options_test.go",
+      "mode": "0644",
+      "size": 15096,
+      "sha256": "7999bd6a0654727590d81814a37033f570b822874bf9d5c46cf900e494a6d1ca"
+    },
+    {
+      "path": "runtime/ber/triage_padding_test.go",
+      "mode": "0644",
+      "size": 3625,
+      "sha256": "e531e3c55b746911e2eda4d0fe917e171b42481cc0d81cf7f9aa1bbf96db849a"
+    },
+    {
+      "path": "runtime/ber/triage_segmented_test.go",
+      "mode": "0644",
+      "size": 1476,
+      "sha256": "b224b32df1da878669f128705b70f1e410f92c2261bfaa85344afec463fd1eb4"
+    },
+    {
+      "path": "runtime/ber/triage_structure_test.go",
+      "mode": "0644",
+      "size": 4846,
+      "sha256": "4592d59f10c5fb66f144fc27802f6378f27d6de6549f5129f0883eb5e998143a"
+    },
+    {
+      "path": "runtime/ber/universal_form_test.go",
+      "mode": "0644",
+      "size": 5340,
+      "sha256": "b85147f874f7dca09a1cc5d874a4a078e3af999e5a67fe87465452e340f22139"
+    },
+    {
+      "path": "runtime/ber/unused_bits.go",
+      "mode": "0644",
+      "size": 465,
+      "sha256": "7eefbd064b32f50f8efb975493066ba3db3bd9870fc02088656080dfb885ebb2"
+    },
+    {
+      "path": "runtime/ber/unused_bits_test.go",
+      "mode": "0644",
+      "size": 513,
+      "sha256": "25171baf3d935f8d433555066fc1f0e72713441d104b4fd62b79de1cf886f1f3"
+    },
+    {
+      "path": "runtime/ber/utf8.go",
+      "mode": "0644",
+      "size": 3492,
+      "sha256": "54bc9bf03f49cd0a0c5297c53b112363333c6df1ff8f6555abb991b05cf1b169"
+    },
+    {
+      "path": "runtime/ber/utf8_encode.go",
+      "mode": "0644",
+      "size": 1765,
+      "sha256": "3291925e79d0a0e2c27265fe4f2eedbd768cb082971cceb1748f9f594b6d4141"
+    },
+    {
+      "path": "runtime/ber/utf8_encode_direct_test.go",
+      "mode": "0644",
+      "size": 3669,
+      "sha256": "28f3bc9fb9e03977f43555d58803b86d591352b014c33e601b88d52ede028fbd"
+    },
+    {
+      "path": "runtime/ber/utf8_encode_test.go",
+      "mode": "0644",
+      "size": 2444,
+      "sha256": "ca4bb08ec22bfc3a316ca7ef962bbfa8b8f77101039055a000df2ba82ba14c6c"
+    },
+    {
+      "path": "runtime/ber/utf8_generated_field_test.go",
+      "mode": "0644",
+      "size": 2036,
+      "sha256": "51e75e3c60cf1583300b896fb72f85b2ce2be7e952a84728ce628349cbd1cfd4"
+    },
+    {
+      "path": "runtime/ber/utf8_location_test.go",
+      "mode": "0644",
+      "size": 9542,
+      "sha256": "2942014d59d08970dd6f284f5d85cf2737d48dfb28f07bbefe9f985d20c54844"
+    },
+    {
+      "path": "runtime/ber/utf8_reconciliation_test.go",
+      "mode": "0644",
+      "size": 3651,
+      "sha256": "8c20500defc6520db8c0dd2daaee228c133cf248f8d460133e5e77d2a1b10b57"
+    },
+    {
+      "path": "runtime/ber/utf8_validation_test.go",
+      "mode": "0644",
+      "size": 7057,
+      "sha256": "e22e4ef3bab42205b2528a79f82aed965894d78dcf0493cfd423897c8a68b023"
+    },
+    {
+      "path": "runtime/ber/validation.go",
+      "mode": "0644",
+      "size": 17814,
+      "sha256": "fcf124e786c6b7429fc2e6d4fa7d362349d312e1295a83ddfd64a3e7cd310769"
+    },
+    {
+      "path": "runtime/ber/work.go",
+      "mode": "0644",
+      "size": 21569,
+      "sha256": "29ad0c8c4e951b86b3ee91df4ca30ddd8d0f0ce910783cde3f18fd42b642386b"
+    },
+    {
+      "path": "runtime/ber/work_encode_test.go",
+      "mode": "0644",
+      "size": 1007,
+      "sha256": "5cad59ad2fbd3fdfac317b7afd9961973a0334f8b04bff88e6db11f7eb59be8c"
+    },
+    {
+      "path": "runtime/ber/work_limit_test.go",
+      "mode": "0644",
+      "size": 4047,
+      "sha256": "29a00a264e449d673d505bfa8f7efb6042e1fed33f7c0651a91f807f650792bf"
+    },
+    {
+      "path": "runtime/ber_choice.go",
+      "mode": "0644",
+      "size": 560,
+      "sha256": "2f550ebbb00c80df0b41473ebab55168c1b4a658f6802c63391adfb1a363118f"
+    },
+    {
+      "path": "runtime/bitstring_builder.go",
+      "mode": "0644",
+      "size": 4062,
+      "sha256": "64ad22a40f8ff83d6478f648c96d3daf2d3a11c9642f36bdd3585a94222e2d3a"
+    },
+    {
+      "path": "runtime/bitstring_builder_test.go",
+      "mode": "0644",
+      "size": 6610,
+      "sha256": "b66bb2f67b96c6dd0e2836d8941f3c68745cc58d51cc6c33716d5fe22bf8fdac"
+    },
+    {
+      "path": "runtime/cost_test.go",
+      "mode": "0644",
+      "size": 2018,
+      "sha256": "fe38398fa2ddcd3daefef92c324dc7f57ebbc1ced99131ab5ff2d771f0acafd4"
+    },
+    {
+      "path": "runtime/decode_path.go",
+      "mode": "0644",
+      "size": 1091,
+      "sha256": "a056d97bb3a99f3f41255614407c72de75e0cfed3ff00909879eaa4a06218624"
+    },
+    {
+      "path": "runtime/decode_path_test.go",
+      "mode": "0644",
+      "size": 1514,
+      "sha256": "9b79198201bccd4b1f13afb0764f408f9320217b25e4c82a54fee3631dcd7cd3"
+    },
+    {
+      "path": "runtime/external.go",
+      "mode": "0644",
+      "size": 2047,
+      "sha256": "c89e2753e4446690cfdeae166f1b9d9fa09a13c9e3470e5789ab6a4d78461fab"
+    },
+    {
+      "path": "runtime/integer_value.go",
+      "mode": "0644",
+      "size": 3096,
+      "sha256": "104630a9cb88291740beda7ac30c651a729a3978d75c4c8146fa96a361b519c3"
+    },
+    {
+      "path": "runtime/integer_value_test.go",
+      "mode": "0644",
+      "size": 3572,
+      "sha256": "b645ef832acf44fd6ddc244a547baec99ed76bdb57ab02867f947fc7336383fc"
+    },
+    {
+      "path": "runtime/oid.go",
+      "mode": "0644",
+      "size": 19069,
+      "sha256": "814d09bfa9b1c630fdbec9839b36fc4705e1f0d2bf89d9dd0d5514ae79c872b1"
+    },
+    {
+      "path": "runtime/oid_limits_test.go",
+      "mode": "0644",
+      "size": 9012,
+      "sha256": "d2864d4598d0005afb97fe4eecc3e41ea345145e17a6cd110768ccf45f7497f6"
+    },
+    {
+      "path": "runtime/oid_test.go",
+      "mode": "0644",
+      "size": 12529,
+      "sha256": "6a98d73e435727446bbb2e3d57b6713331940386d4ab3dd827d82bd1575be059"
+    },
+    {
+      "path": "runtime/raw_json_test.go",
+      "mode": "0644",
+      "size": 2218,
+      "sha256": "780e01e59ad078e192778129e82c61f0c000198f773e5d61039116cc7e65eb4e"
+    },
+    {
+      "path": "runtime/real.go",
+      "mode": "0644",
+      "size": 9597,
+      "sha256": "6a63b8ae8343f8fd1e4965580032fa4e7b6fb0f2269b78a16d3d77306785d6e8"
+    },
+    {
+      "path": "runtime/real_decimal_complexity_test.go",
+      "mode": "0644",
+      "size": 3256,
+      "sha256": "7a024c54252d2e5d10b3d5e8f2e4da33eb52f00f26a8b00f5a1f53aa97da4a21"
+    },
+    {
+      "path": "runtime/real_test.go",
+      "mode": "0644",
+      "size": 4039,
+      "sha256": "8ba443b342653893048ef39ef7a362e9ca8d7321deb47677cde00ea7d07a5f5c"
+    },
+    {
+      "path": "runtime/tag/tag.go",
+      "mode": "0644",
+      "size": 2781,
+      "sha256": "165fdc78ac42781c99afb5ddfa31c3e4a8737acf5cfc7b835df8af6be0a4946d"
+    },
+    {
+      "path": "runtime/tag/tag_test.go",
+      "mode": "0644",
+      "size": 1204,
+      "sha256": "ed96fa5de423cf27ad78a3765e638d6eba18f1557eaee6db7c8968f60480a88f"
+    },
+    {
+      "path": "runtime/time.go",
+      "mode": "0644",
+      "size": 18606,
+      "sha256": "42537d9dd799cc52a02fc5143e574ca6b83b4136ad74b949feac1e4ca52f565d"
+    },
+    {
+      "path": "runtime/time_test.go",
+      "mode": "0644",
+      "size": 23736,
+      "sha256": "074f762a27dfa38db2367b5b5d4409d343e8d1e6d1d48b8f14a738d73eadc1d1"
+    },
+    {
+      "path": "runtime/types.go",
+      "mode": "0644",
+      "size": 5308,
+      "sha256": "ceb86ad6202c22619f6bee7d210f38032c7d8de79d4ce1e28f8d4988b9cc7865"
+    },
+    {
+      "path": "runtime/types_test.go",
+      "mode": "0644",
+      "size": 4000,
+      "sha256": "e12e640db7b17f3f265ef801d13f6f2e753fb53b6acb94f00263352b82cca8b2"
+    },
+    {
+      "path": "ssdatatypes.go",
+      "mode": "0644",
+      "size": 1464021,
+      "sha256": "0aa6d1cb9decbb5fb88523acdca45145e7037518cc47efb96deda37a6824aa40"
+    },
+    {
+      "path": "sserrors.go",
+      "mode": "0644",
+      "size": 10628,
+      "sha256": "ca519816815c04348736fef530ec80775cac207fa830417a6c7d5d2d8453f2e1"
+    },
+    {
+      "path": "ssoperations.go",
+      "mode": "0644",
+      "size": 375,
+      "sha256": "eba619fe7b173bfeaa4177fffab46414591f5afe8e036f1f4b8903775a1f694b"
+    },
+    {
+      "path": "typed-api_test.go",
+      "mode": "0644",
+      "size": 205429,
+      "sha256": "bd063ea2eac0e5b4754c418b4b4fba9870f1e1c70c6a29b832195ea9047dc47e"
+    },
+    {
+      "path": "v21_map_bs_code/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2497,
+      "sha256": "2e85ab20038cb1c6b987b933fbe081c1ebc2454d745d3e19f7b13eec61a1b30a"
+    },
+    {
+      "path": "v21_map_bs_code/ber_value.go",
+      "mode": "0644",
+      "size": 583,
+      "sha256": "6cf6a9bffc2f7e638a998d47f6a969e1245a8aa511588a5abeb5fec49f7dc7fd"
+    },
+    {
+      "path": "v21_map_bs_code/mapbscode.go",
+      "mode": "0644",
+      "size": 6267,
+      "sha256": "10d399cb6d747a221b8b56df72300f22703f5634ebdcabc1cdfc2d145ee3fbc4"
+    },
+    {
+      "path": "v21_map_bs_code/value-codecs.go",
+      "mode": "0644",
+      "size": 26031,
+      "sha256": "367977af678ca1a3ba4a54073d717e5811e9e7add90f99845baf60138410c053"
+    },
+    {
+      "path": "v21_map_commondatatypes/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2505,
+      "sha256": "25cee0a164dcc03779decf36bccacc0170be55f326800ce508749d72cd6b6615"
+    },
+    {
+      "path": "v21_map_commondatatypes/ber_value.go",
+      "mode": "0644",
+      "size": 591,
+      "sha256": "23c50e4bf0ba573bc93953b664d11dc9b6d5f5c7415edc7c5b8fb8a0faa0be4a"
+    },
+    {
+      "path": "v21_map_commondatatypes/mapcommondatatypes.go",
+      "mode": "0644",
+      "size": 234319,
+      "sha256": "9daaf1abdcc074065d2e4d5f220650d53279908fbe2c58f88c990ce0b2daa287"
+    },
+    {
+      "path": "v21_map_commondatatypes/value-codecs.go",
+      "mode": "0644",
+      "size": 48403,
+      "sha256": "651ca4be5b2ad458a20a39e8836e6ee60a158340e7baf1966346ac0fc981eb22"
+    },
+    {
+      "path": "v21_map_er_datatypes/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2502,
+      "sha256": "e3cec4130c0dac161b6657250355363c3f63a3e64df7b2b312263543b256829d"
+    },
+    {
+      "path": "v21_map_er_datatypes/ber_value.go",
+      "mode": "0644",
+      "size": 588,
+      "sha256": "b494239d454794f07d7f42e32f54d1b6c7ddf3b597c6d4f0cce45f96a18946f1"
+    },
+    {
+      "path": "v21_map_er_datatypes/maperdatatypes.go",
+      "mode": "0644",
+      "size": 546370,
+      "sha256": "be809d28c45030d33c64049ae05d307f2319525c85b980da29a541b7863259e4"
+    },
+    {
+      "path": "v21_map_er_datatypes/value-codecs.go",
+      "mode": "0644",
+      "size": 41981,
+      "sha256": "f96ab3dd7a7c41fb48733f90923bc8f653cf624aed1b67309ee7dcdb8f7d3c96"
+    },
+    {
+      "path": "v21_map_errors/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2496,
+      "sha256": "f39db0c72fa0c5dfdc744ffa201420e5cefcc8396e2bf86249f191f9f88de599"
+    },
+    {
+      "path": "v21_map_errors/ber_value.go",
+      "mode": "0644",
+      "size": 582,
+      "sha256": "c664ebab86dfa0ce039c52b31f39b2a83228e5e297d1949166d082034b698045"
+    },
+    {
+      "path": "v21_map_errors/code_types.go",
+      "mode": "0644",
+      "size": 19287,
+      "sha256": "6385706fbfa2400cbe7ace0147e9a5fd6eeb901480370b45465ba8860d002184"
+    },
+    {
+      "path": "v21_map_errors/descriptors.go",
+      "mode": "0644",
+      "size": 76871,
+      "sha256": "694259526eb68a72ab03d3151bbe6fc1c9e9bb5c86e3f2a06acd6e0ceb4c7b88"
+    },
+    {
+      "path": "v21_map_errors/historical-binding_test.go",
+      "mode": "0644",
+      "size": 782,
+      "sha256": "b1398f7d0af0feaad6355681a5ef608c12fcd3590fbe22102a1d5ad9c9295c5d"
+    },
+    {
+      "path": "v21_map_errors/maperrors.go",
+      "mode": "0644",
+      "size": 379,
+      "sha256": "d56ce861c33cfaea257575deeae17dbee7645c1a0c6db139dd563f31fbdc3d41"
+    },
+    {
+      "path": "v21_map_errors/value-codecs.go",
+      "mode": "0644",
+      "size": 25039,
+      "sha256": "f5cfefe5aaa8f978151f20b180f8635b686a9248c3364c19fdcb24cbbd4f3b45"
+    },
+    {
+      "path": "v21_map_extensiondatatypes/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2508,
+      "sha256": "3dca84b51d948525fcf514fa9588b4466fb0d7301bce549d6481ed849407483a"
+    },
+    {
+      "path": "v21_map_extensiondatatypes/ber_value.go",
+      "mode": "0644",
+      "size": 594,
+      "sha256": "f792923550dad3f2923aa745d8ae8c7b1a26f069c70e66b92fe1ce5f4770253b"
+    },
+    {
+      "path": "v21_map_extensiondatatypes/mapextensiondatatypes.go",
+      "mode": "0644",
+      "size": 62819,
+      "sha256": "c06fe16096e05d547e933c5c0e1920958a14f292a294da31e16752da2e400235"
+    },
+    {
+      "path": "v21_map_extensiondatatypes/value-codecs.go",
+      "mode": "0644",
+      "size": 26959,
+      "sha256": "1c936aa08344a0d8c82cc695ece83544d88f5d3266074919114479084eb41950"
+    },
+    {
+      "path": "v21_map_lcs_datatypes/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2503,
+      "sha256": "efaa48bf33138666a7b8b08f6a893bb9030ef7ad83c415483dece6f92e24f0e4"
+    },
+    {
+      "path": "v21_map_lcs_datatypes/ber_value.go",
+      "mode": "0644",
+      "size": 589,
+      "sha256": "c07a9d8ecae6bb75a1532b2333bb69b6a9992436bc34e2f8e7635322bf2d5cc9"
+    },
+    {
+      "path": "v21_map_lcs_datatypes/maplcsdatatypes.go",
+      "mode": "0644",
+      "size": 711685,
+      "sha256": "041ca240c8e229d845ba4ba211782b652d0e402359441c0e8eb42b3d74a5998a"
+    },
+    {
+      "path": "v21_map_lcs_datatypes/named_bits.go",
+      "mode": "0644",
+      "size": 950,
+      "sha256": "5bbe6ebd3599cd18685d54f70aeede7e87ee50096b0af4ed32d76e20823a8115"
+    },
+    {
+      "path": "v21_map_lcs_datatypes/value-codecs.go",
+      "mode": "0644",
+      "size": 47285,
+      "sha256": "f6464d238c3ad7b3ee1d5cde38233b56575195bdf8a39db2dfb762156f1750a7"
+    },
+    {
+      "path": "v21_map_ms_datatypes/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2502,
+      "sha256": "d6ae37c2735c1c41440fb3861267c17fe1b904a6abe132cdb9855edc38131245"
+    },
+    {
+      "path": "v21_map_ms_datatypes/ber_value.go",
+      "mode": "0644",
+      "size": 588,
+      "sha256": "a97813e719fbb7a0a5a86f5e630eb5ca946591a9e3cf5d46d36a6b73ed7dd3a3"
+    },
+    {
+      "path": "v21_map_ms_datatypes/mapmsdatatypes.go",
+      "mode": "0644",
+      "size": 5434070,
+      "sha256": "30925e72508171c46130c4c4235746d5fbe6ba118aecc5739252fd7c199a3bd5"
+    },
+    {
+      "path": "v21_map_ms_datatypes/named_bits.go",
+      "mode": "0644",
+      "size": 7846,
+      "sha256": "d3b8eaf2fdb5d9deb8e9a6c557d850ffefbac1a7edf7357f470ff6ed698064e2"
+    },
+    {
+      "path": "v21_map_ms_datatypes/value-codecs.go",
+      "mode": "0644",
+      "size": 153442,
+      "sha256": "0c713b47c6770eb83eac7beceb1c5a3e821b4d1c946b56ba523bc1f19ac0cce3"
+    },
+    {
+      "path": "v21_map_om_datatypes/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2502,
+      "sha256": "7381da8a6d8c23246274f589b5abf05213da70e116049aadc7d981dcaea5e22a"
+    },
+    {
+      "path": "v21_map_om_datatypes/ber_value.go",
+      "mode": "0644",
+      "size": 588,
+      "sha256": "080d083384e2ae93bf527d90f02e40e17041e4eed7e60d1974d937ddff16ae59"
+    },
+    {
+      "path": "v21_map_om_datatypes/mapomdatatypes.go",
+      "mode": "0644",
+      "size": 526586,
+      "sha256": "17da937822e57fdbafa59b6e420cfc9150afe7766d5e37e6cfab7c18f7e0d65f"
+    },
+    {
+      "path": "v21_map_om_datatypes/named_bits.go",
+      "mode": "0644",
+      "size": 7062,
+      "sha256": "b831d6ef389d22197030d9c2c08a82e65136d871a498def4f0f3f63863469400"
+    },
+    {
+      "path": "v21_map_om_datatypes/value-codecs.go",
+      "mode": "0644",
+      "size": 51684,
+      "sha256": "370e617041049a8e1fbf5896ba5a8235f35603e786bd6ffc6638f5b348d048cb"
+    },
+    {
+      "path": "v21_map_sm_datatypes/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2502,
+      "sha256": "f2f473b8a3ac740ba756065ff74de085c112b1b7eaaa3bbd1c43d6c8a0f02c27"
+    },
+    {
+      "path": "v21_map_sm_datatypes/ber_value.go",
+      "mode": "0644",
+      "size": 588,
+      "sha256": "a085526b4d3a3907a2e12fb5557f1ec90ab793ed1e35153909077f322e06a880"
+    },
+    {
+      "path": "v21_map_sm_datatypes/mapsmdatatypes.go",
+      "mode": "0644",
+      "size": 548721,
+      "sha256": "9912767a3aacb4af2ba8041d955a3a59c9f48f9b504b85eaeb7f779df47da0e8"
+    },
+    {
+      "path": "v21_map_sm_datatypes/named_bits.go",
+      "mode": "0644",
+      "size": 477,
+      "sha256": "430dea36ffd3898eac99aa8f50c7a6b2c274902bcd68bf3055e6ede570efed8e"
+    },
+    {
+      "path": "v21_map_sm_datatypes/value-codecs.go",
+      "mode": "0644",
+      "size": 33718,
+      "sha256": "f0107a938da8ed210998502a60c86415e97beaf998b5293f7cae26fecc20d8a2"
+    },
+    {
+      "path": "v21_map_ss_code/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2497,
+      "sha256": "d1aaaafed0ad02ec6095cc02365677effa9874d604e99345a92950e901b29ef2"
+    },
+    {
+      "path": "v21_map_ss_code/ber_value.go",
+      "mode": "0644",
+      "size": 583,
+      "sha256": "03dd3e4f30dd0ea2150ff9070aea367dbb8b39039d49c0eb77479f3966f23c5d"
+    },
+    {
+      "path": "v21_map_ss_code/mapsscode.go",
+      "mode": "0644",
+      "size": 6964,
+      "sha256": "6c4ee5db99cddaeeb89ac2df722d32b3f0571be007988ceaf46bff17d3f5ef9e"
+    },
+    {
+      "path": "v21_map_ss_code/value-codecs.go",
+      "mode": "0644",
+      "size": 25401,
+      "sha256": "7ae21e71bdcd998ba62da28e46268d89e173df975ed14cd4a83a7d732ac64e69"
+    },
+    {
+      "path": "v21_map_ss_datatypes/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2502,
+      "sha256": "a9f6f0f5bc50e5db884b738eb75902e2a460d9edcf409228b7e5ba5e767e55e4"
+    },
+    {
+      "path": "v21_map_ss_datatypes/ber_value.go",
+      "mode": "0644",
+      "size": 588,
+      "sha256": "a0ded503bd8b14c734584671bf3a5827c3d663cd807ca3172039a36408bc7037"
+    },
+    {
+      "path": "v21_map_ss_datatypes/mapssdatatypes.go",
+      "mode": "0644",
+      "size": 433618,
+      "sha256": "14492ab77c3796cd2ce243a7bd82b1abfdb7d17cbd9349655f9c7bb218439f82"
+    },
+    {
+      "path": "v21_map_ss_datatypes/named_bits.go",
+      "mode": "0644",
+      "size": 515,
+      "sha256": "3d25b31c75d221fe3f8f42a1ab93559dcf2f5c59b4e890266a81e1127ea9a3eb"
+    },
+    {
+      "path": "v21_map_ss_datatypes/value-codecs.go",
+      "mode": "0644",
+      "size": 36670,
+      "sha256": "423a9f9be1a5ea7b63bf1b7cc38e743abe6c203079cbc99f237c882b47ac3adc"
+    },
+    {
+      "path": "v21_map_ts_code/ber-error-paths.go",
+      "mode": "0644",
+      "size": 2497,
+      "sha256": "eafd3cfeb68071854da6272a34443e054b40842839edbcb079ee33a8e0bfca6b"
+    },
+    {
+      "path": "v21_map_ts_code/ber_value.go",
+      "mode": "0644",
+      "size": 583,
+      "sha256": "87acd085bfd363402509d878f5f0ca9e62675d37475e816648e7ecb536a91563"
+    },
+    {
+      "path": "v21_map_ts_code/maptscode.go",
+      "mode": "0644",
+      "size": 4141,
+      "sha256": "d8f6af5153837e1dbfff6efa11be16ed6ce6315d31426c8c74e19e46fd2c4af0"
+    },
+    {
+      "path": "v21_map_ts_code/value-codecs.go",
+      "mode": "0644",
+      "size": 25991,
+      "sha256": "7ce72856108d88b1200defaed70da9432589b475dd886f9198fd8735f418f36b"
+    },
+    {
+      "path": "value-codecs.go",
+      "mode": "0644",
+      "size": 204773,
+      "sha256": "2c8e43f9497c58d71c737508c35dc5e1828766e0092e4a2b1286be63e1b6ee88"
+    }
+  ],
+  "go_toolchain": "go1.26.9"
+}

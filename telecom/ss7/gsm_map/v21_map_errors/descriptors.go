@@ -19,45 +19,6 @@ type NoParameter struct{}
 
 // ErrorValue preserves carrying-component presence independently of source type.
 type ErrorValue[P any] struct{ Parameter *P }
-
-type operationBinding[A, R, E, I, C, W any] struct {
-	code     C
-	info     func() I
-	argument ValueCodec[A]
-	result   ValueCodec[R]
-	decode   func(int64, []byte, bool, ...ber.DecodeOption) (E, error)
-	encode   func(E, ...ber.EncodeOption) (W, error)
-}
-
-func (d operationBinding[A, R, E, I, C, W]) Code() C { return d.code }
-func (d operationBinding[A, R, E, I, C, W]) Info() I {
-	if d.info == nil {
-		var zero I
-		return zero
-	}
-	return d.info()
-}
-func (d operationBinding[A, R, E, I, C, W]) Argument() (ValueCodec[A], bool) {
-	return d.argument, d.argument.valid()
-}
-func (d operationBinding[A, R, E, I, C, W]) Result() (ValueCodec[R], bool) {
-	return d.result, d.result.valid()
-}
-func (d operationBinding[A, R, E, I, C, W]) encodeError(v E, opts ...ber.EncodeOption) (W, error) {
-	if d.encode == nil {
-		var zero W
-		return zero, ber.ErrInvalidBinding
-	}
-	return d.encode(v, opts...)
-}
-func (d operationBinding[A, R, E, I, C, W]) decodeError(code int64, data []byte, present bool, opts ...ber.DecodeOption) (E, error) {
-	if d.decode == nil {
-		var zero E
-		return zero, ber.ErrInvalidBinding
-	}
-	return d.decode(code, data, present, opts...)
-}
-
 type errorBinding[P, I, C any] struct {
 	code      C
 	info      func() I

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context_test.go; SHA-256 2bed6c4239a042d98602fa5257318b8560c85ea861d16dab1aee88240819765d.
+// Runtime source: runtime/ber/generated_context_test.go; SHA-256 afc8dfecdfc5f49eef0b4ebce7c7e621d8ac23654cec504fdb7e8e7fab83acb6.
 package ber
 
 import (
@@ -738,4 +738,67 @@ func FuzzGeneratedBERContext(f *testing.F) {
 			t.Fatalf("validated element decoded %d/%d bytes: %v", total, len(prepared), err)
 		}
 	})
+}
+
+// Exported fields exercise the typed baseline comparison used by generated values.
+func TestGeneratedTypedReplaySnapshotsRootBeforeMutation(t *testing.T) {
+	type value struct {
+		Contents byte
+		node     *ReplayNode
+	}
+	input := []byte{0x04, 0x81, 0x01, 'A'}
+	options := TrackBERForm(nil)
+	owned, err := OwnGeneratedBERInput(input, options)
+	if err != nil {
+		t.Fatal(err)
+	}
+	data, options, err := PrepareGeneratedBERInput(owned, options)
+	if err != nil {
+		t.Fatal(err)
+	}
+	decoded := &value{Contents: 'A', node: CaptureGeneratedBERReplay(data, options)}
+	encodes := 0
+	encode := func(v *value, options ...EncodeOption) ([]byte, error) {
+		encodes++
+		if _, err := PrepareBERReplay(v.node, options, nil, v); err != nil {
+			return nil, err
+		}
+		return PreserveEncodedBERNode([]byte{0x04, 0x01, v.Contents}, v.node, options), nil
+	}
+	compare := func(a, b *value, _ *BERReplayComparisons) int {
+		if a.Contents == b.Contents {
+			return int(berValueEqual)
+		}
+		return int(berValueDifferent)
+	}
+	if err := CompleteGeneratedBERDecode(options, decoded, encode, compare); err != nil {
+		t.Fatal(err)
+	}
+	if encodes != 0 {
+		t.Fatalf("typed decode encoded baseline %d times, want none", encodes)
+	}
+	input[3] = 'X'
+	prepared, err := PrepareBERReplay(decoded.node, nil, func(mode EncodeOption) ([]byte, error) {
+		return encode(decoded, mode)
+	}, decoded)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if replay, ok := PreparedBERReplay(decoded.node, prepared); !ok || !bytes.Equal(replay, []byte{0x04, 0x81, 0x01, 'A'}) {
+		t.Fatalf("unchanged replay = %x, enabled %t", replay, ok)
+	}
+	decoded.Contents = 'B'
+	prepared, err = PrepareBERReplay(decoded.node, nil, func(mode EncodeOption) ([]byte, error) {
+		return encode(decoded, mode)
+	}, decoded)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if replay, ok := PreparedBERReplay(decoded.node, prepared); ok && !bytes.Equal(replay, []byte{0x04, 0x01, 'B'}) {
+		t.Fatalf("changed replay = %x, enabled %t", replay, ok)
+	}
+	encoded, err := encode(decoded, prepared...)
+	if err != nil || !bytes.Equal(encoded, []byte{0x04, 0x01, 'B'}) {
+		t.Fatalf("edited encode=%x: %v", encoded, err)
+	}
 }

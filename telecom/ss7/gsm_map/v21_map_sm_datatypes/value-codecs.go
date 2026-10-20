@@ -5,6 +5,7 @@ package v21_map_sm_datatypes
 import (
 	"fmt"
 	"math/big"
+	"reflect"
 	"strings"
 	"unicode/utf8"
 
@@ -43,6 +44,7 @@ func (c ValueCodec[T]) EncodeDER(value T) ([]byte, error) {
 	}
 	return c.der(value)
 }
+
 func pointerValueCodec[T any](decode func([]byte, ...ber.DecodeOption) (*T, error), encode func(*T, ...ber.EncodeOption) ([]byte, error), der func(*T) ([]byte, error)) ValueCodec[T] {
 	return ValueCodec[T]{
 		decode: func(data []byte, opts ...ber.DecodeOption) (T, error) {
@@ -326,7 +328,9 @@ func stageMAPEncodeReports(opts []ber.EncodeOption) ([]ber.EncodeOption, func(bo
 	}
 	return ber.StageGeneratedEncodeReports(opts)
 }
-func marshalFramedValue[T any](value *T, node *ber.ReplayNode, opts []ber.EncodeOption, recursive, fresh func(*T, ...ber.EncodeOption) ([]byte, error), flags byte, decoders ...func([]byte, ...ber.DecodeOption) (*T, error)) (encoded []byte, returnErr error) {
+
+// P is supplied as *T by generated entries, sharing the pointer shape.
+func marshalFramedValue[P any](value P, node *ber.ReplayNode, opts []ber.EncodeOption, recursive, fresh func(P, ...ber.EncodeOption) ([]byte, error), flags byte, decoders ...func([]byte, ...ber.DecodeOption) (P, error)) (encoded []byte, returnErr error) {
 	if mapProfileEnabled && flags&2 == 0 {
 		opts = ber.GenericMAPEncodeOptions(opts)
 	}
@@ -367,7 +371,7 @@ func marshalFramedValue[T any](value *T, node *ber.ReplayNode, opts []ber.Encode
 					_, err := decoders[0](data, options...)
 					return err
 				}
-				decoder, ok := any(new(T)).(interface {
+				decoder, ok := reflect.New(reflect.TypeOf(value).Elem()).Interface().(interface {
 					UnmarshalBER([]byte, ...ber.DecodeOption) error
 				})
 				if !ok {
