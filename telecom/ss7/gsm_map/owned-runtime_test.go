@@ -48,8 +48,24 @@ func TestFreshCanonicalOpaqueValues(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			wire, want := opaqueWire(t, tc.wire), opaqueWire(t, tc.want)
-			if err := tc.value.UnmarshalBER(wire); err != nil {
+			var profileReports ber.ViolationLog
+			var decodeOptions []ber.DecodeOption
+			var encodeOptions []ber.EncodeOption
+			if tc.name == "typed control" {
+				if err := tc.value.UnmarshalBER(wire); !errors.Is(err, ber.ErrInvalidValue) {
+					t.Fatalf("strict MAP length profile: %v", err)
+				}
+				decodeOptions = []ber.DecodeOption{ber.WithTolerance(&profileReports)}
+				encodeOptions = []ber.EncodeOption{ber.WithTolerance(new(ber.ViolationLog))}
+			}
+			if err := tc.value.UnmarshalBER(wire, decodeOptions...); err != nil {
 				t.Fatal(err)
+			}
+			if tc.name == "typed control" {
+				rows := profileReports.Snapshot()
+				if len(rows) != 1 || rows[0].Rule.Clause != "17.1.1" {
+					t.Fatalf("MAP profile records=%+v", rows)
+				}
 			}
 			if container, ok := tc.value.(*ExtensionContainer); ok {
 				if container.PrivateExtensionList == nil || len(container.PrivateExtensionList.Values) != 1 || container.PrivateExtensionList.Values[0].ExtType == nil {
@@ -60,7 +76,7 @@ func TestFreshCanonicalOpaqueValues(t *testing.T) {
 					t.Fatalf("received NULL identifier: %+v", raw)
 				}
 			}
-			replay, err := tc.value.MarshalBER()
+			replay, err := tc.value.MarshalBER(encodeOptions...)
 			if err != nil || !bytes.Equal(replay, wire) {
 				t.Fatalf("replay=%x: %v", replay, err)
 			}
@@ -114,13 +130,13 @@ func TestOwnedModesReplayAndEdits(t *testing.T) {
 		{"without capture", []ber.DecodeOption{ber.WithoutReplayCapture()}, false},
 	} {
 		t.Run(mode.name, func(t *testing.T) {
-			wire := opaqueWire(t, "3080808101018202f1210000")
+			wire := opaqueWire(t, "30808001018202f1210000")
 			saved := bytes.Clone(wire)
 			var value PDPContextInfo
 			if err := value.UnmarshalBER(wire, mode.options...); err != nil {
 				t.Fatal(err)
 			}
-			wire[5] = 0x2a // Caller input storage is not retained as mutable replay authority.
+			wire[4] = 0x2a // Caller input storage is not retained as mutable replay authority.
 			got, err := value.MarshalBER()
 			if err != nil {
 				t.Fatal(err)
@@ -155,7 +171,7 @@ func TestOwnedModesReplayAndEdits(t *testing.T) {
 }
 
 // Source INTEGER constraint, X.680 (02/2021) §51.4. The MAP §17.1.1
-// encoding profile is independent of this check and is not activated here.
+// encoding profile is independent of this source constraint check.
 func TestOwnedConstraintLocationAndStaging(t *testing.T) {
 	valid := opaqueWire(t, "30078001018202f121")
 	invalid := opaqueWire(t, "30078001008202f121")

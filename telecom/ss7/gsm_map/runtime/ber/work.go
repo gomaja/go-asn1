@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 23c4f73af4d24177b95a0ee0eba81e9a643c5208c73c0515e71d842ac2ab009f.
+// Runtime source: runtime/ber/work.go; SHA-256 f20463d830cec46c327863ef5146a953dd8e7d829dcd8e0652967339789ebbc8.
 package ber
 
 import (
@@ -47,6 +47,19 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 	config, err := decodeOptions(options)
 	if err != nil {
 		return err
+	}
+	// TS 29.002 V19.1.0 §17.1.1 applies only to MAP-defined content.
+	// A standalone BER walk cannot identify foreign open values (X.690
+	// (02/2021) §8.15), so require a generated typed decoder to claim them.
+	if config.form != nil && config.form.mapSyntax == mapSyntaxProfile {
+		return fmt.Errorf("%w: MAP profile requires a generated MAP decoder", ErrInvalidValue)
+	}
+	// An unknown CHOICE alternative is a complete foreign encoding, including
+	// its identifier and length (X.690 (02/2021) §8.15; TS 29.002 §17.1.1).
+	if len(options) == 1 {
+		if child, ok := options[0].(*generatedDecodeOption); ok && child.component == "UnknownExtension" {
+			excludeMAPOpaque(config, data, len(data))
+		}
 	}
 	if config.form != nil && config.generatedMode == generatedModeProof && config.form.lightInput == nil {
 		config.form.proofNeeded = true
@@ -281,6 +294,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			contents = data[start : start+length]
 		}
 		markBERForm(config.form, t, data[pos+tagLen:start], indefinite, contents)
+		collectMAPForm(config.form, data, pos, t, data[pos+tagLen:start], indefinite)
 		// X.690 (02/2021) §§8.23.3, 8.23.10: UTF-8 characters may span
 		// OCTET STRING fragments. Share one bounded concatenation across
 		// nested fragments and validate it when the UTF8String closes.

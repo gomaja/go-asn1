@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/preflight_path.go; SHA-256 48257f03c90321bc1b9e391b5795cc2dfc82002a867c3cdc260754ae6e1a1d9c.
+// Runtime source: runtime/ber/preflight_path.go; SHA-256 700848c300a2b21c681493feba3edb7b427e56cc17ebc411fd680fab4b984f04.
 package ber
 
 import (
@@ -144,11 +144,17 @@ func MarkPreflightElement(options []DecodeOption, index int, raw []byte) {
 	if len(options) == 1 {
 		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil && context.config.location != nil {
 			context.config.location.rememberElement(index, raw)
+			if context.config.form != nil && context.config.form.mapPending != nil {
+				claimMAPElement(context.config, options, fmt.Sprintf("element[%d]", index), raw)
+			}
 			return
 		}
 	}
 	if config, err := decodeOptions(options); err == nil && config.location != nil {
 		config.location.rememberElement(index, raw)
+		if config.form != nil && config.form.mapPending != nil {
+			claimMAPElement(config, options, fmt.Sprintf("element[%d]", index), raw)
+		}
 	}
 }
 
@@ -157,6 +163,7 @@ func MarkPreflightElement(options []DecodeOption, index int, raw []byte) {
 // It scans each opaque field once only during a failed diagnostic decode.
 func MarkPreflightOpaque(options []DecodeOption, name string, raw []byte, length int) {
 	if config, err := decodeOptions(options); err == nil {
+		excludeMAPOpaque(config, raw, length)
 		locateUTF8Reports(config, config.location, raw, name, length, options)
 	}
 	options = expandGeneratedDecodeOptions(options)

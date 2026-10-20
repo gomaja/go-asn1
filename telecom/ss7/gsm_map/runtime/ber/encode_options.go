@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/encode_options.go; SHA-256 293570ce8a89aa2fee14d18e24bc4fa1824d41a133d8710c1a20f4a31e0f68c0.
+// Runtime source: runtime/ber/encode_options.go; SHA-256 16651265bdc12a9a653703c966deb87265620ad6f1c8607509baddfd2d5c2c7d.
 package ber
 
 import "fmt"
@@ -38,9 +38,9 @@ func WithoutBERReplay() EncodeOption { return withoutBERReplayOption{} }
 // BERReplayEnabled reports whether valid encode options permit replay of a
 // typed value's retained BER form. Both comparison streams must use the same
 // generated BER form; X.690 (02/2021) §8.1.3 permits alternate length forms.
-// A strict operation also disables envelope and EXTERNAL copies after an edit when its
-// decode retained a violation: value equality does not establish the received
-// value satisfies its source constraints. Tolerant replay remains available.
+// A strict operation disables whole-envelope and EXTERNAL copies after an edit
+// when its decode retained a violation. Clean child spans may still be reused
+// after the final value checks; tolerant replay remains available.
 // Malformed options return false; generated entry points must still reject
 // them with ValidateEncodeOptions.
 func BERReplayEnabled(options []EncodeOption) bool {

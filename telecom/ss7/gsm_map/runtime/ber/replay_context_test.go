@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_context_test.go; SHA-256 c5d127b2f49f2f52e7427f34989a0b846587496de0318ee4bce13b9f9fea6009.
+// Runtime source: runtime/ber/replay_context_test.go; SHA-256 4370a8e6bcada51066d9328134c893490398356d720704428ddacfab516e4997.
 package ber
 
 import (
@@ -791,11 +791,7 @@ func TestBERReplayChildMappingPrefersExactLaterElement(t *testing.T) {
 func TestBERReplayChildMappingUsesReceivedTag(t *testing.T) {
 	state := new(ReplayState)
 	parentNode := &ReplayNode{state: state}
-	wireTag, _, err := DecodeTag([]byte{0xa5})
-	if err != nil {
-		t.Fatal(err)
-	}
-	childNode := &ReplayNode{state: state, wireTag: wireTag, wireTagKnown: true}
+	childNode := &ReplayNode{state: state, wireTagKnown: true}
 	child := []byte{0xa4, 0x03, 0x04, 0x01, 'A'}
 	parent := []byte{0x30, 0x0e, 0xa4, 0x80, 0x04, 0x01, 'A', 0, 0, 0xa5, 0x80, 0x04, 0x01, 'A', 0, 0}
 	collector := new(replayCollector)
@@ -817,11 +813,7 @@ func TestBERReplayChildMappingAcceptsImplicitRetag(t *testing.T) {
 	state := new(ReplayState)
 	parentNode := &ReplayNode{state: state}
 	child := []byte{0xbf, 0x41, 0x03, 0x80, 0x01, 0x01}
-	wireTag, _, err := DecodeTag(child)
-	if err != nil {
-		t.Fatal(err)
-	}
-	childNode := &ReplayNode{state: state, wireTag: wireTag, wireTagKnown: true}
+	childNode := &ReplayNode{state: state, wireTagKnown: true}
 	parent := []byte{0xa4, 0x03, 0x80, 0x01, 0x01}
 	collector := new(replayCollector)
 	collector.enter(parentNode)
@@ -839,12 +831,8 @@ func TestBERReplayChildMappingAcceptsImplicitRetag(t *testing.T) {
 func TestBERReplayIndexedChildMappingPrefersReceivedTag(t *testing.T) {
 	state := new(ReplayState)
 	parentNode := &ReplayNode{state: state}
-	wireTag, _, err := DecodeTag([]byte{0xa5})
-	if err != nil {
-		t.Fatal(err)
-	}
-	first := &ReplayNode{state: state, wireTag: wireTag, wireTagKnown: true}
-	second := &ReplayNode{state: state, wireTag: wireTag, wireTagKnown: true}
+	first := &ReplayNode{state: state, wireTagKnown: true}
+	second := &ReplayNode{state: state, wireTagKnown: true}
 	parent := []byte{0x30, 0x14,
 		0xa3, 0x04, 0x04, 0x02, 0x00, 0x00,
 		0xa4, 0x80, 0x04, 0x01, 'A', 0, 0,
@@ -925,10 +913,6 @@ func TestBERReplayUniqueAlternateChildrenScaleWithInput(t *testing.T) {
 }
 
 func TestBERReplayUniqueImplicitChildrenScaleWithInput(t *testing.T) {
-	wireTag, _, err := DecodeTag([]byte{0xa5})
-	if err != nil {
-		t.Fatal(err)
-	}
 	measure := func(count int) float64 {
 		check := func() {
 			state := new(ReplayState)
@@ -937,7 +921,7 @@ func TestBERReplayUniqueImplicitChildrenScaleWithInput(t *testing.T) {
 			collector.enter(parentNode)
 			contents := make([]byte, 0, count*6)
 			for index := range count {
-				childNode := &ReplayNode{state: state, wireTag: wireTag, wireTagKnown: true}
+				childNode := &ReplayNode{state: state, wireTagKnown: true}
 				collector.enter(childNode)
 				collector.leave(childNode, []byte{0xa4, 0x04, 0x04, 0x02, byte(index >> 8), byte(index)})
 				start := len(contents)

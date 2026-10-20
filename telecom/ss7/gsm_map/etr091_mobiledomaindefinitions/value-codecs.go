@@ -80,6 +80,23 @@ func compositeValueCodec[T any, P compositeCodecPointer[T]]() ValueCodec[T] {
 	}
 }
 
+const mapProfileEnabled = true
+
+func mapSourceProfile(source string) bool {
+	module, _, _ := strings.Cut(source, ".")
+	switch module {
+	case "MobileDomainDefinitions":
+		return false
+	}
+	return true
+}
+func trackMAPSource(opts []ber.DecodeOption, source string) []ber.DecodeOption {
+	if strings.HasPrefix(source, "MAP-") {
+		return ber.TrackMAPForm(opts)
+	}
+	return ber.TrackMAPSyntax(opts, mapSourceProfile(source))
+}
+
 type primitiveRule[T any] struct {
 	invalid             func(T) bool
 	length              func(T) int
@@ -128,6 +145,7 @@ func checkPrimitiveRules[T any](value T, rules []primitiveRule[T], source, name 
 // primitiveValueCodec shares framing and replay mechanics; source-specific
 // validation remains statically typed and bound by each factory.
 func primitiveValueCodec[T any](source, name string, rules []primitiveRule[T], decode func([]byte, ...ber.DecodeOption) (T, int, error), encode func(T, bool) ([]byte, error), normalize func(T, bool, []ber.DecodeOption, []ber.EncodeOption) (T, error)) ValueCodec[BERValue[T]] {
+	profile := mapSourceProfile(source)
 	var c ValueCodec[BERValue[T]]
 	fresh := func(value T, der bool, opts []ber.EncodeOption) ([]byte, error) {
 		if err := ber.ValidateEncodeOptions(opts...); err != nil {
@@ -148,7 +166,7 @@ func primitiveValueCodec[T any](source, name string, rules []primitiveRule[T], d
 	c.decode = func(data []byte, opts ...ber.DecodeOption) (result BERValue[T], returnErr error) {
 		opts, commit := ber.StageDecodeReports(opts)
 		defer func() { commit(returnErr == nil) }()
-		opts = ber.TrackBERForm(opts)
+		opts = ber.TrackMAPSyntax(opts, profile)
 		owned, err := ber.OwnGeneratedBERInput(data, opts)
 		if err != nil {
 			return result, err
@@ -188,20 +206,41 @@ func primitiveValueCodec[T any](source, name string, rules []primitiveRule[T], d
 		return result, nil
 	}
 	c.encode = func(value BERValue[T], opts ...ber.EncodeOption) (encoded []byte, returnErr error) {
+		if mapProfileEnabled && !profile {
+			opts = ber.GenericMAPEncodeOptions(opts)
+		}
 		opts, commit := ber.StageEncodeReports(opts)
 		defer func() { commit(returnErr == nil) }()
+		if value.berReplayNode_ == nil {
+			return fresh(value.Value, false, opts)
+		}
+		boundary := mapProfileEnabled && ber.MAPEncodeBoundary(opts)
 		opts, err := ber.PrepareBERReplay(value.berReplayNode_, opts, func(mode ber.EncodeOption) ([]byte, error) { return c.EncodeBER(value, mode) }, &value)
 		if err != nil {
 			return nil, err
 		}
 		if replay, ok := ber.PreparedBERReplay(value.berReplayNode_, opts); ok {
-			return replay, nil
+			encoded = replay
+		} else {
+			data, err := fresh(value.Value, false, opts)
+			if err != nil {
+				return nil, err
+			}
+			encoded = ber.PreserveEncodedBERNode(data, value.berReplayNode_, opts)
 		}
-		data, err := fresh(value.Value, false, opts)
-		if err != nil {
-			return nil, err
+		if boundary {
+			returnErr = ber.CheckMAPEncoded(encoded, value.berReplayNode_, opts, func(data []byte, options ...ber.DecodeOption) error {
+				_, err := c.DecodeBER(data, options...)
+				return err
+			})
 		}
-		return ber.PreserveEncodedBERNode(data, value.berReplayNode_, opts), nil
+		if mapProfileEnabled && !boundary {
+			returnErr = ber.DeferMAPEncodeCheck(value.berReplayNode_, opts)
+		}
+		if returnErr != nil {
+			encoded = nil
+		}
+		return encoded, returnErr
 	}
 	c.der = func(value BERValue[T]) ([]byte, error) {
 		data, err := fresh(value.Value, true, nil)
@@ -275,28 +314,81 @@ func bitValueCodec(source, name string, rules []primitiveRule[runtime.BitString]
 
 // marshalFramedValue owns report staging and received-form replay for every
 // generated schema value. Fresh callbacks retain the original typed checks.
-func marshalFramedValue[T any](value *T, node *ber.ReplayNode, opts []ber.EncodeOption, recursive, fresh func(*T, ...ber.EncodeOption) ([]byte, error), fast bool) (encoded []byte, returnErr error) {
-	opts, commit := ber.StageEncodeReports(opts)
-	defer func() { commit(returnErr == nil) }()
-	if fast && node == nil {
-		return fresh(value, opts...)
+// This private slice is read-only after package initialization. A strict
+// generated call carries no mutable report state, and child appends are
+// capacity-limited. It is never returned through the public typed API.
+var mapRootEncodeOptions, mapRootEncodeCommit = ber.StageGeneratedEncodeReports(nil)
+
+func stageMAPEncodeReports(opts []ber.EncodeOption) ([]ber.EncodeOption, func(bool)) {
+	if !mapProfileEnabled {
+		return ber.StageEncodeReports(opts)
 	}
-	var err error
-	opts, err = ber.PrepareBERReplay(node, opts, func(mode ber.EncodeOption) ([]byte, error) { return recursive(value, mode) }, value)
-	if err != nil {
-		return nil, err
+	if len(opts) == 0 {
+		return mapRootEncodeOptions, mapRootEncodeCommit
 	}
-	if data, ok := ber.PreparedBERReplay(node, opts); ok {
-		return data, nil
-	}
-	data, err := fresh(value, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return ber.PreserveEncodedBERNode(data, node, opts), nil
+	return ber.StageGeneratedEncodeReports(opts)
 }
+func marshalFramedValue[T any](value *T, node *ber.ReplayNode, opts []ber.EncodeOption, recursive, fresh func(*T, ...ber.EncodeOption) ([]byte, error), flags byte, decoders ...func([]byte, ...ber.DecodeOption) (*T, error)) (encoded []byte, returnErr error) {
+	if mapProfileEnabled && flags&2 == 0 {
+		opts = ber.GenericMAPEncodeOptions(opts)
+	}
+	boundary := mapProfileEnabled && ber.MAPEncodeBoundary(opts)
+	opts, commit := stageMAPEncodeReports(opts)
+	defer func() { commit(returnErr == nil) }()
+	if flags&1 != 0 && node == nil {
+		encoded, returnErr = fresh(value, opts...)
+	} else {
+		var err error
+		opts, err = ber.PrepareBERReplay(node, opts, func(mode ber.EncodeOption) ([]byte, error) { return recursive(value, mode) }, value)
+		if err != nil {
+			return nil, err
+		}
+		if data, ok := ber.PreparedBERReplay(node, opts); ok {
+			encoded = data
+		} else {
+			data, err := fresh(value, opts...)
+			encoded, returnErr = data, err
+			if err == nil {
+				encoded = ber.PreserveEncodedBERNode(data, node, opts)
+			}
+		}
+	}
+	retry := false
+	if returnErr != nil && boundary {
+		var retryOpts []ber.EncodeOption
+		retryOpts, retry = ber.RetryMAPEncode(returnErr, opts)
+		if retry {
+			encoded, returnErr = recursive(value, retryOpts...)
+			node = nil
+		}
+	}
+	if returnErr == nil && mapProfileEnabled {
+		if boundary && (node != nil || retry) {
+			returnErr = ber.CheckMAPEncoded(encoded, node, opts, func(data []byte, options ...ber.DecodeOption) error {
+				if len(decoders) > 0 {
+					_, err := decoders[0](data, options...)
+					return err
+				}
+				decoder, ok := any(new(T)).(interface {
+					UnmarshalBER([]byte, ...ber.DecodeOption) error
+				})
+				if !ok {
+					return ber.ErrInvalidCodec
+				}
+				return decoder.UnmarshalBER(data, options...)
+			})
+		} else if !boundary && node != nil {
+			returnErr = ber.DeferMAPEncodeCheck(node, opts)
+		}
+	}
+	if returnErr != nil {
+		encoded = nil
+	}
+	return encoded, returnErr
+}
+
 func prepareValueBER(data []byte, opts []ber.DecodeOption, source, pathLabel string, probe func([]byte, []ber.DecodeOption) error) ([]byte, []ber.DecodeOption, error) {
-	opts = ber.TrackBERForm(opts)
+	opts = trackMAPSource(opts, source)
 	owned, err := ber.OwnGeneratedBERInput(data, opts)
 	if err != nil {
 		return nil, opts, err
@@ -526,6 +618,55 @@ func opaqueExtensionError(err error, index int) error {
 		return err
 	}
 	return fmt.Errorf("encoding extension %d: %w", index, err)
+}
+
+// checkPublicMAPEncode covers entries without shared ReplayNode framing.
+func checkPublicMAPEncode[T any](value *T, node *ber.ReplayNode, opts []ber.EncodeOption, data *[]byte, err *error, boundary, external bool) {
+	if !mapProfileEnabled {
+		return
+	}
+	if !boundary {
+		if *err == nil {
+			if external {
+				*err = ber.DeferMAPEncodeCheck(nil, opts, *data)
+			} else {
+				*err = ber.DeferMAPEncodeCheck(node, opts)
+			}
+		}
+		return
+	}
+	retryOpts, retry := ber.RetryMAPEncode(*err, opts)
+	if retry {
+		encoder, ok := any(value).(interface {
+			MarshalBER(...ber.EncodeOption) ([]byte, error)
+		})
+		if !ok {
+			*err = ber.ErrInvalidCodec
+			return
+		}
+		*data, *err = encoder.MarshalBER(retryOpts...)
+		node = nil
+	}
+	if *err != nil || !external && node == nil && !retry {
+		return
+	}
+	decode := func(data []byte, options ...ber.DecodeOption) error {
+		decoder, ok := any(new(T)).(interface {
+			UnmarshalBER([]byte, ...ber.DecodeOption) error
+		})
+		if !ok {
+			return ber.ErrInvalidCodec
+		}
+		return decoder.UnmarshalBER(data, options...)
+	}
+	if external {
+		*err = ber.CheckMAPEncodedElement(*data, opts, decode)
+	} else {
+		*err = ber.CheckMAPEncoded(*data, node, opts, decode)
+	}
+	if *err != nil {
+		*data = nil
+	}
 }
 
 // CommonComponentIdCodec binds MobileDomainDefinitions.CommonComponentId.

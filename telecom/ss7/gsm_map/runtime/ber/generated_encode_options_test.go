@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_encode_options_test.go; SHA-256 cbb67af47d1ca1310c6b64426600b23055543b6ee6b3850d1e76140cc531698f.
+// Runtime source: runtime/ber/generated_encode_options_test.go; SHA-256 81a48c095b9069a5926fc4bd9c469f1762c0ba295b1fd6adb6254b736a959002.
 package ber
 
 import (
@@ -115,7 +115,7 @@ func TestGeneratedEncodeWithoutOptionsIsolatesSiblings(t *testing.T) {
 	}
 }
 
-func TestGeneratedChildReplayTracksRetainedViolationsWithoutComparator(t *testing.T) {
+func TestGeneratedChildReplayTracksProfileSafetyWithoutComparator(t *testing.T) {
 	type value struct{ Node *ReplayNode }
 	for _, tc := range []struct {
 		name             string
@@ -156,8 +156,18 @@ func TestGeneratedChildReplayTracksRetainedViolationsWithoutComparator(t *testin
 				t.Errorf("retained violation = %v, want %v", state.decodeTolerant, tc.violation)
 			}
 			_, replay := ReplayGeneratedBERNode(node, []EncodeOption{replayModeOption{state: state, unchanged: map[*ReplayNode]bool{node: true}}})
-			if replay == tc.violation {
-				t.Errorf("child replay = %v, retained violation %v", replay, tc.violation)
+			// A source-value finding has no compliant re-encoding, so the
+			// strict value pass handles it. Only TS 29.002 V19.1.0 §17.1.1
+			// findings make a received representation unsafe to reuse.
+			if !replay {
+				t.Errorf("source finding disabled profile-safe child replay")
+			}
+			if tc.violation {
+				state.profileIndex = &replayProfileIndex{offsets: []int{0}}
+				_, replay = ReplayGeneratedBERNode(node, []EncodeOption{replayModeOption{state: state, unchanged: map[*ReplayNode]bool{node: true}}})
+				if replay {
+					t.Error("retained profile finding replayed dirty child")
+				}
 			}
 			commit(true)
 		})

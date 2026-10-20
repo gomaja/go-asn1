@@ -34,7 +34,7 @@ func (v *PruAssociationRejParam) MarshalBER(opts ...ber.EncodeOption) (returnByt
 	if v == nil {
 		return nil, fmt.Errorf("%w: PruAssociationRejParam receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*PruAssociationRejParam).MarshalBER, (*PruAssociationRejParam).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*PruAssociationRejParam).MarshalBER, (*PruAssociationRejParam).marshalBER, 1)
 
 }
 func (v *PruAssociationRejParam) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {

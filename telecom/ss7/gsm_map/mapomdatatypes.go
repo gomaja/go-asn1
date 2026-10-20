@@ -952,7 +952,7 @@ func (v *ActivateTraceModeArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: ActivateTraceModeArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ActivateTraceModeArg).MarshalBER, (*ActivateTraceModeArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ActivateTraceModeArg).MarshalBER, (*ActivateTraceModeArg).marshalBER, 3)
 
 }
 func (v *ActivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1912,7 +1912,7 @@ func (v *MDTConfiguration) MarshalBER(opts ...ber.EncodeOption) (returnBytes []b
 	if v == nil {
 		return nil, fmt.Errorf("%w: MDTConfiguration receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*MDTConfiguration).MarshalBER, (*MDTConfiguration).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MDTConfiguration).MarshalBER, (*MDTConfiguration).marshalBER, 3)
 
 }
 func (v *MDTConfiguration) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -3283,7 +3283,7 @@ func MarshalBERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList, opts ...be
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERMDTAllowedPLMNIdList, marshalBERMDTAllowedPLMNIdList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERMDTAllowedPLMNIdList, marshalBERMDTAllowedPLMNIdList, 3, UnmarshalBERMDTAllowedPLMNIdList)
 
 }
 func marshalBERMDTAllowedPLMNIdList(collection *MDTAllowedPLMNIdList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -3440,7 +3440,7 @@ func (v *AreaScope) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, re
 	if v == nil {
 		return nil, fmt.Errorf("%w: AreaScope receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*AreaScope).MarshalBER, (*AreaScope).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*AreaScope).MarshalBER, (*AreaScope).marshalBER, 3)
 
 }
 func (v *AreaScope) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -4187,7 +4187,7 @@ func MarshalBERCGIList(collection *CGIList, opts ...ber.EncodeOption) (returnByt
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERCGIList, marshalBERCGIList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERCGIList, marshalBERCGIList, 3, UnmarshalBERCGIList)
 
 }
 func marshalBERCGIList(collection *CGIList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -4347,7 +4347,7 @@ func MarshalBEREUTRANCGIList(collection *EUTRANCGIList, opts ...ber.EncodeOption
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBEREUTRANCGIList, marshalBEREUTRANCGIList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBEREUTRANCGIList, marshalBEREUTRANCGIList, 3, UnmarshalBEREUTRANCGIList)
 
 }
 func marshalBEREUTRANCGIList(collection *EUTRANCGIList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -4507,7 +4507,7 @@ func MarshalBERRoutingAreaIdList(collection *RoutingAreaIdList, opts ...ber.Enco
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERRoutingAreaIdList, marshalBERRoutingAreaIdList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERRoutingAreaIdList, marshalBERRoutingAreaIdList, 3, UnmarshalBERRoutingAreaIdList)
 
 }
 func marshalBERRoutingAreaIdList(collection *RoutingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -4667,7 +4667,7 @@ func MarshalBERLocationAreaIdList(collection *LocationAreaIdList, opts ...ber.En
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERLocationAreaIdList, marshalBERLocationAreaIdList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERLocationAreaIdList, marshalBERLocationAreaIdList, 3, UnmarshalBERLocationAreaIdList)
 
 }
 func marshalBERLocationAreaIdList(collection *LocationAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -4827,7 +4827,7 @@ func MarshalBERTrackingAreaIdList(collection *TrackingAreaIdList, opts ...ber.En
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERTrackingAreaIdList, marshalBERTrackingAreaIdList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERTrackingAreaIdList, marshalBERTrackingAreaIdList, 3, UnmarshalBERTrackingAreaIdList)
 
 }
 func marshalBERTrackingAreaIdList(collection *TrackingAreaIdList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -4984,7 +4984,7 @@ func (v *TraceDepthList) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 	if v == nil {
 		return nil, fmt.Errorf("%w: TraceDepthList receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*TraceDepthList).MarshalBER, (*TraceDepthList).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*TraceDepthList).MarshalBER, (*TraceDepthList).marshalBER, 3)
 
 }
 func (v *TraceDepthList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -6078,7 +6078,7 @@ func (v *TraceInterfaceList) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	if v == nil {
 		return nil, fmt.Errorf("%w: TraceInterfaceList receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*TraceInterfaceList).MarshalBER, (*TraceInterfaceList).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*TraceInterfaceList).MarshalBER, (*TraceInterfaceList).marshalBER, 3)
 
 }
 func (v *TraceInterfaceList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -7173,7 +7173,7 @@ func (v *TraceEventList) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 	if v == nil {
 		return nil, fmt.Errorf("%w: TraceEventList receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*TraceEventList).MarshalBER, (*TraceEventList).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*TraceEventList).MarshalBER, (*TraceEventList).marshalBER, 3)
 
 }
 func (v *TraceEventList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -8080,7 +8080,7 @@ func (v *TracePropagationList) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: TracePropagationList receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*TracePropagationList).MarshalBER, (*TracePropagationList).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*TracePropagationList).MarshalBER, (*TracePropagationList).marshalBER, 3)
 
 }
 func (v *TracePropagationList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -9254,7 +9254,7 @@ func (v *ActivateTraceModeRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: ActivateTraceModeRes receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ActivateTraceModeRes).MarshalBER, (*ActivateTraceModeRes).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ActivateTraceModeRes).MarshalBER, (*ActivateTraceModeRes).marshalBER, 3)
 
 }
 func (v *ActivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -9515,7 +9515,7 @@ func (v *DeactivateTraceModeArg) MarshalBER(opts ...ber.EncodeOption) (returnByt
 	if v == nil {
 		return nil, fmt.Errorf("%w: DeactivateTraceModeArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*DeactivateTraceModeArg).MarshalBER, (*DeactivateTraceModeArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*DeactivateTraceModeArg).MarshalBER, (*DeactivateTraceModeArg).marshalBER, 3)
 
 }
 func (v *DeactivateTraceModeArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -9934,7 +9934,7 @@ func (v *DeactivateTraceModeRes) MarshalBER(opts ...ber.EncodeOption) (returnByt
 	if v == nil {
 		return nil, fmt.Errorf("%w: DeactivateTraceModeRes receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*DeactivateTraceModeRes).MarshalBER, (*DeactivateTraceModeRes).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*DeactivateTraceModeRes).MarshalBER, (*DeactivateTraceModeRes).marshalBER, 3)
 
 }
 func (v *DeactivateTraceModeRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {

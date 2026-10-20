@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/validation.go; SHA-256 2401a884f6572f4d39e2779f7e3ea582e81edbea53abeb148d00977aa389f22d.
+// Runtime source: runtime/ber/validation.go; SHA-256 d6479afa0005e26befddab38709052cef9f91cb33d96db6a7c5848bfd8827ea6.
 package ber
 
 import (
@@ -91,13 +91,17 @@ func LocateDecodedElement(data []byte, source string, options []DecodeOption) []
 			locateUTF8Reports(config, &located.location, data, "", len(data), options)
 			located.context = *parent
 			located.context.config.location = &located.location
+			beginMAPDecode(located.context.config.form, &located.location, []DecodeOption{&located.context}, data)
 			return []DecodeOption{&located.context}
 		}
 	}
 	location := new(decodeLocation)
 	initializeDecodeLocation(location, data, source, config, options)
 	locateUTF8Reports(config, location, data, "", len(data), options)
-	return append(options[:len(options):len(options)], decodeLocationOption{location})
+	options = append(options[:len(options):len(options)], decodeLocationOption{location})
+	config.location = location
+	beginMAPDecode(config.form, location, options, data)
+	return options
 }
 
 // A generated context and its call-local location have the same lifetime.
@@ -212,6 +216,9 @@ func rememberDecodedElement(options []DecodeOption, name string, raw []byte) {
 	config, err := decodeOptions(options)
 	if err != nil || config.location == nil {
 		return
+	}
+	if config.form != nil && config.form.mapPending != nil {
+		claimMAPElement(config, options, name, raw)
 	}
 	origin := config.location.origin
 	if offset, ok := config.location.wireOffset(raw); ok {
@@ -414,6 +421,23 @@ func ReplayCaptureEnabled(options []DecodeOption) bool {
 // LocateDecodeError locates a typed failure after bounded BER preflight.
 // Existing element locations and causes are retained through nested codecs.
 func LocateDecodeError(err error, options []DecodeOption) error {
+	if err == nil && len(options) == 1 {
+		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
+			form := context.config.form
+			if form == nil || !form.mapProfile() {
+				return nil
+			}
+			if form.mapDepth > 0 && (form.mapDepth > 1 || form.mapPending == nil) {
+				form.mapDepth--
+				return nil
+			}
+		}
+	}
+	if config, optionErr := decodeOptions(options); optionErr == nil && config.form != nil && config.form.mapProfile() {
+		if profileErr := finishMAPDecode(err, config); profileErr != nil {
+			err = profileErr
+		}
+	}
 	if err == nil {
 		return nil
 	}

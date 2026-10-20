@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 f498aca836ce3991a2d9a7e93b6af7d0c8e1d6f275054a6f0ee278c3d71a1380.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 8061969c7fc6abea87e0f28f26f6f4e829471a6258711c8f3786cbafd06b66ac.
 package ber
 
 import (
@@ -234,6 +234,7 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 	}
 	if len(options) == 1 {
 		if form, ok := options[0].(berFormOption); ok && form.state != nil {
+			form.state.generated = true
 			if rootHasIndefiniteLength(data) && len(data) <= DefaultDecodeLimits().MaxWork {
 				form.state.owned = bytes.Clone(data)
 				return form.state.owned, nil
@@ -252,6 +253,7 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 	if config.form == nil {
 		return nil, fmt.Errorf("%w: generated BER form tracker is unavailable", ErrInvalidValue)
 	}
+	config.form.generated = true
 	if config.generatedMode == generatedModeProof || config.generatedMode != generatedModeLight && config.form.lightInput == nil && rootHasIndefiniteLength(data) {
 		if len(data) > config.limits.MaxWork {
 			return data, nil

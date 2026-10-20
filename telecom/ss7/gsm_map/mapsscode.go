@@ -245,7 +245,7 @@ func MarshalBERSSCode(value *BERValue[SSCode], opts ...ber.EncodeOption) (return
 	if value == nil {
 		return nil, fmt.Errorf("%w: required SSCode is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERSSCode, marshalBERSSCode, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERSSCode, marshalBERSSCode, 2, UnmarshalBERSSCode)
 
 }
 func marshalBERSSCode(value *BERValue[SSCode], opts ...ber.EncodeOption) ([]byte, error) {

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 768e07ba4e5514d128d8dce89367463895337ecbfc71913d2dc633cc9c644973.
+// Runtime source: runtime/ber/constraints.go; SHA-256 8f989d3c7215ccd7edbffc3e030326348f9e08172e5bf79101a90b7735d6d7d1.
 package ber
 
 import (
@@ -759,6 +759,7 @@ func ToleranceEnabled(options []DecodeOption) bool {
 }
 
 type berFormState struct {
+	generated       bool
 	preserve        bool
 	captureDisabled bool
 	validated       *validatedBERSource
@@ -778,8 +779,11 @@ func (option berFormOption) applyDecode(config *decodeConfig) error {
 }
 
 // TrackBERForm shares one form marker across a generated value and its children.
+// The returned options can be reused for generated decodes and are safe to
+// share between goroutines: each root receives its own form state.
 // X.690 (02/2021) §§8.1.3, 8.7.3 and 10.2 allow BER forms that DER forbids.
 func TrackBERForm(options []DecodeOption) []DecodeOption {
+	formPresent := false
 	for _, option := range options {
 		if diagnostic, ok := option.(diagnosticChildOption); ok {
 			if generatedDecodeHasForm(diagnostic.options) {
@@ -792,8 +796,23 @@ func TrackBERForm(options []DecodeOption) []DecodeOption {
 			return options
 		}
 		if _, ok := option.(berFormOption); ok {
-			return options
+			formPresent = true
 		}
+	}
+	if formPresent {
+		tracked := append([]DecodeOption(nil), options...)
+		for index, option := range options {
+			form, ok := option.(berFormOption)
+			if !ok {
+				continue
+			}
+			state := &berFormState{}
+			if form.state != nil {
+				state.captureDisabled = form.state.captureDisabled
+			}
+			tracked[index] = berFormOption{state: state}
+		}
+		return tracked
 	}
 	tracked := append([]DecodeOption(nil), options...)
 	config, _ := decodeOptions(options)

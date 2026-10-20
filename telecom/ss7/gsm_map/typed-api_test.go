@@ -828,14 +828,61 @@ func TestTypedErrorSelection(t *testing.T) {
 	if !ok {
 		t.Fatal("primitive argument missing")
 	}
+	// TS 29.002 V19.1.0 §17.1.1: a known argument's nonminimal
+	// header requires explicit tolerance, including byte-exact replay.
 	wire := []byte{4, 0x81, 1, 0x91}
-	v, err := argument.DecodeBER(wire)
+	checkProfile := func(violation ber.Violation, encoded bool) {
+		t.Helper()
+		if violation.Kind != ber.ProtocolRule || violation.Rule != (ber.RuleRef{Document: "3GPP TS 29.002", Edition: "V19.1.0", Clause: "17.1.1"}) || violation.Constraint != "TS 29.002 §17.1.1: short-length" || violation.Source != "MAP-CommonDataTypes.ISDN-AddressString" || violation.Path != "ISDN-AddressString" {
+			t.Fatalf("primitive profile record: %+v", violation)
+		}
+		if encoded {
+			if violation.Offset != nil || violation.OctetOffset != nil || violation.ChildIndexes != nil {
+				t.Fatalf("primitive encode coordinates: %+v", violation)
+			}
+		} else if violation.Offset == nil || *violation.Offset != 0 || violation.OctetOffset != nil || violation.ChildIndexes != nil {
+			t.Fatalf("primitive decode coordinates: %+v", violation)
+		}
+	}
+	if _, err := argument.DecodeBER(wire); err == nil {
+		t.Fatal("strict primitive argument accepted a nonminimal length")
+	} else {
+		var violation *ber.ValidationError
+		var element *ber.ElementError
+		if !errors.As(err, &violation) || !errors.As(err, &element) {
+			t.Fatalf("strict primitive argument: %T %v", err, err)
+		}
+		checkProfile(violation.Violation, false)
+		if element.Offset() != *violation.Offset || !reflect.DeepEqual(element.ChildIndexes(), violation.ChildIndexes) {
+			t.Fatalf("primitive decode wrapper location: %v %+v", element, violation.Violation)
+		}
+	}
+	var incoming ber.ViolationLog
+	v, err := argument.DecodeBER(wire, ber.WithTolerance(&incoming))
 	if err != nil {
 		t.Fatal(err)
 	}
-	replayed, err := argument.EncodeBER(v)
+	if rows := incoming.Snapshot(); len(rows) != 1 {
+		t.Fatalf("primitive decode reports: %+v", rows)
+	} else {
+		checkProfile(rows[0], false)
+	}
+	if _, err := argument.EncodeBER(v); err == nil {
+		t.Fatal("strict primitive argument replay accepted a profile violation")
+	} else if violation, ok := err.(*ber.ValidationError); !ok {
+		t.Fatalf("strict primitive argument replay: %T %v", err, err)
+	} else {
+		checkProfile(violation.Violation, true)
+	}
+	var outgoing ber.ViolationLog
+	replayed, err := argument.EncodeBER(v, ber.WithTolerance(&outgoing))
 	if err != nil || !bytes.Equal(wire, replayed) {
 		t.Fatalf("primitive replay %x %v", replayed, err)
+	}
+	if rows := outgoing.Snapshot(); len(rows) != 1 {
+		t.Fatalf("primitive encode reports: %+v", rows)
+	} else {
+		checkProfile(rows[0], true)
 	}
 	var log ber.ViolationLog
 	bad, err := IMSICodec().DecodeBER([]byte{4, 1, 1}, ber.WithTolerance(&log))
