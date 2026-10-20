@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 bd264aff3d7443ed734947f5a721a4050b4b3ab9efc2e8120887e845d44c28e8.
+// Runtime source: runtime/ber/constraints.go; SHA-256 79c9428529caebb053ce3636d4611dd8aa955343ce3b2c28d1bd3c74fb9986c0.
 package ber
 
 import (
@@ -155,6 +155,11 @@ type wireViolationKey struct {
 
 func reportKey(record Violation) violationKey {
 	key := violationKey{scope: record.scope, path: record.Path, constraint: record.Constraint, source: record.source, offset: -1}
+	if record.encodeRecord {
+		// Abstract positions identify encode findings even when opaque values
+		// share storage, or a repeated check rebuilds the same opaque bytes.
+		key.source = weak.Pointer[byte]{}
+	}
 	if record.Offset != nil {
 		key.offset = *record.Offset
 		key.path = ""
@@ -237,7 +242,7 @@ func (log *ViolationLog) findLocked(record Violation) (int, bool) {
 	if index, exists := log.seen[reportKey(record)]; exists {
 		return index, true
 	}
-	if record.source != (weak.Pointer[byte]{}) && record.OctetOffset != nil {
+	if !record.encodeRecord && record.source != (weak.Pointer[byte]{}) && record.OctetOffset != nil {
 		wireKey := wireViolationKey{record.scope, record.Constraint, record.source, *record.OctetOffset}
 		if index, exists := log.wire[wireKey]; exists && (record.preflight || log.records[index].preflight) {
 			return index, true
@@ -271,7 +276,7 @@ func (log *ViolationLog) appendLocked(record Violation) {
 	if log.seen == nil {
 		log.seen = make(map[violationKey]int)
 	}
-	if record.source != (weak.Pointer[byte]{}) && record.OctetOffset != nil {
+	if !record.encodeRecord && record.source != (weak.Pointer[byte]{}) && record.OctetOffset != nil {
 		wireKey := wireViolationKey{record.scope, record.Constraint, record.source, *record.OctetOffset}
 		if log.wire == nil {
 			log.wire = make(map[wireViolationKey]int)

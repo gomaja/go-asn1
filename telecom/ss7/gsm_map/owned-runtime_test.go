@@ -8,12 +8,18 @@ import (
 	"errors"
 	"fmt"
 	"reflect"
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/ros"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_lcs_datatypes"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ms_datatypes"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_om_datatypes"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_sm_datatypes"
+	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/v21_map_ss_datatypes"
 )
 
 func opaqueWire(t *testing.T, value string) []byte {
@@ -623,7 +629,7 @@ func TestNamedBitSizeEncodeError(t *testing.T) {
 	}
 	_, err := NewSupportedRATTypes(8)
 	ve, ok := err.(*ber.ValidationError)
-	if !ok || ve.Path != "" || ve.Source != "MAP-MS-DataTypes.SupportedRAT-Types" || ve.Constraint != "SIZE (2..8)" || ve.Rule.Clause != "51.5" || ve.ObservedLength == nil || *ve.ObservedLength != 9 {
+	if !ok || ve.Path != "SupportedRAT-Types" || ve.Source != "MAP-MS-DataTypes.SupportedRAT-Types" || ve.Constraint != "SIZE (2..8)" || ve.Rule.Clause != "51.5" || ve.ObservedLength == nil || *ve.ObservedLength != 9 {
 		t.Fatalf("builder: %T %+v", err, err)
 	}
 	var log ber.ViolationLog
@@ -716,6 +722,7 @@ func TestTolerantOpaqueOrdinalGrowth(t *testing.T) {
 func TestDEROpaqueValidationError(t *testing.T) {
 	bad := []byte{12, 1, 255}
 	pdp := PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{bad}}
+	later := PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{{5, 0}, {2, 1, 1}, bad}}
 	open := PrivateExtension{ExtId: runtime.MustObjectIdentifierFromArcs(1, 2, 3), ExtType: &runtime.RawValue{Class: 0, Tag: 12, Bytes: bad}}
 	nested := ExtensionContainer{PrivateExtensionList: &PrivateExtensionList{Values: []PrivateExtension{open}}}
 	for _, item := range []struct {
@@ -724,6 +731,7 @@ func TestDEROpaqueValidationError(t *testing.T) {
 		der  func() ([]byte, error)
 	}{
 		{"addition", func() ([]byte, error) { return pdp.MarshalBER() }, pdp.MarshalDER},
+		{"addition i=2", func() ([]byte, error) { return later.MarshalBER() }, later.MarshalDER},
 		{"addition codec", func() ([]byte, error) { return PDPContextInfoCodec().EncodeBER(pdp) }, func() ([]byte, error) { return PDPContextInfoCodec().EncodeDER(pdp) }},
 		{"open", func() ([]byte, error) { return open.MarshalBER() }, open.MarshalDER},
 		{"nested open", func() ([]byte, error) { return nested.MarshalBER() }, nested.MarshalDER},
@@ -782,5 +790,396 @@ func TestNamedBitEncodeObservedSignificantLength(t *testing.T) {
 				t.Fatalf("strict: %T %v", err, err)
 			}
 		}
+	}
+}
+
+// Refusal rescans retain one UTF-8 finding while still checking later structure.
+func TestOpaqueRefusalAfterUTF8(t *testing.T) {
+	for _, tc := range []struct {
+		name          string
+		wire          []byte
+		structural    bool
+		offset, index int
+		suffix        string
+	}{
+		{"later BOOLEAN", []byte{0x30, 7, 12, 1, 255, 1, 2, 0, 0}, true, 5, 1, ""},
+		{"over budget", append([]byte{12, 0x82, 4, 1}, bytes.Repeat([]byte{255}, 1025)...), false, 0, 0, ""},
+		{"many strings", append([]byte{0x30, 0x82, 0x0c, 3}, bytes.Repeat([]byte{12, 1, 255}, 1025)...), false, 0, 0, ".child[0]"},
+		{"structure past budget", append(append([]byte{0x30, 0x82, 0x0c, 7}, bytes.Repeat([]byte{12, 1, 255}, 1025)...), 1, 2, 0, 0), true, 3079, 1025, ""},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			tag := int(tc.wire[0] & 31)
+			open := &PrivateExtension{ExtId: runtime.MustObjectIdentifierFromArcs(1, 2, 3), ExtType: &runtime.RawValue{Tag: tag, Constructed: tc.wire[0]&32 != 0, Bytes: tc.wire}}
+			addition := &PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{tc.wire}}
+			for _, shape := range []struct {
+				name, path, source string
+				value              interface {
+					MarshalBER(...ber.EncodeOption) ([]byte, error)
+					MarshalDER() ([]byte, error)
+				}
+			}{
+				{"open", "extType", "MAP-ExtensionDataTypes.PrivateExtension.extType", open},
+				{"addition", "child[2]", "MAP-MS-DataTypes.PDP-ContextInfo", addition},
+			} {
+				t.Run(shape.name, func(t *testing.T) {
+					for _, mode := range []struct {
+						name   string
+						encode func() ([]byte, error)
+					}{
+						{"BER", func() ([]byte, error) { return shape.value.MarshalBER() }},
+						{"fresh", func() ([]byte, error) { return shape.value.MarshalBER(ber.WithoutBERReplay()) }},
+						{"DER", shape.value.MarshalDER},
+					} {
+						t.Run(mode.name, func(t *testing.T) {
+							wire, err := mode.encode()
+							var ve *ber.ValidationError
+							if len(wire) != 0 || err == nil {
+								t.Fatalf("accepted: %x %v", wire, err)
+							}
+							if tc.structural {
+								var ee *ber.ElementError
+								if errors.As(err, &ve) || !strings.Contains(err.Error(), "BOOLEAN") || !errors.As(err, &ee) || ee.Offset() != tc.offset || !reflect.DeepEqual(ee.ChildIndexes(), []int{tc.index}) {
+									t.Fatalf("structural: %T %v", err, err)
+								}
+							} else {
+								if !errors.As(err, &ve) || ve.Path != shape.path+tc.suffix || ve.Source != shape.source || ve.Rule.Clause != "8.23.10" {
+									t.Fatalf("UTF-8: %T %+v", err, err)
+								}
+							}
+						})
+					}
+				})
+			}
+		})
+	}
+}
+
+// Standalone builders use the ASN.1 assignment name as the abstract root path;
+// inline builders retain the component suffix. Cover current and version-21 codecs.
+type compactBitCase struct {
+	name, source, path string
+	maximum            int
+	encode             func(runtime.BitString, ...ber.EncodeOption) ([]byte, error)
+	der                func(runtime.BitString) ([]byte, error)
+	build              func(...int) (runtime.BitString, error)
+}
+
+func compactBitCaseFor[T any](name, source, path string, maximum int, codec interface {
+	EncodeBER(T, ...ber.EncodeOption) ([]byte, error)
+	EncodeDER(T) ([]byte, error)
+}, wrap func(runtime.BitString) T, build func(...int) (runtime.BitString, error)) compactBitCase {
+	return compactBitCase{name, source, path, maximum, func(v runtime.BitString, o ...ber.EncodeOption) ([]byte, error) {
+		return codec.EncodeBER(wrap(v), o...)
+	}, func(v runtime.BitString) ([]byte, error) { return codec.EncodeDER(wrap(v)) }, build}
+}
+func TestCompactNamedBitRefusalLocations(t *testing.T) {
+	for _, tc := range []compactBitCase{
+		compactBitCaseFor("v21_map_lcs_datatypes.LCSDeferredLocationEventType", "MAP-LCS-DataTypes.DeferredLocationEventType", "DeferredLocationEventType", 16, v21_map_lcs_datatypes.LCSDeferredLocationEventTypeCodec(), func(v runtime.BitString) v21_map_lcs_datatypes.BERValue[v21_map_lcs_datatypes.LCSDeferredLocationEventType] {
+			return v21_map_lcs_datatypes.BERValue[v21_map_lcs_datatypes.LCSDeferredLocationEventType]{Value: v}
+		}, v21_map_lcs_datatypes.NewLCSDeferredLocationEventType),
+		compactBitCaseFor("v21_map_lcs_datatypes.LCSSupportedGADShapes", "MAP-LCS-DataTypes.SupportedGADShapes", "SupportedGADShapes", 16, v21_map_lcs_datatypes.LCSSupportedGADShapesCodec(), func(v runtime.BitString) v21_map_lcs_datatypes.BERValue[v21_map_lcs_datatypes.LCSSupportedGADShapes] {
+			return v21_map_lcs_datatypes.BERValue[v21_map_lcs_datatypes.LCSSupportedGADShapes]{Value: v}
+		}, v21_map_lcs_datatypes.NewLCSSupportedGADShapes),
+		compactBitCaseFor("v21_map_ms_datatypes.MSSupportedRATTypes", "MAP-MS-DataTypes.SupportedRAT-Types", "SupportedRAT-Types", 8, v21_map_ms_datatypes.MSSupportedRATTypesCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSupportedRATTypes] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSupportedRATTypes]{Value: v}
+		}, v21_map_ms_datatypes.NewMSSupportedRATTypes),
+		compactBitCaseFor("v21_map_ms_datatypes.MSSupportedLCSCapabilitySets", "MAP-MS-DataTypes.SupportedLCS-CapabilitySets", "SupportedLCS-CapabilitySets", 16, v21_map_ms_datatypes.MSSupportedLCSCapabilitySetsCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSupportedLCSCapabilitySets] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSupportedLCSCapabilitySets]{Value: v}
+		}, v21_map_ms_datatypes.NewMSSupportedLCSCapabilitySets),
+		compactBitCaseFor("v21_map_ms_datatypes.MSISRInformation", "MAP-MS-DataTypes.ISR-Information", "ISR-Information", 8, v21_map_ms_datatypes.MSISRInformationCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSISRInformation] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSISRInformation]{Value: v}
+		}, v21_map_ms_datatypes.NewMSISRInformation),
+		compactBitCaseFor("v21_map_ms_datatypes.MSSupportedFeatures", "MAP-MS-DataTypes.SupportedFeatures", "SupportedFeatures", 40, v21_map_ms_datatypes.MSSupportedFeaturesCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSupportedFeatures] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSupportedFeatures]{Value: v}
+		}, v21_map_ms_datatypes.NewMSSupportedFeatures),
+		compactBitCaseFor("v21_map_ms_datatypes.MSExtSupportedFeatures", "MAP-MS-DataTypes.Ext-SupportedFeatures", "Ext-SupportedFeatures", 40, v21_map_ms_datatypes.MSExtSupportedFeaturesCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSExtSupportedFeatures] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSExtSupportedFeatures]{Value: v}
+		}, v21_map_ms_datatypes.NewMSExtSupportedFeatures),
+		compactBitCaseFor("v21_map_ms_datatypes.MSLCLSNegotiation", "MAP-MS-DataTypes.LCLS-Negotiation", "LCLS-Negotiation", 8, v21_map_ms_datatypes.MSLCLSNegotiationCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSLCLSNegotiation] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSLCLSNegotiation]{Value: v}
+		}, v21_map_ms_datatypes.NewMSLCLSNegotiation),
+		compactBitCaseFor("v21_map_ms_datatypes.MSLCLSConfigurationPreference", "MAP-MS-DataTypes.LCLS-ConfigurationPreference", "LCLS-ConfigurationPreference", 8, v21_map_ms_datatypes.MSLCLSConfigurationPreferenceCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSLCLSConfigurationPreference] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSLCLSConfigurationPreference]{Value: v}
+		}, v21_map_ms_datatypes.NewMSLCLSConfigurationPreference),
+		compactBitCaseFor("v21_map_ms_datatypes.MSRequestedEquipmentInfo", "MAP-MS-DataTypes.RequestedEquipmentInfo", "RequestedEquipmentInfo", 8, v21_map_ms_datatypes.MSRequestedEquipmentInfoCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSRequestedEquipmentInfo] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSRequestedEquipmentInfo]{Value: v}
+		}, v21_map_ms_datatypes.NewMSRequestedEquipmentInfo),
+		compactBitCaseFor("v21_map_ms_datatypes.MSAccessRestrictionData", "MAP-MS-DataTypes.AccessRestrictionData", "AccessRestrictionData", 8, v21_map_ms_datatypes.MSAccessRestrictionDataCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSAccessRestrictionData] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSAccessRestrictionData]{Value: v}
+		}, v21_map_ms_datatypes.NewMSAccessRestrictionData),
+		compactBitCaseFor("v21_map_ms_datatypes.MSExtAccessRestrictionData", "MAP-MS-DataTypes.Ext-AccessRestrictionData", "Ext-AccessRestrictionData", 32, v21_map_ms_datatypes.MSExtAccessRestrictionDataCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSExtAccessRestrictionData] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSExtAccessRestrictionData]{Value: v}
+		}, v21_map_ms_datatypes.NewMSExtAccessRestrictionData),
+		compactBitCaseFor("v21_map_ms_datatypes.MSODBGeneralData", "MAP-MS-DataTypes.ODB-GeneralData", "ODB-GeneralData", 32, v21_map_ms_datatypes.MSODBGeneralDataCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSODBGeneralData] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSODBGeneralData]{Value: v}
+		}, v21_map_ms_datatypes.NewMSODBGeneralData),
+		compactBitCaseFor("v21_map_ms_datatypes.MSODBHPLMNData", "MAP-MS-DataTypes.ODB-HPLMN-Data", "ODB-HPLMN-Data", 32, v21_map_ms_datatypes.MSODBHPLMNDataCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSODBHPLMNData] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSODBHPLMNData]{Value: v}
+		}, v21_map_ms_datatypes.NewMSODBHPLMNData),
+		compactBitCaseFor("v21_map_ms_datatypes.MSSpecificCSIWithdraw", "MAP-MS-DataTypes.SpecificCSI-Withdraw", "SpecificCSI-Withdraw", 32, v21_map_ms_datatypes.MSSpecificCSIWithdrawCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSpecificCSIWithdraw] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSpecificCSIWithdraw]{Value: v}
+		}, v21_map_ms_datatypes.NewMSSpecificCSIWithdraw),
+		compactBitCaseFor("v21_map_ms_datatypes.MSSupportedCamelPhases", "MAP-MS-DataTypes.SupportedCamelPhases", "SupportedCamelPhases", 16, v21_map_ms_datatypes.MSSupportedCamelPhasesCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSupportedCamelPhases] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSSupportedCamelPhases]{Value: v}
+		}, v21_map_ms_datatypes.NewMSSupportedCamelPhases),
+		compactBitCaseFor("v21_map_ms_datatypes.MSOfferedCamel4CSIs", "MAP-MS-DataTypes.OfferedCamel4CSIs", "OfferedCamel4CSIs", 16, v21_map_ms_datatypes.MSOfferedCamel4CSIsCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSOfferedCamel4CSIs] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSOfferedCamel4CSIs]{Value: v}
+		}, v21_map_ms_datatypes.NewMSOfferedCamel4CSIs),
+		compactBitCaseFor("v21_map_ms_datatypes.MSOfferedCamel4Functionalities", "MAP-MS-DataTypes.OfferedCamel4Functionalities", "OfferedCamel4Functionalities", 64, v21_map_ms_datatypes.MSOfferedCamel4FunctionalitiesCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSOfferedCamel4Functionalities] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSOfferedCamel4Functionalities]{Value: v}
+		}, v21_map_ms_datatypes.NewMSOfferedCamel4Functionalities),
+		compactBitCaseFor("v21_map_ms_datatypes.MSAdditionalSubscriptions", "MAP-MS-DataTypes.AdditionalSubscriptions", "AdditionalSubscriptions", 8, v21_map_ms_datatypes.MSAdditionalSubscriptionsCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSAdditionalSubscriptions] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSAdditionalSubscriptions]{Value: v}
+		}, v21_map_ms_datatypes.NewMSAdditionalSubscriptions),
+		compactBitCaseFor("v21_map_ms_datatypes.MSRequestedNodes", "MAP-MS-DataTypes.RequestedNodes", "RequestedNodes", 8, v21_map_ms_datatypes.MSRequestedNodesCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSRequestedNodes] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSRequestedNodes]{Value: v}
+		}, v21_map_ms_datatypes.NewMSRequestedNodes),
+		compactBitCaseFor("v21_map_ms_datatypes.MSRequestedServingNode", "MAP-MS-DataTypes.RequestedServingNode", "RequestedServingNode", 8, v21_map_ms_datatypes.MSRequestedServingNodeCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSRequestedServingNode] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSRequestedServingNode]{Value: v}
+		}, v21_map_ms_datatypes.NewMSRequestedServingNode),
+		compactBitCaseFor("v21_map_ms_datatypes.MSServingNode", "MAP-MS-DataTypes.ServingNode", "ServingNode", 8, v21_map_ms_datatypes.MSServingNodeCodec(), func(v runtime.BitString) v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSServingNode] {
+			return v21_map_ms_datatypes.BERValue[v21_map_ms_datatypes.MSServingNode]{Value: v}
+		}, v21_map_ms_datatypes.NewMSServingNode),
+		compactBitCaseFor("v21_map_om_datatypes.OMTraceNETypeList", "MAP-OM-DataTypes.TraceNE-TypeList", "TraceNE-TypeList", 16, v21_map_om_datatypes.OMTraceNETypeListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMTraceNETypeList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMTraceNETypeList]{Value: v}
+		}, v21_map_om_datatypes.NewOMTraceNETypeList),
+		compactBitCaseFor("v21_map_om_datatypes.OMMSCSInterfaceList", "MAP-OM-DataTypes.MSC-S-InterfaceList", "MSC-S-InterfaceList", 16, v21_map_om_datatypes.OMMSCSInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMSCSInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMSCSInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMMSCSInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMMGWInterfaceList", "MAP-OM-DataTypes.MGW-InterfaceList", "MGW-InterfaceList", 8, v21_map_om_datatypes.OMMGWInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMGWInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMGWInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMMGWInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMSGSNInterfaceList", "MAP-OM-DataTypes.SGSN-InterfaceList", "SGSN-InterfaceList", 16, v21_map_om_datatypes.OMSGSNInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMSGSNInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMSGSNInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMSGSNInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMGGSNInterfaceList", "MAP-OM-DataTypes.GGSN-InterfaceList", "GGSN-InterfaceList", 8, v21_map_om_datatypes.OMGGSNInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMGGSNInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMGGSNInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMGGSNInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMRNCInterfaceList", "MAP-OM-DataTypes.RNC-InterfaceList", "RNC-InterfaceList", 8, v21_map_om_datatypes.OMRNCInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMRNCInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMRNCInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMRNCInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMBMSCInterfaceList", "MAP-OM-DataTypes.BMSC-InterfaceList", "BMSC-InterfaceList", 8, v21_map_om_datatypes.OMBMSCInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMBMSCInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMBMSCInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMBMSCInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMMMEInterfaceList", "MAP-OM-DataTypes.MME-InterfaceList", "MME-InterfaceList", 8, v21_map_om_datatypes.OMMMEInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMMEInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMMEInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMMMEInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMSGWInterfaceList", "MAP-OM-DataTypes.SGW-InterfaceList", "SGW-InterfaceList", 8, v21_map_om_datatypes.OMSGWInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMSGWInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMSGWInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMSGWInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMPGWInterfaceList", "MAP-OM-DataTypes.PGW-InterfaceList", "PGW-InterfaceList", 16, v21_map_om_datatypes.OMPGWInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMPGWInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMPGWInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMPGWInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMENBInterfaceList", "MAP-OM-DataTypes.ENB-InterfaceList", "ENB-InterfaceList", 8, v21_map_om_datatypes.OMENBInterfaceListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMENBInterfaceList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMENBInterfaceList]{Value: v}
+		}, v21_map_om_datatypes.NewOMENBInterfaceList),
+		compactBitCaseFor("v21_map_om_datatypes.OMMSCSEventList", "MAP-OM-DataTypes.MSC-S-EventList", "MSC-S-EventList", 16, v21_map_om_datatypes.OMMSCSEventListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMSCSEventList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMSCSEventList]{Value: v}
+		}, v21_map_om_datatypes.NewOMMSCSEventList),
+		compactBitCaseFor("v21_map_om_datatypes.OMMGWEventList", "MAP-OM-DataTypes.MGW-EventList", "MGW-EventList", 8, v21_map_om_datatypes.OMMGWEventListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMGWEventList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMGWEventList]{Value: v}
+		}, v21_map_om_datatypes.NewOMMGWEventList),
+		compactBitCaseFor("v21_map_om_datatypes.OMSGSNEventList", "MAP-OM-DataTypes.SGSN-EventList", "SGSN-EventList", 16, v21_map_om_datatypes.OMSGSNEventListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMSGSNEventList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMSGSNEventList]{Value: v}
+		}, v21_map_om_datatypes.NewOMSGSNEventList),
+		compactBitCaseFor("v21_map_om_datatypes.OMGGSNEventList", "MAP-OM-DataTypes.GGSN-EventList", "GGSN-EventList", 8, v21_map_om_datatypes.OMGGSNEventListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMGGSNEventList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMGGSNEventList]{Value: v}
+		}, v21_map_om_datatypes.NewOMGGSNEventList),
+		compactBitCaseFor("v21_map_om_datatypes.OMBMSCEventList", "MAP-OM-DataTypes.BMSC-EventList", "BMSC-EventList", 8, v21_map_om_datatypes.OMBMSCEventListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMBMSCEventList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMBMSCEventList]{Value: v}
+		}, v21_map_om_datatypes.NewOMBMSCEventList),
+		compactBitCaseFor("v21_map_om_datatypes.OMMMEEventList", "MAP-OM-DataTypes.MME-EventList", "MME-EventList", 8, v21_map_om_datatypes.OMMMEEventListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMMEEventList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMMMEEventList]{Value: v}
+		}, v21_map_om_datatypes.NewOMMMEEventList),
+		compactBitCaseFor("v21_map_om_datatypes.OMSGWEventList", "MAP-OM-DataTypes.SGW-EventList", "SGW-EventList", 8, v21_map_om_datatypes.OMSGWEventListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMSGWEventList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMSGWEventList]{Value: v}
+		}, v21_map_om_datatypes.NewOMSGWEventList),
+		compactBitCaseFor("v21_map_om_datatypes.OMPGWEventList", "MAP-OM-DataTypes.PGW-EventList", "PGW-EventList", 8, v21_map_om_datatypes.OMPGWEventListCodec(), func(v runtime.BitString) v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMPGWEventList] {
+			return v21_map_om_datatypes.BERValue[v21_map_om_datatypes.OMPGWEventList]{Value: v}
+		}, v21_map_om_datatypes.NewOMPGWEventList),
+		compactBitCaseFor("v21_map_sm_datatypes.SMMWStatus", "MAP-SM-DataTypes.MW-Status", "MW-Status", 16, v21_map_sm_datatypes.SMMWStatusCodec(), func(v runtime.BitString) v21_map_sm_datatypes.BERValue[v21_map_sm_datatypes.SMMWStatus] {
+			return v21_map_sm_datatypes.BERValue[v21_map_sm_datatypes.SMMWStatus]{Value: v}
+		}, v21_map_sm_datatypes.NewSMMWStatus),
+		compactBitCaseFor("v21_map_ss_datatypes.SSServiceIndicator", "MAP-SS-DataTypes.ServiceIndicator", "ServiceIndicator", 32, v21_map_ss_datatypes.SSServiceIndicatorCodec(), func(v runtime.BitString) v21_map_ss_datatypes.BERValue[v21_map_ss_datatypes.SSServiceIndicator] {
+			return v21_map_ss_datatypes.BERValue[v21_map_ss_datatypes.SSServiceIndicator]{Value: v}
+		}, v21_map_ss_datatypes.NewSSServiceIndicator),
+		compactBitCaseFor("ServiceIndicator", "MAP-SS-DataTypes.ServiceIndicator", "ServiceIndicator", 32, ServiceIndicatorCodec(), func(v runtime.BitString) BERValue[ServiceIndicator] { return BERValue[ServiceIndicator]{Value: v} }, NewServiceIndicator),
+		compactBitCaseFor("TraceNETypeList", "MAP-OM-DataTypes.TraceNE-TypeList", "TraceNE-TypeList", 16, TraceNETypeListCodec(), func(v runtime.BitString) BERValue[TraceNETypeList] { return BERValue[TraceNETypeList]{Value: v} }, NewTraceNETypeList),
+		compactBitCaseFor("MSCSInterfaceList", "MAP-OM-DataTypes.MSC-S-InterfaceList", "MSC-S-InterfaceList", 16, MSCSInterfaceListCodec(), func(v runtime.BitString) BERValue[MSCSInterfaceList] { return BERValue[MSCSInterfaceList]{Value: v} }, NewMSCSInterfaceList),
+		compactBitCaseFor("MGWInterfaceList", "MAP-OM-DataTypes.MGW-InterfaceList", "MGW-InterfaceList", 8, MGWInterfaceListCodec(), func(v runtime.BitString) BERValue[MGWInterfaceList] { return BERValue[MGWInterfaceList]{Value: v} }, NewMGWInterfaceList),
+		compactBitCaseFor("SGSNInterfaceList", "MAP-OM-DataTypes.SGSN-InterfaceList", "SGSN-InterfaceList", 16, SGSNInterfaceListCodec(), func(v runtime.BitString) BERValue[SGSNInterfaceList] { return BERValue[SGSNInterfaceList]{Value: v} }, NewSGSNInterfaceList),
+		compactBitCaseFor("GGSNInterfaceList", "MAP-OM-DataTypes.GGSN-InterfaceList", "GGSN-InterfaceList", 8, GGSNInterfaceListCodec(), func(v runtime.BitString) BERValue[GGSNInterfaceList] { return BERValue[GGSNInterfaceList]{Value: v} }, NewGGSNInterfaceList),
+		compactBitCaseFor("RNCInterfaceList", "MAP-OM-DataTypes.RNC-InterfaceList", "RNC-InterfaceList", 8, RNCInterfaceListCodec(), func(v runtime.BitString) BERValue[RNCInterfaceList] { return BERValue[RNCInterfaceList]{Value: v} }, NewRNCInterfaceList),
+		compactBitCaseFor("BMSCInterfaceList", "MAP-OM-DataTypes.BMSC-InterfaceList", "BMSC-InterfaceList", 8, BMSCInterfaceListCodec(), func(v runtime.BitString) BERValue[BMSCInterfaceList] { return BERValue[BMSCInterfaceList]{Value: v} }, NewBMSCInterfaceList),
+		compactBitCaseFor("MMEInterfaceList", "MAP-OM-DataTypes.MME-InterfaceList", "MME-InterfaceList", 8, MMEInterfaceListCodec(), func(v runtime.BitString) BERValue[MMEInterfaceList] { return BERValue[MMEInterfaceList]{Value: v} }, NewMMEInterfaceList),
+		compactBitCaseFor("SGWInterfaceList", "MAP-OM-DataTypes.SGW-InterfaceList", "SGW-InterfaceList", 8, SGWInterfaceListCodec(), func(v runtime.BitString) BERValue[SGWInterfaceList] { return BERValue[SGWInterfaceList]{Value: v} }, NewSGWInterfaceList),
+		compactBitCaseFor("PGWInterfaceList", "MAP-OM-DataTypes.PGW-InterfaceList", "PGW-InterfaceList", 16, PGWInterfaceListCodec(), func(v runtime.BitString) BERValue[PGWInterfaceList] { return BERValue[PGWInterfaceList]{Value: v} }, NewPGWInterfaceList),
+		compactBitCaseFor("ENBInterfaceList", "MAP-OM-DataTypes.ENB-InterfaceList", "ENB-InterfaceList", 8, ENBInterfaceListCodec(), func(v runtime.BitString) BERValue[ENBInterfaceList] { return BERValue[ENBInterfaceList]{Value: v} }, NewENBInterfaceList),
+		compactBitCaseFor("MSCSEventList", "MAP-OM-DataTypes.MSC-S-EventList", "MSC-S-EventList", 16, MSCSEventListCodec(), func(v runtime.BitString) BERValue[MSCSEventList] { return BERValue[MSCSEventList]{Value: v} }, NewMSCSEventList),
+		compactBitCaseFor("MGWEventList", "MAP-OM-DataTypes.MGW-EventList", "MGW-EventList", 8, MGWEventListCodec(), func(v runtime.BitString) BERValue[MGWEventList] { return BERValue[MGWEventList]{Value: v} }, NewMGWEventList),
+		compactBitCaseFor("SGSNEventList", "MAP-OM-DataTypes.SGSN-EventList", "SGSN-EventList", 16, SGSNEventListCodec(), func(v runtime.BitString) BERValue[SGSNEventList] { return BERValue[SGSNEventList]{Value: v} }, NewSGSNEventList),
+		compactBitCaseFor("GGSNEventList", "MAP-OM-DataTypes.GGSN-EventList", "GGSN-EventList", 8, GGSNEventListCodec(), func(v runtime.BitString) BERValue[GGSNEventList] { return BERValue[GGSNEventList]{Value: v} }, NewGGSNEventList),
+		compactBitCaseFor("BMSCEventList", "MAP-OM-DataTypes.BMSC-EventList", "BMSC-EventList", 8, BMSCEventListCodec(), func(v runtime.BitString) BERValue[BMSCEventList] { return BERValue[BMSCEventList]{Value: v} }, NewBMSCEventList),
+		compactBitCaseFor("MMEEventList", "MAP-OM-DataTypes.MME-EventList", "MME-EventList", 8, MMEEventListCodec(), func(v runtime.BitString) BERValue[MMEEventList] { return BERValue[MMEEventList]{Value: v} }, NewMMEEventList),
+		compactBitCaseFor("SGWEventList", "MAP-OM-DataTypes.SGW-EventList", "SGW-EventList", 8, SGWEventListCodec(), func(v runtime.BitString) BERValue[SGWEventList] { return BERValue[SGWEventList]{Value: v} }, NewSGWEventList),
+		compactBitCaseFor("PGWEventList", "MAP-OM-DataTypes.PGW-EventList", "PGW-EventList", 8, PGWEventListCodec(), func(v runtime.BitString) BERValue[PGWEventList] { return BERValue[PGWEventList]{Value: v} }, NewPGWEventList),
+		compactBitCaseFor("SupportedRATTypes", "MAP-MS-DataTypes.SupportedRAT-Types", "SupportedRAT-Types", 8, SupportedRATTypesCodec(), func(v runtime.BitString) BERValue[SupportedRATTypes] { return BERValue[SupportedRATTypes]{Value: v} }, NewSupportedRATTypes),
+		compactBitCaseFor("SupportedLCSCapabilitySets", "MAP-MS-DataTypes.SupportedLCS-CapabilitySets", "SupportedLCS-CapabilitySets", 16, SupportedLCSCapabilitySetsCodec(), func(v runtime.BitString) BERValue[SupportedLCSCapabilitySets] {
+			return BERValue[SupportedLCSCapabilitySets]{Value: v}
+		}, NewSupportedLCSCapabilitySets),
+		compactBitCaseFor("ISRInformation", "MAP-MS-DataTypes.ISR-Information", "ISR-Information", 8, ISRInformationCodec(), func(v runtime.BitString) BERValue[ISRInformation] { return BERValue[ISRInformation]{Value: v} }, NewISRInformation),
+		compactBitCaseFor("SupportedFeatures", "MAP-MS-DataTypes.SupportedFeatures", "SupportedFeatures", 40, SupportedFeaturesCodec(), func(v runtime.BitString) BERValue[SupportedFeatures] { return BERValue[SupportedFeatures]{Value: v} }, NewSupportedFeatures),
+		compactBitCaseFor("ExtSupportedFeatures", "MAP-MS-DataTypes.Ext-SupportedFeatures", "Ext-SupportedFeatures", 40, ExtSupportedFeaturesCodec(), func(v runtime.BitString) BERValue[ExtSupportedFeatures] {
+			return BERValue[ExtSupportedFeatures]{Value: v}
+		}, NewExtSupportedFeatures),
+		compactBitCaseFor("LCLSNegotiation", "MAP-MS-DataTypes.LCLS-Negotiation", "LCLS-Negotiation", 8, LCLSNegotiationCodec(), func(v runtime.BitString) BERValue[LCLSNegotiation] { return BERValue[LCLSNegotiation]{Value: v} }, NewLCLSNegotiation),
+		compactBitCaseFor("LCLSConfigurationPreference", "MAP-MS-DataTypes.LCLS-ConfigurationPreference", "LCLS-ConfigurationPreference", 8, LCLSConfigurationPreferenceCodec(), func(v runtime.BitString) BERValue[LCLSConfigurationPreference] {
+			return BERValue[LCLSConfigurationPreference]{Value: v}
+		}, NewLCLSConfigurationPreference),
+		compactBitCaseFor("RequestedEquipmentInfo", "MAP-MS-DataTypes.RequestedEquipmentInfo", "RequestedEquipmentInfo", 8, RequestedEquipmentInfoCodec(), func(v runtime.BitString) BERValue[RequestedEquipmentInfo] {
+			return BERValue[RequestedEquipmentInfo]{Value: v}
+		}, NewRequestedEquipmentInfo),
+		compactBitCaseFor("AccessRestrictionData", "MAP-MS-DataTypes.AccessRestrictionData", "AccessRestrictionData", 8, AccessRestrictionDataCodec(), func(v runtime.BitString) BERValue[AccessRestrictionData] {
+			return BERValue[AccessRestrictionData]{Value: v}
+		}, NewAccessRestrictionData),
+		compactBitCaseFor("ExtAccessRestrictionData", "MAP-MS-DataTypes.Ext-AccessRestrictionData", "Ext-AccessRestrictionData", 32, ExtAccessRestrictionDataCodec(), func(v runtime.BitString) BERValue[ExtAccessRestrictionData] {
+			return BERValue[ExtAccessRestrictionData]{Value: v}
+		}, NewExtAccessRestrictionData),
+		compactBitCaseFor("ODBGeneralData", "MAP-MS-DataTypes.ODB-GeneralData", "ODB-GeneralData", 32, ODBGeneralDataCodec(), func(v runtime.BitString) BERValue[ODBGeneralData] { return BERValue[ODBGeneralData]{Value: v} }, NewODBGeneralData),
+		compactBitCaseFor("ODBHPLMNData", "MAP-MS-DataTypes.ODB-HPLMN-Data", "ODB-HPLMN-Data", 32, ODBHPLMNDataCodec(), func(v runtime.BitString) BERValue[ODBHPLMNData] { return BERValue[ODBHPLMNData]{Value: v} }, NewODBHPLMNData),
+		compactBitCaseFor("SpecificCSIWithdraw", "MAP-MS-DataTypes.SpecificCSI-Withdraw", "SpecificCSI-Withdraw", 32, SpecificCSIWithdrawCodec(), func(v runtime.BitString) BERValue[SpecificCSIWithdraw] {
+			return BERValue[SpecificCSIWithdraw]{Value: v}
+		}, NewSpecificCSIWithdraw),
+		compactBitCaseFor("SupportedCamelPhases", "MAP-MS-DataTypes.SupportedCamelPhases", "SupportedCamelPhases", 16, SupportedCamelPhasesCodec(), func(v runtime.BitString) BERValue[SupportedCamelPhases] {
+			return BERValue[SupportedCamelPhases]{Value: v}
+		}, NewSupportedCamelPhases),
+		compactBitCaseFor("OfferedCamel4CSIs", "MAP-MS-DataTypes.OfferedCamel4CSIs", "OfferedCamel4CSIs", 16, OfferedCamel4CSIsCodec(), func(v runtime.BitString) BERValue[OfferedCamel4CSIs] { return BERValue[OfferedCamel4CSIs]{Value: v} }, NewOfferedCamel4CSIs),
+		compactBitCaseFor("OfferedCamel4Functionalities", "MAP-MS-DataTypes.OfferedCamel4Functionalities", "OfferedCamel4Functionalities", 64, OfferedCamel4FunctionalitiesCodec(), func(v runtime.BitString) BERValue[OfferedCamel4Functionalities] {
+			return BERValue[OfferedCamel4Functionalities]{Value: v}
+		}, NewOfferedCamel4Functionalities),
+		compactBitCaseFor("AdditionalSubscriptions", "MAP-MS-DataTypes.AdditionalSubscriptions", "AdditionalSubscriptions", 8, AdditionalSubscriptionsCodec(), func(v runtime.BitString) BERValue[AdditionalSubscriptions] {
+			return BERValue[AdditionalSubscriptions]{Value: v}
+		}, NewAdditionalSubscriptions),
+		compactBitCaseFor("RequestedNodes", "MAP-MS-DataTypes.RequestedNodes", "RequestedNodes", 8, RequestedNodesCodec(), func(v runtime.BitString) BERValue[RequestedNodes] { return BERValue[RequestedNodes]{Value: v} }, NewRequestedNodes),
+		compactBitCaseFor("RequestedServingNode", "MAP-MS-DataTypes.RequestedServingNode", "RequestedServingNode", 8, RequestedServingNodeCodec(), func(v runtime.BitString) BERValue[RequestedServingNode] {
+			return BERValue[RequestedServingNode]{Value: v}
+		}, NewRequestedServingNode),
+		compactBitCaseFor("ServingNode", "MAP-MS-DataTypes.ServingNode", "ServingNode", 8, ServingNodeCodec(), func(v runtime.BitString) BERValue[ServingNode] { return BERValue[ServingNode]{Value: v} }, NewServingNode),
+		compactBitCaseFor("SuppressMTSS", "MAP-CH-DataTypes.SuppressMTSS", "SuppressMTSS", 16, SuppressMTSSCodec(), func(v runtime.BitString) BERValue[SuppressMTSS] { return BERValue[SuppressMTSS]{Value: v} }, NewSuppressMTSS),
+		compactBitCaseFor("AllowedServices", "MAP-CH-DataTypes.AllowedServices", "AllowedServices", 8, AllowedServicesCodec(), func(v runtime.BitString) BERValue[AllowedServices] { return BERValue[AllowedServices]{Value: v} }, NewAllowedServices),
+		compactBitCaseFor("MWStatus", "MAP-SM-DataTypes.MW-Status", "MW-Status", 16, MWStatusCodec(), func(v runtime.BitString) BERValue[MWStatus] { return BERValue[MWStatus]{Value: v} }, NewMWStatus),
+		compactBitCaseFor("DeferredLocationEventType", "MAP-LCS-DataTypes.DeferredLocationEventType", "DeferredLocationEventType", 16, DeferredLocationEventTypeCodec(), func(v runtime.BitString) BERValue[DeferredLocationEventType] {
+			return BERValue[DeferredLocationEventType]{Value: v}
+		}, NewDeferredLocationEventType),
+		compactBitCaseFor("SupportedGADShapes", "MAP-LCS-DataTypes.SupportedGADShapes", "SupportedGADShapes", 16, SupportedGADShapesCodec(), func(v runtime.BitString) BERValue[SupportedGADShapes] { return BERValue[SupportedGADShapes]{Value: v} }, NewSupportedGADShapes),
+		compactBitCaseFor("DeferredLocationExt", "SS-DataTypes.DeferredLocationExt", "DeferredLocationExt", 16, DeferredLocationExtCodec(), func(v runtime.BitString) BERValue[DeferredLocationExt] {
+			return BERValue[DeferredLocationExt]{Value: v}
+		}, NewDeferredLocationExt),
+		compactBitCaseFor("RangingSlExt", "SS-DataTypes.RangingSlExt", "RangingSlExt", 16, RangingSlExtCodec(), func(v runtime.BitString) BERValue[RangingSlExt] { return BERValue[RangingSlExt]{Value: v} }, NewRangingSlExt),
+		compactBitCaseFor("LocationInfo", "SS-DataTypes.LocationInfo", "LocationInfo", 32, LocationInfoCodec(), func(v runtime.BitString) BERValue[LocationInfo] { return BERValue[LocationInfo]{Value: v} }, NewLocationInfo),
+		compactBitCaseFor("ReportingAccessTypes", "SS-DataTypes.ReportingAccessTypes", "ReportingAccessTypes", 16, ReportingAccessTypesCodec(), func(v runtime.BitString) BERValue[ReportingAccessTypes] {
+			return BERValue[ReportingAccessTypes]{Value: v}
+		}, NewReportingAccessTypes),
+		compactBitCaseFor("LCSPruUpdateTrigger", "SS-DataTypes.LCS-PruUpdateTrigger", "LCS-PruUpdateTrigger", 16, LCSPruUpdateTriggerCodec(), func(v runtime.BitString) BERValue[LCSPruUpdateTrigger] {
+			return BERValue[LCSPruUpdateTrigger]{Value: v}
+		}, NewLCSPruUpdateTrigger),
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			bits := runtime.BitString{Bytes: make([]byte, (tc.maximum+8)/8), BitLength: tc.maximum + 1}
+			bits.Bytes[tc.maximum/8] = byte(0x80 >> uint(tc.maximum%8))
+			var log ber.ViolationLog
+			if _, err := tc.encode(bits, ber.WithTolerance(&log)); err != nil {
+				t.Fatal(err)
+			}
+			records := log.Snapshot()
+			if len(records) != 1 {
+				t.Fatalf("records=%+v", records)
+			}
+			want := records[0]
+			if want.Source != tc.source || want.Path != tc.path {
+				t.Fatalf("tolerant=%+v", want)
+			}
+			for _, mode := range []struct {
+				name   string
+				encode func() ([]byte, error)
+			}{
+				{"BER", func() ([]byte, error) { return tc.encode(bits) }},
+				{"fresh", func() ([]byte, error) { return tc.encode(bits, ber.WithoutBERReplay()) }},
+				{"DER", func() ([]byte, error) { return tc.der(bits) }},
+				{"builder", func() ([]byte, error) { _, err := tc.build(tc.maximum); return nil, err }},
+			} {
+				t.Run(mode.name, func(t *testing.T) {
+					_, err := mode.encode()
+					ve, ok := err.(*ber.ValidationError)
+					if !ok || !reflect.DeepEqual(ve.Violation, want) {
+						t.Fatalf("refusal %T %+v; tolerant %+v", err, err, want)
+					}
+				})
+			}
+		})
+	}
+}
+
+func TestAliasedOpaqueEncodeRecords(t *testing.T) {
+	shared := []byte{12, 1, 255}
+	raw := &runtime.RawValue{Class: 0, Tag: 12, Bytes: shared}
+	oid := runtime.MustObjectIdentifierFromArcs(1, 2, 3)
+	for _, tc := range []struct {
+		name  string
+		value interface {
+			MarshalBER(...ber.EncodeOption) ([]byte, error)
+			MarshalDER() ([]byte, error)
+		}
+		paths []string
+	}{
+		{"shared additions", &PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{shared, shared}}, []string{"child[2]", "child[3]"}},
+		{"copied additions", &PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{{12, 1, 255}, {12, 1, 255}}}, []string{"child[2]", "child[3]"}},
+		{"shared opens", &ExtensionContainer{PrivateExtensionList: &PrivateExtensionList{Values: []PrivateExtension{{ExtId: oid, ExtType: raw}, {ExtId: oid, ExtType: raw}}}}, []string{"privateExtensionList.element[0].extType", "privateExtensionList.element[1].extType"}},
+		{"copied opens", &ExtensionContainer{PrivateExtensionList: &PrivateExtensionList{Values: []PrivateExtension{{ExtId: oid, ExtType: &runtime.RawValue{Tag: 12, Bytes: []byte{12, 1, 255}}}, {ExtId: oid, ExtType: &runtime.RawValue{Tag: 12, Bytes: []byte{12, 1, 255}}}}}}, []string{"privateExtensionList.element[0].extType", "privateExtensionList.element[1].extType"}},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var log ber.ViolationLog
+			wire, err := tc.value.MarshalBER(ber.WithTolerance(&log))
+			if err != nil {
+				t.Fatal(err)
+			}
+			records := log.Snapshot()
+			var paths []string
+			for _, record := range records {
+				paths = append(paths, record.Path)
+				if record.Offset != nil || record.OctetOffset != nil || record.ChildIndexes != nil {
+					t.Fatalf("encode coordinates=%+v", record)
+				}
+			}
+			if !reflect.DeepEqual(paths, tc.paths) {
+				t.Fatalf("paths=%v want %v", paths, tc.paths)
+			}
+			// Decode uses received octets and keeps both findings; replay is exact.
+			var decoded interface {
+				UnmarshalBER([]byte, ...ber.DecodeOption) error
+				MarshalBER(...ber.EncodeOption) ([]byte, error)
+			}
+			switch tc.value.(type) {
+			case *PDPContextInfo:
+				decoded = &PDPContextInfo{}
+			default:
+				decoded = &ExtensionContainer{}
+			}
+			var dlog, rlog ber.ViolationLog
+			if err := decoded.UnmarshalBER(wire, ber.WithTolerance(&dlog)); err != nil {
+				t.Fatal(err)
+			}
+			again, err := decoded.MarshalBER(ber.WithTolerance(&rlog))
+			if err != nil || !bytes.Equal(wire, again) || len(dlog.Snapshot()) != 2 || len(rlog.Snapshot()) != 2 {
+				t.Fatalf("replay=%v decode=%+v encode=%+v", err, dlog.Snapshot(), rlog.Snapshot())
+			}
+			for _, encode := range []func() ([]byte, error){func() ([]byte, error) { return tc.value.MarshalBER() }, func() ([]byte, error) { return tc.value.MarshalBER(ber.WithoutBERReplay()) }, tc.value.MarshalDER} {
+				_, err := encode()
+				ve, ok := err.(*ber.ValidationError)
+				if !ok || ve.Path != tc.paths[0] {
+					t.Fatalf("strict: %T %+v", err, err)
+				}
+			}
+		})
 	}
 }

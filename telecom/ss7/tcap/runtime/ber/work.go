@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 446d1d5ccd4db5cb9fb12b3a43bf069e6d8223b20e86c54323872143feae9357.
+// Runtime source: runtime/ber/work.go; SHA-256 dea833d5cfe9be04245fe2d413272fd587f9dc4371b8cd2927eca51e41810c6b.
 package ber
 
 import (
@@ -126,6 +126,8 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 	}
 
 	pos, elements, work := 0, 0, 0
+	var segmented *dialogueSegments
+	var segmentDepth int
 	// An ancestry search suspends immediately before its target identifier.
 	// Increasing targets resume the same bounded pass; repeated targets are
 	// served by decodeOrigin's record cache. A backwards uncached lookup
@@ -146,6 +148,7 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			return ErrInvalidLength
 		}
 		closed := stack[len(stack)-1]
+
 		if len(stack) > 1 {
 			if shortSpans != nil {
 				shortSpans[closed.offset] = uint16(pos)
@@ -175,6 +178,18 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 				failureOffset, failureDepth, failureIndex = parent.offset, len(stack)-1, parent.index
 				return ErrTruncated
 			}
+			if segmented != nil && len(stack) == segmentDepth {
+				if parent.unusedBits != 0 {
+					return fmt.Errorf("%w: known dialogue requires integral octets", ErrInvalidValue)
+				}
+				usedWork, usedElements, err := segmented.audit(data, config, options, stack[:len(stack)-1], limits.MaxWork-work, limits.MaxElements-elements)
+				if err != nil {
+					return err
+				}
+				work += usedWork
+				elements += usedElements
+				segmented = nil
+			}
 			if err := closeFrame(); err != nil {
 				return err
 			}
@@ -193,6 +208,18 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			}
 			work += 2
 			pos += 2
+			if segmented != nil && len(stack) == segmentDepth {
+				if parent.unusedBits != 0 {
+					return fmt.Errorf("%w: known dialogue requires integral octets", ErrInvalidValue)
+				}
+				usedWork, usedElements, err := segmented.audit(data, config, options, stack[:len(stack)-1], limits.MaxWork-work, limits.MaxElements-elements)
+				if err != nil {
+					return err
+				}
+				work += usedWork
+				elements += usedElements
+				segmented = nil
+			}
 			if err := closeFrame(); err != nil {
 				return err
 			}
@@ -258,6 +285,8 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		work += charge
 		kind := tcapElementType(config.profileType, parent.profileType, t, len(stack) == 1, parent.dialogueSyntax)
 		if config.profile && !config.collectPositionsOnly && tcapProfileViolation(data, pos, tagLen, lenLen, indefinite, t, kind) {
+			// X.690 (02/2021) §§8.18.10–8.18.11, 8.7.3, 8.6.4:
+			// EXTERNAL string segment headers remain in its containing syntax.
 			if tcapProfileOwnsElement(data, stack, parent) {
 				var indexes []int
 				if len(stack) > 1 {
@@ -290,6 +319,10 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 				}
 				if err := checkTCAPProfileElement(data, pos, tagLen, lenLen, indefinite, t, indexes, config, options, kind, path); err != nil {
 					return err
+				}
+				if !config.profileNested && t.Constructed && parent.profileType == "DialogueExternal" && parent.dialogueSyntax > 0 && t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2) {
+					segmented = &dialogueSegments{syntax: parent.dialogueSyntax}
+					segmentDepth = len(stack) + 1
 				}
 			}
 		}
@@ -383,13 +416,34 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 			if err := validateBERUniversalContents(t.Number, data[start:end]); err != nil {
 				return err
 			}
+			if parent.segmentTag != 0 {
+				collector := segmented
+				if search := config.positionSearch; search != nil && search.segments != nil {
+					collector = search.segments
+				}
+				if collector != nil {
+					contentStart := start
+					if parent.segmentTag == tag.TagBitString {
+						// X.690 (02/2021) §8.6.2.2: the count octet must exist
+						// before advancing the data start, including empty leaves.
+						if len(contents) == 0 {
+							return ErrInvalidValue
+						}
+						contentStart++
+					}
+					if contents == nil || contentStart > start+len(contents) {
+						return ErrTruncated
+					}
+					collector.append(data[contentStart:start+len(contents)], contentStart)
+				}
+			}
 			if parent.segmentTag == tag.TagBitString {
 				stack[len(stack)-1].unusedBits = int(data[start])
 				stack[len(stack)-1].segmentOffset = pos
 				stack[len(stack)-1].segmentIndex = parent.nextChild
 			}
 		}
-		if config.profile && !t.Constructed && parent.profileType == "DialogueExternal" && parent.dialogueSyntax > 0 && t.Class == tag.ClassContextSpecific && (t.Number == 1 || t.Number == 2) {
+		if encapsulated {
 			contentStart := start
 			if t.Number == 2 {
 				if contentStart >= end || data[contentStart] != 0 {

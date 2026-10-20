@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 66bb6ca7aa9c7735aca6ba42a9cbcce178aa047a446e470df4cbebdf3f9a30df.
+// Runtime source: runtime/ber/utf8.go; SHA-256 d4f96047a734a5fca2bf2bb7c5af1f71d54efbc3769deab4427ce1df3055755b.
 package ber
 
 import (
@@ -30,6 +30,17 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 	}
 	if !config.tolerant {
 		return fmt.Errorf("%w: UTF8String is not shortest-form UTF-8 scalar text", ErrInvalidValue)
+	}
+	// Strict opaque refusal rescans need one finding, independent of the
+	// tolerant report budget. The enclosing BER scan still checks all later
+	// structure (X.690 (02/2021) §§8.1.1, 8.23.10).
+	if config.firstUTF8Only {
+		config.violations.mu.Lock()
+		found := len(config.violations.records) != 0
+		config.violations.mu.Unlock()
+		if found {
+			return nil
+		}
 	}
 	var located Violation
 	if position != nil {
@@ -67,6 +78,9 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 			record.source, record.preflight, record.scope = weak.Make(source), preflight, config.reportScope
 			if err := config.violations.append(record, config.diagnostics); err != nil {
 				return err
+			}
+			if config.firstUTF8Only {
+				return nil
 			}
 		}
 		offset += size

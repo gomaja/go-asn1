@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_profile.go; SHA-256 96485cb695b26cf58e7947d8f1b4b4c5f64e69109e5ed8bc712111593149a6a9.
+// Runtime source: runtime/ber/replay_profile.go; SHA-256 5c27b12ef81b2ed5e224c5b36234e9a6210b49a71d24ab7126ce1600569c2718.
 package ber
 
 import (
@@ -17,8 +17,15 @@ import (
 type replayProfileIndex struct {
 	offsets   []int
 	unknown   bool
-	nodes     map[*ReplayNode]int
+	nodes     map[*ReplayNode]replayProfilePosition
 	baselines map[*ReplayNode][]byte
+}
+
+// Only retained failures populate this map. A copied segmented APDU supplies
+// a logical index; ordinary nodes use the containing physical-wire index.
+type replayProfilePosition struct {
+	offset  int
+	logical *replayProfileIndex
 }
 
 func isTCAPProfileViolation(record Violation) bool {
@@ -66,9 +73,16 @@ func replayProfileSafe(data []byte, config decodeConfig, node *ReplayNode) bool 
 	index := scope.replayProfile
 	if len(scope.ledger.records) != 0 {
 		if index.nodes == nil {
-			index.nodes = make(map[*ReplayNode]int)
+			index.nodes = make(map[*ReplayNode]replayProfilePosition)
 		}
-		index.nodes[node] = start
+		position := replayProfilePosition{offset: start}
+		if segments := config.location.origin.search.segments; segments != nil {
+			// Q.773 §4.1.1; X.690 §§8.6.4, 8.7.3: repair the copied APDU
+			// in logical octet positions. Segment headers are not APDU bytes.
+			position.logical = segments.replayIndex(index)
+			position.offset, _ = slices.BinarySearch(segments.offsets, start)
+		}
+		index.nodes[node] = position
 	}
 	if index.unknown {
 		return false

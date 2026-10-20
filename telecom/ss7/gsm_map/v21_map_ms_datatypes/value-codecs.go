@@ -5,6 +5,7 @@ package v21_map_ms_datatypes
 import (
 	"fmt"
 	"math/big"
+	"strings"
 	"unicode/utf8"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
@@ -136,7 +137,7 @@ func primitiveValueCodec[T any](source, name string, rules []primitiveRule[T], d
 			var err error
 			value, err = normalize(value, true, nil, opts)
 			if err != nil {
-				return nil, err
+				return nil, locatePrimitiveEncodeError(err, source, name, opts)
 			}
 		}
 		if err := checkPrimitiveRules(value, rules, source, name, nil, opts, false); err != nil {
@@ -420,6 +421,9 @@ func invalidDEROpaqueElement(data []byte, component, source string) error {
 	if _, ok := err.(*ber.ValidationError); ok {
 		return err
 	}
+	if _, ok := err.(*ber.ElementError); ok {
+		return qualifyBERError(err, component, "encoding", false)
+	}
 	return qualifyBERError(ber.ValidateDEREncodedElement(data), component, "encoding", false)
 }
 func invalidDERAddition(data []byte, source string, children []byte, i int) error {
@@ -430,6 +434,9 @@ func invalidDERAddition(data []byte, source string, children []byte, i int) erro
 	err = checkInvalidOpaqueElement(data, []ber.EncodeOption{ber.WithoutBERReplay()}, "child", count, source, nil)
 	if _, ok := err.(*ber.ValidationError); ok {
 		return err
+	}
+	if _, ok := err.(*ber.ElementError); ok {
+		return opaqueExtensionError(err, i)
 	}
 	return opaqueExtensionError(ber.ValidateDEREncodedElement(data), i)
 }
@@ -476,13 +483,31 @@ func normalizeNamedBits(value runtime.BitString, sets []ber.NamedBitSizeSet, opt
 	}
 	return runtime.BitString{}, qualifyBERError(err, component, "encoding", false)
 }
+
+// Reuse the ordinary SIZE check on refusal so parent path components agree
+// with tolerant records. Successful normalization needs no location work.
+func locatePrimitiveEncodeError(err error, source, path string, opts []ber.EncodeOption) error {
+	if ve, ok := err.(*ber.ValidationError); ok && ve.ObservedLength != nil {
+		return ber.CheckEncodedLength(ber.EncodeRule(opts, source, ve.Rule), path, ve.Constraint, *ve.ObservedLength)
+	}
+	return err
+}
 func namedBitBuilderResult(value runtime.BitString, err error, source string) (runtime.BitString, error) {
+	if err != nil {
+		err = namedBitBuilderError(err, source)
+	}
+	return value, err
+}
+
+// Keep builder location work on the refusal path.
+func namedBitBuilderError(err error, source string) error {
 	if ve, ok := err.(*ber.ValidationError); ok {
 		located := *ve
 		located.Source = source
-		return value, &located
+		_, located.Path, _ = strings.Cut(source, ".")
+		return &located
 	}
-	return value, err
+	return err
 }
 
 // Linear encoders probe the same opaque policy before resolving a failed
