@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_segmented.go; SHA-256 0d4c86aa6d8f73bab94e1c21b571b58eac84b38023a27fa49a6973ecdb9651eb.
+// Runtime source: runtime/ber/tcap_segmented.go; SHA-256 693d540e49b6202c7525e37873e4b793e92475b83fae4fb5528e730aae526de6.
 package ber
 
 import (
@@ -53,6 +53,8 @@ func (segments *dialogueSegments) audit(data []byte, config decodeConfig, option
 	if work <= 0 || elements <= 0 || len(stack) >= config.limits.MaxDepth {
 		return 0, 0, fmt.Errorf("%w: reassembled dialogue scan budget exhausted", ErrResourceLimit)
 	}
+	// Logical ancestry has one entry per enclosing scan frame.
+	segments.prefix = make([]int, 0, len(stack))
 	segments.path = qualifyConstraintPath(options, "")
 	parentType := ""
 	for index, ancestor := range stack[1:] {
@@ -73,7 +75,19 @@ func (segments *dialogueSegments) audit(data []byte, config decodeConfig, option
 	segments.prefix = append(segments.prefix, stack[len(stack)-1].nextChild-1, 0)
 	identifier, _, err := DecodeTag(segments.contents)
 	if err != nil {
-		return 0, 0, err
+		// A partial root identifier has no scan yet. Locate its first octet,
+		// even across segments (X.690 (02/2021) §8.1.2.4.2 and Erratum 1
+		// (09/2021, Figure 4)); an empty APDU has no identifier to locate.
+		if len(segments.offsets) == 0 {
+			return 0, 0, err
+		}
+		offset := segments.offsets[0]
+		if config.location != nil {
+			if absolute, ok := config.location.wireOffset(data[offset:]); ok {
+				offset = absolute
+			}
+		}
+		return 0, 0, &ElementError{offset: offset, childIndexes: segments.prefix, cause: err}
 	}
 	contentType := "DialogueContent"
 	if segments.syntax == 2 {

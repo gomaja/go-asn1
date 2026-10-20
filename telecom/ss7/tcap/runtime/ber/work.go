@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 dea833d5cfe9be04245fe2d413272fd587f9dc4371b8cd2927eca51e41810c6b.
+// Runtime source: runtime/ber/work.go; SHA-256 aa2ef9c6297cd18547ddef8f0607656dbc3e0dc237286a562ba5f0cc0d834631.
 package ber
 
 import (
@@ -94,6 +94,13 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 	failureOffset, failureDepth, failureIndex := 0, 1, 0
 	defer func() {
 		if returnErr == nil {
+			return
+		}
+		// A reassembled EXTERNAL APDU already carries its physical identifier
+		// offset and logical ancestry. Preserve that location at both definite
+		// and indefinite closes; segment boundaries have no APDU semantics
+		// (X.690 (02/2021) §§8.6.4, 8.7.3, 8.18.10–8.18.11).
+		if _, located := returnErr.(*ElementError); located {
 			return
 		}
 		var indexes []int
