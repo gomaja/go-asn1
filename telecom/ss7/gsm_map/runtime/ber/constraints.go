@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 79c9428529caebb053ce3636d4611dd8aa955343ce3b2c28d1bd3c74fb9986c0.
+// Runtime source: runtime/ber/constraints.go; SHA-256 6fe190d0cd6c5b53160607eb14f03aafe48a430bc2c2f7bfbd0457b6af66f1fe.
 package ber
 
 import (
@@ -386,9 +386,12 @@ func StageDecodeReports(options []DecodeOption) ([]DecodeOption, func(bool)) {
 		// Nothing to stage, but the caller still gets an independent copy, as
 		// the staged path below returns: later edits to options must not
 		// change the paths, limits or replay policy of this call.
-		return append([]DecodeOption(nil), options...), noReportCommit
+		staged := append([]DecodeOption(nil), options...)
+		stageRootBERForms(staged)
+		return staged, noReportCommit
 	}
 	staged := append([]DecodeOption(nil), options...)
+	stageRootBERForms(staged)
 	var commits []func(bool)
 	for i, option := range staged {
 		tolerance, ok := option.(*toleranceOption)
@@ -418,6 +421,20 @@ func StageDecodeReports(options []DecodeOption) ([]DecodeOption, func(bool)) {
 	}
 }
 
+// Each root owns its syntax (TS 29.002 V19.1.0 §17.1.1; X.690 §8), input,
+// preflight proof, replay state and pending findings. Leave syntax unset so
+// the generated root selects it regardless of the caller's tracker. Nested
+// generated contexts share their parent's state and return before this step.
+func stageRootBERForms(options []DecodeOption) {
+	for i, option := range options {
+		if form, ok := option.(berFormOption); ok && form.state != nil {
+			options[i] = berFormOption{state: &berFormState{
+				captureDisabled: form.state.captureDisabled,
+			}}
+		}
+	}
+}
+
 func decodeToleranceNeedsStaging(options []DecodeOption) bool {
 	for _, option := range options {
 		if tolerance, ok := option.(*toleranceOption); ok && tolerance != nil && tolerance.violations != nil {
@@ -435,6 +452,9 @@ func StageEncodeReports(options []EncodeOption) ([]EncodeOption, func(bool)) {
 	needsStaging := false
 	replay := false
 	for _, option := range options {
+		if _, ok := option.(generatedEncodeMarker); ok {
+			return options, noReportCommit
+		}
 		if _, ok := option.(replayModeOption); ok {
 			replay = true
 		}
@@ -576,6 +596,11 @@ func encodeOptionsWithCustom(options []EncodeOption) (encodeConfig, error) {
 
 // ValidateEncodeOptions rejects malformed options even for unconstrained values.
 func ValidateEncodeOptions(options ...EncodeOption) error {
+	if len(options) == 1 {
+		if _, ok := options[0].(generatedEncodeMarker); ok {
+			return nil
+		}
+	}
 	_, err := encodeOptions(options)
 	return err
 }
@@ -814,13 +839,16 @@ func ToleranceEnabled(options []DecodeOption) bool {
 type berFormState struct {
 	preserve        bool
 	captureDisabled bool
+	proofNeeded     bool
+	mapSyntax       uint8
+	mapDepth        uint32
 	validated       *validatedBERSource
 	owned           []byte
-	proofNeeded     bool
 	lightInput      []byte
 	lightOwned      []byte
 	lightReplay     *ReplayState
 	lastCaptured    *ReplayNode
+	mapPending      *mapProfileState
 }
 
 type berFormOption struct{ state *berFormState }
@@ -831,6 +859,8 @@ func (option berFormOption) applyDecode(config *decodeConfig) error {
 }
 
 // TrackBERForm shares one form marker across a generated value and its children.
+// Generated root decoders isolate this marker per call, so the returned options
+// can be reused across sequential or concurrent generated decodes.
 // X.690 (02/2021) §§8.1.3, 8.7.3 and 10.2 allow BER forms that DER forbids.
 func TrackBERForm(options []DecodeOption) []DecodeOption {
 	for _, option := range options {

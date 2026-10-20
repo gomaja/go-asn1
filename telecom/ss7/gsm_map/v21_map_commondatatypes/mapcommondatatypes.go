@@ -911,7 +911,7 @@ func MarshalBERCommonDataTypesISDNAddressString(value *BERValue[CommonDataTypesI
 	if value == nil {
 		return nil, fmt.Errorf("%w: required CommonDataTypesISDNAddressString is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesISDNAddressString, marshalBERCommonDataTypesISDNAddressString, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesISDNAddressString, marshalBERCommonDataTypesISDNAddressString, 2, UnmarshalBERCommonDataTypesISDNAddressString)
 
 }
 func marshalBERCommonDataTypesISDNAddressString(value *BERValue[CommonDataTypesISDNAddressString], opts ...ber.EncodeOption) ([]byte, error) {
@@ -1035,7 +1035,7 @@ func MarshalBERCommonDataTypesFTNAddressString(value *BERValue[CommonDataTypesFT
 	if value == nil {
 		return nil, fmt.Errorf("%w: required CommonDataTypesFTNAddressString is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesFTNAddressString, marshalBERCommonDataTypesFTNAddressString, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesFTNAddressString, marshalBERCommonDataTypesFTNAddressString, 2, UnmarshalBERCommonDataTypesFTNAddressString)
 
 }
 func marshalBERCommonDataTypesFTNAddressString(value *BERValue[CommonDataTypesFTNAddressString], opts ...ber.EncodeOption) ([]byte, error) {
@@ -1159,7 +1159,7 @@ func (v *CommonDataTypesExternalSignalInfo) MarshalBER(opts ...ber.EncodeOption)
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesExternalSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesExternalSignalInfo).MarshalBER, (*CommonDataTypesExternalSignalInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesExternalSignalInfo).MarshalBER, (*CommonDataTypesExternalSignalInfo).marshalBER, 3)
 
 }
 func (v *CommonDataTypesExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1439,7 +1439,7 @@ func (v *CommonDataTypesExtExternalSignalInfo) MarshalBER(opts ...ber.EncodeOpti
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesExtExternalSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesExtExternalSignalInfo).MarshalBER, (*CommonDataTypesExtExternalSignalInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesExtExternalSignalInfo).MarshalBER, (*CommonDataTypesExtExternalSignalInfo).marshalBER, 3)
 
 }
 func (v *CommonDataTypesExtExternalSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1704,7 +1704,7 @@ func (v *CommonDataTypesAccessNetworkSignalInfo) MarshalBER(opts ...ber.EncodeOp
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesAccessNetworkSignalInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesAccessNetworkSignalInfo).MarshalBER, (*CommonDataTypesAccessNetworkSignalInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesAccessNetworkSignalInfo).MarshalBER, (*CommonDataTypesAccessNetworkSignalInfo).marshalBER, 3)
 
 }
 func (v *CommonDataTypesAccessNetworkSignalInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1969,7 +1969,7 @@ func MarshalBERCommonDataTypesIMSI(value *BERValue[CommonDataTypesIMSI], opts ..
 	if value == nil {
 		return nil, fmt.Errorf("%w: required CommonDataTypesIMSI is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesIMSI, marshalBERCommonDataTypesIMSI, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesIMSI, marshalBERCommonDataTypesIMSI, 2, UnmarshalBERCommonDataTypesIMSI)
 
 }
 func marshalBERCommonDataTypesIMSI(value *BERValue[CommonDataTypesIMSI], opts ...ber.EncodeOption) ([]byte, error) {
@@ -2072,7 +2072,7 @@ func (v *CommonDataTypesIdentity) MarshalBER(opts ...ber.EncodeOption) (returnBy
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesIdentity receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesIdentity).MarshalBER, (*CommonDataTypesIdentity).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesIdentity).MarshalBER, (*CommonDataTypesIdentity).marshalBER, 3)
 
 }
 func (v *CommonDataTypesIdentity) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -2241,7 +2241,7 @@ func (v *CommonDataTypesIMSIWithLMSI) MarshalBER(opts ...ber.EncodeOption) (retu
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesIMSIWithLMSI receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesIMSIWithLMSI).MarshalBER, (*CommonDataTypesIMSIWithLMSI).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesIMSIWithLMSI).MarshalBER, (*CommonDataTypesIMSIWithLMSI).marshalBER, 3)
 
 }
 func (v *CommonDataTypesIMSIWithLMSI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -2457,7 +2457,7 @@ func MarshalBERCommonDataTypesASCICallReference(value *BERValue[CommonDataTypesA
 	if value == nil {
 		return nil, fmt.Errorf("%w: required CommonDataTypesASCICallReference is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesASCICallReference, marshalBERCommonDataTypesASCICallReference, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesASCICallReference, marshalBERCommonDataTypesASCICallReference, 2, UnmarshalBERCommonDataTypesASCICallReference)
 
 }
 func marshalBERCommonDataTypesASCICallReference(value *BERValue[CommonDataTypesASCICallReference], opts ...ber.EncodeOption) ([]byte, error) {
@@ -2566,7 +2566,7 @@ func (v *CommonDataTypesSubscriberId) MarshalBER(opts ...ber.EncodeOption) (retu
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesSubscriberId receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesSubscriberId).MarshalBER, (*CommonDataTypesSubscriberId).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesSubscriberId).MarshalBER, (*CommonDataTypesSubscriberId).marshalBER, 3)
 
 }
 func (v *CommonDataTypesSubscriberId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -2749,7 +2749,7 @@ func MarshalBERCommonDataTypesIMEI(value *BERValue[CommonDataTypesIMEI], opts ..
 	if value == nil {
 		return nil, fmt.Errorf("%w: required CommonDataTypesIMEI is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesIMEI, marshalBERCommonDataTypesIMEI, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesIMEI, marshalBERCommonDataTypesIMEI, 2, UnmarshalBERCommonDataTypesIMEI)
 
 }
 func marshalBERCommonDataTypesIMEI(value *BERValue[CommonDataTypesIMEI], opts ...ber.EncodeOption) ([]byte, error) {
@@ -2852,7 +2852,7 @@ func MarshalBERCommonDataTypesHLRId(value *BERValue[CommonDataTypesHLRId], opts 
 	if value == nil {
 		return nil, fmt.Errorf("%w: required CommonDataTypesHLRId is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesHLRId, marshalBERCommonDataTypesHLRId, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERCommonDataTypesHLRId, marshalBERCommonDataTypesHLRId, 2, UnmarshalBERCommonDataTypesHLRId)
 
 }
 func marshalBERCommonDataTypesHLRId(value *BERValue[CommonDataTypesHLRId], opts ...ber.EncodeOption) ([]byte, error) {
@@ -2958,7 +2958,7 @@ func MarshalBERCommonDataTypesHLRList(collection *CommonDataTypesHLRList, opts .
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERCommonDataTypesHLRList, marshalBERCommonDataTypesHLRList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERCommonDataTypesHLRList, marshalBERCommonDataTypesHLRList, 3, UnmarshalBERCommonDataTypesHLRList)
 
 }
 func marshalBERCommonDataTypesHLRList(collection *CommonDataTypesHLRList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -3115,7 +3115,7 @@ func (v *CommonDataTypesNAEAPreferredCI) MarshalBER(opts ...ber.EncodeOption) (r
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesNAEAPreferredCI receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesNAEAPreferredCI).MarshalBER, (*CommonDataTypesNAEAPreferredCI).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesNAEAPreferredCI).MarshalBER, (*CommonDataTypesNAEAPreferredCI).marshalBER, 3)
 
 }
 func (v *CommonDataTypesNAEAPreferredCI) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -3399,7 +3399,7 @@ func (v *CommonDataTypesSubscriberIdentity) MarshalBER(opts ...ber.EncodeOption)
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesSubscriberIdentity receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesSubscriberIdentity).MarshalBER, (*CommonDataTypesSubscriberIdentity).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesSubscriberIdentity).MarshalBER, (*CommonDataTypesSubscriberIdentity).marshalBER, 3)
 
 }
 func (v *CommonDataTypesSubscriberIdentity) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -3592,7 +3592,7 @@ func (v *CommonDataTypesLCSClientExternalID) MarshalBER(opts ...ber.EncodeOption
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesLCSClientExternalID receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesLCSClientExternalID).MarshalBER, (*CommonDataTypesLCSClientExternalID).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesLCSClientExternalID).MarshalBER, (*CommonDataTypesLCSClientExternalID).marshalBER, 3)
 
 }
 func (v *CommonDataTypesLCSClientExternalID) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -3891,7 +3891,7 @@ func (v *CommonDataTypesNetworkNodeDiameterAddress) MarshalBER(opts ...ber.Encod
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesNetworkNodeDiameterAddress receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesNetworkNodeDiameterAddress).MarshalBER, (*CommonDataTypesNetworkNodeDiameterAddress).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesNetworkNodeDiameterAddress).MarshalBER, (*CommonDataTypesNetworkNodeDiameterAddress).marshalBER, 3)
 
 }
 func (v *CommonDataTypesNetworkNodeDiameterAddress) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -4111,7 +4111,7 @@ func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) MarshalBER(opts ...ber
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI).MarshalBER, (*CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI).MarshalBER, (*CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI).marshalBER, 3)
 
 }
 func (v *CommonDataTypesCellGlobalIdOrServiceAreaIdOrLAI) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -4294,7 +4294,7 @@ func (v *CommonDataTypesBasicServiceCode) MarshalBER(opts ...ber.EncodeOption) (
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesBasicServiceCode receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesBasicServiceCode).MarshalBER, (*CommonDataTypesBasicServiceCode).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesBasicServiceCode).MarshalBER, (*CommonDataTypesBasicServiceCode).marshalBER, 3)
 
 }
 func (v *CommonDataTypesBasicServiceCode) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -4477,7 +4477,7 @@ func (v *CommonDataTypesExtBasicServiceCode) MarshalBER(opts ...ber.EncodeOption
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesExtBasicServiceCode receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesExtBasicServiceCode).MarshalBER, (*CommonDataTypesExtBasicServiceCode).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesExtBasicServiceCode).MarshalBER, (*CommonDataTypesExtBasicServiceCode).marshalBER, 3)
 
 }
 func (v *CommonDataTypesExtBasicServiceCode) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -4660,7 +4660,7 @@ func (v *CommonDataTypesEMLPPInfo) MarshalBER(opts ...ber.EncodeOption) (returnB
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesEMLPPInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesEMLPPInfo).MarshalBER, (*CommonDataTypesEMLPPInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesEMLPPInfo).MarshalBER, (*CommonDataTypesEMLPPInfo).marshalBER, 3)
 
 }
 func (v *CommonDataTypesEMLPPInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -4936,7 +4936,7 @@ func (v *CommonDataTypesMCSSInfo) MarshalBER(opts ...ber.EncodeOption) (returnBy
 	if v == nil {
 		return nil, fmt.Errorf("%w: CommonDataTypesMCSSInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesMCSSInfo).MarshalBER, (*CommonDataTypesMCSSInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*CommonDataTypesMCSSInfo).MarshalBER, (*CommonDataTypesMCSSInfo).marshalBER, 3)
 
 }
 func (v *CommonDataTypesMCSSInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {

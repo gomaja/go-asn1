@@ -91,7 +91,7 @@ func (v *ExtensionContainer) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	if v == nil {
 		return nil, fmt.Errorf("%w: ExtensionContainer receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ExtensionContainer).MarshalBER, (*ExtensionContainer).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ExtensionContainer).MarshalBER, (*ExtensionContainer).marshalBER, 3)
 
 }
 func (v *ExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -409,7 +409,7 @@ func (v *SLRArgExtensionContainer) MarshalBER(opts ...ber.EncodeOption) (returnB
 	if v == nil {
 		return nil, fmt.Errorf("%w: SLRArgExtensionContainer receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*SLRArgExtensionContainer).MarshalBER, (*SLRArgExtensionContainer).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SLRArgExtensionContainer).MarshalBER, (*SLRArgExtensionContainer).marshalBER, 3)
 
 }
 func (v *SLRArgExtensionContainer) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -733,7 +733,7 @@ func MarshalBERPrivateExtensionList(collection *PrivateExtensionList, opts ...be
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERPrivateExtensionList, marshalBERPrivateExtensionList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERPrivateExtensionList, marshalBERPrivateExtensionList, 3, UnmarshalBERPrivateExtensionList)
 
 }
 func marshalBERPrivateExtensionList(collection *PrivateExtensionList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -885,7 +885,7 @@ func (v *PrivateExtension) MarshalBER(opts ...ber.EncodeOption) (returnBytes []b
 	if v == nil {
 		return nil, fmt.Errorf("%w: PrivateExtension receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*PrivateExtension).MarshalBER, (*PrivateExtension).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*PrivateExtension).MarshalBER, (*PrivateExtension).marshalBER, 3)
 
 }
 func (v *PrivateExtension) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1044,7 +1044,7 @@ func (v *PCSExtensions) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 	if v == nil {
 		return nil, fmt.Errorf("%w: PCSExtensions receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*PCSExtensions).MarshalBER, (*PCSExtensions).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*PCSExtensions).MarshalBER, (*PCSExtensions).marshalBER, 3)
 
 }
 func (v *PCSExtensions) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1174,7 +1174,7 @@ func (v *SLRArgPCSExtensions) MarshalBER(opts ...ber.EncodeOption) (returnBytes 
 	if v == nil {
 		return nil, fmt.Errorf("%w: SLRArgPCSExtensions receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*SLRArgPCSExtensions).MarshalBER, (*SLRArgPCSExtensions).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SLRArgPCSExtensions).MarshalBER, (*SLRArgPCSExtensions).marshalBER, 3)
 
 }
 func (v *SLRArgPCSExtensions) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {

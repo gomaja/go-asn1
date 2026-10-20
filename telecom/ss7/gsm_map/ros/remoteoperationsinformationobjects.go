@@ -57,7 +57,7 @@ func (v *Code) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnE
 	if v == nil {
 		return nil, fmt.Errorf("%w: Code receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*Code).MarshalBER, (*Code).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Code).MarshalBER, (*Code).marshalBER, 1)
 
 }
 func (v *Code) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -204,7 +204,7 @@ func MarshalBERPriority(value *BERValue[Priority], opts ...ber.EncodeOption) (re
 	if value == nil {
 		return nil, fmt.Errorf("%w: required Priority is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERPriority, marshalBERPriority, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERPriority, marshalBERPriority, 0, UnmarshalBERPriority)
 
 }
 func marshalBERPriority(value *BERValue[Priority], opts ...ber.EncodeOption) ([]byte, error) {

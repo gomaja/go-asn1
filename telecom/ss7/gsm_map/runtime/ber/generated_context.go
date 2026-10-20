@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 2e26d32b1744f2e966765f1da3cd5e0fec3148e9a90a4d2f79169816aa9a0638.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 545207b318e9e26829055da97326d7c933c8cda29023f19adc0485ffce9205ef.
 package ber
 
 import (
@@ -200,8 +200,13 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 	// A child of a shallow decode already reads the root's working copy.
 	// Its form marker is direct, while diagnostic probes wrap their options.
 	for _, option := range options {
-		if form, ok := option.(berFormOption); ok && form.state != nil && form.state.lightInput != nil {
-			return data, nil
+		if form, ok := option.(berFormOption); ok && form.state != nil {
+			if form.state.mapSyntax == mapSyntaxProfile {
+				form.state.mapSyntax = mapSyntaxGenerated
+			}
+			if form.state.lightInput != nil {
+				return data, nil
+			}
 		}
 	}
 	// Diagnostic children carry their probe inside one path option. Ordinary
@@ -623,13 +628,14 @@ func CaptureGeneratedBERReplay(data []byte, options []DecodeOption) *ReplayNode 
 			original = append([]byte(nil), data...)
 		}
 		node := &ReplayNode{state: context.source.replay, original: original}
+		captureReplayProfilePosition(data, context.config, node)
 		context.source.replay.nodeCount++
 		if owned && !context.source.reconstructed && sameBERSlice(original, context.source.owned) {
 			context.source.replay.root = node
 		}
 		if owned && !context.source.reconstructed {
-			if wireTag, _, err := DecodeTag(data); err == nil {
-				node.wireTag, node.wireTagKnown = wireTag, true
+			if _, _, err := DecodeTag(data); err == nil {
+				node.wireTagKnown = true
 			}
 		}
 		return node
@@ -654,12 +660,22 @@ func CaptureGeneratedBERReplay(data []byte, options []DecodeOption) *ReplayNode 
 			original = bytes.Clone(data)
 		}
 		node := &ReplayNode{state: state.lightReplay, original: original}
+		for _, option := range options {
+			// WithTolerance is the only opt-in. Strict light decodes need
+			// neither lazy replay locations nor another option resolution.
+			if tolerance, ok := option.(*toleranceOption); ok && tolerance != nil {
+				if config, err := decodeOptions(options); err == nil {
+					captureReplayProfilePosition(data, config, node)
+				}
+				break
+			}
+		}
 		state.lightReplay.nodeCount++
 		// X.690 (02/2021) §8.14: an IMPLICIT child can have a
 		// reconstructed universal tag that was never received on the wire.
 		if received {
-			if wireTag, _, err := DecodeTag(data); err == nil {
-				node.wireTag, node.wireTagKnown = wireTag, true
+			if _, _, err := DecodeTag(data); err == nil {
+				node.wireTagKnown = true
 			}
 		}
 		state.lastCaptured = node
@@ -675,6 +691,7 @@ func CaptureGeneratedBERReplay(data []byte, options []DecodeOption) *ReplayNode 
 func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode func(*T, ...EncodeOption) ([]byte, error), comparators ...func(*T, *T, *BERReplayComparisons) int) error {
 	var replay *ReplayState
 	var tolerant bool
+	var profileChecked bool
 	var light bool
 	var lightRoot *ReplayNode
 	for _, option := range options {
@@ -687,6 +704,7 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 			}
 			replay = context.source.replay
 			tolerant = context.config.tolerant
+			profileChecked = context.config.form != nil && context.config.form.mapProfile()
 			if context.source.light && context.source.replay != nil {
 				light = true
 				lightRoot = context.source.replay.root
@@ -694,6 +712,7 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 		}
 		if form, ok := option.(berFormOption); ok && form.state != nil && form.state.lastCaptured != nil {
 			state := form.state
+			profileChecked = state.mapProfile()
 			if sameBERSlice(state.lastCaptured.original, state.lightOwned) {
 				replay = state.lightReplay
 				light = true
@@ -744,7 +763,22 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 			config.violations.mu.Unlock()
 		}
 	}
-	replay.decodeTolerant = tolerant
+	replay.mapProfileChecked = profileChecked
+	if config, err := decodeOptions(options); err == nil && config.tolerant && config.form != nil && config.form.mapPending != nil {
+		for _, element := range config.form.mapPending.byOffset {
+			if element.owned {
+				replay.mapViolations = true
+				break
+			}
+		}
+		if replay.mapViolations {
+			replay.profileIndex = mapReplayProfileIndex(config.form)
+		}
+	}
+	// The outer MAP form findings are published after decode completion, so
+	// they are not yet in the staged ledger. They still make this replay state
+	// tolerant (TS 29.002 V19.1.0 §17.1.1).
+	replay.decodeTolerant = tolerant || replay.mapViolations
 	replay.generatedComparison = len(comparators) != 0
 	if light && len(comparators) == 0 {
 		// Decoded byte fields can borrow from the working input that also

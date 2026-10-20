@@ -928,7 +928,7 @@ func (v *LCSRoutingInfoForLCSArg) MarshalBER(opts ...ber.EncodeOption) (returnBy
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSRoutingInfoForLCSArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSRoutingInfoForLCSArg).MarshalBER, (*LCSRoutingInfoForLCSArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSRoutingInfoForLCSArg).MarshalBER, (*LCSRoutingInfoForLCSArg).marshalBER, 3)
 
 }
 func (v *LCSRoutingInfoForLCSArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1289,7 +1289,7 @@ func (v *LCSRoutingInfoForLCSRes) MarshalBER(opts ...ber.EncodeOption) (returnBy
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSRoutingInfoForLCSRes receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSRoutingInfoForLCSRes).MarshalBER, (*LCSRoutingInfoForLCSRes).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSRoutingInfoForLCSRes).MarshalBER, (*LCSRoutingInfoForLCSRes).marshalBER, 3)
 
 }
 func (v *LCSRoutingInfoForLCSRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1898,7 +1898,7 @@ func (v *LCSLCSLocationInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSLCSLocationInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSLocationInfo).MarshalBER, (*LCSLCSLocationInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSLocationInfo).MarshalBER, (*LCSLCSLocationInfo).marshalBER, 3)
 
 }
 func (v *LCSLCSLocationInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -2811,7 +2811,7 @@ func (v *LCSProvideSubscriberLocationArg) MarshalBER(opts ...ber.EncodeOption) (
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSProvideSubscriberLocationArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSProvideSubscriberLocationArg).MarshalBER, (*LCSProvideSubscriberLocationArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSProvideSubscriberLocationArg).MarshalBER, (*LCSProvideSubscriberLocationArg).marshalBER, 3)
 
 }
 func (v *LCSProvideSubscriberLocationArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -4284,7 +4284,7 @@ func (v *LCSLocationType) MarshalBER(opts ...ber.EncodeOption) (returnBytes []by
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSLocationType receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLocationType).MarshalBER, (*LCSLocationType).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLocationType).MarshalBER, (*LCSLocationType).marshalBER, 3)
 
 }
 func (v *LCSLocationType) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -4579,7 +4579,7 @@ func (v *LCSLCSClientID) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSLCSClientID receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSClientID).MarshalBER, (*LCSLCSClientID).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSClientID).MarshalBER, (*LCSLCSClientID).marshalBER, 3)
 
 }
 func (v *LCSLCSClientID) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -5151,7 +5151,7 @@ func (v *LCSLCSClientName) MarshalBER(opts ...ber.EncodeOption) (returnBytes []b
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSLCSClientName receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSClientName).MarshalBER, (*LCSLCSClientName).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSClientName).MarshalBER, (*LCSLCSClientName).marshalBER, 3)
 
 }
 func (v *LCSLCSClientName) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -5498,7 +5498,7 @@ func MarshalBERLCSNameString(value *BERValue[LCSNameString], opts ...ber.EncodeO
 	if value == nil {
 		return nil, fmt.Errorf("%w: required LCSNameString is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERLCSNameString, marshalBERLCSNameString, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERLCSNameString, marshalBERLCSNameString, 2, UnmarshalBERLCSNameString)
 
 }
 func marshalBERLCSNameString(value *BERValue[LCSNameString], opts ...ber.EncodeOption) ([]byte, error) {
@@ -5616,7 +5616,7 @@ func (v *LCSLCSRequestorID) MarshalBER(opts ...ber.EncodeOption) (returnBytes []
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSLCSRequestorID receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSRequestorID).MarshalBER, (*LCSLCSRequestorID).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSRequestorID).MarshalBER, (*LCSLCSRequestorID).marshalBER, 3)
 
 }
 func (v *LCSLCSRequestorID) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -5964,7 +5964,7 @@ func MarshalBERLCSRequestorIDString(value *BERValue[LCSRequestorIDString], opts 
 	if value == nil {
 		return nil, fmt.Errorf("%w: required LCSRequestorIDString is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERLCSRequestorIDString, marshalBERLCSRequestorIDString, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERLCSRequestorIDString, marshalBERLCSRequestorIDString, 2, UnmarshalBERLCSRequestorIDString)
 
 }
 func marshalBERLCSRequestorIDString(value *BERValue[LCSRequestorIDString], opts ...ber.EncodeOption) ([]byte, error) {
@@ -6082,7 +6082,7 @@ func (v *LCSLCSQoS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, re
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSLCSQoS receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSQoS).MarshalBER, (*LCSLCSQoS).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSQoS).MarshalBER, (*LCSLCSQoS).marshalBER, 3)
 
 }
 func (v *LCSLCSQoS) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -6637,7 +6637,7 @@ func (v *LCSResponseTime) MarshalBER(opts ...ber.EncodeOption) (returnBytes []by
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSResponseTime receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSResponseTime).MarshalBER, (*LCSResponseTime).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSResponseTime).MarshalBER, (*LCSResponseTime).marshalBER, 3)
 
 }
 func (v *LCSResponseTime) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -6789,7 +6789,7 @@ func (v *LCSLCSCodeword) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSLCSCodeword receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSCodeword).MarshalBER, (*LCSLCSCodeword).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSCodeword).MarshalBER, (*LCSLCSCodeword).marshalBER, 3)
 
 }
 func (v *LCSLCSCodeword) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -7064,7 +7064,7 @@ func MarshalBERLCSLCSCodewordString(value *BERValue[LCSLCSCodewordString], opts 
 	if value == nil {
 		return nil, fmt.Errorf("%w: required LCSLCSCodewordString is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERLCSLCSCodewordString, marshalBERLCSLCSCodewordString, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERLCSLCSCodewordString, marshalBERLCSLCSCodewordString, 2, UnmarshalBERLCSLCSCodewordString)
 
 }
 func marshalBERLCSLCSCodewordString(value *BERValue[LCSLCSCodewordString], opts ...ber.EncodeOption) ([]byte, error) {
@@ -7182,7 +7182,7 @@ func (v *LCSLCSPrivacyCheck) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSLCSPrivacyCheck receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSPrivacyCheck).MarshalBER, (*LCSLCSPrivacyCheck).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSLCSPrivacyCheck).MarshalBER, (*LCSLCSPrivacyCheck).marshalBER, 3)
 
 }
 func (v *LCSLCSPrivacyCheck) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -7428,7 +7428,7 @@ func (v *LCSAreaEventInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []b
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSAreaEventInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSAreaEventInfo).MarshalBER, (*LCSAreaEventInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSAreaEventInfo).MarshalBER, (*LCSAreaEventInfo).marshalBER, 3)
 
 }
 func (v *LCSAreaEventInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -7749,7 +7749,7 @@ func (v *LCSAreaDefinition) MarshalBER(opts ...ber.EncodeOption) (returnBytes []
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSAreaDefinition receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSAreaDefinition).MarshalBER, (*LCSAreaDefinition).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSAreaDefinition).MarshalBER, (*LCSAreaDefinition).marshalBER, 3)
 
 }
 func (v *LCSAreaDefinition) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -7989,7 +7989,7 @@ func MarshalBERLCSAreaList(collection *LCSAreaList, opts ...ber.EncodeOption) (r
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERLCSAreaList, marshalBERLCSAreaList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERLCSAreaList, marshalBERLCSAreaList, 3, UnmarshalBERLCSAreaList)
 
 }
 func marshalBERLCSAreaList(collection *LCSAreaList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -8141,7 +8141,7 @@ func (v *LCSArea) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, retu
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSArea receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSArea).MarshalBER, (*LCSArea).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSArea).MarshalBER, (*LCSArea).marshalBER, 3)
 
 }
 func (v *LCSArea) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -8380,7 +8380,7 @@ func (v *LCSPeriodicLDRInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSPeriodicLDRInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSPeriodicLDRInfo).MarshalBER, (*LCSPeriodicLDRInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSPeriodicLDRInfo).MarshalBER, (*LCSPeriodicLDRInfo).marshalBER, 3)
 
 }
 func (v *LCSPeriodicLDRInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -8673,7 +8673,7 @@ func (v *LCSReportingOptionMilliseconds) MarshalBER(opts ...ber.EncodeOption) (r
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSReportingOptionMilliseconds receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSReportingOptionMilliseconds).MarshalBER, (*LCSReportingOptionMilliseconds).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSReportingOptionMilliseconds).MarshalBER, (*LCSReportingOptionMilliseconds).marshalBER, 3)
 
 }
 func (v *LCSReportingOptionMilliseconds) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -8877,7 +8877,7 @@ func (v *LCSReportingPLMNList) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSReportingPLMNList receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSReportingPLMNList).MarshalBER, (*LCSReportingPLMNList).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSReportingPLMNList).MarshalBER, (*LCSReportingPLMNList).marshalBER, 3)
 
 }
 func (v *LCSReportingPLMNList) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -9163,7 +9163,7 @@ func MarshalBERLCSPLMNList(collection *LCSPLMNList, opts ...ber.EncodeOption) (r
 	if collection == nil {
 		return nil, fmt.Errorf("%w: required collection is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERLCSPLMNList, marshalBERLCSPLMNList, true)
+	return marshalFramedValue(collection, collection.berReplayNode_, opts, MarshalBERLCSPLMNList, marshalBERLCSPLMNList, 3, UnmarshalBERLCSPLMNList)
 
 }
 func marshalBERLCSPLMNList(collection *LCSPLMNList, opts ...ber.EncodeOption) ([]byte, error) {
@@ -9315,7 +9315,7 @@ func (v *LCSReportingPLMN) MarshalBER(opts ...ber.EncodeOption) (returnBytes []b
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSReportingPLMN receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSReportingPLMN).MarshalBER, (*LCSReportingPLMN).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSReportingPLMN).MarshalBER, (*LCSReportingPLMN).marshalBER, 3)
 
 }
 func (v *LCSReportingPLMN) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -9627,7 +9627,7 @@ func (v *LCSProvideSubscriberLocationRes) MarshalBER(opts ...ber.EncodeOption) (
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSProvideSubscriberLocationRes receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSProvideSubscriberLocationRes).MarshalBER, (*LCSProvideSubscriberLocationRes).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSProvideSubscriberLocationRes).MarshalBER, (*LCSProvideSubscriberLocationRes).marshalBER, 3)
 
 }
 func (v *LCSProvideSubscriberLocationRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -10847,7 +10847,7 @@ func (v *LCSSubscriberLocationReportArg) MarshalBER(opts ...ber.EncodeOption) (r
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSSubscriberLocationReportArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSSubscriberLocationReportArg).MarshalBER, (*LCSSubscriberLocationReportArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSSubscriberLocationReportArg).MarshalBER, (*LCSSubscriberLocationReportArg).marshalBER, 3)
 
 }
 func (v *LCSSubscriberLocationReportArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -12952,7 +12952,7 @@ func (v *LCSDeferredmtLrData) MarshalBER(opts ...ber.EncodeOption) (returnBytes 
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSDeferredmtLrData receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSDeferredmtLrData).MarshalBER, (*LCSDeferredmtLrData).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSDeferredmtLrData).MarshalBER, (*LCSDeferredmtLrData).marshalBER, 3)
 
 }
 func (v *LCSDeferredmtLrData) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -13288,7 +13288,7 @@ func (v *LCSServingNodeAddress) MarshalBER(opts ...ber.EncodeOption) (returnByte
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSServingNodeAddress receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSServingNodeAddress).MarshalBER, (*LCSServingNodeAddress).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSServingNodeAddress).MarshalBER, (*LCSServingNodeAddress).marshalBER, 3)
 
 }
 func (v *LCSServingNodeAddress) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -13531,7 +13531,7 @@ func (v *LCSSubscriberLocationReportRes) MarshalBER(opts ...ber.EncodeOption) (r
 	if v == nil {
 		return nil, fmt.Errorf("%w: LCSSubscriberLocationReportRes receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSSubscriberLocationReportRes).MarshalBER, (*LCSSubscriberLocationReportRes).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*LCSSubscriberLocationReportRes).MarshalBER, (*LCSSubscriberLocationReportRes).marshalBER, 3)
 
 }
 func (v *LCSSubscriberLocationReportRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {

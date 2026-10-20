@@ -1109,7 +1109,7 @@ func (v *ROS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnEr
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROS receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROS).MarshalBER, (*ROS).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROS).MarshalBER, (*ROS).marshalBER, 1)
 
 }
 func (v *ROS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -1434,7 +1434,7 @@ func (v *Invoke) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, retur
 	if v == nil {
 		return nil, fmt.Errorf("%w: Invoke receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*Invoke).MarshalBER, (*Invoke).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Invoke).MarshalBER, (*Invoke).marshalBER, 1)
 
 }
 func (v *Invoke) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1698,7 +1698,7 @@ func (v *ReturnResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte,
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResult receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ReturnResult).MarshalBER, (*ReturnResult).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ReturnResult).MarshalBER, (*ReturnResult).marshalBER, 1)
 
 }
 func (v *ReturnResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1868,7 +1868,7 @@ func (v *ReturnError) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, 
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnError receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ReturnError).MarshalBER, (*ReturnError).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ReturnError).MarshalBER, (*ReturnError).marshalBER, 1)
 
 }
 func (v *ReturnError) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -2072,7 +2072,7 @@ func (v *Reject) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, retur
 	if v == nil {
 		return nil, fmt.Errorf("%w: Reject receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*Reject).MarshalBER, (*Reject).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Reject).MarshalBER, (*Reject).marshalBER, 1)
 
 }
 func (v *Reject) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -2234,7 +2234,7 @@ func MarshalBERGeneralProblem(value *BERValue[GeneralProblem], opts ...ber.Encod
 	if value == nil {
 		return nil, fmt.Errorf("%w: required GeneralProblem is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERGeneralProblem, marshalBERGeneralProblem, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERGeneralProblem, marshalBERGeneralProblem, 0, UnmarshalBERGeneralProblem)
 
 }
 func marshalBERGeneralProblem(value *BERValue[GeneralProblem], opts ...ber.EncodeOption) ([]byte, error) {
@@ -2326,7 +2326,7 @@ func MarshalBERInvokeProblem(value *BERValue[InvokeProblem], opts ...ber.EncodeO
 	if value == nil {
 		return nil, fmt.Errorf("%w: required InvokeProblem is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERInvokeProblem, marshalBERInvokeProblem, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERInvokeProblem, marshalBERInvokeProblem, 0, UnmarshalBERInvokeProblem)
 
 }
 func marshalBERInvokeProblem(value *BERValue[InvokeProblem], opts ...ber.EncodeOption) ([]byte, error) {
@@ -2418,7 +2418,7 @@ func MarshalBERReturnResultProblem(value *BERValue[ReturnResultProblem], opts ..
 	if value == nil {
 		return nil, fmt.Errorf("%w: required ReturnResultProblem is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERReturnResultProblem, marshalBERReturnResultProblem, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERReturnResultProblem, marshalBERReturnResultProblem, 0, UnmarshalBERReturnResultProblem)
 
 }
 func marshalBERReturnResultProblem(value *BERValue[ReturnResultProblem], opts ...ber.EncodeOption) ([]byte, error) {
@@ -2510,7 +2510,7 @@ func MarshalBERReturnErrorProblem(value *BERValue[ReturnErrorProblem], opts ...b
 	if value == nil {
 		return nil, fmt.Errorf("%w: required ReturnErrorProblem is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERReturnErrorProblem, marshalBERReturnErrorProblem, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERReturnErrorProblem, marshalBERReturnErrorProblem, 0, UnmarshalBERReturnErrorProblem)
 
 }
 func marshalBERReturnErrorProblem(value *BERValue[ReturnErrorProblem], opts ...ber.EncodeOption) ([]byte, error) {
@@ -2602,7 +2602,7 @@ func MarshalBERRejectProblem(value *BERValue[RejectProblem], opts ...ber.EncodeO
 	if value == nil {
 		return nil, fmt.Errorf("%w: required RejectProblem is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERRejectProblem, marshalBERRejectProblem, false)
+	return marshalFramedValue(value, value.berReplayNode_, opts, MarshalBERRejectProblem, marshalBERRejectProblem, 0, UnmarshalBERRejectProblem)
 
 }
 func marshalBERRejectProblem(value *BERValue[RejectProblem], opts ...ber.EncodeOption) ([]byte, error) {
@@ -2694,7 +2694,7 @@ func (v *InvokeId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, ret
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeId receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*InvokeId).MarshalBER, (*InvokeId).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*InvokeId).MarshalBER, (*InvokeId).marshalBER, 1)
 
 }
 func (v *InvokeId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -2833,7 +2833,7 @@ func (v *Bind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, returnE
 	if v == nil {
 		return nil, fmt.Errorf("%w: Bind receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*Bind).MarshalBER, (*Bind).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Bind).MarshalBER, (*Bind).marshalBER, 1)
 
 }
 func (v *Bind) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -3010,7 +3010,7 @@ func (v *Unbind) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, retur
 	if v == nil {
 		return nil, fmt.Errorf("%w: Unbind receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*Unbind).MarshalBER, (*Unbind).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*Unbind).MarshalBER, (*Unbind).marshalBER, 1)
 
 }
 func (v *Unbind) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -3187,7 +3187,7 @@ func (v *ROSInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSInvokeLinkedId).MarshalBER, (*ROSInvokeLinkedId).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSInvokeLinkedId).MarshalBER, (*ROSInvokeLinkedId).marshalBER, 1)
 
 }
 func (v *ROSInvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -3346,7 +3346,7 @@ func (v *ROSReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnByte
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSReturnResultResult).MarshalBER, (*ROSReturnResultResult).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSReturnResultResult).MarshalBER, (*ROSReturnResultResult).marshalBER, 1)
 
 }
 func (v *ROSReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -3511,7 +3511,7 @@ func (v *InvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 	if v == nil {
 		return nil, fmt.Errorf("%w: InvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*InvokeLinkedId).MarshalBER, (*InvokeLinkedId).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*InvokeLinkedId).MarshalBER, (*InvokeLinkedId).marshalBER, 1)
 
 }
 func (v *InvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -3670,7 +3670,7 @@ func (v *ReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	if v == nil {
 		return nil, fmt.Errorf("%w: ReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ReturnResultResult).MarshalBER, (*ReturnResultResult).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ReturnResultResult).MarshalBER, (*ReturnResultResult).marshalBER, 1)
 
 }
 func (v *ReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -3835,7 +3835,7 @@ func (v *OperationsRejectProblem) MarshalBER(opts ...ber.EncodeOption) (returnBy
 	if v == nil {
 		return nil, fmt.Errorf("%w: OperationsRejectProblem receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*OperationsRejectProblem).MarshalBER, (*OperationsRejectProblem).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*OperationsRejectProblem).MarshalBER, (*OperationsRejectProblem).marshalBER, 1)
 
 }
 func (v *OperationsRejectProblem) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {

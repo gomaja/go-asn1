@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 98662b40ace1f58e2dd00b0b6eab46a474caeb63f520df3c6c76f921b694f380.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 f62f7066dd29de2ead580cacda0aa5b0c4e0b3c1bf150b718ae2d87019984e73.
 package ber
 
 import (
@@ -38,6 +38,8 @@ func (option tcapProfileOption) applyDecode(c *decodeConfig) error {
 // ValidateBERElement with these options checks BER and the encoding profile;
 // generated decoders additionally check schema constraints and text rules.
 // Generic BER helpers remain usable independently of this protocol profile.
+// The returned options can be reused for validation and generated decodes and
+// are safe to share between goroutines; each operation keeps its own form state.
 func TrackTCAPForm(options []DecodeOption, source ...string) []DecodeOption {
 	name := ""
 	if len(source) > 0 {

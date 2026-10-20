@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_encode_options.go; SHA-256 71f176f291fdb31e4c74af350a582f8b82267a26eb782479392064870d172e01.
+// Runtime source: runtime/ber/generated_encode_options.go; SHA-256 e62e513c5b0ce0d5f7c51cb60c314c6cb88fce2c1036827ef9a2a34baabe020d.
 package ber
 
 import (
@@ -98,7 +98,7 @@ func ParentGeneratedCollectionSizeEncodeOptions(options []EncodeOption) []Encode
 // hooks used by the collector, fast matcher, and fallback comparison.
 func CanUseLinearBEREncode(options []EncodeOption) bool {
 	for _, option := range options {
-		if mode, ok := option.(replayModeOption); ok && (mode.collector != nil || mode.fast != nil || mode.comparison) {
+		if mode, ok := option.(replayModeOption); ok && (mode.collector != nil || mode.fast != nil || mode.comparison || mode.rebuildChildren) {
 			return false
 		}
 	}
@@ -111,9 +111,9 @@ func ReplayGeneratedBERNode(node *ReplayNode, options []EncodeOption) ([]byte, b
 	if node == nil || node.original == nil {
 		return nil, false
 	}
-	// Typed equality cannot prove source constraints when the decode
-	// retained a tolerated violation.
-	if node.state != nil && node.state.decodeTolerant {
+	// Typed equality alone cannot certify a received span that retained
+	// a MAP profile finding.
+	if !node.canReplayProfile() {
 		return nil, false
 	}
 	for _, option := range options {
@@ -143,7 +143,7 @@ func BERGeneratedReplayEnabled(options []EncodeOption) bool {
 		case withoutBERReplayOption:
 			return false
 		case replayModeOption:
-			if value.collector != nil {
+			if value.collector != nil || value.comparison || value.baseline {
 				return false
 			}
 		}

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 aa2ef9c6297cd18547ddef8f0607656dbc3e0dc237286a562ba5f0cc0d834631.
+// Runtime source: runtime/ber/work.go; SHA-256 b87ab0ab61daaf3326d83e1c8eb384239b4f756194fd92f060ab86a57e46cfef.
 package ber
 
 import (
@@ -46,6 +46,12 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 	config, err := decodeOptions(options)
 	if err != nil {
 		return err
+	}
+	// A standalone TCAP profile scan has no generated root context. Its form
+	// marker is caller-owned; keep scan bookkeeping local to this call.
+	if config.profile && config.form != nil && !config.form.generated {
+		form := berFormState{captureDisabled: config.form.captureDisabled}
+		config.form = &form
 	}
 	if config.form != nil && config.generatedMode == generatedModeProof && config.form.lightInput == nil {
 		config.form.proofNeeded = true

@@ -314,7 +314,7 @@ func (v *MAPDialoguePDU) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byt
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPDialoguePDU receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPDialoguePDU).MarshalBER, (*MAPDialoguePDU).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPDialoguePDU).MarshalBER, (*MAPDialoguePDU).marshalBER, 3)
 
 }
 func (v *MAPDialoguePDU) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -736,7 +736,7 @@ func (v *MAPOpenInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, 
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPOpenInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPOpenInfo).MarshalBER, (*MAPOpenInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPOpenInfo).MarshalBER, (*MAPOpenInfo).marshalBER, 3)
 
 }
 func (v *MAPOpenInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1073,7 +1073,7 @@ func (v *MAPAcceptInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPAcceptInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPAcceptInfo).MarshalBER, (*MAPAcceptInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPAcceptInfo).MarshalBER, (*MAPAcceptInfo).marshalBER, 3)
 
 }
 func (v *MAPAcceptInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1271,7 +1271,7 @@ func (v *MAPCloseInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte,
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPCloseInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPCloseInfo).MarshalBER, (*MAPCloseInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPCloseInfo).MarshalBER, (*MAPCloseInfo).marshalBER, 3)
 
 }
 func (v *MAPCloseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1471,7 +1471,7 @@ func (v *MAPRefuseInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPRefuseInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPRefuseInfo).MarshalBER, (*MAPRefuseInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPRefuseInfo).MarshalBER, (*MAPRefuseInfo).marshalBER, 3)
 
 }
 func (v *MAPRefuseInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1744,7 +1744,7 @@ func (v *MAPUserAbortInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes []b
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPUserAbortInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPUserAbortInfo).MarshalBER, (*MAPUserAbortInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPUserAbortInfo).MarshalBER, (*MAPUserAbortInfo).marshalBER, 3)
 
 }
 func (v *MAPUserAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1983,7 +1983,7 @@ func (v *MAPUserAbortChoice) MarshalBER(opts ...ber.EncodeOption) (returnBytes [
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPUserAbortChoice receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPUserAbortChoice).MarshalBER, (*MAPUserAbortChoice).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPUserAbortChoice).MarshalBER, (*MAPUserAbortChoice).marshalBER, 3)
 
 }
 func (v *MAPUserAbortChoice) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -2215,7 +2215,7 @@ func (v *MAPProviderAbortInfo) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: MAPProviderAbortInfo receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPProviderAbortInfo).MarshalBER, (*MAPProviderAbortInfo).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*MAPProviderAbortInfo).MarshalBER, (*MAPProviderAbortInfo).marshalBER, 3)
 
 }
 func (v *MAPProviderAbortInfo) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {

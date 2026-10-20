@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 70d47cbc712523cf263ebcefe27e00d9c6a8929a7e81436e6750d1a70f26ff50.
+// Runtime source: runtime/ber/decoder.go; SHA-256 74f414c21f2dbb14af1b1f20522d931dee38b242e2d96f83023fcdbaad2a7fe0.
 package ber
 
 import (
@@ -744,6 +744,7 @@ func DecodeSequenceChildren(data []byte, options ...DecodeOption) ([][]byte, err
 // DecodeBoolean decodes a boolean from raw TLV bytes.
 // Returns (value, rawByte, totalConsumed, error).
 func DecodeBoolean(data []byte, options ...DecodeOption) (bool, byte, int, error) {
+	claimMAPPrimitive(data, options)
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
 		return false, 0, 0, err
@@ -762,6 +763,7 @@ func DecodeBoolean(data []byte, options ...DecodeOption) (bool, byte, int, error
 
 // DecodeInteger decodes an integer from raw TLV bytes.
 func DecodeInteger(data []byte, options ...DecodeOption) (int64, int, error) {
+	claimMAPPrimitive(data, options)
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
 		return 0, 0, err
@@ -784,6 +786,7 @@ func DecodeInteger(data []byte, options ...DecodeOption) (int64, int, error) {
 
 // DecodeUint64 decodes a nonnegative ASN.1 INTEGER up to math.MaxUint64.
 func DecodeUint64(data []byte, options ...DecodeOption) (uint64, int, error) {
+	claimMAPPrimitive(data, options)
 	value, n, err := DecodeBigInt(data, options...)
 	if err != nil {
 		return 0, 0, err
@@ -818,6 +821,7 @@ func decodeIntBytes(b []byte) (int64, error) {
 
 // DecodeBigInt decodes an integer from raw TLV bytes into a *big.Int.
 func DecodeBigInt(data []byte, options ...DecodeOption) (*big.Int, int, error) {
+	claimMAPPrimitive(data, options)
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
 		return nil, 0, err
@@ -838,6 +842,10 @@ func DecodeBigInt(data []byte, options ...DecodeOption) (*big.Int, int, error) {
 // DecodeBitString decodes a bit string from raw TLV bytes.
 // Returns the bytes, unused bits count, and total bytes consumed.
 func DecodeBitString(data []byte, options ...DecodeOption) ([]byte, int, int, error) {
+	claimMAPPrimitive(data, options)
+	if len(data) > 0 && data[0]&0x20 != 0 {
+		claimMAPStringSegments(data, true, options)
+	}
 	budget, err := newBERWorkBudget(options)
 	if err != nil {
 		return nil, 0, 0, err
@@ -853,6 +861,10 @@ func decodeBitStringBounded(data []byte, depth int, budget *berWorkBudget) ([]by
 
 // DecodeOctetString decodes a primitive or segmented OCTET STRING.
 func DecodeOctetString(data []byte, options ...DecodeOption) ([]byte, int, error) {
+	claimMAPPrimitive(data, options)
+	if len(data) > 0 && data[0]&0x20 != 0 {
+		claimMAPStringSegments(data, true, options)
+	}
 	budget, err := newBERWorkBudget(options)
 	if err != nil {
 		return nil, 0, err
@@ -999,6 +1011,7 @@ func decodeStringSegments(data []byte, expectedTag, depth int, budget *berWorkBu
 
 // DecodeNull decodes a NULL from raw TLV bytes.
 func DecodeNull(data []byte, options ...DecodeOption) (int, error) {
+	claimMAPPrimitive(data, options)
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
 		return 0, err
@@ -1017,6 +1030,7 @@ func DecodeNull(data []byte, options ...DecodeOption) (int, error) {
 
 // DecodeObjectIdentifier decodes an OID from raw TLV bytes.
 func DecodeObjectIdentifier(data []byte, options ...DecodeOption) (runtime.ObjectIdentifier, int, error) {
+	claimMAPPrimitive(data, options)
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
 		return runtime.ObjectIdentifier{}, 0, err
@@ -1033,6 +1047,7 @@ func DecodeObjectIdentifier(data []byte, options ...DecodeOption) (runtime.Objec
 
 // DecodeRelativeObjectIdentifier decodes X.690 (02/2021) §8.20.
 func DecodeRelativeObjectIdentifier(data []byte, options ...DecodeOption) (runtime.RelativeObjectIdentifier, int, error) {
+	claimMAPPrimitive(data, options)
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
 		return runtime.RelativeObjectIdentifier{}, 0, err
@@ -1049,6 +1064,7 @@ func DecodeRelativeObjectIdentifier(data []byte, options ...DecodeOption) (runti
 
 // DecodeEnumerated decodes an ENUMERATED value from raw TLV bytes.
 func DecodeEnumerated(data []byte, options ...DecodeOption) (int64, int, error) {
+	claimMAPPrimitive(data, options)
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
 		return 0, 0, err
@@ -1073,6 +1089,7 @@ func DecodeEnumerated(data []byte, options ...DecodeOption) (int64, int, error) 
 // (02/2021), clause 8.5. Decimal NR1, NR2, and NR3 forms follow clause 8.5.8
 // and ISO 6093:1985.
 func DecodeReal(data []byte, options ...DecodeOption) (runtime.Real, int, error) {
+	claimMAPPrimitive(data, options)
 	t, total, value, err := DecodeTLV(data, options...)
 	if err != nil {
 		return runtime.Real{}, 0, err
@@ -1093,6 +1110,12 @@ func DecodeReal(data []byte, options ...DecodeOption) (runtime.Real, int, error)
 // DecodeString decodes a string type (UTF8, IA5, PrintableString, etc.) from raw TLV bytes.
 // The caller provides the expected tag number.
 func DecodeString(data []byte, expectedTag int, options ...DecodeOption) (string, int, error) {
+	claimMAPPrimitive(data, options)
+	// X.690 (02/2021) §§8.23.3, 8.7.3.2: character-string segments
+	// are known OCTET STRING encodings, although the outer type may construct.
+	if len(data) > 0 && data[0]&0x20 != 0 {
+		claimMAPStringSegments(data, true, options)
+	}
 	budget, err := newBERWorkBudget(options)
 	if err != nil {
 		return "", 0, err
@@ -1110,6 +1133,7 @@ func DecodeString(data []byte, expectedTag int, options ...DecodeOption) (string
 // X.680 (02/2021) §47.3 form is accepted and kept verbatim, primitive or
 // constructed (X.690 (02/2021) §8.25, §8.23.6).
 func DecodeUTCTime(data []byte, options ...DecodeOption) (runtime.UTCTime, int, error) {
+	claimMAPPrimitive(data, options)
 	s, total, err := DecodeString(data, tag.TagUTCTime, options...)
 	if err != nil {
 		return runtime.UTCTime{}, 0, err
@@ -1125,6 +1149,7 @@ func DecodeUTCTime(data []byte, options ...DecodeOption) (runtime.UTCTime, int, 
 // Any X.680 (02/2021) §46.3 form is accepted and kept verbatim, primitive or
 // constructed (X.690 (02/2021) §8.25, §8.23.6).
 func DecodeGeneralizedTime(data []byte, options ...DecodeOption) (runtime.GeneralizedTime, int, error) {
+	claimMAPPrimitive(data, options)
 	s, total, err := DecodeString(data, tag.TagGeneralizedTime, options...)
 	if err != nil {
 		return runtime.GeneralizedTime{}, 0, err
@@ -1226,6 +1251,12 @@ func DecodeBitStringValue(value []byte) ([]byte, int, error) {
 // contents after an implicit tag has been consumed. X.690 (02/2021) 8.6.1
 // permits both forms and 8.6.4.1 requires recursive, ordered segments.
 func DecodeImplicitBitStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, int, error) {
+	if err := checkMAPStringForm(constructed, tag.TagBitString, options); err != nil {
+		return nil, 0, err
+	}
+	if constructed {
+		claimMAPStringSegments(value, false, options)
+	}
 	if constructed {
 		MarkBERNonCanonical(options)
 	}
@@ -1240,6 +1271,12 @@ func DecodeImplicitBitStringValue(constructed bool, value []byte, options ...Dec
 // OCTET STRING. Constructed segments retain their universal tag (ITU-T X.690
 // (02/2021) §§8.7.3.2, 8.14.4).
 func DecodeImplicitOctetStringValue(constructed bool, value []byte, options ...DecodeOption) ([]byte, error) {
+	if err := checkMAPStringForm(constructed, tag.TagOctetString, options); err != nil {
+		return nil, err
+	}
+	if constructed {
+		claimMAPStringSegments(value, false, options)
+	}
 	if !constructed {
 		if err := ValidateDecodeOptions(options...); err != nil {
 			return nil, err

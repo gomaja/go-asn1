@@ -291,7 +291,7 @@ func (v *ROSSingleAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte, 
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSingleAS receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSingleAS).MarshalBER, (*ROSSingleAS).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSingleAS).MarshalBER, (*ROSSingleAS).marshalBER, 1)
 
 }
 func (v *ROSSingleAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -616,7 +616,7 @@ func (v *ROSConsumerAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSConsumerAS receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSConsumerAS).MarshalBER, (*ROSConsumerAS).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSConsumerAS).MarshalBER, (*ROSConsumerAS).marshalBER, 1)
 
 }
 func (v *ROSConsumerAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -941,7 +941,7 @@ func (v *ROSSupplierAS) MarshalBER(opts ...ber.EncodeOption) (returnBytes []byte
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSupplierAS receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSupplierAS).MarshalBER, (*ROSSupplierAS).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSupplierAS).MarshalBER, (*ROSSupplierAS).marshalBER, 1)
 
 }
 func (v *ROSSupplierAS) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -1266,7 +1266,7 @@ func (v *ROSSingleASInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (return
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSingleASInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSingleASInvokeLinkedId).MarshalBER, (*ROSSingleASInvokeLinkedId).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSingleASInvokeLinkedId).MarshalBER, (*ROSSingleASInvokeLinkedId).marshalBER, 1)
 
 }
 func (v *ROSSingleASInvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -1425,7 +1425,7 @@ func (v *ROSSingleASReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (re
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSingleASReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSingleASReturnResultResult).MarshalBER, (*ROSSingleASReturnResultResult).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSingleASReturnResultResult).MarshalBER, (*ROSSingleASReturnResultResult).marshalBER, 1)
 
 }
 func (v *ROSSingleASReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1590,7 +1590,7 @@ func (v *ROSConsumerASInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (retu
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSConsumerASInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSConsumerASInvokeLinkedId).MarshalBER, (*ROSConsumerASInvokeLinkedId).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSConsumerASInvokeLinkedId).MarshalBER, (*ROSConsumerASInvokeLinkedId).marshalBER, 1)
 
 }
 func (v *ROSConsumerASInvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -1749,7 +1749,7 @@ func (v *ROSConsumerASReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSConsumerASReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSConsumerASReturnResultResult).MarshalBER, (*ROSConsumerASReturnResultResult).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSConsumerASReturnResultResult).MarshalBER, (*ROSConsumerASReturnResultResult).marshalBER, 1)
 
 }
 func (v *ROSConsumerASReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1914,7 +1914,7 @@ func (v *ROSSupplierASInvokeLinkedId) MarshalBER(opts ...ber.EncodeOption) (retu
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSupplierASInvokeLinkedId receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSupplierASInvokeLinkedId).MarshalBER, (*ROSSupplierASInvokeLinkedId).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSupplierASInvokeLinkedId).MarshalBER, (*ROSSupplierASInvokeLinkedId).marshalBER, 1)
 
 }
 func (v *ROSSupplierASInvokeLinkedId) appendBERLinear(encoder *ber.LinearEncoder, opts ...ber.EncodeOption) ([]byte, error) {
@@ -2073,7 +2073,7 @@ func (v *ROSSupplierASReturnResultResult) MarshalBER(opts ...ber.EncodeOption) (
 	if v == nil {
 		return nil, fmt.Errorf("%w: ROSSupplierASReturnResultResult receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSupplierASReturnResultResult).MarshalBER, (*ROSSupplierASReturnResultResult).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ROSSupplierASReturnResultResult).MarshalBER, (*ROSSupplierASReturnResultResult).marshalBER, 1)
 
 }
 func (v *ROSSupplierASReturnResultResult) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {

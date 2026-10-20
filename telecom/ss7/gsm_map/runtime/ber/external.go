@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 3d6a0492951403b4db85d93e950463af64dfb812999036c56e84baeeeef06909.
+// Runtime source: runtime/ber/external.go; SHA-256 a4a4a440084963123eafa71be7dcfe5801cfc1a0e8a7fcda374de494fcfae9ab.
 package ber
 
 import (
@@ -43,6 +43,7 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 			return result, err
 		}
 		if t.Class == tag.ClassUniversal && t.Number == tag.TagObjectID {
+			MarkPreflightTarget(options, "direct-reference", value[offset:])
 			oid, n, err := DecodeObjectIdentifier(value[offset:], options...)
 			if err != nil {
 				return result, err
@@ -60,6 +61,7 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 			return result, err
 		}
 		if t.Class == tag.ClassUniversal && t.Number == tag.TagInteger {
+			MarkPreflightTarget(options, "indirect-reference", value[offset:])
 			integer, n, err := DecodeBigInt(value[offset:], options...)
 			if err != nil {
 				return result, err
@@ -77,6 +79,7 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 			return result, err
 		}
 		if t.Class == tag.ClassUniversal && t.Number == tag.TagObjectDesc {
+			MarkPreflightTarget(options, "data-value-descriptor", value[offset:])
 			descriptor, n, err := DecodeString(value[offset:], tag.TagObjectDesc, options...)
 			if err != nil {
 				return result, err
@@ -96,6 +99,7 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 	if offset >= len(value) {
 		return result, fmt.Errorf("%w: EXTERNAL encoding choice is absent", ErrInvalidValue)
 	}
+	MarkPreflightTarget(options, "encoding", value[offset:])
 	t, n, choice, err := DecodeTLV(value[offset:], options...)
 	if err != nil {
 		return result, err
@@ -179,8 +183,8 @@ func encodeExternal(value runtime.External, der bool, options ...EncodeOption) (
 			}
 		}
 	}
-	if !der && BERReplayEnabled(options) {
-		if original := value.UnchangedBER(); original != nil {
+	if !der {
+		if original := replayExternalForm(value, options); original != nil {
 			return original, nil
 		}
 	}
@@ -267,6 +271,9 @@ func encodeExternal(value runtime.External, der bool, options ...EncodeOption) (
 		if err := ValidateDEREncodedElement(encoded); err != nil {
 			return nil, err
 		}
+	}
+	if !der {
+		encoded = replayExternalEditedParts(value, encoded, options)
 	}
 	return encoded, nil
 }

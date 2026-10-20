@@ -12,3 +12,5 @@ type BERValue[T any] struct {
 	Value          T
 	berReplayNode_ *ber.ReplayNode
 }
+
+func (*BERValue[T]) mapPrimitiveValue() {}

@@ -226,7 +226,7 @@ func (v *PrepareGroupCallArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes 
 	if v == nil {
 		return nil, fmt.Errorf("%w: PrepareGroupCallArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*PrepareGroupCallArg).MarshalBER, (*PrepareGroupCallArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*PrepareGroupCallArg).MarshalBER, (*PrepareGroupCallArg).marshalBER, 3)
 
 }
 func (v *PrepareGroupCallArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1075,7 +1075,7 @@ func (v *PrepareGroupCallRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes 
 	if v == nil {
 		return nil, fmt.Errorf("%w: PrepareGroupCallRes receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*PrepareGroupCallRes).MarshalBER, (*PrepareGroupCallRes).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*PrepareGroupCallRes).MarshalBER, (*PrepareGroupCallRes).marshalBER, 3)
 
 }
 func (v *PrepareGroupCallRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1335,7 +1335,7 @@ func (v *SendGroupCallEndSignalArg) MarshalBER(opts ...ber.EncodeOption) (return
 	if v == nil {
 		return nil, fmt.Errorf("%w: SendGroupCallEndSignalArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*SendGroupCallEndSignalArg).MarshalBER, (*SendGroupCallEndSignalArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SendGroupCallEndSignalArg).MarshalBER, (*SendGroupCallEndSignalArg).marshalBER, 3)
 
 }
 func (v *SendGroupCallEndSignalArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1733,7 +1733,7 @@ func (v *SendGroupCallEndSignalRes) MarshalBER(opts ...ber.EncodeOption) (return
 	if v == nil {
 		return nil, fmt.Errorf("%w: SendGroupCallEndSignalRes receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*SendGroupCallEndSignalRes).MarshalBER, (*SendGroupCallEndSignalRes).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SendGroupCallEndSignalRes).MarshalBER, (*SendGroupCallEndSignalRes).marshalBER, 3)
 
 }
 func (v *SendGroupCallEndSignalRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -1932,7 +1932,7 @@ func (v *ForwardGroupCallSignallingArg) MarshalBER(opts ...ber.EncodeOption) (re
 	if v == nil {
 		return nil, fmt.Errorf("%w: ForwardGroupCallSignallingArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ForwardGroupCallSignallingArg).MarshalBER, (*ForwardGroupCallSignallingArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ForwardGroupCallSignallingArg).MarshalBER, (*ForwardGroupCallSignallingArg).marshalBER, 3)
 
 }
 func (v *ForwardGroupCallSignallingArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -2786,7 +2786,7 @@ func (v *ProcessGroupCallSignallingArg) MarshalBER(opts ...ber.EncodeOption) (re
 	if v == nil {
 		return nil, fmt.Errorf("%w: ProcessGroupCallSignallingArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*ProcessGroupCallSignallingArg).MarshalBER, (*ProcessGroupCallSignallingArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*ProcessGroupCallSignallingArg).MarshalBER, (*ProcessGroupCallSignallingArg).marshalBER, 3)
 
 }
 func (v *ProcessGroupCallSignallingArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -3372,7 +3372,7 @@ func (v *StateAttributes) MarshalBER(opts ...ber.EncodeOption) (returnBytes []by
 	if v == nil {
 		return nil, fmt.Errorf("%w: StateAttributes receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*StateAttributes).MarshalBER, (*StateAttributes).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*StateAttributes).MarshalBER, (*StateAttributes).marshalBER, 3)
 
 }
 func (v *StateAttributes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -3641,7 +3641,7 @@ func (v *SendGroupCallInfoArg) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: SendGroupCallInfoArg receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*SendGroupCallInfoArg).MarshalBER, (*SendGroupCallInfoArg).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SendGroupCallInfoArg).MarshalBER, (*SendGroupCallInfoArg).marshalBER, 3)
 
 }
 func (v *SendGroupCallInfoArg) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {
@@ -4382,7 +4382,7 @@ func (v *SendGroupCallInfoRes) MarshalBER(opts ...ber.EncodeOption) (returnBytes
 	if v == nil {
 		return nil, fmt.Errorf("%w: SendGroupCallInfoRes receiver is nil", ber.ErrInvalidValue)
 	}
-	return marshalFramedValue(v, v.berReplayNode_, opts, (*SendGroupCallInfoRes).MarshalBER, (*SendGroupCallInfoRes).marshalBER, true)
+	return marshalFramedValue(v, v.berReplayNode_, opts, (*SendGroupCallInfoRes).MarshalBER, (*SendGroupCallInfoRes).marshalBER, 3)
 
 }
 func (v *SendGroupCallInfoRes) marshalBER(opts ...ber.EncodeOption) ([]byte, error) {

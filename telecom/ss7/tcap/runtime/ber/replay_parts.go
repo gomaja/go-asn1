@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_parts.go; SHA-256 f87acbfdab928af4192a4b4c82ad1206b4192325e2d75699b4bb211e67e035cc.
+// Runtime source: runtime/ber/replay_parts.go; SHA-256 1ee8bcf4f1a85d7eb76f22cee3abec69383e7a5b6db8bb429dd9139643c4d432.
 package ber
 
 import (
@@ -34,7 +34,16 @@ type replayPart struct {
 // Read each header once. In particular an indefinite parent never rescans its
 // descendants to find its end marker. All streams have already been validated
 // or produced by the encoder; checks here refuse a mismatched comparison.
-func readReplayPart(data []byte, pos *int) *replayPart {
+// maxReplayPartDepth bounds the recursive walk over a received encoding. A
+// caller may raise DecodeLimits.MaxDepth far beyond the default, and encoding
+// must never exhaust the goroutine stack: a deeper value is rebuilt in its
+// canonical form instead of keeping its received parts.
+const maxReplayPartDepth = 10000
+
+func readReplayPart(data []byte, pos *int, depth int) *replayPart {
+	if depth > maxReplayPartDepth {
+		return nil
+	}
 	start := *pos
 	identifier, tn, err := DecodeTag(data[start:])
 	if err != nil {
@@ -60,7 +69,7 @@ func readReplayPart(data []byte, pos *int) *replayPart {
 			if indefinite && end-*pos >= 2 && data[*pos] == 0 && data[*pos+1] == 0 {
 				break
 			}
-			child := readReplayPart(data[:end], pos)
+			child := readReplayPart(data[:end], pos, depth+1)
 			if child == nil {
 				return nil
 			}
@@ -84,7 +93,7 @@ func readReplayPart(data []byte, pos *int) *replayPart {
 
 func replayPartRoot(data []byte) *replayPart {
 	pos := 0
-	part := readReplayPart(data, &pos)
+	part := readReplayPart(data, &pos, 0)
 	if pos != len(data) {
 		return nil
 	}

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/entry_options_test.go; SHA-256 99e4a3a11c32b9ad335e0da6d546444e78513939bebf3b9bb11f374ae5eccf13.
+// Runtime source: runtime/ber/entry_options_test.go; SHA-256 15fe6da2f7a1f4eda3fecb8010c9eb729ddc0f7a631027bfebd1dad037206eab.
 package ber
 
 import (
@@ -76,6 +76,9 @@ var berOptionEntries = map[string]any{
 // These generated-code orchestration helpers consume options after the public
 // codec entry has validated them. They are not independent codec entries.
 var berOptionHelpers = map[string]bool{
+	"DeferMAPEncodeCheck":        true,
+	"CheckMAPEncoded":            true,
+	"CheckMAPEncodedElement":     true,
 	"LocateDecodeError":          true,
 	"OwnGeneratedBERInput":       true,
 	"PrepareGeneratedBERInput":   true,
