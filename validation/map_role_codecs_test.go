@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"reflect"
+	"slices"
 	"testing"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
@@ -56,8 +57,10 @@ func TestMAPRoleTypeCodecs(t *testing.T) {
 }
 
 // checkRoleCodec decodes wire, then checks replay, a value built in code and
-// DER. A long-form length is valid BER (X.690 (02/2021) §8.1.3.5): it replays
-// as received and DER writes the minimal form (§10.1). Truncated input,
+// DER. TS 29.002 V19.1.0 §17.1.1 rejects long-form short lengths for MAP
+// types; tolerance reports the rule and preserves replay. SS-UserData is a
+// TS 24.080 type and retains generic BER (X.690 (02/2021) §8.1.3.5).
+// Fresh BER and DER write the short form. Truncated input,
 // trailing octets and a wrong tag are rejected. Editing Value invalidates
 // replay: both BER and DER must match a fresh canonical encoding of the edit.
 func checkRoleCodec[T, H any](t *testing.T, name, text, editedText string, want, edited T,
@@ -91,11 +94,29 @@ func checkRoleCodec[T, H any](t *testing.T, name, text, editedText string, want,
 
 		long := append([]byte{wire[0], 0x81}, wire[1:]...)
 		decoded, err = decode(long)
-		if err != nil {
+		var option []mapber.EncodeOption
+		if name != "SS-UserData" {
+			// TS 29.002 V19.1.0 §17.1.1: short form below 128 octets.
+			strict := checkMAPShortLengthError(t, err, 0, nil)
+			var log mapber.ViolationLog
+			decoded, err = decode(long, mapber.WithTolerance(&log))
+			if err != nil {
+				t.Fatal(err)
+			}
+			checkMAPShortLengthLog(t, &log, strict)
+			var replayLog mapber.ViolationLog
+			option = []mapber.EncodeOption{mapber.WithTolerance(&replayLog)}
+		} else if err != nil {
 			t.Fatal(err)
 		}
-		if got, err := encode(decoded); err != nil || !bytes.Equal(got, long) {
+		if !reflect.DeepEqual(*field(decoded), want) {
+			t.Fatalf("long-form decoded %#v, want %#v", *field(decoded), want)
+		}
+		if got, err := encode(decoded, option...); err != nil || !bytes.Equal(got, long) {
 			t.Fatalf("long-form replay = %x, %v; want %x", got, err, long)
+		}
+		if got, err := encode(decoded, mapber.WithoutBERReplay()); err != nil || !bytes.Equal(got, wire) {
+			t.Fatalf("long-form fresh BER = %x, %v; want %x", got, err, wire)
 		}
 		if got, err := der(decoded); err != nil || !bytes.Equal(got, wire) {
 			t.Fatalf("long-form DER = %x, %v; want %x", got, err, wire)
@@ -133,6 +154,42 @@ func checkRoleCodec[T, H any](t *testing.T, name, text, editedText string, want,
 			t.Fatalf("wrong tag: %v", err)
 		}
 	})
+}
+
+// TS 29.002 V19.1.0 §17.1.1 requires short lengths below 128 octets.
+// A profile refusal must retain both the rule and its received-wire location.
+func checkMAPShortLengthError(t *testing.T, err error, offset int, children []int) mapber.Violation {
+	t.Helper()
+	var element *mapber.ElementError
+	var validation *mapber.ValidationError
+	if !errors.Is(err, mapber.ErrInvalidValue) || !errors.As(err, &element) || !errors.As(element.Unwrap(), &validation) {
+		t.Fatalf("§17.1.1 refusal = %T %v; want ElementError wrapping ValidationError", err, err)
+	}
+	checkMAPShortLengthViolation(t, validation.Violation, offset, children)
+	if element.Offset() != *validation.Offset || !slices.Equal(element.ChildIndexes(), validation.ChildIndexes) {
+		t.Fatalf("element location = %d/%v; violation = %d/%v", element.Offset(), element.ChildIndexes(), *validation.Offset, validation.ChildIndexes)
+	}
+	return validation.Violation
+}
+
+func checkMAPShortLengthViolation(t *testing.T, got mapber.Violation, offset int, children []int) {
+	t.Helper()
+	wantRule := mapber.RuleRef{Document: "3GPP TS 29.002", Edition: "V19.1.0", Clause: "17.1.1"}
+	if got.Kind != mapber.ProtocolRule || got.Rule != wantRule || got.Constraint != "TS 29.002 §17.1.1: short-length" || got.Offset == nil || *got.Offset != offset || !slices.Equal(got.ChildIndexes, children) {
+		t.Fatalf("§17.1.1 short-length violation = %+v; want offset %d, children %v", got, offset, children)
+	}
+}
+
+func checkMAPShortLengthLog(t *testing.T, log *mapber.ViolationLog, strict mapber.Violation) {
+	t.Helper()
+	rows := log.Snapshot()
+	if len(rows) != 1 {
+		t.Fatalf("§17.1.1 tolerant findings = %+v; want exactly one", rows)
+	}
+	checkMAPShortLengthViolation(t, rows[0], *strict.Offset, strict.ChildIndexes)
+	if rows[0].Source != strict.Source || rows[0].Path != strict.Path {
+		t.Fatalf("tolerant source/path = %q/%q; strict = %q/%q", rows[0].Source, rows[0].Path, strict.Source, strict.Path)
+	}
 }
 
 // The standalone functions check the constraints of the type (3GPP TS

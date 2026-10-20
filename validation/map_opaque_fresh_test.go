@@ -35,7 +35,19 @@ func TestMAPWithoutBERReplayCanonicalOpaque(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if err := tc.value.UnmarshalBER(wire); err != nil {
+			var replayOptions []mapber.EncodeOption
+			if tc.name == "typed control" {
+				// TS 29.002 V19.1.0 §17.1.1: the typed child must use
+				// a short length; unknown complete encodings stay opaque.
+				strict := checkMAPShortLengthError(t, tc.value.UnmarshalBER(wire), 2, []int{0})
+				var log mapber.ViolationLog
+				if err := tc.value.UnmarshalBER(wire, mapber.WithTolerance(&log)); err != nil {
+					t.Fatal(err)
+				}
+				checkMAPShortLengthLog(t, &log, strict)
+				var replayLog mapber.ViolationLog
+				replayOptions = []mapber.EncodeOption{mapber.WithTolerance(&replayLog)}
+			} else if err := tc.value.UnmarshalBER(wire); err != nil {
 				t.Fatal(err)
 			}
 			switch v := tc.value.(type) {
@@ -59,7 +71,7 @@ func TestMAPWithoutBERReplayCanonicalOpaque(t *testing.T) {
 					t.Fatalf("private extension = %+v", private)
 				}
 			}
-			if replay, err := tc.value.MarshalBER(); err != nil || !bytes.Equal(replay, wire) {
+			if replay, err := tc.value.MarshalBER(replayOptions...); err != nil || !bytes.Equal(replay, wire) {
 				t.Fatalf("replay = %x, %v; want %x", replay, err, wire)
 			}
 			if der, err := tc.value.MarshalDER(); err != nil || !bytes.Equal(der, want) {
