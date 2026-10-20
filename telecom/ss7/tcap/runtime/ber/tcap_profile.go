@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 f25d51090266a52b2b3aff1d13309a447cd3b42a0b993f5fee68766f377589c9.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 98662b40ace1f58e2dd00b0b6eab46a474caeb63f520df3c6c76f921b694f380.
 package ber
 
 import (
@@ -22,15 +22,37 @@ func (option tcapProfileOption) applyDecode(c *decodeConfig) error {
 	return nil
 }
 
-// TrackTCAPForm applies Q.773 (06/1997) §4.1.1 to TCAP-owned syntax in a
-// generated decode; X.690 (02/2021) §8.15 open-type values remain foreign.
-// Generic BER helpers remain usable independently of that protocol profile.
+// TrackTCAPForm applies Q.773 (06/1997) §4.1.1 to TCAP-owned syntax;
+// X.690 (02/2021) §8.15 open-type values remain foreign.
+// Without a source, or with an empty first source string, it scans a whole
+// TCMessage (Q.773 Annex A), or preserves an already active profile's root.
+//
+// For a subtree, source takes the generated Go root type name, optionally
+// followed by its ASN.1 module and assignment names. Use the names passed by
+// that type's generated UnmarshalBER method, for example "Invoke",
+// "Remote-Operations-Generic-ROS-PDUs", "Invoke". The root type selects schema
+// ownership, including IMPLICIT strings and open-type boundaries; the module
+// and assignment only label reports. Assignment defaults to the root type.
+// Unknown type names provide no schema ownership information.
+//
+// ValidateBERElement with these options checks BER and the encoding profile;
+// generated decoders additionally check schema constraints and text rules.
+// Generic BER helpers remain usable independently of this protocol profile.
 func TrackTCAPForm(options []DecodeOption, source ...string) []DecodeOption {
 	name := ""
 	if len(source) > 0 {
 		name = source[0]
 	}
 	c, err := decodeOptions(options)
+	if !c.profile && name == "" {
+		name = "TCMessage"
+		if len(source) <= 1 {
+			source = []string{"TCMessage", "TCAPMessages", "TCMessage"}
+		} else {
+			source = append([]string(nil), source...)
+			source[0] = name
+		}
+	}
 	if err == nil && (!c.profile || name != "" && name != c.profileType) {
 		// The outer profile pass owns every nested finding. Its source is
 		// already resolved; a nested pass cannot publish a profile report.
@@ -407,8 +429,15 @@ func tcapPathSegment(root, parent, kind string, t tag.Tag, index int, isRoot boo
 			return "invokeId.present"
 		}
 		if parent == "Invoke" {
-			if t.Class == tag.ClassContextSpecific && t.Number == 0 {
-				return "linkedId.present"
+			// X.880 (07/1994) Annex A: linkedId CHOICE has both
+			// present [0] and absent [1] alternatives.
+			if t.Class == tag.ClassContextSpecific {
+				switch t.Number {
+				case 0:
+					return "linkedId.present"
+				case 1:
+					return "linkedId.absent"
+				}
 			}
 			if t.Class == tag.ClassUniversal && t.Number == 2 {
 				return "opcode.local"
