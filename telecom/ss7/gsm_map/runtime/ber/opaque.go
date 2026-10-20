@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/opaque.go; SHA-256 ea0da728aaa4f86195a8659eca0b0b72acdd40ff04c7528ddc26c74badfd79be.
+// Runtime source: runtime/ber/opaque.go; SHA-256 32c7a7868a4b51d49e0d80604210ac0753f0d7d7c966cb70f15fa7f409a5fd22.
 package ber
 
 import (
@@ -86,7 +86,10 @@ func opaqueUTF8EncodeError(data []byte, source string, options []EncodeOption, c
 		return cause
 	}
 	var reports ViolationLog
-	decode := []DecodeOption{encodingStructureOption(data), WithTolerance(&reports)}
+	decode := []DecodeOption{encodingStructureOption(data), WithTolerance(&reports), decodeOptionFunc(func(config *decodeConfig) error {
+		config.firstUTF8Only = true
+		return nil
+	})}
 	for _, option := range options {
 		if path, ok := option.(constraintPathOption); ok {
 			decode = append(decode, path)
@@ -96,7 +99,7 @@ func opaqueUTF8EncodeError(data []byte, source string, options []EncodeOption, c
 		decode = LocateDecodedElement(data, source, decode)
 	}
 	if err := ValidateBERElement(data, decode...); err != nil {
-		return cause
+		return err
 	}
 	records := reports.Snapshot()
 	if len(records) == 0 || records[0].Rule.Clause != "8.23.10" {

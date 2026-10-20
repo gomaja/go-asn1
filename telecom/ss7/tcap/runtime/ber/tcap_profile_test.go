@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile_test.go; SHA-256 dd51df369a8fb5e59313948e114542a0b3e14f604ce0e3813e1a1842e3934f75.
+// Runtime source: runtime/ber/tcap_profile_test.go; SHA-256 693e5662af67122f4c950207081f9c089d76b089aaa5e4c4242276c9cd348b8f.
 package ber
 
 import (
@@ -110,7 +110,7 @@ func TestTCAPProfileAfterAbsentLinkedID(t *testing.T) {
 	}
 }
 
-// X.690 (02/2021) §§8.18.10–8.18.11: the segments encode EXTERNAL's
+// X.690 (02/2021) §§8.18.10–8.18.11, 8.7.3, 8.6.4: segments encode EXTERNAL's
 // OCTET STRING or BIT STRING; only the segment data is TC-user content.
 func TestTCAPProfileExternalSegmentHeaders(t *testing.T) {
 	wrap := func(id byte, parts ...[]byte) []byte {

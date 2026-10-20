@@ -1,11 +1,12 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/opaque_test.go; SHA-256 de7c52a8fd3946f990964685f56e83c85c884c5381f7858eae62503d1cf1f32e.
+// Runtime source: runtime/ber/opaque_test.go; SHA-256 aead4d984d5b9ffe29f37baa3741eba48e11cddbda8334f0b52bfb93bbe33eb4.
 package ber
 
 import (
 	"bytes"
 	"errors"
+	"strings"
 	"testing"
 )
 
@@ -114,5 +115,38 @@ func TestValidOpaqueToleranceHasNoDiagnosticAllocations(t *testing.T) {
 	}
 	if len(reports.Snapshot()) != 0 {
 		t.Fatal("valid opaque value reported a violation")
+	}
+}
+
+// X.690 (02/2021) §§8.2.1, 8.23.10: a later malformed BOOLEAN
+// remains structural even when an earlier UTF8String has invalid octets.
+func TestOpaqueUTF8RefusalRescan(t *testing.T) {
+	for _, tc := range []struct {
+		name       string
+		wire       []byte
+		structural bool
+	}{
+		{"later structure", []byte{0x30, 7, 12, 1, 255, 1, 2, 0, 0}, true},
+		{"past report budget", append([]byte{12, 0x82, 4, 1}, bytes.Repeat([]byte{255}, 1025)...), false},
+	} {
+		for _, mode := range []struct {
+			name    string
+			options []EncodeOption
+		}{{"strict", nil}, {"fresh", []EncodeOption{WithoutBERReplay()}}} {
+			t.Run(tc.name+"/"+mode.name, func(t *testing.T) {
+				opts := EncodeSource(ChildEncodeOptions(mode.options, "opaque"), "Module.Value")
+				err := CheckBEROpaqueElement(tc.wire, opts...)
+				var ve *ValidationError
+				if tc.structural {
+					if err == nil || errors.As(err, &ve) || !strings.Contains(err.Error(), "BOOLEAN") {
+						t.Fatalf("want BOOLEAN structural failure, got %T %v", err, err)
+					}
+					return
+				}
+				if !errors.As(err, &ve) || ve.Path != "opaque" || ve.Source != "Module.Value" || ve.Rule.Clause != "8.23.10" {
+					t.Fatalf("want located ValidationError, got %T %+v", err, err)
+				}
+			})
+		}
 	}
 }

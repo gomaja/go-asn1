@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 870ad6d4bdc7b08cf70cda42b9f0dca00081397c0325888f51884588e90b0ef5.
+// Runtime source: runtime/ber/options.go; SHA-256 5fa5b575c3af9bf590ea3e0e67b4279fe3a221e1c4722fe2aa96dd0e3da6afb2.
 package ber
 
 import (
@@ -79,6 +79,7 @@ type decodeConfig struct {
 	limits                DecodeLimits
 	diagnostics           DiagnosticLimits
 	tolerant              bool
+	firstUTF8Only         bool // strict opaque refusal rescan; keep scanning structure
 	violations            *ViolationLog
 	reportScope           *reportScope
 	hasPath               bool

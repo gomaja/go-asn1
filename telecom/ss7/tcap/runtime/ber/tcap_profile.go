@@ -1,11 +1,12 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 c06fa482032c6e6ead3c068fc42faaa47b4014d84fe735995a2750ccb6d937a9.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 f25d51090266a52b2b3aff1d13309a447cd3b42a0b993f5fee68766f377589c9.
 package ber
 
 import (
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/ss7/tcap/runtime/tag"
+	"math"
 )
 
 type tcapProfileOption struct {
@@ -94,9 +95,26 @@ func checkTCAPProfileElement(data []byte, pos, tagLen, lenLen int, indefinite bo
 			}
 		}
 
-		v := identifyViolation(Violation{Kind: ProtocolRule, Path: path, Constraint: "Q.773 §4.1.1: " + rule, Source: profileRuleSource(config.profileSource, path), ObservedValue: observation, Offset: new(offset), ChildIndexes: append([]int(nil), indexes...), preflight: false, scope: config.reportScope})
+		reportedPath := path
+		if config.location != nil && config.location.origin.search.segments != nil {
+			prefix := config.location.origin.search.segments.path
+			if prefix != "" {
+				reportedPath = prefix
+				if path != "" {
+					reportedPath += "." + path
+				}
+			}
+		}
+		v := identifyViolation(Violation{Kind: ProtocolRule, Path: reportedPath, Constraint: "Q.773 §4.1.1: " + rule, Source: profileRuleSource(config.profileSource, reportedPath), ObservedValue: observation, Offset: new(offset), ChildIndexes: append([]int(nil), indexes...), preflight: false, scope: config.reportScope})
 		if !config.tolerant {
 			return &ValidationError{boundedViolation(v)}
+		}
+		if config.profileEncode {
+			// Encode reports describe abstract values. Keep child positions
+			// privately for idempotence: DialoguePortion and its EXTERNAL
+			// child share a path, and byte lengths can move either header.
+			// No output offset is a received-wire coordinate.
+			v.encodeRecord = true
 		}
 		return config.violations.append(v, config.diagnostics)
 	}
@@ -189,7 +207,13 @@ type tcapEncodedProfileOption struct {
 }
 
 func (option tcapEncodedProfileOption) applyDecode(config *decodeConfig) error {
-	config.profile = true
+	config.profile, config.profileEncode = true, true
+	// Encoding validates already-owned bytes. A segmented dialogue is visited
+	// once as wire segments and once as its identified APDU (X.690 §§8.6.4,
+	// 8.7.3, 8.18.10–8.18.11). Decode callers retain their explicit budget.
+	if config.limits.MaxWork <= math.MaxInt/2 {
+		config.limits.MaxWork *= 2
+	}
 	config.profileType, config.profileSource = option.kind, option.source
 	config.tolerant, config.violations, config.reportScope = option.tolerant, option.violations, option.scope
 	return nil

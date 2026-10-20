@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/validation.go; SHA-256 2a8e572862eb483a91d512f68983347555281d3effdf4ef8e28ce3b1088a006a.
+// Runtime source: runtime/ber/validation.go; SHA-256 acf18bc01473c7a9707c74cf6012aa5477cfca139601c520a329f6a613621245.
 package ber
 
 import (
@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"math/big"
+	"slices"
 	"strings"
 )
 
@@ -50,6 +51,7 @@ func identifyViolation(v Violation) Violation {
 }
 
 type positionSearch struct {
+	segments            *dialogueSegments
 	stack               []berScanFrame
 	pos, elements, work int
 	visits              *int
@@ -165,6 +167,12 @@ func (location *decodeLocation) receivedOffset() int {
 
 func (location *decodeLocation) wireOffset(data []byte) (int, bool) {
 	if offset, ok := berSubsliceOffset(location.origin.root, data); ok {
+		if segments := location.origin.search.segments; segments != nil {
+			if offset >= len(segments.offsets) {
+				return 0, false
+			}
+			return segments.offsets[offset], true
+		}
 		return offset, true
 	}
 	if offset, ok := berSubsliceOffset(location.input, data); ok {
@@ -181,6 +189,25 @@ func (location *decodeLocation) wireOffset(data []byte) (int, bool) {
 			return n + m
 		}
 		inputHeader := header(location.input)
+		if segments := location.origin.search.segments; segments != nil {
+			base, ok := slices.BinarySearch(segments.offsets, received)
+			if !ok {
+				return 0, false
+			}
+			relative := offset
+			if offset >= inputHeader {
+				relative = offset - inputHeader
+				receivedHeader := header(location.origin.root[base:])
+				if receivedHeader > len(segments.offsets)-base || relative > len(segments.offsets)-base-receivedHeader {
+					return 0, false
+				}
+				relative += receivedHeader
+			}
+			if relative >= len(segments.offsets)-base {
+				return 0, false
+			}
+			return segments.offsets[base+relative], true
+		}
 		if offset >= inputHeader && received < len(location.origin.root) {
 			relative := offset - inputHeader
 			base := received + header(location.origin.root[received:])
@@ -325,6 +352,9 @@ func locateViolation(config decodeConfig, v Violation, leaf string) (Violation, 
 // the ancestor stack and requested records, never every preceding sibling.
 // Header and primitive-content visits share one MaxWork budget across lookups.
 func (origin *decodeOrigin) ancestry(target int) ([]int, error) {
+	if segments := origin.search.segments; segments != nil {
+		return segments.ancestry(origin, target)
+	}
 	if target <= 0 {
 		return nil, nil
 	}
@@ -386,12 +416,12 @@ func LocateDialogueContent(data, inner []byte, options []DecodeOption) []DecodeO
 	}
 	for pos := 0; pos < len(body); {
 		identifier, n, contents, err := DecodeTLV(body[pos:], options...)
-		if err != nil || n <= 0 {
+		if err != nil || n <= 0 || n > len(body)-pos {
 			return options
 		}
 		if identifier.Class == 2 && identifier.Number >= 0 && identifier.Number <= 2 {
 			if identifier.Constructed && identifier.Number != 0 {
-				return options
+				return locateSegmentedDialogue(body[pos:pos+n], inner, config, options)
 			}
 			if identifier.Number == 2 {
 				if len(contents) == 0 {

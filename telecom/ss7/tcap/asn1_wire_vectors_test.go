@@ -227,7 +227,7 @@ func TestVectorBeginIndefiniteComponentPortion(t *testing.T) {
 	}
 }
 
-// TestVectorBeginDialogueExplicitExternal verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin dialoguePortion [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1; Q.773 Annex A DialoguePDUs.AARQ-apdu requires application-context-name.
+// TestVectorBeginDialogueExplicitExternal verifies Q.773 (06/1997) §3.2.1 DialoguePDUs.AARQ-apdu requires application-context-name (syntax identifiers in §4.2.3); ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Begin dialoguePortion [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1.
 // Regression: go-asn1-v0.5.0.tcap.begin-dialogue-explicit-external
 func TestVectorBeginDialogueExplicitExternal(t *testing.T) {
 	t.Parallel()
@@ -277,7 +277,7 @@ func TestVectorAbortReasonPAbortApplicationTag(t *testing.T) {
 	}
 }
 
-// TestVectorAbortReasonUAbortApplicationTag verifies ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Abort-reason u-abortCause [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1; Q.773 Annex A DialoguePDUs.AARQ-apdu requires application-context-name.
+// TestVectorAbortReasonUAbortApplicationTag verifies Q.773 (06/1997) §3.2.1 DialoguePDUs.AARQ-apdu requires application-context-name (syntax identifiers in §4.2.3); ITU-T Q.773 (06/1997), in force, Annex A TCAPMessages module, Abort-reason u-abortCause [APPLICATION 11] EXPLICIT EXTERNAL; ITU-T X.690 (02/2021), clause 8.18.1.
 // Regression: go-asn1-v0.5.0.tcap.abort-reason-u-abort-application-tag
 func TestVectorAbortReasonUAbortApplicationTag(t *testing.T) {
 	t.Parallel()
@@ -336,7 +336,7 @@ func TestVectorComponentPortionUniversalSequenceRejected(t *testing.T) {
 	}
 }
 
-// TestVectorBeginDialogueExplicitExternalTyped verifies ITU-T Q.773 (06/1997) Annex A DialoguePDUs.AARQ-apdu mandatory application-context-name and TCAPMessages.Begin; X.690 (02/2021) 8.18.1.
+// TestVectorBeginDialogueExplicitExternalTyped verifies ITU-T Q.773 (06/1997) §§3.2.1, 3.2.2 DialoguePDUs.AARQ-apdu mandatory application-context-name; Annex A TCAPMessages.Begin; X.690 (02/2021) 8.18.1.
 func TestVectorBeginDialogueExplicitExternalTyped(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "301a4801016b152813060700118605010101a0086006a10406022a03")
@@ -355,7 +355,7 @@ func TestVectorBeginDialogueExplicitExternalTyped(t *testing.T) {
 	}
 }
 
-// TestVectorAbortReasonUAbortApplicationTagTyped verifies ITU-T Q.773 (06/1997) Annex A DialoguePDUs.AARQ-apdu mandatory application-context-name and TCAPMessages.Abort-reason; X.690 (02/2021) 8.18.1.
+// TestVectorAbortReasonUAbortApplicationTagTyped verifies ITU-T Q.773 (06/1997) §§3.2.1, 3.2.2 DialoguePDUs.AARQ-apdu mandatory application-context-name; Annex A TCAPMessages.Abort-reason; X.690 (02/2021) 8.18.1.
 func TestVectorAbortReasonUAbortApplicationTagTyped(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "6b152813060700118605010101a0086006a10406022a03")

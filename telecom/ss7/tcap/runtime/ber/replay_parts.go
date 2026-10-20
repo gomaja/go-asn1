@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_parts.go; SHA-256 9921b7c8aac19d2837631a1ac2c14c5af18e15bb476c2b44397d344fdfb13c39.
+// Runtime source: runtime/ber/replay_parts.go; SHA-256 f87acbfdab928af4192a4b4c82ad1206b4192325e2d75699b4bb211e67e035cc.
 package ber
 
 import (
@@ -232,14 +232,19 @@ func replayUnchangedParts(encoded []byte, node *ReplayNode) []byte {
 	if record != nil {
 		markReplayBoundaries(b, record)
 	}
-	offset, known := state.profileIndex.nodes[node]
+	index := state.profileIndex
+	position, known := index.nodes[node]
+	if position.logical != nil {
+		index = position.logical
+	}
+	offset := position.offset
 	if !known && node != state.root {
 		return encoded
 	}
 	shiftReplayPart(a, offset)
 	markReplayPartBaseline(a, b)
-	cursor, _ := slices.BinarySearch(state.profileIndex.offsets, offset)
-	markReplayPartSafety(a, state.profileIndex, &cursor)
+	cursor, _ := slices.BinarySearch(index.offsets, offset)
+	markReplayPartSafety(a, index, &cursor)
 	plan := planReplayParts(a, b, c)
 	if plan.size < 0 {
 		return encoded

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 4fcf9ea598a05c49e7b1f6829d8d616772d53b1121fa7fee83cff96d4d5e5983.
+// Runtime source: runtime/ber/constraints.go; SHA-256 768e07ba4e5514d128d8dce89367463895337ecbfc71913d2dc633cc9c644973.
 package ber
 
 import (
@@ -38,6 +38,7 @@ type Violation struct {
 	scope        *reportScope
 	source       weak.Pointer[byte]
 	preflight    bool
+	encodeRecord bool
 	observedHash [32]byte
 }
 
@@ -149,6 +150,10 @@ type wireViolationKey struct {
 
 func reportKey(record Violation) violationKey {
 	key := violationKey{scope: record.scope, path: record.Path, constraint: record.Constraint, source: record.source, offset: -1}
+	if record.encodeRecord {
+		key.observed = sha256.Sum256(fmt.Append(nil, record.ChildIndexes))
+		return key
+	}
 	if record.Offset != nil {
 		key.offset = *record.Offset
 		key.path = ""
@@ -209,6 +214,10 @@ func (log *ViolationLog) appendBatch(records []Violation) {
 // buffers reachable, even when a caller retains staged options after finish.
 func publishedViolation(record Violation) Violation {
 	record.scope = nil
+	if record.encodeRecord {
+		record.Offset, record.OctetOffset, record.ChildIndexes = nil, nil, nil
+		record.encodeRecord = false
+	}
 	record.source = weak.Pointer[byte]{}
 	record.observedHash = [32]byte{}
 	record.preflight = false
