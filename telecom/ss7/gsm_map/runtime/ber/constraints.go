@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/constraints.go; SHA-256 6fe190d0cd6c5b53160607eb14f03aafe48a430bc2c2f7bfbd0457b6af66f1fe.
+// Runtime source: runtime/ber/constraints.go; SHA-256 838c11a0e69c872b4975f75066afaace7ee31c3090a7bd5dd5b028a632b01259.
 package ber
 
 import (
@@ -362,6 +362,7 @@ func noReportCommit(bool) {}
 // Its finish function publishes the staged reports only on success. Nested
 // generated calls commit into the parent's private destination.
 func StageDecodeReports(options []DecodeOption) ([]DecodeOption, func(bool)) {
+	options = expandResolvedDecodeOptions(options)
 	if len(options) == 1 {
 		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
 			return options, noReportCommit
@@ -437,6 +438,9 @@ func stageRootBERForms(options []DecodeOption) {
 
 func decodeToleranceNeedsStaging(options []DecodeOption) bool {
 	for _, option := range options {
+		if form, ok := option.(berFormOption); ok && form.state != nil && form.state.resolved != nil && decodeToleranceNeedsStaging(form.state.resolved.options) {
+			return true
+		}
 		if tolerance, ok := option.(*toleranceOption); ok && tolerance != nil && tolerance.violations != nil {
 			return true
 		}
@@ -705,6 +709,12 @@ func qualifyConstraintPath[Option any](options []Option, leaf string) string {
 	}
 	var components []string
 	for _, option := range options {
+		if form, ok := any(option).(berFormOption); ok && form.state != nil && form.state.resolved != nil {
+			if prefix := qualifyConstraintPath(form.state.resolved.options, ""); prefix != "" {
+				components = append(components, prefix)
+			}
+			continue
+		}
 		if diagnostic, ok := any(option).(diagnosticChildOption); ok {
 			path := qualifyConstraintPath(diagnostic.options, "")
 			if path != "" {
@@ -810,10 +820,13 @@ func (option constraintPathOption) applyEncode(config *encodeConfig) error {
 func ChildDecodeOptions(options []DecodeOption, component string) []DecodeOption {
 	if len(options) == 1 {
 		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
-			child := &generatedDecodeOption{source: context.source, config: context.config, parent: context, component: component}
+			storage := new(generatedDecodeContextStorage)
+			child := &storage.context
+			*child = generatedDecodeOption{source: context.source, config: context.config, parent: context, component: component, validated: context.validated && component != "" && !strings.Contains(component, ".")}
 			child.config.collectionSizeChecked = false
 			child.config.hasPath = true
-			return []DecodeOption{child}
+			storage.options[0] = child
+			return storage.options[:]
 		}
 	}
 	return append(options[:len(options):len(options)], constraintPathOption(component))
@@ -837,6 +850,7 @@ func ToleranceEnabled(options []DecodeOption) bool {
 }
 
 type berFormState struct {
+	resolved        *resolvedDecodeOptions
 	preserve        bool
 	captureDisabled bool
 	proofNeeded     bool
@@ -854,8 +868,53 @@ type berFormState struct {
 type berFormOption struct{ state *berFormState }
 
 func (option berFormOption) applyDecode(config *decodeConfig) error {
+	if option.state != nil && option.state.resolved != nil {
+		for _, original := range option.state.resolved.options {
+			if original == nil {
+				return fmt.Errorf("%w: nil BER decode option", ErrInvalidValue)
+			}
+			if err := original.applyDecode(config); err != nil {
+				return err
+			}
+		}
+	}
 	config.form = option.state
 	return nil
+}
+
+// The root form, resolved policy and returned singleton have one lifetime.
+// Original options exclude this marker, keeping path expansion acyclic.
+type resolvedDecodeOptions struct {
+	config           decodeConfig
+	err              error
+	options          []DecodeOption
+	singleton        [1]DecodeOption
+	form             berFormState
+	freshReportScope bool
+}
+
+// Staging starts a new root operation. Restore the original policy so its
+// tolerance destination and form can be isolated before resolving it again.
+func expandResolvedDecodeOptions(options []DecodeOption) []DecodeOption {
+	var expanded []DecodeOption
+	for index, option := range options {
+		form, ok := option.(berFormOption)
+		if !ok || form.state == nil || form.state.resolved == nil {
+			if expanded != nil {
+				expanded = append(expanded, option)
+			}
+			continue
+		}
+		if expanded == nil {
+			expanded = append(make([]DecodeOption, 0, len(options)), options[:index]...)
+		}
+		expanded = append(expanded, form.state.resolved.options...)
+		expanded = append(expanded, option)
+	}
+	if expanded == nil {
+		return options
+	}
+	return expanded
 }
 
 // TrackBERForm shares one form marker across a generated value and its children.
@@ -863,9 +922,22 @@ func (option berFormOption) applyDecode(config *decodeConfig) error {
 // can be reused across sequential or concurrent generated decodes.
 // X.690 (02/2021) §§8.1.3, 8.7.3 and 10.2 allow BER forms that DER forbids.
 func TrackBERForm(options []DecodeOption) []DecodeOption {
-	for _, option := range options {
+	probing := generatedPreflightProbeActive(options)
+	if probing {
+		options = expandResolvedDecodeOptions(options)
+		for index, option := range options {
+			if form, ok := option.(berFormOption); ok && form.state != nil && form.state.resolved != nil {
+				state := *form.state
+				state.resolved = nil
+				options[index] = berFormOption{state: &state}
+			}
+		}
+	}
+	var form *berFormState
+	formIndex := -1
+	for index, option := range options {
 		if diagnostic, ok := option.(diagnosticChildOption); ok {
-			if generatedDecodeHasForm(diagnostic.options) {
+			if !probing && generatedDecodeHasForm(diagnostic.options) {
 				return options
 			}
 			diagnostic.options = TrackBERForm(diagnostic.options)
@@ -874,13 +946,42 @@ func TrackBERForm(options []DecodeOption) []DecodeOption {
 		if _, ok := option.(*generatedDecodeOption); ok {
 			return options
 		}
-		if _, ok := option.(berFormOption); ok {
-			return options
+		if marker, ok := option.(berFormOption); ok {
+			if probing || marker.state == nil || marker.state.resolved != nil || form != nil {
+				return options
+			}
+			form = marker.state
+			formIndex = index
 		}
 	}
-	tracked := append([]DecodeOption(nil), options...)
-	config, _ := decodeOptions(options)
-	return append(tracked, berFormOption{state: &berFormState{captureDisabled: config.noReplayCapture}})
+	config, err := decodeOptions(options)
+	if probing {
+		tracked := append([]DecodeOption(nil), options...)
+		return append(tracked, berFormOption{state: &berFormState{captureDisabled: config.noReplayCapture}})
+	}
+	resolved := &resolvedDecodeOptions{config: config, err: err}
+	if form == nil {
+		form = &resolved.form
+		form.captureDisabled = config.noReplayCapture
+		if err == nil {
+			resolved.config.form = form
+		}
+	}
+	if formIndex < 0 {
+		resolved.options = append([]DecodeOption(nil), options...)
+	} else if len(options) > 1 {
+		resolved.options = make([]DecodeOption, 0, len(options)-1)
+		resolved.options = append(resolved.options, options[:formIndex]...)
+		resolved.options = append(resolved.options, options[formIndex+1:]...)
+	}
+	for _, option := range resolved.options {
+		if tolerance, ok := option.(*toleranceOption); ok && tolerance != nil && tolerance.scope == nil && config.tolerant {
+			resolved.freshReportScope = true
+		}
+	}
+	form.resolved = resolved
+	resolved.singleton[0] = berFormOption{state: form}
+	return resolved.singleton[:]
 }
 
 func generatedDecodeHasForm(options []DecodeOption) bool {
@@ -945,7 +1046,7 @@ func MarkBERSetOrder(data []byte, schemaPosition func(tag.Tag) int, options ...D
 	limits := DefaultDecodeLimits()
 	var form *berFormState
 	if len(options) == 1 {
-		if marker, ok := options[0].(berFormOption); ok {
+		if marker, ok := options[0].(berFormOption); ok && (marker.state == nil || marker.state.resolved == nil) {
 			form = marker.state
 		} else {
 			config, err := decodeOptions(options)
@@ -1021,9 +1122,11 @@ func (parentCollectionSizeOption) applyEncode(config *encodeConfig) error {
 func ParentCollectionSizeDecodeOptions(options []DecodeOption) []DecodeOption {
 	if len(options) == 1 {
 		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
-			child := *context
-			child.config.collectionSizeChecked = true
-			return []DecodeOption{&child}
+			storage := new(generatedDecodeContextStorage)
+			storage.context = *context
+			storage.context.config.collectionSizeChecked = true
+			storage.options[0] = &storage.context
+			return storage.options[:]
 		}
 	}
 	return append(append([]DecodeOption(nil), options...), parentCollectionSizeOption{})

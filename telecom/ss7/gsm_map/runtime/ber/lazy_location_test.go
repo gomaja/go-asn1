@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/lazy_location_test.go; SHA-256 114cbcde2442efb2d3fa87c91682318f64be316b76d33c761d987ebab47c95a0.
+// Runtime source: runtime/ber/lazy_location_test.go; SHA-256 e63dfc686c4ed3a9b4a2eca42fcf907a0889181e4ad091241ec9d5a86c1f326f.
 package ber
 
 import (
@@ -157,7 +157,10 @@ func TestPrimitiveElementMarksDeferNames(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	marks := config.location.origin.pendingMarks
+	var marks []decodedElementMark
+	if config.location.origin != nil {
+		marks = config.location.origin.pendingMarks
+	}
 	if len(marks) != 0 || config.location.elementIndex != 1 || &config.location.elementRaw[0] != &data[7] || config.location.field != "" {
 		t.Fatalf("eager element marks or missing index: %+v, location=%+v", marks, config.location)
 	}
@@ -196,7 +199,7 @@ func TestPrimitiveElementLocationStorageIsConstant(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if len(config.location.origin.pendingMarks) != 0 || config.location.origin.marks != nil || config.location.elementIndex != count-1 {
+		if config.location.origin != nil && (len(config.location.origin.pendingMarks) != 0 || config.location.origin.marks != nil) || config.location.elementIndex != count-1 {
 			t.Fatalf("%d elements retained per-element locations", count)
 		}
 		err = CheckDecodedLength(options, fmt.Sprintf("element[%d]", count-1), "SIZE (2)", 1)
