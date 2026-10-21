@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/encoder.go; SHA-256 2f99484545a6cbcc50d8fc8d098f9ac067f94ac90f0532eeedac49632326e667.
+// Runtime source: runtime/ber/encoder.go; SHA-256 34b562297abcfafcb7ffea43d8f71c24105e9b67ef2b5f6c5f1caf236a4ce9a3.
 package ber
 
 import (
@@ -65,6 +65,22 @@ func EncodeTLV(t tag.Tag, value []byte) ([]byte, error) {
 }
 
 func encodeTLVWithLimit(t tag.Tag, value []byte, limit int) ([]byte, error) {
+	// ITU-T X.690 (02/2021) §§8.1.2.2, 8.1.2.5 and 8.1.3.4:
+	// a low tag and short definite length fit directly in the owned output.
+	if t.Class <= tag.ClassPrivate && t.Number >= 0 && t.Number < 31 && len(value) < 128 {
+		capacity, err := checkedBERCapacity(limit, 2, len(value))
+		if err != nil {
+			return nil, err
+		}
+		result := make([]byte, capacity)
+		result[0] = byte(t.Class)<<6 | byte(t.Number)
+		if t.Constructed {
+			result[0] |= 0x20
+		}
+		result[1] = byte(len(value))
+		copy(result[2:], value)
+		return result, nil
+	}
 	tagBytes := t.Encode()
 	lenBytes := EncodeLength(len(value))
 	capacity, err := checkedBERCapacity(limit, len(tagBytes), len(lenBytes), len(value))
@@ -698,7 +714,19 @@ func EncodeImplicitTagWithClass(tagClass tag.Class, tagNum int, content []byte) 
 	if total != len(content) {
 		return nil, fmt.Errorf("%w: implicit value has %d trailing octets", ErrInvalidValue, len(content)-total)
 	}
-	replacement := tag.Tag{Class: tagClass, Number: tagNum, Constructed: decodedTag.Constructed}.Encode()
+	// X.690 (02/2021) §§8.1.2.2, 8.14.4: keep a short replacement
+	// identifier on the stack while copying the original length and contents.
+	var short [1]byte
+	var replacement []byte
+	if tagNum < 31 {
+		short[0] = byte(tagClass)<<6 | byte(tagNum)
+		if decodedTag.Constructed {
+			short[0] |= 0x20
+		}
+		replacement = short[:]
+	} else {
+		replacement = tag.Tag{Class: tagClass, Number: tagNum, Constructed: decodedTag.Constructed}.Encode()
+	}
 	capacity, err := retagCapacity(len(replacement), len(content), tagLength)
 	if err != nil {
 		return nil, err

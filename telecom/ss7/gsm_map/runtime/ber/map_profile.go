@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/map_profile.go; SHA-256 b279d6e769fcc2f76d2e1daeef34d609a6c1ed994c06ad8e03a5f59813a5ae78.
+// Runtime source: runtime/ber/map_profile.go; SHA-256 247c5d27fe2eb9684a21702a19132ab1e2a942e3b9d913054e7cca7c99ce5cfc.
 package ber
 
 import (
@@ -178,7 +178,7 @@ func claimMAPElement(config decodeConfig, options []DecodeOption, name string, r
 	if !ok {
 		return
 	}
-	if _, received := berSubsliceOffset(config.location.origin.root, raw); !received {
+	if _, received := berSubsliceOffset(config.location.rootInput(), raw); !received {
 		if relative, within := berSubsliceOffset(config.location.input, raw); within && relative == 0 {
 			return
 		}
@@ -318,7 +318,7 @@ func finishMAPDecode(prior error, config decodeConfig) error {
 			v := Violation{Kind: ProtocolRule, Rule: RuleRef{Document: "3GPP TS 29.002", Edition: "V19.1.0", Clause: "17.1.1"}, Constraint: "TS 29.002 §17.1.1: " + name, Path: element.path, Source: element.source, Offset: new(offset), ObservedValue: "received BER form", scope: config.reportScope}
 			if config.location != nil {
 				var err error
-				v.ChildIndexes, err = config.location.origin.ancestry(offset)
+				v.ChildIndexes, err = config.location.decodeOrigin().ancestry(offset)
 				if err != nil {
 					return err
 				}
@@ -373,7 +373,7 @@ func checkMAPStringForm(constructed bool, kind int, options []DecodeOption) erro
 		return err
 	}
 	if config.form.mapPending == nil {
-		config.form.mapPending = &mapProfileState{root: location.origin.root, byOffset: make(map[int]*mapProfileElement)}
+		config.form.mapPending = &mapProfileState{root: location.rootInput(), byOffset: make(map[int]*mapProfileElement)}
 	}
 	rule := mapPrimitiveOctets
 	if kind == tag.TagBitString {

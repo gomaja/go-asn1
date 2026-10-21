@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 938a1e83b1ac0b9f358a6be1208a54f4b98d0145eaed129752e54b706918d8e1.
+// Runtime source: runtime/ber/work.go; SHA-256 1ea54c87acac873b4de8513accee53831e4ad4bb5d5a10036ec4882825a05e0b.
 package ber
 
 import (
@@ -105,7 +105,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 	// detached wrapper has no reliable original-wire location to publish.
 	reportUTF8 := true
 	if config.tolerant && config.location != nil {
-		_, reportUTF8 = berSubsliceOffset(config.location.origin.root, data)
+		_, reportUTF8 = berSubsliceOffset(config.location.rootInput(), data)
 	}
 
 	var spans map[int]int
@@ -136,15 +136,15 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		if config.location != nil {
 			if absolute, ok := config.location.wireOffset(data[failureOffset:]); ok {
 				failureOffset = absolute
-				indexes, _ = config.location.origin.ancestry(absolute)
+				indexes, _ = config.location.decodeOrigin().ancestry(absolute)
 			} else {
 				base := config.location.receivedOffset()
-				if found, ok := config.location.origin.mark(qualifyConstraintPath(options, "")); ok {
+				if found, ok := config.location.decodeOrigin().mark(qualifyConstraintPath(options, "")); ok {
 					base = found
 				}
-				if failureOffset <= len(config.location.origin.root)-base {
+				if failureOffset <= len(config.location.rootInput())-base {
 					failureOffset += base
-					indexes, _ = config.location.origin.ancestry(failureOffset)
+					indexes, _ = config.location.decodeOrigin().ancestry(failureOffset)
 				}
 			}
 		}
@@ -562,7 +562,7 @@ func scannedUTF8Location(data []byte, offset int, stack []berScanFrame, index in
 		}
 		offset = absolute
 		var err error
-		v.ChildIndexes, err = config.location.origin.ancestry(offset)
+		v.ChildIndexes, err = config.location.decodeOrigin().ancestry(offset)
 		if err != nil {
 			return Violation{}, err
 		}
@@ -570,7 +570,7 @@ func scannedUTF8Location(data []byte, offset int, stack []berScanFrame, index in
 	}
 	root := data
 	if config.location != nil {
-		root = config.location.origin.root
+		root = config.location.rootInput()
 	}
 	if len(root) != 0 {
 		v.origin = weak.Make(&root[0])

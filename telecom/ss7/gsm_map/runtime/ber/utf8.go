@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/utf8.go; SHA-256 d4f96047a734a5fca2bf2bb7c5af1f71d54efbc3769deab4427ce1df3055755b.
+// Runtime source: runtime/ber/utf8.go; SHA-256 0c60e0113b1a50d796078fb0504024b22113c375dede58a0bb697725e6f423fd.
 package ber
 
 import (
@@ -58,8 +58,8 @@ func checkUTF8String(contents []byte, source *byte, config decodeConfig, options
 		if err != nil {
 			return err
 		}
-		if config.location != nil && len(config.location.origin.root) != 0 {
-			located.origin = weak.Make(&config.location.origin.root[0])
+		if config.location != nil && len(config.location.rootInput()) != 0 {
+			located.origin = weak.Make(&config.location.rootInput()[0])
 		}
 		position = &located
 	}

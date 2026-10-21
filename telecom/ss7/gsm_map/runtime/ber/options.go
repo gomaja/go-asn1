@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/options.go; SHA-256 5fa5b575c3af9bf590ea3e0e67b4279fe3a221e1c4722fe2aa96dd0e3da6afb2.
+// Runtime source: runtime/ber/options.go; SHA-256 07c51a889bf28d85dbde54bb50726c403dd4d53a1ec41fbf6b66cb8c6e9d9cd5.
 package ber
 
 import (
@@ -133,12 +133,41 @@ func WithDecodeLimits(limits DecodeLimits) DecodeOption {
 }
 
 func decodeOptions(options []DecodeOption) (decodeConfig, error) {
+	return resolveDecodeOptions(options, decodeOptionsSlow)
+}
+
+// A value copy keeps default policy independent for each decode.
+var defaultDecodeConfig = decodeConfig{limits: DefaultDecodeLimits(), diagnostics: DefaultDiagnosticLimits()}
+
+// Keep dispatch small so generated children can read their validated policy
+// directly when option resolution is inlined.
+func resolveDecodeOptions(options []DecodeOption, fallback func([]DecodeOption) (decodeConfig, error)) (decodeConfig, error) {
+	if len(options) == 0 {
+		return defaultDecodeConfig, nil
+	}
+	if len(options) == 1 {
+		if context, _ := options[0].(*generatedDecodeOption); context != nil && context.validated {
+			return context.config, nil
+		}
+	}
+	return fallback(options)
+}
+
+func decodeOptionsSlow(options []DecodeOption) (decodeConfig, error) {
 	// Keep the default path separate from the config passed through option
 	// interfaces, whose implementations may retain its address.
 	if len(options) == 0 {
 		return decodeConfig{limits: DefaultDecodeLimits(), diagnostics: DefaultDiagnosticLimits()}, nil
 	}
 	if len(options) == 1 {
+		if form, ok := options[0].(berFormOption); ok && form.state != nil && form.state.resolved != nil {
+			resolved := form.state.resolved
+			config := resolved.config
+			if resolved.freshReportScope {
+				config.reportScope = new(reportScope)
+			}
+			return config, resolved.err
+		}
 		if context, ok := options[0].(*generatedDecodeOption); ok {
 			if err := context.validate(); err != nil {
 				return decodeConfig{}, err
@@ -175,6 +204,12 @@ func decodeOptions(options []DecodeOption) (decodeConfig, error) {
 				return config, err
 			}
 		case berFormOption:
+			if value.state != nil && value.state.resolved != nil {
+				// A compact marker can be combined with later overrides. Apply
+				// its original options in order instead of replacing inherited
+				// defaults or returning a cached validation failure too early.
+				return decodeOptionsWithCustom(options)
+			}
 			config.form = value.state
 		case parentCollectionSizeOption:
 			config.collectionSizeChecked = true

@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_profile.go; SHA-256 e0e7568f93fd851b2ab358f57385d2572d1fc04db67864e383f26cdb6e0e9dcd.
+// Runtime source: runtime/ber/replay_profile.go; SHA-256 324322f03c8855541de8a1fc3e1cfb934f9e4d5cbbe80351fa8d708ff4c0a588.
 package ber
 
 import (
@@ -93,7 +93,7 @@ func replayNodePosition(node *ReplayNode) (replayProfilePosition, bool) {
 		// Even an empty value has a length octet: its last byte may still
 		// be in the reconstructed header, so compare identifier widths
 		// directly instead of locating that byte (X.690 §8.14.4).
-		_, receivedTagLength, err := DecodeTag(location.origin.root[start:])
+		_, receivedTagLength, err := DecodeTag(location.rootInput()[start:])
 		if err != nil {
 			return replayProfilePosition{}, false
 		}
