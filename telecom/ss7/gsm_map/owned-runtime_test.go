@@ -1,6 +1,6 @@
 // Code generated from MAP runtime regression contract. DO NOT EDIT.
 
-package gsm_map
+package gsm_map_test
 
 import (
 	"bytes"
@@ -12,6 +12,8 @@ import (
 	"testing"
 	"time"
 
+	mapvalues "github.com/gomaja/go-asn1/telecom/ss7/gsm_map"
+	mapbindings "github.com/gomaja/go-asn1/telecom/ss7/gsm_map/bindings"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/ros"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/ber"
@@ -42,9 +44,9 @@ func TestFreshCanonicalOpaqueValues(t *testing.T) {
 			MarshalDER() ([]byte, error)
 		}
 	}{
-		{"typed control", "3008808101018202f121", "30078001018202f121", &PDPContextInfo{}},
-		{"unknown addition", "300a8001018202f1219e01ff", "300a8001018202f1219e01ff", &PDPContextInfo{}},
-		{"private open NULL", "300aa008300606022a030500", "300aa008300606022a030500", &ExtensionContainer{}},
+		{"typed control", "3008808101018202f121", "30078001018202f121", &mapvalues.PDPContextInfo{}},
+		{"unknown addition", "300a8001018202f1219e01ff", "300a8001018202f1219e01ff", &mapvalues.PDPContextInfo{}},
+		{"private open NULL", "300aa008300606022a030500", "300aa008300606022a030500", &mapvalues.ExtensionContainer{}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			wire, want := opaqueWire(t, tc.wire), opaqueWire(t, tc.want)
@@ -67,7 +69,7 @@ func TestFreshCanonicalOpaqueValues(t *testing.T) {
 					t.Fatalf("MAP profile records=%+v", rows)
 				}
 			}
-			if container, ok := tc.value.(*ExtensionContainer); ok {
+			if container, ok := tc.value.(*mapvalues.ExtensionContainer); ok {
 				if container.PrivateExtensionList == nil || len(container.PrivateExtensionList.Values) != 1 || container.PrivateExtensionList.Values[0].ExtType == nil {
 					t.Fatal("lost private open value")
 				}
@@ -100,8 +102,8 @@ func TestFreshOpaqueRefusesSchemaDependentRepair(t *testing.T) {
 			MarshalBER(...ber.EncodeOption) ([]byte, error)
 		}
 	}{
-		{"300b8001018202f1219e8101ff", &PDPContextInfo{}},
-		{"300ba009300706022a03058100", &ExtensionContainer{}},
+		{"300b8001018202f1219e8101ff", &mapvalues.PDPContextInfo{}},
+		{"300ba009300706022a03058100", &mapvalues.ExtensionContainer{}},
 	} {
 		wire := opaqueWire(t, tc.wire)
 		if err := tc.value.UnmarshalBER(wire); err != nil {
@@ -132,7 +134,7 @@ func TestOwnedModesReplayAndEdits(t *testing.T) {
 		t.Run(mode.name, func(t *testing.T) {
 			wire := opaqueWire(t, "30808001018202f1210000")
 			saved := bytes.Clone(wire)
-			var value PDPContextInfo
+			var value mapvalues.PDPContextInfo
 			if err := value.UnmarshalBER(wire, mode.options...); err != nil {
 				t.Fatal(err)
 			}
@@ -153,7 +155,7 @@ func TestOwnedModesReplayAndEdits(t *testing.T) {
 			if err != nil || bytes.Equal(edited, saved) {
 				t.Fatalf("edit ignored: %x %v", edited, err)
 			}
-			var back PDPContextInfo
+			var back mapvalues.PDPContextInfo
 			if err := back.UnmarshalBER(edited); err != nil || back.PdpContextIdentifier != 2 {
 				t.Fatalf("edited typed value: %v", err)
 			}
@@ -176,7 +178,7 @@ func TestOwnedConstraintLocationAndStaging(t *testing.T) {
 	valid := opaqueWire(t, "30078001018202f121")
 	invalid := opaqueWire(t, "30078001008202f121")
 	for _, mode := range [][]ber.DecodeOption{nil, {ber.ForceGeneratedBERLightForTesting()}, {ber.ForceGeneratedBERProofForTesting()}, {ber.WithoutReplayCapture()}} {
-		var value PDPContextInfo
+		var value mapvalues.PDPContextInfo
 		if err := value.UnmarshalBER(valid, mode...); err != nil {
 			t.Fatal(err)
 		}
@@ -216,7 +218,7 @@ func TestOwnedConstraintLocationAndStaging(t *testing.T) {
 // RawValue metadata describes the retained identifier: X.690 §§8.1.2.1, 8.1.2.5.
 func TestOwnedRawMetadataConsistency(t *testing.T) {
 	wire := opaqueWire(t, "300aa008300606022a030500")
-	var value ExtensionContainer
+	var value mapvalues.ExtensionContainer
 	if err := value.UnmarshalBER(wire); err != nil {
 		t.Fatal(err)
 	}
@@ -247,17 +249,17 @@ func TestOwnedUTF8ReportLocations(t *testing.T) {
 				MarshalBER(...ber.EncodeOption) ([]byte, error)
 			}
 		}{
-			{"typed", "30068001018201ff", "h-gmlc-callBackUri", "SS-DataTypes.LCS-CancelDeferredLocationArg.h-gmlc-callBackUri", 5, []int{1}, 1, &LCSCancelDeferredLocationArg{}},
-			{"nested open", "300ba009300706022a030c01ff", "privateExtensionList.element[0].extType", "MAP-ExtensionDataTypes.PrivateExtension.extType", 10, []int{0, 0, 1}, 1, &ExtensionContainer{}},
-			{"standalone open", "300706022a030c01ff", "extType", "MAP-ExtensionDataTypes.PrivateExtension.extType", 6, []int{1}, 1, &PrivateExtension{}},
-			{"unknown addition", "300a8001018202f1210c01ff", "child[2]", "MAP-MS-DataTypes.PDP-ContextInfo", 9, []int{2}, 1, &PDPContextInfo{}},
-			{"two octets", "300806022a030c02fffe", "extType", "MAP-ExtensionDataTypes.PrivateExtension.extType", 6, []int{1}, 2, &PrivateExtension{}},
-			{"constructed open", "300b06022a032c05040361fffe", "extType", "MAP-ExtensionDataTypes.PrivateExtension.extType", 6, []int{1}, 2, &PrivateExtension{}},
-			{"nested opaque", "300906022a0330030c01ff", "extType.child[0]", "MAP-ExtensionDataTypes.PrivateExtension.extType", 8, []int{1, 0}, 1, &PrivateExtension{}},
-			{"span end unknown addition", "300ea009300706022a030c01610c01ff", "child[1]", "MAP-ExtensionDataTypes.ExtensionContainer", 13, []int{1}, 1, &ExtensionContainer{}},
-			{"span end empty pcs", "3005a1000c01ff", "child[1]", "MAP-ExtensionDataTypes.ExtensionContainer", 4, []int{1}, 1, &ExtensionContainer{}},
-			{"span end pcs", "3007a10205000c01ff", "child[1]", "MAP-ExtensionDataTypes.ExtensionContainer", 6, []int{1}, 1, &ExtensionContainer{}},
-			{"span end nested pcs", "3010a00b300906022a030c036162630c01ff", "child[1]", "MAP-ExtensionDataTypes.ExtensionContainer", 15, []int{1}, 1, &ExtensionContainer{}},
+			{"typed", "30068001018201ff", "h-gmlc-callBackUri", "SS-DataTypes.LCS-CancelDeferredLocationArg.h-gmlc-callBackUri", 5, []int{1}, 1, &mapvalues.LCSCancelDeferredLocationArg{}},
+			{"nested open", "300ba009300706022a030c01ff", "privateExtensionList.element[0].extType", "MAP-ExtensionDataTypes.PrivateExtension.extType", 10, []int{0, 0, 1}, 1, &mapvalues.ExtensionContainer{}},
+			{"standalone open", "300706022a030c01ff", "extType", "MAP-ExtensionDataTypes.PrivateExtension.extType", 6, []int{1}, 1, &mapvalues.PrivateExtension{}},
+			{"unknown addition", "300a8001018202f1210c01ff", "child[2]", "MAP-MS-DataTypes.PDP-ContextInfo", 9, []int{2}, 1, &mapvalues.PDPContextInfo{}},
+			{"two octets", "300806022a030c02fffe", "extType", "MAP-ExtensionDataTypes.PrivateExtension.extType", 6, []int{1}, 2, &mapvalues.PrivateExtension{}},
+			{"constructed open", "300b06022a032c05040361fffe", "extType", "MAP-ExtensionDataTypes.PrivateExtension.extType", 6, []int{1}, 2, &mapvalues.PrivateExtension{}},
+			{"nested opaque", "300906022a0330030c01ff", "extType.child[0]", "MAP-ExtensionDataTypes.PrivateExtension.extType", 8, []int{1, 0}, 1, &mapvalues.PrivateExtension{}},
+			{"span end unknown addition", "300ea009300706022a030c01610c01ff", "child[1]", "MAP-ExtensionDataTypes.ExtensionContainer", 13, []int{1}, 1, &mapvalues.ExtensionContainer{}},
+			{"span end empty pcs", "3005a1000c01ff", "child[1]", "MAP-ExtensionDataTypes.ExtensionContainer", 4, []int{1}, 1, &mapvalues.ExtensionContainer{}},
+			{"span end pcs", "3007a10205000c01ff", "child[1]", "MAP-ExtensionDataTypes.ExtensionContainer", 6, []int{1}, 1, &mapvalues.ExtensionContainer{}},
+			{"span end nested pcs", "3010a00b300906022a030c036162630c01ff", "child[1]", "MAP-ExtensionDataTypes.ExtensionContainer", 15, []int{1}, 1, &mapvalues.ExtensionContainer{}},
 		} {
 			t.Run(tc.name, func(t *testing.T) {
 				wire := opaqueWire(t, tc.wire)
@@ -293,11 +295,11 @@ func TestOpaqueEncodeRecordsMatchDecode(t *testing.T) {
 			MarshalBER(...ber.EncodeOption) ([]byte, error)
 		}
 	}{
-		{"extType", "300706022a030c01ff", &PrivateExtension{}},
-		{"container extType", "300ba009300706022a030c01ff", &ExtensionContainer{}},
-		{"nested container", "3011300fa00d300b06022a0330050c0361ff62", &AbsentSubscriberParam{}},
-		{"addition", "300a8001018202f1210c01ff", &PDPContextInfo{}},
-		{"nested addition", "300f8001018202f121bf200530030c01ff", &PDPContextInfo{}},
+		{"extType", "300706022a030c01ff", &mapvalues.PrivateExtension{}},
+		{"container extType", "300ba009300706022a030c01ff", &mapvalues.ExtensionContainer{}},
+		{"nested container", "3011300fa00d300b06022a0330050c0361ff62", &mapvalues.AbsentSubscriberParam{}},
+		{"addition", "300a8001018202f1210c01ff", &mapvalues.PDPContextInfo{}},
+		{"nested addition", "300f8001018202f121bf200530030c01ff", &mapvalues.PDPContextInfo{}},
 		{"ROS argument", "30090201010201020c01ff", &ros.Invoke{}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
@@ -326,16 +328,16 @@ func TestOpaqueEncodeRecordsMatchDecode(t *testing.T) {
 // IMPLICIT fields whose outer tag no longer identifies the string type.
 func TestTypedUTF8EncodePolicy(t *testing.T) {
 	wire := opaqueWire(t, "30068001018201ff")
-	value := &LCSCancelDeferredLocationArg{ReferenceNumberExt: []byte{1}, HGmlcCallBackUri: "\xff"}
+	value := &mapvalues.LCSCancelDeferredLocationArg{ReferenceNumberExt: []byte{1}, HGmlcCallBackUri: "\xff"}
 	for _, encode := range []func() ([]byte, error){
 		func() ([]byte, error) { return value.MarshalBER() },
 		func() ([]byte, error) { return value.MarshalBER(ber.WithoutBERReplay()) },
 		value.MarshalDER,
-		func() ([]byte, error) { return LCSCancelDeferredLocationArgCodec().EncodeBER(*value) },
+		func() ([]byte, error) { return mapbindings.LCSCancelDeferredLocationArgCodec().EncodeBER(*value) },
 		func() ([]byte, error) {
-			return LCSCancelDeferredLocationArgCodec().EncodeBER(*value, ber.WithoutBERReplay())
+			return mapbindings.LCSCancelDeferredLocationArgCodec().EncodeBER(*value, ber.WithoutBERReplay())
 		},
-		func() ([]byte, error) { return LCSCancelDeferredLocationArgCodec().EncodeDER(*value) },
+		func() ([]byte, error) { return mapbindings.LCSCancelDeferredLocationArgCodec().EncodeDER(*value) },
 	} {
 		_, err := encode()
 		validation, ok := err.(*ber.ValidationError)
@@ -350,7 +352,7 @@ func TestTypedUTF8EncodePolicy(t *testing.T) {
 	if _, err := value.MarshalBER(ber.WithTolerance(&combined), ber.WithoutBERReplay()); !errors.Is(err, ber.ErrInvalidValue) || len(combined.Snapshot()) != 0 {
 		t.Fatalf("tolerant fresh refusal: %v records=%+v", err, combined.Snapshot())
 	}
-	codec := LCSCancelDeferredLocationArgCodec()
+	codec := mapbindings.LCSCancelDeferredLocationArgCodec()
 	if _, err := codec.EncodeBER(*value, ber.WithTolerance(&combined), ber.WithoutBERReplay()); !errors.Is(err, ber.ErrInvalidValue) || len(combined.Snapshot()) != 0 {
 		t.Fatalf("typed tolerant fresh refusal: %v records=%+v", err, combined.Snapshot())
 	}
@@ -363,7 +365,7 @@ func TestTypedUTF8EncodePolicy(t *testing.T) {
 	if len(records) != 1 || records[0].Path != "h-gmlc-callBackUri" || records[0].Source != "SS-DataTypes.LCS-CancelDeferredLocationArg.h-gmlc-callBackUri" || records[0].Offset != nil || records[0].OctetOffset != nil || len(records[0].ChildIndexes) != 0 {
 		t.Fatalf("records=%+v", records)
 	}
-	var decoded LCSCancelDeferredLocationArg
+	var decoded mapvalues.LCSCancelDeferredLocationArg
 	var dlog ber.ViolationLog
 	if err := decoded.UnmarshalBER(wire, ber.WithTolerance(&dlog)); err != nil {
 		t.Fatal(err)
@@ -392,8 +394,8 @@ func TestLCSPeriodicAndEventUTF8Encode(t *testing.T) {
 			MarshalDER() ([]byte, error)
 		}
 	}{
-		{"periodic", &LCSPeriodicTriggeredInvokeArg{ReferenceNumber: []byte{1}, HGmlcAddress: []byte{1, 2, 3, 4, 5}, HGmlcCallBackUri: &bad}},
-		{"event", &LCSEventReportArg{EventType: EventTypePeriodicEvent, ReferenceNumberExt: []byte{1}, HGmlcCallBackUri: bad}},
+		{"periodic", &mapvalues.LCSPeriodicTriggeredInvokeArg{ReferenceNumber: []byte{1}, HGmlcAddress: []byte{1, 2, 3, 4, 5}, HGmlcCallBackUri: &bad}},
+		{"event", &mapvalues.LCSEventReportArg{EventType: mapvalues.EventTypePeriodicEvent, ReferenceNumberExt: []byte{1}, HGmlcCallBackUri: bad}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			if _, err := tc.value.MarshalBER(); !errors.Is(err, ber.ErrInvalidValue) {
@@ -421,7 +423,7 @@ func TestTolerantReencodeUsesDefaultDiagnosticLimit(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	var value PDPContextInfo
+	var value mapvalues.PDPContextInfo
 	var decoded ber.ViolationLog
 	if err := value.UnmarshalBER(wire, ber.WithTolerance(&decoded), ber.WithDiagnosticLimits(ber.DiagnosticLimits{MaxRecords: 2048})); err != nil {
 		t.Fatal(err)
@@ -447,9 +449,9 @@ func TestPrimitiveCollectionElementLocations(t *testing.T) {
 		indexes          []int
 		decode           func([]byte, ...ber.DecodeOption) error
 	}{
-		{"HLR-List", "300904031122330402aabb", "element[1]", 7, []int{1}, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERHLRList(w, o...); return e }},
-		{"ResetArg.hlr-List", "300e040191300904031122330402aabb", "hlr-List.element[1]", 12, []int{1, 1}, func(w []byte, o ...ber.DecodeOption) error { var v ResetArg; return v.UnmarshalBER(w, o...) }},
-		{"ResetArg.reset-Id-List", "300a040191a1050401110400", "reset-Id-List.element[1]", 10, []int{1, 1}, func(w []byte, o ...ber.DecodeOption) error { var v ResetArg; return v.UnmarshalBER(w, o...) }},
+		{"HLR-List", "300904031122330402aabb", "element[1]", 7, []int{1}, func(w []byte, o ...ber.DecodeOption) error { _, e := mapvalues.UnmarshalBERHLRList(w, o...); return e }},
+		{"ResetArg.hlr-List", "300e040191300904031122330402aabb", "hlr-List.element[1]", 12, []int{1, 1}, func(w []byte, o ...ber.DecodeOption) error { var v mapvalues.ResetArg; return v.UnmarshalBER(w, o...) }},
+		{"ResetArg.reset-Id-List", "300a040191a1050401110400", "reset-Id-List.element[1]", 10, []int{1, 1}, func(w []byte, o ...ber.DecodeOption) error { var v mapvalues.ResetArg; return v.UnmarshalBER(w, o...) }},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			wire := opaqueWire(t, tc.wire)
@@ -491,54 +493,108 @@ func TestAllPrimitiveCollectionConstraintLocations(t *testing.T) {
 		integer bool
 		decode  func([]byte, ...ber.DecodeOption) error
 	}{
-		{"Ipv4Addrs", 4, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERIpv4Addrs(w, o...); return e }},
-		{"Ipv6Addrs", 16, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERIpv6Addrs(w, o...); return e }},
-		{"HLRList", 3, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERHLRList(w, o...); return e }},
-		{"EPLMNList", 3, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBEREPLMNList(w, o...); return e }},
-		{"AdjacentPLMNList", 3, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERAdjacentPLMNList(w, o...); return e }},
-		{"ResetIdList", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERResetIdList(w, o...); return e }},
-		{"LIPAAllowedAPNList", 2, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERLIPAAllowedAPNList(w, o...); return e }},
-		{"GMLCList", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERGMLCList(w, o...); return e }},
-		{"BearerServiceList", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERBearerServiceList(w, o...); return e }},
-		{"TeleserviceList", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERTeleserviceList(w, o...); return e }},
-		{"ZoneCodeList", 2, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERZoneCodeList(w, o...); return e }},
-		{"LSAIdentityList", 3, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERLSAIdentityList(w, o...); return e }},
-		{"SSEventList", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERSSEventList(w, o...); return e }},
+		{"Ipv4Addrs", 4, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERIpv4Addrs(w, o...)
+			return e
+		}},
+		{"Ipv6Addrs", 16, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERIpv6Addrs(w, o...)
+			return e
+		}},
+		{"HLRList", 3, false, func(w []byte, o ...ber.DecodeOption) error { _, e := mapvalues.UnmarshalBERHLRList(w, o...); return e }},
+		{"EPLMNList", 3, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBEREPLMNList(w, o...)
+			return e
+		}},
+		{"AdjacentPLMNList", 3, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERAdjacentPLMNList(w, o...)
+			return e
+		}},
+		{"ResetIdList", 1, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERResetIdList(w, o...)
+			return e
+		}},
+		{"LIPAAllowedAPNList", 2, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERLIPAAllowedAPNList(w, o...)
+			return e
+		}},
+		{"GMLCList", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := mapvalues.UnmarshalBERGMLCList(w, o...); return e }},
+		{"BearerServiceList", 1, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERBearerServiceList(w, o...)
+			return e
+		}},
+		{"TeleserviceList", 1, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERTeleserviceList(w, o...)
+			return e
+		}},
+		{"ZoneCodeList", 2, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERZoneCodeList(w, o...)
+			return e
+		}},
+		{"LSAIdentityList", 3, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERLSAIdentityList(w, o...)
+			return e
+		}},
+		{"SSEventList", 1, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERSSEventList(w, o...)
+			return e
+		}},
 		{"DestinationNumberList", 1, false, func(w []byte, o ...ber.DecodeOption) error {
-			_, e := UnmarshalBERDestinationNumberList(w, o...)
+			_, e := mapvalues.UnmarshalBERDestinationNumberList(w, o...)
 			return e
 		}},
 		{"OCauseValueCriteria", 1, false, func(w []byte, o ...ber.DecodeOption) error {
-			_, e := UnmarshalBEROCauseValueCriteria(w, o...)
+			_, e := mapvalues.UnmarshalBEROCauseValueCriteria(w, o...)
 			return e
 		}},
 		{"TCauseValueCriteria", 1, false, func(w []byte, o ...ber.DecodeOption) error {
-			_, e := UnmarshalBERTCauseValueCriteria(w, o...)
+			_, e := mapvalues.UnmarshalBERTCauseValueCriteria(w, o...)
 			return e
 		}},
-		{"MobilityTriggers", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERMobilityTriggers(w, o...); return e }},
-		{"DispatcherList", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERDispatcherList(w, o...); return e }},
+		{"MobilityTriggers", 1, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERMobilityTriggers(w, o...)
+			return e
+		}},
+		{"DispatcherList", 1, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERDispatcherList(w, o...)
+			return e
+		}},
 		{"AdditionalDispatcherList", 1, false, func(w []byte, o ...ber.DecodeOption) error {
-			_, e := UnmarshalBERAdditionalDispatcherList(w, o...)
+			_, e := mapvalues.UnmarshalBERAdditionalDispatcherList(w, o...)
 			return e
 		}},
-		{"SSList", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERSSList(w, o...); return e }},
+		{"SSList", 1, false, func(w []byte, o ...ber.DecodeOption) error { _, e := mapvalues.UnmarshalBERSSList(w, o...); return e }},
 		{"SSEventSpecification", 1, false, func(w []byte, o ...ber.DecodeOption) error {
-			_, e := UnmarshalBERSSEventSpecification(w, o...)
+			_, e := mapvalues.UnmarshalBERSSEventSpecification(w, o...)
 			return e
 		}},
 		{"MDTAllowedPLMNIdList", 3, false, func(w []byte, o ...ber.DecodeOption) error {
-			_, e := UnmarshalBERMDTAllowedPLMNIdList(w, o...)
+			_, e := mapvalues.UnmarshalBERMDTAllowedPLMNIdList(w, o...)
 			return e
 		}},
-		{"CGIList", 5, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERCGIList(w, o...); return e }},
-		{"EUTRANCGIList", 7, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBEREUTRANCGIList(w, o...); return e }},
-		{"RoutingAreaIdList", 6, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERRoutingAreaIdList(w, o...); return e }},
-		{"LocationAreaIdList", 5, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERLocationAreaIdList(w, o...); return e }},
-		{"TrackingAreaIdList", 5, false, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERTrackingAreaIdList(w, o...); return e }},
-		{"ContextIdList", 1, true, func(w []byte, o ...ber.DecodeOption) error { _, e := UnmarshalBERContextIdList(w, o...); return e }},
+		{"CGIList", 5, false, func(w []byte, o ...ber.DecodeOption) error { _, e := mapvalues.UnmarshalBERCGIList(w, o...); return e }},
+		{"EUTRANCGIList", 7, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBEREUTRANCGIList(w, o...)
+			return e
+		}},
+		{"RoutingAreaIdList", 6, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERRoutingAreaIdList(w, o...)
+			return e
+		}},
+		{"LocationAreaIdList", 5, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERLocationAreaIdList(w, o...)
+			return e
+		}},
+		{"TrackingAreaIdList", 5, false, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERTrackingAreaIdList(w, o...)
+			return e
+		}},
+		{"ContextIdList", 1, true, func(w []byte, o ...ber.DecodeOption) error {
+			_, e := mapvalues.UnmarshalBERContextIdList(w, o...)
+			return e
+		}},
 		{"DestinationNumberLengthList", 1, true, func(w []byte, o ...ber.DecodeOption) error {
-			_, e := UnmarshalBERDestinationNumberLengthList(w, o...)
+			_, e := mapvalues.UnmarshalBERDestinationNumberLengthList(w, o...)
 			return e
 		}},
 	}
@@ -597,9 +653,9 @@ func TestR39StrictOpaqueRefusalPath(t *testing.T) {
 			MarshalBER(...ber.EncodeOption) ([]byte, error)
 		}
 	}{
-		{"extType", "300706022a030c01ff", &PrivateExtension{}},
-		{"container extType", "300ba009300706022a030c01ff", &ExtensionContainer{}},
-		{"addition", "300a8001018202f1210c01ff", &PDPContextInfo{}},
+		{"extType", "300706022a030c01ff", &mapvalues.PrivateExtension{}},
+		{"container extType", "300ba009300706022a030c01ff", &mapvalues.ExtensionContainer{}},
+		{"addition", "300a8001018202f1210c01ff", &mapvalues.PDPContextInfo{}},
 		{"ros argument", "30090201010201020c01ff", &ros.Invoke{}},
 	} {
 		t.Run(c.name, func(t *testing.T) {
@@ -624,8 +680,8 @@ func TestR39StrictOpaqueRefusalPath(t *testing.T) {
 // equivalent length is a source SIZE violation, including in builders.
 func TestNamedBitSizeEncodeError(t *testing.T) {
 	bits := runtime.BitString{Bytes: []byte{0, 0x80}, BitLength: 9}
-	value := SGSNCapability{SupportedRATTypesIndicator: &bits}
-	codec := SGSNCapabilityCodec()
+	value := mapvalues.SGSNCapability{SupportedRATTypesIndicator: &bits}
+	codec := mapbindings.SGSNCapabilityCodec()
 	for _, encode := range []func() ([]byte, error){
 		func() ([]byte, error) { return value.MarshalBER() },
 		func() ([]byte, error) { return value.MarshalBER(ber.WithoutBERReplay()) },
@@ -643,7 +699,7 @@ func TestNamedBitSizeEncodeError(t *testing.T) {
 			t.Fatalf("violation: %+v", ve)
 		}
 	}
-	_, err := NewSupportedRATTypes(8)
+	_, err := mapvalues.NewSupportedRATTypes(8)
 	ve, ok := err.(*ber.ValidationError)
 	if !ok || ve.Path != "SupportedRAT-Types" || ve.Source != "MAP-MS-DataTypes.SupportedRAT-Types" || ve.Constraint != "SIZE (2..8)" || ve.Rule.Clause != "51.5" || ve.ObservedLength == nil || *ve.ObservedLength != 9 {
 		t.Fatalf("builder: %T %+v", err, err)
@@ -672,7 +728,7 @@ func TestTolerantOpaqueOrdinalGrowth(t *testing.T) {
 			large = append(large, 5, 0)
 		}
 		large = append(large, 0, 0)
-		value := PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{large}}
+		value := mapvalues.PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{large}}
 		for range k {
 			value.ExtData_ = append(value.ExtData_, []byte{12, 1, 255})
 		}
@@ -684,7 +740,7 @@ func TestTolerantOpaqueOrdinalGrowth(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			value = PDPContextInfo{}
+			value = mapvalues.PDPContextInfo{}
 			log.Reset()
 			if err = value.UnmarshalBER(original, ber.WithTolerance(&log), ber.WithDecodeLimits(ber.DecodeLimits{MaxDepth: 64, MaxElements: 1 << 22, MaxWork: 1 << 28})); err != nil {
 				t.Fatal(err)
@@ -737,10 +793,10 @@ func TestTolerantOpaqueOrdinalGrowth(t *testing.T) {
 
 func TestDEROpaqueValidationError(t *testing.T) {
 	bad := []byte{12, 1, 255}
-	pdp := PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{bad}}
-	later := PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{{5, 0}, {2, 1, 1}, bad}}
-	open := PrivateExtension{ExtId: runtime.MustObjectIdentifierFromArcs(1, 2, 3), ExtType: &runtime.RawValue{Class: 0, Tag: 12, Bytes: bad}}
-	nested := ExtensionContainer{PrivateExtensionList: &PrivateExtensionList{Values: []PrivateExtension{open}}}
+	pdp := mapvalues.PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{bad}}
+	later := mapvalues.PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{{5, 0}, {2, 1, 1}, bad}}
+	open := mapvalues.PrivateExtension{ExtId: runtime.MustObjectIdentifierFromArcs(1, 2, 3), ExtType: &runtime.RawValue{Class: 0, Tag: 12, Bytes: bad}}
+	nested := mapvalues.ExtensionContainer{PrivateExtensionList: &mapvalues.PrivateExtensionList{Values: []mapvalues.PrivateExtension{open}}}
 	for _, item := range []struct {
 		name string
 		ber  func() ([]byte, error)
@@ -748,7 +804,7 @@ func TestDEROpaqueValidationError(t *testing.T) {
 	}{
 		{"addition", func() ([]byte, error) { return pdp.MarshalBER() }, pdp.MarshalDER},
 		{"addition i=2", func() ([]byte, error) { return later.MarshalBER() }, later.MarshalDER},
-		{"addition codec", func() ([]byte, error) { return PDPContextInfoCodec().EncodeBER(pdp) }, func() ([]byte, error) { return PDPContextInfoCodec().EncodeDER(pdp) }},
+		{"addition codec", func() ([]byte, error) { return mapbindings.PDPContextInfoCodec().EncodeBER(pdp) }, func() ([]byte, error) { return mapbindings.PDPContextInfoCodec().EncodeDER(pdp) }},
 		{"open", func() ([]byte, error) { return open.MarshalBER() }, open.MarshalDER},
 		{"nested open", func() ([]byte, error) { return nested.MarshalBER() }, nested.MarshalDER},
 	} {
@@ -774,8 +830,8 @@ func TestDEROpaqueValidationError(t *testing.T) {
 // length; decode-side diagnostics continue to describe the received length.
 func TestNamedBitEncodeObservedSignificantLength(t *testing.T) {
 	bits := runtime.BitString{Bytes: []byte{0, 0x80}, BitLength: 16}
-	v := SGSNCapability{SupportedRATTypesIndicator: &bits}
-	c := SGSNCapabilityCodec()
+	v := mapvalues.SGSNCapability{SupportedRATTypesIndicator: &bits}
+	c := mapbindings.SGSNCapabilityCodec()
 	for _, encode := range []func(...ber.EncodeOption) ([]byte, error){v.MarshalBER, func(o ...ber.EncodeOption) ([]byte, error) { return c.EncodeBER(v, o...) }} {
 		for _, fresh := range []bool{false, true} {
 			var log ber.ViolationLog
@@ -791,7 +847,7 @@ func TestNamedBitEncodeObservedSignificantLength(t *testing.T) {
 			if len(rows) != 1 || rows[0].ObservedLength == nil || *rows[0].ObservedLength != 9 {
 				t.Fatalf("encode records=%+v", rows)
 			}
-			var decoded SGSNCapability
+			var decoded mapvalues.SGSNCapability
 			var dlog ber.ViolationLog
 			if err := decoded.UnmarshalBER(wire, ber.WithTolerance(&dlog)); err != nil {
 				t.Fatal(err)
@@ -825,8 +881,8 @@ func TestOpaqueRefusalAfterUTF8(t *testing.T) {
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			tag := int(tc.wire[0] & 31)
-			open := &PrivateExtension{ExtId: runtime.MustObjectIdentifierFromArcs(1, 2, 3), ExtType: &runtime.RawValue{Tag: tag, Constructed: tc.wire[0]&32 != 0, Bytes: tc.wire}}
-			addition := &PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{tc.wire}}
+			open := &mapvalues.PrivateExtension{ExtId: runtime.MustObjectIdentifierFromArcs(1, 2, 3), ExtType: &runtime.RawValue{Tag: tag, Constructed: tc.wire[0]&32 != 0, Bytes: tc.wire}}
+			addition := &mapvalues.PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{tc.wire}}
 			for _, shape := range []struct {
 				name, path, source string
 				value              interface {
@@ -1019,86 +1075,156 @@ func TestCompactNamedBitRefusalLocations(t *testing.T) {
 		compactBitCaseFor("v21_map_ss_datatypes.SSServiceIndicator", "MAP-SS-DataTypes.ServiceIndicator", "ServiceIndicator", 32, v21_map_ss_datatypes.SSServiceIndicatorCodec(), func(v runtime.BitString) v21_map_ss_datatypes.BERValue[v21_map_ss_datatypes.SSServiceIndicator] {
 			return v21_map_ss_datatypes.BERValue[v21_map_ss_datatypes.SSServiceIndicator]{Value: v}
 		}, v21_map_ss_datatypes.NewSSServiceIndicator),
-		compactBitCaseFor("ServiceIndicator", "MAP-SS-DataTypes.ServiceIndicator", "ServiceIndicator", 32, ServiceIndicatorCodec(), func(v runtime.BitString) BERValue[ServiceIndicator] { return BERValue[ServiceIndicator]{Value: v} }, NewServiceIndicator),
-		compactBitCaseFor("TraceNETypeList", "MAP-OM-DataTypes.TraceNE-TypeList", "TraceNE-TypeList", 16, TraceNETypeListCodec(), func(v runtime.BitString) BERValue[TraceNETypeList] { return BERValue[TraceNETypeList]{Value: v} }, NewTraceNETypeList),
-		compactBitCaseFor("MSCSInterfaceList", "MAP-OM-DataTypes.MSC-S-InterfaceList", "MSC-S-InterfaceList", 16, MSCSInterfaceListCodec(), func(v runtime.BitString) BERValue[MSCSInterfaceList] { return BERValue[MSCSInterfaceList]{Value: v} }, NewMSCSInterfaceList),
-		compactBitCaseFor("MGWInterfaceList", "MAP-OM-DataTypes.MGW-InterfaceList", "MGW-InterfaceList", 8, MGWInterfaceListCodec(), func(v runtime.BitString) BERValue[MGWInterfaceList] { return BERValue[MGWInterfaceList]{Value: v} }, NewMGWInterfaceList),
-		compactBitCaseFor("SGSNInterfaceList", "MAP-OM-DataTypes.SGSN-InterfaceList", "SGSN-InterfaceList", 16, SGSNInterfaceListCodec(), func(v runtime.BitString) BERValue[SGSNInterfaceList] { return BERValue[SGSNInterfaceList]{Value: v} }, NewSGSNInterfaceList),
-		compactBitCaseFor("GGSNInterfaceList", "MAP-OM-DataTypes.GGSN-InterfaceList", "GGSN-InterfaceList", 8, GGSNInterfaceListCodec(), func(v runtime.BitString) BERValue[GGSNInterfaceList] { return BERValue[GGSNInterfaceList]{Value: v} }, NewGGSNInterfaceList),
-		compactBitCaseFor("RNCInterfaceList", "MAP-OM-DataTypes.RNC-InterfaceList", "RNC-InterfaceList", 8, RNCInterfaceListCodec(), func(v runtime.BitString) BERValue[RNCInterfaceList] { return BERValue[RNCInterfaceList]{Value: v} }, NewRNCInterfaceList),
-		compactBitCaseFor("BMSCInterfaceList", "MAP-OM-DataTypes.BMSC-InterfaceList", "BMSC-InterfaceList", 8, BMSCInterfaceListCodec(), func(v runtime.BitString) BERValue[BMSCInterfaceList] { return BERValue[BMSCInterfaceList]{Value: v} }, NewBMSCInterfaceList),
-		compactBitCaseFor("MMEInterfaceList", "MAP-OM-DataTypes.MME-InterfaceList", "MME-InterfaceList", 8, MMEInterfaceListCodec(), func(v runtime.BitString) BERValue[MMEInterfaceList] { return BERValue[MMEInterfaceList]{Value: v} }, NewMMEInterfaceList),
-		compactBitCaseFor("SGWInterfaceList", "MAP-OM-DataTypes.SGW-InterfaceList", "SGW-InterfaceList", 8, SGWInterfaceListCodec(), func(v runtime.BitString) BERValue[SGWInterfaceList] { return BERValue[SGWInterfaceList]{Value: v} }, NewSGWInterfaceList),
-		compactBitCaseFor("PGWInterfaceList", "MAP-OM-DataTypes.PGW-InterfaceList", "PGW-InterfaceList", 16, PGWInterfaceListCodec(), func(v runtime.BitString) BERValue[PGWInterfaceList] { return BERValue[PGWInterfaceList]{Value: v} }, NewPGWInterfaceList),
-		compactBitCaseFor("ENBInterfaceList", "MAP-OM-DataTypes.ENB-InterfaceList", "ENB-InterfaceList", 8, ENBInterfaceListCodec(), func(v runtime.BitString) BERValue[ENBInterfaceList] { return BERValue[ENBInterfaceList]{Value: v} }, NewENBInterfaceList),
-		compactBitCaseFor("MSCSEventList", "MAP-OM-DataTypes.MSC-S-EventList", "MSC-S-EventList", 16, MSCSEventListCodec(), func(v runtime.BitString) BERValue[MSCSEventList] { return BERValue[MSCSEventList]{Value: v} }, NewMSCSEventList),
-		compactBitCaseFor("MGWEventList", "MAP-OM-DataTypes.MGW-EventList", "MGW-EventList", 8, MGWEventListCodec(), func(v runtime.BitString) BERValue[MGWEventList] { return BERValue[MGWEventList]{Value: v} }, NewMGWEventList),
-		compactBitCaseFor("SGSNEventList", "MAP-OM-DataTypes.SGSN-EventList", "SGSN-EventList", 16, SGSNEventListCodec(), func(v runtime.BitString) BERValue[SGSNEventList] { return BERValue[SGSNEventList]{Value: v} }, NewSGSNEventList),
-		compactBitCaseFor("GGSNEventList", "MAP-OM-DataTypes.GGSN-EventList", "GGSN-EventList", 8, GGSNEventListCodec(), func(v runtime.BitString) BERValue[GGSNEventList] { return BERValue[GGSNEventList]{Value: v} }, NewGGSNEventList),
-		compactBitCaseFor("BMSCEventList", "MAP-OM-DataTypes.BMSC-EventList", "BMSC-EventList", 8, BMSCEventListCodec(), func(v runtime.BitString) BERValue[BMSCEventList] { return BERValue[BMSCEventList]{Value: v} }, NewBMSCEventList),
-		compactBitCaseFor("MMEEventList", "MAP-OM-DataTypes.MME-EventList", "MME-EventList", 8, MMEEventListCodec(), func(v runtime.BitString) BERValue[MMEEventList] { return BERValue[MMEEventList]{Value: v} }, NewMMEEventList),
-		compactBitCaseFor("SGWEventList", "MAP-OM-DataTypes.SGW-EventList", "SGW-EventList", 8, SGWEventListCodec(), func(v runtime.BitString) BERValue[SGWEventList] { return BERValue[SGWEventList]{Value: v} }, NewSGWEventList),
-		compactBitCaseFor("PGWEventList", "MAP-OM-DataTypes.PGW-EventList", "PGW-EventList", 8, PGWEventListCodec(), func(v runtime.BitString) BERValue[PGWEventList] { return BERValue[PGWEventList]{Value: v} }, NewPGWEventList),
-		compactBitCaseFor("SupportedRATTypes", "MAP-MS-DataTypes.SupportedRAT-Types", "SupportedRAT-Types", 8, SupportedRATTypesCodec(), func(v runtime.BitString) BERValue[SupportedRATTypes] { return BERValue[SupportedRATTypes]{Value: v} }, NewSupportedRATTypes),
-		compactBitCaseFor("SupportedLCSCapabilitySets", "MAP-MS-DataTypes.SupportedLCS-CapabilitySets", "SupportedLCS-CapabilitySets", 16, SupportedLCSCapabilitySetsCodec(), func(v runtime.BitString) BERValue[SupportedLCSCapabilitySets] {
-			return BERValue[SupportedLCSCapabilitySets]{Value: v}
-		}, NewSupportedLCSCapabilitySets),
-		compactBitCaseFor("ISRInformation", "MAP-MS-DataTypes.ISR-Information", "ISR-Information", 8, ISRInformationCodec(), func(v runtime.BitString) BERValue[ISRInformation] { return BERValue[ISRInformation]{Value: v} }, NewISRInformation),
-		compactBitCaseFor("SupportedFeatures", "MAP-MS-DataTypes.SupportedFeatures", "SupportedFeatures", 40, SupportedFeaturesCodec(), func(v runtime.BitString) BERValue[SupportedFeatures] { return BERValue[SupportedFeatures]{Value: v} }, NewSupportedFeatures),
-		compactBitCaseFor("ExtSupportedFeatures", "MAP-MS-DataTypes.Ext-SupportedFeatures", "Ext-SupportedFeatures", 40, ExtSupportedFeaturesCodec(), func(v runtime.BitString) BERValue[ExtSupportedFeatures] {
-			return BERValue[ExtSupportedFeatures]{Value: v}
-		}, NewExtSupportedFeatures),
-		compactBitCaseFor("LCLSNegotiation", "MAP-MS-DataTypes.LCLS-Negotiation", "LCLS-Negotiation", 8, LCLSNegotiationCodec(), func(v runtime.BitString) BERValue[LCLSNegotiation] { return BERValue[LCLSNegotiation]{Value: v} }, NewLCLSNegotiation),
-		compactBitCaseFor("LCLSConfigurationPreference", "MAP-MS-DataTypes.LCLS-ConfigurationPreference", "LCLS-ConfigurationPreference", 8, LCLSConfigurationPreferenceCodec(), func(v runtime.BitString) BERValue[LCLSConfigurationPreference] {
-			return BERValue[LCLSConfigurationPreference]{Value: v}
-		}, NewLCLSConfigurationPreference),
-		compactBitCaseFor("RequestedEquipmentInfo", "MAP-MS-DataTypes.RequestedEquipmentInfo", "RequestedEquipmentInfo", 8, RequestedEquipmentInfoCodec(), func(v runtime.BitString) BERValue[RequestedEquipmentInfo] {
-			return BERValue[RequestedEquipmentInfo]{Value: v}
-		}, NewRequestedEquipmentInfo),
-		compactBitCaseFor("AccessRestrictionData", "MAP-MS-DataTypes.AccessRestrictionData", "AccessRestrictionData", 8, AccessRestrictionDataCodec(), func(v runtime.BitString) BERValue[AccessRestrictionData] {
-			return BERValue[AccessRestrictionData]{Value: v}
-		}, NewAccessRestrictionData),
-		compactBitCaseFor("ExtAccessRestrictionData", "MAP-MS-DataTypes.Ext-AccessRestrictionData", "Ext-AccessRestrictionData", 32, ExtAccessRestrictionDataCodec(), func(v runtime.BitString) BERValue[ExtAccessRestrictionData] {
-			return BERValue[ExtAccessRestrictionData]{Value: v}
-		}, NewExtAccessRestrictionData),
-		compactBitCaseFor("ODBGeneralData", "MAP-MS-DataTypes.ODB-GeneralData", "ODB-GeneralData", 32, ODBGeneralDataCodec(), func(v runtime.BitString) BERValue[ODBGeneralData] { return BERValue[ODBGeneralData]{Value: v} }, NewODBGeneralData),
-		compactBitCaseFor("ODBHPLMNData", "MAP-MS-DataTypes.ODB-HPLMN-Data", "ODB-HPLMN-Data", 32, ODBHPLMNDataCodec(), func(v runtime.BitString) BERValue[ODBHPLMNData] { return BERValue[ODBHPLMNData]{Value: v} }, NewODBHPLMNData),
-		compactBitCaseFor("SpecificCSIWithdraw", "MAP-MS-DataTypes.SpecificCSI-Withdraw", "SpecificCSI-Withdraw", 32, SpecificCSIWithdrawCodec(), func(v runtime.BitString) BERValue[SpecificCSIWithdraw] {
-			return BERValue[SpecificCSIWithdraw]{Value: v}
-		}, NewSpecificCSIWithdraw),
-		compactBitCaseFor("SupportedCamelPhases", "MAP-MS-DataTypes.SupportedCamelPhases", "SupportedCamelPhases", 16, SupportedCamelPhasesCodec(), func(v runtime.BitString) BERValue[SupportedCamelPhases] {
-			return BERValue[SupportedCamelPhases]{Value: v}
-		}, NewSupportedCamelPhases),
-		compactBitCaseFor("OfferedCamel4CSIs", "MAP-MS-DataTypes.OfferedCamel4CSIs", "OfferedCamel4CSIs", 16, OfferedCamel4CSIsCodec(), func(v runtime.BitString) BERValue[OfferedCamel4CSIs] { return BERValue[OfferedCamel4CSIs]{Value: v} }, NewOfferedCamel4CSIs),
-		compactBitCaseFor("OfferedCamel4Functionalities", "MAP-MS-DataTypes.OfferedCamel4Functionalities", "OfferedCamel4Functionalities", 64, OfferedCamel4FunctionalitiesCodec(), func(v runtime.BitString) BERValue[OfferedCamel4Functionalities] {
-			return BERValue[OfferedCamel4Functionalities]{Value: v}
-		}, NewOfferedCamel4Functionalities),
-		compactBitCaseFor("AdditionalSubscriptions", "MAP-MS-DataTypes.AdditionalSubscriptions", "AdditionalSubscriptions", 8, AdditionalSubscriptionsCodec(), func(v runtime.BitString) BERValue[AdditionalSubscriptions] {
-			return BERValue[AdditionalSubscriptions]{Value: v}
-		}, NewAdditionalSubscriptions),
-		compactBitCaseFor("RequestedNodes", "MAP-MS-DataTypes.RequestedNodes", "RequestedNodes", 8, RequestedNodesCodec(), func(v runtime.BitString) BERValue[RequestedNodes] { return BERValue[RequestedNodes]{Value: v} }, NewRequestedNodes),
-		compactBitCaseFor("RequestedServingNode", "MAP-MS-DataTypes.RequestedServingNode", "RequestedServingNode", 8, RequestedServingNodeCodec(), func(v runtime.BitString) BERValue[RequestedServingNode] {
-			return BERValue[RequestedServingNode]{Value: v}
-		}, NewRequestedServingNode),
-		compactBitCaseFor("ServingNode", "MAP-MS-DataTypes.ServingNode", "ServingNode", 8, ServingNodeCodec(), func(v runtime.BitString) BERValue[ServingNode] { return BERValue[ServingNode]{Value: v} }, NewServingNode),
-		compactBitCaseFor("SuppressMTSS", "MAP-CH-DataTypes.SuppressMTSS", "SuppressMTSS", 16, SuppressMTSSCodec(), func(v runtime.BitString) BERValue[SuppressMTSS] { return BERValue[SuppressMTSS]{Value: v} }, NewSuppressMTSS),
-		compactBitCaseFor("AllowedServices", "MAP-CH-DataTypes.AllowedServices", "AllowedServices", 8, AllowedServicesCodec(), func(v runtime.BitString) BERValue[AllowedServices] { return BERValue[AllowedServices]{Value: v} }, NewAllowedServices),
-		compactBitCaseFor("MWStatus", "MAP-SM-DataTypes.MW-Status", "MW-Status", 16, MWStatusCodec(), func(v runtime.BitString) BERValue[MWStatus] { return BERValue[MWStatus]{Value: v} }, NewMWStatus),
-		compactBitCaseFor("DeferredLocationEventType", "MAP-LCS-DataTypes.DeferredLocationEventType", "DeferredLocationEventType", 16, DeferredLocationEventTypeCodec(), func(v runtime.BitString) BERValue[DeferredLocationEventType] {
-			return BERValue[DeferredLocationEventType]{Value: v}
-		}, NewDeferredLocationEventType),
-		compactBitCaseFor("SupportedGADShapes", "MAP-LCS-DataTypes.SupportedGADShapes", "SupportedGADShapes", 16, SupportedGADShapesCodec(), func(v runtime.BitString) BERValue[SupportedGADShapes] { return BERValue[SupportedGADShapes]{Value: v} }, NewSupportedGADShapes),
-		compactBitCaseFor("DeferredLocationExt", "SS-DataTypes.DeferredLocationExt", "DeferredLocationExt", 16, DeferredLocationExtCodec(), func(v runtime.BitString) BERValue[DeferredLocationExt] {
-			return BERValue[DeferredLocationExt]{Value: v}
-		}, NewDeferredLocationExt),
-		compactBitCaseFor("RangingSlExt", "SS-DataTypes.RangingSlExt", "RangingSlExt", 16, RangingSlExtCodec(), func(v runtime.BitString) BERValue[RangingSlExt] { return BERValue[RangingSlExt]{Value: v} }, NewRangingSlExt),
-		compactBitCaseFor("LocationInfo", "SS-DataTypes.LocationInfo", "LocationInfo", 32, LocationInfoCodec(), func(v runtime.BitString) BERValue[LocationInfo] { return BERValue[LocationInfo]{Value: v} }, NewLocationInfo),
-		compactBitCaseFor("ReportingAccessTypes", "SS-DataTypes.ReportingAccessTypes", "ReportingAccessTypes", 16, ReportingAccessTypesCodec(), func(v runtime.BitString) BERValue[ReportingAccessTypes] {
-			return BERValue[ReportingAccessTypes]{Value: v}
-		}, NewReportingAccessTypes),
-		compactBitCaseFor("LCSPruUpdateTrigger", "SS-DataTypes.LCS-PruUpdateTrigger", "LCS-PruUpdateTrigger", 16, LCSPruUpdateTriggerCodec(), func(v runtime.BitString) BERValue[LCSPruUpdateTrigger] {
-			return BERValue[LCSPruUpdateTrigger]{Value: v}
-		}, NewLCSPruUpdateTrigger),
+		compactBitCaseFor("ServiceIndicator", "MAP-SS-DataTypes.ServiceIndicator", "ServiceIndicator", 32, mapvalues.ServiceIndicatorCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.ServiceIndicator] {
+			return mapvalues.BERValue[mapvalues.ServiceIndicator]{Value: v}
+		}, mapvalues.NewServiceIndicator),
+		compactBitCaseFor("TraceNETypeList", "MAP-OM-DataTypes.TraceNE-TypeList", "TraceNE-TypeList", 16, mapvalues.TraceNETypeListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.TraceNETypeList] {
+			return mapvalues.BERValue[mapvalues.TraceNETypeList]{Value: v}
+		}, mapvalues.NewTraceNETypeList),
+		compactBitCaseFor("MSCSInterfaceList", "MAP-OM-DataTypes.MSC-S-InterfaceList", "MSC-S-InterfaceList", 16, mapvalues.MSCSInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.MSCSInterfaceList] {
+			return mapvalues.BERValue[mapvalues.MSCSInterfaceList]{Value: v}
+		}, mapvalues.NewMSCSInterfaceList),
+		compactBitCaseFor("MGWInterfaceList", "MAP-OM-DataTypes.MGW-InterfaceList", "MGW-InterfaceList", 8, mapvalues.MGWInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.MGWInterfaceList] {
+			return mapvalues.BERValue[mapvalues.MGWInterfaceList]{Value: v}
+		}, mapvalues.NewMGWInterfaceList),
+		compactBitCaseFor("SGSNInterfaceList", "MAP-OM-DataTypes.SGSN-InterfaceList", "SGSN-InterfaceList", 16, mapvalues.SGSNInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SGSNInterfaceList] {
+			return mapvalues.BERValue[mapvalues.SGSNInterfaceList]{Value: v}
+		}, mapvalues.NewSGSNInterfaceList),
+		compactBitCaseFor("GGSNInterfaceList", "MAP-OM-DataTypes.GGSN-InterfaceList", "GGSN-InterfaceList", 8, mapvalues.GGSNInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.GGSNInterfaceList] {
+			return mapvalues.BERValue[mapvalues.GGSNInterfaceList]{Value: v}
+		}, mapvalues.NewGGSNInterfaceList),
+		compactBitCaseFor("RNCInterfaceList", "MAP-OM-DataTypes.RNC-InterfaceList", "RNC-InterfaceList", 8, mapvalues.RNCInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.RNCInterfaceList] {
+			return mapvalues.BERValue[mapvalues.RNCInterfaceList]{Value: v}
+		}, mapvalues.NewRNCInterfaceList),
+		compactBitCaseFor("BMSCInterfaceList", "MAP-OM-DataTypes.BMSC-InterfaceList", "BMSC-InterfaceList", 8, mapvalues.BMSCInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.BMSCInterfaceList] {
+			return mapvalues.BERValue[mapvalues.BMSCInterfaceList]{Value: v}
+		}, mapvalues.NewBMSCInterfaceList),
+		compactBitCaseFor("MMEInterfaceList", "MAP-OM-DataTypes.MME-InterfaceList", "MME-InterfaceList", 8, mapvalues.MMEInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.MMEInterfaceList] {
+			return mapvalues.BERValue[mapvalues.MMEInterfaceList]{Value: v}
+		}, mapvalues.NewMMEInterfaceList),
+		compactBitCaseFor("SGWInterfaceList", "MAP-OM-DataTypes.SGW-InterfaceList", "SGW-InterfaceList", 8, mapvalues.SGWInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SGWInterfaceList] {
+			return mapvalues.BERValue[mapvalues.SGWInterfaceList]{Value: v}
+		}, mapvalues.NewSGWInterfaceList),
+		compactBitCaseFor("PGWInterfaceList", "MAP-OM-DataTypes.PGW-InterfaceList", "PGW-InterfaceList", 16, mapvalues.PGWInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.PGWInterfaceList] {
+			return mapvalues.BERValue[mapvalues.PGWInterfaceList]{Value: v}
+		}, mapvalues.NewPGWInterfaceList),
+		compactBitCaseFor("ENBInterfaceList", "MAP-OM-DataTypes.ENB-InterfaceList", "ENB-InterfaceList", 8, mapvalues.ENBInterfaceListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.ENBInterfaceList] {
+			return mapvalues.BERValue[mapvalues.ENBInterfaceList]{Value: v}
+		}, mapvalues.NewENBInterfaceList),
+		compactBitCaseFor("MSCSEventList", "MAP-OM-DataTypes.MSC-S-EventList", "MSC-S-EventList", 16, mapvalues.MSCSEventListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.MSCSEventList] {
+			return mapvalues.BERValue[mapvalues.MSCSEventList]{Value: v}
+		}, mapvalues.NewMSCSEventList),
+		compactBitCaseFor("MGWEventList", "MAP-OM-DataTypes.MGW-EventList", "MGW-EventList", 8, mapvalues.MGWEventListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.MGWEventList] {
+			return mapvalues.BERValue[mapvalues.MGWEventList]{Value: v}
+		}, mapvalues.NewMGWEventList),
+		compactBitCaseFor("SGSNEventList", "MAP-OM-DataTypes.SGSN-EventList", "SGSN-EventList", 16, mapvalues.SGSNEventListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SGSNEventList] {
+			return mapvalues.BERValue[mapvalues.SGSNEventList]{Value: v}
+		}, mapvalues.NewSGSNEventList),
+		compactBitCaseFor("GGSNEventList", "MAP-OM-DataTypes.GGSN-EventList", "GGSN-EventList", 8, mapvalues.GGSNEventListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.GGSNEventList] {
+			return mapvalues.BERValue[mapvalues.GGSNEventList]{Value: v}
+		}, mapvalues.NewGGSNEventList),
+		compactBitCaseFor("BMSCEventList", "MAP-OM-DataTypes.BMSC-EventList", "BMSC-EventList", 8, mapvalues.BMSCEventListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.BMSCEventList] {
+			return mapvalues.BERValue[mapvalues.BMSCEventList]{Value: v}
+		}, mapvalues.NewBMSCEventList),
+		compactBitCaseFor("MMEEventList", "MAP-OM-DataTypes.MME-EventList", "MME-EventList", 8, mapvalues.MMEEventListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.MMEEventList] {
+			return mapvalues.BERValue[mapvalues.MMEEventList]{Value: v}
+		}, mapvalues.NewMMEEventList),
+		compactBitCaseFor("SGWEventList", "MAP-OM-DataTypes.SGW-EventList", "SGW-EventList", 8, mapvalues.SGWEventListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SGWEventList] {
+			return mapvalues.BERValue[mapvalues.SGWEventList]{Value: v}
+		}, mapvalues.NewSGWEventList),
+		compactBitCaseFor("PGWEventList", "MAP-OM-DataTypes.PGW-EventList", "PGW-EventList", 8, mapvalues.PGWEventListCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.PGWEventList] {
+			return mapvalues.BERValue[mapvalues.PGWEventList]{Value: v}
+		}, mapvalues.NewPGWEventList),
+		compactBitCaseFor("SupportedRATTypes", "MAP-MS-DataTypes.SupportedRAT-Types", "SupportedRAT-Types", 8, mapvalues.SupportedRATTypesCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SupportedRATTypes] {
+			return mapvalues.BERValue[mapvalues.SupportedRATTypes]{Value: v}
+		}, mapvalues.NewSupportedRATTypes),
+		compactBitCaseFor("SupportedLCSCapabilitySets", "MAP-MS-DataTypes.SupportedLCS-CapabilitySets", "SupportedLCS-CapabilitySets", 16, mapvalues.SupportedLCSCapabilitySetsCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SupportedLCSCapabilitySets] {
+			return mapvalues.BERValue[mapvalues.SupportedLCSCapabilitySets]{Value: v}
+		}, mapvalues.NewSupportedLCSCapabilitySets),
+		compactBitCaseFor("ISRInformation", "MAP-MS-DataTypes.ISR-Information", "ISR-Information", 8, mapvalues.ISRInformationCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.ISRInformation] {
+			return mapvalues.BERValue[mapvalues.ISRInformation]{Value: v}
+		}, mapvalues.NewISRInformation),
+		compactBitCaseFor("SupportedFeatures", "MAP-MS-DataTypes.SupportedFeatures", "SupportedFeatures", 40, mapvalues.SupportedFeaturesCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SupportedFeatures] {
+			return mapvalues.BERValue[mapvalues.SupportedFeatures]{Value: v}
+		}, mapvalues.NewSupportedFeatures),
+		compactBitCaseFor("ExtSupportedFeatures", "MAP-MS-DataTypes.Ext-SupportedFeatures", "Ext-SupportedFeatures", 40, mapvalues.ExtSupportedFeaturesCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.ExtSupportedFeatures] {
+			return mapvalues.BERValue[mapvalues.ExtSupportedFeatures]{Value: v}
+		}, mapvalues.NewExtSupportedFeatures),
+		compactBitCaseFor("LCLSNegotiation", "MAP-MS-DataTypes.LCLS-Negotiation", "LCLS-Negotiation", 8, mapvalues.LCLSNegotiationCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.LCLSNegotiation] {
+			return mapvalues.BERValue[mapvalues.LCLSNegotiation]{Value: v}
+		}, mapvalues.NewLCLSNegotiation),
+		compactBitCaseFor("LCLSConfigurationPreference", "MAP-MS-DataTypes.LCLS-ConfigurationPreference", "LCLS-ConfigurationPreference", 8, mapvalues.LCLSConfigurationPreferenceCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.LCLSConfigurationPreference] {
+			return mapvalues.BERValue[mapvalues.LCLSConfigurationPreference]{Value: v}
+		}, mapvalues.NewLCLSConfigurationPreference),
+		compactBitCaseFor("RequestedEquipmentInfo", "MAP-MS-DataTypes.RequestedEquipmentInfo", "RequestedEquipmentInfo", 8, mapvalues.RequestedEquipmentInfoCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.RequestedEquipmentInfo] {
+			return mapvalues.BERValue[mapvalues.RequestedEquipmentInfo]{Value: v}
+		}, mapvalues.NewRequestedEquipmentInfo),
+		compactBitCaseFor("AccessRestrictionData", "MAP-MS-DataTypes.AccessRestrictionData", "AccessRestrictionData", 8, mapvalues.AccessRestrictionDataCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.AccessRestrictionData] {
+			return mapvalues.BERValue[mapvalues.AccessRestrictionData]{Value: v}
+		}, mapvalues.NewAccessRestrictionData),
+		compactBitCaseFor("ExtAccessRestrictionData", "MAP-MS-DataTypes.Ext-AccessRestrictionData", "Ext-AccessRestrictionData", 32, mapvalues.ExtAccessRestrictionDataCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.ExtAccessRestrictionData] {
+			return mapvalues.BERValue[mapvalues.ExtAccessRestrictionData]{Value: v}
+		}, mapvalues.NewExtAccessRestrictionData),
+		compactBitCaseFor("ODBGeneralData", "MAP-MS-DataTypes.ODB-GeneralData", "ODB-GeneralData", 32, mapvalues.ODBGeneralDataCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.ODBGeneralData] {
+			return mapvalues.BERValue[mapvalues.ODBGeneralData]{Value: v}
+		}, mapvalues.NewODBGeneralData),
+		compactBitCaseFor("ODBHPLMNData", "MAP-MS-DataTypes.ODB-HPLMN-Data", "ODB-HPLMN-Data", 32, mapvalues.ODBHPLMNDataCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.ODBHPLMNData] {
+			return mapvalues.BERValue[mapvalues.ODBHPLMNData]{Value: v}
+		}, mapvalues.NewODBHPLMNData),
+		compactBitCaseFor("SpecificCSIWithdraw", "MAP-MS-DataTypes.SpecificCSI-Withdraw", "SpecificCSI-Withdraw", 32, mapvalues.SpecificCSIWithdrawCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SpecificCSIWithdraw] {
+			return mapvalues.BERValue[mapvalues.SpecificCSIWithdraw]{Value: v}
+		}, mapvalues.NewSpecificCSIWithdraw),
+		compactBitCaseFor("SupportedCamelPhases", "MAP-MS-DataTypes.SupportedCamelPhases", "SupportedCamelPhases", 16, mapvalues.SupportedCamelPhasesCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SupportedCamelPhases] {
+			return mapvalues.BERValue[mapvalues.SupportedCamelPhases]{Value: v}
+		}, mapvalues.NewSupportedCamelPhases),
+		compactBitCaseFor("OfferedCamel4CSIs", "MAP-MS-DataTypes.OfferedCamel4CSIs", "OfferedCamel4CSIs", 16, mapvalues.OfferedCamel4CSIsCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.OfferedCamel4CSIs] {
+			return mapvalues.BERValue[mapvalues.OfferedCamel4CSIs]{Value: v}
+		}, mapvalues.NewOfferedCamel4CSIs),
+		compactBitCaseFor("OfferedCamel4Functionalities", "MAP-MS-DataTypes.OfferedCamel4Functionalities", "OfferedCamel4Functionalities", 64, mapvalues.OfferedCamel4FunctionalitiesCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.OfferedCamel4Functionalities] {
+			return mapvalues.BERValue[mapvalues.OfferedCamel4Functionalities]{Value: v}
+		}, mapvalues.NewOfferedCamel4Functionalities),
+		compactBitCaseFor("AdditionalSubscriptions", "MAP-MS-DataTypes.AdditionalSubscriptions", "AdditionalSubscriptions", 8, mapvalues.AdditionalSubscriptionsCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.AdditionalSubscriptions] {
+			return mapvalues.BERValue[mapvalues.AdditionalSubscriptions]{Value: v}
+		}, mapvalues.NewAdditionalSubscriptions),
+		compactBitCaseFor("RequestedNodes", "MAP-MS-DataTypes.RequestedNodes", "RequestedNodes", 8, mapvalues.RequestedNodesCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.RequestedNodes] {
+			return mapvalues.BERValue[mapvalues.RequestedNodes]{Value: v}
+		}, mapvalues.NewRequestedNodes),
+		compactBitCaseFor("RequestedServingNode", "MAP-MS-DataTypes.RequestedServingNode", "RequestedServingNode", 8, mapvalues.RequestedServingNodeCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.RequestedServingNode] {
+			return mapvalues.BERValue[mapvalues.RequestedServingNode]{Value: v}
+		}, mapvalues.NewRequestedServingNode),
+		compactBitCaseFor("ServingNode", "MAP-MS-DataTypes.ServingNode", "ServingNode", 8, mapvalues.ServingNodeCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.ServingNode] {
+			return mapvalues.BERValue[mapvalues.ServingNode]{Value: v}
+		}, mapvalues.NewServingNode),
+		compactBitCaseFor("SuppressMTSS", "MAP-CH-DataTypes.SuppressMTSS", "SuppressMTSS", 16, mapvalues.SuppressMTSSCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SuppressMTSS] {
+			return mapvalues.BERValue[mapvalues.SuppressMTSS]{Value: v}
+		}, mapvalues.NewSuppressMTSS),
+		compactBitCaseFor("AllowedServices", "MAP-CH-DataTypes.AllowedServices", "AllowedServices", 8, mapvalues.AllowedServicesCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.AllowedServices] {
+			return mapvalues.BERValue[mapvalues.AllowedServices]{Value: v}
+		}, mapvalues.NewAllowedServices),
+		compactBitCaseFor("MWStatus", "MAP-SM-DataTypes.MW-Status", "MW-Status", 16, mapvalues.MWStatusCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.MWStatus] {
+			return mapvalues.BERValue[mapvalues.MWStatus]{Value: v}
+		}, mapvalues.NewMWStatus),
+		compactBitCaseFor("DeferredLocationEventType", "MAP-LCS-DataTypes.DeferredLocationEventType", "DeferredLocationEventType", 16, mapvalues.DeferredLocationEventTypeCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.DeferredLocationEventType] {
+			return mapvalues.BERValue[mapvalues.DeferredLocationEventType]{Value: v}
+		}, mapvalues.NewDeferredLocationEventType),
+		compactBitCaseFor("SupportedGADShapes", "MAP-LCS-DataTypes.SupportedGADShapes", "SupportedGADShapes", 16, mapvalues.SupportedGADShapesCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.SupportedGADShapes] {
+			return mapvalues.BERValue[mapvalues.SupportedGADShapes]{Value: v}
+		}, mapvalues.NewSupportedGADShapes),
+		compactBitCaseFor("DeferredLocationExt", "SS-DataTypes.DeferredLocationExt", "DeferredLocationExt", 16, mapvalues.DeferredLocationExtCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.DeferredLocationExt] {
+			return mapvalues.BERValue[mapvalues.DeferredLocationExt]{Value: v}
+		}, mapvalues.NewDeferredLocationExt),
+		compactBitCaseFor("RangingSlExt", "SS-DataTypes.RangingSlExt", "RangingSlExt", 16, mapvalues.RangingSlExtCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.RangingSlExt] {
+			return mapvalues.BERValue[mapvalues.RangingSlExt]{Value: v}
+		}, mapvalues.NewRangingSlExt),
+		compactBitCaseFor("LocationInfo", "SS-DataTypes.LocationInfo", "LocationInfo", 32, mapvalues.LocationInfoCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.LocationInfo] {
+			return mapvalues.BERValue[mapvalues.LocationInfo]{Value: v}
+		}, mapvalues.NewLocationInfo),
+		compactBitCaseFor("ReportingAccessTypes", "SS-DataTypes.ReportingAccessTypes", "ReportingAccessTypes", 16, mapvalues.ReportingAccessTypesCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.ReportingAccessTypes] {
+			return mapvalues.BERValue[mapvalues.ReportingAccessTypes]{Value: v}
+		}, mapvalues.NewReportingAccessTypes),
+		compactBitCaseFor("LCSPruUpdateTrigger", "SS-DataTypes.LCS-PruUpdateTrigger", "LCS-PruUpdateTrigger", 16, mapvalues.LCSPruUpdateTriggerCodec(), func(v runtime.BitString) mapvalues.BERValue[mapvalues.LCSPruUpdateTrigger] {
+			return mapvalues.BERValue[mapvalues.LCSPruUpdateTrigger]{Value: v}
+		}, mapvalues.NewLCSPruUpdateTrigger),
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			bits := runtime.BitString{Bytes: make([]byte, (tc.maximum+8)/8), BitLength: tc.maximum + 1}
@@ -1148,10 +1274,10 @@ func TestAliasedOpaqueEncodeRecords(t *testing.T) {
 		}
 		paths []string
 	}{
-		{"shared additions", &PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{shared, shared}}, []string{"child[2]", "child[3]"}},
-		{"copied additions", &PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{{12, 1, 255}, {12, 1, 255}}}, []string{"child[2]", "child[3]"}},
-		{"shared opens", &ExtensionContainer{PrivateExtensionList: &PrivateExtensionList{Values: []PrivateExtension{{ExtId: oid, ExtType: raw}, {ExtId: oid, ExtType: raw}}}}, []string{"privateExtensionList.element[0].extType", "privateExtensionList.element[1].extType"}},
-		{"copied opens", &ExtensionContainer{PrivateExtensionList: &PrivateExtensionList{Values: []PrivateExtension{{ExtId: oid, ExtType: &runtime.RawValue{Tag: 12, Bytes: []byte{12, 1, 255}}}, {ExtId: oid, ExtType: &runtime.RawValue{Tag: 12, Bytes: []byte{12, 1, 255}}}}}}, []string{"privateExtensionList.element[0].extType", "privateExtensionList.element[1].extType"}},
+		{"shared additions", &mapvalues.PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{shared, shared}}, []string{"child[2]", "child[3]"}},
+		{"copied additions", &mapvalues.PDPContextInfo{PdpContextIdentifier: 1, PdpType: []byte{0xf1, 0x21}, ExtData_: [][]byte{{12, 1, 255}, {12, 1, 255}}}, []string{"child[2]", "child[3]"}},
+		{"shared opens", &mapvalues.ExtensionContainer{PrivateExtensionList: &mapvalues.PrivateExtensionList{Values: []mapvalues.PrivateExtension{{ExtId: oid, ExtType: raw}, {ExtId: oid, ExtType: raw}}}}, []string{"privateExtensionList.element[0].extType", "privateExtensionList.element[1].extType"}},
+		{"copied opens", &mapvalues.ExtensionContainer{PrivateExtensionList: &mapvalues.PrivateExtensionList{Values: []mapvalues.PrivateExtension{{ExtId: oid, ExtType: &runtime.RawValue{Tag: 12, Bytes: []byte{12, 1, 255}}}, {ExtId: oid, ExtType: &runtime.RawValue{Tag: 12, Bytes: []byte{12, 1, 255}}}}}}, []string{"privateExtensionList.element[0].extType", "privateExtensionList.element[1].extType"}},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			var log ber.ViolationLog
@@ -1176,10 +1302,10 @@ func TestAliasedOpaqueEncodeRecords(t *testing.T) {
 				MarshalBER(...ber.EncodeOption) ([]byte, error)
 			}
 			switch tc.value.(type) {
-			case *PDPContextInfo:
-				decoded = &PDPContextInfo{}
+			case *mapvalues.PDPContextInfo:
+				decoded = &mapvalues.PDPContextInfo{}
 			default:
-				decoded = &ExtensionContainer{}
+				decoded = &mapvalues.ExtensionContainer{}
 			}
 			var dlog, rlog ber.ViolationLog
 			if err := decoded.UnmarshalBER(wire, ber.WithTolerance(&dlog)); err != nil {

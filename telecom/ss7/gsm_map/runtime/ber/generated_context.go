@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 545207b318e9e26829055da97326d7c933c8cda29023f19adc0485ffce9205ef.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 76f541c7c686a4413eaf6649b3b5047b93f58f0f3c64e356b58835583c5f8966.
 package ber
 
 import (
@@ -689,6 +689,21 @@ func CaptureGeneratedBERReplay(data []byte, options []DecodeOption) *ReplayNode 
 // Unknown values without a source proof prepare it here so first replay needs
 // only a current pass.
 func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode func(*T, ...EncodeOption) ([]byte, error), comparators ...func(*T, *T, *BERReplayComparisons) int) error {
+	return completeGeneratedBERDecodePointer(options, value, encode, comparators...)
+}
+
+// P is always *T, supplied by CompleteGeneratedBERDecode. Keep a shallow
+// snapshot of the decoded tree before CloneBERValue detaches the caller's tree;
+// a copied pointer alone would let later field edits change the baseline.
+func shallowBERBaseline[P any](value P) P {
+	original := reflect.ValueOf(value)
+	baseline := reflect.New(original.Type().Elem())
+	baseline.Elem().Set(original.Elem())
+	return baseline.Interface().(P)
+}
+
+// Sharing the pointer shape bounds instantiation of the completion algorithm.
+func completeGeneratedBERDecodePointer[P any](options []DecodeOption, value P, encode func(P, ...EncodeOption) ([]byte, error), comparators ...func(P, P, *BERReplayComparisons) int) error {
 	var replay *ReplayState
 	var tolerant bool
 	var profileChecked bool
@@ -736,7 +751,7 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 		}
 		if config.checkReplayComparator {
 			original := comparators[0]
-			comparators = []func(*T, *T, *BERReplayComparisons) int{func(a, b *T, nodes *BERReplayComparisons) int {
+			comparators = []func(P, P, *BERReplayComparisons) int{func(a, b P, nodes *BERReplayComparisons) int {
 				if err := CheckBERReplayComparatorForTesting(a, b, func(n *BERReplayComparisons) int { return original(a, b, n) }); err != nil {
 					panic(err)
 				}
@@ -746,7 +761,7 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 			if err != nil {
 				return err
 			}
-			comparators[0](value, copied.(*T), nil)
+			comparators[0](value, copied.(P), nil)
 		}
 	}
 	if tolerant {
@@ -784,12 +799,12 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 		// Decoded byte fields can borrow from the working input that also
 		// backs received replay octets. Detach the returned value before a
 		// caller can edit a field in place and corrupt those octets.
-		baselineValue := *value
+		baselineValue := shallowBERBaseline(value)
 		copyValue, err := CloneBERValue(value)
 		if err != nil {
 			return err
 		}
-		*value = *copyValue.(*T)
+		reflect.ValueOf(value).Elem().Set(reflect.ValueOf(copyValue).Elem())
 		collector := newReplayCollector(len(lightRoot.original))
 		baseline, err := encode(value, replayModeOption{state: replay, baseline: true, collector: collector})
 		if err != nil {
@@ -806,37 +821,37 @@ func CompleteGeneratedBERDecode[T any](options []DecodeOption, value *T, encode 
 		replay.baselineNodes = collector.nodes
 		replay.eagerBaseline = true
 		replay.same = func(current any, nodeValues *BERReplayComparisons) berValueComparison {
-			return compareBERValueNodes(reflect.ValueOf(current), reflect.ValueOf(&baselineValue), 0, nodeValues)
+			return compareBERValueNodes(reflect.ValueOf(current), reflect.ValueOf(baselineValue), 0, nodeValues)
 		}
 		return nil
 	}
 	// The typed decoder may have borrowed primitive contents from the
 	// input. Keep its tree as the immutable baseline and give the caller an
 	// independent tree before either can be mutated.
-	baseline := *value
+	baseline := shallowBERBaseline(value)
 	copyValue, err := CloneBERValue(value)
 	if err != nil {
 		return err
 	}
-	*value = *copyValue.(*T)
+	reflect.ValueOf(value).Elem().Set(reflect.ValueOf(copyValue).Elem())
 	var proof BERReplayComparisons
 	proof.proofOnly = true
-	if len(comparators) != 0 && comparators[0](value, &baseline, &proof) == int(berValueUnknown) && !proof.sourceEqual && replay.root != nil {
+	if len(comparators) != 0 && comparators[0](value, baseline, &proof) == int(berValueUnknown) && !proof.sourceEqual && replay.root != nil {
 		collector := newReplayCollector(len(replay.root.original))
-		encoded, err := encode(&baseline, replayModeOption{state: replay, baseline: true, collector: collector})
+		encoded, err := encode(baseline, replayModeOption{state: replay, baseline: true, collector: collector})
 		if err != nil || collector.finish(encoded) != nil {
 			replay.disabled = true
 			return nil
 		}
 		replay.baselineBytes, replay.baselineNodes, replay.eagerBaseline = encoded, collector.nodes, true
 	} else {
-		replay.setBaseline(func(mode EncodeOption) ([]byte, error) { return encode(&baseline, mode) })
+		replay.setBaseline(func(mode EncodeOption) ([]byte, error) { return encode(baseline, mode) })
 	}
 	replay.same = func(current any, nodeValues *BERReplayComparisons) berValueComparison {
 		if len(comparators) != 0 {
-			return berValueComparison(comparators[0](current.(*T), &baseline, nodeValues))
+			return berValueComparison(comparators[0](current.(P), baseline, nodeValues))
 		}
-		return compareBERValueNodes(reflect.ValueOf(current), reflect.ValueOf(&baseline), 0, nodeValues)
+		return compareBERValueNodes(reflect.ValueOf(current), reflect.ValueOf(baseline), 0, nodeValues)
 	}
 	return nil
 }
