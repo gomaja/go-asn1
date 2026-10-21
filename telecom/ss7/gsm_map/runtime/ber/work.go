@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 f20463d830cec46c327863ef5146a953dd8e7d829dcd8e0652967339789ebbc8.
+// Runtime source: runtime/ber/work.go; SHA-256 938a1e83b1ac0b9f358a6be1208a54f4b98d0145eaed129752e54b706918d8e1.
 package ber
 
 import (
@@ -48,6 +48,12 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 	if err != nil {
 		return err
 	}
+	return validateBERElement(data, options, config)
+}
+
+// validateBERElement shares the X.690 scan with generated input ownership,
+// which has already resolved and validated its options.
+func validateBERElement(data []byte, options []DecodeOption, config decodeConfig) (returnErr error) {
 	// TS 29.002 V19.1.0 §17.1.1 applies only to MAP-defined content.
 	// A standalone BER walk cannot identify foreign open values (X.690
 	// (02/2021) §8.15), so require a generated typed decoder to claim them.

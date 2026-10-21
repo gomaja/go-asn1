@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 76f541c7c686a4413eaf6649b3b5047b93f58f0f3c64e356b58835583c5f8966.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 5c492085f6993f5bae86617fb1a43b3cdf3937c66bdd1b710aeed748a40f06d5.
 package ber
 
 import (
@@ -253,8 +253,8 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 			return append([]byte(nil), data...), nil
 		}
 	}
-	// Reject before retaining input or constructing a replay span map. The
-	// preliminary scan has its own unpublished diagnostic scope. go-asn1 #150
+	// Reject before retaining input or constructing a replay span map. Any
+	// tolerant preliminary findings have a private diagnostic scope. go-asn1 #150
 	// remains separate: this guard belongs to MAP's owned runtime.
 	preliminary, optionErr := decodeOptions(options)
 	if optionErr != nil {
@@ -262,10 +262,11 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 	}
 	if preliminary.form != nil && preliminary.form.lightInput == nil && preliminary.form.owned == nil && preliminary.form.lightOwned == nil {
 		preliminary.form = nil
-		preliminary.violations = new(ViolationLog)
-		preliminary.reportScope = new(reportScope)
-		check := decodeOptionFunc(func(c *decodeConfig) error { *c = preliminary; return nil })
-		if err := ValidateBERElement(data, check); err != nil {
+		if preliminary.tolerant {
+			preliminary.violations = new(ViolationLog)
+			preliminary.reportScope = new(reportScope)
+		}
+		if err := validateBERElement(data, nil, preliminary); err != nil {
 			return data, nil
 		}
 	}
