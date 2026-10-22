@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_segmented.go; SHA-256 693d540e49b6202c7525e37873e4b793e92475b83fae4fb5528e730aae526de6.
+// Runtime source: runtime/ber/tcap_segmented.go; SHA-256 5446c04e7067d253c8f985c915cc38d666261c2ca899f57a8354827a007b4937.
 package ber
 
 import (
@@ -110,7 +110,7 @@ func (segments *dialogueSegments) audit(data []byte, config decodeConfig, option
 }
 
 func (segments *dialogueSegments) scan(config decodeConfig, work, elements, depth int) (int, int, error) {
-	origin := &decodeOrigin{root: segments.contents, limits: config.limits, profileType: "DialoguePDU", search: positionSearch{segments: segments}}
+	origin := &decodeOrigin{root: segments.contents, limits: config.limits, profileType: "DialoguePDU", search: &positionSearch{segments: segments}}
 	location := &decodeLocation{origin: origin, input: segments.contents, offset: segments.offsets[0]}
 	config.location = location
 	config.profileNested = false
@@ -134,6 +134,8 @@ func (segments *dialogueSegments) ancestry(origin *decodeOrigin, target int) ([]
 		return nil, nil
 	}
 	copyOrigin := *origin
+	search := *origin.search
+	copyOrigin.search = &search
 	copyOrigin.search.segments = nil
 	indexes, err := copyOrigin.ancestry(offset)
 	origin.search, origin.located, origin.ancestryVisits = copyOrigin.search, copyOrigin.located, copyOrigin.ancestryVisits
@@ -174,17 +176,18 @@ func locateSegmentedDialogue(choice, inner []byte, config decodeConfig, options 
 	if len(segments.offsets) != len(inner) || len(inner) == 0 {
 		return options
 	}
-	segments.prefix, _ = config.location.origin.ancestry(base)
+	segments.prefix, _ = config.location.decodeOrigin().ancestry(base)
 	segments.prefix = append(segments.prefix, 0)
-	origin := &decodeOrigin{root: inner, limits: config.limits, profileType: config.profileType, search: positionSearch{segments: segments}}
+	origin := &decodeOrigin{root: inner, limits: config.limits, profileType: config.profileType, search: &positionSearch{segments: segments}}
 	location := &decodeLocation{origin: origin, input: inner, offset: segments.offsets[0], source: "DialoguePortion"}
 	if len(options) == 1 {
 		if parent, ok := options[0].(*generatedDecodeOption); ok {
-			located := new(locatedGeneratedDecodeOption)
-			located.context = *parent
-			located.location = *location
-			located.context.config.location = &located.location
-			return []DecodeOption{&located.context}
+			storage := new(generatedDecodeContextStorage)
+			storage.context = *parent
+			storage.context.location = *location
+			storage.context.config.location = &storage.context.location
+			storage.options[0] = &storage.context
+			return storage.options[:]
 		}
 	}
 	return append(options[:len(options):len(options)], decodeLocationOption{location})

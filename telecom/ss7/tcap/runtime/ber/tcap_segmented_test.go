@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_segmented_test.go; SHA-256 9b3c9b6a277031d5e339f51916a75cafb2bd0e4698b42beb59159d027d8b4fc6.
+// Runtime source: runtime/ber/tcap_segmented_test.go; SHA-256 201c1253821fae63141e31878f935e73f5610b9e3f48e4280ba2c97ea2f23f95.
 package ber
 
 import (
@@ -245,7 +245,7 @@ func TestTCAPSegmentedReconstructedHeaderLocations(t *testing.T) {
 	root := []byte{0xa1, 0x81, 3, 2, 1, 1}
 	segments := &dialogueSegments{contents: root, offsets: []int{20, 24, 28, 32, 36, 40}}
 	copied := []byte{0x30, 3, 2, 1, 1}
-	location := &decodeLocation{origin: &decodeOrigin{root: root, search: positionSearch{segments: segments}}, input: copied, offset: 20}
+	location := &decodeLocation{origin: &decodeOrigin{root: root, search: &positionSearch{segments: segments}}, input: copied, offset: 20}
 	for offset, want := range []int{20, 24, 32, 36, 40} {
 		got, ok := location.wireOffset(copied[offset:])
 		if !ok || got != want {

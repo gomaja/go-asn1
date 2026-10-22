@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/form_option_reuse_test.go; SHA-256 b0d386610961f2eff42bdedbcde7551195e77ac4338685e723f230d2d3a001b3.
+// Runtime source: runtime/ber/form_option_reuse_test.go; SHA-256 2d6a0630ddb6a23de6343f36ec8220321d2623c0b6613aed1926c1d178f24c85.
 package ber
 
 import (
@@ -19,7 +19,7 @@ func TestTCAPFormCallerStateIsNotDecodeState(t *testing.T) {
 		if err := ValidateBERElement(wire, options...); err != nil {
 			t.Fatal(err)
 		}
-		if !reflect.DeepEqual(*form.state, berFormState{}) {
+		if !idleFormState(form.state) {
 			t.Fatalf("standalone scan mutated caller form state: %+v", form.state)
 		}
 	}
@@ -35,7 +35,7 @@ func TestTCAPFormCallerStateIsNotDecodeState(t *testing.T) {
 	if _, _, err := PrepareGeneratedBERInput(owned, root); err != nil {
 		t.Fatal(err)
 	}
-	if !reflect.DeepEqual(*form.state, berFormState{}) {
+	if !idleFormState(form.state) {
 		t.Fatalf("generated root mutated caller form state: %+v", form.state)
 	}
 }
@@ -61,8 +61,15 @@ func TestTCAPFormClonesEveryCallerMarker(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, index := range []int{len(first) - 1, len(root) - 1} {
-		if state := original[index].(berFormOption).state; !reflect.DeepEqual(*state, berFormState{}) {
+		if state := original[index].(berFormOption).state; !idleFormState(state) {
 			t.Fatalf("caller form marker %d was modified: %+v", index, state)
 		}
 	}
+}
+
+// The immutable resolved policy is not per-operation form state.
+func idleFormState(state *berFormState) bool {
+	idle := *state
+	idle.resolved = nil
+	return reflect.ValueOf(idle).IsZero()
 }

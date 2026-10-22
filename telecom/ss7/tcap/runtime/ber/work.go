@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 b87ab0ab61daaf3326d83e1c8eb384239b4f756194fd92f060ab86a57e46cfef.
+// Runtime source: runtime/ber/work.go; SHA-256 2d1f150ad7ab671899dab59cbbdf3f7ac7c283373f3e4bb0f2082e6b144b8db4.
 package ber
 
 import (
@@ -47,6 +47,12 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 	if err != nil {
 		return err
 	}
+	return validateBERElement(data, options, config)
+}
+
+// validateBERElement shares the X.690 scan with input ownership after its
+// options have already been resolved and validated.
+func validateBERElement(data []byte, options []DecodeOption, config decodeConfig) (returnErr error) {
 	// A standalone TCAP profile scan has no generated root context. Its form
 	// marker is caller-owned; keep scan bookkeeping local to this call.
 	if config.profile && config.form != nil && !config.form.generated {
@@ -120,15 +126,15 @@ func ValidateBERElement(data []byte, options ...DecodeOption) (returnErr error) 
 		if config.location != nil {
 			if absolute, ok := config.location.wireOffset(data[failureOffset:]); ok {
 				failureOffset = absolute
-				indexes, _ = config.location.origin.ancestry(absolute)
+				indexes, _ = config.location.decodeOrigin().ancestry(absolute)
 			} else {
 				base := config.location.receivedOffset()
-				if found, ok := config.location.origin.mark(qualifyConstraintPath(options, "")); ok {
+				if found, ok := config.location.decodeOrigin().mark(qualifyConstraintPath(options, "")); ok {
 					base = found
 				}
-				if failureOffset <= len(config.location.origin.root)-base {
+				if failureOffset <= len(config.location.rootInput())-base {
 					failureOffset += base
-					indexes, _ = config.location.origin.ancestry(failureOffset)
+					indexes, _ = config.location.decodeOrigin().ancestry(failureOffset)
 				}
 			}
 		}

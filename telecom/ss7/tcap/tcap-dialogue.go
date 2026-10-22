@@ -379,9 +379,9 @@ func (value *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 		return err
 	}
 	data = owned
-	prepared, preparedOpts, err := ber.PrepareGeneratedBERInput(data, opts)
-	if err != nil {
-		return ber.DiagnosePreflight(err, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
+	external, prepared, preparedOpts, externalErr := ber.DecodeGeneratedExternal(data, opts, "EXPLICIT")
+	if externalErr != nil && prepared == nil {
+		return ber.DiagnosePreflight(externalErr, data, opts, "child", func(probeOpts []ber.DecodeOption) error {
 			var probe DialoguePortion
 			return probe.UnmarshalBER(data, probeOpts...)
 		})
@@ -389,22 +389,15 @@ func (value *DialoguePortion) UnmarshalBER(data []byte, opts ...ber.DecodeOption
 	data, opts = prepared, preparedOpts
 	opts = ber.LocateDecodedElement(data, "TCAPMessages.DialoguePortion", opts)
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
-	identifier, n, content, err := ber.DecodeTLV(data, opts...)
+	identifier, _, err := ber.DecodeTag(data)
 	if err != nil {
 		return err
-	}
-	if n != len(data) {
-		return ber.ErrExtraData
 	}
 	if identifier.Class != tag.ClassApplication || identifier.Number != 11 || !identifier.Constructed {
 		return fmt.Errorf("%w: expected constructed dialogue portion [APPLICATION 11]", ber.ErrInvalidTag)
 	}
-	external, n, err := ber.DecodeExternal(content, opts...)
-	if err != nil {
-		return err
-	}
-	if n != len(content) {
-		return ber.ErrExtraData
+	if externalErr != nil {
+		return externalErr
 	}
 	result := DialoguePortion{metadata: copyDialogueExternal(external), kind: UnknownSyntax}
 	if external.IndirectReference != nil {

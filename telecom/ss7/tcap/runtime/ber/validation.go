@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/validation.go; SHA-256 acf18bc01473c7a9707c74cf6012aa5477cfca139601c520a329f6a613621245.
+// Runtime source: runtime/ber/validation.go; SHA-256 ef5ae8f90f071323fdb445f5969a8e323c0275d337ec07cdd2a8ebc938db52e6.
 package ber
 
 import (
@@ -61,7 +61,7 @@ type positionSearch struct {
 
 type decodeOrigin struct {
 	ancestryVisits int
-	search         positionSearch
+	search         *positionSearch
 	located        map[int][]int
 	limits         DecodeLimits
 	profileType    string
@@ -72,6 +72,8 @@ type decodeOrigin struct {
 
 type decodeLocation struct {
 	origin  *decodeOrigin
+	root    *decodeLocation
+	parent  *decodeLocation
 	input   []byte
 	offset  int
 	source  string
@@ -91,19 +93,18 @@ func LocateDecodedElement(data []byte, source string, options []DecodeOption) []
 	}
 	if len(options) == 1 {
 		if parent, ok := options[0].(*generatedDecodeOption); ok {
-			var located *locatedGeneratedDecodeOption
-			if config.location == nil {
-				root := new(rootLocatedGeneratedDecodeOption)
-				root.origin.pendingMarks = root.marks[:0]
-				located = &root.locatedGeneratedDecodeOption
-				located.location.origin = &root.origin
-			} else {
-				located = new(locatedGeneratedDecodeOption)
+			context := parent
+			// Each child owns location storage. An alias that reuses its enclosing
+			// context must retain that enclosing call's location.
+			if parent.config.location == &parent.location {
+				context = new(generatedDecodeOption)
+				*context = *parent
+				context.location = decodeLocation{}
+				options = []DecodeOption{context}
 			}
-			initializeDecodeLocation(&located.location, data, source, config, options)
-			located.context = *parent
-			located.context.config.location = &located.location
-			return []DecodeOption{&located.context}
+			initializeDecodeLocation(&context.location, data, source, config, options)
+			context.config.location = &context.location
+			return options
 		}
 	}
 	location := new(decodeLocation)
@@ -111,25 +112,18 @@ func LocateDecodedElement(data []byte, source string, options []DecodeOption) []
 	return append(options[:len(options):len(options)], decodeLocationOption{location})
 }
 
-// A generated context and its call-local location have the same lifetime.
-// Keep their storage together instead of allocating each one independently.
-type locatedGeneratedDecodeOption struct {
-	context  generatedDecodeOption
-	location decodeLocation
-}
-
-// Only the public root needs a new ancestry scanner. Its lifetime equals
-// the root context's, so keep that state in the same allocation.
-type rootLocatedGeneratedDecodeOption struct {
-	locatedGeneratedDecodeOption
+// Positions and the ancestry scanner are built only when requested.
+type markedDecodeOrigin struct {
 	origin decodeOrigin
 	marks  [4]decodedElementMark
 }
 
 func initializeDecodeLocation(location *decodeLocation, data []byte, source string, config decodeConfig, options []DecodeOption) {
-	location.input, location.source = data, source
+	*location = decodeLocation{input: data, source: source}
 	if config.location != nil {
 		location.origin = config.location.origin
+		location.root = config.location.root
+		location.parent = config.location
 		location.offset = -1
 		if len(options) == 1 {
 			location.context, _ = options[0].(*generatedDecodeOption)
@@ -138,11 +132,18 @@ func initializeDecodeLocation(location *decodeLocation, data []byte, source stri
 			location.offset = config.location.receivedOffset()
 			if offset, ok := config.location.wireOffset(data); ok {
 				location.offset = offset
-			} else if offset, ok := location.origin.mark(qualifyConstraintPath(options, "")); ok {
+			} else if offset, ok := location.decodeOrigin().mark(qualifyConstraintPath(options, "")); ok {
 				location.offset = offset
 			}
 		}
 	} else {
+		location.root = location
+		if len(options) == 1 {
+			if context, ok := options[0].(*generatedDecodeOption); ok {
+				location.context = context
+				return
+			}
+		}
 		if location.origin == nil {
 			location.origin = new(decodeOrigin)
 		}
@@ -150,15 +151,50 @@ func initializeDecodeLocation(location *decodeLocation, data []byte, source stri
 	}
 }
 
+func (location *decodeLocation) rootInput() []byte {
+	if location.root != nil {
+		return location.root.input
+	}
+	return location.origin.root
+}
+
+func (location *decodeLocation) decodeOrigin() *decodeOrigin {
+	if location.origin != nil {
+		return location.origin
+	}
+	root := location.root
+	if root.origin == nil {
+		state := new(markedDecodeOrigin)
+		state.origin.root = root.input
+		state.origin.limits = root.context.config.limits
+		state.origin.profileType = root.context.config.profileType
+		state.origin.pendingMarks = state.marks[:0]
+		root.origin = &state.origin
+	}
+	location.origin = root.origin
+	return location.origin
+}
+
+func (location *decodeLocation) segments() *dialogueSegments {
+	origin := location.origin
+	if origin == nil && location.root != nil {
+		origin = location.root.origin
+	}
+	if origin != nil && origin.search != nil {
+		return origin.search.segments
+	}
+	return nil
+}
+
 // Reconstructed identifiers need their parent's received offset. Ordinary
 // slices locate themselves in the root and never resolve this fallback.
 func (location *decodeLocation) receivedOffset() int {
 	if location.offset < 0 && location.context != nil {
-		parent := location.context.config.location
+		parent := location.parent
 		location.offset = parent.receivedOffset()
 		if offset, ok := parent.wireOffset(location.input); ok {
 			location.offset = offset
-		} else if offset, ok := location.origin.contextMark(location.context); ok {
+		} else if offset, ok := location.decodeOrigin().contextMark(location.context); ok {
 			location.offset = offset
 		}
 	}
@@ -166,8 +202,9 @@ func (location *decodeLocation) receivedOffset() int {
 }
 
 func (location *decodeLocation) wireOffset(data []byte) (int, bool) {
-	if offset, ok := berSubsliceOffset(location.origin.root, data); ok {
-		if segments := location.origin.search.segments; segments != nil {
+	root := location.rootInput()
+	if offset, ok := berSubsliceOffset(root, data); ok {
+		if segments := location.segments(); segments != nil {
 			if offset >= len(segments.offsets) {
 				return 0, false
 			}
@@ -189,7 +226,7 @@ func (location *decodeLocation) wireOffset(data []byte) (int, bool) {
 			return n + m
 		}
 		inputHeader := header(location.input)
-		if segments := location.origin.search.segments; segments != nil {
+		if segments := location.segments(); segments != nil {
 			base, ok := slices.BinarySearch(segments.offsets, received)
 			if !ok {
 				return 0, false
@@ -197,7 +234,7 @@ func (location *decodeLocation) wireOffset(data []byte) (int, bool) {
 			relative := offset
 			if offset >= inputHeader {
 				relative = offset - inputHeader
-				receivedHeader := header(location.origin.root[base:])
+				receivedHeader := header(root[base:])
 				if receivedHeader > len(segments.offsets)-base || relative > len(segments.offsets)-base-receivedHeader {
 					return 0, false
 				}
@@ -208,15 +245,15 @@ func (location *decodeLocation) wireOffset(data []byte) (int, bool) {
 			}
 			return segments.offsets[base+relative], true
 		}
-		if offset >= inputHeader && received < len(location.origin.root) {
+		if offset >= inputHeader && received < len(root) {
 			relative := offset - inputHeader
-			base := received + header(location.origin.root[received:])
-			if base > len(location.origin.root) || relative > len(location.origin.root)-base {
+			base := received + header(root[received:])
+			if base > len(root) || relative > len(root)-base {
 				return 0, false
 			}
 			return base + relative, true
 		}
-		if received < 0 || received > len(location.origin.root) || offset > len(location.origin.root)-received {
+		if received < 0 || received > len(root) || offset > len(root)-received {
 			return 0, false
 		}
 		return received + offset, true
@@ -231,6 +268,10 @@ func hasDecodeLocation(options []DecodeOption) bool {
 			return option.location != nil
 		case *generatedDecodeOption:
 			if option != nil && option.config.location != nil {
+				return true
+			}
+		case berFormOption:
+			if option.state != nil && option.state.resolved != nil && option.state.resolved.config.location != nil {
 				return true
 			}
 		case diagnosticChildOption:
@@ -250,8 +291,8 @@ func rememberDecodedElement(options []DecodeOption, name string, raw []byte) {
 	if err != nil || config.location == nil {
 		return
 	}
-	origin := config.location.origin
 	if offset, ok := config.location.wireOffset(raw); ok {
+		origin := config.location.decodeOrigin()
 		if len(options) == 1 {
 			if context, ok := options[0].(*generatedDecodeOption); ok {
 				if origin.pendingMarks == nil {
@@ -331,7 +372,7 @@ func locateViolation(config decodeConfig, v Violation, leaf string) (Violation, 
 	location := config.location
 	offset := location.receivedOffset()
 	for path := v.Path; path != ""; {
-		if found, ok := location.origin.mark(path); ok {
+		if found, ok := location.decodeOrigin().mark(path); ok {
 			offset = found
 			break
 		}
@@ -343,7 +384,7 @@ func locateViolation(config decodeConfig, v Violation, leaf string) (Violation, 
 	}
 	v.Offset = new(offset)
 	var err error
-	v.ChildIndexes, err = location.origin.ancestry(offset)
+	v.ChildIndexes, err = location.decodeOrigin().ancestry(offset)
 	v.Source = sourceField(location.source, leaf)
 	return v, err
 }
@@ -352,7 +393,8 @@ func locateViolation(config decodeConfig, v Violation, leaf string) (Violation, 
 // the ancestor stack and requested records, never every preceding sibling.
 // Header and primitive-content visits share one MaxWork budget across lookups.
 func (origin *decodeOrigin) ancestry(target int) ([]int, error) {
-	if segments := origin.search.segments; segments != nil {
+	if origin.search != nil && origin.search.segments != nil {
+		segments := origin.search.segments
 		return segments.ancestry(origin, target)
 	}
 	if target <= 0 {
@@ -361,7 +403,10 @@ func (origin *decodeOrigin) ancestry(target int) ([]int, error) {
 	if indexes, ok := origin.located[target]; ok {
 		return append([]int(nil), indexes...), nil
 	}
-	search := &origin.search
+	if origin.search == nil {
+		origin.search = new(positionSearch)
+	}
+	search := origin.search
 	search.target, search.indexes, search.visits = target, nil, &origin.ancestryVisits
 	collect := decodeOptionFunc(func(c *decodeConfig) error {
 		c.limits = origin.limits
@@ -434,14 +479,15 @@ func LocateDialogueContent(data, inner []byte, options []DecodeOption) []DecodeO
 				// payload. Its received location belongs to this call only.
 				if len(options) == 1 {
 					if parent, ok := options[0].(*generatedDecodeOption); ok {
-						located := new(locatedGeneratedDecodeOption)
-						located.context = *parent
-						located.location = decodeLocation{origin: config.location.origin, input: inner, offset: offset, source: "DialoguePortion"}
-						located.context.config.location = &located.location
-						return []DecodeOption{&located.context}
+						storage := new(generatedDecodeContextStorage)
+						storage.context = *parent
+						storage.context.location = decodeLocation{origin: config.location.decodeOrigin(), input: inner, offset: offset, source: "DialoguePortion"}
+						storage.context.config.location = &storage.context.location
+						storage.options[0] = &storage.context
+						return storage.options[:]
 					}
 				}
-				location := &decodeLocation{origin: config.location.origin, input: inner, offset: offset, source: "DialoguePortion"}
+				location := &decodeLocation{origin: config.location.decodeOrigin(), input: inner, offset: offset, source: "DialoguePortion"}
 				return append(options[:len(options):len(options)], decodeLocationOption{location})
 			}
 			return options
@@ -466,7 +512,7 @@ func LocateDecodeError(err error, options []DecodeOption) error {
 		return err
 	}
 	offset := config.location.receivedOffset()
-	indexes, _ := config.location.origin.ancestry(offset)
+	indexes, _ := config.location.decodeOrigin().ancestry(offset)
 	var validation *ValidationError
 	if errors.As(err, &validation) && validation.Offset != nil {
 		offset = *validation.Offset

@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/tcap_profile.go; SHA-256 f62f7066dd29de2ead580cacda0aa5b0c4e0b3c1bf150b718ae2d87019984e73.
+// Runtime source: runtime/ber/tcap_profile.go; SHA-256 22182980a58f5d0fd9b01e821f27464b5a3e60b8f39c880406fb7dc6e8040609.
 package ber
 
 import (
@@ -67,17 +67,20 @@ func TrackTCAPForm(options []DecodeOption, source ...string) []DecodeOption {
 		}
 		if len(options) == 1 {
 			if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
-				copied := *context
-				copied.config.profile = true
-				copied.config.profileNested = c.profile
-				copied.config.profileType = name
-				copied.config.profileSource = ruleSource
-				return []DecodeOption{&copied}
+				storage := new(generatedDecodeContextStorage)
+				storage.context = *context
+				storage.context.config.profile = true
+				storage.context.config.profileNested = c.profile
+				storage.context.config.profileType = name
+				storage.context.config.profileSource = ruleSource
+				storage.options[0] = &storage.context
+				return storage.options[:]
 			}
 		}
 		options = append(options[:len(options):len(options)], tcapProfileOption{source: name, ruleSource: ruleSource, nested: c.profile})
+		c.profile, c.profileNested, c.profileType, c.profileSource = true, c.profile, name, ruleSource
 	}
-	return TrackBERForm(options)
+	return trackBERForm(options, &c, err)
 }
 
 func tcapProfileViolation(data []byte, pos, tagLen, lenLen int, indefinite bool, t tag.Tag, kind string) bool {
@@ -112,7 +115,7 @@ func checkTCAPProfileElement(data []byte, pos, tagLen, lenLen int, indefinite bo
 			if absolute, ok := config.location.wireOffset(data[pos:]); ok {
 				offset = absolute
 				var err error
-				indexes, err = config.location.origin.ancestry(absolute)
+				indexes, err = config.location.decodeOrigin().ancestry(absolute)
 				if err != nil {
 					return err
 				}
@@ -120,8 +123,8 @@ func checkTCAPProfileElement(data []byte, pos, tagLen, lenLen int, indefinite bo
 		}
 
 		reportedPath := path
-		if config.location != nil && config.location.origin.search.segments != nil {
-			prefix := config.location.origin.search.segments.path
+		if config.location != nil && config.location.segments() != nil {
+			prefix := config.location.segments().path
 			if prefix != "" {
 				reportedPath = prefix
 				if path != "" {

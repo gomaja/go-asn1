@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/replay_profile.go; SHA-256 5c27b12ef81b2ed5e224c5b36234e9a6210b49a71d24ab7126ce1600569c2718.
+// Runtime source: runtime/ber/replay_profile.go; SHA-256 78e4128a9d7771020265c0db2e6522164a264d35b0849b773a2ee74a64b6b018.
 package ber
 
 import (
@@ -76,7 +76,7 @@ func replayProfileSafe(data []byte, config decodeConfig, node *ReplayNode) bool 
 			index.nodes = make(map[*ReplayNode]replayProfilePosition)
 		}
 		position := replayProfilePosition{offset: start}
-		if segments := config.location.origin.search.segments; segments != nil {
+		if segments := config.location.segments(); segments != nil {
 			// Q.773 §4.1.1; X.690 §§8.6.4, 8.7.3: repair the copied APDU
 			// in logical octet positions. Segment headers are not APDU bytes.
 			position.logical = segments.replayIndex(index)
