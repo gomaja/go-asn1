@@ -1,11 +1,12 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/external.go; SHA-256 a4a4a440084963123eafa71be7dcfe5801cfc1a0e8a7fcda374de494fcfae9ab.
+// Runtime source: runtime/ber/external.go; SHA-256 6eff2809c7b491f7a75849a83eecfeec1ad748b928ac340e65f245612904b631.
 package ber
 
 import (
 	"fmt"
 	"math"
+	"weak"
 
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime"
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
@@ -20,7 +21,7 @@ func DecodeExternal(data []byte, options ...DecodeOption) (runtime.External, int
 	if t.Class != tag.ClassUniversal || t.Number != tag.TagExternal || !t.Constructed {
 		return runtime.External{}, 0, fmt.Errorf("%w: expected constructed EXTERNAL, got %s", ErrInvalidTag, t)
 	}
-	result, err := DecodeExternalValue(value, options...)
+	result, err := decodeExternalValue(value, data[:total], options...)
 	if err != nil {
 		return runtime.External{}, 0, err
 	}
@@ -32,6 +33,10 @@ func DecodeExternal(data []byte, options ...DecodeOption) (runtime.External, int
 
 // DecodeExternalValue decodes the contents of an implicitly tagged EXTERNAL.
 func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.External, error) {
+	return decodeExternalValue(value, nil, options...)
+}
+
+func decodeExternalValue(value, element []byte, options ...DecodeOption) (runtime.External, error) {
 	if err := ValidateDecodeOptions(options...); err != nil {
 		return runtime.External{}, err
 	}
@@ -125,6 +130,34 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 		if innerLen != len(choice) {
 			return result, ErrExtraData
 		}
+		// X.690 (02/2021) §§8.9.2, 8.18.1, 8.18.9 require complete
+		// encodings throughout the open value. The validator reuses an
+		// unchanged generated context's validated-element proof. Scan the
+		// enclosing element when available so tolerant UTF-8 reports
+		// (§8.23.10), as well as errors, have whole-element coordinates.
+		scan := choice
+		if element != nil {
+			scan = element
+		}
+		index := 0
+		if element == nil {
+			if !result.DirectReference.IsZero() {
+				index++
+			}
+			if result.IndirectReference != nil {
+				index++
+			}
+			if result.DataValueDescriptor != nil {
+				index++
+			}
+		}
+		if err := validateExternalSingleASN1(scan, value, index, element == nil, options); err != nil {
+			if element != nil {
+				return result, err
+			}
+			err = externalStructureError(err, value, choice, []int{index, 0}, options)
+			return result, err
+		}
 		result.Encoding = runtime.ExternalSingleASN1Type
 		// X.690 (02/2021) §§8.1.2.1, 8.1.2.5, 8.18.6: identify the inner value.
 		result.SingleASN1Type = runtime.RawValue{Class: int(innerTag.Class), Tag: innerTag.Number, Constructed: innerTag.Constructed, Bytes: append([]byte(nil), choice...)}
@@ -150,6 +183,72 @@ func DecodeExternalValue(value []byte, options ...DecodeOption) (runtime.Externa
 		return result, fmt.Errorf("%w: EXTERNAL encoding choice %d", ErrInvalidTag, t.Number)
 	}
 	return result, nil
+}
+
+// An implicit EXTERNAL has no outer identifier to scan. Stage its open-value
+// reports locally so physical positions can be qualified before publication,
+// retaining the same X.690 (02/2021) §8.23.10 diagnostics as a full EXTERNAL.
+func validateExternalSingleASN1(scan, value []byte, index int, implicit bool, options []DecodeOption) error {
+	config, err := decodeOptions(options)
+	if err != nil {
+		return err
+	}
+	// TS 29.002 V19.1.0 §17.1.1 covers MAP-defined syntax only.
+	// This X.690 (02/2021) §8.18.9 scan cannot claim protocol ownership.
+	// Keep the caller's marker intact, and retain its proof and locations.
+	if config.form != nil && config.form.mapProfile() {
+		form := *config.form
+		form.mapSyntax = mapSyntaxGeneric
+		form.mapPending = nil
+		config.form = &form
+	}
+	if !implicit || !config.tolerant || config.location != nil {
+		return validateBERElement(scan, options, config)
+	}
+	base, ok := berSubsliceOffset(value, scan)
+	if !ok {
+		return ErrInvalidLength
+	}
+	var pending ViolationLog
+	local := config
+	local.reportScope = new(reportScope)
+	pending.scope = local.reportScope
+	local.violations = &pending
+	err = validateBERElement(scan, options, local)
+	for _, record := range pending.records {
+		if record.Offset == nil || *record.Offset < 0 || *record.Offset > len(value)-base {
+			return ErrInvalidLength
+		}
+		relativeOffset, relativeIndexes := *record.Offset, record.ChildIndexes
+		offset := base + *record.Offset
+		record.Offset = &offset
+		record.ChildIndexes = append([]int{index, 0}, record.ChildIndexes...)
+		record.Path = qualifyConstraintPath(options, "")
+		for _, child := range record.ChildIndexes {
+			record.Path = joinUTF8Path(record.Path, fmt.Sprintf("child[%d]", child))
+		}
+		record.origin = weak.Make(&value[0])
+		record.scope = config.reportScope
+		if reportErr := config.violations.append(record, config.diagnostics); reportErr != nil {
+			return &ElementError{offset: relativeOffset, childIndexes: relativeIndexes, cause: reportErr}
+		}
+	}
+	return err
+}
+
+// externalStructureError translates a standalone open-value scan into its
+// enclosing input. Generated locations already refer to the public root.
+func externalStructureError(err error, input, child []byte, indexes []int, options []DecodeOption) error {
+	located, ok := err.(*ElementError)
+	config, optionErr := decodeOptions(options)
+	if !ok || optionErr != nil || config.location != nil {
+		return err
+	}
+	offset, ok := berSubsliceOffset(input, child)
+	if !ok || located.offset < 0 || located.offset > len(input)-offset {
+		return err
+	}
+	return &ElementError{offset: offset + located.offset, childIndexes: append(indexes, located.childIndexes...), cause: located.cause}
 }
 
 // EncodeExternal writes a typed EXTERNAL value using BER (X.690 (02/2021)

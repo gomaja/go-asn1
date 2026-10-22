@@ -3623,8 +3623,8 @@ func tcapUnmarshalBERUserInformation(data []byte, opts ...ber.DecodeOption) (ret
 		return nil, ownErr
 	}
 	data = ownedData
-	preparedData, preparedOptions, prepareErr := ber.PrepareGeneratedBERInput(data, opts)
-	if prepareErr != nil {
+	externalElements, preparedData, preparedOptions, prepareErr := ber.DecodeGeneratedExternalSequence(data, opts)
+	if prepareErr != nil && preparedData == nil {
 		return nil, ber.DiagnosePreflight(prepareErr, data, opts, "element", func(probeOpts []ber.DecodeOption) error {
 			_, probeErr := tcapUnmarshalBERUserInformation(data, probeOpts...)
 			return probeErr
@@ -3633,35 +3633,17 @@ func tcapUnmarshalBERUserInformation(data []byte, opts ...ber.DecodeOption) (ret
 	data, opts = preparedData, preparedOptions
 	opts = ber.LocateDecodedElement(data, "DialoguePDUs.UserInformation", opts)
 	defer func() { returnErr = ber.LocateDecodeError(returnErr, opts) }()
-	content, total, err := ber.DecodeSequenceContent(data, opts...)
+	decodedTag, _, err := ber.DecodeTag(data)
+	if err == nil && (decodedTag.Class != tag.ClassUniversal || decodedTag.Number != tag.TagSequence || !decodedTag.Constructed) {
+		err = fmt.Errorf("%w: expected SEQUENCE, got %s", ber.ErrInvalidTag, decodedTag)
+	}
 	if err != nil {
 		return nil, fmt.Errorf("%s: %w", "decoding UserInformation", qualifyBERError(err, "", "decoding", false))
 	}
-	if total != len(data) {
-		return nil, &ber.DecodeError{Offset: total, TypeName: "UserInformation", Cause: ber.ErrExtraData}
+	if prepareErr != nil {
+		return nil, qualifyBERError(prepareErr, fmt.Sprintf("element[%d]", len(externalElements)), "decoding", false)
 	}
-	var result []runtime.External
-	offset := 0
-	for offset < len(content) {
-		elementIndex := len(result)
-		_ = elementIndex
-		elementData := content[offset:]
-		ber.MarkPreflightElement(opts, elementIndex, elementData)
-		decodedElem, n, extErr := ber.DecodeExternal(elementData, opts...)
-		if extErr != nil {
-			return nil, qualifyBERError(extErr, fmt.Sprintf("element[%d]",
-				elementIndex),
-
-				"decoding", false)
-		}
-		result = append(result, decodedElem)
-		if offset < 0 || offset >
-			len(content) || n < 0 || n > len(content[offset:]) {
-			return nil, fmt.Errorf("invalid BER content window")
-		}
-
-		offset += n
-	}
+	result := externalElements
 	decoded := &UserInformation{Values: result}
 	if ber.BERNeedsPreservation(opts) {
 		decoded.berReplayNode_ = ber.CaptureGeneratedBERReplay(data, opts)

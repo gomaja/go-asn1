@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/external_test.go; SHA-256 1e03bc668230073dcf923af90081c9f87499598ed5987d5182ac78246d257ca7.
+// Runtime source: runtime/ber/external_test.go; SHA-256 f5837d7912b70cb8dbfd998d52ed24582815d34a41c0e342de91a7eb9be4d7e9.
 package ber
 
 import (
@@ -73,9 +73,13 @@ func TestExternalOpaqueUTF8Encoding(t *testing.T) {
 		t.Fatalf("tolerant encoding: %v reports=%+v", err, reports.Snapshot())
 	}
 	wire := []byte{0x28, 8, 2, 1, 1, 0xa0, 3, 0x0c, 1, 0xff}
-	decoded, n, err := DecodeExternal(wire)
-	if err != nil || n != len(wire) {
-		t.Fatalf("decode: %v size=%d", err, n)
+	if _, _, err := DecodeExternal(wire); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("strict decode: %v", err)
+	}
+	reports.Reset()
+	decoded, n, err := DecodeExternal(wire, WithTolerance(&reports))
+	if err != nil || n != len(wire) || len(reports.Snapshot()) != 1 {
+		t.Fatalf("tolerant decode: %v size=%d reports=%+v", err, n, reports.Snapshot())
 	}
 	if _, err := EncodeExternal(decoded); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("strict retained encoding: %v", err)

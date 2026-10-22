@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/decoder.go; SHA-256 74f414c21f2dbb14af1b1f20522d931dee38b242e2d96f83023fcdbaad2a7fe0.
+// Runtime source: runtime/ber/decoder.go; SHA-256 cc383bdbfc7de3bc4dc3e76d6d0edd1fe504bf3e603b0e953e77b52098aaab48.
 package ber
 
 import (
@@ -50,24 +50,35 @@ func (budget *berWorkBudget) charge(size int) error {
 
 // DecodeTag reads an ASN.1 tag from data and returns the tag plus bytes consumed.
 func DecodeTag(data []byte) (tag.Tag, int, error) {
+	return decodeTagHeader(data, decodeHighTag)
+}
+
+// X.690 (02/2021) §8.1.2.2: map every possible first identifier octet.
+// The short-form path uses this immutable table; high tags take the fallback.
+var shortBERIdentifiers = func() (identifiers [256]tag.Tag) {
+	for octet := range identifiers {
+		identifiers[octet] = tag.Tag{Class: tag.Class(octet >> 6), Constructed: octet&0x20 != 0, Number: octet & 0x1f}
+	}
+	return identifiers
+}()
+
+func decodeTagHeader(data []byte, fallback func([]byte) (tag.Tag, int, error)) (tag.Tag, int, error) {
+	if len(data) != 0 && data[0]&0x1f < 31 {
+		return shortBERIdentifiers[data[0]], 1, nil
+	}
+	return fallback(data)
+}
+
+// Keep high-tag validation off the short identifier path so DecodeTag can be
+// inlined by structural and typed decoders. X.690 (02/2021) §§8.1.2.2–8.1.2.5
+// and Erratum 1 (09/2021, Figure 4) govern both forms.
+func decodeHighTag(data []byte) (tag.Tag, int, error) {
 	if len(data) == 0 {
 		return tag.Tag{}, 0, ErrTruncated
 	}
-
-	b := data[0]
-	t := tag.Tag{
-		Class:       tag.Class(b >> 6),
-		Constructed: b&0x20 != 0,
-	}
-
-	tagNum := int(b & 0x1F)
-	if tagNum < 31 {
-		t.Number = tagNum
-		return t, 1, nil
-	}
-
-	// Long form tag number.
+	t := tag.Tag{Class: tag.Class(data[0] >> 6), Constructed: data[0]&0x20 != 0}
 	offset := 1
+	var b byte
 	t.Number = 0
 	for {
 		if offset >= len(data) {
@@ -97,19 +108,26 @@ func DecodeTag(data []byte) (tag.Tag, int, error) {
 // DecodeLength reads a BER length field from data and returns the length,
 // whether it's indefinite, and bytes consumed.
 func DecodeLength(data []byte) (length int, indefinite bool, consumed int, err error) {
+	return decodeLengthHeader(data, decodeLongLength)
+}
+
+func decodeLengthHeader(data []byte, fallback func([]byte) (int, bool, int, error)) (int, bool, int, error) {
+	if len(data) != 0 && data[0] < 128 {
+		return int(data[0]), false, 1, nil
+	}
+	return fallback(data)
+}
+
+// X.690 (02/2021) §§8.1.3.4–8.1.3.5: the short form stays in the
+// caller; the long form keeps the same reserved-octet and overflow checks.
+func decodeLongLength(data []byte) (length int, indefinite bool, consumed int, err error) {
 	if len(data) == 0 {
 		return 0, false, 0, ErrTruncated
 	}
-
-	b := data[0]
-	if b < 128 {
-		return int(b), false, 1, nil
-	}
-	if b == 0x80 {
+	if data[0] == 0x80 {
 		return 0, true, 1, nil
 	}
-
-	numBytes := int(b & 0x7F)
+	numBytes := int(data[0] & 0x7F)
 	// X.690 (02/2021) §8.1.3.5 permits up to 126 subsequent octets;
 	// 0xff is reserved. Leading zero length octets are valid in BER.
 	if numBytes == 0 || numBytes == 127 {

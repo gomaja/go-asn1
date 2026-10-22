@@ -1,6 +1,6 @@
 // Code generated from ASN.1 module "TCAPMessages". DO NOT EDIT.
 
-// Runtime source: runtime/ber/generated_context.go; SHA-256 8061969c7fc6abea87e0f28f26f6f4e829471a6258711c8f3786cbafd06b66ac.
+// Runtime source: runtime/ber/generated_context.go; SHA-256 42ed8ec0102bddff693c7557d6596c361158129123cc67ec069457ec42a72848.
 package ber
 
 import (
@@ -38,6 +38,8 @@ type generatedDecodeOption struct {
 	pathOptions []DecodeOption
 	path        string
 	pathSet     bool
+	validated   bool // immutable proof of source ownership, numeric policy and local path checks
+	location    decodeLocation
 }
 
 // diagnosticChildOption retains the parent path without building a child
@@ -114,7 +116,7 @@ func ChildDecodeIndexContext(options []DecodeOption, index int) DecodeOption {
 		if context, ok := options[0].(*generatedDecodeOption); ok && context != nil {
 			config, err := decodeOptions(options)
 			if err == nil {
-				child := &generatedDecodeOption{source: context.source, config: config, parent: context, element: index, isElement: true, pending: context.pending}
+				child := &generatedDecodeOption{source: context.source, config: config, parent: context, element: index, isElement: true, pending: context.pending, validated: index >= 0}
 				child.config.collectionSizeChecked = false
 				if len(options) > 1 {
 					child.pathOptions = options
@@ -144,6 +146,9 @@ func isGeneratedDecodeContext(option DecodeOption) bool {
 }
 
 func (option *generatedDecodeOption) validate() error {
+	if option != nil && option.validated {
+		return nil
+	}
 	if option == nil || option.source == nil || option.source.owned == nil {
 		return fmt.Errorf("%w: invalid generated BER decode context", ErrInvalidValue)
 	}
@@ -216,39 +221,37 @@ func OwnGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, error) {
 			return append([]byte(nil), data...), nil
 		}
 	}
-	// Reject before retaining input or constructing a replay span map. The
-	// preliminary scan has its own unpublished diagnostic scope. go-asn1 #150
-	// remains separate: this guard belongs to TCAP's owned runtime.
-	preliminary, optionErr := decodeOptions(options)
+	// Reject before retaining input or constructing a replay span map. Any
+	// tolerant preliminary findings have a private diagnostic scope. go-asn1
+	// #150 remains separate: this guard belongs to TCAP's owned runtime.
+	config, optionErr := decodeOptions(options)
 	if optionErr != nil {
 		return nil, optionErr
 	}
+	preliminary := config
 	if preliminary.form != nil && preliminary.form.lightInput == nil && preliminary.form.owned == nil && preliminary.form.lightOwned == nil {
 		preliminary.form = nil
-		preliminary.violations = new(ViolationLog)
-		preliminary.reportScope = new(reportScope)
-		check := decodeOptionFunc(func(c *decodeConfig) error { *c = preliminary; return nil })
-		if err := ValidateBERElement(data, check); err != nil {
+		if preliminary.tolerant {
+			preliminary.violations = new(ViolationLog)
+			preliminary.reportScope = new(reportScope)
+		}
+		if err := validateBERElement(data, nil, preliminary); err != nil {
 			return data, nil
 		}
 	}
 	if len(options) == 1 {
-		if form, ok := options[0].(berFormOption); ok && form.state != nil {
+		if form, ok := options[0].(berFormOption); ok && form.state != nil && config.generatedMode != generatedModeProof {
 			form.state.generated = true
-			if rootHasIndefiniteLength(data) && len(data) <= DefaultDecodeLimits().MaxWork {
+			if config.generatedMode != generatedModeLight && rootHasIndefiniteLength(data) && len(data) <= config.limits.MaxWork {
 				form.state.owned = bytes.Clone(data)
 				return form.state.owned, nil
 			}
-			if len(data) <= DefaultDecodeLimits().MaxWork {
+			if len(data) <= config.limits.MaxWork {
 				form.state.lightOwned = bytes.Clone(data)
 				return form.state.lightOwned, nil
 			}
 			return data, nil
 		}
-	}
-	config, err := decodeOptions(options)
-	if err != nil {
-		return nil, err
 	}
 	if config.form == nil {
 		return nil, fmt.Errorf("%w: generated BER form tracker is unavailable", ErrInvalidValue)
@@ -409,11 +412,14 @@ func PrepareGeneratedBERInput(data []byte, options []DecodeOption) ([]byte, []De
 		source.input = nil
 		config.form.owned = nil
 	}
-	context := &generatedDecodeOption{source: source, config: config}
+	root := new(generatedDecodeContextStorage)
+	context := &root.context
+	*context = generatedDecodeOption{source: source, config: config, validated: true}
 	if config.hasPath {
 		context.pathOptions = options
 	}
-	return source.owned, []DecodeOption{context}, nil
+	root.options[0] = context
+	return source.owned, root.options[:], nil
 }
 
 // compactLightDecodeInput retains resolved options and linked paths without
@@ -429,17 +435,24 @@ func compactLightDecodeInput(data []byte, options []DecodeOption, config decodeC
 	input := new(lightGeneratedDecodeInput)
 	source, context := &input.source, &input.context
 	*source = validatedBERSource{light: true, input: data, owned: state.lightOwned, replay: state.lightReplay}
-	*context = generatedDecodeOption{source: source, config: config}
+	*context = generatedDecodeOption{source: source, config: config, validated: true}
 	if config.hasPath {
 		context.pathOptions = options
 	}
-	return data, []DecodeOption{context}, nil
+	input.options[0] = context
+	return data, input.options[:], nil
 }
 
 // The working source and its first context have the same decode lifetime.
 type lightGeneratedDecodeInput struct {
-	source  validatedBERSource
+	source validatedBERSource
+	generatedDecodeContextStorage
+}
+
+// A decode context and singleton option list share one call lifetime.
+type generatedDecodeContextStorage struct {
 	context generatedDecodeOption
+	options [1]DecodeOption
 }
 
 func rootHasIndefiniteLength(data []byte) bool {
@@ -459,6 +472,9 @@ func rootHasIndefiniteLength(data []byte) bool {
 
 func hasGeneratedMode(options []DecodeOption, mode generatedDecodeMode) bool {
 	for _, option := range options {
+		if form, ok := option.(berFormOption); ok && form.state != nil && form.state.resolved != nil && form.state.resolved.config.generatedMode == mode {
+			return true
+		}
 		if selected, ok := option.(generatedModeOption); ok && selected.mode == mode {
 			return true
 		}

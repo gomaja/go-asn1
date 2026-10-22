@@ -1,6 +1,6 @@
 // Code generated from MAP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/ber/work.go; SHA-256 1ea54c87acac873b4de8513accee53831e4ad4bb5d5a10036ec4882825a05e0b.
+// Runtime source: runtime/ber/work.go; SHA-256 1e70eeacb9ee752230bb8cf20158c9eec525b117394061e61668e90ecc330a20.
 package ber
 
 import (
@@ -12,19 +12,20 @@ import (
 	"github.com/gomaja/go-asn1/telecom/ss7/gsm_map/runtime/tag"
 )
 
+// Group pointers and flags to keep each frame within ten machine words.
 type berScanFrame struct {
+	utf8Contents  *[]byte
+	utf8Source    *byte
 	end           int
-	indefinite    bool
 	segmentTag    int
-	unusedBits    int
 	segmentOffset int
 	segmentIndex  int
-	utf8Contents  *[]byte
-	utf8Root      bool
-	utf8Source    *byte
 	offset        int
 	index         int
 	nextChild     int
+	unusedBits    byte // X.690 (02/2021) §8.6.2.2: received unused-bit octet.
+	indefinite    bool
+	utf8Root      bool
 }
 
 // ValidateBEREncodedElement checks that caller-supplied open-type bytes hold
@@ -174,7 +175,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		if len(stack) == 0 {
 			return ErrInvalidLength
 		}
-		closed := stack[len(stack)-1]
+		closed := &stack[len(stack)-1]
 		if len(stack) > 1 {
 			if shortSpans != nil {
 				shortSpans[closed.offset] = uint16(pos)
@@ -201,8 +202,11 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 		return nil
 	}
 	for len(stack) != 0 {
-		parent := stack[len(stack)-1]
-		failureOffset, failureDepth, failureIndex = pos, len(stack), parent.nextChild
+		// Read the frame in place, but snapshot its received index before
+		// advancing the live child counter below.
+		parent := &stack[len(stack)-1]
+		childIndex := parent.nextChild
+		failureOffset, failureDepth, failureIndex = pos, len(stack), childIndex
 		if pos == parent.end {
 			if parent.indefinite {
 				failureOffset, failureDepth, failureIndex = parent.offset, len(stack)-1, parent.index
@@ -236,7 +240,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				for _, ancestor := range stack[2:] {
 					search.indexes = append(search.indexes, ancestor.index)
 				}
-				search.indexes = append(search.indexes, parent.nextChild)
+				search.indexes = append(search.indexes, childIndex)
 			}
 			return nil
 		}
@@ -324,7 +328,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{end: parent.end, indefinite: true, segmentTag: berSegmentTag(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: parent.nextChild})
+			stack = append(stack, berScanFrame{end: parent.end, indefinite: true, segmentTag: berSegmentTag(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 			continue
 		}
@@ -342,7 +346,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 					source = &data[start]
 				}
 				if reportUTF8 && !utf8.Valid(data[start:end]) {
-					position, err := scannedUTF8Location(data, pos, stack, parent.nextChild, config, options)
+					position, err := scannedUTF8Location(data, pos, stack, childIndex, config, options)
 					if err != nil {
 						return err
 					}
@@ -358,9 +362,9 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 				return err
 			}
 			if parent.segmentTag == tag.TagBitString {
-				stack[len(stack)-1].unusedBits = int(data[start])
+				stack[len(stack)-1].unusedBits = data[start]
 				stack[len(stack)-1].segmentOffset = pos
-				stack[len(stack)-1].segmentIndex = parent.nextChild
+				stack[len(stack)-1].segmentIndex = childIndex
 			}
 		}
 		if t.Constructed {
@@ -372,7 +376,7 @@ func validateBERElement(data []byte, options []DecodeOption, config decodeConfig
 			if len(stack) > limits.MaxDepth {
 				return fmt.Errorf("%w: BER nesting depth exceeded", ErrResourceLimit)
 			}
-			stack = append(stack, berScanFrame{end: end, segmentTag: berSegmentTag(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: parent.nextChild})
+			stack = append(stack, berScanFrame{end: end, segmentTag: berSegmentTag(t), utf8Contents: utf8Contents, utf8Root: utf8Root, utf8Source: utf8Source, offset: pos, index: childIndex})
 			pos = start
 		} else {
 			if shortSpans != nil {
