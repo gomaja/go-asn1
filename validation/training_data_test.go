@@ -18,6 +18,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
 	"github.com/gomaja/go-asn1/telecom/lte/x2ap"
+	x2aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
 )
 
@@ -176,7 +177,7 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 			return strings.Contains(rec.Expected, "Rejected"), false, fmt.Sprintf("PDU error: %v", err)
 		}
 		_, err := value.DecodeValueRecursive()
-		return checkSyntheticDispatch(rec, err)
+		return checkSyntheticDispatch(rec, err, per.ErrExtraData)
 	}
 	if strings.HasPrefix(rec.ID, "x2ap-") {
 		var value x2ap.X2APPDU
@@ -191,7 +192,7 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 			}
 			return true, true, ""
 		}
-		return checkSyntheticDispatch(rec, err)
+		return checkSyntheticDispatch(rec, err, x2aper.ErrExtraData)
 	}
 	if strings.HasPrefix(rec.ID, "lppa-") {
 		var value lppa.LPPAPDU
@@ -199,15 +200,15 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 			return false, false, err.Error()
 		}
 		_, err := value.DecodeValueRecursive()
-		return checkSyntheticDispatch(rec, err)
+		return checkSyntheticDispatch(rec, err, per.ErrExtraData)
 	}
 	return false, false, "unrecognized training record"
 }
 
-func checkSyntheticDispatch(rec trainingRecord, err error) (bool, bool, string) {
+func checkSyntheticDispatch(rec trainingRecord, err, extraData error) (bool, bool, string) {
 	wantError := strings.Contains(rec.Expected, "Extra octets should be reported") || strings.HasPrefix(rec.Expected, "Rejected")
 	if wantError {
-		return errors.Is(err, per.ErrExtraData), !strings.Contains(rec.LibraryResult, "reject"), fmt.Sprintf("dispatch error = %v", err)
+		return errors.Is(err, extraData), !strings.Contains(rec.LibraryResult, "reject"), fmt.Sprintf("dispatch error = %v", err)
 	}
 	return err == nil, false, fmt.Sprintf("dispatch error = %v", err)
 }
