@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/time_test.go; SHA-256 ac9a7039e624c495dfcf4ebef4fa6e9038533230c5fdc8cf219a460383285397.
+// Runtime source: runtime/time_test.go; SHA-256 912770a4b2c57002c45aa909cd0709479405f41a03f06180f189d19ae16b5ff2.
 package runtime
 
 import (
@@ -13,6 +13,7 @@ import (
 	"strings"
 	"testing"
 	"time"
+	_ "time/tzdata"
 )
 
 type timeExample struct {
@@ -540,7 +541,10 @@ func checkUTCTime(t *testing.T, s string) {
 	}
 	if g, err := time.Parse(layout, s); err == nil {
 		if g.Year() >= 2050 && g.Year() <= 2068 {
-			g = g.AddDate(-100, 0, 0)
+			// Shift the century at the parsed offset. A local zone can use a
+			// different offset for the same wall clock a century earlier.
+			_, offset := g.Zone()
+			g = time.Date(g.Year()-100, g.Month(), g.Day(), g.Hour(), g.Minute(), g.Second(), g.Nanosecond(), time.FixedZone("", offset))
 		}
 		if !g.Equal(inst) {
 			t.Fatalf("%q: time.Parse=%v, Time()=%v", s, g, inst)
@@ -637,7 +641,23 @@ func FuzzParseGeneralizedTime(f *testing.F) {
 	f.Fuzz(func(t *testing.T, s string) { checkGeneralizedTime(t, s) })
 }
 
+// checkUTCTime's cross-check with time.Parse shifts 2050–2068 back a century.
+// The shift must keep the parsed offset: Europe/Paris is on +0200 in June 2050
+// but had no summer time in 1950, so shifting in the local zone moved the
+// instant by an hour.
+func TestUTCTimeOracleKeepsParsedOffset(t *testing.T) {
+	paris, err := time.LoadLocation("Europe/Paris")
+	if err != nil {
+		t.Fatal(err)
+	}
+	saved := time.Local
+	time.Local = paris
+	defer func() { time.Local = saved }()
+	checkUTCTime(t, "500601003000+0200")
+}
+
 func FuzzParseUTCTime(f *testing.F) {
+	f.Add("500601003000+0200") // offset kept across the century shift, whatever the local zone
 	for _, e := range timeExamples {
 		if e.utc {
 			f.Add(e.in)
