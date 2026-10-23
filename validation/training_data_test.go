@@ -15,6 +15,7 @@ import (
 	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
 	"github.com/gomaja/go-asn1/telecom/lte/x2ap"
 	umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
@@ -149,7 +150,7 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 	if strings.Contains(file, "rrc-trailing-extension-truncated") {
 		var value rrc.ULDCCHMessage
 		err := value.UnmarshalUPER(wire)
-		return errors.Is(err, per.ErrTruncated), false, fmt.Sprintf("strict error = %v", err)
+		return errors.Is(err, uper.ErrTruncated), false, fmt.Sprintf("strict error = %v", err)
 	}
 	if rec.ID == "s1ap-63-cause-zero-padding" || rec.ID == "s1ap-63-cause-nonzero-padding" {
 		var value s1ap.Cause

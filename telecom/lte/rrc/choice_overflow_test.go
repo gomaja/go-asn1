@@ -4,13 +4,13 @@ import (
 	"math"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 )
 
 func TestChoiceMinimumIndexRejectedBeforeWrite(t *testing.T) {
 	value := rrc.PagingUEIdentity{Choice: math.MinInt}
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := value.MarshalUPERTo(bb); err == nil {
 		t.Fatal("minimum host-int CHOICE index accepted")
 	}

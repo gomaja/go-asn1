@@ -5,20 +5,20 @@ package rrc
 import (
 	"fmt"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 )
 
 // Ensure imports are used.
 var (
 	_ runtime.BitString
-	_ = per.NewBitBuffer
+	_ = uper.NewBitBuffer
 )
 
 // SBCCHSLBCHMessage represents the ASN.1 type SBCCH-SL-BCH-Message (SEQUENCE).
 type SBCCHSLBCHMessage struct {
 	Message     SBCCHSLBCHMessageType `asn1:"tag:0,context,implicit"`
-	PERPadding_ per.FinalPadding      `asn1:"-" json:"-"`
+	PERPadding_ uper.FinalPadding     `asn1:"-" json:"-"`
 }
 
 // SBCCHSLBCHMessageType represents the ASN.1 type SBCCH-SL-BCH-MessageType (SEQUENCE).
@@ -27,7 +27,7 @@ type SBCCHSLBCHMessageType = MasterInformationBlockSL
 // SBCCHSLBCHMessageV2XR14 represents the ASN.1 type SBCCH-SL-BCH-Message-V2X-r14 (SEQUENCE).
 type SBCCHSLBCHMessageV2XR14 struct {
 	Message     SBCCHSLBCHMessageTypeV2XR14 `asn1:"tag:0,context,implicit"`
-	PERPadding_ per.FinalPadding            `asn1:"-" json:"-"`
+	PERPadding_ uper.FinalPadding           `asn1:"-" json:"-"`
 }
 
 // SBCCHSLBCHMessageTypeV2XR14 represents the ASN.1 type SBCCH-SL-BCH-MessageType-V2X-r14 (SEQUENCE).
@@ -42,7 +42,7 @@ type MasterInformationBlockSL struct {
 	InCoverageR12           bool              `asn1:"tag:4,context,implicit"`
 	InCoverageR12Raw_       byte              `asn1:"-" json:"-"`
 	ReservedR12             runtime.BitString `asn1:"tag:5,context,implicit"`
-	PERPadding_             per.FinalPadding  `asn1:"-" json:"-"`
+	PERPadding_             uper.FinalPadding `asn1:"-" json:"-"`
 }
 
 // MasterInformationBlockSLV2XR14 represents the ASN.1 type MasterInformationBlock-SL-V2X-r14 (SEQUENCE).
@@ -54,19 +54,19 @@ type MasterInformationBlockSLV2XR14 struct {
 	InCoverageR14           bool              `asn1:"tag:4,context,implicit"`
 	InCoverageR14Raw_       byte              `asn1:"-" json:"-"`
 	ReservedR14             runtime.BitString `asn1:"tag:5,context,implicit"`
-	PERPadding_             per.FinalPadding  `asn1:"-" json:"-"`
+	PERPadding_             uper.FinalPadding `asn1:"-" json:"-"`
 }
 
 // MarshalUPER encodes SBCCHSLBCHMessage to UPER format.
 func (v *SBCCHSLBCHMessage) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *SBCCHSLBCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *SBCCHSLBCHMessage) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -75,20 +75,20 @@ func (v *SBCCHSLBCHMessage) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SBCCHSLBCHMessage from UPER format.
 func (v *SBCCHSLBCHMessage) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes SBCCHSLBCHMessage with explicit receiver options.
-func (v *SBCCHSLBCHMessage) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *SBCCHSLBCHMessage) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessage")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "SBCCHSLBCHMessage")
+	padding, err := uper.CaptureFinalBits(bb, "SBCCHSLBCHMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessage")
 	}
@@ -96,7 +96,7 @@ func (v *SBCCHSLBCHMessage) UnmarshalUPERWithOptions(data []byte, options per.De
 	return nil
 }
 
-func (v *SBCCHSLBCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SBCCHSLBCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -110,14 +110,14 @@ func (v *SBCCHSLBCHMessage) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes SBCCHSLBCHMessageV2XR14 to UPER format.
 func (v *SBCCHSLBCHMessageV2XR14) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *SBCCHSLBCHMessageV2XR14) MarshalUPERTo(bb *per.BitBuffer) error {
+func (v *SBCCHSLBCHMessageV2XR14) MarshalUPERTo(bb *uper.BitBuffer) error {
 	if err := v.Message.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding message: %w", err)
 	}
@@ -126,20 +126,20 @@ func (v *SBCCHSLBCHMessageV2XR14) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes SBCCHSLBCHMessageV2XR14 from UPER format.
 func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes SBCCHSLBCHMessageV2XR14 with explicit receiver options.
-func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessageV2XR14")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessageV2XR14")
 	}
-	padding, err := per.CaptureFinalBits(bb, "SBCCHSLBCHMessageV2XR14")
+	padding, err := uper.CaptureFinalBits(bb, "SBCCHSLBCHMessageV2XR14")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SBCCHSLBCHMessageV2XR14")
 	}
@@ -147,7 +147,7 @@ func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERWithOptions(data []byte, options 
 	return nil
 }
 
-func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -161,30 +161,30 @@ func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes MasterInformationBlockSL to UPER format.
 func (v *MasterInformationBlockSL) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *MasterInformationBlockSL) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeEnumerated(bb, int64(v.SlBandwidthR12), 6, false); err != nil {
+func (v *MasterInformationBlockSL) MarshalUPERTo(bb *uper.BitBuffer) error {
+	if err := uper.EncodeEnumerated(bb, int64(v.SlBandwidthR12), 6, false); err != nil {
 		return fmt.Errorf("encoding sl-Bandwidth-r12: %w", err)
 	}
 	if err := v.TddConfigSLR12.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding tdd-ConfigSL-r12: %w", err)
 	}
-	if err := per.EncodeBitStringExt(bb, v.DirectFrameNumberR12.Bytes, v.DirectFrameNumberR12.BitLength, 10, 10, true, false); err != nil {
+	if err := uper.EncodeBitStringExt(bb, v.DirectFrameNumberR12.Bytes, v.DirectFrameNumberR12.BitLength, 10, 10, true, false); err != nil {
 		return fmt.Errorf("encoding directFrameNumber-r12: %w", err)
 	}
-	if err := per.EncodeInteger(bb, int64(v.DirectSubframeNumberR12), int64Ptr(0), int64Ptr(9), false); err != nil {
+	if err := uper.EncodeInteger(bb, int64(v.DirectSubframeNumberR12), int64Ptr(0), int64Ptr(9), false); err != nil {
 		return fmt.Errorf("encoding directSubframeNumber-r12: %w", err)
 	}
-	if err := per.EncodeBoolean(bb, v.InCoverageR12); err != nil {
+	if err := uper.EncodeBoolean(bb, v.InCoverageR12); err != nil {
 		return fmt.Errorf("encoding inCoverage-r12: %w", err)
 	}
-	if err := per.EncodeBitStringExt(bb, v.ReservedR12.Bytes, v.ReservedR12.BitLength, 19, 19, true, false); err != nil {
+	if err := uper.EncodeBitStringExt(bb, v.ReservedR12.Bytes, v.ReservedR12.BitLength, 19, 19, true, false); err != nil {
 		return fmt.Errorf("encoding reserved-r12: %w", err)
 	}
 	return nil
@@ -192,20 +192,20 @@ func (v *MasterInformationBlockSL) MarshalUPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalUPER decodes MasterInformationBlockSL from UPER format.
 func (v *MasterInformationBlockSL) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes MasterInformationBlockSL with explicit receiver options.
-func (v *MasterInformationBlockSL) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *MasterInformationBlockSL) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSL")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSL")
 	}
-	padding, err := per.CaptureFinalBits(bb, "MasterInformationBlockSL")
+	padding, err := uper.CaptureFinalBits(bb, "MasterInformationBlockSL")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSL")
 	}
@@ -213,13 +213,13 @@ func (v *MasterInformationBlockSL) UnmarshalUPERWithOptions(data []byte, options
 	return nil
 }
 
-func (v *MasterInformationBlockSL) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *MasterInformationBlockSL) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = MasterInformationBlockSL{}
-	val_slbandwidthr12, err := per.DecodeEnumerated(bb, 6, false)
+	val_slbandwidthr12, err := uper.DecodeEnumerated(bb, 6, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SlBandwidthR12")
 	}
@@ -227,22 +227,22 @@ func (v *MasterInformationBlockSL) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 	if err := v.TddConfigSLR12.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TddConfigSLR12")
 	}
-	bsBytes_directframenumberr12, bsBitLen_directframenumberr12, err := per.DecodeBitStringExt(bb, 10, 10, true, false)
+	bsBytes_directframenumberr12, bsBitLen_directframenumberr12, err := uper.DecodeBitStringExt(bb, 10, 10, true, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DirectFrameNumberR12")
 	}
 	v.DirectFrameNumberR12 = runtime.BitString{Bytes: bsBytes_directframenumberr12, BitLength: bsBitLen_directframenumberr12}
-	val_directsubframenumberr12, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(9), false)
+	val_directsubframenumberr12, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(9), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DirectSubframeNumberR12")
 	}
 	v.DirectSubframeNumberR12 = val_directsubframenumberr12
-	val_incoverager12, err := per.DecodeBoolean(bb)
+	val_incoverager12, err := uper.DecodeBoolean(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InCoverageR12")
 	}
 	v.InCoverageR12 = val_incoverager12
-	bsBytes_reservedr12, bsBitLen_reservedr12, err := per.DecodeBitStringExt(bb, 19, 19, true, false)
+	bsBytes_reservedr12, bsBitLen_reservedr12, err := uper.DecodeBitStringExt(bb, 19, 19, true, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ReservedR12")
 	}
@@ -252,30 +252,30 @@ func (v *MasterInformationBlockSL) UnmarshalUPERFrom(bb *per.BitBuffer) error {
 
 // MarshalUPER encodes MasterInformationBlockSLV2XR14 to UPER format.
 func (v *MasterInformationBlockSLV2XR14) MarshalUPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := uper.NewBitBuffer()
 	if err := v.MarshalUPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.PERPadding_)
 }
 
-func (v *MasterInformationBlockSLV2XR14) MarshalUPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeEnumerated(bb, int64(v.SlBandwidthR14), 6, false); err != nil {
+func (v *MasterInformationBlockSLV2XR14) MarshalUPERTo(bb *uper.BitBuffer) error {
+	if err := uper.EncodeEnumerated(bb, int64(v.SlBandwidthR14), 6, false); err != nil {
 		return fmt.Errorf("encoding sl-Bandwidth-r14: %w", err)
 	}
 	if err := v.TddConfigSLR14.MarshalUPERTo(bb); err != nil {
 		return fmt.Errorf("encoding tdd-ConfigSL-r14: %w", err)
 	}
-	if err := per.EncodeBitStringExt(bb, v.DirectFrameNumberR14.Bytes, v.DirectFrameNumberR14.BitLength, 10, 10, true, false); err != nil {
+	if err := uper.EncodeBitStringExt(bb, v.DirectFrameNumberR14.Bytes, v.DirectFrameNumberR14.BitLength, 10, 10, true, false); err != nil {
 		return fmt.Errorf("encoding directFrameNumber-r14: %w", err)
 	}
-	if err := per.EncodeInteger(bb, int64(v.DirectSubframeNumberR14), int64Ptr(0), int64Ptr(9), false); err != nil {
+	if err := uper.EncodeInteger(bb, int64(v.DirectSubframeNumberR14), int64Ptr(0), int64Ptr(9), false); err != nil {
 		return fmt.Errorf("encoding directSubframeNumber-r14: %w", err)
 	}
-	if err := per.EncodeBoolean(bb, v.InCoverageR14); err != nil {
+	if err := uper.EncodeBoolean(bb, v.InCoverageR14); err != nil {
 		return fmt.Errorf("encoding inCoverage-r14: %w", err)
 	}
-	if err := per.EncodeBitStringExt(bb, v.ReservedR14.Bytes, v.ReservedR14.BitLength, 27, 27, true, false); err != nil {
+	if err := uper.EncodeBitStringExt(bb, v.ReservedR14.Bytes, v.ReservedR14.BitLength, 27, 27, true, false); err != nil {
 		return fmt.Errorf("encoding reserved-r14: %w", err)
 	}
 	return nil
@@ -283,20 +283,20 @@ func (v *MasterInformationBlockSLV2XR14) MarshalUPERTo(bb *per.BitBuffer) error 
 
 // UnmarshalUPER decodes MasterInformationBlockSLV2XR14 from UPER format.
 func (v *MasterInformationBlockSLV2XR14) UnmarshalUPER(data []byte) error {
-	return v.UnmarshalUPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalUPERWithOptions(data, uper.DecodeOptions{})
 }
 
 // UnmarshalUPERWithOptions decodes MasterInformationBlockSLV2XR14 with explicit receiver options.
-func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERWithOptions(data []byte, options uper.DecodeOptions) error {
+	var budget uper.DecodeBudget
+	bb := uper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptions(options); err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSLV2XR14")
 	}
 	if err := v.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSLV2XR14")
 	}
-	padding, err := per.CaptureFinalBits(bb, "MasterInformationBlockSLV2XR14")
+	padding, err := uper.CaptureFinalBits(bb, "MasterInformationBlockSLV2XR14")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MasterInformationBlockSLV2XR14")
 	}
@@ -304,13 +304,13 @@ func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERWithOptions(data []byte, o
 	return nil
 }
 
-func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) error {
+func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = MasterInformationBlockSLV2XR14{}
-	val_slbandwidthr14, err := per.DecodeEnumerated(bb, 6, false)
+	val_slbandwidthr14, err := uper.DecodeEnumerated(bb, 6, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SlBandwidthR14")
 	}
@@ -318,22 +318,22 @@ func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERFrom(bb *per.BitBuffer) er
 	if err := v.TddConfigSLR14.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TddConfigSLR14")
 	}
-	bsBytes_directframenumberr14, bsBitLen_directframenumberr14, err := per.DecodeBitStringExt(bb, 10, 10, true, false)
+	bsBytes_directframenumberr14, bsBitLen_directframenumberr14, err := uper.DecodeBitStringExt(bb, 10, 10, true, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DirectFrameNumberR14")
 	}
 	v.DirectFrameNumberR14 = runtime.BitString{Bytes: bsBytes_directframenumberr14, BitLength: bsBitLen_directframenumberr14}
-	val_directsubframenumberr14, err := per.DecodeInteger(bb, int64Ptr(0), int64Ptr(9), false)
+	val_directsubframenumberr14, err := uper.DecodeInteger(bb, int64Ptr(0), int64Ptr(9), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DirectSubframeNumberR14")
 	}
 	v.DirectSubframeNumberR14 = val_directsubframenumberr14
-	val_incoverager14, err := per.DecodeBoolean(bb)
+	val_incoverager14, err := uper.DecodeBoolean(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InCoverageR14")
 	}
 	v.InCoverageR14 = val_incoverager14
-	bsBytes_reservedr14, bsBitLen_reservedr14, err := per.DecodeBitStringExt(bb, 27, 27, true, false)
+	bsBytes_reservedr14, bsBitLen_reservedr14, err := uper.DecodeBitStringExt(bb, 27, 27, true, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ReservedR14")
 	}
