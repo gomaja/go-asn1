@@ -3,14 +3,14 @@
 package x2ap
 
 import (
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
 // Ensure imports are used.
 var (
 	_ runtime.BitString
-	_ = per.NewBitBuffer
+	_ = aper.NewBitBuffer
 )
 
 const (

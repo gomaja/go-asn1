@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
+	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
 // ENBname and MMEname are PrintableString (SIZE (1..150, ...)), URI-Address
@@ -38,11 +38,11 @@ func TestStringIEsMatchPycrate(t *testing.T) {
 		if err != nil {
 			t.Fatalf("%s %d: decode %s: %v", tc.objectSet, tc.id, tc.wire, err)
 		}
-		if complete, ok := decoded.(*per.CompleteValue[string]); !ok || complete.Value != tc.value {
+		if complete, ok := decoded.(*aper.CompleteValue[string]); !ok || complete.Value != tc.value {
 			t.Fatalf("%s %d: decode %s = %#v, want %q", tc.objectSet, tc.id, tc.wire, decoded, tc.value)
 		}
-		bb := per.NewBitBuffer()
-		if err := per.EncodeKnownMultiplierStringAlignedExt(bb, tc.value, 7, 1, 150, true, true); err != nil {
+		bb := aper.NewBitBuffer()
+		if err := aper.EncodeKnownMultiplierStringAlignedExt(bb, tc.value, 7, 1, 150, true, true); err != nil {
 			t.Fatal(err)
 		}
 		if got := bb.CompleteBytes(); !bytes.Equal(got, wire) {
@@ -52,7 +52,7 @@ func TestStringIEsMatchPycrate(t *testing.T) {
 	uri, _ := hex.DecodeString("08687474703a2f2f78")
 	if decoded, err := s1ap.DecodeExtensionFieldValue("TraceActivation-ExtIEs", 325, uri); err != nil {
 		t.Fatalf("URI-Address: %v", err)
-	} else if complete, ok := decoded.(*per.CompleteValue[string]); !ok || complete.Value != "http://x" {
+	} else if complete, ok := decoded.(*aper.CompleteValue[string]); !ok || complete.Value != "http://x" {
 		t.Fatalf("URI-Address = %#v", decoded)
 	}
 	// The 7-bit encoding of "ab" that the aligned codec used to produce.
@@ -74,7 +74,7 @@ func TestStringIEsMatchPycrate(t *testing.T) {
 	if err != nil || len(decoded.ProtocolIEs) != 1 || decoded.ProtocolIEs[0].Field.Id != 61 {
 		t.Fatalf("S1RemovalResponse IEs = %+v, %v", decoded, err)
 	}
-	if complete, ok := decoded.ProtocolIEs[0].Value.(*per.CompleteValue[string]); !ok || complete.Value != "ab" {
+	if complete, ok := decoded.ProtocolIEs[0].Value.(*aper.CompleteValue[string]); !ok || complete.Value != "ab" {
 		t.Fatalf("S1RemovalResponse MMEname = %#v", decoded.ProtocolIEs[0].Value)
 	}
 

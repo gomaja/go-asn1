@@ -5,8 +5,8 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/x2ap"
+	"github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
 // URI-Address is VisibleString: in the ALIGNED variant each character takes
@@ -20,11 +20,11 @@ func TestURIAddressMatchesPycrate(t *testing.T) {
 	if err != nil {
 		t.Fatalf("decode extension 405: %v", err)
 	}
-	if complete, ok := decoded.(*per.CompleteValue[string]); !ok || complete.Value != "https://ref.invalid/x2" {
+	if complete, ok := decoded.(*aper.CompleteValue[string]); !ok || complete.Value != "https://ref.invalid/x2" {
 		t.Fatalf("decode extension 405 = %#v", decoded)
 	}
-	bb := per.NewBitBuffer()
-	if err := per.EncodeKnownMultiplierStringAligned(bb, "https://ref.invalid/x2", 7, 0, 0, false); err != nil {
+	bb := aper.NewBitBuffer()
+	if err := aper.EncodeKnownMultiplierStringAligned(bb, "https://ref.invalid/x2", 7, 0, 0, false); err != nil {
 		t.Fatal(err)
 	}
 	if got := bb.CompleteBytes(); !bytes.Equal(got, field) {
@@ -46,7 +46,7 @@ func TestURIAddressMatchesPycrate(t *testing.T) {
 	var uris []string
 	for _, ie := range value.ProtocolIEs {
 		for _, extension := range ie.Extensions {
-			if complete, ok := extension.Value.(*per.CompleteValue[string]); ok && extension.Field.Id == 405 {
+			if complete, ok := extension.Value.(*aper.CompleteValue[string]); ok && extension.Field.Id == 405 {
 				uris = append(uris, complete.Value)
 			}
 		}

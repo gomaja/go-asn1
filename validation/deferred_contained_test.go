@@ -9,6 +9,7 @@ import (
 
 	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 	umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
 )
 
@@ -62,9 +63,20 @@ func sameTrailing(t *testing.T, name string, got, want per.FinalPadding) {
 	}
 }
 
-func deferring(mode per.ContainedDecoding) (per.DecodeOptions, *per.DeferralLog) {
-	var log per.DeferralLog
-	return per.DecodeOptions{ContainedDecoding: mode, Deferrals: &log}, &log
+func sameLTETrailing(t *testing.T, name string, got, want uper.FinalPadding) {
+	t.Helper()
+	if got.Deferred() != nil || want.Deferred() != nil {
+		t.Fatalf("%s: deferred state %+v, %+v", name, got.Deferred(), want.Deferred())
+	}
+	g, w := got.Trailing(), want.Trailing()
+	if g.BitLength != w.BitLength || !bytes.Equal(g.Bytes, w.Bytes) {
+		t.Fatalf("%s: trailing bits %x/%d, want %x/%d", name, g.Bytes, g.BitLength, w.Bytes, w.BitLength)
+	}
+}
+
+func deferring(mode uper.ContainedDecoding) (uper.DecodeOptions, *uper.DeferralLog) {
+	var log uper.DeferralLog
+	return uper.DecodeOptions{ContainedDecoding: mode, Deferrals: &log}, &log
 }
 
 // TS 36.331 V19.4.0 8.1: an error in a contained value should not fail the
@@ -73,16 +85,16 @@ func TestDeferOnErrorKeepsCorruptLateNonCriticalExtension(t *testing.T) {
 	wire, _ := hex.DecodeString(lateCorrupt)
 	var strict rrc.RRCConnectionSetupCompleteV8a0IEs
 	strictErr := strict.UnmarshalUPER(wire)
-	if !errors.Is(strictErr, per.ErrTruncated) {
+	if !errors.Is(strictErr, uper.ErrTruncated) {
 		t.Fatalf("Eager error = %v", strictErr)
 	}
-	options, log := deferring(per.DeferOnError)
+	options, log := deferring(uper.DeferOnError)
 	var value rrc.RRCConnectionSetupCompleteV8a0IEs
 	if err := value.UnmarshalUPERWithOptions(wire, options); err != nil {
 		t.Fatal(err)
 	}
 	records := log.Snapshot()
-	if len(records) != 1 || records[0].Path != "RRCConnectionSetupCompleteV8a0IEs.LateNonCriticalExtension" || records[0].Kind != per.OctetStringContainer || records[0].BitLength != 8 || records[0].Err.Error() != strictErr.Error() {
+	if len(records) != 1 || records[0].Path != "RRCConnectionSetupCompleteV8a0IEs.LateNonCriticalExtension" || records[0].Kind != uper.OctetStringContainer || records[0].BitLength != 8 || records[0].Err.Error() != strictErr.Error() {
 		t.Fatalf("records = %+v; Eager error %v", records, strictErr)
 	}
 	d := value.LateNonCriticalExtension.PERPadding_.Deferred()
@@ -93,7 +105,7 @@ func TestDeferOnErrorKeepsCorruptLateNonCriticalExtension(t *testing.T) {
 		t.Fatalf("re-encode = %x, %v", out, err)
 	}
 	var later rrc.RRCConnectionSetupCompleteV8x0IEs
-	if err := later.UnmarshalUPERWithOptions(d.Bytes(), per.DecodeOptions{}); !errors.Is(err, per.ErrTruncated) {
+	if err := later.UnmarshalUPERWithOptions(d.Bytes(), uper.DecodeOptions{}); !errors.Is(err, uper.ErrTruncated) {
 		t.Fatalf("later decode error = %v", err)
 	}
 
@@ -101,7 +113,7 @@ func TestDeferOnErrorKeepsCorruptLateNonCriticalExtension(t *testing.T) {
 	shell := *value.LateNonCriticalExtension
 	shell.LateNonCriticalExtension = []byte{1}
 	edited.LateNonCriticalExtension = &shell
-	if _, err := edited.MarshalUPER(); !errors.Is(err, per.ErrEditedDeferred) {
+	if _, err := edited.MarshalUPER(); !errors.Is(err, uper.ErrEditedDeferred) {
 		t.Fatalf("edited shell: %v", err)
 	}
 	replaced := value
@@ -119,7 +131,7 @@ func TestDeferAllLateNonCriticalExtension(t *testing.T) {
 	if err := strict.UnmarshalUPER(wire); err != nil {
 		t.Fatal(err)
 	}
-	options, log := deferring(per.DeferAll)
+	options, log := deferring(uper.DeferAll)
 	var value rrc.RRCConnectionSetupCompleteV8a0IEs
 	if err := value.UnmarshalUPERWithOptions(wire, options); err != nil {
 		t.Fatal(err)
@@ -131,13 +143,13 @@ func TestDeferAllLateNonCriticalExtension(t *testing.T) {
 		t.Fatalf("re-encode = %x, %v", out, err)
 	}
 	var later rrc.RRCConnectionSetupCompleteV8x0IEs
-	if err := later.UnmarshalUPERWithOptions(value.LateNonCriticalExtension.PERPadding_.Deferred().Bytes(), per.DecodeOptions{}); err != nil {
+	if err := later.UnmarshalUPERWithOptions(value.LateNonCriticalExtension.PERPadding_.Deferred().Bytes(), uper.DecodeOptions{}); err != nil {
 		t.Fatal(err)
 	}
 	value.LateNonCriticalExtension = &later
 	sameDecodedValue(t, &value, &strict, wire)
-	sameTrailing(t, "RRCConnectionSetupCompleteV8a0IEs", value.PERPadding_, strict.PERPadding_)
-	sameTrailing(t, "lateNonCriticalExtension", value.LateNonCriticalExtension.PERPadding_, strict.LateNonCriticalExtension.PERPadding_)
+	sameLTETrailing(t, "RRCConnectionSetupCompleteV8a0IEs", value.PERPadding_, strict.PERPadding_)
+	sameLTETrailing(t, "lateNonCriticalExtension", value.LateNonCriticalExtension.PERPadding_, strict.LateNonCriticalExtension.PERPadding_)
 }
 
 // The contained interRATHandoverInfo-r3-add-ext value is two bits (194020).

@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 )
 
 func asn1VectorHex(t *testing.T, input string) []byte {
@@ -102,15 +102,6 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 			current, err = asn1VectorDereference(current)
 			if err != nil {
 				return nil, fmt.Errorf("path %s: %w", path, err)
-			}
-			// Generated BER collections own their slice and wire provenance.
-			// Treat their Values field as the indexed abstract value.
-			if current.Kind() == reflect.Struct {
-				_, hasOriginal := current.Type().FieldByName("berOriginal_")
-				_, hasSnapshot := current.Type().FieldByName("berSnapshot_")
-				if hasOriginal && hasSnapshot {
-					current = current.FieldByName("Values")
-				}
 			}
 			if current.Kind() != reflect.Array && current.Kind() != reflect.Slice {
 				return nil, fmt.Errorf("path %s: indexed value is not a list", path)
@@ -334,9 +325,9 @@ func TestVectorUlDcchRlfReportV1250CutContents(t *testing.T) {
 	if !strings.Contains(err.Error(), "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]") {
 		t.Fatalf("decode error = %q, want path %q", err, "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]")
 	}
-	var tolerance per.ToleranceLog
+	var tolerance uper.ToleranceLog
 	var tolerated ULDCCHMessage
-	if err := tolerated.UnmarshalUPERWithOptions(input, per.DecodeOptions{TruncatedExtensionTolerance: &tolerance}); err != nil {
+	if err := tolerated.UnmarshalUPERWithOptions(input, uper.DecodeOptions{TruncatedExtensionTolerance: &tolerance}); err != nil {
 		t.Fatalf("tolerant decode: %v", err)
 	}
 	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.RrcTransactionIdentifier", "1")
@@ -345,7 +336,7 @@ func TestVectorUlDcchRlfReportV1250CutContents(t *testing.T) {
 	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellV1250", "null")
 	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.LastServCellRSRQTypeR12", "null")
 	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtPresent_", "null")
-	if records := tolerance.Snapshot(); len(records) != 1 || records[0].Kind != per.ToleratedTruncatedExtension || records[0].Path != "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]" || records[0].Offset != 46 || records[0].Missing != 6 || records[0].Bits.BitLength != 8*len(input)-46 {
+	if records := tolerance.Snapshot(); len(records) != 1 || records[0].Kind != uper.ToleratedTruncatedExtension || records[0].Path != "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]" || records[0].Offset != 46 || records[0].Missing != 6 || records[0].Bits.BitLength != 8*len(input)-46 {
 		t.Fatalf("tolerance records = %+v", records)
 	}
 	replay, err := tolerated.MarshalUPER()
@@ -387,9 +378,9 @@ func TestVectorUlDcchRlfReportV1250CutLength(t *testing.T) {
 	if !strings.Contains(err.Error(), "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]") {
 		t.Fatalf("decode error = %q, want path %q", err, "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]")
 	}
-	var tolerance per.ToleranceLog
+	var tolerance uper.ToleranceLog
 	var tolerated ULDCCHMessage
-	if err := tolerated.UnmarshalUPERWithOptions(input, per.DecodeOptions{TruncatedExtensionTolerance: &tolerance}); err != nil {
+	if err := tolerated.UnmarshalUPERWithOptions(input, uper.DecodeOptions{TruncatedExtensionTolerance: &tolerance}); err != nil {
 		t.Fatalf("tolerant decode: %v", err)
 	}
 	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.RrcTransactionIdentifier", "1")
@@ -398,7 +389,7 @@ func TestVectorUlDcchRlfReportV1250CutLength(t *testing.T) {
 	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.MeasResultLastServCellV1250", "null")
 	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.LastServCellRSRQTypeR12", "null")
 	asn1VectorAssertPath(t, tolerated, "Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtPresent_", "null")
-	if records := tolerance.Snapshot(); len(records) != 1 || records[0].Kind != per.ToleratedTruncatedExtension || records[0].Path != "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]" || records[0].Offset != 46 || records[0].Missing != 14 || records[0].Bits.BitLength != 8*len(input)-46 {
+	if records := tolerance.Snapshot(); len(records) != 1 || records[0].Kind != uper.ToleratedTruncatedExtension || records[0].Path != "ULDCCHMessage.Message.C1.UeInformationResponseR9.CriticalExtensions.C1.UeInformationResponseR9.RlfReportR9.ExtData_[3]" || records[0].Offset != 46 || records[0].Missing != 14 || records[0].Bits.BitLength != 8*len(input)-46 {
 		t.Fatalf("tolerance records = %+v", records)
 	}
 	replay, err := tolerated.MarshalUPER()

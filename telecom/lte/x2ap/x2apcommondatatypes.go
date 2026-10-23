@@ -5,14 +5,14 @@ package x2ap
 import (
 	"fmt"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
 // Ensure imports are used.
 var (
 	_ runtime.BitString
-	_ = per.NewBitBuffer
+	_ = aper.NewBitBuffer
 )
 
 const (
@@ -80,8 +80,8 @@ const (
 // PrivateIEID represents the ASN.1 CHOICE type PrivateIE-ID.
 type PrivateIEID struct {
 	Choice              int
-	PERPadding_         per.CompletePadding       `json:"-"`
-	PEROpenTypePadding_ per.CompletePadding       `json:"-"`
+	PERPadding_         aper.CompletePadding      `json:"-"`
+	PEROpenTypePadding_ aper.CompletePadding      `json:"-"`
 	Local               *int64                    `json:"Local,omitempty"`
 	Global              *runtime.ObjectIdentifier `json:"Global,omitempty"`
 }
@@ -132,22 +132,22 @@ func (v TriggeringMessage) String() string {
 
 // MarshalAPER encodes PrivateIEID to APER format.
 func (v *PrivateIEID) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *PrivateIEID) MarshalAPERTo(bb *aper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("PrivateIEID: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:150
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+	if err := aper.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -155,14 +155,14 @@ func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
 		if v.Local == nil {
 			return fmt.Errorf("choice alternative local is nil")
 		}
-		if err := per.EncodeIntegerAligned(bb, int64(*v.Local), int64Ptr(0), int64Ptr(65535), false); err != nil {
+		if err := aper.EncodeIntegerAligned(bb, int64(*v.Local), int64Ptr(0), int64Ptr(65535), false); err != nil {
 			return fmt.Errorf("encoding local: %w", err)
 		}
 	case PrivateIEIDChoiceGlobal:
 		if v.Global == nil {
 			return fmt.Errorf("choice alternative global is nil")
 		}
-		if err := per.EncodeObjectIdentifierAligned(bb, *v.Global); err != nil {
+		if err := aper.EncodeObjectIdentifierAligned(bb, *v.Global); err != nil {
 			return fmt.Errorf("encoding global: %w", err)
 		}
 	default:
@@ -173,23 +173,23 @@ func (v *PrivateIEID) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes PrivateIEID from APER format.
 func (v *PrivateIEID) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes PrivateIEID with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *PrivateIEID) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *PrivateIEID) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEID")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEID")
 	}
-	padding, err := per.CaptureFinalBits(bb, "PrivateIEID")
+	padding, err := aper.CaptureFinalBits(bb, "PrivateIEID")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEID")
 	}
@@ -197,30 +197,30 @@ func (v *PrivateIEID) UnmarshalAPERWithOptions(data []byte, options per.DecodeOp
 	return nil
 }
 
-func (v *PrivateIEID) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *PrivateIEID) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = PrivateIEID{}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	idx, err := aper.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:237
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:236
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
 	case PrivateIEIDChoiceLocal:
-		val_local, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+		val_local, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "Local")
 		}
 		v.Local = &val_local
 	case PrivateIEIDChoiceGlobal:
-		val_global, err := per.DecodeObjectIdentifierAligned(bb)
+		val_global, err := aper.DecodeObjectIdentifierAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "Global")
 		}

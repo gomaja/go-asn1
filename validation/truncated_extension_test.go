@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 )
 
 // UL-DCCH-Message ueInformationResponse-r9 carrying an RLF-Report-r9 with
@@ -40,7 +40,7 @@ func rlfReport(t *testing.T, message *rrc.ULDCCHMessage) *rrc.RLFReportR9 {
 }
 
 // bitsFrom returns the bits of wire from offset to its end, MSB first.
-func bitsFrom(wire []byte, offset int) per.TrailingBits {
+func bitsFrom(wire []byte, offset int) uper.TrailingBits {
 	length := len(wire)*8 - offset
 	out := make([]byte, (length+7)/8)
 	for i := range length {
@@ -49,14 +49,14 @@ func bitsFrom(wire []byte, offset int) per.TrailingBits {
 			out[i/8] |= 0x80 >> (i % 8)
 		}
 	}
-	return per.TrailingBits{Bytes: out, BitLength: length}
+	return uper.TrailingBits{Bytes: out, BitLength: length}
 }
 
 func TestTruncatedExtensionAddition(t *testing.T) {
 	complete := mustHex(t, rlfReportComplete)
 	var whole rrc.ULDCCHMessage
-	var none per.ToleranceLog
-	if err := whole.UnmarshalUPERWithOptions(complete, per.DecodeOptions{TruncatedExtensionTolerance: &none}); err != nil {
+	var none uper.ToleranceLog
+	if err := whole.UnmarshalUPERWithOptions(complete, uper.DecodeOptions{TruncatedExtensionTolerance: &none}); err != nil {
 		t.Fatalf("complete PDU: %v", err)
 	}
 	if records := none.Snapshot(); len(records) != 0 {
@@ -77,9 +77,9 @@ func TestTruncatedExtensionAddition(t *testing.T) {
 				t.Fatal("strict decode accepted a cut extension addition")
 			}
 
-			var cuts per.ToleranceLog
+			var cuts uper.ToleranceLog
 			var message rrc.ULDCCHMessage
-			if err := message.UnmarshalUPERWithOptions(wire, per.DecodeOptions{TruncatedExtensionTolerance: &cuts}); err != nil {
+			if err := message.UnmarshalUPERWithOptions(wire, uper.DecodeOptions{TruncatedExtensionTolerance: &cuts}); err != nil {
 				t.Fatalf("tolerant decode: %v", err)
 			}
 			records := cuts.Snapshot()
@@ -88,7 +88,7 @@ func TestTruncatedExtensionAddition(t *testing.T) {
 			}
 			cut := records[0]
 			arrived := bitsFrom(wire, rlfGroupOffset)
-			if cut.Kind != per.ToleratedTruncatedExtension || !strings.HasSuffix(cut.Path, ".RlfReportR9.ExtData_[3]") ||
+			if cut.Kind != uper.ToleratedTruncatedExtension || !strings.HasSuffix(cut.Path, ".RlfReportR9.ExtData_[3]") ||
 				cut.Offset != rlfGroupOffset || cut.Missing != rlfGroupBits-arrived.BitLength ||
 				cut.Bits.BitLength != arrived.BitLength || !bytes.Equal(cut.Bits.Bytes, arrived.Bytes) {
 				t.Fatalf("logged %+v; want the group at bit %d with %d bits missing", cut, rlfGroupOffset, rlfGroupBits-arrived.BitLength)

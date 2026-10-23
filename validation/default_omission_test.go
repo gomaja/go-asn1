@@ -4,9 +4,9 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 )
 
 type uperValue interface {
@@ -78,8 +78,8 @@ func TestDefaultComponentsOmittedAndReplayed(t *testing.T) {
 	replayHex(t, &message, explicit)
 	r8 := message.Message.C1.RrcConnectionReconfiguration.CriticalExtensions.C1.RrcConnectionReconfigurationR8
 	eutra := r8.MeasConfig.MeasObjectToAddModList[0].MeasObject.MeasObjectEUTRA
-	eutra.PERPadding_ = per.FinalPadding{}
-	r8.MeasConfig.QuantityConfig.QuantityConfigEUTRA.PERPadding_ = per.FinalPadding{}
+	eutra.PERPadding_ = uper.FinalPadding{}
+	r8.MeasConfig.QuantityConfig.QuantityConfigEUTRA.PERPadding_ = uper.FinalPadding{}
 	if got := uperHex(t, &message); got != canonical {
 		t.Errorf("DL-DCCH without its records: %s, want %s", got, canonical)
 	}

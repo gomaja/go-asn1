@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime"
 	lterrc "github.com/gomaja/go-asn1/telecom/lte/rrc"
+	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime"
 	umtsrrc "github.com/gomaja/go-asn1/telecom/umts/rrc"
 )
 
