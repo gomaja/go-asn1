@@ -5,8 +5,8 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
+	s1apruntime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 )
 
 // Synthetic vectors only; expected bytes produced by pycrate 0.7.11 and
@@ -28,7 +28,7 @@ func synchronisationHex(t *testing.T, s string) []byte {
 }
 
 func TestS1APSynchronisationInformationVector(t *testing.T) {
-	cell := runtime.BitString{Bytes: []byte{0x00, 0x00, 0x00, 0x10}, BitLength: 28}
+	cell := s1apruntime.BitString{Bytes: []byte{0x00, 0x00, 0x00, 0x10}, BitLength: 28}
 	value := s1ap.SynchronisationInformation{AggressoreCGIList: s1ap.IEsECGIList{{PLMNidentity: s1ap.PLMNidentity{0x00, 0xf1, 0x10}, CellID: cell}}}
 	got, err := value.MarshalAPER()
 	if err != nil || !bytes.Equal(got, synchronisationHex(t, synchronisationSyncHex)) {
@@ -103,7 +103,7 @@ func TestS1APAggressorListBoundary(t *testing.T) {
 	for i := range cells {
 		cells[i] = s1ap.EUTRANCGI{
 			PLMNidentity: []byte{0, 0xf1, 0x10},
-			CellID:       runtime.BitString{Bytes: []byte{0, 0, 0, 0x10}, BitLength: 28},
+			CellID:       s1apruntime.BitString{Bytes: []byte{0, 0, 0, 0x10}, BitLength: 28},
 		}
 	}
 	value := s1ap.SynchronisationInformation{AggressoreCGIList: cells[:256]}

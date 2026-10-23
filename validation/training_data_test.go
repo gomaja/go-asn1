@@ -17,6 +17,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
+	s1apaper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	"github.com/gomaja/go-asn1/telecom/lte/x2ap"
 	x2aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
@@ -177,7 +178,7 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 			return strings.Contains(rec.Expected, "Rejected"), false, fmt.Sprintf("PDU error: %v", err)
 		}
 		_, err := value.DecodeValueRecursive()
-		return checkSyntheticDispatch(rec, err, per.ErrExtraData)
+		return checkSyntheticDispatch(rec, err, s1apaper.ErrExtraData)
 	}
 	if strings.HasPrefix(rec.ID, "x2ap-") {
 		var value x2ap.X2APPDU
