@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/integer_big.go; SHA-256 98dabbc4378218888a9b9c1c9b4150776870274d62882759fa5701a2ba553de4.
+// Runtime source: runtime/aper/integer_big.go; SHA-256 67e83200cb8da8e8b4892c364133cdf441106dd14321f833b611d33d2ad74926.
 package aper
 
 import (
@@ -10,17 +10,6 @@ import (
 )
 
 const bigFragmentThreshold = 64 * 1024 // X.691 (02/2021) 11.9.3.8: four 16K units.
-
-// EncodeIntegerBigAligned encodes an arbitrary-width INTEGER using aligned PER.
-// See ITU-T X.691 (02/2021), clauses 11.4, 11.7-11.9, and 13.
-func EncodeIntegerBigAligned(bb *BitBuffer, value *big.Int, lower, upper *int64, extensible bool) error {
-	return encodeIntegerBig(bb, value, lower, upper, extensible, true)
-}
-
-// DecodeIntegerBigAligned decodes an arbitrary-width INTEGER using aligned PER.
-func DecodeIntegerBigAligned(bb *BitBuffer, lower, upper *int64, extensible bool) (*big.Int, error) {
-	return decodeIntegerBig(bb, lower, upper, extensible, true)
-}
 
 // EncodeIntegerBigBoundsAligned is the APER form of EncodeIntegerBigBounds.
 func EncodeIntegerBigBoundsAligned(bb *BitBuffer, value, lower, upper *big.Int, extensible bool) error {
@@ -40,24 +29,6 @@ func EncodeIntegerValueSetBigAligned(bb *BitBuffer, value *big.Int, ranges []Int
 // DecodeIntegerValueSetBigAligned is the APER form of DecodeIntegerValueSetBig.
 func DecodeIntegerValueSetBigAligned(bb *BitBuffer, ranges []IntegerRange, extensible bool) (*big.Int, error) {
 	return decodeIntegerValueSetBig(bb, ranges, extensible, true)
-}
-
-// EncodeIntegerBigUint64RootAligned is the APER form of EncodeIntegerBigUint64Root.
-func EncodeIntegerBigUint64RootAligned(bb *BitBuffer, value *big.Int, lower, upper uint64, extensible bool) error {
-	return encodeIntegerBigUint64Root(bb, value, lower, upper, extensible, true)
-}
-
-// DecodeIntegerBigUint64RootAligned is the APER form of DecodeIntegerBigUint64Root.
-func DecodeIntegerBigUint64RootAligned(bb *BitBuffer, lower, upper uint64, extensible bool) (*big.Int, error) {
-	return decodeIntegerBigUint64Root(bb, lower, upper, extensible, true)
-}
-
-func encodeIntegerBig(bb *BitBuffer, value *big.Int, lower, upper *int64, extensible, aligned bool) error {
-	return encodeIntegerBigBounds(bb, value, bigIntFromInt64Pointer(lower), bigIntFromInt64Pointer(upper), extensible, aligned)
-}
-
-func decodeIntegerBig(bb *BitBuffer, lower, upper *int64, extensible, aligned bool) (*big.Int, error) {
-	return decodeIntegerBigBounds(bb, bigIntFromInt64Pointer(lower), bigIntFromInt64Pointer(upper), extensible, aligned)
 }
 
 func encodeIntegerBigBounds(bb *BitBuffer, value, lower, upper *big.Int, extensible, aligned bool) error {

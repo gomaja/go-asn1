@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/oid.go; SHA-256 6fe90b8f35a515302743b348c86d5660c046cf1b8e0f2540d289d15450002c1b.
+// Runtime source: runtime/oid.go; SHA-256 f815b3c480b583c1881a6009c662880e3cd85b1ab255ce4789d12f591df31ca7.
 package runtime
 
 import (
@@ -543,21 +543,6 @@ func MustRelativeObjectIdentifierFromEncoded(s string) RelativeObjectIdentifier 
 
 // IsZero reports the absent/invalid zero value.
 func (v RelativeObjectIdentifier) IsZero() bool { return v.enc == "" }
-
-// Encoded returns immutable X.690 contents; the zero value returns an empty string.
-func (v RelativeObjectIdentifier) Encoded() string { return v.enc }
-
-// Bytes returns an independent copy of the X.690 contents.
-func (v RelativeObjectIdentifier) Bytes() []byte { return []byte(v.enc) }
-
-// Equal compares ASN.1 values, including two absent zero values. It is equivalent to ==.
-func (v RelativeObjectIdentifier) Equal(other RelativeObjectIdentifier) bool { return v == other }
-
-// Arcs returns a fresh slice, or nil,false if absent or any arc exceeds uint64.
-func (v RelativeObjectIdentifier) Arcs() ([]uint64, bool) { return oidArcs(v.enc, true) }
-
-// BigArcs returns independently owned arbitrary-precision arcs (nil for the zero value).
-func (v RelativeObjectIdentifier) BigArcs() []*big.Int { return oidBigArcs(v.enc, true) }
 
 // String returns canonical dotted decimals (empty for the zero value).
 // It panics with *OIDTextLimitError when decimal conversion exceeds a limit.

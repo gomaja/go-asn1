@@ -134,7 +134,7 @@ func (v *PrivateIEID) MarshalAPERTo(bb *aper.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("PrivateIEID: choice %d must be positive", v.Choice)
 	}
-	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:150
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
@@ -198,7 +198,7 @@ func (v *PrivateIEID) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
-	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:237
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:236
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
 		return fmt.Errorf("choice index exceeds host int")
 	}
