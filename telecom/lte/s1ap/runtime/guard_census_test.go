@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/guard_census_test.go; SHA-256 e98c58a9fc9b1bb59b0700d8f80a5c0e974122532f6e15ca84903789c2a1ec6b.
+// Runtime source: runtime/guard_census_test.go; SHA-256 9b57f1bce79403c2eda9029bc808d2ca051a6ca92ef38aeb2e210e8981f237f5.
 package runtime
 
 import (
@@ -64,6 +64,54 @@ func TestCensusOIDValidationAndMethods(t *testing.T) {
 	}
 	if got, err := ParseBigIntDecimal("123456789012345678901234567890"); err != nil || got.String() != "123456789012345678901234567890" {
 		t.Fatalf("canonical integer: %v %v", got, err)
+	}
+}
+
+func TestCensusRelativeOIDRefusals(t *testing.T) {
+	for _, marshal := range []func() ([]byte, error){(RelativeObjectIdentifier{}).MarshalText, (RelativeObjectIdentifier{}).MarshalJSON} {
+		if _, err := marshal(); !errors.Is(err, ErrInvalidOID) {
+			t.Errorf("absent relative identifier: %v", err)
+		}
+	}
+	if _, err := RelativeObjectIdentifierFromEncoded("\x80"); !errors.Is(err, ErrTruncatedOID) {
+		t.Errorf("unterminated relative identifier: %v", err)
+	}
+	saved := MustRelativeObjectIdentifier("1.2")
+	value := saved
+	if err := value.UnmarshalText([]byte(strings.Repeat("1", MaxOIDTextLength+1))); !errors.Is(err, ErrOIDTextLimit) || value != saved {
+		t.Errorf("overlong relative text: %v", err)
+	}
+	value = saved
+	if err := value.UnmarshalJSON([]byte(strings.Repeat("1", MaxOIDJSONLength+1))); !errors.Is(err, ErrOIDTextLimit) || value != saved {
+		t.Errorf("overlong relative JSON: %v", err)
+	}
+	for _, input := range []string{"", "null", "123", "{}"} {
+		value = saved
+		if err := value.UnmarshalJSON([]byte(input)); !errors.Is(err, ErrInvalidOID) || value != saved {
+			t.Errorf("wrong relative JSON kind %q: %v", input, err)
+		}
+	}
+	value = saved
+	if err := value.UnmarshalJSON([]byte(`"1.2\q"`)); err == nil || value != saved {
+		t.Errorf("malformed relative JSON: %v", err)
+	}
+	value = saved
+	if err := value.UnmarshalText([]byte("3.4")); err != nil || value.String() != "3.4" {
+		t.Errorf("valid relative text: %v, %s", err, value.String())
+	}
+	for _, construct := range []func(){
+		func() { MustRelativeObjectIdentifier("a") },
+		func() { MustRelativeObjectIdentifierFromArcs() },
+		func() { MustRelativeObjectIdentifierFromEncoded("\x80") },
+	} {
+		func() {
+			defer func() {
+				if recover() == nil {
+					t.Error("invalid relative identifier constructor did not panic")
+				}
+			}()
+			construct()
+		}()
 	}
 }
 
