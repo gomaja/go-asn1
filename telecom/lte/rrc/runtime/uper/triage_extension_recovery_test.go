@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/triage_extension_recovery_test.go; SHA-256 59c4fcf609788dbc866f88a74fdb290895b8c9d76f03fe0c3a73a9852edd7389.
+// Runtime source: runtime/uper/triage_extension_recovery_test.go; SHA-256 6713059d65fce0f08022cd2ec9b72777e1e252022a38ce22054501dacade43f5.
 package uper
 
 import (
@@ -203,4 +203,32 @@ func decodeKnownAddition(a *ExtensionAdditions, bb *BitBuffer, index int64, data
 	}
 	checkpoint := child.CheckpointKnownAddition()
 	return a.CompleteKnownAddition(child, index, data, checkpoint, decode(child))
+}
+
+func TestExtensionRecoveryEnabled(t *testing.T) {
+	var additions ExtensionAdditions
+	for _, tc := range []struct {
+		name    string
+		options DecodeOptions
+		want    bool
+	}{
+		{name: "strict"},
+		{name: "trailing", options: DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}}},
+		{name: "truncated", options: DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}}},
+		{name: "recovery", options: DecodeOptions{ExtensionRecoveryTolerance: &ToleranceLog{}}, want: true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			parent := NewBitBufferFromBytes([]byte{0})
+			if err := parent.SetDecodeOptions(tc.options); err != nil {
+				t.Fatal(err)
+			}
+			if got := additions.RecoveryEnabled(parent); got != tc.want {
+				t.Fatalf("RecoveryEnabled = %v, want %v", got, tc.want)
+			}
+			child := NewNestedDecodeBuffer([]byte{0}, parent)
+			if got := additions.RecoveryEnabled(child); got != tc.want {
+				t.Fatalf("nested RecoveryEnabled = %v, want %v", got, tc.want)
+			}
+		})
+	}
 }

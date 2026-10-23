@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 044ab1fc675b58b7ae1447ebb8f8cbcc9c6c6e05b8ce5420870cfa9f7c41c5a1.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 5be886c444d02aeffb4c7aaa066e5095098d8e19744606bf7f64f8061eab26ee.
 package uper
 
 import (
@@ -439,16 +439,6 @@ func (bb *BitBuffer) completeBytesWithTrailing(kept *finalBits) ([]byte, error) 
 type CompleteValue[T any] struct {
 	Value       T
 	PERPadding_ CompletePadding `json:"-"`
-}
-
-// CompleteOpenTypeValue checks that an open type has no trailing data and
-// retains its observed terminal bits. ITU-T X.691 (02/2021) 11.2.1 and 11.1.
-func CompleteOpenTypeValue[T any](bb *BitBuffer, value T) (*CompleteValue[T], error) {
-	padding, err := CaptureOpenTypePadding(bb)
-	if err != nil {
-		return nil, err
-	}
-	return &CompleteValue[T]{Value: value, PERPadding_: padding}, nil
 }
 
 // Bits returns the observed terminal bits right-aligned and their width.

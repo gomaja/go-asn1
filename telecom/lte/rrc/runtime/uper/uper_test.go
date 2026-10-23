@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/uper_test.go; SHA-256 d8c1600abb8733851753e89cc7931aa292ecc9edf238f5569da454e300639bcf.
+// Runtime source: runtime/uper/uper_test.go; SHA-256 89149eb0d6e819e441ec0eaeb693b5e39476ac77a1a49f7c61006f2e8588641a.
 package uper
 
 import (
@@ -276,5 +276,46 @@ func TestChoiceIndex_RoundTrip(t *testing.T) {
 		if gotExt != tc.wantExt {
 			t.Fatalf("ext: got %v, want %v", gotExt, tc.wantExt)
 		}
+	}
+}
+
+// X.691 (02/2021) 11.5.6: a range's upper index determines its bit width.
+func TestBitWidth(t *testing.T) {
+	for _, tc := range []struct {
+		value int64
+		want  int
+	}{
+		{-1, 0}, {0, 0}, {1, 1}, {2, 2}, {3, 2}, {255, 8}, {256, 9}, {1<<62 - 1, 62}, {1 << 62, 63}, {1<<63 - 1, 63},
+	} {
+		if got := BitWidth(tc.value); got != tc.want {
+			t.Errorf("BitWidth(%d) = %d, want %d", tc.value, got, tc.want)
+		}
+	}
+}
+
+// X.691 (02/2021) 18: NULL contributes no bits, including inside a value.
+func TestNullConsumesNoBits(t *testing.T) {
+	bb := NewBitBuffer()
+	if err := bb.WriteBits(5, 3); err != nil {
+		t.Fatal(err)
+	}
+	if err := EncodeNull(bb); err != nil {
+		t.Fatal(err)
+	}
+	if bb.BitsWritten() != 3 || len(bb.Bytes()) != 1 || bb.Bytes()[0] != 0xa0 {
+		t.Fatalf("NULL changed encoding: %x, %d bits", bb.Bytes(), bb.BitsWritten())
+	}
+	reader := NewBitBufferFromBytes(bb.Bytes())
+	if _, err := reader.ReadBits(3); err != nil {
+		t.Fatal(err)
+	}
+	if err := DecodeNull(reader); err != nil {
+		t.Fatal(err)
+	}
+	if reader.BitsRemaining() != 5 {
+		t.Fatalf("NULL consumed bits: %d remain", reader.BitsRemaining())
+	}
+	if err := DecodeNull(NewBitBufferFromBytes(nil)); err != nil {
+		t.Fatalf("NULL needs no input: %v", err)
 	}
 }

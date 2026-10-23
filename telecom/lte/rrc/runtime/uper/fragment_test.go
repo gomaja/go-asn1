@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/fragment_test.go; SHA-256 8c8ae41c3af05dae4120d84f1c315efaf137e88dbe48ded4be7498d88e200f8b.
+// Runtime source: runtime/uper/fragment_test.go; SHA-256 b071f198c092cce47381204da72b9c938796c2930b9e19a418173f1f7422d0ae.
 package uper
 
 import (
@@ -91,3 +91,30 @@ func TestFragmentedLengthRejectsMalformedDeterminants(t *testing.T) {
 }
 
 // X.691 (02/2021) 30.5.2: B2 = 8 bits per character.
+
+// X.691 (02/2021) 11.9.3.8: length fragments include a final determinant.
+// The fixed determinants independently test the callback offsets and lengths.
+func TestDecodeLengthFragments(t *testing.T) {
+	wire := append([]byte{0xc4}, make([]byte, 4*perFragmentUnit)...)
+	wire = append(wire, 2, 0xab, 0xcd)
+	bb := NewBitBufferFromBytes(wire)
+	var fragments [][2]int64
+	total, err := DecodeLengthFragments(bb, false, func(offset, length int64) error {
+		fragments = append(fragments, [2]int64{offset, length})
+		_, err := bb.ReadBytes(int(length))
+		return err
+	})
+	if err != nil || total != 4*perFragmentUnit+2 || len(fragments) != 2 || fragments[0] != [2]int64{0, 4 * perFragmentUnit} || fragments[1] != [2]int64{4 * perFragmentUnit, 2} || bb.BitsRemaining() != 0 {
+		t.Fatalf("fragments=%v total=%d remaining=%d err=%v", fragments, total, bb.BitsRemaining(), err)
+	}
+	sentinel := errors.New("fragment rejected")
+	if _, err := DecodeLengthFragments(NewBitBufferFromBytes([]byte{0}), false, func(int64, int64) error { return sentinel }); !errors.Is(err, sentinel) {
+		t.Fatalf("callback error lost: %v", err)
+	}
+	if _, err := DecodeLengthFragments(NewBitBufferFromBytes(nil), false, func(int64, int64) error { return nil }); !errors.Is(err, ErrTruncated) {
+		t.Fatalf("missing length accepted: %v", err)
+	}
+	if _, err := DecodeLengthFragments(NewBitBufferFromBytes([]byte{0}), false, nil); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("nil callback accepted: %v", err)
+	}
+}
