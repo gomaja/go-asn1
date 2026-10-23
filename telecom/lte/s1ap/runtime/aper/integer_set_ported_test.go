@@ -1,9 +1,10 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/integer_set_ported_test.go; SHA-256 d918e72819693ca5161b61413eba8599832577112b6541caccb0df63a3fa8e83.
+// Runtime source: runtime/aper/integer_set_ported_test.go; SHA-256 6953e6959960aee27f8c5f861b27613485432efc228f8fee7ba92f39e592393d.
 package aper
 
 import (
+	"encoding/hex"
 	"errors"
 	"math/big"
 	"testing"
@@ -189,6 +190,33 @@ func TestAlignedIntegerSetRejectsRootValueInExtension(t *testing.T) {
 		}
 		if err := tc.decode(NewBitBufferFromBytes(bb.CompleteBytes())); !errors.Is(err, ErrInvalidValue) {
 			t.Errorf("%s decoded root value in extension: %v, want ErrInvalidValue", tc.name, err)
+		}
+	}
+}
+
+func TestAlignedUint64RangeWidthBoundaries(t *testing.T) {
+	// X.691 (02/2021) §11.5: 255 chooses one octet, then 256..65535 use two.
+	for _, tc := range []struct {
+		upper uint64
+		wire  string
+	}{
+		{254, "fe"},
+		{255, "ff"},
+		{256, "0100"},
+		{65535, "ffff"},
+		{65536, ""},
+	} {
+		bb := NewBitBuffer()
+		if err := EncodeIntegerUint64Aligned(bb, tc.upper, 0, tc.upper, false); err != nil {
+			t.Fatalf("upper %d encoding: %v", tc.upper, err)
+		}
+		wire := bb.CompleteBytes()
+		if tc.wire != "" && hex.EncodeToString(wire) != tc.wire {
+			t.Errorf("upper %d wire %x, want %s", tc.upper, wire, tc.wire)
+		}
+		got, err := DecodeIntegerUint64Aligned(NewBitBufferFromBytes(wire), 0, tc.upper, false)
+		if err != nil || got != tc.upper {
+			t.Errorf("upper %d decoded %d, %v", tc.upper, got, err)
 		}
 	}
 }

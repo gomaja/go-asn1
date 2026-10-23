@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/time_test.go; SHA-256 ee16fa7e28c708007f3e8edd52db2dd77368ed92be103a4ff00d29c0e11a6fc8.
+// Runtime source: runtime/time_test.go; SHA-256 ac9a7039e624c495dfcf4ebef4fa6e9038533230c5fdc8cf219a460383285397.
 package runtime
 
 import (
@@ -647,4 +647,14 @@ func FuzzParseUTCTime(f *testing.F) {
 		f.Add(c.in)
 	}
 	f.Fuzz(func(t *testing.T, s string) { checkUTCTime(t, s) })
+}
+
+func TestTimeZoneRejectsNonSignPrefix(t *testing.T) {
+	// X.680 (02/2021) §§46.3(c), 47.3(c): a numeric zone starts with + or -.
+	if _, err := ParseGeneralizedTime("20260101000000x0100"); !errors.Is(err, ErrTimeSyntax) {
+		t.Errorf("GeneralizedTime zone without sign: %v", err)
+	}
+	if _, err := ParseUTCTime("260101000000x0100"); !errors.Is(err, ErrTimeSyntax) {
+		t.Errorf("UTCTime zone without sign: %v", err)
+	}
 }
