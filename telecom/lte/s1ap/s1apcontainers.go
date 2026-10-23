@@ -5,14 +5,14 @@ package s1ap
 import (
 	"fmt"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
 // Ensure imports are used.
 var (
 	_ runtime.BitString
-	_ = per.NewBitBuffer
+	_ = aper.NewBitBuffer
 )
 
 // ProtocolIEContainer represents the ASN.1 type ProtocolIE-Container (SEQUENCE_OF).
@@ -21,18 +21,18 @@ type ProtocolIEContainer = []ProtocolIEField
 
 // ProtocolIESingleContainer represents the ASN.1 type ProtocolIE-SingleContainer (SEQUENCE).
 type ProtocolIESingleContainer struct {
-	Id          ProtocolIEID        `asn1:"tag:0,context,implicit"`
-	Criticality Criticality         `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
+	Id          ProtocolIEID         `asn1:"tag:0,context,implicit"`
+	Criticality Criticality          `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue     `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ aper.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProtocolIEField represents the ASN.1 type ProtocolIE-Field (SEQUENCE).
 type ProtocolIEField struct {
-	Id          ProtocolIEID        `asn1:"tag:0,context,implicit"`
-	Criticality Criticality         `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
+	Id          ProtocolIEID         `asn1:"tag:0,context,implicit"`
+	Criticality Criticality          `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue     `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ aper.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProtocolIEContainerPair represents the ASN.1 type ProtocolIE-ContainerPair (SEQUENCE_OF).
@@ -41,12 +41,12 @@ type ProtocolIEContainerPair = []ProtocolIEFieldPair
 
 // ProtocolIEFieldPair represents the ASN.1 type ProtocolIE-FieldPair (SEQUENCE).
 type ProtocolIEFieldPair struct {
-	Id                ProtocolIEID        `asn1:"tag:0,context,implicit"`
-	FirstCriticality  Criticality         `asn1:"tag:1,context,implicit"`
-	FirstValue        runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	SecondCriticality Criticality         `asn1:"tag:3,context,implicit"`
-	SecondValue       runtime.RawValue    `asn1:"tag:4,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_       per.CompletePadding `asn1:"-" json:"-"`
+	Id                ProtocolIEID         `asn1:"tag:0,context,implicit"`
+	FirstCriticality  Criticality          `asn1:"tag:1,context,implicit"`
+	FirstValue        runtime.RawValue     `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	SecondCriticality Criticality          `asn1:"tag:3,context,implicit"`
+	SecondValue       runtime.RawValue     `asn1:"tag:4,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_       aper.CompletePadding `asn1:"-" json:"-"`
 }
 
 // ProtocolIEContainerList represents the ASN.1 type ProtocolIE-ContainerList (SEQUENCE_OF).
@@ -63,10 +63,10 @@ type ProtocolExtensionContainer = []ProtocolExtensionField
 
 // ProtocolExtensionField represents the ASN.1 type ProtocolExtensionField (SEQUENCE).
 type ProtocolExtensionField struct {
-	Id             ProtocolExtensionID `asn1:"tag:0,context,implicit"`
-	Criticality    Criticality         `asn1:"tag:1,context,implicit"`
-	ExtensionValue runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_    per.CompletePadding `asn1:"-" json:"-"`
+	Id             ProtocolExtensionID  `asn1:"tag:0,context,implicit"`
+	Criticality    Criticality          `asn1:"tag:1,context,implicit"`
+	ExtensionValue runtime.RawValue     `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_    aper.CompletePadding `asn1:"-" json:"-"`
 }
 
 // PrivateIEContainer represents the ASN.1 type PrivateIE-Container (SEQUENCE_OF).
@@ -75,10 +75,10 @@ type PrivateIEContainer = []PrivateIEField
 
 // PrivateIEField represents the ASN.1 type PrivateIE-Field (SEQUENCE).
 type PrivateIEField struct {
-	Id          PrivateIEID         `asn1:"tag:0,context,explicit"`
-	Criticality Criticality         `asn1:"tag:1,context,implicit"`
-	Value       runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_ per.CompletePadding `asn1:"-" json:"-"`
+	Id          PrivateIEID          `asn1:"tag:0,context,explicit"`
+	Criticality Criticality          `asn1:"tag:1,context,implicit"`
+	Value       runtime.RawValue     `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_ aper.CompletePadding `asn1:"-" json:"-"`
 }
 
 type asn1cAPERProtocolIEContainerListValue struct{ Value ProtocolIEContainer }
@@ -87,11 +87,11 @@ type asn1cAPERProtocolIEContainerListValue struct{ Value ProtocolIEContainer }
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type ProtocolIEContainerComplete struct {
 	Value       ProtocolIEContainer
-	PERPadding_ per.CompletePadding `json:"-"`
+	PERPadding_ aper.CompletePadding `json:"-"`
 }
 
 func (v *ProtocolIEContainerComplete) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := MarshalAPERProtocolIEContainerTo(v.Value, bb); err != nil {
 		return nil, err
 	}
@@ -100,16 +100,16 @@ func (v *ProtocolIEContainerComplete) MarshalAPER() ([]byte, error) {
 
 // UnmarshalAPER decodes ProtocolIEContainer from APER format.
 func (v *ProtocolIEContainerComplete) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes ProtocolIEContainer with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *ProtocolIEContainerComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEContainerComplete) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainer")
 	}
@@ -117,7 +117,7 @@ func (v *ProtocolIEContainerComplete) UnmarshalAPERWithOptions(data []byte, opti
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainer")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ProtocolIEContainer")
+	padding, err := aper.CaptureFinalBits(bb, "ProtocolIEContainer")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainer")
 	}
@@ -131,9 +131,9 @@ func MarshalAPERProtocolIEContainer(list ProtocolIEContainerComplete) ([]byte, e
 }
 
 // MarshalAPERProtocolIEContainerTo appends a ProtocolIEContainer list to bb.
-func MarshalAPERProtocolIEContainerTo(list ProtocolIEContainer, bb *per.BitBuffer) error {
+func MarshalAPERProtocolIEContainerTo(list ProtocolIEContainer, bb *aper.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerListValue{Value: list}
-	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
 			return fmt.Errorf("collection fragment outside value")
@@ -160,7 +160,7 @@ func UnmarshalAPERProtocolIEContainer(data []byte) (ProtocolIEContainerComplete,
 }
 
 // UnmarshalAPERProtocolIEContainerFrom decodes a ProtocolIEContainer list from bb.
-func UnmarshalAPERProtocolIEContainerFrom(bb *per.BitBuffer) (ProtocolIEContainer, error) {
+func UnmarshalAPERProtocolIEContainerFrom(bb *aper.BitBuffer) (ProtocolIEContainer, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return nil, err
 	}
@@ -172,10 +172,10 @@ func UnmarshalAPERProtocolIEContainerFrom(bb *per.BitBuffer) (ProtocolIEContaine
 	return v.Value, nil
 }
 
-func unmarshalAPERProtocolIEContainerInto(v *asn1cAPERProtocolIEContainerListValue, bb *per.BitBuffer) error {
+func unmarshalAPERProtocolIEContainerInto(v *asn1cAPERProtocolIEContainerListValue, bb *aper.BitBuffer) error {
 	v.Value = make(ProtocolIEContainer, 0)
-	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1207
+	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1161
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -196,21 +196,21 @@ func unmarshalAPERProtocolIEContainerInto(v *asn1cAPERProtocolIEContainerListVal
 
 // MarshalAPER encodes ProtocolIESingleContainer to APER format.
 func (v *ProtocolIESingleContainer) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
+func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *aper.BitBuffer) error {
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+	if err := aper.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
 		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
@@ -218,23 +218,23 @@ func (v *ProtocolIESingleContainer) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes ProtocolIESingleContainer from APER format.
 func (v *ProtocolIESingleContainer) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes ProtocolIESingleContainer with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *ProtocolIESingleContainer) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIESingleContainer) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ProtocolIESingleContainer")
+	padding, err := aper.CaptureFinalBits(bb, "ProtocolIESingleContainer")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIESingleContainer")
 	}
@@ -242,23 +242,23 @@ func (v *ProtocolIESingleContainer) UnmarshalAPERWithOptions(data []byte, option
 	return nil
 }
 
-func (v *ProtocolIESingleContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ProtocolIESingleContainer) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ProtocolIESingleContainer{}
-	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	val_id, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolIEID(val_id)
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	val_criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	openData_value, err := aper.DecodeOpenTypeAligned(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Value")
 	}
@@ -268,21 +268,21 @@ func (v *ProtocolIESingleContainer) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 // MarshalAPER encodes ProtocolIEField to APER format.
 func (v *ProtocolIEField) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *ProtocolIEField) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
+func (v *ProtocolIEField) MarshalAPERTo(bb *aper.BitBuffer) error {
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+	if err := aper.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
 		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
@@ -290,23 +290,23 @@ func (v *ProtocolIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes ProtocolIEField from APER format.
 func (v *ProtocolIEField) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes ProtocolIEField with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *ProtocolIEField) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEField) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEField")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEField")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ProtocolIEField")
+	padding, err := aper.CaptureFinalBits(bb, "ProtocolIEField")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEField")
 	}
@@ -314,23 +314,23 @@ func (v *ProtocolIEField) UnmarshalAPERWithOptions(data []byte, options per.Deco
 	return nil
 }
 
-func (v *ProtocolIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ProtocolIEField) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ProtocolIEField{}
-	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	val_id, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolIEID(val_id)
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	val_criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	openData_value, err := aper.DecodeOpenTypeAligned(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Value")
 	}
@@ -344,11 +344,11 @@ type asn1cAPERProtocolIEContainerPairListValue struct{ Value ProtocolIEContainer
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type ProtocolIEContainerPairComplete struct {
 	Value       ProtocolIEContainerPair
-	PERPadding_ per.CompletePadding `json:"-"`
+	PERPadding_ aper.CompletePadding `json:"-"`
 }
 
 func (v *ProtocolIEContainerPairComplete) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := MarshalAPERProtocolIEContainerPairTo(v.Value, bb); err != nil {
 		return nil, err
 	}
@@ -357,16 +357,16 @@ func (v *ProtocolIEContainerPairComplete) MarshalAPER() ([]byte, error) {
 
 // UnmarshalAPER decodes ProtocolIEContainerPair from APER format.
 func (v *ProtocolIEContainerPairComplete) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes ProtocolIEContainerPair with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *ProtocolIEContainerPairComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEContainerPairComplete) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
 	}
@@ -374,7 +374,7 @@ func (v *ProtocolIEContainerPairComplete) UnmarshalAPERWithOptions(data []byte, 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ProtocolIEContainerPair")
+	padding, err := aper.CaptureFinalBits(bb, "ProtocolIEContainerPair")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPair")
 	}
@@ -388,9 +388,9 @@ func MarshalAPERProtocolIEContainerPair(list ProtocolIEContainerPairComplete) ([
 }
 
 // MarshalAPERProtocolIEContainerPairTo appends a ProtocolIEContainerPair list to bb.
-func MarshalAPERProtocolIEContainerPairTo(list ProtocolIEContainerPair, bb *per.BitBuffer) error {
+func MarshalAPERProtocolIEContainerPairTo(list ProtocolIEContainerPair, bb *aper.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerPairListValue{Value: list}
-	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
 			return fmt.Errorf("collection fragment outside value")
@@ -417,7 +417,7 @@ func UnmarshalAPERProtocolIEContainerPair(data []byte) (ProtocolIEContainerPairC
 }
 
 // UnmarshalAPERProtocolIEContainerPairFrom decodes a ProtocolIEContainerPair list from bb.
-func UnmarshalAPERProtocolIEContainerPairFrom(bb *per.BitBuffer) (ProtocolIEContainerPair, error) {
+func UnmarshalAPERProtocolIEContainerPairFrom(bb *aper.BitBuffer) (ProtocolIEContainerPair, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return nil, err
 	}
@@ -429,10 +429,10 @@ func UnmarshalAPERProtocolIEContainerPairFrom(bb *per.BitBuffer) (ProtocolIECont
 	return v.Value, nil
 }
 
-func unmarshalAPERProtocolIEContainerPairInto(v *asn1cAPERProtocolIEContainerPairListValue, bb *per.BitBuffer) error {
+func unmarshalAPERProtocolIEContainerPairInto(v *asn1cAPERProtocolIEContainerPairListValue, bb *aper.BitBuffer) error {
 	v.Value = make(ProtocolIEContainerPair, 0)
-	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1207
+	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1161
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -453,27 +453,27 @@ func unmarshalAPERProtocolIEContainerPairInto(v *asn1cAPERProtocolIEContainerPai
 
 // MarshalAPER encodes ProtocolIEFieldPair to APER format.
 func (v *ProtocolIEFieldPair) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *ProtocolIEFieldPair) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
+func (v *ProtocolIEFieldPair) MarshalAPERTo(bb *aper.BitBuffer) error {
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.FirstCriticality), 3, false); err != nil {
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.FirstCriticality), 3, false); err != nil {
 		return fmt.Errorf("encoding firstCriticality: %w", err)
 	}
-	if err := per.EncodeOpenTypeAligned(bb, v.FirstValue.Bytes); err != nil {
+	if err := aper.EncodeOpenTypeAligned(bb, v.FirstValue.Bytes); err != nil {
 		return fmt.Errorf("encoding firstValue: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.SecondCriticality), 3, false); err != nil {
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.SecondCriticality), 3, false); err != nil {
 		return fmt.Errorf("encoding secondCriticality: %w", err)
 	}
-	if err := per.EncodeOpenTypeAligned(bb, v.SecondValue.Bytes); err != nil {
+	if err := aper.EncodeOpenTypeAligned(bb, v.SecondValue.Bytes); err != nil {
 		return fmt.Errorf("encoding secondValue: %w", err)
 	}
 	return nil
@@ -481,23 +481,23 @@ func (v *ProtocolIEFieldPair) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes ProtocolIEFieldPair from APER format.
 func (v *ProtocolIEFieldPair) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes ProtocolIEFieldPair with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *ProtocolIEFieldPair) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEFieldPair) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ProtocolIEFieldPair")
+	padding, err := aper.CaptureFinalBits(bb, "ProtocolIEFieldPair")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEFieldPair")
 	}
@@ -505,33 +505,33 @@ func (v *ProtocolIEFieldPair) UnmarshalAPERWithOptions(data []byte, options per.
 	return nil
 }
 
-func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ProtocolIEFieldPair) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ProtocolIEFieldPair{}
-	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	val_id, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolIEID(val_id)
-	val_firstcriticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	val_firstcriticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "FirstCriticality")
 	}
 	v.FirstCriticality = Criticality(val_firstcriticality)
-	openData_firstvalue, err := per.DecodeOpenTypeAligned(bb)
+	openData_firstvalue, err := aper.DecodeOpenTypeAligned(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "FirstValue")
 	}
 	v.FirstValue = runtime.RawValue{Bytes: openData_firstvalue}
-	val_secondcriticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	val_secondcriticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "SecondCriticality")
 	}
 	v.SecondCriticality = Criticality(val_secondcriticality)
-	openData_secondvalue, err := per.DecodeOpenTypeAligned(bb)
+	openData_secondvalue, err := aper.DecodeOpenTypeAligned(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "SecondValue")
 	}
@@ -545,11 +545,11 @@ type asn1cAPERProtocolIEContainerListListValue struct{ Value ProtocolIEContainer
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type ProtocolIEContainerListComplete struct {
 	Value       ProtocolIEContainerList
-	PERPadding_ per.CompletePadding `json:"-"`
+	PERPadding_ aper.CompletePadding `json:"-"`
 }
 
 func (v *ProtocolIEContainerListComplete) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := MarshalAPERProtocolIEContainerListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
@@ -558,16 +558,16 @@ func (v *ProtocolIEContainerListComplete) MarshalAPER() ([]byte, error) {
 
 // UnmarshalAPER decodes ProtocolIEContainerList from APER format.
 func (v *ProtocolIEContainerListComplete) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes ProtocolIEContainerList with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *ProtocolIEContainerListComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEContainerListComplete) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerList")
 	}
@@ -575,7 +575,7 @@ func (v *ProtocolIEContainerListComplete) UnmarshalAPERWithOptions(data []byte, 
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerList")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ProtocolIEContainerList")
+	padding, err := aper.CaptureFinalBits(bb, "ProtocolIEContainerList")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerList")
 	}
@@ -589,9 +589,9 @@ func MarshalAPERProtocolIEContainerList(list ProtocolIEContainerListComplete) ([
 }
 
 // MarshalAPERProtocolIEContainerListTo appends a ProtocolIEContainerList list to bb.
-func MarshalAPERProtocolIEContainerListTo(list ProtocolIEContainerList, bb *per.BitBuffer) error {
+func MarshalAPERProtocolIEContainerListTo(list ProtocolIEContainerList, bb *aper.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerListListValue{Value: list}
-	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
 			return fmt.Errorf("collection fragment outside value")
@@ -618,7 +618,7 @@ func UnmarshalAPERProtocolIEContainerList(data []byte) (ProtocolIEContainerListC
 }
 
 // UnmarshalAPERProtocolIEContainerListFrom decodes a ProtocolIEContainerList list from bb.
-func UnmarshalAPERProtocolIEContainerListFrom(bb *per.BitBuffer) (ProtocolIEContainerList, error) {
+func UnmarshalAPERProtocolIEContainerListFrom(bb *aper.BitBuffer) (ProtocolIEContainerList, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return nil, err
 	}
@@ -630,10 +630,10 @@ func UnmarshalAPERProtocolIEContainerListFrom(bb *per.BitBuffer) (ProtocolIECont
 	return v.Value, nil
 }
 
-func unmarshalAPERProtocolIEContainerListInto(v *asn1cAPERProtocolIEContainerListListValue, bb *per.BitBuffer) error {
+func unmarshalAPERProtocolIEContainerListInto(v *asn1cAPERProtocolIEContainerListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(ProtocolIEContainerList, 0)
-	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1207
+	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1161
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -658,11 +658,11 @@ type asn1cAPERProtocolIEContainerPairListListValue struct{ Value ProtocolIEConta
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type ProtocolIEContainerPairListComplete struct {
 	Value       ProtocolIEContainerPairList
-	PERPadding_ per.CompletePadding `json:"-"`
+	PERPadding_ aper.CompletePadding `json:"-"`
 }
 
 func (v *ProtocolIEContainerPairListComplete) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := MarshalAPERProtocolIEContainerPairListTo(v.Value, bb); err != nil {
 		return nil, err
 	}
@@ -671,16 +671,16 @@ func (v *ProtocolIEContainerPairListComplete) MarshalAPER() ([]byte, error) {
 
 // UnmarshalAPER decodes ProtocolIEContainerPairList from APER format.
 func (v *ProtocolIEContainerPairListComplete) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes ProtocolIEContainerPairList with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *ProtocolIEContainerPairListComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolIEContainerPairListComplete) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
 	}
@@ -688,7 +688,7 @@ func (v *ProtocolIEContainerPairListComplete) UnmarshalAPERWithOptions(data []by
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ProtocolIEContainerPairList")
+	padding, err := aper.CaptureFinalBits(bb, "ProtocolIEContainerPairList")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolIEContainerPairList")
 	}
@@ -702,9 +702,9 @@ func MarshalAPERProtocolIEContainerPairList(list ProtocolIEContainerPairListComp
 }
 
 // MarshalAPERProtocolIEContainerPairListTo appends a ProtocolIEContainerPairList list to bb.
-func MarshalAPERProtocolIEContainerPairListTo(list ProtocolIEContainerPairList, bb *per.BitBuffer) error {
+func MarshalAPERProtocolIEContainerPairListTo(list ProtocolIEContainerPairList, bb *aper.BitBuffer) error {
 	v := asn1cAPERProtocolIEContainerPairListListValue{Value: list}
-	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
 			return fmt.Errorf("collection fragment outside value")
@@ -731,7 +731,7 @@ func UnmarshalAPERProtocolIEContainerPairList(data []byte) (ProtocolIEContainerP
 }
 
 // UnmarshalAPERProtocolIEContainerPairListFrom decodes a ProtocolIEContainerPairList list from bb.
-func UnmarshalAPERProtocolIEContainerPairListFrom(bb *per.BitBuffer) (ProtocolIEContainerPairList, error) {
+func UnmarshalAPERProtocolIEContainerPairListFrom(bb *aper.BitBuffer) (ProtocolIEContainerPairList, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return nil, err
 	}
@@ -743,10 +743,10 @@ func UnmarshalAPERProtocolIEContainerPairListFrom(bb *per.BitBuffer) (ProtocolIE
 	return v.Value, nil
 }
 
-func unmarshalAPERProtocolIEContainerPairListInto(v *asn1cAPERProtocolIEContainerPairListListValue, bb *per.BitBuffer) error {
+func unmarshalAPERProtocolIEContainerPairListInto(v *asn1cAPERProtocolIEContainerPairListListValue, bb *aper.BitBuffer) error {
 	v.Value = make(ProtocolIEContainerPairList, 0)
-	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1258
+	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_4: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1212
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -771,11 +771,11 @@ type asn1cAPERProtocolExtensionContainerListValue struct{ Value ProtocolExtensio
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type ProtocolExtensionContainerComplete struct {
 	Value       ProtocolExtensionContainer
-	PERPadding_ per.CompletePadding `json:"-"`
+	PERPadding_ aper.CompletePadding `json:"-"`
 }
 
 func (v *ProtocolExtensionContainerComplete) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := MarshalAPERProtocolExtensionContainerTo(v.Value, bb); err != nil {
 		return nil, err
 	}
@@ -784,16 +784,16 @@ func (v *ProtocolExtensionContainerComplete) MarshalAPER() ([]byte, error) {
 
 // UnmarshalAPER decodes ProtocolExtensionContainer from APER format.
 func (v *ProtocolExtensionContainerComplete) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes ProtocolExtensionContainer with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *ProtocolExtensionContainerComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolExtensionContainerComplete) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
 	}
@@ -801,7 +801,7 @@ func (v *ProtocolExtensionContainerComplete) UnmarshalAPERWithOptions(data []byt
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ProtocolExtensionContainer")
+	padding, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionContainer")
 	}
@@ -815,9 +815,9 @@ func MarshalAPERProtocolExtensionContainer(list ProtocolExtensionContainerComple
 }
 
 // MarshalAPERProtocolExtensionContainerTo appends a ProtocolExtensionContainer list to bb.
-func MarshalAPERProtocolExtensionContainerTo(list ProtocolExtensionContainer, bb *per.BitBuffer) error {
+func MarshalAPERProtocolExtensionContainerTo(list ProtocolExtensionContainer, bb *aper.BitBuffer) error {
 	v := asn1cAPERProtocolExtensionContainerListValue{Value: list}
-	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
 			return fmt.Errorf("collection fragment outside value")
@@ -844,7 +844,7 @@ func UnmarshalAPERProtocolExtensionContainer(data []byte) (ProtocolExtensionCont
 }
 
 // UnmarshalAPERProtocolExtensionContainerFrom decodes a ProtocolExtensionContainer list from bb.
-func UnmarshalAPERProtocolExtensionContainerFrom(bb *per.BitBuffer) (ProtocolExtensionContainer, error) {
+func UnmarshalAPERProtocolExtensionContainerFrom(bb *aper.BitBuffer) (ProtocolExtensionContainer, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return nil, err
 	}
@@ -856,10 +856,10 @@ func UnmarshalAPERProtocolExtensionContainerFrom(bb *per.BitBuffer) (ProtocolExt
 	return v.Value, nil
 }
 
-func unmarshalAPERProtocolExtensionContainerInto(v *asn1cAPERProtocolExtensionContainerListValue, bb *per.BitBuffer) error {
+func unmarshalAPERProtocolExtensionContainerInto(v *asn1cAPERProtocolExtensionContainerListValue, bb *aper.BitBuffer) error {
 	v.Value = make(ProtocolExtensionContainer, 0)
-	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1207
+	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1161
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -880,21 +880,21 @@ func unmarshalAPERProtocolExtensionContainerInto(v *asn1cAPERProtocolExtensionCo
 
 // MarshalAPER encodes ProtocolExtensionField to APER format.
 func (v *ProtocolExtensionField) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
+func (v *ProtocolExtensionField) MarshalAPERTo(bb *aper.BitBuffer) error {
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), int64Ptr(0), int64Ptr(65535), false); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
-	if err := per.EncodeOpenTypeAligned(bb, v.ExtensionValue.Bytes); err != nil {
+	if err := aper.EncodeOpenTypeAligned(bb, v.ExtensionValue.Bytes); err != nil {
 		return fmt.Errorf("encoding extensionValue: %w", err)
 	}
 	return nil
@@ -902,23 +902,23 @@ func (v *ProtocolExtensionField) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes ProtocolExtensionField from APER format.
 func (v *ProtocolExtensionField) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes ProtocolExtensionField with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *ProtocolExtensionField) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ProtocolExtensionField) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
 	}
-	padding, err := per.CaptureFinalBits(bb, "ProtocolExtensionField")
+	padding, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProtocolExtensionField")
 	}
@@ -926,23 +926,23 @@ func (v *ProtocolExtensionField) UnmarshalAPERWithOptions(data []byte, options p
 	return nil
 }
 
-func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *ProtocolExtensionField) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ProtocolExtensionField{}
-	val_id, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+	val_id, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Id")
 	}
 	v.Id = ProtocolExtensionID(val_id)
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	val_criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
-	openData_extensionvalue, err := per.DecodeOpenTypeAligned(bb)
+	openData_extensionvalue, err := aper.DecodeOpenTypeAligned(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("extension %v: %w", v.Id, err), "ExtensionValue")
 	}
@@ -956,11 +956,11 @@ type asn1cAPERPrivateIEContainerListValue struct{ Value PrivateIEContainer }
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
 type PrivateIEContainerComplete struct {
 	Value       PrivateIEContainer
-	PERPadding_ per.CompletePadding `json:"-"`
+	PERPadding_ aper.CompletePadding `json:"-"`
 }
 
 func (v *PrivateIEContainerComplete) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := MarshalAPERPrivateIEContainerTo(v.Value, bb); err != nil {
 		return nil, err
 	}
@@ -969,16 +969,16 @@ func (v *PrivateIEContainerComplete) MarshalAPER() ([]byte, error) {
 
 // UnmarshalAPER decodes PrivateIEContainer from APER format.
 func (v *PrivateIEContainerComplete) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes PrivateIEContainer with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *PrivateIEContainerComplete) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *PrivateIEContainerComplete) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEContainer")
 	}
@@ -986,7 +986,7 @@ func (v *PrivateIEContainerComplete) UnmarshalAPERWithOptions(data []byte, optio
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEContainer")
 	}
-	padding, err := per.CaptureFinalBits(bb, "PrivateIEContainer")
+	padding, err := aper.CaptureFinalBits(bb, "PrivateIEContainer")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEContainer")
 	}
@@ -1000,9 +1000,9 @@ func MarshalAPERPrivateIEContainer(list PrivateIEContainerComplete) ([]byte, err
 }
 
 // MarshalAPERPrivateIEContainerTo appends a PrivateIEContainer list to bb.
-func MarshalAPERPrivateIEContainerTo(list PrivateIEContainer, bb *per.BitBuffer) error {
+func MarshalAPERPrivateIEContainerTo(list PrivateIEContainer, bb *aper.BitBuffer) error {
 	v := asn1cAPERPrivateIEContainerListValue{Value: list}
-	if err := per.EncodeCollection(bb, int64(len(v.Value)), per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
 			return fmt.Errorf("collection fragment outside value")
@@ -1029,7 +1029,7 @@ func UnmarshalAPERPrivateIEContainer(data []byte) (PrivateIEContainerComplete, e
 }
 
 // UnmarshalAPERPrivateIEContainerFrom decodes a PrivateIEContainer list from bb.
-func UnmarshalAPERPrivateIEContainerFrom(bb *per.BitBuffer) (PrivateIEContainer, error) {
+func UnmarshalAPERPrivateIEContainerFrom(bb *aper.BitBuffer) (PrivateIEContainer, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return nil, err
 	}
@@ -1041,10 +1041,10 @@ func UnmarshalAPERPrivateIEContainerFrom(bb *per.BitBuffer) (PrivateIEContainer,
 	return v.Value, nil
 }
 
-func unmarshalAPERPrivateIEContainerInto(v *asn1cAPERPrivateIEContainerListValue, bb *per.BitBuffer) error {
+func unmarshalAPERPrivateIEContainerInto(v *asn1cAPERPrivateIEContainerListValue, bb *aper.BitBuffer) error {
 	v.Value = make(PrivateIEContainer, 0)
-	_, errCollection_value := per.DecodeCollection(bb, per.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1207
+	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1161
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1065,21 +1065,21 @@ func unmarshalAPERPrivateIEContainerInto(v *asn1cAPERPrivateIEContainerListValue
 
 // MarshalAPER encodes PrivateIEField to APER format.
 func (v *PrivateIEField) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *PrivateIEField) MarshalAPERTo(bb *aper.BitBuffer) error {
 	if err := v.Id.MarshalAPERTo(bb); err != nil {
 		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+	if err := aper.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
 		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
@@ -1087,23 +1087,23 @@ func (v *PrivateIEField) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes PrivateIEField from APER format.
 func (v *PrivateIEField) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes PrivateIEField with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *PrivateIEField) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *PrivateIEField) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEField")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEField")
 	}
-	padding, err := per.CaptureFinalBits(bb, "PrivateIEField")
+	padding, err := aper.CaptureFinalBits(bb, "PrivateIEField")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "PrivateIEField")
 	}
@@ -1111,7 +1111,7 @@ func (v *PrivateIEField) UnmarshalAPERWithOptions(data []byte, options per.Decod
 	return nil
 }
 
-func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *PrivateIEField) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
@@ -1120,12 +1120,12 @@ func (v *PrivateIEField) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 	if err := v.Id.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Id")
 	}
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	val_criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	openData_value, err := aper.DecodeOpenTypeAligned(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("id %v: %w", v.Id, err), "Value")
 	}

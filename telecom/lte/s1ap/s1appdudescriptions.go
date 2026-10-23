@@ -5,14 +5,14 @@ package s1ap
 import (
 	"fmt"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
 // Ensure imports are used.
 var (
 	_ runtime.BitString
-	_ = per.NewBitBuffer
+	_ = aper.NewBitBuffer
 )
 
 // S1APPDU choice constants.
@@ -25,8 +25,8 @@ const (
 // S1APPDU represents the ASN.1 CHOICE type S1AP-PDU.
 type S1APPDU struct {
 	Choice              int
-	PERPadding_         per.CompletePadding         `json:"-"`
-	PEROpenTypePadding_ per.CompletePadding         `json:"-"`
+	PERPadding_         aper.CompletePadding        `json:"-"`
+	PEROpenTypePadding_ aper.CompletePadding        `json:"-"`
 	UnknownExtension    *runtime.PERChoiceExtension `json:"UnknownExtension,omitempty"`
 	InitiatingMessage   *InitiatingMessage          `json:"InitiatingMessage,omitempty"`
 	SuccessfulOutcome   *SuccessfulOutcome          `json:"SuccessfulOutcome,omitempty"`
@@ -59,38 +59,38 @@ func NewS1APPDUUnsuccessfulOutcome(v UnsuccessfulOutcome) S1APPDU {
 
 // InitiatingMessage represents the ASN.1 type InitiatingMessage (SEQUENCE).
 type InitiatingMessage struct {
-	ProcedureCode ProcedureCode       `asn1:"tag:0,context,implicit"`
-	Criticality   Criticality         `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_   per.CompletePadding `asn1:"-" json:"-"`
+	ProcedureCode ProcedureCode        `asn1:"tag:0,context,implicit"`
+	Criticality   Criticality          `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue     `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_   aper.CompletePadding `asn1:"-" json:"-"`
 }
 
 // SuccessfulOutcome represents the ASN.1 type SuccessfulOutcome (SEQUENCE).
 type SuccessfulOutcome struct {
-	ProcedureCode ProcedureCode       `asn1:"tag:0,context,implicit"`
-	Criticality   Criticality         `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_   per.CompletePadding `asn1:"-" json:"-"`
+	ProcedureCode ProcedureCode        `asn1:"tag:0,context,implicit"`
+	Criticality   Criticality          `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue     `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_   aper.CompletePadding `asn1:"-" json:"-"`
 }
 
 // UnsuccessfulOutcome represents the ASN.1 type UnsuccessfulOutcome (SEQUENCE).
 type UnsuccessfulOutcome struct {
-	ProcedureCode ProcedureCode       `asn1:"tag:0,context,implicit"`
-	Criticality   Criticality         `asn1:"tag:1,context,implicit"`
-	Value         runtime.RawValue    `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
-	PERPadding_   per.CompletePadding `asn1:"-" json:"-"`
+	ProcedureCode ProcedureCode        `asn1:"tag:0,context,implicit"`
+	Criticality   Criticality          `asn1:"tag:1,context,implicit"`
+	Value         runtime.RawValue     `asn1:"tag:2,context,explicit" asn1c:"raw-preserve"`
+	PERPadding_   aper.CompletePadding `asn1:"-" json:"-"`
 }
 
 // MarshalAPER encodes S1APPDU to APER format.
 func (v *S1APPDU) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *S1APPDU) MarshalAPERTo(bb *per.BitBuffer) error {
+func (v *S1APPDU) MarshalAPERTo(bb *aper.BitBuffer) error {
 	if v.UnknownExtension != nil {
 		if v.Choice != 0 {
 			return fmt.Errorf("S1APPDU: known choice %d and unknown extension are both selected", v.Choice)
@@ -98,19 +98,19 @@ func (v *S1APPDU) MarshalAPERTo(bb *per.BitBuffer) error {
 		if v.UnknownExtension.Index < 0 {
 			return fmt.Errorf("S1APPDU: extension index %d must be non-negative", v.UnknownExtension.Index)
 		}
-		if err := per.EncodeBoolean(bb, true); err != nil {
+		if err := aper.EncodeBoolean(bb, true); err != nil {
 			return err
 		}
-		if err := per.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index); err != nil {
+		if err := aper.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index); err != nil {
 			return err
 		}
-		return per.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
+		return aper.EncodeOpenTypeAligned(bb, v.UnknownExtension.Payload)
 	}
 	if v.Choice < 1 {
 		return fmt.Errorf("S1APPDU: choice %d must be positive", v.Choice)
 	}
 	isExtension := v.Choice > 3
-	if err := per.EncodeBoolean(bb, isExtension); err != nil {
+	if err := aper.EncodeBoolean(bb, isExtension); err != nil {
 		return err
 	}
 	if isExtension {
@@ -120,7 +120,7 @@ func (v *S1APPDU) MarshalAPERTo(bb *per.BitBuffer) error {
 	if v.Choice < 1 {
 		return fmt.Errorf("choice index outside root")
 	}
-	if err := per.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
+	if err := aper.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
 	switch v.Choice {
@@ -153,23 +153,23 @@ func (v *S1APPDU) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes S1APPDU from APER format.
 func (v *S1APPDU) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes S1APPDU with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *S1APPDU) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *S1APPDU) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "S1APPDU")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1APPDU")
 	}
-	padding, err := per.CaptureFinalBits(bb, "S1APPDU")
+	padding, err := aper.CaptureFinalBits(bb, "S1APPDU")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "S1APPDU")
 	}
@@ -177,29 +177,29 @@ func (v *S1APPDU) UnmarshalAPERWithOptions(data []byte, options per.DecodeOption
 	return nil
 }
 
-func (v *S1APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *S1APPDU) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = S1APPDU{}
-	isExtension, err := per.DecodeBoolean(bb)
+	isExtension, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	if isExtension {
-		extIdx, err := per.DecodeNormallySmallNonNegativeAligned(bb)
+		extIdx, err := aper.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
-		openData, err := per.DecodeOpenTypeAligned(bb)
+		openData, err := aper.DecodeOpenTypeAligned(bb)
 		if err != nil {
 			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		v.UnknownExtension = &runtime.PERChoiceExtension{Index: extIdx, Payload: append([]byte(nil), openData...)}
 		return nil
 	}
-	idx, err := per.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
+	idx, err := aper.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
 		return err
 	}
@@ -233,21 +233,21 @@ func (v *S1APPDU) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 // MarshalAPER encodes InitiatingMessage to APER format.
 func (v *InitiatingMessage) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
+func (v *InitiatingMessage) MarshalAPERTo(bb *aper.BitBuffer) error {
+	if err := aper.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
 		return fmt.Errorf("encoding procedureCode: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+	if err := aper.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
 		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
@@ -255,23 +255,23 @@ func (v *InitiatingMessage) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes InitiatingMessage from APER format.
 func (v *InitiatingMessage) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes InitiatingMessage with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *InitiatingMessage) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *InitiatingMessage) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
-	padding, err := per.CaptureFinalBits(bb, "InitiatingMessage")
+	padding, err := aper.CaptureFinalBits(bb, "InitiatingMessage")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
@@ -279,23 +279,23 @@ func (v *InitiatingMessage) UnmarshalAPERWithOptions(data []byte, options per.De
 	return nil
 }
 
-func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *InitiatingMessage) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = InitiatingMessage{}
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+	val_procedurecode, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProcedureCode")
 	}
 	v.ProcedureCode = ProcedureCode(val_procedurecode)
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	val_criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	openData_value, err := aper.DecodeOpenTypeAligned(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
 	}
@@ -305,21 +305,21 @@ func (v *InitiatingMessage) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 // MarshalAPER encodes SuccessfulOutcome to APER format.
 func (v *SuccessfulOutcome) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *SuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
+func (v *SuccessfulOutcome) MarshalAPERTo(bb *aper.BitBuffer) error {
+	if err := aper.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
 		return fmt.Errorf("encoding procedureCode: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+	if err := aper.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
 		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
@@ -327,23 +327,23 @@ func (v *SuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes SuccessfulOutcome from APER format.
 func (v *SuccessfulOutcome) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes SuccessfulOutcome with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *SuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *SuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
-	padding, err := per.CaptureFinalBits(bb, "SuccessfulOutcome")
+	padding, err := aper.CaptureFinalBits(bb, "SuccessfulOutcome")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
@@ -351,23 +351,23 @@ func (v *SuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.De
 	return nil
 }
 
-func (v *SuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *SuccessfulOutcome) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = SuccessfulOutcome{}
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+	val_procedurecode, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProcedureCode")
 	}
 	v.ProcedureCode = ProcedureCode(val_procedurecode)
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	val_criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	openData_value, err := aper.DecodeOpenTypeAligned(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
 	}
@@ -377,21 +377,21 @@ func (v *SuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
 
 // MarshalAPER encodes UnsuccessfulOutcome to APER format.
 func (v *UnsuccessfulOutcome) MarshalAPER() ([]byte, error) {
-	bb := per.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.MarshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.PERPadding_)
 }
 
-func (v *UnsuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
-	if err := per.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
+func (v *UnsuccessfulOutcome) MarshalAPERTo(bb *aper.BitBuffer) error {
+	if err := aper.EncodeIntegerAligned(bb, int64(v.ProcedureCode), int64Ptr(0), int64Ptr(255), false); err != nil {
 		return fmt.Errorf("encoding procedureCode: %w", err)
 	}
-	if err := per.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
 		return fmt.Errorf("encoding criticality: %w", err)
 	}
-	if err := per.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
+	if err := aper.EncodeOpenTypeAligned(bb, v.Value.Bytes); err != nil {
 		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
@@ -399,23 +399,23 @@ func (v *UnsuccessfulOutcome) MarshalAPERTo(bb *per.BitBuffer) error {
 
 // UnmarshalAPER decodes UnsuccessfulOutcome from APER format.
 func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte) error {
-	return v.UnmarshalAPERWithOptions(data, per.DecodeOptions{})
+	return v.UnmarshalAPERWithOptions(data, aper.DecodeOptions{})
 }
 
 // UnmarshalAPERWithOptions decodes UnsuccessfulOutcome with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
-// per.BitBuffer.SetDecodeOptionsAligned).
-func (v *UnsuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.DecodeOptions) error {
-	var budget per.DecodeBudget
-	bb := per.NewDecodeBuffer(data, &budget)
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *UnsuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options aper.DecodeOptions) error {
+	var budget aper.DecodeBudget
+	bb := aper.NewDecodeBuffer(data, &budget)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
 	if err := v.UnmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
-	padding, err := per.CaptureFinalBits(bb, "UnsuccessfulOutcome")
+	padding, err := aper.CaptureFinalBits(bb, "UnsuccessfulOutcome")
 	if err != nil {
 		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
@@ -423,23 +423,23 @@ func (v *UnsuccessfulOutcome) UnmarshalAPERWithOptions(data []byte, options per.
 	return nil
 }
 
-func (v *UnsuccessfulOutcome) UnmarshalAPERFrom(bb *per.BitBuffer) error {
+func (v *UnsuccessfulOutcome) UnmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = UnsuccessfulOutcome{}
-	val_procedurecode, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+	val_procedurecode, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ProcedureCode")
 	}
 	v.ProcedureCode = ProcedureCode(val_procedurecode)
-	val_criticality, err := per.DecodeEnumeratedAligned(bb, 3, false)
+	val_criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Criticality")
 	}
 	v.Criticality = Criticality(val_criticality)
-	openData_value, err := per.DecodeOpenTypeAligned(bb)
+	openData_value, err := aper.DecodeOpenTypeAligned(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
 	}

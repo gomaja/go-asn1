@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
 // DecodeInitiatingMessageValue decodes the Value field of InitiatingMessage based on procedureCode.
@@ -868,29 +868,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverRequiredIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 1: // id-HandoverType -> HandoverType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverType (%d): %w", ieId, err)
 			}
 			result := HandoverType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -904,112 +904,112 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 79: // id-Direct-Forwarding-Path-Availability -> DirectForwardingPathAvailability (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DirectForwardingPathAvailability (%d): %w", ieId, err)
 			}
 			result := DirectForwardingPathAvailability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 125: // id-SRVCCHOIndication -> SRVCCHOIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SRVCCHOIndication (%d): %w", ieId, err)
 			}
 			result := SRVCCHOIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 104: // id-Source-ToTarget-TransparentContainer -> SourceToTargetTransparentContainer (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SourceToTargetTransparentContainer (%d): %w", ieId, err)
 			}
 			result := SourceToTargetTransparentContainer(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 138: // id-Source-ToTarget-TransparentContainer-Secondary -> SourceToTargetTransparentContainer (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SourceToTargetTransparentContainer (%d): %w", ieId, err)
 			}
 			result := SourceToTargetTransparentContainer(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 132: // id-MSClassmark2 -> MSClassmark2 (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MSClassmark2 (%d): %w", ieId, err)
 			}
 			result := MSClassmark2(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 133: // id-MSClassmark3 -> MSClassmark3 (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MSClassmark3 (%d): %w", ieId, err)
 			}
 			result := MSClassmark3(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 127: // id-CSG-Id -> CSGId (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 27, 27, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 27, 27, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
 			result := CSGId{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 145: // id-CellAccessMode -> CellAccessMode (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellAccessMode (%d): %w", ieId, err)
 			}
 			result := CellAccessMode(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 150: // id-PS-ServiceNotAvailable -> PSServiceNotAvailable (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PSServiceNotAvailable (%d): %w", ieId, err)
 			}
 			result := PSServiceNotAvailable(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "HandoverCommandIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 1: // id-HandoverType -> HandoverType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverType (%d): %w", ieId, err)
 			}
 			result := HandoverType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 135: // id-NASSecurityParametersfromE-UTRAN -> NASSecurityParametersfromEUTRAN (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NASSecurityParametersfromEUTRAN (%d): %w", ieId, err)
 			}
 			result := NASSecurityParametersfromEUTRAN(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 12: // id-E-RABSubjecttoDataForwardingList -> ERABSubjecttoDataForwardingList (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABSubjecttoDataForwardingList(data)
 			if err != nil {
@@ -1023,21 +1023,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 123: // id-Target-ToSource-TransparentContainer -> TargetToSourceTransparentContainer (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TargetToSourceTransparentContainer (%d): %w", ieId, err)
 			}
 			result := TargetToSourceTransparentContainer(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 139: // id-Target-ToSource-TransparentContainer-Secondary -> TargetToSourceTransparentContainer (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TargetToSourceTransparentContainer (%d): %w", ieId, err)
 			}
 			result := TargetToSourceTransparentContainer(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1057,21 +1057,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverPreparationFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1088,21 +1088,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 1: // id-HandoverType -> HandoverType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverType (%d): %w", ieId, err)
 			}
 			result := HandoverType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1122,13 +1122,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 104: // id-Source-ToTarget-TransparentContainer -> SourceToTargetTransparentContainer (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SourceToTargetTransparentContainer (%d): %w", ieId, err)
 			}
 			result := SourceToTargetTransparentContainer(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 107: // id-UESecurityCapabilities -> UESecurityCapabilities
 			var v UESecurityCapabilities
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1154,13 +1154,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 124: // id-SRVCCOperationPossible -> SRVCCOperationPossible (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SRVCCOperationPossible (%d): %w", ieId, err)
 			}
 			result := SRVCCOperationPossible(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 40: // id-SecurityContext -> SecurityContext
 			var v SecurityContext
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1168,29 +1168,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 136: // id-NASSecurityParameterstoE-UTRAN -> NASSecurityParameterstoEUTRAN (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NASSecurityParameterstoEUTRAN (%d): %w", ieId, err)
 			}
 			result := NASSecurityParameterstoEUTRAN(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 127: // id-CSG-Id -> CSGId (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 27, 27, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 27, 27, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
 			result := CSGId{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 146: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
 			}
 			result := CSGMembershipStatus(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 75: // id-GUMMEI-ID -> GUMMEI
 			var v GUMMEI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1198,21 +1198,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 158: // id-MME-UE-S1AP-ID-2 -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 165: // id-ManagementBasedMDTAllowed -> ManagementBasedMDTAllowed (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ManagementBasedMDTAllowed (%d): %w", ieId, err)
 			}
 			result := ManagementBasedMDTAllowed(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 177: // id-ManagementBasedMDTPLMNList -> MDTPLMNList (SEQUENCE_OF)
 			v, err := UnmarshalAPERMDTPLMNList(data)
 			if err != nil {
@@ -1220,13 +1220,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 192: // id-Masked-IMEISV -> MaskedIMEISV (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 64, 64, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 64, 64, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
 			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 196: // id-ExpectedUEBehaviour -> ExpectedUEBehaviour
 			var v ExpectedUEBehaviour
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1240,13 +1240,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 241: // id-UEUserPlaneCIoTSupportIndicator -> UEUserPlaneCIoTSupportIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEUserPlaneCIoTSupportIndicator (%d): %w", ieId, err)
 			}
 			result := UEUserPlaneCIoTSupportIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 240: // id-V2XServicesAuthorized -> V2XServicesAuthorized
 			var v V2XServicesAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1260,13 +1260,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 251: // id-EnhancedCoverageRestricted -> EnhancedCoverageRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EnhancedCoverageRestricted (%d): %w", ieId, err)
 			}
 			result := EnhancedCoverageRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 269: // id-NRUESecurityCapabilities -> NRUESecurityCapabilities
 			var v NRUESecurityCapabilities
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1274,29 +1274,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 271: // id-CE-ModeBRestricted -> CEModeBRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CEModeBRestricted (%d): %w", ieId, err)
 			}
 			result := CEModeBRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 277: // id-AerialUEsubscriptionInformation -> AerialUEsubscriptionInformation (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AerialUEsubscriptionInformation (%d): %w", ieId, err)
 			}
 			result := AerialUEsubscriptionInformation(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 283: // id-PendingDataIndication -> PendingDataIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PendingDataIndication (%d): %w", ieId, err)
 			}
 			result := PendingDataIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 278: // id-Subscription-Based-UE-DifferentiationInfo -> SubscriptionBasedUEDifferentiationInfo
 			var v SubscriptionBasedUEDifferentiationInfo
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1304,21 +1304,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 299: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
 			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 301: // id-IAB-Authorized -> IABAuthorized (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABAuthorized (%d): %w", ieId, err)
 			}
 			result := IABAuthorized(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 306: // id-NRV2XServicesAuthorized -> NRV2XServicesAuthorized
 			var v NRV2XServicesAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1338,21 +1338,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 355: // id-TimeRefDistribution -> TimeRefDistribution (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeRefDistribution (%d): %w", ieId, err)
 			}
 			result := TimeRefDistribution(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABToBeSetupItemHOReqIEs":
 		switch ieId {
@@ -1366,21 +1366,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverRequestAcknowledgeIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 18: // id-E-RABAdmittedList -> ERABAdmittedList (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABAdmittedList(data)
 			if err != nil {
@@ -1394,21 +1394,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 123: // id-Target-ToSource-TransparentContainer -> TargetToSourceTransparentContainer (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TargetToSourceTransparentContainer (%d): %w", ieId, err)
 			}
 			result := TargetToSourceTransparentContainer(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 127: // id-CSG-Id -> CSGId (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 27, 27, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 27, 27, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
 			result := CSGId{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1416,21 +1416,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 145: // id-CellAccessMode -> CellAccessMode (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellAccessMode (%d): %w", ieId, err)
 			}
 			result := CellAccessMode(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 242: // id-CE-mode-B-SupportIndicator -> CEModeBSupportIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CEModeBSupportIndicator (%d): %w", ieId, err)
 			}
 			result := CEModeBSupportIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABAdmittedItemIEs":
 		switch ieId {
@@ -1453,13 +1453,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1476,21 +1476,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverNotifyIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 100: // id-EUTRAN-CGI -> EUTRANCGI
 			var v EUTRANCGI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1510,13 +1510,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 186: // id-LHN-ID -> LHNID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 32, 256, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 32, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LHNID (%d): %w", ieId, err)
 			}
 			result := LHNID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 288: // id-PSCellInformation -> PSCellInformation
 			var v PSCellInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1524,13 +1524,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 320: // id-NotifySourceeNB -> NotifySourceeNB (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NotifySourceeNB (%d): %w", ieId, err)
 			}
 			result := NotifySourceeNB(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 339: // id-LTE-NTN-TAI-Information -> LTENTNTAIInformation
 			var v LTENTNTAIInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1541,13 +1541,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "PathSwitchRequestIEs":
 		switch ieId {
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 22: // id-E-RABToBeSwitchedDLList -> ERABToBeSwitchedDLList (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABToBeSwitchedDLList(data)
 			if err != nil {
@@ -1555,13 +1555,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 88: // id-SourceMME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 100: // id-EUTRAN-CGI -> EUTRANCGI
 			var v EUTRANCGI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1581,21 +1581,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 127: // id-CSG-Id -> CSGId (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 27, 27, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 27, 27, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
 			result := CSGId{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 145: // id-CellAccessMode -> CellAccessMode (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellAccessMode (%d): %w", ieId, err)
 			}
 			result := CellAccessMode(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 157: // id-SourceMME-GUMMEI -> GUMMEI
 			var v GUMMEI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1603,13 +1603,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 146: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
 			}
 			result := CSGMembershipStatus(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 176: // id-Tunnel-Information-for-BBF -> TunnelInformation
 			var v TunnelInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1617,21 +1617,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 186: // id-LHN-ID -> LHNID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 32, 256, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 32, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LHNID (%d): %w", ieId, err)
 			}
 			result := LHNID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 245: // id-RRC-Resume-Cause -> RRCEstablishmentCause (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRCEstablishmentCause (%d): %w", ieId, err)
 			}
 			result := RRCEstablishmentCause(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 269: // id-NRUESecurityCapabilities -> NRUESecurityCapabilities
 			var v NRUESecurityCapabilities
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1663,21 +1663,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "PathSwitchRequestAcknowledgeIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 66: // id-uEaggregateMaximumBitrate -> UEAggregateMaximumBitrate
 			var v UEAggregateMaximumBitrate
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1709,21 +1709,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 158: // id-MME-UE-S1AP-ID-2 -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 146: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
 			}
 			result := CSGMembershipStatus(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 195: // id-ProSeAuthorized -> ProSeAuthorized
 			var v ProSeAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1731,13 +1731,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 241: // id-UEUserPlaneCIoTSupportIndicator -> UEUserPlaneCIoTSupportIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEUserPlaneCIoTSupportIndicator (%d): %w", ieId, err)
 			}
 			result := UEUserPlaneCIoTSupportIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 240: // id-V2XServicesAuthorized -> V2XServicesAuthorized
 			var v V2XServicesAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1751,13 +1751,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 251: // id-EnhancedCoverageRestricted -> EnhancedCoverageRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EnhancedCoverageRestricted (%d): %w", ieId, err)
 			}
 			result := EnhancedCoverageRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 269: // id-NRUESecurityCapabilities -> NRUESecurityCapabilities
 			var v NRUESecurityCapabilities
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1765,29 +1765,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 271: // id-CE-ModeBRestricted -> CEModeBRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CEModeBRestricted (%d): %w", ieId, err)
 			}
 			result := CEModeBRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 277: // id-AerialUEsubscriptionInformation -> AerialUEsubscriptionInformation (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AerialUEsubscriptionInformation (%d): %w", ieId, err)
 			}
 			result := AerialUEsubscriptionInformation(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 283: // id-PendingDataIndication -> PendingDataIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PendingDataIndication (%d): %w", ieId, err)
 			}
 			result := PendingDataIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 278: // id-Subscription-Based-UE-DifferentiationInfo -> SubscriptionBasedUEDifferentiationInfo
 			var v SubscriptionBasedUEDifferentiationInfo
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1801,13 +1801,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 299: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
 			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 306: // id-NRV2XServicesAuthorized -> NRV2XServicesAuthorized
 			var v NRV2XServicesAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1827,13 +1827,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 107: // id-UESecurityCapabilities -> UESecurityCapabilities
 			var v UESecurityCapabilities
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1847,13 +1847,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 355: // id-TimeRefDistribution -> TimeRefDistribution (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeRefDistribution (%d): %w", ieId, err)
 			}
 			result := TimeRefDistribution(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABToBeSwitchedULItemIEs":
 		switch ieId {
@@ -1876,21 +1876,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "PathSwitchRequestFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1907,21 +1907,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverCancelIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1932,21 +1932,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverCancelAcknowledgeIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -1957,40 +1957,40 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "HandoverSuccessIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "ENBEarlyStatusTransferIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 321: // id-eNB-EarlyStatusTransfer-TransparentContainer -> ENBEarlyStatusTransferTransparentContainer
 			var v ENBEarlyStatusTransferTransparentContainer
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2001,21 +2001,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "MMEEarlyStatusTransferIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 321: // id-eNB-EarlyStatusTransfer-TransparentContainer -> ENBEarlyStatusTransferTransparentContainer
 			var v ENBEarlyStatusTransferTransparentContainer
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2026,21 +2026,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "E-RABSetupRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 66: // id-uEaggregateMaximumBitrate -> UEAggregateMaximumBitrate
 			var v UEAggregateMaximumBitrate
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2066,21 +2066,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "E-RABSetupResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 28: // id-E-RABSetupListBearerSURes -> ERABSetupListBearerSURes (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABSetupListBearerSURes(data)
 			if err != nil {
@@ -2118,21 +2118,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "E-RABModifyRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 66: // id-uEaggregateMaximumBitrate -> UEAggregateMaximumBitrate
 			var v UEAggregateMaximumBitrate
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2146,13 +2146,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 268: // id-SecondaryRATDataUsageRequest -> SecondaryRATDataUsageRequest (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SecondaryRATDataUsageRequest (%d): %w", ieId, err)
 			}
 			result := SecondaryRATDataUsageRequest(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABToBeModifiedItemBearerModReqIEs":
 		switch ieId {
@@ -2166,21 +2166,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "E-RABModifyResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 31: // id-E-RABModifyListBearerModRes -> ERABModifyListBearerModRes (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABModifyListBearerModRes(data)
 			if err != nil {
@@ -2224,21 +2224,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "E-RABReleaseCommandIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 66: // id-uEaggregateMaximumBitrate -> UEAggregateMaximumBitrate
 			var v UEAggregateMaximumBitrate
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2252,32 +2252,32 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 26: // id-NAS-PDU -> NASPDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NASPDU (%d): %w", ieId, err)
 			}
 			result := NASPDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABReleaseResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 69: // id-E-RABReleaseListBearerRelComp -> ERABReleaseListBearerRelComp (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABReleaseListBearerRelComp(data)
 			if err != nil {
@@ -2321,21 +2321,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "E-RABReleaseIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 110: // id-E-RABReleasedList -> ERABList (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABList(data)
 			if err != nil {
@@ -2358,21 +2358,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "InitialContextSetupRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 66: // id-uEaggregateMaximumBitrate -> UEAggregateMaximumBitrate
 			var v UEAggregateMaximumBitrate
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2392,13 +2392,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 73: // id-SecurityKey -> SecurityKey (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 256, 256, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 256, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SecurityKey (%d): %w", ieId, err)
 			}
 			result := SecurityKey{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 25: // id-TraceActivation -> TraceActivation
 			var v TraceActivation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2412,45 +2412,45 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 74: // id-UERadioCapability -> UERadioCapability (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapability (%d): %w", ieId, err)
 			}
 			result := UERadioCapability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 106: // id-SubscriberProfileIDforRFP -> SubscriberProfileIDforRFP (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SubscriberProfileIDforRFP (%d): %w", ieId, err)
 			}
 			result := SubscriberProfileIDforRFP(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 108: // id-CSFallbackIndicator -> CSFallbackIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSFallbackIndicator (%d): %w", ieId, err)
 			}
 			result := CSFallbackIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 124: // id-SRVCCOperationPossible -> SRVCCOperationPossible (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SRVCCOperationPossible (%d): %w", ieId, err)
 			}
 			result := SRVCCOperationPossible(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 146: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
 			}
 			result := CSGMembershipStatus(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 159: // id-RegisteredLAI -> LAI
 			var v LAI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2464,21 +2464,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 158: // id-MME-UE-S1AP-ID-2 -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 165: // id-ManagementBasedMDTAllowed -> ManagementBasedMDTAllowed (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ManagementBasedMDTAllowed (%d): %w", ieId, err)
 			}
 			result := ManagementBasedMDTAllowed(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 177: // id-ManagementBasedMDTPLMNList -> MDTPLMNList (SEQUENCE_OF)
 			v, err := UnmarshalAPERMDTPLMNList(data)
 			if err != nil {
@@ -2486,21 +2486,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 187: // id-AdditionalCSFallbackIndicator -> AdditionalCSFallbackIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalCSFallbackIndicator (%d): %w", ieId, err)
 			}
 			result := AdditionalCSFallbackIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 192: // id-Masked-IMEISV -> MaskedIMEISV (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 64, 64, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 64, 64, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
 			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 196: // id-ExpectedUEBehaviour -> ExpectedUEBehaviour
 			var v ExpectedUEBehaviour
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2514,13 +2514,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 241: // id-UEUserPlaneCIoTSupportIndicator -> UEUserPlaneCIoTSupportIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEUserPlaneCIoTSupportIndicator (%d): %w", ieId, err)
 			}
 			result := UEUserPlaneCIoTSupportIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 240: // id-V2XServicesAuthorized -> V2XServicesAuthorized
 			var v V2XServicesAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2534,13 +2534,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 251: // id-EnhancedCoverageRestricted -> EnhancedCoverageRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EnhancedCoverageRestricted (%d): %w", ieId, err)
 			}
 			result := EnhancedCoverageRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 269: // id-NRUESecurityCapabilities -> NRUESecurityCapabilities
 			var v NRUESecurityCapabilities
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2548,29 +2548,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 271: // id-CE-ModeBRestricted -> CEModeBRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CEModeBRestricted (%d): %w", ieId, err)
 			}
 			result := CEModeBRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 277: // id-AerialUEsubscriptionInformation -> AerialUEsubscriptionInformation (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AerialUEsubscriptionInformation (%d): %w", ieId, err)
 			}
 			result := AerialUEsubscriptionInformation(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 283: // id-PendingDataIndication -> PendingDataIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PendingDataIndication (%d): %w", ieId, err)
 			}
 			result := PendingDataIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 278: // id-Subscription-Based-UE-DifferentiationInfo -> SubscriptionBasedUEDifferentiationInfo
 			var v SubscriptionBasedUEDifferentiationInfo
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2578,21 +2578,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 299: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
 			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 301: // id-IAB-Authorized -> IABAuthorized (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABAuthorized (%d): %w", ieId, err)
 			}
 			result := IABAuthorized(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 306: // id-NRV2XServicesAuthorized -> NRV2XServicesAuthorized
 			var v NRV2XServicesAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2612,29 +2612,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 354: // id-CoarseUELocation -> CoarseUELocation (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CoarseUELocation (%d): %w", ieId, err)
 			}
 			result := CoarseUELocation(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 355: // id-TimeRefDistribution -> TimeRefDistribution (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeRefDistribution (%d): %w", ieId, err)
 			}
 			result := TimeRefDistribution(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABToBeSetupItemCtxtSUReqIEs":
 		switch ieId {
@@ -2648,21 +2648,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "InitialContextSetupResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 51: // id-E-RABSetupListCtxtSURes -> ERABSetupListCtxtSURes (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABSetupListCtxtSURes(data)
 			if err != nil {
@@ -2694,21 +2694,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "InitialContextSetupFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2725,13 +2725,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "PagingIEs":
 		switch ieId {
 		case 80: // id-UEIdentityIndexValue -> UEIdentityIndexValue (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 10, 10, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 10, 10, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEIdentityIndexValue (%d): %w", ieId, err)
 			}
 			result := UEIdentityIndexValue{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 43: // id-UEPagingID -> UEPagingID
 			var v UEPagingID
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2739,21 +2739,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 44: // id-pagingDRX -> PagingDRX (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PagingDRX (%d): %w", ieId, err)
 			}
 			result := PagingDRX(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 109: // id-CNDomain -> CNDomain (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CNDomain (%d): %w", ieId, err)
 			}
 			result := CNDomain(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 46: // id-TAIList -> TAIList (SEQUENCE_OF)
 			v, err := UnmarshalAPERTAIList(data)
 			if err != nil {
@@ -2767,21 +2767,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 151: // id-PagingPriority -> PagingPriority (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PagingPriority (%d): %w", ieId, err)
 			}
 			result := PagingPriority(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 198: // id-UERadioCapabilityForPaging -> UERadioCapabilityForPaging (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityForPaging (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityForPaging(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 211: // id-AssistanceDataForPaging -> AssistanceDataForPaging
 			var v AssistanceDataForPaging
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2795,13 +2795,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 231: // id-extended-UEIdentityIndexValue -> ExtendedUEIdentityIndexValue (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 14, 14, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 14, 14, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ExtendedUEIdentityIndexValue (%d): %w", ieId, err)
 			}
 			result := ExtendedUEIdentityIndexValue{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 239: // id-NB-IoT-Paging-eDRXInformation -> NBIoTPagingEDRXInformation
 			var v NBIoTPagingEDRXInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2809,36 +2809,36 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 244: // id-NB-IoT-UEIdentityIndexValue -> NBIoTUEIdentityIndexValue (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 12, 12, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 12, 12, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NBIoTUEIdentityIndexValue (%d): %w", ieId, err)
 			}
 			result := NBIoTUEIdentityIndexValue{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 251: // id-EnhancedCoverageRestricted -> EnhancedCoverageRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EnhancedCoverageRestricted (%d): %w", ieId, err)
 			}
 			result := EnhancedCoverageRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 271: // id-CE-ModeBRestricted -> CEModeBRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CEModeBRestricted (%d): %w", ieId, err)
 			}
 			result := CEModeBRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 304: // id-DataSize -> DataSize (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("1"), runtime.MustParseBigIntDecimal("4095"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DataSize (%d): %w", ieId, err)
 			}
-			return per.CompleteOpenTypeValue(bb, v)
+			return aper.CompleteOpenTypeValue(bb, v)
 		case 323: // id-WUS-Assistance-Information -> WUSAssistanceInformation
 			var v WUSAssistanceInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2846,21 +2846,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 324: // id-NB-IoT-PagingDRX -> NBIoTPagingDRX (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 6, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 6, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NBIoTPagingDRX (%d): %w", ieId, err)
 			}
 			result := NBIoTPagingDRX(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 331: // id-PagingCause -> PagingCause (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PagingCause (%d): %w", ieId, err)
 			}
 			result := PagingCause(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "TAIItemIEs":
 		switch ieId {
@@ -2874,21 +2874,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextReleaseRequest-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2896,13 +2896,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 164: // id-GWContextReleaseIndication -> GWContextReleaseIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GWContextReleaseIndication (%d): %w", ieId, err)
 			}
 			result := GWContextReleaseIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 264: // id-SecondaryRATDataUsageReportList -> SecondaryRATDataUsageReportList (SEQUENCE_OF)
 			v, err := UnmarshalAPERSecondaryRATDataUsageReportList(data)
 			if err != nil {
@@ -2928,21 +2928,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextReleaseComplete-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -2974,48 +2974,48 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 297: // id-TimeSinceSecondaryNodeRelease -> TimeSinceSecondaryNodeRelease (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeSinceSecondaryNodeRelease (%d): %w", ieId, err)
 			}
 			result := TimeSinceSecondaryNodeRelease(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UEContextModificationRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 73: // id-SecurityKey -> SecurityKey (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 256, 256, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 256, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SecurityKey (%d): %w", ieId, err)
 			}
 			result := SecurityKey{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 106: // id-SubscriberProfileIDforRFP -> SubscriberProfileIDforRFP (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SubscriberProfileIDforRFP (%d): %w", ieId, err)
 			}
 			result := SubscriberProfileIDforRFP(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 66: // id-uEaggregateMaximumBitrate -> UEAggregateMaximumBitrate
 			var v UEAggregateMaximumBitrate
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3023,13 +3023,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 108: // id-CSFallbackIndicator -> CSFallbackIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSFallbackIndicator (%d): %w", ieId, err)
 			}
 			result := CSFallbackIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 107: // id-UESecurityCapabilities -> UESecurityCapabilities
 			var v UESecurityCapabilities
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3037,13 +3037,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 146: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
 			}
 			result := CSGMembershipStatus(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 159: // id-RegisteredLAI -> LAI
 			var v LAI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3051,13 +3051,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 187: // id-AdditionalCSFallbackIndicator -> AdditionalCSFallbackIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalCSFallbackIndicator (%d): %w", ieId, err)
 			}
 			result := AdditionalCSFallbackIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 195: // id-ProSeAuthorized -> ProSeAuthorized
 			var v ProSeAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3065,21 +3065,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 124: // id-SRVCCOperationPossible -> SRVCCOperationPossible (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SRVCCOperationPossible (%d): %w", ieId, err)
 			}
 			result := SRVCCOperationPossible(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 243: // id-SRVCCOperationNotPossible -> SRVCCOperationNotPossible (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SRVCCOperationNotPossible (%d): %w", ieId, err)
 			}
 			result := SRVCCOperationNotPossible(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 240: // id-V2XServicesAuthorized -> V2XServicesAuthorized
 			var v V2XServicesAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3099,29 +3099,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 277: // id-AerialUEsubscriptionInformation -> AerialUEsubscriptionInformation (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AerialUEsubscriptionInformation (%d): %w", ieId, err)
 			}
 			result := AerialUEsubscriptionInformation(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 299: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
 			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 301: // id-IAB-Authorized -> IABAuthorized (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABAuthorized (%d): %w", ieId, err)
 			}
 			result := IABAuthorized(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 306: // id-NRV2XServicesAuthorized -> NRV2XServicesAuthorized
 			var v NRV2XServicesAuthorized
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3141,40 +3141,40 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 355: // id-TimeRefDistribution -> TimeRefDistribution (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeRefDistribution (%d): %w", ieId, err)
 			}
 			result := TimeRefDistribution(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UEContextModificationResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3185,21 +3185,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextModificationFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3216,64 +3216,64 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UERadioCapabilityMatchRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 74: // id-UERadioCapability -> UERadioCapability (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapability (%d): %w", ieId, err)
 			}
 			result := UERadioCapability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UERadioCapabilityMatchResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 169: // id-VoiceSupportMatchIndicator -> VoiceSupportMatchIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE VoiceSupportMatchIndicator (%d): %w", ieId, err)
 			}
 			result := VoiceSupportMatchIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3284,29 +3284,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "DownlinkNASTransport-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 26: // id-NAS-PDU -> NASPDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NASPDU (%d): %w", ieId, err)
 			}
 			result := NASPDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 41: // id-HandoverRestrictionList -> HandoverRestrictionList
 			var v HandoverRestrictionList
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3314,45 +3314,45 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 106: // id-SubscriberProfileIDforRFP -> SubscriberProfileIDforRFP (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(256), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SubscriberProfileIDforRFP (%d): %w", ieId, err)
 			}
 			result := SubscriberProfileIDforRFP(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 124: // id-SRVCCOperationPossible -> SRVCCOperationPossible (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SRVCCOperationPossible (%d): %w", ieId, err)
 			}
 			result := SRVCCOperationPossible(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 74: // id-UERadioCapability -> UERadioCapability (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapability (%d): %w", ieId, err)
 			}
 			result := UERadioCapability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 249: // id-DLNASPDUDeliveryAckRequest -> DLNASPDUDeliveryAckRequest (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DLNASPDUDeliveryAckRequest (%d): %w", ieId, err)
 			}
 			result := DLNASPDUDeliveryAckRequest(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 251: // id-EnhancedCoverageRestricted -> EnhancedCoverageRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EnhancedCoverageRestricted (%d): %w", ieId, err)
 			}
 			result := EnhancedCoverageRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 269: // id-NRUESecurityCapabilities -> NRUESecurityCapabilities
 			var v NRUESecurityCapabilities
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3360,37 +3360,37 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 271: // id-CE-ModeBRestricted -> CEModeBRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CEModeBRestricted (%d): %w", ieId, err)
 			}
 			result := CEModeBRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 275: // id-UECapabilityInfoRequest -> UECapabilityInfoRequest (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UECapabilityInfoRequest (%d): %w", ieId, err)
 			}
 			result := UECapabilityInfoRequest(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 280: // id-EndIndication -> EndIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EndIndication (%d): %w", ieId, err)
 			}
 			result := EndIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 283: // id-PendingDataIndication -> PendingDataIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PendingDataIndication (%d): %w", ieId, err)
 			}
 			result := PendingDataIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 278: // id-Subscription-Based-UE-DifferentiationInfo -> SubscriptionBasedUEDifferentiationInfo
 			var v SubscriptionBasedUEDifferentiationInfo
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3398,56 +3398,56 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 299: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE AdditionalRRMPriorityIndex (%d): %w", ieId, err)
 			}
 			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 192: // id-Masked-IMEISV -> MaskedIMEISV (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 64, 64, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 64, 64, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
 			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 354: // id-CoarseUELocation -> CoarseUELocation (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CoarseUELocation (%d): %w", ieId, err)
 			}
 			result := CoarseUELocation(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "InitialUEMessage-IEs":
 		switch ieId {
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 26: // id-NAS-PDU -> NASPDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NASPDU (%d): %w", ieId, err)
 			}
 			result := NASPDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 67: // id-TAI -> TAI
 			var v TAI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3461,13 +3461,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 134: // id-RRC-Establishment-Cause -> RRCEstablishmentCause (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRCEstablishmentCause (%d): %w", ieId, err)
 			}
 			result := RRCEstablishmentCause(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 96: // id-S-TMSI -> STMSI
 			var v STMSI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3475,13 +3475,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 127: // id-CSG-Id -> CSGId (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 27, 27, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 27, 27, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGId (%d): %w", ieId, err)
 			}
 			result := CSGId{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 75: // id-GUMMEI-ID -> GUMMEI
 			var v GUMMEI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3489,37 +3489,37 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 145: // id-CellAccessMode -> CellAccessMode (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CellAccessMode (%d): %w", ieId, err)
 			}
 			result := CellAccessMode(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 155: // id-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 160: // id-RelayNode-Indicator -> RelayNodeIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RelayNodeIndicator (%d): %w", ieId, err)
 			}
 			result := RelayNodeIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 170: // id-GUMMEIType -> GUMMEIType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE GUMMEIType (%d): %w", ieId, err)
 			}
 			result := GUMMEIType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 176: // id-Tunnel-Information-for-BBF -> TunnelInformation
 			var v TunnelInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3527,85 +3527,85 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 184: // id-SIPTO-L-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 186: // id-LHN-ID -> LHNID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 32, 256, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 32, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LHNID (%d): %w", ieId, err)
 			}
 			result := LHNID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 223: // id-MME-Group-ID -> MMEGroupID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEGroupID (%d): %w", ieId, err)
 			}
 			result := MMEGroupID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 230: // id-UE-Usage-Type -> UEUsageType (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEUsageType (%d): %w", ieId, err)
 			}
 			result := UEUsageType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 242: // id-CE-mode-B-SupportIndicator -> CEModeBSupportIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CEModeBSupportIndicator (%d): %w", ieId, err)
 			}
 			result := CEModeBSupportIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 246: // id-DCN-ID -> DCNID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DCNID (%d): %w", ieId, err)
 			}
 			result := DCNID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 250: // id-Coverage-Level -> CoverageLevel (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CoverageLevel (%d): %w", ieId, err)
 			}
 			result := CoverageLevel(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 263: // id-UE-Application-Layer-Measurement-Capability -> UEApplicationLayerMeasurementCapability (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 8, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEApplicationLayerMeasurementCapability (%d): %w", ieId, err)
 			}
 			result := UEApplicationLayerMeasurementCapability{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 281: // id-EDT-Session -> EDTSession (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EDTSession (%d): %w", ieId, err)
 			}
 			result := EDTSession(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 302: // id-IAB-Node-Indication -> IABNodeIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABNodeIndication (%d): %w", ieId, err)
 			}
 			result := IABNodeIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 339: // id-LTE-NTN-TAI-Information -> LTENTNTAIInformation
 			var v LTENTNTAIInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3613,40 +3613,40 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 353: // id-CoarseUELocationRequested -> CoarseUELocationRequested (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CoarseUELocationRequested (%d): %w", ieId, err)
 			}
 			result := CoarseUELocationRequested(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UplinkNASTransport-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 26: // id-NAS-PDU -> NASPDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NASPDU (%d): %w", ieId, err)
 			}
 			result := NASPDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 100: // id-EUTRAN-CGI -> EUTRANCGI
 			var v EUTRANCGI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3660,29 +3660,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 155: // id-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 184: // id-SIPTO-L-GW-TransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 186: // id-LHN-ID -> LHNID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 32, 256, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 32, 256, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LHNID (%d): %w", ieId, err)
 			}
 			result := LHNID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 288: // id-PSCellInformation -> PSCellInformation
 			var v PSCellInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3699,29 +3699,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "NASNonDeliveryIndication-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 26: // id-NAS-PDU -> NASPDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NASPDU (%d): %w", ieId, err)
 			}
 			result := NASPDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3732,37 +3732,37 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "RerouteNASRequest-IEs":
 		switch ieId {
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 225: // id-S1-Message -> OCTET STRING (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE OCTET STRING (%d): %w", ieId, err)
 			}
 			result := []byte(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 223: // id-MME-Group-ID -> MMEGroupID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEGroupID (%d): %w", ieId, err)
 			}
 			result := MMEGroupID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 224: // id-Additional-GUTI -> AdditionalGUTI
 			var v AdditionalGUTI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3770,32 +3770,32 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 230: // id-UE-Usage-Type -> UEUsageType (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEUsageType (%d): %w", ieId, err)
 			}
 			result := UEUsageType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "NASDeliveryIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "ResetIEs":
 		switch ieId {
@@ -3848,21 +3848,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ErrorIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3891,13 +3891,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 60: // id-eNBname -> ENBname (PrintableString)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBname (%d): %w", ieId, err)
 			}
 			result := ENBname(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 64: // id-SupportedTAs -> SupportedTAs (SEQUENCE_OF)
 			v, err := UnmarshalAPERSupportedTAs(data)
 			if err != nil {
@@ -3905,13 +3905,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 137: // id-DefaultPagingDRX -> PagingDRX (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PagingDRX (%d): %w", ieId, err)
 			}
 			result := PagingDRX(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 128: // id-CSG-IdList -> CSGIdList (SEQUENCE_OF)
 			v, err := UnmarshalAPERCSGIdList(data)
 			if err != nil {
@@ -3919,21 +3919,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 228: // id-UE-RetentionInformation -> UERetentionInformation (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERetentionInformation (%d): %w", ieId, err)
 			}
 			result := UERetentionInformation(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 234: // id-NB-IoT-DefaultPagingDRX -> NBIoTDefaultPagingDRX (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NBIoTDefaultPagingDRX (%d): %w", ieId, err)
 			}
 			result := NBIoTDefaultPagingDRX(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 291: // id-ConnectedengNBList -> ConnectedengNBList (SEQUENCE_OF)
 			v, err := UnmarshalAPERConnectedengNBList(data)
 			if err != nil {
@@ -3944,13 +3944,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "S1SetupResponseIEs":
 		switch ieId {
 		case 61: // id-MMEname -> MMEname (PrintableString)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEname (%d): %w", ieId, err)
 			}
 			result := MMEname(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 105: // id-ServedGUMMEIs -> ServedGUMMEIs (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedGUMMEIs(data)
 			if err != nil {
@@ -3958,21 +3958,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 87: // id-RelativeMMECapacity -> RelativeMMECapacity (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RelativeMMECapacity (%d): %w", ieId, err)
 			}
 			result := RelativeMMECapacity(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 163: // id-MMERelaySupportIndicator -> MMERelaySupportIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMERelaySupportIndicator (%d): %w", ieId, err)
 			}
 			result := MMERelaySupportIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -3980,13 +3980,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 228: // id-UE-RetentionInformation -> UERetentionInformation (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERetentionInformation (%d): %w", ieId, err)
 			}
 			result := UERetentionInformation(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 247: // id-ServedDCNs -> ServedDCNs (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedDCNs(data)
 			if err != nil {
@@ -3994,13 +3994,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 303: // id-IAB-Supported -> IABSupported (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IABSupported (%d): %w", ieId, err)
 			}
 			result := IABSupported(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "S1SetupFailureIEs":
 		switch ieId {
@@ -4011,13 +4011,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 65: // id-TimeToWait -> TimeToWait (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 6, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 6, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeToWait (%d): %w", ieId, err)
 			}
 			result := TimeToWait(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4028,13 +4028,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ENBConfigurationUpdateIEs":
 		switch ieId {
 		case 60: // id-eNBname -> ENBname (PrintableString)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBname (%d): %w", ieId, err)
 			}
 			result := ENBname(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 64: // id-SupportedTAs -> SupportedTAs (SEQUENCE_OF)
 			v, err := UnmarshalAPERSupportedTAs(data)
 			if err != nil {
@@ -4048,21 +4048,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 137: // id-DefaultPagingDRX -> PagingDRX (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PagingDRX (%d): %w", ieId, err)
 			}
 			result := PagingDRX(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 234: // id-NB-IoT-DefaultPagingDRX -> NBIoTDefaultPagingDRX (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NBIoTDefaultPagingDRX (%d): %w", ieId, err)
 			}
 			result := NBIoTDefaultPagingDRX(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 292: // id-ConnectedengNBToAddList -> ConnectedengNBList (SEQUENCE_OF)
 			v, err := UnmarshalAPERConnectedengNBList(data)
 			if err != nil {
@@ -4094,13 +4094,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 65: // id-TimeToWait -> TimeToWait (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 6, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 6, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeToWait (%d): %w", ieId, err)
 			}
 			result := TimeToWait(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4111,13 +4111,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "MMEConfigurationUpdateIEs":
 		switch ieId {
 		case 61: // id-MMEname -> MMEname (PrintableString)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEname (%d): %w", ieId, err)
 			}
 			result := MMEname(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 105: // id-ServedGUMMEIs -> ServedGUMMEIs (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedGUMMEIs(data)
 			if err != nil {
@@ -4125,13 +4125,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 87: // id-RelativeMMECapacity -> RelativeMMECapacity (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RelativeMMECapacity (%d): %w", ieId, err)
 			}
 			result := RelativeMMECapacity(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 247: // id-ServedDCNs -> ServedDCNs (SEQUENCE_OF)
 			v, err := UnmarshalAPERServedDCNs(data)
 			if err != nil {
@@ -4157,13 +4157,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 65: // id-TimeToWait -> TimeToWait (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 6, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 6, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeToWait (%d): %w", ieId, err)
 			}
 			result := TimeToWait(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4174,21 +4174,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "DownlinkS1cdma2000tunnellingIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 12: // id-E-RABSubjecttoDataForwardingList -> ERABSubjecttoDataForwardingList (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABSubjecttoDataForwardingList(data)
 			if err != nil {
@@ -4196,72 +4196,72 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 83: // id-cdma2000HOStatus -> Cdma2000HOStatus (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Cdma2000HOStatus (%d): %w", ieId, err)
 			}
 			result := Cdma2000HOStatus(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 71: // id-cdma2000RATType -> Cdma2000RATType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Cdma2000RATType (%d): %w", ieId, err)
 			}
 			result := Cdma2000RATType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 70: // id-cdma2000PDU -> Cdma2000PDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Cdma2000PDU (%d): %w", ieId, err)
 			}
 			result := Cdma2000PDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UplinkS1cdma2000tunnellingIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 71: // id-cdma2000RATType -> Cdma2000RATType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Cdma2000RATType (%d): %w", ieId, err)
 			}
 			result := Cdma2000RATType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 72: // id-cdma2000SectorID -> Cdma2000SectorID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Cdma2000SectorID (%d): %w", ieId, err)
 			}
 			result := Cdma2000SectorID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 84: // id-cdma2000HORequiredIndication -> Cdma2000HORequiredIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Cdma2000HORequiredIndication (%d): %w", ieId, err)
 			}
 			result := Cdma2000HORequiredIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 102: // id-cdma2000OneXSRVCCInfo -> Cdma2000OneXSRVCCInfo
 			var v Cdma2000OneXSRVCCInfo
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4269,115 +4269,115 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 97: // id-cdma2000OneXRAND -> Cdma2000OneXRAND (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Cdma2000OneXRAND (%d): %w", ieId, err)
 			}
 			result := Cdma2000OneXRAND(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 70: // id-cdma2000PDU -> Cdma2000PDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE Cdma2000PDU (%d): %w", ieId, err)
 			}
 			result := Cdma2000PDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 140: // id-EUTRANRoundTripDelayEstimationInfo -> EUTRANRoundTripDelayEstimationInfo (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(2047), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(2047), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EUTRANRoundTripDelayEstimationInfo (%d): %w", ieId, err)
 			}
 			result := EUTRANRoundTripDelayEstimationInfo(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UECapabilityInfoIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 74: // id-UERadioCapability -> UERadioCapability (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapability (%d): %w", ieId, err)
 			}
 			result := UERadioCapability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 198: // id-UERadioCapabilityForPaging -> UERadioCapabilityForPaging (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityForPaging (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityForPaging(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 263: // id-UE-Application-Layer-Measurement-Capability -> UEApplicationLayerMeasurementCapability (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 8, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UEApplicationLayerMeasurementCapability (%d): %w", ieId, err)
 			}
 			result := UEApplicationLayerMeasurementCapability{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 272: // id-LTE-M-Indication -> LTEMIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LTEMIndication (%d): %w", ieId, err)
 			}
 			result := LTEMIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 315: // id-UERadioCapability-NR-Format -> UERadioCapability (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapability (%d): %w", ieId, err)
 			}
 			result := UERadioCapability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 327: // id-UERadioCapabilityForPaging-NR-Format -> UERadioCapabilityForPaging (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityForPaging (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityForPaging(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "ENBStatusTransferIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 90: // id-eNB-StatusTransfer-TransparentContainer -> ENBStatusTransferTransparentContainer
 			var v ENBStatusTransferTransparentContainer
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4388,21 +4388,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "MMEStatusTransferIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 90: // id-eNB-StatusTransfer-TransparentContainer -> ENBStatusTransferTransparentContainer
 			var v ENBStatusTransferTransparentContainer
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4413,21 +4413,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "TraceStartIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 25: // id-TraceActivation -> TraceActivation
 			var v TraceActivation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4438,29 +4438,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "TraceFailureIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 86: // id-E-UTRAN-Trace-ID -> EUTRANTraceID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 8, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EUTRANTraceID (%d): %w", ieId, err)
 			}
 			result := EUTRANTraceID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4471,56 +4471,56 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "DeactivateTraceIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 86: // id-E-UTRAN-Trace-ID -> EUTRANTraceID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 8, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EUTRANTraceID (%d): %w", ieId, err)
 			}
 			result := EUTRANTraceID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "CellTrafficTraceIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 86: // id-E-UTRAN-Trace-ID -> EUTRANTraceID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 8, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EUTRANTraceID (%d): %w", ieId, err)
 			}
 			result := EUTRANTraceID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 100: // id-EUTRAN-CGI -> EUTRANCGI
 			var v EUTRANCGI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4528,40 +4528,40 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 131: // id-TraceCollectionEntityIPAddress -> TransportLayerAddress (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TransportLayerAddress (%d): %w", ieId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 166: // id-PrivacyIndicator -> PrivacyIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PrivacyIndicator (%d): %w", ieId, err)
 			}
 			result := PrivacyIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "LocationReportingControlIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 98: // id-RequestType -> RequestType
 			var v RequestType
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4572,21 +4572,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "LocationReportingFailureIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4597,21 +4597,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "LocationReportIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 100: // id-EUTRAN-CGI -> EUTRANCGI
 			var v EUTRANCGI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4658,13 +4658,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 161: // id-TrafficLoadReductionIndication -> TrafficLoadReductionIndication (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(99), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(1), int64Ptr(99), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TrafficLoadReductionIndication (%d): %w", ieId, err)
 			}
 			result := TrafficLoadReductionIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "OverloadStopIEs":
 		switch ieId {
@@ -4678,21 +4678,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "WriteReplaceWarningRequestIEs":
 		switch ieId {
 		case 111: // id-MessageIdentifier -> MessageIdentifier (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MessageIdentifier (%d): %w", ieId, err)
 			}
 			result := MessageIdentifier{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 112: // id-SerialNumber -> SerialNumber (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SerialNumber (%d): %w", ieId, err)
 			}
 			result := SerialNumber{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 113: // id-WarningAreaList -> WarningAreaList
 			var v WarningAreaList
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4700,96 +4700,96 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 114: // id-RepetitionPeriod -> RepetitionPeriod (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4095), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RepetitionPeriod (%d): %w", ieId, err)
 			}
 			result := RepetitionPeriod(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 144: // id-ExtendedRepetitionPeriod -> ExtendedRepetitionPeriod (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(4096), int64Ptr(131071), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(4096), int64Ptr(131071), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ExtendedRepetitionPeriod (%d): %w", ieId, err)
 			}
 			result := ExtendedRepetitionPeriod(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 115: // id-NumberofBroadcastRequest -> NumberofBroadcastRequest (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(65535), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE NumberofBroadcastRequest (%d): %w", ieId, err)
 			}
 			result := NumberofBroadcastRequest(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 116: // id-WarningType -> WarningType (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 2, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 2, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE WarningType (%d): %w", ieId, err)
 			}
 			result := WarningType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 117: // id-WarningSecurityInfo -> WarningSecurityInfo (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 50, 50, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 50, 50, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE WarningSecurityInfo (%d): %w", ieId, err)
 			}
 			result := WarningSecurityInfo(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 118: // id-DataCodingScheme -> DataCodingScheme (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 8, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE DataCodingScheme (%d): %w", ieId, err)
 			}
 			result := DataCodingScheme{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 119: // id-WarningMessageContents -> WarningMessageContents (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 1, 9600, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 1, 9600, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE WarningMessageContents (%d): %w", ieId, err)
 			}
 			result := WarningMessageContents(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 142: // id-ConcurrentWarningMessageIndicator -> ConcurrentWarningMessageIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ConcurrentWarningMessageIndicator (%d): %w", ieId, err)
 			}
 			result := ConcurrentWarningMessageIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 286: // id-WarningAreaCoordinates -> WarningAreaCoordinates (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 1, 1024, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 1, 1024, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE WarningAreaCoordinates (%d): %w", ieId, err)
 			}
 			result := WarningAreaCoordinates(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "WriteReplaceWarningResponseIEs":
 		switch ieId {
 		case 111: // id-MessageIdentifier -> MessageIdentifier (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MessageIdentifier (%d): %w", ieId, err)
 			}
 			result := MessageIdentifier{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 112: // id-SerialNumber -> SerialNumber (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SerialNumber (%d): %w", ieId, err)
 			}
 			result := SerialNumber{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 120: // id-BroadcastCompletedAreaList -> BroadcastCompletedAreaList
 			var v BroadcastCompletedAreaList
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4836,13 +4836,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 310: // id-IntersystemSONConfigurationTransferECT -> IntersystemSONConfigurationTransfer (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IntersystemSONConfigurationTransfer (%d): %w", ieId, err)
 			}
 			result := IntersystemSONConfigurationTransfer(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "MMEConfigurationTransferIEs":
 		switch ieId {
@@ -4859,32 +4859,32 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 309: // id-IntersystemSONConfigurationTransferMCT -> IntersystemSONConfigurationTransfer (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE IntersystemSONConfigurationTransfer (%d): %w", ieId, err)
 			}
 			result := IntersystemSONConfigurationTransfer(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "KillRequestIEs":
 		switch ieId {
 		case 111: // id-MessageIdentifier -> MessageIdentifier (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MessageIdentifier (%d): %w", ieId, err)
 			}
 			result := MessageIdentifier{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 112: // id-SerialNumber -> SerialNumber (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SerialNumber (%d): %w", ieId, err)
 			}
 			result := SerialNumber{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 113: // id-WarningAreaList -> WarningAreaList
 			var v WarningAreaList
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4892,32 +4892,32 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 191: // id-KillAllWarningMessages -> KillAllWarningMessages (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE KillAllWarningMessages (%d): %w", ieId, err)
 			}
 			result := KillAllWarningMessages(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "KillResponseIEs":
 		switch ieId {
 		case 111: // id-MessageIdentifier -> MessageIdentifier (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MessageIdentifier (%d): %w", ieId, err)
 			}
 			result := MessageIdentifier{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 112: // id-SerialNumber -> SerialNumber (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 16, 16, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 16, 16, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE SerialNumber (%d): %w", ieId, err)
 			}
 			result := SerialNumber{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 141: // id-BroadcastCancelledAreaList -> BroadcastCancelledAreaList
 			var v BroadcastCancelledAreaList
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -4976,129 +4976,129 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "DownlinkUEAssociatedLPPaTransport-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 148: // id-Routing-ID -> RoutingID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RoutingID (%d): %w", ieId, err)
 			}
 			result := RoutingID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 147: // id-LPPa-PDU -> LPPaPDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LPPaPDU (%d): %w", ieId, err)
 			}
 			result := LPPaPDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UplinkUEAssociatedLPPaTransport-IEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 148: // id-Routing-ID -> RoutingID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RoutingID (%d): %w", ieId, err)
 			}
 			result := RoutingID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 147: // id-LPPa-PDU -> LPPaPDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LPPaPDU (%d): %w", ieId, err)
 			}
 			result := LPPaPDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "DownlinkNonUEAssociatedLPPaTransport-IEs":
 		switch ieId {
 		case 148: // id-Routing-ID -> RoutingID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RoutingID (%d): %w", ieId, err)
 			}
 			result := RoutingID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 147: // id-LPPa-PDU -> LPPaPDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LPPaPDU (%d): %w", ieId, err)
 			}
 			result := LPPaPDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UplinkNonUEAssociatedLPPaTransport-IEs":
 		switch ieId {
 		case 148: // id-Routing-ID -> RoutingID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(255), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RoutingID (%d): %w", ieId, err)
 			}
 			result := RoutingID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 147: // id-LPPa-PDU -> LPPaPDU (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE LPPaPDU (%d): %w", ieId, err)
 			}
 			result := LPPaPDU(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABModificationIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 199: // id-E-RABToBeModifiedListBearerModInd -> ERABToBeModifiedListBearerModInd (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABToBeModifiedListBearerModInd(data)
 			if err != nil {
@@ -5157,21 +5157,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "E-RABModificationConfirmIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 203: // id-E-RABModifyListBearerModConf -> ERABModifyListBearerModConf (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABModifyListBearerModConf(data)
 			if err != nil {
@@ -5197,13 +5197,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 146: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
 			}
 			result := CSGMembershipStatus(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABModifyItemBearerModConfIEs":
 		switch ieId {
@@ -5217,21 +5217,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextModificationIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 226: // id-CSGMembershipInfo -> CSGMembershipInfo
 			var v CSGMembershipInfo
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5242,29 +5242,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextModificationConfirmIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 146: // id-CSGMembershipStatus -> CSGMembershipStatus (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CSGMembershipStatus (%d): %w", ieId, err)
 			}
 			result := CSGMembershipStatus(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5275,21 +5275,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextSuspendRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 213: // id-InformationOnRecommendedCellsAndENBsForPaging -> InformationOnRecommendedCellsAndENBsForPaging
 			var v InformationOnRecommendedCellsAndENBsForPaging
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5315,32 +5315,32 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 297: // id-TimeSinceSecondaryNodeRelease -> TimeSinceSecondaryNodeRelease (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeSinceSecondaryNodeRelease (%d): %w", ieId, err)
 			}
 			result := TimeSinceSecondaryNodeRelease(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UEContextSuspendResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5357,21 +5357,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextResumeRequestIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 235: // id-E-RABFailedToResumeListResumeReq -> ERABFailedToResumeListResumeReq (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABFailedToResumeListResumeReq(data)
 			if err != nil {
@@ -5379,13 +5379,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 245: // id-RRC-Resume-Cause -> RRCEstablishmentCause (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 5, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 5, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE RRCEstablishmentCause (%d): %w", ieId, err)
 			}
 			result := RRCEstablishmentCause(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABFailedToResumeItemResumeReqIEs":
 		switch ieId {
@@ -5399,21 +5399,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextResumeResponseIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 237: // id-E-RABFailedToResumeListResumeRes -> ERABFailedToResumeListResumeRes (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABFailedToResumeListResumeRes(data)
 			if err != nil {
@@ -5433,13 +5433,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 283: // id-PendingDataIndication -> PendingDataIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PendingDataIndication (%d): %w", ieId, err)
 			}
 			result := PendingDataIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABFailedToResumeItemResumeResIEs":
 		switch ieId {
@@ -5453,21 +5453,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "UEContextResumeFailureIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 2: // id-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5484,37 +5484,37 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "ConnectionEstablishmentIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 74: // id-UERadioCapability -> UERadioCapability (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapability (%d): %w", ieId, err)
 			}
 			result := UERadioCapability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 251: // id-EnhancedCoverageRestricted -> EnhancedCoverageRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EnhancedCoverageRestricted (%d): %w", ieId, err)
 			}
 			result := EnhancedCoverageRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 253: // id-DL-CP-SecurityInformation -> DLCPSecurityInformation
 			var v DLCPSecurityInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5522,21 +5522,21 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 271: // id-CE-ModeBRestricted -> CEModeBRestricted (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CEModeBRestricted (%d): %w", ieId, err)
 			}
 			result := CEModeBRestricted(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 280: // id-EndIndication -> EndIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE EndIndication (%d): %w", ieId, err)
 			}
 			result := EndIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 278: // id-Subscription-Based-UE-DifferentiationInfo -> SubscriptionBasedUEDifferentiationInfo
 			var v SubscriptionBasedUEDifferentiationInfo
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5550,29 +5550,29 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 192: // id-Masked-IMEISV -> MaskedIMEISV (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 64, 64, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 64, 64, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
 			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 354: // id-CoarseUELocation -> CoarseUELocation (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE CoarseUELocation (%d): %w", ieId, err)
 			}
 			result := CoarseUELocation(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "RetrieveUEInformationIEs":
 		switch ieId {
@@ -5598,13 +5598,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 74: // id-UERadioCapability -> UERadioCapability (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapability (%d): %w", ieId, err)
 			}
 			result := UERadioCapability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 278: // id-Subscription-Based-UE-DifferentiationInfo -> SubscriptionBasedUEDifferentiationInfo
 			var v SubscriptionBasedUEDifferentiationInfo
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5612,32 +5612,32 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 283: // id-PendingDataIndication -> PendingDataIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE PendingDataIndication (%d): %w", ieId, err)
 			}
 			result := PendingDataIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 192: // id-Masked-IMEISV -> MaskedIMEISV (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 64, 64, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 64, 64, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MaskedIMEISV (%d): %w", ieId, err)
 			}
 			result := MaskedIMEISV{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "ENBCPRelocationIndicationIEs":
 		switch ieId {
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 96: // id-S-TMSI -> STMSI
 			var v STMSI
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5672,40 +5672,40 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "MMECPRelocationIndicationIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "SecondaryRATDataUsageReportIEs":
 		switch ieId {
 		case 0: // id-MME-UE-S1AP-ID -> MMEUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(4294967295), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEUES1APID (%d): %w", ieId, err)
 			}
 			result := MMEUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 8: // id-eNB-UE-S1AP-ID -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE ENBUES1APID (%d): %w", ieId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 264: // id-SecondaryRATDataUsageReportList -> SecondaryRATDataUsageReportList (SEQUENCE_OF)
 			v, err := UnmarshalAPERSecondaryRATDataUsageReportList(data)
 			if err != nil {
@@ -5713,13 +5713,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 266: // id-HandoverFlag -> HandoverFlag (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE HandoverFlag (%d): %w", ieId, err)
 			}
 			result := HandoverFlag(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 189: // id-UserLocationInformation -> UserLocationInformation
 			var v UserLocationInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5727,43 +5727,43 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 			}
 			return &v, nil
 		case 297: // id-TimeSinceSecondaryNodeRelease -> TimeSinceSecondaryNodeRelease (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE TimeSinceSecondaryNodeRelease (%d): %w", ieId, err)
 			}
 			result := TimeSinceSecondaryNodeRelease(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UERadioCapabilityIDMappingRequestIEs":
 		switch ieId {
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UERadioCapabilityIDMappingResponseIEs":
 		switch ieId {
 		case 314: // id-UERadioCapabilityID -> UERadioCapabilityID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapabilityID (%d): %w", ieId, err)
 			}
 			result := UERadioCapabilityID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 74: // id-UERadioCapability -> UERadioCapability (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE UERadioCapability (%d): %w", ieId, err)
 			}
 			result := UERadioCapability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5783,13 +5783,13 @@ func DecodeIEFieldValue(objectSet string, ieId int64, data []byte) (interface{},
 	case "S1RemovalResponseIEs":
 		switch ieId {
 		case 61: // id-MMEname -> MMEname (PrintableString)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeKnownMultiplierStringAlignedExt(bb, 7, 1, 150, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding IE MMEname (%d): %w", ieId, err)
 			}
 			result := MMEname(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 58: // id-CriticalityDiagnostics -> CriticalityDiagnostics
 			var v CriticalityDiagnostics
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5835,13 +5835,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 181: // id-ReceiveStatusOfULPDCPSDUsExtended -> ReceiveStatusOfULPDCPSDUsExtended (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 16384, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 1, 16384, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ReceiveStatusOfULPDCPSDUsExtended (%d): %w", extensionId, err)
 			}
 			result := ReceiveStatusOfULPDCPSDUsExtended{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 217: // id-ULCOUNTValuePDCP-SNlength18 -> COUNTvaluePDCPSNlength18
 			var v COUNTvaluePDCPSNlength18
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5855,13 +5855,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 219: // id-ReceiveStatusOfULPDCPSDUsPDCP-SNlength18 -> ReceiveStatusOfULPDCPSDUsPDCPSNlength18 (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 1, 131072, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 1, 131072, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ReceiveStatusOfULPDCPSDUsPDCPSNlength18 (%d): %w", extensionId, err)
 			}
 			result := ReceiveStatusOfULPDCPSDUsPDCPSNlength18{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "ENB-EarlyStatusTransfer-TransparentContainer-ExtIEs":
 		switch extensionId {
@@ -5881,13 +5881,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 328: // id-SourceTransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 332: // id-SecurityIndication -> SecurityIndication
 			var v SecurityIndication
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -5895,82 +5895,82 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 340: // id-SourceNodeTransportLayerAddress -> TransportLayerAddress (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAlignedExt(bb, 1, 160, true, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TransportLayerAddress (%d): %w", extensionId, err)
 			}
 			result := TransportLayerAddress{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "E-RABQoSParameters-ExtIEs":
 		switch extensionId {
 		case 273: // id-DownlinkPacketLossRate -> PacketLossRate (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1000), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1000), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PacketLossRate (%d): %w", extensionId, err)
 			}
 			result := PacketLossRate(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 274: // id-UplinkPacketLossRate -> PacketLossRate (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1000), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(1000), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PacketLossRate (%d): %w", extensionId, err)
 			}
 			result := PacketLossRate(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "GBR-QosInformation-ExtIEs":
 		switch extensionId {
 		case 255: // id-extended-e-RAB-MaximumBitrateDL -> ExtendedBitRate (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
-			return per.CompleteOpenTypeValue(bb, v)
+			return aper.CompleteOpenTypeValue(bb, v)
 		case 256: // id-extended-e-RAB-MaximumBitrateUL -> ExtendedBitRate (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
-			return per.CompleteOpenTypeValue(bb, v)
+			return aper.CompleteOpenTypeValue(bb, v)
 		case 257: // id-extended-e-RAB-GuaranteedBitrateDL -> ExtendedBitRate (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
-			return per.CompleteOpenTypeValue(bb, v)
+			return aper.CompleteOpenTypeValue(bb, v)
 		case 258: // id-extended-e-RAB-GuaranteedBitrateUL -> ExtendedBitRate (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
-			return per.CompleteOpenTypeValue(bb, v)
+			return aper.CompleteOpenTypeValue(bb, v)
 		}
 	case "HandoverRestrictionList-ExtIEs":
 		switch extensionId {
 		case 261: // id-NRrestrictioninEPSasSecondaryRAT -> NRrestrictioninEPSasSecondaryRAT (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRrestrictioninEPSasSecondaryRAT (%d): %w", extensionId, err)
 			}
 			result := NRrestrictioninEPSasSecondaryRAT(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 270: // id-UnlicensedSpectrumRestriction -> UnlicensedSpectrumRestriction (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension UnlicensedSpectrumRestriction (%d): %w", extensionId, err)
 			}
 			result := UnlicensedSpectrumRestriction(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 282: // id-CNTypeRestrictions -> CNTypeRestrictions (SEQUENCE_OF)
 			v, err := UnmarshalAPERCNTypeRestrictions(data)
 			if err != nil {
@@ -5978,21 +5978,21 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 287: // id-NRrestrictionin5GS -> NRrestrictionin5GS (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NRrestrictionin5GS (%d): %w", extensionId, err)
 			}
 			result := NRrestrictionin5GS(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 290: // id-LastNG-RANPLMNIdentity -> PLMNidentity (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 3, 3, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 3, 3, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension PLMNidentity (%d): %w", extensionId, err)
 			}
 			result := PLMNidentity(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 336: // id-RAT-Restrictions -> RATRestrictions (SEQUENCE_OF)
 			v, err := UnmarshalAPERRATRestrictions(data)
 			if err != nil {
@@ -6021,13 +6021,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 174: // id-MDT-Location-Info -> MDTLocationInfo (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 8, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 8, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MDTLocationInfo (%d): %w", extensionId, err)
 			}
 			result := MDTLocationInfo{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 220: // id-M6Configuration -> M6Configuration
 			var v M6Configuration
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -6062,13 +6062,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "LastVisitedEUTRANCellInformation-ExtIEs":
 		switch extensionId {
 		case 167: // id-Time-UE-StayedInCell-EnhancedGranularity -> TimeUEStayedInCellEnhancedGranularity (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(40950), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(40950), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension TimeUEStayedInCellEnhancedGranularity (%d): %w", extensionId, err)
 			}
 			result := TimeUEStayedInCellEnhancedGranularity(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 168: // id-HO-Cause -> Cause
 			var v Cause
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -6112,46 +6112,46 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "M4Configuration-ExtIEs":
 		switch extensionId {
 		case 346: // id-M4ReportAmount -> M4ReportAmountMDT (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension M4ReportAmountMDT (%d): %w", extensionId, err)
 			}
 			result := M4ReportAmountMDT(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "M5Configuration-ExtIEs":
 		switch extensionId {
 		case 347: // id-M5ReportAmount -> M5ReportAmountMDT (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension M5ReportAmountMDT (%d): %w", extensionId, err)
 			}
 			result := M5ReportAmountMDT(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "M6Configuration-ExtIEs":
 		switch extensionId {
 		case 348: // id-M6ReportAmount -> M6ReportAmountMDT (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension M6ReportAmountMDT (%d): %w", extensionId, err)
 			}
 			result := M6ReportAmountMDT(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "M7Configuration-ExtIEs":
 		switch extensionId {
 		case 349: // id-M7ReportAmount -> M7ReportAmountMDT (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 8, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 8, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension M7ReportAmountMDT (%d): %w", extensionId, err)
 			}
 			result := M7ReportAmountMDT(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "MDT-Configuration-ExtIEs":
 		switch extensionId {
@@ -6165,35 +6165,35 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "ProSeAuthorized-ExtIEs":
 		switch extensionId {
 		case 216: // id-ProSeUEtoNetworkRelaying -> ProSeUEtoNetworkRelaying (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ProSeUEtoNetworkRelaying (%d): %w", extensionId, err)
 			}
 			result := ProSeUEtoNetworkRelaying(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "RequestType-ExtIEs":
 		switch extensionId {
 		case 298: // id-RequestTypeAdditionalInfo -> RequestTypeAdditionalInfo (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension RequestTypeAdditionalInfo (%d): %w", extensionId, err)
 			}
 			result := RequestTypeAdditionalInfo(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "RLFReportInformation-ExtIEs":
 		switch extensionId {
 		case 313: // id-NB-IoT-RLF-Report-Container -> NBIoTRLFReportContainer (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension NBIoTRLFReportContainer (%d): %w", extensionId, err)
 			}
 			result := NBIoTRLFReportContainer(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "SONInformationReply-ExtIEs":
 		switch extensionId {
@@ -6233,38 +6233,38 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 		}
 	case "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs":
 		switch extensionId {
-		case 175: // id-MobilityInformation -> MobilityInformation (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+		case 175: // id-MobilityInformation -> S1APIEsMobilityInformation (BIT_STRING)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
-				return nil, fmt.Errorf("decoding extension MobilityInformation (%d): %w", extensionId, err)
+				return nil, fmt.Errorf("decoding extension S1APIEsMobilityInformation (%d): %w", extensionId, err)
 			}
-			result := MobilityInformation{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			result := S1APIEsMobilityInformation{Bytes: bytes, BitLength: bitLen}
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 194: // id-uE-HistoryInformationFromTheUE -> UEHistoryInformationFromTheUE (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension UEHistoryInformationFromTheUE (%d): %w", extensionId, err)
 			}
 			result := UEHistoryInformationFromTheUE(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 296: // id-IMSvoiceEPSfallbackfrom5G -> IMSvoiceEPSfallbackfrom5G (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension IMSvoiceEPSfallbackfrom5G (%d): %w", extensionId, err)
 			}
 			result := IMSvoiceEPSfallbackfrom5G(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 299: // id-AdditionalRRMPriorityIndex -> AdditionalRRMPriorityIndex (BIT_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			bytes, bitLen, err := per.DecodeBitStringAligned(bb, 32, 32, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			bytes, bitLen, err := aper.DecodeBitStringAligned(bb, 32, 32, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension AdditionalRRMPriorityIndex (%d): %w", extensionId, err)
 			}
 			result := AdditionalRRMPriorityIndex{Bytes: bytes, BitLength: bitLen}
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 300: // id-ContextatSource -> ContextatSource
 			var v ContextatSource
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -6284,21 +6284,21 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 326: // id-EmergencyIndicator -> EmergencyIndicator (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EmergencyIndicator (%d): %w", extensionId, err)
 			}
 			result := EmergencyIndicator(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 337: // id-UEContextReferenceatSourceeNB -> ENBUES1APID (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerAligned(bb, int64Ptr(0), int64Ptr(16777215), false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ENBUES1APID (%d): %w", extensionId, err)
 			}
 			result := ENBUES1APID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 343: // id-SourceSNID -> GlobalRANNODEID
 			var v GlobalRANNODEID
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -6306,13 +6306,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 79: // id-Direct-Forwarding-Path-Availability -> DirectForwardingPathAvailability (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension DirectForwardingPathAvailability (%d): %w", extensionId, err)
 			}
 			result := DirectForwardingPathAvailability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 350: // id-TimeBasedHandoverInformation -> TimeBasedHandoverInformation
 			var v TimeBasedHandoverInformation
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -6323,35 +6323,35 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "ServedGUMMEIsItem-ExtIEs":
 		switch extensionId {
 		case 170: // id-GUMMEIType -> GUMMEIType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension GUMMEIType (%d): %w", extensionId, err)
 			}
 			result := GUMMEIType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "SupportedTAs-Item-ExtIEs":
 		switch extensionId {
 		case 232: // id-RAT-Type -> RATType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension RATType (%d): %w", extensionId, err)
 			}
 			result := RATType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "TimeSynchronisationInfo-ExtIEs":
 		switch extensionId {
 		case 207: // id-Muting-Availability-Indication -> MutingAvailabilityIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MutingAvailabilityIndication (%d): %w", extensionId, err)
 			}
 			result := MutingAvailabilityIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs":
 		switch extensionId {
@@ -6362,13 +6362,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 330: // id-RACSIndication -> RACSIndication (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension RACSIndication (%d): %w", extensionId, err)
 			}
 			result := RACSIndication(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 335: // id-E-RABSecurityResultList -> ERABSecurityResultList (SEQUENCE_OF)
 			v, err := UnmarshalAPERERABSecurityResultList(data)
 			if err != nil {
@@ -6376,13 +6376,13 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 79: // id-Direct-Forwarding-Path-Availability -> DirectForwardingPathAvailability (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension DirectForwardingPathAvailability (%d): %w", extensionId, err)
 			}
 			result := DirectForwardingPathAvailability(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "TraceActivation-ExtIEs":
 		switch extensionId {
@@ -6399,49 +6399,49 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 			}
 			return &v, nil
 		case 316: // id-MDTConfigurationNR -> MDTConfigurationNR (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension MDTConfigurationNR (%d): %w", extensionId, err)
 			}
 			result := MDTConfigurationNR(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 325: // id-TraceCollectionEntityURI -> URIAddress (VisibleString)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeKnownMultiplierStringAligned(bb, 7, 0, 0, false)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeKnownMultiplierStringAligned(bb, 7, 0, 0, false)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension URIAddress (%d): %w", extensionId, err)
 			}
 			result := URIAddress(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UEAggregate-MaximumBitrates-ExtIEs":
 		switch extensionId {
 		case 259: // id-extended-uEaggregateMaximumBitRateDL -> ExtendedBitRate (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
-			return per.CompleteOpenTypeValue(bb, v)
+			return aper.CompleteOpenTypeValue(bb, v)
 		case 260: // id-extended-uEaggregateMaximumBitRateUL -> ExtendedBitRate (INTEGER)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeIntegerBigBoundsAligned(bb, runtime.MustParseBigIntDecimal("10000000001"), runtime.MustParseBigIntDecimal("4000000000000"), true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ExtendedBitRate (%d): %w", extensionId, err)
 			}
-			return per.CompleteOpenTypeValue(bb, v)
+			return aper.CompleteOpenTypeValue(bb, v)
 		}
 	case "UEAppLayerMeasConfig-ExtIEs":
 		switch extensionId {
 		case 276: // id-serviceType -> ServiceType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 2, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 2, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension ServiceType (%d): %w", extensionId, err)
 			}
 			result := ServiceType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		}
 	case "UserLocationInformation-ExtIEs":
 		switch extensionId {
@@ -6476,29 +6476,29 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABToBeSetupItemHOReq-ExtIEs":
 		switch extensionId {
 		case 143: // id-Data-Forwarding-Not-Possible -> DataForwardingNotPossible (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension DataForwardingNotPossible (%d): %w", extensionId, err)
 			}
 			result := DataForwardingNotPossible(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 233: // id-BearerType -> BearerType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
 			}
 			result := BearerType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 305: // id-Ethernet-Type -> EthernetType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EthernetType (%d): %w", extensionId, err)
 			}
 			result := EthernetType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 332: // id-SecurityIndication -> SecurityIndication
 			var v SecurityIndication
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -6518,37 +6518,37 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABToBeSetupItemBearerSUReqExtIEs":
 		switch extensionId {
 		case 156: // id-Correlation-ID -> CorrelationID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CorrelationID (%d): %w", extensionId, err)
 			}
 			result := CorrelationID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 183: // id-SIPTO-Correlation-ID -> CorrelationID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CorrelationID (%d): %w", extensionId, err)
 			}
 			result := CorrelationID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 233: // id-BearerType -> BearerType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
 			}
 			result := BearerType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 305: // id-Ethernet-Type -> EthernetType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EthernetType (%d): %w", extensionId, err)
 			}
 			result := EthernetType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 332: // id-SecurityIndication -> SecurityIndication
 			var v SecurityIndication
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -6568,37 +6568,37 @@ func DecodeExtensionFieldValue(objectSet string, extensionId int64, data []byte)
 	case "E-RABToBeSetupItemCtxtSUReqExtIEs":
 		switch extensionId {
 		case 156: // id-Correlation-ID -> CorrelationID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CorrelationID (%d): %w", extensionId, err)
 			}
 			result := CorrelationID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 183: // id-SIPTO-Correlation-ID -> CorrelationID (OCTET_STRING)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeOctetStringAligned(bb, 4, 4, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeOctetStringAligned(bb, 4, 4, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension CorrelationID (%d): %w", extensionId, err)
 			}
 			result := CorrelationID(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 233: // id-BearerType -> BearerType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension BearerType (%d): %w", extensionId, err)
 			}
 			result := BearerType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 305: // id-Ethernet-Type -> EthernetType (ENUMERATED)
-			bb := per.NewBitBufferFromBytes(data)
-			v, err := per.DecodeEnumeratedAligned(bb, 1, true)
+			bb := aper.NewBitBufferFromBytes(data)
+			v, err := aper.DecodeEnumeratedAligned(bb, 1, true)
 			if err != nil {
 				return nil, fmt.Errorf("decoding extension EthernetType (%d): %w", extensionId, err)
 			}
 			result := EthernetType(v)
-			return per.CompleteOpenTypeValue(bb, result)
+			return aper.CompleteOpenTypeValue(bb, result)
 		case 332: // id-SecurityIndication -> SecurityIndication
 			var v SecurityIndication
 			if err := v.UnmarshalAPER(data); err != nil {
@@ -7219,7 +7219,7 @@ func indirectProtocolOpenTypeValue(value reflect.Value) reflect.Value {
 	if value.IsValid() && value.Kind() == reflect.Struct && value.Type().NumField() == 2 &&
 		len(value.Type().Name()) > len("Complete") && value.Type().Name()[len(value.Type().Name())-len("Complete"):] == "Complete" {
 		payload, padding := value.FieldByName("Value"), value.FieldByName("PERPadding_")
-		if payload.IsValid() && padding.IsValid() && (padding.Type() == reflect.TypeOf(per.CompletePadding{}) || padding.Type() == reflect.TypeOf(per.FinalPadding{})) {
+		if payload.IsValid() && padding.IsValid() && (padding.Type() == reflect.TypeOf(aper.CompletePadding{}) || padding.Type() == reflect.TypeOf(aper.FinalPadding{})) {
 			return payload
 		}
 	}
