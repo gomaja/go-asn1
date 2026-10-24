@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorErabSetupPrivateIePreserved verifies 3GPP TS 36.423 V19.1.0 (2026-02), section 9.2.4; unknown and private ProtocolIE-Field values remain raw.
+// TestVectorErabSetupPrivateIePreserved verifies 3GPP TS 36.423 V19.1.0 (2025-12), section 9.3.8; unknown and private ProtocolIE-Field values remain raw.
 func TestVectorErabSetupPrivateIePreserved(t *testing.T) {
 	input := asn1VectorHex(t, "deadbeef")
 	field, err := s11.ERABsToBeSetupItemIEs().NewOpaque(s00.ProtocolIEID(65532), s00.CriticalityIgnore, input)

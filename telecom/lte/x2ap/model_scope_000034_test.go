@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorAdmittedItemMalformedDapsPath verifies ITU-T X.691 (02/2021), clauses 11.1.3.1, 11.1.4, and 11.2; 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.3.7 and 9.3.8; zero-length DAPS open types are rejected with the complete containing path and identifier.
+// TestVectorAdmittedItemMalformedDapsPath verifies ITU-T X.691 (02/2021), clauses 11.1.3.1, 11.1.4, and 11.2; 3GPP TS 36.423 V19.1.0 (2025-12), sections 9.3.4, 9.3.7, and 9.3.8; zero-length DAPS open types are rejected with the complete containing path and identifier.
 func TestVectorAdmittedItemMalformedDapsPath(t *testing.T) {
 	input := asn1VectorHex(t, "12800000016e0000")
 	codec := s09.ERABsAdmittedItemCodec()

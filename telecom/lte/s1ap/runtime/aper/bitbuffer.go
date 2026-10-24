@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 8217e6261de4b7d58f9f9825aa586fc23ce65d9c04b884798858e58315e7daad.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 5f7da2ebaf91401d995b35a49ca814ddd2eb4b4b60da5721f882e0d58e198c7a.
 package aper
 
 import (
@@ -438,9 +438,8 @@ func (bb *BitBuffer) Bytes() []byte {
 	return bb.data
 }
 
-// CompleteBytes returns a complete PER encoding. X.691 (02/2021), clauses
-// 11.1.4 require a zero-bit outermost encoding to be represented
-// by one zero octet.
+// CompleteBytes returns a complete APER encoding. X.691 (02/2021) §11.1.4
+// requires a zero-bit outermost encoding to be represented by one zero octet.
 func (bb *BitBuffer) CompleteBytes() []byte {
 	if bb.bitPos == 0 && len(bb.data) == 0 {
 		if err := bb.ChargeAllocation(1, 1); err != nil {
@@ -451,10 +450,10 @@ func (bb *BitBuffer) CompleteBytes() []byte {
 	return bb.data
 }
 
-// CompletePadding retains terminal bits observed when decoding a complete PER
-// encoding. X.691 (02/2021) 11.1.4 require encoders to emit zero
-// bits here. Strict APER decoding refuses non-zero bits; the zero value
-// represents conforming padding.
+// CompletePadding carries terminal-padding state for a complete PER encoding.
+// APER decoders require zero padding (X.691 (02/2021) §11.1.4) and return the
+// zero value without retaining its width. Its private fields cannot be set by
+// callers outside this package.
 type CompletePadding struct {
 	bits  uint8
 	count uint8
@@ -467,15 +466,17 @@ type TrailingBits struct {
 	BitLength int
 }
 
-// CompleteValue carries a primitive open-type value and its observed padding.
-// ITU-T X.691 (02/2021) 11.2.1 makes open-type contents a complete encoding.
+// CompleteValue carries a primitive open-type value and its padding state.
+// X.691 (02/2021) §11.2.1 makes open-type contents a complete encoding;
+// successful APER decoding leaves the padding state zero.
 type CompleteValue[T any] struct {
 	Value   T
 	padding CompletePadding
 }
 
-// CompleteOpenTypeValue checks that an open type has no trailing data and
-// retains its observed terminal bits. ITU-T X.691 (02/2021) 11.2.1 and 11.1.
+// CompleteOpenTypeValue checks that an open type has only zero terminal
+// padding and no trailing data, then wraps value with zero padding state
+// (X.691 (02/2021) §§11.1.4, 11.2.1).
 func CompleteOpenTypeValue[T any](bb *BitBuffer, value T) (*CompleteValue[T], error) {
 	padding, err := CaptureOpenTypePadding(bb)
 	if err != nil {
@@ -487,36 +488,31 @@ func CompleteOpenTypeValue[T any](bb *BitBuffer, value T) (*CompleteValue[T], er
 	return &CompleteValue[T]{Value: value, padding: padding}, nil
 }
 
-// ReceivedPadding reports the terminal bits of the received complete value.
-// X.691 (02/2021) §§11.1.4 and 11.2.1 define the padding boundary.
+// ReceivedPadding returns the complete value's padding state, which is zero
+// after successful APER decoding (X.691 (02/2021) §§11.1.4, 11.2.1).
 func (v CompleteValue[T]) ReceivedPadding() CompletePadding { return v.padding }
 
-// Bits returns the observed terminal bits right-aligned and their width.
-// ITU-T X.691 (02/2021) 11.1.4 require zero padding on encode.
-// Observed all-zero padding is not retained, so its width is reported as 0.
+// Bits returns the stored terminal bits right-aligned and their width.
+// Successful APER decoding returns (0, 0): zero padding is not retained
+// (X.691 (02/2021) §11.1.4).
 func (p CompletePadding) Bits() (value, count uint8) {
 	return p.bits, p.count
 }
 
-// IsZero reports whether every observed terminal bit is zero.
+// IsZero reports whether every stored terminal bit is zero.
 func (p CompletePadding) IsZero() bool {
 	return p.bits == 0
 }
 
-// CompleteBytesWithPadding returns a complete encoding with observed terminal
-// bits. A newly constructed value has zero padding (X.691 (02/2021) 11.1.4
-// and 11.1.4). Observed padding is kept while it still fills the final octet
-// exactly, so an unchanged decoded value re-encodes byte-exactly. Once an edit
-// changes the number of padding bits the encoding needs, the observed bits no
-// longer belong to it, and the value is padded with zero bits as a new one.
+// CompleteBytesWithPadding returns a complete encoding, applying stored
+// non-zero padding only when its width exactly fills the final octet. Otherwise
+// it uses CompleteBytes; X.691 (02/2021) §11.1.4 requires zero terminal padding.
 //
-// Nonzero padding comes only from a non-conformant sender. Only its width is
-// kept, so an edit that keeps the bit length modulo eight keeps those bits;
-// padding carries no value (11.1.4). Strict APER decoding refuses
-// any resulting nonzero terminal bits.
-//
-// Only applying retained nonzero padding copies the encoding, one allocation;
-// otherwise the result is bb's storage, as from CompleteBytes, with none.
+// APER decoders return only zero padding state, and exported APIs cannot create
+// non-zero state. The non-zero branch remains available to package-internal
+// callers; it copies the encoding once and can produce non-conforming output
+// that strict APER decoding rejects. The zero-padding path uses CompleteBytes
+// without copying existing storage.
 func (bb *BitBuffer) CompleteBytesWithPadding(padding CompletePadding) ([]byte, error) {
 	if padding.bits == 0 {
 		return bb.CompleteBytes(), nil

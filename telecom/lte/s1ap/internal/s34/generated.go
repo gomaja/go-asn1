@@ -13406,6 +13406,8 @@ func (v SONInformationReplyExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*ape
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of SONInformationReplyExtIEsValue and reports whether the opaque alternative is selected.
 func (v *SONInformationReplyExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14075,12 +14077,16 @@ func (SONInformationReplyExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueRea
 		return aper.UnknownSelector
 	}
 }
+
+// AsTimeSynchronisationInfo returns the selected TimeSynchronisationInfo value of SONInformationReplyExtIEsValue and reports whether that alternative is active.
 func (v *SONInformationReplyExtIEsValue) AsTimeSynchronisationInfo() (*TimeSynchronisationInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(149) || v.rowTimeSynchronisationInfo == nil {
 		return nil, false
 	}
 	return v.rowTimeSynchronisationInfo, true
 }
+
+// AsMutingPatternInformation returns the selected MutingPatternInformation value of SONInformationReplyExtIEsValue and reports whether that alternative is active.
 func (v *SONInformationReplyExtIEsValue) AsMutingPatternInformation() (*s19.MutingPatternInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(208) || v.rowMutingPatternInformation == nil {
 		return nil, false
@@ -14239,6 +14245,8 @@ func (v SourceeNBToTargeteNBTransparentContainerExtIEsValue) matchesID(id s00.Pr
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether the opaque alternative is selected.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14908,72 +14916,96 @@ func (SourceeNBToTargeteNBTransparentContainerExtIEsValue) reason(id s00.Protoco
 		return aper.UnknownSelector
 	}
 }
+
+// AsMobilityInformation returns the selected MobilityInformation value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsMobilityInformation() (*s00.S1APIEsMobilityInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(175) || v.rowMobilityInformation == nil {
 		return nil, false
 	}
 	return v.rowMobilityInformation, true
 }
+
+// AsUEHistoryInformationFromTheUE returns the selected UEHistoryInformationFromTheUE value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsUEHistoryInformationFromTheUE() (*s00.UEHistoryInformationFromTheUE, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(194) || v.rowUEHistoryInformationFromTheUE == nil {
 		return nil, false
 	}
 	return v.rowUEHistoryInformationFromTheUE, true
 }
+
+// AsIMSvoiceEPSfallbackfrom5G returns the selected IMSvoiceEPSfallbackfrom5G value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsIMSvoiceEPSfallbackfrom5G() (*s00.IMSvoiceEPSfallbackfrom5G, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(296) || v.rowIMSvoiceEPSfallbackfrom5G == nil {
 		return nil, false
 	}
 	return v.rowIMSvoiceEPSfallbackfrom5G, true
 }
+
+// AsAdditionalRRMPriorityIndex returns the selected AdditionalRRMPriorityIndex value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsAdditionalRRMPriorityIndex() (*s00.AdditionalRRMPriorityIndex, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(299) || v.rowAdditionalRRMPriorityIndex == nil {
 		return nil, false
 	}
 	return v.rowAdditionalRRMPriorityIndex, true
 }
+
+// AsContextatSource returns the selected ContextatSource value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsContextatSource() (*s19.ContextatSource, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(300) || v.rowContextatSource == nil {
 		return nil, false
 	}
 	return v.rowContextatSource, true
 }
+
+// AsIntersystemMeasurementConfiguration returns the selected IntersystemMeasurementConfiguration value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsIntersystemMeasurementConfiguration() (*s24.IntersystemMeasurementConfiguration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(311) || v.rowIntersystemMeasurementConfiguration == nil {
 		return nil, false
 	}
 	return v.rowIntersystemMeasurementConfiguration, true
 }
+
+// AsSourceNodeID returns the selected SourceNodeID value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsSourceNodeID() (*s30.SourceNodeID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(312) || v.rowSourceNodeID == nil {
 		return nil, false
 	}
 	return v.rowSourceNodeID, true
 }
+
+// AsEmergencyIndicator returns the selected EmergencyIndicator value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsEmergencyIndicator() (*s00.EmergencyIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(326) || v.rowEmergencyIndicator == nil {
 		return nil, false
 	}
 	return v.rowEmergencyIndicator, true
 }
+
+// AsUEContextReferenceatSourceeNB returns the selected UEContextReferenceatSourceeNB value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsUEContextReferenceatSourceeNB() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(337) || v.rowUEContextReferenceatSourceeNB == nil {
 		return nil, false
 	}
 	return v.rowUEContextReferenceatSourceeNB, true
 }
+
+// AsSourceSNID returns the selected SourceSNID value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsSourceSNID() (*s19.GlobalRANNODEID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(343) || v.rowSourceSNID == nil {
 		return nil, false
 	}
 	return v.rowSourceSNID, true
 }
+
+// AsDirectForwardingPathAvailability returns the selected DirectForwardingPathAvailability value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsDirectForwardingPathAvailability() (*s00.DirectForwardingPathAvailability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(79) || v.rowDirectForwardingPathAvailability == nil {
 		return nil, false
 	}
 	return v.rowDirectForwardingPathAvailability, true
 }
+
+// AsTimeBasedHandoverInformation returns the selected TimeBasedHandoverInformation value of SourceeNBToTargeteNBTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *SourceeNBToTargeteNBTransparentContainerExtIEsValue) AsTimeBasedHandoverInformation() (*TimeBasedHandoverInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(350) || v.rowTimeBasedHandoverInformation == nil {
 		return nil, false
@@ -15530,6 +15562,8 @@ func (v HandoverRequiredIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decod
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of HandoverRequiredIEValue and reports whether the opaque alternative is selected.
 func (v *HandoverRequiredIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16199,84 +16233,112 @@ func (HandoverRequiredIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsHandoverType returns the selected HandoverType value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsHandoverType() (*s00.HandoverType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(1) || v.rowHandoverType == nil {
 		return nil, false
 	}
 	return v.rowHandoverType, true
 }
+
+// AsCause returns the selected Cause value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsTargetID returns the selected TargetID value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsTargetID() (*TargetID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(4) || v.rowTargetID == nil {
 		return nil, false
 	}
 	return v.rowTargetID, true
 }
+
+// AsDirectForwardingPathAvailability returns the selected DirectForwardingPathAvailability value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsDirectForwardingPathAvailability() (*s00.DirectForwardingPathAvailability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(79) || v.rowDirectForwardingPathAvailability == nil {
 		return nil, false
 	}
 	return v.rowDirectForwardingPathAvailability, true
 }
+
+// AsSRVCCHOIndication returns the selected SRVCCHOIndication value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsSRVCCHOIndication() (*s00.SRVCCHOIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(125) || v.rowSRVCCHOIndication == nil {
 		return nil, false
 	}
 	return v.rowSRVCCHOIndication, true
 }
+
+// AsSourceToTargetTransparentContainer returns the selected SourceToTargetTransparentContainer value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsSourceToTargetTransparentContainer() (*s00.SourceToTargetTransparentContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(104) || v.rowSourceToTargetTransparentContainer == nil {
 		return nil, false
 	}
 	return v.rowSourceToTargetTransparentContainer, true
 }
+
+// AsSourceToTargetTransparentContainerSecondary returns the selected SourceToTargetTransparentContainerSecondary value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsSourceToTargetTransparentContainerSecondary() (*s00.SourceToTargetTransparentContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(138) || v.rowSourceToTargetTransparentContainerSecondary == nil {
 		return nil, false
 	}
 	return v.rowSourceToTargetTransparentContainerSecondary, true
 }
+
+// AsMSClassmark2 returns the selected MSClassmark2 value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsMSClassmark2() (*s00.MSClassmark2, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(132) || v.rowMSClassmark2 == nil {
 		return nil, false
 	}
 	return v.rowMSClassmark2, true
 }
+
+// AsMSClassmark3 returns the selected MSClassmark3 value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsMSClassmark3() (*s00.MSClassmark3, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(133) || v.rowMSClassmark3 == nil {
 		return nil, false
 	}
 	return v.rowMSClassmark3, true
 }
+
+// AsCSGId returns the selected CSGId value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsCSGId() (*s00.CSGId, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(127) || v.rowCSGId == nil {
 		return nil, false
 	}
 	return v.rowCSGId, true
 }
+
+// AsCellAccessMode returns the selected CellAccessMode value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsCellAccessMode() (*s00.CellAccessMode, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(145) || v.rowCellAccessMode == nil {
 		return nil, false
 	}
 	return v.rowCellAccessMode, true
 }
+
+// AsPSServiceNotAvailable returns the selected PSServiceNotAvailable value of HandoverRequiredIEValue and reports whether that alternative is active.
 func (v *HandoverRequiredIEValue) AsPSServiceNotAvailable() (*s00.PSServiceNotAvailable, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(150) || v.rowPSServiceNotAvailable == nil {
 		return nil, false
@@ -16868,6 +16930,8 @@ type SONInformationReplyExtIETable struct{}
 func SONInformationReplyExtIEs() SONInformationReplyExtIETable {
 	return SONInformationReplyExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SONInformationReplyExtIETable.
 func (SONInformationReplyExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16875,6 +16939,8 @@ func (SONInformationReplyExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SONInformationReplyExtIETable.
 func (SONInformationReplyExtIETable) Table() s00.SONInformationReplyExtIEsValueExtensionTable {
 	return func() s00.SONInformationReplyExtIEsValueExtensionTable {
 		sealed := s00.SONInformationReplyExtIEsValueExtensionTable{}
@@ -16889,6 +16955,8 @@ func (SONInformationReplyExtIETable) infoTimeSynchronisationInfo() s00.Extension
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONInformationReply-ExtIEs", Row: "id-Time-Synchronisation-Info"}}}
 }
+
+// TimeSynchronisationInfo returns the typed binding for the TimeSynchronisationInfo row of SONInformationReplyExtIETable.
 func (t SONInformationReplyExtIETable) TimeSynchronisationInfo() SONInformationReplyExtIEsTimeSynchronisationInfoExtBinding {
 	return SONInformationReplyExtIEsTimeSynchronisationInfoExtBinding{info: t.infoTimeSynchronisationInfo(), codec: TimeSynchronisationInfoValueCodec{path: "TimeSynchronisationInfo",
 		decode: func(data []byte, options aper.DecodeState) (TimeSynchronisationInfo, error) {
@@ -16951,6 +17019,8 @@ func (SONInformationReplyExtIETable) infoMutingPatternInformation() s00.Extensio
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONInformationReply-ExtIEs", Row: "id-Muting-Pattern-Information"}}}
 }
+
+// MutingPatternInformation returns the typed binding for the MutingPatternInformation row of SONInformationReplyExtIETable.
 func (t SONInformationReplyExtIETable) MutingPatternInformation() SONInformationReplyExtIEsMutingPatternInformationExtBinding {
 	return SONInformationReplyExtIEsMutingPatternInformationExtBinding{info: t.infoMutingPatternInformation(), codec: func() s19.MutingPatternInformationValueCodec {
 		sealed := s19.MutingPatternInformationValueCodec{}
@@ -17013,6 +17083,8 @@ func (t SONInformationReplyExtIETable) MutingPatternInformation() SONInformation
 			return value.AsMutingPatternInformation()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SONInformationReplyExtIETable.
 func (t SONInformationReplyExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SONInformationReplyExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SONInformationReplyExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17040,6 +17112,8 @@ type SourceeNBToTargeteNBTransparentContainerExtIETable struct{}
 func SourceeNBToTargeteNBTransparentContainerExtIEs() SourceeNBToTargeteNBTransparentContainerExtIETable {
 	return SourceeNBToTargeteNBTransparentContainerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (SourceeNBToTargeteNBTransparentContainerExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17047,6 +17121,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (SourceeNBToTargeteNBTransparentContainerExtIETable) Table() s00.SourceeNBToTargeteNBTransparentContainerExtIEsValueExtensionTable {
 	return func() s00.SourceeNBToTargeteNBTransparentContainerExtIEsValueExtensionTable {
 		sealed := s00.SourceeNBToTargeteNBTransparentContainerExtIEsValueExtensionTable{}
@@ -17061,6 +17137,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoMobilityInformatio
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-MobilityInformation"}}}
 }
+
+// MobilityInformation returns the typed binding for the MobilityInformation row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) MobilityInformation() SourceeNBToTargeteNBTransparentContainerExtIEsS1APIEsMobilityInformationExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsS1APIEsMobilityInformationExtBinding{info: t.infoMobilityInformation(), codec: func() s01.S1APIEsMobilityInformationValueCodec {
 		sealed := s01.S1APIEsMobilityInformationValueCodec{}
@@ -17129,6 +17207,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoUEHistoryInformati
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-uE-HistoryInformationFromTheUE"}}}
 }
+
+// UEHistoryInformationFromTheUE returns the typed binding for the UEHistoryInformationFromTheUE row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) UEHistoryInformationFromTheUE() SourceeNBToTargeteNBTransparentContainerExtIEsUEHistoryInformationFromTheUEExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsUEHistoryInformationFromTheUEExtBinding{info: t.infoUEHistoryInformationFromTheUE(), codec: func() s02.UEHistoryInformationFromTheUEValueCodec {
 		sealed := s02.UEHistoryInformationFromTheUEValueCodec{}
@@ -17197,6 +17277,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoIMSvoiceEPSfallbac
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-IMSvoiceEPSfallbackfrom5G"}}}
 }
+
+// IMSvoiceEPSfallbackfrom5G returns the typed binding for the IMSvoiceEPSfallbackfrom5G row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) IMSvoiceEPSfallbackfrom5G() SourceeNBToTargeteNBTransparentContainerExtIEsIMSvoiceEPSfallbackfrom5GExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsIMSvoiceEPSfallbackfrom5GExtBinding{info: t.infoIMSvoiceEPSfallbackfrom5G(), codec: func() s01.IMSvoiceEPSfallbackfrom5GValueCodec {
 		sealed := s01.IMSvoiceEPSfallbackfrom5GValueCodec{}
@@ -17265,6 +17347,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoAdditionalRRMPrior
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-AdditionalRRMPriorityIndex"}}}
 }
+
+// AdditionalRRMPriorityIndex returns the typed binding for the AdditionalRRMPriorityIndex row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) AdditionalRRMPriorityIndex() SourceeNBToTargeteNBTransparentContainerExtIEsAdditionalRRMPriorityIndexExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsAdditionalRRMPriorityIndexExtBinding{info: t.infoAdditionalRRMPriorityIndex(), codec: func() s00.AdditionalRRMPriorityIndexValueCodec {
 		sealed := s00.AdditionalRRMPriorityIndexValueCodec{}
@@ -17333,6 +17417,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoContextatSource() 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-ContextatSource"}}}
 }
+
+// ContextatSource returns the typed binding for the ContextatSource row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) ContextatSource() SourceeNBToTargeteNBTransparentContainerExtIEsContextatSourceExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsContextatSourceExtBinding{info: t.infoContextatSource(), codec: func() s19.ContextatSourceValueCodec {
 		sealed := s19.ContextatSourceValueCodec{}
@@ -17396,6 +17482,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoIntersystemMeasure
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-IntersystemMeasurementConfiguration"}}}
 }
+
+// IntersystemMeasurementConfiguration returns the typed binding for the IntersystemMeasurementConfiguration row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) IntersystemMeasurementConfiguration() SourceeNBToTargeteNBTransparentContainerExtIEsIntersystemMeasurementConfigurationExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsIntersystemMeasurementConfigurationExtBinding{info: t.infoIntersystemMeasurementConfiguration(), codec: func() s24.IntersystemMeasurementConfigurationValueCodec {
 		sealed := s24.IntersystemMeasurementConfigurationValueCodec{}
@@ -17462,6 +17550,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoSourceNodeID() s00
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-SourceNodeID"}}}
 }
+
+// SourceNodeID returns the typed binding for the SourceNodeID row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) SourceNodeID() SourceeNBToTargeteNBTransparentContainerExtIEsSourceNodeIDExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsSourceNodeIDExtBinding{info: t.infoSourceNodeID(), codec: func() s30.SourceNodeIDValueCodec {
 		sealed := s30.SourceNodeIDValueCodec{}
@@ -17526,6 +17616,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoEmergencyIndicator
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-EmergencyIndicator"}}}
 }
+
+// EmergencyIndicator returns the typed binding for the EmergencyIndicator row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) EmergencyIndicator() SourceeNBToTargeteNBTransparentContainerExtIEsEmergencyIndicatorExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsEmergencyIndicatorExtBinding{info: t.infoEmergencyIndicator(), codec: func() s00.EmergencyIndicatorValueCodec {
 		sealed := s00.EmergencyIndicatorValueCodec{}
@@ -17591,6 +17683,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoUEContextReference
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-UEContextReferenceatSourceeNB"}}}
 }
+
+// UEContextReferenceatSourceeNB returns the typed binding for the UEContextReferenceatSourceeNB row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) UEContextReferenceatSourceeNB() SourceeNBToTargeteNBTransparentContainerExtIEsENBUES1APIDExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsENBUES1APIDExtBinding{info: t.infoUEContextReferenceatSourceeNB(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -17655,6 +17749,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoSourceSNID() s00.E
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-SourceSNID"}}}
 }
+
+// SourceSNID returns the typed binding for the SourceSNID row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) SourceSNID() SourceeNBToTargeteNBTransparentContainerExtIEsGlobalRANNODEIDExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsGlobalRANNODEIDExtBinding{info: t.infoSourceSNID(), codec: func() s19.GlobalRANNODEIDValueCodec {
 		sealed := s19.GlobalRANNODEIDValueCodec{}
@@ -17718,6 +17814,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoDirectForwardingPa
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-Direct-Forwarding-Path-Availability"}}}
 }
+
+// DirectForwardingPathAvailability returns the typed binding for the DirectForwardingPathAvailability row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) DirectForwardingPathAvailability() SourceeNBToTargeteNBTransparentContainerExtIEsDirectForwardingPathAvailabilityExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsDirectForwardingPathAvailabilityExtBinding{info: t.infoDirectForwardingPathAvailability(), codec: func() s00.DirectForwardingPathAvailabilityValueCodec {
 		sealed := s00.DirectForwardingPathAvailabilityValueCodec{}
@@ -17785,6 +17883,8 @@ func (SourceeNBToTargeteNBTransparentContainerExtIETable) infoTimeBasedHandoverI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SourceeNB-ToTargeteNB-TransparentContainer-ExtIEs", Row: "id-TimeBasedHandoverInformation"}}}
 }
+
+// TimeBasedHandoverInformation returns the typed binding for the TimeBasedHandoverInformation row of SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) TimeBasedHandoverInformation() SourceeNBToTargeteNBTransparentContainerExtIEsTimeBasedHandoverInformationExtBinding {
 	return SourceeNBToTargeteNBTransparentContainerExtIEsTimeBasedHandoverInformationExtBinding{info: t.infoTimeBasedHandoverInformation(), codec: TimeBasedHandoverInformationValueCodec{path: "TimeBasedHandoverInformation",
 		decode: func(data []byte, options aper.DecodeState) (TimeBasedHandoverInformation, error) {
@@ -17838,6 +17938,8 @@ func (t SourceeNBToTargeteNBTransparentContainerExtIETable) TimeBasedHandoverInf
 		return value.AsTimeBasedHandoverInformation()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SourceeNBToTargeteNBTransparentContainerExtIETable.
 func (t SourceeNBToTargeteNBTransparentContainerExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SourceeNBToTargeteNBTransparentContainerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SourceeNBToTargeteNBTransparentContainerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17883,6 +17985,8 @@ func (t SourceeNBToTargeteNBTransparentContainerExtIETable) NewOpaque(id s00.Pro
 type HandoverRequiredIETable struct{}
 
 func HandoverRequiredIEs() HandoverRequiredIETable { return HandoverRequiredIETable{} }
+
+// ID returns the ASN.1 object-set identity of HandoverRequiredIETable.
 func (HandoverRequiredIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17890,6 +17994,8 @@ func (HandoverRequiredIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by HandoverRequiredIETable.
 func (HandoverRequiredIETable) Table() s00.HandoverRequiredIEValueIETable {
 	return func() s00.HandoverRequiredIEValueIETable {
 		sealed := s00.HandoverRequiredIEValueIETable{}
@@ -17904,6 +18010,8 @@ func (HandoverRequiredIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) MMEUES1APID() HandoverRequiredMMEUES1APIDIEBinding {
 	return HandoverRequiredMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -17966,6 +18074,8 @@ func (HandoverRequiredIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) ENBUES1APID() HandoverRequiredENBUES1APIDIEBinding {
 	return HandoverRequiredENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18028,6 +18138,8 @@ func (HandoverRequiredIETable) infoHandoverType() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-HandoverType"}}}
 }
+
+// HandoverType returns the typed binding for the HandoverType row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) HandoverType() HandoverRequiredHandoverTypeIEBinding {
 	return HandoverRequiredHandoverTypeIEBinding{info: t.infoHandoverType(), codec: func() s00.HandoverTypeValueCodec {
 		sealed := s00.HandoverTypeValueCodec{}
@@ -18090,6 +18202,8 @@ func (HandoverRequiredIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) Cause() HandoverRequiredCauseIEBinding {
 	return HandoverRequiredCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -18152,6 +18266,8 @@ func (HandoverRequiredIETable) infoTargetID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-TargetID"}}}
 }
+
+// TargetID returns the typed binding for the TargetID row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) TargetID() HandoverRequiredTargetIDIEBinding {
 	return HandoverRequiredTargetIDIEBinding{info: t.infoTargetID(), codec: TargetIDValueCodec{path: "TargetID",
 		decode: func(data []byte, options aper.DecodeState) (TargetID, error) {
@@ -18207,6 +18323,8 @@ func (HandoverRequiredIETable) infoDirectForwardingPathAvailability() s00.FieldI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-Direct-Forwarding-Path-Availability"}}}
 }
+
+// DirectForwardingPathAvailability returns the typed binding for the DirectForwardingPathAvailability row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) DirectForwardingPathAvailability() HandoverRequiredDirectForwardingPathAvailabilityIEBinding {
 	return HandoverRequiredDirectForwardingPathAvailabilityIEBinding{info: t.infoDirectForwardingPathAvailability(), codec: func() s00.DirectForwardingPathAvailabilityValueCodec {
 		sealed := s00.DirectForwardingPathAvailabilityValueCodec{}
@@ -18274,6 +18392,8 @@ func (HandoverRequiredIETable) infoSRVCCHOIndication() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-SRVCCHOIndication"}}}
 }
+
+// SRVCCHOIndication returns the typed binding for the SRVCCHOIndication row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) SRVCCHOIndication() HandoverRequiredSRVCCHOIndicationIEBinding {
 	return HandoverRequiredSRVCCHOIndicationIEBinding{info: t.infoSRVCCHOIndication(), codec: func() s01.SRVCCHOIndicationValueCodec {
 		sealed := s01.SRVCCHOIndicationValueCodec{}
@@ -18339,6 +18459,8 @@ func (HandoverRequiredIETable) infoSourceToTargetTransparentContainer() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-Source-ToTarget-TransparentContainer"}}}
 }
+
+// SourceToTargetTransparentContainer returns the typed binding for the SourceToTargetTransparentContainer row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) SourceToTargetTransparentContainer() HandoverRequiredSourceToTargetTransparentContainerIEBinding {
 	return HandoverRequiredSourceToTargetTransparentContainerIEBinding{info: t.infoSourceToTargetTransparentContainer(), codec: func() s01.SourceToTargetTransparentContainerValueCodec {
 		sealed := s01.SourceToTargetTransparentContainerValueCodec{}
@@ -18403,6 +18525,8 @@ func (HandoverRequiredIETable) infoSourceToTargetTransparentContainerSecondary()
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-Source-ToTarget-TransparentContainer-Secondary"}}}
 }
+
+// SourceToTargetTransparentContainerSecondary returns the typed binding for the SourceToTargetTransparentContainerSecondary row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) SourceToTargetTransparentContainerSecondary() HandoverRequiredSourceToTargetTransparentContainerIEBinding {
 	return HandoverRequiredSourceToTargetTransparentContainerIEBinding{info: t.infoSourceToTargetTransparentContainerSecondary(), codec: func() s01.SourceToTargetTransparentContainerValueCodec {
 		sealed := s01.SourceToTargetTransparentContainerValueCodec{}
@@ -18467,6 +18591,8 @@ func (HandoverRequiredIETable) infoMSClassmark2() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-MSClassmark2"}}}
 }
+
+// MSClassmark2 returns the typed binding for the MSClassmark2 row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) MSClassmark2() HandoverRequiredMSClassmark2IEBinding {
 	return HandoverRequiredMSClassmark2IEBinding{info: t.infoMSClassmark2(), codec: func() s01.MSClassmark2ValueCodec {
 		sealed := s01.MSClassmark2ValueCodec{}
@@ -18529,6 +18655,8 @@ func (HandoverRequiredIETable) infoMSClassmark3() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-MSClassmark3"}}}
 }
+
+// MSClassmark3 returns the typed binding for the MSClassmark3 row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) MSClassmark3() HandoverRequiredMSClassmark3IEBinding {
 	return HandoverRequiredMSClassmark3IEBinding{info: t.infoMSClassmark3(), codec: func() s01.MSClassmark3ValueCodec {
 		sealed := s01.MSClassmark3ValueCodec{}
@@ -18591,6 +18719,8 @@ func (HandoverRequiredIETable) infoCSGId() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-CSG-Id"}}}
 }
+
+// CSGId returns the typed binding for the CSGId row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) CSGId() HandoverRequiredCSGIdIEBinding {
 	return HandoverRequiredCSGIdIEBinding{info: t.infoCSGId(), codec: func() s00.CSGIdValueCodec {
 		sealed := s00.CSGIdValueCodec{}
@@ -18653,6 +18783,8 @@ func (HandoverRequiredIETable) infoCellAccessMode() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-CellAccessMode"}}}
 }
+
+// CellAccessMode returns the typed binding for the CellAccessMode row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) CellAccessMode() HandoverRequiredCellAccessModeIEBinding {
 	return HandoverRequiredCellAccessModeIEBinding{info: t.infoCellAccessMode(), codec: func() s00.CellAccessModeValueCodec {
 		sealed := s00.CellAccessModeValueCodec{}
@@ -18713,6 +18845,8 @@ func (HandoverRequiredIETable) infoPSServiceNotAvailable() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverRequiredIEs", Row: "id-PS-ServiceNotAvailable"}}}
 }
+
+// PSServiceNotAvailable returns the typed binding for the PSServiceNotAvailable row of HandoverRequiredIETable.
 func (t HandoverRequiredIETable) PSServiceNotAvailable() HandoverRequiredPSServiceNotAvailableIEBinding {
 	return HandoverRequiredPSServiceNotAvailableIEBinding{info: t.infoPSServiceNotAvailable(), codec: func() s01.PSServiceNotAvailableValueCodec {
 		sealed := s01.PSServiceNotAvailableValueCodec{}
@@ -18773,6 +18907,8 @@ func (t HandoverRequiredIETable) PSServiceNotAvailable() HandoverRequiredPSServi
 			return value.AsPSServiceNotAvailable()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in HandoverRequiredIETable.
 func (t HandoverRequiredIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (HandoverRequiredIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return HandoverRequiredIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

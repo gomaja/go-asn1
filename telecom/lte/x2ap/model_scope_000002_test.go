@@ -10,7 +10,7 @@ import (
 	testing "testing"
 )
 
-// TestContractNrNeighbourInformationInlineExtensionOwner verifies 3GPP TS 36.423 V19.1.0 (2026-02), section 9.2; inline NRNeighbour-Information extension owner.
+// TestContractNrNeighbourInformationInlineExtensionOwner verifies 3GPP TS 36.423 V19.1.0 (2025-12), section 9.2; inline NRNeighbour-Information extension owner.
 func TestContractNrNeighbourInformationInlineExtensionOwner(t *testing.T) {
 	input := asn1ContractHex(t, "deadbeef")
 	field, err := s14.NRNeighbourInformationExtIEs().NewOpaque(65532, s00.CriticalityIgnore, input)

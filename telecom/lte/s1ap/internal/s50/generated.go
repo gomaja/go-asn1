@@ -6656,144 +6656,191 @@ type SuccessfulValue struct {
 	bodyS1RemovalResponse                  *s26.S1RemovalResponse
 }
 
+// Opaque returns the retained opaque open value of SuccessfulValue and reports whether the opaque alternative is selected.
 func (v *SuccessfulValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
 	}
 	return v.opaque, true
 }
+
+// AsHandoverCommand returns the selected HandoverCommand value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsHandoverCommand() (*s40.HandoverCommand, bool) {
 	if v == nil || v.code != s00.ProcedureCode(0) || v.bodyHandoverCommand == nil {
 		return nil, false
 	}
 	return v.bodyHandoverCommand, true
 }
+
+// AsHandoverRequestAcknowledge returns the selected HandoverRequestAcknowledge value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsHandoverRequestAcknowledge() (*s39.HandoverRequestAcknowledge, bool) {
 	if v == nil || v.code != s00.ProcedureCode(1) || v.bodyHandoverRequestAcknowledge == nil {
 		return nil, false
 	}
 	return v.bodyHandoverRequestAcknowledge, true
 }
+
+// AsPathSwitchRequestAcknowledge returns the selected PathSwitchRequestAcknowledge value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsPathSwitchRequestAcknowledge() (*s46.PathSwitchRequestAcknowledge, bool) {
 	if v == nil || v.code != s00.ProcedureCode(3) || v.bodyPathSwitchRequestAcknowledge == nil {
 		return nil, false
 	}
 	return v.bodyPathSwitchRequestAcknowledge, true
 }
+
+// AsHandoverCancelAcknowledge returns the selected HandoverCancelAcknowledge value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsHandoverCancelAcknowledge() (*s25.HandoverCancelAcknowledge, bool) {
 	if v == nil || v.code != s00.ProcedureCode(4) || v.bodyHandoverCancelAcknowledge == nil {
 		return nil, false
 	}
 	return v.bodyHandoverCancelAcknowledge, true
 }
+
+// AsERABSetupResponse returns the selected ERABSetupResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsERABSetupResponse() (*s45.ERABSetupResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(5) || v.bodyERABSetupResponse == nil {
 		return nil, false
 	}
 	return v.bodyERABSetupResponse, true
 }
+
+// AsERABModifyResponse returns the selected ERABModifyResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsERABModifyResponse() (*s45.ERABModifyResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(6) || v.bodyERABModifyResponse == nil {
 		return nil, false
 	}
 	return v.bodyERABModifyResponse, true
 }
+
+// AsERABReleaseResponse returns the selected ERABReleaseResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsERABReleaseResponse() (*s45.ERABReleaseResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(7) || v.bodyERABReleaseResponse == nil {
 		return nil, false
 	}
 	return v.bodyERABReleaseResponse, true
 }
+
+// AsInitialContextSetupResponse returns the selected InitialContextSetupResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsInitialContextSetupResponse() (*s39.InitialContextSetupResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(9) || v.bodyInitialContextSetupResponse == nil {
 		return nil, false
 	}
 	return v.bodyInitialContextSetupResponse, true
 }
+
+// AsResetAcknowledge returns the selected ResetAcknowledge value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsResetAcknowledge() (*s44.ResetAcknowledge, bool) {
 	if v == nil || v.code != s00.ProcedureCode(14) || v.bodyResetAcknowledge == nil {
 		return nil, false
 	}
 	return v.bodyResetAcknowledge, true
 }
+
+// AsS1SetupResponse returns the selected S1SetupResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsS1SetupResponse() (*s43.S1SetupResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(17) || v.bodyS1SetupResponse == nil {
 		return nil, false
 	}
 	return v.bodyS1SetupResponse, true
 }
+
+// AsUEContextModificationResponse returns the selected UEContextModificationResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsUEContextModificationResponse() (*s36.UEContextModificationResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(21) || v.bodyUEContextModificationResponse == nil {
 		return nil, false
 	}
 	return v.bodyUEContextModificationResponse, true
 }
+
+// AsUEContextReleaseComplete returns the selected UEContextReleaseComplete value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsUEContextReleaseComplete() (*s46.UEContextReleaseComplete, bool) {
 	if v == nil || v.code != s00.ProcedureCode(23) || v.bodyUEContextReleaseComplete == nil {
 		return nil, false
 	}
 	return v.bodyUEContextReleaseComplete, true
 }
+
+// AsENBConfigurationUpdateAcknowledge returns the selected ENBConfigurationUpdateAcknowledge value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsENBConfigurationUpdateAcknowledge() (*s24.ENBConfigurationUpdateAcknowledge, bool) {
 	if v == nil || v.code != s00.ProcedureCode(29) || v.bodyENBConfigurationUpdateAcknowledge == nil {
 		return nil, false
 	}
 	return v.bodyENBConfigurationUpdateAcknowledge, true
 }
+
+// AsMMEConfigurationUpdateAcknowledge returns the selected MMEConfigurationUpdateAcknowledge value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsMMEConfigurationUpdateAcknowledge() (*s25.MMEConfigurationUpdateAcknowledge, bool) {
 	if v == nil || v.code != s00.ProcedureCode(30) || v.bodyMMEConfigurationUpdateAcknowledge == nil {
 		return nil, false
 	}
 	return v.bodyMMEConfigurationUpdateAcknowledge, true
 }
+
+// AsWriteReplaceWarningResponse returns the selected WriteReplaceWarningResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsWriteReplaceWarningResponse() (*WriteReplaceWarningResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(36) || v.bodyWriteReplaceWarningResponse == nil {
 		return nil, false
 	}
 	return v.bodyWriteReplaceWarningResponse, true
 }
+
+// AsKillResponse returns the selected KillResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsKillResponse() (*s33.KillResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(43) || v.bodyKillResponse == nil {
 		return nil, false
 	}
 	return v.bodyKillResponse, true
 }
+
+// AsUERadioCapabilityMatchResponse returns the selected UERadioCapabilityMatchResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsUERadioCapabilityMatchResponse() (*s36.UERadioCapabilityMatchResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(48) || v.bodyUERadioCapabilityMatchResponse == nil {
 		return nil, false
 	}
 	return v.bodyUERadioCapabilityMatchResponse, true
 }
+
+// AsERABModificationConfirm returns the selected ERABModificationConfirm value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsERABModificationConfirm() (*s39.ERABModificationConfirm, bool) {
 	if v == nil || v.code != s00.ProcedureCode(50) || v.bodyERABModificationConfirm == nil {
 		return nil, false
 	}
 	return v.bodyERABModificationConfirm, true
 }
+
+// AsUEContextModificationConfirm returns the selected UEContextModificationConfirm value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsUEContextModificationConfirm() (*s36.UEContextModificationConfirm, bool) {
 	if v == nil || v.code != s00.ProcedureCode(53) || v.bodyUEContextModificationConfirm == nil {
 		return nil, false
 	}
 	return v.bodyUEContextModificationConfirm, true
 }
+
+// AsUEContextSuspendResponse returns the selected UEContextSuspendResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsUEContextSuspendResponse() (*s36.UEContextSuspendResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(55) || v.bodyUEContextSuspendResponse == nil {
 		return nil, false
 	}
 	return v.bodyUEContextSuspendResponse, true
 }
+
+// AsUEContextResumeResponse returns the selected UEContextResumeResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsUEContextResumeResponse() (*s38.UEContextResumeResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(56) || v.bodyUEContextResumeResponse == nil {
 		return nil, false
 	}
 	return v.bodyUEContextResumeResponse, true
 }
+
+// AsUERadioCapabilityIDMappingResponse returns the selected UERadioCapabilityIDMappingResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsUERadioCapabilityIDMappingResponse() (*s36.UERadioCapabilityIDMappingResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(63) || v.bodyUERadioCapabilityIDMappingResponse == nil {
 		return nil, false
 	}
 	return v.bodyUERadioCapabilityIDMappingResponse, true
 }
+
+// AsS1RemovalResponse returns the selected S1RemovalResponse value of SuccessfulValue and reports whether that alternative is active.
 func (v *SuccessfulValue) AsS1RemovalResponse() (*s26.S1RemovalResponse, bool) {
 	if v == nil || v.code != s00.ProcedureCode(67) || v.bodyS1RemovalResponse == nil {
 		return nil, false
@@ -11930,6 +11977,8 @@ func (v SONConfigurationTransferExtIEsValue) matchesID(id s00.ProtocolIEID, _ ..
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of SONConfigurationTransferExtIEsValue and reports whether the opaque alternative is selected.
 func (v *SONConfigurationTransferExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -12599,18 +12648,24 @@ func (SONConfigurationTransferExtIEsValue) reason(id s00.ProtocolIEID) aper.Opaq
 		return aper.UnknownSelector
 	}
 }
+
+// AsX2TNLConfigurationInfo returns the selected X2TNLConfigurationInfo value of SONConfigurationTransferExtIEsValue and reports whether that alternative is active.
 func (v *SONConfigurationTransferExtIEsValue) AsX2TNLConfigurationInfo() (*X2TNLConfigurationInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(152) || v.rowX2TNLConfigurationInfo == nil {
 		return nil, false
 	}
 	return v.rowX2TNLConfigurationInfo, true
 }
+
+// AsSynchronisationInformation returns the selected SynchronisationInformation value of SONConfigurationTransferExtIEsValue and reports whether that alternative is active.
 func (v *SONConfigurationTransferExtIEsValue) AsSynchronisationInformation() (*s31.SynchronisationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(209) || v.rowSynchronisationInformation == nil {
 		return nil, false
 	}
 	return v.rowSynchronisationInformation, true
 }
+
+// AsRequestedTNLInfo returns the selected RequestedTNLInfo value of SONConfigurationTransferExtIEsValue and reports whether that alternative is active.
 func (v *SONConfigurationTransferExtIEsValue) AsRequestedTNLInfo() (*s26.RequestedTNLInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(356) || v.rowRequestedTNLInfo == nil {
 		return nil, false
@@ -12777,6 +12832,8 @@ func (v ENBConfigurationTransferIEValue) matchesID(id s00.ProtocolIEID, _ ...*ap
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ENBConfigurationTransferIEValue and reports whether the opaque alternative is selected.
 func (v *ENBConfigurationTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13446,18 +13503,24 @@ func (ENBConfigurationTransferIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsSONConfigurationTransferECT returns the selected SONConfigurationTransferECT value of ENBConfigurationTransferIEValue and reports whether that alternative is active.
 func (v *ENBConfigurationTransferIEValue) AsSONConfigurationTransferECT() (*SONConfigurationTransfer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(129) || v.rowSONConfigurationTransferECT == nil {
 		return nil, false
 	}
 	return v.rowSONConfigurationTransferECT, true
 }
+
+// AsENDCSONConfigurationTransferECT returns the selected ENDCSONConfigurationTransferECT value of ENBConfigurationTransferIEValue and reports whether that alternative is active.
 func (v *ENBConfigurationTransferIEValue) AsENDCSONConfigurationTransferECT() (*ENDCSONConfigurationTransfer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(294) || v.rowENDCSONConfigurationTransferECT == nil {
 		return nil, false
 	}
 	return v.rowENDCSONConfigurationTransferECT, true
 }
+
+// AsIntersystemSONConfigurationTransferECT returns the selected IntersystemSONConfigurationTransferECT value of ENBConfigurationTransferIEValue and reports whether that alternative is active.
 func (v *ENBConfigurationTransferIEValue) AsIntersystemSONConfigurationTransferECT() (*s00.IntersystemSONConfigurationTransfer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(310) || v.rowIntersystemSONConfigurationTransferECT == nil {
 		return nil, false
@@ -13623,6 +13686,8 @@ type SONConfigurationTransferExtIETable struct{}
 func SONConfigurationTransferExtIEs() SONConfigurationTransferExtIETable {
 	return SONConfigurationTransferExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SONConfigurationTransferExtIETable.
 func (SONConfigurationTransferExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -13630,6 +13695,8 @@ func (SONConfigurationTransferExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SONConfigurationTransferExtIETable.
 func (SONConfigurationTransferExtIETable) Table() s00.SONConfigurationTransferExtIEsValueExtensionTable {
 	return func() s00.SONConfigurationTransferExtIEsValueExtensionTable {
 		sealed := s00.SONConfigurationTransferExtIEsValueExtensionTable{}
@@ -13644,6 +13711,8 @@ func (SONConfigurationTransferExtIETable) infoX2TNLConfigurationInfo() s00.Exten
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONConfigurationTransfer-ExtIEs", Row: "id-x2TNLConfigurationInfo"}}}
 }
+
+// X2TNLConfigurationInfo returns the typed binding for the X2TNLConfigurationInfo row of SONConfigurationTransferExtIETable.
 func (t SONConfigurationTransferExtIETable) X2TNLConfigurationInfo() SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding {
 	return SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding{info: t.infoX2TNLConfigurationInfo(), codec: X2TNLConfigurationInfoValueCodec{path: "X2TNLConfigurationInfo",
 		decode: func(data []byte, options aper.DecodeState) (X2TNLConfigurationInfo, error) {
@@ -13703,6 +13772,8 @@ func (SONConfigurationTransferExtIETable) infoSynchronisationInformation() s00.E
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONConfigurationTransfer-ExtIEs", Row: "id-Synchronisation-Information"}}}
 }
+
+// SynchronisationInformation returns the typed binding for the SynchronisationInformation row of SONConfigurationTransferExtIETable.
 func (t SONConfigurationTransferExtIETable) SynchronisationInformation() SONConfigurationTransferExtIEsSynchronisationInformationExtBinding {
 	return SONConfigurationTransferExtIEsSynchronisationInformationExtBinding{info: t.infoSynchronisationInformation(), codec: func() s31.SynchronisationInformationValueCodec {
 		sealed := s31.SynchronisationInformationValueCodec{}
@@ -13771,6 +13842,8 @@ func (SONConfigurationTransferExtIETable) infoRequestedTNLInfo() s00.ExtensionIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONConfigurationTransfer-ExtIEs", Row: "id-RequestedTNLInfo"}}}
 }
+
+// RequestedTNLInfo returns the typed binding for the RequestedTNLInfo row of SONConfigurationTransferExtIETable.
 func (t SONConfigurationTransferExtIETable) RequestedTNLInfo() SONConfigurationTransferExtIEsRequestedTNLInfoExtBinding {
 	return SONConfigurationTransferExtIEsRequestedTNLInfoExtBinding{info: t.infoRequestedTNLInfo(), codec: func() s26.RequestedTNLInfoValueCodec {
 		sealed := s26.RequestedTNLInfoValueCodec{}
@@ -13828,6 +13901,8 @@ func (t SONConfigurationTransferExtIETable) RequestedTNLInfo() SONConfigurationT
 			return value.AsRequestedTNLInfo()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SONConfigurationTransferExtIETable.
 func (t SONConfigurationTransferExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SONConfigurationTransferExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SONConfigurationTransferExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")

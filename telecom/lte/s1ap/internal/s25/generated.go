@@ -17760,6 +17760,8 @@ func (v ERABToBeModifiedItemBearerModReqIEValue) matchesID(id s00.ProtocolIEID, 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABToBeModifiedItemBearerModReqIEValue and reports whether the opaque alternative is selected.
 func (v *ERABToBeModifiedItemBearerModReqIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18429,6 +18431,8 @@ func (ERABToBeModifiedItemBearerModReqIEValue) reason(id s00.ProtocolIEID) aper.
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABToBeModifiedItemBearerModReq returns the selected ERABToBeModifiedItemBearerModReq value of ERABToBeModifiedItemBearerModReqIEValue and reports whether that alternative is active.
 func (v *ERABToBeModifiedItemBearerModReqIEValue) AsERABToBeModifiedItemBearerModReq() (*ERABToBeModifiedItemBearerModReq, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(36) || v.rowERABToBeModifiedItemBearerModReq == nil {
 		return nil, false
@@ -18561,6 +18565,8 @@ func (v PrivateMessageIEsValue) encodeFresh(_ bool, budget *aper.DecodeBudget) (
 	}
 	return aper.CopyOpaque(v.opaque, budget)
 }
+
+// Opaque returns the retained opaque open value of PrivateMessageIEsValue and reports whether the opaque alternative is selected.
 func (v *PrivateMessageIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.valid {
 		return aper.OpaqueOpenType{}, false
@@ -18571,6 +18577,8 @@ func (v *PrivateMessageIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 type PrivateMessageIETable struct{}
 
 func PrivateMessageIEs() PrivateMessageIETable { return PrivateMessageIETable{} }
+
+// ID returns the ASN.1 object-set identity of PrivateMessageIETable.
 func (PrivateMessageIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18578,6 +18586,8 @@ func (PrivateMessageIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by PrivateMessageIETable.
 func (PrivateMessageIETable) Table() s00.PrivateMessageIEsValuePrivateTable {
 	return func() s00.PrivateMessageIEsValuePrivateTable {
 		sealed := s00.PrivateMessageIEsValuePrivateTable{}
@@ -18585,6 +18595,8 @@ func (PrivateMessageIETable) Table() s00.PrivateMessageIEsValuePrivateTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in PrivateMessageIETable.
 func (PrivateMessageIETable) NewOpaque(id s20.PrivateIEID, criticality s00.Criticality, data []byte) (PrivateMessageIEsValuePrivateIEField, error) {
 	budget, err := aper.BuildBudget()
 	if err != nil {
@@ -18617,6 +18629,8 @@ type ERABToBeModifiedItemBearerModReqIETable struct{}
 func ERABToBeModifiedItemBearerModReqIEs() ERABToBeModifiedItemBearerModReqIETable {
 	return ERABToBeModifiedItemBearerModReqIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABToBeModifiedItemBearerModReqIETable.
 func (ERABToBeModifiedItemBearerModReqIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18624,6 +18638,8 @@ func (ERABToBeModifiedItemBearerModReqIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABToBeModifiedItemBearerModReqIETable.
 func (ERABToBeModifiedItemBearerModReqIETable) Table() s00.ERABToBeModifiedItemBearerModReqIEValueIETable {
 	return func() s00.ERABToBeModifiedItemBearerModReqIEValueIETable {
 		sealed := s00.ERABToBeModifiedItemBearerModReqIEValueIETable{}
@@ -18638,6 +18654,8 @@ func (ERABToBeModifiedItemBearerModReqIETable) infoERABToBeModifiedItemBearerMod
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABToBeModifiedItemBearerModReqIEs", Row: "id-E-RABToBeModifiedItemBearerModReq"}}}
 }
+
+// ERABToBeModifiedItemBearerModReq returns the typed binding for the ERABToBeModifiedItemBearerModReq row of ERABToBeModifiedItemBearerModReqIETable.
 func (t ERABToBeModifiedItemBearerModReqIETable) ERABToBeModifiedItemBearerModReq() ERABToBeModifiedItemBearerModReqERABToBeModifiedItemBearerModReqIEBinding {
 	return ERABToBeModifiedItemBearerModReqERABToBeModifiedItemBearerModReqIEBinding{info: t.infoERABToBeModifiedItemBearerModReq(), codec: ERABToBeModifiedItemBearerModReqValueCodec{path: "ERABToBeModifiedItemBearerModReq",
 		decode: func(data []byte, options aper.DecodeState) (ERABToBeModifiedItemBearerModReq, error) {
@@ -18691,6 +18709,8 @@ func (t ERABToBeModifiedItemBearerModReqIETable) ERABToBeModifiedItemBearerModRe
 		return value.AsERABToBeModifiedItemBearerModReq()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABToBeModifiedItemBearerModReqIETable.
 func (t ERABToBeModifiedItemBearerModReqIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABToBeModifiedItemBearerModReqIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABToBeModifiedItemBearerModReqIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

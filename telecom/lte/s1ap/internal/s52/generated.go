@@ -82,6 +82,8 @@ func NewMMEConfigurationTransfer(fields s51.MMEConfigurationTransferIEContainer,
 	}
 	return v, aper.OperationError(nil, "MMEConfigurationTransfer")
 }
+
+// Initiating returns the typed binding for the initiating message of UplinkNASTransportDescriptor.
 func (UplinkNASTransportDescriptor) Initiating() UplinkNASTransportInitiatingBinding {
 	return UplinkNASTransportInitiatingBinding{info: UplinkNASTransportProcedure().Info(), validate: func(v *s44.UplinkNASTransport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUplinkNASTransportBudget(v, budget)
@@ -127,6 +129,8 @@ func (UplinkNASTransportDescriptor) Initiating() UplinkNASTransportInitiatingBin
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ResetDescriptor.
 func (ResetDescriptor) Initiating() ResetInitiatingBinding {
 	return ResetInitiatingBinding{info: ResetProcedure().Info(), validate: func(v *s36.Reset, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateResetBudget(v, budget)
@@ -175,6 +179,8 @@ func (ResetDescriptor) Initiating() ResetInitiatingBinding {
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of ResetDescriptor.
 func (ResetDescriptor) Successful() s50.ResetAcknowledgeSuccessfulBinding {
 	return func() s50.ResetAcknowledgeSuccessfulBinding {
 		sealed := s50.ResetAcknowledgeSuccessfulBinding{}
@@ -233,6 +239,8 @@ func (ResetDescriptor) Successful() s50.ResetAcknowledgeSuccessfulBinding {
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of S1SetupDescriptor.
 func (S1SetupDescriptor) Initiating() S1SetupRequestInitiatingBinding {
 	return S1SetupRequestInitiatingBinding{info: S1SetupProcedure().Info(), validate: func(v *s43.S1SetupRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateS1SetupRequestBudget(v, budget)
@@ -279,6 +287,8 @@ func (S1SetupDescriptor) Initiating() S1SetupRequestInitiatingBinding {
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of S1SetupDescriptor.
 func (S1SetupDescriptor) Successful() s50.S1SetupResponseSuccessfulBinding {
 	return func() s50.S1SetupResponseSuccessfulBinding {
 		sealed := s50.S1SetupResponseSuccessfulBinding{}
@@ -337,6 +347,8 @@ func (S1SetupDescriptor) Successful() s50.S1SetupResponseSuccessfulBinding {
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of S1SetupDescriptor.
 func (S1SetupDescriptor) Unsuccessful() s36.S1SetupFailureUnsuccessfulBinding {
 	return func() s36.S1SetupFailureUnsuccessfulBinding {
 		sealed := s36.S1SetupFailureUnsuccessfulBinding{}
@@ -394,6 +406,8 @@ func (S1SetupDescriptor) Unsuccessful() s36.S1SetupFailureUnsuccessfulBinding {
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of UEContextReleaseRequestDescriptor.
 func (UEContextReleaseRequestDescriptor) Initiating() UEContextReleaseRequestInitiatingBinding {
 	return UEContextReleaseRequestInitiatingBinding{info: UEContextReleaseRequestProcedure().Info(), validate: func(v *s42.UEContextReleaseRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUEContextReleaseRequestBudget(v, budget)
@@ -438,6 +452,8 @@ func (UEContextReleaseRequestDescriptor) Initiating() UEContextReleaseRequestIni
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of UplinkS1cdma2000tunnellingDescriptor.
 func (UplinkS1cdma2000tunnellingDescriptor) Initiating() UplinkS1cdma2000tunnellingInitiatingBinding {
 	return UplinkS1cdma2000tunnellingInitiatingBinding{info: UplinkS1cdma2000tunnellingProcedure().Info(), validate: func(v *s44.UplinkS1cdma2000tunnelling, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUplinkS1cdma2000tunnellingBudget(v, budget)
@@ -485,6 +501,8 @@ func (UplinkS1cdma2000tunnellingDescriptor) Initiating() UplinkS1cdma2000tunnell
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of UEContextModificationDescriptor.
 func (UEContextModificationDescriptor) Initiating() UEContextModificationRequestInitiatingBinding {
 	return UEContextModificationRequestInitiatingBinding{info: UEContextModificationProcedure().Info(), validate: func(v *s46.UEContextModificationRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUEContextModificationRequestBudget(v, budget)
@@ -533,6 +551,8 @@ func (UEContextModificationDescriptor) Initiating() UEContextModificationRequest
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of UEContextModificationDescriptor.
 func (UEContextModificationDescriptor) Successful() s50.UEContextModificationResponseSuccessfulBinding {
 	return func() s50.UEContextModificationResponseSuccessfulBinding {
 		sealed := s50.UEContextModificationResponseSuccessfulBinding{}
@@ -591,6 +611,8 @@ func (UEContextModificationDescriptor) Successful() s50.UEContextModificationRes
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of UEContextModificationDescriptor.
 func (UEContextModificationDescriptor) Unsuccessful() s36.UEContextModificationFailureUnsuccessfulBinding {
 	return func() s36.UEContextModificationFailureUnsuccessfulBinding {
 		sealed := s36.UEContextModificationFailureUnsuccessfulBinding{}
@@ -650,6 +672,8 @@ func (UEContextModificationDescriptor) Unsuccessful() s36.UEContextModificationF
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of UECapabilityInfoIndicationDescriptor.
 func (UECapabilityInfoIndicationDescriptor) Initiating() UECapabilityInfoIndicationInitiatingBinding {
 	return UECapabilityInfoIndicationInitiatingBinding{info: UECapabilityInfoIndicationProcedure().Info(), validate: func(v *s36.UECapabilityInfoIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUECapabilityInfoIndicationBudget(v, budget)
@@ -697,6 +721,8 @@ func (UECapabilityInfoIndicationDescriptor) Initiating() UECapabilityInfoIndicat
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of UEContextReleaseDescriptor.
 func (UEContextReleaseDescriptor) Initiating() UEContextReleaseCommandInitiatingBinding {
 	return UEContextReleaseCommandInitiatingBinding{info: UEContextReleaseProcedure().Info(), validate: func(v *s37.UEContextReleaseCommand, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUEContextReleaseCommandBudget(v, budget)
@@ -741,6 +767,8 @@ func (UEContextReleaseDescriptor) Initiating() UEContextReleaseCommandInitiating
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of UEContextReleaseDescriptor.
 func (UEContextReleaseDescriptor) Successful() s50.UEContextReleaseCompleteSuccessfulBinding {
 	return func() s50.UEContextReleaseCompleteSuccessfulBinding {
 		sealed := s50.UEContextReleaseCompleteSuccessfulBinding{}
@@ -796,6 +824,8 @@ func (UEContextReleaseDescriptor) Successful() s50.UEContextReleaseCompleteSucce
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of TraceStartDescriptor.
 func (TraceStartDescriptor) Initiating() TraceStartInitiatingBinding {
 	return TraceStartInitiatingBinding{info: TraceStartProcedure().Info(), validate: func(v *s48.TraceStart, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateTraceStartBudget(v, budget)
@@ -843,6 +873,8 @@ func (TraceStartDescriptor) Initiating() TraceStartInitiatingBinding {
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of TraceFailureIndicationDescriptor.
 func (TraceFailureIndicationDescriptor) Initiating() TraceFailureIndicationInitiatingBinding {
 	return TraceFailureIndicationInitiatingBinding{info: TraceFailureIndicationProcedure().Info(), validate: func(v *s34.TraceFailureIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateTraceFailureIndicationBudget(v, budget)
@@ -889,6 +921,8 @@ func (TraceFailureIndicationDescriptor) Initiating() TraceFailureIndicationIniti
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of WriteReplaceWarningDescriptor.
 func (WriteReplaceWarningDescriptor) Initiating() WriteReplaceWarningRequestInitiatingBinding {
 	return WriteReplaceWarningRequestInitiatingBinding{info: WriteReplaceWarningProcedure().Info(), validate: func(v *s50.WriteReplaceWarningRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateWriteReplaceWarningRequestBudget(v, budget)
@@ -936,6 +970,8 @@ func (WriteReplaceWarningDescriptor) Initiating() WriteReplaceWarningRequestInit
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of WriteReplaceWarningDescriptor.
 func (WriteReplaceWarningDescriptor) Successful() s50.WriteReplaceWarningResponseSuccessfulBinding {
 	return func() s50.WriteReplaceWarningResponseSuccessfulBinding {
 		sealed := s50.WriteReplaceWarningResponseSuccessfulBinding{}
@@ -992,6 +1028,8 @@ func (WriteReplaceWarningDescriptor) Successful() s50.WriteReplaceWarningRespons
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of PrivateMessageDescriptor.
 func (PrivateMessageDescriptor) Initiating() s51.PrivateMessageInitiatingBinding {
 	return func() s51.PrivateMessageInitiatingBinding {
 		sealed := s51.PrivateMessageInitiatingBinding{}
@@ -1049,6 +1087,8 @@ func (PrivateMessageDescriptor) Initiating() s51.PrivateMessageInitiatingBinding
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of ENBConfigurationTransferDescriptor.
 func (ENBConfigurationTransferDescriptor) Initiating() s51.ENBConfigurationTransferInitiatingBinding {
 	return func() s51.ENBConfigurationTransferInitiatingBinding {
 		sealed := s51.ENBConfigurationTransferInitiatingBinding{}
@@ -1104,6 +1144,8 @@ func (ENBConfigurationTransferDescriptor) Initiating() s51.ENBConfigurationTrans
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of MMEConfigurationTransferDescriptor.
 func (MMEConfigurationTransferDescriptor) Initiating() s51.MMEConfigurationTransferInitiatingBinding {
 	return func() s51.MMEConfigurationTransferInitiatingBinding {
 		sealed := s51.MMEConfigurationTransferInitiatingBinding{}
@@ -1159,6 +1201,8 @@ func (MMEConfigurationTransferDescriptor) Initiating() s51.MMEConfigurationTrans
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of UplinkUEAssociatedLPPaTransportDescriptor.
 func (UplinkUEAssociatedLPPaTransportDescriptor) Initiating() UplinkUEAssociatedLPPaTransportInitiatingBinding {
 	return UplinkUEAssociatedLPPaTransportInitiatingBinding{info: UplinkUEAssociatedLPPaTransportProcedure().Info(), validate: func(v *s44.UplinkUEAssociatedLPPaTransport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUplinkUEAssociatedLPPaTransportBudget(v, budget)
@@ -1208,6 +1252,8 @@ func (UplinkUEAssociatedLPPaTransportDescriptor) Initiating() UplinkUEAssociated
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of UplinkNonUEAssociatedLPPaTransportDescriptor.
 func (UplinkNonUEAssociatedLPPaTransportDescriptor) Initiating() UplinkNonUEAssociatedLPPaTransportInitiatingBinding {
 	return UplinkNonUEAssociatedLPPaTransportInitiatingBinding{info: UplinkNonUEAssociatedLPPaTransportProcedure().Info(), validate: func(v *s44.UplinkNonUEAssociatedLPPaTransport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUplinkNonUEAssociatedLPPaTransportBudget(v, budget)
@@ -1255,6 +1301,8 @@ func (UplinkNonUEAssociatedLPPaTransportDescriptor) Initiating() UplinkNonUEAsso
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of UERadioCapabilityMatchDescriptor.
 func (UERadioCapabilityMatchDescriptor) Initiating() UERadioCapabilityMatchRequestInitiatingBinding {
 	return UERadioCapabilityMatchRequestInitiatingBinding{info: UERadioCapabilityMatchProcedure().Info(), validate: func(v *s36.UERadioCapabilityMatchRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUERadioCapabilityMatchRequestBudget(v, budget)
@@ -1302,6 +1350,8 @@ func (UERadioCapabilityMatchDescriptor) Initiating() UERadioCapabilityMatchReque
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of UERadioCapabilityMatchDescriptor.
 func (UERadioCapabilityMatchDescriptor) Successful() s50.UERadioCapabilityMatchResponseSuccessfulBinding {
 	return func() s50.UERadioCapabilityMatchResponseSuccessfulBinding {
 		sealed := s50.UERadioCapabilityMatchResponseSuccessfulBinding{}
@@ -1361,6 +1411,8 @@ func (UERadioCapabilityMatchDescriptor) Successful() s50.UERadioCapabilityMatchR
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of RerouteNASRequestDescriptor.
 func (RerouteNASRequestDescriptor) Initiating() RerouteNASRequestInitiatingBinding {
 	return RerouteNASRequestInitiatingBinding{info: RerouteNASRequestProcedure().Info(), validate: func(v *s26.RerouteNASRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateRerouteNASRequestBudget(v, budget)
@@ -1409,6 +1461,8 @@ func (RerouteNASRequestDescriptor) Initiating() RerouteNASRequestInitiatingBindi
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of UEContextModificationIndicationDescriptor.
 func (UEContextModificationIndicationDescriptor) Initiating() UEContextModificationIndicationInitiatingBinding {
 	return UEContextModificationIndicationInitiatingBinding{info: UEContextModificationIndicationProcedure().Info(), validate: func(v *s36.UEContextModificationIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUEContextModificationIndicationBudget(v, budget)
@@ -1458,6 +1512,8 @@ func (UEContextModificationIndicationDescriptor) Initiating() UEContextModificat
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of UEContextModificationIndicationDescriptor.
 func (UEContextModificationIndicationDescriptor) Successful() s50.UEContextModificationConfirmSuccessfulBinding {
 	return func() s50.UEContextModificationConfirmSuccessfulBinding {
 		sealed := s50.UEContextModificationConfirmSuccessfulBinding{}
@@ -1517,6 +1573,8 @@ func (UEContextModificationIndicationDescriptor) Successful() s50.UEContextModif
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of UEContextSuspendDescriptor.
 func (UEContextSuspendDescriptor) Initiating() UEContextSuspendRequestInitiatingBinding {
 	return UEContextSuspendRequestInitiatingBinding{info: UEContextSuspendProcedure().Info(), validate: func(v *s46.UEContextSuspendRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUEContextSuspendRequestBudget(v, budget)
@@ -1561,6 +1619,8 @@ func (UEContextSuspendDescriptor) Initiating() UEContextSuspendRequestInitiating
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of UEContextSuspendDescriptor.
 func (UEContextSuspendDescriptor) Successful() s50.UEContextSuspendResponseSuccessfulBinding {
 	return func() s50.UEContextSuspendResponseSuccessfulBinding {
 		sealed := s50.UEContextSuspendResponseSuccessfulBinding{}
@@ -1616,6 +1676,8 @@ func (UEContextSuspendDescriptor) Successful() s50.UEContextSuspendResponseSucce
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of UEContextResumeDescriptor.
 func (UEContextResumeDescriptor) Initiating() UEContextResumeRequestInitiatingBinding {
 	return UEContextResumeRequestInitiatingBinding{info: UEContextResumeProcedure().Info(), validate: func(v *s38.UEContextResumeRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUEContextResumeRequestBudget(v, budget)
@@ -1662,6 +1724,8 @@ func (UEContextResumeDescriptor) Initiating() UEContextResumeRequestInitiatingBi
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of UEContextResumeDescriptor.
 func (UEContextResumeDescriptor) Successful() s50.UEContextResumeResponseSuccessfulBinding {
 	return func() s50.UEContextResumeResponseSuccessfulBinding {
 		sealed := s50.UEContextResumeResponseSuccessfulBinding{}
@@ -1717,6 +1781,8 @@ func (UEContextResumeDescriptor) Successful() s50.UEContextResumeResponseSuccess
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of UEContextResumeDescriptor.
 func (UEContextResumeDescriptor) Unsuccessful() s36.UEContextResumeFailureUnsuccessfulBinding {
 	return func() s36.UEContextResumeFailureUnsuccessfulBinding {
 		sealed := s36.UEContextResumeFailureUnsuccessfulBinding{}
@@ -1774,6 +1840,8 @@ func (UEContextResumeDescriptor) Unsuccessful() s36.UEContextResumeFailureUnsucc
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of RetrieveUEInformationDescriptor.
 func (RetrieveUEInformationDescriptor) Initiating() RetrieveUEInformationInitiatingBinding {
 	return RetrieveUEInformationInitiatingBinding{info: RetrieveUEInformationProcedure().Info(), validate: func(v *s28.RetrieveUEInformation, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateRetrieveUEInformationBudget(v, budget)
@@ -1819,6 +1887,8 @@ func (RetrieveUEInformationDescriptor) Initiating() RetrieveUEInformationInitiat
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of UEInformationTransferDescriptor.
 func (UEInformationTransferDescriptor) Initiating() UEInformationTransferInitiatingBinding {
 	return UEInformationTransferInitiatingBinding{info: UEInformationTransferProcedure().Info(), validate: func(v *s36.UEInformationTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUEInformationTransferBudget(v, budget)
@@ -1864,6 +1934,8 @@ func (UEInformationTransferDescriptor) Initiating() UEInformationTransferInitiat
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of SecondaryRATDataUsageReportDescriptor.
 func (SecondaryRATDataUsageReportDescriptor) Initiating() SecondaryRATDataUsageReportInitiatingBinding {
 	return SecondaryRATDataUsageReportInitiatingBinding{info: SecondaryRATDataUsageReportProcedure().Info(), validate: func(v *s46.SecondaryRATDataUsageReport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateSecondaryRATDataUsageReportBudget(v, budget)
@@ -1909,6 +1981,8 @@ func (SecondaryRATDataUsageReportDescriptor) Initiating() SecondaryRATDataUsageR
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of UERadioCapabilityIDMappingDescriptor.
 func (UERadioCapabilityIDMappingDescriptor) Initiating() UERadioCapabilityIDMappingRequestInitiatingBinding {
 	return UERadioCapabilityIDMappingRequestInitiatingBinding{info: UERadioCapabilityIDMappingProcedure().Info(), validate: func(v *s36.UERadioCapabilityIDMappingRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateUERadioCapabilityIDMappingRequestBudget(v, budget)
@@ -1958,6 +2032,8 @@ func (UERadioCapabilityIDMappingDescriptor) Initiating() UERadioCapabilityIDMapp
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of UERadioCapabilityIDMappingDescriptor.
 func (UERadioCapabilityIDMappingDescriptor) Successful() s50.UERadioCapabilityIDMappingResponseSuccessfulBinding {
 	return func() s50.UERadioCapabilityIDMappingResponseSuccessfulBinding {
 		sealed := s50.UERadioCapabilityIDMappingResponseSuccessfulBinding{}
@@ -2016,6 +2092,8 @@ func (UERadioCapabilityIDMappingDescriptor) Successful() s50.UERadioCapabilityID
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of S1RemovalDescriptor.
 func (S1RemovalDescriptor) Initiating() S1RemovalRequestInitiatingBinding {
 	return S1RemovalRequestInitiatingBinding{info: S1RemovalProcedure().Info(), validate: func(v *s26.S1RemovalRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateS1RemovalRequestBudget(v, budget)
@@ -2063,6 +2141,8 @@ func (S1RemovalDescriptor) Initiating() S1RemovalRequestInitiatingBinding {
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of S1RemovalDescriptor.
 func (S1RemovalDescriptor) Successful() s50.S1RemovalResponseSuccessfulBinding {
 	return func() s50.S1RemovalResponseSuccessfulBinding {
 		sealed := s50.S1RemovalResponseSuccessfulBinding{}
@@ -2122,6 +2202,8 @@ func (S1RemovalDescriptor) Successful() s50.S1RemovalResponseSuccessfulBinding {
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of S1RemovalDescriptor.
 func (S1RemovalDescriptor) Unsuccessful() s36.S1RemovalFailureUnsuccessfulBinding {
 	return func() s36.S1RemovalFailureUnsuccessfulBinding {
 		sealed := s36.S1RemovalFailureUnsuccessfulBinding{}
@@ -5290,6 +5372,8 @@ type UplinkNASTransportDescriptor struct{}
 func UplinkNASTransportProcedure() UplinkNASTransportDescriptor {
 	return UplinkNASTransportDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UplinkNASTransportDescriptor.
 func (UplinkNASTransportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(13), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-uplinkNASTransport"}}}
 }
@@ -5297,6 +5381,8 @@ func (UplinkNASTransportDescriptor) Info() s00.ProcedureInfo {
 type ResetDescriptor struct{}
 
 func ResetProcedure() ResetDescriptor { return ResetDescriptor{} }
+
+// Info returns the source-derived procedure metadata for ResetDescriptor.
 func (ResetDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(14), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-Reset"}}}
 }
@@ -5304,6 +5390,8 @@ func (ResetDescriptor) Info() s00.ProcedureInfo {
 type S1SetupDescriptor struct{}
 
 func S1SetupProcedure() S1SetupDescriptor { return S1SetupDescriptor{} }
+
+// Info returns the source-derived procedure metadata for S1SetupDescriptor.
 func (S1SetupDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(17), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-S1Setup"}}}
 }
@@ -5313,6 +5401,8 @@ type UEContextReleaseRequestDescriptor struct{}
 func UEContextReleaseRequestProcedure() UEContextReleaseRequestDescriptor {
 	return UEContextReleaseRequestDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UEContextReleaseRequestDescriptor.
 func (UEContextReleaseRequestDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(18), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UEContextReleaseRequest"}}}
 }
@@ -5322,6 +5412,8 @@ type UplinkS1cdma2000tunnellingDescriptor struct{}
 func UplinkS1cdma2000tunnellingProcedure() UplinkS1cdma2000tunnellingDescriptor {
 	return UplinkS1cdma2000tunnellingDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UplinkS1cdma2000tunnellingDescriptor.
 func (UplinkS1cdma2000tunnellingDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(20), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UplinkS1cdma2000tunnelling"}}}
 }
@@ -5331,6 +5423,8 @@ type UEContextModificationDescriptor struct{}
 func UEContextModificationProcedure() UEContextModificationDescriptor {
 	return UEContextModificationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UEContextModificationDescriptor.
 func (UEContextModificationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(21), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UEContextModification"}}}
 }
@@ -5340,6 +5434,8 @@ type UECapabilityInfoIndicationDescriptor struct{}
 func UECapabilityInfoIndicationProcedure() UECapabilityInfoIndicationDescriptor {
 	return UECapabilityInfoIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UECapabilityInfoIndicationDescriptor.
 func (UECapabilityInfoIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(22), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UECapabilityInfoIndication"}}}
 }
@@ -5347,6 +5443,8 @@ func (UECapabilityInfoIndicationDescriptor) Info() s00.ProcedureInfo {
 type UEContextReleaseDescriptor struct{}
 
 func UEContextReleaseProcedure() UEContextReleaseDescriptor { return UEContextReleaseDescriptor{} }
+
+// Info returns the source-derived procedure metadata for UEContextReleaseDescriptor.
 func (UEContextReleaseDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(23), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UEContextRelease"}}}
 }
@@ -5354,6 +5452,8 @@ func (UEContextReleaseDescriptor) Info() s00.ProcedureInfo {
 type TraceStartDescriptor struct{}
 
 func TraceStartProcedure() TraceStartDescriptor { return TraceStartDescriptor{} }
+
+// Info returns the source-derived procedure metadata for TraceStartDescriptor.
 func (TraceStartDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(27), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-TraceStart"}}}
 }
@@ -5363,6 +5463,8 @@ type TraceFailureIndicationDescriptor struct{}
 func TraceFailureIndicationProcedure() TraceFailureIndicationDescriptor {
 	return TraceFailureIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for TraceFailureIndicationDescriptor.
 func (TraceFailureIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(28), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-TraceFailureIndication"}}}
 }
@@ -5372,6 +5474,8 @@ type WriteReplaceWarningDescriptor struct{}
 func WriteReplaceWarningProcedure() WriteReplaceWarningDescriptor {
 	return WriteReplaceWarningDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for WriteReplaceWarningDescriptor.
 func (WriteReplaceWarningDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(36), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-WriteReplaceWarning"}}}
 }
@@ -5379,6 +5483,8 @@ func (WriteReplaceWarningDescriptor) Info() s00.ProcedureInfo {
 type PrivateMessageDescriptor struct{}
 
 func PrivateMessageProcedure() PrivateMessageDescriptor { return PrivateMessageDescriptor{} }
+
+// Info returns the source-derived procedure metadata for PrivateMessageDescriptor.
 func (PrivateMessageDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(39), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-PrivateMessage"}}}
 }
@@ -5388,6 +5494,8 @@ type ENBConfigurationTransferDescriptor struct{}
 func ENBConfigurationTransferProcedure() ENBConfigurationTransferDescriptor {
 	return ENBConfigurationTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ENBConfigurationTransferDescriptor.
 func (ENBConfigurationTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(40), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-eNBConfigurationTransfer"}}}
 }
@@ -5397,6 +5505,8 @@ type MMEConfigurationTransferDescriptor struct{}
 func MMEConfigurationTransferProcedure() MMEConfigurationTransferDescriptor {
 	return MMEConfigurationTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for MMEConfigurationTransferDescriptor.
 func (MMEConfigurationTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(41), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMEConfigurationTransfer"}}}
 }
@@ -5406,6 +5516,8 @@ type UplinkUEAssociatedLPPaTransportDescriptor struct{}
 func UplinkUEAssociatedLPPaTransportProcedure() UplinkUEAssociatedLPPaTransportDescriptor {
 	return UplinkUEAssociatedLPPaTransportDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UplinkUEAssociatedLPPaTransportDescriptor.
 func (UplinkUEAssociatedLPPaTransportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(45), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-uplinkUEAssociatedLPPaTransport"}}}
 }
@@ -5415,6 +5527,8 @@ type UplinkNonUEAssociatedLPPaTransportDescriptor struct{}
 func UplinkNonUEAssociatedLPPaTransportProcedure() UplinkNonUEAssociatedLPPaTransportDescriptor {
 	return UplinkNonUEAssociatedLPPaTransportDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UplinkNonUEAssociatedLPPaTransportDescriptor.
 func (UplinkNonUEAssociatedLPPaTransportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(47), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-uplinkNonUEAssociatedLPPaTransport"}}}
 }
@@ -5424,6 +5538,8 @@ type UERadioCapabilityMatchDescriptor struct{}
 func UERadioCapabilityMatchProcedure() UERadioCapabilityMatchDescriptor {
 	return UERadioCapabilityMatchDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UERadioCapabilityMatchDescriptor.
 func (UERadioCapabilityMatchDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(48), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UERadioCapabilityMatch"}}}
 }
@@ -5431,6 +5547,8 @@ func (UERadioCapabilityMatchDescriptor) Info() s00.ProcedureInfo {
 type RerouteNASRequestDescriptor struct{}
 
 func RerouteNASRequestProcedure() RerouteNASRequestDescriptor { return RerouteNASRequestDescriptor{} }
+
+// Info returns the source-derived procedure metadata for RerouteNASRequestDescriptor.
 func (RerouteNASRequestDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(52), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-RerouteNASRequest"}}}
 }
@@ -5440,6 +5558,8 @@ type UEContextModificationIndicationDescriptor struct{}
 func UEContextModificationIndicationProcedure() UEContextModificationIndicationDescriptor {
 	return UEContextModificationIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UEContextModificationIndicationDescriptor.
 func (UEContextModificationIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(53), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UEContextModificationIndication"}}}
 }
@@ -5447,6 +5567,8 @@ func (UEContextModificationIndicationDescriptor) Info() s00.ProcedureInfo {
 type UEContextSuspendDescriptor struct{}
 
 func UEContextSuspendProcedure() UEContextSuspendDescriptor { return UEContextSuspendDescriptor{} }
+
+// Info returns the source-derived procedure metadata for UEContextSuspendDescriptor.
 func (UEContextSuspendDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(55), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UEContextSuspend"}}}
 }
@@ -5454,6 +5576,8 @@ func (UEContextSuspendDescriptor) Info() s00.ProcedureInfo {
 type UEContextResumeDescriptor struct{}
 
 func UEContextResumeProcedure() UEContextResumeDescriptor { return UEContextResumeDescriptor{} }
+
+// Info returns the source-derived procedure metadata for UEContextResumeDescriptor.
 func (UEContextResumeDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(56), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UEContextResume"}}}
 }
@@ -5463,6 +5587,8 @@ type RetrieveUEInformationDescriptor struct{}
 func RetrieveUEInformationProcedure() RetrieveUEInformationDescriptor {
 	return RetrieveUEInformationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for RetrieveUEInformationDescriptor.
 func (RetrieveUEInformationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(58), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-RetrieveUEInformation"}}}
 }
@@ -5472,6 +5598,8 @@ type UEInformationTransferDescriptor struct{}
 func UEInformationTransferProcedure() UEInformationTransferDescriptor {
 	return UEInformationTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UEInformationTransferDescriptor.
 func (UEInformationTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(59), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UEInformationTransfer"}}}
 }
@@ -5481,6 +5609,8 @@ type SecondaryRATDataUsageReportDescriptor struct{}
 func SecondaryRATDataUsageReportProcedure() SecondaryRATDataUsageReportDescriptor {
 	return SecondaryRATDataUsageReportDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for SecondaryRATDataUsageReportDescriptor.
 func (SecondaryRATDataUsageReportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(62), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-SecondaryRATDataUsageReport"}}}
 }
@@ -5490,6 +5620,8 @@ type UERadioCapabilityIDMappingDescriptor struct{}
 func UERadioCapabilityIDMappingProcedure() UERadioCapabilityIDMappingDescriptor {
 	return UERadioCapabilityIDMappingDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for UERadioCapabilityIDMappingDescriptor.
 func (UERadioCapabilityIDMappingDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(63), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-UERadioCapabilityIDMapping"}}}
 }
@@ -5497,6 +5629,8 @@ func (UERadioCapabilityIDMappingDescriptor) Info() s00.ProcedureInfo {
 type S1RemovalDescriptor struct{}
 
 func S1RemovalProcedure() S1RemovalDescriptor { return S1RemovalDescriptor{} }
+
+// Info returns the source-derived procedure metadata for S1RemovalDescriptor.
 func (S1RemovalDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(67), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-S1Removal"}}}
 }

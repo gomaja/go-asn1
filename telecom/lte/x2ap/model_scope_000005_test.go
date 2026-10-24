@@ -11,7 +11,7 @@ import (
 	testing "testing"
 )
 
-// TestContractPc5FlowBitRatesExtensionOwner verifies 3GPP TS 36.423 V19.1.0 (2026-02), section 9.2; PC5 flow bit rates extension owner.
+// TestContractPc5FlowBitRatesExtensionOwner verifies 3GPP TS 36.423 V19.1.0 (2025-12), section 9.2; PC5 flow bit rates extension owner.
 func TestContractPc5FlowBitRatesExtensionOwner(t *testing.T) {
 	input := asn1ContractHex(t, "deadbeef")
 	field, err := s08.PC5FlowBitRatesExtIEs().NewOpaque(65532, s00.CriticalityIgnore, input)

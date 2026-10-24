@@ -203,6 +203,8 @@ func (b UnsuccessfulBinding[T]) Build(body T, options ...aper.BuildOption) (s36.
 	}
 	return s36.UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
+
+// Initiating returns the typed binding for the initiating message of HandoverPreparationDescriptor.
 func (HandoverPreparationDescriptor) Initiating() HandoverRequiredInitiatingBinding {
 	return HandoverRequiredInitiatingBinding{info: HandoverPreparationProcedure().Info(), validate: func(v *s34.HandoverRequired, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateHandoverRequiredBudget(v, budget)
@@ -245,6 +247,8 @@ func (HandoverPreparationDescriptor) Initiating() HandoverRequiredInitiatingBind
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of HandoverPreparationDescriptor.
 func (HandoverPreparationDescriptor) Successful() s50.HandoverCommandSuccessfulBinding {
 	return func() s50.HandoverCommandSuccessfulBinding {
 		sealed := s50.HandoverCommandSuccessfulBinding{}
@@ -303,6 +307,8 @@ func (HandoverPreparationDescriptor) Successful() s50.HandoverCommandSuccessfulB
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of HandoverPreparationDescriptor.
 func (HandoverPreparationDescriptor) Unsuccessful() s36.HandoverPreparationFailureUnsuccessfulBinding {
 	return func() s36.HandoverPreparationFailureUnsuccessfulBinding {
 		sealed := s36.HandoverPreparationFailureUnsuccessfulBinding{}
@@ -361,6 +367,8 @@ func (HandoverPreparationDescriptor) Unsuccessful() s36.HandoverPreparationFailu
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of HandoverResourceAllocationDescriptor.
 func (HandoverResourceAllocationDescriptor) Initiating() HandoverRequestInitiatingBinding {
 	return HandoverRequestInitiatingBinding{info: HandoverResourceAllocationProcedure().Info(), validate: func(v *s48.HandoverRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateHandoverRequestBudget(v, budget)
@@ -403,6 +411,8 @@ func (HandoverResourceAllocationDescriptor) Initiating() HandoverRequestInitiati
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of HandoverResourceAllocationDescriptor.
 func (HandoverResourceAllocationDescriptor) Successful() s50.HandoverRequestAcknowledgeSuccessfulBinding {
 	return func() s50.HandoverRequestAcknowledgeSuccessfulBinding {
 		sealed := s50.HandoverRequestAcknowledgeSuccessfulBinding{}
@@ -461,6 +471,8 @@ func (HandoverResourceAllocationDescriptor) Successful() s50.HandoverRequestAckn
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of HandoverResourceAllocationDescriptor.
 func (HandoverResourceAllocationDescriptor) Unsuccessful() s36.HandoverFailureUnsuccessfulBinding {
 	return func() s36.HandoverFailureUnsuccessfulBinding {
 		sealed := s36.HandoverFailureUnsuccessfulBinding{}
@@ -519,6 +531,8 @@ func (HandoverResourceAllocationDescriptor) Unsuccessful() s36.HandoverFailureUn
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of HandoverNotificationDescriptor.
 func (HandoverNotificationDescriptor) Initiating() HandoverNotifyInitiatingBinding {
 	return HandoverNotifyInitiatingBinding{info: HandoverNotificationProcedure().Info(), validate: func(v *s35.HandoverNotify, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateHandoverNotifyBudget(v, budget)
@@ -560,6 +574,8 @@ func (HandoverNotificationDescriptor) Initiating() HandoverNotifyInitiatingBindi
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of PathSwitchRequestDescriptor.
 func (PathSwitchRequestDescriptor) Initiating() PathSwitchRequestInitiatingBinding {
 	return PathSwitchRequestInitiatingBinding{info: PathSwitchRequestProcedure().Info(), validate: func(v *s41.PathSwitchRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidatePathSwitchRequestBudget(v, budget)
@@ -603,6 +619,8 @@ func (PathSwitchRequestDescriptor) Initiating() PathSwitchRequestInitiatingBindi
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of PathSwitchRequestDescriptor.
 func (PathSwitchRequestDescriptor) Successful() s50.PathSwitchRequestAcknowledgeSuccessfulBinding {
 	return func() s50.PathSwitchRequestAcknowledgeSuccessfulBinding {
 		sealed := s50.PathSwitchRequestAcknowledgeSuccessfulBinding{}
@@ -662,6 +680,8 @@ func (PathSwitchRequestDescriptor) Successful() s50.PathSwitchRequestAcknowledge
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of PathSwitchRequestDescriptor.
 func (PathSwitchRequestDescriptor) Unsuccessful() s36.PathSwitchRequestFailureUnsuccessfulBinding {
 	return func() s36.PathSwitchRequestFailureUnsuccessfulBinding {
 		sealed := s36.PathSwitchRequestFailureUnsuccessfulBinding{}
@@ -717,6 +737,8 @@ func (PathSwitchRequestDescriptor) Unsuccessful() s36.PathSwitchRequestFailureUn
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of HandoverCancelDescriptor.
 func (HandoverCancelDescriptor) Initiating() HandoverCancelInitiatingBinding {
 	return HandoverCancelInitiatingBinding{info: HandoverCancelProcedure().Info(), validate: func(v *s25.HandoverCancel, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateHandoverCancelBudget(v, budget)
@@ -758,6 +780,8 @@ func (HandoverCancelDescriptor) Initiating() HandoverCancelInitiatingBinding {
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of HandoverCancelDescriptor.
 func (HandoverCancelDescriptor) Successful() s50.HandoverCancelAcknowledgeSuccessfulBinding {
 	return func() s50.HandoverCancelAcknowledgeSuccessfulBinding {
 		sealed := s50.HandoverCancelAcknowledgeSuccessfulBinding{}
@@ -813,6 +837,8 @@ func (HandoverCancelDescriptor) Successful() s50.HandoverCancelAcknowledgeSucces
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of ERABSetupDescriptor.
 func (ERABSetupDescriptor) Initiating() ERABSetupRequestInitiatingBinding {
 	return ERABSetupRequestInitiatingBinding{info: ERABSetupProcedure().Info(), validate: func(v *s40.ERABSetupRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateERABSetupRequestBudget(v, budget)
@@ -855,6 +881,8 @@ func (ERABSetupDescriptor) Initiating() ERABSetupRequestInitiatingBinding {
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of ERABSetupDescriptor.
 func (ERABSetupDescriptor) Successful() s50.ERABSetupResponseSuccessfulBinding {
 	return func() s50.ERABSetupResponseSuccessfulBinding {
 		sealed := s50.ERABSetupResponseSuccessfulBinding{}
@@ -914,6 +942,8 @@ func (ERABSetupDescriptor) Successful() s50.ERABSetupResponseSuccessfulBinding {
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of ERABModifyDescriptor.
 func (ERABModifyDescriptor) Initiating() ERABModifyRequestInitiatingBinding {
 	return ERABModifyRequestInitiatingBinding{info: ERABModifyProcedure().Info(), validate: func(v *s40.ERABModifyRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateERABModifyRequestBudget(v, budget)
@@ -957,6 +987,8 @@ func (ERABModifyDescriptor) Initiating() ERABModifyRequestInitiatingBinding {
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of ERABModifyDescriptor.
 func (ERABModifyDescriptor) Successful() s50.ERABModifyResponseSuccessfulBinding {
 	return func() s50.ERABModifyResponseSuccessfulBinding {
 		sealed := s50.ERABModifyResponseSuccessfulBinding{}
@@ -1013,6 +1045,8 @@ func (ERABModifyDescriptor) Successful() s50.ERABModifyResponseSuccessfulBinding
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of ERABReleaseDescriptor.
 func (ERABReleaseDescriptor) Initiating() ERABReleaseCommandInitiatingBinding {
 	return ERABReleaseCommandInitiatingBinding{info: ERABReleaseProcedure().Info(), validate: func(v *s39.ERABReleaseCommand, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateERABReleaseCommandBudget(v, budget)
@@ -1053,6 +1087,8 @@ func (ERABReleaseDescriptor) Initiating() ERABReleaseCommandInitiatingBinding {
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of ERABReleaseDescriptor.
 func (ERABReleaseDescriptor) Successful() s50.ERABReleaseResponseSuccessfulBinding {
 	return func() s50.ERABReleaseResponseSuccessfulBinding {
 		sealed := s50.ERABReleaseResponseSuccessfulBinding{}
@@ -1110,6 +1146,8 @@ func (ERABReleaseDescriptor) Successful() s50.ERABReleaseResponseSuccessfulBindi
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of ERABReleaseIndicationDescriptor.
 func (ERABReleaseIndicationDescriptor) Initiating() ERABReleaseIndicationInitiatingBinding {
 	return ERABReleaseIndicationInitiatingBinding{info: ERABReleaseIndicationProcedure().Info(), validate: func(v *s45.ERABReleaseIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateERABReleaseIndicationBudget(v, budget)
@@ -1150,6 +1188,8 @@ func (ERABReleaseIndicationDescriptor) Initiating() ERABReleaseIndicationInitiat
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of InitialContextSetupDescriptor.
 func (InitialContextSetupDescriptor) Initiating() InitialContextSetupRequestInitiatingBinding {
 	return InitialContextSetupRequestInitiatingBinding{info: InitialContextSetupProcedure().Info(), validate: func(v *s48.InitialContextSetupRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateInitialContextSetupRequestBudget(v, budget)
@@ -1192,6 +1232,8 @@ func (InitialContextSetupDescriptor) Initiating() InitialContextSetupRequestInit
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of InitialContextSetupDescriptor.
 func (InitialContextSetupDescriptor) Successful() s50.InitialContextSetupResponseSuccessfulBinding {
 	return func() s50.InitialContextSetupResponseSuccessfulBinding {
 		sealed := s50.InitialContextSetupResponseSuccessfulBinding{}
@@ -1248,6 +1290,8 @@ func (InitialContextSetupDescriptor) Successful() s50.InitialContextSetupRespons
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of InitialContextSetupDescriptor.
 func (InitialContextSetupDescriptor) Unsuccessful() s36.InitialContextSetupFailureUnsuccessfulBinding {
 	return func() s36.InitialContextSetupFailureUnsuccessfulBinding {
 		sealed := s36.InitialContextSetupFailureUnsuccessfulBinding{}
@@ -1306,6 +1350,8 @@ func (InitialContextSetupDescriptor) Unsuccessful() s36.InitialContextSetupFailu
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of PagingDescriptor.
 func (PagingDescriptor) Initiating() PagingInitiatingBinding {
 	return PagingInitiatingBinding{info: PagingProcedure().Info(), validate: func(v *s49.Paging, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidatePagingBudget(v, budget)
@@ -1348,6 +1394,8 @@ func (PagingDescriptor) Initiating() PagingInitiatingBinding {
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of DownlinkNASTransportDescriptor.
 func (DownlinkNASTransportDescriptor) Initiating() DownlinkNASTransportInitiatingBinding {
 	return DownlinkNASTransportInitiatingBinding{info: DownlinkNASTransportProcedure().Info(), validate: func(v *s42.DownlinkNASTransport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateDownlinkNASTransportBudget(v, budget)
@@ -1388,6 +1436,8 @@ func (DownlinkNASTransportDescriptor) Initiating() DownlinkNASTransportInitiatin
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of InitialUEMessageDescriptor.
 func (InitialUEMessageDescriptor) Initiating() InitialUEMessageInitiatingBinding {
 	return InitialUEMessageInitiatingBinding{info: InitialUEMessageProcedure().Info(), validate: func(v *s35.InitialUEMessage, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateInitialUEMessageBudget(v, budget)
@@ -1430,6 +1480,8 @@ func (InitialUEMessageDescriptor) Initiating() InitialUEMessageInitiatingBinding
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ErrorIndicationDescriptor.
 func (ErrorIndicationDescriptor) Initiating() ErrorIndicationInitiatingBinding {
 	return ErrorIndicationInitiatingBinding{info: ErrorIndicationProcedure().Info(), validate: func(v *s28.ErrorIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateErrorIndicationBudget(v, budget)
@@ -1472,6 +1524,8 @@ func (ErrorIndicationDescriptor) Initiating() ErrorIndicationInitiatingBinding {
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of NASNonDeliveryIndicationDescriptor.
 func (NASNonDeliveryIndicationDescriptor) Initiating() NASNonDeliveryIndicationInitiatingBinding {
 	return NASNonDeliveryIndicationInitiatingBinding{info: NASNonDeliveryIndicationProcedure().Info(), validate: func(v *s25.NASNonDeliveryIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateNASNonDeliveryIndicationBudget(v, budget)
@@ -1511,6 +1565,8 @@ func (NASNonDeliveryIndicationDescriptor) Initiating() NASNonDeliveryIndicationI
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of DownlinkS1cdma2000tunnellingDescriptor.
 func (DownlinkS1cdma2000tunnellingDescriptor) Initiating() DownlinkS1cdma2000tunnellingInitiatingBinding {
 	return DownlinkS1cdma2000tunnellingInitiatingBinding{info: DownlinkS1cdma2000tunnellingProcedure().Info(), validate: func(v *s40.DownlinkS1cdma2000tunnelling, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateDownlinkS1cdma2000tunnellingBudget(v, budget)
@@ -1554,6 +1610,8 @@ func (DownlinkS1cdma2000tunnellingDescriptor) Initiating() DownlinkS1cdma2000tun
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ENBStatusTransferDescriptor.
 func (ENBStatusTransferDescriptor) Initiating() ENBStatusTransferInitiatingBinding {
 	return ENBStatusTransferInitiatingBinding{info: ENBStatusTransferProcedure().Info(), validate: func(v *s24.ENBStatusTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateENBStatusTransferBudget(v, budget)
@@ -1597,6 +1655,8 @@ func (ENBStatusTransferDescriptor) Initiating() ENBStatusTransferInitiatingBindi
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of MMEStatusTransferDescriptor.
 func (MMEStatusTransferDescriptor) Initiating() MMEStatusTransferInitiatingBinding {
 	return MMEStatusTransferInitiatingBinding{info: MMEStatusTransferProcedure().Info(), validate: func(v *s25.MMEStatusTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateMMEStatusTransferBudget(v, budget)
@@ -1640,6 +1700,8 @@ func (MMEStatusTransferDescriptor) Initiating() MMEStatusTransferInitiatingBindi
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of DeactivateTraceDescriptor.
 func (DeactivateTraceDescriptor) Initiating() DeactivateTraceInitiatingBinding {
 	return DeactivateTraceInitiatingBinding{info: DeactivateTraceProcedure().Info(), validate: func(v *s15.DeactivateTrace, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateDeactivateTraceBudget(v, budget)
@@ -1682,6 +1744,8 @@ func (DeactivateTraceDescriptor) Initiating() DeactivateTraceInitiatingBinding {
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ENBConfigurationUpdateDescriptor.
 func (ENBConfigurationUpdateDescriptor) Initiating() ENBConfigurationUpdateInitiatingBinding {
 	return ENBConfigurationUpdateInitiatingBinding{info: ENBConfigurationUpdateProcedure().Info(), validate: func(v *s43.ENBConfigurationUpdate, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateENBConfigurationUpdateBudget(v, budget)
@@ -1723,6 +1787,8 @@ func (ENBConfigurationUpdateDescriptor) Initiating() ENBConfigurationUpdateIniti
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of ENBConfigurationUpdateDescriptor.
 func (ENBConfigurationUpdateDescriptor) Successful() s50.ENBConfigurationUpdateAcknowledgeSuccessfulBinding {
 	return func() s50.ENBConfigurationUpdateAcknowledgeSuccessfulBinding {
 		sealed := s50.ENBConfigurationUpdateAcknowledgeSuccessfulBinding{}
@@ -1783,6 +1849,8 @@ func (ENBConfigurationUpdateDescriptor) Successful() s50.ENBConfigurationUpdateA
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of ENBConfigurationUpdateDescriptor.
 func (ENBConfigurationUpdateDescriptor) Unsuccessful() s36.ENBConfigurationUpdateFailureUnsuccessfulBinding {
 	return func() s36.ENBConfigurationUpdateFailureUnsuccessfulBinding {
 		sealed := s36.ENBConfigurationUpdateFailureUnsuccessfulBinding{}
@@ -1841,6 +1909,8 @@ func (ENBConfigurationUpdateDescriptor) Unsuccessful() s36.ENBConfigurationUpdat
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of MMEConfigurationUpdateDescriptor.
 func (MMEConfigurationUpdateDescriptor) Initiating() MMEConfigurationUpdateInitiatingBinding {
 	return MMEConfigurationUpdateInitiatingBinding{info: MMEConfigurationUpdateProcedure().Info(), validate: func(v *s43.MMEConfigurationUpdate, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateMMEConfigurationUpdateBudget(v, budget)
@@ -1882,6 +1952,8 @@ func (MMEConfigurationUpdateDescriptor) Initiating() MMEConfigurationUpdateIniti
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of MMEConfigurationUpdateDescriptor.
 func (MMEConfigurationUpdateDescriptor) Successful() s50.MMEConfigurationUpdateAcknowledgeSuccessfulBinding {
 	return func() s50.MMEConfigurationUpdateAcknowledgeSuccessfulBinding {
 		sealed := s50.MMEConfigurationUpdateAcknowledgeSuccessfulBinding{}
@@ -1942,6 +2014,8 @@ func (MMEConfigurationUpdateDescriptor) Successful() s50.MMEConfigurationUpdateA
 	}()
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of MMEConfigurationUpdateDescriptor.
 func (MMEConfigurationUpdateDescriptor) Unsuccessful() s36.MMEConfigurationUpdateFailureUnsuccessfulBinding {
 	return func() s36.MMEConfigurationUpdateFailureUnsuccessfulBinding {
 		sealed := s36.MMEConfigurationUpdateFailureUnsuccessfulBinding{}
@@ -2000,6 +2074,8 @@ func (MMEConfigurationUpdateDescriptor) Unsuccessful() s36.MMEConfigurationUpdat
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of LocationReportingControlDescriptor.
 func (LocationReportingControlDescriptor) Initiating() LocationReportingControlInitiatingBinding {
 	return LocationReportingControlInitiatingBinding{info: LocationReportingControlProcedure().Info(), validate: func(v *s26.LocationReportingControl, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateLocationReportingControlBudget(v, budget)
@@ -2039,6 +2115,8 @@ func (LocationReportingControlDescriptor) Initiating() LocationReportingControlI
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of LocationReportingFailureIndicationDescriptor.
 func (LocationReportingFailureIndicationDescriptor) Initiating() LocationReportingFailureIndicationInitiatingBinding {
 	return LocationReportingFailureIndicationInitiatingBinding{info: LocationReportingFailureIndicationProcedure().Info(), validate: func(v *s25.LocationReportingFailureIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateLocationReportingFailureIndicationBudget(v, budget)
@@ -2081,6 +2159,8 @@ func (LocationReportingFailureIndicationDescriptor) Initiating() LocationReporti
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of LocationReportDescriptor.
 func (LocationReportDescriptor) Initiating() LocationReportInitiatingBinding {
 	return LocationReportInitiatingBinding{info: LocationReportProcedure().Info(), validate: func(v *s33.LocationReport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateLocationReportBudget(v, budget)
@@ -2122,6 +2202,8 @@ func (LocationReportDescriptor) Initiating() LocationReportInitiatingBinding {
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of OverloadStartDescriptor.
 func (OverloadStartDescriptor) Initiating() OverloadStartInitiatingBinding {
 	return OverloadStartInitiatingBinding{info: OverloadStartProcedure().Info(), validate: func(v *s41.OverloadStart, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateOverloadStartBudget(v, budget)
@@ -2162,6 +2244,8 @@ func (OverloadStartDescriptor) Initiating() OverloadStartInitiatingBinding {
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of OverloadStopDescriptor.
 func (OverloadStopDescriptor) Initiating() OverloadStopInitiatingBinding {
 	return OverloadStopInitiatingBinding{info: OverloadStopProcedure().Info(), validate: func(v *s41.OverloadStop, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateOverloadStopBudget(v, budget)
@@ -2204,6 +2288,8 @@ func (OverloadStopDescriptor) Initiating() OverloadStopInitiatingBinding {
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ENBDirectInformationTransferDescriptor.
 func (ENBDirectInformationTransferDescriptor) Initiating() ENBDirectInformationTransferInitiatingBinding {
 	return ENBDirectInformationTransferInitiatingBinding{info: ENBDirectInformationTransferProcedure().Info(), validate: func(v *s34.ENBDirectInformationTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateENBDirectInformationTransferBudget(v, budget)
@@ -2247,6 +2333,8 @@ func (ENBDirectInformationTransferDescriptor) Initiating() ENBDirectInformationT
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of MMEDirectInformationTransferDescriptor.
 func (MMEDirectInformationTransferDescriptor) Initiating() MMEDirectInformationTransferInitiatingBinding {
 	return MMEDirectInformationTransferInitiatingBinding{info: MMEDirectInformationTransferProcedure().Info(), validate: func(v *s34.MMEDirectInformationTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateMMEDirectInformationTransferBudget(v, budget)
@@ -2290,6 +2378,8 @@ func (MMEDirectInformationTransferDescriptor) Initiating() MMEDirectInformationT
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of CellTrafficTraceDescriptor.
 func (CellTrafficTraceDescriptor) Initiating() CellTrafficTraceInitiatingBinding {
 	return CellTrafficTraceInitiatingBinding{info: CellTrafficTraceProcedure().Info(), validate: func(v *s21.CellTrafficTrace, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateCellTrafficTraceBudget(v, budget)
@@ -2332,6 +2422,8 @@ func (CellTrafficTraceDescriptor) Initiating() CellTrafficTraceInitiatingBinding
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of KillDescriptor.
 func (KillDescriptor) Initiating() KillRequestInitiatingBinding {
 	return KillRequestInitiatingBinding{info: KillProcedure().Info(), validate: func(v *s33.KillRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateKillRequestBudget(v, budget)
@@ -2373,6 +2465,8 @@ func (KillDescriptor) Initiating() KillRequestInitiatingBinding {
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of KillDescriptor.
 func (KillDescriptor) Successful() s50.KillResponseSuccessfulBinding {
 	return func() s50.KillResponseSuccessfulBinding {
 		sealed := s50.KillResponseSuccessfulBinding{}
@@ -2431,6 +2525,8 @@ func (KillDescriptor) Successful() s50.KillResponseSuccessfulBinding {
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of DownlinkUEAssociatedLPPaTransportDescriptor.
 func (DownlinkUEAssociatedLPPaTransportDescriptor) Initiating() DownlinkUEAssociatedLPPaTransportInitiatingBinding {
 	return DownlinkUEAssociatedLPPaTransportInitiatingBinding{info: DownlinkUEAssociatedLPPaTransportProcedure().Info(), validate: func(v *s15.DownlinkUEAssociatedLPPaTransport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateDownlinkUEAssociatedLPPaTransportBudget(v, budget)
@@ -2475,6 +2571,8 @@ func (DownlinkUEAssociatedLPPaTransportDescriptor) Initiating() DownlinkUEAssoci
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of DownlinkNonUEAssociatedLPPaTransportDescriptor.
 func (DownlinkNonUEAssociatedLPPaTransportDescriptor) Initiating() DownlinkNonUEAssociatedLPPaTransportInitiatingBinding {
 	return DownlinkNonUEAssociatedLPPaTransportInitiatingBinding{info: DownlinkNonUEAssociatedLPPaTransportProcedure().Info(), validate: func(v *s15.DownlinkNonUEAssociatedLPPaTransport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateDownlinkNonUEAssociatedLPPaTransportBudget(v, budget)
@@ -2515,6 +2613,8 @@ func (DownlinkNonUEAssociatedLPPaTransportDescriptor) Initiating() DownlinkNonUE
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of PWSRestartIndicationDescriptor.
 func (PWSRestartIndicationDescriptor) Initiating() PWSRestartIndicationInitiatingBinding {
 	return PWSRestartIndicationInitiatingBinding{info: PWSRestartIndicationProcedure().Info(), validate: func(v *s44.PWSRestartIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidatePWSRestartIndicationBudget(v, budget)
@@ -2555,6 +2655,8 @@ func (PWSRestartIndicationDescriptor) Initiating() PWSRestartIndicationInitiatin
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ERABModificationIndicationDescriptor.
 func (ERABModificationIndicationDescriptor) Initiating() ERABModificationIndicationInitiatingBinding {
 	return ERABModificationIndicationInitiatingBinding{info: ERABModificationIndicationProcedure().Info(), validate: func(v *s45.ERABModificationIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateERABModificationIndicationBudget(v, budget)
@@ -2597,6 +2699,8 @@ func (ERABModificationIndicationDescriptor) Initiating() ERABModificationIndicat
 	}(),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of ERABModificationIndicationDescriptor.
 func (ERABModificationIndicationDescriptor) Successful() s50.ERABModificationConfirmSuccessfulBinding {
 	return func() s50.ERABModificationConfirmSuccessfulBinding {
 		sealed := s50.ERABModificationConfirmSuccessfulBinding{}
@@ -2652,6 +2756,8 @@ func (ERABModificationIndicationDescriptor) Successful() s50.ERABModificationCon
 	}()
 
 }
+
+// Initiating returns the typed binding for the initiating message of PWSFailureIndicationDescriptor.
 func (PWSFailureIndicationDescriptor) Initiating() PWSFailureIndicationInitiatingBinding {
 	return PWSFailureIndicationInitiatingBinding{info: PWSFailureIndicationProcedure().Info(), validate: func(v *s42.PWSFailureIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidatePWSFailureIndicationBudget(v, budget)
@@ -2692,6 +2798,8 @@ func (PWSFailureIndicationDescriptor) Initiating() PWSFailureIndicationInitiatin
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ConnectionEstablishmentIndicationDescriptor.
 func (ConnectionEstablishmentIndicationDescriptor) Initiating() ConnectionEstablishmentIndicationInitiatingBinding {
 	return ConnectionEstablishmentIndicationInitiatingBinding{info: ConnectionEstablishmentIndicationProcedure().Info(), validate: func(v *s31.ConnectionEstablishmentIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateConnectionEstablishmentIndicationBudget(v, budget)
@@ -2736,6 +2844,8 @@ func (ConnectionEstablishmentIndicationDescriptor) Initiating() ConnectionEstabl
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of NASDeliveryIndicationDescriptor.
 func (NASDeliveryIndicationDescriptor) Initiating() NASDeliveryIndicationInitiatingBinding {
 	return NASDeliveryIndicationInitiatingBinding{info: NASDeliveryIndicationProcedure().Info(), validate: func(v *s19.NASDeliveryIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateNASDeliveryIndicationBudget(v, budget)
@@ -2776,6 +2886,8 @@ func (NASDeliveryIndicationDescriptor) Initiating() NASDeliveryIndicationInitiat
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ENBCPRelocationIndicationDescriptor.
 func (ENBCPRelocationIndicationDescriptor) Initiating() ENBCPRelocationIndicationInitiatingBinding {
 	return ENBCPRelocationIndicationInitiatingBinding{info: ENBCPRelocationIndicationProcedure().Info(), validate: func(v *s37.ENBCPRelocationIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateENBCPRelocationIndicationBudget(v, budget)
@@ -2815,6 +2927,8 @@ func (ENBCPRelocationIndicationDescriptor) Initiating() ENBCPRelocationIndicatio
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of MMECPRelocationIndicationDescriptor.
 func (MMECPRelocationIndicationDescriptor) Initiating() MMECPRelocationIndicationInitiatingBinding {
 	return MMECPRelocationIndicationInitiatingBinding{info: MMECPRelocationIndicationProcedure().Info(), validate: func(v *s19.MMECPRelocationIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateMMECPRelocationIndicationBudget(v, budget)
@@ -2854,6 +2968,8 @@ func (MMECPRelocationIndicationDescriptor) Initiating() MMECPRelocationIndicatio
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of HandoverSuccessDescriptor.
 func (HandoverSuccessDescriptor) Initiating() HandoverSuccessInitiatingBinding {
 	return HandoverSuccessInitiatingBinding{info: HandoverSuccessProcedure().Info(), validate: func(v *s18.HandoverSuccess, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateHandoverSuccessBudget(v, budget)
@@ -2896,6 +3012,8 @@ func (HandoverSuccessDescriptor) Initiating() HandoverSuccessInitiatingBinding {
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ENBEarlyStatusTransferDescriptor.
 func (ENBEarlyStatusTransferDescriptor) Initiating() ENBEarlyStatusTransferInitiatingBinding {
 	return ENBEarlyStatusTransferInitiatingBinding{info: ENBEarlyStatusTransferProcedure().Info(), validate: func(v *s37.ENBEarlyStatusTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateENBEarlyStatusTransferBudget(v, budget)
@@ -2937,6 +3055,8 @@ func (ENBEarlyStatusTransferDescriptor) Initiating() ENBEarlyStatusTransferIniti
 	}(),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of MMEEarlyStatusTransferDescriptor.
 func (MMEEarlyStatusTransferDescriptor) Initiating() MMEEarlyStatusTransferInitiatingBinding {
 	return MMEEarlyStatusTransferInitiatingBinding{info: MMEEarlyStatusTransferProcedure().Info(), validate: func(v *s37.MMEEarlyStatusTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateMMEEarlyStatusTransferBudget(v, budget)
@@ -9105,6 +9225,7 @@ type PayloadCodec[T any] struct {
 }
 type NewPayloadCodec[T any] struct{}
 
+// Call validates the foreign decoder and encoder callbacks and returns their typed payload codec.
 func (NewPayloadCodec[T]) Call(
 	decode func([]byte, s00.PayloadLimits) (T, s00.PayloadReport, error),
 	encode func(T, s00.PayloadLimits) ([]byte, error),
@@ -9117,6 +9238,7 @@ func (NewPayloadCodec[T]) Call(
 
 type DecodePayload[T any] struct{}
 
+// Call decodes a foreign payload with the supplied typed codec and limits and returns its report.
 func (DecodePayload[T]) Call(data []byte, codec PayloadCodec[T], limits s00.PayloadLimits) (T, s00.PayloadReport, error) {
 	var zero T
 	if codec.decode == nil || codec.encode == nil {
@@ -9145,6 +9267,7 @@ func (DecodePayload[T]) Call(data []byte, codec PayloadCodec[T], limits s00.Payl
 
 type EncodePayload[T any] struct{}
 
+// Call encodes a foreign value with the supplied typed payload codec and limits.
 func (EncodePayload[T]) Call(value T, codec PayloadCodec[T], limits s00.PayloadLimits) ([]byte, error) {
 	if codec.decode == nil || codec.encode == nil {
 		return nil, aper.OperationError(fmt.Errorf("%w: payload binding: zero codec", aper.ErrInvalidValue), "Payload.binding")
@@ -9242,414 +9365,551 @@ type InitiatingValue struct {
 	bodyS1RemovalRequest                     *s26.S1RemovalRequest
 }
 
+// Opaque returns the retained opaque open value of InitiatingValue and reports whether the opaque alternative is selected.
 func (v *InitiatingValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
 	}
 	return v.opaque, true
 }
+
+// AsHandoverRequired returns the selected HandoverRequired value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsHandoverRequired() (*s34.HandoverRequired, bool) {
 	if v == nil || v.code != s00.ProcedureCode(0) || v.bodyHandoverRequired == nil {
 		return nil, false
 	}
 	return v.bodyHandoverRequired, true
 }
+
+// AsHandoverRequest returns the selected HandoverRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsHandoverRequest() (*s48.HandoverRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(1) || v.bodyHandoverRequest == nil {
 		return nil, false
 	}
 	return v.bodyHandoverRequest, true
 }
+
+// AsHandoverNotify returns the selected HandoverNotify value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsHandoverNotify() (*s35.HandoverNotify, bool) {
 	if v == nil || v.code != s00.ProcedureCode(2) || v.bodyHandoverNotify == nil {
 		return nil, false
 	}
 	return v.bodyHandoverNotify, true
 }
+
+// AsPathSwitchRequest returns the selected PathSwitchRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsPathSwitchRequest() (*s41.PathSwitchRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(3) || v.bodyPathSwitchRequest == nil {
 		return nil, false
 	}
 	return v.bodyPathSwitchRequest, true
 }
+
+// AsHandoverCancel returns the selected HandoverCancel value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsHandoverCancel() (*s25.HandoverCancel, bool) {
 	if v == nil || v.code != s00.ProcedureCode(4) || v.bodyHandoverCancel == nil {
 		return nil, false
 	}
 	return v.bodyHandoverCancel, true
 }
+
+// AsERABSetupRequest returns the selected ERABSetupRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsERABSetupRequest() (*s40.ERABSetupRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(5) || v.bodyERABSetupRequest == nil {
 		return nil, false
 	}
 	return v.bodyERABSetupRequest, true
 }
+
+// AsERABModifyRequest returns the selected ERABModifyRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsERABModifyRequest() (*s40.ERABModifyRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(6) || v.bodyERABModifyRequest == nil {
 		return nil, false
 	}
 	return v.bodyERABModifyRequest, true
 }
+
+// AsERABReleaseCommand returns the selected ERABReleaseCommand value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsERABReleaseCommand() (*s39.ERABReleaseCommand, bool) {
 	if v == nil || v.code != s00.ProcedureCode(7) || v.bodyERABReleaseCommand == nil {
 		return nil, false
 	}
 	return v.bodyERABReleaseCommand, true
 }
+
+// AsERABReleaseIndication returns the selected ERABReleaseIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsERABReleaseIndication() (*s45.ERABReleaseIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(8) || v.bodyERABReleaseIndication == nil {
 		return nil, false
 	}
 	return v.bodyERABReleaseIndication, true
 }
+
+// AsInitialContextSetupRequest returns the selected InitialContextSetupRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsInitialContextSetupRequest() (*s48.InitialContextSetupRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(9) || v.bodyInitialContextSetupRequest == nil {
 		return nil, false
 	}
 	return v.bodyInitialContextSetupRequest, true
 }
+
+// AsPaging returns the selected Paging value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsPaging() (*s49.Paging, bool) {
 	if v == nil || v.code != s00.ProcedureCode(10) || v.bodyPaging == nil {
 		return nil, false
 	}
 	return v.bodyPaging, true
 }
+
+// AsDownlinkNASTransport returns the selected DownlinkNASTransport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsDownlinkNASTransport() (*s42.DownlinkNASTransport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(11) || v.bodyDownlinkNASTransport == nil {
 		return nil, false
 	}
 	return v.bodyDownlinkNASTransport, true
 }
+
+// AsInitialUEMessage returns the selected InitialUEMessage value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsInitialUEMessage() (*s35.InitialUEMessage, bool) {
 	if v == nil || v.code != s00.ProcedureCode(12) || v.bodyInitialUEMessage == nil {
 		return nil, false
 	}
 	return v.bodyInitialUEMessage, true
 }
+
+// AsUplinkNASTransport returns the selected UplinkNASTransport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUplinkNASTransport() (*s44.UplinkNASTransport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(13) || v.bodyUplinkNASTransport == nil {
 		return nil, false
 	}
 	return v.bodyUplinkNASTransport, true
 }
+
+// AsReset returns the selected Reset value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsReset() (*s36.Reset, bool) {
 	if v == nil || v.code != s00.ProcedureCode(14) || v.bodyReset == nil {
 		return nil, false
 	}
 	return v.bodyReset, true
 }
+
+// AsErrorIndication returns the selected ErrorIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsErrorIndication() (*s28.ErrorIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(15) || v.bodyErrorIndication == nil {
 		return nil, false
 	}
 	return v.bodyErrorIndication, true
 }
+
+// AsNASNonDeliveryIndication returns the selected NASNonDeliveryIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsNASNonDeliveryIndication() (*s25.NASNonDeliveryIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(16) || v.bodyNASNonDeliveryIndication == nil {
 		return nil, false
 	}
 	return v.bodyNASNonDeliveryIndication, true
 }
+
+// AsS1SetupRequest returns the selected S1SetupRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsS1SetupRequest() (*s43.S1SetupRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(17) || v.bodyS1SetupRequest == nil {
 		return nil, false
 	}
 	return v.bodyS1SetupRequest, true
 }
+
+// AsUEContextReleaseRequest returns the selected UEContextReleaseRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUEContextReleaseRequest() (*s42.UEContextReleaseRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(18) || v.bodyUEContextReleaseRequest == nil {
 		return nil, false
 	}
 	return v.bodyUEContextReleaseRequest, true
 }
+
+// AsDownlinkS1cdma2000tunnelling returns the selected DownlinkS1cdma2000tunnelling value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsDownlinkS1cdma2000tunnelling() (*s40.DownlinkS1cdma2000tunnelling, bool) {
 	if v == nil || v.code != s00.ProcedureCode(19) || v.bodyDownlinkS1cdma2000tunnelling == nil {
 		return nil, false
 	}
 	return v.bodyDownlinkS1cdma2000tunnelling, true
 }
+
+// AsUplinkS1cdma2000tunnelling returns the selected UplinkS1cdma2000tunnelling value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUplinkS1cdma2000tunnelling() (*s44.UplinkS1cdma2000tunnelling, bool) {
 	if v == nil || v.code != s00.ProcedureCode(20) || v.bodyUplinkS1cdma2000tunnelling == nil {
 		return nil, false
 	}
 	return v.bodyUplinkS1cdma2000tunnelling, true
 }
+
+// AsUEContextModificationRequest returns the selected UEContextModificationRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUEContextModificationRequest() (*s46.UEContextModificationRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(21) || v.bodyUEContextModificationRequest == nil {
 		return nil, false
 	}
 	return v.bodyUEContextModificationRequest, true
 }
+
+// AsUECapabilityInfoIndication returns the selected UECapabilityInfoIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUECapabilityInfoIndication() (*s36.UECapabilityInfoIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(22) || v.bodyUECapabilityInfoIndication == nil {
 		return nil, false
 	}
 	return v.bodyUECapabilityInfoIndication, true
 }
+
+// AsUEContextReleaseCommand returns the selected UEContextReleaseCommand value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUEContextReleaseCommand() (*s37.UEContextReleaseCommand, bool) {
 	if v == nil || v.code != s00.ProcedureCode(23) || v.bodyUEContextReleaseCommand == nil {
 		return nil, false
 	}
 	return v.bodyUEContextReleaseCommand, true
 }
+
+// AsENBStatusTransfer returns the selected ENBStatusTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENBStatusTransfer() (*s24.ENBStatusTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(24) || v.bodyENBStatusTransfer == nil {
 		return nil, false
 	}
 	return v.bodyENBStatusTransfer, true
 }
+
+// AsMMEStatusTransfer returns the selected MMEStatusTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsMMEStatusTransfer() (*s25.MMEStatusTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(25) || v.bodyMMEStatusTransfer == nil {
 		return nil, false
 	}
 	return v.bodyMMEStatusTransfer, true
 }
+
+// AsDeactivateTrace returns the selected DeactivateTrace value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsDeactivateTrace() (*s15.DeactivateTrace, bool) {
 	if v == nil || v.code != s00.ProcedureCode(26) || v.bodyDeactivateTrace == nil {
 		return nil, false
 	}
 	return v.bodyDeactivateTrace, true
 }
+
+// AsTraceStart returns the selected TraceStart value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsTraceStart() (*s48.TraceStart, bool) {
 	if v == nil || v.code != s00.ProcedureCode(27) || v.bodyTraceStart == nil {
 		return nil, false
 	}
 	return v.bodyTraceStart, true
 }
+
+// AsTraceFailureIndication returns the selected TraceFailureIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsTraceFailureIndication() (*s34.TraceFailureIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(28) || v.bodyTraceFailureIndication == nil {
 		return nil, false
 	}
 	return v.bodyTraceFailureIndication, true
 }
+
+// AsENBConfigurationUpdate returns the selected ENBConfigurationUpdate value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENBConfigurationUpdate() (*s43.ENBConfigurationUpdate, bool) {
 	if v == nil || v.code != s00.ProcedureCode(29) || v.bodyENBConfigurationUpdate == nil {
 		return nil, false
 	}
 	return v.bodyENBConfigurationUpdate, true
 }
+
+// AsMMEConfigurationUpdate returns the selected MMEConfigurationUpdate value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsMMEConfigurationUpdate() (*s43.MMEConfigurationUpdate, bool) {
 	if v == nil || v.code != s00.ProcedureCode(30) || v.bodyMMEConfigurationUpdate == nil {
 		return nil, false
 	}
 	return v.bodyMMEConfigurationUpdate, true
 }
+
+// AsLocationReportingControl returns the selected LocationReportingControl value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsLocationReportingControl() (*s26.LocationReportingControl, bool) {
 	if v == nil || v.code != s00.ProcedureCode(31) || v.bodyLocationReportingControl == nil {
 		return nil, false
 	}
 	return v.bodyLocationReportingControl, true
 }
+
+// AsLocationReportingFailureIndication returns the selected LocationReportingFailureIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsLocationReportingFailureIndication() (*s25.LocationReportingFailureIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(32) || v.bodyLocationReportingFailureIndication == nil {
 		return nil, false
 	}
 	return v.bodyLocationReportingFailureIndication, true
 }
+
+// AsLocationReport returns the selected LocationReport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsLocationReport() (*s33.LocationReport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(33) || v.bodyLocationReport == nil {
 		return nil, false
 	}
 	return v.bodyLocationReport, true
 }
+
+// AsOverloadStart returns the selected OverloadStart value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsOverloadStart() (*s41.OverloadStart, bool) {
 	if v == nil || v.code != s00.ProcedureCode(34) || v.bodyOverloadStart == nil {
 		return nil, false
 	}
 	return v.bodyOverloadStart, true
 }
+
+// AsOverloadStop returns the selected OverloadStop value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsOverloadStop() (*s41.OverloadStop, bool) {
 	if v == nil || v.code != s00.ProcedureCode(35) || v.bodyOverloadStop == nil {
 		return nil, false
 	}
 	return v.bodyOverloadStop, true
 }
+
+// AsWriteReplaceWarningRequest returns the selected WriteReplaceWarningRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsWriteReplaceWarningRequest() (*s50.WriteReplaceWarningRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(36) || v.bodyWriteReplaceWarningRequest == nil {
 		return nil, false
 	}
 	return v.bodyWriteReplaceWarningRequest, true
 }
+
+// AsENBDirectInformationTransfer returns the selected ENBDirectInformationTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENBDirectInformationTransfer() (*s34.ENBDirectInformationTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(37) || v.bodyENBDirectInformationTransfer == nil {
 		return nil, false
 	}
 	return v.bodyENBDirectInformationTransfer, true
 }
+
+// AsMMEDirectInformationTransfer returns the selected MMEDirectInformationTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsMMEDirectInformationTransfer() (*s34.MMEDirectInformationTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(38) || v.bodyMMEDirectInformationTransfer == nil {
 		return nil, false
 	}
 	return v.bodyMMEDirectInformationTransfer, true
 }
+
+// AsPrivateMessage returns the selected PrivateMessage value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsPrivateMessage() (*s26.PrivateMessage, bool) {
 	if v == nil || v.code != s00.ProcedureCode(39) || v.bodyPrivateMessage == nil {
 		return nil, false
 	}
 	return v.bodyPrivateMessage, true
 }
+
+// AsENBConfigurationTransfer returns the selected ENBConfigurationTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENBConfigurationTransfer() (*ENBConfigurationTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(40) || v.bodyENBConfigurationTransfer == nil {
 		return nil, false
 	}
 	return v.bodyENBConfigurationTransfer, true
 }
+
+// AsMMEConfigurationTransfer returns the selected MMEConfigurationTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsMMEConfigurationTransfer() (*MMEConfigurationTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(41) || v.bodyMMEConfigurationTransfer == nil {
 		return nil, false
 	}
 	return v.bodyMMEConfigurationTransfer, true
 }
+
+// AsCellTrafficTrace returns the selected CellTrafficTrace value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsCellTrafficTrace() (*s21.CellTrafficTrace, bool) {
 	if v == nil || v.code != s00.ProcedureCode(42) || v.bodyCellTrafficTrace == nil {
 		return nil, false
 	}
 	return v.bodyCellTrafficTrace, true
 }
+
+// AsKillRequest returns the selected KillRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsKillRequest() (*s33.KillRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(43) || v.bodyKillRequest == nil {
 		return nil, false
 	}
 	return v.bodyKillRequest, true
 }
+
+// AsDownlinkUEAssociatedLPPaTransport returns the selected DownlinkUEAssociatedLPPaTransport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsDownlinkUEAssociatedLPPaTransport() (*s15.DownlinkUEAssociatedLPPaTransport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(44) || v.bodyDownlinkUEAssociatedLPPaTransport == nil {
 		return nil, false
 	}
 	return v.bodyDownlinkUEAssociatedLPPaTransport, true
 }
+
+// AsUplinkUEAssociatedLPPaTransport returns the selected UplinkUEAssociatedLPPaTransport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUplinkUEAssociatedLPPaTransport() (*s44.UplinkUEAssociatedLPPaTransport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(45) || v.bodyUplinkUEAssociatedLPPaTransport == nil {
 		return nil, false
 	}
 	return v.bodyUplinkUEAssociatedLPPaTransport, true
 }
+
+// AsDownlinkNonUEAssociatedLPPaTransport returns the selected DownlinkNonUEAssociatedLPPaTransport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsDownlinkNonUEAssociatedLPPaTransport() (*s15.DownlinkNonUEAssociatedLPPaTransport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(46) || v.bodyDownlinkNonUEAssociatedLPPaTransport == nil {
 		return nil, false
 	}
 	return v.bodyDownlinkNonUEAssociatedLPPaTransport, true
 }
+
+// AsUplinkNonUEAssociatedLPPaTransport returns the selected UplinkNonUEAssociatedLPPaTransport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUplinkNonUEAssociatedLPPaTransport() (*s44.UplinkNonUEAssociatedLPPaTransport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(47) || v.bodyUplinkNonUEAssociatedLPPaTransport == nil {
 		return nil, false
 	}
 	return v.bodyUplinkNonUEAssociatedLPPaTransport, true
 }
+
+// AsUERadioCapabilityMatchRequest returns the selected UERadioCapabilityMatchRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUERadioCapabilityMatchRequest() (*s36.UERadioCapabilityMatchRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(48) || v.bodyUERadioCapabilityMatchRequest == nil {
 		return nil, false
 	}
 	return v.bodyUERadioCapabilityMatchRequest, true
 }
+
+// AsPWSRestartIndication returns the selected PWSRestartIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsPWSRestartIndication() (*s44.PWSRestartIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(49) || v.bodyPWSRestartIndication == nil {
 		return nil, false
 	}
 	return v.bodyPWSRestartIndication, true
 }
+
+// AsERABModificationIndication returns the selected ERABModificationIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsERABModificationIndication() (*s45.ERABModificationIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(50) || v.bodyERABModificationIndication == nil {
 		return nil, false
 	}
 	return v.bodyERABModificationIndication, true
 }
+
+// AsPWSFailureIndication returns the selected PWSFailureIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsPWSFailureIndication() (*s42.PWSFailureIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(51) || v.bodyPWSFailureIndication == nil {
 		return nil, false
 	}
 	return v.bodyPWSFailureIndication, true
 }
+
+// AsRerouteNASRequest returns the selected RerouteNASRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsRerouteNASRequest() (*s26.RerouteNASRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(52) || v.bodyRerouteNASRequest == nil {
 		return nil, false
 	}
 	return v.bodyRerouteNASRequest, true
 }
+
+// AsUEContextModificationIndication returns the selected UEContextModificationIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUEContextModificationIndication() (*s36.UEContextModificationIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(53) || v.bodyUEContextModificationIndication == nil {
 		return nil, false
 	}
 	return v.bodyUEContextModificationIndication, true
 }
+
+// AsConnectionEstablishmentIndication returns the selected ConnectionEstablishmentIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsConnectionEstablishmentIndication() (*s31.ConnectionEstablishmentIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(54) || v.bodyConnectionEstablishmentIndication == nil {
 		return nil, false
 	}
 	return v.bodyConnectionEstablishmentIndication, true
 }
+
+// AsUEContextSuspendRequest returns the selected UEContextSuspendRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUEContextSuspendRequest() (*s46.UEContextSuspendRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(55) || v.bodyUEContextSuspendRequest == nil {
 		return nil, false
 	}
 	return v.bodyUEContextSuspendRequest, true
 }
+
+// AsUEContextResumeRequest returns the selected UEContextResumeRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUEContextResumeRequest() (*s38.UEContextResumeRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(56) || v.bodyUEContextResumeRequest == nil {
 		return nil, false
 	}
 	return v.bodyUEContextResumeRequest, true
 }
+
+// AsNASDeliveryIndication returns the selected NASDeliveryIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsNASDeliveryIndication() (*s19.NASDeliveryIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(57) || v.bodyNASDeliveryIndication == nil {
 		return nil, false
 	}
 	return v.bodyNASDeliveryIndication, true
 }
+
+// AsRetrieveUEInformation returns the selected RetrieveUEInformation value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsRetrieveUEInformation() (*s28.RetrieveUEInformation, bool) {
 	if v == nil || v.code != s00.ProcedureCode(58) || v.bodyRetrieveUEInformation == nil {
 		return nil, false
 	}
 	return v.bodyRetrieveUEInformation, true
 }
+
+// AsUEInformationTransfer returns the selected UEInformationTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUEInformationTransfer() (*s36.UEInformationTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(59) || v.bodyUEInformationTransfer == nil {
 		return nil, false
 	}
 	return v.bodyUEInformationTransfer, true
 }
+
+// AsENBCPRelocationIndication returns the selected ENBCPRelocationIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENBCPRelocationIndication() (*s37.ENBCPRelocationIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(60) || v.bodyENBCPRelocationIndication == nil {
 		return nil, false
 	}
 	return v.bodyENBCPRelocationIndication, true
 }
+
+// AsMMECPRelocationIndication returns the selected MMECPRelocationIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsMMECPRelocationIndication() (*s19.MMECPRelocationIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(61) || v.bodyMMECPRelocationIndication == nil {
 		return nil, false
 	}
 	return v.bodyMMECPRelocationIndication, true
 }
+
+// AsSecondaryRATDataUsageReport returns the selected SecondaryRATDataUsageReport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSecondaryRATDataUsageReport() (*s46.SecondaryRATDataUsageReport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(62) || v.bodySecondaryRATDataUsageReport == nil {
 		return nil, false
 	}
 	return v.bodySecondaryRATDataUsageReport, true
 }
+
+// AsUERadioCapabilityIDMappingRequest returns the selected UERadioCapabilityIDMappingRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUERadioCapabilityIDMappingRequest() (*s36.UERadioCapabilityIDMappingRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(63) || v.bodyUERadioCapabilityIDMappingRequest == nil {
 		return nil, false
 	}
 	return v.bodyUERadioCapabilityIDMappingRequest, true
 }
+
+// AsHandoverSuccess returns the selected HandoverSuccess value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsHandoverSuccess() (*s18.HandoverSuccess, bool) {
 	if v == nil || v.code != s00.ProcedureCode(64) || v.bodyHandoverSuccess == nil {
 		return nil, false
 	}
 	return v.bodyHandoverSuccess, true
 }
+
+// AsENBEarlyStatusTransfer returns the selected ENBEarlyStatusTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENBEarlyStatusTransfer() (*s37.ENBEarlyStatusTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(65) || v.bodyENBEarlyStatusTransfer == nil {
 		return nil, false
 	}
 	return v.bodyENBEarlyStatusTransfer, true
 }
+
+// AsMMEEarlyStatusTransfer returns the selected MMEEarlyStatusTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsMMEEarlyStatusTransfer() (*s37.MMEEarlyStatusTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(66) || v.bodyMMEEarlyStatusTransfer == nil {
 		return nil, false
 	}
 	return v.bodyMMEEarlyStatusTransfer, true
 }
+
+// AsS1RemovalRequest returns the selected S1RemovalRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsS1RemovalRequest() (*s26.S1RemovalRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(67) || v.bodyS1RemovalRequest == nil {
 		return nil, false
@@ -17242,6 +17502,8 @@ func (v MMEConfigurationTransferIEValue) matchesID(id s00.ProtocolIEID, _ ...*ap
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of MMEConfigurationTransferIEValue and reports whether the opaque alternative is selected.
 func (v *MMEConfigurationTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17911,18 +18173,24 @@ func (MMEConfigurationTransferIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsSONConfigurationTransferMCT returns the selected SONConfigurationTransferMCT value of MMEConfigurationTransferIEValue and reports whether that alternative is active.
 func (v *MMEConfigurationTransferIEValue) AsSONConfigurationTransferMCT() (*s50.SONConfigurationTransfer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(130) || v.rowSONConfigurationTransferMCT == nil {
 		return nil, false
 	}
 	return v.rowSONConfigurationTransferMCT, true
 }
+
+// AsENDCSONConfigurationTransferMCT returns the selected ENDCSONConfigurationTransferMCT value of MMEConfigurationTransferIEValue and reports whether that alternative is active.
 func (v *MMEConfigurationTransferIEValue) AsENDCSONConfigurationTransferMCT() (*s50.ENDCSONConfigurationTransfer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(295) || v.rowENDCSONConfigurationTransferMCT == nil {
 		return nil, false
 	}
 	return v.rowENDCSONConfigurationTransferMCT, true
 }
+
+// AsIntersystemSONConfigurationTransferMCT returns the selected IntersystemSONConfigurationTransferMCT value of MMEConfigurationTransferIEValue and reports whether that alternative is active.
 func (v *MMEConfigurationTransferIEValue) AsIntersystemSONConfigurationTransferMCT() (*s00.IntersystemSONConfigurationTransfer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(309) || v.rowIntersystemSONConfigurationTransferMCT == nil {
 		return nil, false
@@ -18446,6 +18714,8 @@ type HandoverPreparationDescriptor struct{}
 func HandoverPreparationProcedure() HandoverPreparationDescriptor {
 	return HandoverPreparationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for HandoverPreparationDescriptor.
 func (HandoverPreparationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(0), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverPreparation"}}}
 }
@@ -18455,6 +18725,8 @@ type HandoverResourceAllocationDescriptor struct{}
 func HandoverResourceAllocationProcedure() HandoverResourceAllocationDescriptor {
 	return HandoverResourceAllocationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for HandoverResourceAllocationDescriptor.
 func (HandoverResourceAllocationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(1), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverResourceAllocation"}}}
 }
@@ -18464,6 +18736,8 @@ type HandoverNotificationDescriptor struct{}
 func HandoverNotificationProcedure() HandoverNotificationDescriptor {
 	return HandoverNotificationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for HandoverNotificationDescriptor.
 func (HandoverNotificationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(2), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverNotification"}}}
 }
@@ -18471,6 +18745,8 @@ func (HandoverNotificationDescriptor) Info() s00.ProcedureInfo {
 type PathSwitchRequestDescriptor struct{}
 
 func PathSwitchRequestProcedure() PathSwitchRequestDescriptor { return PathSwitchRequestDescriptor{} }
+
+// Info returns the source-derived procedure metadata for PathSwitchRequestDescriptor.
 func (PathSwitchRequestDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(3), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-PathSwitchRequest"}}}
 }
@@ -18478,6 +18754,8 @@ func (PathSwitchRequestDescriptor) Info() s00.ProcedureInfo {
 type HandoverCancelDescriptor struct{}
 
 func HandoverCancelProcedure() HandoverCancelDescriptor { return HandoverCancelDescriptor{} }
+
+// Info returns the source-derived procedure metadata for HandoverCancelDescriptor.
 func (HandoverCancelDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(4), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverCancel"}}}
 }
@@ -18485,6 +18763,8 @@ func (HandoverCancelDescriptor) Info() s00.ProcedureInfo {
 type ERABSetupDescriptor struct{}
 
 func ERABSetupProcedure() ERABSetupDescriptor { return ERABSetupDescriptor{} }
+
+// Info returns the source-derived procedure metadata for ERABSetupDescriptor.
 func (ERABSetupDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(5), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-E-RABSetup"}}}
 }
@@ -18492,6 +18772,8 @@ func (ERABSetupDescriptor) Info() s00.ProcedureInfo {
 type ERABModifyDescriptor struct{}
 
 func ERABModifyProcedure() ERABModifyDescriptor { return ERABModifyDescriptor{} }
+
+// Info returns the source-derived procedure metadata for ERABModifyDescriptor.
 func (ERABModifyDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(6), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-E-RABModify"}}}
 }
@@ -18499,6 +18781,8 @@ func (ERABModifyDescriptor) Info() s00.ProcedureInfo {
 type ERABReleaseDescriptor struct{}
 
 func ERABReleaseProcedure() ERABReleaseDescriptor { return ERABReleaseDescriptor{} }
+
+// Info returns the source-derived procedure metadata for ERABReleaseDescriptor.
 func (ERABReleaseDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(7), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-E-RABRelease"}}}
 }
@@ -18508,6 +18792,8 @@ type ERABReleaseIndicationDescriptor struct{}
 func ERABReleaseIndicationProcedure() ERABReleaseIndicationDescriptor {
 	return ERABReleaseIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ERABReleaseIndicationDescriptor.
 func (ERABReleaseIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(8), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-E-RABReleaseIndication"}}}
 }
@@ -18517,6 +18803,8 @@ type InitialContextSetupDescriptor struct{}
 func InitialContextSetupProcedure() InitialContextSetupDescriptor {
 	return InitialContextSetupDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for InitialContextSetupDescriptor.
 func (InitialContextSetupDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(9), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-InitialContextSetup"}}}
 }
@@ -18524,6 +18812,8 @@ func (InitialContextSetupDescriptor) Info() s00.ProcedureInfo {
 type PagingDescriptor struct{}
 
 func PagingProcedure() PagingDescriptor { return PagingDescriptor{} }
+
+// Info returns the source-derived procedure metadata for PagingDescriptor.
 func (PagingDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(10), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-Paging"}}}
 }
@@ -18533,6 +18823,8 @@ type DownlinkNASTransportDescriptor struct{}
 func DownlinkNASTransportProcedure() DownlinkNASTransportDescriptor {
 	return DownlinkNASTransportDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for DownlinkNASTransportDescriptor.
 func (DownlinkNASTransportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(11), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-downlinkNASTransport"}}}
 }
@@ -18540,6 +18832,8 @@ func (DownlinkNASTransportDescriptor) Info() s00.ProcedureInfo {
 type InitialUEMessageDescriptor struct{}
 
 func InitialUEMessageProcedure() InitialUEMessageDescriptor { return InitialUEMessageDescriptor{} }
+
+// Info returns the source-derived procedure metadata for InitialUEMessageDescriptor.
 func (InitialUEMessageDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(12), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-initialUEMessage"}}}
 }
@@ -18547,6 +18841,8 @@ func (InitialUEMessageDescriptor) Info() s00.ProcedureInfo {
 type ErrorIndicationDescriptor struct{}
 
 func ErrorIndicationProcedure() ErrorIndicationDescriptor { return ErrorIndicationDescriptor{} }
+
+// Info returns the source-derived procedure metadata for ErrorIndicationDescriptor.
 func (ErrorIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(15), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-ErrorIndication"}}}
 }
@@ -18556,6 +18852,8 @@ type NASNonDeliveryIndicationDescriptor struct{}
 func NASNonDeliveryIndicationProcedure() NASNonDeliveryIndicationDescriptor {
 	return NASNonDeliveryIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for NASNonDeliveryIndicationDescriptor.
 func (NASNonDeliveryIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(16), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-NASNonDeliveryIndication"}}}
 }
@@ -18565,6 +18863,8 @@ type DownlinkS1cdma2000tunnellingDescriptor struct{}
 func DownlinkS1cdma2000tunnellingProcedure() DownlinkS1cdma2000tunnellingDescriptor {
 	return DownlinkS1cdma2000tunnellingDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for DownlinkS1cdma2000tunnellingDescriptor.
 func (DownlinkS1cdma2000tunnellingDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(19), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-DownlinkS1cdma2000tunnelling"}}}
 }
@@ -18572,6 +18872,8 @@ func (DownlinkS1cdma2000tunnellingDescriptor) Info() s00.ProcedureInfo {
 type ENBStatusTransferDescriptor struct{}
 
 func ENBStatusTransferProcedure() ENBStatusTransferDescriptor { return ENBStatusTransferDescriptor{} }
+
+// Info returns the source-derived procedure metadata for ENBStatusTransferDescriptor.
 func (ENBStatusTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(24), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-eNBStatusTransfer"}}}
 }
@@ -18579,6 +18881,8 @@ func (ENBStatusTransferDescriptor) Info() s00.ProcedureInfo {
 type MMEStatusTransferDescriptor struct{}
 
 func MMEStatusTransferProcedure() MMEStatusTransferDescriptor { return MMEStatusTransferDescriptor{} }
+
+// Info returns the source-derived procedure metadata for MMEStatusTransferDescriptor.
 func (MMEStatusTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(25), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMEStatusTransfer"}}}
 }
@@ -18586,6 +18890,8 @@ func (MMEStatusTransferDescriptor) Info() s00.ProcedureInfo {
 type DeactivateTraceDescriptor struct{}
 
 func DeactivateTraceProcedure() DeactivateTraceDescriptor { return DeactivateTraceDescriptor{} }
+
+// Info returns the source-derived procedure metadata for DeactivateTraceDescriptor.
 func (DeactivateTraceDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(26), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-DeactivateTrace"}}}
 }
@@ -18595,6 +18901,8 @@ type ENBConfigurationUpdateDescriptor struct{}
 func ENBConfigurationUpdateProcedure() ENBConfigurationUpdateDescriptor {
 	return ENBConfigurationUpdateDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ENBConfigurationUpdateDescriptor.
 func (ENBConfigurationUpdateDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(29), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-ENBConfigurationUpdate"}}}
 }
@@ -18604,6 +18912,8 @@ type MMEConfigurationUpdateDescriptor struct{}
 func MMEConfigurationUpdateProcedure() MMEConfigurationUpdateDescriptor {
 	return MMEConfigurationUpdateDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for MMEConfigurationUpdateDescriptor.
 func (MMEConfigurationUpdateDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(30), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMEConfigurationUpdate"}}}
 }
@@ -18613,6 +18923,8 @@ type LocationReportingControlDescriptor struct{}
 func LocationReportingControlProcedure() LocationReportingControlDescriptor {
 	return LocationReportingControlDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for LocationReportingControlDescriptor.
 func (LocationReportingControlDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(31), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-LocationReportingControl"}}}
 }
@@ -18622,6 +18934,8 @@ type LocationReportingFailureIndicationDescriptor struct{}
 func LocationReportingFailureIndicationProcedure() LocationReportingFailureIndicationDescriptor {
 	return LocationReportingFailureIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for LocationReportingFailureIndicationDescriptor.
 func (LocationReportingFailureIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(32), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-LocationReportingFailureIndication"}}}
 }
@@ -18629,6 +18943,8 @@ func (LocationReportingFailureIndicationDescriptor) Info() s00.ProcedureInfo {
 type LocationReportDescriptor struct{}
 
 func LocationReportProcedure() LocationReportDescriptor { return LocationReportDescriptor{} }
+
+// Info returns the source-derived procedure metadata for LocationReportDescriptor.
 func (LocationReportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(33), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-LocationReport"}}}
 }
@@ -18636,6 +18952,8 @@ func (LocationReportDescriptor) Info() s00.ProcedureInfo {
 type OverloadStartDescriptor struct{}
 
 func OverloadStartProcedure() OverloadStartDescriptor { return OverloadStartDescriptor{} }
+
+// Info returns the source-derived procedure metadata for OverloadStartDescriptor.
 func (OverloadStartDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(34), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-OverloadStart"}}}
 }
@@ -18643,6 +18961,8 @@ func (OverloadStartDescriptor) Info() s00.ProcedureInfo {
 type OverloadStopDescriptor struct{}
 
 func OverloadStopProcedure() OverloadStopDescriptor { return OverloadStopDescriptor{} }
+
+// Info returns the source-derived procedure metadata for OverloadStopDescriptor.
 func (OverloadStopDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(35), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-OverloadStop"}}}
 }
@@ -18652,6 +18972,8 @@ type ENBDirectInformationTransferDescriptor struct{}
 func ENBDirectInformationTransferProcedure() ENBDirectInformationTransferDescriptor {
 	return ENBDirectInformationTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ENBDirectInformationTransferDescriptor.
 func (ENBDirectInformationTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(37), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-eNBDirectInformationTransfer"}}}
 }
@@ -18661,6 +18983,8 @@ type MMEDirectInformationTransferDescriptor struct{}
 func MMEDirectInformationTransferProcedure() MMEDirectInformationTransferDescriptor {
 	return MMEDirectInformationTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for MMEDirectInformationTransferDescriptor.
 func (MMEDirectInformationTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(38), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMEDirectInformationTransfer"}}}
 }
@@ -18668,6 +18992,8 @@ func (MMEDirectInformationTransferDescriptor) Info() s00.ProcedureInfo {
 type CellTrafficTraceDescriptor struct{}
 
 func CellTrafficTraceProcedure() CellTrafficTraceDescriptor { return CellTrafficTraceDescriptor{} }
+
+// Info returns the source-derived procedure metadata for CellTrafficTraceDescriptor.
 func (CellTrafficTraceDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(42), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-CellTrafficTrace"}}}
 }
@@ -18675,6 +19001,8 @@ func (CellTrafficTraceDescriptor) Info() s00.ProcedureInfo {
 type KillDescriptor struct{}
 
 func KillProcedure() KillDescriptor { return KillDescriptor{} }
+
+// Info returns the source-derived procedure metadata for KillDescriptor.
 func (KillDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(43), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-Kill"}}}
 }
@@ -18684,6 +19012,8 @@ type DownlinkUEAssociatedLPPaTransportDescriptor struct{}
 func DownlinkUEAssociatedLPPaTransportProcedure() DownlinkUEAssociatedLPPaTransportDescriptor {
 	return DownlinkUEAssociatedLPPaTransportDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for DownlinkUEAssociatedLPPaTransportDescriptor.
 func (DownlinkUEAssociatedLPPaTransportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(44), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-downlinkUEAssociatedLPPaTransport"}}}
 }
@@ -18693,6 +19023,8 @@ type DownlinkNonUEAssociatedLPPaTransportDescriptor struct{}
 func DownlinkNonUEAssociatedLPPaTransportProcedure() DownlinkNonUEAssociatedLPPaTransportDescriptor {
 	return DownlinkNonUEAssociatedLPPaTransportDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for DownlinkNonUEAssociatedLPPaTransportDescriptor.
 func (DownlinkNonUEAssociatedLPPaTransportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(46), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-downlinkNonUEAssociatedLPPaTransport"}}}
 }
@@ -18702,6 +19034,8 @@ type PWSRestartIndicationDescriptor struct{}
 func PWSRestartIndicationProcedure() PWSRestartIndicationDescriptor {
 	return PWSRestartIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for PWSRestartIndicationDescriptor.
 func (PWSRestartIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(49), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-PWSRestartIndication"}}}
 }
@@ -18711,6 +19045,8 @@ type ERABModificationIndicationDescriptor struct{}
 func ERABModificationIndicationProcedure() ERABModificationIndicationDescriptor {
 	return ERABModificationIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ERABModificationIndicationDescriptor.
 func (ERABModificationIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(50), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-E-RABModificationIndication"}}}
 }
@@ -18720,6 +19056,8 @@ type PWSFailureIndicationDescriptor struct{}
 func PWSFailureIndicationProcedure() PWSFailureIndicationDescriptor {
 	return PWSFailureIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for PWSFailureIndicationDescriptor.
 func (PWSFailureIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(51), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-PWSFailureIndication"}}}
 }
@@ -18729,6 +19067,8 @@ type ConnectionEstablishmentIndicationDescriptor struct{}
 func ConnectionEstablishmentIndicationProcedure() ConnectionEstablishmentIndicationDescriptor {
 	return ConnectionEstablishmentIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ConnectionEstablishmentIndicationDescriptor.
 func (ConnectionEstablishmentIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(54), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-ConnectionEstablishmentIndication"}}}
 }
@@ -18738,6 +19078,8 @@ type NASDeliveryIndicationDescriptor struct{}
 func NASDeliveryIndicationProcedure() NASDeliveryIndicationDescriptor {
 	return NASDeliveryIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for NASDeliveryIndicationDescriptor.
 func (NASDeliveryIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(57), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-NASDeliveryIndication"}}}
 }
@@ -18747,6 +19089,8 @@ type ENBCPRelocationIndicationDescriptor struct{}
 func ENBCPRelocationIndicationProcedure() ENBCPRelocationIndicationDescriptor {
 	return ENBCPRelocationIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ENBCPRelocationIndicationDescriptor.
 func (ENBCPRelocationIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(60), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-eNBCPRelocationIndication"}}}
 }
@@ -18756,6 +19100,8 @@ type MMECPRelocationIndicationDescriptor struct{}
 func MMECPRelocationIndicationProcedure() MMECPRelocationIndicationDescriptor {
 	return MMECPRelocationIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for MMECPRelocationIndicationDescriptor.
 func (MMECPRelocationIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(61), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMECPRelocationIndication"}}}
 }
@@ -18763,6 +19109,8 @@ func (MMECPRelocationIndicationDescriptor) Info() s00.ProcedureInfo {
 type HandoverSuccessDescriptor struct{}
 
 func HandoverSuccessProcedure() HandoverSuccessDescriptor { return HandoverSuccessDescriptor{} }
+
+// Info returns the source-derived procedure metadata for HandoverSuccessDescriptor.
 func (HandoverSuccessDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(64), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverSuccess"}}}
 }
@@ -18772,6 +19120,8 @@ type ENBEarlyStatusTransferDescriptor struct{}
 func ENBEarlyStatusTransferProcedure() ENBEarlyStatusTransferDescriptor {
 	return ENBEarlyStatusTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ENBEarlyStatusTransferDescriptor.
 func (ENBEarlyStatusTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(65), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-eNBEarlyStatusTransfer"}}}
 }
@@ -18781,6 +19131,8 @@ type MMEEarlyStatusTransferDescriptor struct{}
 func MMEEarlyStatusTransferProcedure() MMEEarlyStatusTransferDescriptor {
 	return MMEEarlyStatusTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for MMEEarlyStatusTransferDescriptor.
 func (MMEEarlyStatusTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(66), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMEEarlyStatusTransfer"}}}
 }
@@ -18790,6 +19142,8 @@ type ENBConfigurationTransferIETable struct{}
 func ENBConfigurationTransferIEs() ENBConfigurationTransferIETable {
 	return ENBConfigurationTransferIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBConfigurationTransferIETable.
 func (ENBConfigurationTransferIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18797,6 +19151,8 @@ func (ENBConfigurationTransferIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ENBConfigurationTransferIETable.
 func (ENBConfigurationTransferIETable) Table() s00.ENBConfigurationTransferIEValueIETable {
 	return func() s00.ENBConfigurationTransferIEValueIETable {
 		sealed := s00.ENBConfigurationTransferIEValueIETable{}
@@ -18811,6 +19167,8 @@ func (ENBConfigurationTransferIETable) infoSONConfigurationTransferECT() s00.Fie
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBConfigurationTransferIEs", Row: "id-SONConfigurationTransferECT"}}}
 }
+
+// SONConfigurationTransferECT returns the typed binding for the SONConfigurationTransferECT row of ENBConfigurationTransferIETable.
 func (t ENBConfigurationTransferIETable) SONConfigurationTransferECT() ENBConfigurationTransferSONConfigurationTransferIEBinding {
 	return ENBConfigurationTransferSONConfigurationTransferIEBinding{info: t.infoSONConfigurationTransferECT(), codec: SONConfigurationTransferValueCodec{path: "SONConfigurationTransfer",
 		decode: func(data []byte, options aper.DecodeState) (s50.SONConfigurationTransfer, error) {
@@ -18883,6 +19241,8 @@ func (ENBConfigurationTransferIETable) infoENDCSONConfigurationTransferECT() s00
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBConfigurationTransferIEs", Row: "id-EN-DCSONConfigurationTransfer-ECT"}}}
 }
+
+// ENDCSONConfigurationTransferECT returns the typed binding for the ENDCSONConfigurationTransferECT row of ENBConfigurationTransferIETable.
 func (t ENBConfigurationTransferIETable) ENDCSONConfigurationTransferECT() s50.ENBConfigurationTransferENDCSONConfigurationTransferIEBinding {
 	return func() s50.ENBConfigurationTransferENDCSONConfigurationTransferIEBinding {
 		sealed := s50.ENBConfigurationTransferENDCSONConfigurationTransferIEBinding{}
@@ -18966,6 +19326,8 @@ func (ENBConfigurationTransferIETable) infoIntersystemSONConfigurationTransferEC
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBConfigurationTransferIEs", Row: "id-IntersystemSONConfigurationTransferECT"}}}
 }
+
+// IntersystemSONConfigurationTransferECT returns the typed binding for the IntersystemSONConfigurationTransferECT row of ENBConfigurationTransferIETable.
 func (t ENBConfigurationTransferIETable) IntersystemSONConfigurationTransferECT() s50.ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding {
 	return func() s50.ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding {
 		sealed := s50.ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding{}
@@ -19041,6 +19403,8 @@ func (t ENBConfigurationTransferIETable) IntersystemSONConfigurationTransferECT(
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBConfigurationTransferIETable.
 func (t ENBConfigurationTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s50.ENBConfigurationTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s50.ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19076,6 +19440,8 @@ type MMEConfigurationTransferIETable struct{}
 func MMEConfigurationTransferIEs() MMEConfigurationTransferIETable {
 	return MMEConfigurationTransferIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of MMEConfigurationTransferIETable.
 func (MMEConfigurationTransferIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19083,6 +19449,8 @@ func (MMEConfigurationTransferIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by MMEConfigurationTransferIETable.
 func (MMEConfigurationTransferIETable) Table() s00.MMEConfigurationTransferIEValueIETable {
 	return func() s00.MMEConfigurationTransferIEValueIETable {
 		sealed := s00.MMEConfigurationTransferIEValueIETable{}
@@ -19097,6 +19465,8 @@ func (MMEConfigurationTransferIETable) infoSONConfigurationTransferMCT() s00.Fie
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEConfigurationTransferIEs", Row: "id-SONConfigurationTransferMCT"}}}
 }
+
+// SONConfigurationTransferMCT returns the typed binding for the SONConfigurationTransferMCT row of MMEConfigurationTransferIETable.
 func (t MMEConfigurationTransferIETable) SONConfigurationTransferMCT() MMEConfigurationTransferSONConfigurationTransferIEBinding {
 	return MMEConfigurationTransferSONConfigurationTransferIEBinding{info: t.infoSONConfigurationTransferMCT(), codec: SONConfigurationTransferValueCodec{path: "SONConfigurationTransfer",
 		decode: func(data []byte, options aper.DecodeState) (s50.SONConfigurationTransfer, error) {
@@ -19159,6 +19529,8 @@ func (MMEConfigurationTransferIETable) infoENDCSONConfigurationTransferMCT() s00
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEConfigurationTransferIEs", Row: "id-EN-DCSONConfigurationTransfer-MCT"}}}
 }
+
+// ENDCSONConfigurationTransferMCT returns the typed binding for the ENDCSONConfigurationTransferMCT row of MMEConfigurationTransferIETable.
 func (t MMEConfigurationTransferIETable) ENDCSONConfigurationTransferMCT() MMEConfigurationTransferENDCSONConfigurationTransferIEBinding {
 	return MMEConfigurationTransferENDCSONConfigurationTransferIEBinding{info: t.infoENDCSONConfigurationTransferMCT(), codec: func() s50.ENDCSONConfigurationTransferValueCodec {
 		sealed := s50.ENDCSONConfigurationTransferValueCodec{}
@@ -19226,6 +19598,8 @@ func (MMEConfigurationTransferIETable) infoIntersystemSONConfigurationTransferMC
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEConfigurationTransferIEs", Row: "id-IntersystemSONConfigurationTransferMCT"}}}
 }
+
+// IntersystemSONConfigurationTransferMCT returns the typed binding for the IntersystemSONConfigurationTransferMCT row of MMEConfigurationTransferIETable.
 func (t MMEConfigurationTransferIETable) IntersystemSONConfigurationTransferMCT() MMEConfigurationTransferIntersystemSONConfigurationTransferIEBinding {
 	return MMEConfigurationTransferIntersystemSONConfigurationTransferIEBinding{info: t.infoIntersystemSONConfigurationTransferMCT(), codec: func() s01.IntersystemSONConfigurationTransferValueCodec {
 		sealed := s01.IntersystemSONConfigurationTransferValueCodec{}
@@ -19285,6 +19659,8 @@ func (t MMEConfigurationTransferIETable) IntersystemSONConfigurationTransferMCT(
 			return value.AsIntersystemSONConfigurationTransferMCT()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in MMEConfigurationTransferIETable.
 func (t MMEConfigurationTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (MMEConfigurationTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return MMEConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

@@ -9111,6 +9111,8 @@ func (v MMEConfigurationUpdateFailureIEValue) matchesID(id s00.ProtocolIEID, _ .
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of MMEConfigurationUpdateFailureIEValue and reports whether the opaque alternative is selected.
 func (v *MMEConfigurationUpdateFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -9780,18 +9782,24 @@ func (MMEConfigurationUpdateFailureIEValue) reason(id s00.ProtocolIEID) aper.Opa
 		return aper.UnknownSelector
 	}
 }
+
+// AsCause returns the selected Cause value of MMEConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *MMEConfigurationUpdateFailureIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsTimeToWait returns the selected TimeToWait value of MMEConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *MMEConfigurationUpdateFailureIEValue) AsTimeToWait() (*s00.TimeToWait, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(65) || v.rowTimeToWait == nil {
 		return nil, false
 	}
 	return v.rowTimeToWait, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of MMEConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *MMEConfigurationUpdateFailureIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -9958,6 +9966,8 @@ func (v PathSwitchRequestFailureIEValue) matchesID(id s00.ProtocolIEID, _ ...*ap
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of PathSwitchRequestFailureIEValue and reports whether the opaque alternative is selected.
 func (v *PathSwitchRequestFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -10627,24 +10637,32 @@ func (PathSwitchRequestFailureIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of PathSwitchRequestFailureIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestFailureIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of PathSwitchRequestFailureIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestFailureIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCause returns the selected Cause value of PathSwitchRequestFailureIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestFailureIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of PathSwitchRequestFailureIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestFailureIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -10833,6 +10851,8 @@ func (v S1RemovalFailureIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decod
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of S1RemovalFailureIEValue and reports whether the opaque alternative is selected.
 func (v *S1RemovalFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -11502,12 +11522,16 @@ func (S1RemovalFailureIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsCause returns the selected Cause value of S1RemovalFailureIEValue and reports whether that alternative is active.
 func (v *S1RemovalFailureIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of S1RemovalFailureIEValue and reports whether that alternative is active.
 func (v *S1RemovalFailureIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -11636,6 +11660,8 @@ func (v S1RemovalResponseIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Deco
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of S1RemovalResponseIEValue and reports whether the opaque alternative is selected.
 func (v *S1RemovalResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -12305,12 +12331,16 @@ func (S1RemovalResponseIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEname returns the selected MMEname value of S1RemovalResponseIEValue and reports whether that alternative is active.
 func (v *S1RemovalResponseIEValue) AsMMEname() (*s00.MMEname, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(61) || v.rowMMEname == nil {
 		return nil, false
 	}
 	return v.rowMMEname, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of S1RemovalResponseIEValue and reports whether that alternative is active.
 func (v *S1RemovalResponseIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -12462,6 +12492,8 @@ func (v S1SetupFailureIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeB
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of S1SetupFailureIEValue and reports whether the opaque alternative is selected.
 func (v *S1SetupFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13131,18 +13163,24 @@ func (S1SetupFailureIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsCause returns the selected Cause value of S1SetupFailureIEValue and reports whether that alternative is active.
 func (v *S1SetupFailureIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsTimeToWait returns the selected TimeToWait value of S1SetupFailureIEValue and reports whether that alternative is active.
 func (v *S1SetupFailureIEValue) AsTimeToWait() (*s00.TimeToWait, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(65) || v.rowTimeToWait == nil {
 		return nil, false
 	}
 	return v.rowTimeToWait, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of S1SetupFailureIEValue and reports whether that alternative is active.
 func (v *S1SetupFailureIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -13307,6 +13345,8 @@ func (v UEContextModificationConfirmIEValue) matchesID(id s00.ProtocolIEID, _ ..
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextModificationConfirmIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextModificationConfirmIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13976,24 +14016,32 @@ func (UEContextModificationConfirmIEValue) reason(id s00.ProtocolIEID) aper.Opaq
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextModificationConfirmIEValue and reports whether that alternative is active.
 func (v *UEContextModificationConfirmIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextModificationConfirmIEValue and reports whether that alternative is active.
 func (v *UEContextModificationConfirmIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCSGMembershipStatus returns the selected CSGMembershipStatus value of UEContextModificationConfirmIEValue and reports whether that alternative is active.
 func (v *UEContextModificationConfirmIEValue) AsCSGMembershipStatus() (*s00.CSGMembershipStatus, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(146) || v.rowCSGMembershipStatus == nil {
 		return nil, false
 	}
 	return v.rowCSGMembershipStatus, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of UEContextModificationConfirmIEValue and reports whether that alternative is active.
 func (v *UEContextModificationConfirmIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -14187,6 +14235,8 @@ func (v UEContextModificationFailureIEValue) matchesID(id s00.ProtocolIEID, _ ..
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextModificationFailureIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextModificationFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14856,24 +14906,32 @@ func (UEContextModificationFailureIEValue) reason(id s00.ProtocolIEID) aper.Opaq
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextModificationFailureIEValue and reports whether that alternative is active.
 func (v *UEContextModificationFailureIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextModificationFailureIEValue and reports whether that alternative is active.
 func (v *UEContextModificationFailureIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCause returns the selected Cause value of UEContextModificationFailureIEValue and reports whether that alternative is active.
 func (v *UEContextModificationFailureIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of UEContextModificationFailureIEValue and reports whether that alternative is active.
 func (v *UEContextModificationFailureIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -15067,6 +15125,8 @@ func (v UEContextModificationResponseIEValue) matchesID(id s00.ProtocolIEID, _ .
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextModificationResponseIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextModificationResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15736,18 +15796,24 @@ func (UEContextModificationResponseIEValue) reason(id s00.ProtocolIEID) aper.Opa
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextModificationResponseIEValue and reports whether that alternative is active.
 func (v *UEContextModificationResponseIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextModificationResponseIEValue and reports whether that alternative is active.
 func (v *UEContextModificationResponseIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of UEContextModificationResponseIEValue and reports whether that alternative is active.
 func (v *UEContextModificationResponseIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -15911,6 +15977,8 @@ func (v UEContextResumeFailureIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextResumeFailureIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextResumeFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16580,24 +16648,32 @@ func (UEContextResumeFailureIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReas
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextResumeFailureIEValue and reports whether that alternative is active.
 func (v *UEContextResumeFailureIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextResumeFailureIEValue and reports whether that alternative is active.
 func (v *UEContextResumeFailureIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCause returns the selected Cause value of UEContextResumeFailureIEValue and reports whether that alternative is active.
 func (v *UEContextResumeFailureIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of UEContextResumeFailureIEValue and reports whether that alternative is active.
 func (v *UEContextResumeFailureIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -16789,6 +16865,8 @@ func (v UERadioCapabilityIDMappingResponseIEValue) matchesID(id s00.ProtocolIEID
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UERadioCapabilityIDMappingResponseIEValue and reports whether the opaque alternative is selected.
 func (v *UERadioCapabilityIDMappingResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17458,18 +17536,24 @@ func (UERadioCapabilityIDMappingResponseIEValue) reason(id s00.ProtocolIEID) ape
 		return aper.UnknownSelector
 	}
 }
+
+// AsUERadioCapabilityID returns the selected UERadioCapabilityID value of UERadioCapabilityIDMappingResponseIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityIDMappingResponseIEValue) AsUERadioCapabilityID() (*s00.UERadioCapabilityID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowUERadioCapabilityID == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapabilityID, true
 }
+
+// AsUERadioCapability returns the selected UERadioCapability value of UERadioCapabilityIDMappingResponseIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityIDMappingResponseIEValue) AsUERadioCapability() (*s00.UERadioCapability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(74) || v.rowUERadioCapability == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapability, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of UERadioCapabilityIDMappingResponseIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityIDMappingResponseIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -17653,6 +17737,8 @@ type MMEConfigurationUpdateFailureIETable struct{}
 func MMEConfigurationUpdateFailureIEs() MMEConfigurationUpdateFailureIETable {
 	return MMEConfigurationUpdateFailureIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of MMEConfigurationUpdateFailureIETable.
 func (MMEConfigurationUpdateFailureIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17660,6 +17746,8 @@ func (MMEConfigurationUpdateFailureIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by MMEConfigurationUpdateFailureIETable.
 func (MMEConfigurationUpdateFailureIETable) Table() s00.MMEConfigurationUpdateFailureIEValueIETable {
 	return func() s00.MMEConfigurationUpdateFailureIEValueIETable {
 		sealed := s00.MMEConfigurationUpdateFailureIEValueIETable{}
@@ -17674,6 +17762,8 @@ func (MMEConfigurationUpdateFailureIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEConfigurationUpdateFailureIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of MMEConfigurationUpdateFailureIETable.
 func (t MMEConfigurationUpdateFailureIETable) Cause() MMEConfigurationUpdateFailureCauseIEBinding {
 	return MMEConfigurationUpdateFailureCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -17736,6 +17826,8 @@ func (MMEConfigurationUpdateFailureIETable) infoTimeToWait() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEConfigurationUpdateFailureIEs", Row: "id-TimeToWait"}}}
 }
+
+// TimeToWait returns the typed binding for the TimeToWait row of MMEConfigurationUpdateFailureIETable.
 func (t MMEConfigurationUpdateFailureIETable) TimeToWait() MMEConfigurationUpdateFailureTimeToWaitIEBinding {
 	return MMEConfigurationUpdateFailureTimeToWaitIEBinding{info: t.infoTimeToWait(), codec: func() s02.TimeToWaitValueCodec {
 		sealed := s02.TimeToWaitValueCodec{}
@@ -17801,6 +17893,8 @@ func (MMEConfigurationUpdateFailureIETable) infoCriticalityDiagnostics() s00.Fie
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEConfigurationUpdateFailureIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of MMEConfigurationUpdateFailureIETable.
 func (t MMEConfigurationUpdateFailureIETable) CriticalityDiagnostics() MMEConfigurationUpdateFailureCriticalityDiagnosticsIEBinding {
 	return MMEConfigurationUpdateFailureCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -17860,6 +17954,8 @@ func (t MMEConfigurationUpdateFailureIETable) CriticalityDiagnostics() MMEConfig
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in MMEConfigurationUpdateFailureIETable.
 func (t MMEConfigurationUpdateFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (MMEConfigurationUpdateFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return MMEConfigurationUpdateFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -17889,6 +17985,8 @@ type PathSwitchRequestFailureIETable struct{}
 func PathSwitchRequestFailureIEs() PathSwitchRequestFailureIETable {
 	return PathSwitchRequestFailureIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of PathSwitchRequestFailureIETable.
 func (PathSwitchRequestFailureIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17896,6 +17994,8 @@ func (PathSwitchRequestFailureIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by PathSwitchRequestFailureIETable.
 func (PathSwitchRequestFailureIETable) Table() s00.PathSwitchRequestFailureIEValueIETable {
 	return func() s00.PathSwitchRequestFailureIEValueIETable {
 		sealed := s00.PathSwitchRequestFailureIEValueIETable{}
@@ -17910,6 +18010,8 @@ func (PathSwitchRequestFailureIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestFailureIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of PathSwitchRequestFailureIETable.
 func (t PathSwitchRequestFailureIETable) MMEUES1APID() PathSwitchRequestFailureMMEUES1APIDIEBinding {
 	return PathSwitchRequestFailureMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -17972,6 +18074,8 @@ func (PathSwitchRequestFailureIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestFailureIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of PathSwitchRequestFailureIETable.
 func (t PathSwitchRequestFailureIETable) ENBUES1APID() PathSwitchRequestFailureENBUES1APIDIEBinding {
 	return PathSwitchRequestFailureENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18034,6 +18138,8 @@ func (PathSwitchRequestFailureIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestFailureIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of PathSwitchRequestFailureIETable.
 func (t PathSwitchRequestFailureIETable) Cause() PathSwitchRequestFailureCauseIEBinding {
 	return PathSwitchRequestFailureCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -18096,6 +18202,8 @@ func (PathSwitchRequestFailureIETable) infoCriticalityDiagnostics() s00.FieldInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestFailureIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of PathSwitchRequestFailureIETable.
 func (t PathSwitchRequestFailureIETable) CriticalityDiagnostics() PathSwitchRequestFailureCriticalityDiagnosticsIEBinding {
 	return PathSwitchRequestFailureCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -18155,6 +18263,8 @@ func (t PathSwitchRequestFailureIETable) CriticalityDiagnostics() PathSwitchRequ
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in PathSwitchRequestFailureIETable.
 func (t PathSwitchRequestFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (PathSwitchRequestFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return PathSwitchRequestFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18184,6 +18294,8 @@ func (t PathSwitchRequestFailureIETable) NewOpaque(id s00.ProtocolIEID, critical
 type S1RemovalFailureIETable struct{}
 
 func S1RemovalFailureIEs() S1RemovalFailureIETable { return S1RemovalFailureIETable{} }
+
+// ID returns the ASN.1 object-set identity of S1RemovalFailureIETable.
 func (S1RemovalFailureIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18191,6 +18303,8 @@ func (S1RemovalFailureIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by S1RemovalFailureIETable.
 func (S1RemovalFailureIETable) Table() s00.S1RemovalFailureIEValueIETable {
 	return func() s00.S1RemovalFailureIEValueIETable {
 		sealed := s00.S1RemovalFailureIEValueIETable{}
@@ -18205,6 +18319,8 @@ func (S1RemovalFailureIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "S1RemovalFailureIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of S1RemovalFailureIETable.
 func (t S1RemovalFailureIETable) Cause() S1RemovalFailureCauseIEBinding {
 	return S1RemovalFailureCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -18267,6 +18383,8 @@ func (S1RemovalFailureIETable) infoCriticalityDiagnostics() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "S1RemovalFailureIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of S1RemovalFailureIETable.
 func (t S1RemovalFailureIETable) CriticalityDiagnostics() S1RemovalFailureCriticalityDiagnosticsIEBinding {
 	return S1RemovalFailureCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -18326,6 +18444,8 @@ func (t S1RemovalFailureIETable) CriticalityDiagnostics() S1RemovalFailureCritic
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in S1RemovalFailureIETable.
 func (t S1RemovalFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (S1RemovalFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return S1RemovalFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18351,6 +18471,8 @@ func (t S1RemovalFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.
 type S1RemovalResponseIETable struct{}
 
 func S1RemovalResponseIEs() S1RemovalResponseIETable { return S1RemovalResponseIETable{} }
+
+// ID returns the ASN.1 object-set identity of S1RemovalResponseIETable.
 func (S1RemovalResponseIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18358,6 +18480,8 @@ func (S1RemovalResponseIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by S1RemovalResponseIETable.
 func (S1RemovalResponseIETable) Table() s00.S1RemovalResponseIEValueIETable {
 	return func() s00.S1RemovalResponseIEValueIETable {
 		sealed := s00.S1RemovalResponseIEValueIETable{}
@@ -18372,6 +18496,8 @@ func (S1RemovalResponseIETable) infoMMEname() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "S1RemovalResponseIEs", Row: "id-MMEname"}}}
 }
+
+// MMEname returns the typed binding for the MMEname row of S1RemovalResponseIETable.
 func (t S1RemovalResponseIETable) MMEname() S1RemovalResponseMMEnameIEBinding {
 	return S1RemovalResponseMMEnameIEBinding{info: t.infoMMEname(), codec: func() s01.MMEnameValueCodec {
 		sealed := s01.MMEnameValueCodec{}
@@ -18435,6 +18561,8 @@ func (S1RemovalResponseIETable) infoCriticalityDiagnostics() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "S1RemovalResponseIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of S1RemovalResponseIETable.
 func (t S1RemovalResponseIETable) CriticalityDiagnostics() S1RemovalResponseCriticalityDiagnosticsIEBinding {
 	return S1RemovalResponseCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -18494,6 +18622,8 @@ func (t S1RemovalResponseIETable) CriticalityDiagnostics() S1RemovalResponseCrit
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in S1RemovalResponseIETable.
 func (t S1RemovalResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (S1RemovalResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return S1RemovalResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18519,6 +18649,8 @@ func (t S1RemovalResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00
 type S1SetupFailureIETable struct{}
 
 func S1SetupFailureIEs() S1SetupFailureIETable { return S1SetupFailureIETable{} }
+
+// ID returns the ASN.1 object-set identity of S1SetupFailureIETable.
 func (S1SetupFailureIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18526,6 +18658,8 @@ func (S1SetupFailureIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by S1SetupFailureIETable.
 func (S1SetupFailureIETable) Table() s00.S1SetupFailureIEValueIETable {
 	return func() s00.S1SetupFailureIEValueIETable {
 		sealed := s00.S1SetupFailureIEValueIETable{}
@@ -18540,6 +18674,8 @@ func (S1SetupFailureIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "S1SetupFailureIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of S1SetupFailureIETable.
 func (t S1SetupFailureIETable) Cause() S1SetupFailureCauseIEBinding {
 	return S1SetupFailureCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -18602,6 +18738,8 @@ func (S1SetupFailureIETable) infoTimeToWait() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "S1SetupFailureIEs", Row: "id-TimeToWait"}}}
 }
+
+// TimeToWait returns the typed binding for the TimeToWait row of S1SetupFailureIETable.
 func (t S1SetupFailureIETable) TimeToWait() S1SetupFailureTimeToWaitIEBinding {
 	return S1SetupFailureTimeToWaitIEBinding{info: t.infoTimeToWait(), codec: func() s02.TimeToWaitValueCodec {
 		sealed := s02.TimeToWaitValueCodec{}
@@ -18665,6 +18803,8 @@ func (S1SetupFailureIETable) infoCriticalityDiagnostics() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "S1SetupFailureIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of S1SetupFailureIETable.
 func (t S1SetupFailureIETable) CriticalityDiagnostics() S1SetupFailureCriticalityDiagnosticsIEBinding {
 	return S1SetupFailureCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -18724,6 +18864,8 @@ func (t S1SetupFailureIETable) CriticalityDiagnostics() S1SetupFailureCriticalit
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in S1SetupFailureIETable.
 func (t S1SetupFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (S1SetupFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return S1SetupFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18753,6 +18895,8 @@ type UEContextModificationConfirmIETable struct{}
 func UEContextModificationConfirmIEs() UEContextModificationConfirmIETable {
 	return UEContextModificationConfirmIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextModificationConfirmIETable.
 func (UEContextModificationConfirmIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18760,6 +18904,8 @@ func (UEContextModificationConfirmIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextModificationConfirmIETable.
 func (UEContextModificationConfirmIETable) Table() s00.UEContextModificationConfirmIEValueIETable {
 	return func() s00.UEContextModificationConfirmIEValueIETable {
 		sealed := s00.UEContextModificationConfirmIEValueIETable{}
@@ -18774,6 +18920,8 @@ func (UEContextModificationConfirmIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationConfirmIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextModificationConfirmIETable.
 func (t UEContextModificationConfirmIETable) MMEUES1APID() UEContextModificationConfirmMMEUES1APIDIEBinding {
 	return UEContextModificationConfirmMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18838,6 +18986,8 @@ func (UEContextModificationConfirmIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationConfirmIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextModificationConfirmIETable.
 func (t UEContextModificationConfirmIETable) ENBUES1APID() UEContextModificationConfirmENBUES1APIDIEBinding {
 	return UEContextModificationConfirmENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18902,6 +19052,8 @@ func (UEContextModificationConfirmIETable) infoCSGMembershipStatus() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationConfirmIEs", Row: "id-CSGMembershipStatus"}}}
 }
+
+// CSGMembershipStatus returns the typed binding for the CSGMembershipStatus row of UEContextModificationConfirmIETable.
 func (t UEContextModificationConfirmIETable) CSGMembershipStatus() UEContextModificationConfirmCSGMembershipStatusIEBinding {
 	return UEContextModificationConfirmCSGMembershipStatusIEBinding{info: t.infoCSGMembershipStatus(), codec: func() s00.CSGMembershipStatusValueCodec {
 		sealed := s00.CSGMembershipStatusValueCodec{}
@@ -18966,6 +19118,8 @@ func (UEContextModificationConfirmIETable) infoCriticalityDiagnostics() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationConfirmIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of UEContextModificationConfirmIETable.
 func (t UEContextModificationConfirmIETable) CriticalityDiagnostics() UEContextModificationConfirmCriticalityDiagnosticsIEBinding {
 	return UEContextModificationConfirmCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -19025,6 +19179,8 @@ func (t UEContextModificationConfirmIETable) CriticalityDiagnostics() UEContextM
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextModificationConfirmIETable.
 func (t UEContextModificationConfirmIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextModificationConfirmIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextModificationConfirmIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19056,6 +19212,8 @@ type UEContextModificationFailureIETable struct{}
 func UEContextModificationFailureIEs() UEContextModificationFailureIETable {
 	return UEContextModificationFailureIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextModificationFailureIETable.
 func (UEContextModificationFailureIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19063,6 +19221,8 @@ func (UEContextModificationFailureIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextModificationFailureIETable.
 func (UEContextModificationFailureIETable) Table() s00.UEContextModificationFailureIEValueIETable {
 	return func() s00.UEContextModificationFailureIEValueIETable {
 		sealed := s00.UEContextModificationFailureIEValueIETable{}
@@ -19077,6 +19237,8 @@ func (UEContextModificationFailureIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationFailureIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextModificationFailureIETable.
 func (t UEContextModificationFailureIETable) MMEUES1APID() UEContextModificationFailureMMEUES1APIDIEBinding {
 	return UEContextModificationFailureMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -19141,6 +19303,8 @@ func (UEContextModificationFailureIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationFailureIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextModificationFailureIETable.
 func (t UEContextModificationFailureIETable) ENBUES1APID() UEContextModificationFailureENBUES1APIDIEBinding {
 	return UEContextModificationFailureENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -19205,6 +19369,8 @@ func (UEContextModificationFailureIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationFailureIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of UEContextModificationFailureIETable.
 func (t UEContextModificationFailureIETable) Cause() UEContextModificationFailureCauseIEBinding {
 	return UEContextModificationFailureCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -19267,6 +19433,8 @@ func (UEContextModificationFailureIETable) infoCriticalityDiagnostics() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationFailureIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of UEContextModificationFailureIETable.
 func (t UEContextModificationFailureIETable) CriticalityDiagnostics() UEContextModificationFailureCriticalityDiagnosticsIEBinding {
 	return UEContextModificationFailureCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -19326,6 +19494,8 @@ func (t UEContextModificationFailureIETable) CriticalityDiagnostics() UEContextM
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextModificationFailureIETable.
 func (t UEContextModificationFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextModificationFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextModificationFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19357,6 +19527,8 @@ type UEContextModificationResponseIETable struct{}
 func UEContextModificationResponseIEs() UEContextModificationResponseIETable {
 	return UEContextModificationResponseIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextModificationResponseIETable.
 func (UEContextModificationResponseIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19364,6 +19536,8 @@ func (UEContextModificationResponseIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextModificationResponseIETable.
 func (UEContextModificationResponseIETable) Table() s00.UEContextModificationResponseIEValueIETable {
 	return func() s00.UEContextModificationResponseIEValueIETable {
 		sealed := s00.UEContextModificationResponseIEValueIETable{}
@@ -19378,6 +19552,8 @@ func (UEContextModificationResponseIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationResponseIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextModificationResponseIETable.
 func (t UEContextModificationResponseIETable) MMEUES1APID() UEContextModificationResponseMMEUES1APIDIEBinding {
 	return UEContextModificationResponseMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -19442,6 +19618,8 @@ func (UEContextModificationResponseIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationResponseIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextModificationResponseIETable.
 func (t UEContextModificationResponseIETable) ENBUES1APID() UEContextModificationResponseENBUES1APIDIEBinding {
 	return UEContextModificationResponseENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -19506,6 +19684,8 @@ func (UEContextModificationResponseIETable) infoCriticalityDiagnostics() s00.Fie
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationResponseIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of UEContextModificationResponseIETable.
 func (t UEContextModificationResponseIETable) CriticalityDiagnostics() UEContextModificationResponseCriticalityDiagnosticsIEBinding {
 	return UEContextModificationResponseCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -19565,6 +19745,8 @@ func (t UEContextModificationResponseIETable) CriticalityDiagnostics() UEContext
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextModificationResponseIETable.
 func (t UEContextModificationResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextModificationResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextModificationResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19594,6 +19776,8 @@ type UEContextResumeFailureIETable struct{}
 func UEContextResumeFailureIEs() UEContextResumeFailureIETable {
 	return UEContextResumeFailureIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextResumeFailureIETable.
 func (UEContextResumeFailureIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19601,6 +19785,8 @@ func (UEContextResumeFailureIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextResumeFailureIETable.
 func (UEContextResumeFailureIETable) Table() s00.UEContextResumeFailureIEValueIETable {
 	return func() s00.UEContextResumeFailureIEValueIETable {
 		sealed := s00.UEContextResumeFailureIEValueIETable{}
@@ -19615,6 +19801,8 @@ func (UEContextResumeFailureIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextResumeFailureIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextResumeFailureIETable.
 func (t UEContextResumeFailureIETable) MMEUES1APID() UEContextResumeFailureMMEUES1APIDIEBinding {
 	return UEContextResumeFailureMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -19677,6 +19865,8 @@ func (UEContextResumeFailureIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextResumeFailureIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextResumeFailureIETable.
 func (t UEContextResumeFailureIETable) ENBUES1APID() UEContextResumeFailureENBUES1APIDIEBinding {
 	return UEContextResumeFailureENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -19739,6 +19929,8 @@ func (UEContextResumeFailureIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextResumeFailureIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of UEContextResumeFailureIETable.
 func (t UEContextResumeFailureIETable) Cause() UEContextResumeFailureCauseIEBinding {
 	return UEContextResumeFailureCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -19801,6 +19993,8 @@ func (UEContextResumeFailureIETable) infoCriticalityDiagnostics() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextResumeFailureIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of UEContextResumeFailureIETable.
 func (t UEContextResumeFailureIETable) CriticalityDiagnostics() UEContextResumeFailureCriticalityDiagnosticsIEBinding {
 	return UEContextResumeFailureCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -19860,6 +20054,8 @@ func (t UEContextResumeFailureIETable) CriticalityDiagnostics() UEContextResumeF
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextResumeFailureIETable.
 func (t UEContextResumeFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextResumeFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextResumeFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

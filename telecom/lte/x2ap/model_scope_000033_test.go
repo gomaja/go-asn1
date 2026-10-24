@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorAdmittedItemDapsExtensionValue verifies 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.3.7 and 9.3.8; published E-RAB admitted-item extension object-set dispatch.
+// TestVectorAdmittedItemDapsExtensionValue verifies 3GPP TS 36.423 V19.1.0 (2025-12), sections 9.3.4, 9.3.7, and 9.3.8; published E-RAB admitted-item extension object-set dispatch.
 func TestVectorAdmittedItemDapsExtensionValue(t *testing.T) {
 	input := asn1VectorHex(t, "00")
 	if got := s06.ERABsAdmittedItemExtIEs().ID().Source().Assignment; got != "E-RABs-Admitted-Item-ExtIEs" {

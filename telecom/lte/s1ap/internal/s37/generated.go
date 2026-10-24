@@ -13792,6 +13792,8 @@ func (v ENBEarlyStatusTransferTransparentContainerExtIEsValue) matchesID(id s00.
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ENBEarlyStatusTransferTransparentContainerExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ENBEarlyStatusTransferTransparentContainerExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14461,6 +14463,8 @@ func (ENBEarlyStatusTransferTransparentContainerExtIEsValue) reason(id s00.Proto
 		return aper.UnknownSelector
 	}
 }
+
+// AsBearersSubjectToDLDiscardingList returns the selected BearersSubjectToDLDiscardingList value of ENBEarlyStatusTransferTransparentContainerExtIEsValue and reports whether that alternative is active.
 func (v *ENBEarlyStatusTransferTransparentContainerExtIEsValue) AsBearersSubjectToDLDiscardingList() (*s15.BearersSubjectToDLDiscardingList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(352) || v.rowBearersSubjectToDLDiscardingList == nil {
 		return nil, false
@@ -14569,6 +14573,8 @@ func (v ENBCPRelocationIndicationIEValue) matchesID(id s00.ProtocolIEID, _ ...*a
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ENBCPRelocationIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *ENBCPRelocationIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15238,36 +15244,48 @@ func (ENBCPRelocationIndicationIEValue) reason(id s00.ProtocolIEID) aper.OpaqueR
 		return aper.UnknownSelector
 	}
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ENBCPRelocationIndicationIEValue and reports whether that alternative is active.
 func (v *ENBCPRelocationIndicationIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsSTMSI returns the selected STMSI value of ENBCPRelocationIndicationIEValue and reports whether that alternative is active.
 func (v *ENBCPRelocationIndicationIEValue) AsSTMSI() (*s27.STMSI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(96) || v.rowSTMSI == nil {
 		return nil, false
 	}
 	return v.rowSTMSI, true
 }
+
+// AsEUTRANCGI returns the selected EUTRANCGI value of ENBCPRelocationIndicationIEValue and reports whether that alternative is active.
 func (v *ENBCPRelocationIndicationIEValue) AsEUTRANCGI() (*s17.EUTRANCGI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(100) || v.rowEUTRANCGI == nil {
 		return nil, false
 	}
 	return v.rowEUTRANCGI, true
 }
+
+// AsTAI returns the selected TAI value of ENBCPRelocationIndicationIEValue and reports whether that alternative is active.
 func (v *ENBCPRelocationIndicationIEValue) AsTAI() (*s31.TAI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(67) || v.rowTAI == nil {
 		return nil, false
 	}
 	return v.rowTAI, true
 }
+
+// AsULCPSecurityInformation returns the selected ULCPSecurityInformation value of ENBCPRelocationIndicationIEValue and reports whether that alternative is active.
 func (v *ENBCPRelocationIndicationIEValue) AsULCPSecurityInformation() (*ULCPSecurityInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(254) || v.rowULCPSecurityInformation == nil {
 		return nil, false
 	}
 	return v.rowULCPSecurityInformation, true
 }
+
+// AsLTENTNTAIInformation returns the selected LTENTNTAIInformation value of ENBCPRelocationIndicationIEValue and reports whether that alternative is active.
 func (v *ENBCPRelocationIndicationIEValue) AsLTENTNTAIInformation() (*s18.LTENTNTAIInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(339) || v.rowLTENTNTAIInformation == nil {
 		return nil, false
@@ -15528,6 +15546,8 @@ func (v ENBEarlyStatusTransferIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ENBEarlyStatusTransferIEValue and reports whether the opaque alternative is selected.
 func (v *ENBEarlyStatusTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16197,18 +16217,24 @@ func (ENBEarlyStatusTransferIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReas
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of ENBEarlyStatusTransferIEValue and reports whether that alternative is active.
 func (v *ENBEarlyStatusTransferIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ENBEarlyStatusTransferIEValue and reports whether that alternative is active.
 func (v *ENBEarlyStatusTransferIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsENBEarlyStatusTransferTransparentContainer returns the selected ENBEarlyStatusTransferTransparentContainer value of ENBEarlyStatusTransferIEValue and reports whether that alternative is active.
 func (v *ENBEarlyStatusTransferIEValue) AsENBEarlyStatusTransferTransparentContainer() (*ENBEarlyStatusTransferTransparentContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(321) || v.rowENBEarlyStatusTransferTransparentContainer == nil {
 		return nil, false
@@ -16367,6 +16393,8 @@ func (v MMEEarlyStatusTransferIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of MMEEarlyStatusTransferIEValue and reports whether the opaque alternative is selected.
 func (v *MMEEarlyStatusTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17036,18 +17064,24 @@ func (MMEEarlyStatusTransferIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReas
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of MMEEarlyStatusTransferIEValue and reports whether that alternative is active.
 func (v *MMEEarlyStatusTransferIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of MMEEarlyStatusTransferIEValue and reports whether that alternative is active.
 func (v *MMEEarlyStatusTransferIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsENBEarlyStatusTransferTransparentContainer returns the selected ENBEarlyStatusTransferTransparentContainer value of MMEEarlyStatusTransferIEValue and reports whether that alternative is active.
 func (v *MMEEarlyStatusTransferIEValue) AsENBEarlyStatusTransferTransparentContainer() (*ENBEarlyStatusTransferTransparentContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(321) || v.rowENBEarlyStatusTransferTransparentContainer == nil {
 		return nil, false
@@ -17203,6 +17237,8 @@ func (v UEContextReleaseCommandIEValue) matchesID(id s00.ProtocolIEID, _ ...*ape
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextReleaseCommandIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextReleaseCommandIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17872,12 +17908,16 @@ func (UEContextReleaseCommandIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRea
 		return aper.UnknownSelector
 	}
 }
+
+// AsUES1APIDs returns the selected UES1APIDs value of UEContextReleaseCommandIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCommandIEValue) AsUES1APIDs() (*UES1APIDs, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(99) || v.rowUES1APIDs == nil {
 		return nil, false
 	}
 	return v.rowUES1APIDs, true
 }
+
+// AsCause returns the selected Cause value of UEContextReleaseCommandIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCommandIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
@@ -17986,6 +18026,8 @@ type ENBEarlyStatusTransferTransparentContainerExtIETable struct{}
 func ENBEarlyStatusTransferTransparentContainerExtIEs() ENBEarlyStatusTransferTransparentContainerExtIETable {
 	return ENBEarlyStatusTransferTransparentContainerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBEarlyStatusTransferTransparentContainerExtIETable.
 func (ENBEarlyStatusTransferTransparentContainerExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17993,6 +18035,8 @@ func (ENBEarlyStatusTransferTransparentContainerExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ENBEarlyStatusTransferTransparentContainerExtIETable.
 func (ENBEarlyStatusTransferTransparentContainerExtIETable) Table() s00.ENBEarlyStatusTransferTransparentContainerExtIEsValueExtensionTable {
 	return func() s00.ENBEarlyStatusTransferTransparentContainerExtIEsValueExtensionTable {
 		sealed := s00.ENBEarlyStatusTransferTransparentContainerExtIEsValueExtensionTable{}
@@ -18007,6 +18051,8 @@ func (ENBEarlyStatusTransferTransparentContainerExtIETable) infoBearersSubjectTo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ENB-EarlyStatusTransfer-TransparentContainer-ExtIEs", Row: "id-Bearers-SubjectToDLDiscardingList"}}}
 }
+
+// BearersSubjectToDLDiscardingList returns the typed binding for the BearersSubjectToDLDiscardingList row of ENBEarlyStatusTransferTransparentContainerExtIETable.
 func (t ENBEarlyStatusTransferTransparentContainerExtIETable) BearersSubjectToDLDiscardingList() ENBEarlyStatusTransferTransparentContainerExtIEsBearersSubjectToDLDiscardingListExtBinding {
 	return ENBEarlyStatusTransferTransparentContainerExtIEsBearersSubjectToDLDiscardingListExtBinding{info: t.infoBearersSubjectToDLDiscardingList(), codec: func() s15.BearersSubjectToDLDiscardingListValueCodec {
 		sealed := s15.BearersSubjectToDLDiscardingListValueCodec{}
@@ -18067,6 +18113,8 @@ func (t ENBEarlyStatusTransferTransparentContainerExtIETable) BearersSubjectToDL
 			return value.AsBearersSubjectToDLDiscardingList()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBEarlyStatusTransferTransparentContainerExtIETable.
 func (t ENBEarlyStatusTransferTransparentContainerExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (ENBEarlyStatusTransferTransparentContainerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBEarlyStatusTransferTransparentContainerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -18092,6 +18140,8 @@ type ENBCPRelocationIndicationIETable struct{}
 func ENBCPRelocationIndicationIEs() ENBCPRelocationIndicationIETable {
 	return ENBCPRelocationIndicationIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBCPRelocationIndicationIETable.
 func (ENBCPRelocationIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18099,6 +18149,8 @@ func (ENBCPRelocationIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ENBCPRelocationIndicationIETable.
 func (ENBCPRelocationIndicationIETable) Table() s00.ENBCPRelocationIndicationIEValueIETable {
 	return func() s00.ENBCPRelocationIndicationIEValueIETable {
 		sealed := s00.ENBCPRelocationIndicationIEValueIETable{}
@@ -18113,6 +18165,8 @@ func (ENBCPRelocationIndicationIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBCPRelocationIndicationIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ENBCPRelocationIndicationIETable.
 func (t ENBCPRelocationIndicationIETable) ENBUES1APID() ENBCPRelocationIndicationENBUES1APIDIEBinding {
 	return ENBCPRelocationIndicationENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18175,6 +18229,8 @@ func (ENBCPRelocationIndicationIETable) infoSTMSI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBCPRelocationIndicationIEs", Row: "id-S-TMSI"}}}
 }
+
+// STMSI returns the typed binding for the STMSI row of ENBCPRelocationIndicationIETable.
 func (t ENBCPRelocationIndicationIETable) STMSI() ENBCPRelocationIndicationSTMSIIEBinding {
 	return ENBCPRelocationIndicationSTMSIIEBinding{info: t.infoSTMSI(), codec: func() s28.STMSIValueCodec {
 		sealed := s28.STMSIValueCodec{}
@@ -18237,6 +18293,8 @@ func (ENBCPRelocationIndicationIETable) infoEUTRANCGI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBCPRelocationIndicationIEs", Row: "id-EUTRAN-CGI"}}}
 }
+
+// EUTRANCGI returns the typed binding for the EUTRANCGI row of ENBCPRelocationIndicationIETable.
 func (t ENBCPRelocationIndicationIETable) EUTRANCGI() ENBCPRelocationIndicationEUTRANCGIIEBinding {
 	return ENBCPRelocationIndicationEUTRANCGIIEBinding{info: t.infoEUTRANCGI(), codec: func() s17.EUTRANCGIValueCodec {
 		sealed := s17.EUTRANCGIValueCodec{}
@@ -18300,6 +18358,8 @@ func (ENBCPRelocationIndicationIETable) infoTAI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBCPRelocationIndicationIEs", Row: "id-TAI"}}}
 }
+
+// TAI returns the typed binding for the TAI row of ENBCPRelocationIndicationIETable.
 func (t ENBCPRelocationIndicationIETable) TAI() ENBCPRelocationIndicationTAIIEBinding {
 	return ENBCPRelocationIndicationTAIIEBinding{info: t.infoTAI(), codec: func() s32.TAIValueCodec {
 		sealed := s32.TAIValueCodec{}
@@ -18361,6 +18421,8 @@ func (ENBCPRelocationIndicationIETable) infoULCPSecurityInformation() s00.FieldI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBCPRelocationIndicationIEs", Row: "id-UL-CP-SecurityInformation"}}}
 }
+
+// ULCPSecurityInformation returns the typed binding for the ULCPSecurityInformation row of ENBCPRelocationIndicationIETable.
 func (t ENBCPRelocationIndicationIETable) ULCPSecurityInformation() ENBCPRelocationIndicationULCPSecurityInformationIEBinding {
 	return ENBCPRelocationIndicationULCPSecurityInformationIEBinding{info: t.infoULCPSecurityInformation(), codec: ULCPSecurityInformationValueCodec{path: "ULCPSecurityInformation",
 		decode: func(data []byte, options aper.DecodeState) (ULCPSecurityInformation, error) {
@@ -18423,6 +18485,8 @@ func (ENBCPRelocationIndicationIETable) infoLTENTNTAIInformation() s00.FieldInfo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBCPRelocationIndicationIEs", Row: "id-LTE-NTN-TAI-Information"}}}
 }
+
+// LTENTNTAIInformation returns the typed binding for the LTENTNTAIInformation row of ENBCPRelocationIndicationIETable.
 func (t ENBCPRelocationIndicationIETable) LTENTNTAIInformation() ENBCPRelocationIndicationLTENTNTAIInformationIEBinding {
 	return ENBCPRelocationIndicationLTENTNTAIInformationIEBinding{info: t.infoLTENTNTAIInformation(), codec: func() s18.LTENTNTAIInformationValueCodec {
 		sealed := s18.LTENTNTAIInformationValueCodec{}
@@ -18481,6 +18545,8 @@ func (t ENBCPRelocationIndicationIETable) LTENTNTAIInformation() ENBCPRelocation
 			return value.AsLTENTNTAIInformation()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBCPRelocationIndicationIETable.
 func (t ENBCPRelocationIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBCPRelocationIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBCPRelocationIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18516,6 +18582,8 @@ type ENBEarlyStatusTransferIETable struct{}
 func ENBEarlyStatusTransferIEs() ENBEarlyStatusTransferIETable {
 	return ENBEarlyStatusTransferIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBEarlyStatusTransferIETable.
 func (ENBEarlyStatusTransferIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18523,6 +18591,8 @@ func (ENBEarlyStatusTransferIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ENBEarlyStatusTransferIETable.
 func (ENBEarlyStatusTransferIETable) Table() s00.ENBEarlyStatusTransferIEValueIETable {
 	return func() s00.ENBEarlyStatusTransferIEValueIETable {
 		sealed := s00.ENBEarlyStatusTransferIEValueIETable{}
@@ -18537,6 +18607,8 @@ func (ENBEarlyStatusTransferIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBEarlyStatusTransferIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of ENBEarlyStatusTransferIETable.
 func (t ENBEarlyStatusTransferIETable) MMEUES1APID() ENBEarlyStatusTransferMMEUES1APIDIEBinding {
 	return ENBEarlyStatusTransferMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18599,6 +18671,8 @@ func (ENBEarlyStatusTransferIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBEarlyStatusTransferIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ENBEarlyStatusTransferIETable.
 func (t ENBEarlyStatusTransferIETable) ENBUES1APID() ENBEarlyStatusTransferENBUES1APIDIEBinding {
 	return ENBEarlyStatusTransferENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18661,6 +18735,8 @@ func (ENBEarlyStatusTransferIETable) infoENBEarlyStatusTransferTransparentContai
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBEarlyStatusTransferIEs", Row: "id-eNB-EarlyStatusTransfer-TransparentContainer"}}}
 }
+
+// ENBEarlyStatusTransferTransparentContainer returns the typed binding for the ENBEarlyStatusTransferTransparentContainer row of ENBEarlyStatusTransferIETable.
 func (t ENBEarlyStatusTransferIETable) ENBEarlyStatusTransferTransparentContainer() ENBEarlyStatusTransferENBEarlyStatusTransferTransparentContainerIEBinding {
 	return ENBEarlyStatusTransferENBEarlyStatusTransferTransparentContainerIEBinding{info: t.infoENBEarlyStatusTransferTransparentContainer(), codec: ENBEarlyStatusTransferTransparentContainerValueCodec{path: "ENBEarlyStatusTransferTransparentContainer",
 		decode: func(data []byte, options aper.DecodeState) (ENBEarlyStatusTransferTransparentContainer, error) {
@@ -18713,6 +18789,8 @@ func (t ENBEarlyStatusTransferIETable) ENBEarlyStatusTransferTransparentContaine
 		return value.AsENBEarlyStatusTransferTransparentContainer()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBEarlyStatusTransferIETable.
 func (t ENBEarlyStatusTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBEarlyStatusTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBEarlyStatusTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18742,6 +18820,8 @@ type MMEEarlyStatusTransferIETable struct{}
 func MMEEarlyStatusTransferIEs() MMEEarlyStatusTransferIETable {
 	return MMEEarlyStatusTransferIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of MMEEarlyStatusTransferIETable.
 func (MMEEarlyStatusTransferIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18749,6 +18829,8 @@ func (MMEEarlyStatusTransferIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by MMEEarlyStatusTransferIETable.
 func (MMEEarlyStatusTransferIETable) Table() s00.MMEEarlyStatusTransferIEValueIETable {
 	return func() s00.MMEEarlyStatusTransferIEValueIETable {
 		sealed := s00.MMEEarlyStatusTransferIEValueIETable{}
@@ -18763,6 +18845,8 @@ func (MMEEarlyStatusTransferIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEEarlyStatusTransferIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of MMEEarlyStatusTransferIETable.
 func (t MMEEarlyStatusTransferIETable) MMEUES1APID() MMEEarlyStatusTransferMMEUES1APIDIEBinding {
 	return MMEEarlyStatusTransferMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18825,6 +18909,8 @@ func (MMEEarlyStatusTransferIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEEarlyStatusTransferIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of MMEEarlyStatusTransferIETable.
 func (t MMEEarlyStatusTransferIETable) ENBUES1APID() MMEEarlyStatusTransferENBUES1APIDIEBinding {
 	return MMEEarlyStatusTransferENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18887,6 +18973,8 @@ func (MMEEarlyStatusTransferIETable) infoENBEarlyStatusTransferTransparentContai
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEEarlyStatusTransferIEs", Row: "id-eNB-EarlyStatusTransfer-TransparentContainer"}}}
 }
+
+// ENBEarlyStatusTransferTransparentContainer returns the typed binding for the ENBEarlyStatusTransferTransparentContainer row of MMEEarlyStatusTransferIETable.
 func (t MMEEarlyStatusTransferIETable) ENBEarlyStatusTransferTransparentContainer() MMEEarlyStatusTransferENBEarlyStatusTransferTransparentContainerIEBinding {
 	return MMEEarlyStatusTransferENBEarlyStatusTransferTransparentContainerIEBinding{info: t.infoENBEarlyStatusTransferTransparentContainer(), codec: ENBEarlyStatusTransferTransparentContainerValueCodec{path: "ENBEarlyStatusTransferTransparentContainer",
 		decode: func(data []byte, options aper.DecodeState) (ENBEarlyStatusTransferTransparentContainer, error) {
@@ -18939,6 +19027,8 @@ func (t MMEEarlyStatusTransferIETable) ENBEarlyStatusTransferTransparentContaine
 		return value.AsENBEarlyStatusTransferTransparentContainer()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in MMEEarlyStatusTransferIETable.
 func (t MMEEarlyStatusTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (MMEEarlyStatusTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return MMEEarlyStatusTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18968,6 +19058,8 @@ type UEContextReleaseCommandIETable struct{}
 func UEContextReleaseCommandIEs() UEContextReleaseCommandIETable {
 	return UEContextReleaseCommandIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextReleaseCommandIETable.
 func (UEContextReleaseCommandIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18975,6 +19067,8 @@ func (UEContextReleaseCommandIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextReleaseCommandIETable.
 func (UEContextReleaseCommandIETable) Table() s00.UEContextReleaseCommandIEValueIETable {
 	return func() s00.UEContextReleaseCommandIEValueIETable {
 		sealed := s00.UEContextReleaseCommandIEValueIETable{}
@@ -18989,6 +19083,8 @@ func (UEContextReleaseCommandIETable) infoUES1APIDs() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseCommand-IEs", Row: "id-UE-S1AP-IDs"}}}
 }
+
+// UES1APIDs returns the typed binding for the UES1APIDs row of UEContextReleaseCommandIETable.
 func (t UEContextReleaseCommandIETable) UES1APIDs() UEContextReleaseCommandUES1APIDsIEBinding {
 	return UEContextReleaseCommandUES1APIDsIEBinding{info: t.infoUES1APIDs(), codec: UES1APIDsValueCodec{path: "UES1APIDs",
 		decode: func(data []byte, options aper.DecodeState) (UES1APIDs, error) {
@@ -19045,6 +19141,8 @@ func (UEContextReleaseCommandIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseCommand-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of UEContextReleaseCommandIETable.
 func (t UEContextReleaseCommandIETable) Cause() UEContextReleaseCommandCauseIEBinding {
 	return UEContextReleaseCommandCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -19100,6 +19198,8 @@ func (t UEContextReleaseCommandIETable) Cause() UEContextReleaseCommandCauseIEBi
 			return UEContextReleaseCommandIEValue{id: s00.ProtocolIEID(2), rowCause: &value}
 		}, get: func(value *UEContextReleaseCommandIEValue) (*s14.Cause, bool) { return value.AsCause() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextReleaseCommandIETable.
 func (t UEContextReleaseCommandIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextReleaseCommandIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextReleaseCommandIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

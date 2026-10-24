@@ -16246,6 +16246,8 @@ func (v SourceNodeIDExtensionIEIEValueProtocolIEContainerListAPERValue) WithoutR
 type RecommendedENBItemExtIETable struct{}
 
 func RecommendedENBItemExtIEs() RecommendedENBItemExtIETable { return RecommendedENBItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of RecommendedENBItemExtIETable.
 func (RecommendedENBItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16253,6 +16255,8 @@ func (RecommendedENBItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by RecommendedENBItemExtIETable.
 func (RecommendedENBItemExtIETable) Table() s00.RecommendedENBItemExtIEsValueExtensionTable {
 	return func() s00.RecommendedENBItemExtIEsValueExtensionTable {
 		sealed := s00.RecommendedENBItemExtIEsValueExtensionTable{}
@@ -16260,6 +16264,8 @@ func (RecommendedENBItemExtIETable) Table() s00.RecommendedENBItemExtIEsValueExt
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in RecommendedENBItemExtIETable.
 func (t RecommendedENBItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (RecommendedENBItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return RecommendedENBItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16289,6 +16295,8 @@ type RecommendedENBsForPagingExtIETable struct{}
 func RecommendedENBsForPagingExtIEs() RecommendedENBsForPagingExtIETable {
 	return RecommendedENBsForPagingExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of RecommendedENBsForPagingExtIETable.
 func (RecommendedENBsForPagingExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16296,6 +16304,8 @@ func (RecommendedENBsForPagingExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by RecommendedENBsForPagingExtIETable.
 func (RecommendedENBsForPagingExtIETable) Table() s00.RecommendedENBsForPagingExtIEsValueExtensionTable {
 	return func() s00.RecommendedENBsForPagingExtIEsValueExtensionTable {
 		sealed := s00.RecommendedENBsForPagingExtIEsValueExtensionTable{}
@@ -16303,6 +16313,8 @@ func (RecommendedENBsForPagingExtIETable) Table() s00.RecommendedENBsForPagingEx
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in RecommendedENBsForPagingExtIETable.
 func (t RecommendedENBsForPagingExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (RecommendedENBsForPagingExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return RecommendedENBsForPagingExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16330,6 +16342,8 @@ func (t RecommendedENBsForPagingExtIETable) NewOpaque(id s00.ProtocolExtensionID
 type RequestTypeExtIETable struct{}
 
 func RequestTypeExtIEs() RequestTypeExtIETable { return RequestTypeExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of RequestTypeExtIETable.
 func (RequestTypeExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16337,6 +16351,8 @@ func (RequestTypeExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by RequestTypeExtIETable.
 func (RequestTypeExtIETable) Table() s00.RequestTypeExtIEsValueExtensionTable {
 	return func() s00.RequestTypeExtIEsValueExtensionTable {
 		sealed := s00.RequestTypeExtIEsValueExtensionTable{}
@@ -16351,6 +16367,8 @@ func (RequestTypeExtIETable) infoRequestTypeAdditionalInfo() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "RequestType-ExtIEs", Row: "id-RequestTypeAdditionalInfo"}}}
 }
+
+// RequestTypeAdditionalInfo returns the typed binding for the RequestTypeAdditionalInfo row of RequestTypeExtIETable.
 func (t RequestTypeExtIETable) RequestTypeAdditionalInfo() RequestTypeExtIEsRequestTypeAdditionalInfoExtBinding {
 	return RequestTypeExtIEsRequestTypeAdditionalInfoExtBinding{info: t.infoRequestTypeAdditionalInfo(), codec: func() s01.RequestTypeAdditionalInfoValueCodec {
 		sealed := s01.RequestTypeAdditionalInfoValueCodec{}
@@ -16422,6 +16440,8 @@ func (t RequestTypeExtIETable) RequestTypeAdditionalInfo() RequestTypeExtIEsRequ
 			return value.AsRequestTypeAdditionalInfo()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in RequestTypeExtIETable.
 func (t RequestTypeExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (RequestTypeExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return RequestTypeExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16451,6 +16471,8 @@ func (t RequestTypeExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality
 type RequestedTNLInfoExtIETable struct{}
 
 func RequestedTNLInfoExtIEs() RequestedTNLInfoExtIETable { return RequestedTNLInfoExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of RequestedTNLInfoExtIETable.
 func (RequestedTNLInfoExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16458,6 +16480,8 @@ func (RequestedTNLInfoExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by RequestedTNLInfoExtIETable.
 func (RequestedTNLInfoExtIETable) Table() s00.RequestedTNLInfoExtIEsValueExtensionTable {
 	return func() s00.RequestedTNLInfoExtIEsValueExtensionTable {
 		sealed := s00.RequestedTNLInfoExtIEsValueExtensionTable{}
@@ -16465,6 +16489,8 @@ func (RequestedTNLInfoExtIETable) Table() s00.RequestedTNLInfoExtIEsValueExtensi
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in RequestedTNLInfoExtIETable.
 func (t RequestedTNLInfoExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (RequestedTNLInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return RequestedTNLInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16492,6 +16518,8 @@ func (t RequestedTNLInfoExtIETable) NewOpaque(id s00.ProtocolExtensionID, critic
 type STMSIExtIETable struct{}
 
 func STMSIExtIEs() STMSIExtIETable { return STMSIExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of STMSIExtIETable.
 func (STMSIExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16499,6 +16527,8 @@ func (STMSIExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by STMSIExtIETable.
 func (STMSIExtIETable) Table() s00.STMSIExtIEsValueExtensionTable {
 	return func() s00.STMSIExtIEsValueExtensionTable {
 		sealed := s00.STMSIExtIEsValueExtensionTable{}
@@ -16506,6 +16536,8 @@ func (STMSIExtIETable) Table() s00.STMSIExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in STMSIExtIETable.
 func (t STMSIExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (STMSIExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return STMSIExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16535,6 +16567,8 @@ type ScheduledCommunicationTimeExtIETable struct{}
 func ScheduledCommunicationTimeExtIEs() ScheduledCommunicationTimeExtIETable {
 	return ScheduledCommunicationTimeExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ScheduledCommunicationTimeExtIETable.
 func (ScheduledCommunicationTimeExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16542,6 +16576,8 @@ func (ScheduledCommunicationTimeExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ScheduledCommunicationTimeExtIETable.
 func (ScheduledCommunicationTimeExtIETable) Table() s00.ScheduledCommunicationTimeExtIEsValueExtensionTable {
 	return func() s00.ScheduledCommunicationTimeExtIEsValueExtensionTable {
 		sealed := s00.ScheduledCommunicationTimeExtIEsValueExtensionTable{}
@@ -16549,6 +16585,8 @@ func (ScheduledCommunicationTimeExtIETable) Table() s00.ScheduledCommunicationTi
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ScheduledCommunicationTimeExtIETable.
 func (t ScheduledCommunicationTimeExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (ScheduledCommunicationTimeExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ScheduledCommunicationTimeExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16578,6 +16616,8 @@ type SecondaryRATDataUsageReportItemExtIETable struct{}
 func SecondaryRATDataUsageReportItemExtIEs() SecondaryRATDataUsageReportItemExtIETable {
 	return SecondaryRATDataUsageReportItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SecondaryRATDataUsageReportItemExtIETable.
 func (SecondaryRATDataUsageReportItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16585,6 +16625,8 @@ func (SecondaryRATDataUsageReportItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SecondaryRATDataUsageReportItemExtIETable.
 func (SecondaryRATDataUsageReportItemExtIETable) Table() s00.SecondaryRATDataUsageReportItemExtIEsValueExtensionTable {
 	return func() s00.SecondaryRATDataUsageReportItemExtIEsValueExtensionTable {
 		sealed := s00.SecondaryRATDataUsageReportItemExtIEsValueExtensionTable{}
@@ -16592,6 +16634,8 @@ func (SecondaryRATDataUsageReportItemExtIETable) Table() s00.SecondaryRATDataUsa
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SecondaryRATDataUsageReportItemExtIETable.
 func (t SecondaryRATDataUsageReportItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SecondaryRATDataUsageReportItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SecondaryRATDataUsageReportItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16619,6 +16663,8 @@ func (t SecondaryRATDataUsageReportItemExtIETable) NewOpaque(id s00.ProtocolExte
 type SecurityContextExtIETable struct{}
 
 func SecurityContextExtIEs() SecurityContextExtIETable { return SecurityContextExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of SecurityContextExtIETable.
 func (SecurityContextExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16626,6 +16672,8 @@ func (SecurityContextExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SecurityContextExtIETable.
 func (SecurityContextExtIETable) Table() s00.SecurityContextExtIEsValueExtensionTable {
 	return func() s00.SecurityContextExtIEsValueExtensionTable {
 		sealed := s00.SecurityContextExtIEsValueExtensionTable{}
@@ -16633,6 +16681,8 @@ func (SecurityContextExtIETable) Table() s00.SecurityContextExtIEsValueExtension
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SecurityContextExtIETable.
 func (t SecurityContextExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SecurityContextExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SecurityContextExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16660,6 +16710,8 @@ func (t SecurityContextExtIETable) NewOpaque(id s00.ProtocolExtensionID, critica
 type SecurityIndicationExtIETable struct{}
 
 func SecurityIndicationExtIEs() SecurityIndicationExtIETable { return SecurityIndicationExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of SecurityIndicationExtIETable.
 func (SecurityIndicationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16667,6 +16719,8 @@ func (SecurityIndicationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SecurityIndicationExtIETable.
 func (SecurityIndicationExtIETable) Table() s00.SecurityIndicationExtIEsValueExtensionTable {
 	return func() s00.SecurityIndicationExtIEsValueExtensionTable {
 		sealed := s00.SecurityIndicationExtIEsValueExtensionTable{}
@@ -16674,6 +16728,8 @@ func (SecurityIndicationExtIETable) Table() s00.SecurityIndicationExtIEsValueExt
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SecurityIndicationExtIETable.
 func (t SecurityIndicationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SecurityIndicationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SecurityIndicationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16701,6 +16757,8 @@ func (t SecurityIndicationExtIETable) NewOpaque(id s00.ProtocolExtensionID, crit
 type SecurityResultExtIETable struct{}
 
 func SecurityResultExtIEs() SecurityResultExtIETable { return SecurityResultExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of SecurityResultExtIETable.
 func (SecurityResultExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16708,6 +16766,8 @@ func (SecurityResultExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SecurityResultExtIETable.
 func (SecurityResultExtIETable) Table() s00.SecurityResultExtIEsValueExtensionTable {
 	return func() s00.SecurityResultExtIEsValueExtensionTable {
 		sealed := s00.SecurityResultExtIEsValueExtensionTable{}
@@ -16715,6 +16775,8 @@ func (SecurityResultExtIETable) Table() s00.SecurityResultExtIEsValueExtensionTa
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SecurityResultExtIETable.
 func (t SecurityResultExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SecurityResultExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SecurityResultExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16744,6 +16806,8 @@ type SensorMeasConfigNameItemExtIETable struct{}
 func SensorMeasConfigNameItemExtIEs() SensorMeasConfigNameItemExtIETable {
 	return SensorMeasConfigNameItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SensorMeasConfigNameItemExtIETable.
 func (SensorMeasConfigNameItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16751,6 +16815,8 @@ func (SensorMeasConfigNameItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SensorMeasConfigNameItemExtIETable.
 func (SensorMeasConfigNameItemExtIETable) Table() s00.SensorMeasConfigNameItemExtIEsValueExtensionTable {
 	return func() s00.SensorMeasConfigNameItemExtIEsValueExtensionTable {
 		sealed := s00.SensorMeasConfigNameItemExtIEsValueExtensionTable{}
@@ -16758,6 +16824,8 @@ func (SensorMeasConfigNameItemExtIETable) Table() s00.SensorMeasConfigNameItemEx
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SensorMeasConfigNameItemExtIETable.
 func (t SensorMeasConfigNameItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SensorMeasConfigNameItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SensorMeasConfigNameItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16787,6 +16855,8 @@ type SensorMeasurementConfigurationExtIETable struct{}
 func SensorMeasurementConfigurationExtIEs() SensorMeasurementConfigurationExtIETable {
 	return SensorMeasurementConfigurationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SensorMeasurementConfigurationExtIETable.
 func (SensorMeasurementConfigurationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16794,6 +16864,8 @@ func (SensorMeasurementConfigurationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SensorMeasurementConfigurationExtIETable.
 func (SensorMeasurementConfigurationExtIETable) Table() s00.SensorMeasurementConfigurationExtIEsValueExtensionTable {
 	return func() s00.SensorMeasurementConfigurationExtIEsValueExtensionTable {
 		sealed := s00.SensorMeasurementConfigurationExtIEsValueExtensionTable{}
@@ -16801,6 +16873,8 @@ func (SensorMeasurementConfigurationExtIETable) Table() s00.SensorMeasurementCon
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SensorMeasurementConfigurationExtIETable.
 func (t SensorMeasurementConfigurationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SensorMeasurementConfigurationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SensorMeasurementConfigurationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16828,6 +16902,8 @@ func (t SensorMeasurementConfigurationExtIETable) NewOpaque(id s00.ProtocolExten
 type SensorNameConfigExtIETable struct{}
 
 func SensorNameConfigExtIEs() SensorNameConfigExtIETable { return SensorNameConfigExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of SensorNameConfigExtIETable.
 func (SensorNameConfigExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16835,6 +16911,8 @@ func (SensorNameConfigExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SensorNameConfigExtIETable.
 func (SensorNameConfigExtIETable) Table() s00.SensorNameConfigExtIEValueIETable {
 	return func() s00.SensorNameConfigExtIEValueIETable {
 		sealed := s00.SensorNameConfigExtIEValueIETable{}
@@ -16842,6 +16920,8 @@ func (SensorNameConfigExtIETable) Table() s00.SensorNameConfigExtIEValueIETable 
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SensorNameConfigExtIETable.
 func (t SensorNameConfigExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SensorNameConfigExtIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SensorNameConfigExtIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -16869,6 +16949,8 @@ func (t SensorNameConfigExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s
 type ServedDCNsItemExtIETable struct{}
 
 func ServedDCNsItemExtIEs() ServedDCNsItemExtIETable { return ServedDCNsItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of ServedDCNsItemExtIETable.
 func (ServedDCNsItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16876,6 +16958,8 @@ func (ServedDCNsItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ServedDCNsItemExtIETable.
 func (ServedDCNsItemExtIETable) Table() s00.ServedDCNsItemExtIEsValueExtensionTable {
 	return func() s00.ServedDCNsItemExtIEsValueExtensionTable {
 		sealed := s00.ServedDCNsItemExtIEsValueExtensionTable{}
@@ -16883,6 +16967,8 @@ func (ServedDCNsItemExtIETable) Table() s00.ServedDCNsItemExtIEsValueExtensionTa
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ServedDCNsItemExtIETable.
 func (t ServedDCNsItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (ServedDCNsItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ServedDCNsItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -16910,6 +16996,8 @@ func (t ServedDCNsItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, critical
 type ServedGUMMEIsItemExtIETable struct{}
 
 func ServedGUMMEIsItemExtIEs() ServedGUMMEIsItemExtIETable { return ServedGUMMEIsItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of ServedGUMMEIsItemExtIETable.
 func (ServedGUMMEIsItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16917,6 +17005,8 @@ func (ServedGUMMEIsItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ServedGUMMEIsItemExtIETable.
 func (ServedGUMMEIsItemExtIETable) Table() s00.ServedGUMMEIsItemExtIEsValueExtensionTable {
 	return func() s00.ServedGUMMEIsItemExtIEsValueExtensionTable {
 		sealed := s00.ServedGUMMEIsItemExtIEsValueExtensionTable{}
@@ -16931,6 +17021,8 @@ func (ServedGUMMEIsItemExtIETable) infoGUMMEIType() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ServedGUMMEIsItem-ExtIEs", Row: "id-GUMMEIType"}}}
 }
+
+// GUMMEIType returns the typed binding for the GUMMEIType row of ServedGUMMEIsItemExtIETable.
 func (t ServedGUMMEIsItemExtIETable) GUMMEIType() ServedGUMMEIsItemExtIEsGUMMEITypeExtBinding {
 	return ServedGUMMEIsItemExtIEsGUMMEITypeExtBinding{info: t.infoGUMMEIType(), codec: func() s00.GUMMEITypeValueCodec {
 		sealed := s00.GUMMEITypeValueCodec{}
@@ -16997,6 +17089,8 @@ func (t ServedGUMMEIsItemExtIETable) GUMMEIType() ServedGUMMEIsItemExtIEsGUMMEIT
 			}()
 		}, get: func(value *s06.ServedGUMMEIsItemExtIEsValue) (*s00.GUMMEIType, bool) { return value.AsGUMMEIType() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ServedGUMMEIsItemExtIETable.
 func (t ServedGUMMEIsItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (ServedGUMMEIsItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ServedGUMMEIsItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17026,6 +17120,8 @@ func (t ServedGUMMEIsItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criti
 type SourceNgRanNodeIDExtIETable struct{}
 
 func SourceNgRanNodeIDExtIEs() SourceNgRanNodeIDExtIETable { return SourceNgRanNodeIDExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of SourceNgRanNodeIDExtIETable.
 func (SourceNgRanNodeIDExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17033,6 +17129,8 @@ func (SourceNgRanNodeIDExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SourceNgRanNodeIDExtIETable.
 func (SourceNgRanNodeIDExtIETable) Table() s00.SourceNgRanNodeIDExtIEsValueExtensionTable {
 	return func() s00.SourceNgRanNodeIDExtIEsValueExtensionTable {
 		sealed := s00.SourceNgRanNodeIDExtIEsValueExtensionTable{}
@@ -17040,6 +17138,8 @@ func (SourceNgRanNodeIDExtIETable) Table() s00.SourceNgRanNodeIDExtIEsValueExten
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SourceNgRanNodeIDExtIETable.
 func (t SourceNgRanNodeIDExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SourceNgRanNodeIDExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SourceNgRanNodeIDExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17067,6 +17167,8 @@ func (t SourceNgRanNodeIDExtIETable) NewOpaque(id s00.ProtocolExtensionID, criti
 type SourceNodeIDExtensionIETable struct{}
 
 func SourceNodeIDExtensionIE() SourceNodeIDExtensionIETable { return SourceNodeIDExtensionIETable{} }
+
+// ID returns the ASN.1 object-set identity of SourceNodeIDExtensionIETable.
 func (SourceNodeIDExtensionIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17074,6 +17176,8 @@ func (SourceNodeIDExtensionIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SourceNodeIDExtensionIETable.
 func (SourceNodeIDExtensionIETable) Table() s00.SourceNodeIDExtensionIEIEValueIETable {
 	return func() s00.SourceNodeIDExtensionIEIEValueIETable {
 		sealed := s00.SourceNodeIDExtensionIEIEValueIETable{}
@@ -17081,6 +17185,8 @@ func (SourceNodeIDExtensionIETable) Table() s00.SourceNodeIDExtensionIEIEValueIE
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SourceNodeIDExtensionIETable.
 func (t SourceNodeIDExtensionIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SourceNodeIDExtensionIEIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SourceNodeIDExtensionIEIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -17108,6 +17214,8 @@ func (t SourceNodeIDExtensionIETable) NewOpaque(id s00.ProtocolIEID, criticality
 type SourceeNBIDExtIETable struct{}
 
 func SourceeNBIDExtIEs() SourceeNBIDExtIETable { return SourceeNBIDExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of SourceeNBIDExtIETable.
 func (SourceeNBIDExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17115,6 +17223,8 @@ func (SourceeNBIDExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SourceeNBIDExtIETable.
 func (SourceeNBIDExtIETable) Table() s00.SourceeNBIDExtIEsValueExtensionTable {
 	return func() s00.SourceeNBIDExtIEsValueExtensionTable {
 		sealed := s00.SourceeNBIDExtIEsValueExtensionTable{}
@@ -17122,6 +17232,8 @@ func (SourceeNBIDExtIETable) Table() s00.SourceeNBIDExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SourceeNBIDExtIETable.
 func (t SourceeNBIDExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SourceeNBIDExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SourceeNBIDExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17151,6 +17263,8 @@ type SubscriptionBasedUEDifferentiationInfoExtIETable struct{}
 func SubscriptionBasedUEDifferentiationInfoExtIEs() SubscriptionBasedUEDifferentiationInfoExtIETable {
 	return SubscriptionBasedUEDifferentiationInfoExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SubscriptionBasedUEDifferentiationInfoExtIETable.
 func (SubscriptionBasedUEDifferentiationInfoExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17158,6 +17272,8 @@ func (SubscriptionBasedUEDifferentiationInfoExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SubscriptionBasedUEDifferentiationInfoExtIETable.
 func (SubscriptionBasedUEDifferentiationInfoExtIETable) Table() s00.SubscriptionBasedUEDifferentiationInfoExtIEsValueExtensionTable {
 	return func() s00.SubscriptionBasedUEDifferentiationInfoExtIEsValueExtensionTable {
 		sealed := s00.SubscriptionBasedUEDifferentiationInfoExtIEsValueExtensionTable{}
@@ -17165,6 +17281,8 @@ func (SubscriptionBasedUEDifferentiationInfoExtIETable) Table() s00.Subscription
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SubscriptionBasedUEDifferentiationInfoExtIETable.
 func (t SubscriptionBasedUEDifferentiationInfoExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SubscriptionBasedUEDifferentiationInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SubscriptionBasedUEDifferentiationInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17192,6 +17310,8 @@ func (t SubscriptionBasedUEDifferentiationInfoExtIETable) NewOpaque(id s00.Proto
 type SupportedTAsItemExtIETable struct{}
 
 func SupportedTAsItemExtIEs() SupportedTAsItemExtIETable { return SupportedTAsItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of SupportedTAsItemExtIETable.
 func (SupportedTAsItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17199,6 +17319,8 @@ func (SupportedTAsItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SupportedTAsItemExtIETable.
 func (SupportedTAsItemExtIETable) Table() s00.SupportedTAsItemExtIEsValueExtensionTable {
 	return func() s00.SupportedTAsItemExtIEsValueExtensionTable {
 		sealed := s00.SupportedTAsItemExtIEsValueExtensionTable{}
@@ -17213,6 +17335,8 @@ func (SupportedTAsItemExtIETable) infoRATType() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SupportedTAs-Item-ExtIEs", Row: "id-RAT-Type"}}}
 }
+
+// RATType returns the typed binding for the RATType row of SupportedTAsItemExtIETable.
 func (t SupportedTAsItemExtIETable) RATType() SupportedTAsItemExtIEsRATTypeExtBinding {
 	return SupportedTAsItemExtIEsRATTypeExtBinding{info: t.infoRATType(), codec: func() s01.RATTypeValueCodec {
 		sealed := s01.RATTypeValueCodec{}
@@ -17279,6 +17403,8 @@ func (t SupportedTAsItemExtIETable) RATType() SupportedTAsItemExtIEsRATTypeExtBi
 			}()
 		}, get: func(value *s06.SupportedTAsItemExtIEsValue) (*s00.RATType, bool) { return value.AsRATType() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SupportedTAsItemExtIETable.
 func (t SupportedTAsItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SupportedTAsItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SupportedTAsItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17310,6 +17436,8 @@ type SynchronisationInformationExtIETable struct{}
 func SynchronisationInformationExtIEs() SynchronisationInformationExtIETable {
 	return SynchronisationInformationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SynchronisationInformationExtIETable.
 func (SynchronisationInformationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17317,6 +17445,8 @@ func (SynchronisationInformationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SynchronisationInformationExtIETable.
 func (SynchronisationInformationExtIETable) Table() s00.SynchronisationInformationExtIEsValueExtensionTable {
 	return func() s00.SynchronisationInformationExtIEsValueExtensionTable {
 		sealed := s00.SynchronisationInformationExtIEsValueExtensionTable{}
@@ -17324,6 +17454,8 @@ func (SynchronisationInformationExtIETable) Table() s00.SynchronisationInformati
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SynchronisationInformationExtIETable.
 func (t SynchronisationInformationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (SynchronisationInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SynchronisationInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17351,6 +17483,8 @@ func (t SynchronisationInformationExtIETable) NewOpaque(id s00.ProtocolExtension
 type TABasedMDTExtIETable struct{}
 
 func TABasedMDTExtIEs() TABasedMDTExtIETable { return TABasedMDTExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TABasedMDTExtIETable.
 func (TABasedMDTExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17358,6 +17492,8 @@ func (TABasedMDTExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TABasedMDTExtIETable.
 func (TABasedMDTExtIETable) Table() s00.TABasedMDTExtIEsValueExtensionTable {
 	return func() s00.TABasedMDTExtIEsValueExtensionTable {
 		sealed := s00.TABasedMDTExtIEsValueExtensionTable{}
@@ -17365,6 +17501,8 @@ func (TABasedMDTExtIETable) Table() s00.TABasedMDTExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TABasedMDTExtIETable.
 func (t TABasedMDTExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TABasedMDTExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TABasedMDTExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17392,6 +17530,8 @@ func (t TABasedMDTExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality 
 type TABasedQMCExtIETable struct{}
 
 func TABasedQMCExtIEs() TABasedQMCExtIETable { return TABasedQMCExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TABasedQMCExtIETable.
 func (TABasedQMCExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17399,6 +17539,8 @@ func (TABasedQMCExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TABasedQMCExtIETable.
 func (TABasedQMCExtIETable) Table() s00.TABasedQMCExtIEsValueExtensionTable {
 	return func() s00.TABasedQMCExtIEsValueExtensionTable {
 		sealed := s00.TABasedQMCExtIEsValueExtensionTable{}
@@ -17406,6 +17548,8 @@ func (TABasedQMCExtIETable) Table() s00.TABasedQMCExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TABasedQMCExtIETable.
 func (t TABasedQMCExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TABasedQMCExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TABasedQMCExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17433,6 +17577,8 @@ func (t TABasedQMCExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality 
 type TAIBroadcastItemExtIETable struct{}
 
 func TAIBroadcastItemExtIEs() TAIBroadcastItemExtIETable { return TAIBroadcastItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TAIBroadcastItemExtIETable.
 func (TAIBroadcastItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17440,6 +17586,8 @@ func (TAIBroadcastItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TAIBroadcastItemExtIETable.
 func (TAIBroadcastItemExtIETable) Table() s00.TAIBroadcastItemExtIEsValueExtensionTable {
 	return func() s00.TAIBroadcastItemExtIEsValueExtensionTable {
 		sealed := s00.TAIBroadcastItemExtIEsValueExtensionTable{}
@@ -17447,6 +17595,8 @@ func (TAIBroadcastItemExtIETable) Table() s00.TAIBroadcastItemExtIEsValueExtensi
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TAIBroadcastItemExtIETable.
 func (t TAIBroadcastItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TAIBroadcastItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TAIBroadcastItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17474,6 +17624,8 @@ func (t TAIBroadcastItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, critic
 type TAICancelledItemExtIETable struct{}
 
 func TAICancelledItemExtIEs() TAICancelledItemExtIETable { return TAICancelledItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TAICancelledItemExtIETable.
 func (TAICancelledItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17481,6 +17633,8 @@ func (TAICancelledItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TAICancelledItemExtIETable.
 func (TAICancelledItemExtIETable) Table() s00.TAICancelledItemExtIEsValueExtensionTable {
 	return func() s00.TAICancelledItemExtIEsValueExtensionTable {
 		sealed := s00.TAICancelledItemExtIEsValueExtensionTable{}
@@ -17488,6 +17642,8 @@ func (TAICancelledItemExtIETable) Table() s00.TAICancelledItemExtIEsValueExtensi
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TAICancelledItemExtIETable.
 func (t TAICancelledItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TAICancelledItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TAICancelledItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17515,6 +17671,8 @@ func (t TAICancelledItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, critic
 type TAIExtIETable struct{}
 
 func TAIExtIEs() TAIExtIETable { return TAIExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TAIExtIETable.
 func (TAIExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17522,6 +17680,8 @@ func (TAIExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TAIExtIETable.
 func (TAIExtIETable) Table() s00.TAIExtIEsValueExtensionTable {
 	return func() s00.TAIExtIEsValueExtensionTable {
 		sealed := s00.TAIExtIEsValueExtensionTable{}
@@ -17529,6 +17689,8 @@ func (TAIExtIETable) Table() s00.TAIExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TAIExtIETable.
 func (t TAIExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TAIExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TAIExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17556,6 +17718,8 @@ func (t TAIExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Cri
 type TAIBasedMDTExtIETable struct{}
 
 func TAIBasedMDTExtIEs() TAIBasedMDTExtIETable { return TAIBasedMDTExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TAIBasedMDTExtIETable.
 func (TAIBasedMDTExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17563,6 +17727,8 @@ func (TAIBasedMDTExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TAIBasedMDTExtIETable.
 func (TAIBasedMDTExtIETable) Table() s00.TAIBasedMDTExtIEsValueExtensionTable {
 	return func() s00.TAIBasedMDTExtIEsValueExtensionTable {
 		sealed := s00.TAIBasedMDTExtIEsValueExtensionTable{}
@@ -17570,6 +17736,8 @@ func (TAIBasedMDTExtIETable) Table() s00.TAIBasedMDTExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TAIBasedMDTExtIETable.
 func (t TAIBasedMDTExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TAIBasedMDTExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TAIBasedMDTExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17597,6 +17765,8 @@ func (t TAIBasedMDTExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality
 type TAIBasedQMCExtIETable struct{}
 
 func TAIBasedQMCExtIEs() TAIBasedQMCExtIETable { return TAIBasedQMCExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TAIBasedQMCExtIETable.
 func (TAIBasedQMCExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17604,6 +17774,8 @@ func (TAIBasedQMCExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TAIBasedQMCExtIETable.
 func (TAIBasedQMCExtIETable) Table() s00.TAIBasedQMCExtIEsValueExtensionTable {
 	return func() s00.TAIBasedQMCExtIEsValueExtensionTable {
 		sealed := s00.TAIBasedQMCExtIEsValueExtensionTable{}
@@ -17611,6 +17783,8 @@ func (TAIBasedQMCExtIETable) Table() s00.TAIBasedQMCExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TAIBasedQMCExtIETable.
 func (t TAIBasedQMCExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TAIBasedQMCExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TAIBasedQMCExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17638,6 +17812,8 @@ func (t TAIBasedQMCExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality
 type TargetNgRanNodeIDExtIETable struct{}
 
 func TargetNgRanNodeIDExtIEs() TargetNgRanNodeIDExtIETable { return TargetNgRanNodeIDExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TargetNgRanNodeIDExtIETable.
 func (TargetNgRanNodeIDExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17645,6 +17821,8 @@ func (TargetNgRanNodeIDExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TargetNgRanNodeIDExtIETable.
 func (TargetNgRanNodeIDExtIETable) Table() s00.TargetNgRanNodeIDExtIEsValueExtensionTable {
 	return func() s00.TargetNgRanNodeIDExtIEsValueExtensionTable {
 		sealed := s00.TargetNgRanNodeIDExtIEsValueExtensionTable{}
@@ -17652,6 +17830,8 @@ func (TargetNgRanNodeIDExtIETable) Table() s00.TargetNgRanNodeIDExtIEsValueExten
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TargetNgRanNodeIDExtIETable.
 func (t TargetNgRanNodeIDExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TargetNgRanNodeIDExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TargetNgRanNodeIDExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17679,6 +17859,8 @@ func (t TargetNgRanNodeIDExtIETable) NewOpaque(id s00.ProtocolExtensionID, criti
 type TargetRNCIDExtIETable struct{}
 
 func TargetRNCIDExtIEs() TargetRNCIDExtIETable { return TargetRNCIDExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TargetRNCIDExtIETable.
 func (TargetRNCIDExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17686,6 +17868,8 @@ func (TargetRNCIDExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TargetRNCIDExtIETable.
 func (TargetRNCIDExtIETable) Table() s00.TargetRNCIDExtIEsValueExtensionTable {
 	return func() s00.TargetRNCIDExtIEsValueExtensionTable {
 		sealed := s00.TargetRNCIDExtIEsValueExtensionTable{}
@@ -17693,6 +17877,8 @@ func (TargetRNCIDExtIETable) Table() s00.TargetRNCIDExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TargetRNCIDExtIETable.
 func (t TargetRNCIDExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TargetRNCIDExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TargetRNCIDExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17720,6 +17906,8 @@ func (t TargetRNCIDExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality
 type TargeteNBIDExtIETable struct{}
 
 func TargeteNBIDExtIEs() TargeteNBIDExtIETable { return TargeteNBIDExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TargeteNBIDExtIETable.
 func (TargeteNBIDExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17727,6 +17915,8 @@ func (TargeteNBIDExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TargeteNBIDExtIETable.
 func (TargeteNBIDExtIETable) Table() s00.TargeteNBIDExtIEsValueExtensionTable {
 	return func() s00.TargeteNBIDExtIEsValueExtensionTable {
 		sealed := s00.TargeteNBIDExtIEsValueExtensionTable{}
@@ -17734,6 +17924,8 @@ func (TargeteNBIDExtIETable) Table() s00.TargeteNBIDExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TargeteNBIDExtIETable.
 func (t TargeteNBIDExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TargeteNBIDExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TargeteNBIDExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17763,6 +17955,8 @@ type TimeBasedHandoverInformationExtIETable struct{}
 func TimeBasedHandoverInformationExtIEs() TimeBasedHandoverInformationExtIETable {
 	return TimeBasedHandoverInformationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of TimeBasedHandoverInformationExtIETable.
 func (TimeBasedHandoverInformationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17770,6 +17964,8 @@ func (TimeBasedHandoverInformationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TimeBasedHandoverInformationExtIETable.
 func (TimeBasedHandoverInformationExtIETable) Table() s00.TimeBasedHandoverInformationExtIEsValueExtensionTable {
 	return func() s00.TimeBasedHandoverInformationExtIEsValueExtensionTable {
 		sealed := s00.TimeBasedHandoverInformationExtIEsValueExtensionTable{}
@@ -17777,6 +17973,8 @@ func (TimeBasedHandoverInformationExtIETable) Table() s00.TimeBasedHandoverInfor
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TimeBasedHandoverInformationExtIETable.
 func (t TimeBasedHandoverInformationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TimeBasedHandoverInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TimeBasedHandoverInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17806,6 +18004,8 @@ type TimeSynchronisationInfoExtIETable struct{}
 func TimeSynchronisationInfoExtIEs() TimeSynchronisationInfoExtIETable {
 	return TimeSynchronisationInfoExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of TimeSynchronisationInfoExtIETable.
 func (TimeSynchronisationInfoExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17813,6 +18013,8 @@ func (TimeSynchronisationInfoExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TimeSynchronisationInfoExtIETable.
 func (TimeSynchronisationInfoExtIETable) Table() s00.TimeSynchronisationInfoExtIEsValueExtensionTable {
 	return func() s00.TimeSynchronisationInfoExtIEsValueExtensionTable {
 		sealed := s00.TimeSynchronisationInfoExtIEsValueExtensionTable{}
@@ -17827,6 +18029,8 @@ func (TimeSynchronisationInfoExtIETable) infoMutingAvailabilityIndication() s00.
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "TimeSynchronisationInfo-ExtIEs", Row: "id-Muting-Availability-Indication"}}}
 }
+
+// MutingAvailabilityIndication returns the typed binding for the MutingAvailabilityIndication row of TimeSynchronisationInfoExtIETable.
 func (t TimeSynchronisationInfoExtIETable) MutingAvailabilityIndication() TimeSynchronisationInfoExtIEsMutingAvailabilityIndicationExtBinding {
 	return TimeSynchronisationInfoExtIEsMutingAvailabilityIndicationExtBinding{info: t.infoMutingAvailabilityIndication(), codec: func() s01.MutingAvailabilityIndicationValueCodec {
 		sealed := s01.MutingAvailabilityIndicationValueCodec{}
@@ -17897,6 +18101,8 @@ func (t TimeSynchronisationInfoExtIETable) MutingAvailabilityIndication() TimeSy
 			return value.AsMutingAvailabilityIndication()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TimeSynchronisationInfoExtIETable.
 func (t TimeSynchronisationInfoExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TimeSynchronisationInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TimeSynchronisationInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17926,6 +18132,8 @@ func (t TimeSynchronisationInfoExtIETable) NewOpaque(id s00.ProtocolExtensionID,
 type TunnelInformationExtIETable struct{}
 
 func TunnelInformationExtIEs() TunnelInformationExtIETable { return TunnelInformationExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TunnelInformationExtIETable.
 func (TunnelInformationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17933,6 +18141,8 @@ func (TunnelInformationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TunnelInformationExtIETable.
 func (TunnelInformationExtIETable) Table() s00.TunnelInformationExtIEsValueExtensionTable {
 	return func() s00.TunnelInformationExtIEsValueExtensionTable {
 		sealed := s00.TunnelInformationExtIEsValueExtensionTable{}
@@ -17940,6 +18150,8 @@ func (TunnelInformationExtIETable) Table() s00.TunnelInformationExtIEsValueExten
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TunnelInformationExtIETable.
 func (t TunnelInformationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TunnelInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TunnelInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17967,6 +18179,8 @@ func (t TunnelInformationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criti
 type TAIItemExtIETable struct{}
 
 func TAIItemExtIEs() TAIItemExtIETable { return TAIItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TAIItemExtIETable.
 func (TAIItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17974,6 +18188,8 @@ func (TAIItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TAIItemExtIETable.
 func (TAIItemExtIETable) Table() s00.TAIItemExtIEsValueExtensionTable {
 	return func() s00.TAIItemExtIEsValueExtensionTable {
 		sealed := s00.TAIItemExtIEsValueExtensionTable{}
@@ -17981,6 +18197,8 @@ func (TAIItemExtIETable) Table() s00.TAIItemExtIEsValueExtensionTable {
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TAIItemExtIETable.
 func (t TAIItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TAIItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TAIItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")

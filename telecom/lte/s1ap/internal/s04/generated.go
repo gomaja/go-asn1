@@ -1334,6 +1334,8 @@ func (v ERABUsageReportItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*ape
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABUsageReportItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABUsageReportItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -2045,6 +2047,8 @@ func (v EUTRANCGIExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBu
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of EUTRANCGIExtIEsValue and reports whether the opaque alternative is selected.
 func (v *EUTRANCGIExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -2756,6 +2760,8 @@ func (v EmergencyAreaIDBroadcastItemExtIEsValue) matchesID(id s00.ProtocolIEID, 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of EmergencyAreaIDBroadcastItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *EmergencyAreaIDBroadcastItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -3469,6 +3475,8 @@ func (v EmergencyAreaIDCancelledItemExtIEsValue) matchesID(id s00.ProtocolIEID, 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of EmergencyAreaIDCancelledItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *EmergencyAreaIDCancelledItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -4182,6 +4190,8 @@ func (v EventL1LoggedMDTConfigExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of EventL1LoggedMDTConfigExtIEsValue and reports whether the opaque alternative is selected.
 func (v *EventL1LoggedMDTConfigExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -4895,6 +4905,8 @@ func (v EventTriggerExtIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decode
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of EventTriggerExtIEValue and reports whether the opaque alternative is selected.
 func (v *EventTriggerExtIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -5606,6 +5618,8 @@ func (v ExpectedUEActivityBehaviourExtIEsValue) matchesID(id s00.ProtocolIEID, _
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ExpectedUEActivityBehaviourExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ExpectedUEActivityBehaviourExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -6319,6 +6333,8 @@ func (v ExpectedUEBehaviourExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*ape
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ExpectedUEBehaviourExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ExpectedUEBehaviourExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -7030,6 +7046,8 @@ func (v FiveGSTAIExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBu
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of FiveGSTAIExtIEsValue and reports whether the opaque alternative is selected.
 func (v *FiveGSTAIExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -7741,6 +7759,8 @@ func (v ForbiddenLAsItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.D
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ForbiddenLAsItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ForbiddenLAsItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -8452,6 +8472,8 @@ func (v ForbiddenTAsItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.D
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ForbiddenTAsItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ForbiddenTAsItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -9175,6 +9197,8 @@ func (v GBRQosInformationExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of GBRQosInformationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GBRQosInformationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -9844,24 +9868,32 @@ func (GBRQosInformationExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReaso
 		return aper.UnknownSelector
 	}
 }
+
+// AsExtendedERABMaximumBitrateDL returns the selected ExtendedERABMaximumBitrateDL value of GBRQosInformationExtIEsValue and reports whether that alternative is active.
 func (v *GBRQosInformationExtIEsValue) AsExtendedERABMaximumBitrateDL() (*s00.ExtendedBitRate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(255) || v.rowExtendedERABMaximumBitrateDL == nil {
 		return nil, false
 	}
 	return v.rowExtendedERABMaximumBitrateDL, true
 }
+
+// AsExtendedERABMaximumBitrateUL returns the selected ExtendedERABMaximumBitrateUL value of GBRQosInformationExtIEsValue and reports whether that alternative is active.
 func (v *GBRQosInformationExtIEsValue) AsExtendedERABMaximumBitrateUL() (*s00.ExtendedBitRate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(256) || v.rowExtendedERABMaximumBitrateUL == nil {
 		return nil, false
 	}
 	return v.rowExtendedERABMaximumBitrateUL, true
 }
+
+// AsExtendedERABGuaranteedBitrateDL returns the selected ExtendedERABGuaranteedBitrateDL value of GBRQosInformationExtIEsValue and reports whether that alternative is active.
 func (v *GBRQosInformationExtIEsValue) AsExtendedERABGuaranteedBitrateDL() (*s00.ExtendedBitRate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(257) || v.rowExtendedERABGuaranteedBitrateDL == nil {
 		return nil, false
 	}
 	return v.rowExtendedERABGuaranteedBitrateDL, true
 }
+
+// AsExtendedERABGuaranteedBitrateUL returns the selected ExtendedERABGuaranteedBitrateUL value of GBRQosInformationExtIEsValue and reports whether that alternative is active.
 func (v *GBRQosInformationExtIEsValue) AsExtendedERABGuaranteedBitrateUL() (*s00.ExtendedBitRate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(258) || v.rowExtendedERABGuaranteedBitrateUL == nil {
 		return nil, false
@@ -10038,6 +10070,8 @@ func (v GERANCellIDExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decode
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of GERANCellIDExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GERANCellIDExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -10749,6 +10783,8 @@ func (v GNBExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of GNBExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GNBExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -11460,6 +11496,8 @@ func (v GUMMEIExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudge
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of GUMMEIExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GUMMEIExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -12171,6 +12209,8 @@ func (v GlobalGNBIDExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decode
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of GlobalGNBIDExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GlobalGNBIDExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -12882,6 +12922,8 @@ func (v GlobalEnGNBIDExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Deco
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of GlobalEnGNBIDExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GlobalEnGNBIDExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13593,6 +13635,8 @@ func (v GlobalENBIDExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decode
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of GlobalENBIDExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GlobalENBIDExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14304,6 +14348,8 @@ func (v InformationForCECapableUEsExtIEsValue) matchesID(id s00.ProtocolIEID, _ 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of InformationForCECapableUEsExtIEsValue and reports whether the opaque alternative is selected.
 func (v *InformationForCECapableUEsExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15017,6 +15063,8 @@ func (v InformationOnRecommendedCellsAndENBsForPagingExtIEsValue) matchesID(id s
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of InformationOnRecommendedCellsAndENBsForPagingExtIEsValue and reports whether the opaque alternative is selected.
 func (v *InformationOnRecommendedCellsAndENBsForPagingExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15730,6 +15778,8 @@ func (v InterSystemMeasurementItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of InterSystemMeasurementItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *InterSystemMeasurementItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16443,6 +16493,8 @@ func (v InterSystemMeasurementParametersExtIEsValue) matchesID(id s00.ProtocolIE
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of InterSystemMeasurementParametersExtIEsValue and reports whether the opaque alternative is selected.
 func (v *InterSystemMeasurementParametersExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17156,6 +17208,8 @@ func (v IntersystemMeasurementConfigurationExtIEsValue) matchesID(id s00.Protoco
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of IntersystemMeasurementConfigurationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *IntersystemMeasurementConfigurationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17869,6 +17923,8 @@ func (v LAIExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of LAIExtIEsValue and reports whether the opaque alternative is selected.
 func (v *LAIExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18580,6 +18636,8 @@ func (v LTENTNTAIInformationExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*ap
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of LTENTNTAIInformationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *LTENTNTAIInformationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19291,6 +19349,8 @@ func (v LastVisitedPSCellInformationExtIEsValue) matchesID(id s00.ProtocolIEID, 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of LastVisitedPSCellInformationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *LastVisitedPSCellInformationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -20004,6 +20064,8 @@ func (v ListeningSubframePatternExtIEsValue) matchesID(id s00.ProtocolIEID, _ ..
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ListeningSubframePatternExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ListeningSubframePatternExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -20717,6 +20779,8 @@ func (v LoggedMBSFNMDTExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Dec
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of LoggedMBSFNMDTExtIEsValue and reports whether the opaque alternative is selected.
 func (v *LoggedMBSFNMDTExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -21428,6 +21492,8 @@ func (v M1PeriodicReportingExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*ape
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of M1PeriodicReportingExtIEsValue and reports whether the opaque alternative is selected.
 func (v *M1PeriodicReportingExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -22139,6 +22205,8 @@ func (v M1ThresholdEventA2ExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of M1ThresholdEventA2ExtIEsValue and reports whether the opaque alternative is selected.
 func (v *M1ThresholdEventA2ExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -22850,6 +22918,8 @@ func (v M3ConfigurationExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.De
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of M3ConfigurationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *M3ConfigurationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -23561,6 +23631,8 @@ func (v ERABSetupItemBearerSUResExtIEsValue) matchesID(id s00.ProtocolIEID, _ ..
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABSetupItemBearerSUResExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABSetupItemBearerSUResExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -24274,6 +24346,8 @@ func (v ERABSetupItemCtxtSUResExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABSetupItemCtxtSUResExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABSetupItemCtxtSUResExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -24987,6 +25061,8 @@ func (v ERABToBeModifiedItemBearerModIndExtIEsValue) matchesID(id s00.ProtocolIE
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABToBeModifiedItemBearerModIndExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABToBeModifiedItemBearerModIndExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -25700,6 +25776,8 @@ func (v ERABToBeSwitchedULItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABToBeSwitchedULItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABToBeSwitchedULItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -26413,6 +26491,8 @@ func (v ERABToBeUpdatedItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*ape
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABToBeUpdatedItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABToBeUpdatedItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false

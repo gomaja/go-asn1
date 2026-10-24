@@ -16965,6 +16965,8 @@ func (v HandoverCancelIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeB
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of HandoverCancelIEValue and reports whether the opaque alternative is selected.
 func (v *HandoverCancelIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17634,18 +17636,24 @@ func (HandoverCancelIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of HandoverCancelIEValue and reports whether that alternative is active.
 func (v *HandoverCancelIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of HandoverCancelIEValue and reports whether that alternative is active.
 func (v *HandoverCancelIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCause returns the selected Cause value of HandoverCancelIEValue and reports whether that alternative is active.
 func (v *HandoverCancelIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
@@ -17804,6 +17812,8 @@ func (v LocationReportingFailureIndicationIEValue) matchesID(id s00.ProtocolIEID
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of LocationReportingFailureIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *LocationReportingFailureIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18473,18 +18483,24 @@ func (LocationReportingFailureIndicationIEValue) reason(id s00.ProtocolIEID) ape
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of LocationReportingFailureIndicationIEValue and reports whether that alternative is active.
 func (v *LocationReportingFailureIndicationIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of LocationReportingFailureIndicationIEValue and reports whether that alternative is active.
 func (v *LocationReportingFailureIndicationIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCause returns the selected Cause value of LocationReportingFailureIndicationIEValue and reports whether that alternative is active.
 func (v *LocationReportingFailureIndicationIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
@@ -18620,6 +18636,8 @@ func (v LocationReportingFailureIndicationIEValue) encodeFresh(fresh bool, budge
 type HandoverCancelIETable struct{}
 
 func HandoverCancelIEs() HandoverCancelIETable { return HandoverCancelIETable{} }
+
+// ID returns the ASN.1 object-set identity of HandoverCancelIETable.
 func (HandoverCancelIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18627,6 +18645,8 @@ func (HandoverCancelIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by HandoverCancelIETable.
 func (HandoverCancelIETable) Table() s00.HandoverCancelIEValueIETable {
 	return func() s00.HandoverCancelIEValueIETable {
 		sealed := s00.HandoverCancelIEValueIETable{}
@@ -18641,6 +18661,8 @@ func (HandoverCancelIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverCancelIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of HandoverCancelIETable.
 func (t HandoverCancelIETable) MMEUES1APID() HandoverCancelMMEUES1APIDIEBinding {
 	return HandoverCancelMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18703,6 +18725,8 @@ func (HandoverCancelIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverCancelIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of HandoverCancelIETable.
 func (t HandoverCancelIETable) ENBUES1APID() HandoverCancelENBUES1APIDIEBinding {
 	return HandoverCancelENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18765,6 +18789,8 @@ func (HandoverCancelIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "HandoverCancelIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of HandoverCancelIETable.
 func (t HandoverCancelIETable) Cause() HandoverCancelCauseIEBinding {
 	return HandoverCancelCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -18820,6 +18846,8 @@ func (t HandoverCancelIETable) Cause() HandoverCancelCauseIEBinding {
 			return HandoverCancelIEValue{id: s00.ProtocolIEID(2), rowCause: &value}
 		}, get: func(value *HandoverCancelIEValue) (*s14.Cause, bool) { return value.AsCause() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in HandoverCancelIETable.
 func (t HandoverCancelIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (HandoverCancelIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return HandoverCancelIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18849,6 +18877,8 @@ type LocationReportingFailureIndicationIETable struct{}
 func LocationReportingFailureIndicationIEs() LocationReportingFailureIndicationIETable {
 	return LocationReportingFailureIndicationIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of LocationReportingFailureIndicationIETable.
 func (LocationReportingFailureIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18856,6 +18886,8 @@ func (LocationReportingFailureIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by LocationReportingFailureIndicationIETable.
 func (LocationReportingFailureIndicationIETable) Table() s00.LocationReportingFailureIndicationIEValueIETable {
 	return func() s00.LocationReportingFailureIndicationIEValueIETable {
 		sealed := s00.LocationReportingFailureIndicationIEValueIETable{}
@@ -18870,6 +18902,8 @@ func (LocationReportingFailureIndicationIETable) infoMMEUES1APID() s00.FieldInfo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "LocationReportingFailureIndicationIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of LocationReportingFailureIndicationIETable.
 func (t LocationReportingFailureIndicationIETable) MMEUES1APID() LocationReportingFailureIndicationMMEUES1APIDIEBinding {
 	return LocationReportingFailureIndicationMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18934,6 +18968,8 @@ func (LocationReportingFailureIndicationIETable) infoENBUES1APID() s00.FieldInfo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "LocationReportingFailureIndicationIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of LocationReportingFailureIndicationIETable.
 func (t LocationReportingFailureIndicationIETable) ENBUES1APID() LocationReportingFailureIndicationENBUES1APIDIEBinding {
 	return LocationReportingFailureIndicationENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18998,6 +19034,8 @@ func (LocationReportingFailureIndicationIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "LocationReportingFailureIndicationIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of LocationReportingFailureIndicationIETable.
 func (t LocationReportingFailureIndicationIETable) Cause() LocationReportingFailureIndicationCauseIEBinding {
 	return LocationReportingFailureIndicationCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -19053,6 +19091,8 @@ func (t LocationReportingFailureIndicationIETable) Cause() LocationReportingFail
 			return LocationReportingFailureIndicationIEValue{id: s00.ProtocolIEID(2), rowCause: &value}
 		}, get: func(value *LocationReportingFailureIndicationIEValue) (*s14.Cause, bool) { return value.AsCause() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in LocationReportingFailureIndicationIETable.
 func (t LocationReportingFailureIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (LocationReportingFailureIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return LocationReportingFailureIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

@@ -16231,6 +16231,8 @@ func (v BearersSubjectToEarlyStatusTransferItemIEValue) matchesID(id s00.Protoco
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of BearersSubjectToEarlyStatusTransferItemIEValue and reports whether the opaque alternative is selected.
 func (v *BearersSubjectToEarlyStatusTransferItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16900,6 +16902,8 @@ func (BearersSubjectToEarlyStatusTransferItemIEValue) reason(id s00.ProtocolIEID
 		return aper.UnknownSelector
 	}
 }
+
+// AsBearersSubjectToEarlyStatusTransferItem returns the selected BearersSubjectToEarlyStatusTransferItem value of BearersSubjectToEarlyStatusTransferItemIEValue and reports whether that alternative is active.
 func (v *BearersSubjectToEarlyStatusTransferItemIEValue) AsBearersSubjectToEarlyStatusTransferItem() (*BearersSubjectToEarlyStatusTransferItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(322) || v.rowBearersSubjectToEarlyStatusTransferItem == nil {
 		return nil, false
@@ -17009,6 +17013,8 @@ func (v BearersSubjectToStatusTransferItemExtIEsValue) matchesID(id s00.Protocol
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of BearersSubjectToStatusTransferItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *BearersSubjectToStatusTransferItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17678,36 +17684,48 @@ func (BearersSubjectToStatusTransferItemExtIEsValue) reason(id s00.ProtocolIEID)
 		return aper.UnknownSelector
 	}
 }
+
+// AsULCOUNTValueExtended returns the selected ULCOUNTValueExtended value of BearersSubjectToStatusTransferItemExtIEsValue and reports whether that alternative is active.
 func (v *BearersSubjectToStatusTransferItemExtIEsValue) AsULCOUNTValueExtended() (*COUNTValueExtended, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(179) || v.rowULCOUNTValueExtended == nil {
 		return nil, false
 	}
 	return v.rowULCOUNTValueExtended, true
 }
+
+// AsDLCOUNTValueExtended returns the selected DLCOUNTValueExtended value of BearersSubjectToStatusTransferItemExtIEsValue and reports whether that alternative is active.
 func (v *BearersSubjectToStatusTransferItemExtIEsValue) AsDLCOUNTValueExtended() (*COUNTValueExtended, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(180) || v.rowDLCOUNTValueExtended == nil {
 		return nil, false
 	}
 	return v.rowDLCOUNTValueExtended, true
 }
+
+// AsReceiveStatusOfULPDCPSDUsExtended returns the selected ReceiveStatusOfULPDCPSDUsExtended value of BearersSubjectToStatusTransferItemExtIEsValue and reports whether that alternative is active.
 func (v *BearersSubjectToStatusTransferItemExtIEsValue) AsReceiveStatusOfULPDCPSDUsExtended() (*s00.ReceiveStatusOfULPDCPSDUsExtended, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(181) || v.rowReceiveStatusOfULPDCPSDUsExtended == nil {
 		return nil, false
 	}
 	return v.rowReceiveStatusOfULPDCPSDUsExtended, true
 }
+
+// AsULCOUNTValuePDCPSNlength18 returns the selected ULCOUNTValuePDCPSNlength18 value of BearersSubjectToStatusTransferItemExtIEsValue and reports whether that alternative is active.
 func (v *BearersSubjectToStatusTransferItemExtIEsValue) AsULCOUNTValuePDCPSNlength18() (*COUNTvaluePDCPSNlength18, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(217) || v.rowULCOUNTValuePDCPSNlength18 == nil {
 		return nil, false
 	}
 	return v.rowULCOUNTValuePDCPSNlength18, true
 }
+
+// AsDLCOUNTValuePDCPSNlength18 returns the selected DLCOUNTValuePDCPSNlength18 value of BearersSubjectToStatusTransferItemExtIEsValue and reports whether that alternative is active.
 func (v *BearersSubjectToStatusTransferItemExtIEsValue) AsDLCOUNTValuePDCPSNlength18() (*COUNTvaluePDCPSNlength18, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(218) || v.rowDLCOUNTValuePDCPSNlength18 == nil {
 		return nil, false
 	}
 	return v.rowDLCOUNTValuePDCPSNlength18, true
 }
+
+// AsReceiveStatusOfULPDCPSDUsPDCPSNlength18 returns the selected ReceiveStatusOfULPDCPSDUsPDCPSNlength18 value of BearersSubjectToStatusTransferItemExtIEsValue and reports whether that alternative is active.
 func (v *BearersSubjectToStatusTransferItemExtIEsValue) AsReceiveStatusOfULPDCPSDUsPDCPSNlength18() (*s00.ReceiveStatusOfULPDCPSDUsPDCPSNlength18, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(219) || v.rowReceiveStatusOfULPDCPSDUsPDCPSNlength18 == nil {
 		return nil, false
@@ -18015,6 +18033,8 @@ func (v DAPSResponseInfoListIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.D
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of DAPSResponseInfoListIEValue and reports whether the opaque alternative is selected.
 func (v *DAPSResponseInfoListIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18684,6 +18704,8 @@ func (DAPSResponseInfoListIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason
 		return aper.UnknownSelector
 	}
 }
+
+// AsDAPSResponseInfoItem returns the selected DAPSResponseInfoItem value of DAPSResponseInfoListIEValue and reports whether that alternative is active.
 func (v *DAPSResponseInfoListIEValue) AsDAPSResponseInfoItem() (*DAPSResponseInfoItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(319) || v.rowDAPSResponseInfoItem == nil {
 		return nil, false
@@ -18795,6 +18817,8 @@ type BearersSubjectToStatusTransferItemExtIETable struct{}
 func BearersSubjectToStatusTransferItemExtIEs() BearersSubjectToStatusTransferItemExtIETable {
 	return BearersSubjectToStatusTransferItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of BearersSubjectToStatusTransferItemExtIETable.
 func (BearersSubjectToStatusTransferItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18802,6 +18826,8 @@ func (BearersSubjectToStatusTransferItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by BearersSubjectToStatusTransferItemExtIETable.
 func (BearersSubjectToStatusTransferItemExtIETable) Table() s00.BearersSubjectToStatusTransferItemExtIEsValueExtensionTable {
 	return func() s00.BearersSubjectToStatusTransferItemExtIEsValueExtensionTable {
 		sealed := s00.BearersSubjectToStatusTransferItemExtIEsValueExtensionTable{}
@@ -18816,6 +18842,8 @@ func (BearersSubjectToStatusTransferItemExtIETable) infoULCOUNTValueExtended() s
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToStatusTransfer-ItemExtIEs", Row: "id-ULCOUNTValueExtended"}}}
 }
+
+// ULCOUNTValueExtended returns the typed binding for the ULCOUNTValueExtended row of BearersSubjectToStatusTransferItemExtIETable.
 func (t BearersSubjectToStatusTransferItemExtIETable) ULCOUNTValueExtended() BearersSubjectToStatusTransferItemExtIEsCOUNTValueExtendedExtBinding {
 	return BearersSubjectToStatusTransferItemExtIEsCOUNTValueExtendedExtBinding{info: t.infoULCOUNTValueExtended(), codec: COUNTValueExtendedValueCodec{path: "COUNTValueExtended",
 		decode: func(data []byte, options aper.DecodeState) (COUNTValueExtended, error) {
@@ -18874,6 +18902,8 @@ func (BearersSubjectToStatusTransferItemExtIETable) infoDLCOUNTValueExtended() s
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToStatusTransfer-ItemExtIEs", Row: "id-DLCOUNTValueExtended"}}}
 }
+
+// DLCOUNTValueExtended returns the typed binding for the DLCOUNTValueExtended row of BearersSubjectToStatusTransferItemExtIETable.
 func (t BearersSubjectToStatusTransferItemExtIETable) DLCOUNTValueExtended() BearersSubjectToStatusTransferItemExtIEsCOUNTValueExtendedExtBinding {
 	return BearersSubjectToStatusTransferItemExtIEsCOUNTValueExtendedExtBinding{info: t.infoDLCOUNTValueExtended(), codec: COUNTValueExtendedValueCodec{path: "COUNTValueExtended",
 		decode: func(data []byte, options aper.DecodeState) (COUNTValueExtended, error) {
@@ -18932,6 +18962,8 @@ func (BearersSubjectToStatusTransferItemExtIETable) infoReceiveStatusOfULPDCPSDU
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToStatusTransfer-ItemExtIEs", Row: "id-ReceiveStatusOfULPDCPSDUsExtended"}}}
 }
+
+// ReceiveStatusOfULPDCPSDUsExtended returns the typed binding for the ReceiveStatusOfULPDCPSDUsExtended row of BearersSubjectToStatusTransferItemExtIETable.
 func (t BearersSubjectToStatusTransferItemExtIETable) ReceiveStatusOfULPDCPSDUsExtended() BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsExtendedExtBinding {
 	return BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsExtendedExtBinding{info: t.infoReceiveStatusOfULPDCPSDUsExtended(), codec: func() s01.ReceiveStatusOfULPDCPSDUsExtendedValueCodec {
 		sealed := s01.ReceiveStatusOfULPDCPSDUsExtendedValueCodec{}
@@ -19000,6 +19032,8 @@ func (BearersSubjectToStatusTransferItemExtIETable) infoULCOUNTValuePDCPSNlength
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToStatusTransfer-ItemExtIEs", Row: "id-ULCOUNTValuePDCP-SNlength18"}}}
 }
+
+// ULCOUNTValuePDCPSNlength18 returns the typed binding for the ULCOUNTValuePDCPSNlength18 row of BearersSubjectToStatusTransferItemExtIETable.
 func (t BearersSubjectToStatusTransferItemExtIETable) ULCOUNTValuePDCPSNlength18() BearersSubjectToStatusTransferItemExtIEsCOUNTvaluePDCPSNlength18ExtBinding {
 	return BearersSubjectToStatusTransferItemExtIEsCOUNTvaluePDCPSNlength18ExtBinding{info: t.infoULCOUNTValuePDCPSNlength18(), codec: COUNTvaluePDCPSNlength18ValueCodec{path: "COUNTvaluePDCPSNlength18",
 		decode: func(data []byte, options aper.DecodeState) (COUNTvaluePDCPSNlength18, error) {
@@ -19062,6 +19096,8 @@ func (BearersSubjectToStatusTransferItemExtIETable) infoDLCOUNTValuePDCPSNlength
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToStatusTransfer-ItemExtIEs", Row: "id-DLCOUNTValuePDCP-SNlength18"}}}
 }
+
+// DLCOUNTValuePDCPSNlength18 returns the typed binding for the DLCOUNTValuePDCPSNlength18 row of BearersSubjectToStatusTransferItemExtIETable.
 func (t BearersSubjectToStatusTransferItemExtIETable) DLCOUNTValuePDCPSNlength18() BearersSubjectToStatusTransferItemExtIEsCOUNTvaluePDCPSNlength18ExtBinding {
 	return BearersSubjectToStatusTransferItemExtIEsCOUNTvaluePDCPSNlength18ExtBinding{info: t.infoDLCOUNTValuePDCPSNlength18(), codec: COUNTvaluePDCPSNlength18ValueCodec{path: "COUNTvaluePDCPSNlength18",
 		decode: func(data []byte, options aper.DecodeState) (COUNTvaluePDCPSNlength18, error) {
@@ -19124,6 +19160,8 @@ func (BearersSubjectToStatusTransferItemExtIETable) infoReceiveStatusOfULPDCPSDU
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToStatusTransfer-ItemExtIEs", Row: "id-ReceiveStatusOfULPDCPSDUsPDCP-SNlength18"}}}
 }
+
+// ReceiveStatusOfULPDCPSDUsPDCPSNlength18 returns the typed binding for the ReceiveStatusOfULPDCPSDUsPDCPSNlength18 row of BearersSubjectToStatusTransferItemExtIETable.
 func (t BearersSubjectToStatusTransferItemExtIETable) ReceiveStatusOfULPDCPSDUsPDCPSNlength18() BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsPDCPSNlength18ExtBinding {
 	return BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsPDCPSNlength18ExtBinding{info: t.infoReceiveStatusOfULPDCPSDUsPDCPSNlength18(), codec: func() s01.ReceiveStatusOfULPDCPSDUsPDCPSNlength18ValueCodec {
 		sealed := s01.ReceiveStatusOfULPDCPSDUsPDCPSNlength18ValueCodec{}
@@ -19184,6 +19222,8 @@ func (t BearersSubjectToStatusTransferItemExtIETable) ReceiveStatusOfULPDCPSDUsP
 			return value.AsReceiveStatusOfULPDCPSDUsPDCPSNlength18()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in BearersSubjectToStatusTransferItemExtIETable.
 func (t BearersSubjectToStatusTransferItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (BearersSubjectToStatusTransferItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return BearersSubjectToStatusTransferItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -19217,6 +19257,8 @@ func (t BearersSubjectToStatusTransferItemExtIETable) NewOpaque(id s00.ProtocolE
 type DAPSResponseInfoListIETable struct{}
 
 func DAPSResponseInfoListIEs() DAPSResponseInfoListIETable { return DAPSResponseInfoListIETable{} }
+
+// ID returns the ASN.1 object-set identity of DAPSResponseInfoListIETable.
 func (DAPSResponseInfoListIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19224,6 +19266,8 @@ func (DAPSResponseInfoListIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by DAPSResponseInfoListIETable.
 func (DAPSResponseInfoListIETable) Table() s00.DAPSResponseInfoListIEValueIETable {
 	return func() s00.DAPSResponseInfoListIEValueIETable {
 		sealed := s00.DAPSResponseInfoListIEValueIETable{}
@@ -19238,6 +19282,8 @@ func (DAPSResponseInfoListIETable) infoDAPSResponseInfoItem() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "DAPSResponseInfoListIEs", Row: "id-DAPSResponseInfoItem"}}}
 }
+
+// DAPSResponseInfoItem returns the typed binding for the DAPSResponseInfoItem row of DAPSResponseInfoListIETable.
 func (t DAPSResponseInfoListIETable) DAPSResponseInfoItem() DAPSResponseInfoListDAPSResponseInfoItemIEBinding {
 	return DAPSResponseInfoListDAPSResponseInfoItemIEBinding{info: t.infoDAPSResponseInfoItem(), codec: DAPSResponseInfoItemValueCodec{path: "DAPSResponseInfoItem",
 		decode: func(data []byte, options aper.DecodeState) (DAPSResponseInfoItem, error) {
@@ -19289,6 +19335,8 @@ func (t DAPSResponseInfoListIETable) DAPSResponseInfoItem() DAPSResponseInfoList
 		return value.AsDAPSResponseInfoItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in DAPSResponseInfoListIETable.
 func (t DAPSResponseInfoListIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (DAPSResponseInfoListIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return DAPSResponseInfoListIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

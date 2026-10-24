@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorNrraReportRecursive verifies 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.1.11 and 9.2; recursive NRRA report open-type decoding.
+// TestVectorNrraReportRecursive verifies 3GPP TS 36.423 V19.1.0 (2025-12), sections 9.3.4–9.3.5; recursive NRRA report open-type decoding.
 func TestVectorNrraReportRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "000001019e4009000006040000000000")
 	codec := s19.AccessAndMobilityIndicationCodec()

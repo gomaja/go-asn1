@@ -11041,6 +11041,8 @@ func (v ERABSetupResponseIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Deco
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABSetupResponseIEValue and reports whether the opaque alternative is selected.
 func (v *ERABSetupResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -11710,36 +11712,48 @@ func (ERABSetupResponseIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of ERABSetupResponseIEValue and reports whether that alternative is active.
 func (v *ERABSetupResponseIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ERABSetupResponseIEValue and reports whether that alternative is active.
 func (v *ERABSetupResponseIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsERABSetupListBearerSURes returns the selected ERABSetupListBearerSURes value of ERABSetupResponseIEValue and reports whether that alternative is active.
 func (v *ERABSetupResponseIEValue) AsERABSetupListBearerSURes() (*s16.ERABSetupListBearerSURes, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(28) || v.rowERABSetupListBearerSURes == nil {
 		return nil, false
 	}
 	return v.rowERABSetupListBearerSURes, true
 }
+
+// AsERABFailedToSetupListBearerSURes returns the selected ERABFailedToSetupListBearerSURes value of ERABSetupResponseIEValue and reports whether that alternative is active.
 func (v *ERABSetupResponseIEValue) AsERABFailedToSetupListBearerSURes() (*s16.ERABList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(29) || v.rowERABFailedToSetupListBearerSURes == nil {
 		return nil, false
 	}
 	return v.rowERABFailedToSetupListBearerSURes, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ERABSetupResponseIEValue and reports whether that alternative is active.
 func (v *ERABSetupResponseIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsUserLocationInformation returns the selected UserLocationInformation value of ERABSetupResponseIEValue and reports whether that alternative is active.
 func (v *ERABSetupResponseIEValue) AsUserLocationInformation() (*s44.UserLocationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(189) || v.rowUserLocationInformation == nil {
 		return nil, false
@@ -12004,6 +12018,8 @@ func (v SecondaryRATDataUsageReportIEValue) matchesID(id s00.ProtocolIEID, _ ...
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of SecondaryRATDataUsageReportIEValue and reports whether the opaque alternative is selected.
 func (v *SecondaryRATDataUsageReportIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -12673,36 +12689,48 @@ func (SecondaryRATDataUsageReportIEValue) reason(id s00.ProtocolIEID) aper.Opaqu
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of SecondaryRATDataUsageReportIEValue and reports whether that alternative is active.
 func (v *SecondaryRATDataUsageReportIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of SecondaryRATDataUsageReportIEValue and reports whether that alternative is active.
 func (v *SecondaryRATDataUsageReportIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsSecondaryRATDataUsageReportList returns the selected SecondaryRATDataUsageReportList value of SecondaryRATDataUsageReportIEValue and reports whether that alternative is active.
 func (v *SecondaryRATDataUsageReportIEValue) AsSecondaryRATDataUsageReportList() (*s28.SecondaryRATDataUsageReportList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(264) || v.rowSecondaryRATDataUsageReportList == nil {
 		return nil, false
 	}
 	return v.rowSecondaryRATDataUsageReportList, true
 }
+
+// AsHandoverFlag returns the selected HandoverFlag value of SecondaryRATDataUsageReportIEValue and reports whether that alternative is active.
 func (v *SecondaryRATDataUsageReportIEValue) AsHandoverFlag() (*s00.HandoverFlag, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(266) || v.rowHandoverFlag == nil {
 		return nil, false
 	}
 	return v.rowHandoverFlag, true
 }
+
+// AsUserLocationInformation returns the selected UserLocationInformation value of SecondaryRATDataUsageReportIEValue and reports whether that alternative is active.
 func (v *SecondaryRATDataUsageReportIEValue) AsUserLocationInformation() (*s44.UserLocationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(189) || v.rowUserLocationInformation == nil {
 		return nil, false
 	}
 	return v.rowUserLocationInformation, true
 }
+
+// AsTimeSinceSecondaryNodeRelease returns the selected TimeSinceSecondaryNodeRelease value of SecondaryRATDataUsageReportIEValue and reports whether that alternative is active.
 func (v *SecondaryRATDataUsageReportIEValue) AsTimeSinceSecondaryNodeRelease() (*s00.TimeSinceSecondaryNodeRelease, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(297) || v.rowTimeSinceSecondaryNodeRelease == nil {
 		return nil, false
@@ -12997,6 +13025,8 @@ func (v UEContextReleaseCompleteIEValue) matchesID(id s00.ProtocolIEID, _ ...*ap
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextReleaseCompleteIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextReleaseCompleteIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13666,48 +13696,64 @@ func (UEContextReleaseCompleteIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextReleaseCompleteIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCompleteIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextReleaseCompleteIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCompleteIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of UEContextReleaseCompleteIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCompleteIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsUserLocationInformation returns the selected UserLocationInformation value of UEContextReleaseCompleteIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCompleteIEValue) AsUserLocationInformation() (*s44.UserLocationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(189) || v.rowUserLocationInformation == nil {
 		return nil, false
 	}
 	return v.rowUserLocationInformation, true
 }
+
+// AsInformationOnRecommendedCellsAndENBsForPaging returns the selected InformationOnRecommendedCellsAndENBsForPaging value of UEContextReleaseCompleteIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCompleteIEValue) AsInformationOnRecommendedCellsAndENBsForPaging() (*s33.InformationOnRecommendedCellsAndENBsForPaging, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(213) || v.rowInformationOnRecommendedCellsAndENBsForPaging == nil {
 		return nil, false
 	}
 	return v.rowInformationOnRecommendedCellsAndENBsForPaging, true
 }
+
+// AsCellIdentifierAndCELevelForCECapableUEs returns the selected CellIdentifierAndCELevelForCECapableUEs value of UEContextReleaseCompleteIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCompleteIEValue) AsCellIdentifierAndCELevelForCECapableUEs() (*s17.CellIdentifierAndCELevelForCECapableUEs, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(212) || v.rowCellIdentifierAndCELevelForCECapableUEs == nil {
 		return nil, false
 	}
 	return v.rowCellIdentifierAndCELevelForCECapableUEs, true
 }
+
+// AsSecondaryRATDataUsageReportList returns the selected SecondaryRATDataUsageReportList value of UEContextReleaseCompleteIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCompleteIEValue) AsSecondaryRATDataUsageReportList() (*s28.SecondaryRATDataUsageReportList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(264) || v.rowSecondaryRATDataUsageReportList == nil {
 		return nil, false
 	}
 	return v.rowSecondaryRATDataUsageReportList, true
 }
+
+// AsTimeSinceSecondaryNodeRelease returns the selected TimeSinceSecondaryNodeRelease value of UEContextReleaseCompleteIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseCompleteIEValue) AsTimeSinceSecondaryNodeRelease() (*s00.TimeSinceSecondaryNodeRelease, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(297) || v.rowTimeSinceSecondaryNodeRelease == nil {
 		return nil, false
@@ -14066,6 +14112,8 @@ func (v UEContextSuspendRequestIEValue) matchesID(id s00.ProtocolIEID, _ ...*ape
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextSuspendRequestIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextSuspendRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14735,42 +14783,56 @@ func (UEContextSuspendRequestIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRea
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextSuspendRequestIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendRequestIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextSuspendRequestIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendRequestIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsInformationOnRecommendedCellsAndENBsForPaging returns the selected InformationOnRecommendedCellsAndENBsForPaging value of UEContextSuspendRequestIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendRequestIEValue) AsInformationOnRecommendedCellsAndENBsForPaging() (*s33.InformationOnRecommendedCellsAndENBsForPaging, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(213) || v.rowInformationOnRecommendedCellsAndENBsForPaging == nil {
 		return nil, false
 	}
 	return v.rowInformationOnRecommendedCellsAndENBsForPaging, true
 }
+
+// AsCellIdentifierAndCELevelForCECapableUEs returns the selected CellIdentifierAndCELevelForCECapableUEs value of UEContextSuspendRequestIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendRequestIEValue) AsCellIdentifierAndCELevelForCECapableUEs() (*s17.CellIdentifierAndCELevelForCECapableUEs, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(212) || v.rowCellIdentifierAndCELevelForCECapableUEs == nil {
 		return nil, false
 	}
 	return v.rowCellIdentifierAndCELevelForCECapableUEs, true
 }
+
+// AsSecondaryRATDataUsageReportList returns the selected SecondaryRATDataUsageReportList value of UEContextSuspendRequestIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendRequestIEValue) AsSecondaryRATDataUsageReportList() (*s28.SecondaryRATDataUsageReportList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(264) || v.rowSecondaryRATDataUsageReportList == nil {
 		return nil, false
 	}
 	return v.rowSecondaryRATDataUsageReportList, true
 }
+
+// AsUserLocationInformation returns the selected UserLocationInformation value of UEContextSuspendRequestIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendRequestIEValue) AsUserLocationInformation() (*s44.UserLocationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(189) || v.rowUserLocationInformation == nil {
 		return nil, false
 	}
 	return v.rowUserLocationInformation, true
 }
+
+// AsTimeSinceSecondaryNodeRelease returns the selected TimeSinceSecondaryNodeRelease value of UEContextSuspendRequestIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendRequestIEValue) AsTimeSinceSecondaryNodeRelease() (*s00.TimeSinceSecondaryNodeRelease, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(297) || v.rowTimeSinceSecondaryNodeRelease == nil {
 		return nil, false
@@ -15061,6 +15123,8 @@ type ERABModificationIndicationIETable struct{}
 func ERABModificationIndicationIEs() ERABModificationIndicationIETable {
 	return ERABModificationIndicationIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABModificationIndicationIETable.
 func (ERABModificationIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -15068,6 +15132,8 @@ func (ERABModificationIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABModificationIndicationIETable.
 func (ERABModificationIndicationIETable) Table() s00.ERABModificationIndicationIEValueIETable {
 	return func() s00.ERABModificationIndicationIEValueIETable {
 		sealed := s00.ERABModificationIndicationIEValueIETable{}
@@ -15082,6 +15148,8 @@ func (ERABModificationIndicationIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModificationIndicationIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of ERABModificationIndicationIETable.
 func (t ERABModificationIndicationIETable) MMEUES1APID() s44.ERABModificationIndicationMMEUES1APIDIEBinding {
 	return func() s44.ERABModificationIndicationMMEUES1APIDIEBinding {
 		sealed := s44.ERABModificationIndicationMMEUES1APIDIEBinding{}
@@ -15162,6 +15230,8 @@ func (ERABModificationIndicationIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModificationIndicationIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ERABModificationIndicationIETable.
 func (t ERABModificationIndicationIETable) ENBUES1APID() s44.ERABModificationIndicationENBUES1APIDIEBinding {
 	return func() s44.ERABModificationIndicationENBUES1APIDIEBinding {
 		sealed := s44.ERABModificationIndicationENBUES1APIDIEBinding{}
@@ -15242,6 +15312,8 @@ func (ERABModificationIndicationIETable) infoERABToBeModifiedListBearerModInd() 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModificationIndicationIEs", Row: "id-E-RABToBeModifiedListBearerModInd"}}}
 }
+
+// ERABToBeModifiedListBearerModInd returns the typed binding for the ERABToBeModifiedListBearerModInd row of ERABModificationIndicationIETable.
 func (t ERABModificationIndicationIETable) ERABToBeModifiedListBearerModInd() s44.ERABModificationIndicationERABToBeModifiedListBearerModIndIEBinding {
 	return func() s44.ERABModificationIndicationERABToBeModifiedListBearerModIndIEBinding {
 		sealed := s44.ERABModificationIndicationERABToBeModifiedListBearerModIndIEBinding{}
@@ -15325,6 +15397,8 @@ func (ERABModificationIndicationIETable) infoERABNotToBeModifiedListBearerModInd
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModificationIndicationIEs", Row: "id-E-RABNotToBeModifiedListBearerModInd"}}}
 }
+
+// ERABNotToBeModifiedListBearerModInd returns the typed binding for the ERABNotToBeModifiedListBearerModInd row of ERABModificationIndicationIETable.
 func (t ERABModificationIndicationIETable) ERABNotToBeModifiedListBearerModInd() s44.ERABModificationIndicationERABNotToBeModifiedListBearerModIndIEBinding {
 	return func() s44.ERABModificationIndicationERABNotToBeModifiedListBearerModIndIEBinding {
 		sealed := s44.ERABModificationIndicationERABNotToBeModifiedListBearerModIndIEBinding{}
@@ -15407,6 +15481,8 @@ func (ERABModificationIndicationIETable) infoCSGMembershipInfo() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModificationIndicationIEs", Row: "id-CSGMembershipInfo"}}}
 }
+
+// CSGMembershipInfo returns the typed binding for the CSGMembershipInfo row of ERABModificationIndicationIETable.
 func (t ERABModificationIndicationIETable) CSGMembershipInfo() s44.ERABModificationIndicationCSGMembershipInfoIEBinding {
 	return func() s44.ERABModificationIndicationCSGMembershipInfoIEBinding {
 		sealed := s44.ERABModificationIndicationCSGMembershipInfoIEBinding{}
@@ -15488,6 +15564,8 @@ func (ERABModificationIndicationIETable) infoTunnelInformationForBBF() s00.Field
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModificationIndicationIEs", Row: "id-Tunnel-Information-for-BBF"}}}
 }
+
+// TunnelInformationForBBF returns the typed binding for the TunnelInformationForBBF row of ERABModificationIndicationIETable.
 func (t ERABModificationIndicationIETable) TunnelInformationForBBF() s44.ERABModificationIndicationTunnelInformationIEBinding {
 	return func() s44.ERABModificationIndicationTunnelInformationIEBinding {
 		sealed := s44.ERABModificationIndicationTunnelInformationIEBinding{}
@@ -15569,6 +15647,8 @@ func (ERABModificationIndicationIETable) infoSecondaryRATDataUsageReportList() s
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModificationIndicationIEs", Row: "id-SecondaryRATDataUsageReportList"}}}
 }
+
+// SecondaryRATDataUsageReportList returns the typed binding for the SecondaryRATDataUsageReportList row of ERABModificationIndicationIETable.
 func (t ERABModificationIndicationIETable) SecondaryRATDataUsageReportList() s44.ERABModificationIndicationSecondaryRATDataUsageReportListIEBinding {
 	return func() s44.ERABModificationIndicationSecondaryRATDataUsageReportListIEBinding {
 		sealed := s44.ERABModificationIndicationSecondaryRATDataUsageReportListIEBinding{}
@@ -15651,6 +15731,8 @@ func (ERABModificationIndicationIETable) infoUserLocationInformation() s00.Field
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModificationIndicationIEs", Row: "id-UserLocationInformation"}}}
 }
+
+// UserLocationInformation returns the typed binding for the UserLocationInformation row of ERABModificationIndicationIETable.
 func (t ERABModificationIndicationIETable) UserLocationInformation() ERABModificationIndicationUserLocationInformationIEBinding {
 	return ERABModificationIndicationUserLocationInformationIEBinding{info: t.infoUserLocationInformation(), codec: UserLocationInformationValueCodec{path: "UserLocationInformation",
 		decode: func(data []byte, options aper.DecodeState) (s44.UserLocationInformation, error) {
@@ -15716,6 +15798,8 @@ func (t ERABModificationIndicationIETable) UserLocationInformation() ERABModific
 		return value.AsUserLocationInformation()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABModificationIndicationIETable.
 func (t ERABModificationIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s44.ERABModificationIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s44.ERABModificationIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -15759,6 +15843,8 @@ func (t ERABModificationIndicationIETable) NewOpaque(id s00.ProtocolIEID, critic
 type ERABModifyResponseIETable struct{}
 
 func ERABModifyResponseIEs() ERABModifyResponseIETable { return ERABModifyResponseIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABModifyResponseIETable.
 func (ERABModifyResponseIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -15766,6 +15852,8 @@ func (ERABModifyResponseIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABModifyResponseIETable.
 func (ERABModifyResponseIETable) Table() s00.ERABModifyResponseIEValueIETable {
 	return func() s00.ERABModifyResponseIEValueIETable {
 		sealed := s00.ERABModifyResponseIEValueIETable{}
@@ -15780,6 +15868,8 @@ func (ERABModifyResponseIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModifyResponseIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of ERABModifyResponseIETable.
 func (t ERABModifyResponseIETable) MMEUES1APID() s44.ERABModifyResponseMMEUES1APIDIEBinding {
 	return func() s44.ERABModifyResponseMMEUES1APIDIEBinding {
 		sealed := s44.ERABModifyResponseMMEUES1APIDIEBinding{}
@@ -15858,6 +15948,8 @@ func (ERABModifyResponseIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModifyResponseIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ERABModifyResponseIETable.
 func (t ERABModifyResponseIETable) ENBUES1APID() s44.ERABModifyResponseENBUES1APIDIEBinding {
 	return func() s44.ERABModifyResponseENBUES1APIDIEBinding {
 		sealed := s44.ERABModifyResponseENBUES1APIDIEBinding{}
@@ -15936,6 +16028,8 @@ func (ERABModifyResponseIETable) infoERABModifyListBearerModRes() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModifyResponseIEs", Row: "id-E-RABModifyListBearerModRes"}}}
 }
+
+// ERABModifyListBearerModRes returns the typed binding for the ERABModifyListBearerModRes row of ERABModifyResponseIETable.
 func (t ERABModifyResponseIETable) ERABModifyListBearerModRes() s44.ERABModifyResponseERABModifyListBearerModResIEBinding {
 	return func() s44.ERABModifyResponseERABModifyListBearerModResIEBinding {
 		sealed := s44.ERABModifyResponseERABModifyListBearerModResIEBinding{}
@@ -16020,6 +16114,8 @@ func (ERABModifyResponseIETable) infoERABFailedToModifyList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModifyResponseIEs", Row: "id-E-RABFailedToModifyList"}}}
 }
+
+// ERABFailedToModifyList returns the typed binding for the ERABFailedToModifyList row of ERABModifyResponseIETable.
 func (t ERABModifyResponseIETable) ERABFailedToModifyList() s44.ERABModifyResponseERABListIEBinding {
 	return func() s44.ERABModifyResponseERABListIEBinding {
 		sealed := s44.ERABModifyResponseERABListIEBinding{}
@@ -16100,6 +16196,8 @@ func (ERABModifyResponseIETable) infoCriticalityDiagnostics() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModifyResponseIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ERABModifyResponseIETable.
 func (t ERABModifyResponseIETable) CriticalityDiagnostics() s44.ERABModifyResponseCriticalityDiagnosticsIEBinding {
 	return func() s44.ERABModifyResponseCriticalityDiagnosticsIEBinding {
 		sealed := s44.ERABModifyResponseCriticalityDiagnosticsIEBinding{}
@@ -16182,6 +16280,8 @@ func (ERABModifyResponseIETable) infoSecondaryRATDataUsageReportList() s00.Field
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModifyResponseIEs", Row: "id-SecondaryRATDataUsageReportList"}}}
 }
+
+// SecondaryRATDataUsageReportList returns the typed binding for the SecondaryRATDataUsageReportList row of ERABModifyResponseIETable.
 func (t ERABModifyResponseIETable) SecondaryRATDataUsageReportList() s44.ERABModifyResponseSecondaryRATDataUsageReportListIEBinding {
 	return func() s44.ERABModifyResponseSecondaryRATDataUsageReportListIEBinding {
 		sealed := s44.ERABModifyResponseSecondaryRATDataUsageReportListIEBinding{}
@@ -16264,6 +16364,8 @@ func (ERABModifyResponseIETable) infoUserLocationInformation() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABModifyResponseIEs", Row: "id-UserLocationInformation"}}}
 }
+
+// UserLocationInformation returns the typed binding for the UserLocationInformation row of ERABModifyResponseIETable.
 func (t ERABModifyResponseIETable) UserLocationInformation() ERABModifyResponseUserLocationInformationIEBinding {
 	return ERABModifyResponseUserLocationInformationIEBinding{info: t.infoUserLocationInformation(), codec: UserLocationInformationValueCodec{path: "UserLocationInformation",
 		decode: func(data []byte, options aper.DecodeState) (s44.UserLocationInformation, error) {
@@ -16329,6 +16431,8 @@ func (t ERABModifyResponseIETable) UserLocationInformation() ERABModifyResponseU
 		return value.AsUserLocationInformation()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABModifyResponseIETable.
 func (t ERABModifyResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s44.ERABModifyResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s44.ERABModifyResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -16370,6 +16474,8 @@ func (t ERABModifyResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s0
 type ERABReleaseIndicationIETable struct{}
 
 func ERABReleaseIndicationIEs() ERABReleaseIndicationIETable { return ERABReleaseIndicationIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABReleaseIndicationIETable.
 func (ERABReleaseIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16377,6 +16483,8 @@ func (ERABReleaseIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABReleaseIndicationIETable.
 func (ERABReleaseIndicationIETable) Table() s00.ERABReleaseIndicationIEValueIETable {
 	return func() s00.ERABReleaseIndicationIEValueIETable {
 		sealed := s00.ERABReleaseIndicationIEValueIETable{}
@@ -16391,6 +16499,8 @@ func (ERABReleaseIndicationIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseIndicationIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of ERABReleaseIndicationIETable.
 func (t ERABReleaseIndicationIETable) MMEUES1APID() s44.ERABReleaseIndicationMMEUES1APIDIEBinding {
 	return func() s44.ERABReleaseIndicationMMEUES1APIDIEBinding {
 		sealed := s44.ERABReleaseIndicationMMEUES1APIDIEBinding{}
@@ -16469,6 +16579,8 @@ func (ERABReleaseIndicationIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseIndicationIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ERABReleaseIndicationIETable.
 func (t ERABReleaseIndicationIETable) ENBUES1APID() s44.ERABReleaseIndicationENBUES1APIDIEBinding {
 	return func() s44.ERABReleaseIndicationENBUES1APIDIEBinding {
 		sealed := s44.ERABReleaseIndicationENBUES1APIDIEBinding{}
@@ -16547,6 +16659,8 @@ func (ERABReleaseIndicationIETable) infoERABReleasedList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseIndicationIEs", Row: "id-E-RABReleasedList"}}}
 }
+
+// ERABReleasedList returns the typed binding for the ERABReleasedList row of ERABReleaseIndicationIETable.
 func (t ERABReleaseIndicationIETable) ERABReleasedList() s44.ERABReleaseIndicationERABListIEBinding {
 	return func() s44.ERABReleaseIndicationERABListIEBinding {
 		sealed := s44.ERABReleaseIndicationERABListIEBinding{}
@@ -16627,6 +16741,8 @@ func (ERABReleaseIndicationIETable) infoUserLocationInformation() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseIndicationIEs", Row: "id-UserLocationInformation"}}}
 }
+
+// UserLocationInformation returns the typed binding for the UserLocationInformation row of ERABReleaseIndicationIETable.
 func (t ERABReleaseIndicationIETable) UserLocationInformation() ERABReleaseIndicationUserLocationInformationIEBinding {
 	return ERABReleaseIndicationUserLocationInformationIEBinding{info: t.infoUserLocationInformation(), codec: UserLocationInformationValueCodec{path: "UserLocationInformation",
 		decode: func(data []byte, options aper.DecodeState) (s44.UserLocationInformation, error) {
@@ -16699,6 +16815,8 @@ func (ERABReleaseIndicationIETable) infoSecondaryRATDataUsageReportList() s00.Fi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseIndicationIEs", Row: "id-SecondaryRATDataUsageReportList"}}}
 }
+
+// SecondaryRATDataUsageReportList returns the typed binding for the SecondaryRATDataUsageReportList row of ERABReleaseIndicationIETable.
 func (t ERABReleaseIndicationIETable) SecondaryRATDataUsageReportList() s44.ERABReleaseIndicationSecondaryRATDataUsageReportListIEBinding {
 	return func() s44.ERABReleaseIndicationSecondaryRATDataUsageReportListIEBinding {
 		sealed := s44.ERABReleaseIndicationSecondaryRATDataUsageReportListIEBinding{}
@@ -16774,6 +16892,8 @@ func (t ERABReleaseIndicationIETable) SecondaryRATDataUsageReportList() s44.ERAB
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABReleaseIndicationIETable.
 func (t ERABReleaseIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s44.ERABReleaseIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s44.ERABReleaseIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -16811,6 +16931,8 @@ func (t ERABReleaseIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality
 type ERABReleaseResponseIETable struct{}
 
 func ERABReleaseResponseIEs() ERABReleaseResponseIETable { return ERABReleaseResponseIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABReleaseResponseIETable.
 func (ERABReleaseResponseIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16818,6 +16940,8 @@ func (ERABReleaseResponseIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABReleaseResponseIETable.
 func (ERABReleaseResponseIETable) Table() s00.ERABReleaseResponseIEValueIETable {
 	return func() s00.ERABReleaseResponseIEValueIETable {
 		sealed := s00.ERABReleaseResponseIEValueIETable{}
@@ -16832,6 +16956,8 @@ func (ERABReleaseResponseIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseResponseIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of ERABReleaseResponseIETable.
 func (t ERABReleaseResponseIETable) MMEUES1APID() ERABReleaseResponseMMEUES1APIDIEBinding {
 	return ERABReleaseResponseMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -16904,6 +17030,8 @@ func (ERABReleaseResponseIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseResponseIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ERABReleaseResponseIETable.
 func (t ERABReleaseResponseIETable) ENBUES1APID() s44.ERABReleaseResponseENBUES1APIDIEBinding {
 	return func() s44.ERABReleaseResponseENBUES1APIDIEBinding {
 		sealed := s44.ERABReleaseResponseENBUES1APIDIEBinding{}
@@ -16982,6 +17110,8 @@ func (ERABReleaseResponseIETable) infoERABReleaseListBearerRelComp() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseResponseIEs", Row: "id-E-RABReleaseListBearerRelComp"}}}
 }
+
+// ERABReleaseListBearerRelComp returns the typed binding for the ERABReleaseListBearerRelComp row of ERABReleaseResponseIETable.
 func (t ERABReleaseResponseIETable) ERABReleaseListBearerRelComp() s44.ERABReleaseResponseERABReleaseListBearerRelCompIEBinding {
 	return func() s44.ERABReleaseResponseERABReleaseListBearerRelCompIEBinding {
 		sealed := s44.ERABReleaseResponseERABReleaseListBearerRelCompIEBinding{}
@@ -17065,6 +17195,8 @@ func (ERABReleaseResponseIETable) infoERABFailedToReleaseList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseResponseIEs", Row: "id-E-RABFailedToReleaseList"}}}
 }
+
+// ERABFailedToReleaseList returns the typed binding for the ERABFailedToReleaseList row of ERABReleaseResponseIETable.
 func (t ERABReleaseResponseIETable) ERABFailedToReleaseList() s44.ERABReleaseResponseERABListIEBinding {
 	return func() s44.ERABReleaseResponseERABListIEBinding {
 		sealed := s44.ERABReleaseResponseERABListIEBinding{}
@@ -17145,6 +17277,8 @@ func (ERABReleaseResponseIETable) infoCriticalityDiagnostics() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseResponseIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ERABReleaseResponseIETable.
 func (t ERABReleaseResponseIETable) CriticalityDiagnostics() s44.ERABReleaseResponseCriticalityDiagnosticsIEBinding {
 	return func() s44.ERABReleaseResponseCriticalityDiagnosticsIEBinding {
 		sealed := s44.ERABReleaseResponseCriticalityDiagnosticsIEBinding{}
@@ -17227,6 +17361,8 @@ func (ERABReleaseResponseIETable) infoUserLocationInformation() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseResponseIEs", Row: "id-UserLocationInformation"}}}
 }
+
+// UserLocationInformation returns the typed binding for the UserLocationInformation row of ERABReleaseResponseIETable.
 func (t ERABReleaseResponseIETable) UserLocationInformation() ERABReleaseResponseUserLocationInformationIEBinding {
 	return ERABReleaseResponseUserLocationInformationIEBinding{info: t.infoUserLocationInformation(), codec: UserLocationInformationValueCodec{path: "UserLocationInformation",
 		decode: func(data []byte, options aper.DecodeState) (s44.UserLocationInformation, error) {
@@ -17299,6 +17435,8 @@ func (ERABReleaseResponseIETable) infoSecondaryRATDataUsageReportList() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABReleaseResponseIEs", Row: "id-SecondaryRATDataUsageReportList"}}}
 }
+
+// SecondaryRATDataUsageReportList returns the typed binding for the SecondaryRATDataUsageReportList row of ERABReleaseResponseIETable.
 func (t ERABReleaseResponseIETable) SecondaryRATDataUsageReportList() ERABReleaseResponseSecondaryRATDataUsageReportListIEBinding {
 	return ERABReleaseResponseSecondaryRATDataUsageReportListIEBinding{info: t.infoSecondaryRATDataUsageReportList(), codec: func() s28.SecondaryRATDataUsageReportListValueCodec {
 		sealed := s28.SecondaryRATDataUsageReportListValueCodec{}
@@ -17368,6 +17506,8 @@ func (t ERABReleaseResponseIETable) SecondaryRATDataUsageReportList() ERABReleas
 			return value.AsSecondaryRATDataUsageReportList()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABReleaseResponseIETable.
 func (t ERABReleaseResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s44.ERABReleaseResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s44.ERABReleaseResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -17409,6 +17549,8 @@ func (t ERABReleaseResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s
 type ERABSetupResponseIETable struct{}
 
 func ERABSetupResponseIEs() ERABSetupResponseIETable { return ERABSetupResponseIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABSetupResponseIETable.
 func (ERABSetupResponseIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17416,6 +17558,8 @@ func (ERABSetupResponseIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABSetupResponseIETable.
 func (ERABSetupResponseIETable) Table() s00.ERABSetupResponseIEValueIETable {
 	return func() s00.ERABSetupResponseIEValueIETable {
 		sealed := s00.ERABSetupResponseIEValueIETable{}
@@ -17430,6 +17574,8 @@ func (ERABSetupResponseIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABSetupResponseIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of ERABSetupResponseIETable.
 func (t ERABSetupResponseIETable) MMEUES1APID() ERABSetupResponseMMEUES1APIDIEBinding {
 	return ERABSetupResponseMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -17492,6 +17638,8 @@ func (ERABSetupResponseIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABSetupResponseIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ERABSetupResponseIETable.
 func (t ERABSetupResponseIETable) ENBUES1APID() ERABSetupResponseENBUES1APIDIEBinding {
 	return ERABSetupResponseENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -17554,6 +17702,8 @@ func (ERABSetupResponseIETable) infoERABSetupListBearerSURes() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABSetupResponseIEs", Row: "id-E-RABSetupListBearerSURes"}}}
 }
+
+// ERABSetupListBearerSURes returns the typed binding for the ERABSetupListBearerSURes row of ERABSetupResponseIETable.
 func (t ERABSetupResponseIETable) ERABSetupListBearerSURes() ERABSetupResponseERABSetupListBearerSUResIEBinding {
 	return ERABSetupResponseERABSetupListBearerSUResIEBinding{info: t.infoERABSetupListBearerSURes(), codec: func() s16.ERABSetupListBearerSUResValueCodec {
 		sealed := s16.ERABSetupListBearerSUResValueCodec{}
@@ -17623,6 +17773,8 @@ func (ERABSetupResponseIETable) infoERABFailedToSetupListBearerSURes() s00.Field
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABSetupResponseIEs", Row: "id-E-RABFailedToSetupListBearerSURes"}}}
 }
+
+// ERABFailedToSetupListBearerSURes returns the typed binding for the ERABFailedToSetupListBearerSURes row of ERABSetupResponseIETable.
 func (t ERABSetupResponseIETable) ERABFailedToSetupListBearerSURes() ERABSetupResponseERABListIEBinding {
 	return ERABSetupResponseERABListIEBinding{info: t.infoERABFailedToSetupListBearerSURes(), codec: func() s16.ERABListValueCodec {
 		sealed := s16.ERABListValueCodec{}
@@ -17687,6 +17839,8 @@ func (ERABSetupResponseIETable) infoCriticalityDiagnostics() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABSetupResponseIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ERABSetupResponseIETable.
 func (t ERABSetupResponseIETable) CriticalityDiagnostics() ERABSetupResponseCriticalityDiagnosticsIEBinding {
 	return ERABSetupResponseCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -17753,6 +17907,8 @@ func (ERABSetupResponseIETable) infoUserLocationInformation() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABSetupResponseIEs", Row: "id-UserLocationInformation"}}}
 }
+
+// UserLocationInformation returns the typed binding for the UserLocationInformation row of ERABSetupResponseIETable.
 func (t ERABSetupResponseIETable) UserLocationInformation() ERABSetupResponseUserLocationInformationIEBinding {
 	return ERABSetupResponseUserLocationInformationIEBinding{info: t.infoUserLocationInformation(), codec: UserLocationInformationValueCodec{path: "UserLocationInformation",
 		decode: func(data []byte, options aper.DecodeState) (s44.UserLocationInformation, error) {
@@ -17808,6 +17964,8 @@ func (t ERABSetupResponseIETable) UserLocationInformation() ERABSetupResponseUse
 		return value.AsUserLocationInformation()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABSetupResponseIETable.
 func (t ERABSetupResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABSetupResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABSetupResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -17843,6 +18001,8 @@ type SecondaryRATDataUsageReportIETable struct{}
 func SecondaryRATDataUsageReportIEs() SecondaryRATDataUsageReportIETable {
 	return SecondaryRATDataUsageReportIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SecondaryRATDataUsageReportIETable.
 func (SecondaryRATDataUsageReportIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17850,6 +18010,8 @@ func (SecondaryRATDataUsageReportIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SecondaryRATDataUsageReportIETable.
 func (SecondaryRATDataUsageReportIETable) Table() s00.SecondaryRATDataUsageReportIEValueIETable {
 	return func() s00.SecondaryRATDataUsageReportIEValueIETable {
 		sealed := s00.SecondaryRATDataUsageReportIEValueIETable{}
@@ -17864,6 +18026,8 @@ func (SecondaryRATDataUsageReportIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "SecondaryRATDataUsageReportIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of SecondaryRATDataUsageReportIETable.
 func (t SecondaryRATDataUsageReportIETable) MMEUES1APID() SecondaryRATDataUsageReportMMEUES1APIDIEBinding {
 	return SecondaryRATDataUsageReportMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -17928,6 +18092,8 @@ func (SecondaryRATDataUsageReportIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "SecondaryRATDataUsageReportIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of SecondaryRATDataUsageReportIETable.
 func (t SecondaryRATDataUsageReportIETable) ENBUES1APID() SecondaryRATDataUsageReportENBUES1APIDIEBinding {
 	return SecondaryRATDataUsageReportENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -17992,6 +18158,8 @@ func (SecondaryRATDataUsageReportIETable) infoSecondaryRATDataUsageReportList() 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "SecondaryRATDataUsageReportIEs", Row: "id-SecondaryRATDataUsageReportList"}}}
 }
+
+// SecondaryRATDataUsageReportList returns the typed binding for the SecondaryRATDataUsageReportList row of SecondaryRATDataUsageReportIETable.
 func (t SecondaryRATDataUsageReportIETable) SecondaryRATDataUsageReportList() SecondaryRATDataUsageReportSecondaryRATDataUsageReportListIEBinding {
 	return SecondaryRATDataUsageReportSecondaryRATDataUsageReportListIEBinding{info: t.infoSecondaryRATDataUsageReportList(), codec: func() s28.SecondaryRATDataUsageReportListValueCodec {
 		sealed := s28.SecondaryRATDataUsageReportListValueCodec{}
@@ -18058,6 +18226,8 @@ func (SecondaryRATDataUsageReportIETable) infoHandoverFlag() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "SecondaryRATDataUsageReportIEs", Row: "id-HandoverFlag"}}}
 }
+
+// HandoverFlag returns the typed binding for the HandoverFlag row of SecondaryRATDataUsageReportIETable.
 func (t SecondaryRATDataUsageReportIETable) HandoverFlag() SecondaryRATDataUsageReportHandoverFlagIEBinding {
 	return SecondaryRATDataUsageReportHandoverFlagIEBinding{info: t.infoHandoverFlag(), codec: func() s00.HandoverFlagValueCodec {
 		sealed := s00.HandoverFlagValueCodec{}
@@ -18122,6 +18292,8 @@ func (SecondaryRATDataUsageReportIETable) infoUserLocationInformation() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "SecondaryRATDataUsageReportIEs", Row: "id-UserLocationInformation"}}}
 }
+
+// UserLocationInformation returns the typed binding for the UserLocationInformation row of SecondaryRATDataUsageReportIETable.
 func (t SecondaryRATDataUsageReportIETable) UserLocationInformation() SecondaryRATDataUsageReportUserLocationInformationIEBinding {
 	return SecondaryRATDataUsageReportUserLocationInformationIEBinding{info: t.infoUserLocationInformation(), codec: UserLocationInformationValueCodec{path: "UserLocationInformation",
 		decode: func(data []byte, options aper.DecodeState) (s44.UserLocationInformation, error) {
@@ -18184,6 +18356,8 @@ func (SecondaryRATDataUsageReportIETable) infoTimeSinceSecondaryNodeRelease() s0
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "SecondaryRATDataUsageReportIEs", Row: "id-TimeSinceSecondaryNodeRelease"}}}
 }
+
+// TimeSinceSecondaryNodeRelease returns the typed binding for the TimeSinceSecondaryNodeRelease row of SecondaryRATDataUsageReportIETable.
 func (t SecondaryRATDataUsageReportIETable) TimeSinceSecondaryNodeRelease() SecondaryRATDataUsageReportTimeSinceSecondaryNodeReleaseIEBinding {
 	return SecondaryRATDataUsageReportTimeSinceSecondaryNodeReleaseIEBinding{info: t.infoTimeSinceSecondaryNodeRelease(), codec: func() s02.TimeSinceSecondaryNodeReleaseValueCodec {
 		sealed := s02.TimeSinceSecondaryNodeReleaseValueCodec{}
@@ -18245,6 +18419,8 @@ func (t SecondaryRATDataUsageReportIETable) TimeSinceSecondaryNodeRelease() Seco
 			return value.AsTimeSinceSecondaryNodeRelease()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SecondaryRATDataUsageReportIETable.
 func (t SecondaryRATDataUsageReportIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SecondaryRATDataUsageReportIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SecondaryRATDataUsageReportIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18280,6 +18456,8 @@ type UEContextReleaseCompleteIETable struct{}
 func UEContextReleaseCompleteIEs() UEContextReleaseCompleteIETable {
 	return UEContextReleaseCompleteIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextReleaseCompleteIETable.
 func (UEContextReleaseCompleteIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18287,6 +18465,8 @@ func (UEContextReleaseCompleteIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextReleaseCompleteIETable.
 func (UEContextReleaseCompleteIETable) Table() s00.UEContextReleaseCompleteIEValueIETable {
 	return func() s00.UEContextReleaseCompleteIEValueIETable {
 		sealed := s00.UEContextReleaseCompleteIEValueIETable{}
@@ -18301,6 +18481,8 @@ func (UEContextReleaseCompleteIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseComplete-IEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextReleaseCompleteIETable.
 func (t UEContextReleaseCompleteIETable) MMEUES1APID() UEContextReleaseCompleteMMEUES1APIDIEBinding {
 	return UEContextReleaseCompleteMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18363,6 +18545,8 @@ func (UEContextReleaseCompleteIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseComplete-IEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextReleaseCompleteIETable.
 func (t UEContextReleaseCompleteIETable) ENBUES1APID() UEContextReleaseCompleteENBUES1APIDIEBinding {
 	return UEContextReleaseCompleteENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18425,6 +18609,8 @@ func (UEContextReleaseCompleteIETable) infoCriticalityDiagnostics() s00.FieldInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseComplete-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of UEContextReleaseCompleteIETable.
 func (t UEContextReleaseCompleteIETable) CriticalityDiagnostics() UEContextReleaseCompleteCriticalityDiagnosticsIEBinding {
 	return UEContextReleaseCompleteCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -18491,6 +18677,8 @@ func (UEContextReleaseCompleteIETable) infoUserLocationInformation() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseComplete-IEs", Row: "id-UserLocationInformation"}}}
 }
+
+// UserLocationInformation returns the typed binding for the UserLocationInformation row of UEContextReleaseCompleteIETable.
 func (t UEContextReleaseCompleteIETable) UserLocationInformation() UEContextReleaseCompleteUserLocationInformationIEBinding {
 	return UEContextReleaseCompleteUserLocationInformationIEBinding{info: t.infoUserLocationInformation(), codec: UserLocationInformationValueCodec{path: "UserLocationInformation",
 		decode: func(data []byte, options aper.DecodeState) (s44.UserLocationInformation, error) {
@@ -18553,6 +18741,8 @@ func (UEContextReleaseCompleteIETable) infoInformationOnRecommendedCellsAndENBsF
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseComplete-IEs", Row: "id-InformationOnRecommendedCellsAndENBsForPaging"}}}
 }
+
+// InformationOnRecommendedCellsAndENBsForPaging returns the typed binding for the InformationOnRecommendedCellsAndENBsForPaging row of UEContextReleaseCompleteIETable.
 func (t UEContextReleaseCompleteIETable) InformationOnRecommendedCellsAndENBsForPaging() UEContextReleaseCompleteInformationOnRecommendedCellsAndENBsForPagingIEBinding {
 	return UEContextReleaseCompleteInformationOnRecommendedCellsAndENBsForPagingIEBinding{info: t.infoInformationOnRecommendedCellsAndENBsForPaging(), codec: func() s33.InformationOnRecommendedCellsAndENBsForPagingValueCodec {
 		sealed := s33.InformationOnRecommendedCellsAndENBsForPagingValueCodec{}
@@ -18619,6 +18809,8 @@ func (UEContextReleaseCompleteIETable) infoCellIdentifierAndCELevelForCECapableU
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseComplete-IEs", Row: "id-CellIdentifierAndCELevelForCECapableUEs"}}}
 }
+
+// CellIdentifierAndCELevelForCECapableUEs returns the typed binding for the CellIdentifierAndCELevelForCECapableUEs row of UEContextReleaseCompleteIETable.
 func (t UEContextReleaseCompleteIETable) CellIdentifierAndCELevelForCECapableUEs() UEContextReleaseCompleteCellIdentifierAndCELevelForCECapableUEsIEBinding {
 	return UEContextReleaseCompleteCellIdentifierAndCELevelForCECapableUEsIEBinding{info: t.infoCellIdentifierAndCELevelForCECapableUEs(), codec: func() s17.CellIdentifierAndCELevelForCECapableUEsValueCodec {
 		sealed := s17.CellIdentifierAndCELevelForCECapableUEsValueCodec{}
@@ -18686,6 +18878,8 @@ func (UEContextReleaseCompleteIETable) infoSecondaryRATDataUsageReportList() s00
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseComplete-IEs", Row: "id-SecondaryRATDataUsageReportList"}}}
 }
+
+// SecondaryRATDataUsageReportList returns the typed binding for the SecondaryRATDataUsageReportList row of UEContextReleaseCompleteIETable.
 func (t UEContextReleaseCompleteIETable) SecondaryRATDataUsageReportList() UEContextReleaseCompleteSecondaryRATDataUsageReportListIEBinding {
 	return UEContextReleaseCompleteSecondaryRATDataUsageReportListIEBinding{info: t.infoSecondaryRATDataUsageReportList(), codec: func() s28.SecondaryRATDataUsageReportListValueCodec {
 		sealed := s28.SecondaryRATDataUsageReportListValueCodec{}
@@ -18752,6 +18946,8 @@ func (UEContextReleaseCompleteIETable) infoTimeSinceSecondaryNodeRelease() s00.F
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseComplete-IEs", Row: "id-TimeSinceSecondaryNodeRelease"}}}
 }
+
+// TimeSinceSecondaryNodeRelease returns the typed binding for the TimeSinceSecondaryNodeRelease row of UEContextReleaseCompleteIETable.
 func (t UEContextReleaseCompleteIETable) TimeSinceSecondaryNodeRelease() UEContextReleaseCompleteTimeSinceSecondaryNodeReleaseIEBinding {
 	return UEContextReleaseCompleteTimeSinceSecondaryNodeReleaseIEBinding{info: t.infoTimeSinceSecondaryNodeRelease(), codec: func() s02.TimeSinceSecondaryNodeReleaseValueCodec {
 		sealed := s02.TimeSinceSecondaryNodeReleaseValueCodec{}
@@ -18813,6 +19009,8 @@ func (t UEContextReleaseCompleteIETable) TimeSinceSecondaryNodeRelease() UEConte
 			return value.AsTimeSinceSecondaryNodeRelease()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextReleaseCompleteIETable.
 func (t UEContextReleaseCompleteIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextReleaseCompleteIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextReleaseCompleteIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18852,6 +19050,8 @@ type UEContextSuspendRequestIETable struct{}
 func UEContextSuspendRequestIEs() UEContextSuspendRequestIETable {
 	return UEContextSuspendRequestIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextSuspendRequestIETable.
 func (UEContextSuspendRequestIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18859,6 +19059,8 @@ func (UEContextSuspendRequestIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextSuspendRequestIETable.
 func (UEContextSuspendRequestIETable) Table() s00.UEContextSuspendRequestIEValueIETable {
 	return func() s00.UEContextSuspendRequestIEValueIETable {
 		sealed := s00.UEContextSuspendRequestIEValueIETable{}
@@ -18873,6 +19075,8 @@ func (UEContextSuspendRequestIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendRequestIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextSuspendRequestIETable.
 func (t UEContextSuspendRequestIETable) MMEUES1APID() UEContextSuspendRequestMMEUES1APIDIEBinding {
 	return UEContextSuspendRequestMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18935,6 +19139,8 @@ func (UEContextSuspendRequestIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendRequestIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextSuspendRequestIETable.
 func (t UEContextSuspendRequestIETable) ENBUES1APID() UEContextSuspendRequestENBUES1APIDIEBinding {
 	return UEContextSuspendRequestENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18997,6 +19203,8 @@ func (UEContextSuspendRequestIETable) infoInformationOnRecommendedCellsAndENBsFo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendRequestIEs", Row: "id-InformationOnRecommendedCellsAndENBsForPaging"}}}
 }
+
+// InformationOnRecommendedCellsAndENBsForPaging returns the typed binding for the InformationOnRecommendedCellsAndENBsForPaging row of UEContextSuspendRequestIETable.
 func (t UEContextSuspendRequestIETable) InformationOnRecommendedCellsAndENBsForPaging() UEContextSuspendRequestInformationOnRecommendedCellsAndENBsForPagingIEBinding {
 	return UEContextSuspendRequestInformationOnRecommendedCellsAndENBsForPagingIEBinding{info: t.infoInformationOnRecommendedCellsAndENBsForPaging(), codec: func() s33.InformationOnRecommendedCellsAndENBsForPagingValueCodec {
 		sealed := s33.InformationOnRecommendedCellsAndENBsForPagingValueCodec{}
@@ -19063,6 +19271,8 @@ func (UEContextSuspendRequestIETable) infoCellIdentifierAndCELevelForCECapableUE
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendRequestIEs", Row: "id-CellIdentifierAndCELevelForCECapableUEs"}}}
 }
+
+// CellIdentifierAndCELevelForCECapableUEs returns the typed binding for the CellIdentifierAndCELevelForCECapableUEs row of UEContextSuspendRequestIETable.
 func (t UEContextSuspendRequestIETable) CellIdentifierAndCELevelForCECapableUEs() UEContextSuspendRequestCellIdentifierAndCELevelForCECapableUEsIEBinding {
 	return UEContextSuspendRequestCellIdentifierAndCELevelForCECapableUEsIEBinding{info: t.infoCellIdentifierAndCELevelForCECapableUEs(), codec: func() s17.CellIdentifierAndCELevelForCECapableUEsValueCodec {
 		sealed := s17.CellIdentifierAndCELevelForCECapableUEsValueCodec{}
@@ -19130,6 +19340,8 @@ func (UEContextSuspendRequestIETable) infoSecondaryRATDataUsageReportList() s00.
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendRequestIEs", Row: "id-SecondaryRATDataUsageReportList"}}}
 }
+
+// SecondaryRATDataUsageReportList returns the typed binding for the SecondaryRATDataUsageReportList row of UEContextSuspendRequestIETable.
 func (t UEContextSuspendRequestIETable) SecondaryRATDataUsageReportList() UEContextSuspendRequestSecondaryRATDataUsageReportListIEBinding {
 	return UEContextSuspendRequestSecondaryRATDataUsageReportListIEBinding{info: t.infoSecondaryRATDataUsageReportList(), codec: func() s28.SecondaryRATDataUsageReportListValueCodec {
 		sealed := s28.SecondaryRATDataUsageReportListValueCodec{}
@@ -19196,6 +19408,8 @@ func (UEContextSuspendRequestIETable) infoUserLocationInformation() s00.FieldInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendRequestIEs", Row: "id-UserLocationInformation"}}}
 }
+
+// UserLocationInformation returns the typed binding for the UserLocationInformation row of UEContextSuspendRequestIETable.
 func (t UEContextSuspendRequestIETable) UserLocationInformation() UEContextSuspendRequestUserLocationInformationIEBinding {
 	return UEContextSuspendRequestUserLocationInformationIEBinding{info: t.infoUserLocationInformation(), codec: UserLocationInformationValueCodec{path: "UserLocationInformation",
 		decode: func(data []byte, options aper.DecodeState) (s44.UserLocationInformation, error) {
@@ -19258,6 +19472,8 @@ func (UEContextSuspendRequestIETable) infoTimeSinceSecondaryNodeRelease() s00.Fi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendRequestIEs", Row: "id-TimeSinceSecondaryNodeRelease"}}}
 }
+
+// TimeSinceSecondaryNodeRelease returns the typed binding for the TimeSinceSecondaryNodeRelease row of UEContextSuspendRequestIETable.
 func (t UEContextSuspendRequestIETable) TimeSinceSecondaryNodeRelease() UEContextSuspendRequestTimeSinceSecondaryNodeReleaseIEBinding {
 	return UEContextSuspendRequestTimeSinceSecondaryNodeReleaseIEBinding{info: t.infoTimeSinceSecondaryNodeRelease(), codec: func() s02.TimeSinceSecondaryNodeReleaseValueCodec {
 		sealed := s02.TimeSinceSecondaryNodeReleaseValueCodec{}
@@ -19319,6 +19535,8 @@ func (t UEContextSuspendRequestIETable) TimeSinceSecondaryNodeRelease() UEContex
 			return value.AsTimeSinceSecondaryNodeRelease()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextSuspendRequestIETable.
 func (t UEContextSuspendRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextSuspendRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextSuspendRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

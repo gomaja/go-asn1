@@ -603,7 +603,7 @@ func asn1TypedProjection(value reflect.Value, path string) any {
 	return value.Interface()
 }
 
-// TestVectorUeContextReleaseRequestCauseNas verifies 3GPP TS 36.413 V19.2.0 (2026-07), sections 9.1.5.1 and 9.3.4; CauseNas has four root values before the extension marker.
+// TestVectorUeContextReleaseRequestCauseNas verifies 3GPP TS 36.413 V19.2.0 (2026-06), sections 9.1.4.5 and 9.3.4; CauseNas has four root values before the extension marker.
 func TestVectorUeContextReleaseRequestCauseNas(t *testing.T) {
 	input := asn1VectorHex(t, "001240140000030000000200010008000200020002400126")
 	var decoded s52.S1APPDU
@@ -634,7 +634,7 @@ func TestVectorUeContextReleaseRequestCauseNas(t *testing.T) {
 	}
 }
 
-// TestVectorCauseNasRootExtensionBoundary verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.4, Cause and CauseNas.
+// TestVectorCauseNasRootExtensionBoundary verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4, Cause and CauseNas.
 func TestVectorCauseNasRootExtensionBoundary(t *testing.T) {
 	input := asn1VectorHex(t, "26")
 	var decoded s14.Cause
@@ -654,7 +654,7 @@ func TestVectorCauseNasRootExtensionBoundary(t *testing.T) {
 	}
 }
 
-// TestVectorErabInformationDapsExtensionRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.4; id-DAPSRequestInfo 317.
+// TestVectorErabInformationDapsExtensionRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), sections 9.3.4 and 9.3.6; id-DAPSRequestInfo 317.
 func TestVectorErabInformationDapsExtensionRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "250000013d400100")
 	var decoded s29.ERABInformationListItem
@@ -675,7 +675,7 @@ func TestVectorErabInformationDapsExtensionRecursive(t *testing.T) {
 	}
 }
 
-// TestVectorErabInformationUnknownExtensionPreserved verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.4; unknown/private ProtocolExtensionField values remain raw.
+// TestVectorErabInformationUnknownExtensionPreserved verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; unknown/private ProtocolExtensionField values remain raw.
 func TestVectorErabInformationUnknownExtensionPreserved(t *testing.T) {
 	input := asn1VectorHex(t, "250000fffc4004deadbeef")
 	var decoded s29.ERABInformationListItem
@@ -696,7 +696,7 @@ func TestVectorErabInformationUnknownExtensionPreserved(t *testing.T) {
 	}
 }
 
-// TestVectorErabInformationMalformedDapsFullPath verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.4; malformed DAPS extension diagnostics retain the complete containing path.
+// TestVectorErabInformationMalformedDapsFullPath verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; malformed DAPS extension diagnostics retain the complete containing path.
 func TestVectorErabInformationMalformedDapsFullPath(t *testing.T) {
 	input := asn1VectorHex(t, "250000013d4001ff")
 	var decoded s29.ERABInformationListItem
@@ -712,7 +712,7 @@ func TestVectorErabInformationMalformedDapsFullPath(t *testing.T) {
 	}
 }
 
-// TestVectorProtocolIeFieldConstrainedHeader verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.2.1.1; ProtocolIE-Field APER constrained header.
+// TestVectorProtocolIeFieldConstrainedHeader verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.7; ProtocolIE-Field APER constrained header.
 func TestVectorProtocolIeFieldConstrainedHeader(t *testing.T) {
 	input := asn1VectorHex(t, "12344001aa")
 	codec := s13.EventTriggerExtIEValueIEFieldTableCodec(s09.EventTriggerExtIEs().Table())
@@ -734,7 +734,7 @@ func TestVectorProtocolIeFieldConstrainedHeader(t *testing.T) {
 	}
 }
 
-// TestVectorS1apPduConstrainedHeader verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.1; S1AP-PDU APER constrained header.
+// TestVectorS1apPduConstrainedHeader verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.2; S1AP-PDU APER constrained header.
 func TestVectorS1apPduConstrainedHeader(t *testing.T) {
 	input := asn1VectorHex(t, "002e0002bbcc")
 	var decoded s52.S1APPDU
@@ -747,7 +747,7 @@ func TestVectorS1apPduConstrainedHeader(t *testing.T) {
 	}
 }
 
-// TestVectorPagingTaiListRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-07), sections 9.1.6 and 9.3.3; Paging TAIList applies TAIItemIEs recursively.
+// TestVectorPagingTaiListRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), sections 9.1.6 and 9.3.3; Paging TAIList applies TAIItemIEs recursively.
 func TestVectorPagingTaiListRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "000001002e400b00002f40060001f0101234")
 	var decoded s49.Paging
@@ -769,7 +769,7 @@ func TestVectorPagingTaiListRecursive(t *testing.T) {
 	}
 }
 
-// TestVectorPagingProcedureRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.1.6; initiating Paging procedure recursively resolves its argument and nested TAI items.
+// TestVectorPagingProcedureRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.1.6; initiating Paging procedure recursively resolves its argument and nested TAI items.
 func TestVectorPagingProcedureRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "000a4012000001002e400b00002f40060001f0101234")
 	var decoded s52.S1APPDU
@@ -800,7 +800,7 @@ func TestVectorPagingProcedureRecursive(t *testing.T) {
 	}
 }
 
-// TestVectorResetAcknowledgeConnectionListRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.1.9; ResetAcknowledge recursively resolves UE-associated logical S1 connections.
+// TestVectorResetAcknowledgeConnectionListRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.1.8.2; ResetAcknowledge recursively resolves UE-associated logical S1 connections.
 func TestVectorResetAcknowledgeConnectionListRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "000001005d400900005b000460070009")
 	var decoded s44.ResetAcknowledge
@@ -822,7 +822,7 @@ func TestVectorResetAcknowledgeConnectionListRecursive(t *testing.T) {
 	}
 }
 
-// TestVectorEventTriggerEmptyChoiceExtensionSet verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.5; empty extensible EventTrigger-ExtIEs preserves private values.
+// TestVectorEventTriggerEmptyChoiceExtensionSet verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; empty extensible EventTrigger-ExtIEs preserves private values.
 func TestVectorEventTriggerEmptyChoiceExtensionSet(t *testing.T) {
 	input := asn1VectorHex(t, "80fffc4004deadbeef")
 	var decoded s19.EventTrigger
@@ -844,7 +844,7 @@ func TestVectorEventTriggerEmptyChoiceExtensionSet(t *testing.T) {
 	}
 }
 
-// TestVectorMeasurementThresholdEmptyChoiceExtensionSet verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.5; empty extensible MeasurementThresholdL1LoggedMDT-ExtIEs preserves private values.
+// TestVectorMeasurementThresholdEmptyChoiceExtensionSet verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; empty extensible MeasurementThresholdL1LoggedMDT-ExtIEs preserves private values.
 func TestVectorMeasurementThresholdEmptyChoiceExtensionSet(t *testing.T) {
 	input := asn1VectorHex(t, "80fffc4004deadbeef")
 	var decoded s19.MeasurementThresholdL1LoggedMDT
@@ -866,7 +866,7 @@ func TestVectorMeasurementThresholdEmptyChoiceExtensionSet(t *testing.T) {
 	}
 }
 
-// TestVectorSensorNameEmptyChoiceExtensionSet verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.5; empty extensible SensorNameConfig-ExtIEs preserves private values.
+// TestVectorSensorNameEmptyChoiceExtensionSet verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; empty extensible SensorNameConfig-ExtIEs preserves private values.
 func TestVectorSensorNameEmptyChoiceExtensionSet(t *testing.T) {
 	input := asn1VectorHex(t, "80fffc4004deadbeef")
 	var decoded s30.SensorNameConfig
@@ -888,7 +888,7 @@ func TestVectorSensorNameEmptyChoiceExtensionSet(t *testing.T) {
 	}
 }
 
-// TestVectorTargetTransparentContainerDapsRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.4; target transparent container DAPS response list and nested private extension.
+// TestVectorTargetTransparentContainerDapsRecursive verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; target transparent container DAPS response list and nested private extension.
 func TestVectorTargetTransparentContainerDapsRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "4001010000013e401100013f400c4a000000fffc4004deadbeef")
 	var decoded s39.TargeteNBToSourceeNBTransparentContainer
@@ -913,7 +913,7 @@ func TestVectorTargetTransparentContainerDapsRecursive(t *testing.T) {
 	}
 }
 
-// TestVectorTargetTransparentContainerUnknownExtension verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.4; unknown target transparent container extension remains raw.
+// TestVectorTargetTransparentContainerUnknownExtension verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; unknown target transparent container extension remains raw.
 func TestVectorTargetTransparentContainerUnknownExtension(t *testing.T) {
 	input := asn1VectorHex(t, "4001010000fffc4004deadbeef")
 	var decoded s39.TargeteNBToSourceeNBTransparentContainer
@@ -935,7 +935,7 @@ func TestVectorTargetTransparentContainerUnknownExtension(t *testing.T) {
 	}
 }
 
-// TestVectorTargetTransparentContainerMalformedDapsPath verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.4; malformed DAPS response list reports full containing path and identifier.
+// TestVectorTargetTransparentContainerMalformedDapsPath verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; malformed DAPS response list reports full containing path and identifier.
 func TestVectorTargetTransparentContainerMalformedDapsPath(t *testing.T) {
 	input := asn1VectorHex(t, "4001010000013e4000")
 	var decoded s39.TargeteNBToSourceeNBTransparentContainer
@@ -951,7 +951,7 @@ func TestVectorTargetTransparentContainerMalformedDapsPath(t *testing.T) {
 	}
 }
 
-// TestVectorTargetTransparentContainerDirectExtensionField verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.4; direct recursive ProtocolExtensionField DAPS decoding and fuzz boundary.
+// TestVectorTargetTransparentContainerDirectExtensionField verifies 3GPP TS 36.413 V19.2.0 (2026-06), section 9.3.4; direct recursive ProtocolExtensionField DAPS decoding and fuzz boundary.
 func TestVectorTargetTransparentContainerDirectExtensionField(t *testing.T) {
 	input := asn1VectorHex(t, "00013f400c4a000000fffc4004deadbeef")
 	binding := s39.TargeteNBToSourceeNBTransparentContainerExtIEs().DAPSResponseInfoList()
@@ -968,7 +968,7 @@ func TestVectorTargetTransparentContainerDirectExtensionField(t *testing.T) {
 	asn1VectorAssertPath(t, subject, "[0].ProtocolIEs[0].ObjectSet", "\"DAPSResponseInfoListIEs\"")
 }
 
-// TestVectorTaiItemDirectProtocolIeField verifies 3GPP TS 36.413 V19.2.0 (2026-07), section 9.3.3; direct recursive TAIItem ProtocolIE-Field decoding and fuzz boundary.
+// TestVectorTaiItemDirectProtocolIeField verifies 3GPP TS 36.413 V19.2.0 (2026-06), sections 9.3.3 and 9.3.7; direct recursive TAIItem ProtocolIE-Field decoding and fuzz boundary.
 func TestVectorTaiItemDirectProtocolIeField(t *testing.T) {
 	input := asn1VectorHex(t, "0001f0101234")
 	binding := s33.TAIItemIEs().TAIItem()
