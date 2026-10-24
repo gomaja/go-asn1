@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/received_budget_regression_test.go; SHA-256 fb0ad30a7fd13b9c1bc1c38242526f86386907457f94a031ab88ef95408f6209.
+// Runtime source: runtime/aper/received_budget_regression_test.go; SHA-256 01fe9ece4e84103990d523a59855bd407bd9e4ae32c935e02b933e67e3c760ce.
 package aper
 
 import (
@@ -8,6 +8,7 @@ import (
 	"errors"
 	"fmt"
 	"testing"
+	"unsafe"
 )
 
 func TestStandaloneWriterKeepsLargeCopyBehaviour(t *testing.T) {
@@ -137,15 +138,26 @@ func TestExtensionContentCopyFailuresReachEncoder(t *testing.T) {
 	if _, err := CopyExtensionContents(nil, []WireSpan{invalid}, budget); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("copy error discarded: %v", err)
 	}
-	image := OriginalWire([]byte{0xa5, 0x5a})
-	for _, limit := range []uint64{operationMetadataBytes, operationMetadataBytes + 25} {
+	octets := []byte{0xa5, 0x5a}
+	image := OriginalWire(octets)
+	// The copy charges one [][]byte element and its octets. The element's size
+	// is the target architecture's slice header, as the budget charges it.
+	required := operationMetadataBytes + uint64(unsafe.Sizeof([]byte(nil))) + uint64(len(octets))
+	for _, limit := range []uint64{operationMetadataBytes, required - 1} {
 		budget, err := EncodeBudget(WithEncodeLimits(Limits{MaxAllocatedBytes: limit}))
 		if err != nil {
 			t.Fatal(err)
 		}
 		if _, err := CopyExtensionContents(nil, []WireSpan{image}, budget); !errors.Is(err, ErrLimit) {
-			t.Fatalf("copy escaped allocation budget: %v", err)
+			t.Fatalf("limit=%d required=%d: copy escaped allocation budget: %v", limit, required, err)
 		}
+	}
+	exact, err := EncodeBudget(WithEncodeLimits(Limits{MaxAllocatedBytes: required}))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, err := CopyExtensionContents(nil, []WireSpan{image}, exact); err != nil {
+		t.Fatalf("limit=%d: copy within its budget failed: %v", required, err)
 	}
 	budget, err = EncodeBudget()
 	if err != nil {
