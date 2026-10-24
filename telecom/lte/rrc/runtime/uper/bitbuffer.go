@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 5be886c444d02aeffb4c7aaa066e5095098d8e19744606bf7f64f8061eab26ee.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 b5afb1ac966e5b6f7509d90901d138c804a3e46f1084f329e3eb309da3f9c3d3.
 package uper
 
 import (
@@ -168,7 +168,7 @@ func NewDecodeBuffer(data []byte, budget *DecodeBudget) *BitBuffer {
 		*budget = DecodeBudget{limits: DefaultDecodeLimits()}
 	}
 	if len(data) > math.MaxInt/8 {
-		return &BitBuffer{invalidLength: true, budget: budget}
+		return &BitBuffer{data: data, invalidLength: true, budget: budget}
 	}
 	return &BitBuffer{
 		data:   data,

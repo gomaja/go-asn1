@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/named_bits_test.go; SHA-256 5ae20e048563411e38ceeba7456745b5734c2fffccda0d8ec5c1f06e64053609.
+// Runtime source: runtime/uper/named_bits_test.go; SHA-256 b1447c0a521d5f483bf41033124254dfbda101c947722349926fb6caf0bd201f.
 package uper
 
 import (
@@ -145,9 +145,12 @@ func TestKeptBitsList(t *testing.T) {
 	if !list.List(5).ElementAt(2, 1).Keeps([]byte{0x80}, 3) || !list.List(5).ElementAt(0, 3).Keeps([]byte{0x80}, 3) {
 		t.Error("element 3 not kept")
 	}
-	for _, at := range [][2]int{{0, 0}, {0, 4}, {4, 0}, {-1, 4}, {2, -1}, {1 << 40, 0}} {
-		if !list.List(5).ElementAt(int64(at[0]), at[1]).IsZero() && at != [2]int{0, 3} {
-			t.Errorf("ElementAt(%d, %d) is not empty", at[0], at[1])
+	for _, at := range []struct {
+		fragment int64
+		index    int
+	}{{0, 0}, {0, 4}, {4, 0}, {-1, 4}, {2, -1}, {1 << 40, 0}} {
+		if !list.List(5).ElementAt(at.fragment, at.index).IsZero() {
+			t.Errorf("ElementAt(%d, %d) is not empty", at.fragment, at.index)
 		}
 	}
 	if !list.List(4).ElementAt(0, 3).IsZero() || !element.List(1).IsZero() || !element.ElementAt(0, 0).IsZero() {
