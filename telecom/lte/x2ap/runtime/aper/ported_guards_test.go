@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/ported_guards_test.go; SHA-256 3981f0e07ff29b7926c8fb4f02f398ef0ee0675307881d7373779caa7fe77644.
+// Runtime source: runtime/aper/ported_guards_test.go; SHA-256 347f7b9062a0bb275f30845d76d02da865759875cba840c7d3d97b10b6328961.
 package aper
 
 import (
@@ -8,6 +8,7 @@ import (
 	"errors"
 	"math"
 	"math/big"
+	"strings"
 	"testing"
 
 	"github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
@@ -221,7 +222,7 @@ func TestPortedOIDErrorParity(t *testing.T) {
 		{[]byte{2, 0x80, 0}, "object identifier: ber: value out of range: invalid object identifier: non-minimal subidentifier at byte 0", errOIDInvalidValue},
 	} {
 		_, e := DecodeObjectIdentifierAligned(NewBitBufferFromBytes(tc.wire))
-		if e == nil || e.Error() != tc.want || !errors.Is(e, tc.classification) {
+		if e == nil || !strings.Contains(e.Error(), tc.want) || !errors.Is(e, tc.classification) || !errors.Is(e, ErrSyntax) {
 			t.Fatalf("%x: %v", tc.wire, e)
 		}
 	}
@@ -293,7 +294,7 @@ func TestPortedGuardDiagnostics(t *testing.T) {
 	if _, e := addNonNegativeOffset(math.MaxInt64, 1); !errors.Is(e, ErrInvalidValue) {
 		t.Fatal(e)
 	}
-	if _, _, e := decodeExtensionBitmapBits(NewBitBufferFromBytes([]byte{0}), 8); e == nil || e.Error() != "per: data truncated: extension bitmap index 8 exceeds 8 remaining bits" {
+	if _, _, e := decodeExtensionBitmapBits(NewBitBufferFromBytes([]byte{0}), 8); e == nil || !strings.Contains(e.Error(), "per: data truncated: extension bitmap index 8 exceeds 8 remaining bits") {
 		t.Fatal(e)
 	}
 	for _, tc := range []struct {
@@ -318,7 +319,7 @@ func TestPortedGuardDiagnostics(t *testing.T) {
 func TestPortedNestedCutEligibility(t *testing.T) {
 	full := encodeHolder(t, fullHolder(), true)
 	parent := NewBitBufferFromBytes(full[:len(full)-1])
-	if err := parent.SetDecodeOptionsAligned(DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}}); err != nil {
+	if err := parent.setDecodeSettingsAligned(decodeSettings{TruncatedExtensionTolerance: &ToleranceLog{}}); err != nil {
 		t.Fatal(err)
 	}
 	child := NewNestedDecodeBuffer(parent.data, parent)

@@ -1,9 +1,10 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/padding_public_test.go; SHA-256 fb01112433f83f9badd05776ad6aedd0dd35a5a07eb872912baf94de4721c640.
+// Runtime source: runtime/aper/padding_public_test.go; SHA-256 6fdde95af509631cece914371a98252744a32358b4e833c6b8566f0102c7a143.
 package aper_test
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
@@ -26,6 +27,12 @@ func TestCompletePaddingObservedBits(t *testing.T) {
 				t.Fatal(err)
 			}
 			padding, err := aper.CaptureFinalPadding(bb)
+			if !tc.zero {
+				if !errors.Is(err, aper.ErrSyntax) {
+					t.Fatalf("nonzero padding: %v", err)
+				}
+				return
+			}
 			if err != nil {
 				t.Fatal(err)
 			}

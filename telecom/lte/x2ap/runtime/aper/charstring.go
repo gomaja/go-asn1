@@ -1,12 +1,11 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/charstring.go; SHA-256 15ca7f0aafedc768c7230a08018fb6ab517a2a7529442e6149f69f428195a62f.
+// Runtime source: runtime/aper/charstring.go; SHA-256 b930bce3ba99b2730331443770d7235fa93f14c48f9c6e6989b0689c905ab924.
 package aper
 
 import (
 	"fmt"
 	"math"
-	"strings"
 	"unicode/utf8"
 )
 
@@ -16,6 +15,7 @@ type characterCodec struct {
 	bits      int
 	valueBits int
 	wide      bool
+	visible   bool
 }
 
 // identityCharacterCodec covers a type's whole alphabet when all its values
@@ -48,6 +48,9 @@ func validateKnownMultiplierWidth(bitsPerChar int) error {
 
 // encodeValue checks that a character belongs to the identity alphabet.
 func (codec characterCodec) encodeValue(value uint32) (uint64, error) {
+	if codec.visible && (value < 32 || value > 126) {
+		return 0, fmt.Errorf("%w: character outside VisibleString alphabet", ErrConstraintViolation)
+	}
 	if uint64(value) >= uint64(1)<<codec.valueBits {
 		return 0, fmt.Errorf("%w: character %#x does not fit in %d bits", ErrConstraintViolation, value, codec.valueBits)
 	}
@@ -56,6 +59,9 @@ func (codec characterCodec) encodeValue(value uint32) (uint64, error) {
 
 // decodeValue rejects codes outside the identity alphabet.
 func (codec characterCodec) decodeValue(code uint64) (uint32, error) {
+	if codec.visible && (code < 32 || code > 126) {
+		return 0, fmt.Errorf("%w: character outside VisibleString alphabet", ErrInvalidValue)
+	}
 	if code >= uint64(1)<<codec.valueBits {
 		return 0, fmt.Errorf("%w: character %#x does not fit in %d bits", ErrInvalidValue, code, codec.valueBits)
 	}
@@ -129,6 +135,18 @@ func (codec characterCodec) write(bb *BitBuffer, value string) error {
 	return nil
 }
 
+// characterStringTruncation retains counts without formatting a diagnostic
+// before an error consumer requests it.
+type characterStringTruncation struct {
+	required, remaining int
+}
+
+func (e *characterStringTruncation) Error() string {
+	return fmt.Sprintf("%s: character string requires %d bits with %d remaining", ErrTruncated, e.required, e.remaining)
+}
+
+func (e *characterStringTruncation) Unwrap() error { return ErrTruncated }
+
 // read decodes length characters after checking that their bits are present.
 func (codec characterCodec) read(bb *BitBuffer, length int64) (string, error) {
 	payloadBits, err := codec.payloadBits(length)
@@ -136,12 +154,15 @@ func (codec characterCodec) read(bb *BitBuffer, length int64) (string, error) {
 		return "", err
 	}
 	if payloadBits > bb.BitsRemaining() {
-		return "", fmt.Errorf("%w: character string requires %d bits with %d remaining", ErrTruncated, payloadBits, bb.BitsRemaining())
+		return "", &characterStringTruncation{required: payloadBits, remaining: bb.BitsRemaining()}
 	}
 	if length > int64(math.MaxInt) {
 		return "", fmt.Errorf("%w: character string length exceeds host int", ErrInvalidValue)
 	}
 	if !codec.wide {
+		if err := bb.ChargeAllocation(uint64(length), 2); err != nil {
+			return "", err
+		}
 		result := make([]byte, int(length))
 		for index := range result {
 			code, err := bb.ReadBits(codec.bits)
@@ -150,7 +171,7 @@ func (codec characterCodec) read(bb *BitBuffer, length int64) (string, error) {
 			}
 			value, err := codec.decodeValue(code)
 			if err != nil {
-				return "", err
+				return "", bb.syntaxError(bb.BitPos()-codec.bits, "§30.5.3", "character outside alphabet", err)
 			}
 			if value > math.MaxUint8 {
 				return "", fmt.Errorf("%w: character exceeds byte", ErrInvalidValue)
@@ -158,6 +179,9 @@ func (codec characterCodec) read(bb *BitBuffer, length int64) (string, error) {
 			result[index] = byte(value)
 		}
 		return string(result), nil
+	}
+	if err := bb.ChargeAllocation(uint64(length), 8); err != nil {
+		return "", err
 	}
 	result := make([]rune, int(length))
 	for index := range result {
@@ -195,6 +219,9 @@ func (codec characterCodec) alignsFixed(size int64) (bool, error) {
 // encodeCharacterString implements ITU-T X.691 (02/2021) 30.4 to 30.5.7.
 func encodeCharacterString(bb *BitBuffer, value string, codec characterCodec, lb, ub int64, constrained, extensible bool) error {
 	if err := validateSizeBounds(lb, ub, constrained); err != nil {
+		return err
+	}
+	if err := bb.ChargeWork(uint64(len(value))); err != nil {
 		return err
 	}
 	length, err := codec.length(value)
@@ -250,7 +277,13 @@ func encodeCharacterString(bb *BitBuffer, value string, codec characterCodec, lb
 }
 
 // decodeCharacterString mirrors encodeCharacterString.
-func decodeCharacterString(bb *BitBuffer, codec characterCodec, lb, ub int64, constrained, extensible bool) (string, error) {
+func decodeCharacterString(bb *BitBuffer, codec characterCodec, lb, ub int64, constrained, extensible bool) (resultValue string, failure error) {
+	start := bb.BitPos()
+	clause := "§30.5.7"
+	if extensible {
+		clause = "§30.4"
+	}
+	defer bb.locateDecodeFailure(start, clause, &failure)
 	if err := validateSizeBounds(lb, ub, constrained); err != nil {
 		return "", err
 	}
@@ -325,6 +358,9 @@ func encodeLengthDelimitedCharacters(bb *BitBuffer, value string, length int64, 
 	var runes []rune
 	limit := int64(len(value))
 	if codec.wide {
+		if err := bb.ChargeAllocation(uint64(len(value)), 4); err != nil {
+			return err
+		}
 		runes = []rune(value)
 		limit = int64(len(runes))
 	}
@@ -356,7 +392,7 @@ func encodeLengthDelimitedCharacters(bb *BitBuffer, value string, length int64, 
 }
 
 func decodeLengthDelimitedCharacters(bb *BitBuffer, codec characterCodec, maximum int64) (string, int64, error) {
-	var result strings.Builder
+	var result []byte
 	total, err := decodeLengthFragmentsBounded(bb, true, maximum, func(offset int64, length int64) error {
 		if err := bb.AlignToOctetRead(); err != nil {
 			return err
@@ -365,11 +401,17 @@ func decodeLengthDelimitedCharacters(bb *BitBuffer, codec characterCodec, maximu
 		if err != nil {
 			return err
 		}
-		_, err = result.WriteString(fragment)
+		if err := bb.ChargeAllocation(uint64(len(fragment)), 1); err != nil {
+			return err
+		}
+		result, err = AppendValues(bb, result, []byte(fragment)...)
 		return err
 	})
 	if err != nil {
 		return "", 0, err
 	}
-	return result.String(), total, nil
+	if err := bb.ChargeAllocation(uint64(len(result)), 1); err != nil {
+		return "", 0, err
+	}
+	return string(result), total, nil
 }

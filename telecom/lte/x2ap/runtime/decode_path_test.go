@@ -1,10 +1,12 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/decode_path_test.go; SHA-256 88defea1beb0fb532f6e794eb14c79c201905abaee6604bcf762ede8490fd17c.
+// Runtime source: runtime/decode_path_test.go; SHA-256 6367b7b2e1ff41ee932e632833fb375f3b815f864b9913e6f9fbd53395cdac34.
 package runtime
 
 import (
 	"errors"
+	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -42,5 +44,31 @@ func TestWrapDecodePathPreservesRepeatedNamedSegments(t *testing.T) {
 
 	if got, want := err.Error(), "decoding GlobalGNBID.GNBID.GNBID: malformed value"; got != want {
 		t.Fatalf("error = %q, want %q", got, want)
+	}
+}
+
+type pathAwareError struct{ path string }
+
+func (e pathAwareError) Error() string                    { return e.path }
+func (e pathAwareError) WithDecodePath(path string) error { return pathAwareError{path: path} }
+
+func TestWrapDecodePathUpdatesOwnedLocation(t *testing.T) {
+	original := pathAwareError{}
+	err := WrapDecodePath(WrapDecodePath(original, "IEs[2]"), "Message")
+	var located pathAwareError
+	if !errors.As(err, &located) || located.path != "Message.IEs[2]" {
+		t.Fatalf("owned location was not qualified: %v", err)
+	}
+	if original.path != "" {
+		t.Fatal("ancestor changed original error")
+	}
+}
+
+func TestWrapDecodePathKeepsIntermediateErrorContext(t *testing.T) {
+	original := pathAwareError{}
+	err := WrapDecodePath(fmt.Errorf("known IE body: %w", original), "Message.IEs[2]")
+	var located pathAwareError
+	if !errors.As(err, &located) || located.path != "Message.IEs[2]" || !strings.Contains(err.Error(), "known IE body:") || !errors.Is(err, original) {
+		t.Fatalf("lost error context: %v, %+v", err, located)
 	}
 }

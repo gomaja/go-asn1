@@ -16,38 +16,37 @@ import (
 // "URI-Address: https://ref.invalid/x2" without expert items.
 func TestURIAddressMatchesPycrate(t *testing.T) {
 	field, _ := hex.DecodeString("1668747470733a2f2f7265662e696e76616c69642f7832")
-	decoded, err := x2ap.DecodeExtensionFieldValue("TraceActivation-ExtIEs", 405, field)
-	if err != nil {
+	codec := x2ap.TraceActivationExtIEs().TraceCollectionEntityURI().Codec()
+	decoded, _, err := codec.DecodeAPER(field)
+	if err != nil || decoded.Value != "https://ref.invalid/x2" {
 		t.Fatalf("decode extension 405: %v", err)
 	}
-	if complete, ok := decoded.(*aper.CompleteValue[string]); !ok || complete.Value != "https://ref.invalid/x2" {
-		t.Fatalf("decode extension 405 = %#v", decoded)
-	}
-	bb := aper.NewBitBuffer()
-	if err := aper.EncodeKnownMultiplierStringAligned(bb, "https://ref.invalid/x2", 7, 0, 0, false); err != nil {
-		t.Fatal(err)
-	}
-	if got := bb.CompleteBytes(); !bytes.Equal(got, field) {
-		t.Fatalf("encode = %x, want %x", got, field)
+	if wire, err := codec.EncodeAPER(decoded, aper.WithoutReplay()); err != nil || !bytes.Equal(wire, field) {
+		t.Fatalf("URI encode: %x, %v", wire, err)
 	}
 
 	pdu, _ := hex.DecodeString("002f4040000003006f0002000100cf00020002000d402d4000f11000000100018000f80a0000010000019540171668747470733a2f2f7265662e696e76616c69642f7832")
 	var message x2ap.X2APPDU
-	if err := message.UnmarshalAPER(pdu); err != nil {
+	if _, err := message.UnmarshalAPER(pdu); err != nil {
 		t.Fatal(err)
 	}
 	if again, err := message.MarshalAPER(); err != nil || !bytes.Equal(again, pdu) {
 		t.Fatalf("TraceStart re-encoded %x, %v", again, err)
 	}
-	value, err := message.DecodeValueRecursive()
-	if err != nil {
-		t.Fatalf("recursive decode: %v", err)
+	value, ok := message.InitiatingMessage.Value.AsTraceStart()
+	if !ok {
+		t.Fatal("typed TraceStart missing")
 	}
 	var uris []string
-	for _, ie := range value.ProtocolIEs {
-		for _, extension := range ie.Extensions {
-			if complete, ok := extension.Value.(*aper.CompleteValue[string]); ok && extension.Field.Id == 405 {
-				uris = append(uris, complete.Value)
+	for i := range value.ProtocolIEs {
+		trace, ok := x2ap.TraceStartIEs().TraceActivation().Get(&value.ProtocolIEs[i])
+		if !ok {
+			continue
+		}
+		for j := range trace.IEExtensions {
+			uri, ok := x2ap.TraceActivationExtIEs().TraceCollectionEntityURI().Get(&trace.IEExtensions[j])
+			if ok {
+				uris = append(uris, *uri)
 			}
 		}
 	}

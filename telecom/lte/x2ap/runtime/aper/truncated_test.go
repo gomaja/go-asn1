@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/truncated_test.go; SHA-256 59ed31ecb57fccfe6ad32b5635cc28e1460aaf5eb20aa4802de862087050c563.
+// Runtime source: runtime/aper/truncated_test.go; SHA-256 03c4c4d6d4f7cceecd0fd4f4b2358e9befd5ca525611658c71096b595e8366d0.
 package aper
 
 import (
@@ -135,14 +135,14 @@ func decodeHolder(bb *BitBuffer, leadBits int, aligned bool) (*holder, error) {
 	return h, nil
 }
 
-func decodeTop(data []byte, leadBits int, aligned bool, options DecodeOptions) (*holder, error) {
+func decodeTop(data []byte, leadBits int, aligned bool, options decodeSettings) (*holder, error) {
 	bb := NewBitBufferFromBytes(data)
 	if aligned {
-		if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		if err := bb.setDecodeSettingsAligned(options); err != nil {
 			return nil, err
 		}
 	} else {
-		if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		if err := bb.setDecodeSettingsAligned(options); err != nil {
 			return nil, err
 		}
 	}
@@ -176,10 +176,10 @@ func TestTruncatedExtensionCutInContents(t *testing.T) {
 		}
 		cut := full[:(offset+8)/8+1] // its length octet and part of its contents
 		var log ToleranceLog
-		if _, err := decodeTop(cut, 2, aligned, DecodeOptions{}); !errors.Is(err, ErrTruncated) {
+		if _, err := decodeTop(cut, 2, aligned, decodeSettings{}); !errors.Is(err, ErrTruncated) {
 			t.Fatalf("aligned=%v: strict decode of a cut addition = %v, want ErrTruncated", aligned, err)
 		}
-		h, err := decodeTop(cut, 2, aligned, DecodeOptions{TruncatedExtensionTolerance: &log})
+		h, err := decodeTop(cut, 2, aligned, decodeSettings{TruncatedExtensionTolerance: &log})
 		if err != nil {
 			t.Fatalf("aligned=%v: tolerant decode: %v", aligned, err)
 		}
@@ -215,7 +215,7 @@ func TestTruncatedExtensionCutInContents(t *testing.T) {
 		// additions, which strict decoding accepts.
 		h.flag = false
 		edited := encodeHolder(t, h, aligned)
-		strict, err := decodeTop(edited, 2, aligned, DecodeOptions{})
+		strict, err := decodeTop(edited, 2, aligned, decodeSettings{})
 		if err != nil || strict.flag || strict.count != 2 || !equalBools(strict.present, []bool{true, false, false}) || !bytes.Equal(strict.data[0], []byte{0x5a}) {
 			t.Fatalf("aligned=%v: edited value %x decodes to %+v, %v", aligned, edited, strict, err)
 		}
@@ -258,7 +258,7 @@ func TestTruncatedExtensionCutInLengthDeterminant(t *testing.T) {
 		for _, cutAt := range []int{(offset + 7) / 8, (offset+7)/8 + 1} {
 			cut := full[:cutAt]
 			var log ToleranceLog
-			h, err := decodeTop(cut, 2, aligned, DecodeOptions{TruncatedExtensionTolerance: &log})
+			h, err := decodeTop(cut, 2, aligned, decodeSettings{TruncatedExtensionTolerance: &log})
 			if err != nil {
 				t.Fatalf("aligned=%v cut %d: %v", aligned, cutAt, err)
 			}
@@ -282,7 +282,7 @@ func TestTruncatedExtensionEmptiedValue(t *testing.T) {
 		full := encodeHolder(t, value, aligned)
 		cut := full[:len(full)-3]
 		var log ToleranceLog
-		h, err := decodeTop(cut, 3, aligned, DecodeOptions{TruncatedExtensionTolerance: &log})
+		h, err := decodeTop(cut, 3, aligned, decodeSettings{TruncatedExtensionTolerance: &log})
 		if err != nil {
 			t.Fatalf("aligned=%v: %v", aligned, err)
 		}
@@ -307,7 +307,7 @@ func TestTruncatedExtensionEmptiedValue(t *testing.T) {
 // An invalid length determinant is reported, not taken for a cut.
 func TestTruncatedExtensionInvalidDeterminantIsAnError(t *testing.T) {
 	bb := NewBitBufferFromBytes([]byte{0x80, 0x05}) // non-minimal two-octet length 5
-	if err := bb.SetDecodeOptionsAligned(DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}}); err != nil {
+	if err := bb.setDecodeSettingsAligned(decodeSettings{TruncatedExtensionTolerance: &ToleranceLog{}}); err != nil {
 		t.Fatal(err)
 	}
 	if missing, cut := openTypeCut(*bb, false); cut || missing != 0 {
@@ -324,15 +324,15 @@ func TestTruncatedExtensionInvalidDeterminantIsAnError(t *testing.T) {
 	}
 }
 
-func TestSetDecodeOptionsAlignedRejectsUnsupportedOptions(t *testing.T) {
+func TestSetDecodeSettingsAlignedRejectsUnsupportedOptions(t *testing.T) {
 	bb := NewBitBufferFromBytes([]byte{0})
-	if err := bb.SetDecodeOptionsAligned(DecodeOptions{TrailingBitsTolerance: &ToleranceLog{}}); !errors.Is(err, ErrInvalidValue) {
+	if err := bb.setDecodeSettingsAligned(decodeSettings{TrailingBitsTolerance: &ToleranceLog{}}); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("TrailingBitsTolerance: %v", err)
 	}
-	if err := bb.SetDecodeOptionsAligned(DecodeOptions{ContainedDecoding: DeferAll, Deferrals: &DeferralLog{}}); !errors.Is(err, ErrInvalidValue) {
+	if err := bb.setDecodeSettingsAligned(decodeSettings{ContainedDecoding: DeferAll, Deferrals: &DeferralLog{}}); !errors.Is(err, ErrInvalidValue) {
 		t.Fatalf("DeferAll: %v", err)
 	}
-	if err := bb.SetDecodeOptionsAligned(DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}, MaxZeroWidthCharacters: 3}); err != nil || !bb.outermost {
+	if err := bb.setDecodeSettingsAligned(decodeSettings{TruncatedExtensionTolerance: &ToleranceLog{}, MaxZeroWidthCharacters: 3}); err != nil || !bb.outermost {
 		t.Fatalf("supported options: %v", err)
 	}
 }
@@ -343,7 +343,7 @@ func TestOutermostFlagIsNotInherited(t *testing.T) {
 		t.Fatalf("BitBuffer is %d bytes", size)
 	}
 	top := NewBitBufferFromBytes([]byte{0})
-	if err := top.SetDecodeOptionsAligned(DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}}); err != nil {
+	if err := top.setDecodeSettingsAligned(decodeSettings{TruncatedExtensionTolerance: &ToleranceLog{}}); err != nil {
 		t.Fatal(err)
 	}
 	nested := NewBitBufferFromBytes([]byte{0})
@@ -351,7 +351,7 @@ func TestOutermostFlagIsNotInherited(t *testing.T) {
 	if !top.outermost || nested.outermost {
 		t.Fatalf("outermost: top %v, nested %v", top.outermost, nested.outermost)
 	}
-	if err := top.SetDecodeOptionsAligned(DecodeOptions{}); err != nil {
+	if err := top.setDecodeSettingsAligned(decodeSettings{}); err != nil {
 		t.Fatal(err)
 	}
 	if top.outermost {
