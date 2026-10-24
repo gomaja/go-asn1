@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/triage_extension_recovery_test.go; SHA-256 4975a698b73e42b81dbd7b5b1b3dddb42ed7515a345de75418615fbb2431c069.
+// Runtime source: runtime/aper/triage_extension_recovery_test.go; SHA-256 8aaef359124949d58b2102d6d48dcd7e50f53399a3095a12546c1584a5674460.
 package aper
 
 import (
@@ -18,7 +18,7 @@ func TestKnownExtensionRecovery(t *testing.T) {
 		t.Run(fmt.Sprint(aligned), func(t *testing.T) {
 			var log ToleranceLog
 			parent := NewBitBufferFromBytes([]byte{0xaa})
-			if err := parent.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &log}); err != nil {
+			if err := parent.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &log}); err != nil {
 				t.Fatal(err)
 			}
 			mark := parent.EnterComponent("Holder")
@@ -78,7 +78,7 @@ func TestKnownExtensionRecoveryPredicate(t *testing.T) {
 			for _, enabled := range []bool{false, true} {
 				parent := NewBitBufferFromBytes([]byte{0})
 				if enabled {
-					if err := parent.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
+					if err := parent.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
 						t.Fatal(err)
 					}
 				}
@@ -104,7 +104,7 @@ func TestKnownExtensionRecoveryPredicate(t *testing.T) {
 	// Truncation while checking padding is structural, rather than a failed
 	// known value. A zero-bit complete encoding needs a zero octet (§11.1.4).
 	parent := NewBitBufferFromBytes([]byte{0})
-	if err := parent.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
+	if err := parent.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
 		t.Fatal(err)
 	}
 	a := ExtensionAdditions{present: []bool{true}}

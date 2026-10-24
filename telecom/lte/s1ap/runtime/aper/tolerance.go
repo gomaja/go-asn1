@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/tolerance.go; SHA-256 8189ccd33995f98a385e832088f6b6111718c0fdd9f8eb65cb3f39b7700161ec.
+// Runtime source: runtime/aper/tolerance.go; SHA-256 94be6090fd8783e48534959a97d52fc8cf6be6d6a77d08f6b8935c351bba9248.
 package aper
 
 import (
@@ -126,7 +126,7 @@ func (log *ToleranceLog) append(records []Tolerance) {
 type decodeTrace struct {
 	path    []pathSegment
 	pending []Tolerance
-	// truncated is DecodeOptions.TruncatedExtensionTolerance (see
+	// truncated is decodeSettings.TruncatedExtensionTolerance (see
 	// BitBuffer.outermost).
 	truncated *ToleranceLog
 	// recovery receives failures of bounded known extension additions.

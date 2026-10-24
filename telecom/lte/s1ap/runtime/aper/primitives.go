@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/primitives.go; SHA-256 d4142dc3b494081f5aa10c0ba593c09bca432aaefe6f1125429682f5ae6ca2b6.
+// Runtime source: runtime/aper/primitives.go; SHA-256 1997b4f0883d04321cf48de402bbc24eb7e863ada70b02d246f53eeb31901b85.
 package aper
 
 import (
@@ -19,10 +19,12 @@ func EncodeBoolean(bb *BitBuffer, v bool) error {
 }
 
 // DecodeBoolean decodes a boolean from 1 bit.
-func DecodeBoolean(bb *BitBuffer) (bool, error) {
+func DecodeBoolean(bb *BitBuffer) (result0 bool, result1 error) {
+	sourceStart := bb.BitPos()
+
 	bit, err := bb.ReadBit()
 	if err != nil {
-		return false, err
+		return false, bb.decodeFailure(sourceStart, "§12", err)
 	}
 	return bit != 0, nil
 }
@@ -45,9 +47,11 @@ func EncodeConstrainedWholeNumber(bb *BitBuffer, v, lb, ub int64) error {
 }
 
 // DecodeConstrainedWholeNumber decodes a value from [lb..ub].
-func DecodeConstrainedWholeNumber(bb *BitBuffer, lb, ub int64) (int64, error) {
+func DecodeConstrainedWholeNumber(bb *BitBuffer, lb, ub int64) (result0 int64, result1 error) {
+	sourceStart := bb.BitPos()
+
 	if lb > ub {
-		return 0, fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub)
+		return 0, bb.decodeFailure(sourceStart, "§11.5.6", fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub))
 	}
 	rangeValue := uint64(ub) - uint64(lb)
 	if rangeValue == 0 {
@@ -55,15 +59,22 @@ func DecodeConstrainedWholeNumber(bb *BitBuffer, lb, ub int64) (int64, error) {
 	}
 	offset, err := bb.ReadBits(bits.Len64(rangeValue))
 	if err != nil {
-		return 0, err
+		return 0, bb.decodeFailure(sourceStart, "§11.5.6", err)
 	}
 	if offset > rangeValue {
-		return 0, int64OffsetError(offset, lb, ub)
+		return 0, bb.decodeFailure(sourceStart, "§11.5.6", int64OffsetError(offset, lb, ub))
 	}
-	return addNonNegativeOffset(lb, offset)
+	result0, result1 = addNonNegativeOffset(lb, offset)
+	if result1 != nil {
+		bb.locateDecodeFailure(sourceStart, "§11.5.6", &result1)
+	}
+	return result0, result1
 }
 
-func decodeExtensionBitmapBits(bb *BitBuffer, count int64) (int64, []bool, error) {
+func decodeExtensionBitmapBits(bb *BitBuffer, count int64) (result0 int64, result1 []bool, result2 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, "§19.7", &result2)
+
 	remaining := bb.BitsRemaining()
 	if remaining < 0 {
 		return 0, nil, fmt.Errorf("%w: negative remaining PER bits %d", ErrInvalidValue, remaining)
@@ -74,6 +85,9 @@ func decodeExtensionBitmapBits(bb *BitBuffer, count int64) (int64, []bool, error
 	// count is the highest index, so the bitmap contains count+1 bits.
 	if count >= int64(remaining) {
 		return 0, nil, fmt.Errorf("%w: extension bitmap index %d exceeds %d remaining bits", ErrTruncated, count, remaining)
+	}
+	if err := bb.ChargeAllocation(uint64(count)+1, 1); err != nil {
+		return 0, nil, err
 	}
 	present := make([]bool, int(count)+1)
 	for i := range present {
@@ -166,7 +180,7 @@ func decodeLengthDelimitedBits(bb *BitBuffer, aligned bool) ([]byte, int, error)
 
 func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, int, error) {
 	result := []byte{} // present empty is not absent (go-asn1#91); no allocation
-	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
+	total, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(offset int64, length int64) error {
 
 		if err := bb.AlignToOctetRead(); err != nil {
 			return err
@@ -177,13 +191,19 @@ func decodeLengthDelimitedBitsBounded(bb *BitBuffer, aligned bool, maximum int64
 			return fmt.Errorf("%w: negative remaining PER bits %d", ErrInvalidValue, remaining)
 		}
 		if length < 0 || length > int64(remaining) || length > int64(math.MaxInt) {
+			if offset > 0 || length >= perFragmentUnit {
+				return bb.syntaxError(bb.BitPos(), "§11.9.3.8.2", "incomplete BIT STRING fragment contents", ErrTruncated)
+			}
 			return fmt.Errorf("%w: BIT STRING fragment requires %d bits with %d remaining", ErrTruncated, length, bb.BitsRemaining())
 		}
 		fragment, err := bb.ReadBitsToBytes(int(length))
 		if err != nil {
 			return err
 		}
-		result = append(result, fragment...)
+		result, err = AppendValues(bb, result, fragment...)
+		if err != nil {
+			return err
+		}
 		return nil
 	})
 	if err != nil {

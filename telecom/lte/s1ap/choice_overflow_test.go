@@ -5,16 +5,15 @@ import (
 	"testing"
 
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
-	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
 func TestChoiceMinimumIndexRejectedBeforeWrite(t *testing.T) {
 	value := s1ap.S1APPDU{Choice: math.MinInt}
-	bb := aper.NewBitBuffer()
-	if err := value.MarshalAPERTo(bb); err == nil {
+	wire, err := value.MarshalAPER()
+	if err == nil {
 		t.Fatal("minimum host-int CHOICE index accepted")
 	}
-	if bits := bb.BitsWritten(); bits != 0 {
-		t.Fatalf("invalid CHOICE wrote %d bits", bits)
+	if len(wire) != 0 {
+		t.Fatalf("invalid CHOICE published %d octets", len(wire))
 	}
 }

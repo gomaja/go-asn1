@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/integer_set_ported_test.go; SHA-256 6953e6959960aee27f8c5f861b27613485432efc228f8fee7ba92f39e592393d.
+// Runtime source: runtime/aper/integer_set_ported_test.go; SHA-256 34694ebf866a64d1c3d9203498f2a64b5614d0df87308b9cb02e2be823f84585.
 package aper
 
 import (
@@ -114,7 +114,11 @@ func TestAlignedUint64RejectsInvalidExtensionOctets(t *testing.T) {
 		if err := bb.WriteBytes(tc.data); err != nil {
 			t.Fatalf("%s data: %v", tc.name, err)
 		}
-		if _, err := decodeUnconstrainedUint64(NewBitBufferFromBytes(bb.CompleteBytes()), true); !errors.Is(err, ErrInvalidValue) {
+		want := ErrSyntax
+		if tc.name == "negative" || tc.name == "nine octets without sign pad" {
+			want = ErrLimit
+		}
+		if _, err := decodeUnconstrainedUint64(NewBitBufferFromBytes(bb.CompleteBytes()), true); !errors.Is(err, want) {
 			t.Errorf("%s: %v, want ErrInvalidValue", tc.name, err)
 		}
 	}

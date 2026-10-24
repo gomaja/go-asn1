@@ -1,0 +1,547 @@
+// Code generated from the pinned S1AP source closure. DO NOT EDIT.
+
+package s1ap
+
+import (
+	bytes "bytes"
+	hex "encoding/hex"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s14"
+	s15 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s15"
+	s16 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s16"
+	s17 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s17"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s18"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s21"
+	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
+	s24 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s24"
+	s25 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s25"
+	s26 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s26"
+	s27 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s27"
+	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
+	s29 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s29"
+	s30 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s30"
+	s31 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s31"
+	s32 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s32"
+	s33 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s33"
+	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
+	s35 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s35"
+	s36 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s36"
+	s37 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s37"
+	s38 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s38"
+	s39 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s39"
+	s40 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s40"
+	s41 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s41"
+	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
+	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
+	s44 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s44"
+	s45 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s45"
+	s46 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s46"
+	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
+	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
+	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
+	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
+	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
+	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
+	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
+	reflect "reflect"
+	testing "testing"
+)
+
+type censusComplete interface {
+	UnmarshalAPER([]byte, ...aper.DecodeOption) (aper.DecodeReport, error)
+	MarshalAPER(...aper.EncodeOption) ([]byte, error)
+	ReceivedForm() aper.ReceivedForm
+}
+
+// Each concrete source type with a fresh marker is checked with a valid
+// synthetic complete encoding of its minimal source value.
+func TestWithoutReplayEverySourceType(t *testing.T) {
+	cases := []struct {
+		name, wire string
+		value      censusComplete
+	}{
+		{"ActivatedCellsListComplete", "0000", &s37.ActivatedCellsListComplete{}},
+		{"ActivatedCellsListItem", "0000", &s14.ActivatedCellsListItem{}},
+		{"AdditionalGUTI", "0000000000000000000000", &s18.AdditionalGUTI{}},
+		{"AllocationAndRetentionPriority", "00", &s14.AllocationAndRetentionPriority{}},
+		{"AreaScopeOfMDT", "000000000000000000", &s32.AreaScopeOfMDT{}},
+		{"AreaScopeOfQMC", "000000000000000000", &s32.AreaScopeOfQMC{}},
+		{"AssistanceDataForCECapableUEs", "000000000000000000", &s17.AssistanceDataForCECapableUEs{}},
+		{"AssistanceDataForPaging", "00", &s26.AssistanceDataForPaging{}},
+		{"AssistanceDataForRecommendedCells", "0000d640080000000000000000", &s26.AssistanceDataForRecommendedCells{}},
+		{"BPLMNsComplete", "00000000", &s37.BPLMNsComplete{}},
+		{"BearersSubjectToDLDiscardingItem", "000000000000", &s15.BearersSubjectToDLDiscardingItem{}},
+		{"BearersSubjectToDLDiscardingListComplete", "00015f4006000000000000", &s37.BearersSubjectToDLDiscardingListComplete{}},
+		{"BearersSubjectToEarlyStatusTransferItem", "000000000000", &s14.BearersSubjectToEarlyStatusTransferItem{}},
+		{"BearersSubjectToEarlyStatusTransferListComplete", "0001424006000000000000", &s38.BearersSubjectToEarlyStatusTransferListComplete{}},
+		{"BearersSubjectToStatusTransferItem", "0000000000000000000000", &s21.BearersSubjectToStatusTransferItem{}},
+		{"BearersSubjectToStatusTransferListComplete", "000059400b0000000000000000000000", &s38.BearersSubjectToStatusTransferListComplete{}},
+		{"BluetoothMeasConfigNameListComplete", "000000", &s38.BluetoothMeasConfigNameListComplete{}},
+		{"BluetoothMeasurementConfiguration", "00", &s14.BluetoothMeasurementConfiguration{}},
+		{"BroadcastCancelledAreaList", "00000000000000000000000000", &s32.BroadcastCancelledAreaList{}},
+		{"BroadcastCompletedAreaList", "0000000000000000000000", &s32.BroadcastCompletedAreaList{}},
+		{"CGI", "0000000000000000", &s14.CGI{}},
+		{"CNTypeRestrictionsComplete", "0000000000", &s38.CNTypeRestrictionsComplete{}},
+		{"CNTypeRestrictionsItem", "0000000000", &s14.CNTypeRestrictionsItem{}},
+		{"COUNTValueExtended", "0000000000", &s14.COUNTValueExtended{}},
+		{"COUNTvalue", "0000000000", &s14.COUNTvalue{}},
+		{"COUNTvaluePDCPSNlength18", "00000000", &s14.COUNTvaluePDCPSNlength18{}},
+		{"CSGIdListComplete", "000000000000", &s38.CSGIdListComplete{}},
+		{"CSGIdListItem", "0000000000", &s14.CSGIdListItem{}},
+		{"CSGMembershipInfo", "0000000000", &s14.CSGMembershipInfo{}},
+		{"CancelledCellinEAIComplete", "000000000000000000000000", &s38.CancelledCellinEAIComplete{}},
+		{"CancelledCellinEAIItem", "00000000000000000000", &s17.CancelledCellinEAIItem{}},
+		{"CancelledCellinTAIComplete", "000000000000000000000000", &s38.CancelledCellinTAIComplete{}},
+		{"CancelledCellinTAIItem", "00000000000000000000", &s17.CancelledCellinTAIItem{}},
+		{"CandidateCellListComplete", "0000", &s38.CandidateCellListComplete{}},
+		{"CandidatePCI", "00000000", &s14.CandidatePCI{}},
+		{"CandidatePCIListComplete", "00000000", &s38.CandidatePCIListComplete{}},
+		{"Cause", "0000", &s14.Cause{}},
+		{"Cdma2000OneXSRVCCInfo", "00000000", &s14.Cdma2000OneXSRVCCInfo{}},
+		{"CellActivationRequest", "00000000", &s22.CellActivationRequest{}},
+		{"CellActivationResponse", "000000", &s21.CellActivationResponse{}},
+		{"CellBasedMDT", "000000000000000000", &s22.CellBasedMDT{}},
+		{"CellBasedQMC", "000000000000000000", &s22.CellBasedQMC{}},
+		{"CellIDBroadcastComplete", "00000000000000000000", &s38.CellIDBroadcastComplete{}},
+		{"CellIDBroadcastItem", "0000000000000000", &s17.CellIDBroadcastItem{}},
+		{"CellIDCancelledComplete", "000000000000000000000000", &s38.CellIDCancelledComplete{}},
+		{"CellIDCancelledItem", "00000000000000000000", &s17.CellIDCancelledItem{}},
+		{"CellIdListforMDTComplete", "0000000000000000", &s38.CellIdListforMDTComplete{}},
+		{"CellIdListforQMCComplete", "0000000000000000", &s38.CellIdListforQMCComplete{}},
+		{"CellIdentifierAndCELevelForCECapableUEs", "000000000000000000", &s17.CellIdentifierAndCELevelForCECapableUEs{}},
+		{"CellLoadReportingResponse", "0000", &s17.CellLoadReportingResponse{}},
+		{"CellStateIndication", "0000000000", &s24.CellStateIndication{}},
+		{"CellTrafficTrace", "00000500000002000000080002000000564008000000000000000000644008000000000000000000834003000000", &s21.CellTrafficTrace{}},
+		{"CellType", "00", &s14.CellType{}},
+		{"CellsToActivateListComplete", "000000", &s38.CellsToActivateListComplete{}},
+		{"CellsToActivateListItem", "0000", &s14.CellsToActivateListItem{}},
+		{"CompletedCellinEAIComplete", "00000000000000000000", &s38.CompletedCellinEAIComplete{}},
+		{"CompletedCellinEAIItem", "0000000000000000", &s17.CompletedCellinEAIItem{}},
+		{"CompletedCellinTAIComplete", "00000000000000000000", &s38.CompletedCellinTAIComplete{}},
+		{"CompletedCellinTAIItem", "0000000000000000", &s17.CompletedCellinTAIItem{}},
+		{"ConnectedengNBItem", "0000000000000000000000", &s31.ConnectedengNBItem{}},
+		{"ConnectedengNBListComplete", "000000000000000000000000", &s38.ConnectedengNBListComplete{}},
+		{"ConnectionEstablishmentIndication", "000002000040020000000840020000", &s31.ConnectionEstablishmentIndication{}},
+		{"ContextatSource", "000000000000000000", &s19.ContextatSource{}},
+		{"CriticalityDiagnostics", "00", &s22.CriticalityDiagnostics{}},
+		{"CriticalityDiagnosticsIEItem", "00000000", &s14.CriticalityDiagnosticsIEItem{}},
+		{"CriticalityDiagnosticsIEListComplete", "0000000000", &s38.CriticalityDiagnosticsIEListComplete{}},
+		{"DAPSRequestInfo", "00", &s14.DAPSRequestInfo{}},
+		{"DAPSResponseInfo", "00", &s14.DAPSResponseInfo{}},
+		{"DAPSResponseInfoItem", "0000", &s14.DAPSResponseInfoItem{}},
+		{"DAPSResponseInfoListComplete", "00013f40020000", &s38.DAPSResponseInfoListComplete{}},
+		{"DLCOUNTPDCPSNlength", "0000000000", &s14.DLCOUNTPDCPSNlength{}},
+		{"DLCPSecurityInformation", "000000", &s15.DLCPSecurityInformation{}},
+		{"DLDiscarding", "0000000000", &s15.DLDiscarding{}},
+		{"DeactivateTrace", "000003000000020000000800020000005640080000000000000000", &s15.DeactivateTrace{}},
+		{"DownlinkNASTransport", "000003000000020000000800020000001a000100", &s42.DownlinkNASTransport{}},
+		{"DownlinkNonUEAssociatedLPPaTransport", "00000200940001000093000100", &s15.DownlinkNonUEAssociatedLPPaTransport{}},
+		{"DownlinkS1cdma2000tunnelling", "00000400000002000000080002000000470001000046000100", &s40.DownlinkS1cdma2000tunnelling{}},
+		{"DownlinkUEAssociatedLPPaTransport", "00000400000002000000080002000000940001000093000100", &s15.DownlinkUEAssociatedLPPaTransport{}},
+		{"ECGIListComplete", "00000000000000000000", &s38.ECGIListComplete{}},
+		{"ECGIListForRestartComplete", "000000000000000000", &s38.ECGIListForRestartComplete{}},
+		{"EHRPDCompositeAvailableCapacity", "0000", &s15.EHRPDCompositeAvailableCapacity{}},
+		{"EHRPDMultiSectorLoadReportingResponseItem", "00000000000000000000000000000000000000000000", &s15.EHRPDMultiSectorLoadReportingResponseItem{}},
+		{"EHRPDSectorLoadReportingResponse", "0000000000", &s15.EHRPDSectorLoadReportingResponse{}},
+		{"ENBCPRelocationIndication", "000005000800020000006000060000000000000064400800000000000000000043400600000000000000fe0003000000", &s37.ENBCPRelocationIndication{}},
+		{"ENBConfigurationTransfer", "000000", &s51.ENBConfigurationTransfer{}},
+		{"ENBConfigurationUpdate", "000000", &s43.ENBConfigurationUpdate{}},
+		{"ENBConfigurationUpdateAcknowledge", "000000", &s24.ENBConfigurationUpdateAcknowledge{}},
+		{"ENBConfigurationUpdateFailure", "000001000240020000", &s24.ENBConfigurationUpdateFailure{}},
+		{"ENBDirectInformationTransfer", "000001007900020000", &s34.ENBDirectInformationTransfer{}},
+		{"ENBEarlyStatusTransfer", "0000030000000200000008000200000141000c000001424006000000000000", &s37.ENBEarlyStatusTransfer{}},
+		{"ENBEarlyStatusTransferTransparentContainer", "000001424006000000000000", &s37.ENBEarlyStatusTransferTransparentContainer{}},
+		{"ENBID", "00000000", &s15.ENBID{}},
+		{"ENBIndirectX2TransportLayerAddressesComplete", "000000", &s38.ENBIndirectX2TransportLayerAddressesComplete{}},
+		{"ENBStatusTransfer", "000003000000020000000800020000005a001100000059400b0000000000000000000000", &s24.ENBStatusTransfer{}},
+		{"ENBStatusTransferTransparentContainer", "00000059400b0000000000000000000000", &s21.ENBStatusTransferTransparentContainer{}},
+		{"ENBX2ExtTLA", "00", &s15.ENBX2ExtTLA{}},
+		{"ENBX2ExtTLAsComplete", "00", &s38.ENBX2ExtTLAsComplete{}},
+		{"ENBX2GTPTLAsComplete", "000000", &s38.ENBX2GTPTLAsComplete{}},
+		{"ENBX2TLAsComplete", "000000", &s38.ENBX2TLAsComplete{}},
+		{"ENDCSONConfigurationTransfer", "00000000000000000000000000000000000000000000000000000000", &s50.ENDCSONConfigurationTransfer{}},
+		{"ENDCSONTransferType", "000000000000000000000000000000000000000000000000000000", &s31.ENDCSONTransferType{}},
+		{"ENDCSONeNBIdentification", "00000000000000000000000000", &s31.ENDCSONeNBIdentification{}},
+		{"ENDCSONengNBIdentification", "00000000000000000000000000", &s31.ENDCSONengNBIdentification{}},
+		{"ENDCTransferTypeReply", "0000000000000000000000000000000000000000000000000000", &s31.ENDCTransferTypeReply{}},
+		{"ENDCTransferTypeRequest", "000000000000000000000000000000000000000000000000000000", &s31.ENDCTransferTypeRequest{}},
+		{"EPLMNsComplete", "00000000", &s38.EPLMNsComplete{}},
+		{"ERABAdmittedItem", "0000000000000000", &s15.ERABAdmittedItem{}},
+		{"ERABAdmittedListComplete", "00001440080000000000000000", &s38.ERABAdmittedListComplete{}},
+		{"ERABDataForwardingItem", "0000", &s15.ERABDataForwardingItem{}},
+		{"ERABFailedToResumeItemResumeReq", "000000", &s15.ERABFailedToResumeItemResumeReq{}},
+		{"ERABFailedToResumeItemResumeRes", "000000", &s15.ERABFailedToResumeItemResumeRes{}},
+		{"ERABFailedToResumeListResumeReqComplete", "0000ec0003000000", &s38.ERABFailedToResumeListResumeReqComplete{}},
+		{"ERABFailedToResumeListResumeResComplete", "0000ee0003000000", &s38.ERABFailedToResumeListResumeResComplete{}},
+		{"ERABFailedToSetupItemHOReqAck", "000000", &s16.ERABFailedToSetupItemHOReqAck{}},
+		{"ERABFailedtoSetupListHOReqAckComplete", "0000154003000000", &s38.ERABFailedtoSetupListHOReqAckComplete{}},
+		{"ERABInformationListComplete", "00004e400100", &s39.ERABInformationListComplete{}},
+		{"ERABInformationListItem", "00", &s29.ERABInformationListItem{}},
+		{"ERABItem", "000000", &s16.ERABItem{}},
+		{"ERABLevelQoSParameters", "000000", &s18.ERABLevelQoSParameters{}},
+		{"ERABListComplete", "0000234003000000", &s39.ERABListComplete{}},
+		{"ERABModificationConfirm", "000002000040020000000840020000", &s39.ERABModificationConfirm{}},
+		{"ERABModificationIndication", "00000300000002000000080002000000c7000c0000c8000700000000000000", &s45.ERABModificationIndication{}},
+		{"ERABModifyItemBearerModConf", "00", &s16.ERABModifyItemBearerModConf{}},
+		{"ERABModifyItemBearerModRes", "00", &s16.ERABModifyItemBearerModRes{}},
+		{"ERABModifyListBearerModConfComplete", "0000cc400100", &s39.ERABModifyListBearerModConfComplete{}},
+		{"ERABModifyListBearerModResComplete", "000025400100", &s39.ERABModifyListBearerModResComplete{}},
+		{"ERABModifyRequest", "000003000000020000000800020000001e000a00002400050000000000", &s40.ERABModifyRequest{}},
+		{"ERABModifyResponse", "000002000040020000000840020000", &s45.ERABModifyResponse{}},
+		{"ERABNotToBeModifiedItemBearerModInd", "00000000000000", &s16.ERABNotToBeModifiedItemBearerModInd{}},
+		{"ERABNotToBeModifiedListBearerModIndComplete", "0000ca000700000000000000", &s39.ERABNotToBeModifiedListBearerModIndComplete{}},
+		{"ERABReleaseCommand", "000003000000020000000800020000002140080000234003000000", &s39.ERABReleaseCommand{}},
+		{"ERABReleaseIndication", "000003000000020000000800020000006e40080000234003000000", &s45.ERABReleaseIndication{}},
+		{"ERABReleaseItemBearerRelComp", "00", &s16.ERABReleaseItemBearerRelComp{}},
+		{"ERABReleaseListBearerRelCompComplete", "00000f400100", &s39.ERABReleaseListBearerRelCompComplete{}},
+		{"ERABReleaseResponse", "000002000040020000000840020000", &s45.ERABReleaseResponse{}},
+		{"ERABSecurityResultItem", "0000", &s30.ERABSecurityResultItem{}},
+		{"ERABSecurityResultListComplete", "00014e40020000", &s39.ERABSecurityResultListComplete{}},
+		{"ERABSetupItemBearerSURes", "00000000000000", &s16.ERABSetupItemBearerSURes{}},
+		{"ERABSetupItemCtxtSURes", "00000000000000", &s16.ERABSetupItemCtxtSURes{}},
+		{"ERABSetupListBearerSUResComplete", "000027400700000000000000", &s39.ERABSetupListBearerSUResComplete{}},
+		{"ERABSetupListCtxtSUResComplete", "000032400700000000000000", &s39.ERABSetupListCtxtSUResComplete{}},
+		{"ERABSetupRequest", "00000300000002000000080002000000100011000011000c000000000000000000000000", &s40.ERABSetupRequest{}},
+		{"ERABSetupResponse", "000002000040020000000840020000", &s45.ERABSetupResponse{}},
+		{"ERABSubjecttoDataForwardingListComplete", "00000e40020000", &s39.ERABSubjecttoDataForwardingListComplete{}},
+		{"ERABToBeModifiedItemBearerModInd", "00000000000000", &s17.ERABToBeModifiedItemBearerModInd{}},
+		{"ERABToBeModifiedItemBearerModReq", "0000000000", &s25.ERABToBeModifiedItemBearerModReq{}},
+		{"ERABToBeModifiedListBearerModIndComplete", "0000c8000700000000000000", &s40.ERABToBeModifiedListBearerModIndComplete{}},
+		{"ERABToBeModifiedListBearerModReqComplete", "00002400050000000000", &s40.ERABToBeModifiedListBearerModReqComplete{}},
+		{"ERABToBeSetupItemBearerSUReq", "000000000000000000000000", &s29.ERABToBeSetupItemBearerSUReq{}},
+		{"ERABToBeSetupItemCtxtSUReq", "0000000000000000000000", &s29.ERABToBeSetupItemCtxtSUReq{}},
+		{"ERABToBeSetupItemHOReq", "00000000000000000000", &s29.ERABToBeSetupItemHOReq{}},
+		{"ERABToBeSetupListBearerSUReqComplete", "000011000c000000000000000000000000", &s40.ERABToBeSetupListBearerSUReqComplete{}},
+		{"ERABToBeSetupListCtxtSUReqComplete", "000034000b0000000000000000000000", &s40.ERABToBeSetupListCtxtSUReqComplete{}},
+		{"ERABToBeSetupListHOReqComplete", "00001b000a00000000000000000000", &s40.ERABToBeSetupListHOReqComplete{}},
+		{"ERABToBeSwitchedDLItem", "00000000000000", &s30.ERABToBeSwitchedDLItem{}},
+		{"ERABToBeSwitchedDLListComplete", "000017000700000000000000", &s40.ERABToBeSwitchedDLListComplete{}},
+		{"ERABToBeSwitchedULItem", "00000000000000", &s17.ERABToBeSwitchedULItem{}},
+		{"ERABToBeSwitchedULListComplete", "00005e400700000000000000", &s41.ERABToBeSwitchedULListComplete{}},
+		{"ERABToBeUpdatedItem", "00", &s29.ERABToBeUpdatedItem{}},
+		{"ERABToBeUpdatedListComplete", "000156400100", &s41.ERABToBeUpdatedListComplete{}},
+		{"ERABUsageReportItem", "00000000000000000000000000", &s17.ERABUsageReportItem{}},
+		{"ERABUsageReportListComplete", "00010b400d00000000000000000000000000", &s41.ERABUsageReportListComplete{}},
+		{"EUTRANCGI", "0000000000000000", &s17.EUTRANCGI{}},
+		{"EUTRANResponse", "00000000", &s17.EUTRANResponse{}},
+		{"EUTRANcellLoadReportingResponse", "0000", &s17.EUTRANcellLoadReportingResponse{}},
+		{"EmergencyAreaIDBroadcastComplete", "00000000000000000000000000000000", &s41.EmergencyAreaIDBroadcastComplete{}},
+		{"EmergencyAreaIDBroadcastItem", "0000000000000000000000000000", &s22.EmergencyAreaIDBroadcastItem{}},
+		{"EmergencyAreaIDCancelledComplete", "000000000000000000000000000000000000", &s41.EmergencyAreaIDCancelledComplete{}},
+		{"EmergencyAreaIDCancelledItem", "00000000000000000000000000000000", &s22.EmergencyAreaIDCancelledItem{}},
+		{"EmergencyAreaIDListComplete", "0000000000", &s41.EmergencyAreaIDListComplete{}},
+		{"EmergencyAreaIDListForRestartComplete", "00000000", &s41.EmergencyAreaIDListForRestartComplete{}},
+		{"ErrorIndication", "000000", &s28.ErrorIndication{}},
+		{"EventL1LoggedMDTConfig", "000000", &s19.EventL1LoggedMDTConfig{}},
+		{"EventTrigger", "00", &s19.EventTrigger{}},
+		{"EventTriggeredCellLoadReportingRequest", "00", &s17.EventTriggeredCellLoadReportingRequest{}},
+		{"EventTriggeredCellLoadReportingResponse", "0000", &s18.EventTriggeredCellLoadReportingResponse{}},
+		{"ExpectedUEActivityBehaviour", "00", &s18.ExpectedUEActivityBehaviour{}},
+		{"ExpectedUEBehaviour", "00", &s18.ExpectedUEBehaviour{}},
+		{"FailureEventReport", "0000", &s20.FailureEventReport{}},
+		{"FiveGSTAI", "00000000000000", &s18.FiveGSTAI{}},
+		{"ForbiddenLACsComplete", "00000000", &s41.ForbiddenLACsComplete{}},
+		{"ForbiddenLAsComplete", "0000000000000000", &s41.ForbiddenLAsComplete{}},
+		{"ForbiddenLAsItem", "0000000000000000", &s18.ForbiddenLAsItem{}},
+		{"ForbiddenTACsComplete", "00000000", &s41.ForbiddenTACsComplete{}},
+		{"ForbiddenTAsComplete", "0000000000000000", &s41.ForbiddenTAsComplete{}},
+		{"ForbiddenTAsItem", "0000000000000000", &s18.ForbiddenTAsItem{}},
+		{"GBRQosInformation", "0000000000000000", &s18.GBRQosInformation{}},
+		{"GERANCellID", "000000000000000000", &s18.GERANCellID{}},
+		{"GNB", "0000000000000000", &s18.GNB{}},
+		{"GNBIdentity", "00000000", &s18.GNBIdentity{}},
+		{"GUMMEI", "00000000000000", &s18.GUMMEI{}},
+		{"GUMMEIListComplete", "0000000000000000", &s41.GUMMEIListComplete{}},
+		{"GlobalENBID", "0000000000000000", &s18.GlobalENBID{}},
+		{"GlobalEnGNBID", "0000000000000000", &s18.GlobalEnGNBID{}},
+		{"GlobalGNBID", "0000000000000000", &s18.GlobalGNBID{}},
+		{"GlobalRANNODEID", "0000000000000000", &s19.GlobalRANNODEID{}},
+		{"HOReport", "000000000000", &s22.HOReport{}},
+		{"HandoverCancel", "000003000000020000000800020000000240020000", &s25.HandoverCancel{}},
+		{"HandoverCancelAcknowledge", "000002000040020000000840020000", &s25.HandoverCancelAcknowledge{}},
+		{"HandoverCommand", "0000040000000200000008000200000001000100007b000100", &s40.HandoverCommand{}},
+		{"HandoverFailure", "000002000040020000000240020000", &s25.HandoverFailure{}},
+		{"HandoverNotify", "00000400000002000000080002000000644008000000000000000000434006000000000000", &s35.HandoverNotify{}},
+		{"HandoverPreparationFailure", "000003000040020000000840020000000240020000", &s25.HandoverPreparationFailure{}},
+		{"HandoverRequest", "000008000000020000000100010000024002000000420004000000000035000f00001b000a000000000000000000000068000100006b0005000000000000280021000000000000000000000000000000000000000000000000000000000000000000", &s48.HandoverRequest{}},
+		{"HandoverRequestAcknowledge", "0000040000400200000008400200000012400d00001440080000000000000000007b000100", &s39.HandoverRequestAcknowledge{}},
+		{"HandoverRequired", "00000600000002000000080002000000010001000002400200000004000d000000000000000000000000000068000100", &s34.HandoverRequired{}},
+		{"HandoverRestrictionList", "00000000", &s42.HandoverRestrictionList{}},
+		{"HandoverSuccess", "000002000000020000000800020000", &s18.HandoverSuccess{}},
+		{"IEsECGIListComplete", "000000000000000000", &s41.IEsECGIListComplete{}},
+		{"IRATCellID", "0000", &s18.IRATCellID{}},
+		{"ImmediateMDT", "0000", &s47.ImmediateMDT{}},
+		{"InformationOnRecommendedCellsAndENBsForPaging", "0000d6400800000000000000000000d740080000000000000000", &s33.InformationOnRecommendedCellsAndENBsForPaging{}},
+		{"InitialContextSetupFailure", "000003000040020000000840020000000240020000", &s25.InitialContextSetupFailure{}},
+		{"InitialContextSetupRequest", "000006000000020000000800020000004200040000000000180010000034000b0000000000000000000000006b00050000000000004900200000000000000000000000000000000000000000000000000000000000000000", &s48.InitialContextSetupRequest{}},
+		{"InitialContextSetupResponse", "0000030000400200000008400200000033400c000032400700000000000000", &s39.InitialContextSetupResponse{}},
+		{"InitialUEMessage", "000005000800020000001a000100004300060000000000000064400800000000000000000086400100", &s35.InitialUEMessage{}},
+		{"InitiatingMessage", "00003000000600000002000000080002000000010001000002400200000004000d000000000000000000000000000068000100", &s51.InitiatingMessage{}},
+		{"InterSystemInformationTransferType", "0000", &s33.InterSystemInformationTransferType{}},
+		{"InterSystemMeasurementItem", "000000000000", &s18.InterSystemMeasurementItem{}},
+		{"InterSystemMeasurementListComplete", "00000000000000", &s41.InterSystemMeasurementListComplete{}},
+		{"InterSystemMeasurementParameters", "0000", &s24.InterSystemMeasurementParameters{}},
+		{"IntersystemMeasurementConfiguration", "0000", &s24.IntersystemMeasurementConfiguration{}},
+		{"KillRequest", "000002006f00020000007000020000", &s33.KillRequest{}},
+		{"KillResponse", "000002006f00020000007000020000", &s33.KillResponse{}},
+		{"LAI", "000000000000", &s18.LAI{}},
+		{"LTENTNTAIInformation", "00000000000000", &s18.LTENTNTAIInformation{}},
+		{"LastVisitedCellItem", "0000000000000000000000", &s41.LastVisitedCellItem{}},
+		{"LastVisitedEUTRANCellInformation", "0000000000000000000000", &s41.LastVisitedEUTRANCellInformation{}},
+		{"LastVisitedGERANCellInformation", "00", &s18.LastVisitedGERANCellInformation{}},
+		{"LastVisitedPSCellInformation", "000000", &s20.LastVisitedPSCellInformation{}},
+		{"LastVisitedPSCellListComplete", "000000", &s41.LastVisitedPSCellListComplete{}},
+		{"ListeningSubframePattern", "000000", &s18.ListeningSubframePattern{}},
+		{"LocationReport", "000005000000020000000800020000006440080000000000000000004340060000000000000062400100", &s33.LocationReport{}},
+		{"LocationReportingControl", "0000030000000200000008000200000062400100", &s26.LocationReportingControl{}},
+		{"LocationReportingFailureIndication", "000003000000020000000800020000000240020000", &s25.LocationReportingFailureIndication{}},
+		{"LoggedMBSFNMDT", "0000", &s24.LoggedMBSFNMDT{}},
+		{"LoggedMDT", "00", &s47.LoggedMDT{}},
+		{"LoggedMDTTrigger", "00", &s19.LoggedMDTTrigger{}},
+		{"M1PeriodicReporting", "0000", &s18.M1PeriodicReporting{}},
+		{"M1ThresholdEventA2", "0000", &s19.M1ThresholdEventA2{}},
+		{"M3Configuration", "00", &s19.M3Configuration{}},
+		{"M4Configuration", "0000", &s19.M4Configuration{}},
+		{"M5Configuration", "0000", &s19.M5Configuration{}},
+		{"M6Configuration", "0000", &s19.M6Configuration{}},
+		{"M7Configuration", "0000", &s19.M7Configuration{}},
+		{"MBSFNResultToLogComplete", "000000", &s41.MBSFNResultToLogComplete{}},
+		{"MBSFNResultToLogInfo", "0000", &s19.MBSFNResultToLogInfo{}},
+		{"MDTConfiguration", "000000000000000000000000", &s47.MDTConfiguration{}},
+		{"MDTMode", "0000", &s47.MDTMode{}},
+		{"MDTModeExtension", "00c540020000", &s19.MDTModeExtension{}},
+		{"MDTPLMNListComplete", "00000000", &s41.MDTPLMNListComplete{}},
+		{"MMECPRelocationIndication", "000002000000020000000800020000", &s19.MMECPRelocationIndication{}},
+		{"MMEConfigurationTransfer", "000000", &s51.MMEConfigurationTransfer{}},
+		{"MMEConfigurationUpdate", "000000", &s43.MMEConfigurationUpdate{}},
+		{"MMEConfigurationUpdateAcknowledge", "000000", &s25.MMEConfigurationUpdateAcknowledge{}},
+		{"MMEConfigurationUpdateFailure", "000001000240020000", &s25.MMEConfigurationUpdateFailure{}},
+		{"MMEDirectInformationTransfer", "000001007a00020000", &s34.MMEDirectInformationTransfer{}},
+		{"MMEEarlyStatusTransfer", "0000030000000200000008000200000141000c000001424006000000000000", &s37.MMEEarlyStatusTransfer{}},
+		{"MMEPagingTarget", "0000000000000000", &s31.MMEPagingTarget{}},
+		{"MMEStatusTransfer", "000003000000020000000800020000005a001100000059400b0000000000000000000000", &s25.MMEStatusTransfer{}},
+		{"MeasurementThresholdA2", "0000", &s19.MeasurementThresholdA2{}},
+		{"MeasurementThresholdL1LoggedMDT", "0000", &s19.MeasurementThresholdL1LoggedMDT{}},
+		{"MultiCellLoadReportingRequest", "000000", &s24.MultiCellLoadReportingRequest{}},
+		{"MultiCellLoadReportingResponseComplete", "0000000000", &s41.MultiCellLoadReportingResponseComplete{}},
+		{"MultiCellLoadReportingResponseItem", "00000000", &s19.MultiCellLoadReportingResponseItem{}},
+		{"MutingPatternInformation", "00", &s19.MutingPatternInformation{}},
+		{"NASDeliveryIndication", "000002000000020000000800020000", &s19.NASDeliveryIndication{}},
+		{"NASNonDeliveryIndication", "000004000000020000000800020000001a400100000240020000", &s25.NASNonDeliveryIndication{}},
+		{"NBIoTPagingEDRXInformation", "00", &s19.NBIoTPagingEDRXInformation{}},
+		{"NGENB", "0000000000000000", &s19.NGENB{}},
+		{"NRCGI", "000000000000000000", &s19.NRCGI{}},
+		{"NRUESecurityCapabilities", "0000000000", &s19.NRUESecurityCapabilities{}},
+		{"NRUESidelinkAggregateMaximumBitrate", "0000", &s19.NRUESidelinkAggregateMaximumBitrate{}},
+		{"NRV2XServicesAuthorized", "00", &s19.NRV2XServicesAuthorized{}},
+		{"NotificationCellListComplete", "00000000", &s42.NotificationCellListComplete{}},
+		{"NotificationCellListItem", "000000", &s19.NotificationCellListItem{}},
+		{"OverloadResponse", "00", &s19.OverloadResponse{}},
+		{"OverloadStart", "0000010065000100", &s41.OverloadStart{}},
+		{"OverloadStop", "000000", &s41.OverloadStop{}},
+		{"PC5FlowBitRates", "00000000", &s19.PC5FlowBitRates{}},
+		{"PC5QoSFlowItem", "0000", &s20.PC5QoSFlowItem{}},
+		{"PC5QoSFlowListComplete", "00000000", &s42.PC5QoSFlowListComplete{}},
+		{"PC5QoSParameters", "0000000000", &s24.PC5QoSParameters{}},
+		{"PLMNAreaBasedQMC", "00000000", &s20.PLMNAreaBasedQMC{}},
+		{"PLMNListforQMCComplete", "00000000", &s42.PLMNListforQMCComplete{}},
+		{"PSCellInformation", "000000000000000000", &s20.PSCellInformation{}},
+		{"PWSFailureIndication", "00000200de0009000000000000000000003b00080000000000000000", &s42.PWSFailureIndication{}},
+		{"PWSRestartIndication", "00000300b60009000000000000000000003b0008000000000000000000bc00080000000000000000", &s44.PWSRestartIndication{}},
+		{"PWSfailedECGIListComplete", "000000000000000000", &s42.PWSfailedECGIListComplete{}},
+		{"Paging", "000004005040020000002b4006000000000000006d400100002e400b00002f4006000000000000", &s49.Paging{}},
+		{"PagingAttemptInformation", "0000", &s20.PagingAttemptInformation{}},
+		{"PagingEDRXInformation", "00", &s20.PagingEDRXInformation{}},
+		{"PathSwitchRequest", "0000060008000200000016000c00001700070000000000000000580002000000644008000000000000000000434006000000000000006b40050000000000", &s41.PathSwitchRequest{}},
+		{"PathSwitchRequestAcknowledge", "00000300004002000000084002000000280021000000000000000000000000000000000000000000000000000000000000000000", &s46.PathSwitchRequestAcknowledge{}},
+		{"PathSwitchRequestFailure", "000003000040020000000840020000000240020000", &s26.PathSwitchRequestFailure{}},
+		{"PrivateIEID", "000000", &s20.PrivateIEID{}},
+		{"PrivateMessage", "000000000000400100", &s26.PrivateMessage{}},
+		{"ProSeAuthorized", "00", &s20.ProSeAuthorized{}},
+		{"RATRestrictionsComplete", "000000000000", &s42.RATRestrictionsComplete{}},
+		{"RATRestrictionsItem", "000000000000", &s20.RATRestrictionsItem{}},
+		{"RIMRoutingAddress", "000000000000000000", &s33.RIMRoutingAddress{}},
+		{"RIMTransfer", "0000", &s33.RIMTransfer{}},
+		{"RLFReportInformation", "0000", &s20.RLFReportInformation{}},
+		{"RecommendedCellItem", "0000000000000000", &s26.RecommendedCellItem{}},
+		{"RecommendedCellListComplete", "0000d640080000000000000000", &s42.RecommendedCellListComplete{}},
+		{"RecommendedCellsForPaging", "0000d640080000000000000000", &s26.RecommendedCellsForPaging{}},
+		{"RecommendedENBItem", "0000000000000000", &s31.RecommendedENBItem{}},
+		{"RecommendedENBListComplete", "0000d740080000000000000000", &s42.RecommendedENBListComplete{}},
+		{"RecommendedENBsForPaging", "0000d740080000000000000000", &s33.RecommendedENBsForPaging{}},
+		{"ReportingCellListComplete", "000000", &s42.ReportingCellListComplete{}},
+		{"ReportingCellListItem", "0000", &s20.ReportingCellListItem{}},
+		{"RequestType", "00", &s26.RequestType{}},
+		{"RequestedCellListComplete", "000000", &s42.RequestedCellListComplete{}},
+		{"RequestedTNLInfo", "00000000", &s26.RequestedTNLInfo{}},
+		{"RerouteNASRequest", "00000300080002000000e100010000df00020000", &s26.RerouteNASRequest{}},
+		{"Reset", "000002000240020000005c000100", &s36.Reset{}},
+		{"ResetAcknowledge", "000000", &s44.ResetAcknowledge{}},
+		{"ResetType", "00", &s35.ResetType{}},
+		{"RetrieveUEInformation", "00000100600006000000000000", &s28.RetrieveUEInformation{}},
+		{"S1APPDU", "0000003000000600000002000000080002000000010001000002400200000004000d000000000000000000000000000068000100", &s52.S1APPDU{}},
+		{"S1RemovalFailure", "000001000240020000", &s26.S1RemovalFailure{}},
+		{"S1RemovalRequest", "000001003b00080000000000000000", &s26.S1RemovalRequest{}},
+		{"S1RemovalResponse", "000000", &s26.S1RemovalResponse{}},
+		{"S1SetupFailure", "000001000240020000", &s26.S1SetupFailure{}},
+		{"S1SetupRequest", "000003003b0008000000000000000000400007000000000000000089400100", &s43.S1SetupRequest{}},
+		{"S1SetupResponse", "0000020069000b00000000000000000000000057400100", &s43.S1SetupResponse{}},
+		{"SONConfigurationTransfer", "000000000000000000000000000000000000000000000000000000", &s50.SONConfigurationTransfer{}},
+		{"SONInformation", "00", &s50.SONInformation{}},
+		{"SONInformationExtension", "00ce40020000", &s20.SONInformationExtension{}},
+		{"SONInformationReply", "00", &s50.SONInformationReply{}},
+		{"SONInformationReport", "0000", &s20.SONInformationReport{}},
+		{"SONtransferCause", "00", &s20.SONtransferCause{}},
+		{"SONtransferRequestContainer", "00", &s24.SONtransferRequestContainer{}},
+		{"SONtransferResponseContainer", "0000", &s24.SONtransferResponseContainer{}},
+		{"STMSI", "000000000000", &s27.STMSI{}},
+		{"ScheduledCommunicationTime", "00", &s28.ScheduledCommunicationTime{}},
+		{"SecondaryRATDataUsageReport", "0000030000400200000008400200000108401800010940130000010b400d00000000000000000000000000", &s46.SecondaryRATDataUsageReport{}},
+		{"SecondaryRATDataUsageReportItem", "0000010b400d00000000000000000000000000", &s28.SecondaryRATDataUsageReportItem{}},
+		{"SecondaryRATDataUsageReportListComplete", "00010940130000010b400d00000000000000000000000000", &s42.SecondaryRATDataUsageReportListComplete{}},
+		{"SecurityContext", "000000000000000000000000000000000000000000000000000000000000000000", &s28.SecurityContext{}},
+		{"SecurityIndication", "00", &s28.SecurityIndication{}},
+		{"SecurityResult", "00", &s30.SecurityResult{}},
+		{"SensorMeasConfigNameItem", "00", &s30.SensorMeasConfigNameItem{}},
+		{"SensorMeasConfigNameListComplete", "00", &s42.SensorMeasConfigNameListComplete{}},
+		{"SensorMeasurementConfiguration", "00", &s30.SensorMeasurementConfiguration{}},
+		{"SensorNameConfig", "00", &s30.SensorNameConfig{}},
+		{"ServedDCNsComplete", "00", &s42.ServedDCNsComplete{}},
+		{"ServedDCNsItem", "00000000", &s30.ServedDCNsItem{}},
+		{"ServedGUMMEIsComplete", "0000000000000000000000", &s43.ServedGUMMEIsComplete{}},
+		{"ServedGUMMEIsItem", "00000000000000000000", &s30.ServedGUMMEIsItem{}},
+		{"ServedGroupIDsComplete", "00000000", &s43.ServedGroupIDsComplete{}},
+		{"ServedMMECsComplete", "0000", &s43.ServedMMECsComplete{}},
+		{"ServedPLMNsComplete", "00000000", &s43.ServedPLMNsComplete{}},
+		{"SourceNgRanNodeID", "0000000000000000000000000000", &s30.SourceNgRanNodeID{}},
+		{"SourceNodeID", "000000000000000000000000000000", &s30.SourceNodeID{}},
+		{"SourceNodeIDExtension", "fffc400100", &s20.SourceNodeIDExtension{}},
+		{"SourceeNBID", "00000000000000000000000000", &s32.SourceeNBID{}},
+		{"SourceeNBToTargeteNBTransparentContainer", "000000000000000000000000000000000000000000", &s41.SourceeNBToTargeteNBTransparentContainer{}},
+		{"SubscriptionBasedUEDifferentiationInfo", "00", &s30.SubscriptionBasedUEDifferentiationInfo{}},
+		{"SuccessfulOutcome", "0000190000040000000200000008000200000001000100007b000100", &s50.SuccessfulOutcome{}},
+		{"SupportedTAsComplete", "00000000000000", &s43.SupportedTAsComplete{}},
+		{"SupportedTAsItem", "000000000000", &s31.SupportedTAsItem{}},
+		{"SynchronisationInformation", "00", &s31.SynchronisationInformation{}},
+		{"TABasedMDT", "000000", &s31.TABasedMDT{}},
+		{"TABasedQMC", "000000", &s31.TABasedQMC{}},
+		{"TACListInLTENTNComplete", "000000", &s43.TACListInLTENTNComplete{}},
+		{"TAI", "000000000000", &s31.TAI{}},
+		{"TAIBasedMDT", "000000000000", &s32.TAIBasedMDT{}},
+		{"TAIBasedQMC", "000000000000", &s32.TAIBasedQMC{}},
+		{"TAIBroadcastComplete", "000000000000000000000000000000000000", &s43.TAIBroadcastComplete{}},
+		{"TAIBroadcastItem", "00000000000000000000000000000000", &s32.TAIBroadcastItem{}},
+		{"TAICancelledComplete", "0000000000000000000000000000000000000000", &s43.TAICancelledComplete{}},
+		{"TAICancelledItem", "000000000000000000000000000000000000", &s32.TAICancelledItem{}},
+		{"TAIItem", "000000000000", &s33.TAIItem{}},
+		{"TAIListComplete", "00002f4006000000000000", &s44.TAIListComplete{}},
+		{"TAIListForRestartComplete", "0000000000000000", &s43.TAIListForRestartComplete{}},
+		{"TAIListforMDTComplete", "000000000000", &s44.TAIListforMDTComplete{}},
+		{"TAIListforQMCComplete", "000000000000", &s44.TAIListforQMCComplete{}},
+		{"TAIListforWarningComplete", "0000000000000000", &s44.TAIListforWarningComplete{}},
+		{"TAListforMDTComplete", "000000", &s44.TAListforMDTComplete{}},
+		{"TAListforQMCComplete", "000000", &s44.TAListforQMCComplete{}},
+		{"TargetID", "00000000000000000000000000", &s34.TargetID{}},
+		{"TargetNgRanNodeID", "0000000000000000000000000000", &s33.TargetNgRanNodeID{}},
+		{"TargetRNCID", "0000000000000000", &s33.TargetRNCID{}},
+		{"TargeteNBID", "00000000000000000000000000", &s34.TargeteNBID{}},
+		{"TargeteNBToSourceeNBTransparentContainer", "0000", &s39.TargeteNBToSourceeNBTransparentContainer{}},
+		{"TimeBasedHandoverInformation", "00000000", &s34.TimeBasedHandoverInformation{}},
+		{"TimeSynchronisationInfo", "00", &s34.TimeSynchronisationInfo{}},
+		{"TooEarlyInterRATHOReportReportFromEUTRAN", "0000", &s20.TooEarlyInterRATHOReportReportFromEUTRAN{}},
+		{"TraceActivation", "00000000000000000000000000", &s47.TraceActivation{}},
+		{"TraceFailureIndication", "000004000000020000000800020000005640080000000000000000000240020000", &s34.TraceFailureIndication{}},
+		{"TraceStart", "0000030000000200000008000200000019400d00000000000000000000000000", &s48.TraceStart{}},
+		{"TransportInformation", "00000000000000", &s20.TransportInformation{}},
+		{"TunnelInformation", "000000", &s34.TunnelInformation{}},
+		{"UEAggregateMaximumBitrate", "00000000", &s35.UEAggregateMaximumBitrate{}},
+		{"UEAppLayerMeasConfig", "00000000000000000000000000", &s35.UEAppLayerMeasConfig{}},
+		{"UEAssociatedLogicalS1ConnectionItem", "00", &s35.UEAssociatedLogicalS1ConnectionItem{}},
+		{"UEAssociatedLogicalS1ConnectionListResAckComplete", "00005b400100", &s44.UEAssociatedLogicalS1ConnectionListResAckComplete{}},
+		{"UEAssociatedLogicalS1ConnectionListResComplete", "00005b000100", &s44.UEAssociatedLogicalS1ConnectionListResComplete{}},
+		{"UECapabilityInfoIndication", "000003000000020000000800020000004a400100", &s36.UECapabilityInfoIndication{}},
+		{"UEContextModificationConfirm", "000002000040020000000840020000", &s36.UEContextModificationConfirm{}},
+		{"UEContextModificationFailure", "000003000040020000000840020000000240020000", &s36.UEContextModificationFailure{}},
+		{"UEContextModificationIndication", "000002000000020000000800020000", &s36.UEContextModificationIndication{}},
+		{"UEContextModificationRequest", "000002000000020000000800020000", &s46.UEContextModificationRequest{}},
+		{"UEContextModificationResponse", "000002000040020000000840020000", &s36.UEContextModificationResponse{}},
+		{"UEContextReleaseCommand", "0000020063000400000000000240020000", &s37.UEContextReleaseCommand{}},
+		{"UEContextReleaseComplete", "000002000040020000000840020000", &s46.UEContextReleaseComplete{}},
+		{"UEContextReleaseRequest", "000003000000020000000800020000000240020000", &s42.UEContextReleaseRequest{}},
+		{"UEContextResumeFailure", "000003000040020000000840020000000240020000", &s36.UEContextResumeFailure{}},
+		{"UEContextResumeRequest", "000002000000020000000800020000", &s38.UEContextResumeRequest{}},
+		{"UEContextResumeResponse", "000002000040020000000840020000", &s38.UEContextResumeResponse{}},
+		{"UEContextSuspendRequest", "000002000000020000000800020000", &s46.UEContextSuspendRequest{}},
+		{"UEContextSuspendResponse", "000002000040020000000840020000", &s36.UEContextSuspendResponse{}},
+		{"UEHistoryInformationComplete", "000000000000000000000000", &s44.UEHistoryInformationComplete{}},
+		{"UEInformationTransfer", "00000100600006000000000000", &s36.UEInformationTransfer{}},
+		{"UEPagingID", "000000000000", &s28.UEPagingID{}},
+		{"UERadioCapabilityIDMappingRequest", "000001013a000100", &s36.UERadioCapabilityIDMappingRequest{}},
+		{"UERadioCapabilityIDMappingResponse", "000002013a000100004a400100", &s36.UERadioCapabilityIDMappingResponse{}},
+		{"UERadioCapabilityMatchRequest", "000002000000020000000800020000", &s36.UERadioCapabilityMatchRequest{}},
+		{"UERadioCapabilityMatchResponse", "00000300004002000000084002000000a9000100", &s36.UERadioCapabilityMatchResponse{}},
+		{"UES1APIDPair", "00000000", &s36.UES1APIDPair{}},
+		{"UES1APIDs", "00000000", &s37.UES1APIDs{}},
+		{"UESecurityCapabilities", "0000000000", &s37.UESecurityCapabilities{}},
+		{"UESidelinkAggregateMaximumBitrate", "0000", &s37.UESidelinkAggregateMaximumBitrate{}},
+		{"ULCPSecurityInformation", "000000", &s37.ULCPSecurityInformation{}},
+		{"UnsuccessfulOutcome", "000015000003000040020000000840020000000240020000", &s36.UnsuccessfulOutcome{}},
+		{"UplinkNASTransport", "000005000000020000000800020000001a00010000644008000000000000000000434006000000000000", &s44.UplinkNASTransport{}},
+		{"UplinkNonUEAssociatedLPPaTransport", "00000200940001000093000100", &s44.UplinkNonUEAssociatedLPPaTransport{}},
+		{"UplinkS1cdma2000tunnelling", "000005000000020000000800020000004700010000480001000046000100", &s44.UplinkS1cdma2000tunnelling{}},
+		{"UplinkUEAssociatedLPPaTransport", "00000400000002000000080002000000940001000093000100", &s44.UplinkUEAssociatedLPPaTransport{}},
+		{"UserLocationInformation", "00000000000000000000000000", &s44.UserLocationInformation{}},
+		{"V2XServicesAuthorized", "00", &s46.V2XServicesAuthorized{}},
+		{"WLANMeasConfigNameListComplete", "0000", &s44.WLANMeasConfigNameListComplete{}},
+		{"WLANMeasurementConfiguration", "00", &s47.WLANMeasurementConfiguration{}},
+		{"WUSAssistanceInformation", "00", &s48.WUSAssistanceInformation{}},
+		{"WarningAreaList", "0000000000000000000000", &s32.WarningAreaList{}},
+		{"WriteReplaceWarningRequest", "000004006f00020000007000020000007200020000007300020000", &s50.WriteReplaceWarningRequest{}},
+		{"WriteReplaceWarningResponse", "000002006f00020000007000020000", &s50.WriteReplaceWarningResponse{}},
+		{"X2TNLConfigurationInfo", "000000", &s50.X2TNLConfigurationInfo{}},
+	}
+	if len(cases) != 439 {
+		t.Fatalf("concrete fresh types=%d, want 439", len(cases))
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			wire, err := hex.DecodeString(tc.wire)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if _, err := tc.value.UnmarshalAPER(wire); err != nil {
+				t.Fatal(err)
+			}
+			before := tc.value.ReceivedForm().OriginalBytes()
+			copyValue := reflect.ValueOf(tc.value).MethodByName("WithoutReplay").Call(nil)[0]
+			copyPointer := reflect.New(copyValue.Type())
+			copyPointer.Elem().Set(copyValue)
+			copy := copyPointer.Interface().(censusComplete)
+			got, err := copy.MarshalAPER()
+			if err != nil {
+				t.Fatal(err)
+			}
+			want, err := tc.value.MarshalAPER(aper.WithoutReplay())
+			if err != nil {
+				t.Fatal(err)
+			}
+			if !bytes.Equal(got, want) {
+				t.Fatalf("fresh copy %x, option %x", got, want)
+			}
+			if !bytes.Equal(got, wire) {
+				t.Fatalf("preferred encoding %x, independent minimal encoding %x", got, wire)
+			}
+			if copy.ReceivedForm().Present() {
+				t.Fatal("fresh copy retained received form")
+			}
+			if !bytes.Equal(tc.value.ReceivedForm().OriginalBytes(), before) {
+				t.Fatal("copy changed original received form")
+			}
+			replay, err := tc.value.MarshalAPER()
+			if err != nil || !bytes.Equal(replay, wire) {
+				t.Fatalf("copy changed original replay: %v", err)
+			}
+		})
+	}
+}

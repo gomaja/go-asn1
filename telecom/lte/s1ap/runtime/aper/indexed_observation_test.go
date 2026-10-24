@@ -1,0 +1,67 @@
+// Code generated from S1AP runtime source. DO NOT EDIT.
+
+// Runtime source: runtime/aper/indexed_observation_test.go; SHA-256 4c28ee5cc00d1acd3e696fc05a9ff5bf370b5db269bb3f0c9bdbbdf51df1f32c.
+package aper
+
+import (
+	"reflect"
+	"testing"
+)
+
+func TestIndexedObservationPreservesStoredOrigin(t *testing.T) {
+	for _, mode := range []struct {
+		name    string
+		options []DecodeOption
+	}{
+		{"strict", nil}, {"receiver", []DecodeOption{WithReceiverMode()}},
+	} {
+		t.Run(mode.name, func(t *testing.T) {
+			state := ApplyDecodeOptions(mode.options...)
+			bb := NewBitBufferFromBytes([]byte{1, 0xa5})
+			if err := bb.SetDecodeOptionsAligned(state); err != nil {
+				t.Fatal(err)
+			}
+			raw, err := DecodeOpaqueOpenTypeAligned(bb, UnknownSelector, SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3"})
+			if err != nil {
+				t.Fatal(err)
+			}
+			raw = raw.WithPath("Extensions")
+			for _, index := range []int64{0, 1, 127} {
+				if err := raw.ObserveIndexed(UnknownExtension, index); err != nil {
+					t.Fatal(err)
+				}
+			}
+			report, err := FinishDecode(state, nil)
+			if err != nil || len(report.Observations) != 3 {
+				t.Fatalf("report=%+v err=%v", report, err)
+			}
+			for i, path := range []Path{"Extensions[0]", "Extensions[1]", "Extensions[127]"} {
+				observation := report.Observations[i]
+				want := raw.Origin().Location
+				want.Path = path
+				if observation.Kind != UnknownExtension || observation.Rule != raw.Origin().Rule || !reflect.DeepEqual(observation.Location, want) {
+					t.Errorf("observation=%+v, want location=%+v", observation, want)
+				}
+			}
+			if got := raw.Origin().Location.Path; got != "Extensions" {
+				t.Errorf("stored path=%q, want Extensions", got)
+			}
+		})
+	}
+}
+
+func TestIndexedObservationWithoutReportDoesNotAllocate(t *testing.T) {
+	for _, raw := range []OpaqueOpenType{
+		NewOpaqueOpenType([]byte{0xa5}).WithPath("Extensions"),
+		{parent: NewBitBufferFromBytes(nil), origin: OpaqueOrigin{Location: Location{Path: "Extensions"}}},
+	} {
+		allocations := testing.AllocsPerRun(100, func() {
+			if err := raw.ObserveIndexed(UnknownExtension, 127); err != nil {
+				panic(err)
+			}
+		})
+		if allocations != 0 {
+			t.Errorf("unrecorded indexed observation allocated %v times", allocations)
+		}
+	}
+}

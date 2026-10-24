@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/recovery_budget_test.go; SHA-256 c41a0bbc479456db35b1622ce61d7639f671de692704ca13d3d871974db233fb.
+// Runtime source: runtime/aper/recovery_budget_test.go; SHA-256 c70a7aa63707abaa6b051efa77c4f2406e3356c25d174bf335524b426267e862.
 package aper
 
 import (
@@ -20,13 +20,13 @@ func TestRecoveryWorkSurvivesRollback(t *testing.T) {
 				var log ToleranceLog
 				parent := NewBitBufferFromBytes(nil)
 				candidate := []byte{0}
-				options := DecodeOptions{ExtensionRecoveryTolerance: &log}
+				options := decodeSettings{ExtensionRecoveryTolerance: &log}
 				if aligned {
-					if err := parent.SetDecodeOptionsAligned(options); err != nil {
+					if err := parent.setDecodeSettingsAligned(options); err != nil {
 						t.Fatal(err)
 					}
 				} else {
-					if err := parent.SetDecodeOptionsAligned(options); err != nil {
+					if err := parent.setDecodeSettingsAligned(options); err != nil {
 						t.Fatal(err)
 					}
 				}
@@ -73,13 +73,13 @@ func TestRecoveryWorkCountsOnlyRereadPrefix(t *testing.T) {
 		t.Run(fmt.Sprintf("aligned=%v", aligned), func(t *testing.T) {
 			parent := NewBitBufferFromBytes([]byte{0, 0})
 			var log ToleranceLog
-			options := DecodeOptions{ExtensionRecoveryTolerance: &log}
+			options := decodeSettings{ExtensionRecoveryTolerance: &log}
 			if aligned {
-				if err := parent.SetDecodeOptionsAligned(options); err != nil {
+				if err := parent.setDecodeSettingsAligned(options); err != nil {
 					t.Fatal(err)
 				}
 			} else {
-				if err := parent.SetDecodeOptionsAligned(options); err != nil {
+				if err := parent.setDecodeSettingsAligned(options); err != nil {
 					t.Fatal(err)
 				}
 			}
@@ -110,13 +110,13 @@ func TestRecoveryWorkLinearReread(t *testing.T) {
 				data := make([]byte, size)
 				parent := NewBitBufferFromBytes(make([]byte, size))
 				var log ToleranceLog
-				options := DecodeOptions{ExtensionRecoveryTolerance: &log}
+				options := decodeSettings{ExtensionRecoveryTolerance: &log}
 				if aligned {
-					if err := parent.SetDecodeOptionsAligned(options); err != nil {
+					if err := parent.setDecodeSettingsAligned(options); err != nil {
 						t.Fatal(err)
 					}
 				} else {
-					if err := parent.SetDecodeOptionsAligned(options); err != nil {
+					if err := parent.setDecodeSettingsAligned(options); err != nil {
 						t.Fatal(err)
 					}
 				}
@@ -250,7 +250,7 @@ func TestRecoveryNestedWorkLinearBound(t *testing.T) {
 					wire := recoveryNestedWire(t, aligned, depth, size)
 					b := NewBitBufferFromBytes(wire)
 					var log ToleranceLog
-					if err := b.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &log}); err != nil {
+					if err := b.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &log}); err != nil {
 						t.Fatal(err)
 					}
 					var before, after runtime.MemStats
@@ -277,7 +277,7 @@ func TestRecoveryNestedWorkLinearBound(t *testing.T) {
 func TestRecoveryWorkNestedRollback(t *testing.T) {
 	var log ToleranceLog
 	b := NewBitBufferFromBytes([]byte{0})
-	if err := b.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &log}); err != nil {
+	if err := b.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &log}); err != nil {
 		t.Fatal(err)
 	}
 	outerData, innerData := []byte{0}, []byte{0}
@@ -315,7 +315,7 @@ func TestRecoveryWorkNestedRollback(t *testing.T) {
 func TestRecoveryWorkRejectsCopyBeforeAllocation(t *testing.T) {
 	for _, packed := range []bool{false, true} {
 		b := NewBitBufferFromBytes(nil)
-		if err := b.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
+		if err := b.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
 			t.Fatal(err)
 		}
 		data := make([]byte, 1<<20)
@@ -376,7 +376,7 @@ func TestRecoveryRootNestingWorkBound(t *testing.T) {
 				}
 				b := NewBitBufferFromBytes(wire.CompleteBytes())
 				var log ToleranceLog
-				if err := b.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &log}); err != nil {
+				if err := b.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &log}); err != nil {
 					t.Fatal(err)
 				}
 				states := make([]ExtensionAdditions, count)

@@ -1,9 +1,12 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/decode_path.go; SHA-256 bd44776781516e76f6dc66a0355be48d9d799ae1d088e50f78915bfbc2a004c4.
+// Runtime source: runtime/decode_path.go; SHA-256 eb14ddf5d44a4e16cf9096af114d6d94060ee92ca7d777c24722066d51468ac9.
 package runtime
 
-import "strings"
+import (
+	"errors"
+	"strings"
+)
 
 // DecodePathError records the generated ASN.1 field path at which decoding
 // failed while preserving the underlying codec error.
@@ -34,7 +37,40 @@ func WrapDecodePath(err error, segment string) error {
 		if strings.HasPrefix(pathErr.Path, "[") {
 			separator = ""
 		}
-		return &DecodePathError{Path: segment + separator + pathErr.Path, Err: pathErr.Err}
+		return &DecodePathError{Path: segment + separator + pathErr.Path, Err: withLocatedPath(pathErr.Err, segment+separator+pathErr.Path)}
 	}
-	return &DecodePathError{Path: segment, Err: err}
+	// Procedure/table context may sit between the parent and a previously
+	// located field. Preserve that inner path while retaining the context.
+	var nested *DecodePathError
+	if errors.As(err, &nested) {
+		path := nested.Path
+		if !strings.HasPrefix(path, segment+"[") {
+			separator := "."
+			if strings.HasPrefix(path, "[") {
+				separator = ""
+			}
+			path = segment + separator + path
+		}
+		return &DecodePathError{Path: path, Err: withLocatedPath(err, path)}
+	}
+	return &DecodePathError{Path: segment, Err: withLocatedPath(err, segment)}
 }
+
+// A runtime-owned located error keeps its source identity while ancestors add paths.
+func withLocatedPath(err error, path string) error {
+	var located interface{ WithDecodePath(string) error }
+	if errors.As(err, &located) {
+		return &locatedPathContext{Err: err, located: located.WithDecodePath(path)}
+	}
+	return err
+}
+
+// Keep intermediate error messages while exposing the qualified owned location.
+type locatedPathContext struct {
+	Err     error
+	located error
+}
+
+func (e *locatedPathContext) Error() string      { return e.Err.Error() }
+func (e *locatedPathContext) Unwrap() error      { return e.Err }
+func (e *locatedPathContext) As(target any) bool { return errors.As(e.located, target) }

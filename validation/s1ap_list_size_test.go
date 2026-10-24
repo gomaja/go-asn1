@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
-	s1apruntime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 )
 
 // Synthetic vectors only; expected bytes produced by pycrate 0.7.11 and
@@ -28,14 +28,14 @@ func synchronisationHex(t *testing.T, s string) []byte {
 }
 
 func TestS1APSynchronisationInformationVector(t *testing.T) {
-	cell := s1apruntime.BitString{Bytes: []byte{0x00, 0x00, 0x00, 0x10}, BitLength: 28}
+	cell := runtime.BitString{Bytes: []byte{0x00, 0x00, 0x00, 0x10}, BitLength: 28}
 	value := s1ap.SynchronisationInformation{AggressoreCGIList: s1ap.IEsECGIList{{PLMNidentity: s1ap.PLMNidentity{0x00, 0xf1, 0x10}, CellID: cell}}}
 	got, err := value.MarshalAPER()
 	if err != nil || !bytes.Equal(got, synchronisationHex(t, synchronisationSyncHex)) {
 		t.Fatalf("MarshalAPER = %x, %v; want %s", got, err, synchronisationSyncHex)
 	}
 	var decoded s1ap.SynchronisationInformation
-	if err := decoded.UnmarshalAPER(synchronisationHex(t, synchronisationSyncHex)); err != nil {
+	if _, err := decoded.UnmarshalAPER(synchronisationHex(t, synchronisationSyncHex)); err != nil {
 		t.Fatalf("UnmarshalAPER(expected): %v", err)
 	}
 	if len(decoded.AggressoreCGIList) != 1 || !bytes.Equal(decoded.AggressoreCGIList[0].PLMNidentity, []byte{0x00, 0xf1, 0x10}) ||
@@ -48,49 +48,34 @@ func TestS1APSynchronisationInformationVector(t *testing.T) {
 	}
 	// The pre-fix two-octet count must not decode to the same value.
 	var old s1ap.SynchronisationInformation
-	if err := old.UnmarshalAPER(synchronisationHex(t, synchronisationBaseHex)); err == nil && len(old.AggressoreCGIList) == 1 &&
+	if _, err := old.UnmarshalAPER(synchronisationHex(t, synchronisationBaseHex)); err == nil && len(old.AggressoreCGIList) == 1 &&
 		bytes.Equal(old.AggressoreCGIList[0].PLMNidentity, []byte{0x00, 0xf1, 0x10}) {
 		t.Fatalf("pre-fix encoding decoded as the expected value: %+v", old)
 	}
 }
 
-func TestS1APENBConfigurationTransferRecursiveDispatch(t *testing.T) {
+func TestS1APENBConfigurationTransferTypedValues(t *testing.T) {
 	wire := synchronisationHex(t, synchronisationPDUHex)
 	var pdu s1ap.S1APPDU
-	if err := pdu.UnmarshalAPER(wire); err != nil {
+	if _, err := pdu.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
 	if again, err := pdu.MarshalAPER(); err != nil || !bytes.Equal(again, wire) {
 		t.Fatalf("PDU replay = %x, %v", again, err)
 	}
-	message, err := s1ap.DecodeInitiatingMessageValue(int64(pdu.InitiatingMessage.ProcedureCode), pdu.InitiatingMessage.Value.Bytes)
-	if err != nil {
-		t.Fatal(err)
-	}
-	transfer, ok := message.(*s1ap.ENBConfigurationTransfer)
+	transfer, ok := pdu.InitiatingMessage.Value.AsENBConfigurationTransfer()
 	if !ok || len(transfer.ProtocolIEs) != 1 || transfer.ProtocolIEs[0].Id != 129 {
-		t.Fatalf("message = %#v", message)
+		t.Fatalf("transfer=%+v", transfer)
 	}
-	ie, err := s1ap.DecodeIEFieldValue("ENBConfigurationTransferIEs", 129, transfer.ProtocolIEs[0].Value.Bytes)
-	if err != nil {
-		t.Fatal(err)
-	}
-	son, ok := ie.(*s1ap.SONConfigurationTransfer)
+	son, ok := transfer.ProtocolIEs[0].Value.AsSONConfigurationTransferECT()
 	if !ok || len(son.IEExtensions) != 1 || son.IEExtensions[0].Id != 209 {
-		t.Fatalf("s1ap.SONConfigurationTransfer = %#v", ie)
+		t.Fatalf("SONConfigurationTransfer=%+v", son)
 	}
-	if !bytes.Equal(son.IEExtensions[0].ExtensionValue.Bytes, synchronisationHex(t, synchronisationSyncHex)) {
-		t.Fatalf("extension 209 bytes = %x", son.IEExtensions[0].ExtensionValue.Bytes)
+	sync, ok := son.IEExtensions[0].ExtensionValue.AsSynchronisationInformation()
+	if !ok || len(sync.AggressoreCGIList) != 1 || !bytes.Equal(sync.AggressoreCGIList[0].PLMNidentity, []byte{0, 0xf1, 0x10}) || sync.AggressoreCGIList[0].CellID.BitLength != 28 || !bytes.Equal(sync.AggressoreCGIList[0].CellID.Bytes, []byte{0, 0, 0, 0x10}) {
+		t.Fatalf("SynchronisationInformation=%+v", sync)
 	}
-	extension, err := s1ap.DecodeExtensionFieldValue("SONConfigurationTransfer-ExtIEs", 209, son.IEExtensions[0].ExtensionValue.Bytes)
-	if err != nil {
-		t.Fatal(err)
-	}
-	sync, ok := extension.(*s1ap.SynchronisationInformation)
-	if !ok || len(sync.AggressoreCGIList) != 1 || !bytes.Equal(sync.AggressoreCGIList[0].PLMNidentity, []byte{0x00, 0xf1, 0x10}) ||
-		sync.AggressoreCGIList[0].CellID.BitLength != 28 || !bytes.Equal(sync.AggressoreCGIList[0].CellID.Bytes, []byte{0, 0, 0, 0x10}) {
-		t.Fatalf("s1ap.SynchronisationInformation = %#v", extension)
-	}
+
 	if replay, err := sync.MarshalAPER(); err != nil || !bytes.Equal(replay, synchronisationHex(t, synchronisationSyncHex)) {
 		t.Fatalf("extension replay = %x, %v", replay, err)
 	}
@@ -103,7 +88,7 @@ func TestS1APAggressorListBoundary(t *testing.T) {
 	for i := range cells {
 		cells[i] = s1ap.EUTRANCGI{
 			PLMNidentity: []byte{0, 0xf1, 0x10},
-			CellID:       s1apruntime.BitString{Bytes: []byte{0, 0, 0, 0x10}, BitLength: 28},
+			CellID:       runtime.BitString{Bytes: []byte{0, 0, 0, 0x10}, BitLength: 28},
 		}
 	}
 	value := s1ap.SynchronisationInformation{AggressoreCGIList: cells[:256]}
@@ -116,7 +101,7 @@ func TestS1APAggressorListBoundary(t *testing.T) {
 		t.Fatalf("256-entry encoding: length %d, prefix %x", len(wire), wire[:3])
 	}
 	var decoded s1ap.SynchronisationInformation
-	if err := decoded.UnmarshalAPER(wire); err != nil || len(decoded.AggressoreCGIList) != 256 {
+	if _, err := decoded.UnmarshalAPER(wire); err != nil || len(decoded.AggressoreCGIList) != 256 {
 		t.Fatalf("256-entry decode: %v, count %d", err, len(decoded.AggressoreCGIList))
 	}
 	if replay, err := decoded.MarshalAPER(); err != nil || !bytes.Equal(replay, wire) {
@@ -126,7 +111,10 @@ func TestS1APAggressorListBoundary(t *testing.T) {
 	if _, err := value.MarshalAPER(); err == nil {
 		t.Fatal("257 aggressor cells accepted")
 	}
-	large := s1ap.NewWarningAreaListCellIDList(s1ap.ECGIList(cells))
+	large, err := s1ap.NewWarningAreaListCellIDList(s1ap.ECGIList(cells))
+	if err != nil {
+		t.Fatal(err)
+	}
 	if _, err := large.MarshalAPER(); err != nil {
 		t.Fatalf("the separate ECGIList must accept 257 cells: %v", err)
 	}
@@ -145,7 +133,7 @@ func FuzzS1APSynchronisationInformation(f *testing.F) {
 			return
 		}
 		var value s1ap.SynchronisationInformation
-		if err := value.UnmarshalAPER(wire); err != nil {
+		if _, err := value.UnmarshalAPER(wire); err != nil {
 			return
 		}
 		if len(value.AggressoreCGIList) > 256 {

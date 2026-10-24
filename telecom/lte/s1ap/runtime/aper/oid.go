@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/oid.go; SHA-256 5875b30026a712a734e4449305957df2d601065425583dd471f0d18577d600dd.
+// Runtime source: runtime/aper/oid.go; SHA-256 ff226bd55635a3123d1bca28a4fa55dc251afedd50733942e23a97763efb303a.
 package aper
 
 import (
@@ -12,6 +12,9 @@ import (
 
 // EncodeObjectIdentifierAligned writes an OBJECT IDENTIFIER in aligned PER.
 func EncodeObjectIdentifierAligned(bb *BitBuffer, oid runtime.ObjectIdentifier) error {
+	if err := bb.ChargeAllocation(uint64(len(oid.Encoded())), 1); err != nil {
+		return err
+	}
 	contents, err := oidContents(oid)
 	if err != nil {
 		return err
@@ -20,10 +23,19 @@ func EncodeObjectIdentifierAligned(bb *BitBuffer, oid runtime.ObjectIdentifier) 
 }
 
 // DecodeObjectIdentifierAligned reads an OBJECT IDENTIFIER in aligned PER.
-func DecodeObjectIdentifierAligned(bb *BitBuffer) (runtime.ObjectIdentifier, error) {
+func DecodeObjectIdentifierAligned(bb *BitBuffer) (value runtime.ObjectIdentifier, failure error) {
+	// X.691 (02/2021) §24 requires complete BER contents in this field.
+	start := bb.BitPos()
+	defer bb.locateDecodeFailure(start, "§24", &failure)
 	contents, err := DecodeOctetStringAligned(bb, 0, 0, false)
 	if err != nil {
 		return runtime.ObjectIdentifier{}, fmt.Errorf("object identifier: %w", err)
+	}
+	if err := bb.ChargeAllocation(uint64(len(contents)), 1); err != nil {
+		return runtime.ObjectIdentifier{}, err
+	}
+	if err := bb.ChargeWork(uint64(len(contents))); err != nil {
+		return runtime.ObjectIdentifier{}, err
 	}
 	return decodeOIDContents(contents)
 }

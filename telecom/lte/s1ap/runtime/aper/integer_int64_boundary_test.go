@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/integer_int64_boundary_test.go; SHA-256 fca2e8107fc043c872189ce9e7ff414995637b59e676788085280f2a7738be07.
+// Runtime source: runtime/aper/integer_int64_boundary_test.go; SHA-256 f0a56decb3c10a8eb08dd1d93ab84b35fec6d21f28dc4f758471530c9948ef8e.
 package aper
 
 import (
@@ -43,7 +43,7 @@ func TestUnconstrainedInt64Boundary(t *testing.T) {
 					got, err = DecodeUnconstrainedWholeNumberAligned(reader)
 				}
 				if !tc.fits {
-					if !errors.Is(err, ErrInvalidValue) {
+					if !errors.Is(err, ErrLimit) {
 						t.Fatalf("out-of-range %s decoded as %d, error %v", tc.value, got, err)
 					}
 					return
@@ -95,7 +95,7 @@ func TestExtensionInt64Boundary(t *testing.T) {
 				got, err = DecodeIntegerAligned(reader, &low, &high, true)
 			}
 			if !tc.fits {
-				if !errors.Is(err, ErrInvalidValue) {
+				if !errors.Is(err, ErrLimit) {
 					t.Fatalf("extension %s decoded as %d, error %v", tc.value, got, err)
 				}
 				continue
