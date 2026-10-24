@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/umts/rrc/runtime/uper"
 )
 
 // TS 25.331 V19.0.1 12.1.3 requires receiver tolerance for extension and
@@ -36,9 +36,9 @@ func TestInterRATHandoverNonstandardPaddingOption(t *testing.T) {
 			if err := strict.UnmarshalUPER(input); err == nil {
 				t.Fatal("strict decode accepted non-conformant input")
 			}
-			var tolerated per.ToleranceLog
+			var tolerated uper.ToleranceLog
 			var decoded InterRATHandoverInfo
-			if err := decoded.UnmarshalUPERWithOptions(input, per.DecodeOptions{TrailingBitsTolerance: &tolerated}); err != nil {
+			if err := decoded.UnmarshalUPERWithOptions(input, uper.DecodeOptions{TrailingBitsTolerance: &tolerated, ContainedBitsTolerance: &uper.ContainedBitsPolicy{Log: &tolerated}}); err != nil {
 				t.Fatal(err)
 			}
 			if trailing := decoded.PERPadding_.Trailing(); trailing.BitLength != tc.trailing {
@@ -56,10 +56,10 @@ func TestInterRATHandoverNonstandardPaddingOption(t *testing.T) {
 			switch {
 			// The contained InterRATHandoverInfo-r3-add-ext-IEs value is two
 			// bits, so the padding starts at offset 2 of the BIT STRING.
-			case tc.contained != 0 && (record.Path != containedPath || record.Kind != per.ToleratedContainedBits || record.Bits.BitLength != tc.contained ||
+			case tc.contained != 0 && (record.Path != containedPath || record.Kind != uper.ToleratedContainedBits || record.Bits.BitLength != tc.contained ||
 				hex.EncodeToString(record.Bits.Bytes) != tc.containedBits || record.Offset != 2):
 				t.Fatalf("record = %+v, want %d contained bits at %s", record, tc.contained, containedPath)
-			case tc.trailing != 0 && (record.Path != "InterRATHandoverInfo" || record.Kind != per.ToleratedTrailingBits || record.Bits.BitLength != tc.trailing ||
+			case tc.trailing != 0 && (record.Path != "InterRATHandoverInfo" || record.Kind != uper.ToleratedTrailingBits || record.Bits.BitLength != tc.trailing ||
 				!bytes.Equal(record.Bits.Bytes, decoded.PERPadding_.Trailing().Bytes) || record.Offset+tc.trailing != 8*len(input)):
 				t.Fatalf("record = %+v, want %d trailing bits", record, tc.trailing)
 			}

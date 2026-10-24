@@ -7,10 +7,10 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 	umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
+	umtsuper "github.com/gomaja/go-asn1/telecom/umts/rrc/runtime/uper"
 )
 
 // RRCConnectionSetupComplete-v8a0-IEs with lateNonCriticalExtension, an
@@ -52,7 +52,7 @@ func sameDecodedValue(t *testing.T, got, want interface{ MarshalUPER() ([]byte, 
 
 // sameTrailing checks that two padding fields hold the same trailing bits
 // and that neither holds deferred state.
-func sameTrailing(t *testing.T, name string, got, want per.FinalPadding) {
+func sameTrailing(t *testing.T, name string, got, want umtsuper.FinalPadding) {
 	t.Helper()
 	if got.Deferred() != nil || want.Deferred() != nil {
 		t.Fatalf("%s: deferred state %+v, %+v", name, got.Deferred(), want.Deferred())
@@ -155,7 +155,7 @@ func TestDeferAllLateNonCriticalExtension(t *testing.T) {
 // The contained interRATHandoverInfo-r3-add-ext value is two bits (194020).
 // Senders that pad it to an octet inside its BIT STRING (19408000, ...)
 // violate X.691 (02/2021) 11.1.3.2; pycrate 0.7.11 decodes the same value
-// from each input. Without TrailingBitsTolerance, DeferOnError keeps only
+// from each input. Without ContainedBitsTolerance, DeferOnError keeps only
 // that contained value raw (TS 36.331 V19.4.0 8.1).
 func TestDeferOnErrorKeepsPaddedInterRATHandoverInfoR3AddExt(t *testing.T) {
 	const path = "InterRATHandoverInfo.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions.InterRATHandoverInfoR3AddExt"
@@ -173,16 +173,16 @@ func TestDeferOnErrorKeepsPaddedInterRATHandoverInfoR3AddExt(t *testing.T) {
 			input, _ := hex.DecodeString(tc.input)
 			var strict umts.InterRATHandoverInfo
 			strictErr := strict.UnmarshalUPER(input)
-			if !errors.Is(strictErr, per.ErrExtraData) {
+			if !errors.Is(strictErr, umtsuper.ErrExtraData) {
 				t.Fatalf("Eager error = %v", strictErr)
 			}
-			var deferrals per.DeferralLog
+			var deferrals umtsuper.DeferralLog
 			var value umts.InterRATHandoverInfo
-			if err := value.UnmarshalUPERWithOptions(input, per.DecodeOptions{ContainedDecoding: per.DeferOnError, Deferrals: &deferrals}); err != nil {
+			if err := value.UnmarshalUPERWithOptions(input, umtsuper.DecodeOptions{ContainedDecoding: umtsuper.DeferOnError, Deferrals: &deferrals}); err != nil {
 				t.Fatal(err)
 			}
 			records := deferrals.Snapshot()
-			if len(records) != 1 || records[0].Path != path || records[0].Kind != per.BitStringContainer || records[0].BitLength != tc.bits || records[0].Err.Error() != strictErr.Error() {
+			if len(records) != 1 || records[0].Path != path || records[0].Kind != umtsuper.BitStringContainer || records[0].BitLength != tc.bits || records[0].Err.Error() != strictErr.Error() {
 				t.Fatalf("records = %+v; Eager error %v", records, strictErr)
 			}
 			host := value.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions
@@ -195,7 +195,7 @@ func TestDeferOnErrorKeepsPaddedInterRATHandoverInfoR3AddExt(t *testing.T) {
 			}
 			// The later decode through the bit buffer fails alike, and with
 			// tolerance gives the tolerant Eager value.
-			bb, err := d.BitBuffer(per.DecodeOptions{})
+			bb, err := d.BitBuffer(umtsuper.DecodeOptions{})
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -203,11 +203,11 @@ func TestDeferOnErrorKeepsPaddedInterRATHandoverInfoR3AddExt(t *testing.T) {
 			if err := later.UnmarshalUPERFrom(bb); err != nil {
 				t.Fatal(err)
 			}
-			if _, err := per.CaptureDeferredBits(bb, "InterRATHandoverInfoR3AddExtIEs"); !errors.Is(err, per.ErrExtraData) {
+			if _, err := umtsuper.CaptureDeferredBits(bb, "InterRATHandoverInfoR3AddExtIEs"); !errors.Is(err, umtsuper.ErrExtraData) {
 				t.Fatalf("later decode error = %v", err)
 			}
-			var tolerated per.ToleranceLog
-			options := per.DecodeOptions{TrailingBitsTolerance: &tolerated}
+			var tolerated umtsuper.ToleranceLog
+			options := umtsuper.DecodeOptions{TrailingBitsTolerance: &tolerated, ContainedBitsTolerance: &umtsuper.ContainedBitsPolicy{Log: &tolerated}}
 			var tolerant umts.InterRATHandoverInfo
 			if err := tolerant.UnmarshalUPERWithOptions(input, options); err != nil {
 				t.Fatal(err)
@@ -218,7 +218,7 @@ func TestDeferOnErrorKeepsPaddedInterRATHandoverInfoR3AddExt(t *testing.T) {
 			if err := later.UnmarshalUPERFrom(bb); err != nil {
 				t.Fatal(err)
 			}
-			padding, err := per.CaptureDeferredBits(bb, "InterRATHandoverInfoR3AddExtIEs")
+			padding, err := umtsuper.CaptureDeferredBits(bb, "InterRATHandoverInfoR3AddExtIEs")
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -240,9 +240,9 @@ func TestDeferAllInterRATHandoverInfo(t *testing.T) {
 	if err := strict.UnmarshalUPER(input); err != nil {
 		t.Fatal(err)
 	}
-	var deferrals per.DeferralLog
+	var deferrals umtsuper.DeferralLog
 	var value umts.InterRATHandoverInfo
-	if err := value.UnmarshalUPERWithOptions(input, per.DecodeOptions{ContainedDecoding: per.DeferAll, Deferrals: &deferrals}); err != nil {
+	if err := value.UnmarshalUPERWithOptions(input, umtsuper.DecodeOptions{ContainedDecoding: umtsuper.DeferAll, Deferrals: &deferrals}); err != nil {
 		t.Fatal(err)
 	}
 	if records := deferrals.Snapshot(); len(records) != 1 || records[0].BitLength != 2 || records[0].Err != nil {
@@ -252,7 +252,7 @@ func TestDeferAllInterRATHandoverInfo(t *testing.T) {
 		t.Fatalf("re-encode = %x, %v", out, err)
 	}
 	host := value.V390NonCriticalExtensions.Present.V3a0NonCriticalExtensions.LaterNonCriticalExtensions
-	bb, err := host.InterRATHandoverInfoR3AddExt.PERPadding_.Deferred().BitBuffer(per.DecodeOptions{})
+	bb, err := host.InterRATHandoverInfoR3AddExt.PERPadding_.Deferred().BitBuffer(umtsuper.DecodeOptions{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -260,7 +260,7 @@ func TestDeferAllInterRATHandoverInfo(t *testing.T) {
 	if err := later.UnmarshalUPERFrom(bb); err != nil {
 		t.Fatal(err)
 	}
-	if host.InterRATHandoverInfoR3AddExtPERPadding_, err = per.CaptureDeferredBits(bb, "InterRATHandoverInfoR3AddExtIEs"); err != nil {
+	if host.InterRATHandoverInfoR3AddExtPERPadding_, err = umtsuper.CaptureDeferredBits(bb, "InterRATHandoverInfoR3AddExtIEs"); err != nil {
 		t.Fatal(err)
 	}
 	host.InterRATHandoverInfoR3AddExt = &later

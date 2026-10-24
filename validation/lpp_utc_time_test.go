@@ -6,9 +6,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/lpp"
+	"github.com/gomaja/go-asn1/telecom/lte/lpp/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/lpp/runtime/uper"
 )
 
 // lppUTCTimeWire is the UPER encoding of UTC-Time-r15 {utcTime-r15
@@ -54,7 +54,7 @@ func TestLPPUTCTimeVector(t *testing.T) {
 		t.Fatal(err)
 	}
 	outside := lpp.UTCTimeR15{UtcTimeR15: late, UtcTimeMsR15: 1}
-	if _, err := outside.MarshalUPER(); !errors.Is(err, runtime.ErrNoCanonicalTime) || !errors.Is(err, per.ErrInvalidValue) {
+	if _, err := outside.MarshalUPER(); !errors.Is(err, runtime.ErrNoCanonicalTime) || !errors.Is(err, uper.ErrInvalidValue) {
 		t.Fatalf("out-of-window error = %v", err)
 	}
 }

@@ -5,8 +5,8 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"github.com/gomaja/go-asn1/runtime"
 	"github.com/gomaja/go-asn1/telecom/lte/lpp"
+	"github.com/gomaja/go-asn1/telecom/lte/lpp/runtime"
 )
 
 // LPP CommonIEsRequestCapabilities carries lpp-message-segmentation-req-r14, a
