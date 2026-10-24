@@ -569,6 +569,107 @@ rejects it with `runtime.ErrTimeNotSet`.
   `"NotBefore":"19920722132100.30"`; an unset required field is `""`.
   RFC 3339 input is rejected with `runtime.ErrTimeSyntax`.
 
+### LTE owned runtimes
+
+S1AP, X2AP and LTE RRC carry their own runtimes, and LPPa does too from this
+release. None of these packages, nor their runtimes, imports the shared root
+runtime (`github.com/gomaja/go-asn1/runtime` and its subpackages). A shared
+runtime type therefore has a different Go type identity from the package's
+own type of the same name. Take options, errors, BIT STRINGs, object
+identifiers and raw values from the package's own runtime:
+
+| Package | Runtime | Encoding rules |
+| --- | --- | --- |
+| `telecom/lte/s1ap` | `telecom/lte/s1ap/runtime` | `telecom/lte/s1ap/runtime/aper` |
+| `telecom/lte/x2ap` | `telecom/lte/x2ap/runtime` | `telecom/lte/x2ap/runtime/aper` |
+| `telecom/lte/lppa` | `telecom/lte/lppa/runtime` | `telecom/lte/lppa/runtime/aper` |
+| `telecom/lte/rrc` | `telecom/lte/rrc/runtime` | `telecom/lte/rrc/runtime/uper` |
+
+The encoding-rules packages keep the shared `runtime/per` names for the parts
+they provide. For example, `per.ErrExtraData` becomes `ErrExtraData` from
+`telecom/lte/s1ap/runtime/aper` for S1AP, and `per.ErrTruncated` becomes
+`ErrTruncated` from `telecom/lte/rrc/runtime/uper` for LTE RRC.
+
+A protocol carried inside another stays an opaque octet string in the outer
+package. For example, S1AP carries an LPPa PDU as its `LPPaPDU` IE value, a
+`[]byte`, so the two packages exchange only bytes.
+
+### LPPa typed API
+
+The LPPa package (3GPP TS 36.455 V19.0.0) has a typed API that replaces the
+earlier decode-then-dispatch interface.
+
+- **Decoding.** `LPPAPDU` and every other SEQUENCE and CHOICE type have
+  `UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error)`.
+  A named list `Xxx` has
+  `UnmarshalAPERXxx(data, options...) (XxxComplete, aper.DecodeReport, error)`.
+  A named type with no methods, such as `LPPATransactionID` (an `int64`), is
+  decoded through its codec: `LPPATransactionIDCodec().DecodeAPER(data, options...)`.
+  One call decodes every known procedure body, IE value and extension value
+  into typed fields, for example
+  `pdu.InitiatingMessage.Value.AsECIDMeasurementInitiationRequest()`.
+  The following are removed, together with their `Decoded…` result types:
+  `DecodeValueRecursive`, `DecodeInitiatingMessageValue`,
+  `DecodeSuccessfulOutcomeValue`, `DecodeUnsuccessfulOutcomeValue`,
+  `DecodeIEFieldValue`, `DecodeExtensionFieldValue` and the
+  `Decode…Recursive` helpers.
+- **Strict decoding.** Decoding refuses every encoding that ITU-T X.691
+  (02/2021) forbids, including non-zero terminal padding in a complete value
+  (§11.1.4), which the earlier package accepted.
+  - `aper.WithReceiverMode()` selects the receiver policy of TS 36.455 §10. It
+    accepts the same encodings and adds observations to the report.
+  - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
+    counts, work and allocation of each call; `aper.DefaultLimits()` returns
+    the defaults.
+- **Encoding and replay.**
+  `MarshalAPER(options ...aper.EncodeOption) ([]byte, error)` encodes a value.
+  - A decoded value that is not changed encodes to the octets it was decoded
+    from.
+  - An edited value re-encodes only the changed parts and their framing.
+  - A value that is edited and then restored encodes to its received octets
+    again.
+  - A value's `WithoutReplay()` method, or the `aper.WithoutReplay()` option,
+    produces the fresh preferred encoding through every nested value.
+
+  Decoding runs no encoder.
+- **Construction and checks.**
+  - `ValidateMessage` checks a decoded or constructed PDU against the
+    elementary procedure and PDU definitions of TS 36.455 §§9.3.3–9.3.4. It
+    reports issues of eight kinds, from
+    `MissingMandatory` and `WrongCriticality` to `ValueIDMismatch`.
+  - Checked builders such as `NewErrorIndication(fields, options...)` run the
+    same checks and refuse a message that has a blocking issue.
+  - Procedure descriptors build each elementary procedure's messages, for
+    example `ErrorIndicationProcedure().Initiating().Build(body, transactionID)`.
+    `NewLPPAPDUInitiatingMessage` wraps the result in a PDU.
+- **Removed low-level entry points.** The following are removed:
+  - the bit-buffer variants `MarshalAPERTo`, `UnmarshalAPERFrom`,
+    `MarshalAPERXxxTo` and `UnmarshalAPERXxxFrom`;
+  - `UnmarshalAPERWithOptions` and its `per.DecodeOptions`;
+  - the container-level functions `MarshalAPERProtocolIEContainer` and
+    `UnmarshalAPERProtocolIEContainer`, with their `List`, `Pair`,
+    `ProtocolExtensionContainer` and `PrivateIEContainer` counterparts;
+  - the `…Complete` container wrappers, such as `ProtocolIEContainerComplete`.
+
+  The container types are generic over their value union, as in
+  `ProtocolIEContainer[V]` and `ProtocolIEField[V]`. Each message's container
+  has a concrete name: `ErrorIndicationIEContainer` holds
+  `ErrorIndicationIEField` values.
+- **Payloads.** An LPPa PDU carried by another protocol is decoded and
+  encoded through a payload codec that the caller supplies:
+  - `(lppa.NewPayloadCodec[lppa.LPPAPDU]{}).Call(decode, encode)` creates it;
+  - `(lppa.DecodePayload[lppa.LPPAPDU]{}).Call(data, codec, limits)` decodes;
+  - `(lppa.EncodePayload[lppa.LPPAPDU]{}).Call(value, codec, limits)` encodes.
+- **Package layout.** The package's types are aliases of definitions in the
+  packages under `telecom/lte/lppa/internal/`, where their methods and fields
+  are documented. Functions are package-level variables of function type,
+  such as `NewErrorIndication`. Call them as before and do not assign to them.
+  A concrete codec or value type is named after the generic form it replaces,
+  type arguments first:
+  - `LPPAPDUValueCodec` for `ValueCodec[LPPAPDU]`;
+  - `LPPAPDUAPERValue` for `APERValue[LPPAPDU]`;
+  - `ErrorIndicationIEContainer` for `ProtocolIEContainer[ErrorIndicationIEValue]`.
+
 ### ObjectIdentifier migration
 
 `runtime.ObjectIdentifier` changed from `[]uint64` to an immutable value.
