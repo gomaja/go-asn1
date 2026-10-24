@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/contained.go; SHA-256 589d24e8afbbc2accd3d65e1915a76d42ad9dad66d965088331b71a5b216ba04.
+// Runtime source: runtime/uper/contained.go; SHA-256 6be2237b0a4f4a279a231fa0cc72eabd3c1a97f8905041d066c27e8ee12f74be.
 package uper
 
 import (
@@ -131,17 +131,49 @@ func (f FinalPadding) Deferred() *Deferred {
 func (d *Deferred) Kind() ContainerKind { return d.kind }
 
 // Bytes returns a copy of the raw contents, MSB first. For a BIT STRING the
-// unused low bits of the last octet are zero.
-func (d *Deferred) Bytes() []byte { return append([]byte(nil), d.raw...) }
+// unused low bits of the last octet of the copy are zero; the stored contents
+// are unchanged. It returns nil if the declared bit length is negative or
+// does not match the number of stored octets (see DeferBits).
+func (d *Deferred) Bytes() []byte {
+	if d.lengthError() != nil {
+		return nil
+	}
+	raw := append([]byte(nil), d.raw...)
+	if d.kind == BitStringContainer && len(raw) > 0 && d.bitLength%8 != 0 {
+		// X.691 (02/2021) §11.1.3.2: these unused storage bits are not
+		// part of the contained encoding and are never appended to it.
+		raw[len(raw)-1] &= 0xff << uint(8-d.bitLength%8)
+	}
+	return raw
+}
 
-// BitLength is the exact length of the contents in bits: eight per octet
-// for an OCTET STRING.
+// BitLength reports the declared length of the contents in bits: eight per
+// octet for an OCTET STRING. A negative length or a length inconsistent with
+// the stored octets is retained for diagnostics, with ErrInvalidValue in Err;
+// Bytes, BitBuffer and encoding refuse those invalid contents.
 func (d *Deferred) BitLength() int { return d.bitLength }
+
+// lengthError checks storage size without adding seven to a possibly maximal
+// bit length. An inner decode error alone does not make raw contents invalid.
+func (d *Deferred) lengthError() error {
+	required, err := octetsForBitLength(d.bitLength)
+	if err != nil {
+		return err
+	}
+	if d.kind == OctetStringContainer && d.bitLength%8 != 0 {
+		return fmt.Errorf("%w: deferred OCTET STRING has a non-octet bit length %d", ErrInvalidValue, d.bitLength)
+	}
+	if len(d.raw) != required {
+		return fmt.Errorf("%w: deferred bit length %d requires %d octets, source has %d octets", ErrInvalidValue, d.bitLength, required, len(d.raw))
+	}
+	return nil
+}
 
 // Err returns the error that made DeferOnError keep the value raw, with the
 // field path from the top-level value. Outside another contained value it
 // reads as the error an Eager decode returns when that value fails first.
-// It is nil under DeferAll.
+// It also includes ErrInvalidValue for an invalid declared bit length; under
+// DeferAll it is nil only when that length is valid.
 func (d *Deferred) Err() error { return d.err }
 
 // BitBuffer returns a read buffer over the contents of a value deferred from
@@ -150,6 +182,9 @@ func (d *Deferred) Err() error { return d.err }
 // CaptureDeferredBits. An OCTET STRING value is a complete encoding: decode
 // Bytes with the contained type's UnmarshalUPERWithOptions instead.
 func (d *Deferred) BitBuffer(options DecodeOptions) (*BitBuffer, error) {
+	if d.lengthError() != nil {
+		return nil, d.err
+	}
 	if d.kind != BitStringContainer {
 		return nil, fmt.Errorf("%w: a deferred %v value is a complete encoding; decode Bytes with UnmarshalUPERWithOptions", ErrInvalidValue, d.kind)
 	}
@@ -195,8 +230,9 @@ type Deferral struct {
 	Kind ContainerKind
 	// BitLength is the length of the raw contents in bits.
 	BitLength int
-	// Err is the decode error under DeferOnError, the same error as the
-	// value's Deferred.Err; it is nil under DeferAll.
+	// Err is the same error as the value's Deferred.Err: the inner decode
+	// error joined with any invalid declared bit length error. Under
+	// DeferAll it is nil only when the declared bit length is valid.
 	Err error
 }
 
@@ -284,8 +320,10 @@ func (site ContainedSite) DefersErrors(err error) bool {
 }
 
 // DeferOctets keeps the contents of an OCTET STRING (CONTAINING ...) raw,
-// with the decode error, or nil under DeferAll. Store the result in the
-// PERPadding_ of the contained value's zero shell.
+// with the decode error. If the contents' bit length exceeds int, Err includes
+// ErrInvalidValue, joined with the decode error, and encoding refuses it.
+// Otherwise Err is nil under DeferAll. Store the result in the PERPadding_ of
+// the contained value's zero shell.
 func (site ContainedSite) DeferOctets(raw []byte, err error) FinalPadding {
 	// raw was read from an input whose bit length fits an int.
 	bitLength := math.MaxInt
@@ -296,14 +334,23 @@ func (site ContainedSite) DeferOctets(raw []byte, err error) FinalPadding {
 }
 
 // DeferBits keeps the contents of a BIT STRING (CONTAINING ...) raw, with
-// their exact bit length and the decode error, or nil under DeferAll. Store
-// the result in the PERPadding_ of the contained value's zero shell.
+// their declared bit length and decode error. It borrows raw without copying
+// or changing it; the caller must keep its contents unchanged. Bytes masks
+// the unused low bits only in the copy it returns. A negative bit length or
+// len(raw) unequal to ceil(bitLength/8) adds ErrInvalidValue to the deferred
+// error, joined with err, and to its deferral record. Such a value cannot be
+// encoded or read with BitBuffer. Store the result in the PERPadding_ of the
+// contained value's zero shell.
 func (site ContainedSite) DeferBits(raw []byte, bitLength int, err error) FinalPadding {
 	return site.deferContained(BitStringContainer, raw, bitLength, err)
 }
 
 func (site ContainedSite) deferContained(kind ContainerKind, raw []byte, bitLength int, err error) FinalPadding {
 	deferred := &Deferred{kind: kind, raw: raw, bitLength: bitLength, err: err}
+	if invalid := deferred.lengthError(); invalid != nil {
+		err = errors.Join(err, invalid)
+		deferred.err = err
+	}
 	if trace := site.trace; trace != nil {
 		// The abandoned decode's tolerance and deferral records describe a
 		// value that is now raw, and its error left its path segments in
@@ -357,6 +404,9 @@ func unchangedDeferred(shell any, final FinalPadding, kind ContainerKind) (*Defe
 	deferred := final.Deferred()
 	if deferred == nil {
 		return nil, fmt.Errorf("%w: value holds no deferred encoding", ErrInvalidValue)
+	}
+	if deferred.lengthError() != nil {
+		return nil, deferred.err
 	}
 	if deferred.kind != kind {
 		return nil, fmt.Errorf("%w: value deferred from a %v encoded in a %v", ErrMisplacedDeferred, deferred.kind, kind)
