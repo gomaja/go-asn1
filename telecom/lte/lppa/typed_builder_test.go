@@ -1,13 +1,13 @@
 package lppa
 
 import (
-	q13 "errors"
-	bridge0 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
+	"errors"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
 
-	q8 "testing"
+	"testing"
 )
 
-func TestECIDMeasurementInitiationRequestBuilderRejectsStructure(t *q8.T) {
+func TestECIDMeasurementInitiationRequestBuilderRejectsStructure(t *testing.T) {
 	base := ECIDMeasurementInitiationRequestIEContainer{
 		{Id: 2, Criticality: CriticalityReject},
 		{Id: 3, Criticality: CriticalityReject},
@@ -25,10 +25,10 @@ func TestECIDMeasurementInitiationRequestBuilderRejectsStructure(t *q8.T) {
 		{"wrong order", ECIDMeasurementInitiationRequestIEContainer{base[1], base[0], base[2]}, WrongOrder},
 	}
 	for _, tc := range cases {
-		t.Run(tc.name, func(t *q8.T) {
+		t.Run(tc.name, func(t *testing.T) {
 			_, err := NewECIDMeasurementInitiationRequest(tc.fields)
 			var buildErr *BuildError
-			if !q13.As(err, &buildErr) {
+			if !errors.As(err, &buildErr) {
 				t.Fatalf("error = %v, want BuildError", err)
 			}
 			found := false
@@ -43,17 +43,17 @@ func TestECIDMeasurementInitiationRequestBuilderRejectsStructure(t *q8.T) {
 		})
 	}
 }
-func TestLPPAPDUChoiceConstructorRejectsInvalidBody(t *q8.T) {
+func TestLPPAPDUChoiceConstructorRejectsInvalidBody(t *testing.T) {
 	body := ECIDMeasurementInitiationRequest{}
 	message := InitiatingMessage{ProcedureCode: 2, Criticality: CriticalityReject, LppatransactionID: 7, Value: func() InitiatingValue {
 		sealed := InitiatingValue{}
-		*bridge0.BridgeInitiatingValueFieldCode(&sealed) = 2
-		*bridge0.BridgeInitiatingValueFieldBodyECIDMeasurementInitiationRequest(&sealed) = &body
+		*s21.BridgeInitiatingValueFieldCode(&sealed) = 2
+		*s21.BridgeInitiatingValueFieldBodyECIDMeasurementInitiationRequest(&sealed) = &body
 		return sealed
 	}()}
 	_, err := NewLPPAPDUInitiatingMessage(message)
 	var buildErr *BuildError
-	if !q13.As(err, &buildErr) || len(buildErr.Issues) == 0 || buildErr.Issues[0].Code != MissingMandatory {
+	if !errors.As(err, &buildErr) || len(buildErr.Issues) == 0 || buildErr.Issues[0].Code != MissingMandatory {
 		t.Fatalf("constructor error = %v", err)
 	}
 }

@@ -1,10 +1,10 @@
 package lppa
 
 import (
-	q11 "bytes"
-	q10 "encoding/hex"
+	"bytes"
+	stdhex "encoding/hex"
 
-	q9 "testing"
+	"testing"
 )
 
 var replayDecodeSink LPPAPDU
@@ -12,7 +12,7 @@ var replayEncodeSink []byte
 
 // Synthetic source-derived PDUs; counts were measured against the published
 // envelope-plus-recursive decode and envelope-only encode on the same toolchain.
-func TestReplayPinnedAllocationBounds(t *q9.T) {
+func TestReplayPinnedAllocationBounds(t *testing.T) {
 	for _, row := range []struct {
 		id, hex        string
 		decode, encode float64
@@ -41,8 +41,8 @@ func TestReplayPinnedAllocationBounds(t *q9.T) {
 		{"error-indication-initiating-typed-dispatch", "000040000003000000", 3, 1},
 		{"private-message-initiating-typed-dispatch", "000140000009000000000001400100", 6, 1},
 	} {
-		t.Run(row.id, func(t *q9.T) {
-			wire, err := q10.DecodeString(row.hex)
+		t.Run(row.id, func(t *testing.T) {
+			wire, err := stdhex.DecodeString(row.hex)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -50,16 +50,16 @@ func TestReplayPinnedAllocationBounds(t *q9.T) {
 			if _, err := value.UnmarshalAPER(wire); err != nil {
 				t.Fatal(err)
 			}
-			decode := q9.AllocsPerRun(50, func() {
+			decode := testing.AllocsPerRun(50, func() {
 				var value LPPAPDU
 				if _, err := value.UnmarshalAPER(wire); err != nil {
 					panic(err)
 				}
 				replayDecodeSink = value
 			})
-			encode := q9.AllocsPerRun(50, func() {
+			encode := testing.AllocsPerRun(50, func() {
 				got, err := value.MarshalAPER()
-				if err != nil || !q11.Equal(got, wire) {
+				if err != nil || !bytes.Equal(got, wire) {
 					panic("unchanged replay")
 				}
 				replayEncodeSink = got

@@ -7,8 +7,7 @@
 //
 // A named SEQUENCE OF or SET OF has a corresponding XxxComplete value. Its Value
 // field is the list, and its private padding state survives complete decode and
-// encode. MarshalAPERXxx and UnmarshalAPERXxx use that wrapper. The XxxTo and
-// XxxFrom helpers operate on embedded values without a complete boundary.
+// encode. MarshalAPERXxx and UnmarshalAPERXxx use that wrapper.
 // Open types keep their complete padding in the enclosing value; OCTET STRING
 // CONTAINING a list uses the contained XxxComplete value.
 //

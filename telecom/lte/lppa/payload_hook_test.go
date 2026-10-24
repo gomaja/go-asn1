@@ -1,12 +1,12 @@
 package lppa
 
 import (
-	q11 "bytes"
+	"bytes"
 
-	q8 "testing"
+	"testing"
 )
 
-func TestPayloadCodecOwnsBytesAndEnforcesBoundary(t *q8.T) {
+func TestPayloadCodecOwnsBytesAndEnforcesBoundary(t *testing.T) {
 	if _, err := (NewPayloadCodec[int]{}).Call(nil, func(int, PayloadLimits) ([]byte, error) { return nil, nil }); err == nil {
 		t.Fatal("accepted nil decoder")
 	}
@@ -25,14 +25,14 @@ func TestPayloadCodecOwnsBytesAndEnforcesBoundary(t *q8.T) {
 	}
 	input := []byte{1, 2, 3}
 	value, _, err := (DecodePayload[int]{}).Call(input, codec, PayloadLimits{MaxInputBytes: 3})
-	if err != nil || value != 3 || !q11.Equal(input, []byte{1, 2, 3}) {
+	if err != nil || value != 3 || !bytes.Equal(input, []byte{1, 2, 3}) {
 		t.Fatalf("decode value=%d input=%x err=%v", value, input, err)
 	}
 	if _, _, err := (DecodePayload[int]{}).Call(input, codec, PayloadLimits{MaxInputBytes: 2}); err == nil {
 		t.Fatal("accepted payload above input limit")
 	}
 	wire, err := (EncodePayload[int]{}).Call(3, codec, PayloadLimits{MaxOutputBytes: 1})
-	if err != nil || !q11.Equal(wire, []byte{3}) {
+	if err != nil || !bytes.Equal(wire, []byte{3}) {
 		t.Fatalf("encode wire=%x err=%v", wire, err)
 	}
 	if _, err := (EncodePayload[int]{}).Call(3, codec, PayloadLimits{MaxOutputBytes: 0}); err != nil {

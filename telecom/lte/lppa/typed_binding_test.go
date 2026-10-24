@@ -1,19 +1,19 @@
 package lppa
 
 import (
-	q13 "bytes"
-	q12 "errors"
-	bridge1 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
-	bridge0 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
+	"bytes"
+	"errors"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
 
-	q11 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
-	q10 "math/big"
-	q8 "testing"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
+	"math/big"
+	"testing"
 )
 
-func TestTypedCodecPropagatesDecodeLimits(t *q8.T) {
+func TestTypedCodecPropagatesDecodeLimits(t *testing.T) {
 	codec := MeasurementIDCodec()
-	value, err := codec.New(q10.NewInt(1))
+	value, err := codec.New(big.NewInt(1))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -21,8 +21,8 @@ func TestTypedCodecPropagatesDecodeLimits(t *q8.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	_, _, err = codec.DecodeAPER(wire, q11.WithLimits(q11.Limits{MaxWork: 1}))
-	if !q12.Is(err, q11.ErrLimit) {
+	_, _, err = codec.DecodeAPER(wire, aper.WithLimits(aper.Limits{MaxWork: 1}))
+	if !errors.Is(err, aper.ErrLimit) {
 		t.Fatalf("decode ignored work limit: %v", err)
 	}
 	decoded, _, err := codec.DecodeAPER(wire)
@@ -30,20 +30,20 @@ func TestTypedCodecPropagatesDecodeLimits(t *q8.T) {
 		t.Fatal(err)
 	}
 	replay, err := codec.EncodeAPER(decoded)
-	if err != nil || !q13.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("typed codec replay=%x err=%v", replay, err)
 	}
 }
 
 // TS 36.455 V19.0.0 §§9.3.3–9.3.5: both object-set levels select one
 // source type, and the descriptor binds the procedure and transaction ID.
-func TestTypedBindingsBuildNestedIEs(t *q8.T) {
+func TestTypedBindingsBuildNestedIEs(t *testing.T) {
 	inner, err := MeasurementQuantitiesItemIEs().MeasurementQuantitiesItem().New(MeasurementQuantitiesItem{})
 	if err != nil {
 		t.Fatal(err)
 	}
 	table := ECIDMeasurementInitiationRequestIEs()
-	id, err := table.ESMLCUEMeasurementID().New(q10.NewInt(1))
+	id, err := table.ESMLCUEMeasurementID().New(big.NewInt(1))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -92,7 +92,7 @@ func TestTypedBindingsBuildNestedIEs(t *q8.T) {
 		t.Fatalf("typed nested IE = %v, ok=%v", nested, ok)
 	}
 	replay, err := decoded.MarshalAPER()
-	if err != nil || !q13.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("replay=%x err=%v want %x", replay, err, wire)
 	}
 	validation, err := ValidateMessage(&decoded)
@@ -101,7 +101,7 @@ func TestTypedBindingsBuildNestedIEs(t *q8.T) {
 	}
 	(*gotID).SetInt64(2)
 	edited, err := decoded.MarshalAPER()
-	if err != nil || q13.Equal(edited, wire) {
+	if err != nil || bytes.Equal(edited, wire) {
 		t.Fatalf("edited wire=%x err=%v", edited, err)
 	}
 	var changed LPPAPDU
@@ -118,11 +118,11 @@ func TestTypedBindingsBuildNestedIEs(t *q8.T) {
 	}
 	(*gotID).SetInt64(1)
 	restored, err := decoded.MarshalAPER()
-	if err != nil || !q13.Equal(restored, wire) {
+	if err != nil || !bytes.Equal(restored, wire) {
 		t.Fatalf("restored wire=%x err=%v", restored, err)
 	}
 }
-func TestUnknownIEKeepsOriginAndBytes(t *q8.T) {
+func TestUnknownIEKeepsOriginAndBytes(t *testing.T) {
 	table := ECIDMeasurementInitiationRequestIEs()
 	future, err := table.NewOpaque(65532, CriticalityIgnore, []byte{0x12, 0x34})
 	if err != nil {
@@ -131,8 +131,8 @@ func TestUnknownIEKeepsOriginAndBytes(t *q8.T) {
 	body := ECIDMeasurementInitiationRequest{ProtocolIEs: ECIDMeasurementInitiationRequestIEContainer{future}}
 	outcome := InitiatingMessage{ProcedureCode: 2, Criticality: CriticalityReject, LppatransactionID: 7, Value: func() InitiatingValue {
 		sealed := InitiatingValue{}
-		*bridge0.BridgeInitiatingValueFieldCode(&sealed) = 2
-		*bridge0.BridgeInitiatingValueFieldBodyECIDMeasurementInitiationRequest(&sealed) = &body
+		*s21.BridgeInitiatingValueFieldCode(&sealed) = 2
+		*s21.BridgeInitiatingValueFieldBodyECIDMeasurementInitiationRequest(&sealed) = &body
 		return sealed
 	}()}
 	pdu := LPPAPDU{Choice: LPPAPDUChoiceInitiatingMessage, InitiatingMessage: &outcome}
@@ -152,11 +152,11 @@ func TestUnknownIEKeepsOriginAndBytes(t *q8.T) {
 	if !ok {
 		t.Fatal("unknown IE was not opaque")
 	}
-	if !q13.Equal(opaque.Bytes(), []byte{0x12, 0x34}) || opaque.Origin().Reason != q11.UnknownSelector || !opaque.Origin().HasWireLocation || len(opaque.Origin().Location.Spans) != 1 || opaque.Origin().Location.Path != "ProtocolIEField.Value" {
+	if !bytes.Equal(opaque.Bytes(), []byte{0x12, 0x34}) || opaque.Origin().Reason != aper.UnknownSelector || !opaque.Origin().HasWireLocation || len(opaque.Origin().Location.Spans) != 1 || opaque.Origin().Location.Path != "ProtocolIEField.Value" {
 		t.Fatalf("opaque=%x origin=%+v", opaque.Bytes(), opaque.Origin())
 	}
 	wire2, err := decoded.MarshalAPER()
-	if err != nil || !q13.Equal(wire2, wire) {
+	if err != nil || !bytes.Equal(wire2, wire) {
 		t.Fatalf("replay=%x err=%v", wire2, err)
 	}
 	report, err := ValidateMessage(&decoded)
@@ -164,20 +164,20 @@ func TestUnknownIEKeepsOriginAndBytes(t *q8.T) {
 		t.Fatalf("report=%+v err=%v", report, err)
 	}
 }
-func TestMalformedKnownIEIsAnError(t *q8.T) {
-	opaque := q11.NewOpaqueOpenType([]byte{0xff})
+func TestMalformedKnownIEIsAnError(t *testing.T) {
+	opaque := aper.NewOpaqueOpenType([]byte{0xff})
 	malformed := func() ECIDMeasurementInitiationRequestIEValue {
 		sealed := ECIDMeasurementInitiationRequestIEValue{}
-		*bridge1.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = 2
-		*bridge1.BridgeECIDMeasurementInitiationRequestIEValueFieldIsOpaque(&sealed) = true
-		*bridge1.BridgeECIDMeasurementInitiationRequestIEValueFieldOpaque(&sealed) = &opaque
+		*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldId(&sealed) = 2
+		*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldIsOpaque(&sealed) = true
+		*s20.BridgeECIDMeasurementInitiationRequestIEValueFieldOpaque(&sealed) = &opaque
 		return sealed
 	}()
 	body := ECIDMeasurementInitiationRequest{ProtocolIEs: ECIDMeasurementInitiationRequestIEContainer{{Id: 2, Criticality: CriticalityReject, Value: malformed}}}
 	outcome := InitiatingMessage{ProcedureCode: 2, Criticality: CriticalityReject, LppatransactionID: 7, Value: func() InitiatingValue {
 		sealed := InitiatingValue{}
-		*bridge0.BridgeInitiatingValueFieldCode(&sealed) = 2
-		*bridge0.BridgeInitiatingValueFieldBodyECIDMeasurementInitiationRequest(&sealed) = &body
+		*s21.BridgeInitiatingValueFieldCode(&sealed) = 2
+		*s21.BridgeInitiatingValueFieldBodyECIDMeasurementInitiationRequest(&sealed) = &body
 		return sealed
 	}()}
 	pdu := LPPAPDU{Choice: LPPAPDUChoiceInitiatingMessage, InitiatingMessage: &outcome}
@@ -190,7 +190,7 @@ func TestMalformedKnownIEIsAnError(t *q8.T) {
 		t.Fatal("malformed known IE decoded as opaque")
 	}
 }
-func TestNestedIEValidation(t *q8.T) {
+func TestNestedIEValidation(t *testing.T) {
 	inner, err := MeasurementQuantitiesItemIEs().MeasurementQuantitiesItem().New(MeasurementQuantitiesItem{})
 	if err != nil {
 		t.Fatal(err)

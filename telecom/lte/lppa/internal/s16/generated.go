@@ -4,198 +4,208 @@
 package s16
 
 import (
-	q8 "fmt"
-	q4 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
-	q13 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s02"
-	q12 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
-	q11 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
-	q15 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
-	q16 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
-	q18 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s07"
-	q17 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s08"
-	q7 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
-	q10 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s10"
-	q5 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s11"
-	q9 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s12"
-	q14 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s15"
-	q20 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
-	q6 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
-	q19 "math/big"
+	"fmt"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s02"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s07"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s08"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s10"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s11"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s12"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s15"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
+	"math/big"
 )
 
 // ECIDMeasurementInitiationFailureUnsuccessfulBinding is the concrete UnsuccessfulBinding[ECIDMeasurementInitiationFailure].
 type ECIDMeasurementInitiationFailureUnsuccessfulBinding struct {
-	context q4.BridgeCodecContext
-	capture func(q5.ECIDMeasurementInitiationFailure, q6.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s11.ECIDMeasurementInitiationFailure, aper.DecodeState,
 
-	) (q5.ECIDMeasurementInitiationFailure, q6.Snapshot,
+	) (s11.ECIDMeasurementInitiationFailure, aper.Snapshot,
 
 	)
-	compare func(q5.ECIDMeasurementInitiationFailure, q6.Snapshot, q6.ComparisonLimits,
+	compare func(s11.ECIDMeasurementInitiationFailure, aper.Snapshot, aper.ComparisonLimits,
 
-	) q6.ReplayPlan
-	info     q4.ProcedureInfo
-	validate func(*q5.ECIDMeasurementInitiationFailure,
+	) aper.ReplayPlan
+	info     s00.ProcedureInfo
+	validate func(*s11.ECIDMeasurementInitiationFailure,
 
-		*q6.DecodeBudget) (q7.ValidationReport, error)
-	encode func(*q5.ECIDMeasurementInitiationFailure,
+		*aper.DecodeBudget) (s09.ValidationReport, error)
+	encode func(*s11.ECIDMeasurementInitiationFailure,
 
-		bool, *q6.DecodeBudget) ([]byte, error)
-	decode func([]byte, q6.DecodeState) (q5.ECIDMeasurementInitiationFailure,
+		bool, *aper.DecodeBudget) ([]byte, error)
+	decode func([]byte, aper.DecodeState) (s11.ECIDMeasurementInitiationFailure,
 
 		error)
-	inject func(q5.ECIDMeasurementInitiationFailure,
+	inject func(s11.ECIDMeasurementInitiationFailure,
 
 	) UnsuccessfulValue
 }
 
-func (b ECIDMeasurementInitiationFailureUnsuccessfulBinding) Info() q4.ProcedureInfo { return b.info }
-func (b ECIDMeasurementInitiationFailureUnsuccessfulBinding) Codec() q5.ECIDMeasurementInitiationFailureValueCodec {
-	return func() q5.ECIDMeasurementInitiationFailureValueCodec {
-		sealed := q5.ECIDMeasurementInitiationFailureValueCodec{}
-		*q5.BridgeECIDMeasurementInitiationFailureValueCodecFieldPath(&sealed) = q6.Path(b.info.Rule.Assignment.Assignment)
-		*q5.BridgeECIDMeasurementInitiationFailureValueCodecFieldDecode(&sealed) = b.decode
-		*q5.BridgeECIDMeasurementInitiationFailureValueCodecFieldEncode(&sealed) = func(value q5.ECIDMeasurementInitiationFailure,
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b ECIDMeasurementInitiationFailureUnsuccessfulBinding) Info() s00.ProcedureInfo { return b.info }
 
-			fresh bool, budget *q6.DecodeBudget) ([]byte, error) {
+// Codec returns the complete APER codec for this binding's value type.
+func (b ECIDMeasurementInitiationFailureUnsuccessfulBinding) Codec() s11.ECIDMeasurementInitiationFailureValueCodec {
+	return func() s11.ECIDMeasurementInitiationFailureValueCodec {
+		sealed := s11.ECIDMeasurementInitiationFailureValueCodec{}
+		*s11.BridgeECIDMeasurementInitiationFailureValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
+		*s11.BridgeECIDMeasurementInitiationFailureValueCodecFieldDecode(&sealed) = b.decode
+		*s11.BridgeECIDMeasurementInitiationFailureValueCodecFieldEncode(&sealed) = func(value s11.ECIDMeasurementInitiationFailure,
+
+			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return b.encode(&value, fresh, budget)
 		}
-		*q5.BridgeECIDMeasurementInitiationFailureValueCodecFieldCapture(&sealed) = b.capture
-		*q5.BridgeECIDMeasurementInitiationFailureValueCodecFieldCompare(&sealed) = b.compare
-		*q5.BridgeECIDMeasurementInitiationFailureValueCodecFieldContext(&sealed) = b.context
+		*s11.BridgeECIDMeasurementInitiationFailureValueCodecFieldCapture(&sealed) = b.capture
+		*s11.BridgeECIDMeasurementInitiationFailureValueCodecFieldCompare(&sealed) = b.compare
+		*s11.BridgeECIDMeasurementInitiationFailureValueCodecFieldContext(&sealed) = b.context
 		return sealed
 	}()
 
 }
-func (b ECIDMeasurementInitiationFailureUnsuccessfulBinding) Build(body q5.ECIDMeasurementInitiationFailure,
 
-	transactionID q4.LPPATransactionID, options ...q6.BuildOption) (UnsuccessfulOutcome, error) {
+// Build validates the body and constructs a procedure message with the supplied transaction identifier.
+func (b ECIDMeasurementInitiationFailureUnsuccessfulBinding) Build(body s11.ECIDMeasurementInitiationFailure,
+
+	transactionID s00.LPPATransactionID, options ...aper.BuildOption) (UnsuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.inject == nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(q8.Errorf("%w: unbound procedure binding", q6.ErrInvalidValue), "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("%w: unbound procedure binding", aper.ErrInvalidValue), "Build")
 	}
-	budget, err := q6.BuildBudget(options...)
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(*q7.BridgeValidationReportFieldErr(&report), "Build")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "Build")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return UnsuccessfulOutcome{}, q6.OperationError(&q7.BuildError{Issues: issues}, "Build")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return UnsuccessfulOutcome{}, aper.OperationError(&s09.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(q8.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
 	}
-	if err := q6.ChargeValue(q6.NewBudgetBuffer(budget), body); err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, q6.OperationError(nil, "Build")
+	return UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
 // OTDOAInformationFailureUnsuccessfulBinding is the concrete UnsuccessfulBinding[OTDOAInformationFailure].
 type OTDOAInformationFailureUnsuccessfulBinding struct {
-	context q4.BridgeCodecContext
-	capture func(q9.OTDOAInformationFailure, q6.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s12.OTDOAInformationFailure, aper.DecodeState,
 
-	) (q9.OTDOAInformationFailure, q6.Snapshot,
+	) (s12.OTDOAInformationFailure, aper.Snapshot,
 
 	)
-	compare func(q9.OTDOAInformationFailure, q6.Snapshot, q6.ComparisonLimits,
+	compare func(s12.OTDOAInformationFailure, aper.Snapshot, aper.ComparisonLimits,
 
-	) q6.ReplayPlan
-	info     q4.ProcedureInfo
-	validate func(*q9.OTDOAInformationFailure,
+	) aper.ReplayPlan
+	info     s00.ProcedureInfo
+	validate func(*s12.OTDOAInformationFailure,
 
-		*q6.DecodeBudget) (q7.ValidationReport, error)
-	encode func(*q9.OTDOAInformationFailure,
+		*aper.DecodeBudget) (s09.ValidationReport, error)
+	encode func(*s12.OTDOAInformationFailure,
 
-		bool, *q6.DecodeBudget) ([]byte, error)
-	decode func([]byte, q6.DecodeState) (q9.OTDOAInformationFailure,
+		bool, *aper.DecodeBudget) ([]byte, error)
+	decode func([]byte, aper.DecodeState) (s12.OTDOAInformationFailure,
 
 		error)
-	inject func(q9.OTDOAInformationFailure,
+	inject func(s12.OTDOAInformationFailure,
 
 	) UnsuccessfulValue
 }
 
-func (b OTDOAInformationFailureUnsuccessfulBinding) Info() q4.ProcedureInfo { return b.info }
-func (b OTDOAInformationFailureUnsuccessfulBinding) Codec() q9.OTDOAInformationFailureValueCodec {
-	return func() q9.OTDOAInformationFailureValueCodec {
-		sealed := q9.OTDOAInformationFailureValueCodec{}
-		*q9.BridgeOTDOAInformationFailureValueCodecFieldPath(&sealed) = q6.Path(b.info.Rule.Assignment.Assignment)
-		*q9.BridgeOTDOAInformationFailureValueCodecFieldDecode(&sealed) = b.decode
-		*q9.BridgeOTDOAInformationFailureValueCodecFieldEncode(&sealed) = func(value q9.OTDOAInformationFailure,
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b OTDOAInformationFailureUnsuccessfulBinding) Info() s00.ProcedureInfo { return b.info }
 
-			fresh bool, budget *q6.DecodeBudget) ([]byte, error) {
+// Codec returns the complete APER codec for this binding's value type.
+func (b OTDOAInformationFailureUnsuccessfulBinding) Codec() s12.OTDOAInformationFailureValueCodec {
+	return func() s12.OTDOAInformationFailureValueCodec {
+		sealed := s12.OTDOAInformationFailureValueCodec{}
+		*s12.BridgeOTDOAInformationFailureValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
+		*s12.BridgeOTDOAInformationFailureValueCodecFieldDecode(&sealed) = b.decode
+		*s12.BridgeOTDOAInformationFailureValueCodecFieldEncode(&sealed) = func(value s12.OTDOAInformationFailure,
+
+			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return b.encode(&value, fresh, budget)
 		}
-		*q9.BridgeOTDOAInformationFailureValueCodecFieldCapture(&sealed) = b.capture
-		*q9.BridgeOTDOAInformationFailureValueCodecFieldCompare(&sealed) = b.compare
-		*q9.BridgeOTDOAInformationFailureValueCodecFieldContext(&sealed) = b.context
+		*s12.BridgeOTDOAInformationFailureValueCodecFieldCapture(&sealed) = b.capture
+		*s12.BridgeOTDOAInformationFailureValueCodecFieldCompare(&sealed) = b.compare
+		*s12.BridgeOTDOAInformationFailureValueCodecFieldContext(&sealed) = b.context
 		return sealed
 	}()
 
 }
-func (b OTDOAInformationFailureUnsuccessfulBinding) Build(body q9.OTDOAInformationFailure,
 
-	transactionID q4.LPPATransactionID, options ...q6.BuildOption) (UnsuccessfulOutcome, error) {
+// Build validates the body and constructs a procedure message with the supplied transaction identifier.
+func (b OTDOAInformationFailureUnsuccessfulBinding) Build(body s12.OTDOAInformationFailure,
+
+	transactionID s00.LPPATransactionID, options ...aper.BuildOption) (UnsuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.inject == nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(q8.Errorf("%w: unbound procedure binding", q6.ErrInvalidValue), "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("%w: unbound procedure binding", aper.ErrInvalidValue), "Build")
 	}
-	budget, err := q6.BuildBudget(options...)
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(*q7.BridgeValidationReportFieldErr(&report), "Build")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "Build")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return UnsuccessfulOutcome{}, q6.OperationError(&q7.BuildError{Issues: issues}, "Build")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return UnsuccessfulOutcome{}, aper.OperationError(&s09.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(q8.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
 	}
-	if err := q6.ChargeValue(q6.NewBudgetBuffer(budget), body); err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, q6.OperationError(nil, "Build")
+	return UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
 // UTDOAInformationFailureUnsuccessfulBinding is the concrete UnsuccessfulBinding[UTDOAInformationFailure].
 type UTDOAInformationFailureUnsuccessfulBinding struct {
-	context q4.BridgeCodecContext
-	capture func(UTDOAInformationFailure, q6.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(UTDOAInformationFailure, aper.DecodeState,
 
-	) (UTDOAInformationFailure, q6.Snapshot,
+	) (UTDOAInformationFailure, aper.Snapshot,
 
 	)
-	compare func(UTDOAInformationFailure, q6.Snapshot, q6.ComparisonLimits,
+	compare func(UTDOAInformationFailure, aper.Snapshot, aper.ComparisonLimits,
 
-	) q6.ReplayPlan
-	info     q4.ProcedureInfo
+	) aper.ReplayPlan
+	info     s00.ProcedureInfo
 	validate func(*UTDOAInformationFailure,
 
-		*q6.DecodeBudget) (q7.ValidationReport, error)
+		*aper.DecodeBudget) (s09.ValidationReport, error)
 	encode func(*UTDOAInformationFailure,
 
-		bool, *q6.DecodeBudget) ([]byte, error)
-	decode func([]byte, q6.DecodeState) (UTDOAInformationFailure,
+		bool, *aper.DecodeBudget) ([]byte, error)
+	decode func([]byte, aper.DecodeState) (UTDOAInformationFailure,
 
 		error)
 	inject func(UTDOAInformationFailure,
@@ -203,48 +213,53 @@ type UTDOAInformationFailureUnsuccessfulBinding struct {
 	) UnsuccessfulValue
 }
 
-func (b UTDOAInformationFailureUnsuccessfulBinding) Info() q4.ProcedureInfo { return b.info }
-func (b UTDOAInformationFailureUnsuccessfulBinding) Codec() UTDOAInformationFailureValueCodec {
-	return UTDOAInformationFailureValueCodec{path: q6.Path(b.info.Rule.Assignment.Assignment), decode: b.decode, encode: func(value UTDOAInformationFailure,
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b UTDOAInformationFailureUnsuccessfulBinding) Info() s00.ProcedureInfo { return b.info }
 
-		fresh bool, budget *q6.DecodeBudget) ([]byte, error) {
+// Codec returns the complete APER codec for this binding's value type.
+func (b UTDOAInformationFailureUnsuccessfulBinding) Codec() UTDOAInformationFailureValueCodec {
+	return UTDOAInformationFailureValueCodec{path: aper.Path(b.info.Rule.Assignment.Assignment), decode: b.decode, encode: func(value UTDOAInformationFailure,
+
+		fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return b.encode(&value, fresh, budget)
 	}, capture: b.capture, compare: b.compare, context: b.context,
 	}
 }
+
+// Build validates the body and constructs a procedure message with the supplied transaction identifier.
 func (b UTDOAInformationFailureUnsuccessfulBinding) Build(body UTDOAInformationFailure,
 
-	transactionID q4.LPPATransactionID, options ...q6.BuildOption) (UnsuccessfulOutcome, error) {
+	transactionID s00.LPPATransactionID, options ...aper.BuildOption) (UnsuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.inject == nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(q8.Errorf("%w: unbound procedure binding", q6.ErrInvalidValue), "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("%w: unbound procedure binding", aper.ErrInvalidValue), "Build")
 	}
-	budget, err := q6.BuildBudget(options...)
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(*q7.BridgeValidationReportFieldErr(&report), "Build")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "Build")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return UnsuccessfulOutcome{}, q6.OperationError(&q7.BuildError{Issues: issues}, "Build")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return UnsuccessfulOutcome{}, aper.OperationError(&s09.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(q8.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
+		return UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
 	}
-	if err := q6.ChargeValue(q6.NewBudgetBuffer(budget), body); err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "Build")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, q6.OperationError(nil, "Build")
+	return UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
-func BridgeUTDOAInformationFailureIEValueCaptureLPPaProtocolIEContainer(v *q10.UTDOAInformationFailureIEContainer, s *q6.SemanticCapture) {
+func BridgeUTDOAInformationFailureIEValueCaptureLPPaProtocolIEContainer(v *s10.UTDOAInformationFailureIEContainer, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -261,7 +276,7 @@ func BridgeUTDOAInformationFailureIEValueCaptureLPPaProtocolIEContainer(v *q10.U
 		s.End(f, nil, false)
 	}
 }
-func BridgeUTDOAInformationFailureIEValueCompareLPPaProtocolIEContainer(v *q10.UTDOAInformationFailureIEContainer, s *q6.SemanticComparison) {
+func BridgeUTDOAInformationFailureIEValueCompareLPPaProtocolIEContainer(v *s10.UTDOAInformationFailureIEContainer, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -275,10 +290,10 @@ func BridgeUTDOAInformationFailureIEValueCompareLPPaProtocolIEContainer(v *q10.U
 			}
 			BridgeUTDOAInformationFailureIEValueCompareLPPaProtocolIEField(&(*v)[i], s)
 		}
-		s.End(f, q6.Snapshot{}, false)
+		s.End(f, aper.Snapshot{}, false)
 	}
 }
-func BridgeUTDOAInformationRequestIEValueCaptureLPPaProtocolIEContainer(v *q7.UTDOAInformationRequestIEContainer, s *q6.SemanticCapture) {
+func BridgeUTDOAInformationRequestIEValueCaptureLPPaProtocolIEContainer(v *s09.UTDOAInformationRequestIEContainer, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -295,7 +310,7 @@ func BridgeUTDOAInformationRequestIEValueCaptureLPPaProtocolIEContainer(v *q7.UT
 		s.End(f, nil, false)
 	}
 }
-func BridgeUTDOAInformationRequestIEValueCompareLPPaProtocolIEContainer(v *q7.UTDOAInformationRequestIEContainer, s *q6.SemanticComparison) {
+func BridgeUTDOAInformationRequestIEValueCompareLPPaProtocolIEContainer(v *s09.UTDOAInformationRequestIEContainer, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -309,10 +324,10 @@ func BridgeUTDOAInformationRequestIEValueCompareLPPaProtocolIEContainer(v *q7.UT
 			}
 			BridgeUTDOAInformationRequestIEValueCompareLPPaProtocolIEField(&(*v)[i], s)
 		}
-		s.End(f, q6.Snapshot{}, false)
+		s.End(f, aper.Snapshot{}, false)
 	}
 }
-func BridgeUTDOAInformationResponseIEValueCaptureLPPaProtocolIEContainer(v *q10.UTDOAInformationResponseIEContainer, s *q6.SemanticCapture) {
+func BridgeUTDOAInformationResponseIEValueCaptureLPPaProtocolIEContainer(v *s10.UTDOAInformationResponseIEContainer, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -329,7 +344,7 @@ func BridgeUTDOAInformationResponseIEValueCaptureLPPaProtocolIEContainer(v *q10.
 		s.End(f, nil, false)
 	}
 }
-func BridgeUTDOAInformationResponseIEValueCompareLPPaProtocolIEContainer(v *q10.UTDOAInformationResponseIEContainer, s *q6.SemanticComparison) {
+func BridgeUTDOAInformationResponseIEValueCompareLPPaProtocolIEContainer(v *s10.UTDOAInformationResponseIEContainer, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -343,564 +358,589 @@ func BridgeUTDOAInformationResponseIEValueCompareLPPaProtocolIEContainer(v *q10.
 			}
 			BridgeUTDOAInformationResponseIEValueCompareLPPaProtocolIEField(&(*v)[i], s)
 		}
-		s.End(f, q6.Snapshot{}, false)
+		s.End(f, aper.Snapshot{}, false)
 	}
 }
 
 // OTDOACellsValueCodec is the concrete ValueCodec[OTDOACells].
 type OTDOACellsValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(OTDOACells, q6.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(OTDOACells, aper.DecodeState,
 
-	) (OTDOACells, q6.Snapshot,
+	) (OTDOACells, aper.Snapshot,
 
 	)
-	compare func(OTDOACells, q6.Snapshot, q6.ComparisonLimits,
+	compare func(OTDOACells, aper.Snapshot, aper.ComparisonLimits,
 
-	) q6.ReplayPlan
-	path   q6.Path
-	decode func([]byte, q6.DecodeState) (OTDOACells,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (OTDOACells,
 
 		error)
 	encode func(OTDOACells,
 
-		bool, *q6.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
+// New validates value and returns a complete APER value.
 func (c OTDOACellsValueCodec) New(value OTDOACells,
 
 ) (OTDOACellsAPERValue, error) {
 	if c.encode == nil {
-		return OTDOACellsAPERValue{}, q6.OperationError(q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue), "Value.New")
+		return OTDOACellsAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q6.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return OTDOACellsAPERValue{}, q6.OperationError(err, "Value.New")
+		return OTDOACellsAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return OTDOACellsAPERValue{}, q6.OperationError(err, "Value.New")
+		return OTDOACellsAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return OTDOACellsAPERValue{Value: value}, q6.OperationError(nil, "Value.New")
+	return OTDOACellsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c OTDOACellsValueCodec) DecodeAPER(data []byte, options ...q6.DecodeOption) (OTDOACellsAPERValue, q6.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c OTDOACellsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (OTDOACellsAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return OTDOACellsAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return OTDOACellsAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q6.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q6.FinishDecode(settings, err)
-		return OTDOACellsAPERValue{}, report, q6.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return OTDOACellsAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return OTDOACellsAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: missing semantic capture", q6.ErrInvalidValue)
+		return OTDOACellsAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q6.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return OTDOACellsAPERValue{}, report, q6.OperationError(err, c.path)
+		return OTDOACellsAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return OTDOACellsAPERValue{Value: value, received: q6.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return OTDOACellsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c OTDOACellsValueCodec) EncodeAPER(value OTDOACellsAPERValue, options ...q6.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c OTDOACellsValueCodec) EncodeAPER(value OTDOACellsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q6.EncodeWithoutReplay(options...)
-	var budget q6.DecodeBudget
-	if err := q6.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q6.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q6.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q6.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q6.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q6.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 func (c OTDOACellsValueCodec) encodeBudget(value OTDOACells,
 
-	fresh bool, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
 func (c OTDOACellsValueCodec) encodeChanged(value OTDOACells,
 
-	fresh bool, plan q6.ReplayPlan, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // OTDOACellsElemValueCodec is the concrete ValueCodec[OTDOACellsElem].
 type OTDOACellsElemValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(OTDOACellsElem, q6.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(OTDOACellsElem, aper.DecodeState,
 
-	) (OTDOACellsElem, q6.Snapshot,
+	) (OTDOACellsElem, aper.Snapshot,
 
 	)
-	compare func(OTDOACellsElem, q6.Snapshot, q6.ComparisonLimits,
+	compare func(OTDOACellsElem, aper.Snapshot, aper.ComparisonLimits,
 
-	) q6.ReplayPlan
-	path   q6.Path
-	decode func([]byte, q6.DecodeState) (OTDOACellsElem,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (OTDOACellsElem,
 
 		error)
 	encode func(OTDOACellsElem,
 
-		bool, *q6.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
+// New validates value and returns a complete APER value.
 func (c OTDOACellsElemValueCodec) New(value OTDOACellsElem,
 
 ) (OTDOACellsElemAPERValue, error) {
 	if c.encode == nil {
-		return OTDOACellsElemAPERValue{}, q6.OperationError(q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue), "Value.New")
+		return OTDOACellsElemAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q6.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return OTDOACellsElemAPERValue{}, q6.OperationError(err, "Value.New")
+		return OTDOACellsElemAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return OTDOACellsElemAPERValue{}, q6.OperationError(err, "Value.New")
+		return OTDOACellsElemAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return OTDOACellsElemAPERValue{Value: value}, q6.OperationError(nil, "Value.New")
+	return OTDOACellsElemAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c OTDOACellsElemValueCodec) DecodeAPER(data []byte, options ...q6.DecodeOption) (OTDOACellsElemAPERValue, q6.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c OTDOACellsElemValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (OTDOACellsElemAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return OTDOACellsElemAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return OTDOACellsElemAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q6.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q6.FinishDecode(settings, err)
-		return OTDOACellsElemAPERValue{}, report, q6.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return OTDOACellsElemAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return OTDOACellsElemAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: missing semantic capture", q6.ErrInvalidValue)
+		return OTDOACellsElemAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q6.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return OTDOACellsElemAPERValue{}, report, q6.OperationError(err, c.path)
+		return OTDOACellsElemAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return OTDOACellsElemAPERValue{Value: value, received: q6.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return OTDOACellsElemAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c OTDOACellsElemValueCodec) EncodeAPER(value OTDOACellsElemAPERValue, options ...q6.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c OTDOACellsElemValueCodec) EncodeAPER(value OTDOACellsElemAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q6.EncodeWithoutReplay(options...)
-	var budget q6.DecodeBudget
-	if err := q6.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q6.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q6.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q6.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q6.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q6.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 func (c OTDOACellsElemValueCodec) encodeBudget(value OTDOACellsElem,
 
-	fresh bool, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
 func (c OTDOACellsElemValueCodec) encodeChanged(value OTDOACellsElem,
 
-	fresh bool, plan q6.ReplayPlan, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // UTDOAInformationFailureValueCodec is the concrete ValueCodec[UTDOAInformationFailure].
 type UTDOAInformationFailureValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(UTDOAInformationFailure, q6.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(UTDOAInformationFailure, aper.DecodeState,
 
-	) (UTDOAInformationFailure, q6.Snapshot,
+	) (UTDOAInformationFailure, aper.Snapshot,
 
 	)
-	compare func(UTDOAInformationFailure, q6.Snapshot, q6.ComparisonLimits,
+	compare func(UTDOAInformationFailure, aper.Snapshot, aper.ComparisonLimits,
 
-	) q6.ReplayPlan
-	path   q6.Path
-	decode func([]byte, q6.DecodeState) (UTDOAInformationFailure,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (UTDOAInformationFailure,
 
 		error)
 	encode func(UTDOAInformationFailure,
 
-		bool, *q6.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
+// New validates value and returns a complete APER value.
 func (c UTDOAInformationFailureValueCodec) New(value UTDOAInformationFailure,
 
 ) (UTDOAInformationFailureAPERValue, error) {
 	if c.encode == nil {
-		return UTDOAInformationFailureAPERValue{}, q6.OperationError(q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue), "Value.New")
+		return UTDOAInformationFailureAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q6.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return UTDOAInformationFailureAPERValue{}, q6.OperationError(err, "Value.New")
+		return UTDOAInformationFailureAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return UTDOAInformationFailureAPERValue{}, q6.OperationError(err, "Value.New")
+		return UTDOAInformationFailureAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return UTDOAInformationFailureAPERValue{Value: value}, q6.OperationError(nil, "Value.New")
+	return UTDOAInformationFailureAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c UTDOAInformationFailureValueCodec) DecodeAPER(data []byte, options ...q6.DecodeOption) (UTDOAInformationFailureAPERValue, q6.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c UTDOAInformationFailureValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UTDOAInformationFailureAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return UTDOAInformationFailureAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return UTDOAInformationFailureAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q6.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q6.FinishDecode(settings, err)
-		return UTDOAInformationFailureAPERValue{}, report, q6.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return UTDOAInformationFailureAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return UTDOAInformationFailureAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: missing semantic capture", q6.ErrInvalidValue)
+		return UTDOAInformationFailureAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q6.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return UTDOAInformationFailureAPERValue{}, report, q6.OperationError(err, c.path)
+		return UTDOAInformationFailureAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return UTDOAInformationFailureAPERValue{Value: value, received: q6.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return UTDOAInformationFailureAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c UTDOAInformationFailureValueCodec) EncodeAPER(value UTDOAInformationFailureAPERValue, options ...q6.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c UTDOAInformationFailureValueCodec) EncodeAPER(value UTDOAInformationFailureAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q6.EncodeWithoutReplay(options...)
-	var budget q6.DecodeBudget
-	if err := q6.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q6.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q6.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q6.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q6.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q6.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 func (c UTDOAInformationFailureValueCodec) encodeBudget(value UTDOAInformationFailure,
 
-	fresh bool, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
 func (c UTDOAInformationFailureValueCodec) encodeChanged(value UTDOAInformationFailure,
 
-	fresh bool, plan q6.ReplayPlan, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // UTDOAInformationRequestValueCodec is the concrete ValueCodec[UTDOAInformationRequest].
 type UTDOAInformationRequestValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(UTDOAInformationRequest, q6.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(UTDOAInformationRequest, aper.DecodeState,
 
-	) (UTDOAInformationRequest, q6.Snapshot,
+	) (UTDOAInformationRequest, aper.Snapshot,
 
 	)
-	compare func(UTDOAInformationRequest, q6.Snapshot, q6.ComparisonLimits,
+	compare func(UTDOAInformationRequest, aper.Snapshot, aper.ComparisonLimits,
 
-	) q6.ReplayPlan
-	path   q6.Path
-	decode func([]byte, q6.DecodeState) (UTDOAInformationRequest,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (UTDOAInformationRequest,
 
 		error)
 	encode func(UTDOAInformationRequest,
 
-		bool, *q6.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
+// New validates value and returns a complete APER value.
 func (c UTDOAInformationRequestValueCodec) New(value UTDOAInformationRequest,
 
 ) (UTDOAInformationRequestAPERValue, error) {
 	if c.encode == nil {
-		return UTDOAInformationRequestAPERValue{}, q6.OperationError(q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue), "Value.New")
+		return UTDOAInformationRequestAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q6.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return UTDOAInformationRequestAPERValue{}, q6.OperationError(err, "Value.New")
+		return UTDOAInformationRequestAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return UTDOAInformationRequestAPERValue{}, q6.OperationError(err, "Value.New")
+		return UTDOAInformationRequestAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return UTDOAInformationRequestAPERValue{Value: value}, q6.OperationError(nil, "Value.New")
+	return UTDOAInformationRequestAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c UTDOAInformationRequestValueCodec) DecodeAPER(data []byte, options ...q6.DecodeOption) (UTDOAInformationRequestAPERValue, q6.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c UTDOAInformationRequestValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UTDOAInformationRequestAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return UTDOAInformationRequestAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return UTDOAInformationRequestAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q6.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q6.FinishDecode(settings, err)
-		return UTDOAInformationRequestAPERValue{}, report, q6.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return UTDOAInformationRequestAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return UTDOAInformationRequestAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: missing semantic capture", q6.ErrInvalidValue)
+		return UTDOAInformationRequestAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q6.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return UTDOAInformationRequestAPERValue{}, report, q6.OperationError(err, c.path)
+		return UTDOAInformationRequestAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return UTDOAInformationRequestAPERValue{Value: value, received: q6.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return UTDOAInformationRequestAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c UTDOAInformationRequestValueCodec) EncodeAPER(value UTDOAInformationRequestAPERValue, options ...q6.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c UTDOAInformationRequestValueCodec) EncodeAPER(value UTDOAInformationRequestAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q6.EncodeWithoutReplay(options...)
-	var budget q6.DecodeBudget
-	if err := q6.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q6.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q6.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q6.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q6.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q6.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 func (c UTDOAInformationRequestValueCodec) encodeBudget(value UTDOAInformationRequest,
 
-	fresh bool, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
 func (c UTDOAInformationRequestValueCodec) encodeChanged(value UTDOAInformationRequest,
 
-	fresh bool, plan q6.ReplayPlan, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // UnsuccessfulOutcomeValueCodec is the concrete ValueCodec[UnsuccessfulOutcome].
 type UnsuccessfulOutcomeValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(UnsuccessfulOutcome, q6.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(UnsuccessfulOutcome, aper.DecodeState,
 
-	) (UnsuccessfulOutcome, q6.Snapshot,
+	) (UnsuccessfulOutcome, aper.Snapshot,
 
 	)
-	compare func(UnsuccessfulOutcome, q6.Snapshot, q6.ComparisonLimits,
+	compare func(UnsuccessfulOutcome, aper.Snapshot, aper.ComparisonLimits,
 
-	) q6.ReplayPlan
-	path   q6.Path
-	decode func([]byte, q6.DecodeState) (UnsuccessfulOutcome,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (UnsuccessfulOutcome,
 
 		error)
 	encode func(UnsuccessfulOutcome,
 
-		bool, *q6.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
+// New validates value and returns a complete APER value.
 func (c UnsuccessfulOutcomeValueCodec) New(value UnsuccessfulOutcome,
 
 ) (UnsuccessfulOutcomeAPERValue, error) {
 	if c.encode == nil {
-		return UnsuccessfulOutcomeAPERValue{}, q6.OperationError(q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue), "Value.New")
+		return UnsuccessfulOutcomeAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q6.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return UnsuccessfulOutcomeAPERValue{}, q6.OperationError(err, "Value.New")
+		return UnsuccessfulOutcomeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return UnsuccessfulOutcomeAPERValue{}, q6.OperationError(err, "Value.New")
+		return UnsuccessfulOutcomeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return UnsuccessfulOutcomeAPERValue{Value: value}, q6.OperationError(nil, "Value.New")
+	return UnsuccessfulOutcomeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c UnsuccessfulOutcomeValueCodec) DecodeAPER(data []byte, options ...q6.DecodeOption) (UnsuccessfulOutcomeAPERValue, q6.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c UnsuccessfulOutcomeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UnsuccessfulOutcomeAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return UnsuccessfulOutcomeAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return UnsuccessfulOutcomeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q6.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q6.FinishDecode(settings, err)
-		return UnsuccessfulOutcomeAPERValue{}, report, q6.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return UnsuccessfulOutcomeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return UnsuccessfulOutcomeAPERValue{}, q6.DecodeReport{}, q8.Errorf("%w: missing semantic capture", q6.ErrInvalidValue)
+		return UnsuccessfulOutcomeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q6.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return UnsuccessfulOutcomeAPERValue{}, report, q6.OperationError(err, c.path)
+		return UnsuccessfulOutcomeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return UnsuccessfulOutcomeAPERValue{Value: value, received: q6.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return UnsuccessfulOutcomeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c UnsuccessfulOutcomeValueCodec) EncodeAPER(value UnsuccessfulOutcomeAPERValue, options ...q6.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c UnsuccessfulOutcomeValueCodec) EncodeAPER(value UnsuccessfulOutcomeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q8.Errorf("%w: unbound value codec", q6.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q6.EncodeWithoutReplay(options...)
-	var budget q6.DecodeBudget
-	if err := q6.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q6.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q6.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q6.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q6.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q6.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 func (c UnsuccessfulOutcomeValueCodec) encodeBudget(value UnsuccessfulOutcome,
 
-	fresh bool, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
 func (c UnsuccessfulOutcomeValueCodec) encodeChanged(value UnsuccessfulOutcome,
 
-	fresh bool, plan q6.ReplayPlan, budget q6.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q6.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func BridgeUTDOAInformationRequestIEValueValidateLPPaIEContainer(fields q7.UTDOAInformationRequestIEContainer, rows []q4.FieldInfo, path string, budget *q6.DecodeBudget,
+func BridgeUTDOAInformationRequestIEValueValidateLPPaIEContainer(fields s09.UTDOAInformationRequestIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
 
-) q7.ValidationReport {
-	report := func() q7.ValidationReport {
-		sealed := q7.ValidationReport{Complete: true}
-		*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+) s09.ValidationReport {
+	report := func() s09.ValidationReport {
+		sealed := s09.ValidationReport{Complete: true}
+		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 		return sealed
 	}()
-	bb := q6.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*q7.BridgeValidationReportFieldErr(&report) = err
+		*s09.BridgeValidationReportFieldErr(&report) = err
 		return report
 	}
-	byID := make(map[q4.ProtocolIEID]int, len(rows))
-	counts := make(map[q4.ProtocolIEID]int, len(fields))
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
 	for i, row := range rows {
 		byID[row.ID] = i
 	}
 	lastRank := -1
 	for i, field := range fields {
-		if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if *s09.BridgeValidationReportFieldErr(&report) != nil {
 			return report
 		}
 		if err := bb.ChargeWork(1); err != nil {
-			*q7.BridgeValidationReportFieldErr(&report) = err
+			*s09.BridgeValidationReportFieldErr(&report) = err
 			return report
 		}
-		location := q6.Location{Path: q6.Path(q8.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !q7.BridgeUTDOAInformationRequestIEValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := q7.BridgeUTDOAInformationRequestIEValueMethodRule(field.Value)
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.ValueIDMismatch, Severity: q4.ValidationSeverityError, Location: q6.Location{Path: q6.Path(q8.Sprintf("%s.id", location.Path))}, Table: func() q4.TableID {
-				sealed := q4.TableID{}
-				*q4.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+		if !s09.BridgeUTDOAInformationRequestIEValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s09.BridgeUTDOAInformationRequestIEValueMethodRule(field.Value)
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.ValueIDMismatch), RelatedRules: []q6.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		q6.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
 			// including repetition of unknown selectors.
 			counts, field.Id)
 		if counts[field.Id] > 1 {
-			var row q4.FieldInfo
-			related := []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.RepeatedIE)}
+			var row s00.FieldInfo
+			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.RepeatedIE, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
-			severity := q4.ValidationSeverityUnrecognized
-			if _, globallyKnown := q11.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = q4.ValidationSeverityError
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.NotAllowed), RelatedRules: q11.BridgeLppaHandlingRules(q4.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongCriticality, Severity: q4.ValidationSeverityError, Location: q6.Location{Path: q6.Path(q8.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: q11.BridgeLppaValidationRule(q4.WrongCriticality), RelatedRules: []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongOrder, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.WrongOrder), RelatedRules: []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
-		if row.Presence == q4.PresenceMandatory && counts[row.ID] == 0 {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.MissingMandatory, Severity: q4.ValidationSeverityError, Location: q6.Location{Path: q6.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.MissingMandatory), RelatedRules: []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.MissingMandatory), row.Rule}})
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
-		if row.Presence == q4.PresenceConditional {
-			q7.BridgeValidationReportMethodAddDeferred(&report, q4.DeferredCondition{Location: q6.Location{Path: q6.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if row.Presence == s00.PresenceConditional {
+			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s09.BridgeValidationReportFieldErr(&report) != nil {
 				return report
 			}
 			report.Complete = false
@@ -912,82 +952,82 @@ func BridgeUTDOAInformationRequestIEValueValidateLPPaIEContainer(fields q7.UTDOA
 // TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func BridgeUTDOAInformationFailureIEValueValidateLPPaIEContainer(fields q10.UTDOAInformationFailureIEContainer, rows []q4.FieldInfo, path string, budget *q6.DecodeBudget,
+func BridgeUTDOAInformationFailureIEValueValidateLPPaIEContainer(fields s10.UTDOAInformationFailureIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
 
-) q7.ValidationReport {
-	report := func() q7.ValidationReport {
-		sealed := q7.ValidationReport{Complete: true}
-		*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+) s09.ValidationReport {
+	report := func() s09.ValidationReport {
+		sealed := s09.ValidationReport{Complete: true}
+		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 		return sealed
 	}()
-	bb := q6.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*q7.BridgeValidationReportFieldErr(&report) = err
+		*s09.BridgeValidationReportFieldErr(&report) = err
 		return report
 	}
-	byID := make(map[q4.ProtocolIEID]int, len(rows))
-	counts := make(map[q4.ProtocolIEID]int, len(fields))
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
 	for i, row := range rows {
 		byID[row.ID] = i
 	}
 	lastRank := -1
 	for i, field := range fields {
-		if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if *s09.BridgeValidationReportFieldErr(&report) != nil {
 			return report
 		}
 		if err := bb.ChargeWork(1); err != nil {
-			*q7.BridgeValidationReportFieldErr(&report) = err
+			*s09.BridgeValidationReportFieldErr(&report) = err
 			return report
 		}
-		location := q6.Location{Path: q6.Path(q8.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !q10.BridgeUTDOAInformationFailureIEValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := q10.BridgeUTDOAInformationFailureIEValueMethodRule(field.Value)
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.ValueIDMismatch, Severity: q4.ValidationSeverityError, Location: q6.Location{Path: q6.Path(q8.Sprintf("%s.id", location.Path))}, Table: func() q4.TableID {
-				sealed := q4.TableID{}
-				*q4.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+		if !s10.BridgeUTDOAInformationFailureIEValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s10.BridgeUTDOAInformationFailureIEValueMethodRule(field.Value)
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.ValueIDMismatch), RelatedRules: []q6.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		q6.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
 			// including repetition of unknown selectors.
 			counts, field.Id)
 		if counts[field.Id] > 1 {
-			var row q4.FieldInfo
-			related := []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.RepeatedIE)}
+			var row s00.FieldInfo
+			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.RepeatedIE, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
-			severity := q4.ValidationSeverityUnrecognized
-			if _, globallyKnown := q11.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = q4.ValidationSeverityError
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.NotAllowed), RelatedRules: q11.BridgeLppaHandlingRules(q4.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongCriticality, Severity: q4.ValidationSeverityError, Location: q6.Location{Path: q6.Path(q8.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: q11.BridgeLppaValidationRule(q4.WrongCriticality), RelatedRules: []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongOrder, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.WrongOrder), RelatedRules: []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
-		if row.Presence == q4.PresenceMandatory && counts[row.ID] == 0 {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.MissingMandatory, Severity: q4.ValidationSeverityError, Location: q6.Location{Path: q6.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.MissingMandatory), RelatedRules: []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.MissingMandatory), row.Rule}})
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
-		if row.Presence == q4.PresenceConditional {
-			q7.BridgeValidationReportMethodAddDeferred(&report, q4.DeferredCondition{Location: q6.Location{Path: q6.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if row.Presence == s00.PresenceConditional {
+			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s09.BridgeValidationReportFieldErr(&report) != nil {
 				return report
 			}
 			report.Complete = false
@@ -995,17 +1035,17 @@ func BridgeUTDOAInformationFailureIEValueValidateLPPaIEContainer(fields q10.UTDO
 	}
 	return report
 }
-func BridgeTDDConfigurationExtIEsValueValidateLPPaExtensionContainer(fields q11.TDDConfigurationExtIEsExtContainer, rows []q4.FieldInfo, path string, budget *q6.DecodeBudget) q7.ValidationReport {
-	bb := q6.NewBudgetBuffer(budget)
-	if err := q6.ChargeSlice[q11.TDDConfigurationExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldErr(&sealed) = err
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+func BridgeTDDConfigurationExtIEsValueValidateLPPaExtensionContainer(fields s04.TDDConfigurationExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s09.ValidationReport {
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s04.TDDConfigurationExtIEsIEField](bb, uint64(len(fields))); err != nil {
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldErr(&sealed) = err
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
 		}()
 	}
-	asIE := make(q11.TDDConfigurationExtIEsIEContainer, len(fields))
+	asIE := make(s04.TDDConfigurationExtIEsIEContainer, len(fields))
 	for i := range fields {
 		asIE[i].Id = fields[i].Id
 		asIE[i].Criticality = fields[i].Criticality
@@ -1016,231 +1056,246 @@ func BridgeTDDConfigurationExtIEsValueValidateLPPaExtensionContainer(fields q11.
 
 // tDDConfigurationExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[TDDConfigurationExtIEsValue].
 type TDDConfigurationExtIEsValueProtocolOpenValueConstraint interface {
-	captureSemantics(q6.SemanticCapture) q12.TDDConfigurationExtIEsValue
+	captureSemantics(aper.SemanticCapture) s03.TDDConfigurationExtIEsValue
 
 	captureFraming() uint64
-	captureSnapshot() q6.Snapshot
-	compareSemantics(q6.SemanticComparison) q6.SemanticComparison
-	decode(q4.ProtocolIEID, q6.OpaqueOpenType) (q12.TDDConfigurationExtIEsValue,
+	captureSnapshot() aper.Snapshot
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s03.TDDConfigurationExtIEsValue,
 
 		error)
 	encode() ([]byte, error)
-	encodeFresh(bool, *q6.DecodeBudget) ([]byte, error)
-	matchesID(q4.ProtocolIEID, *q6.DecodeBudget) bool
-	reason(q4.ProtocolIEID) q6.OpaqueReason
-	rule() q6.SourceRule
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
 }
 
 // uTDOAInformationFailureIEValueProtocolOpenValue is the concrete protocolOpenValue[UTDOAInformationFailureIEValue].
 type UTDOAInformationFailureIEValueProtocolOpenValueConstraint interface {
-	captureSemantics(q6.SemanticCapture) q10.UTDOAInformationFailureIEValue
+	captureSemantics(aper.SemanticCapture) s10.UTDOAInformationFailureIEValue
 
 	captureFraming() uint64
-	captureSnapshot() q6.Snapshot
-	compareSemantics(q6.SemanticComparison) q6.SemanticComparison
-	decode(q4.ProtocolIEID, q6.OpaqueOpenType) (q10.UTDOAInformationFailureIEValue,
+	captureSnapshot() aper.Snapshot
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s10.UTDOAInformationFailureIEValue,
 
 		error)
 	encode() ([]byte, error)
-	encodeFresh(bool, *q6.DecodeBudget) ([]byte, error)
-	matchesID(q4.ProtocolIEID, *q6.DecodeBudget) bool
-	reason(q4.ProtocolIEID) q6.OpaqueReason
-	rule() q6.SourceRule
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
 }
 
-func BridgeUTDOAInformationFailureIEValueCaptureLPPaProtocolIEField(v *q10.UTDOAInformationFailureIEField, s *q6.SemanticCapture) {
+func BridgeUTDOAInformationFailureIEValueCaptureLPPaProtocolIEField(v *s10.UTDOAInformationFailureIEField, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	s.Stream(*q10.BridgeUTDOAInformationFailureIEFieldFieldStream(v))
-	q4.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
-	q4.BridgeCaptureLPPaCriticality(&v.Criticality, s)
-	s.OpenBytes(q10.BridgeUTDOAInformationFailureIEValueMethodCaptureFraming(v.Value))
-	v.Value = q10.BridgeUTDOAInformationFailureIEValueMethodCaptureSemantics(v.Value, *s)
-	s.Child(q10.BridgeUTDOAInformationFailureIEValueMethodCaptureSnapshot(v.Value))
-	s.End(f, q10.BridgeUTDOAInformationFailureIEFieldFieldReplay(v), *q10.BridgeUTDOAInformationFailureIEFieldFieldWithoutReplay(v))
+	s.Stream(*s10.BridgeUTDOAInformationFailureIEFieldFieldStream(v))
+	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s.OpenBytes(s10.BridgeUTDOAInformationFailureIEValueMethodCaptureFraming(v.Value))
+	v.Value = s10.BridgeUTDOAInformationFailureIEValueMethodCaptureSemantics(v.Value, *s)
+	s.Child(s10.BridgeUTDOAInformationFailureIEValueMethodCaptureSnapshot(v.Value))
+	s.End(f, s10.BridgeUTDOAInformationFailureIEFieldFieldReplay(v), *s10.BridgeUTDOAInformationFailureIEFieldFieldWithoutReplay(v))
 }
-func BridgeUTDOAInformationFailureIEValueCompareLPPaProtocolIEField(v *q10.UTDOAInformationFailureIEField, s *q6.SemanticComparison) {
+func BridgeUTDOAInformationFailureIEValueCompareLPPaProtocolIEField(v *s10.UTDOAInformationFailureIEField, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	q13.BridgeCompareLPPaProtocolIEID(&v.Id, s)
-	q13.BridgeCompareLPPaCriticality(&v.Criticality, s)
+	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
 
-	*s = q10.BridgeUTDOAInformationFailureIEValueMethodCompareSemantics(v.Value, *s)
-	s.End(f, *q10.BridgeUTDOAInformationFailureIEFieldFieldReplay(v), *q10.BridgeUTDOAInformationFailureIEFieldFieldWithoutReplay(v))
+	*s = s10.BridgeUTDOAInformationFailureIEValueMethodCompareSemantics(v.Value, *s)
+	s.End(f, *s10.BridgeUTDOAInformationFailureIEFieldFieldReplay(v), *s10.BridgeUTDOAInformationFailureIEFieldFieldWithoutReplay(v))
 }
 
 // uTDOAInformationRequestIEValueProtocolOpenValue is the concrete protocolOpenValue[UTDOAInformationRequestIEValue].
 type UTDOAInformationRequestIEValueProtocolOpenValueConstraint interface {
-	captureSemantics(q6.SemanticCapture) q7.UTDOAInformationRequestIEValue
+	captureSemantics(aper.SemanticCapture) s09.UTDOAInformationRequestIEValue
 
 	captureFraming() uint64
-	captureSnapshot() q6.Snapshot
-	compareSemantics(q6.SemanticComparison) q6.SemanticComparison
-	decode(q4.ProtocolIEID, q6.OpaqueOpenType) (q7.UTDOAInformationRequestIEValue,
+	captureSnapshot() aper.Snapshot
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s09.UTDOAInformationRequestIEValue,
 
 		error)
 	encode() ([]byte, error)
-	encodeFresh(bool, *q6.DecodeBudget) ([]byte, error)
-	matchesID(q4.ProtocolIEID, *q6.DecodeBudget) bool
-	reason(q4.ProtocolIEID) q6.OpaqueReason
-	rule() q6.SourceRule
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
 }
 
-func BridgeUTDOAInformationRequestIEValueCaptureLPPaProtocolIEField(v *q7.UTDOAInformationRequestIEField, s *q6.SemanticCapture) {
+func BridgeUTDOAInformationRequestIEValueCaptureLPPaProtocolIEField(v *s09.UTDOAInformationRequestIEField, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	s.Stream(*q7.BridgeUTDOAInformationRequestIEFieldFieldStream(v))
-	q4.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
-	q4.BridgeCaptureLPPaCriticality(&v.Criticality, s)
-	s.OpenBytes(q7.BridgeUTDOAInformationRequestIEValueMethodCaptureFraming(v.Value))
-	v.Value = q7.BridgeUTDOAInformationRequestIEValueMethodCaptureSemantics(v.Value, *s)
-	s.Child(q7.BridgeUTDOAInformationRequestIEValueMethodCaptureSnapshot(v.Value))
-	s.End(f, q7.BridgeUTDOAInformationRequestIEFieldFieldReplay(v), *q7.BridgeUTDOAInformationRequestIEFieldFieldWithoutReplay(v))
+	s.Stream(*s09.BridgeUTDOAInformationRequestIEFieldFieldStream(v))
+	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s.OpenBytes(s09.BridgeUTDOAInformationRequestIEValueMethodCaptureFraming(v.Value))
+	v.Value = s09.BridgeUTDOAInformationRequestIEValueMethodCaptureSemantics(v.Value, *s)
+	s.Child(s09.BridgeUTDOAInformationRequestIEValueMethodCaptureSnapshot(v.Value))
+	s.End(f, s09.BridgeUTDOAInformationRequestIEFieldFieldReplay(v), *s09.BridgeUTDOAInformationRequestIEFieldFieldWithoutReplay(v))
 }
-func BridgeUTDOAInformationRequestIEValueCompareLPPaProtocolIEField(v *q7.UTDOAInformationRequestIEField, s *q6.SemanticComparison) {
+func BridgeUTDOAInformationRequestIEValueCompareLPPaProtocolIEField(v *s09.UTDOAInformationRequestIEField, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	q13.BridgeCompareLPPaProtocolIEID(&v.Id, s)
-	q13.BridgeCompareLPPaCriticality(&v.Criticality, s)
+	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
 
-	*s = q7.BridgeUTDOAInformationRequestIEValueMethodCompareSemantics(v.Value, *s)
-	s.End(f, *q7.BridgeUTDOAInformationRequestIEFieldFieldReplay(v), *q7.BridgeUTDOAInformationRequestIEFieldFieldWithoutReplay(v))
+	*s = s09.BridgeUTDOAInformationRequestIEValueMethodCompareSemantics(v.Value, *s)
+	s.End(f, *s09.BridgeUTDOAInformationRequestIEFieldFieldReplay(v), *s09.BridgeUTDOAInformationRequestIEFieldFieldWithoutReplay(v))
 }
-func BridgeUTDOAInformationResponseIEValueCaptureLPPaProtocolIEField(v *q10.UTDOAInformationResponseIEField, s *q6.SemanticCapture) {
+func BridgeUTDOAInformationResponseIEValueCaptureLPPaProtocolIEField(v *s10.UTDOAInformationResponseIEField, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	s.Stream(*q10.BridgeUTDOAInformationResponseIEFieldFieldStream(v))
-	q4.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
-	q4.BridgeCaptureLPPaCriticality(&v.Criticality, s)
-	s.OpenBytes(q10.BridgeUTDOAInformationResponseIEValueMethodCaptureFraming(v.Value))
-	v.Value = q10.BridgeUTDOAInformationResponseIEValueMethodCaptureSemantics(v.Value, *s)
-	s.Child(q10.BridgeUTDOAInformationResponseIEValueMethodCaptureSnapshot(v.Value))
-	s.End(f, q10.BridgeUTDOAInformationResponseIEFieldFieldReplay(v), *q10.BridgeUTDOAInformationResponseIEFieldFieldWithoutReplay(v))
+	s.Stream(*s10.BridgeUTDOAInformationResponseIEFieldFieldStream(v))
+	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s.OpenBytes(s10.BridgeUTDOAInformationResponseIEValueMethodCaptureFraming(v.Value))
+	v.Value = s10.BridgeUTDOAInformationResponseIEValueMethodCaptureSemantics(v.Value, *s)
+	s.Child(s10.BridgeUTDOAInformationResponseIEValueMethodCaptureSnapshot(v.Value))
+	s.End(f, s10.BridgeUTDOAInformationResponseIEFieldFieldReplay(v), *s10.BridgeUTDOAInformationResponseIEFieldFieldWithoutReplay(v))
 }
-func BridgeUTDOAInformationResponseIEValueCompareLPPaProtocolIEField(v *q10.UTDOAInformationResponseIEField, s *q6.SemanticComparison) {
+func BridgeUTDOAInformationResponseIEValueCompareLPPaProtocolIEField(v *s10.UTDOAInformationResponseIEField, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	q13.BridgeCompareLPPaProtocolIEID(&v.Id, s)
-	q13.BridgeCompareLPPaCriticality(&v.Criticality, s)
+	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
 
-	*s = q10.BridgeUTDOAInformationResponseIEValueMethodCompareSemantics(v.Value, *s)
-	s.End(f, *q10.BridgeUTDOAInformationResponseIEFieldFieldReplay(v), *q10.BridgeUTDOAInformationResponseIEFieldFieldWithoutReplay(v))
+	*s = s10.BridgeUTDOAInformationResponseIEValueMethodCompareSemantics(v.Value, *s)
+	s.End(f, *s10.BridgeUTDOAInformationResponseIEFieldFieldReplay(v), *s10.BridgeUTDOAInformationResponseIEFieldFieldWithoutReplay(v))
 }
 
 // OTDOACellsAPERValue is the concrete APERValue[OTDOACells].
 type OTDOACellsAPERValue struct {
-	context q4.BridgeCodecContext
+	context s00.BridgeCodecContext
 	Value   OTDOACells
 
-	received      q6.WireSpan
-	replay        q6.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v OTDOACellsAPERValue) ReceivedForm() q6.ReceivedForm {
-	return q6.NewReceivedSpanForm(v.received.Present(), v.received, q6.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v OTDOACellsAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v OTDOACellsAPERValue) WithoutReplay() OTDOACellsAPERValue {
-	v.received = q6.WireSpan{}
-	v.replay = q6.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // OTDOACellsElemAPERValue is the concrete APERValue[OTDOACellsElem].
 type OTDOACellsElemAPERValue struct {
-	context q4.BridgeCodecContext
+	context s00.BridgeCodecContext
 	Value   OTDOACellsElem
 
-	received      q6.WireSpan
-	replay        q6.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v OTDOACellsElemAPERValue) ReceivedForm() q6.ReceivedForm {
-	return q6.NewReceivedSpanForm(v.received.Present(), v.received, q6.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v OTDOACellsElemAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v OTDOACellsElemAPERValue) WithoutReplay() OTDOACellsElemAPERValue {
-	v.received = q6.WireSpan{}
-	v.replay = q6.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // UTDOAInformationFailureAPERValue is the concrete APERValue[UTDOAInformationFailure].
 type UTDOAInformationFailureAPERValue struct {
-	context q4.BridgeCodecContext
+	context s00.BridgeCodecContext
 	Value   UTDOAInformationFailure
 
-	received      q6.WireSpan
-	replay        q6.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v UTDOAInformationFailureAPERValue) ReceivedForm() q6.ReceivedForm {
-	return q6.NewReceivedSpanForm(v.received.Present(), v.received, q6.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v UTDOAInformationFailureAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v UTDOAInformationFailureAPERValue) WithoutReplay() UTDOAInformationFailureAPERValue {
-	v.received = q6.WireSpan{}
-	v.replay = q6.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // UTDOAInformationRequestAPERValue is the concrete APERValue[UTDOAInformationRequest].
 type UTDOAInformationRequestAPERValue struct {
-	context q4.BridgeCodecContext
+	context s00.BridgeCodecContext
 	Value   UTDOAInformationRequest
 
-	received      q6.WireSpan
-	replay        q6.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v UTDOAInformationRequestAPERValue) ReceivedForm() q6.ReceivedForm {
-	return q6.NewReceivedSpanForm(v.received.Present(), v.received, q6.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v UTDOAInformationRequestAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v UTDOAInformationRequestAPERValue) WithoutReplay() UTDOAInformationRequestAPERValue {
-	v.received = q6.WireSpan{}
-	v.replay = q6.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // UnsuccessfulOutcomeAPERValue is the concrete APERValue[UnsuccessfulOutcome].
 type UnsuccessfulOutcomeAPERValue struct {
-	context q4.BridgeCodecContext
+	context s00.BridgeCodecContext
 	Value   UnsuccessfulOutcome
 
-	received      q6.WireSpan
-	replay        q6.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v UnsuccessfulOutcomeAPERValue) ReceivedForm() q6.ReceivedForm {
-	return q6.NewReceivedSpanForm(v.received.Present(), v.received, q6.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v UnsuccessfulOutcomeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v UnsuccessfulOutcomeAPERValue) WithoutReplay() UnsuccessfulOutcomeAPERValue {
-	v.received = q6.WireSpan{}
-	v.replay = q6.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
@@ -1248,82 +1303,82 @@ func (v UnsuccessfulOutcomeAPERValue) WithoutReplay() UnsuccessfulOutcomeAPERVal
 // TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func BridgeTDDConfigurationExtIEsValueValidateLPPaIEContainer(fields q11.TDDConfigurationExtIEsIEContainer, rows []q4.FieldInfo, path string, budget *q6.DecodeBudget,
+func BridgeTDDConfigurationExtIEsValueValidateLPPaIEContainer(fields s04.TDDConfigurationExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
 
-) q7.ValidationReport {
-	report := func() q7.ValidationReport {
-		sealed := q7.ValidationReport{Complete: true}
-		*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+) s09.ValidationReport {
+	report := func() s09.ValidationReport {
+		sealed := s09.ValidationReport{Complete: true}
+		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 		return sealed
 	}()
-	bb := q6.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*q7.BridgeValidationReportFieldErr(&report) = err
+		*s09.BridgeValidationReportFieldErr(&report) = err
 		return report
 	}
-	byID := make(map[q4.ProtocolIEID]int, len(rows))
-	counts := make(map[q4.ProtocolIEID]int, len(fields))
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
 	for i, row := range rows {
 		byID[row.ID] = i
 	}
 	lastRank := -1
 	for i, field := range fields {
-		if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if *s09.BridgeValidationReportFieldErr(&report) != nil {
 			return report
 		}
 		if err := bb.ChargeWork(1); err != nil {
-			*q7.BridgeValidationReportFieldErr(&report) = err
+			*s09.BridgeValidationReportFieldErr(&report) = err
 			return report
 		}
-		location := q6.Location{Path: q6.Path(q8.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !q12.BridgeTDDConfigurationExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := q12.BridgeTDDConfigurationExtIEsValueMethodRule(field.Value)
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.ValueIDMismatch, Severity: q4.ValidationSeverityError, Location: q6.Location{Path: q6.Path(q8.Sprintf("%s.id", location.Path))}, Table: func() q4.TableID {
-				sealed := q4.TableID{}
-				*q4.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+		if !s03.BridgeTDDConfigurationExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s03.BridgeTDDConfigurationExtIEsValueMethodRule(field.Value)
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.ValueIDMismatch), RelatedRules: []q6.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		q6.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
 			// including repetition of unknown selectors.
 			counts, field.Id)
 		if counts[field.Id] > 1 {
-			var row q4.FieldInfo
-			related := []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.RepeatedIE)}
+			var row s00.FieldInfo
+			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.RepeatedIE, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
-			severity := q4.ValidationSeverityUnrecognized
-			if _, globallyKnown := q11.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = q4.ValidationSeverityError
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.NotAllowed), RelatedRules: q11.BridgeLppaHandlingRules(q4.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongCriticality, Severity: q4.ValidationSeverityError, Location: q6.Location{Path: q6.Path(q8.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: q11.BridgeLppaValidationRule(q4.WrongCriticality), RelatedRules: []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongOrder, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.WrongOrder), RelatedRules: []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
-		if row.Presence == q4.PresenceMandatory && counts[row.ID] == 0 {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.MissingMandatory, Severity: q4.ValidationSeverityError, Location: q6.Location{Path: q6.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: q11.BridgeLppaValidationRule(q4.MissingMandatory), RelatedRules: []q6.SourceRule{q11.BridgeLppaAdoptedRule(q4.MissingMandatory), row.Rule}})
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
-		if row.Presence == q4.PresenceConditional {
-			q7.BridgeValidationReportMethodAddDeferred(&report, q4.DeferredCondition{Location: q6.Location{Path: q6.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if row.Presence == s00.PresenceConditional {
+			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s09.BridgeValidationReportFieldErr(&report) != nil {
 				return report
 			}
 			report.Complete = false
@@ -1335,303 +1390,303 @@ func BridgeTDDConfigurationExtIEsValueValidateLPPaIEContainer(fields q11.TDDConf
 type OTDOACells = []OTDOACellsElem
 
 // NewOTDOACellInformationItemPCI creates a OTDOACellInformationItem with the pCI alternative.
-func BridgeNewOTDOACellInformationItemPCILegacy(v q4.PCI) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice: q4.OTDOACellInformationItemChoicePCI,
+func BridgeNewOTDOACellInformationItemPCILegacy(v s00.PCI) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice: s00.OTDOACellInformationItemChoicePCI,
 		PCI:    v,
 	}
 }
 
 // NewOTDOACellInformationItemCellId creates a OTDOACellInformationItem with the cellId alternative.
-func BridgeNewOTDOACellInformationItemCellIdLegacy(v q15.ECGI) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice: q4.OTDOACellInformationItemChoiceCellId,
+func BridgeNewOTDOACellInformationItemCellIdLegacy(v s05.ECGI) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice: s00.OTDOACellInformationItemChoiceCellId,
 		CellId: &v,
 	}
 }
 
 // NewOTDOACellInformationItemTAC creates a OTDOACellInformationItem with the tAC alternative.
-func BridgeNewOTDOACellInformationItemTACLegacy(v q4.TAC) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice: q4.OTDOACellInformationItemChoiceTAC,
+func BridgeNewOTDOACellInformationItemTACLegacy(v s00.TAC) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice: s00.OTDOACellInformationItemChoiceTAC,
 		TAC:    &v,
 	}
 }
 
 // NewOTDOACellInformationItemEARFCN creates a OTDOACellInformationItem with the eARFCN alternative.
-func BridgeNewOTDOACellInformationItemEARFCNLegacy(v q4.EARFCN) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice: q4.OTDOACellInformationItemChoiceEARFCN,
+func BridgeNewOTDOACellInformationItemEARFCNLegacy(v s00.EARFCN) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice: s00.OTDOACellInformationItemChoiceEARFCN,
 		EARFCN: v,
 	}
 }
 
 // NewOTDOACellInformationItemPRSBandwidth creates a OTDOACellInformationItem with the pRS-Bandwidth alternative.
-func BridgeNewOTDOACellInformationItemPRSBandwidthLegacy(v q4.PRSBandwidth) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:       q4.OTDOACellInformationItemChoicePRSBandwidth,
+func BridgeNewOTDOACellInformationItemPRSBandwidthLegacy(v s00.PRSBandwidth) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:       s00.OTDOACellInformationItemChoicePRSBandwidth,
 		PRSBandwidth: &v,
 	}
 }
 
 // NewOTDOACellInformationItemPRSConfigurationIndex creates a OTDOACellInformationItem with the pRS-ConfigurationIndex alternative.
-func BridgeNewOTDOACellInformationItemPRSConfigurationIndexLegacy(v q4.PRSConfigurationIndex) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:                q4.OTDOACellInformationItemChoicePRSConfigurationIndex,
+func BridgeNewOTDOACellInformationItemPRSConfigurationIndexLegacy(v s00.PRSConfigurationIndex) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:                s00.OTDOACellInformationItemChoicePRSConfigurationIndex,
 		PRSConfigurationIndex: v,
 	}
 }
 
 // NewOTDOACellInformationItemCPLength creates a OTDOACellInformationItem with the cPLength alternative.
-func BridgeNewOTDOACellInformationItemCPLengthLegacy(v q4.CPLength) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:   q4.OTDOACellInformationItemChoiceCPLength,
+func BridgeNewOTDOACellInformationItemCPLengthLegacy(v s00.CPLength) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:   s00.OTDOACellInformationItemChoiceCPLength,
 		CPLength: &v,
 	}
 }
 
 // NewOTDOACellInformationItemNumberOfDlFrames creates a OTDOACellInformationItem with the numberOfDlFrames alternative.
-func BridgeNewOTDOACellInformationItemNumberOfDlFramesLegacy(v q4.NumberOfDlFrames) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:           q4.OTDOACellInformationItemChoiceNumberOfDlFrames,
+func BridgeNewOTDOACellInformationItemNumberOfDlFramesLegacy(v s00.NumberOfDlFrames) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:           s00.OTDOACellInformationItemChoiceNumberOfDlFrames,
 		NumberOfDlFrames: &v,
 	}
 }
 
 // NewOTDOACellInformationItemNumberOfAntennaPorts creates a OTDOACellInformationItem with the numberOfAntennaPorts alternative.
-func BridgeNewOTDOACellInformationItemNumberOfAntennaPortsLegacy(v q4.NumberOfAntennaPorts) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:               q4.OTDOACellInformationItemChoiceNumberOfAntennaPorts,
+func BridgeNewOTDOACellInformationItemNumberOfAntennaPortsLegacy(v s00.NumberOfAntennaPorts) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:               s00.OTDOACellInformationItemChoiceNumberOfAntennaPorts,
 		NumberOfAntennaPorts: &v,
 	}
 }
 
 // NewOTDOACellInformationItemSFNInitialisationTime creates a OTDOACellInformationItem with the sFNInitialisationTime alternative.
-func BridgeNewOTDOACellInformationItemSFNInitialisationTimeLegacy(v q4.SFNInitialisationTime) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:                q4.OTDOACellInformationItemChoiceSFNInitialisationTime,
+func BridgeNewOTDOACellInformationItemSFNInitialisationTimeLegacy(v s00.SFNInitialisationTime) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:                s00.OTDOACellInformationItemChoiceSFNInitialisationTime,
 		SFNInitialisationTime: &v,
 	}
 }
 
 // NewOTDOACellInformationItemEUTRANAccessPointPosition creates a OTDOACellInformationItem with the e-UTRANAccessPointPosition alternative.
-func BridgeNewOTDOACellInformationItemEUTRANAccessPointPositionLegacy(v q16.EUTRANAccessPointPosition) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:                    q4.OTDOACellInformationItemChoiceEUTRANAccessPointPosition,
+func BridgeNewOTDOACellInformationItemEUTRANAccessPointPositionLegacy(v s06.EUTRANAccessPointPosition) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:                    s00.OTDOACellInformationItemChoiceEUTRANAccessPointPosition,
 		EUTRANAccessPointPosition: &v,
 	}
 }
 
 // NewOTDOACellInformationItemPRSMutingConfiguration creates a OTDOACellInformationItem with the pRSMutingConfiguration alternative.
-func BridgeNewOTDOACellInformationItemPRSMutingConfigurationLegacy(v q17.PRSMutingConfiguration) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:                 q4.OTDOACellInformationItemChoicePRSMutingConfiguration,
+func BridgeNewOTDOACellInformationItemPRSMutingConfigurationLegacy(v s08.PRSMutingConfiguration) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:                 s00.OTDOACellInformationItemChoicePRSMutingConfiguration,
 		PRSMutingConfiguration: &v,
 	}
 }
 
 // NewOTDOACellInformationItemPrsid creates a OTDOACellInformationItem with the prsid alternative.
-func BridgeNewOTDOACellInformationItemPrsidLegacy(v q4.PRSID) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice: q4.OTDOACellInformationItemChoicePrsid,
+func BridgeNewOTDOACellInformationItemPrsidLegacy(v s00.PRSID) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice: s00.OTDOACellInformationItemChoicePrsid,
 		Prsid:  v,
 	}
 }
 
 // NewOTDOACellInformationItemTpid creates a OTDOACellInformationItem with the tpid alternative.
-func BridgeNewOTDOACellInformationItemTpidLegacy(v q4.TPID) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice: q4.OTDOACellInformationItemChoiceTpid,
+func BridgeNewOTDOACellInformationItemTpidLegacy(v s00.TPID) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice: s00.OTDOACellInformationItemChoiceTpid,
 		Tpid:   v,
 	}
 }
 
 // NewOTDOACellInformationItemTpType creates a OTDOACellInformationItem with the tpType alternative.
-func BridgeNewOTDOACellInformationItemTpTypeLegacy(v q4.TPType) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice: q4.OTDOACellInformationItemChoiceTpType,
+func BridgeNewOTDOACellInformationItemTpTypeLegacy(v s00.TPType) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice: s00.OTDOACellInformationItemChoiceTpType,
 		TpType: &v,
 	}
 }
 
 // NewOTDOACellInformationItemNumberOfDlFramesExtended creates a OTDOACellInformationItem with the numberOfDlFrames-Extended alternative.
-func BridgeNewOTDOACellInformationItemNumberOfDlFramesExtendedLegacy(v q4.NumberOfDlFramesExtended) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:                   q4.OTDOACellInformationItemChoiceNumberOfDlFramesExtended,
+func BridgeNewOTDOACellInformationItemNumberOfDlFramesExtendedLegacy(v s00.NumberOfDlFramesExtended) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:                   s00.OTDOACellInformationItemChoiceNumberOfDlFramesExtended,
 		NumberOfDlFramesExtended: v,
 	}
 }
 
 // NewOTDOACellInformationItemCrsCPlength creates a OTDOACellInformationItem with the crsCPlength alternative.
-func BridgeNewOTDOACellInformationItemCrsCPlengthLegacy(v q4.CPLength) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:      q4.OTDOACellInformationItemChoiceCrsCPlength,
+func BridgeNewOTDOACellInformationItemCrsCPlengthLegacy(v s00.CPLength) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:      s00.OTDOACellInformationItemChoiceCrsCPlength,
 		CrsCPlength: &v,
 	}
 }
 
 // NewOTDOACellInformationItemMBSFNsubframeConfiguration creates a OTDOACellInformationItem with the mBSFNsubframeConfiguration alternative.
-func BridgeNewOTDOACellInformationItemMBSFNsubframeConfigurationLegacy(v q7.MBSFNsubframeConfiguration) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:                     q4.OTDOACellInformationItemChoiceMBSFNsubframeConfiguration,
+func BridgeNewOTDOACellInformationItemMBSFNsubframeConfigurationLegacy(v s09.MBSFNsubframeConfiguration) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:                     s00.OTDOACellInformationItemChoiceMBSFNsubframeConfiguration,
 		MBSFNsubframeConfiguration: v,
 	}
 }
 
 // NewOTDOACellInformationItemNPRSConfiguration creates a OTDOACellInformationItem with the nPRSConfiguration alternative.
-func BridgeNewOTDOACellInformationItemNPRSConfigurationLegacy(v q18.NPRSConfiguration) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:            q4.OTDOACellInformationItemChoiceNPRSConfiguration,
+func BridgeNewOTDOACellInformationItemNPRSConfigurationLegacy(v s07.NPRSConfiguration) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:            s00.OTDOACellInformationItemChoiceNPRSConfiguration,
 		NPRSConfiguration: &v,
 	}
 }
 
 // NewOTDOACellInformationItemOffsetNBChanneltoEARFCN creates a OTDOACellInformationItem with the offsetNBChanneltoEARFCN alternative.
-func BridgeNewOTDOACellInformationItemOffsetNBChanneltoEARFCNLegacy(v q4.OffsetNBChanneltoEARFCN) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:                  q4.OTDOACellInformationItemChoiceOffsetNBChanneltoEARFCN,
+func BridgeNewOTDOACellInformationItemOffsetNBChanneltoEARFCNLegacy(v s00.OffsetNBChanneltoEARFCN) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:                  s00.OTDOACellInformationItemChoiceOffsetNBChanneltoEARFCN,
 		OffsetNBChanneltoEARFCN: &v,
 	}
 }
 
 // NewOTDOACellInformationItemOperationModeInfo creates a OTDOACellInformationItem with the operationModeInfo alternative.
-func BridgeNewOTDOACellInformationItemOperationModeInfoLegacy(v q4.OperationModeInfo) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:            q4.OTDOACellInformationItemChoiceOperationModeInfo,
+func BridgeNewOTDOACellInformationItemOperationModeInfoLegacy(v s00.OperationModeInfo) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:            s00.OTDOACellInformationItemChoiceOperationModeInfo,
 		OperationModeInfo: &v,
 	}
 }
 
 // NewOTDOACellInformationItemNPRSID creates a OTDOACellInformationItem with the nPRS-ID alternative.
-func BridgeNewOTDOACellInformationItemNPRSIDLegacy(v *q19.Int) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice: q4.OTDOACellInformationItemChoiceNPRSID,
+func BridgeNewOTDOACellInformationItemNPRSIDLegacy(v *big.Int) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice: s00.OTDOACellInformationItemChoiceNPRSID,
 		NPRSID: v,
 	}
 }
 
 // NewOTDOACellInformationItemDLBandwidth creates a OTDOACellInformationItem with the dL-Bandwidth alternative.
-func BridgeNewOTDOACellInformationItemDLBandwidthLegacy(v q4.DLBandwidth) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:      q4.OTDOACellInformationItemChoiceDLBandwidth,
+func BridgeNewOTDOACellInformationItemDLBandwidthLegacy(v s00.DLBandwidth) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:      s00.OTDOACellInformationItemChoiceDLBandwidth,
 		DLBandwidth: &v,
 	}
 }
 
 // NewOTDOACellInformationItemPRSOccasionGroup creates a OTDOACellInformationItem with the pRSOccasionGroup alternative.
-func BridgeNewOTDOACellInformationItemPRSOccasionGroupLegacy(v q4.PRSOccasionGroup) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:           q4.OTDOACellInformationItemChoicePRSOccasionGroup,
+func BridgeNewOTDOACellInformationItemPRSOccasionGroupLegacy(v s00.PRSOccasionGroup) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:           s00.OTDOACellInformationItemChoicePRSOccasionGroup,
 		PRSOccasionGroup: &v,
 	}
 }
 
 // NewOTDOACellInformationItemPRSFreqHoppingConfig creates a OTDOACellInformationItem with the pRSFreqHoppingConfig alternative.
-func BridgeNewOTDOACellInformationItemPRSFreqHoppingConfigLegacy(v q17.PRSFrequencyHoppingConfiguration) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:               q4.OTDOACellInformationItemChoicePRSFreqHoppingConfig,
+func BridgeNewOTDOACellInformationItemPRSFreqHoppingConfigLegacy(v s08.PRSFrequencyHoppingConfiguration) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:               s00.OTDOACellInformationItemChoicePRSFreqHoppingConfig,
 		PRSFreqHoppingConfig: &v,
 	}
 }
 
 // NewOTDOACellInformationItemRepetitionNumberofSIB1NB creates a OTDOACellInformationItem with the repetitionNumberofSIB1-NB alternative.
-func BridgeNewOTDOACellInformationItemRepetitionNumberofSIB1NBLegacy(v q4.RepetitionNumberofSIB1NB) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:                   q4.OTDOACellInformationItemChoiceRepetitionNumberofSIB1NB,
+func BridgeNewOTDOACellInformationItemRepetitionNumberofSIB1NBLegacy(v s00.RepetitionNumberofSIB1NB) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:                   s00.OTDOACellInformationItemChoiceRepetitionNumberofSIB1NB,
 		RepetitionNumberofSIB1NB: &v,
 	}
 }
 
 // NewOTDOACellInformationItemNPRSSequenceInfo creates a OTDOACellInformationItem with the nPRSSequenceInfo alternative.
-func BridgeNewOTDOACellInformationItemNPRSSequenceInfoLegacy(v q4.NPRSSequenceInfo) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:           q4.OTDOACellInformationItemChoiceNPRSSequenceInfo,
+func BridgeNewOTDOACellInformationItemNPRSSequenceInfoLegacy(v s00.NPRSSequenceInfo) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:           s00.OTDOACellInformationItemChoiceNPRSSequenceInfo,
 		NPRSSequenceInfo: v,
 	}
 }
 
 // NewOTDOACellInformationItemNPRSType2 creates a OTDOACellInformationItem with the nPRSType2 alternative.
-func BridgeNewOTDOACellInformationItemNPRSType2Legacy(v q18.NPRSConfiguration) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:    q4.OTDOACellInformationItemChoiceNPRSType2,
+func BridgeNewOTDOACellInformationItemNPRSType2Legacy(v s07.NPRSConfiguration) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:    s00.OTDOACellInformationItemChoiceNPRSType2,
 		NPRSType2: &v,
 	}
 }
 
 // NewOTDOACellInformationItemTddConfiguration creates a OTDOACellInformationItem with the tddConfiguration alternative.
-func BridgeNewOTDOACellInformationItemTddConfigurationLegacy(v q14.TDDConfiguration) q14.OTDOACellInformationItem {
-	return q14.OTDOACellInformationItem{
-		Choice:           q4.OTDOACellInformationItemChoiceTddConfiguration,
+func BridgeNewOTDOACellInformationItemTddConfigurationLegacy(v s15.TDDConfiguration) s15.OTDOACellInformationItem {
+	return s15.OTDOACellInformationItem{
+		Choice:           s00.OTDOACellInformationItemChoiceTddConfiguration,
 		TddConfiguration: &v,
 	}
 }
 
 // OTDOACellsElem represents the ASN.1 type OTDOACells-Elem (SEQUENCE).
 type OTDOACellsElem struct {
-	replay             q6.Snapshot
-	stream             q6.WireSpan
+	replay             aper.Snapshot
+	stream             aper.WireSpan
 	withoutReplay      bool
 	received           bool
-	receivedBytes      q6.WireSpan
-	OTDOACellInfo      q14.OTDOACellInformation         `asn1:"tag:0,context,implicit"`
+	receivedBytes      aper.WireSpan
+	OTDOACellInfo      s15.OTDOACellInformation         `asn1:"tag:0,context,implicit"`
 	oTDOACellInfoIndef bool                             `asn1:"-" json:"-"`
-	IEExtensions       q11.OTDOACellsExtIEsExtContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitzero"`
+	IEExtensions       s04.OTDOACellsExtIEsExtContainer `asn1:"tag:1,context,implicit,optional" json:"IEExtensions,omitzero"`
 	iEExtensionsIndef  bool                             `asn1:"-" json:"-"`
 	extCount           int64                            `asn1:"-" json:"-"`
 	extPresent         []bool                           `asn1:"-" json:"-"`
 	extData            [][]byte                         `asn1:"-" json:"-"`
-	perPadding         q6.FinalPadding                  `asn1:"-" json:"-"`
-	perExtPadding      []q6.CompletePadding             `asn1:"-" json:"-"`
-	extOrigin          []q6.OpaqueOrigin
-	extWire            []q6.WireSpan
+	perPadding         aper.FinalPadding                `asn1:"-" json:"-"`
+	perExtPadding      []aper.CompletePadding           `asn1:"-" json:"-"`
+	extOrigin          []aper.OpaqueOrigin
+	extWire            []aper.WireSpan
 }
 
 // MarshalAPERAddOTDOACellsTo appends a AddOTDOACells list to bb.
-func BridgeMarshalAPERAddOTDOACellsTo(list q14.AddOTDOACells, bb *q6.BitBuffer, fresh ...bool) error {
+func BridgeMarshalAPERAddOTDOACellsTo(list s15.AddOTDOACells, bb *aper.BitBuffer, fresh ...bool) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 
-	v := q14.BridgeAsn1cAPERAddOTDOACellsListValue{Value: list}
-	if err := q6.EncodeCollection(bb, int64(len(v.Value)), q6.SizeConstraint{Lower: 1, HasLower: true, Upper: 3840, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	v := s15.BridgeAsn1cAPERAddOTDOACellsListValue{Value: list}
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 3840, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
-			return q8.Errorf("collection fragment outside value")
+			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
-			if err := q14.BridgeAddOTDOACellsElemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
-				return q8.Errorf("encoding value element: %w", err)
+			if err := s15.BridgeAddOTDOACellsElemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
 			}
 		}
 		return nil
 	}); err != nil {
-		return q8.Errorf("encoding value: %w", err)
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
 
 // MarshalAPERAddOTDOACellInformationTo appends a AddOTDOACellInformation list to bb.
-func BridgeMarshalAPERAddOTDOACellInformationTo(list q14.AddOTDOACellInformation, bb *q6.BitBuffer, fresh ...bool) error {
+func BridgeMarshalAPERAddOTDOACellInformationTo(list s15.AddOTDOACellInformation, bb *aper.BitBuffer, fresh ...bool) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 
-	v := q14.BridgeAsn1cAPERAddOTDOACellInformationListValue{Value: list}
-	if err := q6.EncodeCollection(bb, int64(len(v.Value)), q6.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	v := s15.BridgeAsn1cAPERAddOTDOACellInformationListValue{Value: list}
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
-			return q8.Errorf("collection fragment outside value")
+			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
-			if err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
-				return q8.Errorf("encoding value element: %w", err)
+			if err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
 			}
 		}
 		return nil
 	}); err != nil {
-		return q8.Errorf("encoding value: %w", err)
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
@@ -1639,64 +1694,64 @@ func BridgeMarshalAPERAddOTDOACellInformationTo(list q14.AddOTDOACellInformation
 type BridgeAsn1cAPEROTDOACellsListValue struct{ Value OTDOACells }
 
 // MarshalAPEROTDOACellsTo appends a OTDOACells list to bb.
-func BridgeMarshalAPEROTDOACellsTo(list OTDOACells, bb *q6.BitBuffer, fresh ...bool) error {
+func BridgeMarshalAPEROTDOACellsTo(list OTDOACells, bb *aper.BitBuffer, fresh ...bool) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 
 	v := BridgeAsn1cAPEROTDOACellsListValue{Value: list}
-	if err := q6.EncodeCollection(bb, int64(len(v.Value)), q6.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
-			return q8.Errorf("collection fragment outside value")
+			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
 			if err := elem.marshalAPERTo(bb, len(fresh) != 0 && fresh[0]); err != nil {
-				return q8.Errorf("encoding value element: %w", err)
+				return fmt.Errorf("encoding value element: %w", err)
 			}
 		}
 		return nil
 	}); err != nil {
-		return q8.Errorf("encoding value: %w", err)
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
 
 // MarshalAPEROTDOACellInformationTo appends a OTDOACellInformation list to bb.
-func BridgeMarshalAPEROTDOACellInformationTo(list q14.OTDOACellInformation, bb *q6.BitBuffer, fresh ...bool) error {
+func BridgeMarshalAPEROTDOACellInformationTo(list s15.OTDOACellInformation, bb *aper.BitBuffer, fresh ...bool) error {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 
-	v := q14.BridgeAsn1cAPEROTDOACellInformationListValue{Value: list}
-	if err := q6.EncodeCollection(bb, int64(len(v.Value)), q6.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+	v := s15.BridgeAsn1cAPEROTDOACellInformationListValue{Value: list}
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
-			return q8.Errorf("collection fragment outside value")
+			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
-			if err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
-				return q8.Errorf("encoding value element: %w", err)
+			if err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
 			}
 		}
 		return nil
 	}); err != nil {
-		return q8.Errorf("encoding value: %w", err)
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
 
 // MarshalAPER encodes OTDOACellsElem to APER format.
 func (v *OTDOACellsElem) marshalAPERLegacy() ([]byte, error) {
-	bb := q6.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.marshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.perPadding)
 }
-func (v *OTDOACellsElem) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) error {
+func (v *OTDOACellsElem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	if v.withoutReplay {
 		fresh = []bool{true}
 	}
@@ -1713,7 +1768,7 @@ func (v *OTDOACellsElem) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) error {
 			return err
 		}
 	}
-	extensionEncodingData, extensionCopyErr := q6.CopyExtensionContents(v.extData,
+	extensionEncodingData, extensionCopyErr := aper.CopyExtensionContents(v.extData,
 		v.extWire,
 
 		bb.Budget())
@@ -1723,7 +1778,7 @@ func (v *OTDOACellsElem) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) error {
 
 	extensionCount := v.extCount
 	if len(fresh) != 0 && fresh[0] {
-		extensionCount, _ = q15.BridgePreferredSequenceTail(v.extPresent, extensionEncodingData)
+		extensionCount, _ = s05.BridgePreferredSequenceTail(v.extPresent, extensionEncodingData)
 	}
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
@@ -1738,41 +1793,41 @@ func (v *OTDOACellsElem) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) error {
 	for _, data := range extensionEncodingData {
 		hasExtensions = hasExtensions || data != nil
 	}
-	if err := q6.EncodeBoolean(bb, hasExtensions); err != nil {
+	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
 	// Preamble bitmap for optional root fields
-	if err := q6.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+	if err := aper.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
 		return err
 	}
-	if err := q6.EncodeCollection(bb, int64(len(v.OTDOACellInfo)), q6.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_otdoacellinfo, fragmentLength_otdoacellinfo int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.OTDOACellInfo)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_otdoacellinfo, fragmentLength_otdoacellinfo int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_otdoacellinfo < 0 || fragmentOffset_otdoacellinfo > int64(len(v.OTDOACellInfo)) || fragmentLength_otdoacellinfo < 0 || fragmentLength_otdoacellinfo > int64(len(v.OTDOACellInfo[fragmentOffset_otdoacellinfo:])) {
-			return q8.Errorf("collection fragment outside value")
+			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.OTDOACellInfo[fragmentOffset_otdoacellinfo : fragmentOffset_otdoacellinfo+fragmentLength_otdoacellinfo] {
-			if err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
-				return q8.Errorf("encoding oTDOACellInfo element: %w", err)
+			if err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				return fmt.Errorf("encoding oTDOACellInfo element: %w", err)
 			}
 		}
 		return nil
 	}); err != nil {
-		return q8.Errorf("encoding oTDOACellInfo: %w", err)
+		return fmt.Errorf("encoding oTDOACellInfo: %w", err)
 	}
 	if v.IEExtensions != nil {
-		if err := q6.EncodeCollection(bb, int64(len(v.IEExtensions)), q6.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+		if err := aper.EncodeCollection(bb, int64(len(v.IEExtensions)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
-				return q8.Errorf("collection fragment outside value")
+				return fmt.Errorf("collection fragment outside value")
 			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
-				if err := q11.BridgeOTDOACellsExtIEsExtFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
-					return q8.Errorf("encoding iE-Extensions element: %w", err)
+				if err := s04.BridgeOTDOACellsExtIEsExtFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
 				}
 			}
 			return nil
 		}); err != nil {
-			return q8.Errorf("encoding iE-Extensions: %w", err)
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
 		}
 	}
 	if hasExtensions {
@@ -1780,24 +1835,24 @@ func (v *OTDOACellsElem) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) error {
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
 		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
 		if extCount < 0 || extCount >= 16383 {
-			return q8.Errorf("%w: extension bitmap index %d", q6.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
-		if err := q6.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
+		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
 		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil)
-			if err := q6.EncodeBoolean(bb, p); err != nil {
+			if err := aper.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil) {
@@ -1805,42 +1860,42 @@ func (v *OTDOACellsElem) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) error {
 				if i < int64(len(extensionEncodingData)) {
 					data = extensionEncodingData[i]
 				}
-				if err := q6.EncodeOpenTypeAligned(bb, data); err != nil {
+				if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
 					return err
 				}
 			}
 		}
 	}
-	q6.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	q6.AppendTruncatedExtension(bb, v.perPadding)
+	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
+	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
 // UnmarshalAPER decodes OTDOACellsElem from APER format.
 func (v *OTDOACellsElem) unmarshalAPERLegacy(data []byte) error {
-	return v.unmarshalAPERWithOptions(data, q6.DecodeState{})
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
 
 // UnmarshalAPERWithOptions decodes OTDOACellsElem with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
 // aper.BitBuffer.SetDecodeOptionsAligned).
-func (v *OTDOACellsElem) unmarshalAPERWithOptions(data []byte, options q6.DecodeState) error {
-	bb := q6.NewCompleteDecodeBuffer(data, options)
+func (v *OTDOACellsElem) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
-		return q20.WrapDecodePath(err, "OTDOACellsElem")
+		return runtime.WrapDecodePath(err, "OTDOACellsElem")
 	}
 	if err := v.unmarshalAPERFrom(bb); err != nil {
-		return q20.WrapDecodePath(err, "OTDOACellsElem")
+		return runtime.WrapDecodePath(err, "OTDOACellsElem")
 	}
-	padding, err := q6.CaptureFinalBits(bb, "OTDOACellsElem")
+	padding, err := aper.CaptureFinalBits(bb, "OTDOACellsElem")
 	if err != nil {
-		return q20.WrapDecodePath(err, "OTDOACellsElem")
+		return runtime.WrapDecodePath(err, "OTDOACellsElem")
 	}
 	v.perPadding = padding.WithRecords(v.perPadding)
 	return nil
 }
-func (v *OTDOACellsElem) unmarshalAPERFrom(bb *q6.BitBuffer) error {
+func (v *OTDOACellsElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	replayStart := bb.BitPos()
 	replayUsage := bb.Usage()
 
@@ -1849,31 +1904,31 @@ func (v *OTDOACellsElem) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = OTDOACellsElem{}
-	extAdditions := q6.BeginExtensionAdditions(bb)
-	hasExtensions, err := q6.DecodeBoolean(bb)
+	extAdditions := aper.BeginExtensionAdditions(bb)
+	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	// Read preamble bitmap for optional root fields
-	opt_ieextensions, err := q6.DecodeBoolean(bb)
+	opt_ieextensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	toleranceMark_otdoacellinfo := bb.EnterComponent("OTDOACellInfo")
-	v.OTDOACellInfo = make(q14.OTDOACellInformation, 0)
-	_, errCollection_otdoacellinfo := q6.DecodeCollection(bb, q6.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_otdoacellinfo, fragmentLength_otdoacellinfo int64) error {
+	v.OTDOACellInfo = make(s15.OTDOACellInformation, 0)
+	_, errCollection_otdoacellinfo := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_otdoacellinfo, fragmentLength_otdoacellinfo int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
 		if fragmentOffset_otdoacellinfo < 0 || fragmentLength_otdoacellinfo < 0 || fragmentLength_otdoacellinfo > int64(^uint(0)>>1) || fragmentOffset_otdoacellinfo > int64(^uint(0)>>1)-fragmentLength_otdoacellinfo {
-			return q8.Errorf("collection fragment count out of range")
+			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_otdoacellinfo; i++ {
-			var elem q14.OTDOACellInformationItem
+			var elem s15.OTDOACellInformationItem
 			elementMark := bb.EnterIndex(fragmentOffset_otdoacellinfo + i)
-			if err := q14.BridgeOTDOACellInformationItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return q20.WrapDecodePath(err, q8.Sprintf("OTDOACellInfo[%d]", fragmentOffset_otdoacellinfo+i))
+			if err := s15.BridgeOTDOACellInformationItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+				return runtime.WrapDecodePath(err, fmt.Sprintf("OTDOACellInfo[%d]", fragmentOffset_otdoacellinfo+i))
 			}
 			bb.LeaveComponent(elementMark)
-			if next, err := q6.AppendValues(bb, v.OTDOACellInfo, elem); err != nil {
+			if next, err := aper.AppendValues(bb, v.OTDOACellInfo, elem); err != nil {
 				return err
 			} else {
 				v.OTDOACellInfo = next
@@ -1882,22 +1937,22 @@ func (v *OTDOACellsElem) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 		return nil
 	})
 	if errCollection_otdoacellinfo != nil {
-		return q20.WrapDecodePath(errCollection_otdoacellinfo, "OTDOACellInfo")
+		return runtime.WrapDecodePath(errCollection_otdoacellinfo, "OTDOACellInfo")
 	}
 	bb.LeaveComponent(toleranceMark_otdoacellinfo)
 	if opt_ieextensions {
-		tmp_ieextensions := make(q11.OTDOACellsExtIEsExtContainer, 0)
-		_, errCollection_ieextensions := q6.DecodeCollection(bb, q6.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+		tmp_ieextensions := make(s04.OTDOACellsExtIEsExtContainer, 0)
+		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
-				return q8.Errorf("collection fragment count out of range")
+				return fmt.Errorf("collection fragment count out of range")
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
-				var elem q11.OTDOACellsExtIEsExtField
-				if err := q11.BridgeOTDOACellsExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-					return q20.WrapDecodePath(err, q8.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
+				var elem s04.OTDOACellsExtIEsExtField
+				if err := s04.BridgeOTDOACellsExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
-				if next, err := q6.AppendValues(bb, tmp_ieextensions, elem); err != nil {
+				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
 					tmp_ieextensions = next
@@ -1906,48 +1961,48 @@ func (v *OTDOACellsElem) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 			return nil
 		})
 		if errCollection_ieextensions != nil {
-			return q20.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
-			return q20.WrapDecodePath(err, "ExtData_")
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
 		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
-		if err := q6.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
+		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
 			return err
 		}
 		v.extData = make([][]byte, len(extPresent))
-		if err := q6.ChargeSlice[q6.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
+		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
 			return err
 		}
-		v.extOrigin = make([]q6.OpaqueOrigin, len(v.extData))
-		if err := q6.ChargeSlice[q6.WireSpan](bb, uint64(len(v.extData))); err != nil {
+		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
+		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
 			return err
 		}
-		v.extWire = make([]q6.WireSpan, len(v.extData))
+		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
 		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] && extAdditions.Received(bb, i) {
-				opaque, err := q6.DecodeOpaqueOpenTypeAligned(bb, q6.UnknownSelector, q6.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.5"})
+				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.5"})
 				if err != nil {
-					return q20.WrapDecodePath(err, q8.Sprintf("ExtData_[%d]", i))
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				opaque = opaque.WithPath("Extensions")
-				if err := opaque.ObserveIndexed(q6.UnknownExtension, i); err != nil {
+				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
 					return err
 				}
-				var retained q6.WireSpan
+				var retained aper.WireSpan
 				opaque.RetainContents(&retained)
 				v.extWire[i] = retained
 				v.extOrigin[i] = opaque.Origin()
@@ -1972,18 +2027,18 @@ func (v *OTDOACellsElem) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 }
 
 // ReceivedForm returns an owned view of the complete value's original bytes.
-func (v *OTDOACellsElem) ReceivedForm() q6.ReceivedForm {
+func (v *OTDOACellsElem) ReceivedForm() aper.ReceivedForm {
 	if v == nil {
-		return q6.ReceivedForm{}
+		return aper.ReceivedForm{}
 	}
-	return q15.BridgeReceivedFormAt(v.received, v.receivedBytes, "OTDOACellsElem", v.receivedBytes.ContentLocation(), v.perPadding)
+	return s05.BridgeReceivedFormAt(v.received, v.receivedBytes, "OTDOACellsElem", v.receivedBytes.ContentLocation(), v.perPadding)
 }
 
 // WithoutReplay clears private received framing for a fresh complete encoding.
 func (v OTDOACellsElem) WithoutReplay() OTDOACellsElem {
 	v.withoutReplay = true
 	v.received = false
-	v.receivedBytes = q6.WireSpan{}
+	v.receivedBytes = aper.WireSpan{}
 	var zero OTDOACellsElem
 	v.perPadding = zero.perPadding
 	v.perExtPadding = nil
@@ -1991,24 +2046,24 @@ func (v OTDOACellsElem) WithoutReplay() OTDOACellsElem {
 }
 
 // Extensions returns owned unknown sequence additions.
-func (v *OTDOACellsElem) Extensions() []q6.SequenceExtension {
+func (v *OTDOACellsElem) Extensions() []aper.SequenceExtension {
 	if v == nil {
 		return nil
 	}
-	views := q6.SequenceExtensionViews(v.extPresent, q6.ExtensionContents(v.extData, v.extWire), v.extOrigin)
+	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
 	return views
 }
 
 // SetExtension stores an owned unknown sequence addition.
 func (v *OTDOACellsElem) SetExtension(index uint64, contents []byte) error {
 	if v == nil {
-		return q20.WrapDecodePath(q6.ErrInvalidValue, q8.Sprintf("OTDOACellsElem.Extensions[%d]", index))
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("OTDOACellsElem.Extensions[%d]", index))
 	}
-	if err := q6.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
-		return q20.WrapDecodePath(err, q8.Sprintf("OTDOACellsElem.Extensions[%d]", index))
+	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("OTDOACellsElem.Extensions[%d]", index))
 	}
 	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = q6.WireSpan{}
+		v.extWire[index] = aper.WireSpan{}
 	}
 	v.perExtPadding = nil
 	return nil
@@ -2017,60 +2072,62 @@ func (v *OTDOACellsElem) SetExtension(index uint64, contents []byte) error {
 // RemoveExtension removes one unknown sequence addition.
 func (v *OTDOACellsElem) RemoveExtension(index uint64) error {
 	if v == nil {
-		return q20.WrapDecodePath(q6.ErrInvalidValue, q8.Sprintf("OTDOACellsElem.Extensions[%d]", index))
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("OTDOACellsElem.Extensions[%d]", index))
 	}
-	if err := q6.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
-		return q20.WrapDecodePath(err, q8.Sprintf("OTDOACellsElem.Extensions[%d]", index))
+	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("OTDOACellsElem.Extensions[%d]", index))
 	}
 	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = q6.WireSpan{}
+		v.extWire[index] = aper.WireSpan{}
 	}
 	v.perExtPadding = nil
 	return nil
 }
-func (v *OTDOACellsElem) MarshalAPER(options ...q6.EncodeOption) ([]byte, error) {
+
+// MarshalAPER encodes the complete value, replaying unchanged received bytes unless fresh encoding is requested.
+func (v *OTDOACellsElem) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
 	if v == nil {
-		return nil, q6.OperationError(q6.ErrInvalidValue, "OTDOACellsElem")
+		return nil, aper.OperationError(aper.ErrInvalidValue, "OTDOACellsElem")
 	}
-	fresh := v.withoutReplay || q6.EncodeWithoutReplay(options...)
-	var budget q6.DecodeBudget
-	if err := q6.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q6.OperationError(err, "OTDOACellsElem")
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, "OTDOACellsElem")
 	}
 	if !fresh && v.replay.Present() {
 
-		s := q6.NewSemanticComparison(v.replay, q6.ComparisonBudget(&budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(&budget))
 		BridgeCompareLPPaOTDOACellsElem(v, &s)
 		if err := s.ChargeComparison(&budget); err != nil {
-			return nil, q6.OperationError(err, "OTDOACellsElem")
+			return nil, aper.OperationError(err, "OTDOACellsElem")
 		}
 		if s.Unchanged(v.replay) && v.received {
 			if err := v.replay.ApplyReplay(&budget); err != nil {
-				return nil, q6.OperationError(err, "OTDOACellsElem")
+				return nil, aper.OperationError(err, "OTDOACellsElem")
 			}
 			out, err := v.receivedBytes.ReplayBytes(&budget)
-			return out, q6.OperationError(err, "OTDOACellsElem")
+			return out, aper.OperationError(err, "OTDOACellsElem")
 		}
 		out, err := v.marshalAPERChangedValue(budget, fresh, s.Plan())
-		return out, q6.OperationError(err, "OTDOACellsElem")
+		return out, aper.OperationError(err, "OTDOACellsElem")
 	}
 	out, err := v.marshalAPERFreshValue(budget, fresh)
-	return out, q6.OperationError(err, "OTDOACellsElem")
+	return out, aper.OperationError(err, "OTDOACellsElem")
 }
-func (v *OTDOACellsElem) marshalAPERChangedValue(budget q6.DecodeBudget, fresh bool, plan q6.ReplayPlan) ([]byte, error) {
+func (v *OTDOACellsElem) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(&budget, fresh, plan)
 }
-func (v *OTDOACellsElem) marshalAPERFreshValue(budget q6.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *OTDOACellsElem) marshalAPERFreshValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
 	return v.marshalAPERBudget(&budget, fresh)
 }
-func (v *OTDOACellsElem) marshalAPERBudget(budget *q6.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *OTDOACellsElem) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
 	if v == nil {
-		return nil, q6.ErrInvalidValue
+		return nil, aper.ErrInvalidValue
 	}
 	fresh = fresh || v.withoutReplay
-	bb := q6.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if !fresh && v.replay.Present() && bb.ReplayPlan() == nil {
-		s := q6.NewSemanticComparison(v.replay, q6.ComparisonBudget(budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(budget))
 		BridgeCompareLPPaOTDOACellsElem(v, &s)
 		if err := s.ChargeComparison(budget); err != nil {
 			return nil, err
@@ -2091,14 +2148,14 @@ func (v *OTDOACellsElem) marshalAPERBudget(budget *q6.DecodeBudget, fresh bool) 
 	}
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *OTDOACellsElem) marshalAPERChanged(budget *q6.DecodeBudget, fresh bool, plan q6.ReplayPlan) ([]byte, error) {
-	previous := q6.NewBudgetBuffer(budget).ReplayPlan()
+func (v *OTDOACellsElem) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
 	budget.SetReplayPlan(&plan)
 	defer budget.SetReplayPlan(previous)
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *OTDOACellsElem) marshalAPERPlanned(budget *q6.DecodeBudget, fresh bool) ([]byte, error) {
-	bb := q6.NewBudgetBuffer(budget)
+func (v *OTDOACellsElem) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
 	value := v
 	if fresh {
 		previous := bb.SuspendReplayPlan()
@@ -2120,450 +2177,450 @@ func (v *OTDOACellsElem) marshalAPERPlanned(budget *q6.DecodeBudget, fresh bool)
 }
 
 // UnmarshalAPER decodes one complete value and returns a per-call report.
-func (v *OTDOACellsElem) UnmarshalAPER(data []byte, options ...q6.DecodeOption) (q6.DecodeReport, error) {
+func (v *OTDOACellsElem) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
-		return q6.DecodeReport{}, q6.OperationError(q6.ErrInvalidValue, "OTDOACellsElem")
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "OTDOACellsElem")
 	}
-	data, settings := q6.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	var decoded OTDOACellsElem
 	err := decoded.unmarshalAPERWithOptions(data, settings)
 	if err == nil {
 		decoded.received = true
-		decoded.receivedBytes = q6.OriginalWire(data)
-		s := q6.SemanticCaptureFor(settings)
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
 		BridgeCaptureLPPaOTDOACellsElem(&decoded, &s)
 	}
-	report, err := q6.FinishDecode(settings, err)
+	report, err := aper.FinishDecode(settings, err)
 	if err != nil {
 		*v = OTDOACellsElem{}
-		return report, q6.OperationError(err, "OTDOACellsElem")
+		return report, aper.OperationError(err, "OTDOACellsElem")
 	}
 	*v = decoded
-	return report, q6.OperationError(nil, "OTDOACellsElem")
+	return report, aper.OperationError(nil, "OTDOACellsElem")
 }
 
 // NewOTDOACellInformationItemPCI constructs a checked complete value.
-func NewOTDOACellInformationItemPCI(v q4.PCI, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemPCI(v s00.PCI, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPCI")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPCI")
 	}
 	value := BridgeNewOTDOACellInformationItemPCILegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPCI")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPCI")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemPCI")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemPCI")
 }
 
 // NewOTDOACellInformationItemCellId constructs a checked complete value.
-func NewOTDOACellInformationItemCellId(v q15.ECGI, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemCellId(v s05.ECGI, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemCellId")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemCellId")
 	}
 	value := BridgeNewOTDOACellInformationItemCellIdLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemCellId")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemCellId")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemCellId")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemCellId")
 }
 
 // NewOTDOACellInformationItemTAC constructs a checked complete value.
-func NewOTDOACellInformationItemTAC(v q4.TAC, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemTAC(v s00.TAC, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemTAC")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemTAC")
 	}
 	value := BridgeNewOTDOACellInformationItemTACLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemTAC")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemTAC")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemTAC")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemTAC")
 }
 
 // NewOTDOACellInformationItemEARFCN constructs a checked complete value.
-func NewOTDOACellInformationItemEARFCN(v q4.EARFCN, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemEARFCN(v s00.EARFCN, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemEARFCN")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemEARFCN")
 	}
 	value := BridgeNewOTDOACellInformationItemEARFCNLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemEARFCN")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemEARFCN")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemEARFCN")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemEARFCN")
 }
 
 // NewOTDOACellInformationItemPRSBandwidth constructs a checked complete value.
-func NewOTDOACellInformationItemPRSBandwidth(v q4.PRSBandwidth, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemPRSBandwidth(v s00.PRSBandwidth, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSBandwidth")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSBandwidth")
 	}
 	value := BridgeNewOTDOACellInformationItemPRSBandwidthLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSBandwidth")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSBandwidth")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemPRSBandwidth")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemPRSBandwidth")
 }
 
 // NewOTDOACellInformationItemPRSConfigurationIndex constructs a checked complete value.
-func NewOTDOACellInformationItemPRSConfigurationIndex(v q4.PRSConfigurationIndex, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemPRSConfigurationIndex(v s00.PRSConfigurationIndex, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSConfigurationIndex")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSConfigurationIndex")
 	}
 	value := BridgeNewOTDOACellInformationItemPRSConfigurationIndexLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSConfigurationIndex")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSConfigurationIndex")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemPRSConfigurationIndex")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemPRSConfigurationIndex")
 }
 
 // NewOTDOACellInformationItemCPLength constructs a checked complete value.
-func NewOTDOACellInformationItemCPLength(v q4.CPLength, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemCPLength(v s00.CPLength, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemCPLength")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemCPLength")
 	}
 	value := BridgeNewOTDOACellInformationItemCPLengthLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemCPLength")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemCPLength")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemCPLength")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemCPLength")
 }
 
 // NewOTDOACellInformationItemNumberOfDlFrames constructs a checked complete value.
-func NewOTDOACellInformationItemNumberOfDlFrames(v q4.NumberOfDlFrames, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemNumberOfDlFrames(v s00.NumberOfDlFrames, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNumberOfDlFrames")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNumberOfDlFrames")
 	}
 	value := BridgeNewOTDOACellInformationItemNumberOfDlFramesLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNumberOfDlFrames")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNumberOfDlFrames")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemNumberOfDlFrames")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemNumberOfDlFrames")
 }
 
 // NewOTDOACellInformationItemNumberOfAntennaPorts constructs a checked complete value.
-func NewOTDOACellInformationItemNumberOfAntennaPorts(v q4.NumberOfAntennaPorts, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemNumberOfAntennaPorts(v s00.NumberOfAntennaPorts, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNumberOfAntennaPorts")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNumberOfAntennaPorts")
 	}
 	value := BridgeNewOTDOACellInformationItemNumberOfAntennaPortsLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNumberOfAntennaPorts")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNumberOfAntennaPorts")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemNumberOfAntennaPorts")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemNumberOfAntennaPorts")
 }
 
 // NewOTDOACellInformationItemSFNInitialisationTime constructs a checked complete value.
-func NewOTDOACellInformationItemSFNInitialisationTime(v q4.SFNInitialisationTime, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemSFNInitialisationTime(v s00.SFNInitialisationTime, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemSFNInitialisationTime")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemSFNInitialisationTime")
 	}
 	value := BridgeNewOTDOACellInformationItemSFNInitialisationTimeLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemSFNInitialisationTime")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemSFNInitialisationTime")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemSFNInitialisationTime")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemSFNInitialisationTime")
 }
 
 // NewOTDOACellInformationItemEUTRANAccessPointPosition constructs a checked complete value.
-func NewOTDOACellInformationItemEUTRANAccessPointPosition(v q16.EUTRANAccessPointPosition, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemEUTRANAccessPointPosition(v s06.EUTRANAccessPointPosition, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemEUTRANAccessPointPosition")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemEUTRANAccessPointPosition")
 	}
 	value := BridgeNewOTDOACellInformationItemEUTRANAccessPointPositionLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemEUTRANAccessPointPosition")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemEUTRANAccessPointPosition")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemEUTRANAccessPointPosition")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemEUTRANAccessPointPosition")
 }
 
 // NewOTDOACellInformationItemPRSMutingConfiguration constructs a checked complete value.
-func NewOTDOACellInformationItemPRSMutingConfiguration(v q17.PRSMutingConfiguration, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemPRSMutingConfiguration(v s08.PRSMutingConfiguration, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSMutingConfiguration")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSMutingConfiguration")
 	}
 	value := BridgeNewOTDOACellInformationItemPRSMutingConfigurationLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSMutingConfiguration")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSMutingConfiguration")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemPRSMutingConfiguration")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemPRSMutingConfiguration")
 }
 
 // NewOTDOACellInformationItemPrsid constructs a checked complete value.
-func NewOTDOACellInformationItemPrsid(v q4.PRSID, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemPrsid(v s00.PRSID, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPrsid")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPrsid")
 	}
 	value := BridgeNewOTDOACellInformationItemPrsidLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPrsid")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPrsid")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemPrsid")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemPrsid")
 }
 
 // NewOTDOACellInformationItemTpid constructs a checked complete value.
-func NewOTDOACellInformationItemTpid(v q4.TPID, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemTpid(v s00.TPID, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemTpid")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemTpid")
 	}
 	value := BridgeNewOTDOACellInformationItemTpidLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemTpid")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemTpid")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemTpid")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemTpid")
 }
 
 // NewOTDOACellInformationItemTpType constructs a checked complete value.
-func NewOTDOACellInformationItemTpType(v q4.TPType, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemTpType(v s00.TPType, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemTpType")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemTpType")
 	}
 	value := BridgeNewOTDOACellInformationItemTpTypeLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemTpType")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemTpType")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemTpType")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemTpType")
 }
 
 // NewOTDOACellInformationItemNumberOfDlFramesExtended constructs a checked complete value.
-func NewOTDOACellInformationItemNumberOfDlFramesExtended(v q4.NumberOfDlFramesExtended, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemNumberOfDlFramesExtended(v s00.NumberOfDlFramesExtended, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNumberOfDlFramesExtended")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNumberOfDlFramesExtended")
 	}
 	value := BridgeNewOTDOACellInformationItemNumberOfDlFramesExtendedLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNumberOfDlFramesExtended")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNumberOfDlFramesExtended")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemNumberOfDlFramesExtended")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemNumberOfDlFramesExtended")
 }
 
 // NewOTDOACellInformationItemCrsCPlength constructs a checked complete value.
-func NewOTDOACellInformationItemCrsCPlength(v q4.CPLength, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemCrsCPlength(v s00.CPLength, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemCrsCPlength")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemCrsCPlength")
 	}
 	value := BridgeNewOTDOACellInformationItemCrsCPlengthLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemCrsCPlength")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemCrsCPlength")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemCrsCPlength")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemCrsCPlength")
 }
 
 // NewOTDOACellInformationItemMBSFNsubframeConfiguration constructs a checked complete value.
-func NewOTDOACellInformationItemMBSFNsubframeConfiguration(v q7.MBSFNsubframeConfiguration, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemMBSFNsubframeConfiguration(v s09.MBSFNsubframeConfiguration, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemMBSFNsubframeConfiguration")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemMBSFNsubframeConfiguration")
 	}
 	value := BridgeNewOTDOACellInformationItemMBSFNsubframeConfigurationLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemMBSFNsubframeConfiguration")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemMBSFNsubframeConfiguration")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemMBSFNsubframeConfiguration")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemMBSFNsubframeConfiguration")
 }
 
 // NewOTDOACellInformationItemNPRSConfiguration constructs a checked complete value.
-func NewOTDOACellInformationItemNPRSConfiguration(v q18.NPRSConfiguration, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemNPRSConfiguration(v s07.NPRSConfiguration, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNPRSConfiguration")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNPRSConfiguration")
 	}
 	value := BridgeNewOTDOACellInformationItemNPRSConfigurationLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNPRSConfiguration")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNPRSConfiguration")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemNPRSConfiguration")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemNPRSConfiguration")
 }
 
 // NewOTDOACellInformationItemOffsetNBChanneltoEARFCN constructs a checked complete value.
-func NewOTDOACellInformationItemOffsetNBChanneltoEARFCN(v q4.OffsetNBChanneltoEARFCN, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemOffsetNBChanneltoEARFCN(v s00.OffsetNBChanneltoEARFCN, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemOffsetNBChanneltoEARFCN")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemOffsetNBChanneltoEARFCN")
 	}
 	value := BridgeNewOTDOACellInformationItemOffsetNBChanneltoEARFCNLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemOffsetNBChanneltoEARFCN")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemOffsetNBChanneltoEARFCN")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemOffsetNBChanneltoEARFCN")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemOffsetNBChanneltoEARFCN")
 }
 
 // NewOTDOACellInformationItemOperationModeInfo constructs a checked complete value.
-func NewOTDOACellInformationItemOperationModeInfo(v q4.OperationModeInfo, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemOperationModeInfo(v s00.OperationModeInfo, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemOperationModeInfo")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemOperationModeInfo")
 	}
 	value := BridgeNewOTDOACellInformationItemOperationModeInfoLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemOperationModeInfo")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemOperationModeInfo")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemOperationModeInfo")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemOperationModeInfo")
 }
 
 // NewOTDOACellInformationItemNPRSID constructs a checked complete value.
-func NewOTDOACellInformationItemNPRSID(v *q19.Int, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemNPRSID(v *big.Int, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNPRSID")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNPRSID")
 	}
 	value := BridgeNewOTDOACellInformationItemNPRSIDLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNPRSID")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNPRSID")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemNPRSID")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemNPRSID")
 }
 
 // NewOTDOACellInformationItemDLBandwidth constructs a checked complete value.
-func NewOTDOACellInformationItemDLBandwidth(v q4.DLBandwidth, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemDLBandwidth(v s00.DLBandwidth, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemDLBandwidth")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemDLBandwidth")
 	}
 	value := BridgeNewOTDOACellInformationItemDLBandwidthLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemDLBandwidth")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemDLBandwidth")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemDLBandwidth")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemDLBandwidth")
 }
 
 // NewOTDOACellInformationItemPRSOccasionGroup constructs a checked complete value.
-func NewOTDOACellInformationItemPRSOccasionGroup(v q4.PRSOccasionGroup, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemPRSOccasionGroup(v s00.PRSOccasionGroup, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSOccasionGroup")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSOccasionGroup")
 	}
 	value := BridgeNewOTDOACellInformationItemPRSOccasionGroupLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSOccasionGroup")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSOccasionGroup")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemPRSOccasionGroup")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemPRSOccasionGroup")
 }
 
 // NewOTDOACellInformationItemPRSFreqHoppingConfig constructs a checked complete value.
-func NewOTDOACellInformationItemPRSFreqHoppingConfig(v q17.PRSFrequencyHoppingConfiguration, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemPRSFreqHoppingConfig(v s08.PRSFrequencyHoppingConfiguration, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSFreqHoppingConfig")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSFreqHoppingConfig")
 	}
 	value := BridgeNewOTDOACellInformationItemPRSFreqHoppingConfigLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemPRSFreqHoppingConfig")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemPRSFreqHoppingConfig")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemPRSFreqHoppingConfig")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemPRSFreqHoppingConfig")
 }
 
 // NewOTDOACellInformationItemRepetitionNumberofSIB1NB constructs a checked complete value.
-func NewOTDOACellInformationItemRepetitionNumberofSIB1NB(v q4.RepetitionNumberofSIB1NB, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemRepetitionNumberofSIB1NB(v s00.RepetitionNumberofSIB1NB, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemRepetitionNumberofSIB1NB")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemRepetitionNumberofSIB1NB")
 	}
 	value := BridgeNewOTDOACellInformationItemRepetitionNumberofSIB1NBLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemRepetitionNumberofSIB1NB")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemRepetitionNumberofSIB1NB")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemRepetitionNumberofSIB1NB")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemRepetitionNumberofSIB1NB")
 }
 
 // NewOTDOACellInformationItemNPRSSequenceInfo constructs a checked complete value.
-func NewOTDOACellInformationItemNPRSSequenceInfo(v q4.NPRSSequenceInfo, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemNPRSSequenceInfo(v s00.NPRSSequenceInfo, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNPRSSequenceInfo")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNPRSSequenceInfo")
 	}
 	value := BridgeNewOTDOACellInformationItemNPRSSequenceInfoLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNPRSSequenceInfo")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNPRSSequenceInfo")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemNPRSSequenceInfo")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemNPRSSequenceInfo")
 }
 
 // NewOTDOACellInformationItemNPRSType2 constructs a checked complete value.
-func NewOTDOACellInformationItemNPRSType2(v q18.NPRSConfiguration, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemNPRSType2(v s07.NPRSConfiguration, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNPRSType2")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNPRSType2")
 	}
 	value := BridgeNewOTDOACellInformationItemNPRSType2Legacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemNPRSType2")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemNPRSType2")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemNPRSType2")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemNPRSType2")
 }
 
 // NewOTDOACellInformationItemTddConfiguration constructs a checked complete value.
-func NewOTDOACellInformationItemTddConfiguration(v q14.TDDConfiguration, options ...q6.BuildOption) (q14.OTDOACellInformationItem, error) {
-	budget, err := q6.BuildBudget(options...)
+func NewOTDOACellInformationItemTddConfiguration(v s15.TDDConfiguration, options ...aper.BuildOption) (s15.OTDOACellInformationItem, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemTddConfiguration")
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemTddConfiguration")
 	}
 	value := BridgeNewOTDOACellInformationItemTddConfigurationLegacy(v)
-	if _, err := q14.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
-		return q14.OTDOACellInformationItem{}, q6.OperationError(err, "OTDOACellInformationItemTddConfiguration")
+	if _, err := s15.BridgeOTDOACellInformationItemMethodMarshalAPERBudget((&value), budget, false); err != nil {
+		return s15.OTDOACellInformationItem{}, aper.OperationError(err, "OTDOACellInformationItemTddConfiguration")
 	}
-	return value, q6.OperationError(nil, "OTDOACellInformationItemTddConfiguration")
+	return value, aper.OperationError(nil, "OTDOACellInformationItemTddConfiguration")
 }
 
 // UTDOAInformationRequest represents the ASN.1 type UTDOAInformationRequest (SEQUENCE).
 type UTDOAInformationRequest struct {
-	replay           q6.Snapshot
-	stream           q6.WireSpan
+	replay           aper.Snapshot
+	stream           aper.WireSpan
 	withoutReplay    bool
 	received         bool
-	receivedBytes    q6.WireSpan
-	ProtocolIEs      q7.UTDOAInformationRequestIEContainer `asn1:"tag:0,context,implicit"`
-	protocolIEsIndef bool                                  `asn1:"-" json:"-"`
-	extCount         int64                                 `asn1:"-" json:"-"`
-	extPresent       []bool                                `asn1:"-" json:"-"`
-	extData          [][]byte                              `asn1:"-" json:"-"`
-	perPadding       q6.FinalPadding                       `asn1:"-" json:"-"`
-	perExtPadding    []q6.CompletePadding                  `asn1:"-" json:"-"`
-	extOrigin        []q6.OpaqueOrigin
-	extWire          []q6.WireSpan
-}
-
-// UTDOAInformationFailure represents the ASN.1 type UTDOAInformationFailure (SEQUENCE).
-type UTDOAInformationFailure struct {
-	replay           q6.Snapshot
-	stream           q6.WireSpan
-	withoutReplay    bool
-	received         bool
-	receivedBytes    q6.WireSpan
-	ProtocolIEs      q10.UTDOAInformationFailureIEContainer `asn1:"tag:0,context,implicit"`
+	receivedBytes    aper.WireSpan
+	ProtocolIEs      s09.UTDOAInformationRequestIEContainer `asn1:"tag:0,context,implicit"`
 	protocolIEsIndef bool                                   `asn1:"-" json:"-"`
 	extCount         int64                                  `asn1:"-" json:"-"`
 	extPresent       []bool                                 `asn1:"-" json:"-"`
 	extData          [][]byte                               `asn1:"-" json:"-"`
-	perPadding       q6.FinalPadding                        `asn1:"-" json:"-"`
-	perExtPadding    []q6.CompletePadding                   `asn1:"-" json:"-"`
-	extOrigin        []q6.OpaqueOrigin
-	extWire          []q6.WireSpan
+	perPadding       aper.FinalPadding                      `asn1:"-" json:"-"`
+	perExtPadding    []aper.CompletePadding                 `asn1:"-" json:"-"`
+	extOrigin        []aper.OpaqueOrigin
+	extWire          []aper.WireSpan
+}
+
+// UTDOAInformationFailure represents the ASN.1 type UTDOAInformationFailure (SEQUENCE).
+type UTDOAInformationFailure struct {
+	replay           aper.Snapshot
+	stream           aper.WireSpan
+	withoutReplay    bool
+	received         bool
+	receivedBytes    aper.WireSpan
+	ProtocolIEs      s10.UTDOAInformationFailureIEContainer `asn1:"tag:0,context,implicit"`
+	protocolIEsIndef bool                                   `asn1:"-" json:"-"`
+	extCount         int64                                  `asn1:"-" json:"-"`
+	extPresent       []bool                                 `asn1:"-" json:"-"`
+	extData          [][]byte                               `asn1:"-" json:"-"`
+	perPadding       aper.FinalPadding                      `asn1:"-" json:"-"`
+	perExtPadding    []aper.CompletePadding                 `asn1:"-" json:"-"`
+	extOrigin        []aper.OpaqueOrigin
+	extWire          []aper.WireSpan
 }
 
 // MarshalAPER encodes UTDOAInformationRequest to APER format.
 func (v *UTDOAInformationRequest) marshalAPERLegacy() ([]byte, error) {
-	bb := q6.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.marshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.perPadding)
 }
-func (v *UTDOAInformationRequest) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) error {
+func (v *UTDOAInformationRequest) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	if v.withoutReplay {
 		fresh = []bool{true}
 	}
@@ -2581,7 +2638,7 @@ func (v *UTDOAInformationRequest) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool)
 			return err
 		}
 	}
-	extensionEncodingData, extensionCopyErr := q6.CopyExtensionContents(v.extData,
+	extensionEncodingData, extensionCopyErr := aper.CopyExtensionContents(v.extData,
 		v.extWire,
 
 		bb.Budget())
@@ -2591,7 +2648,7 @@ func (v *UTDOAInformationRequest) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool)
 
 	extensionCount := v.extCount
 	if len(fresh) != 0 && fresh[0] {
-		extensionCount, _ = q15.BridgePreferredSequenceTail(v.extPresent, extensionEncodingData)
+		extensionCount, _ = s05.BridgePreferredSequenceTail(v.extPresent, extensionEncodingData)
 	}
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
@@ -2606,46 +2663,46 @@ func (v *UTDOAInformationRequest) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool)
 	for _, data := range extensionEncodingData {
 		hasExtensions = hasExtensions || data != nil
 	}
-	if err := q6.EncodeBoolean(bb, hasExtensions); err != nil {
+	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := q6.EncodeCollection(bb, int64(len(v.ProtocolIEs)), q6.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.ProtocolIEs)), aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
-			return q8.Errorf("collection fragment outside value")
+			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
-			if err := q7.BridgeUTDOAInformationRequestIEFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
-				return q8.Errorf("encoding protocolIEs element: %w", err)
+			if err := s09.BridgeUTDOAInformationRequestIEFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
 			}
 		}
 		return nil
 	}); err != nil {
-		return q8.Errorf("encoding protocolIEs: %w", err)
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
 		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
 		if extCount < 0 || extCount >= 16383 {
-			return q8.Errorf("%w: extension bitmap index %d", q6.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
-		if err := q6.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
+		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
 		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil)
-			if err := q6.EncodeBoolean(bb, p); err != nil {
+			if err := aper.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil) {
@@ -2653,42 +2710,42 @@ func (v *UTDOAInformationRequest) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool)
 				if i < int64(len(extensionEncodingData)) {
 					data = extensionEncodingData[i]
 				}
-				if err := q6.EncodeOpenTypeAligned(bb, data); err != nil {
+				if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
 					return err
 				}
 			}
 		}
 	}
-	q6.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	q6.AppendTruncatedExtension(bb, v.perPadding)
+	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
+	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
 // UnmarshalAPER decodes UTDOAInformationRequest from APER format.
 func (v *UTDOAInformationRequest) unmarshalAPERLegacy(data []byte) error {
-	return v.unmarshalAPERWithOptions(data, q6.DecodeState{})
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
 
 // UnmarshalAPERWithOptions decodes UTDOAInformationRequest with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
 // aper.BitBuffer.SetDecodeOptionsAligned).
-func (v *UTDOAInformationRequest) unmarshalAPERWithOptions(data []byte, options q6.DecodeState) error {
-	bb := q6.NewCompleteDecodeBuffer(data, options)
+func (v *UTDOAInformationRequest) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
-		return q20.WrapDecodePath(err, "UTDOAInformationRequest")
+		return runtime.WrapDecodePath(err, "UTDOAInformationRequest")
 	}
 	if err := v.unmarshalAPERFrom(bb); err != nil {
-		return q20.WrapDecodePath(err, "UTDOAInformationRequest")
+		return runtime.WrapDecodePath(err, "UTDOAInformationRequest")
 	}
-	padding, err := q6.CaptureFinalBits(bb, "UTDOAInformationRequest")
+	padding, err := aper.CaptureFinalBits(bb, "UTDOAInformationRequest")
 	if err != nil {
-		return q20.WrapDecodePath(err, "UTDOAInformationRequest")
+		return runtime.WrapDecodePath(err, "UTDOAInformationRequest")
 	}
 	v.perPadding = padding.WithRecords(v.perPadding)
 	return nil
 }
-func (v *UTDOAInformationRequest) unmarshalAPERFrom(bb *q6.BitBuffer) error {
+func (v *UTDOAInformationRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	replayStart := bb.BitPos()
 	replayUsage := bb.Usage()
 
@@ -2697,23 +2754,23 @@ func (v *UTDOAInformationRequest) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = UTDOAInformationRequest{}
-	extAdditions := q6.BeginExtensionAdditions(bb)
-	hasExtensions, err := q6.DecodeBoolean(bb)
+	extAdditions := aper.BeginExtensionAdditions(bb)
+	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	v.ProtocolIEs = make(q7.UTDOAInformationRequestIEContainer, 0)
-	_, errCollection_protocolies := q6.DecodeCollection(bb, q6.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+	v.ProtocolIEs = make(s09.UTDOAInformationRequestIEContainer, 0)
+	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
-			return q8.Errorf("collection fragment count out of range")
+			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
-			var elem q7.UTDOAInformationRequestIEField
-			if err := q7.BridgeUTDOAInformationRequestIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return q20.WrapDecodePath(err, q8.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
+			var elem s09.UTDOAInformationRequestIEField
+			if err := s09.BridgeUTDOAInformationRequestIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
-			if next, err := q6.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
+			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
 				v.ProtocolIEs = next
@@ -2722,46 +2779,46 @@ func (v *UTDOAInformationRequest) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 		return nil
 	})
 	if errCollection_protocolies != nil {
-		return q20.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
+		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
-			return q20.WrapDecodePath(err, "ExtData_")
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
 		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
-		if err := q6.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
+		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
 			return err
 		}
 		v.extData = make([][]byte, len(extPresent))
-		if err := q6.ChargeSlice[q6.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
+		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
 			return err
 		}
-		v.extOrigin = make([]q6.OpaqueOrigin, len(v.extData))
-		if err := q6.ChargeSlice[q6.WireSpan](bb, uint64(len(v.extData))); err != nil {
+		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
+		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
 			return err
 		}
-		v.extWire = make([]q6.WireSpan, len(v.extData))
+		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
 		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] && extAdditions.Received(bb, i) {
-				opaque, err := q6.DecodeOpaqueOpenTypeAligned(bb, q6.UnknownSelector, q6.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.4"})
+				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.4"})
 				if err != nil {
-					return q20.WrapDecodePath(err, q8.Sprintf("ExtData_[%d]", i))
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				opaque = opaque.WithPath("Extensions")
-				if err := opaque.ObserveIndexed(q6.UnknownExtension, i); err != nil {
+				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
 					return err
 				}
-				var retained q6.WireSpan
+				var retained aper.WireSpan
 				opaque.RetainContents(&retained)
 				v.extWire[i] = retained
 				v.extOrigin[i] = opaque.Origin()
@@ -2787,13 +2844,13 @@ func (v *UTDOAInformationRequest) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 
 // MarshalAPER encodes UTDOAInformationFailure to APER format.
 func (v *UTDOAInformationFailure) marshalAPERLegacy() ([]byte, error) {
-	bb := q6.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.marshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithFinalPadding(v.perPadding)
 }
-func (v *UTDOAInformationFailure) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) error {
+func (v *UTDOAInformationFailure) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	if v.withoutReplay {
 		fresh = []bool{true}
 	}
@@ -2811,7 +2868,7 @@ func (v *UTDOAInformationFailure) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool)
 			return err
 		}
 	}
-	extensionEncodingData, extensionCopyErr := q6.CopyExtensionContents(v.extData,
+	extensionEncodingData, extensionCopyErr := aper.CopyExtensionContents(v.extData,
 		v.extWire,
 
 		bb.Budget())
@@ -2821,7 +2878,7 @@ func (v *UTDOAInformationFailure) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool)
 
 	extensionCount := v.extCount
 	if len(fresh) != 0 && fresh[0] {
-		extensionCount, _ = q15.BridgePreferredSequenceTail(v.extPresent, extensionEncodingData)
+		extensionCount, _ = s05.BridgePreferredSequenceTail(v.extPresent, extensionEncodingData)
 	}
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
@@ -2836,46 +2893,46 @@ func (v *UTDOAInformationFailure) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool)
 	for _, data := range extensionEncodingData {
 		hasExtensions = hasExtensions || data != nil
 	}
-	if err := q6.EncodeBoolean(bb, hasExtensions); err != nil {
+	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
 		return err
 	}
-	if err := q6.EncodeCollection(bb, int64(len(v.ProtocolIEs)), q6.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+	if err := aper.EncodeCollection(bb, int64(len(v.ProtocolIEs)), aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
 		if fragmentOffset_protocolies < 0 || fragmentOffset_protocolies > int64(len(v.ProtocolIEs)) || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(len(v.ProtocolIEs[fragmentOffset_protocolies:])) {
-			return q8.Errorf("collection fragment outside value")
+			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
-			if err := q10.BridgeUTDOAInformationFailureIEFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
-				return q8.Errorf("encoding protocolIEs element: %w", err)
+			if err := s10.BridgeUTDOAInformationFailureIEFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				return fmt.Errorf("encoding protocolIEs element: %w", err)
 			}
 		}
 		return nil
 	}); err != nil {
-		return q8.Errorf("encoding protocolIEs: %w", err)
+		return fmt.Errorf("encoding protocolIEs: %w", err)
 	}
 	if hasExtensions {
 		extCount := extensionCount
 		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
 		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:444
 		if extCount < 0 || extCount >= 16383 {
-			return q8.Errorf("%w: extension bitmap index %d", q6.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
 		}
-		if err := q6.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
+		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
 			return err
 		}
 		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:448
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
 			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil)
-			if err := q6.EncodeBoolean(bb, p); err != nil {
+			if err := aper.EncodeBoolean(bb, p); err != nil {
 				return err
 			}
 		}
 		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:455
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
 			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil) {
@@ -2883,42 +2940,42 @@ func (v *UTDOAInformationFailure) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool)
 				if i < int64(len(extensionEncodingData)) {
 					data = extensionEncodingData[i]
 				}
-				if err := q6.EncodeOpenTypeAligned(bb, data); err != nil {
+				if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
 					return err
 				}
 			}
 		}
 	}
-	q6.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
-	q6.AppendTruncatedExtension(bb, v.perPadding)
+	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
+	aper.AppendTruncatedExtension(bb, v.perPadding)
 	return nil
 }
 
 // UnmarshalAPER decodes UTDOAInformationFailure from APER format.
 func (v *UTDOAInformationFailure) unmarshalAPERLegacy(data []byte) error {
-	return v.unmarshalAPERWithOptions(data, q6.DecodeState{})
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
 
 // UnmarshalAPERWithOptions decodes UTDOAInformationFailure with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
 // aper.BitBuffer.SetDecodeOptionsAligned).
-func (v *UTDOAInformationFailure) unmarshalAPERWithOptions(data []byte, options q6.DecodeState) error {
-	bb := q6.NewCompleteDecodeBuffer(data, options)
+func (v *UTDOAInformationFailure) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
-		return q20.WrapDecodePath(err, "UTDOAInformationFailure")
+		return runtime.WrapDecodePath(err, "UTDOAInformationFailure")
 	}
 	if err := v.unmarshalAPERFrom(bb); err != nil {
-		return q20.WrapDecodePath(err, "UTDOAInformationFailure")
+		return runtime.WrapDecodePath(err, "UTDOAInformationFailure")
 	}
-	padding, err := q6.CaptureFinalBits(bb, "UTDOAInformationFailure")
+	padding, err := aper.CaptureFinalBits(bb, "UTDOAInformationFailure")
 	if err != nil {
-		return q20.WrapDecodePath(err, "UTDOAInformationFailure")
+		return runtime.WrapDecodePath(err, "UTDOAInformationFailure")
 	}
 	v.perPadding = padding.WithRecords(v.perPadding)
 	return nil
 }
-func (v *UTDOAInformationFailure) unmarshalAPERFrom(bb *q6.BitBuffer) error {
+func (v *UTDOAInformationFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	replayStart := bb.BitPos()
 	replayUsage := bb.Usage()
 
@@ -2927,23 +2984,23 @@ func (v *UTDOAInformationFailure) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = UTDOAInformationFailure{}
-	extAdditions := q6.BeginExtensionAdditions(bb)
-	hasExtensions, err := q6.DecodeBoolean(bb)
+	extAdditions := aper.BeginExtensionAdditions(bb)
+	hasExtensions, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
-	v.ProtocolIEs = make(q10.UTDOAInformationFailureIEContainer, 0)
-	_, errCollection_protocolies := q6.DecodeCollection(bb, q6.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
+	v.ProtocolIEs = make(s10.UTDOAInformationFailureIEContainer, 0)
+	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
-			return q8.Errorf("collection fragment count out of range")
+			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
-			var elem q10.UTDOAInformationFailureIEField
-			if err := q10.BridgeUTDOAInformationFailureIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return q20.WrapDecodePath(err, q8.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
+			var elem s10.UTDOAInformationFailureIEField
+			if err := s10.BridgeUTDOAInformationFailureIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
-			if next, err := q6.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
+			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
 				v.ProtocolIEs = next
@@ -2952,46 +3009,46 @@ func (v *UTDOAInformationFailure) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 		return nil
 	})
 	if errCollection_protocolies != nil {
-		return q20.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
+		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
-			return q20.WrapDecodePath(err, "ExtData_")
+			return runtime.WrapDecodePath(err, "ExtData_")
 		}
 		v.extCount = extCount
 		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:630
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
-		if err := q6.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
+		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
 			return err
 		}
 		v.extData = make([][]byte, len(extPresent))
-		if err := q6.ChargeSlice[q6.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
+		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
 			return err
 		}
-		v.extOrigin = make([]q6.OpaqueOrigin, len(v.extData))
-		if err := q6.ChargeSlice[q6.WireSpan](bb, uint64(len(v.extData))); err != nil {
+		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
+		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
 			return err
 		}
-		v.extWire = make([]q6.WireSpan, len(v.extData))
+		v.extWire = make([]aper.WireSpan, len(v.extData))
 		v.extPresent = extPresent
 		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:633
 		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
-			return q8.Errorf("extension count out of range")
+			return fmt.Errorf("extension count out of range")
 		}
 		for i := int64(0); i <= extCount; i++ {
 			if extPresent[i] && extAdditions.Received(bb, i) {
-				opaque, err := q6.DecodeOpaqueOpenTypeAligned(bb, q6.UnknownSelector, q6.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.4"})
+				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.4"})
 				if err != nil {
-					return q20.WrapDecodePath(err, q8.Sprintf("ExtData_[%d]", i))
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
 				}
 				opaque = opaque.WithPath("Extensions")
-				if err := opaque.ObserveIndexed(q6.UnknownExtension, i); err != nil {
+				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
 					return err
 				}
-				var retained q6.WireSpan
+				var retained aper.WireSpan
 				opaque.RetainContents(&retained)
 				v.extWire[i] = retained
 				v.extOrigin[i] = opaque.Origin()
@@ -3016,18 +3073,18 @@ func (v *UTDOAInformationFailure) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 }
 
 // ReceivedForm returns an owned view of the complete value's original bytes.
-func (v *UTDOAInformationFailure) ReceivedForm() q6.ReceivedForm {
+func (v *UTDOAInformationFailure) ReceivedForm() aper.ReceivedForm {
 	if v == nil {
-		return q6.ReceivedForm{}
+		return aper.ReceivedForm{}
 	}
-	return q15.BridgeReceivedFormAt(v.received, v.receivedBytes, "UTDOAInformationFailure", v.receivedBytes.ContentLocation(), v.perPadding)
+	return s05.BridgeReceivedFormAt(v.received, v.receivedBytes, "UTDOAInformationFailure", v.receivedBytes.ContentLocation(), v.perPadding)
 }
 
 // WithoutReplay clears private received framing for a fresh complete encoding.
 func (v UTDOAInformationFailure) WithoutReplay() UTDOAInformationFailure {
 	v.withoutReplay = true
 	v.received = false
-	v.receivedBytes = q6.WireSpan{}
+	v.receivedBytes = aper.WireSpan{}
 	var zero UTDOAInformationFailure
 	v.perPadding = zero.perPadding
 	v.perExtPadding = nil
@@ -3035,18 +3092,18 @@ func (v UTDOAInformationFailure) WithoutReplay() UTDOAInformationFailure {
 }
 
 // ReceivedForm returns an owned view of the complete value's original bytes.
-func (v *UTDOAInformationRequest) ReceivedForm() q6.ReceivedForm {
+func (v *UTDOAInformationRequest) ReceivedForm() aper.ReceivedForm {
 	if v == nil {
-		return q6.ReceivedForm{}
+		return aper.ReceivedForm{}
 	}
-	return q15.BridgeReceivedFormAt(v.received, v.receivedBytes, "UTDOAInformationRequest", v.receivedBytes.ContentLocation(), v.perPadding)
+	return s05.BridgeReceivedFormAt(v.received, v.receivedBytes, "UTDOAInformationRequest", v.receivedBytes.ContentLocation(), v.perPadding)
 }
 
 // WithoutReplay clears private received framing for a fresh complete encoding.
 func (v UTDOAInformationRequest) WithoutReplay() UTDOAInformationRequest {
 	v.withoutReplay = true
 	v.received = false
-	v.receivedBytes = q6.WireSpan{}
+	v.receivedBytes = aper.WireSpan{}
 	var zero UTDOAInformationRequest
 	v.perPadding = zero.perPadding
 	v.perExtPadding = nil
@@ -3054,24 +3111,24 @@ func (v UTDOAInformationRequest) WithoutReplay() UTDOAInformationRequest {
 }
 
 // Extensions returns owned unknown sequence additions.
-func (v *UTDOAInformationFailure) Extensions() []q6.SequenceExtension {
+func (v *UTDOAInformationFailure) Extensions() []aper.SequenceExtension {
 	if v == nil {
 		return nil
 	}
-	views := q6.SequenceExtensionViews(v.extPresent, q6.ExtensionContents(v.extData, v.extWire), v.extOrigin)
+	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
 	return views
 }
 
 // SetExtension stores an owned unknown sequence addition.
 func (v *UTDOAInformationFailure) SetExtension(index uint64, contents []byte) error {
 	if v == nil {
-		return q20.WrapDecodePath(q6.ErrInvalidValue, q8.Sprintf("UTDOAInformationFailure.Extensions[%d]", index))
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("UTDOAInformationFailure.Extensions[%d]", index))
 	}
-	if err := q6.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
-		return q20.WrapDecodePath(err, q8.Sprintf("UTDOAInformationFailure.Extensions[%d]", index))
+	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("UTDOAInformationFailure.Extensions[%d]", index))
 	}
 	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = q6.WireSpan{}
+		v.extWire[index] = aper.WireSpan{}
 	}
 	v.perExtPadding = nil
 	return nil
@@ -3080,37 +3137,37 @@ func (v *UTDOAInformationFailure) SetExtension(index uint64, contents []byte) er
 // RemoveExtension removes one unknown sequence addition.
 func (v *UTDOAInformationFailure) RemoveExtension(index uint64) error {
 	if v == nil {
-		return q20.WrapDecodePath(q6.ErrInvalidValue, q8.Sprintf("UTDOAInformationFailure.Extensions[%d]", index))
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("UTDOAInformationFailure.Extensions[%d]", index))
 	}
-	if err := q6.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
-		return q20.WrapDecodePath(err, q8.Sprintf("UTDOAInformationFailure.Extensions[%d]", index))
+	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("UTDOAInformationFailure.Extensions[%d]", index))
 	}
 	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = q6.WireSpan{}
+		v.extWire[index] = aper.WireSpan{}
 	}
 	v.perExtPadding = nil
 	return nil
 }
 
 // Extensions returns owned unknown sequence additions.
-func (v *UTDOAInformationRequest) Extensions() []q6.SequenceExtension {
+func (v *UTDOAInformationRequest) Extensions() []aper.SequenceExtension {
 	if v == nil {
 		return nil
 	}
-	views := q6.SequenceExtensionViews(v.extPresent, q6.ExtensionContents(v.extData, v.extWire), v.extOrigin)
+	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
 	return views
 }
 
 // SetExtension stores an owned unknown sequence addition.
 func (v *UTDOAInformationRequest) SetExtension(index uint64, contents []byte) error {
 	if v == nil {
-		return q20.WrapDecodePath(q6.ErrInvalidValue, q8.Sprintf("UTDOAInformationRequest.Extensions[%d]", index))
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("UTDOAInformationRequest.Extensions[%d]", index))
 	}
-	if err := q6.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
-		return q20.WrapDecodePath(err, q8.Sprintf("UTDOAInformationRequest.Extensions[%d]", index))
+	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("UTDOAInformationRequest.Extensions[%d]", index))
 	}
 	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = q6.WireSpan{}
+		v.extWire[index] = aper.WireSpan{}
 	}
 	v.perExtPadding = nil
 	return nil
@@ -3119,60 +3176,62 @@ func (v *UTDOAInformationRequest) SetExtension(index uint64, contents []byte) er
 // RemoveExtension removes one unknown sequence addition.
 func (v *UTDOAInformationRequest) RemoveExtension(index uint64) error {
 	if v == nil {
-		return q20.WrapDecodePath(q6.ErrInvalidValue, q8.Sprintf("UTDOAInformationRequest.Extensions[%d]", index))
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("UTDOAInformationRequest.Extensions[%d]", index))
 	}
-	if err := q6.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
-		return q20.WrapDecodePath(err, q8.Sprintf("UTDOAInformationRequest.Extensions[%d]", index))
+	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("UTDOAInformationRequest.Extensions[%d]", index))
 	}
 	if index < uint64(len(v.extWire)) {
-		v.extWire[index] = q6.WireSpan{}
+		v.extWire[index] = aper.WireSpan{}
 	}
 	v.perExtPadding = nil
 	return nil
 }
-func (v *UTDOAInformationFailure) MarshalAPER(options ...q6.EncodeOption) ([]byte, error) {
+
+// MarshalAPER encodes the complete value, replaying unchanged received bytes unless fresh encoding is requested.
+func (v *UTDOAInformationFailure) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
 	if v == nil {
-		return nil, q6.OperationError(q6.ErrInvalidValue, "UTDOAInformationFailure")
+		return nil, aper.OperationError(aper.ErrInvalidValue, "UTDOAInformationFailure")
 	}
-	fresh := v.withoutReplay || q6.EncodeWithoutReplay(options...)
-	var budget q6.DecodeBudget
-	if err := q6.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q6.OperationError(err, "UTDOAInformationFailure")
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, "UTDOAInformationFailure")
 	}
 	if !fresh && v.replay.Present() {
 
-		s := q6.NewSemanticComparison(v.replay, q6.ComparisonBudget(&budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(&budget))
 		BridgeCompareLPPaUTDOAInformationFailure(v, &s)
 		if err := s.ChargeComparison(&budget); err != nil {
-			return nil, q6.OperationError(err, "UTDOAInformationFailure")
+			return nil, aper.OperationError(err, "UTDOAInformationFailure")
 		}
 		if s.Unchanged(v.replay) && v.received {
 			if err := v.replay.ApplyReplay(&budget); err != nil {
-				return nil, q6.OperationError(err, "UTDOAInformationFailure")
+				return nil, aper.OperationError(err, "UTDOAInformationFailure")
 			}
 			out, err := v.receivedBytes.ReplayBytes(&budget)
-			return out, q6.OperationError(err, "UTDOAInformationFailure")
+			return out, aper.OperationError(err, "UTDOAInformationFailure")
 		}
 		out, err := v.marshalAPERChangedValue(budget, fresh, s.Plan())
-		return out, q6.OperationError(err, "UTDOAInformationFailure")
+		return out, aper.OperationError(err, "UTDOAInformationFailure")
 	}
 	out, err := v.marshalAPERFreshValue(budget, fresh)
-	return out, q6.OperationError(err, "UTDOAInformationFailure")
+	return out, aper.OperationError(err, "UTDOAInformationFailure")
 }
-func (v *UTDOAInformationFailure) marshalAPERChangedValue(budget q6.DecodeBudget, fresh bool, plan q6.ReplayPlan) ([]byte, error) {
+func (v *UTDOAInformationFailure) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(&budget, fresh, plan)
 }
-func (v *UTDOAInformationFailure) marshalAPERFreshValue(budget q6.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *UTDOAInformationFailure) marshalAPERFreshValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
 	return v.marshalAPERBudget(&budget, fresh)
 }
-func (v *UTDOAInformationFailure) marshalAPERBudget(budget *q6.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *UTDOAInformationFailure) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
 	if v == nil {
-		return nil, q6.ErrInvalidValue
+		return nil, aper.ErrInvalidValue
 	}
 	fresh = fresh || v.withoutReplay
-	bb := q6.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if !fresh && v.replay.Present() && bb.ReplayPlan() == nil {
-		s := q6.NewSemanticComparison(v.replay, q6.ComparisonBudget(budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(budget))
 		BridgeCompareLPPaUTDOAInformationFailure(v, &s)
 		if err := s.ChargeComparison(budget); err != nil {
 			return nil, err
@@ -3193,14 +3252,14 @@ func (v *UTDOAInformationFailure) marshalAPERBudget(budget *q6.DecodeBudget, fre
 	}
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *UTDOAInformationFailure) marshalAPERChanged(budget *q6.DecodeBudget, fresh bool, plan q6.ReplayPlan) ([]byte, error) {
-	previous := q6.NewBudgetBuffer(budget).ReplayPlan()
+func (v *UTDOAInformationFailure) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
 	budget.SetReplayPlan(&plan)
 	defer budget.SetReplayPlan(previous)
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *UTDOAInformationFailure) marshalAPERPlanned(budget *q6.DecodeBudget, fresh bool) ([]byte, error) {
-	bb := q6.NewBudgetBuffer(budget)
+func (v *UTDOAInformationFailure) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
 	value := v
 	if fresh {
 		previous := bb.SuspendReplayPlan()
@@ -3220,49 +3279,51 @@ func (v *UTDOAInformationFailure) marshalAPERPlanned(budget *q6.DecodeBudget, fr
 	}
 	return out, nil
 }
-func (v *UTDOAInformationRequest) MarshalAPER(options ...q6.EncodeOption) ([]byte, error) {
+
+// MarshalAPER encodes the complete value, replaying unchanged received bytes unless fresh encoding is requested.
+func (v *UTDOAInformationRequest) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
 	if v == nil {
-		return nil, q6.OperationError(q6.ErrInvalidValue, "UTDOAInformationRequest")
+		return nil, aper.OperationError(aper.ErrInvalidValue, "UTDOAInformationRequest")
 	}
-	fresh := v.withoutReplay || q6.EncodeWithoutReplay(options...)
-	var budget q6.DecodeBudget
-	if err := q6.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q6.OperationError(err, "UTDOAInformationRequest")
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, "UTDOAInformationRequest")
 	}
 	if !fresh && v.replay.Present() {
 
-		s := q6.NewSemanticComparison(v.replay, q6.ComparisonBudget(&budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(&budget))
 		BridgeCompareLPPaUTDOAInformationRequest(v, &s)
 		if err := s.ChargeComparison(&budget); err != nil {
-			return nil, q6.OperationError(err, "UTDOAInformationRequest")
+			return nil, aper.OperationError(err, "UTDOAInformationRequest")
 		}
 		if s.Unchanged(v.replay) && v.received {
 			if err := v.replay.ApplyReplay(&budget); err != nil {
-				return nil, q6.OperationError(err, "UTDOAInformationRequest")
+				return nil, aper.OperationError(err, "UTDOAInformationRequest")
 			}
 			out, err := v.receivedBytes.ReplayBytes(&budget)
-			return out, q6.OperationError(err, "UTDOAInformationRequest")
+			return out, aper.OperationError(err, "UTDOAInformationRequest")
 		}
 		out, err := v.marshalAPERChangedValue(budget, fresh, s.Plan())
-		return out, q6.OperationError(err, "UTDOAInformationRequest")
+		return out, aper.OperationError(err, "UTDOAInformationRequest")
 	}
 	out, err := v.marshalAPERFreshValue(budget, fresh)
-	return out, q6.OperationError(err, "UTDOAInformationRequest")
+	return out, aper.OperationError(err, "UTDOAInformationRequest")
 }
-func (v *UTDOAInformationRequest) marshalAPERChangedValue(budget q6.DecodeBudget, fresh bool, plan q6.ReplayPlan) ([]byte, error) {
+func (v *UTDOAInformationRequest) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(&budget, fresh, plan)
 }
-func (v *UTDOAInformationRequest) marshalAPERFreshValue(budget q6.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *UTDOAInformationRequest) marshalAPERFreshValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
 	return v.marshalAPERBudget(&budget, fresh)
 }
-func (v *UTDOAInformationRequest) marshalAPERBudget(budget *q6.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *UTDOAInformationRequest) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
 	if v == nil {
-		return nil, q6.ErrInvalidValue
+		return nil, aper.ErrInvalidValue
 	}
 	fresh = fresh || v.withoutReplay
-	bb := q6.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if !fresh && v.replay.Present() && bb.ReplayPlan() == nil {
-		s := q6.NewSemanticComparison(v.replay, q6.ComparisonBudget(budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(budget))
 		BridgeCompareLPPaUTDOAInformationRequest(v, &s)
 		if err := s.ChargeComparison(budget); err != nil {
 			return nil, err
@@ -3283,14 +3344,14 @@ func (v *UTDOAInformationRequest) marshalAPERBudget(budget *q6.DecodeBudget, fre
 	}
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *UTDOAInformationRequest) marshalAPERChanged(budget *q6.DecodeBudget, fresh bool, plan q6.ReplayPlan) ([]byte, error) {
-	previous := q6.NewBudgetBuffer(budget).ReplayPlan()
+func (v *UTDOAInformationRequest) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
 	budget.SetReplayPlan(&plan)
 	defer budget.SetReplayPlan(previous)
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *UTDOAInformationRequest) marshalAPERPlanned(budget *q6.DecodeBudget, fresh bool) ([]byte, error) {
-	bb := q6.NewBudgetBuffer(budget)
+func (v *UTDOAInformationRequest) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
 	value := v
 	if fresh {
 		previous := bb.SuspendReplayPlan()
@@ -3312,74 +3373,74 @@ func (v *UTDOAInformationRequest) marshalAPERPlanned(budget *q6.DecodeBudget, fr
 }
 
 // UnmarshalAPER decodes one complete value and returns a per-call report.
-func (v *UTDOAInformationFailure) UnmarshalAPER(data []byte, options ...q6.DecodeOption) (q6.DecodeReport, error) {
+func (v *UTDOAInformationFailure) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
-		return q6.DecodeReport{}, q6.OperationError(q6.ErrInvalidValue, "UTDOAInformationFailure")
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "UTDOAInformationFailure")
 	}
-	data, settings := q6.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	var decoded UTDOAInformationFailure
 	err := decoded.unmarshalAPERWithOptions(data, settings)
 	if err == nil {
 		decoded.received = true
-		decoded.receivedBytes = q6.OriginalWire(data)
-		s := q6.SemanticCaptureFor(settings)
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
 		BridgeCaptureLPPaUTDOAInformationFailure(&decoded, &s)
 	}
-	report, err := q6.FinishDecode(settings, err)
+	report, err := aper.FinishDecode(settings, err)
 	if err != nil {
 		*v = UTDOAInformationFailure{}
-		return report, q6.OperationError(err, "UTDOAInformationFailure")
+		return report, aper.OperationError(err, "UTDOAInformationFailure")
 	}
 	*v = decoded
-	return report, q6.OperationError(nil, "UTDOAInformationFailure")
+	return report, aper.OperationError(nil, "UTDOAInformationFailure")
 }
 
 // UnmarshalAPER decodes one complete value and returns a per-call report.
-func (v *UTDOAInformationRequest) UnmarshalAPER(data []byte, options ...q6.DecodeOption) (q6.DecodeReport, error) {
+func (v *UTDOAInformationRequest) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
-		return q6.DecodeReport{}, q6.OperationError(q6.ErrInvalidValue, "UTDOAInformationRequest")
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "UTDOAInformationRequest")
 	}
-	data, settings := q6.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	var decoded UTDOAInformationRequest
 	err := decoded.unmarshalAPERWithOptions(data, settings)
 	if err == nil {
 		decoded.received = true
-		decoded.receivedBytes = q6.OriginalWire(data)
-		s := q6.SemanticCaptureFor(settings)
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
 		BridgeCaptureLPPaUTDOAInformationRequest(&decoded, &s)
 	}
-	report, err := q6.FinishDecode(settings, err)
+	report, err := aper.FinishDecode(settings, err)
 	if err != nil {
 		*v = UTDOAInformationRequest{}
-		return report, q6.OperationError(err, "UTDOAInformationRequest")
+		return report, aper.OperationError(err, "UTDOAInformationRequest")
 	}
 	*v = decoded
-	return report, q6.OperationError(nil, "UTDOAInformationRequest")
+	return report, aper.OperationError(nil, "UTDOAInformationRequest")
 }
 
 // UnsuccessfulOutcome represents the ASN.1 type UnsuccessfulOutcome (SEQUENCE).
 type UnsuccessfulOutcome struct {
-	replay            q6.Snapshot
-	stream            q6.WireSpan
+	replay            aper.Snapshot
+	stream            aper.WireSpan
 	withoutReplay     bool
 	received          bool
-	receivedBytes     q6.WireSpan
-	ProcedureCode     q4.ProcedureCode     `asn1:"tag:0,context,implicit"`
-	Criticality       q4.Criticality       `asn1:"tag:1,context,implicit"`
-	LppatransactionID q4.LPPATransactionID `asn1:"tag:2,context,implicit"`
-	Value             UnsuccessfulValue    `asn1:"tag:3,context,explicit" asn1c:"raw-preserve"`
-	perPadding        q6.CompletePadding   `asn1:"-" json:"-"`
+	receivedBytes     aper.WireSpan
+	ProcedureCode     s00.ProcedureCode     `asn1:"tag:0,context,implicit"`
+	Criticality       s00.Criticality       `asn1:"tag:1,context,implicit"`
+	LppatransactionID s00.LPPATransactionID `asn1:"tag:2,context,implicit"`
+	Value             UnsuccessfulValue     `asn1:"tag:3,context,explicit" asn1c:"raw-preserve"`
+	perPadding        aper.CompletePadding  `asn1:"-" json:"-"`
 }
 
 // MarshalAPER encodes UnsuccessfulOutcome to APER format.
 func (v *UnsuccessfulOutcome) marshalAPERLegacy() ([]byte, error) {
-	bb := q6.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.marshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.perPadding)
 }
-func (v *UnsuccessfulOutcome) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) error {
+func (v *UnsuccessfulOutcome) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	if v.withoutReplay {
 		fresh = []bool{true}
 	}
@@ -3403,52 +3464,52 @@ func (v *UnsuccessfulOutcome) marshalAPERTo(bb *q6.BitBuffer, fresh ...bool) err
 	defer bb.LeaveDecodeValue()
 
 	if v.Value.code != v.ProcedureCode {
-		return q20.WrapDecodePath(q8.Errorf("%w: procedure code %d does not match its value selector", q6.ErrInvalidValue, v.ProcedureCode), "UnsuccessfulOutcome.ProcedureCode")
+		return runtime.WrapDecodePath(fmt.Errorf("%w: procedure code %d does not match its value selector", aper.ErrInvalidValue, v.ProcedureCode), "UnsuccessfulOutcome.ProcedureCode")
 	}
-	if err := q6.EncodeIntegerAligned(bb, int64(v.ProcedureCode), q12.BridgeInt64Ptr(0), q12.BridgeInt64Ptr(255), false); err != nil {
-		return q8.Errorf("encoding procedureCode: %w", err)
+	if err := aper.EncodeIntegerAligned(bb, int64(v.ProcedureCode), s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(255), false); err != nil {
+		return fmt.Errorf("encoding procedureCode: %w", err)
 	}
-	if err := q6.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return q8.Errorf("encoding criticality: %w", err)
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
 	}
-	if err := q6.EncodeIntegerAligned(bb, int64(v.LppatransactionID), q12.BridgeInt64Ptr(0), q12.BridgeInt64Ptr(32767), false); err != nil {
-		return q8.Errorf("encoding lppatransactionID: %w", err)
+	if err := aper.EncodeIntegerAligned(bb, int64(v.LppatransactionID), s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(32767), false); err != nil {
+		return fmt.Errorf("encoding lppatransactionID: %w", err)
 	}
 	openData_value, err := v.Value.encodeFresh(len(fresh) != 0 && fresh[0], bb.Budget())
 	if err != nil {
-		return q8.Errorf("encoding value: %w", err)
+		return fmt.Errorf("encoding value: %w", err)
 	}
-	if err := q6.EncodeOpenTypeAligned(bb, openData_value); err != nil {
-		return q8.Errorf("encoding value: %w", err)
+	if err := aper.EncodeOpenTypeAligned(bb, openData_value); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
 
 // UnmarshalAPER decodes UnsuccessfulOutcome from APER format.
 func (v *UnsuccessfulOutcome) unmarshalAPERLegacy(data []byte) error {
-	return v.unmarshalAPERWithOptions(data, q6.DecodeState{})
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
 
 // UnmarshalAPERWithOptions decodes UnsuccessfulOutcome with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
 // aper.BitBuffer.SetDecodeOptionsAligned).
-func (v *UnsuccessfulOutcome) unmarshalAPERWithOptions(data []byte, options q6.DecodeState) error {
-	bb := q6.NewCompleteDecodeBuffer(data, options)
+func (v *UnsuccessfulOutcome) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
-		return q20.WrapDecodePath(err, "UnsuccessfulOutcome")
+		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
 	if err := v.unmarshalAPERFrom(bb); err != nil {
-		return q20.WrapDecodePath(err, "UnsuccessfulOutcome")
+		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
-	padding, err := q6.CaptureFinalBits(bb, "UnsuccessfulOutcome")
+	padding, err := aper.CaptureFinalBits(bb, "UnsuccessfulOutcome")
 	if err != nil {
-		return q20.WrapDecodePath(err, "UnsuccessfulOutcome")
+		return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 	}
 	v.perPadding = padding.Padding()
 	return nil
 }
-func (v *UnsuccessfulOutcome) unmarshalAPERFrom(bb *q6.BitBuffer) error {
+func (v *UnsuccessfulOutcome) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	replayStart := bb.BitPos()
 	replayUsage := bb.Usage()
 
@@ -3457,29 +3518,29 @@ func (v *UnsuccessfulOutcome) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = UnsuccessfulOutcome{}
-	val_procedurecode, err := q6.DecodeIntegerAligned(bb, q12.BridgeInt64Ptr(0), q12.BridgeInt64Ptr(255), false)
+	val_procedurecode, err := aper.DecodeIntegerAligned(bb, s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(255), false)
 	if err != nil {
-		return q20.WrapDecodePath(err, "ProcedureCode")
+		return runtime.WrapDecodePath(err, "ProcedureCode")
 	}
-	v.ProcedureCode = q4.ProcedureCode(val_procedurecode)
-	val_criticality, err := q6.DecodeEnumeratedAligned(bb, 3, false, q6.EnumerationSource{KnownExtensions: 0, Path: "Criticality"})
+	v.ProcedureCode = s00.ProcedureCode(val_procedurecode)
+	val_criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false, aper.EnumerationSource{KnownExtensions: 0, Path: "Criticality"})
 	if err != nil {
-		return q20.WrapDecodePath(q8.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Criticality")
+		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Criticality")
 	}
-	v.Criticality = q4.Criticality(val_criticality)
-	val_lppatransactionid, err := q6.DecodeIntegerAligned(bb, q12.BridgeInt64Ptr(0), q12.BridgeInt64Ptr(32767), false)
+	v.Criticality = s00.Criticality(val_criticality)
+	val_lppatransactionid, err := aper.DecodeIntegerAligned(bb, s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(32767), false)
 	if err != nil {
-		return q20.WrapDecodePath(err, "LppatransactionID")
+		return runtime.WrapDecodePath(err, "LppatransactionID")
 	}
-	v.LppatransactionID = q4.LPPATransactionID(val_lppatransactionid)
-	opaque_value, err := q6.DecodeOpaqueOpenTypeAligned(bb, q4.UnsuccessfulReason(v.ProcedureCode), q6.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: q6.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "Unsuccessful"}})
+	v.LppatransactionID = s00.LPPATransactionID(val_lppatransactionid)
+	opaque_value, err := aper.DecodeOpaqueOpenTypeAligned(bb, s00.UnsuccessfulReason(v.ProcedureCode), aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "Unsuccessful"}})
 	if err != nil {
-		return q20.WrapDecodePath(q8.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
+		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
 	}
 	opaque_value = opaque_value.WithPath("UnsuccessfulOutcome.Value")
 	decoded_value, err := BridgeDecodeUnsuccessfulValue(v.ProcedureCode, opaque_value)
 	if err != nil {
-		return q20.WrapDecodePath(q8.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
+		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
 	}
 	v.Value = decoded_value
 	v.stream = bb.CaptureWireSpan(replayStart)
@@ -3491,65 +3552,67 @@ func (v *UnsuccessfulOutcome) unmarshalAPERFrom(bb *q6.BitBuffer) error {
 }
 
 // ReceivedForm returns an owned view of the complete value's original bytes.
-func (v *UnsuccessfulOutcome) ReceivedForm() q6.ReceivedForm {
+func (v *UnsuccessfulOutcome) ReceivedForm() aper.ReceivedForm {
 	if v == nil {
-		return q6.ReceivedForm{}
+		return aper.ReceivedForm{}
 	}
-	return q15.BridgeReceivedFormAt(v.received, v.receivedBytes, "UnsuccessfulOutcome", v.receivedBytes.ContentLocation(), v.perPadding)
+	return s05.BridgeReceivedFormAt(v.received, v.receivedBytes, "UnsuccessfulOutcome", v.receivedBytes.ContentLocation(), v.perPadding)
 }
 
 // WithoutReplay clears private received framing for a fresh complete encoding.
 func (v UnsuccessfulOutcome) WithoutReplay() UnsuccessfulOutcome {
 	v.withoutReplay = true
 	v.received = false
-	v.receivedBytes = q6.WireSpan{}
+	v.receivedBytes = aper.WireSpan{}
 	var zero UnsuccessfulOutcome
 	v.perPadding = zero.perPadding
 	return v
 }
-func (v *UnsuccessfulOutcome) MarshalAPER(options ...q6.EncodeOption) ([]byte, error) {
+
+// MarshalAPER encodes the complete value, replaying unchanged received bytes unless fresh encoding is requested.
+func (v *UnsuccessfulOutcome) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
 	if v == nil {
-		return nil, q6.OperationError(q6.ErrInvalidValue, "UnsuccessfulOutcome")
+		return nil, aper.OperationError(aper.ErrInvalidValue, "UnsuccessfulOutcome")
 	}
-	fresh := v.withoutReplay || q6.EncodeWithoutReplay(options...)
-	var budget q6.DecodeBudget
-	if err := q6.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q6.OperationError(err, "UnsuccessfulOutcome")
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, "UnsuccessfulOutcome")
 	}
 	if !fresh && v.replay.Present() {
 
-		s := q6.NewSemanticComparison(v.replay, q6.ComparisonBudget(&budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(&budget))
 		BridgeCompareLPPaUnsuccessfulOutcome(v, &s)
 		if err := s.ChargeComparison(&budget); err != nil {
-			return nil, q6.OperationError(err, "UnsuccessfulOutcome")
+			return nil, aper.OperationError(err, "UnsuccessfulOutcome")
 		}
 		if s.Unchanged(v.replay) && v.received {
 			if err := v.replay.ApplyReplay(&budget); err != nil {
-				return nil, q6.OperationError(err, "UnsuccessfulOutcome")
+				return nil, aper.OperationError(err, "UnsuccessfulOutcome")
 			}
 			out, err := v.receivedBytes.ReplayBytes(&budget)
-			return out, q6.OperationError(err, "UnsuccessfulOutcome")
+			return out, aper.OperationError(err, "UnsuccessfulOutcome")
 		}
 		out, err := v.marshalAPERChangedValue(budget, fresh, s.Plan())
-		return out, q6.OperationError(err, "UnsuccessfulOutcome")
+		return out, aper.OperationError(err, "UnsuccessfulOutcome")
 	}
 	out, err := v.marshalAPERFreshValue(budget, fresh)
-	return out, q6.OperationError(err, "UnsuccessfulOutcome")
+	return out, aper.OperationError(err, "UnsuccessfulOutcome")
 }
-func (v *UnsuccessfulOutcome) marshalAPERChangedValue(budget q6.DecodeBudget, fresh bool, plan q6.ReplayPlan) ([]byte, error) {
+func (v *UnsuccessfulOutcome) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(&budget, fresh, plan)
 }
-func (v *UnsuccessfulOutcome) marshalAPERFreshValue(budget q6.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *UnsuccessfulOutcome) marshalAPERFreshValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
 	return v.marshalAPERBudget(&budget, fresh)
 }
-func (v *UnsuccessfulOutcome) marshalAPERBudget(budget *q6.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *UnsuccessfulOutcome) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
 	if v == nil {
-		return nil, q6.ErrInvalidValue
+		return nil, aper.ErrInvalidValue
 	}
 	fresh = fresh || v.withoutReplay
-	bb := q6.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if !fresh && v.replay.Present() && bb.ReplayPlan() == nil {
-		s := q6.NewSemanticComparison(v.replay, q6.ComparisonBudget(budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(budget))
 		BridgeCompareLPPaUnsuccessfulOutcome(v, &s)
 		if err := s.ChargeComparison(budget); err != nil {
 			return nil, err
@@ -3570,14 +3633,14 @@ func (v *UnsuccessfulOutcome) marshalAPERBudget(budget *q6.DecodeBudget, fresh b
 	}
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *UnsuccessfulOutcome) marshalAPERChanged(budget *q6.DecodeBudget, fresh bool, plan q6.ReplayPlan) ([]byte, error) {
-	previous := q6.NewBudgetBuffer(budget).ReplayPlan()
+func (v *UnsuccessfulOutcome) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
 	budget.SetReplayPlan(&plan)
 	defer budget.SetReplayPlan(previous)
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *UnsuccessfulOutcome) marshalAPERPlanned(budget *q6.DecodeBudget, fresh bool) ([]byte, error) {
-	bb := q6.NewBudgetBuffer(budget)
+func (v *UnsuccessfulOutcome) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
 	value := v
 	if fresh {
 		previous := bb.SuspendReplayPlan()
@@ -3599,67 +3662,74 @@ func (v *UnsuccessfulOutcome) marshalAPERPlanned(budget *q6.DecodeBudget, fresh 
 }
 
 // UnmarshalAPER decodes one complete value and returns a per-call report.
-func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte, options ...q6.DecodeOption) (q6.DecodeReport, error) {
+func (v *UnsuccessfulOutcome) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
-		return q6.DecodeReport{}, q6.OperationError(q6.ErrInvalidValue, "UnsuccessfulOutcome")
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "UnsuccessfulOutcome")
 	}
-	data, settings := q6.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	var decoded UnsuccessfulOutcome
 	err := decoded.unmarshalAPERWithOptions(data, settings)
 	if err == nil {
 		decoded.received = true
-		decoded.receivedBytes = q6.OriginalWire(data)
-		s := q6.SemanticCaptureFor(settings)
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
 		BridgeCaptureLPPaUnsuccessfulOutcome(&decoded, &s)
 	}
-	report, err := q6.FinishDecode(settings, err)
+	report, err := aper.FinishDecode(settings, err)
 	if err != nil {
 		*v = UnsuccessfulOutcome{}
-		return report, q6.OperationError(err, "UnsuccessfulOutcome")
+		return report, aper.OperationError(err, "UnsuccessfulOutcome")
 	}
 	*v = decoded
-	return report, q6.OperationError(nil, "UnsuccessfulOutcome")
+	return report, aper.OperationError(nil, "UnsuccessfulOutcome")
 }
 
 type UnsuccessfulValue struct {
-	code                                 q4.ProcedureCode
+	code                                 s00.ProcedureCode
 	withoutReplay                        bool
-	received                             q6.WireSpan
-	replay                               q6.Snapshot
-	opaque                               *q6.OpaqueOpenType
+	received                             aper.WireSpan
+	replay                               aper.Snapshot
+	opaque                               *aper.OpaqueOpenType
 	isOpaque                             bool
-	bodyECIDMeasurementInitiationFailure *q5.ECIDMeasurementInitiationFailure
-	bodyOTDOAInformationFailure          *q9.OTDOAInformationFailure
+	bodyECIDMeasurementInitiationFailure *s11.ECIDMeasurementInitiationFailure
+	bodyOTDOAInformationFailure          *s12.OTDOAInformationFailure
 	bodyUTDOAInformationFailure          *UTDOAInformationFailure
 }
 
-func (v *UnsuccessfulValue) Opaque() (q6.OpaqueOpenType, bool) {
+// Opaque returns the retained opaque open value and reports whether an opaque alternative is selected.
+func (v *UnsuccessfulValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque || v.opaque == nil {
-		return q6.OpaqueOpenType{}, false
+		return aper.OpaqueOpenType{}, false
 	}
 	return *v.opaque, true
 }
-func (v *UnsuccessfulValue) AsECIDMeasurementInitiationFailure() (*q5.ECIDMeasurementInitiationFailure, bool) {
-	if v == nil || v.code != q4.ProcedureCode(2) || v.bodyECIDMeasurementInitiationFailure == nil {
+
+// AsECIDMeasurementInitiationFailure returns the selected ECIDMeasurementInitiationFailure value and reports whether that alternative is active.
+func (v *UnsuccessfulValue) AsECIDMeasurementInitiationFailure() (*s11.ECIDMeasurementInitiationFailure, bool) {
+	if v == nil || v.code != s00.ProcedureCode(2) || v.bodyECIDMeasurementInitiationFailure == nil {
 		return nil, false
 	}
 	return v.bodyECIDMeasurementInitiationFailure, true
 }
-func (v *UnsuccessfulValue) AsOTDOAInformationFailure() (*q9.OTDOAInformationFailure, bool) {
-	if v == nil || v.code != q4.ProcedureCode(6) || v.bodyOTDOAInformationFailure == nil {
+
+// AsOTDOAInformationFailure returns the selected OTDOAInformationFailure value and reports whether that alternative is active.
+func (v *UnsuccessfulValue) AsOTDOAInformationFailure() (*s12.OTDOAInformationFailure, bool) {
+	if v == nil || v.code != s00.ProcedureCode(6) || v.bodyOTDOAInformationFailure == nil {
 		return nil, false
 	}
 	return v.bodyOTDOAInformationFailure, true
 }
+
+// AsUTDOAInformationFailure returns the selected UTDOAInformationFailure value and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsUTDOAInformationFailure() (*UTDOAInformationFailure, bool) {
-	if v == nil || v.code != q4.ProcedureCode(7) || v.bodyUTDOAInformationFailure == nil {
+	if v == nil || v.code != s00.ProcedureCode(7) || v.bodyUTDOAInformationFailure == nil {
 		return nil, false
 	}
 	return v.bodyUTDOAInformationFailure, true
 }
-func BridgeDecodeUnsuccessfulValue(code q4.ProcedureCode, raw q6.OpaqueOpenType) (UnsuccessfulValue, error) {
+func BridgeDecodeUnsuccessfulValue(code s00.ProcedureCode, raw aper.OpaqueOpenType) (UnsuccessfulValue, error) {
 	v := UnsuccessfulValue{code: code}
-	var scope *q6.BitBuffer
+	var scope *aper.BitBuffer
 	switch code {
 	case 2, 6, 7:
 		scope = raw.ChildDecodeBuffer()
@@ -3669,68 +3739,68 @@ func BridgeDecodeUnsuccessfulValue(code q4.ProcedureCode, raw q6.OpaqueOpenType)
 		defer scope.LeaveOpenType()
 	}
 	switch code {
-	case q4.ProcedureCode(2):
-		var body q5.ECIDMeasurementInitiationFailure
+	case s00.ProcedureCode(2):
+		var body s11.ECIDMeasurementInitiationFailure
 		child := scope
 		replayUsage := child.Usage()
-		if err := q5.BridgeECIDMeasurementInitiationFailureMethodUnmarshalAPERFrom(&body, child); err != nil {
-			return UnsuccessfulValue{}, q8.Errorf("%s %w", "UnsuccessfulMessage.value.ECIDMeasurementInitiationFailure:", err)
+		if err := s11.BridgeECIDMeasurementInitiationFailureMethodUnmarshalAPERFrom(&body, child); err != nil {
+			return UnsuccessfulValue{}, fmt.Errorf("%s %w", "UnsuccessfulMessage.value.ECIDMeasurementInitiationFailure:", err)
 		}
-		padding, err := q6.CaptureFinalBits(child, "ECIDMeasurementInitiationFailure")
+		padding, err := aper.CaptureFinalBits(child, "ECIDMeasurementInitiationFailure")
 		if err != nil {
 			return UnsuccessfulValue{}, err
 		}
-		*q5.BridgeECIDMeasurementInitiationFailureFieldPerPadding(&body) = padding
-		*q5.BridgeECIDMeasurementInitiationFailureFieldReceived(&body) = true
-		raw.RetainContents(q5.BridgeECIDMeasurementInitiationFailureFieldReceivedBytes(&body))
-		if err := q6.ChargeValue(raw.BudgetBuffer(), body); err != nil {
+		*s11.BridgeECIDMeasurementInitiationFailureFieldPerPadding(&body) = padding
+		*s11.BridgeECIDMeasurementInitiationFailureFieldReceived(&body) = true
+		raw.RetainContents(s11.BridgeECIDMeasurementInitiationFailureFieldReceivedBytes(&body))
+		if err := aper.ChargeValue(raw.BudgetBuffer(), body); err != nil {
 			return v, err
 		}
 		v.bodyECIDMeasurementInitiationFailure = &body
 		raw.RetainContents(&v.received)
 		v.received.RecordUsage(replayUsage, child)
-	case q4.ProcedureCode(6):
-		var body q9.OTDOAInformationFailure
+	case s00.ProcedureCode(6):
+		var body s12.OTDOAInformationFailure
 		child := scope
 		replayUsage := child.Usage()
-		if err := q9.BridgeOTDOAInformationFailureMethodUnmarshalAPERFrom(&body, child); err != nil {
-			return UnsuccessfulValue{}, q8.Errorf("%s %w", "UnsuccessfulMessage.value.OTDOAInformationFailure:", err)
+		if err := s12.BridgeOTDOAInformationFailureMethodUnmarshalAPERFrom(&body, child); err != nil {
+			return UnsuccessfulValue{}, fmt.Errorf("%s %w", "UnsuccessfulMessage.value.OTDOAInformationFailure:", err)
 		}
-		padding, err := q6.CaptureFinalBits(child, "OTDOAInformationFailure")
+		padding, err := aper.CaptureFinalBits(child, "OTDOAInformationFailure")
 		if err != nil {
 			return UnsuccessfulValue{}, err
 		}
-		*q9.BridgeOTDOAInformationFailureFieldPerPadding(&body) = padding
-		*q9.BridgeOTDOAInformationFailureFieldReceived(&body) = true
-		raw.RetainContents(q9.BridgeOTDOAInformationFailureFieldReceivedBytes(&body))
-		if err := q6.ChargeValue(raw.BudgetBuffer(), body); err != nil {
+		*s12.BridgeOTDOAInformationFailureFieldPerPadding(&body) = padding
+		*s12.BridgeOTDOAInformationFailureFieldReceived(&body) = true
+		raw.RetainContents(s12.BridgeOTDOAInformationFailureFieldReceivedBytes(&body))
+		if err := aper.ChargeValue(raw.BudgetBuffer(), body); err != nil {
 			return v, err
 		}
 		v.bodyOTDOAInformationFailure = &body
 		raw.RetainContents(&v.received)
 		v.received.RecordUsage(replayUsage, child)
-	case q4.ProcedureCode(7):
+	case s00.ProcedureCode(7):
 		var body UTDOAInformationFailure
 		child := scope
 		replayUsage := child.Usage()
 		if err := body.unmarshalAPERFrom(child); err != nil {
-			return UnsuccessfulValue{}, q8.Errorf("%s %w", "UnsuccessfulMessage.value.UTDOAInformationFailure:", err)
+			return UnsuccessfulValue{}, fmt.Errorf("%s %w", "UnsuccessfulMessage.value.UTDOAInformationFailure:", err)
 		}
-		padding, err := q6.CaptureFinalBits(child, "UTDOAInformationFailure")
+		padding, err := aper.CaptureFinalBits(child, "UTDOAInformationFailure")
 		if err != nil {
 			return UnsuccessfulValue{}, err
 		}
 		body.perPadding = padding
 		body.received = true
 		raw.RetainContents(&body.receivedBytes)
-		if err := q6.ChargeValue(raw.BudgetBuffer(), body); err != nil {
+		if err := aper.ChargeValue(raw.BudgetBuffer(), body); err != nil {
 			return v, err
 		}
 		v.bodyUTDOAInformationFailure = &body
 		raw.RetainContents(&v.received)
 		v.received.RecordUsage(replayUsage, child)
 	default:
-		if err := raw.Observe(q6.UnknownProcedure); err != nil {
+		if err := raw.Observe(aper.UnknownProcedure); err != nil {
 			return v, err
 		}
 		retained, err := raw.Retained()
@@ -3743,53 +3813,53 @@ func BridgeDecodeUnsuccessfulValue(code q4.ProcedureCode, raw q6.OpaqueOpenType)
 	return v, nil
 }
 func (v UnsuccessfulValue) encode() ([]byte, error) {
-	budget, err := q6.EncodeBudget()
+	budget, err := aper.EncodeBudget()
 	if err != nil {
 		return nil, err
 	}
 	return v.encodeFresh(false, budget)
 }
-func (v UnsuccessfulValue) encodeFresh(fresh bool, budget *q6.DecodeBudget) ([]byte, error) {
+func (v UnsuccessfulValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 	fresh = fresh || v.withoutReplay
 	if fresh {
-		bb := q6.NewBudgetBuffer(budget)
+		bb := aper.NewBudgetBuffer(budget)
 		previous := bb.SuspendReplayPlan()
 		defer bb.RestoreReplayPlan(previous)
 	}
 	if v.isOpaque {
 		if v.opaque == nil {
-			return nil, q6.ErrInvalidValue
+			return nil, aper.ErrInvalidValue
 		}
 		return v.opaque.EncodeBytes(budget)
 	}
 	switch v.code {
-	case q4.ProcedureCode(2):
+	case s00.ProcedureCode(2):
 		if v.bodyECIDMeasurementInitiationFailure == nil {
-			return nil, q8.Errorf("%s value: missing ECIDMeasurementInitiationFailure", "Unsuccessful")
+			return nil, fmt.Errorf("%s value: missing ECIDMeasurementInitiationFailure", "Unsuccessful")
 		}
-		if !fresh && q6.NewBudgetBuffer(budget).ReplayPlan() != nil && q6.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
+		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
 			if err := v.replay.ApplyReplay(budget); err != nil {
 				return nil, err
 			}
 			return v.received.ReplayBytes(budget)
 		}
-		return q5.BridgeECIDMeasurementInitiationFailureMethodMarshalAPERBudget(v.bodyECIDMeasurementInitiationFailure, budget, fresh)
-	case q4.ProcedureCode(6):
+		return s11.BridgeECIDMeasurementInitiationFailureMethodMarshalAPERBudget(v.bodyECIDMeasurementInitiationFailure, budget, fresh)
+	case s00.ProcedureCode(6):
 		if v.bodyOTDOAInformationFailure == nil {
-			return nil, q8.Errorf("%s value: missing OTDOAInformationFailure", "Unsuccessful")
+			return nil, fmt.Errorf("%s value: missing OTDOAInformationFailure", "Unsuccessful")
 		}
-		if !fresh && q6.NewBudgetBuffer(budget).ReplayPlan() != nil && q6.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
+		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
 			if err := v.replay.ApplyReplay(budget); err != nil {
 				return nil, err
 			}
 			return v.received.ReplayBytes(budget)
 		}
-		return q9.BridgeOTDOAInformationFailureMethodMarshalAPERBudget(v.bodyOTDOAInformationFailure, budget, fresh)
-	case q4.ProcedureCode(7):
+		return s12.BridgeOTDOAInformationFailureMethodMarshalAPERBudget(v.bodyOTDOAInformationFailure, budget, fresh)
+	case s00.ProcedureCode(7):
 		if v.bodyUTDOAInformationFailure == nil {
-			return nil, q8.Errorf("%s value: missing UTDOAInformationFailure", "Unsuccessful")
+			return nil, fmt.Errorf("%s value: missing UTDOAInformationFailure", "Unsuccessful")
 		}
-		if !fresh && q6.NewBudgetBuffer(budget).ReplayPlan() != nil && q6.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
+		if !fresh && aper.NewBudgetBuffer(budget).ReplayPlan() != nil && aper.NewBudgetBuffer(budget).ReplayPlan().Unchanged(v.replay) {
 			if err := v.replay.ApplyReplay(budget); err != nil {
 				return nil, err
 			}
@@ -3797,40 +3867,40 @@ func (v UnsuccessfulValue) encodeFresh(fresh bool, budget *q6.DecodeBudget) ([]b
 		}
 		return v.bodyUTDOAInformationFailure.marshalAPERBudget(budget, fresh)
 	default:
-		return nil, q8.Errorf("%s value: unknown code %d without opaque content", "Unsuccessful", v.code)
+		return nil, fmt.Errorf("%s value: unknown code %d without opaque content", "Unsuccessful", v.code)
 	}
 }
-func NewOpaqueUnsuccessfulOutcome(code q4.ProcedureCode, criticality q4.Criticality, transactionID q4.LPPATransactionID, data []byte) (UnsuccessfulOutcome, error) {
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "OpaqueUnsuccessfulOutcome")
+func NewOpaqueUnsuccessfulOutcome(code s00.ProcedureCode, criticality s00.Criticality, transactionID s00.LPPATransactionID, data []byte) (UnsuccessfulOutcome, error) {
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "OpaqueUnsuccessfulOutcome")
 	}
 	switch code {
-	case q4.ProcedureCode(2):
-		return UnsuccessfulOutcome{}, q6.OperationError(q8.Errorf("known Unsuccessful procedure id-e-CIDMeasurementInitiation requires its typed binding"), "OpaqueUnsuccessfulOutcome")
-	case q4.ProcedureCode(6):
-		return UnsuccessfulOutcome{}, q6.OperationError(q8.Errorf("known Unsuccessful procedure id-oTDOAInformationExchange requires its typed binding"), "OpaqueUnsuccessfulOutcome")
-	case q4.ProcedureCode(7):
-		return UnsuccessfulOutcome{}, q6.OperationError(q8.Errorf("known Unsuccessful procedure id-uTDOAInformationExchange requires its typed binding"), "OpaqueUnsuccessfulOutcome")
+	case s00.ProcedureCode(2):
+		return UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("known Unsuccessful procedure id-e-CIDMeasurementInitiation requires its typed binding"), "OpaqueUnsuccessfulOutcome")
+	case s00.ProcedureCode(6):
+		return UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("known Unsuccessful procedure id-oTDOAInformationExchange requires its typed binding"), "OpaqueUnsuccessfulOutcome")
+	case s00.ProcedureCode(7):
+		return UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("known Unsuccessful procedure id-uTDOAInformationExchange requires its typed binding"), "OpaqueUnsuccessfulOutcome")
 	}
-	budget, err := q6.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "OpaqueUnsuccessfulOutcome")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "OpaqueUnsuccessfulOutcome")
 	}
-	opaque, err := q6.BuildOpaqueOpenType(data, budget)
+	opaque, err := aper.BuildOpaqueOpenType(data, budget)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "OpaqueUnsuccessfulOutcome")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "OpaqueUnsuccessfulOutcome")
 	}
 	retained, err := opaque.Retained(budget)
 	if err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "OpaqueUnsuccessfulOutcome")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "OpaqueUnsuccessfulOutcome")
 	}
 	message := UnsuccessfulOutcome{ProcedureCode: code, Criticality: criticality, LppatransactionID: transactionID, Value: UnsuccessfulValue{code: code, opaque: retained, isOpaque: true}}
 	if _, err := message.marshalAPERBudget(budget, false); err != nil {
-		return UnsuccessfulOutcome{}, q6.OperationError(err, "OpaqueUnsuccessfulOutcome")
+		return UnsuccessfulOutcome{}, aper.OperationError(err, "OpaqueUnsuccessfulOutcome")
 	}
-	return message, q6.OperationError(nil, "OpaqueUnsuccessfulOutcome")
+	return message, aper.OperationError(nil, "OpaqueUnsuccessfulOutcome")
 }
-func BridgeCaptureLPPaOTDOACells(v *OTDOACells, s *q6.SemanticCapture) {
+func BridgeCaptureLPPaOTDOACells(v *OTDOACells, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -3850,7 +3920,7 @@ func BridgeCaptureLPPaOTDOACells(v *OTDOACells, s *q6.SemanticCapture) {
 	}
 	s.End(f, nil, false)
 }
-func BridgeCompareLPPaOTDOACells(v *OTDOACells, s *q6.SemanticComparison) {
+func BridgeCompareLPPaOTDOACells(v *OTDOACells, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -3866,36 +3936,36 @@ func BridgeCompareLPPaOTDOACells(v *OTDOACells, s *q6.SemanticComparison) {
 			}
 			BridgeCompareLPPaOTDOACellsElem(&(*v)[i], s)
 		}
-		s.End(f, q6.Snapshot{}, false)
+		s.End(f, aper.Snapshot{}, false)
 	}
-	s.End(f, q6.Snapshot{}, false)
+	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeCaptureLPPaOTDOACellsElem(v *OTDOACellsElem, s *q6.SemanticCapture) {
+func BridgeCaptureLPPaOTDOACellsElem(v *OTDOACellsElem, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
 	s.Stream(v.stream)
-	q14.BridgeCaptureLPPaOTDOACellInformation(&v.OTDOACellInfo, s)
+	s15.BridgeCaptureLPPaOTDOACellInformation(&v.OTDOACellInfo, s)
 	s.Bool(v.IEExtensions == nil)
-	q15.BridgeOTDOACellsExtIEsValueCaptureLPPaProtocolExtensionContainer(&v.IEExtensions, s)
+	s05.BridgeOTDOACellsExtIEsValueCaptureLPPaProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func BridgeCompareLPPaOTDOACellsElem(v *OTDOACellsElem, s *q6.SemanticComparison) {
+func BridgeCompareLPPaOTDOACellsElem(v *OTDOACellsElem, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	q14.BridgeCompareLPPaOTDOACellInformation(&v.OTDOACellInfo, s)
+	s15.BridgeCompareLPPaOTDOACellInformation(&v.OTDOACellInfo, s)
 	s.Bool(v.IEExtensions == nil)
-	q15.BridgeOTDOACellsExtIEsValueCompareLPPaProtocolExtensionContainer(&v.IEExtensions, s)
+	s05.BridgeOTDOACellsExtIEsValueCompareLPPaProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }
-func BridgeCaptureLPPaUTDOAInformationFailure(v *UTDOAInformationFailure, s *q6.SemanticCapture) {
+func BridgeCaptureLPPaUTDOAInformationFailure(v *UTDOAInformationFailure, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -3906,7 +3976,7 @@ func BridgeCaptureLPPaUTDOAInformationFailure(v *UTDOAInformationFailure, s *q6.
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func BridgeCompareLPPaUTDOAInformationFailure(v *UTDOAInformationFailure, s *q6.SemanticComparison) {
+func BridgeCompareLPPaUTDOAInformationFailure(v *UTDOAInformationFailure, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -3916,7 +3986,7 @@ func BridgeCompareLPPaUTDOAInformationFailure(v *UTDOAInformationFailure, s *q6.
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }
-func BridgeCaptureLPPaUTDOAInformationRequest(v *UTDOAInformationRequest, s *q6.SemanticCapture) {
+func BridgeCaptureLPPaUTDOAInformationRequest(v *UTDOAInformationRequest, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -3927,7 +3997,7 @@ func BridgeCaptureLPPaUTDOAInformationRequest(v *UTDOAInformationRequest, s *q6.
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func BridgeCompareLPPaUTDOAInformationRequest(v *UTDOAInformationRequest, s *q6.SemanticComparison) {
+func BridgeCompareLPPaUTDOAInformationRequest(v *UTDOAInformationRequest, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -3937,39 +4007,39 @@ func BridgeCompareLPPaUTDOAInformationRequest(v *UTDOAInformationRequest, s *q6.
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }
-func BridgeCaptureLPPaUnsuccessfulOutcome(v *UnsuccessfulOutcome, s *q6.SemanticCapture) {
+func BridgeCaptureLPPaUnsuccessfulOutcome(v *UnsuccessfulOutcome, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
 	s.Stream(v.stream)
-	q4.BridgeCaptureLPPaProcedureCode(&v.ProcedureCode, s)
-	q4.BridgeCaptureLPPaCriticality(&v.Criticality, s)
-	q4.BridgeCaptureLPPaLPPATransactionID(&v.LppatransactionID, s)
+	s00.BridgeCaptureLPPaProcedureCode(&v.ProcedureCode, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s00.BridgeCaptureLPPaLPPATransactionID(&v.LppatransactionID, s)
 	s.OpenBytes(v.Value.captureFraming())
 	BridgeCaptureLPPaUnsuccessfulValue(&v.Value, s)
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func BridgeCompareLPPaUnsuccessfulOutcome(v *UnsuccessfulOutcome, s *q6.SemanticComparison) {
+func BridgeCompareLPPaUnsuccessfulOutcome(v *UnsuccessfulOutcome, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	q13.BridgeCompareLPPaProcedureCode(&v.ProcedureCode, s)
-	q13.BridgeCompareLPPaCriticality(&v.Criticality, s)
-	q13.BridgeCompareLPPaLPPATransactionID(&v.LppatransactionID, s)
+	s02.BridgeCompareLPPaProcedureCode(&v.ProcedureCode, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
+	s02.BridgeCompareLPPaLPPATransactionID(&v.LppatransactionID, s)
 	BridgeCompareLPPaUnsuccessfulValue(&v.Value, s)
 	s.End(f, v.replay, v.withoutReplay)
 }
-func BridgeCaptureLPPaUnsuccessfulValue(v *UnsuccessfulValue, s *q6.SemanticCapture) {
+func BridgeCaptureLPPaUnsuccessfulValue(v *UnsuccessfulValue, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Stream(v.received)
-	q4.BridgeCaptureLPPaProcedureCode(&v.code, s)
+	s00.BridgeCaptureLPPaProcedureCode(&v.code, s)
 	if v.isOpaque {
 		{
 			f := s.Begin()
@@ -3983,25 +4053,25 @@ func BridgeCaptureLPPaUnsuccessfulValue(v *UnsuccessfulValue, s *q6.SemanticCapt
 	s.Bool(v.isOpaque)
 	if !(v.isOpaque) {
 		switch v.code {
-		case q4.ProcedureCode(2):
+		case s00.ProcedureCode(2):
 			{
 				f := s.Begin()
 				s.Bool(v.bodyECIDMeasurementInitiationFailure == nil)
 				if v.bodyECIDMeasurementInitiationFailure != nil {
-					q5.BridgeCaptureLPPaECIDMeasurementInitiationFailure(v.bodyECIDMeasurementInitiationFailure, s)
+					s11.BridgeCaptureLPPaECIDMeasurementInitiationFailure(v.bodyECIDMeasurementInitiationFailure, s)
 				}
 				s.End(f, nil, false)
 			}
-		case q4.ProcedureCode(6):
+		case s00.ProcedureCode(6):
 			{
 				f := s.Begin()
 				s.Bool(v.bodyOTDOAInformationFailure == nil)
 				if v.bodyOTDOAInformationFailure != nil {
-					q9.BridgeCaptureLPPaOTDOAInformationFailure(v.bodyOTDOAInformationFailure, s)
+					s12.BridgeCaptureLPPaOTDOAInformationFailure(v.bodyOTDOAInformationFailure, s)
 				}
 				s.End(f, nil, false)
 			}
-		case q4.ProcedureCode(7):
+		case s00.ProcedureCode(7):
 			{
 				f := s.Begin()
 				s.Bool(v.bodyUTDOAInformationFailure == nil)
@@ -4014,23 +4084,23 @@ func BridgeCaptureLPPaUnsuccessfulValue(v *UnsuccessfulValue, s *q6.SemanticCapt
 	}
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func (v UnsuccessfulValue) captureSnapshot() q6.Snapshot { return v.replay }
+func (v UnsuccessfulValue) captureSnapshot() aper.Snapshot { return v.replay }
 func (v UnsuccessfulValue) captureFraming() uint64 {
 	if v.isOpaque && v.opaque != nil {
 		return v.opaque.ContentLength()
 	}
 	return v.received.ByteLength()
 }
-func (v UnsuccessfulValue) captureSemantics(s q6.SemanticCapture) UnsuccessfulValue {
+func (v UnsuccessfulValue) captureSemantics(s aper.SemanticCapture) UnsuccessfulValue {
 	BridgeCaptureLPPaUnsuccessfulValue(&v, &s)
 	return v
 }
-func BridgeCompareLPPaUnsuccessfulValue(v *UnsuccessfulValue, s *q6.SemanticComparison) {
+func BridgeCompareLPPaUnsuccessfulValue(v *UnsuccessfulValue, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
-	q13.BridgeCompareLPPaProcedureCode(&v.code, s)
+	s02.BridgeCompareLPPaProcedureCode(&v.code, s)
 	if v.isOpaque {
 		{
 			f := s.Begin()
@@ -4038,82 +4108,84 @@ func BridgeCompareLPPaUnsuccessfulValue(v *UnsuccessfulValue, s *q6.SemanticComp
 			if v.opaque != nil {
 				s.Opaque((*v.opaque))
 			}
-			s.End(f, q6.Snapshot{}, false)
+			s.End(f, aper.Snapshot{}, false)
 		}
 	}
 	s.Bool(v.isOpaque)
 	if !(v.isOpaque) {
 		switch v.code {
-		case q4.ProcedureCode(2):
+		case s00.ProcedureCode(2):
 			{
 				f := s.Begin()
 				s.Bool(v.bodyECIDMeasurementInitiationFailure == nil)
 				if v.bodyECIDMeasurementInitiationFailure != nil {
-					q5.BridgeCompareLPPaECIDMeasurementInitiationFailure(v.bodyECIDMeasurementInitiationFailure, s)
+					s11.BridgeCompareLPPaECIDMeasurementInitiationFailure(v.bodyECIDMeasurementInitiationFailure, s)
 				}
-				s.End(f, q6.Snapshot{}, false)
+				s.End(f, aper.Snapshot{}, false)
 			}
-		case q4.ProcedureCode(6):
+		case s00.ProcedureCode(6):
 			{
 				f := s.Begin()
 				s.Bool(v.bodyOTDOAInformationFailure == nil)
 				if v.bodyOTDOAInformationFailure != nil {
-					q9.BridgeCompareLPPaOTDOAInformationFailure(v.bodyOTDOAInformationFailure, s)
+					s12.BridgeCompareLPPaOTDOAInformationFailure(v.bodyOTDOAInformationFailure, s)
 				}
-				s.End(f, q6.Snapshot{}, false)
+				s.End(f, aper.Snapshot{}, false)
 			}
-		case q4.ProcedureCode(7):
+		case s00.ProcedureCode(7):
 			{
 				f := s.Begin()
 				s.Bool(v.bodyUTDOAInformationFailure == nil)
 				if v.bodyUTDOAInformationFailure != nil {
 					BridgeCompareLPPaUTDOAInformationFailure(v.bodyUTDOAInformationFailure, s)
 				}
-				s.End(f, q6.Snapshot{}, false)
+				s.End(f, aper.Snapshot{}, false)
 			}
 		}
 	}
 	s.End(f, v.replay, v.withoutReplay)
 }
-func (v UnsuccessfulValue) compareSemantics(s q6.SemanticComparison) q6.SemanticComparison {
+func (v UnsuccessfulValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
 	BridgeCompareLPPaUnsuccessfulValue(&v, &s)
 	return s
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v UnsuccessfulValue) WithoutReplay() UnsuccessfulValue {
 	v.withoutReplay = true
-	v.replay = q6.Snapshot{}
+	v.replay = aper.Snapshot{}
 	return v
 }
 
 // OTDOACellsElemCodec binds the complete source value type.
 func OTDOACellsElemCodec() OTDOACellsElemValueCodec {
-	return OTDOACellsElemValueCodec{path: "OTDOACellsElem", decode: func(data []byte, options q6.DecodeState) (OTDOACellsElem, error) {
+	return OTDOACellsElemValueCodec{path: "OTDOACellsElem", decode: func(data []byte, options aper.DecodeState) (OTDOACellsElem, error) {
 		var value OTDOACellsElem
 		if err := value.unmarshalAPERWithOptions(data, options); err != nil {
 			return OTDOACellsElem{}, err
 		}
 		value.received = true
-		value.receivedBytes = q6.OriginalWire(data)
+		value.receivedBytes = aper.OriginalWire(data)
 		return value, nil
-	}, encode: func(value OTDOACellsElem, fresh bool, budget *q6.DecodeBudget) ([]byte, error) {
+	}, encode: func(value OTDOACellsElem, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return (&value).marshalAPERBudget(budget, fresh)
-	}, capture: func(v OTDOACellsElem, options q6.DecodeState) (OTDOACellsElem, q6.Snapshot) {
-		s := q6.SemanticCaptureFor(options)
+	}, capture: func(v OTDOACellsElem, options aper.DecodeState) (OTDOACellsElem, aper.Snapshot) {
+		s := aper.SemanticCaptureFor(options)
 		f := s.Begin()
 		BridgeCaptureLPPaOTDOACellsElem(&v, &s)
-		var root q6.Snapshot
+		var root aper.Snapshot
 		s.OperationCounts()
 		s.End(f, &root, false)
 		return v, root
-	}, compare: func(v OTDOACellsElem, root q6.Snapshot, limits q6.ComparisonLimits) q6.ReplayPlan {
-		s := q6.NewSemanticComparison(root, limits)
+	}, compare: func(v OTDOACellsElem, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(root, limits)
 		f := s.Begin()
 		BridgeCompareLPPaOTDOACellsElem(&v, &s)
 		s.End(f, root, false)
 		return s.Plan()
-	}, context: func() q4.BridgeCodecContext {
-		sealed := q4.BridgeCodecContext{}
-		*q4.BridgecodecContextFieldSource(&sealed) = "source-value:OTDOACellsElem"
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:OTDOACellsElem"
 		return sealed
 	}(),
 	}
@@ -4121,207 +4193,211 @@ func OTDOACellsElemCodec() OTDOACellsElemValueCodec {
 
 // UnsuccessfulOutcomeCodec binds the complete source value type.
 func UnsuccessfulOutcomeCodec() UnsuccessfulOutcomeValueCodec {
-	return UnsuccessfulOutcomeValueCodec{path: "UnsuccessfulOutcome", decode: func(data []byte, options q6.DecodeState) (UnsuccessfulOutcome, error) {
+	return UnsuccessfulOutcomeValueCodec{path: "UnsuccessfulOutcome", decode: func(data []byte, options aper.DecodeState) (UnsuccessfulOutcome, error) {
 		var value UnsuccessfulOutcome
 		if err := value.unmarshalAPERWithOptions(data, options); err != nil {
 			return UnsuccessfulOutcome{}, err
 		}
 		value.received = true
-		value.receivedBytes = q6.OriginalWire(data)
+		value.receivedBytes = aper.OriginalWire(data)
 		return value, nil
-	}, encode: func(value UnsuccessfulOutcome, fresh bool, budget *q6.DecodeBudget) ([]byte, error) {
+	}, encode: func(value UnsuccessfulOutcome, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return (&value).marshalAPERBudget(budget, fresh)
-	}, capture: func(v UnsuccessfulOutcome, options q6.DecodeState) (UnsuccessfulOutcome, q6.Snapshot,
+	}, capture: func(v UnsuccessfulOutcome, options aper.DecodeState) (UnsuccessfulOutcome, aper.Snapshot,
 	) {
-		s := q6.SemanticCaptureFor(options)
+		s := aper.SemanticCaptureFor(options)
 		f := s.Begin()
 		BridgeCaptureLPPaUnsuccessfulOutcome(&v, &s)
-		var root q6.Snapshot
+		var root aper.Snapshot
 		s.OperationCounts()
 		s.End(
 			f,
 			&root, false)
 		return v, root
-	}, compare: func(v UnsuccessfulOutcome, root q6.Snapshot, limits q6.ComparisonLimits) q6.ReplayPlan {
-		s := q6.NewSemanticComparison(root, limits)
+	}, compare: func(v UnsuccessfulOutcome, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(root, limits)
 		f := s.Begin()
 		BridgeCompareLPPaUnsuccessfulOutcome(&v, &s)
 		s.End(f, root, false)
 		return s.Plan()
-	}, context: func() q4.BridgeCodecContext {
-		sealed := q4.BridgeCodecContext{}
-		*q4.BridgecodecContextFieldSource(&sealed) = "source-value:UnsuccessfulOutcome"
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:UnsuccessfulOutcome"
 		return sealed
 	}(),
 	}
 }
-func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldCapture(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(q5.ECIDMeasurementInitiationFailure, q6.DecodeState) (q5.ECIDMeasurementInitiationFailure, q6.Snapshot) {
+func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldCapture(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(s11.ECIDMeasurementInitiationFailure, aper.DecodeState) (s11.ECIDMeasurementInitiationFailure, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldCompare(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(q5.ECIDMeasurementInitiationFailure, q6.Snapshot, q6.ComparisonLimits) q6.ReplayPlan {
+func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldCompare(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(s11.ECIDMeasurementInitiationFailure, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldContext(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *q4.BridgeCodecContext {
+func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldContext(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldDecode(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func([]byte, q6.DecodeState) (q5.ECIDMeasurementInitiationFailure, error) {
+func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldDecode(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func([]byte, aper.DecodeState) (s11.ECIDMeasurementInitiationFailure, error) {
 	return &v.decode
 }
-func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldEncode(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(*q5.ECIDMeasurementInitiationFailure, bool, *q6.DecodeBudget) ([]byte, error) {
+func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldEncode(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(*s11.ECIDMeasurementInitiationFailure, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldInfo(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *q4.ProcedureInfo {
+func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldInfo(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *s00.ProcedureInfo {
 	return &v.info
 }
-func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldInject(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(q5.ECIDMeasurementInitiationFailure) UnsuccessfulValue {
+func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldInject(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(s11.ECIDMeasurementInitiationFailure) UnsuccessfulValue {
 	return &v.inject
 }
-func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldValidate(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(*q5.ECIDMeasurementInitiationFailure, *q6.DecodeBudget) (q7.ValidationReport, error) {
+func BridgeECIDMeasurementInitiationFailureUnsuccessfulBindingFieldValidate(v *ECIDMeasurementInitiationFailureUnsuccessfulBinding) *func(*s11.ECIDMeasurementInitiationFailure, *aper.DecodeBudget) (s09.ValidationReport, error) {
 	return &v.validate
 }
-func BridgeOTDOACellsAPERValueFieldContext(v *OTDOACellsAPERValue) *q4.BridgeCodecContext {
+func BridgeOTDOACellsAPERValueFieldContext(v *OTDOACellsAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOTDOACellsAPERValueFieldReceived(v *OTDOACellsAPERValue) *q6.WireSpan { return &v.received }
-func BridgeOTDOACellsAPERValueFieldReplay(v *OTDOACellsAPERValue) *q6.Snapshot   { return &v.replay }
+func BridgeOTDOACellsAPERValueFieldReceived(v *OTDOACellsAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeOTDOACellsAPERValueFieldReplay(v *OTDOACellsAPERValue) *aper.Snapshot { return &v.replay }
 func BridgeOTDOACellsAPERValueFieldWithoutReplay(v *OTDOACellsAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeOTDOACellsElemAPERValueFieldContext(v *OTDOACellsElemAPERValue) *q4.BridgeCodecContext {
+func BridgeOTDOACellsElemAPERValueFieldContext(v *OTDOACellsElemAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOTDOACellsElemAPERValueFieldReceived(v *OTDOACellsElemAPERValue) *q6.WireSpan {
+func BridgeOTDOACellsElemAPERValueFieldReceived(v *OTDOACellsElemAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeOTDOACellsElemAPERValueFieldReplay(v *OTDOACellsElemAPERValue) *q6.Snapshot {
+func BridgeOTDOACellsElemAPERValueFieldReplay(v *OTDOACellsElemAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeOTDOACellsElemAPERValueFieldWithoutReplay(v *OTDOACellsElemAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeOTDOACellsElemFieldExtCount(v *OTDOACellsElem) *int64              { return &v.extCount }
-func BridgeOTDOACellsElemFieldExtData(v *OTDOACellsElem) *[][]byte            { return &v.extData }
-func BridgeOTDOACellsElemFieldExtOrigin(v *OTDOACellsElem) *[]q6.OpaqueOrigin { return &v.extOrigin }
-func BridgeOTDOACellsElemFieldExtPresent(v *OTDOACellsElem) *[]bool           { return &v.extPresent }
-func BridgeOTDOACellsElemFieldExtWire(v *OTDOACellsElem) *[]q6.WireSpan       { return &v.extWire }
-func BridgeOTDOACellsElemFieldIEExtensionsIndef(v *OTDOACellsElem) *bool      { return &v.iEExtensionsIndef }
+func BridgeOTDOACellsElemFieldExtCount(v *OTDOACellsElem) *int64                { return &v.extCount }
+func BridgeOTDOACellsElemFieldExtData(v *OTDOACellsElem) *[][]byte              { return &v.extData }
+func BridgeOTDOACellsElemFieldExtOrigin(v *OTDOACellsElem) *[]aper.OpaqueOrigin { return &v.extOrigin }
+func BridgeOTDOACellsElemFieldExtPresent(v *OTDOACellsElem) *[]bool             { return &v.extPresent }
+func BridgeOTDOACellsElemFieldExtWire(v *OTDOACellsElem) *[]aper.WireSpan       { return &v.extWire }
+func BridgeOTDOACellsElemFieldIEExtensionsIndef(v *OTDOACellsElem) *bool        { return &v.iEExtensionsIndef }
 func BridgeOTDOACellsElemFieldOTDOACellInfoIndef(v *OTDOACellsElem) *bool {
 	return &v.oTDOACellInfoIndef
 }
-func BridgeOTDOACellsElemFieldPerExtPadding(v *OTDOACellsElem) *[]q6.CompletePadding {
+func BridgeOTDOACellsElemFieldPerExtPadding(v *OTDOACellsElem) *[]aper.CompletePadding {
 	return &v.perExtPadding
 }
-func BridgeOTDOACellsElemFieldPerPadding(v *OTDOACellsElem) *q6.FinalPadding { return &v.perPadding }
-func BridgeOTDOACellsElemFieldReceived(v *OTDOACellsElem) *bool              { return &v.received }
-func BridgeOTDOACellsElemFieldReceivedBytes(v *OTDOACellsElem) *q6.WireSpan  { return &v.receivedBytes }
-func BridgeOTDOACellsElemFieldReplay(v *OTDOACellsElem) *q6.Snapshot         { return &v.replay }
-func BridgeOTDOACellsElemFieldStream(v *OTDOACellsElem) *q6.WireSpan         { return &v.stream }
-func BridgeOTDOACellsElemFieldWithoutReplay(v *OTDOACellsElem) *bool         { return &v.withoutReplay }
-func BridgeOTDOACellsElemMethodMarshalAPERBudget(v *OTDOACellsElem, a0 *q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeOTDOACellsElemFieldPerPadding(v *OTDOACellsElem) *aper.FinalPadding { return &v.perPadding }
+func BridgeOTDOACellsElemFieldReceived(v *OTDOACellsElem) *bool                { return &v.received }
+func BridgeOTDOACellsElemFieldReceivedBytes(v *OTDOACellsElem) *aper.WireSpan {
+	return &v.receivedBytes
+}
+func BridgeOTDOACellsElemFieldReplay(v *OTDOACellsElem) *aper.Snapshot { return &v.replay }
+func BridgeOTDOACellsElemFieldStream(v *OTDOACellsElem) *aper.WireSpan { return &v.stream }
+func BridgeOTDOACellsElemFieldWithoutReplay(v *OTDOACellsElem) *bool   { return &v.withoutReplay }
+func BridgeOTDOACellsElemMethodMarshalAPERBudget(v *OTDOACellsElem, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERBudget(a0, a1)
 }
-func BridgeOTDOACellsElemMethodMarshalAPERChanged(v *OTDOACellsElem, a0 *q6.DecodeBudget, a1 bool, a2 q6.ReplayPlan) ([]byte, error) {
+func BridgeOTDOACellsElemMethodMarshalAPERChanged(v *OTDOACellsElem, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(a0, a1, a2)
 }
-func BridgeOTDOACellsElemMethodMarshalAPERChangedValue(v *OTDOACellsElem, a0 q6.DecodeBudget, a1 bool, a2 q6.ReplayPlan) ([]byte, error) {
+func BridgeOTDOACellsElemMethodMarshalAPERChangedValue(v *OTDOACellsElem, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChangedValue(a0, a1, a2)
 }
-func BridgeOTDOACellsElemMethodMarshalAPERFreshValue(v *OTDOACellsElem, a0 q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeOTDOACellsElemMethodMarshalAPERFreshValue(v *OTDOACellsElem, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERFreshValue(a0, a1)
 }
 func BridgeOTDOACellsElemMethodMarshalAPERLegacy(v *OTDOACellsElem) ([]byte, error) {
 	return v.marshalAPERLegacy()
 }
-func BridgeOTDOACellsElemMethodMarshalAPERPlanned(v *OTDOACellsElem, a0 *q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeOTDOACellsElemMethodMarshalAPERPlanned(v *OTDOACellsElem, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERPlanned(a0, a1)
 }
-func BridgeOTDOACellsElemMethodMarshalAPERTo(v *OTDOACellsElem, a0 *q6.BitBuffer, a1 ...bool) error {
+func BridgeOTDOACellsElemMethodMarshalAPERTo(v *OTDOACellsElem, a0 *aper.BitBuffer, a1 ...bool) error {
 	return v.marshalAPERTo(a0, a1...)
 }
-func BridgeOTDOACellsElemMethodUnmarshalAPERFrom(v *OTDOACellsElem, a0 *q6.BitBuffer) error {
+func BridgeOTDOACellsElemMethodUnmarshalAPERFrom(v *OTDOACellsElem, a0 *aper.BitBuffer) error {
 	return v.unmarshalAPERFrom(a0)
 }
 func BridgeOTDOACellsElemMethodUnmarshalAPERLegacy(v *OTDOACellsElem, a0 []byte) error {
 	return v.unmarshalAPERLegacy(a0)
 }
-func BridgeOTDOACellsElemMethodUnmarshalAPERWithOptions(v *OTDOACellsElem, a0 []byte, a1 q6.DecodeState) error {
+func BridgeOTDOACellsElemMethodUnmarshalAPERWithOptions(v *OTDOACellsElem, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
 }
-func BridgeOTDOACellsElemValueCodecFieldCapture(v *OTDOACellsElemValueCodec) *func(OTDOACellsElem, q6.DecodeState) (OTDOACellsElem, q6.Snapshot) {
+func BridgeOTDOACellsElemValueCodecFieldCapture(v *OTDOACellsElemValueCodec) *func(OTDOACellsElem, aper.DecodeState) (OTDOACellsElem, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeOTDOACellsElemValueCodecFieldCompare(v *OTDOACellsElemValueCodec) *func(OTDOACellsElem, q6.Snapshot, q6.ComparisonLimits) q6.ReplayPlan {
+func BridgeOTDOACellsElemValueCodecFieldCompare(v *OTDOACellsElemValueCodec) *func(OTDOACellsElem, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeOTDOACellsElemValueCodecFieldContext(v *OTDOACellsElemValueCodec) *q4.BridgeCodecContext {
+func BridgeOTDOACellsElemValueCodecFieldContext(v *OTDOACellsElemValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOTDOACellsElemValueCodecFieldDecode(v *OTDOACellsElemValueCodec) *func([]byte, q6.DecodeState) (OTDOACellsElem, error) {
+func BridgeOTDOACellsElemValueCodecFieldDecode(v *OTDOACellsElemValueCodec) *func([]byte, aper.DecodeState) (OTDOACellsElem, error) {
 	return &v.decode
 }
-func BridgeOTDOACellsElemValueCodecFieldEncode(v *OTDOACellsElemValueCodec) *func(OTDOACellsElem, bool, *q6.DecodeBudget) ([]byte, error) {
+func BridgeOTDOACellsElemValueCodecFieldEncode(v *OTDOACellsElemValueCodec) *func(OTDOACellsElem, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeOTDOACellsElemValueCodecFieldPath(v *OTDOACellsElemValueCodec) *q6.Path { return &v.path }
-func BridgeOTDOACellsElemValueCodecMethodEncodeBudget(v OTDOACellsElemValueCodec, a0 OTDOACellsElem, a1 bool, a2 q6.DecodeBudget) ([]byte, error) {
+func BridgeOTDOACellsElemValueCodecFieldPath(v *OTDOACellsElemValueCodec) *aper.Path { return &v.path }
+func BridgeOTDOACellsElemValueCodecMethodEncodeBudget(v OTDOACellsElemValueCodec, a0 OTDOACellsElem, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeOTDOACellsElemValueCodecMethodEncodeChanged(v OTDOACellsElemValueCodec, a0 OTDOACellsElem, a1 bool, a2 q6.ReplayPlan, a3 q6.DecodeBudget) ([]byte, error) {
+func BridgeOTDOACellsElemValueCodecMethodEncodeChanged(v OTDOACellsElemValueCodec, a0 OTDOACellsElem, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeOTDOACellsValueCodecFieldCapture(v *OTDOACellsValueCodec) *func(OTDOACells, q6.DecodeState) (OTDOACells, q6.Snapshot) {
+func BridgeOTDOACellsValueCodecFieldCapture(v *OTDOACellsValueCodec) *func(OTDOACells, aper.DecodeState) (OTDOACells, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeOTDOACellsValueCodecFieldCompare(v *OTDOACellsValueCodec) *func(OTDOACells, q6.Snapshot, q6.ComparisonLimits) q6.ReplayPlan {
+func BridgeOTDOACellsValueCodecFieldCompare(v *OTDOACellsValueCodec) *func(OTDOACells, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeOTDOACellsValueCodecFieldContext(v *OTDOACellsValueCodec) *q4.BridgeCodecContext {
+func BridgeOTDOACellsValueCodecFieldContext(v *OTDOACellsValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOTDOACellsValueCodecFieldDecode(v *OTDOACellsValueCodec) *func([]byte, q6.DecodeState) (OTDOACells, error) {
+func BridgeOTDOACellsValueCodecFieldDecode(v *OTDOACellsValueCodec) *func([]byte, aper.DecodeState) (OTDOACells, error) {
 	return &v.decode
 }
-func BridgeOTDOACellsValueCodecFieldEncode(v *OTDOACellsValueCodec) *func(OTDOACells, bool, *q6.DecodeBudget) ([]byte, error) {
+func BridgeOTDOACellsValueCodecFieldEncode(v *OTDOACellsValueCodec) *func(OTDOACells, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeOTDOACellsValueCodecFieldPath(v *OTDOACellsValueCodec) *q6.Path { return &v.path }
-func BridgeOTDOACellsValueCodecMethodEncodeBudget(v OTDOACellsValueCodec, a0 OTDOACells, a1 bool, a2 q6.DecodeBudget) ([]byte, error) {
+func BridgeOTDOACellsValueCodecFieldPath(v *OTDOACellsValueCodec) *aper.Path { return &v.path }
+func BridgeOTDOACellsValueCodecMethodEncodeBudget(v OTDOACellsValueCodec, a0 OTDOACells, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeOTDOACellsValueCodecMethodEncodeChanged(v OTDOACellsValueCodec, a0 OTDOACells, a1 bool, a2 q6.ReplayPlan, a3 q6.DecodeBudget) ([]byte, error) {
+func BridgeOTDOACellsValueCodecMethodEncodeChanged(v OTDOACellsValueCodec, a0 OTDOACells, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldCapture(v *OTDOAInformationFailureUnsuccessfulBinding) *func(q9.OTDOAInformationFailure, q6.DecodeState) (q9.OTDOAInformationFailure, q6.Snapshot) {
+func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldCapture(v *OTDOAInformationFailureUnsuccessfulBinding) *func(s12.OTDOAInformationFailure, aper.DecodeState) (s12.OTDOAInformationFailure, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldCompare(v *OTDOAInformationFailureUnsuccessfulBinding) *func(q9.OTDOAInformationFailure, q6.Snapshot, q6.ComparisonLimits) q6.ReplayPlan {
+func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldCompare(v *OTDOAInformationFailureUnsuccessfulBinding) *func(s12.OTDOAInformationFailure, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldContext(v *OTDOAInformationFailureUnsuccessfulBinding) *q4.BridgeCodecContext {
+func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldContext(v *OTDOAInformationFailureUnsuccessfulBinding) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldDecode(v *OTDOAInformationFailureUnsuccessfulBinding) *func([]byte, q6.DecodeState) (q9.OTDOAInformationFailure, error) {
+func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldDecode(v *OTDOAInformationFailureUnsuccessfulBinding) *func([]byte, aper.DecodeState) (s12.OTDOAInformationFailure, error) {
 	return &v.decode
 }
-func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldEncode(v *OTDOAInformationFailureUnsuccessfulBinding) *func(*q9.OTDOAInformationFailure, bool, *q6.DecodeBudget) ([]byte, error) {
+func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldEncode(v *OTDOAInformationFailureUnsuccessfulBinding) *func(*s12.OTDOAInformationFailure, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldInfo(v *OTDOAInformationFailureUnsuccessfulBinding) *q4.ProcedureInfo {
+func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldInfo(v *OTDOAInformationFailureUnsuccessfulBinding) *s00.ProcedureInfo {
 	return &v.info
 }
-func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldInject(v *OTDOAInformationFailureUnsuccessfulBinding) *func(q9.OTDOAInformationFailure) UnsuccessfulValue {
+func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldInject(v *OTDOAInformationFailureUnsuccessfulBinding) *func(s12.OTDOAInformationFailure) UnsuccessfulValue {
 	return &v.inject
 }
-func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldValidate(v *OTDOAInformationFailureUnsuccessfulBinding) *func(*q9.OTDOAInformationFailure, *q6.DecodeBudget) (q7.ValidationReport, error) {
+func BridgeOTDOAInformationFailureUnsuccessfulBindingFieldValidate(v *OTDOAInformationFailureUnsuccessfulBinding) *func(*s12.OTDOAInformationFailure, *aper.DecodeBudget) (s09.ValidationReport, error) {
 	return &v.validate
 }
-func BridgeUTDOAInformationFailureAPERValueFieldContext(v *UTDOAInformationFailureAPERValue) *q4.BridgeCodecContext {
+func BridgeUTDOAInformationFailureAPERValueFieldContext(v *UTDOAInformationFailureAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTDOAInformationFailureAPERValueFieldReceived(v *UTDOAInformationFailureAPERValue) *q6.WireSpan {
+func BridgeUTDOAInformationFailureAPERValueFieldReceived(v *UTDOAInformationFailureAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeUTDOAInformationFailureAPERValueFieldReplay(v *UTDOAInformationFailureAPERValue) *q6.Snapshot {
+func BridgeUTDOAInformationFailureAPERValueFieldReplay(v *UTDOAInformationFailureAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeUTDOAInformationFailureAPERValueFieldWithoutReplay(v *UTDOAInformationFailureAPERValue) *bool {
@@ -4333,122 +4409,122 @@ func BridgeUTDOAInformationFailureFieldExtCount(v *UTDOAInformationFailure) *int
 func BridgeUTDOAInformationFailureFieldExtData(v *UTDOAInformationFailure) *[][]byte {
 	return &v.extData
 }
-func BridgeUTDOAInformationFailureFieldExtOrigin(v *UTDOAInformationFailure) *[]q6.OpaqueOrigin {
+func BridgeUTDOAInformationFailureFieldExtOrigin(v *UTDOAInformationFailure) *[]aper.OpaqueOrigin {
 	return &v.extOrigin
 }
 func BridgeUTDOAInformationFailureFieldExtPresent(v *UTDOAInformationFailure) *[]bool {
 	return &v.extPresent
 }
-func BridgeUTDOAInformationFailureFieldExtWire(v *UTDOAInformationFailure) *[]q6.WireSpan {
+func BridgeUTDOAInformationFailureFieldExtWire(v *UTDOAInformationFailure) *[]aper.WireSpan {
 	return &v.extWire
 }
-func BridgeUTDOAInformationFailureFieldPerExtPadding(v *UTDOAInformationFailure) *[]q6.CompletePadding {
+func BridgeUTDOAInformationFailureFieldPerExtPadding(v *UTDOAInformationFailure) *[]aper.CompletePadding {
 	return &v.perExtPadding
 }
-func BridgeUTDOAInformationFailureFieldPerPadding(v *UTDOAInformationFailure) *q6.FinalPadding {
+func BridgeUTDOAInformationFailureFieldPerPadding(v *UTDOAInformationFailure) *aper.FinalPadding {
 	return &v.perPadding
 }
 func BridgeUTDOAInformationFailureFieldProtocolIEsIndef(v *UTDOAInformationFailure) *bool {
 	return &v.protocolIEsIndef
 }
 func BridgeUTDOAInformationFailureFieldReceived(v *UTDOAInformationFailure) *bool { return &v.received }
-func BridgeUTDOAInformationFailureFieldReceivedBytes(v *UTDOAInformationFailure) *q6.WireSpan {
+func BridgeUTDOAInformationFailureFieldReceivedBytes(v *UTDOAInformationFailure) *aper.WireSpan {
 	return &v.receivedBytes
 }
-func BridgeUTDOAInformationFailureFieldReplay(v *UTDOAInformationFailure) *q6.Snapshot {
+func BridgeUTDOAInformationFailureFieldReplay(v *UTDOAInformationFailure) *aper.Snapshot {
 	return &v.replay
 }
-func BridgeUTDOAInformationFailureFieldStream(v *UTDOAInformationFailure) *q6.WireSpan {
+func BridgeUTDOAInformationFailureFieldStream(v *UTDOAInformationFailure) *aper.WireSpan {
 	return &v.stream
 }
 func BridgeUTDOAInformationFailureFieldWithoutReplay(v *UTDOAInformationFailure) *bool {
 	return &v.withoutReplay
 }
-func BridgeUTDOAInformationFailureMethodMarshalAPERBudget(v *UTDOAInformationFailure, a0 *q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeUTDOAInformationFailureMethodMarshalAPERBudget(v *UTDOAInformationFailure, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERBudget(a0, a1)
 }
-func BridgeUTDOAInformationFailureMethodMarshalAPERChanged(v *UTDOAInformationFailure, a0 *q6.DecodeBudget, a1 bool, a2 q6.ReplayPlan) ([]byte, error) {
+func BridgeUTDOAInformationFailureMethodMarshalAPERChanged(v *UTDOAInformationFailure, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(a0, a1, a2)
 }
-func BridgeUTDOAInformationFailureMethodMarshalAPERChangedValue(v *UTDOAInformationFailure, a0 q6.DecodeBudget, a1 bool, a2 q6.ReplayPlan) ([]byte, error) {
+func BridgeUTDOAInformationFailureMethodMarshalAPERChangedValue(v *UTDOAInformationFailure, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChangedValue(a0, a1, a2)
 }
-func BridgeUTDOAInformationFailureMethodMarshalAPERFreshValue(v *UTDOAInformationFailure, a0 q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeUTDOAInformationFailureMethodMarshalAPERFreshValue(v *UTDOAInformationFailure, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERFreshValue(a0, a1)
 }
 func BridgeUTDOAInformationFailureMethodMarshalAPERLegacy(v *UTDOAInformationFailure) ([]byte, error) {
 	return v.marshalAPERLegacy()
 }
-func BridgeUTDOAInformationFailureMethodMarshalAPERPlanned(v *UTDOAInformationFailure, a0 *q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeUTDOAInformationFailureMethodMarshalAPERPlanned(v *UTDOAInformationFailure, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERPlanned(a0, a1)
 }
-func BridgeUTDOAInformationFailureMethodMarshalAPERTo(v *UTDOAInformationFailure, a0 *q6.BitBuffer, a1 ...bool) error {
+func BridgeUTDOAInformationFailureMethodMarshalAPERTo(v *UTDOAInformationFailure, a0 *aper.BitBuffer, a1 ...bool) error {
 	return v.marshalAPERTo(a0, a1...)
 }
-func BridgeUTDOAInformationFailureMethodUnmarshalAPERFrom(v *UTDOAInformationFailure, a0 *q6.BitBuffer) error {
+func BridgeUTDOAInformationFailureMethodUnmarshalAPERFrom(v *UTDOAInformationFailure, a0 *aper.BitBuffer) error {
 	return v.unmarshalAPERFrom(a0)
 }
 func BridgeUTDOAInformationFailureMethodUnmarshalAPERLegacy(v *UTDOAInformationFailure, a0 []byte) error {
 	return v.unmarshalAPERLegacy(a0)
 }
-func BridgeUTDOAInformationFailureMethodUnmarshalAPERWithOptions(v *UTDOAInformationFailure, a0 []byte, a1 q6.DecodeState) error {
+func BridgeUTDOAInformationFailureMethodUnmarshalAPERWithOptions(v *UTDOAInformationFailure, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
 }
-func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldCapture(v *UTDOAInformationFailureUnsuccessfulBinding) *func(UTDOAInformationFailure, q6.DecodeState) (UTDOAInformationFailure, q6.Snapshot) {
+func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldCapture(v *UTDOAInformationFailureUnsuccessfulBinding) *func(UTDOAInformationFailure, aper.DecodeState) (UTDOAInformationFailure, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldCompare(v *UTDOAInformationFailureUnsuccessfulBinding) *func(UTDOAInformationFailure, q6.Snapshot, q6.ComparisonLimits) q6.ReplayPlan {
+func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldCompare(v *UTDOAInformationFailureUnsuccessfulBinding) *func(UTDOAInformationFailure, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldContext(v *UTDOAInformationFailureUnsuccessfulBinding) *q4.BridgeCodecContext {
+func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldContext(v *UTDOAInformationFailureUnsuccessfulBinding) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldDecode(v *UTDOAInformationFailureUnsuccessfulBinding) *func([]byte, q6.DecodeState) (UTDOAInformationFailure, error) {
+func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldDecode(v *UTDOAInformationFailureUnsuccessfulBinding) *func([]byte, aper.DecodeState) (UTDOAInformationFailure, error) {
 	return &v.decode
 }
-func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldEncode(v *UTDOAInformationFailureUnsuccessfulBinding) *func(*UTDOAInformationFailure, bool, *q6.DecodeBudget) ([]byte, error) {
+func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldEncode(v *UTDOAInformationFailureUnsuccessfulBinding) *func(*UTDOAInformationFailure, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldInfo(v *UTDOAInformationFailureUnsuccessfulBinding) *q4.ProcedureInfo {
+func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldInfo(v *UTDOAInformationFailureUnsuccessfulBinding) *s00.ProcedureInfo {
 	return &v.info
 }
 func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldInject(v *UTDOAInformationFailureUnsuccessfulBinding) *func(UTDOAInformationFailure) UnsuccessfulValue {
 	return &v.inject
 }
-func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldValidate(v *UTDOAInformationFailureUnsuccessfulBinding) *func(*UTDOAInformationFailure, *q6.DecodeBudget) (q7.ValidationReport, error) {
+func BridgeUTDOAInformationFailureUnsuccessfulBindingFieldValidate(v *UTDOAInformationFailureUnsuccessfulBinding) *func(*UTDOAInformationFailure, *aper.DecodeBudget) (s09.ValidationReport, error) {
 	return &v.validate
 }
-func BridgeUTDOAInformationFailureValueCodecFieldCapture(v *UTDOAInformationFailureValueCodec) *func(UTDOAInformationFailure, q6.DecodeState) (UTDOAInformationFailure, q6.Snapshot) {
+func BridgeUTDOAInformationFailureValueCodecFieldCapture(v *UTDOAInformationFailureValueCodec) *func(UTDOAInformationFailure, aper.DecodeState) (UTDOAInformationFailure, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeUTDOAInformationFailureValueCodecFieldCompare(v *UTDOAInformationFailureValueCodec) *func(UTDOAInformationFailure, q6.Snapshot, q6.ComparisonLimits) q6.ReplayPlan {
+func BridgeUTDOAInformationFailureValueCodecFieldCompare(v *UTDOAInformationFailureValueCodec) *func(UTDOAInformationFailure, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeUTDOAInformationFailureValueCodecFieldContext(v *UTDOAInformationFailureValueCodec) *q4.BridgeCodecContext {
+func BridgeUTDOAInformationFailureValueCodecFieldContext(v *UTDOAInformationFailureValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTDOAInformationFailureValueCodecFieldDecode(v *UTDOAInformationFailureValueCodec) *func([]byte, q6.DecodeState) (UTDOAInformationFailure, error) {
+func BridgeUTDOAInformationFailureValueCodecFieldDecode(v *UTDOAInformationFailureValueCodec) *func([]byte, aper.DecodeState) (UTDOAInformationFailure, error) {
 	return &v.decode
 }
-func BridgeUTDOAInformationFailureValueCodecFieldEncode(v *UTDOAInformationFailureValueCodec) *func(UTDOAInformationFailure, bool, *q6.DecodeBudget) ([]byte, error) {
+func BridgeUTDOAInformationFailureValueCodecFieldEncode(v *UTDOAInformationFailureValueCodec) *func(UTDOAInformationFailure, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeUTDOAInformationFailureValueCodecFieldPath(v *UTDOAInformationFailureValueCodec) *q6.Path {
+func BridgeUTDOAInformationFailureValueCodecFieldPath(v *UTDOAInformationFailureValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUTDOAInformationFailureValueCodecMethodEncodeBudget(v UTDOAInformationFailureValueCodec, a0 UTDOAInformationFailure, a1 bool, a2 q6.DecodeBudget) ([]byte, error) {
+func BridgeUTDOAInformationFailureValueCodecMethodEncodeBudget(v UTDOAInformationFailureValueCodec, a0 UTDOAInformationFailure, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeUTDOAInformationFailureValueCodecMethodEncodeChanged(v UTDOAInformationFailureValueCodec, a0 UTDOAInformationFailure, a1 bool, a2 q6.ReplayPlan, a3 q6.DecodeBudget) ([]byte, error) {
+func BridgeUTDOAInformationFailureValueCodecMethodEncodeChanged(v UTDOAInformationFailureValueCodec, a0 UTDOAInformationFailure, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeUTDOAInformationRequestAPERValueFieldContext(v *UTDOAInformationRequestAPERValue) *q4.BridgeCodecContext {
+func BridgeUTDOAInformationRequestAPERValueFieldContext(v *UTDOAInformationRequestAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTDOAInformationRequestAPERValueFieldReceived(v *UTDOAInformationRequestAPERValue) *q6.WireSpan {
+func BridgeUTDOAInformationRequestAPERValueFieldReceived(v *UTDOAInformationRequestAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeUTDOAInformationRequestAPERValueFieldReplay(v *UTDOAInformationRequestAPERValue) *q6.Snapshot {
+func BridgeUTDOAInformationRequestAPERValueFieldReplay(v *UTDOAInformationRequestAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeUTDOAInformationRequestAPERValueFieldWithoutReplay(v *UTDOAInformationRequestAPERValue) *bool {
@@ -4460,197 +4536,197 @@ func BridgeUTDOAInformationRequestFieldExtCount(v *UTDOAInformationRequest) *int
 func BridgeUTDOAInformationRequestFieldExtData(v *UTDOAInformationRequest) *[][]byte {
 	return &v.extData
 }
-func BridgeUTDOAInformationRequestFieldExtOrigin(v *UTDOAInformationRequest) *[]q6.OpaqueOrigin {
+func BridgeUTDOAInformationRequestFieldExtOrigin(v *UTDOAInformationRequest) *[]aper.OpaqueOrigin {
 	return &v.extOrigin
 }
 func BridgeUTDOAInformationRequestFieldExtPresent(v *UTDOAInformationRequest) *[]bool {
 	return &v.extPresent
 }
-func BridgeUTDOAInformationRequestFieldExtWire(v *UTDOAInformationRequest) *[]q6.WireSpan {
+func BridgeUTDOAInformationRequestFieldExtWire(v *UTDOAInformationRequest) *[]aper.WireSpan {
 	return &v.extWire
 }
-func BridgeUTDOAInformationRequestFieldPerExtPadding(v *UTDOAInformationRequest) *[]q6.CompletePadding {
+func BridgeUTDOAInformationRequestFieldPerExtPadding(v *UTDOAInformationRequest) *[]aper.CompletePadding {
 	return &v.perExtPadding
 }
-func BridgeUTDOAInformationRequestFieldPerPadding(v *UTDOAInformationRequest) *q6.FinalPadding {
+func BridgeUTDOAInformationRequestFieldPerPadding(v *UTDOAInformationRequest) *aper.FinalPadding {
 	return &v.perPadding
 }
 func BridgeUTDOAInformationRequestFieldProtocolIEsIndef(v *UTDOAInformationRequest) *bool {
 	return &v.protocolIEsIndef
 }
 func BridgeUTDOAInformationRequestFieldReceived(v *UTDOAInformationRequest) *bool { return &v.received }
-func BridgeUTDOAInformationRequestFieldReceivedBytes(v *UTDOAInformationRequest) *q6.WireSpan {
+func BridgeUTDOAInformationRequestFieldReceivedBytes(v *UTDOAInformationRequest) *aper.WireSpan {
 	return &v.receivedBytes
 }
-func BridgeUTDOAInformationRequestFieldReplay(v *UTDOAInformationRequest) *q6.Snapshot {
+func BridgeUTDOAInformationRequestFieldReplay(v *UTDOAInformationRequest) *aper.Snapshot {
 	return &v.replay
 }
-func BridgeUTDOAInformationRequestFieldStream(v *UTDOAInformationRequest) *q6.WireSpan {
+func BridgeUTDOAInformationRequestFieldStream(v *UTDOAInformationRequest) *aper.WireSpan {
 	return &v.stream
 }
 func BridgeUTDOAInformationRequestFieldWithoutReplay(v *UTDOAInformationRequest) *bool {
 	return &v.withoutReplay
 }
-func BridgeUTDOAInformationRequestMethodMarshalAPERBudget(v *UTDOAInformationRequest, a0 *q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeUTDOAInformationRequestMethodMarshalAPERBudget(v *UTDOAInformationRequest, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERBudget(a0, a1)
 }
-func BridgeUTDOAInformationRequestMethodMarshalAPERChanged(v *UTDOAInformationRequest, a0 *q6.DecodeBudget, a1 bool, a2 q6.ReplayPlan) ([]byte, error) {
+func BridgeUTDOAInformationRequestMethodMarshalAPERChanged(v *UTDOAInformationRequest, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(a0, a1, a2)
 }
-func BridgeUTDOAInformationRequestMethodMarshalAPERChangedValue(v *UTDOAInformationRequest, a0 q6.DecodeBudget, a1 bool, a2 q6.ReplayPlan) ([]byte, error) {
+func BridgeUTDOAInformationRequestMethodMarshalAPERChangedValue(v *UTDOAInformationRequest, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChangedValue(a0, a1, a2)
 }
-func BridgeUTDOAInformationRequestMethodMarshalAPERFreshValue(v *UTDOAInformationRequest, a0 q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeUTDOAInformationRequestMethodMarshalAPERFreshValue(v *UTDOAInformationRequest, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERFreshValue(a0, a1)
 }
 func BridgeUTDOAInformationRequestMethodMarshalAPERLegacy(v *UTDOAInformationRequest) ([]byte, error) {
 	return v.marshalAPERLegacy()
 }
-func BridgeUTDOAInformationRequestMethodMarshalAPERPlanned(v *UTDOAInformationRequest, a0 *q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeUTDOAInformationRequestMethodMarshalAPERPlanned(v *UTDOAInformationRequest, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERPlanned(a0, a1)
 }
-func BridgeUTDOAInformationRequestMethodMarshalAPERTo(v *UTDOAInformationRequest, a0 *q6.BitBuffer, a1 ...bool) error {
+func BridgeUTDOAInformationRequestMethodMarshalAPERTo(v *UTDOAInformationRequest, a0 *aper.BitBuffer, a1 ...bool) error {
 	return v.marshalAPERTo(a0, a1...)
 }
-func BridgeUTDOAInformationRequestMethodUnmarshalAPERFrom(v *UTDOAInformationRequest, a0 *q6.BitBuffer) error {
+func BridgeUTDOAInformationRequestMethodUnmarshalAPERFrom(v *UTDOAInformationRequest, a0 *aper.BitBuffer) error {
 	return v.unmarshalAPERFrom(a0)
 }
 func BridgeUTDOAInformationRequestMethodUnmarshalAPERLegacy(v *UTDOAInformationRequest, a0 []byte) error {
 	return v.unmarshalAPERLegacy(a0)
 }
-func BridgeUTDOAInformationRequestMethodUnmarshalAPERWithOptions(v *UTDOAInformationRequest, a0 []byte, a1 q6.DecodeState) error {
+func BridgeUTDOAInformationRequestMethodUnmarshalAPERWithOptions(v *UTDOAInformationRequest, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
 }
-func BridgeUTDOAInformationRequestValueCodecFieldCapture(v *UTDOAInformationRequestValueCodec) *func(UTDOAInformationRequest, q6.DecodeState) (UTDOAInformationRequest, q6.Snapshot) {
+func BridgeUTDOAInformationRequestValueCodecFieldCapture(v *UTDOAInformationRequestValueCodec) *func(UTDOAInformationRequest, aper.DecodeState) (UTDOAInformationRequest, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeUTDOAInformationRequestValueCodecFieldCompare(v *UTDOAInformationRequestValueCodec) *func(UTDOAInformationRequest, q6.Snapshot, q6.ComparisonLimits) q6.ReplayPlan {
+func BridgeUTDOAInformationRequestValueCodecFieldCompare(v *UTDOAInformationRequestValueCodec) *func(UTDOAInformationRequest, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeUTDOAInformationRequestValueCodecFieldContext(v *UTDOAInformationRequestValueCodec) *q4.BridgeCodecContext {
+func BridgeUTDOAInformationRequestValueCodecFieldContext(v *UTDOAInformationRequestValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTDOAInformationRequestValueCodecFieldDecode(v *UTDOAInformationRequestValueCodec) *func([]byte, q6.DecodeState) (UTDOAInformationRequest, error) {
+func BridgeUTDOAInformationRequestValueCodecFieldDecode(v *UTDOAInformationRequestValueCodec) *func([]byte, aper.DecodeState) (UTDOAInformationRequest, error) {
 	return &v.decode
 }
-func BridgeUTDOAInformationRequestValueCodecFieldEncode(v *UTDOAInformationRequestValueCodec) *func(UTDOAInformationRequest, bool, *q6.DecodeBudget) ([]byte, error) {
+func BridgeUTDOAInformationRequestValueCodecFieldEncode(v *UTDOAInformationRequestValueCodec) *func(UTDOAInformationRequest, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeUTDOAInformationRequestValueCodecFieldPath(v *UTDOAInformationRequestValueCodec) *q6.Path {
+func BridgeUTDOAInformationRequestValueCodecFieldPath(v *UTDOAInformationRequestValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUTDOAInformationRequestValueCodecMethodEncodeBudget(v UTDOAInformationRequestValueCodec, a0 UTDOAInformationRequest, a1 bool, a2 q6.DecodeBudget) ([]byte, error) {
+func BridgeUTDOAInformationRequestValueCodecMethodEncodeBudget(v UTDOAInformationRequestValueCodec, a0 UTDOAInformationRequest, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeUTDOAInformationRequestValueCodecMethodEncodeChanged(v UTDOAInformationRequestValueCodec, a0 UTDOAInformationRequest, a1 bool, a2 q6.ReplayPlan, a3 q6.DecodeBudget) ([]byte, error) {
+func BridgeUTDOAInformationRequestValueCodecMethodEncodeChanged(v UTDOAInformationRequestValueCodec, a0 UTDOAInformationRequest, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeUnsuccessfulOutcomeAPERValueFieldContext(v *UnsuccessfulOutcomeAPERValue) *q4.BridgeCodecContext {
+func BridgeUnsuccessfulOutcomeAPERValueFieldContext(v *UnsuccessfulOutcomeAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUnsuccessfulOutcomeAPERValueFieldReceived(v *UnsuccessfulOutcomeAPERValue) *q6.WireSpan {
+func BridgeUnsuccessfulOutcomeAPERValueFieldReceived(v *UnsuccessfulOutcomeAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeUnsuccessfulOutcomeAPERValueFieldReplay(v *UnsuccessfulOutcomeAPERValue) *q6.Snapshot {
+func BridgeUnsuccessfulOutcomeAPERValueFieldReplay(v *UnsuccessfulOutcomeAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeUnsuccessfulOutcomeAPERValueFieldWithoutReplay(v *UnsuccessfulOutcomeAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeUnsuccessfulOutcomeFieldPerPadding(v *UnsuccessfulOutcome) *q6.CompletePadding {
+func BridgeUnsuccessfulOutcomeFieldPerPadding(v *UnsuccessfulOutcome) *aper.CompletePadding {
 	return &v.perPadding
 }
 func BridgeUnsuccessfulOutcomeFieldReceived(v *UnsuccessfulOutcome) *bool { return &v.received }
-func BridgeUnsuccessfulOutcomeFieldReceivedBytes(v *UnsuccessfulOutcome) *q6.WireSpan {
+func BridgeUnsuccessfulOutcomeFieldReceivedBytes(v *UnsuccessfulOutcome) *aper.WireSpan {
 	return &v.receivedBytes
 }
-func BridgeUnsuccessfulOutcomeFieldReplay(v *UnsuccessfulOutcome) *q6.Snapshot { return &v.replay }
-func BridgeUnsuccessfulOutcomeFieldStream(v *UnsuccessfulOutcome) *q6.WireSpan { return &v.stream }
+func BridgeUnsuccessfulOutcomeFieldReplay(v *UnsuccessfulOutcome) *aper.Snapshot { return &v.replay }
+func BridgeUnsuccessfulOutcomeFieldStream(v *UnsuccessfulOutcome) *aper.WireSpan { return &v.stream }
 func BridgeUnsuccessfulOutcomeFieldWithoutReplay(v *UnsuccessfulOutcome) *bool {
 	return &v.withoutReplay
 }
-func BridgeUnsuccessfulOutcomeMethodMarshalAPERBudget(v *UnsuccessfulOutcome, a0 *q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeUnsuccessfulOutcomeMethodMarshalAPERBudget(v *UnsuccessfulOutcome, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERBudget(a0, a1)
 }
-func BridgeUnsuccessfulOutcomeMethodMarshalAPERChanged(v *UnsuccessfulOutcome, a0 *q6.DecodeBudget, a1 bool, a2 q6.ReplayPlan) ([]byte, error) {
+func BridgeUnsuccessfulOutcomeMethodMarshalAPERChanged(v *UnsuccessfulOutcome, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(a0, a1, a2)
 }
-func BridgeUnsuccessfulOutcomeMethodMarshalAPERChangedValue(v *UnsuccessfulOutcome, a0 q6.DecodeBudget, a1 bool, a2 q6.ReplayPlan) ([]byte, error) {
+func BridgeUnsuccessfulOutcomeMethodMarshalAPERChangedValue(v *UnsuccessfulOutcome, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChangedValue(a0, a1, a2)
 }
-func BridgeUnsuccessfulOutcomeMethodMarshalAPERFreshValue(v *UnsuccessfulOutcome, a0 q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeUnsuccessfulOutcomeMethodMarshalAPERFreshValue(v *UnsuccessfulOutcome, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERFreshValue(a0, a1)
 }
 func BridgeUnsuccessfulOutcomeMethodMarshalAPERLegacy(v *UnsuccessfulOutcome) ([]byte, error) {
 	return v.marshalAPERLegacy()
 }
-func BridgeUnsuccessfulOutcomeMethodMarshalAPERPlanned(v *UnsuccessfulOutcome, a0 *q6.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeUnsuccessfulOutcomeMethodMarshalAPERPlanned(v *UnsuccessfulOutcome, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERPlanned(a0, a1)
 }
-func BridgeUnsuccessfulOutcomeMethodMarshalAPERTo(v *UnsuccessfulOutcome, a0 *q6.BitBuffer, a1 ...bool) error {
+func BridgeUnsuccessfulOutcomeMethodMarshalAPERTo(v *UnsuccessfulOutcome, a0 *aper.BitBuffer, a1 ...bool) error {
 	return v.marshalAPERTo(a0, a1...)
 }
-func BridgeUnsuccessfulOutcomeMethodUnmarshalAPERFrom(v *UnsuccessfulOutcome, a0 *q6.BitBuffer) error {
+func BridgeUnsuccessfulOutcomeMethodUnmarshalAPERFrom(v *UnsuccessfulOutcome, a0 *aper.BitBuffer) error {
 	return v.unmarshalAPERFrom(a0)
 }
 func BridgeUnsuccessfulOutcomeMethodUnmarshalAPERLegacy(v *UnsuccessfulOutcome, a0 []byte) error {
 	return v.unmarshalAPERLegacy(a0)
 }
-func BridgeUnsuccessfulOutcomeMethodUnmarshalAPERWithOptions(v *UnsuccessfulOutcome, a0 []byte, a1 q6.DecodeState) error {
+func BridgeUnsuccessfulOutcomeMethodUnmarshalAPERWithOptions(v *UnsuccessfulOutcome, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
 }
-func BridgeUnsuccessfulOutcomeValueCodecFieldCapture(v *UnsuccessfulOutcomeValueCodec) *func(UnsuccessfulOutcome, q6.DecodeState) (UnsuccessfulOutcome, q6.Snapshot) {
+func BridgeUnsuccessfulOutcomeValueCodecFieldCapture(v *UnsuccessfulOutcomeValueCodec) *func(UnsuccessfulOutcome, aper.DecodeState) (UnsuccessfulOutcome, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeUnsuccessfulOutcomeValueCodecFieldCompare(v *UnsuccessfulOutcomeValueCodec) *func(UnsuccessfulOutcome, q6.Snapshot, q6.ComparisonLimits) q6.ReplayPlan {
+func BridgeUnsuccessfulOutcomeValueCodecFieldCompare(v *UnsuccessfulOutcomeValueCodec) *func(UnsuccessfulOutcome, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeUnsuccessfulOutcomeValueCodecFieldContext(v *UnsuccessfulOutcomeValueCodec) *q4.BridgeCodecContext {
+func BridgeUnsuccessfulOutcomeValueCodecFieldContext(v *UnsuccessfulOutcomeValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUnsuccessfulOutcomeValueCodecFieldDecode(v *UnsuccessfulOutcomeValueCodec) *func([]byte, q6.DecodeState) (UnsuccessfulOutcome, error) {
+func BridgeUnsuccessfulOutcomeValueCodecFieldDecode(v *UnsuccessfulOutcomeValueCodec) *func([]byte, aper.DecodeState) (UnsuccessfulOutcome, error) {
 	return &v.decode
 }
-func BridgeUnsuccessfulOutcomeValueCodecFieldEncode(v *UnsuccessfulOutcomeValueCodec) *func(UnsuccessfulOutcome, bool, *q6.DecodeBudget) ([]byte, error) {
+func BridgeUnsuccessfulOutcomeValueCodecFieldEncode(v *UnsuccessfulOutcomeValueCodec) *func(UnsuccessfulOutcome, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeUnsuccessfulOutcomeValueCodecFieldPath(v *UnsuccessfulOutcomeValueCodec) *q6.Path {
+func BridgeUnsuccessfulOutcomeValueCodecFieldPath(v *UnsuccessfulOutcomeValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUnsuccessfulOutcomeValueCodecMethodEncodeBudget(v UnsuccessfulOutcomeValueCodec, a0 UnsuccessfulOutcome, a1 bool, a2 q6.DecodeBudget) ([]byte, error) {
+func BridgeUnsuccessfulOutcomeValueCodecMethodEncodeBudget(v UnsuccessfulOutcomeValueCodec, a0 UnsuccessfulOutcome, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeUnsuccessfulOutcomeValueCodecMethodEncodeChanged(v UnsuccessfulOutcomeValueCodec, a0 UnsuccessfulOutcome, a1 bool, a2 q6.ReplayPlan, a3 q6.DecodeBudget) ([]byte, error) {
+func BridgeUnsuccessfulOutcomeValueCodecMethodEncodeChanged(v UnsuccessfulOutcomeValueCodec, a0 UnsuccessfulOutcome, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeUnsuccessfulValueFieldBodyECIDMeasurementInitiationFailure(v *UnsuccessfulValue) **q5.ECIDMeasurementInitiationFailure {
+func BridgeUnsuccessfulValueFieldBodyECIDMeasurementInitiationFailure(v *UnsuccessfulValue) **s11.ECIDMeasurementInitiationFailure {
 	return &v.bodyECIDMeasurementInitiationFailure
 }
-func BridgeUnsuccessfulValueFieldBodyOTDOAInformationFailure(v *UnsuccessfulValue) **q9.OTDOAInformationFailure {
+func BridgeUnsuccessfulValueFieldBodyOTDOAInformationFailure(v *UnsuccessfulValue) **s12.OTDOAInformationFailure {
 	return &v.bodyOTDOAInformationFailure
 }
 func BridgeUnsuccessfulValueFieldBodyUTDOAInformationFailure(v *UnsuccessfulValue) **UTDOAInformationFailure {
 	return &v.bodyUTDOAInformationFailure
 }
-func BridgeUnsuccessfulValueFieldCode(v *UnsuccessfulValue) *q4.ProcedureCode     { return &v.code }
-func BridgeUnsuccessfulValueFieldIsOpaque(v *UnsuccessfulValue) *bool             { return &v.isOpaque }
-func BridgeUnsuccessfulValueFieldOpaque(v *UnsuccessfulValue) **q6.OpaqueOpenType { return &v.opaque }
-func BridgeUnsuccessfulValueFieldReceived(v *UnsuccessfulValue) *q6.WireSpan      { return &v.received }
-func BridgeUnsuccessfulValueFieldReplay(v *UnsuccessfulValue) *q6.Snapshot        { return &v.replay }
-func BridgeUnsuccessfulValueFieldWithoutReplay(v *UnsuccessfulValue) *bool        { return &v.withoutReplay }
+func BridgeUnsuccessfulValueFieldCode(v *UnsuccessfulValue) *s00.ProcedureCode      { return &v.code }
+func BridgeUnsuccessfulValueFieldIsOpaque(v *UnsuccessfulValue) *bool               { return &v.isOpaque }
+func BridgeUnsuccessfulValueFieldOpaque(v *UnsuccessfulValue) **aper.OpaqueOpenType { return &v.opaque }
+func BridgeUnsuccessfulValueFieldReceived(v *UnsuccessfulValue) *aper.WireSpan      { return &v.received }
+func BridgeUnsuccessfulValueFieldReplay(v *UnsuccessfulValue) *aper.Snapshot        { return &v.replay }
+func BridgeUnsuccessfulValueFieldWithoutReplay(v *UnsuccessfulValue) *bool          { return &v.withoutReplay }
 func BridgeUnsuccessfulValueMethodCaptureFraming(v UnsuccessfulValue) uint64 {
 	return v.captureFraming()
 }
-func BridgeUnsuccessfulValueMethodCaptureSemantics(v UnsuccessfulValue, a0 q6.SemanticCapture) UnsuccessfulValue {
+func BridgeUnsuccessfulValueMethodCaptureSemantics(v UnsuccessfulValue, a0 aper.SemanticCapture) UnsuccessfulValue {
 	return v.captureSemantics(a0)
 }
-func BridgeUnsuccessfulValueMethodCaptureSnapshot(v UnsuccessfulValue) q6.Snapshot {
+func BridgeUnsuccessfulValueMethodCaptureSnapshot(v UnsuccessfulValue) aper.Snapshot {
 	return v.captureSnapshot()
 }
-func BridgeUnsuccessfulValueMethodCompareSemantics(v UnsuccessfulValue, a0 q6.SemanticComparison) q6.SemanticComparison {
+func BridgeUnsuccessfulValueMethodCompareSemantics(v UnsuccessfulValue, a0 aper.SemanticComparison) aper.SemanticComparison {
 	return v.compareSemantics(a0)
 }
 func BridgeUnsuccessfulValueMethodEncode(v UnsuccessfulValue) ([]byte, error) { return v.encode() }
-func BridgeUnsuccessfulValueMethodEncodeFresh(v UnsuccessfulValue, a0 bool, a1 *q6.DecodeBudget) ([]byte, error) {
+func BridgeUnsuccessfulValueMethodEncodeFresh(v UnsuccessfulValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
 	return v.encodeFresh(a0, a1)
 }

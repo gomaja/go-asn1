@@ -1,16 +1,16 @@
 package lppa
 
 import (
-	q13 "bytes"
-	q15 "errors"
+	"bytes"
+	"errors"
 
-	q14 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
-	q8 "testing"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
+	"testing"
 )
 
 // X.691 (02/2021) §11.1.4 applies to every complete open value (§11.2.1),
 // including a known IE nested below a known procedure.
-func TestStrictKnownIEPaddingAndReset(t *q8.T) {
+func TestStrictKnownIEPaddingAndReset(t *testing.T) {
 	field, err := ErrorIndicationIEs().CriticalityDiagnostics().New(CriticalityDiagnostics{})
 	if err != nil {
 		t.Fatal(err)
@@ -31,7 +31,7 @@ func TestStrictKnownIEPaddingAndReset(t *q8.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	malformed := q13.Clone(wire)
+	malformed := bytes.Clone(wire)
 	malformed[len(malformed)-1] |= 1
 	var reused LPPAPDU
 	if _, err := reused.UnmarshalAPER(wire); err != nil {
@@ -39,8 +39,8 @@ func TestStrictKnownIEPaddingAndReset(t *q8.T) {
 	}
 	for _, receiver := range []*LPPAPDU{new(LPPAPDU), &reused} {
 		_, err := receiver.UnmarshalAPER(malformed)
-		var located *q14.DecodeError
-		if !q15.Is(err, q14.ErrSyntax) || !q15.As(err, &located) || located.Location.Path == "" || located.Rule.Clause != "§11.1.4" || !located.Location.HasWireLocation || len(located.Location.Spans) != 1 {
+		var located *aper.DecodeError
+		if !errors.Is(err, aper.ErrSyntax) || !errors.As(err, &located) || located.Location.Path == "" || located.Rule.Clause != "§11.1.4" || !located.Location.HasWireLocation || len(located.Location.Spans) != 1 {
 			t.Fatalf("nested padding error: %v, %+v", err, located)
 		}
 		span := located.Location.Spans[0]
@@ -52,14 +52,14 @@ func TestStrictKnownIEPaddingAndReset(t *q8.T) {
 		}
 	}
 	var decoded LPPAPDU
-	if _, err := decoded.UnmarshalAPER(append(q13.Clone(wire), 0)); !q15.Is(err, q14.ErrSyntax) {
+	if _, err := decoded.UnmarshalAPER(append(bytes.Clone(wire), 0)); !errors.Is(err, aper.ErrSyntax) {
 		t.Fatalf("appended top-level octet accepted: %v", err)
 	}
 	if _, err := decoded.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
 	replay, err := decoded.MarshalAPER()
-	if err != nil || !q13.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("legal replay: %x %v", replay, err)
 	}
 }

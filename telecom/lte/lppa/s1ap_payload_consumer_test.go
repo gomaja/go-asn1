@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	"github.com/gomaja/go-asn1/telecom/lte/lppa"
-	lppaaper "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
-	s1apruntime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
-	s1apaper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
+	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
+	lppaaper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
 // TS 36.413 V19.2.0 §§9.3.3–9.3.5: procedure 47 carries Routing-ID and
@@ -32,23 +32,23 @@ func TestS1APPayloadCodecDecodesLPPaWithoutProtocolCoupling(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	payloadBuffer := s1apaper.NewBitBuffer()
-	if err := s1apaper.EncodeOctetStringAligned(payloadBuffer, innerWire, 0, 0, false); err != nil {
+	payloadBuffer := lppaaper.NewBitBuffer()
+	if err := lppaaper.EncodeOctetStringAligned(payloadBuffer, innerWire, 0, 0, false); err != nil {
 		t.Fatal(err)
 	}
-	routingBuffer := s1apaper.NewBitBuffer()
-	if err := s1apaper.EncodeConstrainedWholeNumberAligned(routingBuffer, 9, 0, 255); err != nil {
+	routingBuffer := lppaaper.NewBitBuffer()
+	if err := lppaaper.EncodeConstrainedWholeNumberAligned(routingBuffer, 9, 0, 255); err != nil {
 		t.Fatal(err)
 	}
 	transport := s1ap.UplinkNonUEAssociatedLPPaTransport{ProtocolIEs: s1ap.ProtocolIEContainer{
-		{Id: s1ap.IdRoutingID, Criticality: s1ap.CriticalityReject, Value: s1apruntime.RawValue{Bytes: routingBuffer.CompleteBytes()}},
-		{Id: s1ap.IdLPPaPDU, Criticality: s1ap.CriticalityReject, Value: s1apruntime.RawValue{Bytes: payloadBuffer.CompleteBytes()}},
+		{Id: s1ap.IdRoutingID, Criticality: s1ap.CriticalityReject, Value: runtime.RawValue{Bytes: routingBuffer.CompleteBytes()}},
+		{Id: s1ap.IdLPPaPDU, Criticality: s1ap.CriticalityReject, Value: runtime.RawValue{Bytes: payloadBuffer.CompleteBytes()}},
 	}}
 	transportWire, err := transport.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
 	}
-	outer := s1ap.NewS1APPDUInitiatingMessage(s1ap.InitiatingMessage{ProcedureCode: s1ap.IdUplinkNonUEAssociatedLPPaTransport, Criticality: s1ap.CriticalityIgnore, Value: s1apruntime.RawValue{Bytes: transportWire}})
+	outer := s1ap.NewS1APPDUInitiatingMessage(s1ap.InitiatingMessage{ProcedureCode: s1ap.IdUplinkNonUEAssociatedLPPaTransport, Criticality: s1ap.CriticalityIgnore, Value: runtime.RawValue{Bytes: transportWire}})
 	outerWire, err := outer.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -67,18 +67,18 @@ func TestS1APPayloadCodecDecodesLPPaWithoutProtocolCoupling(t *testing.T) {
 	if len(receivedTransport.ProtocolIEs) != 2 || receivedTransport.ProtocolIEs[1].Id != 147 {
 		t.Fatalf("transport=%+v", receivedTransport)
 	}
-	payloadReader := s1apaper.NewBitBufferFromBytes(receivedTransport.ProtocolIEs[1].Value.Bytes)
-	payload, err := s1apaper.DecodeOctetStringAligned(payloadReader, 0, 0, false)
+	payloadReader := lppaaper.NewBitBufferFromBytes(receivedTransport.ProtocolIEs[1].Value.Bytes)
+	payload, err := lppaaper.DecodeOctetStringAligned(payloadReader, 0, 0, false)
 	if err != nil {
 		t.Fatal(err)
 	}
-	if err := s1apaper.ValidateOpenTypePadding(payloadReader); err != nil {
+	if err := lppaaper.ValidateOpenTypePadding(payloadReader); err != nil {
 		t.Fatal(err)
 	}
 	codec, err := (lppa.NewPayloadCodec[lppa.LPPAPDU]{}).Call(
 		func(data []byte, limits lppa.PayloadLimits) (lppa.LPPAPDU, lppa.PayloadReport, error) {
 			var value lppa.LPPAPDU
-			report, err := value.UnmarshalAPER(data, lppaaper.WithReceiverMode(), lppaaper.WithLimits(lppaaper.Limits{MaxInputBytes: limits.MaxInputBytes, MaxOpenTypeBytes: limits.MaxInputBytes, MaxDepth: limits.MaxDepth, MaxElements: limits.MaxElements, MaxWork: limits.MaxWork, MaxAllocatedBytes: limits.MaxAllocatedBytes, MaxReports: limits.MaxReports}))
+			report, err := value.UnmarshalAPER(data, aper.WithReceiverMode(), aper.WithLimits(aper.Limits{MaxInputBytes: limits.MaxInputBytes, MaxOpenTypeBytes: limits.MaxInputBytes, MaxDepth: limits.MaxDepth, MaxElements: limits.MaxElements, MaxWork: limits.MaxWork, MaxAllocatedBytes: limits.MaxAllocatedBytes, MaxReports: limits.MaxReports}))
 			if err == nil && len(report.Deviations) != 0 {
 				t.Errorf("unexpected deviations: %+v", report)
 			}
@@ -94,7 +94,7 @@ func TestS1APPayloadCodecDecodesLPPaWithoutProtocolCoupling(t *testing.T) {
 			return value, mapped, err
 		},
 		func(value lppa.LPPAPDU, limits lppa.PayloadLimits) ([]byte, error) {
-			return value.MarshalAPER(lppaaper.WithEncodeLimits(lppaaper.Limits{MaxOutputBytes: limits.MaxOutputBytes, MaxOpenTypeBytes: limits.MaxOutputBytes, MaxDepth: limits.MaxDepth, MaxElements: limits.MaxElements, MaxWork: limits.MaxWork, MaxAllocatedBytes: limits.MaxAllocatedBytes, MaxReports: limits.MaxReports}))
+			return value.MarshalAPER(aper.WithEncodeLimits(aper.Limits{MaxOutputBytes: limits.MaxOutputBytes, MaxOpenTypeBytes: limits.MaxOutputBytes, MaxDepth: limits.MaxDepth, MaxElements: limits.MaxElements, MaxWork: limits.MaxWork, MaxAllocatedBytes: limits.MaxAllocatedBytes, MaxReports: limits.MaxReports}))
 		},
 	)
 	if err != nil {
@@ -107,7 +107,7 @@ func TestS1APPayloadCodecDecodesLPPaWithoutProtocolCoupling(t *testing.T) {
 	if _, ok := decoded.InitiatingMessage.Value.AsErrorIndication(); !ok {
 		t.Fatal("LPPa value lost its known type")
 	}
-	if _, _, err := (lppa.DecodePayload[lppa.LPPAPDU]{}).Call(append(bytes.Clone(payload), 0), codec, lppa.PayloadLimits{}); !errors.Is(err, lppaaper.ErrSyntax) {
+	if _, _, err := (lppa.DecodePayload[lppa.LPPAPDU]{}).Call(append(bytes.Clone(payload), 0), codec, lppa.PayloadLimits{}); !errors.Is(err, aper.ErrSyntax) {
 		t.Fatalf("foreign callback ignored trailing input: %v", err)
 	}
 	if _, _, err := (lppa.DecodePayload[lppa.LPPAPDU]{}).Call(payload, codec, lppa.PayloadLimits{MaxInputBytes: uint64(len(payload) - 1)}); err == nil {
@@ -116,14 +116,14 @@ func TestS1APPayloadCodecDecodesLPPaWithoutProtocolCoupling(t *testing.T) {
 	// The carrier and foreign operation have separate budgets (§6). Only scalar
 	// ceilings cross the callback boundary; no runtime state is shared.
 	for _, limits := range []lppa.PayloadLimits{{MaxWork: uint64(len(payload))}, {MaxDepth: 1}, {MaxAllocatedBytes: 1024}} {
-		if _, _, err := (lppa.DecodePayload[lppa.LPPAPDU]{}).Call(payload, codec, limits); !errors.Is(err, lppaaper.ErrLimit) {
+		if _, _, err := (lppa.DecodePayload[lppa.LPPAPDU]{}).Call(payload, codec, limits); !errors.Is(err, aper.ErrLimit) {
 			t.Fatalf("decode limits=%+v err=%v", limits, err)
 		}
-		if _, err := (lppa.EncodePayload[lppa.LPPAPDU]{}).Call(decoded, codec, limits); !errors.Is(err, lppaaper.ErrLimit) {
+		if _, err := (lppa.EncodePayload[lppa.LPPAPDU]{}).Call(decoded, codec, limits); !errors.Is(err, aper.ErrLimit) {
 			t.Fatalf("encode limits=%+v err=%v", limits, err)
 		}
 	}
-	if _, err := (lppa.EncodePayload[lppa.LPPAPDU]{}).Call(decoded, codec, lppa.PayloadLimits{MaxOutputBytes: uint64(len(payload) - 1)}); !errors.Is(err, lppaaper.ErrLimit) {
+	if _, err := (lppa.EncodePayload[lppa.LPPAPDU]{}).Call(decoded, codec, lppa.PayloadLimits{MaxOutputBytes: uint64(len(payload) - 1)}); !errors.Is(err, aper.ErrLimit) {
 		t.Fatalf("callback output ceiling: %v", err)
 	}
 	if _, _, err := (lppa.DecodePayload[lppa.LPPAPDU]{}).Call(payload, codec, lppa.PayloadLimits{MaxOutputBytes: 1}); err != nil {

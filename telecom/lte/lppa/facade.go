@@ -3,3966 +3,3966 @@
 package lppa
 
 import (
-	q14 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
-	q31 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s01"
-	q9 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s02"
-	q8 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
-	q25 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
-	q13 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
-	q16 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
-	q26 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s07"
-	q30 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s08"
-	q15 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
-	q19 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s10"
-	q18 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s11"
-	q29 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s12"
-	q22 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s13"
-	q10 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s14"
-	q5 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s15"
-	q20 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s16"
-	q6 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s17"
-	q7 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s18"
-	q24 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s19"
-	q21 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
-	q12 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
-	q17 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s22"
-	q4 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s23"
-	q11 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s24"
-	q27 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
-	q23 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
-	q28 "math/big"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s01"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s02"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s07"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s08"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s10"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s11"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s12"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s13"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s14"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s15"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s16"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s17"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s18"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s19"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s22"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s23"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s24"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
+	"math/big"
 )
 
-type APERValue[T any] = q4.APERValue[T]
-type AddOTDOACellInformation = q5.AddOTDOACellInformation
+type APERValue[T any] = s23.APERValue[T]
+type AddOTDOACellInformation = s15.AddOTDOACellInformation
 
 // AddOTDOACellInformationAPERValue is the concrete APERValue[AddOTDOACellInformation].
-type AddOTDOACellInformationAPERValue = q5.AddOTDOACellInformationAPERValue
+type AddOTDOACellInformationAPERValue = s15.AddOTDOACellInformationAPERValue
 
 // AddOTDOACellInformationCodec binds the complete source value type.
-var AddOTDOACellInformationCodec func() AddOTDOACellInformationValueCodec = q6.AddOTDOACellInformationCodec
+var AddOTDOACellInformationCodec func() AddOTDOACellInformationValueCodec = s17.AddOTDOACellInformationCodec
 
 // AddOTDOACellInformationComplete carries a complete AddOTDOACellInformation encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type AddOTDOACellInformationComplete = q6.AddOTDOACellInformationComplete
+type AddOTDOACellInformationComplete = s17.AddOTDOACellInformationComplete
 
 // AddOTDOACellInformationValueCodec is the concrete ValueCodec[AddOTDOACellInformation].
-type AddOTDOACellInformationValueCodec = q5.AddOTDOACellInformationValueCodec
-type AddOTDOACells = q5.AddOTDOACells
+type AddOTDOACellInformationValueCodec = s15.AddOTDOACellInformationValueCodec
+type AddOTDOACells = s15.AddOTDOACells
 
 // AddOTDOACellsAPERValue is the concrete APERValue[AddOTDOACells].
-type AddOTDOACellsAPERValue = q5.AddOTDOACellsAPERValue
+type AddOTDOACellsAPERValue = s15.AddOTDOACellsAPERValue
 
 // AddOTDOACellsCodec binds the complete APER value type.
-var AddOTDOACellsCodec func() AddOTDOACellsValueCodec = q7.AddOTDOACellsCodec
+var AddOTDOACellsCodec func() AddOTDOACellsValueCodec = s18.AddOTDOACellsCodec
 
 // AddOTDOACellsComplete carries a complete AddOTDOACells encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type AddOTDOACellsComplete = q6.AddOTDOACellsComplete
+type AddOTDOACellsComplete = s17.AddOTDOACellsComplete
 
 // AddOTDOACellsElem represents the ASN.1 type Add-OTDOACells-Elem (SEQUENCE).
-type AddOTDOACellsElem = q5.AddOTDOACellsElem
+type AddOTDOACellsElem = s15.AddOTDOACellsElem
 
 // AddOTDOACellsElemAPERValue is the concrete APERValue[AddOTDOACellsElem].
-type AddOTDOACellsElemAPERValue = q5.AddOTDOACellsElemAPERValue
+type AddOTDOACellsElemAPERValue = s15.AddOTDOACellsElemAPERValue
 
 // AddOTDOACellsElemCodec binds the complete source value type.
-var AddOTDOACellsElemCodec func() AddOTDOACellsElemValueCodec = q5.AddOTDOACellsElemCodec
+var AddOTDOACellsElemCodec func() AddOTDOACellsElemValueCodec = s15.AddOTDOACellsElemCodec
 
 // AddOTDOACellsElemValueCodec is the concrete ValueCodec[AddOTDOACellsElem].
-type AddOTDOACellsElemValueCodec = q5.AddOTDOACellsElemValueCodec
-type AddOTDOACellsExtIETable = q8.AddOTDOACellsExtIETable
+type AddOTDOACellsElemValueCodec = s15.AddOTDOACellsElemValueCodec
+type AddOTDOACellsExtIETable = s03.AddOTDOACellsExtIETable
 
-var AddOTDOACellsExtIEs func() AddOTDOACellsExtIETable = q8.AddOTDOACellsExtIEs
+var AddOTDOACellsExtIEs func() AddOTDOACellsExtIETable = s03.AddOTDOACellsExtIEs
 
 // AddOTDOACellsExtIEsExtContainer is the concrete ProtocolExtensionContainer[AddOTDOACellsExtIEsValue].
-type AddOTDOACellsExtIEsExtContainer = q8.AddOTDOACellsExtIEsExtContainer
+type AddOTDOACellsExtIEsExtContainer = s03.AddOTDOACellsExtIEsExtContainer
 
 // AddOTDOACellsExtIEsExtField is the concrete ProtocolExtensionField[AddOTDOACellsExtIEsValue].
-type AddOTDOACellsExtIEsExtField = q8.AddOTDOACellsExtIEsExtField
+type AddOTDOACellsExtIEsExtField = s03.AddOTDOACellsExtIEsExtField
 
 // AddOTDOACellsExtIEsIEContainer is the concrete ProtocolIEContainer[AddOTDOACellsExtIEsValue].
-type AddOTDOACellsExtIEsIEContainer = q8.AddOTDOACellsExtIEsIEContainer
+type AddOTDOACellsExtIEsIEContainer = s03.AddOTDOACellsExtIEsIEContainer
 
 // AddOTDOACellsExtIEsIEField is the concrete ProtocolIEField[AddOTDOACellsExtIEsValue].
-type AddOTDOACellsExtIEsIEField = q8.AddOTDOACellsExtIEsIEField
-type AddOTDOACellsExtIEsValue = q9.AddOTDOACellsExtIEsValue
+type AddOTDOACellsExtIEsIEField = s03.AddOTDOACellsExtIEsIEField
+type AddOTDOACellsExtIEsValue = s02.AddOTDOACellsExtIEsValue
 
 // AddOTDOACellsValueCodec is the concrete ValueCodec[AddOTDOACells].
-type AddOTDOACellsValueCodec = q5.AddOTDOACellsValueCodec
+type AddOTDOACellsValueCodec = s15.AddOTDOACellsValueCodec
 
 // AssistanceInformation represents the ASN.1 type Assistance-Information (SEQUENCE).
-type AssistanceInformation = q10.AssistanceInformation
+type AssistanceInformation = s14.AssistanceInformation
 
 // AssistanceInformationAPERValue is the concrete APERValue[AssistanceInformation].
-type AssistanceInformationAPERValue = q10.AssistanceInformationAPERValue
+type AssistanceInformationAPERValue = s14.AssistanceInformationAPERValue
 
 // AssistanceInformationCodec binds the complete APER value type.
-var AssistanceInformationCodec func() AssistanceInformationValueCodec = q10.AssistanceInformationCodec
+var AssistanceInformationCodec func() AssistanceInformationValueCodec = s14.AssistanceInformationCodec
 
 // AssistanceInformationControl represents the ASN.1 type AssistanceInformationControl (SEQUENCE).
-type AssistanceInformationControl = q5.AssistanceInformationControl
+type AssistanceInformationControl = s15.AssistanceInformationControl
 
 // AssistanceInformationControlAPERValue is the concrete APERValue[AssistanceInformationControl].
-type AssistanceInformationControlAPERValue = q5.AssistanceInformationControlAPERValue
+type AssistanceInformationControlAPERValue = s15.AssistanceInformationControlAPERValue
 
 // AssistanceInformationControlAssistanceInformationIEBinding is the concrete IEBinding[AssistanceInformation, AssistanceInformationControlIEValue].
-type AssistanceInformationControlAssistanceInformationIEBinding = q10.AssistanceInformationControlAssistanceInformationIEBinding
+type AssistanceInformationControlAssistanceInformationIEBinding = s14.AssistanceInformationControlAssistanceInformationIEBinding
 
 // AssistanceInformationControlBroadcastIEBinding is the concrete IEBinding[Broadcast, AssistanceInformationControlIEValue].
-type AssistanceInformationControlBroadcastIEBinding = q10.AssistanceInformationControlBroadcastIEBinding
+type AssistanceInformationControlBroadcastIEBinding = s14.AssistanceInformationControlBroadcastIEBinding
 
 // AssistanceInformationControlCodec binds the complete APER value type.
-var AssistanceInformationControlCodec func() AssistanceInformationControlValueCodec = q11.AssistanceInformationControlCodec
+var AssistanceInformationControlCodec func() AssistanceInformationControlValueCodec = s24.AssistanceInformationControlCodec
 
-type AssistanceInformationControlDescriptor = q11.AssistanceInformationControlDescriptor
+type AssistanceInformationControlDescriptor = s24.AssistanceInformationControlDescriptor
 
 // AssistanceInformationControlIEContainer is the concrete ProtocolIEContainer[AssistanceInformationControlIEValue].
-type AssistanceInformationControlIEContainer = q10.AssistanceInformationControlIEContainer
+type AssistanceInformationControlIEContainer = s14.AssistanceInformationControlIEContainer
 
 // AssistanceInformationControlIEField is the concrete ProtocolIEField[AssistanceInformationControlIEValue].
-type AssistanceInformationControlIEField = q10.AssistanceInformationControlIEField
-type AssistanceInformationControlIETable = q10.AssistanceInformationControlIETable
-type AssistanceInformationControlIEValue = q10.AssistanceInformationControlIEValue
+type AssistanceInformationControlIEField = s14.AssistanceInformationControlIEField
+type AssistanceInformationControlIETable = s14.AssistanceInformationControlIETable
+type AssistanceInformationControlIEValue = s14.AssistanceInformationControlIEValue
 
-var AssistanceInformationControlIEs func() AssistanceInformationControlIETable = q10.AssistanceInformationControlIEs
+var AssistanceInformationControlIEs func() AssistanceInformationControlIETable = s14.AssistanceInformationControlIEs
 
 // AssistanceInformationControlInitiatingBinding is the concrete InitiatingBinding[AssistanceInformationControl].
-type AssistanceInformationControlInitiatingBinding = q12.AssistanceInformationControlInitiatingBinding
+type AssistanceInformationControlInitiatingBinding = s21.AssistanceInformationControlInitiatingBinding
 
-var AssistanceInformationControlProcedure func() AssistanceInformationControlDescriptor = q11.AssistanceInformationControlProcedure
+var AssistanceInformationControlProcedure func() AssistanceInformationControlDescriptor = s24.AssistanceInformationControlProcedure
 
 // AssistanceInformationControlValueCodec is the concrete ValueCodec[AssistanceInformationControl].
-type AssistanceInformationControlValueCodec = q5.AssistanceInformationControlValueCodec
-type AssistanceInformationExtIETable = q8.AssistanceInformationExtIETable
+type AssistanceInformationControlValueCodec = s15.AssistanceInformationControlValueCodec
+type AssistanceInformationExtIETable = s03.AssistanceInformationExtIETable
 
-var AssistanceInformationExtIEs func() AssistanceInformationExtIETable = q8.AssistanceInformationExtIEs
+var AssistanceInformationExtIEs func() AssistanceInformationExtIETable = s03.AssistanceInformationExtIEs
 
 // AssistanceInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[AssistanceInformationExtIEsValue].
-type AssistanceInformationExtIEsExtContainer = q8.AssistanceInformationExtIEsExtContainer
+type AssistanceInformationExtIEsExtContainer = s03.AssistanceInformationExtIEsExtContainer
 
 // AssistanceInformationExtIEsExtField is the concrete ProtocolExtensionField[AssistanceInformationExtIEsValue].
-type AssistanceInformationExtIEsExtField = q8.AssistanceInformationExtIEsExtField
+type AssistanceInformationExtIEsExtField = s03.AssistanceInformationExtIEsExtField
 
 // AssistanceInformationExtIEsIEContainer is the concrete ProtocolIEContainer[AssistanceInformationExtIEsValue].
-type AssistanceInformationExtIEsIEContainer = q8.AssistanceInformationExtIEsIEContainer
+type AssistanceInformationExtIEsIEContainer = s03.AssistanceInformationExtIEsIEContainer
 
 // AssistanceInformationExtIEsIEField is the concrete ProtocolIEField[AssistanceInformationExtIEsValue].
-type AssistanceInformationExtIEsIEField = q8.AssistanceInformationExtIEsIEField
-type AssistanceInformationExtIEsValue = q9.AssistanceInformationExtIEsValue
-type AssistanceInformationFailureList = q13.AssistanceInformationFailureList
+type AssistanceInformationExtIEsIEField = s03.AssistanceInformationExtIEsIEField
+type AssistanceInformationExtIEsValue = s02.AssistanceInformationExtIEsValue
+type AssistanceInformationFailureList = s05.AssistanceInformationFailureList
 
 // AssistanceInformationFailureListAPERValue is the concrete APERValue[AssistanceInformationFailureList].
-type AssistanceInformationFailureListAPERValue = q13.AssistanceInformationFailureListAPERValue
+type AssistanceInformationFailureListAPERValue = s05.AssistanceInformationFailureListAPERValue
 
 // AssistanceInformationFailureListCodec binds the complete APER value type.
-var AssistanceInformationFailureListCodec func() AssistanceInformationFailureListValueCodec = q6.AssistanceInformationFailureListCodec
+var AssistanceInformationFailureListCodec func() AssistanceInformationFailureListValueCodec = s17.AssistanceInformationFailureListCodec
 
 // AssistanceInformationFailureListComplete carries a complete AssistanceInformationFailureList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type AssistanceInformationFailureListComplete = q6.AssistanceInformationFailureListComplete
+type AssistanceInformationFailureListComplete = s17.AssistanceInformationFailureListComplete
 
 // AssistanceInformationFailureListElem represents the ASN.1 type AssistanceInformationFailureList-Elem (SEQUENCE).
-type AssistanceInformationFailureListElem = q13.AssistanceInformationFailureListElem
+type AssistanceInformationFailureListElem = s05.AssistanceInformationFailureListElem
 
 // AssistanceInformationFailureListElemAPERValue is the concrete APERValue[AssistanceInformationFailureListElem].
-type AssistanceInformationFailureListElemAPERValue = q13.AssistanceInformationFailureListElemAPERValue
+type AssistanceInformationFailureListElemAPERValue = s05.AssistanceInformationFailureListElemAPERValue
 
 // AssistanceInformationFailureListElemCodec binds the complete source value type.
-var AssistanceInformationFailureListElemCodec func() AssistanceInformationFailureListElemValueCodec = q13.AssistanceInformationFailureListElemCodec
+var AssistanceInformationFailureListElemCodec func() AssistanceInformationFailureListElemValueCodec = s05.AssistanceInformationFailureListElemCodec
 
 // AssistanceInformationFailureListElemValueCodec is the concrete ValueCodec[AssistanceInformationFailureListElem].
-type AssistanceInformationFailureListElemValueCodec = q13.AssistanceInformationFailureListElemValueCodec
-type AssistanceInformationFailureListExtIETable = q8.AssistanceInformationFailureListExtIETable
+type AssistanceInformationFailureListElemValueCodec = s05.AssistanceInformationFailureListElemValueCodec
+type AssistanceInformationFailureListExtIETable = s03.AssistanceInformationFailureListExtIETable
 
-var AssistanceInformationFailureListExtIEs func() AssistanceInformationFailureListExtIETable = q8.AssistanceInformationFailureListExtIEs
+var AssistanceInformationFailureListExtIEs func() AssistanceInformationFailureListExtIETable = s03.AssistanceInformationFailureListExtIEs
 
 // AssistanceInformationFailureListExtIEsExtContainer is the concrete ProtocolExtensionContainer[AssistanceInformationFailureListExtIEsValue].
-type AssistanceInformationFailureListExtIEsExtContainer = q8.AssistanceInformationFailureListExtIEsExtContainer
+type AssistanceInformationFailureListExtIEsExtContainer = s03.AssistanceInformationFailureListExtIEsExtContainer
 
 // AssistanceInformationFailureListExtIEsExtField is the concrete ProtocolExtensionField[AssistanceInformationFailureListExtIEsValue].
-type AssistanceInformationFailureListExtIEsExtField = q8.AssistanceInformationFailureListExtIEsExtField
+type AssistanceInformationFailureListExtIEsExtField = s03.AssistanceInformationFailureListExtIEsExtField
 
 // AssistanceInformationFailureListExtIEsIEContainer is the concrete ProtocolIEContainer[AssistanceInformationFailureListExtIEsValue].
-type AssistanceInformationFailureListExtIEsIEContainer = q8.AssistanceInformationFailureListExtIEsIEContainer
+type AssistanceInformationFailureListExtIEsIEContainer = s03.AssistanceInformationFailureListExtIEsIEContainer
 
 // AssistanceInformationFailureListExtIEsIEField is the concrete ProtocolIEField[AssistanceInformationFailureListExtIEsValue].
-type AssistanceInformationFailureListExtIEsIEField = q8.AssistanceInformationFailureListExtIEsIEField
-type AssistanceInformationFailureListExtIEsValue = q9.AssistanceInformationFailureListExtIEsValue
+type AssistanceInformationFailureListExtIEsIEField = s03.AssistanceInformationFailureListExtIEsIEField
+type AssistanceInformationFailureListExtIEsValue = s02.AssistanceInformationFailureListExtIEsValue
 
 // AssistanceInformationFailureListValueCodec is the concrete ValueCodec[AssistanceInformationFailureList].
-type AssistanceInformationFailureListValueCodec = q13.AssistanceInformationFailureListValueCodec
+type AssistanceInformationFailureListValueCodec = s05.AssistanceInformationFailureListValueCodec
 
 // AssistanceInformationFeedback represents the ASN.1 type AssistanceInformationFeedback (SEQUENCE).
-type AssistanceInformationFeedback = q6.AssistanceInformationFeedback
+type AssistanceInformationFeedback = s17.AssistanceInformationFeedback
 
 // AssistanceInformationFeedbackAPERValue is the concrete APERValue[AssistanceInformationFeedback].
-type AssistanceInformationFeedbackAPERValue = q6.AssistanceInformationFeedbackAPERValue
+type AssistanceInformationFeedbackAPERValue = s17.AssistanceInformationFeedbackAPERValue
 
 // AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding is the concrete IEBinding[AssistanceInformationFailureList, AssistanceInformationFeedbackIEValue].
-type AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding = q6.AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding
+type AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding = s17.AssistanceInformationFeedbackAssistanceInformationFailureListIEBinding
 
 // AssistanceInformationFeedbackCodec binds the complete APER value type.
-var AssistanceInformationFeedbackCodec func() AssistanceInformationFeedbackValueCodec = q4.AssistanceInformationFeedbackCodec
+var AssistanceInformationFeedbackCodec func() AssistanceInformationFeedbackValueCodec = s23.AssistanceInformationFeedbackCodec
 
 // AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, AssistanceInformationFeedbackIEValue].
-type AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding = q6.AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding
-type AssistanceInformationFeedbackDescriptor = q4.AssistanceInformationFeedbackDescriptor
+type AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding = s17.AssistanceInformationFeedbackCriticalityDiagnosticsIEBinding
+type AssistanceInformationFeedbackDescriptor = s23.AssistanceInformationFeedbackDescriptor
 
 // AssistanceInformationFeedbackIEContainer is the concrete ProtocolIEContainer[AssistanceInformationFeedbackIEValue].
-type AssistanceInformationFeedbackIEContainer = q6.AssistanceInformationFeedbackIEContainer
+type AssistanceInformationFeedbackIEContainer = s17.AssistanceInformationFeedbackIEContainer
 
 // AssistanceInformationFeedbackIEField is the concrete ProtocolIEField[AssistanceInformationFeedbackIEValue].
-type AssistanceInformationFeedbackIEField = q6.AssistanceInformationFeedbackIEField
-type AssistanceInformationFeedbackIETable = q6.AssistanceInformationFeedbackIETable
-type AssistanceInformationFeedbackIEValue = q6.AssistanceInformationFeedbackIEValue
+type AssistanceInformationFeedbackIEField = s17.AssistanceInformationFeedbackIEField
+type AssistanceInformationFeedbackIETable = s17.AssistanceInformationFeedbackIETable
+type AssistanceInformationFeedbackIEValue = s17.AssistanceInformationFeedbackIEValue
 
-var AssistanceInformationFeedbackIEs func() AssistanceInformationFeedbackIETable = q6.AssistanceInformationFeedbackIEs
+var AssistanceInformationFeedbackIEs func() AssistanceInformationFeedbackIETable = s17.AssistanceInformationFeedbackIEs
 
 // AssistanceInformationFeedbackInitiatingBinding is the concrete InitiatingBinding[AssistanceInformationFeedback].
-type AssistanceInformationFeedbackInitiatingBinding = q12.AssistanceInformationFeedbackInitiatingBinding
+type AssistanceInformationFeedbackInitiatingBinding = s21.AssistanceInformationFeedbackInitiatingBinding
 
-var AssistanceInformationFeedbackProcedure func() AssistanceInformationFeedbackDescriptor = q4.AssistanceInformationFeedbackProcedure
+var AssistanceInformationFeedbackProcedure func() AssistanceInformationFeedbackDescriptor = s23.AssistanceInformationFeedbackProcedure
 
 // AssistanceInformationFeedbackValueCodec is the concrete ValueCodec[AssistanceInformationFeedback].
-type AssistanceInformationFeedbackValueCodec = q6.AssistanceInformationFeedbackValueCodec
+type AssistanceInformationFeedbackValueCodec = s17.AssistanceInformationFeedbackValueCodec
 
 // AssistanceInformationMetaData represents the ASN.1 type AssistanceInformationMetaData (SEQUENCE).
-type AssistanceInformationMetaData = q13.AssistanceInformationMetaData
+type AssistanceInformationMetaData = s05.AssistanceInformationMetaData
 
 // AssistanceInformationMetaDataAPERValue is the concrete APERValue[AssistanceInformationMetaData].
-type AssistanceInformationMetaDataAPERValue = q13.AssistanceInformationMetaDataAPERValue
+type AssistanceInformationMetaDataAPERValue = s05.AssistanceInformationMetaDataAPERValue
 
 // AssistanceInformationMetaDataCodec binds the complete source value type.
-var AssistanceInformationMetaDataCodec func() AssistanceInformationMetaDataValueCodec = q13.AssistanceInformationMetaDataCodec
+var AssistanceInformationMetaDataCodec func() AssistanceInformationMetaDataValueCodec = s05.AssistanceInformationMetaDataCodec
 
-type AssistanceInformationMetaDataExtIETable = q8.AssistanceInformationMetaDataExtIETable
+type AssistanceInformationMetaDataExtIETable = s03.AssistanceInformationMetaDataExtIETable
 
-var AssistanceInformationMetaDataExtIEs func() AssistanceInformationMetaDataExtIETable = q8.AssistanceInformationMetaDataExtIEs
+var AssistanceInformationMetaDataExtIEs func() AssistanceInformationMetaDataExtIETable = s03.AssistanceInformationMetaDataExtIEs
 
 // AssistanceInformationMetaDataExtIEsExtContainer is the concrete ProtocolExtensionContainer[AssistanceInformationMetaDataExtIEsValue].
-type AssistanceInformationMetaDataExtIEsExtContainer = q8.AssistanceInformationMetaDataExtIEsExtContainer
+type AssistanceInformationMetaDataExtIEsExtContainer = s03.AssistanceInformationMetaDataExtIEsExtContainer
 
 // AssistanceInformationMetaDataExtIEsExtField is the concrete ProtocolExtensionField[AssistanceInformationMetaDataExtIEsValue].
-type AssistanceInformationMetaDataExtIEsExtField = q8.AssistanceInformationMetaDataExtIEsExtField
+type AssistanceInformationMetaDataExtIEsExtField = s03.AssistanceInformationMetaDataExtIEsExtField
 
 // AssistanceInformationMetaDataExtIEsIEContainer is the concrete ProtocolIEContainer[AssistanceInformationMetaDataExtIEsValue].
-type AssistanceInformationMetaDataExtIEsIEContainer = q8.AssistanceInformationMetaDataExtIEsIEContainer
+type AssistanceInformationMetaDataExtIEsIEContainer = s03.AssistanceInformationMetaDataExtIEsIEContainer
 
 // AssistanceInformationMetaDataExtIEsIEField is the concrete ProtocolIEField[AssistanceInformationMetaDataExtIEsValue].
-type AssistanceInformationMetaDataExtIEsIEField = q8.AssistanceInformationMetaDataExtIEsIEField
-type AssistanceInformationMetaDataExtIEsValue = q9.AssistanceInformationMetaDataExtIEsValue
+type AssistanceInformationMetaDataExtIEsIEField = s03.AssistanceInformationMetaDataExtIEsIEField
+type AssistanceInformationMetaDataExtIEsValue = s02.AssistanceInformationMetaDataExtIEsValue
 
 // AssistanceInformationMetaDataValueCodec is the concrete ValueCodec[AssistanceInformationMetaData].
-type AssistanceInformationMetaDataValueCodec = q13.AssistanceInformationMetaDataValueCodec
+type AssistanceInformationMetaDataValueCodec = s05.AssistanceInformationMetaDataValueCodec
 
 // AssistanceInformationValueCodec is the concrete ValueCodec[AssistanceInformation].
-type AssistanceInformationValueCodec = q10.AssistanceInformationValueCodec
+type AssistanceInformationValueCodec = s14.AssistanceInformationValueCodec
 
 // BCCH represents the ASN.1 type BCCH (INTEGER).
-type BCCH = q14.BCCH
+type BCCH = s00.BCCH
 
 // BCCHAPERValue is the concrete APERValue[BCCH].
-type BCCHAPERValue = q14.BCCHAPERValue
+type BCCHAPERValue = s00.BCCHAPERValue
 
 // BCCHCodec binds the complete source value type.
-var BCCHCodec func() BCCHValueCodec = q9.BCCHCodec
+var BCCHCodec func() BCCHValueCodec = s02.BCCHCodec
 
 // BCCHValueCodec is the concrete ValueCodec[BCCH].
-type BCCHValueCodec = q14.BCCHValueCodec
+type BCCHValueCodec = s00.BCCHValueCodec
 
 // BSSID represents the ASN.1 type BSSID (OCTET_STRING).
-type BSSID = q14.BSSID
+type BSSID = s00.BSSID
 
 // BSSIDAPERValue is the concrete APERValue[BSSID].
-type BSSIDAPERValue = q14.BSSIDAPERValue
+type BSSIDAPERValue = s00.BSSIDAPERValue
 
 // BSSIDCodec binds the complete source value type.
-var BSSIDCodec func() BSSIDValueCodec = q9.BSSIDCodec
+var BSSIDCodec func() BSSIDValueCodec = s02.BSSIDCodec
 
 // BSSIDValueCodec is the concrete ValueCodec[BSSID].
-type BSSIDValueCodec = q14.BSSIDValueCodec
+type BSSIDValueCodec = s00.BSSIDValueCodec
 
 // BitmapsforNPRS represents the ASN.1 CHOICE type BitmapsforNPRS.
-type BitmapsforNPRS = q13.BitmapsforNPRS
+type BitmapsforNPRS = s05.BitmapsforNPRS
 
 // BitmapsforNPRSAPERValue is the concrete APERValue[BitmapsforNPRS].
-type BitmapsforNPRSAPERValue = q13.BitmapsforNPRSAPERValue
+type BitmapsforNPRSAPERValue = s05.BitmapsforNPRSAPERValue
 
 // BitmapsforNPRS choice constants.
-const BitmapsforNPRSChoiceForty = q14.BitmapsforNPRSChoiceForty
+const BitmapsforNPRSChoiceForty = s00.BitmapsforNPRSChoiceForty
 
 // BitmapsforNPRS choice constants.
-const BitmapsforNPRSChoiceFortyTdd = q14.BitmapsforNPRSChoiceFortyTdd
+const BitmapsforNPRSChoiceFortyTdd = s00.BitmapsforNPRSChoiceFortyTdd
 
 // BitmapsforNPRS choice constants.
-const BitmapsforNPRSChoiceTen = q14.BitmapsforNPRSChoiceTen
+const BitmapsforNPRSChoiceTen = s00.BitmapsforNPRSChoiceTen
 
 // BitmapsforNPRS choice constants.
-const BitmapsforNPRSChoiceTenTdd = q14.BitmapsforNPRSChoiceTenTdd
+const BitmapsforNPRSChoiceTenTdd = s00.BitmapsforNPRSChoiceTenTdd
 
 // BitmapsforNPRSCodec binds the complete source value type.
-var BitmapsforNPRSCodec func() BitmapsforNPRSValueCodec = q13.BitmapsforNPRSCodec
+var BitmapsforNPRSCodec func() BitmapsforNPRSValueCodec = s05.BitmapsforNPRSCodec
 
 // BitmapsforNPRSValueCodec is the concrete ValueCodec[BitmapsforNPRS].
-type BitmapsforNPRSValueCodec = q13.BitmapsforNPRSValueCodec
+type BitmapsforNPRSValueCodec = s05.BitmapsforNPRSValueCodec
 
 // Broadcast represents the ASN.1 ENUMERATED type Broadcast.
-type Broadcast = q14.Broadcast
+type Broadcast = s00.Broadcast
 
 // BroadcastAPERValue is the concrete APERValue[Broadcast].
-type BroadcastAPERValue = q14.BroadcastAPERValue
+type BroadcastAPERValue = s00.BroadcastAPERValue
 
 // BroadcastCodec binds the complete APER value type.
-var BroadcastCodec func() BroadcastValueCodec = q10.BroadcastCodec
+var BroadcastCodec func() BroadcastValueCodec = s14.BroadcastCodec
 
 // BroadcastPeriodicity represents the ASN.1 ENUMERATED type BroadcastPeriodicity.
-type BroadcastPeriodicity = q14.BroadcastPeriodicity
+type BroadcastPeriodicity = s00.BroadcastPeriodicity
 
 // BroadcastPeriodicityAPERValue is the concrete APERValue[BroadcastPeriodicity].
-type BroadcastPeriodicityAPERValue = q14.BroadcastPeriodicityAPERValue
+type BroadcastPeriodicityAPERValue = s00.BroadcastPeriodicityAPERValue
 
 // BroadcastPeriodicityCodec binds the complete source value type.
-var BroadcastPeriodicityCodec func() BroadcastPeriodicityValueCodec = q9.BroadcastPeriodicityCodec
+var BroadcastPeriodicityCodec func() BroadcastPeriodicityValueCodec = s02.BroadcastPeriodicityCodec
 
-const BroadcastPeriodicityMs1280 = q14.BroadcastPeriodicityMs1280
-const BroadcastPeriodicityMs160 = q14.BroadcastPeriodicityMs160
-const BroadcastPeriodicityMs2560 = q14.BroadcastPeriodicityMs2560
-const BroadcastPeriodicityMs320 = q14.BroadcastPeriodicityMs320
-const BroadcastPeriodicityMs5120 = q14.BroadcastPeriodicityMs5120
-const BroadcastPeriodicityMs640 = q14.BroadcastPeriodicityMs640
-const BroadcastPeriodicityMs80 = q14.BroadcastPeriodicityMs80
+const BroadcastPeriodicityMs1280 = s00.BroadcastPeriodicityMs1280
+const BroadcastPeriodicityMs160 = s00.BroadcastPeriodicityMs160
+const BroadcastPeriodicityMs2560 = s00.BroadcastPeriodicityMs2560
+const BroadcastPeriodicityMs320 = s00.BroadcastPeriodicityMs320
+const BroadcastPeriodicityMs5120 = s00.BroadcastPeriodicityMs5120
+const BroadcastPeriodicityMs640 = s00.BroadcastPeriodicityMs640
+const BroadcastPeriodicityMs80 = s00.BroadcastPeriodicityMs80
 
 // BroadcastPeriodicityValueCodec is the concrete ValueCodec[BroadcastPeriodicity].
-type BroadcastPeriodicityValueCodec = q14.BroadcastPeriodicityValueCodec
+type BroadcastPeriodicityValueCodec = s00.BroadcastPeriodicityValueCodec
 
-const BroadcastStart = q14.BroadcastStart
-const BroadcastStop = q14.BroadcastStop
+const BroadcastStart = s00.BroadcastStart
+const BroadcastStop = s00.BroadcastStop
 
 // BroadcastValueCodec is the concrete ValueCodec[Broadcast].
-type BroadcastValueCodec = q14.BroadcastValueCodec
-type BuildError = q15.BuildError
+type BroadcastValueCodec = s00.BroadcastValueCodec
+type BuildError = s09.BuildError
 
 // CPLength represents the ASN.1 ENUMERATED type CPLength.
-type CPLength = q14.CPLength
+type CPLength = s00.CPLength
 
 // CPLengthAPERValue is the concrete APERValue[CPLength].
-type CPLengthAPERValue = q14.CPLengthAPERValue
+type CPLengthAPERValue = s00.CPLengthAPERValue
 
 // CPLengthCodec binds the complete source value type.
-var CPLengthCodec func() CPLengthValueCodec = q9.CPLengthCodec
+var CPLengthCodec func() CPLengthValueCodec = s02.CPLengthCodec
 
-const CPLengthExtended = q14.CPLengthExtended
-const CPLengthNormal = q14.CPLengthNormal
+const CPLengthExtended = s00.CPLengthExtended
+const CPLengthNormal = s00.CPLengthNormal
 
 // CPLengthValueCodec is the concrete ValueCodec[CPLength].
-type CPLengthValueCodec = q14.CPLengthValueCodec
+type CPLengthValueCodec = s00.CPLengthValueCodec
 
 // Cause represents the ASN.1 CHOICE type Cause.
-type Cause = q13.Cause
+type Cause = s05.Cause
 
 // CauseAPERValue is the concrete APERValue[Cause].
-type CauseAPERValue = q13.CauseAPERValue
+type CauseAPERValue = s05.CauseAPERValue
 
 // Cause choice constants.
-const CauseChoiceMisc = q14.CauseChoiceMisc
+const CauseChoiceMisc = s00.CauseChoiceMisc
 
 // Cause choice constants.
-const CauseChoiceProtocol = q14.CauseChoiceProtocol
+const CauseChoiceProtocol = s00.CauseChoiceProtocol
 
 // Cause choice constants.
-const CauseChoiceRadioNetwork = q14.CauseChoiceRadioNetwork
+const CauseChoiceRadioNetwork = s00.CauseChoiceRadioNetwork
 
 // CauseCodec binds the complete APER value type.
-var CauseCodec func() CauseValueCodec = q16.CauseCodec
+var CauseCodec func() CauseValueCodec = s06.CauseCodec
 
 // CauseMisc represents the ASN.1 ENUMERATED type CauseMisc.
-type CauseMisc = q14.CauseMisc
+type CauseMisc = s00.CauseMisc
 
 // CauseMiscAPERValue is the concrete APERValue[CauseMisc].
-type CauseMiscAPERValue = q14.CauseMiscAPERValue
+type CauseMiscAPERValue = s00.CauseMiscAPERValue
 
 // CauseMiscCodec binds the complete source value type.
-var CauseMiscCodec func() CauseMiscValueCodec = q9.CauseMiscCodec
+var CauseMiscCodec func() CauseMiscValueCodec = s02.CauseMiscCodec
 
-const CauseMiscUnspecified = q14.CauseMiscUnspecified
+const CauseMiscUnspecified = s00.CauseMiscUnspecified
 
 // CauseMiscValueCodec is the concrete ValueCodec[CauseMisc].
-type CauseMiscValueCodec = q14.CauseMiscValueCodec
+type CauseMiscValueCodec = s00.CauseMiscValueCodec
 
 // CauseProtocol represents the ASN.1 ENUMERATED type CauseProtocol.
-type CauseProtocol = q14.CauseProtocol
+type CauseProtocol = s00.CauseProtocol
 
 // CauseProtocolAPERValue is the concrete APERValue[CauseProtocol].
-type CauseProtocolAPERValue = q14.CauseProtocolAPERValue
+type CauseProtocolAPERValue = s00.CauseProtocolAPERValue
 
-const CauseProtocolAbstractSyntaxErrorFalselyConstructedMessage = q14.CauseProtocolAbstractSyntaxErrorFalselyConstructedMessage
-const CauseProtocolAbstractSyntaxErrorIgnoreAndNotify = q14.CauseProtocolAbstractSyntaxErrorIgnoreAndNotify
-const CauseProtocolAbstractSyntaxErrorReject = q14.CauseProtocolAbstractSyntaxErrorReject
+const CauseProtocolAbstractSyntaxErrorFalselyConstructedMessage = s00.CauseProtocolAbstractSyntaxErrorFalselyConstructedMessage
+const CauseProtocolAbstractSyntaxErrorIgnoreAndNotify = s00.CauseProtocolAbstractSyntaxErrorIgnoreAndNotify
+const CauseProtocolAbstractSyntaxErrorReject = s00.CauseProtocolAbstractSyntaxErrorReject
 
 // CauseProtocolCodec binds the complete source value type.
-var CauseProtocolCodec func() CauseProtocolValueCodec = q9.CauseProtocolCodec
+var CauseProtocolCodec func() CauseProtocolValueCodec = s02.CauseProtocolCodec
 
-const CauseProtocolMessageNotCompatibleWithReceiverState = q14.CauseProtocolMessageNotCompatibleWithReceiverState
-const CauseProtocolSemanticError = q14.CauseProtocolSemanticError
-const CauseProtocolTransferSyntaxError = q14.CauseProtocolTransferSyntaxError
-const CauseProtocolUnspecified = q14.CauseProtocolUnspecified
+const CauseProtocolMessageNotCompatibleWithReceiverState = s00.CauseProtocolMessageNotCompatibleWithReceiverState
+const CauseProtocolSemanticError = s00.CauseProtocolSemanticError
+const CauseProtocolTransferSyntaxError = s00.CauseProtocolTransferSyntaxError
+const CauseProtocolUnspecified = s00.CauseProtocolUnspecified
 
 // CauseProtocolValueCodec is the concrete ValueCodec[CauseProtocol].
-type CauseProtocolValueCodec = q14.CauseProtocolValueCodec
+type CauseProtocolValueCodec = s00.CauseProtocolValueCodec
 
 // CauseRadioNetwork represents the ASN.1 ENUMERATED type CauseRadioNetwork.
-type CauseRadioNetwork = q14.CauseRadioNetwork
+type CauseRadioNetwork = s00.CauseRadioNetwork
 
 // CauseRadioNetworkAPERValue is the concrete APERValue[CauseRadioNetwork].
-type CauseRadioNetworkAPERValue = q14.CauseRadioNetworkAPERValue
+type CauseRadioNetworkAPERValue = s00.CauseRadioNetworkAPERValue
 
 // CauseRadioNetworkCodec binds the complete source value type.
-var CauseRadioNetworkCodec func() CauseRadioNetworkValueCodec = q9.CauseRadioNetworkCodec
+var CauseRadioNetworkCodec func() CauseRadioNetworkValueCodec = s02.CauseRadioNetworkCodec
 
-const CauseRadioNetworkRequestedItemNotSupported = q14.CauseRadioNetworkRequestedItemNotSupported
-const CauseRadioNetworkRequestedItemTemporarilyNotAvailable = q14.CauseRadioNetworkRequestedItemTemporarilyNotAvailable
-const CauseRadioNetworkUnspecified = q14.CauseRadioNetworkUnspecified
+const CauseRadioNetworkRequestedItemNotSupported = s00.CauseRadioNetworkRequestedItemNotSupported
+const CauseRadioNetworkRequestedItemTemporarilyNotAvailable = s00.CauseRadioNetworkRequestedItemTemporarilyNotAvailable
+const CauseRadioNetworkUnspecified = s00.CauseRadioNetworkUnspecified
 
 // CauseRadioNetworkValueCodec is the concrete ValueCodec[CauseRadioNetwork].
-type CauseRadioNetworkValueCodec = q14.CauseRadioNetworkValueCodec
+type CauseRadioNetworkValueCodec = s00.CauseRadioNetworkValueCodec
 
 // CauseValueCodec is the concrete ValueCodec[Cause].
-type CauseValueCodec = q13.CauseValueCodec
+type CauseValueCodec = s05.CauseValueCodec
 
 // CellPortionID represents the ASN.1 type Cell-Portion-ID (INTEGER).
-type CellPortionID = q14.CellPortionID
+type CellPortionID = s00.CellPortionID
 
 // CellPortionIDAPERValue is the concrete APERValue[CellPortionID].
-type CellPortionIDAPERValue = q14.CellPortionIDAPERValue
+type CellPortionIDAPERValue = s00.CellPortionIDAPERValue
 
 // CellPortionIDCodec binds the complete APER value type.
-var CellPortionIDCodec func() CellPortionIDValueCodec = q17.CellPortionIDCodec
+var CellPortionIDCodec func() CellPortionIDValueCodec = s22.CellPortionIDCodec
 
 // CellPortionIDValueCodec is the concrete ValueCodec[CellPortionID].
-type CellPortionIDValueCodec = q14.CellPortionIDValueCodec
+type CellPortionIDValueCodec = s00.CellPortionIDValueCodec
 
 // Criticality represents the ASN.1 ENUMERATED type Criticality.
-type Criticality = q14.Criticality
+type Criticality = s00.Criticality
 
 // CriticalityAPERValue is the concrete APERValue[Criticality].
-type CriticalityAPERValue = q14.CriticalityAPERValue
+type CriticalityAPERValue = s00.CriticalityAPERValue
 
 // CriticalityCodec binds the complete source value type.
-var CriticalityCodec func() CriticalityValueCodec = q9.CriticalityCodec
+var CriticalityCodec func() CriticalityValueCodec = s02.CriticalityCodec
 
 // CriticalityDiagnostics represents the ASN.1 type CriticalityDiagnostics (SEQUENCE).
-type CriticalityDiagnostics = q15.CriticalityDiagnostics
+type CriticalityDiagnostics = s09.CriticalityDiagnostics
 
 // CriticalityDiagnosticsAPERValue is the concrete APERValue[CriticalityDiagnostics].
-type CriticalityDiagnosticsAPERValue = q15.CriticalityDiagnosticsAPERValue
+type CriticalityDiagnosticsAPERValue = s09.CriticalityDiagnosticsAPERValue
 
 // CriticalityDiagnosticsCodec binds the complete APER value type.
-var CriticalityDiagnosticsCodec func() CriticalityDiagnosticsValueCodec = q6.CriticalityDiagnosticsCodec
+var CriticalityDiagnosticsCodec func() CriticalityDiagnosticsValueCodec = s17.CriticalityDiagnosticsCodec
 
-type CriticalityDiagnosticsExtIETable = q8.CriticalityDiagnosticsExtIETable
+type CriticalityDiagnosticsExtIETable = s03.CriticalityDiagnosticsExtIETable
 
-var CriticalityDiagnosticsExtIEs func() CriticalityDiagnosticsExtIETable = q8.CriticalityDiagnosticsExtIEs
+var CriticalityDiagnosticsExtIEs func() CriticalityDiagnosticsExtIETable = s03.CriticalityDiagnosticsExtIEs
 
 // CriticalityDiagnosticsExtIEsExtContainer is the concrete ProtocolExtensionContainer[CriticalityDiagnosticsExtIEsValue].
-type CriticalityDiagnosticsExtIEsExtContainer = q8.CriticalityDiagnosticsExtIEsExtContainer
+type CriticalityDiagnosticsExtIEsExtContainer = s03.CriticalityDiagnosticsExtIEsExtContainer
 
 // CriticalityDiagnosticsExtIEsExtField is the concrete ProtocolExtensionField[CriticalityDiagnosticsExtIEsValue].
-type CriticalityDiagnosticsExtIEsExtField = q8.CriticalityDiagnosticsExtIEsExtField
+type CriticalityDiagnosticsExtIEsExtField = s03.CriticalityDiagnosticsExtIEsExtField
 
 // CriticalityDiagnosticsExtIEsIEContainer is the concrete ProtocolIEContainer[CriticalityDiagnosticsExtIEsValue].
-type CriticalityDiagnosticsExtIEsIEContainer = q8.CriticalityDiagnosticsExtIEsIEContainer
+type CriticalityDiagnosticsExtIEsIEContainer = s03.CriticalityDiagnosticsExtIEsIEContainer
 
 // CriticalityDiagnosticsExtIEsIEField is the concrete ProtocolIEField[CriticalityDiagnosticsExtIEsValue].
-type CriticalityDiagnosticsExtIEsIEField = q8.CriticalityDiagnosticsExtIEsIEField
-type CriticalityDiagnosticsExtIEsValue = q9.CriticalityDiagnosticsExtIEsValue
-type CriticalityDiagnosticsIEList = q13.CriticalityDiagnosticsIEList
+type CriticalityDiagnosticsExtIEsIEField = s03.CriticalityDiagnosticsExtIEsIEField
+type CriticalityDiagnosticsExtIEsValue = s02.CriticalityDiagnosticsExtIEsValue
+type CriticalityDiagnosticsIEList = s05.CriticalityDiagnosticsIEList
 
 // CriticalityDiagnosticsIEListAPERValue is the concrete APERValue[CriticalityDiagnosticsIEList].
-type CriticalityDiagnosticsIEListAPERValue = q13.CriticalityDiagnosticsIEListAPERValue
+type CriticalityDiagnosticsIEListAPERValue = s05.CriticalityDiagnosticsIEListAPERValue
 
 // CriticalityDiagnosticsIEListCodec binds the complete source value type.
-var CriticalityDiagnosticsIEListCodec func() CriticalityDiagnosticsIEListValueCodec = q6.CriticalityDiagnosticsIEListCodec
+var CriticalityDiagnosticsIEListCodec func() CriticalityDiagnosticsIEListValueCodec = s17.CriticalityDiagnosticsIEListCodec
 
 // CriticalityDiagnosticsIEListComplete carries a complete CriticalityDiagnosticsIEList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type CriticalityDiagnosticsIEListComplete = q6.CriticalityDiagnosticsIEListComplete
+type CriticalityDiagnosticsIEListComplete = s17.CriticalityDiagnosticsIEListComplete
 
 // CriticalityDiagnosticsIEListElem represents the ASN.1 type CriticalityDiagnostics-IE-List-Elem (SEQUENCE).
-type CriticalityDiagnosticsIEListElem = q13.CriticalityDiagnosticsIEListElem
+type CriticalityDiagnosticsIEListElem = s05.CriticalityDiagnosticsIEListElem
 
 // CriticalityDiagnosticsIEListElemAPERValue is the concrete APERValue[CriticalityDiagnosticsIEListElem].
-type CriticalityDiagnosticsIEListElemAPERValue = q13.CriticalityDiagnosticsIEListElemAPERValue
+type CriticalityDiagnosticsIEListElemAPERValue = s05.CriticalityDiagnosticsIEListElemAPERValue
 
 // CriticalityDiagnosticsIEListElemCodec binds the complete source value type.
-var CriticalityDiagnosticsIEListElemCodec func() CriticalityDiagnosticsIEListElemValueCodec = q13.CriticalityDiagnosticsIEListElemCodec
+var CriticalityDiagnosticsIEListElemCodec func() CriticalityDiagnosticsIEListElemValueCodec = s05.CriticalityDiagnosticsIEListElemCodec
 
 // CriticalityDiagnosticsIEListElemValueCodec is the concrete ValueCodec[CriticalityDiagnosticsIEListElem].
-type CriticalityDiagnosticsIEListElemValueCodec = q13.CriticalityDiagnosticsIEListElemValueCodec
-type CriticalityDiagnosticsIEListExtIETable = q8.CriticalityDiagnosticsIEListExtIETable
+type CriticalityDiagnosticsIEListElemValueCodec = s05.CriticalityDiagnosticsIEListElemValueCodec
+type CriticalityDiagnosticsIEListExtIETable = s03.CriticalityDiagnosticsIEListExtIETable
 
-var CriticalityDiagnosticsIEListExtIEs func() CriticalityDiagnosticsIEListExtIETable = q8.CriticalityDiagnosticsIEListExtIEs
+var CriticalityDiagnosticsIEListExtIEs func() CriticalityDiagnosticsIEListExtIETable = s03.CriticalityDiagnosticsIEListExtIEs
 
 // CriticalityDiagnosticsIEListExtIEsExtContainer is the concrete ProtocolExtensionContainer[CriticalityDiagnosticsIEListExtIEsValue].
-type CriticalityDiagnosticsIEListExtIEsExtContainer = q8.CriticalityDiagnosticsIEListExtIEsExtContainer
+type CriticalityDiagnosticsIEListExtIEsExtContainer = s03.CriticalityDiagnosticsIEListExtIEsExtContainer
 
 // CriticalityDiagnosticsIEListExtIEsExtField is the concrete ProtocolExtensionField[CriticalityDiagnosticsIEListExtIEsValue].
-type CriticalityDiagnosticsIEListExtIEsExtField = q8.CriticalityDiagnosticsIEListExtIEsExtField
+type CriticalityDiagnosticsIEListExtIEsExtField = s03.CriticalityDiagnosticsIEListExtIEsExtField
 
 // CriticalityDiagnosticsIEListExtIEsIEContainer is the concrete ProtocolIEContainer[CriticalityDiagnosticsIEListExtIEsValue].
-type CriticalityDiagnosticsIEListExtIEsIEContainer = q8.CriticalityDiagnosticsIEListExtIEsIEContainer
+type CriticalityDiagnosticsIEListExtIEsIEContainer = s03.CriticalityDiagnosticsIEListExtIEsIEContainer
 
 // CriticalityDiagnosticsIEListExtIEsIEField is the concrete ProtocolIEField[CriticalityDiagnosticsIEListExtIEsValue].
-type CriticalityDiagnosticsIEListExtIEsIEField = q8.CriticalityDiagnosticsIEListExtIEsIEField
-type CriticalityDiagnosticsIEListExtIEsValue = q9.CriticalityDiagnosticsIEListExtIEsValue
+type CriticalityDiagnosticsIEListExtIEsIEField = s03.CriticalityDiagnosticsIEListExtIEsIEField
+type CriticalityDiagnosticsIEListExtIEsValue = s02.CriticalityDiagnosticsIEListExtIEsValue
 
 // CriticalityDiagnosticsIEListValueCodec is the concrete ValueCodec[CriticalityDiagnosticsIEList].
-type CriticalityDiagnosticsIEListValueCodec = q13.CriticalityDiagnosticsIEListValueCodec
+type CriticalityDiagnosticsIEListValueCodec = s05.CriticalityDiagnosticsIEListValueCodec
 
 // CriticalityDiagnosticsValueCodec is the concrete ValueCodec[CriticalityDiagnostics].
-type CriticalityDiagnosticsValueCodec = q15.CriticalityDiagnosticsValueCodec
+type CriticalityDiagnosticsValueCodec = s09.CriticalityDiagnosticsValueCodec
 
-const CriticalityIgnore = q14.CriticalityIgnore
-const CriticalityNotify = q14.CriticalityNotify
-const CriticalityReject = q14.CriticalityReject
+const CriticalityIgnore = s00.CriticalityIgnore
+const CriticalityNotify = s00.CriticalityNotify
+const CriticalityReject = s00.CriticalityReject
 
 // CriticalityValueCodec is the concrete ValueCodec[Criticality].
-type CriticalityValueCodec = q14.CriticalityValueCodec
+type CriticalityValueCodec = s00.CriticalityValueCodec
 
 // DLBandwidth represents the ASN.1 ENUMERATED type DL-Bandwidth.
-type DLBandwidth = q14.DLBandwidth
+type DLBandwidth = s00.DLBandwidth
 
 // DLBandwidthAPERValue is the concrete APERValue[DLBandwidth].
-type DLBandwidthAPERValue = q14.DLBandwidthAPERValue
+type DLBandwidthAPERValue = s00.DLBandwidthAPERValue
 
-const DLBandwidthBw100 = q14.DLBandwidthBw100
-const DLBandwidthBw15 = q14.DLBandwidthBw15
-const DLBandwidthBw25 = q14.DLBandwidthBw25
-const DLBandwidthBw50 = q14.DLBandwidthBw50
-const DLBandwidthBw6 = q14.DLBandwidthBw6
-const DLBandwidthBw75 = q14.DLBandwidthBw75
+const DLBandwidthBw100 = s00.DLBandwidthBw100
+const DLBandwidthBw15 = s00.DLBandwidthBw15
+const DLBandwidthBw25 = s00.DLBandwidthBw25
+const DLBandwidthBw50 = s00.DLBandwidthBw50
+const DLBandwidthBw6 = s00.DLBandwidthBw6
+const DLBandwidthBw75 = s00.DLBandwidthBw75
 
 // DLBandwidthCodec binds the complete source value type.
-var DLBandwidthCodec func() DLBandwidthValueCodec = q9.DLBandwidthCodec
+var DLBandwidthCodec func() DLBandwidthValueCodec = s02.DLBandwidthCodec
 
 // DLBandwidthValueCodec is the concrete ValueCodec[DLBandwidth].
-type DLBandwidthValueCodec = q14.DLBandwidthValueCodec
-type DecodePayload[T any] = q4.DecodePayload[T]
-type DeferredCondition = q14.DeferredCondition
+type DLBandwidthValueCodec = s00.DLBandwidthValueCodec
+type DecodePayload[T any] = s23.DecodePayload[T]
+type DeferredCondition = s00.DeferredCondition
 
 // EARFCN represents the ASN.1 type EARFCN (INTEGER).
-type EARFCN = q14.EARFCN
+type EARFCN = s00.EARFCN
 
 // EARFCNAPERValue is the concrete APERValue[EARFCN].
-type EARFCNAPERValue = q14.EARFCNAPERValue
+type EARFCNAPERValue = s00.EARFCNAPERValue
 
 // EARFCNCodec binds the complete source value type.
-var EARFCNCodec func() EARFCNValueCodec = q9.EARFCNCodec
+var EARFCNCodec func() EARFCNValueCodec = s02.EARFCNCodec
 
 // EARFCNValueCodec is the concrete ValueCodec[EARFCN].
-type EARFCNValueCodec = q14.EARFCNValueCodec
+type EARFCNValueCodec = s00.EARFCNValueCodec
 
 // ECGI represents the ASN.1 type ECGI (SEQUENCE).
-type ECGI = q13.ECGI
+type ECGI = s05.ECGI
 
 // ECGIAPERValue is the concrete APERValue[ECGI].
-type ECGIAPERValue = q13.ECGIAPERValue
+type ECGIAPERValue = s05.ECGIAPERValue
 
 // ECGICodec binds the complete source value type.
-var ECGICodec func() ECGIValueCodec = q13.ECGICodec
+var ECGICodec func() ECGIValueCodec = s05.ECGICodec
 
-type ECGIExtIETable = q8.ECGIExtIETable
+type ECGIExtIETable = s03.ECGIExtIETable
 
-var ECGIExtIEs func() ECGIExtIETable = q8.ECGIExtIEs
+var ECGIExtIEs func() ECGIExtIETable = s03.ECGIExtIEs
 
 // ECGIExtIEsExtContainer is the concrete ProtocolExtensionContainer[ECGIExtIEsValue].
-type ECGIExtIEsExtContainer = q8.ECGIExtIEsExtContainer
+type ECGIExtIEsExtContainer = s03.ECGIExtIEsExtContainer
 
 // ECGIExtIEsExtField is the concrete ProtocolExtensionField[ECGIExtIEsValue].
-type ECGIExtIEsExtField = q8.ECGIExtIEsExtField
+type ECGIExtIEsExtField = s03.ECGIExtIEsExtField
 
 // ECGIExtIEsIEContainer is the concrete ProtocolIEContainer[ECGIExtIEsValue].
-type ECGIExtIEsIEContainer = q8.ECGIExtIEsIEContainer
+type ECGIExtIEsIEContainer = s03.ECGIExtIEsIEContainer
 
 // ECGIExtIEsIEField is the concrete ProtocolIEField[ECGIExtIEsValue].
-type ECGIExtIEsIEField = q8.ECGIExtIEsIEField
-type ECGIExtIEsValue = q9.ECGIExtIEsValue
+type ECGIExtIEsIEField = s03.ECGIExtIEsIEField
+type ECGIExtIEsValue = s02.ECGIExtIEsValue
 
 // ECGIValueCodec is the concrete ValueCodec[ECGI].
-type ECGIValueCodec = q13.ECGIValueCodec
+type ECGIValueCodec = s05.ECGIValueCodec
 
 // ECIDMeasurementFailureIndication represents the ASN.1 type E-CIDMeasurementFailureIndication (SEQUENCE).
-type ECIDMeasurementFailureIndication = q18.ECIDMeasurementFailureIndication
+type ECIDMeasurementFailureIndication = s11.ECIDMeasurementFailureIndication
 
 // ECIDMeasurementFailureIndicationAPERValue is the concrete APERValue[ECIDMeasurementFailureIndication].
-type ECIDMeasurementFailureIndicationAPERValue = q18.ECIDMeasurementFailureIndicationAPERValue
+type ECIDMeasurementFailureIndicationAPERValue = s11.ECIDMeasurementFailureIndicationAPERValue
 
 // ECIDMeasurementFailureIndicationCauseIEBinding is the concrete IEBinding[Cause, ECIDMeasurementFailureIndicationIEValue].
-type ECIDMeasurementFailureIndicationCauseIEBinding = q16.ECIDMeasurementFailureIndicationCauseIEBinding
+type ECIDMeasurementFailureIndicationCauseIEBinding = s06.ECIDMeasurementFailureIndicationCauseIEBinding
 
 // ECIDMeasurementFailureIndicationCodec binds the complete APER value type.
-var ECIDMeasurementFailureIndicationCodec func() ECIDMeasurementFailureIndicationValueCodec = q4.ECIDMeasurementFailureIndicationCodec
+var ECIDMeasurementFailureIndicationCodec func() ECIDMeasurementFailureIndicationValueCodec = s23.ECIDMeasurementFailureIndicationCodec
 
-type ECIDMeasurementFailureIndicationDescriptor = q4.ECIDMeasurementFailureIndicationDescriptor
+type ECIDMeasurementFailureIndicationDescriptor = s23.ECIDMeasurementFailureIndicationDescriptor
 
 // ECIDMeasurementFailureIndicationIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementFailureIndicationIEValue].
-type ECIDMeasurementFailureIndicationIEContainer = q16.ECIDMeasurementFailureIndicationIEContainer
+type ECIDMeasurementFailureIndicationIEContainer = s06.ECIDMeasurementFailureIndicationIEContainer
 
 // ECIDMeasurementFailureIndicationIEField is the concrete ProtocolIEField[ECIDMeasurementFailureIndicationIEValue].
-type ECIDMeasurementFailureIndicationIEField = q16.ECIDMeasurementFailureIndicationIEField
-type ECIDMeasurementFailureIndicationIETable = q16.ECIDMeasurementFailureIndicationIETable
-type ECIDMeasurementFailureIndicationIEValue = q16.ECIDMeasurementFailureIndicationIEValue
+type ECIDMeasurementFailureIndicationIEField = s06.ECIDMeasurementFailureIndicationIEField
+type ECIDMeasurementFailureIndicationIETable = s06.ECIDMeasurementFailureIndicationIETable
+type ECIDMeasurementFailureIndicationIEValue = s06.ECIDMeasurementFailureIndicationIEValue
 
-var ECIDMeasurementFailureIndicationIEs func() ECIDMeasurementFailureIndicationIETable = q16.ECIDMeasurementFailureIndicationIEs
+var ECIDMeasurementFailureIndicationIEs func() ECIDMeasurementFailureIndicationIETable = s06.ECIDMeasurementFailureIndicationIEs
 
 // ECIDMeasurementFailureIndicationInitiatingBinding is the concrete InitiatingBinding[ECIDMeasurementFailureIndication].
-type ECIDMeasurementFailureIndicationInitiatingBinding = q12.ECIDMeasurementFailureIndicationInitiatingBinding
+type ECIDMeasurementFailureIndicationInitiatingBinding = s21.ECIDMeasurementFailureIndicationInitiatingBinding
 
 // ECIDMeasurementFailureIndicationMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementFailureIndicationIEValue].
-type ECIDMeasurementFailureIndicationMeasurementIDIEBinding = q16.ECIDMeasurementFailureIndicationMeasurementIDIEBinding
+type ECIDMeasurementFailureIndicationMeasurementIDIEBinding = s06.ECIDMeasurementFailureIndicationMeasurementIDIEBinding
 
-var ECIDMeasurementFailureIndicationProcedure func() ECIDMeasurementFailureIndicationDescriptor = q4.ECIDMeasurementFailureIndicationProcedure
+var ECIDMeasurementFailureIndicationProcedure func() ECIDMeasurementFailureIndicationDescriptor = s23.ECIDMeasurementFailureIndicationProcedure
 
 // ECIDMeasurementFailureIndicationValueCodec is the concrete ValueCodec[ECIDMeasurementFailureIndication].
-type ECIDMeasurementFailureIndicationValueCodec = q18.ECIDMeasurementFailureIndicationValueCodec
-type ECIDMeasurementInitiationDescriptor = q11.ECIDMeasurementInitiationDescriptor
+type ECIDMeasurementFailureIndicationValueCodec = s11.ECIDMeasurementFailureIndicationValueCodec
+type ECIDMeasurementInitiationDescriptor = s24.ECIDMeasurementInitiationDescriptor
 
 // ECIDMeasurementInitiationFailure represents the ASN.1 type E-CIDMeasurementInitiationFailure (SEQUENCE).
-type ECIDMeasurementInitiationFailure = q18.ECIDMeasurementInitiationFailure
+type ECIDMeasurementInitiationFailure = s11.ECIDMeasurementInitiationFailure
 
 // ECIDMeasurementInitiationFailureAPERValue is the concrete APERValue[ECIDMeasurementInitiationFailure].
-type ECIDMeasurementInitiationFailureAPERValue = q18.ECIDMeasurementInitiationFailureAPERValue
+type ECIDMeasurementInitiationFailureAPERValue = s11.ECIDMeasurementInitiationFailureAPERValue
 
 // ECIDMeasurementInitiationFailureCauseIEBinding is the concrete IEBinding[Cause, ECIDMeasurementInitiationFailureIEValue].
-type ECIDMeasurementInitiationFailureCauseIEBinding = q15.ECIDMeasurementInitiationFailureCauseIEBinding
+type ECIDMeasurementInitiationFailureCauseIEBinding = s09.ECIDMeasurementInitiationFailureCauseIEBinding
 
 // ECIDMeasurementInitiationFailureCodec binds the complete APER value type.
-var ECIDMeasurementInitiationFailureCodec func() ECIDMeasurementInitiationFailureValueCodec = q11.ECIDMeasurementInitiationFailureCodec
+var ECIDMeasurementInitiationFailureCodec func() ECIDMeasurementInitiationFailureValueCodec = s24.ECIDMeasurementInitiationFailureCodec
 
 // ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ECIDMeasurementInitiationFailureIEValue].
-type ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding = q15.ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding
+type ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding = s09.ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding
 
 // ECIDMeasurementInitiationFailureIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementInitiationFailureIEValue].
-type ECIDMeasurementInitiationFailureIEContainer = q15.ECIDMeasurementInitiationFailureIEContainer
+type ECIDMeasurementInitiationFailureIEContainer = s09.ECIDMeasurementInitiationFailureIEContainer
 
 // ECIDMeasurementInitiationFailureIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationFailureIEValue].
-type ECIDMeasurementInitiationFailureIEField = q15.ECIDMeasurementInitiationFailureIEField
-type ECIDMeasurementInitiationFailureIETable = q19.ECIDMeasurementInitiationFailureIETable
-type ECIDMeasurementInitiationFailureIEValue = q15.ECIDMeasurementInitiationFailureIEValue
+type ECIDMeasurementInitiationFailureIEField = s09.ECIDMeasurementInitiationFailureIEField
+type ECIDMeasurementInitiationFailureIETable = s10.ECIDMeasurementInitiationFailureIETable
+type ECIDMeasurementInitiationFailureIEValue = s09.ECIDMeasurementInitiationFailureIEValue
 
-var ECIDMeasurementInitiationFailureIEs func() ECIDMeasurementInitiationFailureIETable = q19.ECIDMeasurementInitiationFailureIEs
+var ECIDMeasurementInitiationFailureIEs func() ECIDMeasurementInitiationFailureIETable = s10.ECIDMeasurementInitiationFailureIEs
 
 // ECIDMeasurementInitiationFailureMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementInitiationFailureIEValue].
-type ECIDMeasurementInitiationFailureMeasurementIDIEBinding = q19.ECIDMeasurementInitiationFailureMeasurementIDIEBinding
+type ECIDMeasurementInitiationFailureMeasurementIDIEBinding = s10.ECIDMeasurementInitiationFailureMeasurementIDIEBinding
 
 // ECIDMeasurementInitiationFailureUnsuccessfulBinding is the concrete UnsuccessfulBinding[ECIDMeasurementInitiationFailure].
-type ECIDMeasurementInitiationFailureUnsuccessfulBinding = q20.ECIDMeasurementInitiationFailureUnsuccessfulBinding
+type ECIDMeasurementInitiationFailureUnsuccessfulBinding = s16.ECIDMeasurementInitiationFailureUnsuccessfulBinding
 
 // ECIDMeasurementInitiationFailureValueCodec is the concrete ValueCodec[ECIDMeasurementInitiationFailure].
-type ECIDMeasurementInitiationFailureValueCodec = q18.ECIDMeasurementInitiationFailureValueCodec
+type ECIDMeasurementInitiationFailureValueCodec = s11.ECIDMeasurementInitiationFailureValueCodec
 
-var ECIDMeasurementInitiationProcedure func() ECIDMeasurementInitiationDescriptor = q11.ECIDMeasurementInitiationProcedure
+var ECIDMeasurementInitiationProcedure func() ECIDMeasurementInitiationDescriptor = s24.ECIDMeasurementInitiationProcedure
 
 // ECIDMeasurementInitiationRequest represents the ASN.1 type E-CIDMeasurementInitiationRequest (SEQUENCE).
-type ECIDMeasurementInitiationRequest = q12.ECIDMeasurementInitiationRequest
+type ECIDMeasurementInitiationRequest = s21.ECIDMeasurementInitiationRequest
 
 // ECIDMeasurementInitiationRequestAPERValue is the concrete APERValue[ECIDMeasurementInitiationRequest].
-type ECIDMeasurementInitiationRequestAPERValue = q12.ECIDMeasurementInitiationRequestAPERValue
+type ECIDMeasurementInitiationRequestAPERValue = s21.ECIDMeasurementInitiationRequestAPERValue
 
 // ECIDMeasurementInitiationRequestCodec binds the complete APER value type.
-var ECIDMeasurementInitiationRequestCodec func() ECIDMeasurementInitiationRequestValueCodec = q11.ECIDMeasurementInitiationRequestCodec
+var ECIDMeasurementInitiationRequestCodec func() ECIDMeasurementInitiationRequestValueCodec = s24.ECIDMeasurementInitiationRequestCodec
 
 // ECIDMeasurementInitiationRequestIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementInitiationRequestIEValue].
-type ECIDMeasurementInitiationRequestIEContainer = q12.ECIDMeasurementInitiationRequestIEContainer
+type ECIDMeasurementInitiationRequestIEContainer = s21.ECIDMeasurementInitiationRequestIEContainer
 
 // ECIDMeasurementInitiationRequestIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationRequestIEValue].
-type ECIDMeasurementInitiationRequestIEField = q12.ECIDMeasurementInitiationRequestIEField
-type ECIDMeasurementInitiationRequestIETable = q12.ECIDMeasurementInitiationRequestIETable
-type ECIDMeasurementInitiationRequestIEValue = q21.ECIDMeasurementInitiationRequestIEValue
+type ECIDMeasurementInitiationRequestIEField = s21.ECIDMeasurementInitiationRequestIEField
+type ECIDMeasurementInitiationRequestIETable = s21.ECIDMeasurementInitiationRequestIETable
+type ECIDMeasurementInitiationRequestIEValue = s20.ECIDMeasurementInitiationRequestIEValue
 
-var ECIDMeasurementInitiationRequestIEs func() ECIDMeasurementInitiationRequestIETable = q12.ECIDMeasurementInitiationRequestIEs
+var ECIDMeasurementInitiationRequestIEs func() ECIDMeasurementInitiationRequestIETable = s21.ECIDMeasurementInitiationRequestIEs
 
 // ECIDMeasurementInitiationRequestInitiatingBinding is the concrete InitiatingBinding[ECIDMeasurementInitiationRequest].
-type ECIDMeasurementInitiationRequestInitiatingBinding = q12.ECIDMeasurementInitiationRequestInitiatingBinding
+type ECIDMeasurementInitiationRequestInitiatingBinding = s21.ECIDMeasurementInitiationRequestInitiatingBinding
 
 // ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding is the concrete IEBinding[InterRATMeasurementQuantities, ECIDMeasurementInitiationRequestIEValue].
-type ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding = q12.ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding
+type ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding = s21.ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding
 
 // ECIDMeasurementInitiationRequestMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementInitiationRequestIEValue].
-type ECIDMeasurementInitiationRequestMeasurementIDIEBinding = q12.ECIDMeasurementInitiationRequestMeasurementIDIEBinding
+type ECIDMeasurementInitiationRequestMeasurementIDIEBinding = s21.ECIDMeasurementInitiationRequestMeasurementIDIEBinding
 
 // ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding is the concrete IEBinding[MeasurementPeriodicity, ECIDMeasurementInitiationRequestIEValue].
-type ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding = q12.ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding
+type ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding = s21.ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding
 
 // ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding is the concrete IEBinding[MeasurementQuantities, ECIDMeasurementInitiationRequestIEValue].
-type ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding = q12.ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding
+type ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding = s21.ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding
 
 // ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding is the concrete IEBinding[ReportCharacteristics, ECIDMeasurementInitiationRequestIEValue].
-type ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding = q12.ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding
+type ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding = s21.ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding
 
 // ECIDMeasurementInitiationRequestValueCodec is the concrete ValueCodec[ECIDMeasurementInitiationRequest].
-type ECIDMeasurementInitiationRequestValueCodec = q12.ECIDMeasurementInitiationRequestValueCodec
+type ECIDMeasurementInitiationRequestValueCodec = s21.ECIDMeasurementInitiationRequestValueCodec
 
 // ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding is the concrete IEBinding[WLANMeasurementQuantities, ECIDMeasurementInitiationRequestIEValue].
-type ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding = q12.ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding
+type ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding = s21.ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding
 
 // ECIDMeasurementInitiationResponse represents the ASN.1 type E-CIDMeasurementInitiationResponse (SEQUENCE).
-type ECIDMeasurementInitiationResponse = q17.ECIDMeasurementInitiationResponse
+type ECIDMeasurementInitiationResponse = s22.ECIDMeasurementInitiationResponse
 
 // ECIDMeasurementInitiationResponseAPERValue is the concrete APERValue[ECIDMeasurementInitiationResponse].
-type ECIDMeasurementInitiationResponseAPERValue = q17.ECIDMeasurementInitiationResponseAPERValue
+type ECIDMeasurementInitiationResponseAPERValue = s22.ECIDMeasurementInitiationResponseAPERValue
 
 // ECIDMeasurementInitiationResponseCellPortionIDIEBinding is the concrete IEBinding[CellPortionID, ECIDMeasurementInitiationResponseIEValue].
-type ECIDMeasurementInitiationResponseCellPortionIDIEBinding = q17.ECIDMeasurementInitiationResponseCellPortionIDIEBinding
+type ECIDMeasurementInitiationResponseCellPortionIDIEBinding = s22.ECIDMeasurementInitiationResponseCellPortionIDIEBinding
 
 // ECIDMeasurementInitiationResponseCodec binds the complete APER value type.
-var ECIDMeasurementInitiationResponseCodec func() ECIDMeasurementInitiationResponseValueCodec = q11.ECIDMeasurementInitiationResponseCodec
+var ECIDMeasurementInitiationResponseCodec func() ECIDMeasurementInitiationResponseValueCodec = s24.ECIDMeasurementInitiationResponseCodec
 
 // ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ECIDMeasurementInitiationResponseIEValue].
-type ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding = q17.ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding
+type ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding = s22.ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding
 
 // ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding is the concrete IEBinding[ECIDMeasurementResult, ECIDMeasurementInitiationResponseIEValue].
-type ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding = q17.ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding
+type ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding = s22.ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding
 
 // ECIDMeasurementInitiationResponseIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementInitiationResponseIEValue].
-type ECIDMeasurementInitiationResponseIEContainer = q17.ECIDMeasurementInitiationResponseIEContainer
+type ECIDMeasurementInitiationResponseIEContainer = s22.ECIDMeasurementInitiationResponseIEContainer
 
 // ECIDMeasurementInitiationResponseIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationResponseIEValue].
-type ECIDMeasurementInitiationResponseIEField = q17.ECIDMeasurementInitiationResponseIEField
-type ECIDMeasurementInitiationResponseIETable = q17.ECIDMeasurementInitiationResponseIETable
-type ECIDMeasurementInitiationResponseIEValue = q17.ECIDMeasurementInitiationResponseIEValue
+type ECIDMeasurementInitiationResponseIEField = s22.ECIDMeasurementInitiationResponseIEField
+type ECIDMeasurementInitiationResponseIETable = s22.ECIDMeasurementInitiationResponseIETable
+type ECIDMeasurementInitiationResponseIEValue = s22.ECIDMeasurementInitiationResponseIEValue
 
-var ECIDMeasurementInitiationResponseIEs func() ECIDMeasurementInitiationResponseIETable = q17.ECIDMeasurementInitiationResponseIEs
+var ECIDMeasurementInitiationResponseIEs func() ECIDMeasurementInitiationResponseIETable = s22.ECIDMeasurementInitiationResponseIEs
 
 // ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding is the concrete IEBinding[InterRATMeasurementResult, ECIDMeasurementInitiationResponseIEValue].
-type ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding = q17.ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding
+type ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding = s22.ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding
 
 // ECIDMeasurementInitiationResponseMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementInitiationResponseIEValue].
-type ECIDMeasurementInitiationResponseMeasurementIDIEBinding = q17.ECIDMeasurementInitiationResponseMeasurementIDIEBinding
+type ECIDMeasurementInitiationResponseMeasurementIDIEBinding = s22.ECIDMeasurementInitiationResponseMeasurementIDIEBinding
 
 // ECIDMeasurementInitiationResponseSuccessfulBinding is the concrete SuccessfulBinding[ECIDMeasurementInitiationResponse].
-type ECIDMeasurementInitiationResponseSuccessfulBinding = q4.ECIDMeasurementInitiationResponseSuccessfulBinding
+type ECIDMeasurementInitiationResponseSuccessfulBinding = s23.ECIDMeasurementInitiationResponseSuccessfulBinding
 
 // ECIDMeasurementInitiationResponseValueCodec is the concrete ValueCodec[ECIDMeasurementInitiationResponse].
-type ECIDMeasurementInitiationResponseValueCodec = q17.ECIDMeasurementInitiationResponseValueCodec
+type ECIDMeasurementInitiationResponseValueCodec = s22.ECIDMeasurementInitiationResponseValueCodec
 
 // ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding is the concrete IEBinding[WLANMeasurementResult, ECIDMeasurementInitiationResponseIEValue].
-type ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding = q17.ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding
+type ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding = s22.ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding
 
 // ECIDMeasurementReport represents the ASN.1 type E-CIDMeasurementReport (SEQUENCE).
-type ECIDMeasurementReport = q22.ECIDMeasurementReport
+type ECIDMeasurementReport = s13.ECIDMeasurementReport
 
 // ECIDMeasurementReportAPERValue is the concrete APERValue[ECIDMeasurementReport].
-type ECIDMeasurementReportAPERValue = q22.ECIDMeasurementReportAPERValue
+type ECIDMeasurementReportAPERValue = s13.ECIDMeasurementReportAPERValue
 
 // ECIDMeasurementReportCellPortionIDIEBinding is the concrete IEBinding[CellPortionID, ECIDMeasurementReportIEValue].
-type ECIDMeasurementReportCellPortionIDIEBinding = q22.ECIDMeasurementReportCellPortionIDIEBinding
+type ECIDMeasurementReportCellPortionIDIEBinding = s13.ECIDMeasurementReportCellPortionIDIEBinding
 
 // ECIDMeasurementReportCodec binds the complete APER value type.
-var ECIDMeasurementReportCodec func() ECIDMeasurementReportValueCodec = q4.ECIDMeasurementReportCodec
+var ECIDMeasurementReportCodec func() ECIDMeasurementReportValueCodec = s23.ECIDMeasurementReportCodec
 
-type ECIDMeasurementReportDescriptor = q4.ECIDMeasurementReportDescriptor
+type ECIDMeasurementReportDescriptor = s23.ECIDMeasurementReportDescriptor
 
 // ECIDMeasurementReportECIDMeasurementResultIEBinding is the concrete IEBinding[ECIDMeasurementResult, ECIDMeasurementReportIEValue].
-type ECIDMeasurementReportECIDMeasurementResultIEBinding = q22.ECIDMeasurementReportECIDMeasurementResultIEBinding
+type ECIDMeasurementReportECIDMeasurementResultIEBinding = s13.ECIDMeasurementReportECIDMeasurementResultIEBinding
 
 // ECIDMeasurementReportIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementReportIEValue].
-type ECIDMeasurementReportIEContainer = q22.ECIDMeasurementReportIEContainer
+type ECIDMeasurementReportIEContainer = s13.ECIDMeasurementReportIEContainer
 
 // ECIDMeasurementReportIEField is the concrete ProtocolIEField[ECIDMeasurementReportIEValue].
-type ECIDMeasurementReportIEField = q22.ECIDMeasurementReportIEField
-type ECIDMeasurementReportIETable = q22.ECIDMeasurementReportIETable
-type ECIDMeasurementReportIEValue = q22.ECIDMeasurementReportIEValue
+type ECIDMeasurementReportIEField = s13.ECIDMeasurementReportIEField
+type ECIDMeasurementReportIETable = s13.ECIDMeasurementReportIETable
+type ECIDMeasurementReportIEValue = s13.ECIDMeasurementReportIEValue
 
-var ECIDMeasurementReportIEs func() ECIDMeasurementReportIETable = q22.ECIDMeasurementReportIEs
+var ECIDMeasurementReportIEs func() ECIDMeasurementReportIETable = s13.ECIDMeasurementReportIEs
 
 // ECIDMeasurementReportInitiatingBinding is the concrete InitiatingBinding[ECIDMeasurementReport].
-type ECIDMeasurementReportInitiatingBinding = q12.ECIDMeasurementReportInitiatingBinding
+type ECIDMeasurementReportInitiatingBinding = s21.ECIDMeasurementReportInitiatingBinding
 
 // ECIDMeasurementReportMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementReportIEValue].
-type ECIDMeasurementReportMeasurementIDIEBinding = q22.ECIDMeasurementReportMeasurementIDIEBinding
+type ECIDMeasurementReportMeasurementIDIEBinding = s13.ECIDMeasurementReportMeasurementIDIEBinding
 
-var ECIDMeasurementReportProcedure func() ECIDMeasurementReportDescriptor = q4.ECIDMeasurementReportProcedure
+var ECIDMeasurementReportProcedure func() ECIDMeasurementReportDescriptor = s23.ECIDMeasurementReportProcedure
 
 // ECIDMeasurementReportValueCodec is the concrete ValueCodec[ECIDMeasurementReport].
-type ECIDMeasurementReportValueCodec = q22.ECIDMeasurementReportValueCodec
+type ECIDMeasurementReportValueCodec = s13.ECIDMeasurementReportValueCodec
 
 // ECIDMeasurementResult represents the ASN.1 type E-CID-MeasurementResult (SEQUENCE).
-type ECIDMeasurementResult = q22.ECIDMeasurementResult
+type ECIDMeasurementResult = s13.ECIDMeasurementResult
 
 // ECIDMeasurementResultAPERValue is the concrete APERValue[ECIDMeasurementResult].
-type ECIDMeasurementResultAPERValue = q22.ECIDMeasurementResultAPERValue
+type ECIDMeasurementResultAPERValue = s13.ECIDMeasurementResultAPERValue
 
 // ECIDMeasurementResultCodec binds the complete APER value type.
-var ECIDMeasurementResultCodec func() ECIDMeasurementResultValueCodec = q17.ECIDMeasurementResultCodec
+var ECIDMeasurementResultCodec func() ECIDMeasurementResultValueCodec = s22.ECIDMeasurementResultCodec
 
 // ECIDMeasurementResultValueCodec is the concrete ValueCodec[ECIDMeasurementResult].
-type ECIDMeasurementResultValueCodec = q22.ECIDMeasurementResultValueCodec
+type ECIDMeasurementResultValueCodec = s13.ECIDMeasurementResultValueCodec
 
 // ECIDMeasurementTerminationCommand represents the ASN.1 type E-CIDMeasurementTerminationCommand (SEQUENCE).
-type ECIDMeasurementTerminationCommand = q16.ECIDMeasurementTerminationCommand
+type ECIDMeasurementTerminationCommand = s06.ECIDMeasurementTerminationCommand
 
 // ECIDMeasurementTerminationCommandAPERValue is the concrete APERValue[ECIDMeasurementTerminationCommand].
-type ECIDMeasurementTerminationCommandAPERValue = q16.ECIDMeasurementTerminationCommandAPERValue
+type ECIDMeasurementTerminationCommandAPERValue = s06.ECIDMeasurementTerminationCommandAPERValue
 
 // ECIDMeasurementTerminationCommandCodec binds the complete APER value type.
-var ECIDMeasurementTerminationCommandCodec func() ECIDMeasurementTerminationCommandValueCodec = q4.ECIDMeasurementTerminationCommandCodec
+var ECIDMeasurementTerminationCommandCodec func() ECIDMeasurementTerminationCommandValueCodec = s23.ECIDMeasurementTerminationCommandCodec
 
 // ECIDMeasurementTerminationCommandIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementTerminationCommandIEValue].
-type ECIDMeasurementTerminationCommandIEContainer = q8.ECIDMeasurementTerminationCommandIEContainer
+type ECIDMeasurementTerminationCommandIEContainer = s03.ECIDMeasurementTerminationCommandIEContainer
 
 // ECIDMeasurementTerminationCommandIEField is the concrete ProtocolIEField[ECIDMeasurementTerminationCommandIEValue].
-type ECIDMeasurementTerminationCommandIEField = q8.ECIDMeasurementTerminationCommandIEField
-type ECIDMeasurementTerminationCommandIETable = q8.ECIDMeasurementTerminationCommandIETable
-type ECIDMeasurementTerminationCommandIEValue = q9.ECIDMeasurementTerminationCommandIEValue
+type ECIDMeasurementTerminationCommandIEField = s03.ECIDMeasurementTerminationCommandIEField
+type ECIDMeasurementTerminationCommandIETable = s03.ECIDMeasurementTerminationCommandIETable
+type ECIDMeasurementTerminationCommandIEValue = s02.ECIDMeasurementTerminationCommandIEValue
 
-var ECIDMeasurementTerminationCommandIEs func() ECIDMeasurementTerminationCommandIETable = q8.ECIDMeasurementTerminationCommandIEs
+var ECIDMeasurementTerminationCommandIEs func() ECIDMeasurementTerminationCommandIETable = s03.ECIDMeasurementTerminationCommandIEs
 
 // ECIDMeasurementTerminationCommandInitiatingBinding is the concrete InitiatingBinding[ECIDMeasurementTerminationCommand].
-type ECIDMeasurementTerminationCommandInitiatingBinding = q12.ECIDMeasurementTerminationCommandInitiatingBinding
+type ECIDMeasurementTerminationCommandInitiatingBinding = s21.ECIDMeasurementTerminationCommandInitiatingBinding
 
 // ECIDMeasurementTerminationCommandMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementTerminationCommandIEValue].
-type ECIDMeasurementTerminationCommandMeasurementIDIEBinding = q8.ECIDMeasurementTerminationCommandMeasurementIDIEBinding
+type ECIDMeasurementTerminationCommandMeasurementIDIEBinding = s03.ECIDMeasurementTerminationCommandMeasurementIDIEBinding
 
 // ECIDMeasurementTerminationCommandValueCodec is the concrete ValueCodec[ECIDMeasurementTerminationCommand].
-type ECIDMeasurementTerminationCommandValueCodec = q16.ECIDMeasurementTerminationCommandValueCodec
-type ECIDMeasurementTerminationDescriptor = q4.ECIDMeasurementTerminationDescriptor
+type ECIDMeasurementTerminationCommandValueCodec = s06.ECIDMeasurementTerminationCommandValueCodec
+type ECIDMeasurementTerminationDescriptor = s23.ECIDMeasurementTerminationDescriptor
 
-var ECIDMeasurementTerminationProcedure func() ECIDMeasurementTerminationDescriptor = q4.ECIDMeasurementTerminationProcedure
+var ECIDMeasurementTerminationProcedure func() ECIDMeasurementTerminationDescriptor = s23.ECIDMeasurementTerminationProcedure
 
 // EUTRANAccessPointPosition represents the ASN.1 type E-UTRANAccessPointPosition (SEQUENCE).
-type EUTRANAccessPointPosition = q16.EUTRANAccessPointPosition
+type EUTRANAccessPointPosition = s06.EUTRANAccessPointPosition
 
 // EUTRANAccessPointPositionAPERValue is the concrete APERValue[EUTRANAccessPointPosition].
-type EUTRANAccessPointPositionAPERValue = q16.EUTRANAccessPointPositionAPERValue
+type EUTRANAccessPointPositionAPERValue = s06.EUTRANAccessPointPositionAPERValue
 
 // EUTRANAccessPointPositionCodec binds the complete source value type.
-var EUTRANAccessPointPositionCodec func() EUTRANAccessPointPositionValueCodec = q16.EUTRANAccessPointPositionCodec
+var EUTRANAccessPointPositionCodec func() EUTRANAccessPointPositionValueCodec = s06.EUTRANAccessPointPositionCodec
 
 // EUTRANAccessPointPositionValueCodec is the concrete ValueCodec[EUTRANAccessPointPosition].
-type EUTRANAccessPointPositionValueCodec = q16.EUTRANAccessPointPositionValueCodec
+type EUTRANAccessPointPositionValueCodec = s06.EUTRANAccessPointPositionValueCodec
 
 // EUTRANCellIdentifier represents the ASN.1 type EUTRANCellIdentifier (BIT_STRING).
-type EUTRANCellIdentifier = q14.EUTRANCellIdentifier
+type EUTRANCellIdentifier = s00.EUTRANCellIdentifier
 
 // EUTRANCellIdentifierAPERValue is the concrete APERValue[EUTRANCellIdentifier].
-type EUTRANCellIdentifierAPERValue = q14.EUTRANCellIdentifierAPERValue
+type EUTRANCellIdentifierAPERValue = s00.EUTRANCellIdentifierAPERValue
 
 // EUTRANCellIdentifierCodec binds the complete source value type.
-var EUTRANCellIdentifierCodec func() EUTRANCellIdentifierValueCodec = q9.EUTRANCellIdentifierCodec
+var EUTRANCellIdentifierCodec func() EUTRANCellIdentifierValueCodec = s02.EUTRANCellIdentifierCodec
 
 // EUTRANCellIdentifierValueCodec is the concrete ValueCodec[EUTRANCellIdentifier].
-type EUTRANCellIdentifierValueCodec = q14.EUTRANCellIdentifierValueCodec
-type EncodePayload[T any] = q4.EncodePayload[T]
+type EUTRANCellIdentifierValueCodec = s00.EUTRANCellIdentifierValueCodec
+type EncodePayload[T any] = s23.EncodePayload[T]
 
 // ErrorIndication represents the ASN.1 type ErrorIndication (SEQUENCE).
-type ErrorIndication = q18.ErrorIndication
+type ErrorIndication = s11.ErrorIndication
 
 // ErrorIndicationAPERValue is the concrete APERValue[ErrorIndication].
-type ErrorIndicationAPERValue = q18.ErrorIndicationAPERValue
+type ErrorIndicationAPERValue = s11.ErrorIndicationAPERValue
 
 // ErrorIndicationCauseIEBinding is the concrete IEBinding[Cause, ErrorIndicationIEValue].
-type ErrorIndicationCauseIEBinding = q19.ErrorIndicationCauseIEBinding
+type ErrorIndicationCauseIEBinding = s10.ErrorIndicationCauseIEBinding
 
 // ErrorIndicationCodec binds the complete APER value type.
-var ErrorIndicationCodec func() ErrorIndicationValueCodec = q4.ErrorIndicationCodec
+var ErrorIndicationCodec func() ErrorIndicationValueCodec = s23.ErrorIndicationCodec
 
 // ErrorIndicationCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ErrorIndicationIEValue].
-type ErrorIndicationCriticalityDiagnosticsIEBinding = q19.ErrorIndicationCriticalityDiagnosticsIEBinding
-type ErrorIndicationDescriptor = q4.ErrorIndicationDescriptor
+type ErrorIndicationCriticalityDiagnosticsIEBinding = s10.ErrorIndicationCriticalityDiagnosticsIEBinding
+type ErrorIndicationDescriptor = s23.ErrorIndicationDescriptor
 
 // ErrorIndicationIEContainer is the concrete ProtocolIEContainer[ErrorIndicationIEValue].
-type ErrorIndicationIEContainer = q19.ErrorIndicationIEContainer
+type ErrorIndicationIEContainer = s10.ErrorIndicationIEContainer
 
 // ErrorIndicationIEField is the concrete ProtocolIEField[ErrorIndicationIEValue].
-type ErrorIndicationIEField = q19.ErrorIndicationIEField
-type ErrorIndicationIETable = q19.ErrorIndicationIETable
-type ErrorIndicationIEValue = q19.ErrorIndicationIEValue
+type ErrorIndicationIEField = s10.ErrorIndicationIEField
+type ErrorIndicationIETable = s10.ErrorIndicationIETable
+type ErrorIndicationIEValue = s10.ErrorIndicationIEValue
 
-var ErrorIndicationIEs func() ErrorIndicationIETable = q19.ErrorIndicationIEs
+var ErrorIndicationIEs func() ErrorIndicationIETable = s10.ErrorIndicationIEs
 
 // ErrorIndicationInitiatingBinding is the concrete InitiatingBinding[ErrorIndication].
-type ErrorIndicationInitiatingBinding = q12.ErrorIndicationInitiatingBinding
+type ErrorIndicationInitiatingBinding = s21.ErrorIndicationInitiatingBinding
 
-var ErrorIndicationProcedure func() ErrorIndicationDescriptor = q4.ErrorIndicationProcedure
+var ErrorIndicationProcedure func() ErrorIndicationDescriptor = s23.ErrorIndicationProcedure
 
 // ErrorIndicationValueCodec is the concrete ValueCodec[ErrorIndication].
-type ErrorIndicationValueCodec = q18.ErrorIndicationValueCodec
-type ExtensionBinding[T any, V q4.ProtocolOpenValueConstraint[V]] = q4.ExtensionBinding[T, V]
-type FieldInfo = q14.FieldInfo
+type ErrorIndicationValueCodec = s11.ErrorIndicationValueCodec
+type ExtensionBinding[T any, V s23.ProtocolOpenValueConstraint[V]] = s23.ExtensionBinding[T, V]
+type FieldInfo = s00.FieldInfo
 
 // HESSID represents the ASN.1 type HESSID (OCTET_STRING).
-type HESSID = q14.HESSID
+type HESSID = s00.HESSID
 
 // HESSIDAPERValue is the concrete APERValue[HESSID].
-type HESSIDAPERValue = q14.HESSIDAPERValue
+type HESSIDAPERValue = s00.HESSIDAPERValue
 
 // HESSIDCodec binds the complete source value type.
-var HESSIDCodec func() HESSIDValueCodec = q9.HESSIDCodec
+var HESSIDCodec func() HESSIDValueCodec = s02.HESSIDCodec
 
 // HESSIDValueCodec is the concrete ValueCodec[HESSID].
-type HESSIDValueCodec = q14.HESSIDValueCodec
-type IEBinding[T any, V q4.ProtocolOpenValueConstraint[V]] = q4.IEBinding[T, V]
+type HESSIDValueCodec = s00.HESSIDValueCodec
+type IEBinding[T any, V s23.ProtocolOpenValueConstraint[V]] = s23.IEBinding[T, V]
 
 // IdAddOTDOACells is the integer constant for id-AddOTDOACells.
-const IdAddOTDOACells = q14.IdAddOTDOACells
+const IdAddOTDOACells = s00.IdAddOTDOACells
 
 // IdAssistanceInformation is the integer constant for id-Assistance-Information.
-const IdAssistanceInformation = q14.IdAssistanceInformation
+const IdAssistanceInformation = s00.IdAssistanceInformation
 
 // IdAssistanceInformationControl is the integer constant for id-assistanceInformationControl.
-const IdAssistanceInformationControl = q14.IdAssistanceInformationControl
+const IdAssistanceInformationControl = s00.IdAssistanceInformationControl
 
 // IdAssistanceInformationFailureList is the integer constant for id-AssistanceInformationFailureList.
-const IdAssistanceInformationFailureList = q14.IdAssistanceInformationFailureList
+const IdAssistanceInformationFailureList = s00.IdAssistanceInformationFailureList
 
 // IdAssistanceInformationFeedback is the integer constant for id-assistanceInformationFeedback.
-const IdAssistanceInformationFeedback = q14.IdAssistanceInformationFeedback
+const IdAssistanceInformationFeedback = s00.IdAssistanceInformationFeedback
 
 // IdBroadcast is the integer constant for id-Broadcast.
-const IdBroadcast = q14.IdBroadcast
+const IdBroadcast = s00.IdBroadcast
 
 // IdCause is the integer constant for id-Cause.
-const IdCause = q14.IdCause
+const IdCause = s00.IdCause
 
 // IdCellPortionID is the integer constant for id-Cell-Portion-ID.
-const IdCellPortionID = q14.IdCellPortionID
+const IdCellPortionID = s00.IdCellPortionID
 
 // IdCriticalityDiagnostics is the integer constant for id-CriticalityDiagnostics.
-const IdCriticalityDiagnostics = q14.IdCriticalityDiagnostics
+const IdCriticalityDiagnostics = s00.IdCriticalityDiagnostics
 
 // IdECIDMeasurementFailureIndication is the integer constant for id-e-CIDMeasurementFailureIndication.
-const IdECIDMeasurementFailureIndication = q14.IdECIDMeasurementFailureIndication
+const IdECIDMeasurementFailureIndication = s00.IdECIDMeasurementFailureIndication
 
 // IdECIDMeasurementInitiation is the integer constant for id-e-CIDMeasurementInitiation.
-const IdECIDMeasurementInitiation = q14.IdECIDMeasurementInitiation
+const IdECIDMeasurementInitiation = s00.IdECIDMeasurementInitiation
 
 // IdECIDMeasurementReport is the integer constant for id-e-CIDMeasurementReport.
-const IdECIDMeasurementReport = q14.IdECIDMeasurementReport
+const IdECIDMeasurementReport = s00.IdECIDMeasurementReport
 
 // IdECIDMeasurementResult is the integer constant for id-E-CID-MeasurementResult.
-const IdECIDMeasurementResult = q14.IdECIDMeasurementResult
+const IdECIDMeasurementResult = s00.IdECIDMeasurementResult
 
 // IdECIDMeasurementTermination is the integer constant for id-e-CIDMeasurementTermination.
-const IdECIDMeasurementTermination = q14.IdECIDMeasurementTermination
+const IdECIDMeasurementTermination = s00.IdECIDMeasurementTermination
 
 // IdENBUEMeasurementID is the integer constant for id-eNB-UE-Measurement-ID.
-const IdENBUEMeasurementID = q14.IdENBUEMeasurementID
+const IdENBUEMeasurementID = s00.IdENBUEMeasurementID
 
 // IdESMLCUEMeasurementID is the integer constant for id-E-SMLC-UE-Measurement-ID.
-const IdESMLCUEMeasurementID = q14.IdESMLCUEMeasurementID
+const IdESMLCUEMeasurementID = s00.IdESMLCUEMeasurementID
 
 // IdErrorIndication is the integer constant for id-errorIndication.
-const IdErrorIndication = q14.IdErrorIndication
+const IdErrorIndication = s00.IdErrorIndication
 
 // IdInterRATMeasurementQuantities is the integer constant for id-InterRATMeasurementQuantities.
-const IdInterRATMeasurementQuantities = q14.IdInterRATMeasurementQuantities
+const IdInterRATMeasurementQuantities = s00.IdInterRATMeasurementQuantities
 
 // IdInterRATMeasurementQuantitiesItem is the integer constant for id-InterRATMeasurementQuantities-Item.
-const IdInterRATMeasurementQuantitiesItem = q14.IdInterRATMeasurementQuantitiesItem
+const IdInterRATMeasurementQuantitiesItem = s00.IdInterRATMeasurementQuantitiesItem
 
 // IdInterRATMeasurementResult is the integer constant for id-InterRATMeasurementResult.
-const IdInterRATMeasurementResult = q14.IdInterRATMeasurementResult
+const IdInterRATMeasurementResult = s00.IdInterRATMeasurementResult
 
 // IdMeasurementPeriodicity is the integer constant for id-MeasurementPeriodicity.
-const IdMeasurementPeriodicity = q14.IdMeasurementPeriodicity
+const IdMeasurementPeriodicity = s00.IdMeasurementPeriodicity
 
 // IdMeasurementQuantities is the integer constant for id-MeasurementQuantities.
-const IdMeasurementQuantities = q14.IdMeasurementQuantities
+const IdMeasurementQuantities = s00.IdMeasurementQuantities
 
 // IdMeasurementQuantitiesItem is the integer constant for id-MeasurementQuantities-Item.
-const IdMeasurementQuantitiesItem = q14.IdMeasurementQuantitiesItem
+const IdMeasurementQuantitiesItem = s00.IdMeasurementQuantitiesItem
 
 // IdNRCGI is the integer constant for id-NR-CGI.
-const IdNRCGI = q14.IdNRCGI
+const IdNRCGI = s00.IdNRCGI
 
 // IdOTDOACells is the integer constant for id-OTDOACells.
-const IdOTDOACells = q14.IdOTDOACells
+const IdOTDOACells = s00.IdOTDOACells
 
 // IdOTDOAInformationExchange is the integer constant for id-oTDOAInformationExchange.
-const IdOTDOAInformationExchange = q14.IdOTDOAInformationExchange
+const IdOTDOAInformationExchange = s00.IdOTDOAInformationExchange
 
 // IdOTDOAInformationTypeGroup is the integer constant for id-OTDOA-Information-Type-Group.
-const IdOTDOAInformationTypeGroup = q14.IdOTDOAInformationTypeGroup
+const IdOTDOAInformationTypeGroup = s00.IdOTDOAInformationTypeGroup
 
 // IdOTDOAInformationTypeItem is the integer constant for id-OTDOA-Information-Type-Item.
-const IdOTDOAInformationTypeItem = q14.IdOTDOAInformationTypeItem
+const IdOTDOAInformationTypeItem = s00.IdOTDOAInformationTypeItem
 
 // IdPrivateMessage is the integer constant for id-privateMessage.
-const IdPrivateMessage = q14.IdPrivateMessage
+const IdPrivateMessage = s00.IdPrivateMessage
 
 // IdReportCharacteristics is the integer constant for id-ReportCharacteristics.
-const IdReportCharacteristics = q14.IdReportCharacteristics
+const IdReportCharacteristics = s00.IdReportCharacteristics
 
 // IdRequestedSRSTransmissionCharacteristics is the integer constant for id-RequestedSRSTransmissionCharacteristics.
-const IdRequestedSRSTransmissionCharacteristics = q14.IdRequestedSRSTransmissionCharacteristics
+const IdRequestedSRSTransmissionCharacteristics = s00.IdRequestedSRSTransmissionCharacteristics
 
 // IdResultsPerSSBIndexItem is the integer constant for id-ResultsPerSSB-Index-Item.
-const IdResultsPerSSBIndexItem = q14.IdResultsPerSSBIndexItem
+const IdResultsPerSSBIndexItem = s00.IdResultsPerSSBIndexItem
 
 // IdResultsPerSSBIndexList is the integer constant for id-ResultsPerSSB-Index-List.
-const IdResultsPerSSBIndexList = q14.IdResultsPerSSBIndexList
+const IdResultsPerSSBIndexList = s00.IdResultsPerSSBIndexList
 
 // IdULConfiguration is the integer constant for id-ULConfiguration.
-const IdULConfiguration = q14.IdULConfiguration
+const IdULConfiguration = s00.IdULConfiguration
 
 // IdUTDOAInformationExchange is the integer constant for id-uTDOAInformationExchange.
-const IdUTDOAInformationExchange = q14.IdUTDOAInformationExchange
+const IdUTDOAInformationExchange = s00.IdUTDOAInformationExchange
 
 // IdUTDOAInformationUpdate is the integer constant for id-uTDOAInformationUpdate.
-const IdUTDOAInformationUpdate = q14.IdUTDOAInformationUpdate
+const IdUTDOAInformationUpdate = s00.IdUTDOAInformationUpdate
 
 // IdWLANMeasurementQuantities is the integer constant for id-WLANMeasurementQuantities.
-const IdWLANMeasurementQuantities = q14.IdWLANMeasurementQuantities
+const IdWLANMeasurementQuantities = s00.IdWLANMeasurementQuantities
 
 // IdWLANMeasurementQuantitiesItem is the integer constant for id-WLANMeasurementQuantities-Item.
-const IdWLANMeasurementQuantitiesItem = q14.IdWLANMeasurementQuantitiesItem
+const IdWLANMeasurementQuantitiesItem = s00.IdWLANMeasurementQuantitiesItem
 
 // IdWLANMeasurementResult is the integer constant for id-WLANMeasurementResult.
-const IdWLANMeasurementResult = q14.IdWLANMeasurementResult
+const IdWLANMeasurementResult = s00.IdWLANMeasurementResult
 
-type InitiatingBinding[T any] = q4.InitiatingBinding[T]
+type InitiatingBinding[T any] = s23.InitiatingBinding[T]
 
 // InitiatingMessage represents the ASN.1 type InitiatingMessage (SEQUENCE).
-type InitiatingMessage = q12.InitiatingMessage
+type InitiatingMessage = s21.InitiatingMessage
 
 // InitiatingMessageAPERValue is the concrete APERValue[InitiatingMessage].
-type InitiatingMessageAPERValue = q12.InitiatingMessageAPERValue
+type InitiatingMessageAPERValue = s21.InitiatingMessageAPERValue
 
 // InitiatingMessageCodec binds the complete source value type.
-var InitiatingMessageCodec func() InitiatingMessageValueCodec = q12.InitiatingMessageCodec
+var InitiatingMessageCodec func() InitiatingMessageValueCodec = s21.InitiatingMessageCodec
 
 // InitiatingMessageValueCodec is the concrete ValueCodec[InitiatingMessage].
-type InitiatingMessageValueCodec = q12.InitiatingMessageValueCodec
+type InitiatingMessageValueCodec = s21.InitiatingMessageValueCodec
 
-var InitiatingReason func(code ProcedureCode) q23.OpaqueReason = q14.InitiatingReason
+var InitiatingReason func(code ProcedureCode) aper.OpaqueReason = s00.InitiatingReason
 
-type InitiatingValue = q12.InitiatingValue
+type InitiatingValue = s21.InitiatingValue
 
 // InterRATMeasuredResultsValue represents the ASN.1 CHOICE type InterRATMeasuredResultsValue.
-type InterRATMeasuredResultsValue = q24.InterRATMeasuredResultsValue
+type InterRATMeasuredResultsValue = s19.InterRATMeasuredResultsValue
 
 // InterRATMeasuredResultsValueAPERValue is the concrete APERValue[InterRATMeasuredResultsValue].
-type InterRATMeasuredResultsValueAPERValue = q21.InterRATMeasuredResultsValueAPERValue
+type InterRATMeasuredResultsValueAPERValue = s20.InterRATMeasuredResultsValueAPERValue
 
 // InterRATMeasuredResultsValue choice constants.
-const InterRATMeasuredResultsValueChoiceResultGERAN = q14.InterRATMeasuredResultsValueChoiceResultGERAN
+const InterRATMeasuredResultsValueChoiceResultGERAN = s00.InterRATMeasuredResultsValueChoiceResultGERAN
 
 // InterRATMeasuredResultsValue choice constants.
-const InterRATMeasuredResultsValueChoiceResultNR = q14.InterRATMeasuredResultsValueChoiceResultNR
+const InterRATMeasuredResultsValueChoiceResultNR = s00.InterRATMeasuredResultsValueChoiceResultNR
 
 // InterRATMeasuredResultsValue choice constants.
-const InterRATMeasuredResultsValueChoiceResultUTRAN = q14.InterRATMeasuredResultsValueChoiceResultUTRAN
+const InterRATMeasuredResultsValueChoiceResultUTRAN = s00.InterRATMeasuredResultsValueChoiceResultUTRAN
 
 // InterRATMeasuredResultsValueCodec binds the complete source value type.
-var InterRATMeasuredResultsValueCodec func() InterRATMeasuredResultsValueValueCodec = q21.InterRATMeasuredResultsValueCodec
+var InterRATMeasuredResultsValueCodec func() InterRATMeasuredResultsValueValueCodec = s20.InterRATMeasuredResultsValueCodec
 
 // InterRATMeasuredResultsValueValueCodec is the concrete ValueCodec[InterRATMeasuredResultsValue].
-type InterRATMeasuredResultsValueValueCodec = q21.InterRATMeasuredResultsValueValueCodec
-type InterRATMeasurementQuantities = q16.InterRATMeasurementQuantities
+type InterRATMeasuredResultsValueValueCodec = s20.InterRATMeasuredResultsValueValueCodec
+type InterRATMeasurementQuantities = s06.InterRATMeasurementQuantities
 
 // InterRATMeasurementQuantitiesAPERValue is the concrete APERValue[InterRATMeasurementQuantities].
-type InterRATMeasurementQuantitiesAPERValue = q16.InterRATMeasurementQuantitiesAPERValue
+type InterRATMeasurementQuantitiesAPERValue = s06.InterRATMeasurementQuantitiesAPERValue
 
 // InterRATMeasurementQuantitiesCodec binds the complete APER value type.
-var InterRATMeasurementQuantitiesCodec func() InterRATMeasurementQuantitiesConcreteValueCodec = q12.InterRATMeasurementQuantitiesCodec
+var InterRATMeasurementQuantitiesCodec func() InterRATMeasurementQuantitiesConcreteValueCodec = s21.InterRATMeasurementQuantitiesCodec
 
 // InterRATMeasurementQuantitiesComplete carries a complete InterRATMeasurementQuantities encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type InterRATMeasurementQuantitiesComplete = q6.InterRATMeasurementQuantitiesComplete
+type InterRATMeasurementQuantitiesComplete = s17.InterRATMeasurementQuantitiesComplete
 
 // InterRATMeasurementQuantitiesConcreteValueCodec is the concrete ValueCodec[InterRATMeasurementQuantities].
-type InterRATMeasurementQuantitiesConcreteValueCodec = q16.InterRATMeasurementQuantitiesConcreteValueCodec
+type InterRATMeasurementQuantitiesConcreteValueCodec = s06.InterRATMeasurementQuantitiesConcreteValueCodec
 
 // InterRATMeasurementQuantitiesItem represents the ASN.1 type InterRATMeasurementQuantities-Item (SEQUENCE).
-type InterRATMeasurementQuantitiesItem = q16.InterRATMeasurementQuantitiesItem
+type InterRATMeasurementQuantitiesItem = s06.InterRATMeasurementQuantitiesItem
 
 // InterRATMeasurementQuantitiesItemAPERValue is the concrete APERValue[InterRATMeasurementQuantitiesItem].
-type InterRATMeasurementQuantitiesItemAPERValue = q16.InterRATMeasurementQuantitiesItemAPERValue
+type InterRATMeasurementQuantitiesItemAPERValue = s06.InterRATMeasurementQuantitiesItemAPERValue
 
 // InterRATMeasurementQuantitiesItemCodec binds the complete APER value type.
-var InterRATMeasurementQuantitiesItemCodec func() InterRATMeasurementQuantitiesItemValueCodec = q16.InterRATMeasurementQuantitiesItemCodec
+var InterRATMeasurementQuantitiesItemCodec func() InterRATMeasurementQuantitiesItemValueCodec = s06.InterRATMeasurementQuantitiesItemCodec
 
 // InterRATMeasurementQuantitiesItemIEContainer is the concrete ProtocolIEContainer[InterRATMeasurementQuantitiesItemIEValue].
-type InterRATMeasurementQuantitiesItemIEContainer = q16.InterRATMeasurementQuantitiesItemIEContainer
+type InterRATMeasurementQuantitiesItemIEContainer = s06.InterRATMeasurementQuantitiesItemIEContainer
 
 // InterRATMeasurementQuantitiesItemIEField is the concrete ProtocolIEField[InterRATMeasurementQuantitiesItemIEValue].
-type InterRATMeasurementQuantitiesItemIEField = q16.InterRATMeasurementQuantitiesItemIEField
-type InterRATMeasurementQuantitiesItemIETable = q16.InterRATMeasurementQuantitiesItemIETable
-type InterRATMeasurementQuantitiesItemIEValue = q16.InterRATMeasurementQuantitiesItemIEValue
+type InterRATMeasurementQuantitiesItemIEField = s06.InterRATMeasurementQuantitiesItemIEField
+type InterRATMeasurementQuantitiesItemIETable = s06.InterRATMeasurementQuantitiesItemIETable
+type InterRATMeasurementQuantitiesItemIEValue = s06.InterRATMeasurementQuantitiesItemIEValue
 
 // InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[InterRATMeasurementQuantitiesItemIEValue].
-type InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer = q16.InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer
+type InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer = s06.InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer
 
-var InterRATMeasurementQuantitiesItemIEs func() InterRATMeasurementQuantitiesItemIETable = q16.InterRATMeasurementQuantitiesItemIEs
+var InterRATMeasurementQuantitiesItemIEs func() InterRATMeasurementQuantitiesItemIETable = s06.InterRATMeasurementQuantitiesItemIEs
 
 // InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding is the concrete IEBinding[InterRATMeasurementQuantitiesItem, InterRATMeasurementQuantitiesItemIEValue].
-type InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding = q16.InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding
+type InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding = s06.InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding
 
 // InterRATMeasurementQuantitiesItemValueCodec is the concrete ValueCodec[InterRATMeasurementQuantitiesItem].
-type InterRATMeasurementQuantitiesItemValueCodec = q16.InterRATMeasurementQuantitiesItemValueCodec
+type InterRATMeasurementQuantitiesItemValueCodec = s06.InterRATMeasurementQuantitiesItemValueCodec
 
 // InterRATMeasurementQuantitiesValue represents the ASN.1 ENUMERATED type InterRATMeasurementQuantitiesValue.
-type InterRATMeasurementQuantitiesValue = q14.InterRATMeasurementQuantitiesValue
+type InterRATMeasurementQuantitiesValue = s00.InterRATMeasurementQuantitiesValue
 
 // InterRATMeasurementQuantitiesValueAPERValue is the concrete APERValue[InterRATMeasurementQuantitiesValue].
-type InterRATMeasurementQuantitiesValueAPERValue = q14.InterRATMeasurementQuantitiesValueAPERValue
+type InterRATMeasurementQuantitiesValueAPERValue = s00.InterRATMeasurementQuantitiesValueAPERValue
 
 // InterRATMeasurementQuantitiesValueCodec binds the complete source value type.
-var InterRATMeasurementQuantitiesValueCodec func() InterRATMeasurementQuantitiesValueValueCodec = q9.InterRATMeasurementQuantitiesValueCodec
+var InterRATMeasurementQuantitiesValueCodec func() InterRATMeasurementQuantitiesValueValueCodec = s02.InterRATMeasurementQuantitiesValueCodec
 
-type InterRATMeasurementQuantitiesValueExtIETable = q8.InterRATMeasurementQuantitiesValueExtIETable
+type InterRATMeasurementQuantitiesValueExtIETable = s03.InterRATMeasurementQuantitiesValueExtIETable
 
-var InterRATMeasurementQuantitiesValueExtIEs func() InterRATMeasurementQuantitiesValueExtIETable = q8.InterRATMeasurementQuantitiesValueExtIEs
+var InterRATMeasurementQuantitiesValueExtIEs func() InterRATMeasurementQuantitiesValueExtIETable = s03.InterRATMeasurementQuantitiesValueExtIEs
 
 // InterRATMeasurementQuantitiesValueExtIEsExtContainer is the concrete ProtocolExtensionContainer[InterRATMeasurementQuantitiesValueExtIEsValue].
-type InterRATMeasurementQuantitiesValueExtIEsExtContainer = q8.InterRATMeasurementQuantitiesValueExtIEsExtContainer
+type InterRATMeasurementQuantitiesValueExtIEsExtContainer = s03.InterRATMeasurementQuantitiesValueExtIEsExtContainer
 
 // InterRATMeasurementQuantitiesValueExtIEsExtField is the concrete ProtocolExtensionField[InterRATMeasurementQuantitiesValueExtIEsValue].
-type InterRATMeasurementQuantitiesValueExtIEsExtField = q8.InterRATMeasurementQuantitiesValueExtIEsExtField
+type InterRATMeasurementQuantitiesValueExtIEsExtField = s03.InterRATMeasurementQuantitiesValueExtIEsExtField
 
 // InterRATMeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[InterRATMeasurementQuantitiesValueExtIEsValue].
-type InterRATMeasurementQuantitiesValueExtIEsIEContainer = q8.InterRATMeasurementQuantitiesValueExtIEsIEContainer
+type InterRATMeasurementQuantitiesValueExtIEsIEContainer = s03.InterRATMeasurementQuantitiesValueExtIEsIEContainer
 
 // InterRATMeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[InterRATMeasurementQuantitiesValueExtIEsValue].
-type InterRATMeasurementQuantitiesValueExtIEsIEField = q8.InterRATMeasurementQuantitiesValueExtIEsIEField
-type InterRATMeasurementQuantitiesValueExtIEsValue = q9.InterRATMeasurementQuantitiesValueExtIEsValue
+type InterRATMeasurementQuantitiesValueExtIEsIEField = s03.InterRATMeasurementQuantitiesValueExtIEsIEField
+type InterRATMeasurementQuantitiesValueExtIEsValue = s02.InterRATMeasurementQuantitiesValueExtIEsValue
 
-const InterRATMeasurementQuantitiesValueGeran = q14.InterRATMeasurementQuantitiesValueGeran
-const InterRATMeasurementQuantitiesValueNr = q14.InterRATMeasurementQuantitiesValueNr
-const InterRATMeasurementQuantitiesValueUtran = q14.InterRATMeasurementQuantitiesValueUtran
+const InterRATMeasurementQuantitiesValueGeran = s00.InterRATMeasurementQuantitiesValueGeran
+const InterRATMeasurementQuantitiesValueNr = s00.InterRATMeasurementQuantitiesValueNr
+const InterRATMeasurementQuantitiesValueUtran = s00.InterRATMeasurementQuantitiesValueUtran
 
 // InterRATMeasurementQuantitiesValueValueCodec is the concrete ValueCodec[InterRATMeasurementQuantitiesValue].
-type InterRATMeasurementQuantitiesValueValueCodec = q14.InterRATMeasurementQuantitiesValueValueCodec
-type InterRATMeasurementResult = q21.InterRATMeasurementResult
+type InterRATMeasurementQuantitiesValueValueCodec = s00.InterRATMeasurementQuantitiesValueValueCodec
+type InterRATMeasurementResult = s20.InterRATMeasurementResult
 
 // InterRATMeasurementResultAPERValue is the concrete APERValue[InterRATMeasurementResult].
-type InterRATMeasurementResultAPERValue = q21.InterRATMeasurementResultAPERValue
+type InterRATMeasurementResultAPERValue = s20.InterRATMeasurementResultAPERValue
 
 // InterRATMeasurementResultCodec binds the complete APER value type.
-var InterRATMeasurementResultCodec func() InterRATMeasurementResultValueCodec = q17.InterRATMeasurementResultCodec
+var InterRATMeasurementResultCodec func() InterRATMeasurementResultValueCodec = s22.InterRATMeasurementResultCodec
 
 // InterRATMeasurementResultComplete carries a complete InterRATMeasurementResult encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type InterRATMeasurementResultComplete = q21.InterRATMeasurementResultComplete
+type InterRATMeasurementResultComplete = s20.InterRATMeasurementResultComplete
 
 // InterRATMeasurementResultValueCodec is the concrete ValueCodec[InterRATMeasurementResult].
-type InterRATMeasurementResultValueCodec = q21.InterRATMeasurementResultValueCodec
+type InterRATMeasurementResultValueCodec = s20.InterRATMeasurementResultValueCodec
 
 // LPPAPDU represents the ASN.1 CHOICE type LPPA-PDU.
-type LPPAPDU = q4.LPPAPDU
+type LPPAPDU = s23.LPPAPDU
 
 // LPPAPDUAPERValue is the concrete APERValue[LPPAPDU].
-type LPPAPDUAPERValue = q4.LPPAPDUAPERValue
+type LPPAPDUAPERValue = s23.LPPAPDUAPERValue
 
 // LPPAPDU choice constants.
-const LPPAPDUChoiceInitiatingMessage = q14.LPPAPDUChoiceInitiatingMessage
+const LPPAPDUChoiceInitiatingMessage = s00.LPPAPDUChoiceInitiatingMessage
 
 // LPPAPDU choice constants.
-const LPPAPDUChoiceSuccessfulOutcome = q14.LPPAPDUChoiceSuccessfulOutcome
+const LPPAPDUChoiceSuccessfulOutcome = s00.LPPAPDUChoiceSuccessfulOutcome
 
 // LPPAPDU choice constants.
-const LPPAPDUChoiceUnsuccessfulOutcome = q14.LPPAPDUChoiceUnsuccessfulOutcome
+const LPPAPDUChoiceUnsuccessfulOutcome = s00.LPPAPDUChoiceUnsuccessfulOutcome
 
 // LPPAPDUCodec binds the complete source value type.
-var LPPAPDUCodec func() LPPAPDUValueCodec = q4.LPPAPDUCodec
+var LPPAPDUCodec func() LPPAPDUValueCodec = s23.LPPAPDUCodec
 
 // LPPAPDUValueCodec is the concrete ValueCodec[LPPAPDU].
-type LPPAPDUValueCodec = q4.LPPAPDUValueCodec
+type LPPAPDUValueCodec = s23.LPPAPDUValueCodec
 
 // LPPATransactionID represents the ASN.1 type LPPATransactionID (INTEGER).
-type LPPATransactionID = q14.LPPATransactionID
+type LPPATransactionID = s00.LPPATransactionID
 
 // LPPATransactionIDAPERValue is the concrete APERValue[LPPATransactionID].
-type LPPATransactionIDAPERValue = q14.LPPATransactionIDAPERValue
+type LPPATransactionIDAPERValue = s00.LPPATransactionIDAPERValue
 
 // LPPATransactionIDCodec binds the complete source value type.
-var LPPATransactionIDCodec func() LPPATransactionIDValueCodec = q25.LPPATransactionIDCodec
+var LPPATransactionIDCodec func() LPPATransactionIDValueCodec = s04.LPPATransactionIDCodec
 
 // LPPATransactionIDValueCodec is the concrete ValueCodec[LPPATransactionID].
-type LPPATransactionIDValueCodec = q14.LPPATransactionIDValueCodec
-type MBSFNsubframeConfiguration = q15.MBSFNsubframeConfiguration
+type LPPATransactionIDValueCodec = s00.LPPATransactionIDValueCodec
+type MBSFNsubframeConfiguration = s09.MBSFNsubframeConfiguration
 
 // MBSFNsubframeConfigurationAPERValue is the concrete APERValue[MBSFNsubframeConfiguration].
-type MBSFNsubframeConfigurationAPERValue = q15.MBSFNsubframeConfigurationAPERValue
+type MBSFNsubframeConfigurationAPERValue = s09.MBSFNsubframeConfigurationAPERValue
 
 // MBSFNsubframeConfigurationCodec binds the complete source value type.
-var MBSFNsubframeConfigurationCodec func() MBSFNsubframeConfigurationConcreteValueCodec = q7.MBSFNsubframeConfigurationCodec
+var MBSFNsubframeConfigurationCodec func() MBSFNsubframeConfigurationConcreteValueCodec = s18.MBSFNsubframeConfigurationCodec
 
 // MBSFNsubframeConfigurationComplete carries a complete MBSFNsubframeConfiguration encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type MBSFNsubframeConfigurationComplete = q7.MBSFNsubframeConfigurationComplete
+type MBSFNsubframeConfigurationComplete = s18.MBSFNsubframeConfigurationComplete
 
 // MBSFNsubframeConfigurationConcreteValueCodec is the concrete ValueCodec[MBSFNsubframeConfiguration].
-type MBSFNsubframeConfigurationConcreteValueCodec = q15.MBSFNsubframeConfigurationConcreteValueCodec
+type MBSFNsubframeConfigurationConcreteValueCodec = s09.MBSFNsubframeConfigurationConcreteValueCodec
 
 // MBSFNsubframeConfigurationValue represents the ASN.1 type MBSFNsubframeConfigurationValue (SEQUENCE).
-type MBSFNsubframeConfigurationValue = q15.MBSFNsubframeConfigurationValue
+type MBSFNsubframeConfigurationValue = s09.MBSFNsubframeConfigurationValue
 
 // MBSFNsubframeConfigurationValueAPERValue is the concrete APERValue[MBSFNsubframeConfigurationValue].
-type MBSFNsubframeConfigurationValueAPERValue = q15.MBSFNsubframeConfigurationValueAPERValue
+type MBSFNsubframeConfigurationValueAPERValue = s09.MBSFNsubframeConfigurationValueAPERValue
 
 // MBSFNsubframeConfigurationValueCodec binds the complete source value type.
-var MBSFNsubframeConfigurationValueCodec func() MBSFNsubframeConfigurationValueValueCodec = q15.MBSFNsubframeConfigurationValueCodec
+var MBSFNsubframeConfigurationValueCodec func() MBSFNsubframeConfigurationValueValueCodec = s09.MBSFNsubframeConfigurationValueCodec
 
 // MBSFNsubframeConfigurationValueValueCodec is the concrete ValueCodec[MBSFNsubframeConfigurationValue].
-type MBSFNsubframeConfigurationValueValueCodec = q15.MBSFNsubframeConfigurationValueValueCodec
+type MBSFNsubframeConfigurationValueValueCodec = s09.MBSFNsubframeConfigurationValueValueCodec
 
 // MarshalAPERAddOTDOACellInformation encodes a complete named list.
-var MarshalAPERAddOTDOACellInformation func(v AddOTDOACellInformationComplete, options ...q23.EncodeOption) ([]byte, error) = q6.MarshalAPERAddOTDOACellInformation
+var MarshalAPERAddOTDOACellInformation func(v AddOTDOACellInformationComplete, options ...aper.EncodeOption) ([]byte, error) = s17.MarshalAPERAddOTDOACellInformation
 
 // MarshalAPERAddOTDOACells encodes a complete named list.
-var MarshalAPERAddOTDOACells func(v AddOTDOACellsComplete, options ...q23.EncodeOption) ([]byte, error) = q6.MarshalAPERAddOTDOACells
+var MarshalAPERAddOTDOACells func(v AddOTDOACellsComplete, options ...aper.EncodeOption) ([]byte, error) = s17.MarshalAPERAddOTDOACells
 
 // MarshalAPERAssistanceInformationFailureList encodes a complete named list.
-var MarshalAPERAssistanceInformationFailureList func(v AssistanceInformationFailureListComplete, options ...q23.EncodeOption) ([]byte, error) = q6.MarshalAPERAssistanceInformationFailureList
+var MarshalAPERAssistanceInformationFailureList func(v AssistanceInformationFailureListComplete, options ...aper.EncodeOption) ([]byte, error) = s17.MarshalAPERAssistanceInformationFailureList
 
 // MarshalAPERCriticalityDiagnosticsIEList encodes a complete named list.
-var MarshalAPERCriticalityDiagnosticsIEList func(v CriticalityDiagnosticsIEListComplete, options ...q23.EncodeOption) ([]byte, error) = q6.MarshalAPERCriticalityDiagnosticsIEList
+var MarshalAPERCriticalityDiagnosticsIEList func(v CriticalityDiagnosticsIEListComplete, options ...aper.EncodeOption) ([]byte, error) = s17.MarshalAPERCriticalityDiagnosticsIEList
 
 // MarshalAPERInterRATMeasurementQuantities encodes a complete named list.
-var MarshalAPERInterRATMeasurementQuantities func(v InterRATMeasurementQuantitiesComplete, options ...q23.EncodeOption) ([]byte, error) = q6.MarshalAPERInterRATMeasurementQuantities
+var MarshalAPERInterRATMeasurementQuantities func(v InterRATMeasurementQuantitiesComplete, options ...aper.EncodeOption) ([]byte, error) = s17.MarshalAPERInterRATMeasurementQuantities
 
 // MarshalAPERInterRATMeasurementResult encodes a complete named list.
-var MarshalAPERInterRATMeasurementResult func(v InterRATMeasurementResultComplete, options ...q23.EncodeOption) ([]byte, error) = q21.MarshalAPERInterRATMeasurementResult
+var MarshalAPERInterRATMeasurementResult func(v InterRATMeasurementResultComplete, options ...aper.EncodeOption) ([]byte, error) = s20.MarshalAPERInterRATMeasurementResult
 
 // MarshalAPERMBSFNsubframeConfiguration encodes a complete named list.
-var MarshalAPERMBSFNsubframeConfiguration func(v MBSFNsubframeConfigurationComplete, options ...q23.EncodeOption) ([]byte, error) = q7.MarshalAPERMBSFNsubframeConfiguration
+var MarshalAPERMBSFNsubframeConfiguration func(v MBSFNsubframeConfigurationComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPERMBSFNsubframeConfiguration
 
 // MarshalAPERMeasuredResults encodes a complete named list.
-var MarshalAPERMeasuredResults func(v MeasuredResultsComplete, options ...q23.EncodeOption) ([]byte, error) = q7.MarshalAPERMeasuredResults
+var MarshalAPERMeasuredResults func(v MeasuredResultsComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPERMeasuredResults
 
 // MarshalAPERMeasurementQuantities encodes a complete named list.
-var MarshalAPERMeasurementQuantities func(v MeasurementQuantitiesComplete, options ...q23.EncodeOption) ([]byte, error) = q7.MarshalAPERMeasurementQuantities
+var MarshalAPERMeasurementQuantities func(v MeasurementQuantitiesComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPERMeasurementQuantities
 
 // MarshalAPEROTDOACellInformation encodes a complete named list.
-var MarshalAPEROTDOACellInformation func(v OTDOACellInformationComplete, options ...q23.EncodeOption) ([]byte, error) = q7.MarshalAPEROTDOACellInformation
+var MarshalAPEROTDOACellInformation func(v OTDOACellInformationComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPEROTDOACellInformation
 
 // MarshalAPEROTDOACells encodes a complete named list.
-var MarshalAPEROTDOACells func(v OTDOACellsComplete, options ...q23.EncodeOption) ([]byte, error) = q7.MarshalAPEROTDOACells
+var MarshalAPEROTDOACells func(v OTDOACellsComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPEROTDOACells
 
 // MarshalAPEROTDOAInformationType encodes a complete named list.
-var MarshalAPEROTDOAInformationType func(v OTDOAInformationTypeComplete, options ...q23.EncodeOption) ([]byte, error) = q7.MarshalAPEROTDOAInformationType
+var MarshalAPEROTDOAInformationType func(v OTDOAInformationTypeComplete, options ...aper.EncodeOption) ([]byte, error) = s18.MarshalAPEROTDOAInformationType
 
 // MarshalAPERPRSFrequencyHoppingConfigurationBandPositions encodes a complete named list.
-var MarshalAPERPRSFrequencyHoppingConfigurationBandPositions func(v PRSFrequencyHoppingConfigurationBandPositionsComplete, options ...q23.EncodeOption) ([]byte, error) = q24.MarshalAPERPRSFrequencyHoppingConfigurationBandPositions
+var MarshalAPERPRSFrequencyHoppingConfigurationBandPositions func(v PRSFrequencyHoppingConfigurationBandPositionsComplete, options ...aper.EncodeOption) ([]byte, error) = s19.MarshalAPERPRSFrequencyHoppingConfigurationBandPositions
 
 // MarshalAPERPosSIBSegments encodes a complete named list.
-var MarshalAPERPosSIBSegments func(v PosSIBSegmentsComplete, options ...q23.EncodeOption) ([]byte, error) = q24.MarshalAPERPosSIBSegments
+var MarshalAPERPosSIBSegments func(v PosSIBSegmentsComplete, options ...aper.EncodeOption) ([]byte, error) = s19.MarshalAPERPosSIBSegments
 
 // MarshalAPERPosSIBs encodes a complete named list.
-var MarshalAPERPosSIBs func(v PosSIBsComplete, options ...q23.EncodeOption) ([]byte, error) = q24.MarshalAPERPosSIBs
+var MarshalAPERPosSIBs func(v PosSIBsComplete, options ...aper.EncodeOption) ([]byte, error) = s19.MarshalAPERPosSIBs
 
 // MarshalAPERResultGERAN encodes a complete named list.
-var MarshalAPERResultGERAN func(v ResultGERANComplete, options ...q23.EncodeOption) ([]byte, error) = q24.MarshalAPERResultGERAN
+var MarshalAPERResultGERAN func(v ResultGERANComplete, options ...aper.EncodeOption) ([]byte, error) = s19.MarshalAPERResultGERAN
 
 // MarshalAPERResultNR encodes a complete named list.
-var MarshalAPERResultNR func(v ResultNRComplete, options ...q23.EncodeOption) ([]byte, error) = q21.MarshalAPERResultNR
+var MarshalAPERResultNR func(v ResultNRComplete, options ...aper.EncodeOption) ([]byte, error) = s20.MarshalAPERResultNR
 
 // MarshalAPERResultRSRP encodes a complete named list.
-var MarshalAPERResultRSRP func(v ResultRSRPComplete, options ...q23.EncodeOption) ([]byte, error) = q24.MarshalAPERResultRSRP
+var MarshalAPERResultRSRP func(v ResultRSRPComplete, options ...aper.EncodeOption) ([]byte, error) = s19.MarshalAPERResultRSRP
 
 // MarshalAPERResultRSRQ encodes a complete named list.
-var MarshalAPERResultRSRQ func(v ResultRSRQComplete, options ...q23.EncodeOption) ([]byte, error) = q24.MarshalAPERResultRSRQ
+var MarshalAPERResultRSRQ func(v ResultRSRQComplete, options ...aper.EncodeOption) ([]byte, error) = s19.MarshalAPERResultRSRQ
 
 // MarshalAPERResultUTRAN encodes a complete named list.
-var MarshalAPERResultUTRAN func(v ResultUTRANComplete, options ...q23.EncodeOption) ([]byte, error) = q24.MarshalAPERResultUTRAN
+var MarshalAPERResultUTRAN func(v ResultUTRANComplete, options ...aper.EncodeOption) ([]byte, error) = s19.MarshalAPERResultUTRAN
 
 // MarshalAPERResultsPerSSBIndexList encodes a complete named list.
-var MarshalAPERResultsPerSSBIndexList func(v ResultsPerSSBIndexListComplete, options ...q23.EncodeOption) ([]byte, error) = q24.MarshalAPERResultsPerSSBIndexList
+var MarshalAPERResultsPerSSBIndexList func(v ResultsPerSSBIndexListComplete, options ...aper.EncodeOption) ([]byte, error) = s19.MarshalAPERResultsPerSSBIndexList
 
 // MarshalAPERSRSConfigurationForAllCells encodes a complete named list.
-var MarshalAPERSRSConfigurationForAllCells func(v SRSConfigurationForAllCellsComplete, options ...q23.EncodeOption) ([]byte, error) = q21.MarshalAPERSRSConfigurationForAllCells
+var MarshalAPERSRSConfigurationForAllCells func(v SRSConfigurationForAllCellsComplete, options ...aper.EncodeOption) ([]byte, error) = s20.MarshalAPERSRSConfigurationForAllCells
 
 // MarshalAPERSystemInformation encodes a complete named list.
-var MarshalAPERSystemInformation func(v SystemInformationComplete, options ...q23.EncodeOption) ([]byte, error) = q21.MarshalAPERSystemInformation
+var MarshalAPERSystemInformation func(v SystemInformationComplete, options ...aper.EncodeOption) ([]byte, error) = s20.MarshalAPERSystemInformation
 
 // MarshalAPERWLANChannelList encodes a complete named list.
-var MarshalAPERWLANChannelList func(v WLANChannelListComplete, options ...q23.EncodeOption) ([]byte, error) = q21.MarshalAPERWLANChannelList
+var MarshalAPERWLANChannelList func(v WLANChannelListComplete, options ...aper.EncodeOption) ([]byte, error) = s20.MarshalAPERWLANChannelList
 
 // MarshalAPERWLANMeasurementQuantities encodes a complete named list.
-var MarshalAPERWLANMeasurementQuantities func(v WLANMeasurementQuantitiesComplete, options ...q23.EncodeOption) ([]byte, error) = q12.MarshalAPERWLANMeasurementQuantities
+var MarshalAPERWLANMeasurementQuantities func(v WLANMeasurementQuantitiesComplete, options ...aper.EncodeOption) ([]byte, error) = s21.MarshalAPERWLANMeasurementQuantities
 
 // MarshalAPERWLANMeasurementResult encodes a complete named list.
-var MarshalAPERWLANMeasurementResult func(v WLANMeasurementResultComplete, options ...q23.EncodeOption) ([]byte, error) = q17.MarshalAPERWLANMeasurementResult
+var MarshalAPERWLANMeasurementResult func(v WLANMeasurementResultComplete, options ...aper.EncodeOption) ([]byte, error) = s22.MarshalAPERWLANMeasurementResult
 
 // MaxCellReport is the integer constant for maxCellReport.
-const MaxCellReport = q14.MaxCellReport
+const MaxCellReport = s00.MaxCellReport
 
 // MaxCellineNB is the integer constant for maxCellineNB.
-const MaxCellineNB = q14.MaxCellineNB
+const MaxCellineNB = s00.MaxCellineNB
 
 // MaxCellineNBExt is the integer constant for maxCellineNB-ext.
-const MaxCellineNBExt = q14.MaxCellineNBExt
+const MaxCellineNBExt = s00.MaxCellineNBExt
 
 // MaxGERANMeas is the integer constant for maxGERANMeas.
-const MaxGERANMeas = q14.MaxGERANMeas
+const MaxGERANMeas = s00.MaxGERANMeas
 
 // MaxMBSFNAllocations is the integer constant for maxMBSFN-Allocations.
-const MaxMBSFNAllocations = q14.MaxMBSFNAllocations
+const MaxMBSFNAllocations = s00.MaxMBSFNAllocations
 
 // MaxNRmeas is the integer constant for maxNRmeas.
-const MaxNRmeas = q14.MaxNRmeas
+const MaxNRmeas = s00.MaxNRmeas
 
 // MaxNoMeas is the integer constant for maxNoMeas.
-const MaxNoMeas = q14.MaxNoMeas
+const MaxNoMeas = s00.MaxNoMeas
 
 // MaxNrOfErrors is the integer constant for maxNrOfErrors.
-const MaxNrOfErrors = q14.MaxNrOfErrors
+const MaxNrOfErrors = s00.MaxNrOfErrors
 
 // MaxNrOfPosSIBs is the integer constant for maxNrOfPosSIBs.
-const MaxNrOfPosSIBs = q14.MaxNrOfPosSIBs
+const MaxNrOfPosSIBs = s00.MaxNrOfPosSIBs
 
 // MaxNrOfPosSImessage is the integer constant for maxNrOfPosSImessage.
-const MaxNrOfPosSImessage = q14.MaxNrOfPosSImessage
+const MaxNrOfPosSImessage = s00.MaxNrOfPosSImessage
 
 // MaxNrOfSegments is the integer constant for maxNrOfSegments.
-const MaxNrOfSegments = q14.MaxNrOfSegments
+const MaxNrOfSegments = s00.MaxNrOfSegments
 
 // MaxPrivateIEs is the integer constant for maxPrivateIEs.
-const MaxPrivateIEs = q14.MaxPrivateIEs
+const MaxPrivateIEs = s00.MaxPrivateIEs
 
 // MaxProtocolExtensions is the integer constant for maxProtocolExtensions.
-const MaxProtocolExtensions = q14.MaxProtocolExtensions
+const MaxProtocolExtensions = s00.MaxProtocolExtensions
 
 // MaxProtocolIEs is the integer constant for maxProtocolIEs.
-const MaxProtocolIEs = q14.MaxProtocolIEs
+const MaxProtocolIEs = s00.MaxProtocolIEs
 
 // MaxResultsPerSSBIndex is the integer constant for maxResultsPerSSBIndex.
-const MaxResultsPerSSBIndex = q14.MaxResultsPerSSBIndex
+const MaxResultsPerSSBIndex = s00.MaxResultsPerSSBIndex
 
 // MaxServCell is the integer constant for maxServCell.
-const MaxServCell = q14.MaxServCell
+const MaxServCell = s00.MaxServCell
 
 // MaxUTRANMeas is the integer constant for maxUTRANMeas.
-const MaxUTRANMeas = q14.MaxUTRANMeas
+const MaxUTRANMeas = s00.MaxUTRANMeas
 
 // MaxWLANchannels is the integer constant for maxWLANchannels.
-const MaxWLANchannels = q14.MaxWLANchannels
+const MaxWLANchannels = s00.MaxWLANchannels
 
 // MaxnoAssistInfoFailureListItems is the integer constant for maxnoAssistInfoFailureListItems.
-const MaxnoAssistInfoFailureListItems = q14.MaxnoAssistInfoFailureListItems
+const MaxnoAssistInfoFailureListItems = s00.MaxnoAssistInfoFailureListItems
 
 // MaxnoFreqHoppingBandsMinusOne is the integer constant for maxnoFreqHoppingBandsMinusOne.
-const MaxnoFreqHoppingBandsMinusOne = q14.MaxnoFreqHoppingBandsMinusOne
+const MaxnoFreqHoppingBandsMinusOne = s00.MaxnoFreqHoppingBandsMinusOne
 
 // MaxnoOTDOAtypes is the integer constant for maxnoOTDOAtypes.
-const MaxnoOTDOAtypes = q14.MaxnoOTDOAtypes
+const MaxnoOTDOAtypes = s00.MaxnoOTDOAtypes
 
-type MeasuredResults = q22.MeasuredResults
+type MeasuredResults = s13.MeasuredResults
 
 // MeasuredResultsAPERValue is the concrete APERValue[MeasuredResults].
-type MeasuredResultsAPERValue = q22.MeasuredResultsAPERValue
+type MeasuredResultsAPERValue = s13.MeasuredResultsAPERValue
 
 // MeasuredResultsCodec binds the complete source value type.
-var MeasuredResultsCodec func() MeasuredResultsConcreteValueCodec = q7.MeasuredResultsCodec
+var MeasuredResultsCodec func() MeasuredResultsConcreteValueCodec = s18.MeasuredResultsCodec
 
 // MeasuredResultsComplete carries a complete MeasuredResults encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type MeasuredResultsComplete = q7.MeasuredResultsComplete
+type MeasuredResultsComplete = s18.MeasuredResultsComplete
 
 // MeasuredResultsConcreteValueCodec is the concrete ValueCodec[MeasuredResults].
-type MeasuredResultsConcreteValueCodec = q22.MeasuredResultsConcreteValueCodec
+type MeasuredResultsConcreteValueCodec = s13.MeasuredResultsConcreteValueCodec
 
 // MeasuredResultsValue represents the ASN.1 CHOICE type MeasuredResultsValue.
-type MeasuredResultsValue = q22.MeasuredResultsValue
+type MeasuredResultsValue = s13.MeasuredResultsValue
 
 // MeasuredResultsValueAPERValue is the concrete APERValue[MeasuredResultsValue].
-type MeasuredResultsValueAPERValue = q22.MeasuredResultsValueAPERValue
+type MeasuredResultsValueAPERValue = s13.MeasuredResultsValueAPERValue
 
 // MeasuredResultsValue choice constants.
-const MeasuredResultsValueChoiceResultRSRP = q14.MeasuredResultsValueChoiceResultRSRP
+const MeasuredResultsValueChoiceResultRSRP = s00.MeasuredResultsValueChoiceResultRSRP
 
 // MeasuredResultsValue choice constants.
-const MeasuredResultsValueChoiceResultRSRQ = q14.MeasuredResultsValueChoiceResultRSRQ
+const MeasuredResultsValueChoiceResultRSRQ = s00.MeasuredResultsValueChoiceResultRSRQ
 
 // MeasuredResultsValue choice constants.
-const MeasuredResultsValueChoiceValueAngleOfArrival = q14.MeasuredResultsValueChoiceValueAngleOfArrival
+const MeasuredResultsValueChoiceValueAngleOfArrival = s00.MeasuredResultsValueChoiceValueAngleOfArrival
 
 // MeasuredResultsValue choice constants.
-const MeasuredResultsValueChoiceValueTimingAdvanceType1 = q14.MeasuredResultsValueChoiceValueTimingAdvanceType1
+const MeasuredResultsValueChoiceValueTimingAdvanceType1 = s00.MeasuredResultsValueChoiceValueTimingAdvanceType1
 
 // MeasuredResultsValue choice constants.
-const MeasuredResultsValueChoiceValueTimingAdvanceType2 = q14.MeasuredResultsValueChoiceValueTimingAdvanceType2
+const MeasuredResultsValueChoiceValueTimingAdvanceType2 = s00.MeasuredResultsValueChoiceValueTimingAdvanceType2
 
 // MeasuredResultsValueCodec binds the complete source value type.
-var MeasuredResultsValueCodec func() MeasuredResultsValueValueCodec = q22.MeasuredResultsValueCodec
+var MeasuredResultsValueCodec func() MeasuredResultsValueValueCodec = s13.MeasuredResultsValueCodec
 
 // MeasuredResultsValueValueCodec is the concrete ValueCodec[MeasuredResultsValue].
-type MeasuredResultsValueValueCodec = q22.MeasuredResultsValueValueCodec
+type MeasuredResultsValueValueCodec = s13.MeasuredResultsValueValueCodec
 
 // MeasurementID represents the ASN.1 type Measurement-ID (INTEGER).
-type MeasurementID = q14.MeasurementID
+type MeasurementID = s00.MeasurementID
 
 // MeasurementIDAPERValue is the concrete APERValue[MeasurementID].
-type MeasurementIDAPERValue = q14.MeasurementIDAPERValue
+type MeasurementIDAPERValue = s00.MeasurementIDAPERValue
 
 // MeasurementIDCodec binds the complete APER value type.
-var MeasurementIDCodec func() MeasurementIDValueCodec = q16.MeasurementIDCodec
+var MeasurementIDCodec func() MeasurementIDValueCodec = s06.MeasurementIDCodec
 
 // MeasurementIDValueCodec is the concrete ValueCodec[MeasurementID].
-type MeasurementIDValueCodec = q14.MeasurementIDValueCodec
+type MeasurementIDValueCodec = s00.MeasurementIDValueCodec
 
 // MeasurementPeriodicity represents the ASN.1 ENUMERATED type MeasurementPeriodicity.
-type MeasurementPeriodicity = q14.MeasurementPeriodicity
+type MeasurementPeriodicity = s00.MeasurementPeriodicity
 
 // MeasurementPeriodicityAPERValue is the concrete APERValue[MeasurementPeriodicity].
-type MeasurementPeriodicityAPERValue = q14.MeasurementPeriodicityAPERValue
+type MeasurementPeriodicityAPERValue = s00.MeasurementPeriodicityAPERValue
 
 // MeasurementPeriodicityCodec binds the complete APER value type.
-var MeasurementPeriodicityCodec func() MeasurementPeriodicityValueCodec = q12.MeasurementPeriodicityCodec
+var MeasurementPeriodicityCodec func() MeasurementPeriodicityValueCodec = s21.MeasurementPeriodicityCodec
 
-const MeasurementPeriodicityMin1 = q14.MeasurementPeriodicityMin1
-const MeasurementPeriodicityMin12 = q14.MeasurementPeriodicityMin12
-const MeasurementPeriodicityMin30 = q14.MeasurementPeriodicityMin30
-const MeasurementPeriodicityMin6 = q14.MeasurementPeriodicityMin6
-const MeasurementPeriodicityMin60 = q14.MeasurementPeriodicityMin60
-const MeasurementPeriodicityMs1024 = q14.MeasurementPeriodicityMs1024
-const MeasurementPeriodicityMs10240 = q14.MeasurementPeriodicityMs10240
-const MeasurementPeriodicityMs120 = q14.MeasurementPeriodicityMs120
-const MeasurementPeriodicityMs2048 = q14.MeasurementPeriodicityMs2048
-const MeasurementPeriodicityMs240 = q14.MeasurementPeriodicityMs240
-const MeasurementPeriodicityMs480 = q14.MeasurementPeriodicityMs480
-const MeasurementPeriodicityMs5120 = q14.MeasurementPeriodicityMs5120
-const MeasurementPeriodicityMs640 = q14.MeasurementPeriodicityMs640
+const MeasurementPeriodicityMin1 = s00.MeasurementPeriodicityMin1
+const MeasurementPeriodicityMin12 = s00.MeasurementPeriodicityMin12
+const MeasurementPeriodicityMin30 = s00.MeasurementPeriodicityMin30
+const MeasurementPeriodicityMin6 = s00.MeasurementPeriodicityMin6
+const MeasurementPeriodicityMin60 = s00.MeasurementPeriodicityMin60
+const MeasurementPeriodicityMs1024 = s00.MeasurementPeriodicityMs1024
+const MeasurementPeriodicityMs10240 = s00.MeasurementPeriodicityMs10240
+const MeasurementPeriodicityMs120 = s00.MeasurementPeriodicityMs120
+const MeasurementPeriodicityMs2048 = s00.MeasurementPeriodicityMs2048
+const MeasurementPeriodicityMs240 = s00.MeasurementPeriodicityMs240
+const MeasurementPeriodicityMs480 = s00.MeasurementPeriodicityMs480
+const MeasurementPeriodicityMs5120 = s00.MeasurementPeriodicityMs5120
+const MeasurementPeriodicityMs640 = s00.MeasurementPeriodicityMs640
 
 // MeasurementPeriodicityValueCodec is the concrete ValueCodec[MeasurementPeriodicity].
-type MeasurementPeriodicityValueCodec = q14.MeasurementPeriodicityValueCodec
-type MeasurementQuantities = q16.MeasurementQuantities
+type MeasurementPeriodicityValueCodec = s00.MeasurementPeriodicityValueCodec
+type MeasurementQuantities = s06.MeasurementQuantities
 
 // MeasurementQuantitiesAPERValue is the concrete APERValue[MeasurementQuantities].
-type MeasurementQuantitiesAPERValue = q16.MeasurementQuantitiesAPERValue
+type MeasurementQuantitiesAPERValue = s06.MeasurementQuantitiesAPERValue
 
 // MeasurementQuantitiesCodec binds the complete APER value type.
-var MeasurementQuantitiesCodec func() MeasurementQuantitiesConcreteValueCodec = q12.MeasurementQuantitiesCodec
+var MeasurementQuantitiesCodec func() MeasurementQuantitiesConcreteValueCodec = s21.MeasurementQuantitiesCodec
 
 // MeasurementQuantitiesComplete carries a complete MeasurementQuantities encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type MeasurementQuantitiesComplete = q7.MeasurementQuantitiesComplete
+type MeasurementQuantitiesComplete = s18.MeasurementQuantitiesComplete
 
 // MeasurementQuantitiesConcreteValueCodec is the concrete ValueCodec[MeasurementQuantities].
-type MeasurementQuantitiesConcreteValueCodec = q16.MeasurementQuantitiesConcreteValueCodec
+type MeasurementQuantitiesConcreteValueCodec = s06.MeasurementQuantitiesConcreteValueCodec
 
 // MeasurementQuantitiesItem represents the ASN.1 type MeasurementQuantities-Item (SEQUENCE).
-type MeasurementQuantitiesItem = q16.MeasurementQuantitiesItem
+type MeasurementQuantitiesItem = s06.MeasurementQuantitiesItem
 
 // MeasurementQuantitiesItemAPERValue is the concrete APERValue[MeasurementQuantitiesItem].
-type MeasurementQuantitiesItemAPERValue = q16.MeasurementQuantitiesItemAPERValue
+type MeasurementQuantitiesItemAPERValue = s06.MeasurementQuantitiesItemAPERValue
 
 // MeasurementQuantitiesItemCodec binds the complete APER value type.
-var MeasurementQuantitiesItemCodec func() MeasurementQuantitiesItemValueCodec = q26.MeasurementQuantitiesItemCodec
+var MeasurementQuantitiesItemCodec func() MeasurementQuantitiesItemValueCodec = s07.MeasurementQuantitiesItemCodec
 
 // MeasurementQuantitiesItemIEContainer is the concrete ProtocolIEContainer[MeasurementQuantitiesItemIEValue].
-type MeasurementQuantitiesItemIEContainer = q16.MeasurementQuantitiesItemIEContainer
+type MeasurementQuantitiesItemIEContainer = s06.MeasurementQuantitiesItemIEContainer
 
 // MeasurementQuantitiesItemIEField is the concrete ProtocolIEField[MeasurementQuantitiesItemIEValue].
-type MeasurementQuantitiesItemIEField = q16.MeasurementQuantitiesItemIEField
-type MeasurementQuantitiesItemIETable = q26.MeasurementQuantitiesItemIETable
-type MeasurementQuantitiesItemIEValue = q16.MeasurementQuantitiesItemIEValue
+type MeasurementQuantitiesItemIEField = s06.MeasurementQuantitiesItemIEField
+type MeasurementQuantitiesItemIETable = s07.MeasurementQuantitiesItemIETable
+type MeasurementQuantitiesItemIEValue = s06.MeasurementQuantitiesItemIEValue
 
 // MeasurementQuantitiesItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[MeasurementQuantitiesItemIEValue].
-type MeasurementQuantitiesItemIEValueProtocolIESingleContainer = q16.MeasurementQuantitiesItemIEValueProtocolIESingleContainer
+type MeasurementQuantitiesItemIEValueProtocolIESingleContainer = s06.MeasurementQuantitiesItemIEValueProtocolIESingleContainer
 
-var MeasurementQuantitiesItemIEs func() MeasurementQuantitiesItemIETable = q26.MeasurementQuantitiesItemIEs
+var MeasurementQuantitiesItemIEs func() MeasurementQuantitiesItemIETable = s07.MeasurementQuantitiesItemIEs
 
 // MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding is the concrete IEBinding[MeasurementQuantitiesItem, MeasurementQuantitiesItemIEValue].
-type MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding = q16.MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding
+type MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding = s06.MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding
 
 // MeasurementQuantitiesItemValueCodec is the concrete ValueCodec[MeasurementQuantitiesItem].
-type MeasurementQuantitiesItemValueCodec = q16.MeasurementQuantitiesItemValueCodec
+type MeasurementQuantitiesItemValueCodec = s06.MeasurementQuantitiesItemValueCodec
 
 // MeasurementQuantitiesValue represents the ASN.1 ENUMERATED type MeasurementQuantitiesValue.
-type MeasurementQuantitiesValue = q14.MeasurementQuantitiesValue
+type MeasurementQuantitiesValue = s00.MeasurementQuantitiesValue
 
 // MeasurementQuantitiesValueAPERValue is the concrete APERValue[MeasurementQuantitiesValue].
-type MeasurementQuantitiesValueAPERValue = q14.MeasurementQuantitiesValueAPERValue
+type MeasurementQuantitiesValueAPERValue = s00.MeasurementQuantitiesValueAPERValue
 
-const MeasurementQuantitiesValueAngleOfArrival = q14.MeasurementQuantitiesValueAngleOfArrival
-const MeasurementQuantitiesValueCellID = q14.MeasurementQuantitiesValueCellID
+const MeasurementQuantitiesValueAngleOfArrival = s00.MeasurementQuantitiesValueAngleOfArrival
+const MeasurementQuantitiesValueCellID = s00.MeasurementQuantitiesValueCellID
 
 // MeasurementQuantitiesValueCodec binds the complete source value type.
-var MeasurementQuantitiesValueCodec func() MeasurementQuantitiesValueValueCodec = q9.MeasurementQuantitiesValueCodec
+var MeasurementQuantitiesValueCodec func() MeasurementQuantitiesValueValueCodec = s02.MeasurementQuantitiesValueCodec
 
-type MeasurementQuantitiesValueExtIETable = q25.MeasurementQuantitiesValueExtIETable
+type MeasurementQuantitiesValueExtIETable = s04.MeasurementQuantitiesValueExtIETable
 
-var MeasurementQuantitiesValueExtIEs func() MeasurementQuantitiesValueExtIETable = q25.MeasurementQuantitiesValueExtIEs
+var MeasurementQuantitiesValueExtIEs func() MeasurementQuantitiesValueExtIETable = s04.MeasurementQuantitiesValueExtIEs
 
 // MeasurementQuantitiesValueExtIEsExtContainer is the concrete ProtocolExtensionContainer[MeasurementQuantitiesValueExtIEsValue].
-type MeasurementQuantitiesValueExtIEsExtContainer = q25.MeasurementQuantitiesValueExtIEsExtContainer
+type MeasurementQuantitiesValueExtIEsExtContainer = s04.MeasurementQuantitiesValueExtIEsExtContainer
 
 // MeasurementQuantitiesValueExtIEsExtField is the concrete ProtocolExtensionField[MeasurementQuantitiesValueExtIEsValue].
-type MeasurementQuantitiesValueExtIEsExtField = q25.MeasurementQuantitiesValueExtIEsExtField
+type MeasurementQuantitiesValueExtIEsExtField = s04.MeasurementQuantitiesValueExtIEsExtField
 
 // MeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[MeasurementQuantitiesValueExtIEsValue].
-type MeasurementQuantitiesValueExtIEsIEContainer = q25.MeasurementQuantitiesValueExtIEsIEContainer
+type MeasurementQuantitiesValueExtIEsIEContainer = s04.MeasurementQuantitiesValueExtIEsIEContainer
 
 // MeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[MeasurementQuantitiesValueExtIEsValue].
-type MeasurementQuantitiesValueExtIEsIEField = q25.MeasurementQuantitiesValueExtIEsIEField
-type MeasurementQuantitiesValueExtIEsValue = q9.MeasurementQuantitiesValueExtIEsValue
+type MeasurementQuantitiesValueExtIEsIEField = s04.MeasurementQuantitiesValueExtIEsIEField
+type MeasurementQuantitiesValueExtIEsValue = s02.MeasurementQuantitiesValueExtIEsValue
 
-const MeasurementQuantitiesValueRSRP = q14.MeasurementQuantitiesValueRSRP
-const MeasurementQuantitiesValueRSRQ = q14.MeasurementQuantitiesValueRSRQ
-const MeasurementQuantitiesValueTimingAdvanceType1 = q14.MeasurementQuantitiesValueTimingAdvanceType1
-const MeasurementQuantitiesValueTimingAdvanceType2 = q14.MeasurementQuantitiesValueTimingAdvanceType2
+const MeasurementQuantitiesValueRSRP = s00.MeasurementQuantitiesValueRSRP
+const MeasurementQuantitiesValueRSRQ = s00.MeasurementQuantitiesValueRSRQ
+const MeasurementQuantitiesValueTimingAdvanceType1 = s00.MeasurementQuantitiesValueTimingAdvanceType1
+const MeasurementQuantitiesValueTimingAdvanceType2 = s00.MeasurementQuantitiesValueTimingAdvanceType2
 
 // MeasurementQuantitiesValueValueCodec is the concrete ValueCodec[MeasurementQuantitiesValue].
-type MeasurementQuantitiesValueValueCodec = q14.MeasurementQuantitiesValueValueCodec
+type MeasurementQuantitiesValueValueCodec = s00.MeasurementQuantitiesValueValueCodec
 
-const MissingMandatory = q14.MissingMandatory
+const MissingMandatory = s00.MissingMandatory
 
 // NPRSConfiguration represents the ASN.1 type NPRSConfiguration (SEQUENCE).
-type NPRSConfiguration = q26.NPRSConfiguration
+type NPRSConfiguration = s07.NPRSConfiguration
 
 // NPRSConfigurationAPERValue is the concrete APERValue[NPRSConfiguration].
-type NPRSConfigurationAPERValue = q26.NPRSConfigurationAPERValue
+type NPRSConfigurationAPERValue = s07.NPRSConfigurationAPERValue
 
 // NPRSConfigurationCodec binds the complete source value type.
-var NPRSConfigurationCodec func() NPRSConfigurationValueCodec = q26.NPRSConfigurationCodec
+var NPRSConfigurationCodec func() NPRSConfigurationValueCodec = s07.NPRSConfigurationCodec
 
 // NPRSConfigurationValueCodec is the concrete ValueCodec[NPRSConfiguration].
-type NPRSConfigurationValueCodec = q26.NPRSConfigurationValueCodec
+type NPRSConfigurationValueCodec = s07.NPRSConfigurationValueCodec
 
 // NPRSMutingConfiguration represents the ASN.1 CHOICE type NPRSMutingConfiguration.
-type NPRSMutingConfiguration = q26.NPRSMutingConfiguration
+type NPRSMutingConfiguration = s07.NPRSMutingConfiguration
 
 // NPRSMutingConfigurationAPERValue is the concrete APERValue[NPRSMutingConfiguration].
-type NPRSMutingConfigurationAPERValue = q26.NPRSMutingConfigurationAPERValue
+type NPRSMutingConfigurationAPERValue = s07.NPRSMutingConfigurationAPERValue
 
 // NPRSMutingConfiguration choice constants.
-const NPRSMutingConfigurationChoiceEight = q14.NPRSMutingConfigurationChoiceEight
+const NPRSMutingConfigurationChoiceEight = s00.NPRSMutingConfigurationChoiceEight
 
 // NPRSMutingConfiguration choice constants.
-const NPRSMutingConfigurationChoiceFour = q14.NPRSMutingConfigurationChoiceFour
+const NPRSMutingConfigurationChoiceFour = s00.NPRSMutingConfigurationChoiceFour
 
 // NPRSMutingConfiguration choice constants.
-const NPRSMutingConfigurationChoiceSixteen = q14.NPRSMutingConfigurationChoiceSixteen
+const NPRSMutingConfigurationChoiceSixteen = s00.NPRSMutingConfigurationChoiceSixteen
 
 // NPRSMutingConfiguration choice constants.
-const NPRSMutingConfigurationChoiceTwo = q14.NPRSMutingConfigurationChoiceTwo
+const NPRSMutingConfigurationChoiceTwo = s00.NPRSMutingConfigurationChoiceTwo
 
 // NPRSMutingConfigurationCodec binds the complete source value type.
-var NPRSMutingConfigurationCodec func() NPRSMutingConfigurationValueCodec = q26.NPRSMutingConfigurationCodec
+var NPRSMutingConfigurationCodec func() NPRSMutingConfigurationValueCodec = s07.NPRSMutingConfigurationCodec
 
 // NPRSMutingConfigurationValueCodec is the concrete ValueCodec[NPRSMutingConfiguration].
-type NPRSMutingConfigurationValueCodec = q26.NPRSMutingConfigurationValueCodec
+type NPRSMutingConfigurationValueCodec = s07.NPRSMutingConfigurationValueCodec
 
 // NPRSSequenceInfo represents the ASN.1 type NPRSSequenceInfo (INTEGER).
-type NPRSSequenceInfo = q14.NPRSSequenceInfo
+type NPRSSequenceInfo = s00.NPRSSequenceInfo
 
 // NPRSSequenceInfoAPERValue is the concrete APERValue[NPRSSequenceInfo].
-type NPRSSequenceInfoAPERValue = q14.NPRSSequenceInfoAPERValue
+type NPRSSequenceInfoAPERValue = s00.NPRSSequenceInfoAPERValue
 
 // NPRSSequenceInfoCodec binds the complete source value type.
-var NPRSSequenceInfoCodec func() NPRSSequenceInfoValueCodec = q9.NPRSSequenceInfoCodec
+var NPRSSequenceInfoCodec func() NPRSSequenceInfoValueCodec = s02.NPRSSequenceInfoCodec
 
 // NPRSSequenceInfoValueCodec is the concrete ValueCodec[NPRSSequenceInfo].
-type NPRSSequenceInfoValueCodec = q14.NPRSSequenceInfoValueCodec
+type NPRSSequenceInfoValueCodec = s00.NPRSSequenceInfoValueCodec
 
 // NPRSSubframePartA represents the ASN.1 type NPRSSubframePartA (SEQUENCE).
-type NPRSSubframePartA = q26.NPRSSubframePartA
+type NPRSSubframePartA = s07.NPRSSubframePartA
 
 // NPRSSubframePartAAPERValue is the concrete APERValue[NPRSSubframePartA].
-type NPRSSubframePartAAPERValue = q26.NPRSSubframePartAAPERValue
+type NPRSSubframePartAAPERValue = s07.NPRSSubframePartAAPERValue
 
 // NPRSSubframePartACodec binds the complete source value type.
-var NPRSSubframePartACodec func() NPRSSubframePartAValueCodec = q26.NPRSSubframePartACodec
+var NPRSSubframePartACodec func() NPRSSubframePartAValueCodec = s07.NPRSSubframePartACodec
 
 // NPRSSubframePartAValueCodec is the concrete ValueCodec[NPRSSubframePartA].
-type NPRSSubframePartAValueCodec = q26.NPRSSubframePartAValueCodec
+type NPRSSubframePartAValueCodec = s07.NPRSSubframePartAValueCodec
 
 // NPRSSubframePartB represents the ASN.1 type NPRSSubframePartB (SEQUENCE).
-type NPRSSubframePartB = q26.NPRSSubframePartB
+type NPRSSubframePartB = s07.NPRSSubframePartB
 
 // NPRSSubframePartBAPERValue is the concrete APERValue[NPRSSubframePartB].
-type NPRSSubframePartBAPERValue = q26.NPRSSubframePartBAPERValue
+type NPRSSubframePartBAPERValue = s07.NPRSSubframePartBAPERValue
 
 // NPRSSubframePartBCodec binds the complete source value type.
-var NPRSSubframePartBCodec func() NPRSSubframePartBValueCodec = q26.NPRSSubframePartBCodec
+var NPRSSubframePartBCodec func() NPRSSubframePartBValueCodec = s07.NPRSSubframePartBCodec
 
 // NPRSSubframePartBValueCodec is the concrete ValueCodec[NPRSSubframePartB].
-type NPRSSubframePartBValueCodec = q26.NPRSSubframePartBValueCodec
+type NPRSSubframePartBValueCodec = s07.NPRSSubframePartBValueCodec
 
 // NRARFCN represents the ASN.1 type NRARFCN (INTEGER).
-type NRARFCN = q14.NRARFCN
+type NRARFCN = s00.NRARFCN
 
 // NRARFCNAPERValue is the concrete APERValue[NRARFCN].
-type NRARFCNAPERValue = q14.NRARFCNAPERValue
+type NRARFCNAPERValue = s00.NRARFCNAPERValue
 
 // NRARFCNCodec binds the complete source value type.
-var NRARFCNCodec func() NRARFCNValueCodec = q25.NRARFCNCodec
+var NRARFCNCodec func() NRARFCNValueCodec = s04.NRARFCNCodec
 
 // NRARFCNValueCodec is the concrete ValueCodec[NRARFCN].
-type NRARFCNValueCodec = q14.NRARFCNValueCodec
+type NRARFCNValueCodec = s00.NRARFCNValueCodec
 
 // NRCGI represents the ASN.1 type NR-CGI (SEQUENCE).
-type NRCGI = q26.NRCGI
+type NRCGI = s07.NRCGI
 
 // NRCGIAPERValue is the concrete APERValue[NRCGI].
-type NRCGIAPERValue = q26.NRCGIAPERValue
+type NRCGIAPERValue = s07.NRCGIAPERValue
 
 // NRCGICodec binds the complete APER value type.
-var NRCGICodec func() NRCGIValueCodec = q24.NRCGICodec
+var NRCGICodec func() NRCGIValueCodec = s19.NRCGICodec
 
-type NRCGIExtIETable = q25.NRCGIExtIETable
+type NRCGIExtIETable = s04.NRCGIExtIETable
 
-var NRCGIExtIEs func() NRCGIExtIETable = q25.NRCGIExtIEs
+var NRCGIExtIEs func() NRCGIExtIETable = s04.NRCGIExtIEs
 
 // NRCGIExtIEsExtContainer is the concrete ProtocolExtensionContainer[NRCGIExtIEsValue].
-type NRCGIExtIEsExtContainer = q25.NRCGIExtIEsExtContainer
+type NRCGIExtIEsExtContainer = s04.NRCGIExtIEsExtContainer
 
 // NRCGIExtIEsExtField is the concrete ProtocolExtensionField[NRCGIExtIEsValue].
-type NRCGIExtIEsExtField = q25.NRCGIExtIEsExtField
+type NRCGIExtIEsExtField = s04.NRCGIExtIEsExtField
 
 // NRCGIExtIEsIEContainer is the concrete ProtocolIEContainer[NRCGIExtIEsValue].
-type NRCGIExtIEsIEContainer = q25.NRCGIExtIEsIEContainer
+type NRCGIExtIEsIEContainer = s04.NRCGIExtIEsIEContainer
 
 // NRCGIExtIEsIEField is the concrete ProtocolIEField[NRCGIExtIEsValue].
-type NRCGIExtIEsIEField = q25.NRCGIExtIEsIEField
-type NRCGIExtIEsValue = q9.NRCGIExtIEsValue
+type NRCGIExtIEsIEField = s04.NRCGIExtIEsIEField
+type NRCGIExtIEsValue = s02.NRCGIExtIEsValue
 
 // NRCGIValueCodec is the concrete ValueCodec[NRCGI].
-type NRCGIValueCodec = q26.NRCGIValueCodec
+type NRCGIValueCodec = s07.NRCGIValueCodec
 
 // NRCellIdentity represents the ASN.1 type NRCellIdentity (BIT_STRING).
-type NRCellIdentity = q14.NRCellIdentity
+type NRCellIdentity = s00.NRCellIdentity
 
 // NRCellIdentityAPERValue is the concrete APERValue[NRCellIdentity].
-type NRCellIdentityAPERValue = q14.NRCellIdentityAPERValue
+type NRCellIdentityAPERValue = s00.NRCellIdentityAPERValue
 
 // NRCellIdentityCodec binds the complete source value type.
-var NRCellIdentityCodec func() NRCellIdentityValueCodec = q9.NRCellIdentityCodec
+var NRCellIdentityCodec func() NRCellIdentityValueCodec = s02.NRCellIdentityCodec
 
 // NRCellIdentityValueCodec is the concrete ValueCodec[NRCellIdentity].
-type NRCellIdentityValueCodec = q14.NRCellIdentityValueCodec
+type NRCellIdentityValueCodec = s00.NRCellIdentityValueCodec
 
 // NRPCI represents the ASN.1 type NRPCI (INTEGER).
-type NRPCI = q14.NRPCI
+type NRPCI = s00.NRPCI
 
 // NRPCIAPERValue is the concrete APERValue[NRPCI].
-type NRPCIAPERValue = q14.NRPCIAPERValue
+type NRPCIAPERValue = s00.NRPCIAPERValue
 
 // NRPCICodec binds the complete source value type.
-var NRPCICodec func() NRPCIValueCodec = q25.NRPCICodec
+var NRPCICodec func() NRPCIValueCodec = s04.NRPCICodec
 
 // NRPCIValueCodec is the concrete ValueCodec[NRPCI].
-type NRPCIValueCodec = q14.NRPCIValueCodec
+type NRPCIValueCodec = s00.NRPCIValueCodec
 
 // NarrowBandIndex represents the ASN.1 type NarrowBandIndex (INTEGER).
-type NarrowBandIndex = q14.NarrowBandIndex
+type NarrowBandIndex = s00.NarrowBandIndex
 
 // NarrowBandIndexAPERValue is the concrete APERValue[NarrowBandIndex].
-type NarrowBandIndexAPERValue = q14.NarrowBandIndexAPERValue
+type NarrowBandIndexAPERValue = s00.NarrowBandIndexAPERValue
 
 // NarrowBandIndexCodec binds the complete source value type.
-var NarrowBandIndexCodec func() NarrowBandIndexValueCodec = q9.NarrowBandIndexCodec
+var NarrowBandIndexCodec func() NarrowBandIndexValueCodec = s02.NarrowBandIndexCodec
 
 // NarrowBandIndexValueCodec is the concrete ValueCodec[NarrowBandIndex].
-type NarrowBandIndexValueCodec = q14.NarrowBandIndexValueCodec
+type NarrowBandIndexValueCodec = s00.NarrowBandIndexValueCodec
 
-var NewAssistanceInformationControl func(fields AssistanceInformationControlIEContainer, options ...q23.BuildOption) (AssistanceInformationControl, error) = q11.NewAssistanceInformationControl
-var NewAssistanceInformationFeedback func(fields AssistanceInformationFeedbackIEContainer, options ...q23.BuildOption) (AssistanceInformationFeedback, error) = q4.NewAssistanceInformationFeedback
+var NewAssistanceInformationControl func(fields AssistanceInformationControlIEContainer, options ...aper.BuildOption) (AssistanceInformationControl, error) = s24.NewAssistanceInformationControl
+var NewAssistanceInformationFeedback func(fields AssistanceInformationFeedbackIEContainer, options ...aper.BuildOption) (AssistanceInformationFeedback, error) = s23.NewAssistanceInformationFeedback
 
 // NewBitmapsforNPRSForty constructs a checked complete value.
-var NewBitmapsforNPRSForty func(v q27.BitString, options ...q23.BuildOption) (BitmapsforNPRS, error) = q18.NewBitmapsforNPRSForty
+var NewBitmapsforNPRSForty func(v runtime.BitString, options ...aper.BuildOption) (BitmapsforNPRS, error) = s11.NewBitmapsforNPRSForty
 
 // NewBitmapsforNPRSFortyTdd constructs a checked complete value.
-var NewBitmapsforNPRSFortyTdd func(v q27.BitString, options ...q23.BuildOption) (BitmapsforNPRS, error) = q18.NewBitmapsforNPRSFortyTdd
+var NewBitmapsforNPRSFortyTdd func(v runtime.BitString, options ...aper.BuildOption) (BitmapsforNPRS, error) = s11.NewBitmapsforNPRSFortyTdd
 
 // NewBitmapsforNPRSTen constructs a checked complete value.
-var NewBitmapsforNPRSTen func(v q27.BitString, options ...q23.BuildOption) (BitmapsforNPRS, error) = q18.NewBitmapsforNPRSTen
+var NewBitmapsforNPRSTen func(v runtime.BitString, options ...aper.BuildOption) (BitmapsforNPRS, error) = s11.NewBitmapsforNPRSTen
 
 // NewBitmapsforNPRSTenTdd constructs a checked complete value.
-var NewBitmapsforNPRSTenTdd func(v q27.BitString, options ...q23.BuildOption) (BitmapsforNPRS, error) = q18.NewBitmapsforNPRSTenTdd
+var NewBitmapsforNPRSTenTdd func(v runtime.BitString, options ...aper.BuildOption) (BitmapsforNPRS, error) = s11.NewBitmapsforNPRSTenTdd
 
 // NewBitmapsforNPRSUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewBitmapsforNPRSUnknownExtension func(index uint64, contents []byte, options ...q23.BuildOption) (BitmapsforNPRS, error) = q26.NewBitmapsforNPRSUnknownExtension
+var NewBitmapsforNPRSUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (BitmapsforNPRS, error) = s07.NewBitmapsforNPRSUnknownExtension
 
 // NewCauseMisc constructs a checked complete value.
-var NewCauseMisc func(v CauseMisc, options ...q23.BuildOption) (Cause, error) = q18.NewCauseMisc
+var NewCauseMisc func(v CauseMisc, options ...aper.BuildOption) (Cause, error) = s11.NewCauseMisc
 
 // NewCauseProtocol constructs a checked complete value.
-var NewCauseProtocol func(v CauseProtocol, options ...q23.BuildOption) (Cause, error) = q18.NewCauseProtocol
+var NewCauseProtocol func(v CauseProtocol, options ...aper.BuildOption) (Cause, error) = s11.NewCauseProtocol
 
 // NewCauseRadioNetwork constructs a checked complete value.
-var NewCauseRadioNetwork func(v CauseRadioNetwork, options ...q23.BuildOption) (Cause, error) = q18.NewCauseRadioNetwork
+var NewCauseRadioNetwork func(v CauseRadioNetwork, options ...aper.BuildOption) (Cause, error) = s11.NewCauseRadioNetwork
 
 // NewCauseUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewCauseUnknownExtension func(index uint64, contents []byte, options ...q23.BuildOption) (Cause, error) = q26.NewCauseUnknownExtension
-var NewECIDMeasurementFailureIndication func(fields ECIDMeasurementFailureIndicationIEContainer, options ...q23.BuildOption) (ECIDMeasurementFailureIndication, error) = q4.NewECIDMeasurementFailureIndication
-var NewECIDMeasurementInitiationFailure func(fields ECIDMeasurementInitiationFailureIEContainer, options ...q23.BuildOption) (ECIDMeasurementInitiationFailure, error) = q4.NewECIDMeasurementInitiationFailure
-var NewECIDMeasurementInitiationRequest func(fields ECIDMeasurementInitiationRequestIEContainer, options ...q23.BuildOption) (ECIDMeasurementInitiationRequest, error) = q11.NewECIDMeasurementInitiationRequest
-var NewECIDMeasurementInitiationResponse func(fields ECIDMeasurementInitiationResponseIEContainer, options ...q23.BuildOption) (ECIDMeasurementInitiationResponse, error) = q11.NewECIDMeasurementInitiationResponse
-var NewECIDMeasurementReport func(fields ECIDMeasurementReportIEContainer, options ...q23.BuildOption) (ECIDMeasurementReport, error) = q4.NewECIDMeasurementReport
-var NewECIDMeasurementTerminationCommand func(fields ECIDMeasurementTerminationCommandIEContainer, options ...q23.BuildOption) (ECIDMeasurementTerminationCommand, error) = q4.NewECIDMeasurementTerminationCommand
-var NewErrorIndication func(fields ErrorIndicationIEContainer, options ...q23.BuildOption) (ErrorIndication, error) = q4.NewErrorIndication
+var NewCauseUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (Cause, error) = s07.NewCauseUnknownExtension
+var NewECIDMeasurementFailureIndication func(fields ECIDMeasurementFailureIndicationIEContainer, options ...aper.BuildOption) (ECIDMeasurementFailureIndication, error) = s23.NewECIDMeasurementFailureIndication
+var NewECIDMeasurementInitiationFailure func(fields ECIDMeasurementInitiationFailureIEContainer, options ...aper.BuildOption) (ECIDMeasurementInitiationFailure, error) = s23.NewECIDMeasurementInitiationFailure
+var NewECIDMeasurementInitiationRequest func(fields ECIDMeasurementInitiationRequestIEContainer, options ...aper.BuildOption) (ECIDMeasurementInitiationRequest, error) = s24.NewECIDMeasurementInitiationRequest
+var NewECIDMeasurementInitiationResponse func(fields ECIDMeasurementInitiationResponseIEContainer, options ...aper.BuildOption) (ECIDMeasurementInitiationResponse, error) = s24.NewECIDMeasurementInitiationResponse
+var NewECIDMeasurementReport func(fields ECIDMeasurementReportIEContainer, options ...aper.BuildOption) (ECIDMeasurementReport, error) = s23.NewECIDMeasurementReport
+var NewECIDMeasurementTerminationCommand func(fields ECIDMeasurementTerminationCommandIEContainer, options ...aper.BuildOption) (ECIDMeasurementTerminationCommand, error) = s23.NewECIDMeasurementTerminationCommand
+var NewErrorIndication func(fields ErrorIndicationIEContainer, options ...aper.BuildOption) (ErrorIndication, error) = s23.NewErrorIndication
 
 // NewInterRATMeasuredResultsValueResultGERAN constructs a checked complete value.
-var NewInterRATMeasuredResultsValueResultGERAN func(v ResultGERAN, options ...q23.BuildOption) (InterRATMeasuredResultsValue, error) = q21.NewInterRATMeasuredResultsValueResultGERAN
+var NewInterRATMeasuredResultsValueResultGERAN func(v ResultGERAN, options ...aper.BuildOption) (InterRATMeasuredResultsValue, error) = s20.NewInterRATMeasuredResultsValueResultGERAN
 
 // NewInterRATMeasuredResultsValueResultNR constructs a checked complete value.
-var NewInterRATMeasuredResultsValueResultNR func(v ResultNR, options ...q23.BuildOption) (InterRATMeasuredResultsValue, error) = q21.NewInterRATMeasuredResultsValueResultNR
+var NewInterRATMeasuredResultsValueResultNR func(v ResultNR, options ...aper.BuildOption) (InterRATMeasuredResultsValue, error) = s20.NewInterRATMeasuredResultsValueResultNR
 
 // NewInterRATMeasuredResultsValueResultUTRAN constructs a checked complete value.
-var NewInterRATMeasuredResultsValueResultUTRAN func(v ResultUTRAN, options ...q23.BuildOption) (InterRATMeasuredResultsValue, error) = q21.NewInterRATMeasuredResultsValueResultUTRAN
+var NewInterRATMeasuredResultsValueResultUTRAN func(v ResultUTRAN, options ...aper.BuildOption) (InterRATMeasuredResultsValue, error) = s20.NewInterRATMeasuredResultsValueResultUTRAN
 
 // NewInterRATMeasuredResultsValueUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewInterRATMeasuredResultsValueUnknownExtension func(index uint64, contents []byte, options ...q23.BuildOption) (InterRATMeasuredResultsValue, error) = q21.NewInterRATMeasuredResultsValueUnknownExtension
+var NewInterRATMeasuredResultsValueUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (InterRATMeasuredResultsValue, error) = s20.NewInterRATMeasuredResultsValueUnknownExtension
 
 // NewLPPAPDUInitiatingMessage constructs and validates a complete LPPa message.
-var NewLPPAPDUInitiatingMessage func(v InitiatingMessage, options ...q23.BuildOption) (LPPAPDU, error) = q11.NewLPPAPDUInitiatingMessage
+var NewLPPAPDUInitiatingMessage func(v InitiatingMessage, options ...aper.BuildOption) (LPPAPDU, error) = s24.NewLPPAPDUInitiatingMessage
 
 // NewLPPAPDUSuccessfulOutcome constructs and validates a complete LPPa message.
-var NewLPPAPDUSuccessfulOutcome func(v SuccessfulOutcome, options ...q23.BuildOption) (LPPAPDU, error) = q11.NewLPPAPDUSuccessfulOutcome
+var NewLPPAPDUSuccessfulOutcome func(v SuccessfulOutcome, options ...aper.BuildOption) (LPPAPDU, error) = s24.NewLPPAPDUSuccessfulOutcome
 
 // NewLPPAPDUUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewLPPAPDUUnknownExtension func(index uint64, contents []byte, options ...q23.BuildOption) (LPPAPDU, error) = q4.NewLPPAPDUUnknownExtension
+var NewLPPAPDUUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (LPPAPDU, error) = s23.NewLPPAPDUUnknownExtension
 
 // NewLPPAPDUUnsuccessfulOutcome constructs and validates a complete LPPa message.
-var NewLPPAPDUUnsuccessfulOutcome func(v UnsuccessfulOutcome, options ...q23.BuildOption) (LPPAPDU, error) = q11.NewLPPAPDUUnsuccessfulOutcome
+var NewLPPAPDUUnsuccessfulOutcome func(v UnsuccessfulOutcome, options ...aper.BuildOption) (LPPAPDU, error) = s24.NewLPPAPDUUnsuccessfulOutcome
 
 // NewMeasuredResultsValueResultRSRP constructs a checked complete value.
-var NewMeasuredResultsValueResultRSRP func(v ResultRSRP, options ...q23.BuildOption) (MeasuredResultsValue, error) = q22.NewMeasuredResultsValueResultRSRP
+var NewMeasuredResultsValueResultRSRP func(v ResultRSRP, options ...aper.BuildOption) (MeasuredResultsValue, error) = s13.NewMeasuredResultsValueResultRSRP
 
 // NewMeasuredResultsValueResultRSRQ constructs a checked complete value.
-var NewMeasuredResultsValueResultRSRQ func(v ResultRSRQ, options ...q23.BuildOption) (MeasuredResultsValue, error) = q22.NewMeasuredResultsValueResultRSRQ
+var NewMeasuredResultsValueResultRSRQ func(v ResultRSRQ, options ...aper.BuildOption) (MeasuredResultsValue, error) = s13.NewMeasuredResultsValueResultRSRQ
 
 // NewMeasuredResultsValueUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewMeasuredResultsValueUnknownExtension func(index uint64, contents []byte, options ...q23.BuildOption) (MeasuredResultsValue, error) = q22.NewMeasuredResultsValueUnknownExtension
+var NewMeasuredResultsValueUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (MeasuredResultsValue, error) = s13.NewMeasuredResultsValueUnknownExtension
 
 // NewMeasuredResultsValueValueAngleOfArrival constructs a checked complete value.
-var NewMeasuredResultsValueValueAngleOfArrival func(v int64, options ...q23.BuildOption) (MeasuredResultsValue, error) = q22.NewMeasuredResultsValueValueAngleOfArrival
+var NewMeasuredResultsValueValueAngleOfArrival func(v int64, options ...aper.BuildOption) (MeasuredResultsValue, error) = s13.NewMeasuredResultsValueValueAngleOfArrival
 
 // NewMeasuredResultsValueValueTimingAdvanceType1 constructs a checked complete value.
-var NewMeasuredResultsValueValueTimingAdvanceType1 func(v int64, options ...q23.BuildOption) (MeasuredResultsValue, error) = q22.NewMeasuredResultsValueValueTimingAdvanceType1
+var NewMeasuredResultsValueValueTimingAdvanceType1 func(v int64, options ...aper.BuildOption) (MeasuredResultsValue, error) = s13.NewMeasuredResultsValueValueTimingAdvanceType1
 
 // NewMeasuredResultsValueValueTimingAdvanceType2 constructs a checked complete value.
-var NewMeasuredResultsValueValueTimingAdvanceType2 func(v int64, options ...q23.BuildOption) (MeasuredResultsValue, error) = q22.NewMeasuredResultsValueValueTimingAdvanceType2
+var NewMeasuredResultsValueValueTimingAdvanceType2 func(v int64, options ...aper.BuildOption) (MeasuredResultsValue, error) = s13.NewMeasuredResultsValueValueTimingAdvanceType2
 
 // NewNPRSMutingConfigurationEight constructs a checked complete value.
-var NewNPRSMutingConfigurationEight func(v q27.BitString, options ...q23.BuildOption) (NPRSMutingConfiguration, error) = q18.NewNPRSMutingConfigurationEight
+var NewNPRSMutingConfigurationEight func(v runtime.BitString, options ...aper.BuildOption) (NPRSMutingConfiguration, error) = s11.NewNPRSMutingConfigurationEight
 
 // NewNPRSMutingConfigurationFour constructs a checked complete value.
-var NewNPRSMutingConfigurationFour func(v q27.BitString, options ...q23.BuildOption) (NPRSMutingConfiguration, error) = q18.NewNPRSMutingConfigurationFour
+var NewNPRSMutingConfigurationFour func(v runtime.BitString, options ...aper.BuildOption) (NPRSMutingConfiguration, error) = s11.NewNPRSMutingConfigurationFour
 
 // NewNPRSMutingConfigurationSixteen constructs a checked complete value.
-var NewNPRSMutingConfigurationSixteen func(v q27.BitString, options ...q23.BuildOption) (NPRSMutingConfiguration, error) = q18.NewNPRSMutingConfigurationSixteen
+var NewNPRSMutingConfigurationSixteen func(v runtime.BitString, options ...aper.BuildOption) (NPRSMutingConfiguration, error) = s11.NewNPRSMutingConfigurationSixteen
 
 // NewNPRSMutingConfigurationTwo constructs a checked complete value.
-var NewNPRSMutingConfigurationTwo func(v q27.BitString, options ...q23.BuildOption) (NPRSMutingConfiguration, error) = q18.NewNPRSMutingConfigurationTwo
+var NewNPRSMutingConfigurationTwo func(v runtime.BitString, options ...aper.BuildOption) (NPRSMutingConfiguration, error) = s11.NewNPRSMutingConfigurationTwo
 
 // NewNPRSMutingConfigurationUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewNPRSMutingConfigurationUnknownExtension func(index uint64, contents []byte, options ...q23.BuildOption) (NPRSMutingConfiguration, error) = q26.NewNPRSMutingConfigurationUnknownExtension
+var NewNPRSMutingConfigurationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (NPRSMutingConfiguration, error) = s07.NewNPRSMutingConfigurationUnknownExtension
 
 // NewOTDOACellInformationItemCPLength constructs a checked complete value.
-var NewOTDOACellInformationItemCPLength func(v CPLength, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemCPLength
+var NewOTDOACellInformationItemCPLength func(v CPLength, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemCPLength
 
 // NewOTDOACellInformationItemCellId constructs a checked complete value.
-var NewOTDOACellInformationItemCellId func(v ECGI, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemCellId
+var NewOTDOACellInformationItemCellId func(v ECGI, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemCellId
 
 // NewOTDOACellInformationItemCrsCPlength constructs a checked complete value.
-var NewOTDOACellInformationItemCrsCPlength func(v CPLength, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemCrsCPlength
+var NewOTDOACellInformationItemCrsCPlength func(v CPLength, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemCrsCPlength
 
 // NewOTDOACellInformationItemDLBandwidth constructs a checked complete value.
-var NewOTDOACellInformationItemDLBandwidth func(v DLBandwidth, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemDLBandwidth
+var NewOTDOACellInformationItemDLBandwidth func(v DLBandwidth, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemDLBandwidth
 
 // NewOTDOACellInformationItemEARFCN constructs a checked complete value.
-var NewOTDOACellInformationItemEARFCN func(v EARFCN, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemEARFCN
+var NewOTDOACellInformationItemEARFCN func(v EARFCN, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemEARFCN
 
 // NewOTDOACellInformationItemEUTRANAccessPointPosition constructs a checked complete value.
-var NewOTDOACellInformationItemEUTRANAccessPointPosition func(v EUTRANAccessPointPosition, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemEUTRANAccessPointPosition
+var NewOTDOACellInformationItemEUTRANAccessPointPosition func(v EUTRANAccessPointPosition, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemEUTRANAccessPointPosition
 
 // NewOTDOACellInformationItemMBSFNsubframeConfiguration constructs a checked complete value.
-var NewOTDOACellInformationItemMBSFNsubframeConfiguration func(v MBSFNsubframeConfiguration, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemMBSFNsubframeConfiguration
+var NewOTDOACellInformationItemMBSFNsubframeConfiguration func(v MBSFNsubframeConfiguration, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemMBSFNsubframeConfiguration
 
 // NewOTDOACellInformationItemNPRSConfiguration constructs a checked complete value.
-var NewOTDOACellInformationItemNPRSConfiguration func(v NPRSConfiguration, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemNPRSConfiguration
+var NewOTDOACellInformationItemNPRSConfiguration func(v NPRSConfiguration, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemNPRSConfiguration
 
 // NewOTDOACellInformationItemNPRSID constructs a checked complete value.
-var NewOTDOACellInformationItemNPRSID func(v *q28.Int, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemNPRSID
+var NewOTDOACellInformationItemNPRSID func(v *big.Int, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemNPRSID
 
 // NewOTDOACellInformationItemNPRSSequenceInfo constructs a checked complete value.
-var NewOTDOACellInformationItemNPRSSequenceInfo func(v NPRSSequenceInfo, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemNPRSSequenceInfo
+var NewOTDOACellInformationItemNPRSSequenceInfo func(v NPRSSequenceInfo, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemNPRSSequenceInfo
 
 // NewOTDOACellInformationItemNPRSType2 constructs a checked complete value.
-var NewOTDOACellInformationItemNPRSType2 func(v NPRSConfiguration, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemNPRSType2
+var NewOTDOACellInformationItemNPRSType2 func(v NPRSConfiguration, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemNPRSType2
 
 // NewOTDOACellInformationItemNumberOfAntennaPorts constructs a checked complete value.
-var NewOTDOACellInformationItemNumberOfAntennaPorts func(v NumberOfAntennaPorts, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemNumberOfAntennaPorts
+var NewOTDOACellInformationItemNumberOfAntennaPorts func(v NumberOfAntennaPorts, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemNumberOfAntennaPorts
 
 // NewOTDOACellInformationItemNumberOfDlFrames constructs a checked complete value.
-var NewOTDOACellInformationItemNumberOfDlFrames func(v NumberOfDlFrames, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemNumberOfDlFrames
+var NewOTDOACellInformationItemNumberOfDlFrames func(v NumberOfDlFrames, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemNumberOfDlFrames
 
 // NewOTDOACellInformationItemNumberOfDlFramesExtended constructs a checked complete value.
-var NewOTDOACellInformationItemNumberOfDlFramesExtended func(v NumberOfDlFramesExtended, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemNumberOfDlFramesExtended
+var NewOTDOACellInformationItemNumberOfDlFramesExtended func(v NumberOfDlFramesExtended, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemNumberOfDlFramesExtended
 
 // NewOTDOACellInformationItemOffsetNBChanneltoEARFCN constructs a checked complete value.
-var NewOTDOACellInformationItemOffsetNBChanneltoEARFCN func(v OffsetNBChanneltoEARFCN, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemOffsetNBChanneltoEARFCN
+var NewOTDOACellInformationItemOffsetNBChanneltoEARFCN func(v OffsetNBChanneltoEARFCN, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemOffsetNBChanneltoEARFCN
 
 // NewOTDOACellInformationItemOperationModeInfo constructs a checked complete value.
-var NewOTDOACellInformationItemOperationModeInfo func(v OperationModeInfo, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemOperationModeInfo
+var NewOTDOACellInformationItemOperationModeInfo func(v OperationModeInfo, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemOperationModeInfo
 
 // NewOTDOACellInformationItemPCI constructs a checked complete value.
-var NewOTDOACellInformationItemPCI func(v PCI, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemPCI
+var NewOTDOACellInformationItemPCI func(v PCI, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemPCI
 
 // NewOTDOACellInformationItemPRSBandwidth constructs a checked complete value.
-var NewOTDOACellInformationItemPRSBandwidth func(v PRSBandwidth, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemPRSBandwidth
+var NewOTDOACellInformationItemPRSBandwidth func(v PRSBandwidth, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemPRSBandwidth
 
 // NewOTDOACellInformationItemPRSConfigurationIndex constructs a checked complete value.
-var NewOTDOACellInformationItemPRSConfigurationIndex func(v PRSConfigurationIndex, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemPRSConfigurationIndex
+var NewOTDOACellInformationItemPRSConfigurationIndex func(v PRSConfigurationIndex, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemPRSConfigurationIndex
 
 // NewOTDOACellInformationItemPRSFreqHoppingConfig constructs a checked complete value.
-var NewOTDOACellInformationItemPRSFreqHoppingConfig func(v PRSFrequencyHoppingConfiguration, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemPRSFreqHoppingConfig
+var NewOTDOACellInformationItemPRSFreqHoppingConfig func(v PRSFrequencyHoppingConfiguration, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemPRSFreqHoppingConfig
 
 // NewOTDOACellInformationItemPRSMutingConfiguration constructs a checked complete value.
-var NewOTDOACellInformationItemPRSMutingConfiguration func(v PRSMutingConfiguration, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemPRSMutingConfiguration
+var NewOTDOACellInformationItemPRSMutingConfiguration func(v PRSMutingConfiguration, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemPRSMutingConfiguration
 
 // NewOTDOACellInformationItemPRSOccasionGroup constructs a checked complete value.
-var NewOTDOACellInformationItemPRSOccasionGroup func(v PRSOccasionGroup, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemPRSOccasionGroup
+var NewOTDOACellInformationItemPRSOccasionGroup func(v PRSOccasionGroup, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemPRSOccasionGroup
 
 // NewOTDOACellInformationItemPrsid constructs a checked complete value.
-var NewOTDOACellInformationItemPrsid func(v PRSID, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemPrsid
+var NewOTDOACellInformationItemPrsid func(v PRSID, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemPrsid
 
 // NewOTDOACellInformationItemRepetitionNumberofSIB1NB constructs a checked complete value.
-var NewOTDOACellInformationItemRepetitionNumberofSIB1NB func(v RepetitionNumberofSIB1NB, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemRepetitionNumberofSIB1NB
+var NewOTDOACellInformationItemRepetitionNumberofSIB1NB func(v RepetitionNumberofSIB1NB, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemRepetitionNumberofSIB1NB
 
 // NewOTDOACellInformationItemSFNInitialisationTime constructs a checked complete value.
-var NewOTDOACellInformationItemSFNInitialisationTime func(v SFNInitialisationTime, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemSFNInitialisationTime
+var NewOTDOACellInformationItemSFNInitialisationTime func(v SFNInitialisationTime, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemSFNInitialisationTime
 
 // NewOTDOACellInformationItemTAC constructs a checked complete value.
-var NewOTDOACellInformationItemTAC func(v TAC, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemTAC
+var NewOTDOACellInformationItemTAC func(v TAC, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemTAC
 
 // NewOTDOACellInformationItemTddConfiguration constructs a checked complete value.
-var NewOTDOACellInformationItemTddConfiguration func(v TDDConfiguration, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemTddConfiguration
+var NewOTDOACellInformationItemTddConfiguration func(v TDDConfiguration, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemTddConfiguration
 
 // NewOTDOACellInformationItemTpType constructs a checked complete value.
-var NewOTDOACellInformationItemTpType func(v TPType, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemTpType
+var NewOTDOACellInformationItemTpType func(v TPType, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemTpType
 
 // NewOTDOACellInformationItemTpid constructs a checked complete value.
-var NewOTDOACellInformationItemTpid func(v TPID, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q20.NewOTDOACellInformationItemTpid
+var NewOTDOACellInformationItemTpid func(v TPID, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s16.NewOTDOACellInformationItemTpid
 
 // NewOTDOACellInformationItemUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewOTDOACellInformationItemUnknownExtension func(index uint64, contents []byte, options ...q23.BuildOption) (OTDOACellInformationItem, error) = q5.NewOTDOACellInformationItemUnknownExtension
-var NewOTDOAInformationFailure func(fields OTDOAInformationFailureIEContainer, options ...q23.BuildOption) (OTDOAInformationFailure, error) = q4.NewOTDOAInformationFailure
-var NewOTDOAInformationRequest func(fields OTDOAInformationRequestIEContainer, options ...q23.BuildOption) (OTDOAInformationRequest, error) = q4.NewOTDOAInformationRequest
-var NewOTDOAInformationResponse func(fields OTDOAInformationResponseIEContainer, options ...q23.BuildOption) (OTDOAInformationResponse, error) = q11.NewOTDOAInformationResponse
-var NewOpaqueInitiatingMessage func(code ProcedureCode, criticality Criticality, transactionID LPPATransactionID, data []byte) (InitiatingMessage, error) = q12.NewOpaqueInitiatingMessage
-var NewOpaqueSuccessfulOutcome func(code ProcedureCode, criticality Criticality, transactionID LPPATransactionID, data []byte) (SuccessfulOutcome, error) = q4.NewOpaqueSuccessfulOutcome
-var NewOpaqueUnsuccessfulOutcome func(code ProcedureCode, criticality Criticality, transactionID LPPATransactionID, data []byte) (UnsuccessfulOutcome, error) = q20.NewOpaqueUnsuccessfulOutcome
+var NewOTDOACellInformationItemUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (OTDOACellInformationItem, error) = s15.NewOTDOACellInformationItemUnknownExtension
+var NewOTDOAInformationFailure func(fields OTDOAInformationFailureIEContainer, options ...aper.BuildOption) (OTDOAInformationFailure, error) = s23.NewOTDOAInformationFailure
+var NewOTDOAInformationRequest func(fields OTDOAInformationRequestIEContainer, options ...aper.BuildOption) (OTDOAInformationRequest, error) = s23.NewOTDOAInformationRequest
+var NewOTDOAInformationResponse func(fields OTDOAInformationResponseIEContainer, options ...aper.BuildOption) (OTDOAInformationResponse, error) = s24.NewOTDOAInformationResponse
+var NewOpaqueInitiatingMessage func(code ProcedureCode, criticality Criticality, transactionID LPPATransactionID, data []byte) (InitiatingMessage, error) = s21.NewOpaqueInitiatingMessage
+var NewOpaqueSuccessfulOutcome func(code ProcedureCode, criticality Criticality, transactionID LPPATransactionID, data []byte) (SuccessfulOutcome, error) = s23.NewOpaqueSuccessfulOutcome
+var NewOpaqueUnsuccessfulOutcome func(code ProcedureCode, criticality Criticality, transactionID LPPATransactionID, data []byte) (UnsuccessfulOutcome, error) = s16.NewOpaqueUnsuccessfulOutcome
 
 // NewPRSMutingConfigurationEight constructs a checked complete value.
-var NewPRSMutingConfigurationEight func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q18.NewPRSMutingConfigurationEight
+var NewPRSMutingConfigurationEight func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s11.NewPRSMutingConfigurationEight
 
 // NewPRSMutingConfigurationFiveHundredAndTwelve constructs a checked complete value.
-var NewPRSMutingConfigurationFiveHundredAndTwelve func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q18.NewPRSMutingConfigurationFiveHundredAndTwelve
+var NewPRSMutingConfigurationFiveHundredAndTwelve func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s11.NewPRSMutingConfigurationFiveHundredAndTwelve
 
 // NewPRSMutingConfigurationFour constructs a checked complete value.
-var NewPRSMutingConfigurationFour func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q29.NewPRSMutingConfigurationFour
+var NewPRSMutingConfigurationFour func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationFour
 
 // NewPRSMutingConfigurationOneHundredAndTwentyEight constructs a checked complete value.
-var NewPRSMutingConfigurationOneHundredAndTwentyEight func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q29.NewPRSMutingConfigurationOneHundredAndTwentyEight
+var NewPRSMutingConfigurationOneHundredAndTwentyEight func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationOneHundredAndTwentyEight
 
 // NewPRSMutingConfigurationOneThousandAndTwentyFour constructs a checked complete value.
-var NewPRSMutingConfigurationOneThousandAndTwentyFour func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q29.NewPRSMutingConfigurationOneThousandAndTwentyFour
+var NewPRSMutingConfigurationOneThousandAndTwentyFour func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationOneThousandAndTwentyFour
 
 // NewPRSMutingConfigurationSixteen constructs a checked complete value.
-var NewPRSMutingConfigurationSixteen func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q29.NewPRSMutingConfigurationSixteen
+var NewPRSMutingConfigurationSixteen func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationSixteen
 
 // NewPRSMutingConfigurationSixtyFour constructs a checked complete value.
-var NewPRSMutingConfigurationSixtyFour func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q29.NewPRSMutingConfigurationSixtyFour
+var NewPRSMutingConfigurationSixtyFour func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationSixtyFour
 
 // NewPRSMutingConfigurationThirtyTwo constructs a checked complete value.
-var NewPRSMutingConfigurationThirtyTwo func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q29.NewPRSMutingConfigurationThirtyTwo
+var NewPRSMutingConfigurationThirtyTwo func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationThirtyTwo
 
 // NewPRSMutingConfigurationTwo constructs a checked complete value.
-var NewPRSMutingConfigurationTwo func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q29.NewPRSMutingConfigurationTwo
+var NewPRSMutingConfigurationTwo func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationTwo
 
 // NewPRSMutingConfigurationTwoHundredAndFiftySix constructs a checked complete value.
-var NewPRSMutingConfigurationTwoHundredAndFiftySix func(v q27.BitString, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q29.NewPRSMutingConfigurationTwoHundredAndFiftySix
+var NewPRSMutingConfigurationTwoHundredAndFiftySix func(v runtime.BitString, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s12.NewPRSMutingConfigurationTwoHundredAndFiftySix
 
 // NewPRSMutingConfigurationUnknownExtension builds a checked, owned unknown CHOICE alternative.
-var NewPRSMutingConfigurationUnknownExtension func(index uint64, contents []byte, options ...q23.BuildOption) (PRSMutingConfiguration, error) = q30.NewPRSMutingConfigurationUnknownExtension
+var NewPRSMutingConfigurationUnknownExtension func(index uint64, contents []byte, options ...aper.BuildOption) (PRSMutingConfiguration, error) = s08.NewPRSMutingConfigurationUnknownExtension
 
-type NewPayloadCodec[T any] = q4.NewPayloadCodec[T]
+type NewPayloadCodec[T any] = s23.NewPayloadCodec[T]
 
 // NewPrivateIEIDGlobal constructs a checked complete value.
-var NewPrivateIEIDGlobal func(v q27.ObjectIdentifier, options ...q23.BuildOption) (PrivateIEID, error) = q29.NewPrivateIEIDGlobal
+var NewPrivateIEIDGlobal func(v runtime.ObjectIdentifier, options ...aper.BuildOption) (PrivateIEID, error) = s12.NewPrivateIEIDGlobal
 
 // NewPrivateIEIDLocal constructs a checked complete value.
-var NewPrivateIEIDLocal func(v int64, options ...q23.BuildOption) (PrivateIEID, error) = q29.NewPrivateIEIDLocal
-var NewPrivateMessage func(fields PrivateMessageIEsValuePrivateIEContainer, options ...q23.BuildOption) (PrivateMessage, error) = q21.NewPrivateMessage
+var NewPrivateIEIDLocal func(v int64, options ...aper.BuildOption) (PrivateIEID, error) = s12.NewPrivateIEIDLocal
+var NewPrivateMessage func(fields PrivateMessageIEsValuePrivateIEContainer, options ...aper.BuildOption) (PrivateMessage, error) = s20.NewPrivateMessage
 
 // NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRAFDD constructs a checked complete value.
-var NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRAFDD func(v PhysCellIDUTRAFDD, options ...q23.BuildOption) (ResultUTRANItemPhysCellIDUTRAN, error) = q29.NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRAFDD
+var NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRAFDD func(v PhysCellIDUTRAFDD, options ...aper.BuildOption) (ResultUTRANItemPhysCellIDUTRAN, error) = s12.NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRAFDD
 
 // NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRATDD constructs a checked complete value.
-var NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRATDD func(v PhysCellIDUTRATDD, options ...q23.BuildOption) (ResultUTRANItemPhysCellIDUTRAN, error) = q29.NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRATDD
+var NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRATDD func(v PhysCellIDUTRATDD, options ...aper.BuildOption) (ResultUTRANItemPhysCellIDUTRAN, error) = s12.NewResultUTRANItemPhysCellIDUTRANPhysCellIDUTRATDD
 
 // NewSubframeallocationFourFrames constructs a checked complete value.
-var NewSubframeallocationFourFrames func(v q27.BitString, options ...q23.BuildOption) (Subframeallocation, error) = q29.NewSubframeallocationFourFrames
+var NewSubframeallocationFourFrames func(v runtime.BitString, options ...aper.BuildOption) (Subframeallocation, error) = s12.NewSubframeallocationFourFrames
 
 // NewSubframeallocationOneFrame constructs a checked complete value.
-var NewSubframeallocationOneFrame func(v q27.BitString, options ...q23.BuildOption) (Subframeallocation, error) = q29.NewSubframeallocationOneFrame
-var NewUTDOAInformationFailure func(fields UTDOAInformationFailureIEContainer, options ...q23.BuildOption) (UTDOAInformationFailure, error) = q11.NewUTDOAInformationFailure
-var NewUTDOAInformationRequest func(fields UTDOAInformationRequestIEContainer, options ...q23.BuildOption) (UTDOAInformationRequest, error) = q11.NewUTDOAInformationRequest
-var NewUTDOAInformationResponse func(fields UTDOAInformationResponseIEContainer, options ...q23.BuildOption) (UTDOAInformationResponse, error) = q11.NewUTDOAInformationResponse
-var NewUTDOAInformationUpdate func(fields UTDOAInformationUpdateIEContainer, options ...q23.BuildOption) (UTDOAInformationUpdate, error) = q11.NewUTDOAInformationUpdate
+var NewSubframeallocationOneFrame func(v runtime.BitString, options ...aper.BuildOption) (Subframeallocation, error) = s12.NewSubframeallocationOneFrame
+var NewUTDOAInformationFailure func(fields UTDOAInformationFailureIEContainer, options ...aper.BuildOption) (UTDOAInformationFailure, error) = s24.NewUTDOAInformationFailure
+var NewUTDOAInformationRequest func(fields UTDOAInformationRequestIEContainer, options ...aper.BuildOption) (UTDOAInformationRequest, error) = s24.NewUTDOAInformationRequest
+var NewUTDOAInformationResponse func(fields UTDOAInformationResponseIEContainer, options ...aper.BuildOption) (UTDOAInformationResponse, error) = s24.NewUTDOAInformationResponse
+var NewUTDOAInformationUpdate func(fields UTDOAInformationUpdateIEContainer, options ...aper.BuildOption) (UTDOAInformationUpdate, error) = s24.NewUTDOAInformationUpdate
 
-const NotAllowed = q14.NotAllowed
+const NotAllowed = s00.NotAllowed
 
 // NumberOfAntennaPorts represents the ASN.1 ENUMERATED type NumberOfAntennaPorts.
-type NumberOfAntennaPorts = q14.NumberOfAntennaPorts
+type NumberOfAntennaPorts = s00.NumberOfAntennaPorts
 
 // NumberOfAntennaPortsAPERValue is the concrete APERValue[NumberOfAntennaPorts].
-type NumberOfAntennaPortsAPERValue = q14.NumberOfAntennaPortsAPERValue
+type NumberOfAntennaPortsAPERValue = s00.NumberOfAntennaPortsAPERValue
 
 // NumberOfAntennaPortsCodec binds the complete source value type.
-var NumberOfAntennaPortsCodec func() NumberOfAntennaPortsValueCodec = q9.NumberOfAntennaPortsCodec
+var NumberOfAntennaPortsCodec func() NumberOfAntennaPortsValueCodec = s02.NumberOfAntennaPortsCodec
 
-const NumberOfAntennaPortsN1OrN2 = q14.NumberOfAntennaPortsN1OrN2
-const NumberOfAntennaPortsN4 = q14.NumberOfAntennaPortsN4
+const NumberOfAntennaPortsN1OrN2 = s00.NumberOfAntennaPortsN1OrN2
+const NumberOfAntennaPortsN4 = s00.NumberOfAntennaPortsN4
 
 // NumberOfAntennaPortsValueCodec is the concrete ValueCodec[NumberOfAntennaPorts].
-type NumberOfAntennaPortsValueCodec = q14.NumberOfAntennaPortsValueCodec
+type NumberOfAntennaPortsValueCodec = s00.NumberOfAntennaPortsValueCodec
 
 // NumberOfDlFrames represents the ASN.1 ENUMERATED type NumberOfDlFrames.
-type NumberOfDlFrames = q14.NumberOfDlFrames
+type NumberOfDlFrames = s00.NumberOfDlFrames
 
 // NumberOfDlFramesAPERValue is the concrete APERValue[NumberOfDlFrames].
-type NumberOfDlFramesAPERValue = q14.NumberOfDlFramesAPERValue
+type NumberOfDlFramesAPERValue = s00.NumberOfDlFramesAPERValue
 
 // NumberOfDlFramesCodec binds the complete source value type.
-var NumberOfDlFramesCodec func() NumberOfDlFramesValueCodec = q9.NumberOfDlFramesCodec
+var NumberOfDlFramesCodec func() NumberOfDlFramesValueCodec = s02.NumberOfDlFramesCodec
 
 // NumberOfDlFramesExtended represents the ASN.1 type NumberOfDlFrames-Extended (INTEGER).
-type NumberOfDlFramesExtended = q14.NumberOfDlFramesExtended
+type NumberOfDlFramesExtended = s00.NumberOfDlFramesExtended
 
 // NumberOfDlFramesExtendedAPERValue is the concrete APERValue[NumberOfDlFramesExtended].
-type NumberOfDlFramesExtendedAPERValue = q14.NumberOfDlFramesExtendedAPERValue
+type NumberOfDlFramesExtendedAPERValue = s00.NumberOfDlFramesExtendedAPERValue
 
 // NumberOfDlFramesExtendedCodec binds the complete source value type.
-var NumberOfDlFramesExtendedCodec func() NumberOfDlFramesExtendedValueCodec = q9.NumberOfDlFramesExtendedCodec
+var NumberOfDlFramesExtendedCodec func() NumberOfDlFramesExtendedValueCodec = s02.NumberOfDlFramesExtendedCodec
 
 // NumberOfDlFramesExtendedValueCodec is the concrete ValueCodec[NumberOfDlFramesExtended].
-type NumberOfDlFramesExtendedValueCodec = q14.NumberOfDlFramesExtendedValueCodec
+type NumberOfDlFramesExtendedValueCodec = s00.NumberOfDlFramesExtendedValueCodec
 
-const NumberOfDlFramesSf1 = q14.NumberOfDlFramesSf1
-const NumberOfDlFramesSf2 = q14.NumberOfDlFramesSf2
-const NumberOfDlFramesSf4 = q14.NumberOfDlFramesSf4
-const NumberOfDlFramesSf6 = q14.NumberOfDlFramesSf6
+const NumberOfDlFramesSf1 = s00.NumberOfDlFramesSf1
+const NumberOfDlFramesSf2 = s00.NumberOfDlFramesSf2
+const NumberOfDlFramesSf4 = s00.NumberOfDlFramesSf4
+const NumberOfDlFramesSf6 = s00.NumberOfDlFramesSf6
 
 // NumberOfDlFramesValueCodec is the concrete ValueCodec[NumberOfDlFrames].
-type NumberOfDlFramesValueCodec = q14.NumberOfDlFramesValueCodec
+type NumberOfDlFramesValueCodec = s00.NumberOfDlFramesValueCodec
 
 // NumberOfFrequencyHoppingBands represents the ASN.1 ENUMERATED type NumberOfFrequencyHoppingBands.
-type NumberOfFrequencyHoppingBands = q14.NumberOfFrequencyHoppingBands
+type NumberOfFrequencyHoppingBands = s00.NumberOfFrequencyHoppingBands
 
 // NumberOfFrequencyHoppingBandsAPERValue is the concrete APERValue[NumberOfFrequencyHoppingBands].
-type NumberOfFrequencyHoppingBandsAPERValue = q31.NumberOfFrequencyHoppingBandsAPERValue
+type NumberOfFrequencyHoppingBandsAPERValue = s01.NumberOfFrequencyHoppingBandsAPERValue
 
 // NumberOfFrequencyHoppingBandsCodec binds the complete source value type.
-var NumberOfFrequencyHoppingBandsCodec func() NumberOfFrequencyHoppingBandsValueCodec = q9.NumberOfFrequencyHoppingBandsCodec
+var NumberOfFrequencyHoppingBandsCodec func() NumberOfFrequencyHoppingBandsValueCodec = s02.NumberOfFrequencyHoppingBandsCodec
 
-const NumberOfFrequencyHoppingBandsFourbands = q14.NumberOfFrequencyHoppingBandsFourbands
-const NumberOfFrequencyHoppingBandsTwobands = q14.NumberOfFrequencyHoppingBandsTwobands
+const NumberOfFrequencyHoppingBandsFourbands = s00.NumberOfFrequencyHoppingBandsFourbands
+const NumberOfFrequencyHoppingBandsTwobands = s00.NumberOfFrequencyHoppingBandsTwobands
 
 // NumberOfFrequencyHoppingBandsValueCodec is the concrete ValueCodec[NumberOfFrequencyHoppingBands].
-type NumberOfFrequencyHoppingBandsValueCodec = q31.NumberOfFrequencyHoppingBandsValueCodec
-type OTDOACellInformation = q5.OTDOACellInformation
+type NumberOfFrequencyHoppingBandsValueCodec = s01.NumberOfFrequencyHoppingBandsValueCodec
+type OTDOACellInformation = s15.OTDOACellInformation
 
 // OTDOACellInformationAPERValue is the concrete APERValue[OTDOACellInformation].
-type OTDOACellInformationAPERValue = q5.OTDOACellInformationAPERValue
+type OTDOACellInformationAPERValue = s15.OTDOACellInformationAPERValue
 
 // OTDOACellInformationCodec binds the complete source value type.
-var OTDOACellInformationCodec func() OTDOACellInformationValueCodec = q7.OTDOACellInformationCodec
+var OTDOACellInformationCodec func() OTDOACellInformationValueCodec = s18.OTDOACellInformationCodec
 
 // OTDOACellInformationComplete carries a complete OTDOACellInformation encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type OTDOACellInformationComplete = q7.OTDOACellInformationComplete
+type OTDOACellInformationComplete = s18.OTDOACellInformationComplete
 
 // OTDOACellInformationItem represents the ASN.1 CHOICE type OTDOACell-Information-Item.
-type OTDOACellInformationItem = q5.OTDOACellInformationItem
+type OTDOACellInformationItem = s15.OTDOACellInformationItem
 
 // OTDOACellInformationItemAPERValue is the concrete APERValue[OTDOACellInformationItem].
-type OTDOACellInformationItemAPERValue = q5.OTDOACellInformationItemAPERValue
+type OTDOACellInformationItemAPERValue = s15.OTDOACellInformationItemAPERValue
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceCPLength = q14.OTDOACellInformationItemChoiceCPLength
+const OTDOACellInformationItemChoiceCPLength = s00.OTDOACellInformationItemChoiceCPLength
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceCellId = q14.OTDOACellInformationItemChoiceCellId
+const OTDOACellInformationItemChoiceCellId = s00.OTDOACellInformationItemChoiceCellId
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceCrsCPlength = q14.OTDOACellInformationItemChoiceCrsCPlength
+const OTDOACellInformationItemChoiceCrsCPlength = s00.OTDOACellInformationItemChoiceCrsCPlength
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceDLBandwidth = q14.OTDOACellInformationItemChoiceDLBandwidth
+const OTDOACellInformationItemChoiceDLBandwidth = s00.OTDOACellInformationItemChoiceDLBandwidth
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceEARFCN = q14.OTDOACellInformationItemChoiceEARFCN
+const OTDOACellInformationItemChoiceEARFCN = s00.OTDOACellInformationItemChoiceEARFCN
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceEUTRANAccessPointPosition = q14.OTDOACellInformationItemChoiceEUTRANAccessPointPosition
+const OTDOACellInformationItemChoiceEUTRANAccessPointPosition = s00.OTDOACellInformationItemChoiceEUTRANAccessPointPosition
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceMBSFNsubframeConfiguration = q14.OTDOACellInformationItemChoiceMBSFNsubframeConfiguration
+const OTDOACellInformationItemChoiceMBSFNsubframeConfiguration = s00.OTDOACellInformationItemChoiceMBSFNsubframeConfiguration
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceNPRSConfiguration = q14.OTDOACellInformationItemChoiceNPRSConfiguration
+const OTDOACellInformationItemChoiceNPRSConfiguration = s00.OTDOACellInformationItemChoiceNPRSConfiguration
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceNPRSID = q14.OTDOACellInformationItemChoiceNPRSID
+const OTDOACellInformationItemChoiceNPRSID = s00.OTDOACellInformationItemChoiceNPRSID
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceNPRSSequenceInfo = q14.OTDOACellInformationItemChoiceNPRSSequenceInfo
+const OTDOACellInformationItemChoiceNPRSSequenceInfo = s00.OTDOACellInformationItemChoiceNPRSSequenceInfo
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceNPRSType2 = q14.OTDOACellInformationItemChoiceNPRSType2
+const OTDOACellInformationItemChoiceNPRSType2 = s00.OTDOACellInformationItemChoiceNPRSType2
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceNumberOfAntennaPorts = q14.OTDOACellInformationItemChoiceNumberOfAntennaPorts
+const OTDOACellInformationItemChoiceNumberOfAntennaPorts = s00.OTDOACellInformationItemChoiceNumberOfAntennaPorts
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceNumberOfDlFrames = q14.OTDOACellInformationItemChoiceNumberOfDlFrames
+const OTDOACellInformationItemChoiceNumberOfDlFrames = s00.OTDOACellInformationItemChoiceNumberOfDlFrames
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceNumberOfDlFramesExtended = q14.OTDOACellInformationItemChoiceNumberOfDlFramesExtended
+const OTDOACellInformationItemChoiceNumberOfDlFramesExtended = s00.OTDOACellInformationItemChoiceNumberOfDlFramesExtended
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceOffsetNBChanneltoEARFCN = q14.OTDOACellInformationItemChoiceOffsetNBChanneltoEARFCN
+const OTDOACellInformationItemChoiceOffsetNBChanneltoEARFCN = s00.OTDOACellInformationItemChoiceOffsetNBChanneltoEARFCN
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceOperationModeInfo = q14.OTDOACellInformationItemChoiceOperationModeInfo
+const OTDOACellInformationItemChoiceOperationModeInfo = s00.OTDOACellInformationItemChoiceOperationModeInfo
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoicePCI = q14.OTDOACellInformationItemChoicePCI
+const OTDOACellInformationItemChoicePCI = s00.OTDOACellInformationItemChoicePCI
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoicePRSBandwidth = q14.OTDOACellInformationItemChoicePRSBandwidth
+const OTDOACellInformationItemChoicePRSBandwidth = s00.OTDOACellInformationItemChoicePRSBandwidth
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoicePRSConfigurationIndex = q14.OTDOACellInformationItemChoicePRSConfigurationIndex
+const OTDOACellInformationItemChoicePRSConfigurationIndex = s00.OTDOACellInformationItemChoicePRSConfigurationIndex
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoicePRSFreqHoppingConfig = q14.OTDOACellInformationItemChoicePRSFreqHoppingConfig
+const OTDOACellInformationItemChoicePRSFreqHoppingConfig = s00.OTDOACellInformationItemChoicePRSFreqHoppingConfig
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoicePRSMutingConfiguration = q14.OTDOACellInformationItemChoicePRSMutingConfiguration
+const OTDOACellInformationItemChoicePRSMutingConfiguration = s00.OTDOACellInformationItemChoicePRSMutingConfiguration
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoicePRSOccasionGroup = q14.OTDOACellInformationItemChoicePRSOccasionGroup
+const OTDOACellInformationItemChoicePRSOccasionGroup = s00.OTDOACellInformationItemChoicePRSOccasionGroup
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoicePrsid = q14.OTDOACellInformationItemChoicePrsid
+const OTDOACellInformationItemChoicePrsid = s00.OTDOACellInformationItemChoicePrsid
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceRepetitionNumberofSIB1NB = q14.OTDOACellInformationItemChoiceRepetitionNumberofSIB1NB
+const OTDOACellInformationItemChoiceRepetitionNumberofSIB1NB = s00.OTDOACellInformationItemChoiceRepetitionNumberofSIB1NB
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceSFNInitialisationTime = q14.OTDOACellInformationItemChoiceSFNInitialisationTime
+const OTDOACellInformationItemChoiceSFNInitialisationTime = s00.OTDOACellInformationItemChoiceSFNInitialisationTime
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceTAC = q14.OTDOACellInformationItemChoiceTAC
+const OTDOACellInformationItemChoiceTAC = s00.OTDOACellInformationItemChoiceTAC
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceTddConfiguration = q14.OTDOACellInformationItemChoiceTddConfiguration
+const OTDOACellInformationItemChoiceTddConfiguration = s00.OTDOACellInformationItemChoiceTddConfiguration
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceTpType = q14.OTDOACellInformationItemChoiceTpType
+const OTDOACellInformationItemChoiceTpType = s00.OTDOACellInformationItemChoiceTpType
 
 // OTDOACellInformationItem choice constants.
-const OTDOACellInformationItemChoiceTpid = q14.OTDOACellInformationItemChoiceTpid
+const OTDOACellInformationItemChoiceTpid = s00.OTDOACellInformationItemChoiceTpid
 
 // OTDOACellInformationItemCodec binds the complete source value type.
-var OTDOACellInformationItemCodec func() OTDOACellInformationItemValueCodec = q5.OTDOACellInformationItemCodec
+var OTDOACellInformationItemCodec func() OTDOACellInformationItemValueCodec = s15.OTDOACellInformationItemCodec
 
 // OTDOACellInformationItemValueCodec is the concrete ValueCodec[OTDOACellInformationItem].
-type OTDOACellInformationItemValueCodec = q5.OTDOACellInformationItemValueCodec
+type OTDOACellInformationItemValueCodec = s15.OTDOACellInformationItemValueCodec
 
 // OTDOACellInformationValueCodec is the concrete ValueCodec[OTDOACellInformation].
-type OTDOACellInformationValueCodec = q5.OTDOACellInformationValueCodec
-type OTDOACells = q20.OTDOACells
+type OTDOACellInformationValueCodec = s15.OTDOACellInformationValueCodec
+type OTDOACells = s16.OTDOACells
 
 // OTDOACellsAPERValue is the concrete APERValue[OTDOACells].
-type OTDOACellsAPERValue = q20.OTDOACellsAPERValue
+type OTDOACellsAPERValue = s16.OTDOACellsAPERValue
 
 // OTDOACellsCodec binds the complete APER value type.
-var OTDOACellsCodec func() OTDOACellsValueCodec = q7.OTDOACellsCodec
+var OTDOACellsCodec func() OTDOACellsValueCodec = s18.OTDOACellsCodec
 
 // OTDOACellsComplete carries a complete OTDOACells encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type OTDOACellsComplete = q7.OTDOACellsComplete
+type OTDOACellsComplete = s18.OTDOACellsComplete
 
 // OTDOACellsElem represents the ASN.1 type OTDOACells-Elem (SEQUENCE).
-type OTDOACellsElem = q20.OTDOACellsElem
+type OTDOACellsElem = s16.OTDOACellsElem
 
 // OTDOACellsElemAPERValue is the concrete APERValue[OTDOACellsElem].
-type OTDOACellsElemAPERValue = q20.OTDOACellsElemAPERValue
+type OTDOACellsElemAPERValue = s16.OTDOACellsElemAPERValue
 
 // OTDOACellsElemCodec binds the complete source value type.
-var OTDOACellsElemCodec func() OTDOACellsElemValueCodec = q20.OTDOACellsElemCodec
+var OTDOACellsElemCodec func() OTDOACellsElemValueCodec = s16.OTDOACellsElemCodec
 
 // OTDOACellsElemValueCodec is the concrete ValueCodec[OTDOACellsElem].
-type OTDOACellsElemValueCodec = q20.OTDOACellsElemValueCodec
-type OTDOACellsExtIETable = q25.OTDOACellsExtIETable
+type OTDOACellsElemValueCodec = s16.OTDOACellsElemValueCodec
+type OTDOACellsExtIETable = s04.OTDOACellsExtIETable
 
-var OTDOACellsExtIEs func() OTDOACellsExtIETable = q25.OTDOACellsExtIEs
+var OTDOACellsExtIEs func() OTDOACellsExtIETable = s04.OTDOACellsExtIEs
 
 // OTDOACellsExtIEsExtContainer is the concrete ProtocolExtensionContainer[OTDOACellsExtIEsValue].
-type OTDOACellsExtIEsExtContainer = q25.OTDOACellsExtIEsExtContainer
+type OTDOACellsExtIEsExtContainer = s04.OTDOACellsExtIEsExtContainer
 
 // OTDOACellsExtIEsExtField is the concrete ProtocolExtensionField[OTDOACellsExtIEsValue].
-type OTDOACellsExtIEsExtField = q25.OTDOACellsExtIEsExtField
+type OTDOACellsExtIEsExtField = s04.OTDOACellsExtIEsExtField
 
 // OTDOACellsExtIEsIEContainer is the concrete ProtocolIEContainer[OTDOACellsExtIEsValue].
-type OTDOACellsExtIEsIEContainer = q25.OTDOACellsExtIEsIEContainer
+type OTDOACellsExtIEsIEContainer = s04.OTDOACellsExtIEsIEContainer
 
 // OTDOACellsExtIEsIEField is the concrete ProtocolIEField[OTDOACellsExtIEsValue].
-type OTDOACellsExtIEsIEField = q25.OTDOACellsExtIEsIEField
-type OTDOACellsExtIEsValue = q9.OTDOACellsExtIEsValue
+type OTDOACellsExtIEsIEField = s04.OTDOACellsExtIEsIEField
+type OTDOACellsExtIEsValue = s02.OTDOACellsExtIEsValue
 
 // OTDOACellsValueCodec is the concrete ValueCodec[OTDOACells].
-type OTDOACellsValueCodec = q20.OTDOACellsValueCodec
-type OTDOAInformationExchangeDescriptor = q11.OTDOAInformationExchangeDescriptor
+type OTDOACellsValueCodec = s16.OTDOACellsValueCodec
+type OTDOAInformationExchangeDescriptor = s24.OTDOAInformationExchangeDescriptor
 
-var OTDOAInformationExchangeProcedure func() OTDOAInformationExchangeDescriptor = q11.OTDOAInformationExchangeProcedure
+var OTDOAInformationExchangeProcedure func() OTDOAInformationExchangeDescriptor = s24.OTDOAInformationExchangeProcedure
 
 // OTDOAInformationFailure represents the ASN.1 type OTDOAInformationFailure (SEQUENCE).
-type OTDOAInformationFailure = q29.OTDOAInformationFailure
+type OTDOAInformationFailure = s12.OTDOAInformationFailure
 
 // OTDOAInformationFailureAPERValue is the concrete APERValue[OTDOAInformationFailure].
-type OTDOAInformationFailureAPERValue = q29.OTDOAInformationFailureAPERValue
+type OTDOAInformationFailureAPERValue = s12.OTDOAInformationFailureAPERValue
 
 // OTDOAInformationFailureCauseIEBinding is the concrete IEBinding[Cause, OTDOAInformationFailureIEValue].
-type OTDOAInformationFailureCauseIEBinding = q19.OTDOAInformationFailureCauseIEBinding
+type OTDOAInformationFailureCauseIEBinding = s10.OTDOAInformationFailureCauseIEBinding
 
 // OTDOAInformationFailureCodec binds the complete APER value type.
-var OTDOAInformationFailureCodec func() OTDOAInformationFailureValueCodec = q11.OTDOAInformationFailureCodec
+var OTDOAInformationFailureCodec func() OTDOAInformationFailureValueCodec = s24.OTDOAInformationFailureCodec
 
 // OTDOAInformationFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, OTDOAInformationFailureIEValue].
-type OTDOAInformationFailureCriticalityDiagnosticsIEBinding = q19.OTDOAInformationFailureCriticalityDiagnosticsIEBinding
+type OTDOAInformationFailureCriticalityDiagnosticsIEBinding = s10.OTDOAInformationFailureCriticalityDiagnosticsIEBinding
 
 // OTDOAInformationFailureIEContainer is the concrete ProtocolIEContainer[OTDOAInformationFailureIEValue].
-type OTDOAInformationFailureIEContainer = q19.OTDOAInformationFailureIEContainer
+type OTDOAInformationFailureIEContainer = s10.OTDOAInformationFailureIEContainer
 
 // OTDOAInformationFailureIEField is the concrete ProtocolIEField[OTDOAInformationFailureIEValue].
-type OTDOAInformationFailureIEField = q19.OTDOAInformationFailureIEField
-type OTDOAInformationFailureIETable = q19.OTDOAInformationFailureIETable
-type OTDOAInformationFailureIEValue = q19.OTDOAInformationFailureIEValue
+type OTDOAInformationFailureIEField = s10.OTDOAInformationFailureIEField
+type OTDOAInformationFailureIETable = s10.OTDOAInformationFailureIETable
+type OTDOAInformationFailureIEValue = s10.OTDOAInformationFailureIEValue
 
-var OTDOAInformationFailureIEs func() OTDOAInformationFailureIETable = q19.OTDOAInformationFailureIEs
+var OTDOAInformationFailureIEs func() OTDOAInformationFailureIETable = s10.OTDOAInformationFailureIEs
 
 // OTDOAInformationFailureUnsuccessfulBinding is the concrete UnsuccessfulBinding[OTDOAInformationFailure].
-type OTDOAInformationFailureUnsuccessfulBinding = q20.OTDOAInformationFailureUnsuccessfulBinding
+type OTDOAInformationFailureUnsuccessfulBinding = s16.OTDOAInformationFailureUnsuccessfulBinding
 
 // OTDOAInformationFailureValueCodec is the concrete ValueCodec[OTDOAInformationFailure].
-type OTDOAInformationFailureValueCodec = q29.OTDOAInformationFailureValueCodec
+type OTDOAInformationFailureValueCodec = s12.OTDOAInformationFailureValueCodec
 
 // OTDOAInformationItem represents the ASN.1 ENUMERATED type OTDOA-Information-Item.
-type OTDOAInformationItem = q14.OTDOAInformationItem
+type OTDOAInformationItem = s00.OTDOAInformationItem
 
 // OTDOAInformationItemAPERValue is the concrete APERValue[OTDOAInformationItem].
-type OTDOAInformationItemAPERValue = q31.OTDOAInformationItemAPERValue
+type OTDOAInformationItemAPERValue = s01.OTDOAInformationItemAPERValue
 
-const OTDOAInformationItemCellid = q14.OTDOAInformationItemCellid
+const OTDOAInformationItemCellid = s00.OTDOAInformationItemCellid
 
 // OTDOAInformationItemCodec binds the complete source value type.
-var OTDOAInformationItemCodec func() OTDOAInformationItemValueCodec = q9.OTDOAInformationItemCodec
+var OTDOAInformationItemCodec func() OTDOAInformationItemValueCodec = s02.OTDOAInformationItemCodec
 
-const OTDOAInformationItemCpLength = q14.OTDOAInformationItemCpLength
-const OTDOAInformationItemCrsCPlength = q14.OTDOAInformationItemCrsCPlength
-const OTDOAInformationItemDlBandwidth = q14.OTDOAInformationItemDlBandwidth
-const OTDOAInformationItemEUTRANAccessPointPosition = q14.OTDOAInformationItemEUTRANAccessPointPosition
-const OTDOAInformationItemEarfcn = q14.OTDOAInformationItemEarfcn
-const OTDOAInformationItemMBSFNsubframeConfiguration = q14.OTDOAInformationItemMBSFNsubframeConfiguration
-const OTDOAInformationItemMultipleprsConfigurationsperCell = q14.OTDOAInformationItemMultipleprsConfigurationsperCell
-const OTDOAInformationItemNPRSConfiguration = q14.OTDOAInformationItemNPRSConfiguration
-const OTDOAInformationItemNPRSID = q14.OTDOAInformationItemNPRSID
-const OTDOAInformationItemNPRSSequenceInfo = q14.OTDOAInformationItemNPRSSequenceInfo
-const OTDOAInformationItemNPRSType2 = q14.OTDOAInformationItemNPRSType2
-const OTDOAInformationItemNoAntennaPorts = q14.OTDOAInformationItemNoAntennaPorts
-const OTDOAInformationItemNoDlFrames = q14.OTDOAInformationItemNoDlFrames
-const OTDOAInformationItemOffsetNBChannelNumbertoEARFCN = q14.OTDOAInformationItemOffsetNBChannelNumbertoEARFCN
-const OTDOAInformationItemOperationModeInfo = q14.OTDOAInformationItemOperationModeInfo
-const OTDOAInformationItemPci = q14.OTDOAInformationItemPci
-const OTDOAInformationItemPrsBandwidth = q14.OTDOAInformationItemPrsBandwidth
-const OTDOAInformationItemPrsConfigIndex = q14.OTDOAInformationItemPrsConfigIndex
-const OTDOAInformationItemPrsFrequencyHoppingConfiguration = q14.OTDOAInformationItemPrsFrequencyHoppingConfiguration
-const OTDOAInformationItemPrsOccasionGroup = q14.OTDOAInformationItemPrsOccasionGroup
-const OTDOAInformationItemPrsid = q14.OTDOAInformationItemPrsid
-const OTDOAInformationItemPrsmutingconfiguration = q14.OTDOAInformationItemPrsmutingconfiguration
-const OTDOAInformationItemRepetitionNumberofSIB1NB = q14.OTDOAInformationItemRepetitionNumberofSIB1NB
-const OTDOAInformationItemSFNInitTime = q14.OTDOAInformationItemSFNInitTime
-const OTDOAInformationItemTac = q14.OTDOAInformationItemTac
-const OTDOAInformationItemTddConfig = q14.OTDOAInformationItemTddConfig
-const OTDOAInformationItemTpType = q14.OTDOAInformationItemTpType
-const OTDOAInformationItemTpid = q14.OTDOAInformationItemTpid
+const OTDOAInformationItemCpLength = s00.OTDOAInformationItemCpLength
+const OTDOAInformationItemCrsCPlength = s00.OTDOAInformationItemCrsCPlength
+const OTDOAInformationItemDlBandwidth = s00.OTDOAInformationItemDlBandwidth
+const OTDOAInformationItemEUTRANAccessPointPosition = s00.OTDOAInformationItemEUTRANAccessPointPosition
+const OTDOAInformationItemEarfcn = s00.OTDOAInformationItemEarfcn
+const OTDOAInformationItemMBSFNsubframeConfiguration = s00.OTDOAInformationItemMBSFNsubframeConfiguration
+const OTDOAInformationItemMultipleprsConfigurationsperCell = s00.OTDOAInformationItemMultipleprsConfigurationsperCell
+const OTDOAInformationItemNPRSConfiguration = s00.OTDOAInformationItemNPRSConfiguration
+const OTDOAInformationItemNPRSID = s00.OTDOAInformationItemNPRSID
+const OTDOAInformationItemNPRSSequenceInfo = s00.OTDOAInformationItemNPRSSequenceInfo
+const OTDOAInformationItemNPRSType2 = s00.OTDOAInformationItemNPRSType2
+const OTDOAInformationItemNoAntennaPorts = s00.OTDOAInformationItemNoAntennaPorts
+const OTDOAInformationItemNoDlFrames = s00.OTDOAInformationItemNoDlFrames
+const OTDOAInformationItemOffsetNBChannelNumbertoEARFCN = s00.OTDOAInformationItemOffsetNBChannelNumbertoEARFCN
+const OTDOAInformationItemOperationModeInfo = s00.OTDOAInformationItemOperationModeInfo
+const OTDOAInformationItemPci = s00.OTDOAInformationItemPci
+const OTDOAInformationItemPrsBandwidth = s00.OTDOAInformationItemPrsBandwidth
+const OTDOAInformationItemPrsConfigIndex = s00.OTDOAInformationItemPrsConfigIndex
+const OTDOAInformationItemPrsFrequencyHoppingConfiguration = s00.OTDOAInformationItemPrsFrequencyHoppingConfiguration
+const OTDOAInformationItemPrsOccasionGroup = s00.OTDOAInformationItemPrsOccasionGroup
+const OTDOAInformationItemPrsid = s00.OTDOAInformationItemPrsid
+const OTDOAInformationItemPrsmutingconfiguration = s00.OTDOAInformationItemPrsmutingconfiguration
+const OTDOAInformationItemRepetitionNumberofSIB1NB = s00.OTDOAInformationItemRepetitionNumberofSIB1NB
+const OTDOAInformationItemSFNInitTime = s00.OTDOAInformationItemSFNInitTime
+const OTDOAInformationItemTac = s00.OTDOAInformationItemTac
+const OTDOAInformationItemTddConfig = s00.OTDOAInformationItemTddConfig
+const OTDOAInformationItemTpType = s00.OTDOAInformationItemTpType
+const OTDOAInformationItemTpid = s00.OTDOAInformationItemTpid
 
 // OTDOAInformationItemValueCodec is the concrete ValueCodec[OTDOAInformationItem].
-type OTDOAInformationItemValueCodec = q31.OTDOAInformationItemValueCodec
+type OTDOAInformationItemValueCodec = s01.OTDOAInformationItemValueCodec
 
 // OTDOAInformationRequest represents the ASN.1 type OTDOAInformationRequest (SEQUENCE).
-type OTDOAInformationRequest = q7.OTDOAInformationRequest
+type OTDOAInformationRequest = s18.OTDOAInformationRequest
 
 // OTDOAInformationRequestAPERValue is the concrete APERValue[OTDOAInformationRequest].
-type OTDOAInformationRequestAPERValue = q7.OTDOAInformationRequestAPERValue
+type OTDOAInformationRequestAPERValue = s18.OTDOAInformationRequestAPERValue
 
 // OTDOAInformationRequestCodec binds the complete APER value type.
-var OTDOAInformationRequestCodec func() OTDOAInformationRequestValueCodec = q11.OTDOAInformationRequestCodec
+var OTDOAInformationRequestCodec func() OTDOAInformationRequestValueCodec = s24.OTDOAInformationRequestCodec
 
 // OTDOAInformationRequestIEContainer is the concrete ProtocolIEContainer[OTDOAInformationRequestIEValue].
-type OTDOAInformationRequestIEContainer = q7.OTDOAInformationRequestIEContainer
+type OTDOAInformationRequestIEContainer = s18.OTDOAInformationRequestIEContainer
 
 // OTDOAInformationRequestIEField is the concrete ProtocolIEField[OTDOAInformationRequestIEValue].
-type OTDOAInformationRequestIEField = q7.OTDOAInformationRequestIEField
-type OTDOAInformationRequestIETable = q7.OTDOAInformationRequestIETable
-type OTDOAInformationRequestIEValue = q7.OTDOAInformationRequestIEValue
+type OTDOAInformationRequestIEField = s18.OTDOAInformationRequestIEField
+type OTDOAInformationRequestIETable = s18.OTDOAInformationRequestIETable
+type OTDOAInformationRequestIEValue = s18.OTDOAInformationRequestIEValue
 
-var OTDOAInformationRequestIEs func() OTDOAInformationRequestIETable = q7.OTDOAInformationRequestIEs
+var OTDOAInformationRequestIEs func() OTDOAInformationRequestIETable = s18.OTDOAInformationRequestIEs
 
 // OTDOAInformationRequestInitiatingBinding is the concrete InitiatingBinding[OTDOAInformationRequest].
-type OTDOAInformationRequestInitiatingBinding = q12.OTDOAInformationRequestInitiatingBinding
+type OTDOAInformationRequestInitiatingBinding = s21.OTDOAInformationRequestInitiatingBinding
 
 // OTDOAInformationRequestOTDOAInformationTypeIEBinding is the concrete IEBinding[OTDOAInformationType, OTDOAInformationRequestIEValue].
-type OTDOAInformationRequestOTDOAInformationTypeIEBinding = q7.OTDOAInformationRequestOTDOAInformationTypeIEBinding
+type OTDOAInformationRequestOTDOAInformationTypeIEBinding = s18.OTDOAInformationRequestOTDOAInformationTypeIEBinding
 
 // OTDOAInformationRequestValueCodec is the concrete ValueCodec[OTDOAInformationRequest].
-type OTDOAInformationRequestValueCodec = q7.OTDOAInformationRequestValueCodec
+type OTDOAInformationRequestValueCodec = s18.OTDOAInformationRequestValueCodec
 
 // OTDOAInformationResponse represents the ASN.1 type OTDOAInformationResponse (SEQUENCE).
-type OTDOAInformationResponse = q7.OTDOAInformationResponse
+type OTDOAInformationResponse = s18.OTDOAInformationResponse
 
 // OTDOAInformationResponseAPERValue is the concrete APERValue[OTDOAInformationResponse].
-type OTDOAInformationResponseAPERValue = q7.OTDOAInformationResponseAPERValue
+type OTDOAInformationResponseAPERValue = s18.OTDOAInformationResponseAPERValue
 
 // OTDOAInformationResponseAddOTDOACellsIEBinding is the concrete IEBinding[AddOTDOACells, OTDOAInformationResponseIEValue].
-type OTDOAInformationResponseAddOTDOACellsIEBinding = q7.OTDOAInformationResponseAddOTDOACellsIEBinding
+type OTDOAInformationResponseAddOTDOACellsIEBinding = s18.OTDOAInformationResponseAddOTDOACellsIEBinding
 
 // OTDOAInformationResponseCodec binds the complete APER value type.
-var OTDOAInformationResponseCodec func() OTDOAInformationResponseValueCodec = q11.OTDOAInformationResponseCodec
+var OTDOAInformationResponseCodec func() OTDOAInformationResponseValueCodec = s24.OTDOAInformationResponseCodec
 
 // OTDOAInformationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, OTDOAInformationResponseIEValue].
-type OTDOAInformationResponseCriticalityDiagnosticsIEBinding = q7.OTDOAInformationResponseCriticalityDiagnosticsIEBinding
+type OTDOAInformationResponseCriticalityDiagnosticsIEBinding = s18.OTDOAInformationResponseCriticalityDiagnosticsIEBinding
 
 // OTDOAInformationResponseIEContainer is the concrete ProtocolIEContainer[OTDOAInformationResponseIEValue].
-type OTDOAInformationResponseIEContainer = q7.OTDOAInformationResponseIEContainer
+type OTDOAInformationResponseIEContainer = s18.OTDOAInformationResponseIEContainer
 
 // OTDOAInformationResponseIEField is the concrete ProtocolIEField[OTDOAInformationResponseIEValue].
-type OTDOAInformationResponseIEField = q7.OTDOAInformationResponseIEField
-type OTDOAInformationResponseIETable = q7.OTDOAInformationResponseIETable
-type OTDOAInformationResponseIEValue = q7.OTDOAInformationResponseIEValue
+type OTDOAInformationResponseIEField = s18.OTDOAInformationResponseIEField
+type OTDOAInformationResponseIETable = s18.OTDOAInformationResponseIETable
+type OTDOAInformationResponseIEValue = s18.OTDOAInformationResponseIEValue
 
-var OTDOAInformationResponseIEs func() OTDOAInformationResponseIETable = q7.OTDOAInformationResponseIEs
+var OTDOAInformationResponseIEs func() OTDOAInformationResponseIETable = s18.OTDOAInformationResponseIEs
 
 // OTDOAInformationResponseOTDOACellsIEBinding is the concrete IEBinding[OTDOACells, OTDOAInformationResponseIEValue].
-type OTDOAInformationResponseOTDOACellsIEBinding = q7.OTDOAInformationResponseOTDOACellsIEBinding
+type OTDOAInformationResponseOTDOACellsIEBinding = s18.OTDOAInformationResponseOTDOACellsIEBinding
 
 // OTDOAInformationResponseSuccessfulBinding is the concrete SuccessfulBinding[OTDOAInformationResponse].
-type OTDOAInformationResponseSuccessfulBinding = q4.OTDOAInformationResponseSuccessfulBinding
+type OTDOAInformationResponseSuccessfulBinding = s23.OTDOAInformationResponseSuccessfulBinding
 
 // OTDOAInformationResponseValueCodec is the concrete ValueCodec[OTDOAInformationResponse].
-type OTDOAInformationResponseValueCodec = q7.OTDOAInformationResponseValueCodec
-type OTDOAInformationType = q26.OTDOAInformationType
+type OTDOAInformationResponseValueCodec = s18.OTDOAInformationResponseValueCodec
+type OTDOAInformationType = s07.OTDOAInformationType
 
 // OTDOAInformationTypeAPERValue is the concrete APERValue[OTDOAInformationType].
-type OTDOAInformationTypeAPERValue = q26.OTDOAInformationTypeAPERValue
+type OTDOAInformationTypeAPERValue = s07.OTDOAInformationTypeAPERValue
 
 // OTDOAInformationTypeCodec binds the complete APER value type.
-var OTDOAInformationTypeCodec func() OTDOAInformationTypeValueCodec = q7.OTDOAInformationTypeCodec
+var OTDOAInformationTypeCodec func() OTDOAInformationTypeValueCodec = s18.OTDOAInformationTypeCodec
 
 // OTDOAInformationTypeComplete carries a complete OTDOAInformationType encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type OTDOAInformationTypeComplete = q7.OTDOAInformationTypeComplete
+type OTDOAInformationTypeComplete = s18.OTDOAInformationTypeComplete
 
 // OTDOAInformationTypeIEContainer is the concrete ProtocolIEContainer[OTDOAInformationTypeIEValue].
-type OTDOAInformationTypeIEContainer = q26.OTDOAInformationTypeIEContainer
+type OTDOAInformationTypeIEContainer = s07.OTDOAInformationTypeIEContainer
 
 // OTDOAInformationTypeIEField is the concrete ProtocolIEField[OTDOAInformationTypeIEValue].
-type OTDOAInformationTypeIEField = q26.OTDOAInformationTypeIEField
-type OTDOAInformationTypeIETable = q26.OTDOAInformationTypeIETable
-type OTDOAInformationTypeIEValue = q26.OTDOAInformationTypeIEValue
+type OTDOAInformationTypeIEField = s07.OTDOAInformationTypeIEField
+type OTDOAInformationTypeIETable = s07.OTDOAInformationTypeIETable
+type OTDOAInformationTypeIEValue = s07.OTDOAInformationTypeIEValue
 
 // OTDOAInformationTypeIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[OTDOAInformationTypeIEValue].
-type OTDOAInformationTypeIEValueProtocolIESingleContainer = q26.OTDOAInformationTypeIEValueProtocolIESingleContainer
+type OTDOAInformationTypeIEValueProtocolIESingleContainer = s07.OTDOAInformationTypeIEValueProtocolIESingleContainer
 
-var OTDOAInformationTypeIEs func() OTDOAInformationTypeIETable = q26.OTDOAInformationTypeIEs
+var OTDOAInformationTypeIEs func() OTDOAInformationTypeIETable = s07.OTDOAInformationTypeIEs
 
 // OTDOAInformationTypeItem represents the ASN.1 type OTDOA-Information-Type-Item (SEQUENCE).
-type OTDOAInformationTypeItem = q26.OTDOAInformationTypeItem
+type OTDOAInformationTypeItem = s07.OTDOAInformationTypeItem
 
 // OTDOAInformationTypeItemAPERValue is the concrete APERValue[OTDOAInformationTypeItem].
-type OTDOAInformationTypeItemAPERValue = q26.OTDOAInformationTypeItemAPERValue
+type OTDOAInformationTypeItemAPERValue = s07.OTDOAInformationTypeItemAPERValue
 
 // OTDOAInformationTypeItemCodec binds the complete APER value type.
-var OTDOAInformationTypeItemCodec func() OTDOAInformationTypeItemValueCodec = q26.OTDOAInformationTypeItemCodec
+var OTDOAInformationTypeItemCodec func() OTDOAInformationTypeItemValueCodec = s07.OTDOAInformationTypeItemCodec
 
-type OTDOAInformationTypeItemExtIETable = q25.OTDOAInformationTypeItemExtIETable
+type OTDOAInformationTypeItemExtIETable = s04.OTDOAInformationTypeItemExtIETable
 
-var OTDOAInformationTypeItemExtIEs func() OTDOAInformationTypeItemExtIETable = q25.OTDOAInformationTypeItemExtIEs
+var OTDOAInformationTypeItemExtIEs func() OTDOAInformationTypeItemExtIETable = s04.OTDOAInformationTypeItemExtIEs
 
 // OTDOAInformationTypeItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[OTDOAInformationTypeItemExtIEsValue].
-type OTDOAInformationTypeItemExtIEsExtContainer = q25.OTDOAInformationTypeItemExtIEsExtContainer
+type OTDOAInformationTypeItemExtIEsExtContainer = s04.OTDOAInformationTypeItemExtIEsExtContainer
 
 // OTDOAInformationTypeItemExtIEsExtField is the concrete ProtocolExtensionField[OTDOAInformationTypeItemExtIEsValue].
-type OTDOAInformationTypeItemExtIEsExtField = q25.OTDOAInformationTypeItemExtIEsExtField
+type OTDOAInformationTypeItemExtIEsExtField = s04.OTDOAInformationTypeItemExtIEsExtField
 
 // OTDOAInformationTypeItemExtIEsIEContainer is the concrete ProtocolIEContainer[OTDOAInformationTypeItemExtIEsValue].
-type OTDOAInformationTypeItemExtIEsIEContainer = q25.OTDOAInformationTypeItemExtIEsIEContainer
+type OTDOAInformationTypeItemExtIEsIEContainer = s04.OTDOAInformationTypeItemExtIEsIEContainer
 
 // OTDOAInformationTypeItemExtIEsIEField is the concrete ProtocolIEField[OTDOAInformationTypeItemExtIEsValue].
-type OTDOAInformationTypeItemExtIEsIEField = q25.OTDOAInformationTypeItemExtIEsIEField
-type OTDOAInformationTypeItemExtIEsValue = q9.OTDOAInformationTypeItemExtIEsValue
+type OTDOAInformationTypeItemExtIEsIEField = s04.OTDOAInformationTypeItemExtIEsIEField
+type OTDOAInformationTypeItemExtIEsValue = s02.OTDOAInformationTypeItemExtIEsValue
 
 // OTDOAInformationTypeItemValueCodec is the concrete ValueCodec[OTDOAInformationTypeItem].
-type OTDOAInformationTypeItemValueCodec = q26.OTDOAInformationTypeItemValueCodec
+type OTDOAInformationTypeItemValueCodec = s07.OTDOAInformationTypeItemValueCodec
 
 // OTDOAInformationTypeOTDOAInformationTypeItemIEBinding is the concrete IEBinding[OTDOAInformationTypeItem, OTDOAInformationTypeIEValue].
-type OTDOAInformationTypeOTDOAInformationTypeItemIEBinding = q26.OTDOAInformationTypeOTDOAInformationTypeItemIEBinding
+type OTDOAInformationTypeOTDOAInformationTypeItemIEBinding = s07.OTDOAInformationTypeOTDOAInformationTypeItemIEBinding
 
 // OTDOAInformationTypeValueCodec is the concrete ValueCodec[OTDOAInformationType].
-type OTDOAInformationTypeValueCodec = q26.OTDOAInformationTypeValueCodec
+type OTDOAInformationTypeValueCodec = s07.OTDOAInformationTypeValueCodec
 
 // OffsetNBChanneltoEARFCN represents the ASN.1 ENUMERATED type OffsetNBChanneltoEARFCN.
-type OffsetNBChanneltoEARFCN = q14.OffsetNBChanneltoEARFCN
+type OffsetNBChanneltoEARFCN = s00.OffsetNBChanneltoEARFCN
 
 // OffsetNBChanneltoEARFCNAPERValue is the concrete APERValue[OffsetNBChanneltoEARFCN].
-type OffsetNBChanneltoEARFCNAPERValue = q31.OffsetNBChanneltoEARFCNAPERValue
+type OffsetNBChanneltoEARFCNAPERValue = s01.OffsetNBChanneltoEARFCNAPERValue
 
 // OffsetNBChanneltoEARFCNCodec binds the complete source value type.
-var OffsetNBChanneltoEARFCNCodec func() OffsetNBChanneltoEARFCNValueCodec = q9.OffsetNBChanneltoEARFCNCodec
+var OffsetNBChanneltoEARFCNCodec func() OffsetNBChanneltoEARFCNValueCodec = s02.OffsetNBChanneltoEARFCNCodec
 
-const OffsetNBChanneltoEARFCNEight = q14.OffsetNBChanneltoEARFCNEight
-const OffsetNBChanneltoEARFCNFive = q14.OffsetNBChanneltoEARFCNFive
-const OffsetNBChanneltoEARFCNFour = q14.OffsetNBChanneltoEARFCNFour
-const OffsetNBChanneltoEARFCNMinusEight = q14.OffsetNBChanneltoEARFCNMinusEight
-const OffsetNBChanneltoEARFCNMinusFive = q14.OffsetNBChanneltoEARFCNMinusFive
-const OffsetNBChanneltoEARFCNMinusFour = q14.OffsetNBChanneltoEARFCNMinusFour
-const OffsetNBChanneltoEARFCNMinusNine = q14.OffsetNBChanneltoEARFCNMinusNine
-const OffsetNBChanneltoEARFCNMinusOne = q14.OffsetNBChanneltoEARFCNMinusOne
-const OffsetNBChanneltoEARFCNMinusSeven = q14.OffsetNBChanneltoEARFCNMinusSeven
-const OffsetNBChanneltoEARFCNMinusSix = q14.OffsetNBChanneltoEARFCNMinusSix
-const OffsetNBChanneltoEARFCNMinusTen = q14.OffsetNBChanneltoEARFCNMinusTen
-const OffsetNBChanneltoEARFCNMinusThree = q14.OffsetNBChanneltoEARFCNMinusThree
-const OffsetNBChanneltoEARFCNMinusTwo = q14.OffsetNBChanneltoEARFCNMinusTwo
-const OffsetNBChanneltoEARFCNMinusZeroDotFive = q14.OffsetNBChanneltoEARFCNMinusZeroDotFive
-const OffsetNBChanneltoEARFCNNine = q14.OffsetNBChanneltoEARFCNNine
-const OffsetNBChanneltoEARFCNOne = q14.OffsetNBChanneltoEARFCNOne
-const OffsetNBChanneltoEARFCNSeven = q14.OffsetNBChanneltoEARFCNSeven
-const OffsetNBChanneltoEARFCNSix = q14.OffsetNBChanneltoEARFCNSix
-const OffsetNBChanneltoEARFCNThree = q14.OffsetNBChanneltoEARFCNThree
-const OffsetNBChanneltoEARFCNTwo = q14.OffsetNBChanneltoEARFCNTwo
+const OffsetNBChanneltoEARFCNEight = s00.OffsetNBChanneltoEARFCNEight
+const OffsetNBChanneltoEARFCNFive = s00.OffsetNBChanneltoEARFCNFive
+const OffsetNBChanneltoEARFCNFour = s00.OffsetNBChanneltoEARFCNFour
+const OffsetNBChanneltoEARFCNMinusEight = s00.OffsetNBChanneltoEARFCNMinusEight
+const OffsetNBChanneltoEARFCNMinusFive = s00.OffsetNBChanneltoEARFCNMinusFive
+const OffsetNBChanneltoEARFCNMinusFour = s00.OffsetNBChanneltoEARFCNMinusFour
+const OffsetNBChanneltoEARFCNMinusNine = s00.OffsetNBChanneltoEARFCNMinusNine
+const OffsetNBChanneltoEARFCNMinusOne = s00.OffsetNBChanneltoEARFCNMinusOne
+const OffsetNBChanneltoEARFCNMinusSeven = s00.OffsetNBChanneltoEARFCNMinusSeven
+const OffsetNBChanneltoEARFCNMinusSix = s00.OffsetNBChanneltoEARFCNMinusSix
+const OffsetNBChanneltoEARFCNMinusTen = s00.OffsetNBChanneltoEARFCNMinusTen
+const OffsetNBChanneltoEARFCNMinusThree = s00.OffsetNBChanneltoEARFCNMinusThree
+const OffsetNBChanneltoEARFCNMinusTwo = s00.OffsetNBChanneltoEARFCNMinusTwo
+const OffsetNBChanneltoEARFCNMinusZeroDotFive = s00.OffsetNBChanneltoEARFCNMinusZeroDotFive
+const OffsetNBChanneltoEARFCNNine = s00.OffsetNBChanneltoEARFCNNine
+const OffsetNBChanneltoEARFCNOne = s00.OffsetNBChanneltoEARFCNOne
+const OffsetNBChanneltoEARFCNSeven = s00.OffsetNBChanneltoEARFCNSeven
+const OffsetNBChanneltoEARFCNSix = s00.OffsetNBChanneltoEARFCNSix
+const OffsetNBChanneltoEARFCNThree = s00.OffsetNBChanneltoEARFCNThree
+const OffsetNBChanneltoEARFCNTwo = s00.OffsetNBChanneltoEARFCNTwo
 
 // OffsetNBChanneltoEARFCNValueCodec is the concrete ValueCodec[OffsetNBChanneltoEARFCN].
-type OffsetNBChanneltoEARFCNValueCodec = q31.OffsetNBChanneltoEARFCNValueCodec
+type OffsetNBChanneltoEARFCNValueCodec = s01.OffsetNBChanneltoEARFCNValueCodec
 
-const OffsetNBChanneltoEARFCNZero = q14.OffsetNBChanneltoEARFCNZero
+const OffsetNBChanneltoEARFCNZero = s00.OffsetNBChanneltoEARFCNZero
 
 // OperationModeInfo represents the ASN.1 ENUMERATED type OperationModeInfo.
-type OperationModeInfo = q14.OperationModeInfo
+type OperationModeInfo = s00.OperationModeInfo
 
 // OperationModeInfoAPERValue is the concrete APERValue[OperationModeInfo].
-type OperationModeInfoAPERValue = q31.OperationModeInfoAPERValue
+type OperationModeInfoAPERValue = s01.OperationModeInfoAPERValue
 
 // OperationModeInfoCodec binds the complete source value type.
-var OperationModeInfoCodec func() OperationModeInfoValueCodec = q9.OperationModeInfoCodec
+var OperationModeInfoCodec func() OperationModeInfoValueCodec = s02.OperationModeInfoCodec
 
-const OperationModeInfoGuardband = q14.OperationModeInfoGuardband
-const OperationModeInfoInband = q14.OperationModeInfoInband
-const OperationModeInfoStandalone = q14.OperationModeInfoStandalone
+const OperationModeInfoGuardband = s00.OperationModeInfoGuardband
+const OperationModeInfoInband = s00.OperationModeInfoInband
+const OperationModeInfoStandalone = s00.OperationModeInfoStandalone
 
 // OperationModeInfoValueCodec is the concrete ValueCodec[OperationModeInfo].
-type OperationModeInfoValueCodec = q31.OperationModeInfoValueCodec
+type OperationModeInfoValueCodec = s01.OperationModeInfoValueCodec
 
 // Outcome represents the ASN.1 ENUMERATED type Outcome.
-type Outcome = q14.Outcome
+type Outcome = s00.Outcome
 
 // OutcomeAPERValue is the concrete APERValue[Outcome].
-type OutcomeAPERValue = q31.OutcomeAPERValue
+type OutcomeAPERValue = s01.OutcomeAPERValue
 
 // OutcomeCodec binds the complete source value type.
-var OutcomeCodec func() OutcomeValueCodec = q9.OutcomeCodec
+var OutcomeCodec func() OutcomeValueCodec = s02.OutcomeCodec
 
-const OutcomeFailed = q14.OutcomeFailed
+const OutcomeFailed = s00.OutcomeFailed
 
 // OutcomeValueCodec is the concrete ValueCodec[Outcome].
-type OutcomeValueCodec = q31.OutcomeValueCodec
+type OutcomeValueCodec = s01.OutcomeValueCodec
 
 // PCI represents the ASN.1 type PCI (INTEGER).
-type PCI = q14.PCI
+type PCI = s00.PCI
 
 // PCIAPERValue is the concrete APERValue[PCI].
-type PCIAPERValue = q31.PCIAPERValue
+type PCIAPERValue = s01.PCIAPERValue
 
 // PCICodec binds the complete source value type.
-var PCICodec func() PCIValueCodec = q9.PCICodec
+var PCICodec func() PCIValueCodec = s02.PCICodec
 
 // PCIValueCodec is the concrete ValueCodec[PCI].
-type PCIValueCodec = q31.PCIValueCodec
+type PCIValueCodec = s01.PCIValueCodec
 
 // PLMNIdentity represents the ASN.1 type PLMN-Identity (OCTET_STRING).
-type PLMNIdentity = q14.PLMNIdentity
+type PLMNIdentity = s00.PLMNIdentity
 
 // PLMNIdentityAPERValue is the concrete APERValue[PLMNIdentity].
-type PLMNIdentityAPERValue = q31.PLMNIdentityAPERValue
+type PLMNIdentityAPERValue = s01.PLMNIdentityAPERValue
 
 // PLMNIdentityCodec binds the complete source value type.
-var PLMNIdentityCodec func() PLMNIdentityValueCodec = q9.PLMNIdentityCodec
+var PLMNIdentityCodec func() PLMNIdentityValueCodec = s02.PLMNIdentityCodec
 
 // PLMNIdentityValueCodec is the concrete ValueCodec[PLMNIdentity].
-type PLMNIdentityValueCodec = q31.PLMNIdentityValueCodec
+type PLMNIdentityValueCodec = s01.PLMNIdentityValueCodec
 
 // PRSBandwidth represents the ASN.1 ENUMERATED type PRS-Bandwidth.
-type PRSBandwidth = q14.PRSBandwidth
+type PRSBandwidth = s00.PRSBandwidth
 
 // PRSBandwidthAPERValue is the concrete APERValue[PRSBandwidth].
-type PRSBandwidthAPERValue = q31.PRSBandwidthAPERValue
+type PRSBandwidthAPERValue = s01.PRSBandwidthAPERValue
 
-const PRSBandwidthBw100 = q14.PRSBandwidthBw100
-const PRSBandwidthBw15 = q14.PRSBandwidthBw15
-const PRSBandwidthBw25 = q14.PRSBandwidthBw25
-const PRSBandwidthBw50 = q14.PRSBandwidthBw50
-const PRSBandwidthBw6 = q14.PRSBandwidthBw6
-const PRSBandwidthBw75 = q14.PRSBandwidthBw75
+const PRSBandwidthBw100 = s00.PRSBandwidthBw100
+const PRSBandwidthBw15 = s00.PRSBandwidthBw15
+const PRSBandwidthBw25 = s00.PRSBandwidthBw25
+const PRSBandwidthBw50 = s00.PRSBandwidthBw50
+const PRSBandwidthBw6 = s00.PRSBandwidthBw6
+const PRSBandwidthBw75 = s00.PRSBandwidthBw75
 
 // PRSBandwidthCodec binds the complete source value type.
-var PRSBandwidthCodec func() PRSBandwidthValueCodec = q9.PRSBandwidthCodec
+var PRSBandwidthCodec func() PRSBandwidthValueCodec = s02.PRSBandwidthCodec
 
 // PRSBandwidthValueCodec is the concrete ValueCodec[PRSBandwidth].
-type PRSBandwidthValueCodec = q31.PRSBandwidthValueCodec
+type PRSBandwidthValueCodec = s01.PRSBandwidthValueCodec
 
 // PRSConfigurationIndex represents the ASN.1 type PRS-Configuration-Index (INTEGER).
-type PRSConfigurationIndex = q14.PRSConfigurationIndex
+type PRSConfigurationIndex = s00.PRSConfigurationIndex
 
 // PRSConfigurationIndexAPERValue is the concrete APERValue[PRSConfigurationIndex].
-type PRSConfigurationIndexAPERValue = q31.PRSConfigurationIndexAPERValue
+type PRSConfigurationIndexAPERValue = s01.PRSConfigurationIndexAPERValue
 
 // PRSConfigurationIndexCodec binds the complete source value type.
-var PRSConfigurationIndexCodec func() PRSConfigurationIndexValueCodec = q9.PRSConfigurationIndexCodec
+var PRSConfigurationIndexCodec func() PRSConfigurationIndexValueCodec = s02.PRSConfigurationIndexCodec
 
 // PRSConfigurationIndexValueCodec is the concrete ValueCodec[PRSConfigurationIndex].
-type PRSConfigurationIndexValueCodec = q31.PRSConfigurationIndexValueCodec
+type PRSConfigurationIndexValueCodec = s01.PRSConfigurationIndexValueCodec
 
 // PRSFrequencyHoppingConfiguration represents the ASN.1 type PRSFrequencyHoppingConfiguration (SEQUENCE).
-type PRSFrequencyHoppingConfiguration = q30.PRSFrequencyHoppingConfiguration
+type PRSFrequencyHoppingConfiguration = s08.PRSFrequencyHoppingConfiguration
 
 // PRSFrequencyHoppingConfigurationAPERValue is the concrete APERValue[PRSFrequencyHoppingConfiguration].
-type PRSFrequencyHoppingConfigurationAPERValue = q30.PRSFrequencyHoppingConfigurationAPERValue
-type PRSFrequencyHoppingConfigurationBandPositions = q14.PRSFrequencyHoppingConfigurationBandPositions
+type PRSFrequencyHoppingConfigurationAPERValue = s08.PRSFrequencyHoppingConfigurationAPERValue
+type PRSFrequencyHoppingConfigurationBandPositions = s00.PRSFrequencyHoppingConfigurationBandPositions
 
 // PRSFrequencyHoppingConfigurationBandPositionsAPERValue is the concrete APERValue[PRSFrequencyHoppingConfigurationBandPositions].
-type PRSFrequencyHoppingConfigurationBandPositionsAPERValue = q31.PRSFrequencyHoppingConfigurationBandPositionsAPERValue
+type PRSFrequencyHoppingConfigurationBandPositionsAPERValue = s01.PRSFrequencyHoppingConfigurationBandPositionsAPERValue
 
 // PRSFrequencyHoppingConfigurationBandPositionsCodec binds the complete source value type.
-var PRSFrequencyHoppingConfigurationBandPositionsCodec func() PRSFrequencyHoppingConfigurationBandPositionsValueCodec = q24.PRSFrequencyHoppingConfigurationBandPositionsCodec
+var PRSFrequencyHoppingConfigurationBandPositionsCodec func() PRSFrequencyHoppingConfigurationBandPositionsValueCodec = s19.PRSFrequencyHoppingConfigurationBandPositionsCodec
 
 // PRSFrequencyHoppingConfigurationBandPositionsComplete carries a complete PRSFrequencyHoppingConfigurationBandPositions encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type PRSFrequencyHoppingConfigurationBandPositionsComplete = q24.PRSFrequencyHoppingConfigurationBandPositionsComplete
+type PRSFrequencyHoppingConfigurationBandPositionsComplete = s19.PRSFrequencyHoppingConfigurationBandPositionsComplete
 
 // PRSFrequencyHoppingConfigurationBandPositionsValueCodec is the concrete ValueCodec[PRSFrequencyHoppingConfigurationBandPositions].
-type PRSFrequencyHoppingConfigurationBandPositionsValueCodec = q31.PRSFrequencyHoppingConfigurationBandPositionsValueCodec
+type PRSFrequencyHoppingConfigurationBandPositionsValueCodec = s01.PRSFrequencyHoppingConfigurationBandPositionsValueCodec
 
 // PRSFrequencyHoppingConfigurationCodec binds the complete source value type.
-var PRSFrequencyHoppingConfigurationCodec func() PRSFrequencyHoppingConfigurationValueCodec = q30.PRSFrequencyHoppingConfigurationCodec
+var PRSFrequencyHoppingConfigurationCodec func() PRSFrequencyHoppingConfigurationValueCodec = s08.PRSFrequencyHoppingConfigurationCodec
 
-type PRSFrequencyHoppingConfigurationItemIETable = q25.PRSFrequencyHoppingConfigurationItemIETable
+type PRSFrequencyHoppingConfigurationItemIETable = s04.PRSFrequencyHoppingConfigurationItemIETable
 
-var PRSFrequencyHoppingConfigurationItemIEs func() PRSFrequencyHoppingConfigurationItemIETable = q25.PRSFrequencyHoppingConfigurationItemIEs
+var PRSFrequencyHoppingConfigurationItemIEs func() PRSFrequencyHoppingConfigurationItemIETable = s04.PRSFrequencyHoppingConfigurationItemIEs
 
 // PRSFrequencyHoppingConfigurationItemIEsExtContainer is the concrete ProtocolExtensionContainer[PRSFrequencyHoppingConfigurationItemIEsValue].
-type PRSFrequencyHoppingConfigurationItemIEsExtContainer = q25.PRSFrequencyHoppingConfigurationItemIEsExtContainer
+type PRSFrequencyHoppingConfigurationItemIEsExtContainer = s04.PRSFrequencyHoppingConfigurationItemIEsExtContainer
 
 // PRSFrequencyHoppingConfigurationItemIEsExtField is the concrete ProtocolExtensionField[PRSFrequencyHoppingConfigurationItemIEsValue].
-type PRSFrequencyHoppingConfigurationItemIEsExtField = q25.PRSFrequencyHoppingConfigurationItemIEsExtField
+type PRSFrequencyHoppingConfigurationItemIEsExtField = s04.PRSFrequencyHoppingConfigurationItemIEsExtField
 
 // PRSFrequencyHoppingConfigurationItemIEsIEContainer is the concrete ProtocolIEContainer[PRSFrequencyHoppingConfigurationItemIEsValue].
-type PRSFrequencyHoppingConfigurationItemIEsIEContainer = q25.PRSFrequencyHoppingConfigurationItemIEsIEContainer
+type PRSFrequencyHoppingConfigurationItemIEsIEContainer = s04.PRSFrequencyHoppingConfigurationItemIEsIEContainer
 
 // PRSFrequencyHoppingConfigurationItemIEsIEField is the concrete ProtocolIEField[PRSFrequencyHoppingConfigurationItemIEsValue].
-type PRSFrequencyHoppingConfigurationItemIEsIEField = q25.PRSFrequencyHoppingConfigurationItemIEsIEField
-type PRSFrequencyHoppingConfigurationItemIEsValue = q9.PRSFrequencyHoppingConfigurationItemIEsValue
+type PRSFrequencyHoppingConfigurationItemIEsIEField = s04.PRSFrequencyHoppingConfigurationItemIEsIEField
+type PRSFrequencyHoppingConfigurationItemIEsValue = s02.PRSFrequencyHoppingConfigurationItemIEsValue
 
 // PRSFrequencyHoppingConfigurationValueCodec is the concrete ValueCodec[PRSFrequencyHoppingConfiguration].
-type PRSFrequencyHoppingConfigurationValueCodec = q30.PRSFrequencyHoppingConfigurationValueCodec
+type PRSFrequencyHoppingConfigurationValueCodec = s08.PRSFrequencyHoppingConfigurationValueCodec
 
 // PRSID represents the ASN.1 type PRS-ID (INTEGER).
-type PRSID = q14.PRSID
+type PRSID = s00.PRSID
 
 // PRSIDAPERValue is the concrete APERValue[PRSID].
-type PRSIDAPERValue = q31.PRSIDAPERValue
+type PRSIDAPERValue = s01.PRSIDAPERValue
 
 // PRSIDCodec binds the complete source value type.
-var PRSIDCodec func() PRSIDValueCodec = q9.PRSIDCodec
+var PRSIDCodec func() PRSIDValueCodec = s02.PRSIDCodec
 
 // PRSIDValueCodec is the concrete ValueCodec[PRSID].
-type PRSIDValueCodec = q31.PRSIDValueCodec
+type PRSIDValueCodec = s01.PRSIDValueCodec
 
 // PRSMutingConfiguration represents the ASN.1 CHOICE type PRSMutingConfiguration.
-type PRSMutingConfiguration = q30.PRSMutingConfiguration
+type PRSMutingConfiguration = s08.PRSMutingConfiguration
 
 // PRSMutingConfigurationAPERValue is the concrete APERValue[PRSMutingConfiguration].
-type PRSMutingConfigurationAPERValue = q30.PRSMutingConfigurationAPERValue
+type PRSMutingConfigurationAPERValue = s08.PRSMutingConfigurationAPERValue
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceEight = q14.PRSMutingConfigurationChoiceEight
+const PRSMutingConfigurationChoiceEight = s00.PRSMutingConfigurationChoiceEight
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceFiveHundredAndTwelve = q14.PRSMutingConfigurationChoiceFiveHundredAndTwelve
+const PRSMutingConfigurationChoiceFiveHundredAndTwelve = s00.PRSMutingConfigurationChoiceFiveHundredAndTwelve
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceFour = q14.PRSMutingConfigurationChoiceFour
+const PRSMutingConfigurationChoiceFour = s00.PRSMutingConfigurationChoiceFour
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceOneHundredAndTwentyEight = q14.PRSMutingConfigurationChoiceOneHundredAndTwentyEight
+const PRSMutingConfigurationChoiceOneHundredAndTwentyEight = s00.PRSMutingConfigurationChoiceOneHundredAndTwentyEight
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceOneThousandAndTwentyFour = q14.PRSMutingConfigurationChoiceOneThousandAndTwentyFour
+const PRSMutingConfigurationChoiceOneThousandAndTwentyFour = s00.PRSMutingConfigurationChoiceOneThousandAndTwentyFour
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceSixteen = q14.PRSMutingConfigurationChoiceSixteen
+const PRSMutingConfigurationChoiceSixteen = s00.PRSMutingConfigurationChoiceSixteen
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceSixtyFour = q14.PRSMutingConfigurationChoiceSixtyFour
+const PRSMutingConfigurationChoiceSixtyFour = s00.PRSMutingConfigurationChoiceSixtyFour
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceThirtyTwo = q14.PRSMutingConfigurationChoiceThirtyTwo
+const PRSMutingConfigurationChoiceThirtyTwo = s00.PRSMutingConfigurationChoiceThirtyTwo
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceTwo = q14.PRSMutingConfigurationChoiceTwo
+const PRSMutingConfigurationChoiceTwo = s00.PRSMutingConfigurationChoiceTwo
 
 // PRSMutingConfiguration choice constants.
-const PRSMutingConfigurationChoiceTwoHundredAndFiftySix = q14.PRSMutingConfigurationChoiceTwoHundredAndFiftySix
+const PRSMutingConfigurationChoiceTwoHundredAndFiftySix = s00.PRSMutingConfigurationChoiceTwoHundredAndFiftySix
 
 // PRSMutingConfigurationCodec binds the complete source value type.
-var PRSMutingConfigurationCodec func() PRSMutingConfigurationValueCodec = q30.PRSMutingConfigurationCodec
+var PRSMutingConfigurationCodec func() PRSMutingConfigurationValueCodec = s08.PRSMutingConfigurationCodec
 
 // PRSMutingConfigurationValueCodec is the concrete ValueCodec[PRSMutingConfiguration].
-type PRSMutingConfigurationValueCodec = q30.PRSMutingConfigurationValueCodec
+type PRSMutingConfigurationValueCodec = s08.PRSMutingConfigurationValueCodec
 
 // PRSOccasionGroup represents the ASN.1 ENUMERATED type PRSOccasionGroup.
-type PRSOccasionGroup = q14.PRSOccasionGroup
+type PRSOccasionGroup = s00.PRSOccasionGroup
 
 // PRSOccasionGroupAPERValue is the concrete APERValue[PRSOccasionGroup].
-type PRSOccasionGroupAPERValue = q31.PRSOccasionGroupAPERValue
+type PRSOccasionGroupAPERValue = s01.PRSOccasionGroupAPERValue
 
 // PRSOccasionGroupCodec binds the complete source value type.
-var PRSOccasionGroupCodec func() PRSOccasionGroupValueCodec = q9.PRSOccasionGroupCodec
+var PRSOccasionGroupCodec func() PRSOccasionGroupValueCodec = s02.PRSOccasionGroupCodec
 
-const PRSOccasionGroupOg128 = q14.PRSOccasionGroupOg128
-const PRSOccasionGroupOg16 = q14.PRSOccasionGroupOg16
-const PRSOccasionGroupOg2 = q14.PRSOccasionGroupOg2
-const PRSOccasionGroupOg32 = q14.PRSOccasionGroupOg32
-const PRSOccasionGroupOg4 = q14.PRSOccasionGroupOg4
-const PRSOccasionGroupOg64 = q14.PRSOccasionGroupOg64
-const PRSOccasionGroupOg8 = q14.PRSOccasionGroupOg8
+const PRSOccasionGroupOg128 = s00.PRSOccasionGroupOg128
+const PRSOccasionGroupOg16 = s00.PRSOccasionGroupOg16
+const PRSOccasionGroupOg2 = s00.PRSOccasionGroupOg2
+const PRSOccasionGroupOg32 = s00.PRSOccasionGroupOg32
+const PRSOccasionGroupOg4 = s00.PRSOccasionGroupOg4
+const PRSOccasionGroupOg64 = s00.PRSOccasionGroupOg64
+const PRSOccasionGroupOg8 = s00.PRSOccasionGroupOg8
 
 // PRSOccasionGroupValueCodec is the concrete ValueCodec[PRSOccasionGroup].
-type PRSOccasionGroupValueCodec = q31.PRSOccasionGroupValueCodec
+type PRSOccasionGroupValueCodec = s01.PRSOccasionGroupValueCodec
 
 // PayloadCodec owns a typed foreign decoder and encoder. The callbacks must
 // enforce the foreign schema and consume a complete value.
-type PayloadCodec[T any] = q4.PayloadCodec[T]
-type PayloadDeviation = q14.PayloadDeviation
+type PayloadCodec[T any] = s23.PayloadCodec[T]
+type PayloadDeviation = s00.PayloadDeviation
 
 // PayloadLimits bound a single call across a foreign byte boundary.
 // Zero fields select finite defaults; the foreign callback applies its own
 // schema and work/depth accounting.
-type PayloadLimits = q14.PayloadLimits
-type PayloadReport = q14.PayloadReport
+type PayloadLimits = s00.PayloadLimits
+type PayloadReport = s00.PayloadReport
 
 // PhysCellIDGERAN represents the ASN.1 type PhysCellIDGERAN (INTEGER).
-type PhysCellIDGERAN = q14.PhysCellIDGERAN
+type PhysCellIDGERAN = s00.PhysCellIDGERAN
 
 // PhysCellIDGERANAPERValue is the concrete APERValue[PhysCellIDGERAN].
-type PhysCellIDGERANAPERValue = q31.PhysCellIDGERANAPERValue
+type PhysCellIDGERANAPERValue = s01.PhysCellIDGERANAPERValue
 
 // PhysCellIDGERANCodec binds the complete source value type.
-var PhysCellIDGERANCodec func() PhysCellIDGERANValueCodec = q9.PhysCellIDGERANCodec
+var PhysCellIDGERANCodec func() PhysCellIDGERANValueCodec = s02.PhysCellIDGERANCodec
 
 // PhysCellIDGERANValueCodec is the concrete ValueCodec[PhysCellIDGERAN].
-type PhysCellIDGERANValueCodec = q31.PhysCellIDGERANValueCodec
+type PhysCellIDGERANValueCodec = s01.PhysCellIDGERANValueCodec
 
 // PhysCellIDUTRAFDD represents the ASN.1 type PhysCellIDUTRA-FDD (INTEGER).
-type PhysCellIDUTRAFDD = q14.PhysCellIDUTRAFDD
+type PhysCellIDUTRAFDD = s00.PhysCellIDUTRAFDD
 
 // PhysCellIDUTRAFDDAPERValue is the concrete APERValue[PhysCellIDUTRAFDD].
-type PhysCellIDUTRAFDDAPERValue = q31.PhysCellIDUTRAFDDAPERValue
+type PhysCellIDUTRAFDDAPERValue = s01.PhysCellIDUTRAFDDAPERValue
 
 // PhysCellIDUTRAFDDCodec binds the complete source value type.
-var PhysCellIDUTRAFDDCodec func() PhysCellIDUTRAFDDValueCodec = q9.PhysCellIDUTRAFDDCodec
+var PhysCellIDUTRAFDDCodec func() PhysCellIDUTRAFDDValueCodec = s02.PhysCellIDUTRAFDDCodec
 
 // PhysCellIDUTRAFDDValueCodec is the concrete ValueCodec[PhysCellIDUTRAFDD].
-type PhysCellIDUTRAFDDValueCodec = q31.PhysCellIDUTRAFDDValueCodec
+type PhysCellIDUTRAFDDValueCodec = s01.PhysCellIDUTRAFDDValueCodec
 
 // PhysCellIDUTRATDD represents the ASN.1 type PhysCellIDUTRA-TDD (INTEGER).
-type PhysCellIDUTRATDD = q14.PhysCellIDUTRATDD
+type PhysCellIDUTRATDD = s00.PhysCellIDUTRATDD
 
 // PhysCellIDUTRATDDAPERValue is the concrete APERValue[PhysCellIDUTRATDD].
-type PhysCellIDUTRATDDAPERValue = q31.PhysCellIDUTRATDDAPERValue
+type PhysCellIDUTRATDDAPERValue = s01.PhysCellIDUTRATDDAPERValue
 
 // PhysCellIDUTRATDDCodec binds the complete source value type.
-var PhysCellIDUTRATDDCodec func() PhysCellIDUTRATDDValueCodec = q9.PhysCellIDUTRATDDCodec
+var PhysCellIDUTRATDDCodec func() PhysCellIDUTRATDDValueCodec = s02.PhysCellIDUTRATDDCodec
 
 // PhysCellIDUTRATDDValueCodec is the concrete ValueCodec[PhysCellIDUTRATDD].
-type PhysCellIDUTRATDDValueCodec = q31.PhysCellIDUTRATDDValueCodec
-type PosSIBSegments = q30.PosSIBSegments
+type PhysCellIDUTRATDDValueCodec = s01.PhysCellIDUTRATDDValueCodec
+type PosSIBSegments = s08.PosSIBSegments
 
 // PosSIBSegmentsAPERValue is the concrete APERValue[PosSIBSegments].
-type PosSIBSegmentsAPERValue = q30.PosSIBSegmentsAPERValue
+type PosSIBSegmentsAPERValue = s08.PosSIBSegmentsAPERValue
 
 // PosSIBSegmentsCodec binds the complete source value type.
-var PosSIBSegmentsCodec func() PosSIBSegmentsValueCodec = q24.PosSIBSegmentsCodec
+var PosSIBSegmentsCodec func() PosSIBSegmentsValueCodec = s19.PosSIBSegmentsCodec
 
 // PosSIBSegmentsComplete carries a complete PosSIBSegments encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type PosSIBSegmentsComplete = q24.PosSIBSegmentsComplete
+type PosSIBSegmentsComplete = s19.PosSIBSegmentsComplete
 
 // PosSIBSegmentsElem represents the ASN.1 type PosSIB-Segments-Elem (SEQUENCE).
-type PosSIBSegmentsElem = q30.PosSIBSegmentsElem
+type PosSIBSegmentsElem = s08.PosSIBSegmentsElem
 
 // PosSIBSegmentsElemAPERValue is the concrete APERValue[PosSIBSegmentsElem].
-type PosSIBSegmentsElemAPERValue = q30.PosSIBSegmentsElemAPERValue
+type PosSIBSegmentsElemAPERValue = s08.PosSIBSegmentsElemAPERValue
 
 // PosSIBSegmentsElemCodec binds the complete source value type.
-var PosSIBSegmentsElemCodec func() PosSIBSegmentsElemValueCodec = q30.PosSIBSegmentsElemCodec
+var PosSIBSegmentsElemCodec func() PosSIBSegmentsElemValueCodec = s08.PosSIBSegmentsElemCodec
 
 // PosSIBSegmentsElemValueCodec is the concrete ValueCodec[PosSIBSegmentsElem].
-type PosSIBSegmentsElemValueCodec = q30.PosSIBSegmentsElemValueCodec
-type PosSIBSegmentsExtIETable = q25.PosSIBSegmentsExtIETable
+type PosSIBSegmentsElemValueCodec = s08.PosSIBSegmentsElemValueCodec
+type PosSIBSegmentsExtIETable = s04.PosSIBSegmentsExtIETable
 
-var PosSIBSegmentsExtIEs func() PosSIBSegmentsExtIETable = q25.PosSIBSegmentsExtIEs
+var PosSIBSegmentsExtIEs func() PosSIBSegmentsExtIETable = s04.PosSIBSegmentsExtIEs
 
 // PosSIBSegmentsExtIEsExtContainer is the concrete ProtocolExtensionContainer[PosSIBSegmentsExtIEsValue].
-type PosSIBSegmentsExtIEsExtContainer = q25.PosSIBSegmentsExtIEsExtContainer
+type PosSIBSegmentsExtIEsExtContainer = s04.PosSIBSegmentsExtIEsExtContainer
 
 // PosSIBSegmentsExtIEsExtField is the concrete ProtocolExtensionField[PosSIBSegmentsExtIEsValue].
-type PosSIBSegmentsExtIEsExtField = q25.PosSIBSegmentsExtIEsExtField
+type PosSIBSegmentsExtIEsExtField = s04.PosSIBSegmentsExtIEsExtField
 
 // PosSIBSegmentsExtIEsIEContainer is the concrete ProtocolIEContainer[PosSIBSegmentsExtIEsValue].
-type PosSIBSegmentsExtIEsIEContainer = q25.PosSIBSegmentsExtIEsIEContainer
+type PosSIBSegmentsExtIEsIEContainer = s04.PosSIBSegmentsExtIEsIEContainer
 
 // PosSIBSegmentsExtIEsIEField is the concrete ProtocolIEField[PosSIBSegmentsExtIEsValue].
-type PosSIBSegmentsExtIEsIEField = q25.PosSIBSegmentsExtIEsIEField
-type PosSIBSegmentsExtIEsValue = q9.PosSIBSegmentsExtIEsValue
+type PosSIBSegmentsExtIEsIEField = s04.PosSIBSegmentsExtIEsIEField
+type PosSIBSegmentsExtIEsValue = s02.PosSIBSegmentsExtIEsValue
 
 // PosSIBSegmentsValueCodec is the concrete ValueCodec[PosSIBSegments].
-type PosSIBSegmentsValueCodec = q30.PosSIBSegmentsValueCodec
+type PosSIBSegmentsValueCodec = s08.PosSIBSegmentsValueCodec
 
 // PosSIBType represents the ASN.1 ENUMERATED type PosSIB-Type.
-type PosSIBType = q14.PosSIBType
+type PosSIBType = s00.PosSIBType
 
 // PosSIBTypeAPERValue is the concrete APERValue[PosSIBType].
-type PosSIBTypeAPERValue = q31.PosSIBTypeAPERValue
+type PosSIBTypeAPERValue = s01.PosSIBTypeAPERValue
 
 // PosSIBTypeCodec binds the complete source value type.
-var PosSIBTypeCodec func() PosSIBTypeValueCodec = q9.PosSIBTypeCodec
+var PosSIBTypeCodec func() PosSIBTypeValueCodec = s02.PosSIBTypeCodec
 
-const PosSIBTypePosSibType11 = q14.PosSIBTypePosSibType11
-const PosSIBTypePosSibType12 = q14.PosSIBTypePosSibType12
-const PosSIBTypePosSibType13 = q14.PosSIBTypePosSibType13
-const PosSIBTypePosSibType14 = q14.PosSIBTypePosSibType14
-const PosSIBTypePosSibType15 = q14.PosSIBTypePosSibType15
-const PosSIBTypePosSibType16 = q14.PosSIBTypePosSibType16
-const PosSIBTypePosSibType17 = q14.PosSIBTypePosSibType17
-const PosSIBTypePosSibType21 = q14.PosSIBTypePosSibType21
-const PosSIBTypePosSibType210 = q14.PosSIBTypePosSibType210
-const PosSIBTypePosSibType211 = q14.PosSIBTypePosSibType211
-const PosSIBTypePosSibType212 = q14.PosSIBTypePosSibType212
-const PosSIBTypePosSibType213 = q14.PosSIBTypePosSibType213
-const PosSIBTypePosSibType214 = q14.PosSIBTypePosSibType214
-const PosSIBTypePosSibType215 = q14.PosSIBTypePosSibType215
-const PosSIBTypePosSibType216 = q14.PosSIBTypePosSibType216
-const PosSIBTypePosSibType217 = q14.PosSIBTypePosSibType217
-const PosSIBTypePosSibType218 = q14.PosSIBTypePosSibType218
-const PosSIBTypePosSibType219 = q14.PosSIBTypePosSibType219
-const PosSIBTypePosSibType22 = q14.PosSIBTypePosSibType22
-const PosSIBTypePosSibType224 = q14.PosSIBTypePosSibType224
-const PosSIBTypePosSibType225 = q14.PosSIBTypePosSibType225
-const PosSIBTypePosSibType23 = q14.PosSIBTypePosSibType23
-const PosSIBTypePosSibType24 = q14.PosSIBTypePosSibType24
-const PosSIBTypePosSibType25 = q14.PosSIBTypePosSibType25
-const PosSIBTypePosSibType26 = q14.PosSIBTypePosSibType26
-const PosSIBTypePosSibType27 = q14.PosSIBTypePosSibType27
-const PosSIBTypePosSibType28 = q14.PosSIBTypePosSibType28
-const PosSIBTypePosSibType29 = q14.PosSIBTypePosSibType29
-const PosSIBTypePosSibType31 = q14.PosSIBTypePosSibType31
-const PosSIBTypePosSibType41 = q14.PosSIBTypePosSibType41
-const PosSIBTypePosSibType51 = q14.PosSIBTypePosSibType51
+const PosSIBTypePosSibType11 = s00.PosSIBTypePosSibType11
+const PosSIBTypePosSibType12 = s00.PosSIBTypePosSibType12
+const PosSIBTypePosSibType13 = s00.PosSIBTypePosSibType13
+const PosSIBTypePosSibType14 = s00.PosSIBTypePosSibType14
+const PosSIBTypePosSibType15 = s00.PosSIBTypePosSibType15
+const PosSIBTypePosSibType16 = s00.PosSIBTypePosSibType16
+const PosSIBTypePosSibType17 = s00.PosSIBTypePosSibType17
+const PosSIBTypePosSibType21 = s00.PosSIBTypePosSibType21
+const PosSIBTypePosSibType210 = s00.PosSIBTypePosSibType210
+const PosSIBTypePosSibType211 = s00.PosSIBTypePosSibType211
+const PosSIBTypePosSibType212 = s00.PosSIBTypePosSibType212
+const PosSIBTypePosSibType213 = s00.PosSIBTypePosSibType213
+const PosSIBTypePosSibType214 = s00.PosSIBTypePosSibType214
+const PosSIBTypePosSibType215 = s00.PosSIBTypePosSibType215
+const PosSIBTypePosSibType216 = s00.PosSIBTypePosSibType216
+const PosSIBTypePosSibType217 = s00.PosSIBTypePosSibType217
+const PosSIBTypePosSibType218 = s00.PosSIBTypePosSibType218
+const PosSIBTypePosSibType219 = s00.PosSIBTypePosSibType219
+const PosSIBTypePosSibType22 = s00.PosSIBTypePosSibType22
+const PosSIBTypePosSibType224 = s00.PosSIBTypePosSibType224
+const PosSIBTypePosSibType225 = s00.PosSIBTypePosSibType225
+const PosSIBTypePosSibType23 = s00.PosSIBTypePosSibType23
+const PosSIBTypePosSibType24 = s00.PosSIBTypePosSibType24
+const PosSIBTypePosSibType25 = s00.PosSIBTypePosSibType25
+const PosSIBTypePosSibType26 = s00.PosSIBTypePosSibType26
+const PosSIBTypePosSibType27 = s00.PosSIBTypePosSibType27
+const PosSIBTypePosSibType28 = s00.PosSIBTypePosSibType28
+const PosSIBTypePosSibType29 = s00.PosSIBTypePosSibType29
+const PosSIBTypePosSibType31 = s00.PosSIBTypePosSibType31
+const PosSIBTypePosSibType41 = s00.PosSIBTypePosSibType41
+const PosSIBTypePosSibType51 = s00.PosSIBTypePosSibType51
 
 // PosSIBTypeValueCodec is the concrete ValueCodec[PosSIBType].
-type PosSIBTypeValueCodec = q31.PosSIBTypeValueCodec
-type PosSIBs = q19.PosSIBs
+type PosSIBTypeValueCodec = s01.PosSIBTypeValueCodec
+type PosSIBs = s10.PosSIBs
 
 // PosSIBsAPERValue is the concrete APERValue[PosSIBs].
-type PosSIBsAPERValue = q19.PosSIBsAPERValue
+type PosSIBsAPERValue = s10.PosSIBsAPERValue
 
 // PosSIBsCodec binds the complete source value type.
-var PosSIBsCodec func() PosSIBsValueCodec = q24.PosSIBsCodec
+var PosSIBsCodec func() PosSIBsValueCodec = s19.PosSIBsCodec
 
 // PosSIBsComplete carries a complete PosSIBs encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type PosSIBsComplete = q24.PosSIBsComplete
+type PosSIBsComplete = s19.PosSIBsComplete
 
 // PosSIBsElem represents the ASN.1 type PosSIBs-Elem (SEQUENCE).
-type PosSIBsElem = q19.PosSIBsElem
+type PosSIBsElem = s10.PosSIBsElem
 
 // PosSIBsElemAPERValue is the concrete APERValue[PosSIBsElem].
-type PosSIBsElemAPERValue = q19.PosSIBsElemAPERValue
+type PosSIBsElemAPERValue = s10.PosSIBsElemAPERValue
 
 // PosSIBsElemCodec binds the complete source value type.
-var PosSIBsElemCodec func() PosSIBsElemValueCodec = q19.PosSIBsElemCodec
+var PosSIBsElemCodec func() PosSIBsElemValueCodec = s10.PosSIBsElemCodec
 
 // PosSIBsElemValueCodec is the concrete ValueCodec[PosSIBsElem].
-type PosSIBsElemValueCodec = q19.PosSIBsElemValueCodec
-type PosSIBsExtIETable = q25.PosSIBsExtIETable
+type PosSIBsElemValueCodec = s10.PosSIBsElemValueCodec
+type PosSIBsExtIETable = s04.PosSIBsExtIETable
 
-var PosSIBsExtIEs func() PosSIBsExtIETable = q25.PosSIBsExtIEs
+var PosSIBsExtIEs func() PosSIBsExtIETable = s04.PosSIBsExtIEs
 
 // PosSIBsExtIEsExtContainer is the concrete ProtocolExtensionContainer[PosSIBsExtIEsValue].
-type PosSIBsExtIEsExtContainer = q25.PosSIBsExtIEsExtContainer
+type PosSIBsExtIEsExtContainer = s04.PosSIBsExtIEsExtContainer
 
 // PosSIBsExtIEsExtField is the concrete ProtocolExtensionField[PosSIBsExtIEsValue].
-type PosSIBsExtIEsExtField = q25.PosSIBsExtIEsExtField
+type PosSIBsExtIEsExtField = s04.PosSIBsExtIEsExtField
 
 // PosSIBsExtIEsIEContainer is the concrete ProtocolIEContainer[PosSIBsExtIEsValue].
-type PosSIBsExtIEsIEContainer = q25.PosSIBsExtIEsIEContainer
+type PosSIBsExtIEsIEContainer = s04.PosSIBsExtIEsIEContainer
 
 // PosSIBsExtIEsIEField is the concrete ProtocolIEField[PosSIBsExtIEsValue].
-type PosSIBsExtIEsIEField = q25.PosSIBsExtIEsIEField
-type PosSIBsExtIEsValue = q8.PosSIBsExtIEsValue
+type PosSIBsExtIEsIEField = s04.PosSIBsExtIEsIEField
+type PosSIBsExtIEsValue = s03.PosSIBsExtIEsValue
 
 // PosSIBsValueCodec is the concrete ValueCodec[PosSIBs].
-type PosSIBsValueCodec = q19.PosSIBsValueCodec
+type PosSIBsValueCodec = s10.PosSIBsValueCodec
 
 // Presence represents the ASN.1 ENUMERATED type Presence.
-type Presence = q14.Presence
+type Presence = s00.Presence
 
 // PresenceAPERValue is the concrete APERValue[Presence].
-type PresenceAPERValue = q31.PresenceAPERValue
+type PresenceAPERValue = s01.PresenceAPERValue
 
 // PresenceCodec binds the complete source value type.
-var PresenceCodec func() PresenceValueCodec = q9.PresenceCodec
+var PresenceCodec func() PresenceValueCodec = s02.PresenceCodec
 
-const PresenceConditional = q14.PresenceConditional
-const PresenceMandatory = q14.PresenceMandatory
-const PresenceOptional = q14.PresenceOptional
+const PresenceConditional = s00.PresenceConditional
+const PresenceMandatory = s00.PresenceMandatory
+const PresenceOptional = s00.PresenceOptional
 
 // PresenceValueCodec is the concrete ValueCodec[Presence].
-type PresenceValueCodec = q31.PresenceValueCodec
-type PrivateIEContainer[V q4.ProtocolPrivateValueConstraint[V]] = q4.PrivateIEContainer[V]
-type PrivateIEField[V q4.ProtocolPrivateValueConstraint[V]] = q4.PrivateIEField[V]
+type PresenceValueCodec = s01.PresenceValueCodec
+type PrivateIEContainer[V s23.ProtocolPrivateValueConstraint[V]] = s23.PrivateIEContainer[V]
+type PrivateIEField[V s23.ProtocolPrivateValueConstraint[V]] = s23.PrivateIEField[V]
 
 // PrivateIEID represents the ASN.1 CHOICE type PrivateIE-ID.
-type PrivateIEID = q30.PrivateIEID
+type PrivateIEID = s08.PrivateIEID
 
 // PrivateIEIDAPERValue is the concrete APERValue[PrivateIEID].
-type PrivateIEIDAPERValue = q30.PrivateIEIDAPERValue
+type PrivateIEIDAPERValue = s08.PrivateIEIDAPERValue
 
 // PrivateIEID choice constants.
-const PrivateIEIDChoiceGlobal = q14.PrivateIEIDChoiceGlobal
+const PrivateIEIDChoiceGlobal = s00.PrivateIEIDChoiceGlobal
 
 // PrivateIEID choice constants.
-const PrivateIEIDChoiceLocal = q14.PrivateIEIDChoiceLocal
+const PrivateIEIDChoiceLocal = s00.PrivateIEIDChoiceLocal
 
 // PrivateIEIDCodec binds the complete source value type.
-var PrivateIEIDCodec func() PrivateIEIDValueCodec = q30.PrivateIEIDCodec
+var PrivateIEIDCodec func() PrivateIEIDValueCodec = s08.PrivateIEIDCodec
 
 // PrivateIEIDValueCodec is the concrete ValueCodec[PrivateIEID].
-type PrivateIEIDValueCodec = q30.PrivateIEIDValueCodec
+type PrivateIEIDValueCodec = s08.PrivateIEIDValueCodec
 
 // PrivateMessage represents the ASN.1 type PrivateMessage (SEQUENCE).
-type PrivateMessage = q29.PrivateMessage
+type PrivateMessage = s12.PrivateMessage
 
 // PrivateMessageAPERValue is the concrete APERValue[PrivateMessage].
-type PrivateMessageAPERValue = q29.PrivateMessageAPERValue
+type PrivateMessageAPERValue = s12.PrivateMessageAPERValue
 
 // PrivateMessageCodec binds the complete APER value type.
-var PrivateMessageCodec func() PrivateMessageValueCodec = q12.PrivateMessageCodec
+var PrivateMessageCodec func() PrivateMessageValueCodec = s21.PrivateMessageCodec
 
-type PrivateMessageDescriptor = q12.PrivateMessageDescriptor
-type PrivateMessageIETable = q30.PrivateMessageIETable
+type PrivateMessageDescriptor = s21.PrivateMessageDescriptor
+type PrivateMessageIETable = s08.PrivateMessageIETable
 
-var PrivateMessageIEs func() PrivateMessageIETable = q30.PrivateMessageIEs
+var PrivateMessageIEs func() PrivateMessageIETable = s08.PrivateMessageIEs
 
-type PrivateMessageIEsValue = q30.PrivateMessageIEsValue
+type PrivateMessageIEsValue = s08.PrivateMessageIEsValue
 
 // PrivateMessageIEsValuePrivateIEContainer is the concrete PrivateIEContainer[PrivateMessageIEsValue].
-type PrivateMessageIEsValuePrivateIEContainer = q30.PrivateMessageIEsValuePrivateIEContainer
+type PrivateMessageIEsValuePrivateIEContainer = s08.PrivateMessageIEsValuePrivateIEContainer
 
 // PrivateMessageIEsValuePrivateIEField is the concrete PrivateIEField[PrivateMessageIEsValue].
-type PrivateMessageIEsValuePrivateIEField = q30.PrivateMessageIEsValuePrivateIEField
+type PrivateMessageIEsValuePrivateIEField = s08.PrivateMessageIEsValuePrivateIEField
 
 // PrivateMessageInitiatingBinding is the concrete InitiatingBinding[PrivateMessage].
-type PrivateMessageInitiatingBinding = q12.PrivateMessageInitiatingBinding
+type PrivateMessageInitiatingBinding = s21.PrivateMessageInitiatingBinding
 
-var PrivateMessageProcedure func() PrivateMessageDescriptor = q12.PrivateMessageProcedure
+var PrivateMessageProcedure func() PrivateMessageDescriptor = s21.PrivateMessageProcedure
 
 // PrivateMessageValueCodec is the concrete ValueCodec[PrivateMessage].
-type PrivateMessageValueCodec = q29.PrivateMessageValueCodec
+type PrivateMessageValueCodec = s12.PrivateMessageValueCodec
 
 // ProcedureCode represents the ASN.1 type ProcedureCode (INTEGER).
-type ProcedureCode = q14.ProcedureCode
+type ProcedureCode = s00.ProcedureCode
 
 // ProcedureCodeAPERValue is the concrete APERValue[ProcedureCode].
-type ProcedureCodeAPERValue = q31.ProcedureCodeAPERValue
+type ProcedureCodeAPERValue = s01.ProcedureCodeAPERValue
 
 // ProcedureCodeCodec binds the complete source value type.
-var ProcedureCodeCodec func() ProcedureCodeValueCodec = q25.ProcedureCodeCodec
+var ProcedureCodeCodec func() ProcedureCodeValueCodec = s04.ProcedureCodeCodec
 
 // ProcedureCodeValueCodec is the concrete ValueCodec[ProcedureCode].
-type ProcedureCodeValueCodec = q31.ProcedureCodeValueCodec
-type ProcedureInfo = q14.ProcedureInfo
-type ProtocolExtensionContainer[V q4.ProtocolOpenValueConstraint[V]] = q4.ProtocolExtensionContainer[V]
-type ProtocolExtensionField[V q4.ProtocolOpenValueConstraint[V]] = q4.ProtocolExtensionField[V]
-type ProtocolIEContainer[V q4.ProtocolOpenValueConstraint[V]] = q4.ProtocolIEContainer[V]
-type ProtocolIEContainerList[V q4.ProtocolOpenValueConstraint[V]] = q4.ProtocolIEContainerList[V]
-type ProtocolIEContainerPair[A q4.ProtocolOpenValueConstraint[A], B q4.ProtocolOpenValueConstraint[B]] = q4.ProtocolIEContainerPair[A, B]
-type ProtocolIEContainerPairList[A q4.ProtocolOpenValueConstraint[A], B q4.ProtocolOpenValueConstraint[B]] = q4.ProtocolIEContainerPairList[A, B]
-type ProtocolIEField[V q4.ProtocolOpenValueConstraint[V]] = q4.ProtocolIEField[V]
-type ProtocolIEFieldPair[A q4.ProtocolOpenValueConstraint[A], B q4.ProtocolOpenValueConstraint[B]] = q4.ProtocolIEFieldPair[A, B]
+type ProcedureCodeValueCodec = s01.ProcedureCodeValueCodec
+type ProcedureInfo = s00.ProcedureInfo
+type ProtocolExtensionContainer[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolExtensionContainer[V]
+type ProtocolExtensionField[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolExtensionField[V]
+type ProtocolIEContainer[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolIEContainer[V]
+type ProtocolIEContainerList[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolIEContainerList[V]
+type ProtocolIEContainerPair[A s23.ProtocolOpenValueConstraint[A], B s23.ProtocolOpenValueConstraint[B]] = s23.ProtocolIEContainerPair[A, B]
+type ProtocolIEContainerPairList[A s23.ProtocolOpenValueConstraint[A], B s23.ProtocolOpenValueConstraint[B]] = s23.ProtocolIEContainerPairList[A, B]
+type ProtocolIEField[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolIEField[V]
+type ProtocolIEFieldPair[A s23.ProtocolOpenValueConstraint[A], B s23.ProtocolOpenValueConstraint[B]] = s23.ProtocolIEFieldPair[A, B]
 
 // ProtocolIEID represents the ASN.1 type ProtocolIE-ID (INTEGER).
-type ProtocolIEID = q14.ProtocolIEID
+type ProtocolIEID = s00.ProtocolIEID
 
 // ProtocolIEIDAPERValue is the concrete APERValue[ProtocolIEID].
-type ProtocolIEIDAPERValue = q31.ProtocolIEIDAPERValue
+type ProtocolIEIDAPERValue = s01.ProtocolIEIDAPERValue
 
 // ProtocolIEIDCodec binds the complete source value type.
-var ProtocolIEIDCodec func() ProtocolIEIDValueCodec = q25.ProtocolIEIDCodec
+var ProtocolIEIDCodec func() ProtocolIEIDValueCodec = s04.ProtocolIEIDCodec
 
 // ProtocolIEIDValueCodec is the concrete ValueCodec[ProtocolIEID].
-type ProtocolIEIDValueCodec = q31.ProtocolIEIDValueCodec
-type ProtocolIESingleContainer[V q4.ProtocolOpenValueConstraint[V]] = q4.ProtocolIESingleContainer[V]
+type ProtocolIEIDValueCodec = s01.ProtocolIEIDValueCodec
+type ProtocolIESingleContainer[V s23.ProtocolOpenValueConstraint[V]] = s23.ProtocolIESingleContainer[V]
 
 // RSSI represents the ASN.1 type RSSI (INTEGER).
-type RSSI = q14.RSSI
+type RSSI = s00.RSSI
 
 // RSSIAPERValue is the concrete APERValue[RSSI].
-type RSSIAPERValue = q31.RSSIAPERValue
+type RSSIAPERValue = s01.RSSIAPERValue
 
 // RSSICodec binds the complete source value type.
-var RSSICodec func() RSSIValueCodec = q8.RSSICodec
+var RSSICodec func() RSSIValueCodec = s03.RSSICodec
 
 // RSSIValueCodec is the concrete ValueCodec[RSSI].
-type RSSIValueCodec = q31.RSSIValueCodec
+type RSSIValueCodec = s01.RSSIValueCodec
 
-const RepeatedIE = q14.RepeatedIE
+const RepeatedIE = s00.RepeatedIE
 
 // RepetitionNumberofSIB1NB represents the ASN.1 ENUMERATED type RepetitionNumberofSIB1-NB.
-type RepetitionNumberofSIB1NB = q14.RepetitionNumberofSIB1NB
+type RepetitionNumberofSIB1NB = s00.RepetitionNumberofSIB1NB
 
 // RepetitionNumberofSIB1NBAPERValue is the concrete APERValue[RepetitionNumberofSIB1NB].
-type RepetitionNumberofSIB1NBAPERValue = q31.RepetitionNumberofSIB1NBAPERValue
+type RepetitionNumberofSIB1NBAPERValue = s01.RepetitionNumberofSIB1NBAPERValue
 
 // RepetitionNumberofSIB1NBCodec binds the complete source value type.
-var RepetitionNumberofSIB1NBCodec func() RepetitionNumberofSIB1NBValueCodec = q8.RepetitionNumberofSIB1NBCodec
+var RepetitionNumberofSIB1NBCodec func() RepetitionNumberofSIB1NBValueCodec = s03.RepetitionNumberofSIB1NBCodec
 
-const RepetitionNumberofSIB1NBR16 = q14.RepetitionNumberofSIB1NBR16
-const RepetitionNumberofSIB1NBR4 = q14.RepetitionNumberofSIB1NBR4
-const RepetitionNumberofSIB1NBR8 = q14.RepetitionNumberofSIB1NBR8
+const RepetitionNumberofSIB1NBR16 = s00.RepetitionNumberofSIB1NBR16
+const RepetitionNumberofSIB1NBR4 = s00.RepetitionNumberofSIB1NBR4
+const RepetitionNumberofSIB1NBR8 = s00.RepetitionNumberofSIB1NBR8
 
 // RepetitionNumberofSIB1NBValueCodec is the concrete ValueCodec[RepetitionNumberofSIB1NB].
-type RepetitionNumberofSIB1NBValueCodec = q31.RepetitionNumberofSIB1NBValueCodec
+type RepetitionNumberofSIB1NBValueCodec = s01.RepetitionNumberofSIB1NBValueCodec
 
 // ReportCharacteristics represents the ASN.1 ENUMERATED type ReportCharacteristics.
-type ReportCharacteristics = q14.ReportCharacteristics
+type ReportCharacteristics = s00.ReportCharacteristics
 
 // ReportCharacteristicsAPERValue is the concrete APERValue[ReportCharacteristics].
-type ReportCharacteristicsAPERValue = q31.ReportCharacteristicsAPERValue
+type ReportCharacteristicsAPERValue = s01.ReportCharacteristicsAPERValue
 
 // ReportCharacteristicsCodec binds the complete APER value type.
-var ReportCharacteristicsCodec func() ReportCharacteristicsValueCodec = q12.ReportCharacteristicsCodec
+var ReportCharacteristicsCodec func() ReportCharacteristicsValueCodec = s21.ReportCharacteristicsCodec
 
-const ReportCharacteristicsOnDemand = q14.ReportCharacteristicsOnDemand
-const ReportCharacteristicsPeriodic = q14.ReportCharacteristicsPeriodic
+const ReportCharacteristicsOnDemand = s00.ReportCharacteristicsOnDemand
+const ReportCharacteristicsPeriodic = s00.ReportCharacteristicsPeriodic
 
 // ReportCharacteristicsValueCodec is the concrete ValueCodec[ReportCharacteristics].
-type ReportCharacteristicsValueCodec = q31.ReportCharacteristicsValueCodec
+type ReportCharacteristicsValueCodec = s01.ReportCharacteristicsValueCodec
 
 // RequestedSRSTransmissionCharacteristics represents the ASN.1 type RequestedSRSTransmissionCharacteristics (SEQUENCE).
-type RequestedSRSTransmissionCharacteristics = q30.RequestedSRSTransmissionCharacteristics
+type RequestedSRSTransmissionCharacteristics = s08.RequestedSRSTransmissionCharacteristics
 
 // RequestedSRSTransmissionCharacteristicsAPERValue is the concrete APERValue[RequestedSRSTransmissionCharacteristics].
-type RequestedSRSTransmissionCharacteristicsAPERValue = q30.RequestedSRSTransmissionCharacteristicsAPERValue
+type RequestedSRSTransmissionCharacteristicsAPERValue = s08.RequestedSRSTransmissionCharacteristicsAPERValue
 
 // RequestedSRSTransmissionCharacteristicsCodec binds the complete APER value type.
-var RequestedSRSTransmissionCharacteristicsCodec func() RequestedSRSTransmissionCharacteristicsValueCodec = q15.RequestedSRSTransmissionCharacteristicsCodec
+var RequestedSRSTransmissionCharacteristicsCodec func() RequestedSRSTransmissionCharacteristicsValueCodec = s09.RequestedSRSTransmissionCharacteristicsCodec
 
 // RequestedSRSTransmissionCharacteristicsValueCodec is the concrete ValueCodec[RequestedSRSTransmissionCharacteristics].
-type RequestedSRSTransmissionCharacteristicsValueCodec = q30.RequestedSRSTransmissionCharacteristicsValueCodec
-type ResultGERAN = q29.ResultGERAN
+type RequestedSRSTransmissionCharacteristicsValueCodec = s08.RequestedSRSTransmissionCharacteristicsValueCodec
+type ResultGERAN = s12.ResultGERAN
 
 // ResultGERANAPERValue is the concrete APERValue[ResultGERAN].
-type ResultGERANAPERValue = q29.ResultGERANAPERValue
+type ResultGERANAPERValue = s12.ResultGERANAPERValue
 
 // ResultGERANCodec binds the complete source value type.
-var ResultGERANCodec func() ResultGERANValueCodec = q24.ResultGERANCodec
+var ResultGERANCodec func() ResultGERANValueCodec = s19.ResultGERANCodec
 
 // ResultGERANComplete carries a complete ResultGERAN encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type ResultGERANComplete = q24.ResultGERANComplete
+type ResultGERANComplete = s19.ResultGERANComplete
 
 // ResultGERANItem represents the ASN.1 type ResultGERAN-Item (SEQUENCE).
-type ResultGERANItem = q29.ResultGERANItem
+type ResultGERANItem = s12.ResultGERANItem
 
 // ResultGERANItemAPERValue is the concrete APERValue[ResultGERANItem].
-type ResultGERANItemAPERValue = q29.ResultGERANItemAPERValue
+type ResultGERANItemAPERValue = s12.ResultGERANItemAPERValue
 
 // ResultGERANItemCodec binds the complete source value type.
-var ResultGERANItemCodec func() ResultGERANItemValueCodec = q29.ResultGERANItemCodec
+var ResultGERANItemCodec func() ResultGERANItemValueCodec = s12.ResultGERANItemCodec
 
-type ResultGERANItemExtIETable = q25.ResultGERANItemExtIETable
+type ResultGERANItemExtIETable = s04.ResultGERANItemExtIETable
 
-var ResultGERANItemExtIEs func() ResultGERANItemExtIETable = q25.ResultGERANItemExtIEs
+var ResultGERANItemExtIEs func() ResultGERANItemExtIETable = s04.ResultGERANItemExtIEs
 
 // ResultGERANItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultGERANItemExtIEsValue].
-type ResultGERANItemExtIEsExtContainer = q25.ResultGERANItemExtIEsExtContainer
+type ResultGERANItemExtIEsExtContainer = s04.ResultGERANItemExtIEsExtContainer
 
 // ResultGERANItemExtIEsExtField is the concrete ProtocolExtensionField[ResultGERANItemExtIEsValue].
-type ResultGERANItemExtIEsExtField = q25.ResultGERANItemExtIEsExtField
+type ResultGERANItemExtIEsExtField = s04.ResultGERANItemExtIEsExtField
 
 // ResultGERANItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultGERANItemExtIEsValue].
-type ResultGERANItemExtIEsIEContainer = q25.ResultGERANItemExtIEsIEContainer
+type ResultGERANItemExtIEsIEContainer = s04.ResultGERANItemExtIEsIEContainer
 
 // ResultGERANItemExtIEsIEField is the concrete ProtocolIEField[ResultGERANItemExtIEsValue].
-type ResultGERANItemExtIEsIEField = q25.ResultGERANItemExtIEsIEField
-type ResultGERANItemExtIEsValue = q8.ResultGERANItemExtIEsValue
+type ResultGERANItemExtIEsIEField = s04.ResultGERANItemExtIEsIEField
+type ResultGERANItemExtIEsValue = s03.ResultGERANItemExtIEsValue
 
 // ResultGERANItemValueCodec is the concrete ValueCodec[ResultGERANItem].
-type ResultGERANItemValueCodec = q29.ResultGERANItemValueCodec
+type ResultGERANItemValueCodec = s12.ResultGERANItemValueCodec
 
 // ResultGERANValueCodec is the concrete ValueCodec[ResultGERAN].
-type ResultGERANValueCodec = q29.ResultGERANValueCodec
-type ResultNR = q24.ResultNR
+type ResultGERANValueCodec = s12.ResultGERANValueCodec
+type ResultNR = s19.ResultNR
 
 // ResultNRAPERValue is the concrete APERValue[ResultNR].
-type ResultNRAPERValue = q24.ResultNRAPERValue
+type ResultNRAPERValue = s19.ResultNRAPERValue
 
 // ResultNRCodec binds the complete source value type.
-var ResultNRCodec func() ResultNRValueCodec = q21.ResultNRCodec
+var ResultNRCodec func() ResultNRValueCodec = s20.ResultNRCodec
 
 // ResultNRComplete carries a complete ResultNR encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type ResultNRComplete = q21.ResultNRComplete
+type ResultNRComplete = s20.ResultNRComplete
 
 // ResultNRItem represents the ASN.1 type ResultNR-Item (SEQUENCE).
-type ResultNRItem = q24.ResultNRItem
+type ResultNRItem = s19.ResultNRItem
 
 // ResultNRItemAPERValue is the concrete APERValue[ResultNRItem].
-type ResultNRItemAPERValue = q24.ResultNRItemAPERValue
+type ResultNRItemAPERValue = s19.ResultNRItemAPERValue
 
 // ResultNRItemCodec binds the complete source value type.
-var ResultNRItemCodec func() ResultNRItemValueCodec = q24.ResultNRItemCodec
+var ResultNRItemCodec func() ResultNRItemValueCodec = s19.ResultNRItemCodec
 
-type ResultNRItemExtIETable = q24.ResultNRItemExtIETable
+type ResultNRItemExtIETable = s19.ResultNRItemExtIETable
 
-var ResultNRItemExtIEs func() ResultNRItemExtIETable = q24.ResultNRItemExtIEs
+var ResultNRItemExtIEs func() ResultNRItemExtIETable = s19.ResultNRItemExtIEs
 
 // ResultNRItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultNRItemExtIEsValue].
-type ResultNRItemExtIEsExtContainer = q24.ResultNRItemExtIEsExtContainer
+type ResultNRItemExtIEsExtContainer = s19.ResultNRItemExtIEsExtContainer
 
 // ResultNRItemExtIEsExtField is the concrete ProtocolExtensionField[ResultNRItemExtIEsValue].
-type ResultNRItemExtIEsExtField = q24.ResultNRItemExtIEsExtField
+type ResultNRItemExtIEsExtField = s19.ResultNRItemExtIEsExtField
 
 // ResultNRItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultNRItemExtIEsValue].
-type ResultNRItemExtIEsIEContainer = q24.ResultNRItemExtIEsIEContainer
+type ResultNRItemExtIEsIEContainer = s19.ResultNRItemExtIEsIEContainer
 
 // ResultNRItemExtIEsIEField is the concrete ProtocolIEField[ResultNRItemExtIEsValue].
-type ResultNRItemExtIEsIEField = q24.ResultNRItemExtIEsIEField
+type ResultNRItemExtIEsIEField = s19.ResultNRItemExtIEsIEField
 
 // ResultNRItemExtIEsNRCGIExtBinding is the concrete ExtensionBinding[NRCGI, ResultNRItemExtIEsValue].
-type ResultNRItemExtIEsNRCGIExtBinding = q24.ResultNRItemExtIEsNRCGIExtBinding
+type ResultNRItemExtIEsNRCGIExtBinding = s19.ResultNRItemExtIEsNRCGIExtBinding
 
 // ResultNRItemExtIEsResultsPerSSBIndexListExtBinding is the concrete ExtensionBinding[ResultsPerSSBIndexList, ResultNRItemExtIEsValue].
-type ResultNRItemExtIEsResultsPerSSBIndexListExtBinding = q24.ResultNRItemExtIEsResultsPerSSBIndexListExtBinding
-type ResultNRItemExtIEsValue = q24.ResultNRItemExtIEsValue
+type ResultNRItemExtIEsResultsPerSSBIndexListExtBinding = s19.ResultNRItemExtIEsResultsPerSSBIndexListExtBinding
+type ResultNRItemExtIEsValue = s19.ResultNRItemExtIEsValue
 
 // ResultNRItemValueCodec is the concrete ValueCodec[ResultNRItem].
-type ResultNRItemValueCodec = q24.ResultNRItemValueCodec
+type ResultNRItemValueCodec = s19.ResultNRItemValueCodec
 
 // ResultNRValueCodec is the concrete ValueCodec[ResultNR].
-type ResultNRValueCodec = q24.ResultNRValueCodec
-type ResultRSRP = q29.ResultRSRP
+type ResultNRValueCodec = s19.ResultNRValueCodec
+type ResultRSRP = s12.ResultRSRP
 
 // ResultRSRPAPERValue is the concrete APERValue[ResultRSRP].
-type ResultRSRPAPERValue = q29.ResultRSRPAPERValue
+type ResultRSRPAPERValue = s12.ResultRSRPAPERValue
 
 // ResultRSRPCodec binds the complete source value type.
-var ResultRSRPCodec func() ResultRSRPValueCodec = q24.ResultRSRPCodec
+var ResultRSRPCodec func() ResultRSRPValueCodec = s19.ResultRSRPCodec
 
 // ResultRSRPComplete carries a complete ResultRSRP encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type ResultRSRPComplete = q24.ResultRSRPComplete
+type ResultRSRPComplete = s19.ResultRSRPComplete
 
 // ResultRSRPItem represents the ASN.1 type ResultRSRP-Item (SEQUENCE).
-type ResultRSRPItem = q29.ResultRSRPItem
+type ResultRSRPItem = s12.ResultRSRPItem
 
 // ResultRSRPItemAPERValue is the concrete APERValue[ResultRSRPItem].
-type ResultRSRPItemAPERValue = q29.ResultRSRPItemAPERValue
+type ResultRSRPItemAPERValue = s12.ResultRSRPItemAPERValue
 
 // ResultRSRPItemCodec binds the complete source value type.
-var ResultRSRPItemCodec func() ResultRSRPItemValueCodec = q29.ResultRSRPItemCodec
+var ResultRSRPItemCodec func() ResultRSRPItemValueCodec = s12.ResultRSRPItemCodec
 
-type ResultRSRPItemExtIETable = q25.ResultRSRPItemExtIETable
+type ResultRSRPItemExtIETable = s04.ResultRSRPItemExtIETable
 
-var ResultRSRPItemExtIEs func() ResultRSRPItemExtIETable = q25.ResultRSRPItemExtIEs
+var ResultRSRPItemExtIEs func() ResultRSRPItemExtIETable = s04.ResultRSRPItemExtIEs
 
 // ResultRSRPItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultRSRPItemExtIEsValue].
-type ResultRSRPItemExtIEsExtContainer = q25.ResultRSRPItemExtIEsExtContainer
+type ResultRSRPItemExtIEsExtContainer = s04.ResultRSRPItemExtIEsExtContainer
 
 // ResultRSRPItemExtIEsExtField is the concrete ProtocolExtensionField[ResultRSRPItemExtIEsValue].
-type ResultRSRPItemExtIEsExtField = q25.ResultRSRPItemExtIEsExtField
+type ResultRSRPItemExtIEsExtField = s04.ResultRSRPItemExtIEsExtField
 
 // ResultRSRPItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultRSRPItemExtIEsValue].
-type ResultRSRPItemExtIEsIEContainer = q25.ResultRSRPItemExtIEsIEContainer
+type ResultRSRPItemExtIEsIEContainer = s04.ResultRSRPItemExtIEsIEContainer
 
 // ResultRSRPItemExtIEsIEField is the concrete ProtocolIEField[ResultRSRPItemExtIEsValue].
-type ResultRSRPItemExtIEsIEField = q25.ResultRSRPItemExtIEsIEField
-type ResultRSRPItemExtIEsValue = q8.ResultRSRPItemExtIEsValue
+type ResultRSRPItemExtIEsIEField = s04.ResultRSRPItemExtIEsIEField
+type ResultRSRPItemExtIEsValue = s03.ResultRSRPItemExtIEsValue
 
 // ResultRSRPItemValueCodec is the concrete ValueCodec[ResultRSRPItem].
-type ResultRSRPItemValueCodec = q29.ResultRSRPItemValueCodec
+type ResultRSRPItemValueCodec = s12.ResultRSRPItemValueCodec
 
 // ResultRSRPValueCodec is the concrete ValueCodec[ResultRSRP].
-type ResultRSRPValueCodec = q29.ResultRSRPValueCodec
-type ResultRSRQ = q22.ResultRSRQ
+type ResultRSRPValueCodec = s12.ResultRSRPValueCodec
+type ResultRSRQ = s13.ResultRSRQ
 
 // ResultRSRQAPERValue is the concrete APERValue[ResultRSRQ].
-type ResultRSRQAPERValue = q22.ResultRSRQAPERValue
+type ResultRSRQAPERValue = s13.ResultRSRQAPERValue
 
 // ResultRSRQCodec binds the complete source value type.
-var ResultRSRQCodec func() ResultRSRQValueCodec = q24.ResultRSRQCodec
+var ResultRSRQCodec func() ResultRSRQValueCodec = s19.ResultRSRQCodec
 
 // ResultRSRQComplete carries a complete ResultRSRQ encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type ResultRSRQComplete = q24.ResultRSRQComplete
+type ResultRSRQComplete = s19.ResultRSRQComplete
 
 // ResultRSRQItem represents the ASN.1 type ResultRSRQ-Item (SEQUENCE).
-type ResultRSRQItem = q22.ResultRSRQItem
+type ResultRSRQItem = s13.ResultRSRQItem
 
 // ResultRSRQItemAPERValue is the concrete APERValue[ResultRSRQItem].
-type ResultRSRQItemAPERValue = q22.ResultRSRQItemAPERValue
+type ResultRSRQItemAPERValue = s13.ResultRSRQItemAPERValue
 
 // ResultRSRQItemCodec binds the complete source value type.
-var ResultRSRQItemCodec func() ResultRSRQItemValueCodec = q22.ResultRSRQItemCodec
+var ResultRSRQItemCodec func() ResultRSRQItemValueCodec = s13.ResultRSRQItemCodec
 
-type ResultRSRQItemExtIETable = q25.ResultRSRQItemExtIETable
+type ResultRSRQItemExtIETable = s04.ResultRSRQItemExtIETable
 
-var ResultRSRQItemExtIEs func() ResultRSRQItemExtIETable = q25.ResultRSRQItemExtIEs
+var ResultRSRQItemExtIEs func() ResultRSRQItemExtIETable = s04.ResultRSRQItemExtIEs
 
 // ResultRSRQItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultRSRQItemExtIEsValue].
-type ResultRSRQItemExtIEsExtContainer = q25.ResultRSRQItemExtIEsExtContainer
+type ResultRSRQItemExtIEsExtContainer = s04.ResultRSRQItemExtIEsExtContainer
 
 // ResultRSRQItemExtIEsExtField is the concrete ProtocolExtensionField[ResultRSRQItemExtIEsValue].
-type ResultRSRQItemExtIEsExtField = q25.ResultRSRQItemExtIEsExtField
+type ResultRSRQItemExtIEsExtField = s04.ResultRSRQItemExtIEsExtField
 
 // ResultRSRQItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultRSRQItemExtIEsValue].
-type ResultRSRQItemExtIEsIEContainer = q25.ResultRSRQItemExtIEsIEContainer
+type ResultRSRQItemExtIEsIEContainer = s04.ResultRSRQItemExtIEsIEContainer
 
 // ResultRSRQItemExtIEsIEField is the concrete ProtocolIEField[ResultRSRQItemExtIEsValue].
-type ResultRSRQItemExtIEsIEField = q25.ResultRSRQItemExtIEsIEField
-type ResultRSRQItemExtIEsValue = q8.ResultRSRQItemExtIEsValue
+type ResultRSRQItemExtIEsIEField = s04.ResultRSRQItemExtIEsIEField
+type ResultRSRQItemExtIEsValue = s03.ResultRSRQItemExtIEsValue
 
 // ResultRSRQItemValueCodec is the concrete ValueCodec[ResultRSRQItem].
-type ResultRSRQItemValueCodec = q22.ResultRSRQItemValueCodec
+type ResultRSRQItemValueCodec = s13.ResultRSRQItemValueCodec
 
 // ResultRSRQValueCodec is the concrete ValueCodec[ResultRSRQ].
-type ResultRSRQValueCodec = q22.ResultRSRQValueCodec
-type ResultUTRAN = q10.ResultUTRAN
+type ResultRSRQValueCodec = s13.ResultRSRQValueCodec
+type ResultUTRAN = s14.ResultUTRAN
 
 // ResultUTRANAPERValue is the concrete APERValue[ResultUTRAN].
-type ResultUTRANAPERValue = q10.ResultUTRANAPERValue
+type ResultUTRANAPERValue = s14.ResultUTRANAPERValue
 
 // ResultUTRANCodec binds the complete source value type.
-var ResultUTRANCodec func() ResultUTRANValueCodec = q24.ResultUTRANCodec
+var ResultUTRANCodec func() ResultUTRANValueCodec = s19.ResultUTRANCodec
 
 // ResultUTRANComplete carries a complete ResultUTRAN encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type ResultUTRANComplete = q24.ResultUTRANComplete
+type ResultUTRANComplete = s19.ResultUTRANComplete
 
 // ResultUTRANItem represents the ASN.1 type ResultUTRAN-Item (SEQUENCE).
-type ResultUTRANItem = q10.ResultUTRANItem
+type ResultUTRANItem = s14.ResultUTRANItem
 
 // ResultUTRANItemAPERValue is the concrete APERValue[ResultUTRANItem].
-type ResultUTRANItemAPERValue = q10.ResultUTRANItemAPERValue
+type ResultUTRANItemAPERValue = s14.ResultUTRANItemAPERValue
 
 // ResultUTRANItemCodec binds the complete source value type.
-var ResultUTRANItemCodec func() ResultUTRANItemValueCodec = q10.ResultUTRANItemCodec
+var ResultUTRANItemCodec func() ResultUTRANItemValueCodec = s14.ResultUTRANItemCodec
 
-type ResultUTRANItemExtIETable = q25.ResultUTRANItemExtIETable
+type ResultUTRANItemExtIETable = s04.ResultUTRANItemExtIETable
 
-var ResultUTRANItemExtIEs func() ResultUTRANItemExtIETable = q25.ResultUTRANItemExtIEs
+var ResultUTRANItemExtIEs func() ResultUTRANItemExtIETable = s04.ResultUTRANItemExtIEs
 
 // ResultUTRANItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultUTRANItemExtIEsValue].
-type ResultUTRANItemExtIEsExtContainer = q25.ResultUTRANItemExtIEsExtContainer
+type ResultUTRANItemExtIEsExtContainer = s04.ResultUTRANItemExtIEsExtContainer
 
 // ResultUTRANItemExtIEsExtField is the concrete ProtocolExtensionField[ResultUTRANItemExtIEsValue].
-type ResultUTRANItemExtIEsExtField = q25.ResultUTRANItemExtIEsExtField
+type ResultUTRANItemExtIEsExtField = s04.ResultUTRANItemExtIEsExtField
 
 // ResultUTRANItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultUTRANItemExtIEsValue].
-type ResultUTRANItemExtIEsIEContainer = q25.ResultUTRANItemExtIEsIEContainer
+type ResultUTRANItemExtIEsIEContainer = s04.ResultUTRANItemExtIEsIEContainer
 
 // ResultUTRANItemExtIEsIEField is the concrete ProtocolIEField[ResultUTRANItemExtIEsValue].
-type ResultUTRANItemExtIEsIEField = q25.ResultUTRANItemExtIEsIEField
-type ResultUTRANItemExtIEsValue = q8.ResultUTRANItemExtIEsValue
+type ResultUTRANItemExtIEsIEField = s04.ResultUTRANItemExtIEsIEField
+type ResultUTRANItemExtIEsValue = s03.ResultUTRANItemExtIEsValue
 
 // ResultUTRANItemPhysCellIDUTRAN represents the ASN.1 CHOICE type ResultUTRAN-Item-physCellIDUTRAN.
-type ResultUTRANItemPhysCellIDUTRAN = q30.ResultUTRANItemPhysCellIDUTRAN
+type ResultUTRANItemPhysCellIDUTRAN = s08.ResultUTRANItemPhysCellIDUTRAN
 
 // ResultUTRANItemPhysCellIDUTRANAPERValue is the concrete APERValue[ResultUTRANItemPhysCellIDUTRAN].
-type ResultUTRANItemPhysCellIDUTRANAPERValue = q30.ResultUTRANItemPhysCellIDUTRANAPERValue
+type ResultUTRANItemPhysCellIDUTRANAPERValue = s08.ResultUTRANItemPhysCellIDUTRANAPERValue
 
 // ResultUTRANItemPhysCellIDUTRAN choice constants.
-const ResultUTRANItemPhysCellIDUTRANChoicePhysCellIDUTRAFDD = q14.ResultUTRANItemPhysCellIDUTRANChoicePhysCellIDUTRAFDD
+const ResultUTRANItemPhysCellIDUTRANChoicePhysCellIDUTRAFDD = s00.ResultUTRANItemPhysCellIDUTRANChoicePhysCellIDUTRAFDD
 
 // ResultUTRANItemPhysCellIDUTRAN choice constants.
-const ResultUTRANItemPhysCellIDUTRANChoicePhysCellIDUTRATDD = q14.ResultUTRANItemPhysCellIDUTRANChoicePhysCellIDUTRATDD
+const ResultUTRANItemPhysCellIDUTRANChoicePhysCellIDUTRATDD = s00.ResultUTRANItemPhysCellIDUTRANChoicePhysCellIDUTRATDD
 
 // ResultUTRANItemPhysCellIDUTRANCodec binds the complete source value type.
-var ResultUTRANItemPhysCellIDUTRANCodec func() ResultUTRANItemPhysCellIDUTRANValueCodec = q30.ResultUTRANItemPhysCellIDUTRANCodec
+var ResultUTRANItemPhysCellIDUTRANCodec func() ResultUTRANItemPhysCellIDUTRANValueCodec = s08.ResultUTRANItemPhysCellIDUTRANCodec
 
 // ResultUTRANItemPhysCellIDUTRANValueCodec is the concrete ValueCodec[ResultUTRANItemPhysCellIDUTRAN].
-type ResultUTRANItemPhysCellIDUTRANValueCodec = q30.ResultUTRANItemPhysCellIDUTRANValueCodec
+type ResultUTRANItemPhysCellIDUTRANValueCodec = s08.ResultUTRANItemPhysCellIDUTRANValueCodec
 
 // ResultUTRANItemValueCodec is the concrete ValueCodec[ResultUTRANItem].
-type ResultUTRANItemValueCodec = q10.ResultUTRANItemValueCodec
+type ResultUTRANItemValueCodec = s14.ResultUTRANItemValueCodec
 
 // ResultUTRANValueCodec is the concrete ValueCodec[ResultUTRAN].
-type ResultUTRANValueCodec = q10.ResultUTRANValueCodec
+type ResultUTRANValueCodec = s14.ResultUTRANValueCodec
 
 // ResultsPerSSBIndexItem represents the ASN.1 type ResultsPerSSB-Index-Item (SEQUENCE).
-type ResultsPerSSBIndexItem = q10.ResultsPerSSBIndexItem
+type ResultsPerSSBIndexItem = s14.ResultsPerSSBIndexItem
 
 // ResultsPerSSBIndexItemAPERValue is the concrete APERValue[ResultsPerSSBIndexItem].
-type ResultsPerSSBIndexItemAPERValue = q10.ResultsPerSSBIndexItemAPERValue
+type ResultsPerSSBIndexItemAPERValue = s14.ResultsPerSSBIndexItemAPERValue
 
 // ResultsPerSSBIndexItemCodec binds the complete source value type.
-var ResultsPerSSBIndexItemCodec func() ResultsPerSSBIndexItemValueCodec = q10.ResultsPerSSBIndexItemCodec
+var ResultsPerSSBIndexItemCodec func() ResultsPerSSBIndexItemValueCodec = s14.ResultsPerSSBIndexItemCodec
 
-type ResultsPerSSBIndexItemExtIETable = q25.ResultsPerSSBIndexItemExtIETable
+type ResultsPerSSBIndexItemExtIETable = s04.ResultsPerSSBIndexItemExtIETable
 
-var ResultsPerSSBIndexItemExtIEs func() ResultsPerSSBIndexItemExtIETable = q25.ResultsPerSSBIndexItemExtIEs
+var ResultsPerSSBIndexItemExtIEs func() ResultsPerSSBIndexItemExtIETable = s04.ResultsPerSSBIndexItemExtIEs
 
 // ResultsPerSSBIndexItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultsPerSSBIndexItemExtIEsValue].
-type ResultsPerSSBIndexItemExtIEsExtContainer = q25.ResultsPerSSBIndexItemExtIEsExtContainer
+type ResultsPerSSBIndexItemExtIEsExtContainer = s04.ResultsPerSSBIndexItemExtIEsExtContainer
 
 // ResultsPerSSBIndexItemExtIEsExtField is the concrete ProtocolExtensionField[ResultsPerSSBIndexItemExtIEsValue].
-type ResultsPerSSBIndexItemExtIEsExtField = q25.ResultsPerSSBIndexItemExtIEsExtField
+type ResultsPerSSBIndexItemExtIEsExtField = s04.ResultsPerSSBIndexItemExtIEsExtField
 
 // ResultsPerSSBIndexItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultsPerSSBIndexItemExtIEsValue].
-type ResultsPerSSBIndexItemExtIEsIEContainer = q25.ResultsPerSSBIndexItemExtIEsIEContainer
+type ResultsPerSSBIndexItemExtIEsIEContainer = s04.ResultsPerSSBIndexItemExtIEsIEContainer
 
 // ResultsPerSSBIndexItemExtIEsIEField is the concrete ProtocolIEField[ResultsPerSSBIndexItemExtIEsValue].
-type ResultsPerSSBIndexItemExtIEsIEField = q25.ResultsPerSSBIndexItemExtIEsIEField
-type ResultsPerSSBIndexItemExtIEsValue = q8.ResultsPerSSBIndexItemExtIEsValue
+type ResultsPerSSBIndexItemExtIEsIEField = s04.ResultsPerSSBIndexItemExtIEsIEField
+type ResultsPerSSBIndexItemExtIEsValue = s03.ResultsPerSSBIndexItemExtIEsValue
 
 // ResultsPerSSBIndexItemValueCodec is the concrete ValueCodec[ResultsPerSSBIndexItem].
-type ResultsPerSSBIndexItemValueCodec = q10.ResultsPerSSBIndexItemValueCodec
-type ResultsPerSSBIndexList = q10.ResultsPerSSBIndexList
+type ResultsPerSSBIndexItemValueCodec = s14.ResultsPerSSBIndexItemValueCodec
+type ResultsPerSSBIndexList = s14.ResultsPerSSBIndexList
 
 // ResultsPerSSBIndexListAPERValue is the concrete APERValue[ResultsPerSSBIndexList].
-type ResultsPerSSBIndexListAPERValue = q10.ResultsPerSSBIndexListAPERValue
+type ResultsPerSSBIndexListAPERValue = s14.ResultsPerSSBIndexListAPERValue
 
 // ResultsPerSSBIndexListCodec binds the complete APER value type.
-var ResultsPerSSBIndexListCodec func() ResultsPerSSBIndexListValueCodec = q24.ResultsPerSSBIndexListCodec
+var ResultsPerSSBIndexListCodec func() ResultsPerSSBIndexListValueCodec = s19.ResultsPerSSBIndexListCodec
 
 // ResultsPerSSBIndexListComplete carries a complete ResultsPerSSBIndexList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type ResultsPerSSBIndexListComplete = q24.ResultsPerSSBIndexListComplete
+type ResultsPerSSBIndexListComplete = s19.ResultsPerSSBIndexListComplete
 
 // ResultsPerSSBIndexListValueCodec is the concrete ValueCodec[ResultsPerSSBIndexList].
-type ResultsPerSSBIndexListValueCodec = q10.ResultsPerSSBIndexListValueCodec
+type ResultsPerSSBIndexListValueCodec = s14.ResultsPerSSBIndexListValueCodec
 
 // SFNInitialisationTime represents the ASN.1 type SFNInitialisationTime (BIT_STRING).
-type SFNInitialisationTime = q14.SFNInitialisationTime
+type SFNInitialisationTime = s00.SFNInitialisationTime
 
 // SFNInitialisationTimeAPERValue is the concrete APERValue[SFNInitialisationTime].
-type SFNInitialisationTimeAPERValue = q31.SFNInitialisationTimeAPERValue
+type SFNInitialisationTimeAPERValue = s01.SFNInitialisationTimeAPERValue
 
 // SFNInitialisationTimeCodec binds the complete source value type.
-var SFNInitialisationTimeCodec func() SFNInitialisationTimeValueCodec = q8.SFNInitialisationTimeCodec
+var SFNInitialisationTimeCodec func() SFNInitialisationTimeValueCodec = s03.SFNInitialisationTimeCodec
 
 // SFNInitialisationTimeValueCodec is the concrete ValueCodec[SFNInitialisationTime].
-type SFNInitialisationTimeValueCodec = q31.SFNInitialisationTimeValueCodec
-type SRSConfigurationForAllCells = q15.SRSConfigurationForAllCells
+type SFNInitialisationTimeValueCodec = s01.SFNInitialisationTimeValueCodec
+type SRSConfigurationForAllCells = s09.SRSConfigurationForAllCells
 
 // SRSConfigurationForAllCellsAPERValue is the concrete APERValue[SRSConfigurationForAllCells].
-type SRSConfigurationForAllCellsAPERValue = q15.SRSConfigurationForAllCellsAPERValue
+type SRSConfigurationForAllCellsAPERValue = s09.SRSConfigurationForAllCellsAPERValue
 
 // SRSConfigurationForAllCellsCodec binds the complete source value type.
-var SRSConfigurationForAllCellsCodec func() SRSConfigurationForAllCellsValueCodec = q21.SRSConfigurationForAllCellsCodec
+var SRSConfigurationForAllCellsCodec func() SRSConfigurationForAllCellsValueCodec = s20.SRSConfigurationForAllCellsCodec
 
 // SRSConfigurationForAllCellsComplete carries a complete SRSConfigurationForAllCells encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type SRSConfigurationForAllCellsComplete = q21.SRSConfigurationForAllCellsComplete
+type SRSConfigurationForAllCellsComplete = s20.SRSConfigurationForAllCellsComplete
 
 // SRSConfigurationForAllCellsValueCodec is the concrete ValueCodec[SRSConfigurationForAllCells].
-type SRSConfigurationForAllCellsValueCodec = q15.SRSConfigurationForAllCellsValueCodec
+type SRSConfigurationForAllCellsValueCodec = s09.SRSConfigurationForAllCellsValueCodec
 
 // SRSConfigurationForOneCell represents the ASN.1 type SRSConfigurationForOneCell (SEQUENCE).
-type SRSConfigurationForOneCell = q15.SRSConfigurationForOneCell
+type SRSConfigurationForOneCell = s09.SRSConfigurationForOneCell
 
 // SRSConfigurationForOneCellAPERValue is the concrete APERValue[SRSConfigurationForOneCell].
-type SRSConfigurationForOneCellAPERValue = q15.SRSConfigurationForOneCellAPERValue
+type SRSConfigurationForOneCellAPERValue = s09.SRSConfigurationForOneCellAPERValue
 
 // SRSConfigurationForOneCellCodec binds the complete source value type.
-var SRSConfigurationForOneCellCodec func() SRSConfigurationForOneCellValueCodec = q15.SRSConfigurationForOneCellCodec
+var SRSConfigurationForOneCellCodec func() SRSConfigurationForOneCellValueCodec = s09.SRSConfigurationForOneCellCodec
 
 // SRSConfigurationForOneCellValueCodec is the concrete ValueCodec[SRSConfigurationForOneCell].
-type SRSConfigurationForOneCellValueCodec = q15.SRSConfigurationForOneCellValueCodec
+type SRSConfigurationForOneCellValueCodec = s09.SRSConfigurationForOneCellValueCodec
 
 // SSBIndex represents the ASN.1 type SSB-Index (INTEGER).
-type SSBIndex = q14.SSBIndex
+type SSBIndex = s00.SSBIndex
 
 // SSBIndexAPERValue is the concrete APERValue[SSBIndex].
-type SSBIndexAPERValue = q31.SSBIndexAPERValue
+type SSBIndexAPERValue = s01.SSBIndexAPERValue
 
 // SSBIndexCodec binds the complete source value type.
-var SSBIndexCodec func() SSBIndexValueCodec = q25.SSBIndexCodec
+var SSBIndexCodec func() SSBIndexValueCodec = s04.SSBIndexCodec
 
 // SSBIndexValueCodec is the concrete ValueCodec[SSBIndex].
-type SSBIndexValueCodec = q31.SSBIndexValueCodec
+type SSBIndexValueCodec = s01.SSBIndexValueCodec
 
 // SSID represents the ASN.1 type SSID (OCTET_STRING).
-type SSID = q14.SSID
+type SSID = s00.SSID
 
 // SSIDAPERValue is the concrete APERValue[SSID].
-type SSIDAPERValue = q31.SSIDAPERValue
+type SSIDAPERValue = s01.SSIDAPERValue
 
 // SSIDCodec binds the complete source value type.
-var SSIDCodec func() SSIDValueCodec = q8.SSIDCodec
+var SSIDCodec func() SSIDValueCodec = s03.SSIDCodec
 
 // SSIDValueCodec is the concrete ValueCodec[SSID].
-type SSIDValueCodec = q31.SSIDValueCodec
+type SSIDValueCodec = s01.SSIDValueCodec
 
 // SSNRRSRP represents the ASN.1 type SS-NRRSRP (INTEGER).
-type SSNRRSRP = q14.SSNRRSRP
+type SSNRRSRP = s00.SSNRRSRP
 
 // SSNRRSRPAPERValue is the concrete APERValue[SSNRRSRP].
-type SSNRRSRPAPERValue = q31.SSNRRSRPAPERValue
+type SSNRRSRPAPERValue = s01.SSNRRSRPAPERValue
 
 // SSNRRSRPCodec binds the complete source value type.
-var SSNRRSRPCodec func() SSNRRSRPValueCodec = q25.SSNRRSRPCodec
+var SSNRRSRPCodec func() SSNRRSRPValueCodec = s04.SSNRRSRPCodec
 
 // SSNRRSRPValueCodec is the concrete ValueCodec[SSNRRSRP].
-type SSNRRSRPValueCodec = q31.SSNRRSRPValueCodec
+type SSNRRSRPValueCodec = s01.SSNRRSRPValueCodec
 
 // SSNRRSRQ represents the ASN.1 type SS-NRRSRQ (INTEGER).
-type SSNRRSRQ = q14.SSNRRSRQ
+type SSNRRSRQ = s00.SSNRRSRQ
 
 // SSNRRSRQAPERValue is the concrete APERValue[SSNRRSRQ].
-type SSNRRSRQAPERValue = q31.SSNRRSRQAPERValue
+type SSNRRSRQAPERValue = s01.SSNRRSRQAPERValue
 
 // SSNRRSRQCodec binds the complete source value type.
-var SSNRRSRQCodec func() SSNRRSRQValueCodec = q25.SSNRRSRQCodec
+var SSNRRSRQCodec func() SSNRRSRQValueCodec = s04.SSNRRSRQCodec
 
 // SSNRRSRQValueCodec is the concrete ValueCodec[SSNRRSRQ].
-type SSNRRSRQValueCodec = q31.SSNRRSRQValueCodec
+type SSNRRSRQValueCodec = s01.SSNRRSRQValueCodec
 
 // Subframeallocation represents the ASN.1 CHOICE type Subframeallocation.
-type Subframeallocation = q15.Subframeallocation
+type Subframeallocation = s09.Subframeallocation
 
 // SubframeallocationAPERValue is the concrete APERValue[Subframeallocation].
-type SubframeallocationAPERValue = q15.SubframeallocationAPERValue
+type SubframeallocationAPERValue = s09.SubframeallocationAPERValue
 
 // Subframeallocation choice constants.
-const SubframeallocationChoiceFourFrames = q14.SubframeallocationChoiceFourFrames
+const SubframeallocationChoiceFourFrames = s00.SubframeallocationChoiceFourFrames
 
 // Subframeallocation choice constants.
-const SubframeallocationChoiceOneFrame = q14.SubframeallocationChoiceOneFrame
+const SubframeallocationChoiceOneFrame = s00.SubframeallocationChoiceOneFrame
 
 // SubframeallocationCodec binds the complete source value type.
-var SubframeallocationCodec func() SubframeallocationValueCodec = q15.SubframeallocationCodec
+var SubframeallocationCodec func() SubframeallocationValueCodec = s09.SubframeallocationCodec
 
 // SubframeallocationValueCodec is the concrete ValueCodec[Subframeallocation].
-type SubframeallocationValueCodec = q15.SubframeallocationValueCodec
-type SuccessfulBinding[T any] = q4.SuccessfulBinding[T]
+type SubframeallocationValueCodec = s09.SubframeallocationValueCodec
+type SuccessfulBinding[T any] = s23.SuccessfulBinding[T]
 
 // SuccessfulOutcome represents the ASN.1 type SuccessfulOutcome (SEQUENCE).
-type SuccessfulOutcome = q17.SuccessfulOutcome
+type SuccessfulOutcome = s22.SuccessfulOutcome
 
 // SuccessfulOutcomeAPERValue is the concrete APERValue[SuccessfulOutcome].
-type SuccessfulOutcomeAPERValue = q4.SuccessfulOutcomeAPERValue
+type SuccessfulOutcomeAPERValue = s23.SuccessfulOutcomeAPERValue
 
 // SuccessfulOutcomeCodec binds the complete source value type.
-var SuccessfulOutcomeCodec func() SuccessfulOutcomeValueCodec = q4.SuccessfulOutcomeCodec
+var SuccessfulOutcomeCodec func() SuccessfulOutcomeValueCodec = s23.SuccessfulOutcomeCodec
 
 // SuccessfulOutcomeValueCodec is the concrete ValueCodec[SuccessfulOutcome].
-type SuccessfulOutcomeValueCodec = q4.SuccessfulOutcomeValueCodec
+type SuccessfulOutcomeValueCodec = s23.SuccessfulOutcomeValueCodec
 
-var SuccessfulReason func(code ProcedureCode) q23.OpaqueReason = q14.SuccessfulReason
+var SuccessfulReason func(code ProcedureCode) aper.OpaqueReason = s00.SuccessfulReason
 
-type SuccessfulValue = q17.SuccessfulValue
-type SystemInformation = q10.SystemInformation
+type SuccessfulValue = s22.SuccessfulValue
+type SystemInformation = s14.SystemInformation
 
 // SystemInformationAPERValue is the concrete APERValue[SystemInformation].
-type SystemInformationAPERValue = q10.SystemInformationAPERValue
+type SystemInformationAPERValue = s14.SystemInformationAPERValue
 
 // SystemInformationCodec binds the complete source value type.
-var SystemInformationCodec func() SystemInformationValueCodec = q21.SystemInformationCodec
+var SystemInformationCodec func() SystemInformationValueCodec = s20.SystemInformationCodec
 
 // SystemInformationComplete carries a complete SystemInformation encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type SystemInformationComplete = q21.SystemInformationComplete
+type SystemInformationComplete = s20.SystemInformationComplete
 
 // SystemInformationElem represents the ASN.1 type SystemInformation-Elem (SEQUENCE).
-type SystemInformationElem = q10.SystemInformationElem
+type SystemInformationElem = s14.SystemInformationElem
 
 // SystemInformationElemAPERValue is the concrete APERValue[SystemInformationElem].
-type SystemInformationElemAPERValue = q10.SystemInformationElemAPERValue
+type SystemInformationElemAPERValue = s14.SystemInformationElemAPERValue
 
 // SystemInformationElemCodec binds the complete source value type.
-var SystemInformationElemCodec func() SystemInformationElemValueCodec = q10.SystemInformationElemCodec
+var SystemInformationElemCodec func() SystemInformationElemValueCodec = s14.SystemInformationElemCodec
 
 // SystemInformationElemValueCodec is the concrete ValueCodec[SystemInformationElem].
-type SystemInformationElemValueCodec = q10.SystemInformationElemValueCodec
-type SystemInformationExtIETable = q25.SystemInformationExtIETable
+type SystemInformationElemValueCodec = s14.SystemInformationElemValueCodec
+type SystemInformationExtIETable = s04.SystemInformationExtIETable
 
-var SystemInformationExtIEs func() SystemInformationExtIETable = q25.SystemInformationExtIEs
+var SystemInformationExtIEs func() SystemInformationExtIETable = s04.SystemInformationExtIEs
 
 // SystemInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[SystemInformationExtIEsValue].
-type SystemInformationExtIEsExtContainer = q25.SystemInformationExtIEsExtContainer
+type SystemInformationExtIEsExtContainer = s04.SystemInformationExtIEsExtContainer
 
 // SystemInformationExtIEsExtField is the concrete ProtocolExtensionField[SystemInformationExtIEsValue].
-type SystemInformationExtIEsExtField = q25.SystemInformationExtIEsExtField
+type SystemInformationExtIEsExtField = s04.SystemInformationExtIEsExtField
 
 // SystemInformationExtIEsIEContainer is the concrete ProtocolIEContainer[SystemInformationExtIEsValue].
-type SystemInformationExtIEsIEContainer = q25.SystemInformationExtIEsIEContainer
+type SystemInformationExtIEsIEContainer = s04.SystemInformationExtIEsIEContainer
 
 // SystemInformationExtIEsIEField is the concrete ProtocolIEField[SystemInformationExtIEsValue].
-type SystemInformationExtIEsIEField = q25.SystemInformationExtIEsIEField
-type SystemInformationExtIEsValue = q8.SystemInformationExtIEsValue
+type SystemInformationExtIEsIEField = s04.SystemInformationExtIEsIEField
+type SystemInformationExtIEsValue = s03.SystemInformationExtIEsValue
 
 // SystemInformationValueCodec is the concrete ValueCodec[SystemInformation].
-type SystemInformationValueCodec = q10.SystemInformationValueCodec
+type SystemInformationValueCodec = s14.SystemInformationValueCodec
 
 // TAC represents the ASN.1 type TAC (OCTET_STRING).
-type TAC = q14.TAC
+type TAC = s00.TAC
 
 // TACAPERValue is the concrete APERValue[TAC].
-type TACAPERValue = q31.TACAPERValue
+type TACAPERValue = s01.TACAPERValue
 
 // TACCodec binds the complete source value type.
-var TACCodec func() TACValueCodec = q8.TACCodec
+var TACCodec func() TACValueCodec = s03.TACCodec
 
 // TACValueCodec is the concrete ValueCodec[TAC].
-type TACValueCodec = q31.TACValueCodec
+type TACValueCodec = s01.TACValueCodec
 
 // TDDConfiguration represents the ASN.1 type TDDConfiguration (SEQUENCE).
-type TDDConfiguration = q5.TDDConfiguration
+type TDDConfiguration = s15.TDDConfiguration
 
 // TDDConfigurationAPERValue is the concrete APERValue[TDDConfiguration].
-type TDDConfigurationAPERValue = q5.TDDConfigurationAPERValue
+type TDDConfigurationAPERValue = s15.TDDConfigurationAPERValue
 
 // TDDConfigurationCodec binds the complete source value type.
-var TDDConfigurationCodec func() TDDConfigurationValueCodec = q5.TDDConfigurationCodec
+var TDDConfigurationCodec func() TDDConfigurationValueCodec = s15.TDDConfigurationCodec
 
-type TDDConfigurationExtIETable = q25.TDDConfigurationExtIETable
+type TDDConfigurationExtIETable = s04.TDDConfigurationExtIETable
 
-var TDDConfigurationExtIEs func() TDDConfigurationExtIETable = q25.TDDConfigurationExtIEs
+var TDDConfigurationExtIEs func() TDDConfigurationExtIETable = s04.TDDConfigurationExtIEs
 
 // TDDConfigurationExtIEsExtContainer is the concrete ProtocolExtensionContainer[TDDConfigurationExtIEsValue].
-type TDDConfigurationExtIEsExtContainer = q25.TDDConfigurationExtIEsExtContainer
+type TDDConfigurationExtIEsExtContainer = s04.TDDConfigurationExtIEsExtContainer
 
 // TDDConfigurationExtIEsExtField is the concrete ProtocolExtensionField[TDDConfigurationExtIEsValue].
-type TDDConfigurationExtIEsExtField = q25.TDDConfigurationExtIEsExtField
+type TDDConfigurationExtIEsExtField = s04.TDDConfigurationExtIEsExtField
 
 // TDDConfigurationExtIEsIEContainer is the concrete ProtocolIEContainer[TDDConfigurationExtIEsValue].
-type TDDConfigurationExtIEsIEContainer = q25.TDDConfigurationExtIEsIEContainer
+type TDDConfigurationExtIEsIEContainer = s04.TDDConfigurationExtIEsIEContainer
 
 // TDDConfigurationExtIEsIEField is the concrete ProtocolIEField[TDDConfigurationExtIEsValue].
-type TDDConfigurationExtIEsIEField = q25.TDDConfigurationExtIEsIEField
-type TDDConfigurationExtIEsValue = q8.TDDConfigurationExtIEsValue
+type TDDConfigurationExtIEsIEField = s04.TDDConfigurationExtIEsIEField
+type TDDConfigurationExtIEsValue = s03.TDDConfigurationExtIEsValue
 
 // TDDConfigurationValueCodec is the concrete ValueCodec[TDDConfiguration].
-type TDDConfigurationValueCodec = q5.TDDConfigurationValueCodec
+type TDDConfigurationValueCodec = s15.TDDConfigurationValueCodec
 
 // TPID represents the ASN.1 type TP-ID (INTEGER).
-type TPID = q14.TPID
+type TPID = s00.TPID
 
 // TPIDAPERValue is the concrete APERValue[TPID].
-type TPIDAPERValue = q31.TPIDAPERValue
+type TPIDAPERValue = s01.TPIDAPERValue
 
 // TPIDCodec binds the complete source value type.
-var TPIDCodec func() TPIDValueCodec = q8.TPIDCodec
+var TPIDCodec func() TPIDValueCodec = s03.TPIDCodec
 
 // TPIDValueCodec is the concrete ValueCodec[TPID].
-type TPIDValueCodec = q31.TPIDValueCodec
+type TPIDValueCodec = s01.TPIDValueCodec
 
 // TPType represents the ASN.1 ENUMERATED type TP-Type.
-type TPType = q14.TPType
+type TPType = s00.TPType
 
 // TPTypeAPERValue is the concrete APERValue[TPType].
-type TPTypeAPERValue = q31.TPTypeAPERValue
+type TPTypeAPERValue = s01.TPTypeAPERValue
 
 // TPTypeCodec binds the complete source value type.
-var TPTypeCodec func() TPTypeValueCodec = q8.TPTypeCodec
+var TPTypeCodec func() TPTypeValueCodec = s03.TPTypeCodec
 
-const TPTypePrsOnlyTp = q14.TPTypePrsOnlyTp
+const TPTypePrsOnlyTp = s00.TPTypePrsOnlyTp
 
 // TPTypeValueCodec is the concrete ValueCodec[TPType].
-type TPTypeValueCodec = q31.TPTypeValueCodec
-type TableID = q14.TableID
+type TPTypeValueCodec = s01.TPTypeValueCodec
+type TableID = s00.TableID
 
 // TriggeringMessage represents the ASN.1 ENUMERATED type TriggeringMessage.
-type TriggeringMessage = q14.TriggeringMessage
+type TriggeringMessage = s00.TriggeringMessage
 
 // TriggeringMessageAPERValue is the concrete APERValue[TriggeringMessage].
-type TriggeringMessageAPERValue = q31.TriggeringMessageAPERValue
+type TriggeringMessageAPERValue = s01.TriggeringMessageAPERValue
 
 // TriggeringMessageCodec binds the complete source value type.
-var TriggeringMessageCodec func() TriggeringMessageValueCodec = q8.TriggeringMessageCodec
+var TriggeringMessageCodec func() TriggeringMessageValueCodec = s03.TriggeringMessageCodec
 
-const TriggeringMessageInitiatingMessage = q14.TriggeringMessageInitiatingMessage
-const TriggeringMessageSuccessfulOutcome = q14.TriggeringMessageSuccessfulOutcome
-const TriggeringMessageUnsuccessfulOutcome = q14.TriggeringMessageUnsuccessfulOutcome
+const TriggeringMessageInitiatingMessage = s00.TriggeringMessageInitiatingMessage
+const TriggeringMessageSuccessfulOutcome = s00.TriggeringMessageSuccessfulOutcome
+const TriggeringMessageUnsuccessfulOutcome = s00.TriggeringMessageUnsuccessfulOutcome
 
 // TriggeringMessageValueCodec is the concrete ValueCodec[TriggeringMessage].
-type TriggeringMessageValueCodec = q31.TriggeringMessageValueCodec
-type TypeID = q14.TypeID
+type TriggeringMessageValueCodec = s01.TriggeringMessageValueCodec
+type TypeID = s00.TypeID
 
 // TypeOfError represents the ASN.1 ENUMERATED type TypeOfError.
-type TypeOfError = q14.TypeOfError
+type TypeOfError = s00.TypeOfError
 
 // TypeOfErrorAPERValue is the concrete APERValue[TypeOfError].
-type TypeOfErrorAPERValue = q31.TypeOfErrorAPERValue
+type TypeOfErrorAPERValue = s01.TypeOfErrorAPERValue
 
 // TypeOfErrorCodec binds the complete source value type.
-var TypeOfErrorCodec func() TypeOfErrorValueCodec = q8.TypeOfErrorCodec
+var TypeOfErrorCodec func() TypeOfErrorValueCodec = s03.TypeOfErrorCodec
 
-const TypeOfErrorMissing = q14.TypeOfErrorMissing
-const TypeOfErrorNotUnderstood = q14.TypeOfErrorNotUnderstood
+const TypeOfErrorMissing = s00.TypeOfErrorMissing
+const TypeOfErrorNotUnderstood = s00.TypeOfErrorNotUnderstood
 
 // TypeOfErrorValueCodec is the concrete ValueCodec[TypeOfError].
-type TypeOfErrorValueCodec = q31.TypeOfErrorValueCodec
+type TypeOfErrorValueCodec = s01.TypeOfErrorValueCodec
 
 // UARFCN represents the ASN.1 type UARFCN (INTEGER).
-type UARFCN = q14.UARFCN
+type UARFCN = s00.UARFCN
 
 // UARFCNAPERValue is the concrete APERValue[UARFCN].
-type UARFCNAPERValue = q31.UARFCNAPERValue
+type UARFCNAPERValue = s01.UARFCNAPERValue
 
 // UARFCNCodec binds the complete source value type.
-var UARFCNCodec func() UARFCNValueCodec = q8.UARFCNCodec
+var UARFCNCodec func() UARFCNValueCodec = s03.UARFCNCodec
 
 // UARFCNValueCodec is the concrete ValueCodec[UARFCN].
-type UARFCNValueCodec = q31.UARFCNValueCodec
+type UARFCNValueCodec = s01.UARFCNValueCodec
 
 // ULConfiguration represents the ASN.1 type ULConfiguration (SEQUENCE).
-type ULConfiguration = q19.ULConfiguration
+type ULConfiguration = s10.ULConfiguration
 
 // ULConfigurationAPERValue is the concrete APERValue[ULConfiguration].
-type ULConfigurationAPERValue = q19.ULConfigurationAPERValue
+type ULConfigurationAPERValue = s10.ULConfigurationAPERValue
 
 // ULConfigurationCodec binds the complete APER value type.
-var ULConfigurationCodec func() ULConfigurationValueCodec = q19.ULConfigurationCodec
+var ULConfigurationCodec func() ULConfigurationValueCodec = s10.ULConfigurationCodec
 
 // ULConfigurationValueCodec is the concrete ValueCodec[ULConfiguration].
-type ULConfigurationValueCodec = q19.ULConfigurationValueCodec
-type UTDOAInformationExchangeDescriptor = q11.UTDOAInformationExchangeDescriptor
+type ULConfigurationValueCodec = s10.ULConfigurationValueCodec
+type UTDOAInformationExchangeDescriptor = s24.UTDOAInformationExchangeDescriptor
 
-var UTDOAInformationExchangeProcedure func() UTDOAInformationExchangeDescriptor = q11.UTDOAInformationExchangeProcedure
+var UTDOAInformationExchangeProcedure func() UTDOAInformationExchangeDescriptor = s24.UTDOAInformationExchangeProcedure
 
 // UTDOAInformationFailure represents the ASN.1 type UTDOAInformationFailure (SEQUENCE).
-type UTDOAInformationFailure = q20.UTDOAInformationFailure
+type UTDOAInformationFailure = s16.UTDOAInformationFailure
 
 // UTDOAInformationFailureAPERValue is the concrete APERValue[UTDOAInformationFailure].
-type UTDOAInformationFailureAPERValue = q20.UTDOAInformationFailureAPERValue
+type UTDOAInformationFailureAPERValue = s16.UTDOAInformationFailureAPERValue
 
 // UTDOAInformationFailureCauseIEBinding is the concrete IEBinding[Cause, UTDOAInformationFailureIEValue].
-type UTDOAInformationFailureCauseIEBinding = q19.UTDOAInformationFailureCauseIEBinding
+type UTDOAInformationFailureCauseIEBinding = s10.UTDOAInformationFailureCauseIEBinding
 
 // UTDOAInformationFailureCodec binds the complete APER value type.
-var UTDOAInformationFailureCodec func() UTDOAInformationFailureValueCodec = q11.UTDOAInformationFailureCodec
+var UTDOAInformationFailureCodec func() UTDOAInformationFailureValueCodec = s24.UTDOAInformationFailureCodec
 
 // UTDOAInformationFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, UTDOAInformationFailureIEValue].
-type UTDOAInformationFailureCriticalityDiagnosticsIEBinding = q19.UTDOAInformationFailureCriticalityDiagnosticsIEBinding
+type UTDOAInformationFailureCriticalityDiagnosticsIEBinding = s10.UTDOAInformationFailureCriticalityDiagnosticsIEBinding
 
 // UTDOAInformationFailureIEContainer is the concrete ProtocolIEContainer[UTDOAInformationFailureIEValue].
-type UTDOAInformationFailureIEContainer = q19.UTDOAInformationFailureIEContainer
+type UTDOAInformationFailureIEContainer = s10.UTDOAInformationFailureIEContainer
 
 // UTDOAInformationFailureIEField is the concrete ProtocolIEField[UTDOAInformationFailureIEValue].
-type UTDOAInformationFailureIEField = q19.UTDOAInformationFailureIEField
-type UTDOAInformationFailureIETable = q19.UTDOAInformationFailureIETable
-type UTDOAInformationFailureIEValue = q19.UTDOAInformationFailureIEValue
+type UTDOAInformationFailureIEField = s10.UTDOAInformationFailureIEField
+type UTDOAInformationFailureIETable = s10.UTDOAInformationFailureIETable
+type UTDOAInformationFailureIEValue = s10.UTDOAInformationFailureIEValue
 
-var UTDOAInformationFailureIEs func() UTDOAInformationFailureIETable = q19.UTDOAInformationFailureIEs
+var UTDOAInformationFailureIEs func() UTDOAInformationFailureIETable = s10.UTDOAInformationFailureIEs
 
 // UTDOAInformationFailureUnsuccessfulBinding is the concrete UnsuccessfulBinding[UTDOAInformationFailure].
-type UTDOAInformationFailureUnsuccessfulBinding = q20.UTDOAInformationFailureUnsuccessfulBinding
+type UTDOAInformationFailureUnsuccessfulBinding = s16.UTDOAInformationFailureUnsuccessfulBinding
 
 // UTDOAInformationFailureValueCodec is the concrete ValueCodec[UTDOAInformationFailure].
-type UTDOAInformationFailureValueCodec = q20.UTDOAInformationFailureValueCodec
+type UTDOAInformationFailureValueCodec = s16.UTDOAInformationFailureValueCodec
 
 // UTDOAInformationRequest represents the ASN.1 type UTDOAInformationRequest (SEQUENCE).
-type UTDOAInformationRequest = q20.UTDOAInformationRequest
+type UTDOAInformationRequest = s16.UTDOAInformationRequest
 
 // UTDOAInformationRequestAPERValue is the concrete APERValue[UTDOAInformationRequest].
-type UTDOAInformationRequestAPERValue = q20.UTDOAInformationRequestAPERValue
+type UTDOAInformationRequestAPERValue = s16.UTDOAInformationRequestAPERValue
 
 // UTDOAInformationRequestCodec binds the complete APER value type.
-var UTDOAInformationRequestCodec func() UTDOAInformationRequestValueCodec = q11.UTDOAInformationRequestCodec
+var UTDOAInformationRequestCodec func() UTDOAInformationRequestValueCodec = s24.UTDOAInformationRequestCodec
 
 // UTDOAInformationRequestIEContainer is the concrete ProtocolIEContainer[UTDOAInformationRequestIEValue].
-type UTDOAInformationRequestIEContainer = q15.UTDOAInformationRequestIEContainer
+type UTDOAInformationRequestIEContainer = s09.UTDOAInformationRequestIEContainer
 
 // UTDOAInformationRequestIEField is the concrete ProtocolIEField[UTDOAInformationRequestIEValue].
-type UTDOAInformationRequestIEField = q15.UTDOAInformationRequestIEField
-type UTDOAInformationRequestIETable = q15.UTDOAInformationRequestIETable
-type UTDOAInformationRequestIEValue = q15.UTDOAInformationRequestIEValue
+type UTDOAInformationRequestIEField = s09.UTDOAInformationRequestIEField
+type UTDOAInformationRequestIETable = s09.UTDOAInformationRequestIETable
+type UTDOAInformationRequestIEValue = s09.UTDOAInformationRequestIEValue
 
-var UTDOAInformationRequestIEs func() UTDOAInformationRequestIETable = q15.UTDOAInformationRequestIEs
+var UTDOAInformationRequestIEs func() UTDOAInformationRequestIETable = s09.UTDOAInformationRequestIEs
 
 // UTDOAInformationRequestInitiatingBinding is the concrete InitiatingBinding[UTDOAInformationRequest].
-type UTDOAInformationRequestInitiatingBinding = q12.UTDOAInformationRequestInitiatingBinding
+type UTDOAInformationRequestInitiatingBinding = s21.UTDOAInformationRequestInitiatingBinding
 
 // UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding is the concrete IEBinding[RequestedSRSTransmissionCharacteristics, UTDOAInformationRequestIEValue].
-type UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding = q15.UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding
+type UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding = s09.UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding
 
 // UTDOAInformationRequestValueCodec is the concrete ValueCodec[UTDOAInformationRequest].
-type UTDOAInformationRequestValueCodec = q20.UTDOAInformationRequestValueCodec
+type UTDOAInformationRequestValueCodec = s16.UTDOAInformationRequestValueCodec
 
 // UTDOAInformationResponse represents the ASN.1 type UTDOAInformationResponse (SEQUENCE).
-type UTDOAInformationResponse = q6.UTDOAInformationResponse
+type UTDOAInformationResponse = s17.UTDOAInformationResponse
 
 // UTDOAInformationResponseAPERValue is the concrete APERValue[UTDOAInformationResponse].
-type UTDOAInformationResponseAPERValue = q6.UTDOAInformationResponseAPERValue
+type UTDOAInformationResponseAPERValue = s17.UTDOAInformationResponseAPERValue
 
 // UTDOAInformationResponseCodec binds the complete APER value type.
-var UTDOAInformationResponseCodec func() UTDOAInformationResponseValueCodec = q11.UTDOAInformationResponseCodec
+var UTDOAInformationResponseCodec func() UTDOAInformationResponseValueCodec = s24.UTDOAInformationResponseCodec
 
 // UTDOAInformationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, UTDOAInformationResponseIEValue].
-type UTDOAInformationResponseCriticalityDiagnosticsIEBinding = q19.UTDOAInformationResponseCriticalityDiagnosticsIEBinding
+type UTDOAInformationResponseCriticalityDiagnosticsIEBinding = s10.UTDOAInformationResponseCriticalityDiagnosticsIEBinding
 
 // UTDOAInformationResponseIEContainer is the concrete ProtocolIEContainer[UTDOAInformationResponseIEValue].
-type UTDOAInformationResponseIEContainer = q19.UTDOAInformationResponseIEContainer
+type UTDOAInformationResponseIEContainer = s10.UTDOAInformationResponseIEContainer
 
 // UTDOAInformationResponseIEField is the concrete ProtocolIEField[UTDOAInformationResponseIEValue].
-type UTDOAInformationResponseIEField = q19.UTDOAInformationResponseIEField
-type UTDOAInformationResponseIETable = q19.UTDOAInformationResponseIETable
-type UTDOAInformationResponseIEValue = q19.UTDOAInformationResponseIEValue
+type UTDOAInformationResponseIEField = s10.UTDOAInformationResponseIEField
+type UTDOAInformationResponseIETable = s10.UTDOAInformationResponseIETable
+type UTDOAInformationResponseIEValue = s10.UTDOAInformationResponseIEValue
 
-var UTDOAInformationResponseIEs func() UTDOAInformationResponseIETable = q19.UTDOAInformationResponseIEs
+var UTDOAInformationResponseIEs func() UTDOAInformationResponseIETable = s10.UTDOAInformationResponseIEs
 
 // UTDOAInformationResponseSuccessfulBinding is the concrete SuccessfulBinding[UTDOAInformationResponse].
-type UTDOAInformationResponseSuccessfulBinding = q4.UTDOAInformationResponseSuccessfulBinding
+type UTDOAInformationResponseSuccessfulBinding = s23.UTDOAInformationResponseSuccessfulBinding
 
 // UTDOAInformationResponseULConfigurationIEBinding is the concrete IEBinding[ULConfiguration, UTDOAInformationResponseIEValue].
-type UTDOAInformationResponseULConfigurationIEBinding = q19.UTDOAInformationResponseULConfigurationIEBinding
+type UTDOAInformationResponseULConfigurationIEBinding = s10.UTDOAInformationResponseULConfigurationIEBinding
 
 // UTDOAInformationResponseValueCodec is the concrete ValueCodec[UTDOAInformationResponse].
-type UTDOAInformationResponseValueCodec = q6.UTDOAInformationResponseValueCodec
+type UTDOAInformationResponseValueCodec = s17.UTDOAInformationResponseValueCodec
 
 // UTDOAInformationUpdate represents the ASN.1 type UTDOAInformationUpdate (SEQUENCE).
-type UTDOAInformationUpdate = q6.UTDOAInformationUpdate
+type UTDOAInformationUpdate = s17.UTDOAInformationUpdate
 
 // UTDOAInformationUpdateAPERValue is the concrete APERValue[UTDOAInformationUpdate].
-type UTDOAInformationUpdateAPERValue = q6.UTDOAInformationUpdateAPERValue
+type UTDOAInformationUpdateAPERValue = s17.UTDOAInformationUpdateAPERValue
 
 // UTDOAInformationUpdateCodec binds the complete APER value type.
-var UTDOAInformationUpdateCodec func() UTDOAInformationUpdateValueCodec = q11.UTDOAInformationUpdateCodec
+var UTDOAInformationUpdateCodec func() UTDOAInformationUpdateValueCodec = s24.UTDOAInformationUpdateCodec
 
-type UTDOAInformationUpdateDescriptor = q11.UTDOAInformationUpdateDescriptor
+type UTDOAInformationUpdateDescriptor = s24.UTDOAInformationUpdateDescriptor
 
 // UTDOAInformationUpdateIEContainer is the concrete ProtocolIEContainer[UTDOAInformationUpdateIEValue].
-type UTDOAInformationUpdateIEContainer = q18.UTDOAInformationUpdateIEContainer
+type UTDOAInformationUpdateIEContainer = s11.UTDOAInformationUpdateIEContainer
 
 // UTDOAInformationUpdateIEField is the concrete ProtocolIEField[UTDOAInformationUpdateIEValue].
-type UTDOAInformationUpdateIEField = q18.UTDOAInformationUpdateIEField
-type UTDOAInformationUpdateIETable = q18.UTDOAInformationUpdateIETable
-type UTDOAInformationUpdateIEValue = q18.UTDOAInformationUpdateIEValue
+type UTDOAInformationUpdateIEField = s11.UTDOAInformationUpdateIEField
+type UTDOAInformationUpdateIETable = s11.UTDOAInformationUpdateIETable
+type UTDOAInformationUpdateIEValue = s11.UTDOAInformationUpdateIEValue
 
-var UTDOAInformationUpdateIEs func() UTDOAInformationUpdateIETable = q18.UTDOAInformationUpdateIEs
+var UTDOAInformationUpdateIEs func() UTDOAInformationUpdateIETable = s11.UTDOAInformationUpdateIEs
 
 // UTDOAInformationUpdateInitiatingBinding is the concrete InitiatingBinding[UTDOAInformationUpdate].
-type UTDOAInformationUpdateInitiatingBinding = q12.UTDOAInformationUpdateInitiatingBinding
+type UTDOAInformationUpdateInitiatingBinding = s21.UTDOAInformationUpdateInitiatingBinding
 
-var UTDOAInformationUpdateProcedure func() UTDOAInformationUpdateDescriptor = q11.UTDOAInformationUpdateProcedure
+var UTDOAInformationUpdateProcedure func() UTDOAInformationUpdateDescriptor = s24.UTDOAInformationUpdateProcedure
 
 // UTDOAInformationUpdateULConfigurationIEBinding is the concrete IEBinding[ULConfiguration, UTDOAInformationUpdateIEValue].
-type UTDOAInformationUpdateULConfigurationIEBinding = q18.UTDOAInformationUpdateULConfigurationIEBinding
+type UTDOAInformationUpdateULConfigurationIEBinding = s11.UTDOAInformationUpdateULConfigurationIEBinding
 
 // UTDOAInformationUpdateValueCodec is the concrete ValueCodec[UTDOAInformationUpdate].
-type UTDOAInformationUpdateValueCodec = q6.UTDOAInformationUpdateValueCodec
+type UTDOAInformationUpdateValueCodec = s17.UTDOAInformationUpdateValueCodec
 
 // UTRAEcN0 represents the ASN.1 type UTRA-EcN0 (INTEGER).
-type UTRAEcN0 = q14.UTRAEcN0
+type UTRAEcN0 = s00.UTRAEcN0
 
 // UTRAEcN0APERValue is the concrete APERValue[UTRAEcN0].
-type UTRAEcN0APERValue = q31.UTRAEcN0APERValue
+type UTRAEcN0APERValue = s01.UTRAEcN0APERValue
 
 // UTRAEcN0Codec binds the complete source value type.
-var UTRAEcN0Codec func() UTRAEcN0ValueCodec = q8.UTRAEcN0Codec
+var UTRAEcN0Codec func() UTRAEcN0ValueCodec = s03.UTRAEcN0Codec
 
 // UTRAEcN0ValueCodec is the concrete ValueCodec[UTRAEcN0].
-type UTRAEcN0ValueCodec = q31.UTRAEcN0ValueCodec
+type UTRAEcN0ValueCodec = s01.UTRAEcN0ValueCodec
 
 // UTRARSCP represents the ASN.1 type UTRA-RSCP (INTEGER).
-type UTRARSCP = q14.UTRARSCP
+type UTRARSCP = s00.UTRARSCP
 
 // UTRARSCPAPERValue is the concrete APERValue[UTRARSCP].
-type UTRARSCPAPERValue = q31.UTRARSCPAPERValue
+type UTRARSCPAPERValue = s01.UTRARSCPAPERValue
 
 // UTRARSCPCodec binds the complete source value type.
-var UTRARSCPCodec func() UTRARSCPValueCodec = q8.UTRARSCPCodec
+var UTRARSCPCodec func() UTRARSCPValueCodec = s03.UTRARSCPCodec
 
 // UTRARSCPValueCodec is the concrete ValueCodec[UTRARSCP].
-type UTRARSCPValueCodec = q31.UTRARSCPValueCodec
+type UTRARSCPValueCodec = s01.UTRARSCPValueCodec
 
-const UnavailableOutcome = q14.UnavailableOutcome
-const UnknownProcedure = q14.UnknownProcedure
+const UnavailableOutcome = s00.UnavailableOutcome
+const UnknownProcedure = s00.UnknownProcedure
 
 // UnmarshalAPERAddOTDOACellInformation decodes a complete named list.
-var UnmarshalAPERAddOTDOACellInformation func(data []byte, options ...q23.DecodeOption) (AddOTDOACellInformationComplete, q23.DecodeReport, error) = q6.UnmarshalAPERAddOTDOACellInformation
+var UnmarshalAPERAddOTDOACellInformation func(data []byte, options ...aper.DecodeOption) (AddOTDOACellInformationComplete, aper.DecodeReport, error) = s17.UnmarshalAPERAddOTDOACellInformation
 
 // UnmarshalAPERAddOTDOACells decodes a complete named list.
-var UnmarshalAPERAddOTDOACells func(data []byte, options ...q23.DecodeOption) (AddOTDOACellsComplete, q23.DecodeReport, error) = q6.UnmarshalAPERAddOTDOACells
+var UnmarshalAPERAddOTDOACells func(data []byte, options ...aper.DecodeOption) (AddOTDOACellsComplete, aper.DecodeReport, error) = s17.UnmarshalAPERAddOTDOACells
 
 // UnmarshalAPERAssistanceInformationFailureList decodes a complete named list.
-var UnmarshalAPERAssistanceInformationFailureList func(data []byte, options ...q23.DecodeOption) (AssistanceInformationFailureListComplete, q23.DecodeReport, error) = q6.UnmarshalAPERAssistanceInformationFailureList
+var UnmarshalAPERAssistanceInformationFailureList func(data []byte, options ...aper.DecodeOption) (AssistanceInformationFailureListComplete, aper.DecodeReport, error) = s17.UnmarshalAPERAssistanceInformationFailureList
 
 // UnmarshalAPERCriticalityDiagnosticsIEList decodes a complete named list.
-var UnmarshalAPERCriticalityDiagnosticsIEList func(data []byte, options ...q23.DecodeOption) (CriticalityDiagnosticsIEListComplete, q23.DecodeReport, error) = q6.UnmarshalAPERCriticalityDiagnosticsIEList
+var UnmarshalAPERCriticalityDiagnosticsIEList func(data []byte, options ...aper.DecodeOption) (CriticalityDiagnosticsIEListComplete, aper.DecodeReport, error) = s17.UnmarshalAPERCriticalityDiagnosticsIEList
 
 // UnmarshalAPERInterRATMeasurementQuantities decodes a complete named list.
-var UnmarshalAPERInterRATMeasurementQuantities func(data []byte, options ...q23.DecodeOption) (InterRATMeasurementQuantitiesComplete, q23.DecodeReport, error) = q6.UnmarshalAPERInterRATMeasurementQuantities
+var UnmarshalAPERInterRATMeasurementQuantities func(data []byte, options ...aper.DecodeOption) (InterRATMeasurementQuantitiesComplete, aper.DecodeReport, error) = s17.UnmarshalAPERInterRATMeasurementQuantities
 
 // UnmarshalAPERInterRATMeasurementResult decodes a complete named list.
-var UnmarshalAPERInterRATMeasurementResult func(data []byte, options ...q23.DecodeOption) (InterRATMeasurementResultComplete, q23.DecodeReport, error) = q21.UnmarshalAPERInterRATMeasurementResult
+var UnmarshalAPERInterRATMeasurementResult func(data []byte, options ...aper.DecodeOption) (InterRATMeasurementResultComplete, aper.DecodeReport, error) = s20.UnmarshalAPERInterRATMeasurementResult
 
 // UnmarshalAPERMBSFNsubframeConfiguration decodes a complete named list.
-var UnmarshalAPERMBSFNsubframeConfiguration func(data []byte, options ...q23.DecodeOption) (MBSFNsubframeConfigurationComplete, q23.DecodeReport, error) = q7.UnmarshalAPERMBSFNsubframeConfiguration
+var UnmarshalAPERMBSFNsubframeConfiguration func(data []byte, options ...aper.DecodeOption) (MBSFNsubframeConfigurationComplete, aper.DecodeReport, error) = s18.UnmarshalAPERMBSFNsubframeConfiguration
 
 // UnmarshalAPERMeasuredResults decodes a complete named list.
-var UnmarshalAPERMeasuredResults func(data []byte, options ...q23.DecodeOption) (MeasuredResultsComplete, q23.DecodeReport, error) = q7.UnmarshalAPERMeasuredResults
+var UnmarshalAPERMeasuredResults func(data []byte, options ...aper.DecodeOption) (MeasuredResultsComplete, aper.DecodeReport, error) = s18.UnmarshalAPERMeasuredResults
 
 // UnmarshalAPERMeasurementQuantities decodes a complete named list.
-var UnmarshalAPERMeasurementQuantities func(data []byte, options ...q23.DecodeOption) (MeasurementQuantitiesComplete, q23.DecodeReport, error) = q7.UnmarshalAPERMeasurementQuantities
+var UnmarshalAPERMeasurementQuantities func(data []byte, options ...aper.DecodeOption) (MeasurementQuantitiesComplete, aper.DecodeReport, error) = s18.UnmarshalAPERMeasurementQuantities
 
 // UnmarshalAPEROTDOACellInformation decodes a complete named list.
-var UnmarshalAPEROTDOACellInformation func(data []byte, options ...q23.DecodeOption) (OTDOACellInformationComplete, q23.DecodeReport, error) = q7.UnmarshalAPEROTDOACellInformation
+var UnmarshalAPEROTDOACellInformation func(data []byte, options ...aper.DecodeOption) (OTDOACellInformationComplete, aper.DecodeReport, error) = s18.UnmarshalAPEROTDOACellInformation
 
 // UnmarshalAPEROTDOACells decodes a complete named list.
-var UnmarshalAPEROTDOACells func(data []byte, options ...q23.DecodeOption) (OTDOACellsComplete, q23.DecodeReport, error) = q7.UnmarshalAPEROTDOACells
+var UnmarshalAPEROTDOACells func(data []byte, options ...aper.DecodeOption) (OTDOACellsComplete, aper.DecodeReport, error) = s18.UnmarshalAPEROTDOACells
 
 // UnmarshalAPEROTDOAInformationType decodes a complete named list.
-var UnmarshalAPEROTDOAInformationType func(data []byte, options ...q23.DecodeOption) (OTDOAInformationTypeComplete, q23.DecodeReport, error) = q7.UnmarshalAPEROTDOAInformationType
+var UnmarshalAPEROTDOAInformationType func(data []byte, options ...aper.DecodeOption) (OTDOAInformationTypeComplete, aper.DecodeReport, error) = s18.UnmarshalAPEROTDOAInformationType
 
 // UnmarshalAPERPRSFrequencyHoppingConfigurationBandPositions decodes a complete named list.
-var UnmarshalAPERPRSFrequencyHoppingConfigurationBandPositions func(data []byte, options ...q23.DecodeOption) (PRSFrequencyHoppingConfigurationBandPositionsComplete, q23.DecodeReport, error) = q24.UnmarshalAPERPRSFrequencyHoppingConfigurationBandPositions
+var UnmarshalAPERPRSFrequencyHoppingConfigurationBandPositions func(data []byte, options ...aper.DecodeOption) (PRSFrequencyHoppingConfigurationBandPositionsComplete, aper.DecodeReport, error) = s19.UnmarshalAPERPRSFrequencyHoppingConfigurationBandPositions
 
 // UnmarshalAPERPosSIBSegments decodes a complete named list.
-var UnmarshalAPERPosSIBSegments func(data []byte, options ...q23.DecodeOption) (PosSIBSegmentsComplete, q23.DecodeReport, error) = q24.UnmarshalAPERPosSIBSegments
+var UnmarshalAPERPosSIBSegments func(data []byte, options ...aper.DecodeOption) (PosSIBSegmentsComplete, aper.DecodeReport, error) = s19.UnmarshalAPERPosSIBSegments
 
 // UnmarshalAPERPosSIBs decodes a complete named list.
-var UnmarshalAPERPosSIBs func(data []byte, options ...q23.DecodeOption) (PosSIBsComplete, q23.DecodeReport, error) = q24.UnmarshalAPERPosSIBs
+var UnmarshalAPERPosSIBs func(data []byte, options ...aper.DecodeOption) (PosSIBsComplete, aper.DecodeReport, error) = s19.UnmarshalAPERPosSIBs
 
 // UnmarshalAPERResultGERAN decodes a complete named list.
-var UnmarshalAPERResultGERAN func(data []byte, options ...q23.DecodeOption) (ResultGERANComplete, q23.DecodeReport, error) = q24.UnmarshalAPERResultGERAN
+var UnmarshalAPERResultGERAN func(data []byte, options ...aper.DecodeOption) (ResultGERANComplete, aper.DecodeReport, error) = s19.UnmarshalAPERResultGERAN
 
 // UnmarshalAPERResultNR decodes a complete named list.
-var UnmarshalAPERResultNR func(data []byte, options ...q23.DecodeOption) (ResultNRComplete, q23.DecodeReport, error) = q21.UnmarshalAPERResultNR
+var UnmarshalAPERResultNR func(data []byte, options ...aper.DecodeOption) (ResultNRComplete, aper.DecodeReport, error) = s20.UnmarshalAPERResultNR
 
 // UnmarshalAPERResultRSRP decodes a complete named list.
-var UnmarshalAPERResultRSRP func(data []byte, options ...q23.DecodeOption) (ResultRSRPComplete, q23.DecodeReport, error) = q24.UnmarshalAPERResultRSRP
+var UnmarshalAPERResultRSRP func(data []byte, options ...aper.DecodeOption) (ResultRSRPComplete, aper.DecodeReport, error) = s19.UnmarshalAPERResultRSRP
 
 // UnmarshalAPERResultRSRQ decodes a complete named list.
-var UnmarshalAPERResultRSRQ func(data []byte, options ...q23.DecodeOption) (ResultRSRQComplete, q23.DecodeReport, error) = q24.UnmarshalAPERResultRSRQ
+var UnmarshalAPERResultRSRQ func(data []byte, options ...aper.DecodeOption) (ResultRSRQComplete, aper.DecodeReport, error) = s19.UnmarshalAPERResultRSRQ
 
 // UnmarshalAPERResultUTRAN decodes a complete named list.
-var UnmarshalAPERResultUTRAN func(data []byte, options ...q23.DecodeOption) (ResultUTRANComplete, q23.DecodeReport, error) = q24.UnmarshalAPERResultUTRAN
+var UnmarshalAPERResultUTRAN func(data []byte, options ...aper.DecodeOption) (ResultUTRANComplete, aper.DecodeReport, error) = s19.UnmarshalAPERResultUTRAN
 
 // UnmarshalAPERResultsPerSSBIndexList decodes a complete named list.
-var UnmarshalAPERResultsPerSSBIndexList func(data []byte, options ...q23.DecodeOption) (ResultsPerSSBIndexListComplete, q23.DecodeReport, error) = q24.UnmarshalAPERResultsPerSSBIndexList
+var UnmarshalAPERResultsPerSSBIndexList func(data []byte, options ...aper.DecodeOption) (ResultsPerSSBIndexListComplete, aper.DecodeReport, error) = s19.UnmarshalAPERResultsPerSSBIndexList
 
 // UnmarshalAPERSRSConfigurationForAllCells decodes a complete named list.
-var UnmarshalAPERSRSConfigurationForAllCells func(data []byte, options ...q23.DecodeOption) (SRSConfigurationForAllCellsComplete, q23.DecodeReport, error) = q21.UnmarshalAPERSRSConfigurationForAllCells
+var UnmarshalAPERSRSConfigurationForAllCells func(data []byte, options ...aper.DecodeOption) (SRSConfigurationForAllCellsComplete, aper.DecodeReport, error) = s20.UnmarshalAPERSRSConfigurationForAllCells
 
 // UnmarshalAPERSystemInformation decodes a complete named list.
-var UnmarshalAPERSystemInformation func(data []byte, options ...q23.DecodeOption) (SystemInformationComplete, q23.DecodeReport, error) = q21.UnmarshalAPERSystemInformation
+var UnmarshalAPERSystemInformation func(data []byte, options ...aper.DecodeOption) (SystemInformationComplete, aper.DecodeReport, error) = s20.UnmarshalAPERSystemInformation
 
 // UnmarshalAPERWLANChannelList decodes a complete named list.
-var UnmarshalAPERWLANChannelList func(data []byte, options ...q23.DecodeOption) (WLANChannelListComplete, q23.DecodeReport, error) = q21.UnmarshalAPERWLANChannelList
+var UnmarshalAPERWLANChannelList func(data []byte, options ...aper.DecodeOption) (WLANChannelListComplete, aper.DecodeReport, error) = s20.UnmarshalAPERWLANChannelList
 
 // UnmarshalAPERWLANMeasurementQuantities decodes a complete named list.
-var UnmarshalAPERWLANMeasurementQuantities func(data []byte, options ...q23.DecodeOption) (WLANMeasurementQuantitiesComplete, q23.DecodeReport, error) = q12.UnmarshalAPERWLANMeasurementQuantities
+var UnmarshalAPERWLANMeasurementQuantities func(data []byte, options ...aper.DecodeOption) (WLANMeasurementQuantitiesComplete, aper.DecodeReport, error) = s21.UnmarshalAPERWLANMeasurementQuantities
 
 // UnmarshalAPERWLANMeasurementResult decodes a complete named list.
-var UnmarshalAPERWLANMeasurementResult func(data []byte, options ...q23.DecodeOption) (WLANMeasurementResultComplete, q23.DecodeReport, error) = q17.UnmarshalAPERWLANMeasurementResult
+var UnmarshalAPERWLANMeasurementResult func(data []byte, options ...aper.DecodeOption) (WLANMeasurementResultComplete, aper.DecodeReport, error) = s22.UnmarshalAPERWLANMeasurementResult
 
-type UnsuccessfulBinding[T any] = q4.UnsuccessfulBinding[T]
+type UnsuccessfulBinding[T any] = s23.UnsuccessfulBinding[T]
 
 // UnsuccessfulOutcome represents the ASN.1 type UnsuccessfulOutcome (SEQUENCE).
-type UnsuccessfulOutcome = q20.UnsuccessfulOutcome
+type UnsuccessfulOutcome = s16.UnsuccessfulOutcome
 
 // UnsuccessfulOutcomeAPERValue is the concrete APERValue[UnsuccessfulOutcome].
-type UnsuccessfulOutcomeAPERValue = q20.UnsuccessfulOutcomeAPERValue
+type UnsuccessfulOutcomeAPERValue = s16.UnsuccessfulOutcomeAPERValue
 
 // UnsuccessfulOutcomeCodec binds the complete source value type.
-var UnsuccessfulOutcomeCodec func() UnsuccessfulOutcomeValueCodec = q20.UnsuccessfulOutcomeCodec
+var UnsuccessfulOutcomeCodec func() UnsuccessfulOutcomeValueCodec = s16.UnsuccessfulOutcomeCodec
 
 // UnsuccessfulOutcomeValueCodec is the concrete ValueCodec[UnsuccessfulOutcome].
-type UnsuccessfulOutcomeValueCodec = q20.UnsuccessfulOutcomeValueCodec
+type UnsuccessfulOutcomeValueCodec = s16.UnsuccessfulOutcomeValueCodec
 
-var UnsuccessfulReason func(code ProcedureCode) q23.OpaqueReason = q14.UnsuccessfulReason
+var UnsuccessfulReason func(code ProcedureCode) aper.OpaqueReason = s00.UnsuccessfulReason
 
-type UnsuccessfulValue = q20.UnsuccessfulValue
+type UnsuccessfulValue = s16.UnsuccessfulValue
 
-var ValidateAssistanceInformationControl func(v *AssistanceInformationControl, options ...q23.ValidationOption) (ValidationReport, error) = q11.ValidateAssistanceInformationControl
-var ValidateAssistanceInformationFeedback func(v *AssistanceInformationFeedback, options ...q23.ValidationOption) (ValidationReport, error) = q4.ValidateAssistanceInformationFeedback
-var ValidateECIDMeasurementFailureIndication func(v *ECIDMeasurementFailureIndication, options ...q23.ValidationOption) (ValidationReport, error) = q4.ValidateECIDMeasurementFailureIndication
-var ValidateECIDMeasurementInitiationFailure func(v *ECIDMeasurementInitiationFailure, options ...q23.ValidationOption) (ValidationReport, error) = q4.ValidateECIDMeasurementInitiationFailure
-var ValidateECIDMeasurementInitiationRequest func(v *ECIDMeasurementInitiationRequest, options ...q23.ValidationOption) (ValidationReport, error) = q11.ValidateECIDMeasurementInitiationRequest
-var ValidateECIDMeasurementInitiationResponse func(v *ECIDMeasurementInitiationResponse, options ...q23.ValidationOption) (ValidationReport, error) = q11.ValidateECIDMeasurementInitiationResponse
-var ValidateECIDMeasurementReport func(v *ECIDMeasurementReport, options ...q23.ValidationOption) (ValidationReport, error) = q4.ValidateECIDMeasurementReport
-var ValidateECIDMeasurementTerminationCommand func(v *ECIDMeasurementTerminationCommand, options ...q23.ValidationOption) (ValidationReport, error) = q4.ValidateECIDMeasurementTerminationCommand
-var ValidateErrorIndication func(v *ErrorIndication, options ...q23.ValidationOption) (ValidationReport, error) = q4.ValidateErrorIndication
-var ValidateMessage func(v *LPPAPDU, options ...q23.ValidationOption) (ValidationReport, error) = q11.ValidateMessage
-var ValidateOTDOAInformationFailure func(v *OTDOAInformationFailure, options ...q23.ValidationOption) (ValidationReport, error) = q4.ValidateOTDOAInformationFailure
-var ValidateOTDOAInformationRequest func(v *OTDOAInformationRequest, options ...q23.ValidationOption) (ValidationReport, error) = q4.ValidateOTDOAInformationRequest
-var ValidateOTDOAInformationResponse func(v *OTDOAInformationResponse, options ...q23.ValidationOption) (ValidationReport, error) = q11.ValidateOTDOAInformationResponse
-var ValidatePrivateMessage func(v *PrivateMessage, options ...q23.ValidationOption) (ValidationReport, error) = q21.ValidatePrivateMessage
-var ValidateUTDOAInformationFailure func(v *UTDOAInformationFailure, options ...q23.ValidationOption) (ValidationReport, error) = q11.ValidateUTDOAInformationFailure
-var ValidateUTDOAInformationRequest func(v *UTDOAInformationRequest, options ...q23.ValidationOption) (ValidationReport, error) = q11.ValidateUTDOAInformationRequest
-var ValidateUTDOAInformationResponse func(v *UTDOAInformationResponse, options ...q23.ValidationOption) (ValidationReport, error) = q11.ValidateUTDOAInformationResponse
-var ValidateUTDOAInformationUpdate func(v *UTDOAInformationUpdate, options ...q23.ValidationOption) (ValidationReport, error) = q11.ValidateUTDOAInformationUpdate
+var ValidateAssistanceInformationControl func(v *AssistanceInformationControl, options ...aper.ValidationOption) (ValidationReport, error) = s24.ValidateAssistanceInformationControl
+var ValidateAssistanceInformationFeedback func(v *AssistanceInformationFeedback, options ...aper.ValidationOption) (ValidationReport, error) = s23.ValidateAssistanceInformationFeedback
+var ValidateECIDMeasurementFailureIndication func(v *ECIDMeasurementFailureIndication, options ...aper.ValidationOption) (ValidationReport, error) = s23.ValidateECIDMeasurementFailureIndication
+var ValidateECIDMeasurementInitiationFailure func(v *ECIDMeasurementInitiationFailure, options ...aper.ValidationOption) (ValidationReport, error) = s23.ValidateECIDMeasurementInitiationFailure
+var ValidateECIDMeasurementInitiationRequest func(v *ECIDMeasurementInitiationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s24.ValidateECIDMeasurementInitiationRequest
+var ValidateECIDMeasurementInitiationResponse func(v *ECIDMeasurementInitiationResponse, options ...aper.ValidationOption) (ValidationReport, error) = s24.ValidateECIDMeasurementInitiationResponse
+var ValidateECIDMeasurementReport func(v *ECIDMeasurementReport, options ...aper.ValidationOption) (ValidationReport, error) = s23.ValidateECIDMeasurementReport
+var ValidateECIDMeasurementTerminationCommand func(v *ECIDMeasurementTerminationCommand, options ...aper.ValidationOption) (ValidationReport, error) = s23.ValidateECIDMeasurementTerminationCommand
+var ValidateErrorIndication func(v *ErrorIndication, options ...aper.ValidationOption) (ValidationReport, error) = s23.ValidateErrorIndication
+var ValidateMessage func(v *LPPAPDU, options ...aper.ValidationOption) (ValidationReport, error) = s24.ValidateMessage
+var ValidateOTDOAInformationFailure func(v *OTDOAInformationFailure, options ...aper.ValidationOption) (ValidationReport, error) = s23.ValidateOTDOAInformationFailure
+var ValidateOTDOAInformationRequest func(v *OTDOAInformationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s23.ValidateOTDOAInformationRequest
+var ValidateOTDOAInformationResponse func(v *OTDOAInformationResponse, options ...aper.ValidationOption) (ValidationReport, error) = s24.ValidateOTDOAInformationResponse
+var ValidatePrivateMessage func(v *PrivateMessage, options ...aper.ValidationOption) (ValidationReport, error) = s20.ValidatePrivateMessage
+var ValidateUTDOAInformationFailure func(v *UTDOAInformationFailure, options ...aper.ValidationOption) (ValidationReport, error) = s24.ValidateUTDOAInformationFailure
+var ValidateUTDOAInformationRequest func(v *UTDOAInformationRequest, options ...aper.ValidationOption) (ValidationReport, error) = s24.ValidateUTDOAInformationRequest
+var ValidateUTDOAInformationResponse func(v *UTDOAInformationResponse, options ...aper.ValidationOption) (ValidationReport, error) = s24.ValidateUTDOAInformationResponse
+var ValidateUTDOAInformationUpdate func(v *UTDOAInformationUpdate, options ...aper.ValidationOption) (ValidationReport, error) = s24.ValidateUTDOAInformationUpdate
 
-type ValidationCode = q14.ValidationCode
-type ValidationIssue = q15.ValidationIssue
-type ValidationReport = q15.ValidationReport
-type ValidationSeverity = q14.ValidationSeverity
+type ValidationCode = s00.ValidationCode
+type ValidationIssue = s09.ValidationIssue
+type ValidationReport = s09.ValidationReport
+type ValidationSeverity = s00.ValidationSeverity
 
-const ValidationSeverityError = q14.ValidationSeverityError
-const ValidationSeverityInformational = q14.ValidationSeverityInformational
-const ValidationSeverityUnrecognized = q14.ValidationSeverityUnrecognized
+const ValidationSeverityError = s00.ValidationSeverityError
+const ValidationSeverityInformational = s00.ValidationSeverityInformational
+const ValidationSeverityUnrecognized = s00.ValidationSeverityUnrecognized
 
 // ValueCodec binds one source value type to its complete APER encoding.
-type ValueCodec[T any] = q4.ValueCodec[T]
+type ValueCodec[T any] = s23.ValueCodec[T]
 
-const ValueIDMismatch = q14.ValueIDMismatch
+const ValueIDMismatch = s00.ValueIDMismatch
 
 // ValueRSRP represents the ASN.1 type ValueRSRP (INTEGER).
-type ValueRSRP = q14.ValueRSRP
+type ValueRSRP = s00.ValueRSRP
 
 // ValueRSRPAPERValue is the concrete APERValue[ValueRSRP].
-type ValueRSRPAPERValue = q31.ValueRSRPAPERValue
+type ValueRSRPAPERValue = s01.ValueRSRPAPERValue
 
 // ValueRSRPCodec binds the complete source value type.
-var ValueRSRPCodec func() ValueRSRPValueCodec = q8.ValueRSRPCodec
+var ValueRSRPCodec func() ValueRSRPValueCodec = s03.ValueRSRPCodec
 
 // ValueRSRPValueCodec is the concrete ValueCodec[ValueRSRP].
-type ValueRSRPValueCodec = q31.ValueRSRPValueCodec
+type ValueRSRPValueCodec = s01.ValueRSRPValueCodec
 
 // ValueRSRQ represents the ASN.1 type ValueRSRQ (INTEGER).
-type ValueRSRQ = q14.ValueRSRQ
+type ValueRSRQ = s00.ValueRSRQ
 
 // ValueRSRQAPERValue is the concrete APERValue[ValueRSRQ].
-type ValueRSRQAPERValue = q31.ValueRSRQAPERValue
+type ValueRSRQAPERValue = s01.ValueRSRQAPERValue
 
 // ValueRSRQCodec binds the complete source value type.
-var ValueRSRQCodec func() ValueRSRQValueCodec = q8.ValueRSRQCodec
+var ValueRSRQCodec func() ValueRSRQValueCodec = s03.ValueRSRQCodec
 
 // ValueRSRQValueCodec is the concrete ValueCodec[ValueRSRQ].
-type ValueRSRQValueCodec = q31.ValueRSRQValueCodec
+type ValueRSRQValueCodec = s01.ValueRSRQValueCodec
 
 // WLANBand represents the ASN.1 ENUMERATED type WLANBand.
-type WLANBand = q14.WLANBand
+type WLANBand = s00.WLANBand
 
 // WLANBandAPERValue is the concrete APERValue[WLANBand].
-type WLANBandAPERValue = q31.WLANBandAPERValue
+type WLANBandAPERValue = s01.WLANBandAPERValue
 
-const WLANBandBand2dot4 = q14.WLANBandBand2dot4
-const WLANBandBand5 = q14.WLANBandBand5
+const WLANBandBand2dot4 = s00.WLANBandBand2dot4
+const WLANBandBand5 = s00.WLANBandBand5
 
 // WLANBandCodec binds the complete source value type.
-var WLANBandCodec func() WLANBandValueCodec = q8.WLANBandCodec
+var WLANBandCodec func() WLANBandValueCodec = s03.WLANBandCodec
 
 // WLANBandValueCodec is the concrete ValueCodec[WLANBand].
-type WLANBandValueCodec = q31.WLANBandValueCodec
+type WLANBandValueCodec = s01.WLANBandValueCodec
 
 // WLANChannel represents the ASN.1 type WLANChannel (INTEGER).
-type WLANChannel = q14.WLANChannel
+type WLANChannel = s00.WLANChannel
 
 // WLANChannelAPERValue is the concrete APERValue[WLANChannel].
-type WLANChannelAPERValue = q31.WLANChannelAPERValue
+type WLANChannelAPERValue = s01.WLANChannelAPERValue
 
 // WLANChannelCodec binds the complete source value type.
-var WLANChannelCodec func() WLANChannelValueCodec = q25.WLANChannelCodec
+var WLANChannelCodec func() WLANChannelValueCodec = s04.WLANChannelCodec
 
-type WLANChannelList = q14.WLANChannelList
+type WLANChannelList = s00.WLANChannelList
 
 // WLANChannelListAPERValue is the concrete APERValue[WLANChannelList].
-type WLANChannelListAPERValue = q31.WLANChannelListAPERValue
+type WLANChannelListAPERValue = s01.WLANChannelListAPERValue
 
 // WLANChannelListCodec binds the complete source value type.
-var WLANChannelListCodec func() WLANChannelListValueCodec = q21.WLANChannelListCodec
+var WLANChannelListCodec func() WLANChannelListValueCodec = s20.WLANChannelListCodec
 
 // WLANChannelListComplete carries a complete WLANChannelList encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type WLANChannelListComplete = q21.WLANChannelListComplete
+type WLANChannelListComplete = s20.WLANChannelListComplete
 
 // WLANChannelListValueCodec is the concrete ValueCodec[WLANChannelList].
-type WLANChannelListValueCodec = q31.WLANChannelListValueCodec
+type WLANChannelListValueCodec = s01.WLANChannelListValueCodec
 
 // WLANChannelValueCodec is the concrete ValueCodec[WLANChannel].
-type WLANChannelValueCodec = q31.WLANChannelValueCodec
+type WLANChannelValueCodec = s01.WLANChannelValueCodec
 
 // WLANCountryCode represents the ASN.1 ENUMERATED type WLANCountryCode.
-type WLANCountryCode = q14.WLANCountryCode
+type WLANCountryCode = s00.WLANCountryCode
 
 // WLANCountryCodeAPERValue is the concrete APERValue[WLANCountryCode].
-type WLANCountryCodeAPERValue = q31.WLANCountryCodeAPERValue
+type WLANCountryCodeAPERValue = s01.WLANCountryCodeAPERValue
 
 // WLANCountryCodeCodec binds the complete source value type.
-var WLANCountryCodeCodec func() WLANCountryCodeValueCodec = q8.WLANCountryCodeCodec
+var WLANCountryCodeCodec func() WLANCountryCodeValueCodec = s03.WLANCountryCodeCodec
 
-const WLANCountryCodeEurope = q14.WLANCountryCodeEurope
-const WLANCountryCodeGlobal = q14.WLANCountryCodeGlobal
-const WLANCountryCodeJapan = q14.WLANCountryCodeJapan
-const WLANCountryCodeUnitedStates = q14.WLANCountryCodeUnitedStates
+const WLANCountryCodeEurope = s00.WLANCountryCodeEurope
+const WLANCountryCodeGlobal = s00.WLANCountryCodeGlobal
+const WLANCountryCodeJapan = s00.WLANCountryCodeJapan
+const WLANCountryCodeUnitedStates = s00.WLANCountryCodeUnitedStates
 
 // WLANCountryCodeValueCodec is the concrete ValueCodec[WLANCountryCode].
-type WLANCountryCodeValueCodec = q9.WLANCountryCodeValueCodec
-type WLANMeasurementQuantities = q21.WLANMeasurementQuantities
+type WLANCountryCodeValueCodec = s02.WLANCountryCodeValueCodec
+type WLANMeasurementQuantities = s20.WLANMeasurementQuantities
 
 // WLANMeasurementQuantitiesAPERValue is the concrete APERValue[WLANMeasurementQuantities].
-type WLANMeasurementQuantitiesAPERValue = q21.WLANMeasurementQuantitiesAPERValue
+type WLANMeasurementQuantitiesAPERValue = s20.WLANMeasurementQuantitiesAPERValue
 
 // WLANMeasurementQuantitiesCodec binds the complete APER value type.
-var WLANMeasurementQuantitiesCodec func() WLANMeasurementQuantitiesConcreteValueCodec = q12.WLANMeasurementQuantitiesCodec
+var WLANMeasurementQuantitiesCodec func() WLANMeasurementQuantitiesConcreteValueCodec = s21.WLANMeasurementQuantitiesCodec
 
 // WLANMeasurementQuantitiesComplete carries a complete WLANMeasurementQuantities encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type WLANMeasurementQuantitiesComplete = q21.WLANMeasurementQuantitiesComplete
+type WLANMeasurementQuantitiesComplete = s20.WLANMeasurementQuantitiesComplete
 
 // WLANMeasurementQuantitiesConcreteValueCodec is the concrete ValueCodec[WLANMeasurementQuantities].
-type WLANMeasurementQuantitiesConcreteValueCodec = q21.WLANMeasurementQuantitiesConcreteValueCodec
+type WLANMeasurementQuantitiesConcreteValueCodec = s20.WLANMeasurementQuantitiesConcreteValueCodec
 
 // WLANMeasurementQuantitiesItem represents the ASN.1 type WLANMeasurementQuantities-Item (SEQUENCE).
-type WLANMeasurementQuantitiesItem = q21.WLANMeasurementQuantitiesItem
+type WLANMeasurementQuantitiesItem = s20.WLANMeasurementQuantitiesItem
 
 // WLANMeasurementQuantitiesItemAPERValue is the concrete APERValue[WLANMeasurementQuantitiesItem].
-type WLANMeasurementQuantitiesItemAPERValue = q21.WLANMeasurementQuantitiesItemAPERValue
+type WLANMeasurementQuantitiesItemAPERValue = s20.WLANMeasurementQuantitiesItemAPERValue
 
 // WLANMeasurementQuantitiesItemCodec binds the complete APER value type.
-var WLANMeasurementQuantitiesItemCodec func() WLANMeasurementQuantitiesItemValueCodec = q21.WLANMeasurementQuantitiesItemCodec
+var WLANMeasurementQuantitiesItemCodec func() WLANMeasurementQuantitiesItemValueCodec = s20.WLANMeasurementQuantitiesItemCodec
 
 // WLANMeasurementQuantitiesItemIEContainer is the concrete ProtocolIEContainer[WLANMeasurementQuantitiesItemIEValue].
-type WLANMeasurementQuantitiesItemIEContainer = q21.WLANMeasurementQuantitiesItemIEContainer
+type WLANMeasurementQuantitiesItemIEContainer = s20.WLANMeasurementQuantitiesItemIEContainer
 
 // WLANMeasurementQuantitiesItemIEField is the concrete ProtocolIEField[WLANMeasurementQuantitiesItemIEValue].
-type WLANMeasurementQuantitiesItemIEField = q21.WLANMeasurementQuantitiesItemIEField
-type WLANMeasurementQuantitiesItemIETable = q21.WLANMeasurementQuantitiesItemIETable
-type WLANMeasurementQuantitiesItemIEValue = q21.WLANMeasurementQuantitiesItemIEValue
+type WLANMeasurementQuantitiesItemIEField = s20.WLANMeasurementQuantitiesItemIEField
+type WLANMeasurementQuantitiesItemIETable = s20.WLANMeasurementQuantitiesItemIETable
+type WLANMeasurementQuantitiesItemIEValue = s20.WLANMeasurementQuantitiesItemIEValue
 
 // WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[WLANMeasurementQuantitiesItemIEValue].
-type WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer = q21.WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer
+type WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer = s20.WLANMeasurementQuantitiesItemIEValueProtocolIESingleContainer
 
-var WLANMeasurementQuantitiesItemIEs func() WLANMeasurementQuantitiesItemIETable = q21.WLANMeasurementQuantitiesItemIEs
+var WLANMeasurementQuantitiesItemIEs func() WLANMeasurementQuantitiesItemIETable = s20.WLANMeasurementQuantitiesItemIEs
 
 // WLANMeasurementQuantitiesItemValueCodec is the concrete ValueCodec[WLANMeasurementQuantitiesItem].
-type WLANMeasurementQuantitiesItemValueCodec = q21.WLANMeasurementQuantitiesItemValueCodec
+type WLANMeasurementQuantitiesItemValueCodec = s20.WLANMeasurementQuantitiesItemValueCodec
 
 // WLANMeasurementQuantitiesItemWLANMeasurementQuantitiesItemIEBinding is the concrete IEBinding[WLANMeasurementQuantitiesItem, WLANMeasurementQuantitiesItemIEValue].
-type WLANMeasurementQuantitiesItemWLANMeasurementQuantitiesItemIEBinding = q21.WLANMeasurementQuantitiesItemWLANMeasurementQuantitiesItemIEBinding
+type WLANMeasurementQuantitiesItemWLANMeasurementQuantitiesItemIEBinding = s20.WLANMeasurementQuantitiesItemWLANMeasurementQuantitiesItemIEBinding
 
 // WLANMeasurementQuantitiesValue represents the ASN.1 ENUMERATED type WLANMeasurementQuantitiesValue.
-type WLANMeasurementQuantitiesValue = q14.WLANMeasurementQuantitiesValue
+type WLANMeasurementQuantitiesValue = s00.WLANMeasurementQuantitiesValue
 
 // WLANMeasurementQuantitiesValueAPERValue is the concrete APERValue[WLANMeasurementQuantitiesValue].
-type WLANMeasurementQuantitiesValueAPERValue = q9.WLANMeasurementQuantitiesValueAPERValue
+type WLANMeasurementQuantitiesValueAPERValue = s02.WLANMeasurementQuantitiesValueAPERValue
 
 // WLANMeasurementQuantitiesValueCodec binds the complete source value type.
-var WLANMeasurementQuantitiesValueCodec func() WLANMeasurementQuantitiesValueValueCodec = q8.WLANMeasurementQuantitiesValueCodec
+var WLANMeasurementQuantitiesValueCodec func() WLANMeasurementQuantitiesValueValueCodec = s03.WLANMeasurementQuantitiesValueCodec
 
-type WLANMeasurementQuantitiesValueExtIETable = q25.WLANMeasurementQuantitiesValueExtIETable
+type WLANMeasurementQuantitiesValueExtIETable = s04.WLANMeasurementQuantitiesValueExtIETable
 
-var WLANMeasurementQuantitiesValueExtIEs func() WLANMeasurementQuantitiesValueExtIETable = q25.WLANMeasurementQuantitiesValueExtIEs
+var WLANMeasurementQuantitiesValueExtIEs func() WLANMeasurementQuantitiesValueExtIETable = s04.WLANMeasurementQuantitiesValueExtIEs
 
 // WLANMeasurementQuantitiesValueExtIEsExtContainer is the concrete ProtocolExtensionContainer[WLANMeasurementQuantitiesValueExtIEsValue].
-type WLANMeasurementQuantitiesValueExtIEsExtContainer = q25.WLANMeasurementQuantitiesValueExtIEsExtContainer
+type WLANMeasurementQuantitiesValueExtIEsExtContainer = s04.WLANMeasurementQuantitiesValueExtIEsExtContainer
 
 // WLANMeasurementQuantitiesValueExtIEsExtField is the concrete ProtocolExtensionField[WLANMeasurementQuantitiesValueExtIEsValue].
-type WLANMeasurementQuantitiesValueExtIEsExtField = q25.WLANMeasurementQuantitiesValueExtIEsExtField
+type WLANMeasurementQuantitiesValueExtIEsExtField = s04.WLANMeasurementQuantitiesValueExtIEsExtField
 
 // WLANMeasurementQuantitiesValueExtIEsIEContainer is the concrete ProtocolIEContainer[WLANMeasurementQuantitiesValueExtIEsValue].
-type WLANMeasurementQuantitiesValueExtIEsIEContainer = q25.WLANMeasurementQuantitiesValueExtIEsIEContainer
+type WLANMeasurementQuantitiesValueExtIEsIEContainer = s04.WLANMeasurementQuantitiesValueExtIEsIEContainer
 
 // WLANMeasurementQuantitiesValueExtIEsIEField is the concrete ProtocolIEField[WLANMeasurementQuantitiesValueExtIEsValue].
-type WLANMeasurementQuantitiesValueExtIEsIEField = q25.WLANMeasurementQuantitiesValueExtIEsIEField
-type WLANMeasurementQuantitiesValueExtIEsValue = q8.WLANMeasurementQuantitiesValueExtIEsValue
+type WLANMeasurementQuantitiesValueExtIEsIEField = s04.WLANMeasurementQuantitiesValueExtIEsIEField
+type WLANMeasurementQuantitiesValueExtIEsValue = s03.WLANMeasurementQuantitiesValueExtIEsValue
 
 // WLANMeasurementQuantitiesValueValueCodec is the concrete ValueCodec[WLANMeasurementQuantitiesValue].
-type WLANMeasurementQuantitiesValueValueCodec = q9.WLANMeasurementQuantitiesValueValueCodec
+type WLANMeasurementQuantitiesValueValueCodec = s02.WLANMeasurementQuantitiesValueValueCodec
 
-const WLANMeasurementQuantitiesValueWlan = q14.WLANMeasurementQuantitiesValueWlan
+const WLANMeasurementQuantitiesValueWlan = s00.WLANMeasurementQuantitiesValueWlan
 
-type WLANMeasurementResult = q17.WLANMeasurementResult
+type WLANMeasurementResult = s22.WLANMeasurementResult
 
 // WLANMeasurementResultAPERValue is the concrete APERValue[WLANMeasurementResult].
-type WLANMeasurementResultAPERValue = q17.WLANMeasurementResultAPERValue
+type WLANMeasurementResultAPERValue = s22.WLANMeasurementResultAPERValue
 
 // WLANMeasurementResultCodec binds the complete APER value type.
-var WLANMeasurementResultCodec func() WLANMeasurementResultValueCodec = q17.WLANMeasurementResultCodec
+var WLANMeasurementResultCodec func() WLANMeasurementResultValueCodec = s22.WLANMeasurementResultCodec
 
 // WLANMeasurementResultComplete carries a complete WLANMeasurementResult encoding, including observed terminal bits.
 // ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require new encodings to pad with zero bits.
-type WLANMeasurementResultComplete = q17.WLANMeasurementResultComplete
+type WLANMeasurementResultComplete = s22.WLANMeasurementResultComplete
 
 // WLANMeasurementResultItem represents the ASN.1 type WLANMeasurementResult-Item (SEQUENCE).
-type WLANMeasurementResultItem = q17.WLANMeasurementResultItem
+type WLANMeasurementResultItem = s22.WLANMeasurementResultItem
 
 // WLANMeasurementResultItemAPERValue is the concrete APERValue[WLANMeasurementResultItem].
-type WLANMeasurementResultItemAPERValue = q17.WLANMeasurementResultItemAPERValue
+type WLANMeasurementResultItemAPERValue = s22.WLANMeasurementResultItemAPERValue
 
 // WLANMeasurementResultItemCodec binds the complete source value type.
-var WLANMeasurementResultItemCodec func() WLANMeasurementResultItemValueCodec = q17.WLANMeasurementResultItemCodec
+var WLANMeasurementResultItemCodec func() WLANMeasurementResultItemValueCodec = s22.WLANMeasurementResultItemCodec
 
-type WLANMeasurementResultItemExtIETable = q25.WLANMeasurementResultItemExtIETable
+type WLANMeasurementResultItemExtIETable = s04.WLANMeasurementResultItemExtIETable
 
-var WLANMeasurementResultItemExtIEs func() WLANMeasurementResultItemExtIETable = q25.WLANMeasurementResultItemExtIEs
+var WLANMeasurementResultItemExtIEs func() WLANMeasurementResultItemExtIETable = s04.WLANMeasurementResultItemExtIEs
 
 // WLANMeasurementResultItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[WLANMeasurementResultItemExtIEsValue].
-type WLANMeasurementResultItemExtIEsExtContainer = q25.WLANMeasurementResultItemExtIEsExtContainer
+type WLANMeasurementResultItemExtIEsExtContainer = s04.WLANMeasurementResultItemExtIEsExtContainer
 
 // WLANMeasurementResultItemExtIEsExtField is the concrete ProtocolExtensionField[WLANMeasurementResultItemExtIEsValue].
-type WLANMeasurementResultItemExtIEsExtField = q25.WLANMeasurementResultItemExtIEsExtField
+type WLANMeasurementResultItemExtIEsExtField = s04.WLANMeasurementResultItemExtIEsExtField
 
 // WLANMeasurementResultItemExtIEsIEContainer is the concrete ProtocolIEContainer[WLANMeasurementResultItemExtIEsValue].
-type WLANMeasurementResultItemExtIEsIEContainer = q25.WLANMeasurementResultItemExtIEsIEContainer
+type WLANMeasurementResultItemExtIEsIEContainer = s04.WLANMeasurementResultItemExtIEsIEContainer
 
 // WLANMeasurementResultItemExtIEsIEField is the concrete ProtocolIEField[WLANMeasurementResultItemExtIEsValue].
-type WLANMeasurementResultItemExtIEsIEField = q25.WLANMeasurementResultItemExtIEsIEField
-type WLANMeasurementResultItemExtIEsValue = q8.WLANMeasurementResultItemExtIEsValue
+type WLANMeasurementResultItemExtIEsIEField = s04.WLANMeasurementResultItemExtIEsIEField
+type WLANMeasurementResultItemExtIEsValue = s03.WLANMeasurementResultItemExtIEsValue
 
 // WLANMeasurementResultItemValueCodec is the concrete ValueCodec[WLANMeasurementResultItem].
-type WLANMeasurementResultItemValueCodec = q17.WLANMeasurementResultItemValueCodec
+type WLANMeasurementResultItemValueCodec = s22.WLANMeasurementResultItemValueCodec
 
 // WLANMeasurementResultValueCodec is the concrete ValueCodec[WLANMeasurementResult].
-type WLANMeasurementResultValueCodec = q17.WLANMeasurementResultValueCodec
+type WLANMeasurementResultValueCodec = s22.WLANMeasurementResultValueCodec
 
 // WLANOperatingClass represents the ASN.1 type WLANOperatingClass (INTEGER).
-type WLANOperatingClass = q14.WLANOperatingClass
+type WLANOperatingClass = s00.WLANOperatingClass
 
 // WLANOperatingClassAPERValue is the concrete APERValue[WLANOperatingClass].
-type WLANOperatingClassAPERValue = q9.WLANOperatingClassAPERValue
+type WLANOperatingClassAPERValue = s02.WLANOperatingClassAPERValue
 
 // WLANOperatingClassCodec binds the complete source value type.
-var WLANOperatingClassCodec func() WLANOperatingClassValueCodec = q25.WLANOperatingClassCodec
+var WLANOperatingClassCodec func() WLANOperatingClassValueCodec = s04.WLANOperatingClassCodec
 
 // WLANOperatingClassValueCodec is the concrete ValueCodec[WLANOperatingClass].
-type WLANOperatingClassValueCodec = q9.WLANOperatingClassValueCodec
+type WLANOperatingClassValueCodec = s02.WLANOperatingClassValueCodec
 
 // WLANRSSI represents the ASN.1 type WLAN-RSSI (INTEGER).
-type WLANRSSI = q14.WLANRSSI
+type WLANRSSI = s00.WLANRSSI
 
 // WLANRSSIAPERValue is the concrete APERValue[WLANRSSI].
-type WLANRSSIAPERValue = q9.WLANRSSIAPERValue
+type WLANRSSIAPERValue = s02.WLANRSSIAPERValue
 
 // WLANRSSICodec binds the complete source value type.
-var WLANRSSICodec func() WLANRSSIValueCodec = q8.WLANRSSICodec
+var WLANRSSICodec func() WLANRSSIValueCodec = s03.WLANRSSICodec
 
 // WLANRSSIValueCodec is the concrete ValueCodec[WLANRSSI].
-type WLANRSSIValueCodec = q9.WLANRSSIValueCodec
+type WLANRSSIValueCodec = s02.WLANRSSIValueCodec
 
-const WrongCriticality = q14.WrongCriticality
-const WrongOrder = q14.WrongOrder
+const WrongCriticality = s00.WrongCriticality
+const WrongOrder = s00.WrongOrder
