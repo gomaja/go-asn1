@@ -1,0 +1,515 @@
+// Code generated from LPP runtime source. DO NOT EDIT.
+
+// Runtime source: runtime/uper/tolerance.go; SHA-256 c0622eeed0787b649c7512926876a3cfb53cc4b23e62d48e6cbaf78e8f17c193.
+package uper
+
+import (
+	"bytes"
+	"fmt"
+	"strconv"
+	"strings"
+	"sync"
+)
+
+// ToleranceKind names a non-conformant bit run accepted by a tolerant decode.
+type ToleranceKind uint8
+
+const (
+	// ToleratedTrailingBits is a suffix of more than seven bits after a
+	// complete top-level value, or after a complete value carried in an
+	// OCTET STRING (CONTAINING ...). X.691 (02/2021) 11.1.3.1 permits only
+	// one to seven zero padding bits there; TS 25.331 V19.0.1 12.1.3 and
+	// TS 36.331 V19.4.0 8.1 require RRC receivers to accept extraneous bits.
+	ToleratedTrailingBits ToleranceKind = iota + 1
+	// ToleratedTruncatedExtension is an extension addition, or extension
+	// addition group, of a SEQUENCE or SET whose open type the end of the
+	// outermost input cut short, after the extension bitmap was read in full.
+	// X.691 (02/2021) 19.9 encodes each present addition as an open type,
+	// whose length determinant gives the length of its contents (11.2.1,
+	// 11.9.3.8), so a shorter input is an error. TruncatedExtensionTolerance
+	// accepts it (go-asn1#114), for receivers of PDUs cut in transmission.
+	ToleratedTruncatedExtension
+	// ToleratedIncompleteExtension is a known SEQUENCE or SET addition whose
+	// complete, bounded open type ended before the known value could decode.
+	// X.691 (02/2021) 11.2.1–11.2.2 and 19.9 require a complete encoding;
+	// ExtensionRecoveryTolerance explicitly accepts this error (go-asn1#142).
+	ToleratedIncompleteExtension
+	// ToleratedNonzeroEmptyEncoding records the nonzero replacement octet
+	// forbidden by X.691 (02/2021) §11.1.3.1, accepted only on explicit opt-in.
+	ToleratedNonzeroEmptyEncoding
+	// ToleratedNonzeroPadding records completion bits required to be zero
+	// by X.691 (02/2021) §§11.1.3.1 and 11.2.1.
+	ToleratedNonzeroPadding
+)
+
+func (kind ToleranceKind) String() string {
+	switch kind {
+	case ToleratedNonzeroPadding:
+		return "nonzero padding"
+	case ToleratedNonzeroEmptyEncoding:
+		return "nonzero empty encoding"
+	case ToleratedTrailingBits:
+		return "trailing bits"
+	case ToleratedTruncatedExtension:
+		return "truncated extension"
+	case ToleratedIncompleteExtension:
+		return "incomplete extension"
+	default:
+		return "ToleranceKind(" + strconv.Itoa(int(kind)) + ")"
+	}
+}
+
+// Tolerance records one bit run that a tolerant decode accepted.
+type Tolerance struct {
+	// PaddingKind identifies the complete encoding for ToleratedNonzeroPadding.
+	PaddingKind PaddingKind `json:",omitempty"`
+	// InputSpans locates padding in the original input. Empty means unknown;
+	// Offset still gives the exact position within the decoded child buffer.
+	InputSpans []InputBitSpan `json:",omitempty"`
+	// Path is the generated field path in the form used by
+	// runtime.DecodePathError, starting with the top-level type name.
+	Path string
+	Kind ToleranceKind
+	// For nonzero padding and empty encodings, Offset is local to the decoded
+	// buffer; InputSpans supplies known original-input positions for padding.
+	// For the other kinds, Offset is the position within the enclosing
+	// complete encoding: the top-level input or the OCTET STRING contents for
+	// ToleratedTrailingBits, the BIT STRING contents for
+	// ToleratedContainedBits, and the top-level input for
+	// ToleratedTruncatedExtension, where it is the first bit of the cut
+	// addition's open type: its length determinant, or in the ALIGNED variant
+	// the padding before it.
+	Offset int
+	// Bits holds the accepted bits, MSB first. For ToleratedTruncatedExtension
+	// they are the received part of the cut open type, from Offset to the end
+	// of the input.
+	Bits TrailingBits
+	// Missing is, for ToleratedTruncatedExtension, the number of bits that
+	// the cut open type lacks: the length its length determinant declares
+	// minus the bits that arrived. It is -1 when the input ends inside a
+	// length determinant, whose declared length is then unknown. For a
+	// fragmented open type (X.691 (02/2021) 11.9.3.8) it counts the missing
+	// bits of the fragment that was cut; fragments after it are unknown. It
+	// is zero for the other kinds.
+	Missing int
+	// DeclaredLength is the bounded open type's length in octets for
+	// ToleratedIncompleteExtension. Bits keeps those contents as provenance.
+	DeclaredLength int
+	// ConsumedBits is the position in those contents where decoding failed.
+	ConsumedBits int
+	// Err is the nested truncation error, qualified by Path on publication.
+	// The other tolerance kinds leave these three fields zero.
+	Err error
+}
+
+// ToleranceLog collects the tolerances applied by PER decodes. A zero value
+// is ready for use, and one log may be shared by concurrent decoders. Each
+// successful top-level decode appends its records together, in decode order;
+// a failed decode appends nothing.
+type ToleranceLog struct {
+	mu      sync.Mutex
+	records []Tolerance
+}
+
+// Snapshot returns the records collected so far without exposing the log's
+// storage.
+func (log *ToleranceLog) Snapshot() []Tolerance {
+	log.mu.Lock()
+	defer log.mu.Unlock()
+	snapshot := make([]Tolerance, len(log.records))
+	for i, record := range log.records {
+		record.Bits.Bytes = append([]byte(nil), record.Bits.Bytes...)
+		record.InputSpans = append([]InputBitSpan(nil), record.InputSpans...)
+		snapshot[i] = record
+	}
+	return snapshot
+}
+
+// Reset discards all records collected so far.
+func (log *ToleranceLog) Reset() {
+	log.mu.Lock()
+	log.records = nil
+	log.mu.Unlock()
+}
+
+func (log *ToleranceLog) append(records []Tolerance) {
+	log.mu.Lock()
+	log.records = append(log.records, records...)
+	log.mu.Unlock()
+}
+
+// decodeTrace is the per-decode state shared by a top-level BitBuffer and the
+// nested buffers that inherit its options. It exists only when a caller asked
+// for tolerance or deferral, so a strict eager decode pays one nil check per
+// tracked component.
+type decodeTrace struct {
+	padding  *paddingTrace
+	empty    *ToleranceLog
+	trailing *ToleranceLog
+	path     []pathSegment
+	pending  []Tolerance
+	// truncated is DecodeOptions.TruncatedExtensionTolerance (see
+	// BitBuffer.outermost).
+	truncated *ToleranceLog
+	// recovery receives failures of bounded known extension additions.
+	recovery *ToleranceLog
+	// The recovery work budget belongs to this decode, never to a candidate
+	// transaction. Re-reads and provenance scans keep their charges on rollback.
+	work *recoveryWork
+}
+
+// pathSegment is a component name, or a list index when name is empty.
+type pathSegment struct {
+	name  string
+	index int64
+}
+
+func (trace *decodeTrace) enter(segment pathSegment) int {
+	trace.path = append(trace.path, segment)
+	return len(trace.path) - 1
+}
+
+func (trace *decodeTrace) relativePath() string {
+	var path strings.Builder
+	for _, segment := range trace.path {
+		if segment.name == "" {
+			path.WriteByte('[')
+			path.WriteString(strconv.FormatInt(segment.index, 10))
+			path.WriteByte(']')
+			continue
+		}
+		if path.Len() != 0 {
+			path.WriteByte('.')
+		}
+		path.WriteString(segment.name)
+	}
+	return path.String()
+}
+
+// EnterComponent marks the start of a component decode that can apply a
+// tolerance. Pass the returned mark to LeaveComponent.
+func (bb *BitBuffer) EnterComponent(name string) int {
+	if bb.trace == nil {
+		return 0
+	}
+	return bb.trace.enter(pathSegment{name: name})
+}
+
+// EnterIndex marks the start of a list element decode that can apply a
+// tolerance. Pass the returned mark to LeaveComponent.
+func (bb *BitBuffer) EnterIndex(index int64) int {
+	if bb.trace == nil {
+		return 0
+	}
+	return bb.trace.enter(pathSegment{index: index})
+}
+
+// LeaveComponent restores the path recorded before the matching Enter call.
+func (bb *BitBuffer) LeaveComponent(mark int) {
+	if bb.trace != nil && mark >= 0 && mark <= len(bb.trace.path) {
+		bb.trace.path = bb.trace.path[:mark]
+	}
+}
+
+func (bb *BitBuffer) recordTolerance(kind ToleranceKind, offset int, bits TrailingBits) {
+	bits.Bytes = append([]byte(nil), bits.Bytes...)
+	bb.trace.pending = append(bb.trace.pending, Tolerance{Path: bb.trace.relativePath(), Kind: kind, Offset: offset, Bits: bits})
+}
+
+// commitRecords qualifies the pending tolerance and deferral records with
+// the top-level type name and publishes them to the caller's logs.
+func (bb *BitBuffer) commitRecords(root string) {
+	trace := bb.trace
+	if trace == nil {
+		return
+	}
+	if len(trace.pending) != 0 {
+		for i := range trace.pending {
+			record := &trace.pending[i]
+			record.Path = qualifyPath(root, record.Path)
+			if record.Err != nil {
+				record.Err = fmt.Errorf("%s: %w", record.Path, record.Err)
+			}
+		}
+		bb.publishTolerances(trace.pending)
+		trace.pending = nil
+	}
+}
+
+// publishTolerances appends records to the log of the option that accepted
+// each: TruncatedExtensionTolerance for ToleratedTruncatedExtension,
+// TrailingBitsTolerance for the others. Records for one log are appended
+// together, in decode order.
+func (bb *BitBuffer) publishTolerances(records []Tolerance) {
+	byLog := make(map[*ToleranceLog][]Tolerance)
+	for _, record := range records {
+		log := bb.trailingTolerance()
+		switch record.Kind {
+		case ToleratedNonzeroPadding:
+			log = bb.trace.padding.log
+		case ToleratedNonzeroEmptyEncoding:
+			log = bb.trace.empty
+		case ToleratedTruncatedExtension:
+			log = bb.trace.truncated
+		case ToleratedIncompleteExtension:
+			log = bb.trace.recovery
+		}
+		if log != nil {
+			byLog[log] = append(byLog[log], record)
+		}
+	}
+	for log, pending := range byLog {
+		log.append(pending)
+	}
+}
+
+// qualifyPath prefixes a path relative to the top-level value with root, in
+// the form of runtime.DecodePathError.
+func qualifyPath(root, path string) string {
+	switch {
+	case path == "":
+		return root
+	case strings.HasPrefix(path, "["):
+		return strings.Join([]string{root, path}, "")
+	default:
+		return strings.Join([]string{root, path}, ".")
+	}
+}
+
+// CaptureFinalBits consumes the bits after a complete top-level value and
+// publishes the decode's tolerance records, qualified by root, to the
+// caller's log. Without TrailingBitsTolerance only the one to seven terminal
+// padding bits of X.691 (02/2021) 11.1.3.1 are accepted. With it, a longer
+// suffix of zero or non-zero bits is accepted as TS 25.331 V19.0.1 12.1.3
+// and TS 36.331 V19.4.0 8.1 require of RRC receivers, and recorded.
+//
+// A value that consumed no bits is completed by one zero octet (X.691
+// (02/2021) 11.1.3.1 and 11.1.4). That octet is part of the complete
+// encoding, never a tolerated suffix, and is zero unless EmptyEncodingTolerance explicitly accepts and records a nonzero octet.
+//
+// The decode's deferral records are published with its tolerance records.
+// A decode whose ContainedDecoding is unknown, or defers without a
+// Deferrals log, fails here, before anything is published.
+func CaptureFinalBits(bb *BitBuffer, root string) (FinalPadding, error) {
+	if err := bb.checkRecoveryBits(0); err != nil {
+		return FinalPadding{}, err
+	}
+	final, err := captureFinalBits(bb, "top-level value")
+	if err != nil {
+		return FinalPadding{}, err
+	}
+	bb.commitRecords(root)
+	return final, nil
+}
+
+func captureFinalBits(bb *BitBuffer, context string) (FinalPadding, error) {
+	var final FinalPadding
+	remaining := bb.BitsRemaining()
+	if bb.trailingTolerance() == nil || remaining <= 7 || bb.bitPos == 0 && remaining == 8 {
+		padding, err := captureTrailingPadding(bb, context)
+		if err != nil {
+			return FinalPadding{}, err
+		}
+		final = finalPaddingOf(padding)
+	} else {
+		valueBits := bb.bitPos
+		var emptyPadding CompletePadding
+		if valueBits == 0 {
+			mandated, err := bb.ReadBits(8)
+			if err != nil {
+				return FinalPadding{}, err
+			}
+			if mandated != 0 {
+				emptyPadding, err = bb.captureEmptyOctet(mandated, context)
+				if err != nil {
+					return FinalPadding{}, err
+				}
+			}
+		}
+		offset, remaining := bb.bitPos, bb.BitsRemaining()
+		suffix, err := bb.ReadBitsToBytes(remaining)
+		if err != nil {
+			return FinalPadding{}, err
+		}
+		trailing := TrailingBits{Bytes: suffix, BitLength: remaining}
+		if final, err = keepTrailing(bb, valueBits, trailing); err != nil {
+			return FinalPadding{}, err
+		}
+		final.bits.padding = emptyPadding
+		bb.recordTolerance(ToleratedTrailingBits, offset, trailing)
+	}
+	return final, nil
+}
+
+// FinalPadding retains the bits observed after a complete top-level value:
+// the terminal padding of X.691 (02/2021) 11.1.3.1 and 11.1.4, which a sender
+// may have set nonzero, or a longer suffix accepted by TrailingBitsTolerance.
+// The zero value means no bits other than zero padding were observed. It is
+// one pointer wide: every padding value shares a static table, and only a
+// tolerated suffix allocates.
+//
+// Encoding reproduces the retained bits only where they still belong to the
+// new encoding; otherwise it emits the padding a new value gets. A suffix is
+// replayed only after the value encoding it followed, bit for bit: an edited
+// value never carries it. Padding is applied while it still fills the final
+// octet exactly (see CompleteBytesWithPadding).
+//
+// The FinalPadding of a contained value that a decode kept raw holds that
+// raw encoding instead (see Deferred).
+//
+// A decoded SEQUENCE or SET also records here which DEFAULT components of a
+// simple type it carried explicitly with their default values (see
+// ExplicitDefaults), and a decoded SEQUENCE, SET, CHOICE or list the BIT
+// STRINGs with a NamedBitList it received with a length other than the
+// minimal one (see KeptBitStrings). A record of only the first eight explicit
+// defaults of a type comes from a shared table and allocates nothing; one
+// that includes a later component allocates once. Kept BIT STRINGs are
+// copies of the received values, allocated only for a value that has one. A
+// value kept raw was not decoded, so it has no such record.
+type FinalPadding struct{ bits *finalBits }
+
+type finalBits struct {
+	padding  CompletePadding
+	trailing TrailingBits
+	// value holds the value encoding that trailing followed, MSB first with
+	// unused low bits zero, and valueBits its bit length, not counting the
+	// zero octet or bit of an empty value.
+	value     []byte
+	valueBits int
+	// explicitDefaults has bit i set when the decoded value carried its i-th
+	// DEFAULT component of a simple type explicitly, holding the default.
+	explicitDefaults uint64
+	// kept[i] holds the decoded value's i-th BIT STRING with a NamedBitList,
+	// or list of them, when it was received with a length other than the one
+	// X.691 (02/2021) 16.2 and 16.3 give a new value (KeptBitStrings).
+	kept []KeptBits
+	// truncated is set on a decoded SEQUENCE or SET whose extension addition
+	// TruncatedExtensionTolerance accepted cut by the end of the input.
+	truncated *truncatedExtension
+}
+
+// keepTrailing retains bits accepted after the value encoding in the first
+// valueBits bits of bb, together with a copy of that encoding. Only a
+// tolerant decode gets here, so a strict decode never pays for the copy.
+func keepTrailing(bb *BitBuffer, valueBits int, trailing TrailingBits) (FinalPadding, error) {
+	reader := *bb
+	reader.bitPos = 0
+	value, err := reader.ReadBitsToBytes(valueBits)
+	if err != nil {
+		return FinalPadding{}, err
+	}
+	return FinalPadding{bits: &finalBits{trailing: trailing, value: value, valueBits: valueBits}}, nil
+}
+
+// follows reports whether bb holds exactly the value encoding that the
+// retained bits followed.
+func (kept *finalBits) follows(bb *BitBuffer) bool {
+	return bb.bitPos == kept.valueBits && len(bb.data) >= len(kept.value) && bytes.Equal(bb.data[:len(kept.value)], kept.value)
+}
+
+// paddingTable holds every CompletePadding with one to seven bits. The entry
+// for count bits with value v is at paddingTableOffset[count] + v, and
+// paddingTableOffset[count] = 2^count - 1 is also the largest such v.
+var paddingTable = func() (table [255]finalBits) {
+	for count := uint8(1); count <= 7; count++ {
+		for value := uint8(0); value <= paddingTableOffset[count]; value++ {
+			table[paddingTableOffset[count]+value].padding = CompletePadding{bits: value, count: count}
+		}
+	}
+	return table
+}()
+
+var paddingTableOffset = [8]uint8{0, 1, 3, 7, 15, 31, 63, 127}
+
+func finalPaddingOf(padding CompletePadding) FinalPadding {
+	if padding.count == 8 && padding.bits != 0 {
+		return FinalPadding{bits: &emptyPaddingTable[padding.bits]}
+	}
+	if padding.bits == 0 || padding.count > 7 {
+		return FinalPadding{}
+	}
+	first := paddingTableOffset[padding.count]
+	if padding.bits > first {
+		return FinalPadding{}
+	}
+	return FinalPadding{bits: &paddingTable[first+padding.bits]}
+}
+
+// Bits returns the observed terminal padding right-aligned and its width.
+// It is zero when a tolerated suffix replaced ordinary completion padding.
+// A nonzero replacement octet for an empty encoding retains width 8 even
+// when a separately tolerated suffix follows it.
+func (f FinalPadding) Bits() (value, count uint8) { return f.Padding().Bits() }
+
+// Padding returns the observed terminal padding.
+func (f FinalPadding) Padding() CompletePadding {
+	if f.bits == nil {
+		return CompletePadding{}
+	}
+	return f.bits.padding
+}
+
+// Trailing returns a copy of the suffix accepted by TrailingBitsTolerance.
+// Its BitLength is zero when none was accepted.
+func (f FinalPadding) Trailing() TrailingBits {
+	if f.bits == nil || f.bits.trailing.BitLength == 0 {
+		return TrailingBits{}
+	}
+	return TrailingBits{Bytes: append([]byte(nil), f.bits.trailing.Bytes...), BitLength: f.bits.trailing.BitLength}
+}
+
+// IsZero reports whether every retained bit, padding or suffix, is zero.
+func (f FinalPadding) IsZero() bool {
+	if f.bits == nil {
+		return true
+	}
+	for _, octet := range f.bits.trailing.Bytes {
+		if octet != 0 {
+			return false
+		}
+	}
+	return f.bits.padding.IsZero()
+}
+
+// CompleteBytesWithFinalPadding returns a complete encoding that reproduces
+// the observed final bits while they still fit it. A newly constructed value
+// has none, so it encodes with zero padding, as does an edited value whose
+// observed bits no longer fit (see FinalPadding).
+func (bb *BitBuffer) CompleteBytesWithFinalPadding(final FinalPadding) ([]byte, error) {
+	if final.bits == nil {
+		return bb.CompleteBytes(), nil
+	}
+	if final.bits.trailing.BitLength != 0 {
+		return bb.completeBytesWithTrailing(final.bits)
+	}
+	return bb.CompleteBytesWithPadding(final.bits.padding)
+}
+
+func (bb *BitBuffer) trailingTolerance() *ToleranceLog {
+	if bb.trace == nil {
+		return nil
+	}
+	return bb.trace.trailing
+}
+
+// emptyPaddingTable retains replacement octets without changing the common
+// one-to-seven-bit padding table or allocating per decoded empty value.
+var emptyPaddingTable = func() (table [256]finalBits) {
+	for value := range table {
+		table[value].padding = CompletePadding{bits: uint8(value), count: 8}
+	}
+	return table
+}()
+
+// X.691 (02/2021) §11.1.3.1 requires the replacement octet to be zero.
+// Only this explicit receiver option accepts a departure; other errors remain.
+func (bb *BitBuffer) captureEmptyOctet(value uint64, context string) (CompletePadding, error) {
+	if value == 0 || value > 255 {
+		return CompletePadding{}, fmt.Errorf("%w: invalid empty-encoding replacement octet", ErrInvalidValue)
+	}
+	if bb.trace == nil || bb.trace.empty == nil {
+		return CompletePadding{}, fmt.Errorf("%w: %s zero-bit complete encoding is nonzero", ErrInvalidValue, context)
+	}
+	bb.recordTolerance(ToleratedNonzeroEmptyEncoding, 0, TrailingBits{Bytes: []byte{byte(value)}, BitLength: 8})
+	return CompletePadding{bits: uint8(value), count: 8}, nil
+}
