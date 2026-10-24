@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/x2ap_specific_test.go; SHA-256 acef6a4c80e49a7f36fd3e6cd50c5045b0cd73d74e1de9a644c0b7159fda0da6.
+// Runtime source: runtime/aper/x2ap_specific_test.go; SHA-256 7b636680c052d9242e4cade25530eccbc1b9b6868917ed13e334f265a2dcafb8.
 package aper
 
 import (
@@ -149,7 +149,7 @@ func TestX2APUint64Root(t *testing.T) {
 			if err := wire.WriteBytes(malformedValue.content); err != nil {
 				t.Fatal(err)
 			}
-			if _, err := DecodeIntegerUint64Aligned(NewBitBufferFromBytes(wire.CompleteBytes()), 0, 2, true); !errors.Is(err, ErrInvalidValue) || malformedValue.name == "overlong" && !strings.Contains(err.Error(), "length") {
+			if _, err := DecodeIntegerUint64Aligned(NewBitBufferFromBytes(wire.CompleteBytes()), 0, 2, true); !errors.Is(err, ErrInvalidValue) && !(malformedValue.name == "negative" && errors.Is(err, ErrLimit)) {
 				t.Fatalf("malformed unsigned extension: %v", err)
 			}
 		})
@@ -226,8 +226,33 @@ func TestX2APVisibleStringTruncationGrowsLinearly(t *testing.T) {
 			reader := NewBitBufferFromBytes(input)
 			_, _ = DecodeKnownMultiplierStringAligned(reader, 7, 0, 0, false)
 		})
+		t.Logf("length=%d allocations=%v bound=8", length, allocations)
 		if allocations > 8 {
 			t.Fatalf("length %d: truncated decode allocated %.0f times", length, allocations)
+		}
+	}
+}
+
+// X.691 (02/2021) §30.5.7 requires the character field selected by its length.
+func TestX2APStringTruncationKeepsLocatedDetails(t *testing.T) {
+	for _, options := range [][]DecodeOption{nil, {WithReceiverMode()}} {
+		state := ApplyDecodeOptions(options...)
+		bb := NewBitBufferFromBytes([]byte{65, 'A'})
+		if err := bb.SetDecodeOptionsAligned(state); err != nil {
+			t.Fatal(err)
+		}
+		_, failure := DecodeKnownMultiplierStringAligned(bb, 7, 0, 0, false)
+		report, failure := FinishDecode(state, failure)
+		var located *DecodeError
+		if !errors.Is(failure, ErrTruncated) || !errors.Is(failure, ErrSyntax) || !errors.As(failure, &located) {
+			t.Fatalf("failure=%v", failure)
+		}
+		if located.Rule.Clause != "§30.5.7" || !located.Location.HasWireLocation || len(located.Location.Spans) != 1 || located.Location.Spans[0] != (BitSpan{Start: 0, End: 8}) || len(report.Deviations) != 1 {
+			t.Fatalf("located=%+v report=%+v", located, report)
+		}
+		want := "per: data truncated: character string requires 520 bits with 8 remaining"
+		if got := located.Err.Error(); got != want {
+			t.Fatalf("detail=%q want=%q", got, want)
 		}
 	}
 }

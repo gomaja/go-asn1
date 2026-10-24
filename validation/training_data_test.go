@@ -183,18 +183,47 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 	}
 	if strings.HasPrefix(rec.ID, "x2ap-") {
 		var value x2ap.X2APPDU
-		if err := value.UnmarshalAPER(wire); err != nil {
+		_, err := value.UnmarshalAPER(wire)
+		if rec.ID == "x2ap-61-timetowait-nonzero-padding" {
+			// Strict decoding refuses non-zero terminal padding in a complete
+			// value (ITU-T X.691 (02/2021) §11.1.4). The record's acceptance
+			// predates that policy.
+			return errors.Is(err, x2aper.ErrSyntax), true, fmt.Sprintf("strict padding error = %v", err)
+		}
+		wantError := strings.Contains(rec.Expected, "Extra octets should be reported") || strings.HasPrefix(rec.Expected, "Rejected")
+		if wantError {
+			return errors.Is(err, x2aper.ErrExtraData), !strings.Contains(rec.LibraryResult, "reject"), fmt.Sprintf("typed X2AP decode error = %v", err)
+		}
+		if err != nil {
 			return false, false, err.Error()
 		}
-		decoded, err := value.DecodeValueRecursive()
-		if rec.ID == "x2ap-62-ue-history-information" && err == nil {
-			data, jsonErr := json.Marshal(decoded)
+		if encoded, err := value.MarshalAPER(); err != nil || !bytes.Equal(encoded, wire) {
+			return false, false, "typed X2AP replay failed"
+		}
+		if rec.ID == "x2ap-62-ue-history-information" {
+			if value.InitiatingMessage == nil {
+				return false, false, "typed handover missing"
+			}
+			body, ok := value.InitiatingMessage.Value.AsHandoverRequest()
+			if !ok {
+				return false, false, "typed HandoverRequest missing"
+			}
+			found := false
+			for i := range body.ProtocolIEs {
+				history, ok := x2ap.HandoverRequestIEs().UEHistoryInformation().Get(&body.ProtocolIEs[i])
+				if ok && len(*history) != 0 {
+					found = true
+				}
+			}
+			if !found {
+				return false, false, "typed UE history missing"
+			}
+			data, jsonErr := json.Marshal(value)
 			if jsonErr != nil || bytes.Contains(data, []byte("PERPadding_")) {
 				return false, false, "JSON includes padding bookkeeping"
 			}
-			return true, true, ""
 		}
-		return checkSyntheticDispatch(rec, err, x2aper.ErrExtraData)
+		return true, true, ""
 	}
 	if strings.HasPrefix(rec.ID, "lppa-") {
 		// The typed decoder decodes every known IE value in the same pass.

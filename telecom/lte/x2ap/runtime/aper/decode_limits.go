@@ -1,38 +1,34 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits.go; SHA-256 23312b96381516ba0498a4e35724a91f6b0d4da27334bc389b063444d08c0250.
+// Runtime source: runtime/aper/decode_limits.go; SHA-256 cb8e23b9c9785ddf036743271e589ac12ec2ca4c291f973d4977ed1832421a5b.
 package aper
 
 import "fmt"
 
-// DecodeLimits bound one PER decode. Zero fields select defaults.
-// X.691 (02/2021) §§11.2.1 and 11.9.3.8 define open types and fragmented
-// lengths without operational ceilings; these are receiver limits, not wire
-// restrictions. Positive values up to the host int limit are accepted.
-type DecodeLimits struct {
+// decodeLimits is private instrumentation for the retained recovery/refusal
+// harness. Complete source codecs always use Limits and DefaultLimits.
+type decodeLimits struct {
 	MaxDepth         int // nested generated values, including the root
 	MaxElements      int // sum of all SEQUENCE OF and SET OF element counts
 	MaxOpenTypeDepth int // nested decoded open types
 	MaxWork          int // total bits examined, including nested rereads
 }
 
-// DefaultDecodeLimits bounds recursion, collection growth and repeated work
-// on untrusted encodings. The 102 committed PER release vectors reached at
-// most depth 13, 9 total elements, open-type depth 1 and 1016 bits of work;
-// these defaults leave headroom above each observed maximum. Callers may
-// raise individual fields for larger trusted profiles.
-func DefaultDecodeLimits() DecodeLimits {
-	return DecodeLimits{MaxDepth: 128, MaxElements: 100000, MaxOpenTypeDepth: 128, MaxWork: 64 << 20}
+// defaultLegacyLimits preserves the private recovery harness accounting.
+func defaultLegacyLimits() decodeLimits {
+	return decodeLimits{MaxDepth: 128, MaxElements: 100000, MaxOpenTypeDepth: 128, MaxWork: 64 << 20}
 }
 
-// DecodeUsage reports the high-water marks and totals of one decode. A caller
-// may supply DecodeOptions.Usage to measure a decode; it must not share that
-// pointer across concurrent decodes.
+// DecodeUsage is a copy of one operation's high-water marks and totals.
+// DecodeState.Usage and BitBuffer.Usage never expose mutable counters.
 type DecodeUsage struct {
 	MaxDepth         int
 	Elements         uint64
 	MaxOpenTypeDepth int
 	Work             uint64
+	AllocatedBytes   uint64
+	Fragments        uint64
+	Reports          uint64
 }
 
 // DecodeBudget is the shared state of one PER decode. Generated entry points
@@ -40,19 +36,38 @@ type DecodeUsage struct {
 // path allocations. Its zero value is ready for initialization; do not share
 // it between independent or concurrent decodes.
 type DecodeBudget struct {
-	limits    DecodeLimits
-	usage     DecodeUsage
-	report    *DecodeUsage
-	depth     int
-	openDepth int
-	err       error
+	callReport                    *DecodeReport
+	operational                   Limits
+	allocated, fragments, reports uint64
+	outputLimited                 bool
+	reading                       bool
+	locating                      bool
+	limits                        decodeLimits
+	usage                         DecodeUsage
+	report                        *DecodeUsage
+	depth                         int
+	openDepth                     int
+	err                           error
+	// Origin maps are allocated on demand. Keeping the maps behind a pointer
+	// preserves DecodeBudget's value comparability for existing callers.
+	origin     *originMap
+	owner      *semanticArena
+	encodePlan *ReplayPlan
 }
 
-func effectiveDecodeLimits(raw DecodeLimits) (DecodeLimits, error) {
+type originMap struct {
+	readers      map[*BitBuffer]*fragmentedReader
+	dataBases    map[*byte]uint64
+	dataSegments map[*byte][]wireSegment
+	bases        map[*BitBuffer]uint64
+	segments     map[*BitBuffer][]wireSegment
+}
+
+func effectiveDecodeLimits(raw decodeLimits) (decodeLimits, error) {
 	if raw.MaxDepth < 0 || raw.MaxElements < 0 || raw.MaxOpenTypeDepth < 0 || raw.MaxWork < 0 {
-		return DecodeLimits{}, fmt.Errorf("%w: PER decode limits must be nonnegative (zero selects default)", ErrInvalidValue)
+		return decodeLimits{}, fmt.Errorf("%w: PER decode limits must be nonnegative (zero selects default)", ErrInvalidValue)
 	}
-	limits := DefaultDecodeLimits()
+	limits := defaultLegacyLimits()
 	if raw.MaxDepth != 0 {
 		limits.MaxDepth = raw.MaxDepth
 	}
@@ -68,8 +83,8 @@ func effectiveDecodeLimits(raw DecodeLimits) (DecodeLimits, error) {
 	return limits, nil
 }
 
-// ValidateDecodeOptions rejects malformed PER limits before reading input.
-func ValidateDecodeOptions(options DecodeOptions) error {
+// validateDecodeSettings rejects malformed PER limits before reading input.
+func validateDecodeSettings(options decodeSettings) error {
 	_, err := effectiveDecodeLimits(options.Limits)
 	return err
 }
@@ -80,13 +95,6 @@ func (budget *DecodeBudget) publish() {
 	}
 }
 
-func (budget *DecodeBudget) fail(message string) error {
-	if budget.err == nil {
-		budget.err = fmt.Errorf("%w: %s", ErrResourceLimit, message)
-	}
-	return budget.err
-}
-
 // EnterDecodeValue accounts for one generated value before its decoder runs.
 // Pair a successful call with LeaveDecodeValue, including on error paths.
 func (bb *BitBuffer) EnterDecodeValue() error {
@@ -95,7 +103,12 @@ func (bb *BitBuffer) EnterDecodeValue() error {
 		return budget.err
 	}
 	if budget.depth >= budget.limits.MaxDepth {
-		return budget.fail("PER nesting depth exceeded")
+		return bb.resourceError("PER nesting depth exceeded")
+	}
+	if budget.operational != (Limits{}) {
+		if err := bb.ChargeWork(1); err != nil {
+			return err
+		}
 	}
 	budget.depth++
 	if budget.depth > budget.usage.MaxDepth {
@@ -125,7 +138,12 @@ func (bb *BitBuffer) ChargeElements(count int64) error {
 		return fmt.Errorf("%w: negative collection element count", ErrInvalidValue)
 	}
 	if uint64(count) > uint64(budget.limits.MaxElements)-budget.usage.Elements {
-		return budget.fail("PER collection element limit exceeded")
+		return bb.resourceError("PER collection element limit exceeded")
+	}
+	if budget.operational != (Limits{}) {
+		if err := bb.ChargeWork(uint64(count)); err != nil {
+			return err
+		}
 	}
 	budget.usage.Elements += uint64(count)
 	budget.publish()
@@ -140,7 +158,7 @@ func (bb *BitBuffer) EnterOpenType() error {
 		return budget.err
 	}
 	if budget.openDepth >= budget.limits.MaxOpenTypeDepth {
-		return budget.fail("PER open-type nesting depth exceeded")
+		return bb.resourceError("PER open-type nesting depth exceeded")
 	}
 	budget.openDepth++
 	if budget.openDepth > budget.usage.MaxOpenTypeDepth {
@@ -152,7 +170,7 @@ func (bb *BitBuffer) EnterOpenType() error {
 
 func (bb *BitBuffer) decodeBudget() *DecodeBudget {
 	if bb.budget == nil {
-		bb.budget = &DecodeBudget{limits: DefaultDecodeLimits()}
+		bb.budget = &DecodeBudget{limits: defaultLegacyLimits()}
 	}
 	return bb.budget
 }
@@ -169,4 +187,11 @@ func (bb *BitBuffer) InheritOpenTypeDecodeOptions(parent *BitBuffer) error {
 	return bb.EnterOpenType()
 }
 
-func (bb *BitBuffer) Usage() DecodeUsage { return bb.decodeBudget().usage }
+func (bb *BitBuffer) Usage() DecodeUsage {
+	budget := bb.decodeBudget()
+	usage := budget.usage
+	usage.AllocatedBytes = budget.allocated
+	usage.Fragments = budget.fragments
+	usage.Reports = budget.reports
+	return usage
+}

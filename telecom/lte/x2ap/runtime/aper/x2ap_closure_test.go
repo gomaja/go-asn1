@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/x2ap_closure_test.go; SHA-256 8f33e223d82dc9ded7432ce327156a06c25a75beacace1d794cbe014b1458b49.
+// Runtime source: runtime/aper/x2ap_closure_test.go; SHA-256 682a1c4ab7d57101739fa559d75f3b6efdd51bd097de56e79512bf9c853c8cbd.
 package aper
 
 import (
@@ -12,9 +12,9 @@ import (
 )
 
 func TestX2APPrimitiveOpenTypeCompletion(t *testing.T) {
-	// dispatch.go decodes ReportCharacteristics with this two-root enum and
-	// completes its primitive open type, retaining six observed padding bits.
-	bb := NewBitBufferFromBytes([]byte{0x7f})
+	// A synthetic two-root enumeration completes a primitive open value,
+	// validating its six terminal zero bits (X.691 (02/2021) §11.1.4).
+	bb := NewBitBufferFromBytes([]byte{0x40})
 	value, err := DecodeEnumeratedAligned(bb, 2, true)
 	if err != nil || value != 1 {
 		t.Fatalf("enum=%d: %v", value, err)
@@ -23,15 +23,15 @@ func TestX2APPrimitiveOpenTypeCompletion(t *testing.T) {
 	if err != nil || complete.Value != 1 {
 		t.Fatalf("complete=%+v: %v", complete, err)
 	}
-	if bits, count := complete.PERPadding_.Bits(); bits != 63 || count != 6 {
+	if bits, count := complete.ReceivedPadding().Bits(); bits != 0 || count != 0 {
 		t.Fatalf("padding=%d/%d", bits, count)
 	}
 	writer := NewBitBuffer()
 	if err := EncodeEnumeratedAligned(writer, complete.Value, 2, true); err != nil {
 		t.Fatal(err)
 	}
-	replay, err := writer.CompleteBytesWithPadding(complete.PERPadding_)
-	if err != nil || !bytes.Equal(replay, []byte{0x7f}) {
+	replay, err := writer.CompleteBytesWithPadding(complete.ReceivedPadding())
+	if err != nil || !bytes.Equal(replay, []byte{0x40}) {
 		t.Fatalf("replay=%x: %v", replay, err)
 	}
 	for _, tc := range []struct {
@@ -51,12 +51,12 @@ func TestX2APPrimitiveOpenTypeCompletion(t *testing.T) {
 			t.Fatalf("data=%x complete=%+v: %v", tc.data, got, err)
 		}
 	}
-	bb = NewBitBufferFromBytes([]byte{0x7f})
+	bb = NewBitBufferFromBytes([]byte{0x40})
 	if _, err := DecodeEnumeratedAligned(bb, 2, true); err != nil {
 		t.Fatal(err)
 	}
 	final, err := CaptureFinalBits(bb, "ReportCharacteristics")
-	if err != nil || final.IsZero() {
+	if err != nil || !final.IsZero() {
 		t.Fatalf("final padding=%+v: %v", final, err)
 	}
 	if suffix := final.Trailing(); suffix.BitLength != 0 || len(suffix.Bytes) != 0 {
@@ -84,7 +84,7 @@ func TestX2APUpperOnlyIntegerBound(t *testing.T) {
 		if got != value || (value > upper) != errors.Is(err, ErrConstraintViolation) {
 			t.Fatalf("upper-only decode %d=>%d: %v", value, got, err)
 		}
-		if value > upper && err.Error() != fmt.Sprintf("per: constraint violation: INTEGER %d above upper bound %d", value, upper) {
+		if value > upper && !strings.Contains(err.Error(), fmt.Sprintf("per: constraint violation: INTEGER %d above upper bound %d", value, upper)) {
 			t.Fatalf("bound diagnostic: %v", err)
 		}
 	}
@@ -101,7 +101,7 @@ func TestX2APRecoveryListPaths(t *testing.T) {
 	strict.LeaveComponent(-1)
 	var log ToleranceLog
 	parent := NewBitBufferFromBytes([]byte{0})
-	if err := parent.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &log}); err != nil {
+	if err := parent.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &log}); err != nil {
 		t.Fatal(err)
 	}
 	component := parent.EnterComponent("Results")
@@ -132,7 +132,7 @@ func TestX2APRecoveryListPaths(t *testing.T) {
 		t.Fatalf("path leaked: %+v", parent.trace.path)
 	}
 	// Cut-only options must not activate paths reserved for bounded recovery.
-	if err := parent.SetDecodeOptionsAligned(DecodeOptions{TruncatedExtensionTolerance: &log}); err != nil {
+	if err := parent.setDecodeSettingsAligned(decodeSettings{TruncatedExtensionTolerance: &log}); err != nil {
 		t.Fatal(err)
 	}
 	if parent.RecoveryComponent("ResultNR") != -1 || parent.RecoveryIndex(2) != -1 || len(parent.trace.path) != 0 {

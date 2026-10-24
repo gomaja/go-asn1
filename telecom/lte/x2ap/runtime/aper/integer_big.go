@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/integer_big.go; SHA-256 1196dad9ad645fd106cbf598aa4ffe4a066c0c73c665acfec74c6711c09df033.
+// Runtime source: runtime/aper/integer_big.go; SHA-256 c9785a970b554caa002714abcecb9a55bea5b0c7304aab00cbab4218674c82a6.
 package aper
 
 import (
@@ -17,16 +17,22 @@ func EncodeIntegerBigBoundsAligned(bb *BitBuffer, value, lower, upper *big.Int, 
 }
 
 // DecodeIntegerBigBoundsAligned is the APER form of DecodeIntegerBigBounds.
-func DecodeIntegerBigBoundsAligned(bb *BitBuffer, lower, upper *big.Int, extensible bool) (*big.Int, error) {
+func DecodeIntegerBigBoundsAligned(bb *BitBuffer, lower, upper *big.Int, extensible bool) (result0 *big.Int, result1 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, integerBigClause(lower, upper, extensible), &result1)
+
 	return decodeIntegerBigBounds(bb, lower, upper, extensible, true)
 }
 
 func encodeIntegerBigBounds(bb *BitBuffer, value, lower, upper *big.Int, extensible, aligned bool) error {
+	if err := reserveBigValues(bb, value, lower, upper); err != nil {
+		return err
+	}
 	if value == nil {
 		return fmt.Errorf("%w: INTEGER value is nil", ErrInvalidValue)
 	}
 	if lower != nil && upper != nil && lower.Cmp(upper) > 0 {
-		return fmt.Errorf("%w: invalid INTEGER range [%s..%s]", ErrInvalidValue, lower, upper)
+		return fmt.Errorf("%w: invalid INTEGER range [%s..%s]", ErrInvalidValue, boundedIntegerDiagnostic(lower), boundedIntegerDiagnostic(upper))
 	}
 	if extensible {
 		inRoot := integerBigInRootBounds(value, lower, upper)
@@ -42,20 +48,23 @@ func encodeIntegerBigBounds(bb *BitBuffer, value, lower, upper *big.Int, extensi
 	}
 	if lower != nil {
 		if value.Cmp(lower) < 0 {
-			return fmt.Errorf("%w: %s below lower bound %s", ErrConstraintViolation, value, lower)
+			return fmt.Errorf("%w: %s below lower bound %s", ErrConstraintViolation, boundedIntegerDiagnostic(value), boundedIntegerDiagnostic(lower))
 		}
 		offset := new(big.Int).Sub(new(big.Int).Set(value), lower)
 		return encodeLengthDelimitedOctets(bb, minimalBigUnsignedBytes(offset), aligned)
 	}
 	if upper != nil && value.Cmp(upper) > 0 {
-		return fmt.Errorf("%w: %s above upper bound %s", ErrConstraintViolation, value, upper)
+		return fmt.Errorf("%w: %s above upper bound %s", ErrConstraintViolation, boundedIntegerDiagnostic(value), boundedIntegerDiagnostic(upper))
 	}
 	return encodeBigTwosComplement(bb, value, aligned)
 }
 
 func decodeIntegerBigBounds(bb *BitBuffer, lower, upper *big.Int, extensible, aligned bool) (*big.Int, error) {
+	if err := reserveBigValues(bb, lower, upper); err != nil {
+		return nil, err
+	}
 	if lower != nil && upper != nil && lower.Cmp(upper) > 0 {
-		return nil, fmt.Errorf("%w: invalid INTEGER range [%s..%s]", ErrInvalidValue, lower, upper)
+		return nil, fmt.Errorf("%w: invalid INTEGER range [%s..%s]", ErrInvalidValue, boundedIntegerDiagnostic(lower), boundedIntegerDiagnostic(upper))
 	}
 	if extensible {
 		outside, err := DecodeBoolean(bb)
@@ -81,6 +90,9 @@ func decodeIntegerBigBounds(bb *BitBuffer, lower, upper *big.Int, extensible, al
 		if err := validateMinimalUnsigned(data); err != nil {
 			return nil, err
 		}
+		if err := reserveIntegerWorkspace(bb, max(uint64(len(data)), bigValueOctets(lower))); err != nil {
+			return nil, err
+		}
 		value := new(big.Int).SetBytes(data)
 		return value.Add(value, lower), nil
 	}
@@ -89,7 +101,7 @@ func decodeIntegerBigBounds(bb *BitBuffer, lower, upper *big.Int, extensible, al
 		return nil, err
 	}
 	if upper != nil && value.Cmp(upper) > 0 {
-		return nil, fmt.Errorf("%w: decoded INTEGER %s above upper bound %s", ErrConstraintViolation, value, upper)
+		return nil, fmt.Errorf("%w: decoded INTEGER %s above upper bound %s", ErrConstraintViolation, boundedIntegerDiagnostic(value), boundedIntegerDiagnostic(upper))
 	}
 	return value, nil
 }
@@ -104,10 +116,10 @@ func integerBigInRootBounds(value, lower, upper *big.Int) bool {
 func encodeConstrainedBig(bb *BitBuffer, value, lower, upper *big.Int, aligned bool) error {
 	rangeValue := new(big.Int).Sub(new(big.Int).Set(upper), lower)
 	if rangeValue.Sign() < 0 {
-		return fmt.Errorf("%w: invalid INTEGER range [%s..%s]", ErrInvalidValue, lower, upper)
+		return fmt.Errorf("%w: invalid INTEGER range [%s..%s]", ErrInvalidValue, boundedIntegerDiagnostic(lower), boundedIntegerDiagnostic(upper))
 	}
 	if value.Cmp(lower) < 0 || value.Cmp(upper) > 0 {
-		return fmt.Errorf("%w: %s not in [%s..%s]", ErrConstraintViolation, value, lower, upper)
+		return fmt.Errorf("%w: %s not in [%s..%s]", ErrConstraintViolation, boundedIntegerDiagnostic(value), boundedIntegerDiagnostic(lower), boundedIntegerDiagnostic(upper))
 	}
 	if rangeValue.Sign() == 0 {
 		return nil
@@ -151,7 +163,7 @@ func encodeConstrainedBig(bb *BitBuffer, value, lower, upper *big.Int, aligned b
 func decodeConstrainedBig(bb *BitBuffer, lower, upper *big.Int, aligned bool) (*big.Int, error) {
 	rangeValue := new(big.Int).Sub(new(big.Int).Set(upper), lower)
 	if rangeValue.Sign() < 0 {
-		return nil, fmt.Errorf("%w: invalid INTEGER range [%s..%s]", ErrInvalidValue, lower, upper)
+		return nil, fmt.Errorf("%w: invalid INTEGER range [%s..%s]", ErrInvalidValue, boundedIntegerDiagnostic(lower), boundedIntegerDiagnostic(upper))
 	}
 	if rangeValue.Sign() == 0 {
 		return new(big.Int).Set(lower), nil
@@ -266,6 +278,9 @@ func readBigBits(bb *BitBuffer, bitCount int) (*big.Int, error) {
 }
 
 func encodeBigTwosComplement(bb *BitBuffer, value *big.Int, aligned bool) error {
+	if err := reserveBigValues(bb, value); err != nil {
+		return err
+	}
 	data, err := minimalBigTwosComplement(value)
 	if err != nil {
 		return err
@@ -273,12 +288,18 @@ func encodeBigTwosComplement(bb *BitBuffer, value *big.Int, aligned bool) error 
 	return encodeLengthDelimitedOctets(bb, data, aligned)
 }
 
-func decodeBigTwosComplement(bb *BitBuffer, aligned bool) (*big.Int, error) {
+func decodeBigTwosComplement(bb *BitBuffer, aligned bool) (result0 *big.Int, result1 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, "§11.4.6", &result1)
+
 	data, err := decodeLengthDelimitedOctets(bb, aligned)
 	if err != nil {
 		return nil, err
 	}
 	if err := validateMinimalTwosComplement(data); err != nil {
+		return nil, err
+	}
+	if err := reserveIntegerWorkspace(bb, uint64(len(data))); err != nil {
 		return nil, err
 	}
 	value := new(big.Int).SetBytes(data)
@@ -360,12 +381,26 @@ func validateMinimalTwosComplement(data []byte) error {
 // EncodeIntegerValueSetBigAligned writes an INTEGER with disjoint root ranges
 // in aligned PER (ITU-T X.691 (02/2021) 13.1-13.2).
 func EncodeIntegerValueSetBigAligned(bb *BitBuffer, value *big.Int, ranges []IntegerRange, extensible bool) error {
+	if err := reserveBigValues(bb, value); err != nil {
+		return err
+	}
+	if err := bb.ChargeWork(uint64(len(ranges)) * 2); err != nil {
+		return err
+	}
 	return encodeIntegerValueSetBig(bb, value, ranges, extensible)
 }
 
 // DecodeIntegerValueSetBigAligned reads an INTEGER with disjoint root ranges
 // in aligned PER (ITU-T X.691 (02/2021) 13.1-13.2).
-func DecodeIntegerValueSetBigAligned(bb *BitBuffer, ranges []IntegerRange, extensible bool) (*big.Int, error) {
+func DecodeIntegerValueSetBigAligned(bb *BitBuffer, ranges []IntegerRange, extensible bool) (result *big.Int, failure error) {
+	start := bb.BitPos()
+	defer bb.locateDecodeFailure(start, "§13.1", &failure)
+	if err := reserveIntegerWorkspace(bb, 8); err != nil {
+		return nil, err
+	}
+	if err := bb.ChargeWork(uint64(len(ranges)) * 2); err != nil {
+		return nil, err
+	}
 	return decodeIntegerValueSetBig(bb, ranges, extensible)
 }
 
@@ -417,4 +452,40 @@ func decodeIntegerValueSetBig(bb *BitBuffer, ranges []IntegerRange, extensible b
 		return nil, fmt.Errorf("%w: decoded root value %d is outside the permitted INTEGER value set", ErrConstraintViolation, value)
 	}
 	return big.NewInt(value), nil
+}
+
+// Reserve eight linear workspaces before big.Int arithmetic, byte extraction
+// or conversion. Each includes 96 bytes for the Int header, word headroom and
+// carry/sign octets. This conservative request is independent of allocator
+// size classes. X.691 §11.4.6 / §11.7.4 impose no integer-width ceiling.
+func reserveIntegerWorkspace(bb *BitBuffer, octets uint64) error {
+	if bb.decodeBudget().operational == (Limits{}) {
+		return nil
+	}
+	if octets > uint64(math.MaxInt)-96 {
+		return bb.resourceError("integer workspace exceeds host int")
+	}
+	return bb.ChargeAllocation(8, octets+96)
+}
+func bigValueOctets(value *big.Int) uint64 {
+	if value == nil {
+		return 1
+	}
+	return uint64(value.BitLen())/8 + 1
+}
+func reserveBigValues(bb *BitBuffer, values ...*big.Int) error {
+	var octets uint64 = 1
+	for _, value := range values {
+		octets = max(octets, bigValueOctets(value))
+	}
+	return reserveIntegerWorkspace(bb, octets)
+}
+
+// Failure diagnostics never format an attacker-sized decimal integer. Small
+// values keep the original useful diagnostic; large values use a bounded label.
+func boundedIntegerDiagnostic(value *big.Int) any {
+	if value != nil && value.BitLen() > 256 {
+		return "<INTEGER wider than 256 bits>"
+	}
+	return value
 }

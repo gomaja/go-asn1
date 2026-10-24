@@ -35,3 +35,19 @@ condition = "AND"
 regexTarget = "line"
 paths = ['''^telecom/lte/s1ap/s1apies\.go$''']
 regexes = ['''^\s*case UES1APIDsChoiceUES1APIDPair:\r?\n\s*toleranceMark_ues1apidpair := bb\.EnterComponent\("UES1APIDPair"\)\s*$''']
+
+[[allowlists]]
+description = "Generated facade aliases of shard declarations, such as const IdMeNBUEX2APID = s00.IdMeNBUEX2APID, can match the generic API key heuristic."
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "match"
+paths = ['''^telecom/lte/(lppa|s1ap|x2ap)/(api|facade)\.go$''']
+regexes = ['''^[A-Za-z0-9]+ = s[0-9]{2}\.[A-Za-z0-9]+$''']
+
+[[allowlists]]
+description = "Generated API ledger entries are quoted Go identifiers and selectors; two adjacent entries can match the generic API key heuristic."
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "match"
+paths = ['''^telecom/lte/(lppa|s1ap|x2ap)/api-ledger\.json$''']
+regexes = ['''^[A-Za-z0-9]+(\.[A-Za-z0-9]+)*",\s+"[A-Za-z0-9]+(\.[A-Za-z0-9]+)*"$''']

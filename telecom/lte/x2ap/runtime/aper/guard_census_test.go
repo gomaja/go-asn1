@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/guard_census_test.go; SHA-256 a783187dba31a7e38bc4d9a0dae07e48a09c8fddd4270d2e83c79e58de81e5a6.
+// Runtime source: runtime/aper/guard_census_test.go; SHA-256 c1899db38c0da682c0339f0e8791d8c7608b8dcbc3f829432827f89d6987af03.
 package aper
 
 import (
@@ -27,7 +27,7 @@ func TestCensusIntegerValidation(t *testing.T) {
 		{"semi nine octets", func() error {
 			_, e := DecodeSemiConstrainedWholeNumberAligned(NewBitBufferFromBytes(append([]byte{9}, bytes.Repeat([]byte{1}, 9)...)), 0)
 			return e
-		}, ErrInvalidValue, "maximum is 8"},
+		}, ErrLimit, "maximum is 8"},
 		{"long constrained unused code", func() error {
 			_, e := DecodeConstrainedWholeNumberAligned(NewBitBufferFromBytes([]byte{0x80, 1, 0x86, 0xa1}), 0, 100000)
 			return e
@@ -152,7 +152,7 @@ func TestCensusBigIntegerValidation(t *testing.T) {
 	if e := encodeBigTwosComplement(w, new(big.Int).Lsh(big.NewInt(1), 64), true); e != nil {
 		t.Fatal(e)
 	}
-	if _, e := DecodeUnconstrainedWholeNumberAligned(NewBitBufferFromBytes(w.Bytes())); !errors.Is(e, ErrInvalidValue) {
+	if _, e := DecodeUnconstrainedWholeNumberAligned(NewBitBufferFromBytes(w.Bytes())); !errors.Is(e, ErrLimit) {
 		t.Fatal(e)
 	}
 	// Large constrained roots use fragmented octets; check both their declared
@@ -177,7 +177,7 @@ func TestCensusBigIntegerValidation(t *testing.T) {
 
 func TestCensusStickyBudgetsAndBalance(t *testing.T) {
 	b := NewBitBufferFromBytes([]byte{0})
-	if e := b.SetDecodeOptionsAligned(DecodeOptions{Limits: DecodeLimits{MaxWork: 1}}); e != nil {
+	if e := b.setDecodeSettingsAligned(decodeSettings{Limits: decodeLimits{MaxWork: 1}}); e != nil {
 		t.Fatal(e)
 	}
 	if _, e := b.ReadBits(2); !errors.Is(e, ErrResourceLimit) {
@@ -209,7 +209,7 @@ func TestCensusStickyBudgetsAndBalance(t *testing.T) {
 		}
 	}
 	var usage DecodeUsage
-	if e := b.SetDecodeOptionsAligned(DecodeOptions{Usage: &usage, ExtensionRecoveryTolerance: &ToleranceLog{}}); e != nil {
+	if e := b.setDecodeSettingsAligned(decodeSettings{Usage: &usage, ExtensionRecoveryTolerance: &ToleranceLog{}}); e != nil {
 		t.Fatal(e)
 	}
 	if b.trace.work.limit != uint64(len(b.data)*8)*recoveryWorkInputMultiple {
@@ -301,7 +301,7 @@ func TestCensusPaddingAndScopeDiagnostics(t *testing.T) {
 	strict.LeaveComponent(0)
 	strict.commitRecords("Value")
 	parent := NewBitBufferFromBytes([]byte{0})
-	if e := parent.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &ToleranceLog{}, Limits: DecodeLimits{MaxWork: 1}}); e != nil {
+	if e := parent.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}, Limits: decodeLimits{MaxWork: 1}}); e != nil {
 		t.Fatal(e)
 	}
 	child := NewNestedDecodeBuffer([]byte{0}, parent)
@@ -335,7 +335,7 @@ func TestCensusRecoveryChargeWindow(t *testing.T) {
 	if got := b.recoveryCharge(1); got != 0 {
 		t.Fatal(got)
 	}
-	if e := b.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &ToleranceLog{}}); e != nil {
+	if e := b.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}}); e != nil {
 		t.Fatal(e)
 	}
 	work := b.trace.work
@@ -420,7 +420,7 @@ func TestCensusScalarAcceptedBoundaries(t *testing.T) {
 		}
 	}
 	b := NewBitBufferFromBytes([]byte{0})
-	err := b.SetDecodeOptionsAligned(DecodeOptions{Limits: DecodeLimits{MaxWork: -1}})
+	err := b.setDecodeSettingsAligned(decodeSettings{Limits: decodeLimits{MaxWork: -1}})
 	if !errors.Is(err, ErrInvalidValue) || b.budget.err != err {
 		t.Fatalf("invalid limit not sticky: %v %+v", err, b.budget)
 	}
@@ -430,7 +430,7 @@ func TestCensusScalarAcceptedBoundaries(t *testing.T) {
 	// A new top-level call resets caller-owned sticky state and scopes.
 	var budget DecodeBudget
 	b = NewDecodeBuffer([]byte{0}, &budget)
-	if err := b.SetDecodeOptionsAligned(DecodeOptions{Limits: DecodeLimits{MaxWork: 1}}); err != nil {
+	if err := b.setDecodeSettingsAligned(decodeSettings{Limits: decodeLimits{MaxWork: 1}}); err != nil {
 		t.Fatal(err)
 	}
 	if err := b.EnterDecodeValue(); err != nil {
@@ -596,7 +596,7 @@ func TestCensusExtensionLengthsAndReceiveFailures(t *testing.T) {
 		t.Fatal("failed cut record committed")
 	}
 	b = NewBitBufferFromBytes([]byte{1})
-	if err := b.SetDecodeOptionsAligned(DecodeOptions{TruncatedExtensionTolerance: &ToleranceLog{}, Limits: DecodeLimits{MaxWork: 16}}); err != nil {
+	if err := b.setDecodeSettingsAligned(decodeSettings{TruncatedExtensionTolerance: &ToleranceLog{}, Limits: decodeLimits{MaxWork: 16}}); err != nil {
 		t.Fatal(err)
 	}
 	a = ExtensionAdditions{root: 1, present: []bool{true}, aligned: true}
@@ -618,7 +618,7 @@ func TestCensusExtensionLengthsAndReceiveFailures(t *testing.T) {
 func TestCensusRecoveryProvenanceWorkAndScope(t *testing.T) {
 	newReader := func() *BitBuffer {
 		b := NewBitBufferFromBytes([]byte{0xad, 0x80})
-		if err := b.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
+		if err := b.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
 			t.Fatal(err)
 		}
 		if _, err := b.ReadBits(9); err != nil {

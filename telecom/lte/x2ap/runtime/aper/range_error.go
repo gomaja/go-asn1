@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/range_error.go; SHA-256 523621dd4e073c2d605c8e2580f68ad1e689569d16d77ac2c0ec12d30055981f.
+// Runtime source: runtime/aper/range_error.go; SHA-256 20719b72899b7d6cbdf4d30dd26fb5b3877a5db4221149bff30eb8494ac0c881.
 package aper
 
 import (
@@ -15,7 +15,7 @@ import (
 // appeared on the wire. The value is computed exactly, so it cannot wrap.
 func constrainedOffsetError(lower, offset, upper *big.Int) error {
 	value := new(big.Int).Add(lower, offset)
-	return fmt.Errorf("%w: value %s (offset %s) exceeds range [%s..%s]", ErrInvalidValue, value, offset, lower, upper)
+	return fmt.Errorf("%w: value %s (offset %s) exceeds range [%s..%s]", ErrInvalidValue, boundedIntegerDiagnostic(value), boundedIntegerDiagnostic(offset), boundedIntegerDiagnostic(lower), boundedIntegerDiagnostic(upper))
 }
 
 func int64OffsetError(offset uint64, lb, ub int64) error {

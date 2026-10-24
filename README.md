@@ -571,8 +571,7 @@ rejects it with `runtime.ErrTimeNotSet`.
 
 ### LTE owned runtimes
 
-S1AP, X2AP and LTE RRC carry their own runtimes, and LPPa does too from this
-release. None of these packages, nor their runtimes, imports the shared root
+S1AP, X2AP, LPPa and LTE RRC carry their own runtimes. None of these packages, nor their runtimes, imports the shared root
 runtime (`github.com/gomaja/go-asn1/runtime` and its subpackages). A shared
 runtime type therefore has a different Go type identity from the package's
 own type of the same name. Take options, errors, BIT STRINGs, object
@@ -613,11 +612,12 @@ earlier decode-then-dispatch interface.
   `DecodeSuccessfulOutcomeValue`, `DecodeUnsuccessfulOutcomeValue`,
   `DecodeIEFieldValue`, `DecodeExtensionFieldValue` and the
   `Decode…Recursive` helpers.
-- **Strict decoding.** Decoding refuses every encoding that ITU-T X.691
-  (02/2021) forbids, including non-zero terminal padding in a complete value
-  (§11.1.4), which the earlier package accepted.
-  - `aper.WithReceiverMode()` selects the receiver policy of TS 36.455 §10. It
-    accepts the same encodings and adds observations to the report.
+- **Strict decoding.** Decoding refuses encodings that ITU-T X.691 (02/2021)
+  forbids, including non-zero terminal padding in a complete value (§11.1.4),
+  which the earlier package accepted.
+  - `aper.WithReceiverMode()` names the receiver policy of TS 36.455 §10. Its
+    wire tolerance set is empty, so it accepts exactly what default decoding
+    accepts, and both report the same observations, such as an unknown IE.
   - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
     counts, work and allocation of each call; `aper.DefaultLimits()` returns
     the defaults.
@@ -669,6 +669,89 @@ earlier decode-then-dispatch interface.
   - `LPPAPDUValueCodec` for `ValueCodec[LPPAPDU]`;
   - `LPPAPDUAPERValue` for `APERValue[LPPAPDU]`;
   - `ErrorIndicationIEContainer` for `ProtocolIEContainer[ErrorIndicationIEValue]`.
+
+### X2AP typed API
+
+The X2AP package (3GPP TS 36.423 V19.1.0) has a typed API that replaces the
+earlier decode-then-dispatch interface, with the same package layout as LPPa.
+
+- **Decoding.** `X2APPDU` and every other SEQUENCE and CHOICE type have
+  `UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error)`.
+  A named list `Xxx` has
+  `UnmarshalAPERXxx(data, options...) (XxxComplete, aper.DecodeReport, error)`.
+  A named type with no methods, such as `TimeToWait` (an `int64`), is decoded
+  through its codec: `TimeToWaitCodec().DecodeAPER(data, options...)`.
+  One call decodes every known procedure body, IE value and extension value
+  into typed fields, for example
+  `pdu.InitiatingMessage.Value.AsHandoverRequest()`.
+  The following are removed, together with their `Decoded…` result types:
+  `DecodeValueRecursive`, `DecodeInitiatingMessageValue`,
+  `DecodeSuccessfulOutcomeValue`, `DecodeUnsuccessfulOutcomeValue`,
+  `DecodeIEFieldValue`, `DecodeExtensionFieldValue` and the
+  `Decode…Recursive` helpers.
+- **Strict decoding.** Decoding refuses encodings that ITU-T X.691 (02/2021)
+  forbids, including non-zero terminal padding in a complete value (§11.1.4),
+  which the earlier package accepted.
+  - `aper.WithReceiverMode()` names the receiver policy of TS 36.423 §10. Its
+    wire tolerance set is empty, so it accepts exactly what default decoding
+    accepts, and both report the same observations, such as an unknown IE.
+  - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
+    counts, work and allocation of each call; `aper.DefaultLimits()` returns
+    the defaults.
+- **Encoding and replay.**
+  `MarshalAPER(options ...aper.EncodeOption) ([]byte, error)` encodes a value.
+  - A decoded value that is not changed encodes to the octets it was decoded
+    from.
+  - An edited value re-encodes only the changed parts and their framing.
+  - A value that is edited and then restored encodes to its received octets
+    again.
+  - A value's `WithoutReplay()` method, or the `aper.WithoutReplay()` option,
+    produces the fresh preferred encoding through every nested value.
+
+  Decoding runs no encoder.
+- **Construction and checks.**
+  - `ValidateMessage` checks a decoded or constructed PDU against the
+    elementary procedure and PDU definitions of TS 36.423 §§9.3.3–9.3.4. It
+    reports issues of eight kinds, from `MissingMandatory` and
+    `WrongCriticality` to `ValueIDMismatch`.
+  - Checked builders such as `NewHandoverRequest(fields, options...)` run the
+    same checks and refuse a message that has a blocking issue.
+  - Procedure descriptors build each elementary procedure's messages, for
+    example `HandoverPreparationProcedure().Initiating().Build(body)`.
+    `NewX2APPDUInitiatingMessage` wraps the result in a PDU.
+- **Removed low-level entry points.** The following are removed:
+  - the bit-buffer variants `MarshalAPERTo`, `UnmarshalAPERFrom`,
+    `MarshalAPERXxxTo` and `UnmarshalAPERXxxFrom`;
+  - `UnmarshalAPERWithOptions` and its options;
+  - the container-level functions `MarshalAPERProtocolIEContainer` and
+    `UnmarshalAPERProtocolIEContainer`, with their `List`, `Pair`,
+    `PairList`, `ProtocolExtensionContainer` and `PrivateIEContainer`
+    counterparts;
+  - the `…Complete` container wrappers, such as `ProtocolIEContainerComplete`.
+
+  The container types are generic over their value union, as in
+  `ProtocolIEContainer[V]` and `ProtocolIEField[V]`. Each message's container
+  has a concrete name: `HandoverRequestIEContainer` holds
+  `HandoverRequestIEField` values.
+- **Payloads.** An IE that carries another protocol's message stays an octet
+  string. To decode or encode one, supply that protocol's functions:
+  - `(x2ap.NewPayloadCodec[T]{}).Call(decode, encode)` creates a codec;
+  - `(x2ap.DecodePayload[T]{}).Call(data, codec, limits)` decodes;
+  - `(x2ap.EncodePayload[T]{}).Call(value, codec, limits)` encodes.
+
+  The calls enforce `PayloadLimits`:
+  - decoding checks the input before it runs the supplied function, and the deviation count after;
+  - encoding checks the output;
+  - a zero field takes its default.
+- **Package layout.** The package's types are aliases of definitions in the
+  packages under `telecom/lte/x2ap/internal/model/`, where their methods and
+  fields are documented. Functions are package-level variables of function
+  type, such as `NewHandoverRequest`. Call them as before and do not assign to
+  them. A concrete codec or value type is named after the generic form it
+  replaces, type arguments first:
+  - `X2APPDUValueCodec` for `ValueCodec[X2APPDU]`;
+  - `X2APPDUAPERValue` for `APERValue[X2APPDU]`;
+  - `HandoverRequestIEContainer` for `ProtocolIEContainer[HandoverRequestIEValue]`.
 
 ### ObjectIdentifier migration
 

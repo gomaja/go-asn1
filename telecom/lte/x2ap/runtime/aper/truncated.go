@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/truncated.go; SHA-256 5783a8869109a642ffbd7474fb68309782e30b2dc438fee6b99949fddf8dac74.
+// Runtime source: runtime/aper/truncated.go; SHA-256 722e40dcc3cf1c049ea1dd7502686be6b73009fa083bf1fefdcb201d294fa2b0.
 package aper
 
 import (
@@ -44,7 +44,19 @@ func BeginExtensionAdditions(bb *BitBuffer) ExtensionAdditions {
 
 // DecodeBitmapAligned is the APER form of DecodeBitmap.
 func (a *ExtensionAdditions) DecodeBitmapAligned(bb *BitBuffer) (int64, []bool, error) {
-	return a.decodeBitmap(bb, DecodeExtensionBitmapAligned, true)
+	start := bb.BitPos()
+	count, present, err := a.decodeBitmap(bb, DecodeExtensionBitmapAligned, true)
+	if err != nil {
+		return count, present, err
+	}
+	// X.691 (02/2021) §19.1 sets the extension bit only when an addition
+	// value is present. Bitmap width itself need not be minimal (§19.7).
+	for _, set := range present {
+		if set {
+			return count, present, nil
+		}
+	}
+	return 0, nil, bb.syntaxError(start, "§19.1", "extension bit set without any present addition", ErrInvalidValue)
 }
 
 func (a *ExtensionAdditions) decodeBitmap(bb *BitBuffer, decode func(*BitBuffer) (int64, []bool, error), aligned bool) (int64, []bool, error) {
@@ -354,9 +366,9 @@ func (cut *truncatedExtension) follows(bb *BitBuffer) bool {
 		}
 		// These are typed encodings already held by the caller, not a new
 		// receiver input. A one-pass ceiling based on their length preserves
-		// replay for values decoded under raised DecodeLimits.MaxWork.
+		// replay for values decoded under raised decodeLimits.MaxWork.
 		var readBudget, expectedBudget DecodeBudget
-		readBudget.limits = DefaultDecodeLimits()
+		readBudget.limits = defaultLegacyLimits()
 		readBudget.limits.MaxWork = cut.expectedBits
 		reader := *bb
 		reader.bitPos, reader.bitLen, reader.budget = start, bb.bitPos, &readBudget
@@ -562,4 +574,14 @@ func (bb *BitBuffer) RecoveryIndex(index int64) int {
 		return -1
 	}
 	return bb.trace.enter(pathSegment{index: index})
+}
+
+// CompleteKnownOpenAddition retains span-based input during valid known-addition
+// decoding. A recovered refusal copies content only into its owned report.
+func (a *ExtensionAdditions) CompleteKnownOpenAddition(child *BitBuffer, index int64, raw OpaqueOpenType, checkpoint KnownAdditionCheckpoint, err error) (bool, CompletePadding, error) {
+	var data []byte
+	if err != nil {
+		data = raw.Bytes()
+	}
+	return a.CompleteKnownAddition(child, index, data, checkpoint, err)
 }
