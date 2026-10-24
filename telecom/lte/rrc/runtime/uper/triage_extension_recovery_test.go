@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/triage_extension_recovery_test.go; SHA-256 6713059d65fce0f08022cd2ec9b72777e1e252022a38ce22054501dacade43f5.
+// Runtime source: runtime/uper/triage_extension_recovery_test.go; SHA-256 c502beeebb113fa06be4d5c9cd39223ab2fc4f803d4c4cef56b3d014ddd6c08c.
 package uper
 
 import (
@@ -202,7 +202,7 @@ func decodeKnownAddition(a *ExtensionAdditions, bb *BitBuffer, index int64, data
 		return false, CompletePadding{}, err
 	}
 	checkpoint := child.CheckpointKnownAddition()
-	return a.CompleteKnownAddition(child, index, data, checkpoint, decode(child))
+	return a.CompleteKnownAddition(child, index, data, checkpoint, decode(child), true)
 }
 
 func TestExtensionRecoveryEnabled(t *testing.T) {

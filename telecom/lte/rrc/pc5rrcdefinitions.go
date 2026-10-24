@@ -102,9 +102,11 @@ func (v *SBCCHSLBCHMessage) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = SBCCHSLBCHMessage{}
+	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
+	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -153,9 +155,11 @@ func (v *SBCCHSLBCHMessageV2XR14) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = SBCCHSLBCHMessageV2XR14{}
+	paddingMark_message := bb.PaddingComponent("Message")
 	if err := v.Message.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Message")
 	}
+	bb.LeaveComponent(paddingMark_message)
 	return nil
 }
 
@@ -224,9 +228,11 @@ func (v *MasterInformationBlockSL) UnmarshalUPERFrom(bb *uper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "SlBandwidthR12")
 	}
 	v.SlBandwidthR12 = val_slbandwidthr12
+	paddingMark_tddconfigslr12 := bb.PaddingComponent("TddConfigSLR12")
 	if err := v.TddConfigSLR12.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TddConfigSLR12")
 	}
+	bb.LeaveComponent(paddingMark_tddconfigslr12)
 	bsBytes_directframenumberr12, bsBitLen_directframenumberr12, err := uper.DecodeBitStringExt(bb, 10, 10, true, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DirectFrameNumberR12")
@@ -315,9 +321,11 @@ func (v *MasterInformationBlockSLV2XR14) UnmarshalUPERFrom(bb *uper.BitBuffer) e
 		return runtime.WrapDecodePath(err, "SlBandwidthR14")
 	}
 	v.SlBandwidthR14 = val_slbandwidthr14
+	paddingMark_tddconfigslr14 := bb.PaddingComponent("TddConfigSLR14")
 	if err := v.TddConfigSLR14.UnmarshalUPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TddConfigSLR14")
 	}
+	bb.LeaveComponent(paddingMark_tddconfigslr14)
 	bsBytes_directframenumberr14, bsBitLen_directframenumberr14, err := uper.DecodeBitStringExt(bb, 10, 10, true, false)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "DirectFrameNumberR14")
