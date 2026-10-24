@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 fbec28f41e8030295087401d6d1326666245e855e17c338181b198d9a99f4e62.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 8217e6261de4b7d58f9f9825aa586fc23ce65d9c04b884798858e58315e7daad.
 package aper
 
 import (
@@ -13,24 +13,32 @@ type BitBuffer struct {
 	data          []byte
 	bitPos        int  // current read position (read) or total bits written (write)
 	bitLen        int  // total bits available (read mode only)
+	sourceReader  bool // cursor belongs to received input, never an internal writer
 	invalidLength bool // input octets cannot be represented as an int bit length
 	// outermost is set on the buffer of a top-level decode under
 	// TruncatedExtensionTolerance: only the end of its input can cut an
 	// extension addition short. A nested buffer, bounded by an open type or
 	// contained string that arrived in full, never has it.
 	outermost      bool
+	nested         bool // positions are relative to a bounded open value
 	zeroWidthLimit uint32
 	budget         *DecodeBudget // shared by every buffer in this decode
 	trace          *decodeTrace  // non-nil only for a decode with tolerance or deferral
 }
 
-// DecodeOptions configures receiver behaviour for PER decoding: tolerance for
+// decodeSettings configures receiver behaviour for PER decoding: tolerance for
 // non-conformant senders and the treatment of contained values. The zero
 // value decodes strictly and eagerly.
-type DecodeOptions struct {
+type decodeSettings struct {
+	callReport            *DecodeReport
+	operationLimits       Limits
+	operation             *DecodeBudget
+	hasOperationLimits    bool
+	invalidReceiverPolicy bool
+	owner                 *semanticArena
 	// Limits are operational ceilings for a complete decode. Zero fields use
-	// DefaultDecodeLimits.
-	Limits DecodeLimits
+	// defaultLegacyLimits.
+	Limits decodeLimits
 	// Usage, when non-nil, receives live per-decode resource metrics. It must
 	// not be shared between concurrent decodes.
 	Usage *DecodeUsage
@@ -96,16 +104,40 @@ func (bb *BitBuffer) zeroWidthCharacterLimit() int64 {
 	return DefaultMaxZeroWidthCharacters
 }
 
-// setDecodeOptions starts a top-level decode with validated options. bb reads
+// setDecodeSettings starts a top-level decode with validated options. bb reads
 // the outermost input, whose end alone can cut an extension addition short
 // under TruncatedExtensionTolerance.
-func (bb *BitBuffer) setDecodeOptions(options DecodeOptions) error {
+func (bb *BitBuffer) setDecodeSettings(options decodeSettings) error {
+	if options.operation != nil {
+		bb.budget = options.operation
+		if bb.budget.err != nil {
+			return bb.budget.err
+		}
+		if uint64(len(bb.data)) > bb.budget.operational.MaxInputBytes {
+			return bb.resourceError("input bytes exceeded")
+		}
+		return nil
+	}
+	if options.owner != nil {
+		bb.budget = &options.owner.budget
+	}
 	limits, err := effectiveDecodeLimits(options.Limits)
 	if err != nil {
-		*bb.decodeBudget() = DecodeBudget{limits: DefaultDecodeLimits(), err: err}
+		*bb.decodeBudget() = DecodeBudget{limits: defaultLegacyLimits(), err: err}
 		return err
 	}
-	*bb.decodeBudget() = DecodeBudget{limits: limits, report: options.Usage}
+	*bb.decodeBudget() = DecodeBudget{reading: true, limits: limits, report: options.Usage, owner: options.owner, callReport: options.callReport}
+	if options.hasOperationLimits {
+		effective, err := effectiveLimits(options.operationLimits)
+		if err != nil {
+			return err
+		}
+		bb.budget.operational = effective
+		bb.budget.limits = decodeLimits{MaxDepth: int(effective.MaxDepth), MaxElements: int(effective.MaxElements), MaxOpenTypeDepth: int(effective.MaxDepth), MaxWork: int(effective.MaxWork)}
+	}
+	if options.owner != nil {
+		bb.budget.origin = &options.owner.origin
+	}
 	bb.zeroWidthLimit = options.MaxZeroWidthCharacters
 	bb.budget.publish()
 	bb.trace = nil
@@ -125,18 +157,21 @@ func (bb *BitBuffer) setDecodeOptions(options DecodeOptions) error {
 	return nil
 }
 
-// SetDecodeOptionsAligned starts a top-level APER decode with options.
+// setDecodeSettingsAligned starts a top-level APER decode with options.
 // Generated APER decoders decode contained values eagerly and accept only the
-// final padding of X.691 (02/2021) 11.1.3.1, so TrailingBitsTolerance and a
+// final padding of X.691 (02/2021) 11.1.4, so TrailingBitsTolerance and a
 // ContainedDecoding other than Eager are rejected rather than ignored.
-func (bb *BitBuffer) SetDecodeOptionsAligned(options DecodeOptions) error {
+func (bb *BitBuffer) setDecodeSettingsAligned(options decodeSettings) error {
+	if options.invalidReceiverPolicy {
+		return &DecodeError{Kind: InvalidOptions, Err: ErrInvalidOptions}
+	}
 	if options.TrailingBitsTolerance != nil {
 		return fmt.Errorf("%w: TrailingBitsTolerance is not supported by APER decoders", ErrInvalidValue)
 	}
 	if options.ContainedDecoding != Eager {
 		return fmt.Errorf("%w: ContainedDecoding %v is not supported by APER decoders", ErrInvalidValue, options.ContainedDecoding)
 	}
-	return bb.setDecodeOptions(options)
+	return bb.setDecodeSettings(options)
 }
 
 // NewBitBuffer creates a write-mode buffer.
@@ -150,33 +185,59 @@ func NewBitBufferFromBytes(data []byte) *BitBuffer {
 }
 
 // NewDecodeBuffer creates a read buffer with caller-owned budget storage.
-// Generated entry points keep this storage on the stack; nested buffers share
-// it. A nil budget is allocated lazily on the first read.
+// Complete entry points use NewCompleteDecodeBuffer. Low-level callers may
+// keep a supplied budget on the stack; nested readers share it. A nil budget
+// is allocated lazily on the first read.
 func NewDecodeBuffer(data []byte, budget *DecodeBudget) *BitBuffer {
 	if budget != nil {
-		*budget = DecodeBudget{limits: DefaultDecodeLimits()}
+		*budget = DecodeBudget{limits: defaultLegacyLimits()}
 	}
 	if len(data) > math.MaxInt/8 {
-		return &BitBuffer{invalidLength: true, budget: budget}
+		return &BitBuffer{invalidLength: true, sourceReader: true, budget: budget}
 	}
 	return &BitBuffer{
-		data:   data,
-		bitLen: len(data) * 8,
-		budget: budget,
+		sourceReader: true,
+		data:         data,
+		bitLen:       len(data) * 8,
+		budget:       budget,
 	}
 }
 
 // NewNestedDecodeBuffer inherits the shared budget and receiver options while
-// constructing a child. Initializing the pointer in the literal lets both the
-// buffer and the budget stay on the stack in generated decoders.
+// constructing a child. Low-level callers may keep the reader and supplied
+// budget on the stack; sealed complete codecs use NewOwnedNestedDecodeBuffer.
 func NewNestedDecodeBuffer(data []byte, parent *BitBuffer) *BitBuffer {
 	invalid := len(data) > math.MaxInt/8
 	length := 0
 	if !invalid {
 		length = len(data) * 8
 	}
-	return &BitBuffer{data: data, bitLen: length, invalidLength: invalid,
+	return &BitBuffer{sourceReader: true, data: data, bitLen: length, invalidLength: invalid, nested: true,
 		trace: parent.trace, budget: parent.decodeBudget(), zeroWidthLimit: parent.zeroWidthLimit}
+}
+
+// StartDecode packs one complete operation into the received image owner.
+// Limits are validated and the input ceiling is checked before the owned copy.
+func StartDecode(data []byte, options ...DecodeOption) ([]byte, DecodeState) {
+	var raw Limits
+	for _, option := range options {
+		if option.hasLimits {
+			raw = option.limits
+		}
+	}
+	raw.MaxOutputBytes = 0
+	effective, err := effectiveLimits(raw)
+	if err != nil {
+		return nil, DecodeState{failure: err}
+	}
+	n := uint64(len(data))
+	metadata := ownedMetadataBytes(len(data))
+	if effective.MaxAllocatedBytes < metadata || n > effective.MaxAllocatedBytes-metadata || effective.MaxWork < metadata || n > effective.MaxWork-metadata || n > effective.MaxInputBytes {
+		return nil, DecodeState{failure: &DecodeError{Kind: Limit, Location: Location{HasWireLocation: true, Spans: []BitSpan{{}}}, Err: ErrLimit}}
+	}
+	owner := newSemanticOwner(data)
+	owner.budget = DecodeBudget{owner: owner, origin: &owner.origin, callReport: &owner.report, reading: true, allocated: metadata + n, usage: DecodeUsage{Work: metadata + n}, operational: effective, limits: decodeLimits{MaxDepth: int(effective.MaxDepth), MaxElements: int(effective.MaxElements), MaxOpenTypeDepth: int(effective.MaxDepth), MaxWork: int(effective.MaxWork)}}
+	return owner.original, DecodeState{settings: decodeSettings{owner: owner, operation: &owner.budget, callReport: &owner.report}}
 }
 
 // WriteBit writes a single bit (0 or 1).
@@ -193,9 +254,20 @@ func (bb *BitBuffer) WriteBit(bit uint8) error {
 		return fmt.Errorf("%w: invalid PER bit index %d", ErrInvalidValue, bitIdx)
 	}
 
-	// Grow buffer if needed.
-	for byteIdx >= len(bb.data) {
-		bb.data = append(bb.data, 0)
+	if bb.budget != nil && bb.budget.operational != (Limits{}) {
+		if err := bb.ChargeWork(1); err != nil {
+			return err
+		}
+		if err := bb.CheckOutput(uint64(byteIdx) + 1); err != nil {
+			return err
+		}
+	}
+	if byteIdx >= len(bb.data) {
+		next, err := AppendValues(bb, bb.data, byte(0))
+		if err != nil {
+			return err
+		}
+		bb.data = next
 	}
 
 	if bit != 0 {
@@ -242,7 +314,7 @@ func (bb *BitBuffer) ReadBit() (uint8, error) {
 	if bitIdx > 7 {
 		return 0, fmt.Errorf("%w: invalid PER bit index %d", ErrInvalidValue, bitIdx)
 	}
-	bit := (bb.data[byteIdx] >> bitIdx) & 1
+	bit := (bb.readOctet(byteIdx) >> bitIdx) & 1
 	bb.bitPos++
 	return bit, nil
 }
@@ -274,7 +346,7 @@ func (bb *BitBuffer) ReadBits(n int) (uint64, error) {
 	for left := available; left > 0; {
 		shift := uint(bb.bitPos % 8)
 		width := min(left, 8-int(shift))
-		part := bb.data[bb.bitPos/8] >> uint(8-int(shift)-width)
+		part := bb.readOctet(bb.bitPos/8) >> uint(8-int(shift)-width)
 		val = val<<uint(width) | uint64(part&byte((1<<uint(width))-1))
 		bb.bitPos += width
 		left -= width
@@ -287,6 +359,33 @@ func (bb *BitBuffer) ReadBits(n int) (uint64, error) {
 
 // WriteBytes writes raw bytes (8*len bits).
 func (bb *BitBuffer) WriteBytes(data []byte) error {
+	if len(data) != 0 && bb.bitPos >= 0 && bb.bitPos%8 == 0 {
+		if len(data) > (math.MaxInt-bb.bitPos)/8 {
+			return ErrInvalidValue
+		}
+		start := bb.bitPos / 8
+		if bb.budget != nil && bb.budget.operational != (Limits{}) {
+			if err := bb.CheckOutput(uint64(start) + uint64(len(data))); err != nil {
+				return err
+			}
+			if err := bb.ChargeWork(uint64(len(data)) * 8); err != nil {
+				return err
+			}
+			if err := bb.ChargeAllocation(uint64(len(data)), 1); err != nil {
+				return err
+			}
+		}
+		if start > len(bb.data) {
+			bb.data = append(bb.data, make([]byte, start-len(bb.data))...)
+		}
+		overlap := min(len(data), len(bb.data)-start)
+		for i := range overlap {
+			bb.data[start+i] |= data[i]
+		}
+		bb.data = append(bb.data, data[overlap:]...)
+		bb.bitPos += len(data) * 8
+		return nil
+	}
 	for _, b := range data {
 		if err := bb.WriteBits(uint64(b), 8); err != nil {
 			return err
@@ -315,16 +414,19 @@ func (bb *BitBuffer) ReadBytes(n int) ([]byte, error) {
 	if err := bb.examineRecoveryBits(uint64(n) * 8); err != nil {
 		return nil, err
 	}
+	if err := bb.ChargeAllocation(uint64(n), 1); err != nil {
+		return nil, err
+	}
 	result := make([]byte, n)
 	if n == 0 {
 		return result, nil
 	}
 	start, shift := bb.bitPos/8, uint(bb.bitPos%8)
 	if shift == 0 {
-		copy(result, bb.data[start:start+n])
+		bb.copyOctets(result, start)
 	} else {
 		for i := range result {
-			result[i] = bb.data[start+i]<<shift | bb.data[start+i+1]>>(8-shift)
+			result[i] = bb.readOctet(start+i)<<shift | bb.readOctet(start+i+1)>>(8-shift)
 		}
 	}
 	bb.bitPos += n * 8
@@ -337,20 +439,22 @@ func (bb *BitBuffer) Bytes() []byte {
 }
 
 // CompleteBytes returns a complete PER encoding. X.691 (02/2021), clauses
-// 11.1.3.1 and 11.1.4 require a zero-bit outermost encoding to be represented
+// 11.1.4 require a zero-bit outermost encoding to be represented
 // by one zero octet.
 func (bb *BitBuffer) CompleteBytes() []byte {
 	if bb.bitPos == 0 && len(bb.data) == 0 {
+		if err := bb.ChargeAllocation(1, 1); err != nil {
+			return nil
+		}
 		return []byte{0}
 	}
 	return bb.data
 }
 
 // CompletePadding retains terminal bits observed when decoding a complete PER
-// encoding. X.691 (02/2021) 11.1.3.1 and 11.1.4 require encoders to emit zero
-// bits here; decoded input may carry other values that a lossless re-encode
-// must retain. All-zero padding is what an encoder emits anyway, so it is not
-// retained: the zero value stands for it.
+// encoding. X.691 (02/2021) 11.1.4 require encoders to emit zero
+// bits here. Strict APER decoding refuses non-zero bits; the zero value
+// represents conforming padding.
 type CompletePadding struct {
 	bits  uint8
 	count uint8
@@ -366,8 +470,8 @@ type TrailingBits struct {
 // CompleteValue carries a primitive open-type value and its observed padding.
 // ITU-T X.691 (02/2021) 11.2.1 makes open-type contents a complete encoding.
 type CompleteValue[T any] struct {
-	Value       T
-	PERPadding_ CompletePadding `json:"-"`
+	Value   T
+	padding CompletePadding
 }
 
 // CompleteOpenTypeValue checks that an open type has no trailing data and
@@ -377,11 +481,18 @@ func CompleteOpenTypeValue[T any](bb *BitBuffer, value T) (*CompleteValue[T], er
 	if err != nil {
 		return nil, err
 	}
-	return &CompleteValue[T]{Value: value, PERPadding_: padding}, nil
+	if err := ChargeValue(bb, CompleteValue[T]{}); err != nil {
+		return nil, err
+	}
+	return &CompleteValue[T]{Value: value, padding: padding}, nil
 }
 
+// ReceivedPadding reports the terminal bits of the received complete value.
+// X.691 (02/2021) §§11.1.4 and 11.2.1 define the padding boundary.
+func (v CompleteValue[T]) ReceivedPadding() CompletePadding { return v.padding }
+
 // Bits returns the observed terminal bits right-aligned and their width.
-// ITU-T X.691 (02/2021) 11.1.3.1 and 11.1.4 require zero padding on encode.
+// ITU-T X.691 (02/2021) 11.1.4 require zero padding on encode.
 // Observed all-zero padding is not retained, so its width is reported as 0.
 func (p CompletePadding) Bits() (value, count uint8) {
 	return p.bits, p.count
@@ -393,7 +504,7 @@ func (p CompletePadding) IsZero() bool {
 }
 
 // CompleteBytesWithPadding returns a complete encoding with observed terminal
-// bits. A newly constructed value has zero padding (X.691 (02/2021) 11.1.3.1
+// bits. A newly constructed value has zero padding (X.691 (02/2021) 11.1.4
 // and 11.1.4). Observed padding is kept while it still fills the final octet
 // exactly, so an unchanged decoded value re-encodes byte-exactly. Once an edit
 // changes the number of padding bits the encoding needs, the observed bits no
@@ -401,7 +512,8 @@ func (p CompletePadding) IsZero() bool {
 //
 // Nonzero padding comes only from a non-conformant sender. Only its width is
 // kept, so an edit that keeps the bit length modulo eight keeps those bits;
-// padding carries no value (11.1.3.1, 11.1.4), so the result still decodes.
+// padding carries no value (11.1.4). Strict APER decoding refuses
+// any resulting nonzero terminal bits.
 //
 // Only applying retained nonzero padding copies the encoding, one allocation;
 // otherwise the result is bb's storage, as from CompleteBytes, with none.
@@ -465,41 +577,27 @@ func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, err
 	if bb.invalidLength {
 		return CompletePadding{}, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
 	}
-	remaining := bb.BitsRemaining()
-	if remaining < 0 || remaining > 8 {
-		return CompletePadding{}, fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+	start, remaining := bb.BitPos(), bb.BitsRemaining()
+	// X.691 (02/2021) §11.1.4 permits only the terminal zero bits needed
+	// to finish the octet. §11.2.1 applies this complete boundary to open types.
+	if remaining < 0 || remaining > 8 || remaining == 8 && start != 0 {
+		return CompletePadding{}, bb.syntaxError(start, "§11.1.4", fmt.Sprintf("%s has %d unconsumed bits", context, remaining), ErrExtraData)
 	}
-	if bb.BitPos() == 0 {
-		switch {
-		case remaining == 0:
-			return CompletePadding{}, fmt.Errorf("%w: %s complete encoding is empty", ErrTruncated, context)
-		case remaining < 8:
-			return CompletePadding{}, fmt.Errorf("%w: %s zero-bit complete encoding has %d bits", ErrTruncated, context, remaining)
-		case remaining > 8:
-			return CompletePadding{}, fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
+	if start == 0 && remaining != 8 {
+		message := fmt.Sprintf("%s zero-bit complete encoding has %d bits", context, remaining)
+		if remaining == 0 {
+			message = context + " complete encoding is empty"
 		}
-	}
-	if remaining > 7 {
-		if bb.BitPos() != 0 {
-			return CompletePadding{}, fmt.Errorf("%w: %s has %d unconsumed bits", ErrExtraData, context, remaining)
-		}
+		return CompletePadding{}, bb.syntaxError(start, "§11.1.4", message, ErrTruncated)
 	}
 	padding, err := bb.ReadBits(remaining)
 	if err != nil {
 		return CompletePadding{}, err
 	}
-	if bb.BitPos() == 8 && remaining == 8 && padding != 0 {
-		return CompletePadding{}, fmt.Errorf("%w: %s zero-bit complete encoding is nonzero", ErrInvalidValue, context)
+	if padding != 0 {
+		return CompletePadding{}, bb.syntaxError(start, "§11.1.4", context+" has non-zero terminal padding", ErrInvalidValue)
 	}
-	// Zero padding, and the zero octet of an empty value, are what a new
-	// encoding has, so nothing is retained.
-	if remaining == 8 || padding == 0 {
-		return CompletePadding{}, nil
-	}
-	if padding > math.MaxUint8 {
-		return CompletePadding{}, fmt.Errorf("%w: padding value exceeds byte", ErrInvalidValue)
-	}
-	return CompletePadding{bits: uint8(padding), count: uint8(remaining)}, nil
+	return CompletePadding{}, nil
 }
 
 // WriteBitsFromBytes writes exactly bitLen bits from the given byte slice (MSB first).
@@ -542,12 +640,14 @@ func (bb *BitBuffer) AlignToOctetRead() error {
 	if rem == 0 {
 		return nil
 	}
+	start := bb.BitPos()
 	padding, err := bb.ReadBits(8 - rem)
 	if err != nil {
 		return fmt.Errorf("APER alignment padding: %w", err)
 	}
 	if padding != 0 {
-		return fmt.Errorf("%w: non-zero APER alignment padding", ErrInvalidValue)
+		// X.691 (02/2021) §11.1.4 requires zero internal alignment bits.
+		return bb.syntaxError(start, "§11.1.4", "non-zero APER alignment padding", ErrInvalidValue)
 	}
 	return nil
 }
@@ -577,13 +677,16 @@ func (bb *BitBuffer) ReadBitsToBytes(bitLen int) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
+	if err := bb.ChargeAllocation(uint64(numBytes), 1); err != nil {
+		return nil, err
+	}
 	result := make([]byte, numBytes)
 	for i := range result {
 		width := min(8, bitLen-i*8)
 		start, shift := bb.bitPos/8, uint(bb.bitPos%8)
-		part := bb.data[start] << shift
+		part := bb.readOctet(start) << shift
 		if width > 8-int(shift) {
-			part |= bb.data[start+1] >> (8 - shift)
+			part |= bb.readOctet(start+1) >> (8 - shift)
 		}
 		result[i] = part & byte(0xff<<uint(8-width))
 		bb.bitPos += width
@@ -605,7 +708,7 @@ func octetsForBitLength(bitLen int) (int, error) {
 	return octets, nil
 }
 
-func (bb *BitBuffer) InheritDecodeOptions(parent *BitBuffer) {
+func (bb *BitBuffer) InheritdecodeSettings(parent *BitBuffer) {
 	bb.trace = parent.trace
 	bb.outermost = false
 	bb.budget = parent.decodeBudget()

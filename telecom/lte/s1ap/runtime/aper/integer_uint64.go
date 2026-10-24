@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/integer_uint64.go; SHA-256 9d6402800f4e7f0ebf32c48b843d14113ca37978b19e4857b999dccc95619f86.
+// Runtime source: runtime/aper/integer_uint64.go; SHA-256 5fdddd9a889733273e6241eb4335c27e22e3c09feabef0374a2f41153c785d1b.
 package aper
 
 import (
@@ -12,6 +12,9 @@ import (
 // EncodeIntegerUint64Aligned encodes a non-negative constrained INTEGER in APER.
 // See ITU-T X.691 (02/2021), clauses 11.5 and 13.1-13.2.
 func EncodeIntegerUint64Aligned(bb *BitBuffer, value, lower, upper uint64, extensible bool) error {
+	if err := bb.ChargeAllocation(1, 256); err != nil {
+		return err
+	}
 	if lower > upper {
 		return fmt.Errorf("%w: invalid uint64 range [%d..%d]", ErrInvalidValue, lower, upper)
 	}
@@ -89,7 +92,16 @@ func EncodeIntegerUint64Aligned(bb *BitBuffer, value, lower, upper uint64, exten
 }
 
 // DecodeIntegerUint64Aligned decodes a non-negative constrained INTEGER in APER.
-func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible bool) (uint64, error) {
+func DecodeIntegerUint64Aligned(bb *BitBuffer, lower, upper uint64, extensible bool) (result uint64, failure error) {
+	start := bb.BitPos()
+	clause := "§13.2.2"
+	if extensible {
+		clause = "§13.1"
+	}
+	defer bb.locateDecodeFailure(start, clause, &failure)
+	if err := bb.ChargeAllocation(1, 256); err != nil {
+		return 0, err
+	}
 	if lower > upper {
 		return 0, fmt.Errorf("%w: invalid uint64 range [%d..%d]", ErrInvalidValue, lower, upper)
 	}
@@ -182,30 +194,21 @@ func encodeUnconstrainedUint64(bb *BitBuffer, value uint64, aligned bool) error 
 	return bb.WriteBytes(data)
 }
 
-func decodeUnconstrainedUint64(bb *BitBuffer, aligned bool) (uint64, error) {
-	var length int64
-	var err error
-	if aligned {
-		length, err = DecodeUnconstrainedLengthAligned(bb)
-	} else {
-		length, err = DecodeUnconstrainedLength(bb)
-	}
-	if err != nil {
-		return 0, err
-	}
-	if length < 1 || length > 9 {
-		return 0, fmt.Errorf("%w: uint64 INTEGER length %d is outside [1..9]", ErrInvalidValue, length)
-	}
+func decodeUnconstrainedUint64(bb *BitBuffer, _ ...bool) (result uint64, failure error) {
+	start := bb.BitPos()
+	defer bb.locateDecodeFailure(start, "§11.4.6", &failure)
 	var data []byte
-	data, err = bb.ReadBytes(int(length))
+	data, err := decodeIntegerContentsAligned(bb)
 	if err != nil {
 		return 0, err
 	}
-	if data[0]&0x80 != 0 || len(data) == 9 && data[0] != 0 {
-		return 0, fmt.Errorf("%w: INTEGER is negative or exceeds uint64", ErrInvalidValue)
+	if err := validateMinimalTwosComplement(data); err != nil {
+		return 0, err
 	}
-	if len(data) > 1 && data[0] == 0 && data[1]&0x80 == 0 {
-		return 0, fmt.Errorf("%w: INTEGER has redundant leading zero octet", ErrInvalidValue)
+	// X.691 (02/2021) §13.1 allows signed, unconstrained extension values.
+	// The uint64 carrier is an operational boundary, not a wire constraint.
+	if len(data) > 9 || data[0]&0x80 != 0 || len(data) == 9 && data[0] != 0 {
+		return 0, bb.resourceError("INTEGER value exceeds uint64 carrier")
 	}
 	if len(data) == 9 {
 		data = data[1:]

@@ -1,9 +1,10 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/padding_public_test.go; SHA-256 38e29fd5c1286cc594224bd5667aeb85e23f77da972d1a97a4af1f273ab8c574.
+// Runtime source: runtime/aper/padding_public_test.go; SHA-256 bda4995592f8d8894a753bfee2337de905f3792cd11ee62a12f8ff5b728cfc00.
 package aper_test
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
@@ -26,6 +27,12 @@ func TestCompletePaddingObservedBits(t *testing.T) {
 				t.Fatal(err)
 			}
 			padding, err := aper.CaptureFinalPadding(bb)
+			if !tc.zero {
+				if !errors.Is(err, aper.ErrSyntax) {
+					t.Fatalf("nonzero padding: %v", err)
+				}
+				return
+			}
 			if err != nil {
 				t.Fatal(err)
 			}

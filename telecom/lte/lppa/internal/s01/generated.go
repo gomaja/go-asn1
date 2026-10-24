@@ -4,5873 +4,6208 @@
 package s01
 
 import (
-	q6 "fmt"
-	q4 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
-	q5 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
+	"fmt"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
 // ReportCharacteristicsValueCodec is the concrete ValueCodec[ReportCharacteristics].
 type ReportCharacteristicsValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.ReportCharacteristics, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.ReportCharacteristics, aper.DecodeState,
 
-	) (q4.ReportCharacteristics, q5.Snapshot,
+	) (s00.ReportCharacteristics, aper.Snapshot,
 
 	)
-	compare func(q4.ReportCharacteristics, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.ReportCharacteristics, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.ReportCharacteristics,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.ReportCharacteristics,
 
 		error)
-	encode func(q4.ReportCharacteristics,
+	encode func(s00.ReportCharacteristics,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c ReportCharacteristicsValueCodec) New(value q4.ReportCharacteristics,
+// New validates value and returns a complete APER value.
+func (c ReportCharacteristicsValueCodec) New(value s00.ReportCharacteristics,
 
 ) (ReportCharacteristicsAPERValue, error) {
 	if c.encode == nil {
-		return ReportCharacteristicsAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return ReportCharacteristicsAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ReportCharacteristicsAPERValue{}, q5.OperationError(err, "Value.New")
+		return ReportCharacteristicsAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ReportCharacteristicsAPERValue{}, q5.OperationError(err, "Value.New")
+		return ReportCharacteristicsAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return ReportCharacteristicsAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return ReportCharacteristicsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c ReportCharacteristicsValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (ReportCharacteristicsAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c ReportCharacteristicsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ReportCharacteristicsAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return ReportCharacteristicsAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return ReportCharacteristicsAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return ReportCharacteristicsAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return ReportCharacteristicsAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return ReportCharacteristicsAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return ReportCharacteristicsAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return ReportCharacteristicsAPERValue{}, report, q5.OperationError(err, c.path)
+		return ReportCharacteristicsAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return ReportCharacteristicsAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return ReportCharacteristicsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c ReportCharacteristicsValueCodec) EncodeAPER(value ReportCharacteristicsAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c ReportCharacteristicsValueCodec) EncodeAPER(value ReportCharacteristicsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c ReportCharacteristicsValueCodec) encodeBudget(value q4.ReportCharacteristics,
+func (c ReportCharacteristicsValueCodec) encodeBudget(value s00.ReportCharacteristics,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c ReportCharacteristicsValueCodec) encodeChanged(value q4.ReportCharacteristics,
+func (c ReportCharacteristicsValueCodec) encodeChanged(value s00.ReportCharacteristics,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // NumberOfFrequencyHoppingBandsValueCodec is the concrete ValueCodec[NumberOfFrequencyHoppingBands].
 type NumberOfFrequencyHoppingBandsValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.NumberOfFrequencyHoppingBands, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.NumberOfFrequencyHoppingBands, aper.DecodeState,
 
-	) (q4.NumberOfFrequencyHoppingBands, q5.Snapshot,
+	) (s00.NumberOfFrequencyHoppingBands, aper.Snapshot,
 
 	)
-	compare func(q4.NumberOfFrequencyHoppingBands, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.NumberOfFrequencyHoppingBands, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.NumberOfFrequencyHoppingBands,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.NumberOfFrequencyHoppingBands,
 
 		error)
-	encode func(q4.NumberOfFrequencyHoppingBands,
+	encode func(s00.NumberOfFrequencyHoppingBands,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c NumberOfFrequencyHoppingBandsValueCodec) New(value q4.NumberOfFrequencyHoppingBands,
+// New validates value and returns a complete APER value.
+func (c NumberOfFrequencyHoppingBandsValueCodec) New(value s00.NumberOfFrequencyHoppingBands,
 
 ) (NumberOfFrequencyHoppingBandsAPERValue, error) {
 	if c.encode == nil {
-		return NumberOfFrequencyHoppingBandsAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return NumberOfFrequencyHoppingBandsAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return NumberOfFrequencyHoppingBandsAPERValue{}, q5.OperationError(err, "Value.New")
+		return NumberOfFrequencyHoppingBandsAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return NumberOfFrequencyHoppingBandsAPERValue{}, q5.OperationError(err, "Value.New")
+		return NumberOfFrequencyHoppingBandsAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return NumberOfFrequencyHoppingBandsAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return NumberOfFrequencyHoppingBandsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c NumberOfFrequencyHoppingBandsValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (NumberOfFrequencyHoppingBandsAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c NumberOfFrequencyHoppingBandsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (NumberOfFrequencyHoppingBandsAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return NumberOfFrequencyHoppingBandsAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return NumberOfFrequencyHoppingBandsAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return NumberOfFrequencyHoppingBandsAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return NumberOfFrequencyHoppingBandsAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return NumberOfFrequencyHoppingBandsAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return NumberOfFrequencyHoppingBandsAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return NumberOfFrequencyHoppingBandsAPERValue{}, report, q5.OperationError(err, c.path)
+		return NumberOfFrequencyHoppingBandsAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return NumberOfFrequencyHoppingBandsAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return NumberOfFrequencyHoppingBandsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c NumberOfFrequencyHoppingBandsValueCodec) EncodeAPER(value NumberOfFrequencyHoppingBandsAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c NumberOfFrequencyHoppingBandsValueCodec) EncodeAPER(value NumberOfFrequencyHoppingBandsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c NumberOfFrequencyHoppingBandsValueCodec) encodeBudget(value q4.NumberOfFrequencyHoppingBands,
+func (c NumberOfFrequencyHoppingBandsValueCodec) encodeBudget(value s00.NumberOfFrequencyHoppingBands,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c NumberOfFrequencyHoppingBandsValueCodec) encodeChanged(value q4.NumberOfFrequencyHoppingBands,
+func (c NumberOfFrequencyHoppingBandsValueCodec) encodeChanged(value s00.NumberOfFrequencyHoppingBands,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // OTDOAInformationItemValueCodec is the concrete ValueCodec[OTDOAInformationItem].
 type OTDOAInformationItemValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.OTDOAInformationItem, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.OTDOAInformationItem, aper.DecodeState,
 
-	) (q4.OTDOAInformationItem, q5.Snapshot,
+	) (s00.OTDOAInformationItem, aper.Snapshot,
 
 	)
-	compare func(q4.OTDOAInformationItem, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.OTDOAInformationItem, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.OTDOAInformationItem,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.OTDOAInformationItem,
 
 		error)
-	encode func(q4.OTDOAInformationItem,
+	encode func(s00.OTDOAInformationItem,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c OTDOAInformationItemValueCodec) New(value q4.OTDOAInformationItem,
+// New validates value and returns a complete APER value.
+func (c OTDOAInformationItemValueCodec) New(value s00.OTDOAInformationItem,
 
 ) (OTDOAInformationItemAPERValue, error) {
 	if c.encode == nil {
-		return OTDOAInformationItemAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return OTDOAInformationItemAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return OTDOAInformationItemAPERValue{}, q5.OperationError(err, "Value.New")
+		return OTDOAInformationItemAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return OTDOAInformationItemAPERValue{}, q5.OperationError(err, "Value.New")
+		return OTDOAInformationItemAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return OTDOAInformationItemAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return OTDOAInformationItemAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c OTDOAInformationItemValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (OTDOAInformationItemAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c OTDOAInformationItemValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (OTDOAInformationItemAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return OTDOAInformationItemAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return OTDOAInformationItemAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return OTDOAInformationItemAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return OTDOAInformationItemAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return OTDOAInformationItemAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return OTDOAInformationItemAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return OTDOAInformationItemAPERValue{}, report, q5.OperationError(err, c.path)
+		return OTDOAInformationItemAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return OTDOAInformationItemAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return OTDOAInformationItemAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c OTDOAInformationItemValueCodec) EncodeAPER(value OTDOAInformationItemAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c OTDOAInformationItemValueCodec) EncodeAPER(value OTDOAInformationItemAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c OTDOAInformationItemValueCodec) encodeBudget(value q4.OTDOAInformationItem,
+func (c OTDOAInformationItemValueCodec) encodeBudget(value s00.OTDOAInformationItem,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c OTDOAInformationItemValueCodec) encodeChanged(value q4.OTDOAInformationItem,
+func (c OTDOAInformationItemValueCodec) encodeChanged(value s00.OTDOAInformationItem,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // OffsetNBChanneltoEARFCNValueCodec is the concrete ValueCodec[OffsetNBChanneltoEARFCN].
 type OffsetNBChanneltoEARFCNValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.OffsetNBChanneltoEARFCN, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.OffsetNBChanneltoEARFCN, aper.DecodeState,
 
-	) (q4.OffsetNBChanneltoEARFCN, q5.Snapshot,
+	) (s00.OffsetNBChanneltoEARFCN, aper.Snapshot,
 
 	)
-	compare func(q4.OffsetNBChanneltoEARFCN, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.OffsetNBChanneltoEARFCN, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.OffsetNBChanneltoEARFCN,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.OffsetNBChanneltoEARFCN,
 
 		error)
-	encode func(q4.OffsetNBChanneltoEARFCN,
+	encode func(s00.OffsetNBChanneltoEARFCN,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c OffsetNBChanneltoEARFCNValueCodec) New(value q4.OffsetNBChanneltoEARFCN,
+// New validates value and returns a complete APER value.
+func (c OffsetNBChanneltoEARFCNValueCodec) New(value s00.OffsetNBChanneltoEARFCN,
 
 ) (OffsetNBChanneltoEARFCNAPERValue, error) {
 	if c.encode == nil {
-		return OffsetNBChanneltoEARFCNAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return OffsetNBChanneltoEARFCNAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return OffsetNBChanneltoEARFCNAPERValue{}, q5.OperationError(err, "Value.New")
+		return OffsetNBChanneltoEARFCNAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return OffsetNBChanneltoEARFCNAPERValue{}, q5.OperationError(err, "Value.New")
+		return OffsetNBChanneltoEARFCNAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return OffsetNBChanneltoEARFCNAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return OffsetNBChanneltoEARFCNAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c OffsetNBChanneltoEARFCNValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (OffsetNBChanneltoEARFCNAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c OffsetNBChanneltoEARFCNValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (OffsetNBChanneltoEARFCNAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return OffsetNBChanneltoEARFCNAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return OffsetNBChanneltoEARFCNAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return OffsetNBChanneltoEARFCNAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return OffsetNBChanneltoEARFCNAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return OffsetNBChanneltoEARFCNAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return OffsetNBChanneltoEARFCNAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return OffsetNBChanneltoEARFCNAPERValue{}, report, q5.OperationError(err, c.path)
+		return OffsetNBChanneltoEARFCNAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return OffsetNBChanneltoEARFCNAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return OffsetNBChanneltoEARFCNAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c OffsetNBChanneltoEARFCNValueCodec) EncodeAPER(value OffsetNBChanneltoEARFCNAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c OffsetNBChanneltoEARFCNValueCodec) EncodeAPER(value OffsetNBChanneltoEARFCNAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c OffsetNBChanneltoEARFCNValueCodec) encodeBudget(value q4.OffsetNBChanneltoEARFCN,
+func (c OffsetNBChanneltoEARFCNValueCodec) encodeBudget(value s00.OffsetNBChanneltoEARFCN,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c OffsetNBChanneltoEARFCNValueCodec) encodeChanged(value q4.OffsetNBChanneltoEARFCN,
+func (c OffsetNBChanneltoEARFCNValueCodec) encodeChanged(value s00.OffsetNBChanneltoEARFCN,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // OperationModeInfoValueCodec is the concrete ValueCodec[OperationModeInfo].
 type OperationModeInfoValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.OperationModeInfo, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.OperationModeInfo, aper.DecodeState,
 
-	) (q4.OperationModeInfo, q5.Snapshot,
+	) (s00.OperationModeInfo, aper.Snapshot,
 
 	)
-	compare func(q4.OperationModeInfo, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.OperationModeInfo, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.OperationModeInfo,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.OperationModeInfo,
 
 		error)
-	encode func(q4.OperationModeInfo,
+	encode func(s00.OperationModeInfo,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c OperationModeInfoValueCodec) New(value q4.OperationModeInfo,
+// New validates value and returns a complete APER value.
+func (c OperationModeInfoValueCodec) New(value s00.OperationModeInfo,
 
 ) (OperationModeInfoAPERValue, error) {
 	if c.encode == nil {
-		return OperationModeInfoAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return OperationModeInfoAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return OperationModeInfoAPERValue{}, q5.OperationError(err, "Value.New")
+		return OperationModeInfoAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return OperationModeInfoAPERValue{}, q5.OperationError(err, "Value.New")
+		return OperationModeInfoAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return OperationModeInfoAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return OperationModeInfoAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c OperationModeInfoValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (OperationModeInfoAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c OperationModeInfoValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (OperationModeInfoAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return OperationModeInfoAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return OperationModeInfoAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return OperationModeInfoAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return OperationModeInfoAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return OperationModeInfoAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return OperationModeInfoAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return OperationModeInfoAPERValue{}, report, q5.OperationError(err, c.path)
+		return OperationModeInfoAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return OperationModeInfoAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return OperationModeInfoAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c OperationModeInfoValueCodec) EncodeAPER(value OperationModeInfoAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c OperationModeInfoValueCodec) EncodeAPER(value OperationModeInfoAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c OperationModeInfoValueCodec) encodeBudget(value q4.OperationModeInfo,
+func (c OperationModeInfoValueCodec) encodeBudget(value s00.OperationModeInfo,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c OperationModeInfoValueCodec) encodeChanged(value q4.OperationModeInfo,
+func (c OperationModeInfoValueCodec) encodeChanged(value s00.OperationModeInfo,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // OutcomeValueCodec is the concrete ValueCodec[Outcome].
 type OutcomeValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.Outcome, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.Outcome, aper.DecodeState,
 
-	) (q4.Outcome, q5.Snapshot,
+	) (s00.Outcome, aper.Snapshot,
 
 	)
-	compare func(q4.Outcome, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.Outcome, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.Outcome,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.Outcome,
 
 		error)
-	encode func(q4.Outcome,
+	encode func(s00.Outcome,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c OutcomeValueCodec) New(value q4.Outcome,
+// New validates value and returns a complete APER value.
+func (c OutcomeValueCodec) New(value s00.Outcome,
 
 ) (OutcomeAPERValue, error) {
 	if c.encode == nil {
-		return OutcomeAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return OutcomeAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return OutcomeAPERValue{}, q5.OperationError(err, "Value.New")
+		return OutcomeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return OutcomeAPERValue{}, q5.OperationError(err, "Value.New")
+		return OutcomeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return OutcomeAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return OutcomeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c OutcomeValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (OutcomeAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c OutcomeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (OutcomeAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return OutcomeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return OutcomeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return OutcomeAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return OutcomeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return OutcomeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return OutcomeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return OutcomeAPERValue{}, report, q5.OperationError(err, c.path)
+		return OutcomeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return OutcomeAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return OutcomeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c OutcomeValueCodec) EncodeAPER(value OutcomeAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c OutcomeValueCodec) EncodeAPER(value OutcomeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c OutcomeValueCodec) encodeBudget(value q4.Outcome,
+func (c OutcomeValueCodec) encodeBudget(value s00.Outcome,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c OutcomeValueCodec) encodeChanged(value q4.Outcome,
+func (c OutcomeValueCodec) encodeChanged(value s00.Outcome,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PCIValueCodec is the concrete ValueCodec[PCI].
 type PCIValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PCI, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PCI, aper.DecodeState,
 
-	) (q4.PCI, q5.Snapshot,
+	) (s00.PCI, aper.Snapshot,
 
 	)
-	compare func(q4.PCI, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PCI, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PCI,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PCI,
 
 		error)
-	encode func(q4.PCI,
+	encode func(s00.PCI,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PCIValueCodec) New(value q4.PCI,
+// New validates value and returns a complete APER value.
+func (c PCIValueCodec) New(value s00.PCI,
 
 ) (PCIAPERValue, error) {
 	if c.encode == nil {
-		return PCIAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PCIAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PCIAPERValue{}, q5.OperationError(err, "Value.New")
+		return PCIAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PCIAPERValue{}, q5.OperationError(err, "Value.New")
+		return PCIAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PCIAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PCIAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PCIValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PCIAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PCIValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PCIAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PCIAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PCIAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PCIAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PCIAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PCIAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PCIAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PCIAPERValue{}, report, q5.OperationError(err, c.path)
+		return PCIAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PCIAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PCIAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PCIValueCodec) EncodeAPER(value PCIAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PCIValueCodec) EncodeAPER(value PCIAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PCIValueCodec) encodeBudget(value q4.PCI,
+func (c PCIValueCodec) encodeBudget(value s00.PCI,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PCIValueCodec) encodeChanged(value q4.PCI,
+func (c PCIValueCodec) encodeChanged(value s00.PCI,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PLMNIdentityValueCodec is the concrete ValueCodec[PLMNIdentity].
 type PLMNIdentityValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PLMNIdentity, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PLMNIdentity, aper.DecodeState,
 
-	) (q4.PLMNIdentity, q5.Snapshot,
+	) (s00.PLMNIdentity, aper.Snapshot,
 
 	)
-	compare func(q4.PLMNIdentity, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PLMNIdentity, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PLMNIdentity,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PLMNIdentity,
 
 		error)
-	encode func(q4.PLMNIdentity,
+	encode func(s00.PLMNIdentity,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PLMNIdentityValueCodec) New(value q4.PLMNIdentity,
+// New validates value and returns a complete APER value.
+func (c PLMNIdentityValueCodec) New(value s00.PLMNIdentity,
 
 ) (PLMNIdentityAPERValue, error) {
 	if c.encode == nil {
-		return PLMNIdentityAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PLMNIdentityAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PLMNIdentityAPERValue{}, q5.OperationError(err, "Value.New")
+		return PLMNIdentityAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PLMNIdentityAPERValue{}, q5.OperationError(err, "Value.New")
+		return PLMNIdentityAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PLMNIdentityAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PLMNIdentityAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PLMNIdentityValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PLMNIdentityAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PLMNIdentityValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PLMNIdentityAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PLMNIdentityAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PLMNIdentityAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PLMNIdentityAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PLMNIdentityAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PLMNIdentityAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PLMNIdentityAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PLMNIdentityAPERValue{}, report, q5.OperationError(err, c.path)
+		return PLMNIdentityAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PLMNIdentityAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PLMNIdentityAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PLMNIdentityValueCodec) EncodeAPER(value PLMNIdentityAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PLMNIdentityValueCodec) EncodeAPER(value PLMNIdentityAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PLMNIdentityValueCodec) encodeBudget(value q4.PLMNIdentity,
+func (c PLMNIdentityValueCodec) encodeBudget(value s00.PLMNIdentity,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PLMNIdentityValueCodec) encodeChanged(value q4.PLMNIdentity,
+func (c PLMNIdentityValueCodec) encodeChanged(value s00.PLMNIdentity,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PRSBandwidthValueCodec is the concrete ValueCodec[PRSBandwidth].
 type PRSBandwidthValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PRSBandwidth, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PRSBandwidth, aper.DecodeState,
 
-	) (q4.PRSBandwidth, q5.Snapshot,
+	) (s00.PRSBandwidth, aper.Snapshot,
 
 	)
-	compare func(q4.PRSBandwidth, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PRSBandwidth, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PRSBandwidth,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PRSBandwidth,
 
 		error)
-	encode func(q4.PRSBandwidth,
+	encode func(s00.PRSBandwidth,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PRSBandwidthValueCodec) New(value q4.PRSBandwidth,
+// New validates value and returns a complete APER value.
+func (c PRSBandwidthValueCodec) New(value s00.PRSBandwidth,
 
 ) (PRSBandwidthAPERValue, error) {
 	if c.encode == nil {
-		return PRSBandwidthAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PRSBandwidthAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PRSBandwidthAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSBandwidthAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PRSBandwidthAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSBandwidthAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PRSBandwidthAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PRSBandwidthAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PRSBandwidthValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PRSBandwidthAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PRSBandwidthValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PRSBandwidthAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PRSBandwidthAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PRSBandwidthAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PRSBandwidthAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PRSBandwidthAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PRSBandwidthAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PRSBandwidthAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PRSBandwidthAPERValue{}, report, q5.OperationError(err, c.path)
+		return PRSBandwidthAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PRSBandwidthAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PRSBandwidthAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PRSBandwidthValueCodec) EncodeAPER(value PRSBandwidthAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PRSBandwidthValueCodec) EncodeAPER(value PRSBandwidthAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PRSBandwidthValueCodec) encodeBudget(value q4.PRSBandwidth,
+func (c PRSBandwidthValueCodec) encodeBudget(value s00.PRSBandwidth,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PRSBandwidthValueCodec) encodeChanged(value q4.PRSBandwidth,
+func (c PRSBandwidthValueCodec) encodeChanged(value s00.PRSBandwidth,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PRSConfigurationIndexValueCodec is the concrete ValueCodec[PRSConfigurationIndex].
 type PRSConfigurationIndexValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PRSConfigurationIndex, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PRSConfigurationIndex, aper.DecodeState,
 
-	) (q4.PRSConfigurationIndex, q5.Snapshot,
+	) (s00.PRSConfigurationIndex, aper.Snapshot,
 
 	)
-	compare func(q4.PRSConfigurationIndex, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PRSConfigurationIndex, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PRSConfigurationIndex,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PRSConfigurationIndex,
 
 		error)
-	encode func(q4.PRSConfigurationIndex,
+	encode func(s00.PRSConfigurationIndex,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PRSConfigurationIndexValueCodec) New(value q4.PRSConfigurationIndex,
+// New validates value and returns a complete APER value.
+func (c PRSConfigurationIndexValueCodec) New(value s00.PRSConfigurationIndex,
 
 ) (PRSConfigurationIndexAPERValue, error) {
 	if c.encode == nil {
-		return PRSConfigurationIndexAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PRSConfigurationIndexAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PRSConfigurationIndexAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSConfigurationIndexAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PRSConfigurationIndexAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSConfigurationIndexAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PRSConfigurationIndexAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PRSConfigurationIndexAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PRSConfigurationIndexValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PRSConfigurationIndexAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PRSConfigurationIndexValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PRSConfigurationIndexAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PRSConfigurationIndexAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PRSConfigurationIndexAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PRSConfigurationIndexAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PRSConfigurationIndexAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PRSConfigurationIndexAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PRSConfigurationIndexAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PRSConfigurationIndexAPERValue{}, report, q5.OperationError(err, c.path)
+		return PRSConfigurationIndexAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PRSConfigurationIndexAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PRSConfigurationIndexAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PRSConfigurationIndexValueCodec) EncodeAPER(value PRSConfigurationIndexAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PRSConfigurationIndexValueCodec) EncodeAPER(value PRSConfigurationIndexAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PRSConfigurationIndexValueCodec) encodeBudget(value q4.PRSConfigurationIndex,
+func (c PRSConfigurationIndexValueCodec) encodeBudget(value s00.PRSConfigurationIndex,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PRSConfigurationIndexValueCodec) encodeChanged(value q4.PRSConfigurationIndex,
+func (c PRSConfigurationIndexValueCodec) encodeChanged(value s00.PRSConfigurationIndex,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PRSFrequencyHoppingConfigurationBandPositionsValueCodec is the concrete ValueCodec[PRSFrequencyHoppingConfigurationBandPositions].
 type PRSFrequencyHoppingConfigurationBandPositionsValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PRSFrequencyHoppingConfigurationBandPositions, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PRSFrequencyHoppingConfigurationBandPositions, aper.DecodeState,
 
-	) (q4.PRSFrequencyHoppingConfigurationBandPositions, q5.Snapshot,
+	) (s00.PRSFrequencyHoppingConfigurationBandPositions, aper.Snapshot,
 
 	)
-	compare func(q4.PRSFrequencyHoppingConfigurationBandPositions, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PRSFrequencyHoppingConfigurationBandPositions, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PRSFrequencyHoppingConfigurationBandPositions,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PRSFrequencyHoppingConfigurationBandPositions,
 
 		error)
-	encode func(q4.PRSFrequencyHoppingConfigurationBandPositions,
+	encode func(s00.PRSFrequencyHoppingConfigurationBandPositions,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) New(value q4.PRSFrequencyHoppingConfigurationBandPositions,
+// New validates value and returns a complete APER value.
+func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) New(value s00.PRSFrequencyHoppingConfigurationBandPositions,
 
 ) (PRSFrequencyHoppingConfigurationBandPositionsAPERValue, error) {
 	if c.encode == nil {
-		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PRSFrequencyHoppingConfigurationBandPositionsAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PRSFrequencyHoppingConfigurationBandPositionsAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, report, q5.OperationError(err, c.path)
+		return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PRSFrequencyHoppingConfigurationBandPositionsAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) EncodeAPER(value PRSFrequencyHoppingConfigurationBandPositionsAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) EncodeAPER(value PRSFrequencyHoppingConfigurationBandPositionsAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) encodeBudget(value q4.PRSFrequencyHoppingConfigurationBandPositions,
+func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) encodeBudget(value s00.PRSFrequencyHoppingConfigurationBandPositions,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) encodeChanged(value q4.PRSFrequencyHoppingConfigurationBandPositions,
+func (c PRSFrequencyHoppingConfigurationBandPositionsValueCodec) encodeChanged(value s00.PRSFrequencyHoppingConfigurationBandPositions,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PRSIDValueCodec is the concrete ValueCodec[PRSID].
 type PRSIDValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PRSID, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PRSID, aper.DecodeState,
 
-	) (q4.PRSID, q5.Snapshot,
+	) (s00.PRSID, aper.Snapshot,
 
 	)
-	compare func(q4.PRSID, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PRSID, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PRSID,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PRSID,
 
 		error)
-	encode func(q4.PRSID,
+	encode func(s00.PRSID,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PRSIDValueCodec) New(value q4.PRSID,
+// New validates value and returns a complete APER value.
+func (c PRSIDValueCodec) New(value s00.PRSID,
 
 ) (PRSIDAPERValue, error) {
 	if c.encode == nil {
-		return PRSIDAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PRSIDAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PRSIDAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSIDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PRSIDAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSIDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PRSIDAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PRSIDAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PRSIDValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PRSIDAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PRSIDValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PRSIDAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PRSIDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PRSIDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PRSIDAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PRSIDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PRSIDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PRSIDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PRSIDAPERValue{}, report, q5.OperationError(err, c.path)
+		return PRSIDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PRSIDAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PRSIDAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PRSIDValueCodec) EncodeAPER(value PRSIDAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PRSIDValueCodec) EncodeAPER(value PRSIDAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PRSIDValueCodec) encodeBudget(value q4.PRSID,
+func (c PRSIDValueCodec) encodeBudget(value s00.PRSID,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PRSIDValueCodec) encodeChanged(value q4.PRSID,
+func (c PRSIDValueCodec) encodeChanged(value s00.PRSID,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PRSOccasionGroupValueCodec is the concrete ValueCodec[PRSOccasionGroup].
 type PRSOccasionGroupValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PRSOccasionGroup, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PRSOccasionGroup, aper.DecodeState,
 
-	) (q4.PRSOccasionGroup, q5.Snapshot,
+	) (s00.PRSOccasionGroup, aper.Snapshot,
 
 	)
-	compare func(q4.PRSOccasionGroup, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PRSOccasionGroup, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PRSOccasionGroup,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PRSOccasionGroup,
 
 		error)
-	encode func(q4.PRSOccasionGroup,
+	encode func(s00.PRSOccasionGroup,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PRSOccasionGroupValueCodec) New(value q4.PRSOccasionGroup,
+// New validates value and returns a complete APER value.
+func (c PRSOccasionGroupValueCodec) New(value s00.PRSOccasionGroup,
 
 ) (PRSOccasionGroupAPERValue, error) {
 	if c.encode == nil {
-		return PRSOccasionGroupAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PRSOccasionGroupAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PRSOccasionGroupAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSOccasionGroupAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PRSOccasionGroupAPERValue{}, q5.OperationError(err, "Value.New")
+		return PRSOccasionGroupAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PRSOccasionGroupAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PRSOccasionGroupAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PRSOccasionGroupValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PRSOccasionGroupAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PRSOccasionGroupValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PRSOccasionGroupAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PRSOccasionGroupAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PRSOccasionGroupAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PRSOccasionGroupAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PRSOccasionGroupAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PRSOccasionGroupAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PRSOccasionGroupAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PRSOccasionGroupAPERValue{}, report, q5.OperationError(err, c.path)
+		return PRSOccasionGroupAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PRSOccasionGroupAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PRSOccasionGroupAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PRSOccasionGroupValueCodec) EncodeAPER(value PRSOccasionGroupAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PRSOccasionGroupValueCodec) EncodeAPER(value PRSOccasionGroupAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PRSOccasionGroupValueCodec) encodeBudget(value q4.PRSOccasionGroup,
+func (c PRSOccasionGroupValueCodec) encodeBudget(value s00.PRSOccasionGroup,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PRSOccasionGroupValueCodec) encodeChanged(value q4.PRSOccasionGroup,
+func (c PRSOccasionGroupValueCodec) encodeChanged(value s00.PRSOccasionGroup,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PhysCellIDGERANValueCodec is the concrete ValueCodec[PhysCellIDGERAN].
 type PhysCellIDGERANValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PhysCellIDGERAN, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PhysCellIDGERAN, aper.DecodeState,
 
-	) (q4.PhysCellIDGERAN, q5.Snapshot,
+	) (s00.PhysCellIDGERAN, aper.Snapshot,
 
 	)
-	compare func(q4.PhysCellIDGERAN, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PhysCellIDGERAN, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PhysCellIDGERAN,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PhysCellIDGERAN,
 
 		error)
-	encode func(q4.PhysCellIDGERAN,
+	encode func(s00.PhysCellIDGERAN,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PhysCellIDGERANValueCodec) New(value q4.PhysCellIDGERAN,
+// New validates value and returns a complete APER value.
+func (c PhysCellIDGERANValueCodec) New(value s00.PhysCellIDGERAN,
 
 ) (PhysCellIDGERANAPERValue, error) {
 	if c.encode == nil {
-		return PhysCellIDGERANAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PhysCellIDGERANAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PhysCellIDGERANAPERValue{}, q5.OperationError(err, "Value.New")
+		return PhysCellIDGERANAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PhysCellIDGERANAPERValue{}, q5.OperationError(err, "Value.New")
+		return PhysCellIDGERANAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PhysCellIDGERANAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PhysCellIDGERANAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PhysCellIDGERANValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PhysCellIDGERANAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PhysCellIDGERANValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PhysCellIDGERANAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PhysCellIDGERANAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PhysCellIDGERANAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PhysCellIDGERANAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PhysCellIDGERANAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PhysCellIDGERANAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PhysCellIDGERANAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PhysCellIDGERANAPERValue{}, report, q5.OperationError(err, c.path)
+		return PhysCellIDGERANAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PhysCellIDGERANAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PhysCellIDGERANAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PhysCellIDGERANValueCodec) EncodeAPER(value PhysCellIDGERANAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PhysCellIDGERANValueCodec) EncodeAPER(value PhysCellIDGERANAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PhysCellIDGERANValueCodec) encodeBudget(value q4.PhysCellIDGERAN,
+func (c PhysCellIDGERANValueCodec) encodeBudget(value s00.PhysCellIDGERAN,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PhysCellIDGERANValueCodec) encodeChanged(value q4.PhysCellIDGERAN,
+func (c PhysCellIDGERANValueCodec) encodeChanged(value s00.PhysCellIDGERAN,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PhysCellIDUTRAFDDValueCodec is the concrete ValueCodec[PhysCellIDUTRAFDD].
 type PhysCellIDUTRAFDDValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PhysCellIDUTRAFDD, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PhysCellIDUTRAFDD, aper.DecodeState,
 
-	) (q4.PhysCellIDUTRAFDD, q5.Snapshot,
+	) (s00.PhysCellIDUTRAFDD, aper.Snapshot,
 
 	)
-	compare func(q4.PhysCellIDUTRAFDD, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PhysCellIDUTRAFDD, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PhysCellIDUTRAFDD,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PhysCellIDUTRAFDD,
 
 		error)
-	encode func(q4.PhysCellIDUTRAFDD,
+	encode func(s00.PhysCellIDUTRAFDD,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PhysCellIDUTRAFDDValueCodec) New(value q4.PhysCellIDUTRAFDD,
+// New validates value and returns a complete APER value.
+func (c PhysCellIDUTRAFDDValueCodec) New(value s00.PhysCellIDUTRAFDD,
 
 ) (PhysCellIDUTRAFDDAPERValue, error) {
 	if c.encode == nil {
-		return PhysCellIDUTRAFDDAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PhysCellIDUTRAFDDAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PhysCellIDUTRAFDDAPERValue{}, q5.OperationError(err, "Value.New")
+		return PhysCellIDUTRAFDDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PhysCellIDUTRAFDDAPERValue{}, q5.OperationError(err, "Value.New")
+		return PhysCellIDUTRAFDDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PhysCellIDUTRAFDDAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PhysCellIDUTRAFDDAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PhysCellIDUTRAFDDValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PhysCellIDUTRAFDDAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PhysCellIDUTRAFDDValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PhysCellIDUTRAFDDAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PhysCellIDUTRAFDDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PhysCellIDUTRAFDDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PhysCellIDUTRAFDDAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PhysCellIDUTRAFDDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PhysCellIDUTRAFDDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PhysCellIDUTRAFDDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PhysCellIDUTRAFDDAPERValue{}, report, q5.OperationError(err, c.path)
+		return PhysCellIDUTRAFDDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PhysCellIDUTRAFDDAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PhysCellIDUTRAFDDAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PhysCellIDUTRAFDDValueCodec) EncodeAPER(value PhysCellIDUTRAFDDAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PhysCellIDUTRAFDDValueCodec) EncodeAPER(value PhysCellIDUTRAFDDAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PhysCellIDUTRAFDDValueCodec) encodeBudget(value q4.PhysCellIDUTRAFDD,
+func (c PhysCellIDUTRAFDDValueCodec) encodeBudget(value s00.PhysCellIDUTRAFDD,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PhysCellIDUTRAFDDValueCodec) encodeChanged(value q4.PhysCellIDUTRAFDD,
+func (c PhysCellIDUTRAFDDValueCodec) encodeChanged(value s00.PhysCellIDUTRAFDD,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PhysCellIDUTRATDDValueCodec is the concrete ValueCodec[PhysCellIDUTRATDD].
 type PhysCellIDUTRATDDValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PhysCellIDUTRATDD, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PhysCellIDUTRATDD, aper.DecodeState,
 
-	) (q4.PhysCellIDUTRATDD, q5.Snapshot,
+	) (s00.PhysCellIDUTRATDD, aper.Snapshot,
 
 	)
-	compare func(q4.PhysCellIDUTRATDD, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PhysCellIDUTRATDD, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PhysCellIDUTRATDD,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PhysCellIDUTRATDD,
 
 		error)
-	encode func(q4.PhysCellIDUTRATDD,
+	encode func(s00.PhysCellIDUTRATDD,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PhysCellIDUTRATDDValueCodec) New(value q4.PhysCellIDUTRATDD,
+// New validates value and returns a complete APER value.
+func (c PhysCellIDUTRATDDValueCodec) New(value s00.PhysCellIDUTRATDD,
 
 ) (PhysCellIDUTRATDDAPERValue, error) {
 	if c.encode == nil {
-		return PhysCellIDUTRATDDAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PhysCellIDUTRATDDAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PhysCellIDUTRATDDAPERValue{}, q5.OperationError(err, "Value.New")
+		return PhysCellIDUTRATDDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PhysCellIDUTRATDDAPERValue{}, q5.OperationError(err, "Value.New")
+		return PhysCellIDUTRATDDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PhysCellIDUTRATDDAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PhysCellIDUTRATDDAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PhysCellIDUTRATDDValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PhysCellIDUTRATDDAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PhysCellIDUTRATDDValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PhysCellIDUTRATDDAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PhysCellIDUTRATDDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PhysCellIDUTRATDDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PhysCellIDUTRATDDAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PhysCellIDUTRATDDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PhysCellIDUTRATDDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PhysCellIDUTRATDDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PhysCellIDUTRATDDAPERValue{}, report, q5.OperationError(err, c.path)
+		return PhysCellIDUTRATDDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PhysCellIDUTRATDDAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PhysCellIDUTRATDDAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PhysCellIDUTRATDDValueCodec) EncodeAPER(value PhysCellIDUTRATDDAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PhysCellIDUTRATDDValueCodec) EncodeAPER(value PhysCellIDUTRATDDAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PhysCellIDUTRATDDValueCodec) encodeBudget(value q4.PhysCellIDUTRATDD,
+func (c PhysCellIDUTRATDDValueCodec) encodeBudget(value s00.PhysCellIDUTRATDD,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PhysCellIDUTRATDDValueCodec) encodeChanged(value q4.PhysCellIDUTRATDD,
+func (c PhysCellIDUTRATDDValueCodec) encodeChanged(value s00.PhysCellIDUTRATDD,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PosSIBTypeValueCodec is the concrete ValueCodec[PosSIBType].
 type PosSIBTypeValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.PosSIBType, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.PosSIBType, aper.DecodeState,
 
-	) (q4.PosSIBType, q5.Snapshot,
+	) (s00.PosSIBType, aper.Snapshot,
 
 	)
-	compare func(q4.PosSIBType, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.PosSIBType, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.PosSIBType,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.PosSIBType,
 
 		error)
-	encode func(q4.PosSIBType,
+	encode func(s00.PosSIBType,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PosSIBTypeValueCodec) New(value q4.PosSIBType,
+// New validates value and returns a complete APER value.
+func (c PosSIBTypeValueCodec) New(value s00.PosSIBType,
 
 ) (PosSIBTypeAPERValue, error) {
 	if c.encode == nil {
-		return PosSIBTypeAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PosSIBTypeAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PosSIBTypeAPERValue{}, q5.OperationError(err, "Value.New")
+		return PosSIBTypeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PosSIBTypeAPERValue{}, q5.OperationError(err, "Value.New")
+		return PosSIBTypeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PosSIBTypeAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PosSIBTypeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PosSIBTypeValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PosSIBTypeAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PosSIBTypeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PosSIBTypeAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PosSIBTypeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PosSIBTypeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PosSIBTypeAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PosSIBTypeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PosSIBTypeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PosSIBTypeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PosSIBTypeAPERValue{}, report, q5.OperationError(err, c.path)
+		return PosSIBTypeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PosSIBTypeAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PosSIBTypeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PosSIBTypeValueCodec) EncodeAPER(value PosSIBTypeAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PosSIBTypeValueCodec) EncodeAPER(value PosSIBTypeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PosSIBTypeValueCodec) encodeBudget(value q4.PosSIBType,
+func (c PosSIBTypeValueCodec) encodeBudget(value s00.PosSIBType,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PosSIBTypeValueCodec) encodeChanged(value q4.PosSIBType,
+func (c PosSIBTypeValueCodec) encodeChanged(value s00.PosSIBType,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // PresenceValueCodec is the concrete ValueCodec[Presence].
 type PresenceValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.Presence, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.Presence, aper.DecodeState,
 
-	) (q4.Presence, q5.Snapshot,
+	) (s00.Presence, aper.Snapshot,
 
 	)
-	compare func(q4.Presence, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.Presence, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.Presence,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.Presence,
 
 		error)
-	encode func(q4.Presence,
+	encode func(s00.Presence,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c PresenceValueCodec) New(value q4.Presence,
+// New validates value and returns a complete APER value.
+func (c PresenceValueCodec) New(value s00.Presence,
 
 ) (PresenceAPERValue, error) {
 	if c.encode == nil {
-		return PresenceAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return PresenceAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return PresenceAPERValue{}, q5.OperationError(err, "Value.New")
+		return PresenceAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return PresenceAPERValue{}, q5.OperationError(err, "Value.New")
+		return PresenceAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return PresenceAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return PresenceAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c PresenceValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (PresenceAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c PresenceValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (PresenceAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return PresenceAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return PresenceAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return PresenceAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return PresenceAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return PresenceAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return PresenceAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return PresenceAPERValue{}, report, q5.OperationError(err, c.path)
+		return PresenceAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return PresenceAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return PresenceAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c PresenceValueCodec) EncodeAPER(value PresenceAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c PresenceValueCodec) EncodeAPER(value PresenceAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c PresenceValueCodec) encodeBudget(value q4.Presence,
+func (c PresenceValueCodec) encodeBudget(value s00.Presence,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c PresenceValueCodec) encodeChanged(value q4.Presence,
+func (c PresenceValueCodec) encodeChanged(value s00.Presence,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // ProcedureCodeValueCodec is the concrete ValueCodec[ProcedureCode].
 type ProcedureCodeValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.ProcedureCode, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.ProcedureCode, aper.DecodeState,
 
-	) (q4.ProcedureCode, q5.Snapshot,
+	) (s00.ProcedureCode, aper.Snapshot,
 
 	)
-	compare func(q4.ProcedureCode, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.ProcedureCode, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.ProcedureCode,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.ProcedureCode,
 
 		error)
-	encode func(q4.ProcedureCode,
+	encode func(s00.ProcedureCode,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c ProcedureCodeValueCodec) New(value q4.ProcedureCode,
+// New validates value and returns a complete APER value.
+func (c ProcedureCodeValueCodec) New(value s00.ProcedureCode,
 
 ) (ProcedureCodeAPERValue, error) {
 	if c.encode == nil {
-		return ProcedureCodeAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return ProcedureCodeAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ProcedureCodeAPERValue{}, q5.OperationError(err, "Value.New")
+		return ProcedureCodeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ProcedureCodeAPERValue{}, q5.OperationError(err, "Value.New")
+		return ProcedureCodeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return ProcedureCodeAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return ProcedureCodeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c ProcedureCodeValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (ProcedureCodeAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c ProcedureCodeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ProcedureCodeAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return ProcedureCodeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return ProcedureCodeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return ProcedureCodeAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return ProcedureCodeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return ProcedureCodeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return ProcedureCodeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return ProcedureCodeAPERValue{}, report, q5.OperationError(err, c.path)
+		return ProcedureCodeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return ProcedureCodeAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return ProcedureCodeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c ProcedureCodeValueCodec) EncodeAPER(value ProcedureCodeAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c ProcedureCodeValueCodec) EncodeAPER(value ProcedureCodeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c ProcedureCodeValueCodec) encodeBudget(value q4.ProcedureCode,
+func (c ProcedureCodeValueCodec) encodeBudget(value s00.ProcedureCode,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c ProcedureCodeValueCodec) encodeChanged(value q4.ProcedureCode,
+func (c ProcedureCodeValueCodec) encodeChanged(value s00.ProcedureCode,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // ProtocolIEIDValueCodec is the concrete ValueCodec[ProtocolIEID].
 type ProtocolIEIDValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.ProtocolIEID, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.ProtocolIEID, aper.DecodeState,
 
-	) (q4.ProtocolIEID, q5.Snapshot,
+	) (s00.ProtocolIEID, aper.Snapshot,
 
 	)
-	compare func(q4.ProtocolIEID, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.ProtocolIEID, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.ProtocolIEID,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.ProtocolIEID,
 
 		error)
-	encode func(q4.ProtocolIEID,
+	encode func(s00.ProtocolIEID,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c ProtocolIEIDValueCodec) New(value q4.ProtocolIEID,
+// New validates value and returns a complete APER value.
+func (c ProtocolIEIDValueCodec) New(value s00.ProtocolIEID,
 
 ) (ProtocolIEIDAPERValue, error) {
 	if c.encode == nil {
-		return ProtocolIEIDAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return ProtocolIEIDAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ProtocolIEIDAPERValue{}, q5.OperationError(err, "Value.New")
+		return ProtocolIEIDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ProtocolIEIDAPERValue{}, q5.OperationError(err, "Value.New")
+		return ProtocolIEIDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return ProtocolIEIDAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return ProtocolIEIDAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c ProtocolIEIDValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (ProtocolIEIDAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c ProtocolIEIDValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ProtocolIEIDAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return ProtocolIEIDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return ProtocolIEIDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return ProtocolIEIDAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return ProtocolIEIDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return ProtocolIEIDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return ProtocolIEIDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return ProtocolIEIDAPERValue{}, report, q5.OperationError(err, c.path)
+		return ProtocolIEIDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return ProtocolIEIDAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return ProtocolIEIDAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c ProtocolIEIDValueCodec) EncodeAPER(value ProtocolIEIDAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c ProtocolIEIDValueCodec) EncodeAPER(value ProtocolIEIDAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c ProtocolIEIDValueCodec) encodeBudget(value q4.ProtocolIEID,
+func (c ProtocolIEIDValueCodec) encodeBudget(value s00.ProtocolIEID,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c ProtocolIEIDValueCodec) encodeChanged(value q4.ProtocolIEID,
+func (c ProtocolIEIDValueCodec) encodeChanged(value s00.ProtocolIEID,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // RSSIValueCodec is the concrete ValueCodec[RSSI].
 type RSSIValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.RSSI, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.RSSI, aper.DecodeState,
 
-	) (q4.RSSI, q5.Snapshot,
+	) (s00.RSSI, aper.Snapshot,
 
 	)
-	compare func(q4.RSSI, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.RSSI, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.RSSI,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.RSSI,
 
 		error)
-	encode func(q4.RSSI,
+	encode func(s00.RSSI,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c RSSIValueCodec) New(value q4.RSSI,
+// New validates value and returns a complete APER value.
+func (c RSSIValueCodec) New(value s00.RSSI,
 
 ) (RSSIAPERValue, error) {
 	if c.encode == nil {
-		return RSSIAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return RSSIAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return RSSIAPERValue{}, q5.OperationError(err, "Value.New")
+		return RSSIAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return RSSIAPERValue{}, q5.OperationError(err, "Value.New")
+		return RSSIAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return RSSIAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return RSSIAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c RSSIValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (RSSIAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c RSSIValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (RSSIAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return RSSIAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return RSSIAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return RSSIAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return RSSIAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return RSSIAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return RSSIAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return RSSIAPERValue{}, report, q5.OperationError(err, c.path)
+		return RSSIAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return RSSIAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return RSSIAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c RSSIValueCodec) EncodeAPER(value RSSIAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c RSSIValueCodec) EncodeAPER(value RSSIAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c RSSIValueCodec) encodeBudget(value q4.RSSI,
+func (c RSSIValueCodec) encodeBudget(value s00.RSSI,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c RSSIValueCodec) encodeChanged(value q4.RSSI,
+func (c RSSIValueCodec) encodeChanged(value s00.RSSI,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // RepetitionNumberofSIB1NBValueCodec is the concrete ValueCodec[RepetitionNumberofSIB1NB].
 type RepetitionNumberofSIB1NBValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.RepetitionNumberofSIB1NB, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.RepetitionNumberofSIB1NB, aper.DecodeState,
 
-	) (q4.RepetitionNumberofSIB1NB, q5.Snapshot,
+	) (s00.RepetitionNumberofSIB1NB, aper.Snapshot,
 
 	)
-	compare func(q4.RepetitionNumberofSIB1NB, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.RepetitionNumberofSIB1NB, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.RepetitionNumberofSIB1NB,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.RepetitionNumberofSIB1NB,
 
 		error)
-	encode func(q4.RepetitionNumberofSIB1NB,
+	encode func(s00.RepetitionNumberofSIB1NB,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c RepetitionNumberofSIB1NBValueCodec) New(value q4.RepetitionNumberofSIB1NB,
+// New validates value and returns a complete APER value.
+func (c RepetitionNumberofSIB1NBValueCodec) New(value s00.RepetitionNumberofSIB1NB,
 
 ) (RepetitionNumberofSIB1NBAPERValue, error) {
 	if c.encode == nil {
-		return RepetitionNumberofSIB1NBAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return RepetitionNumberofSIB1NBAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return RepetitionNumberofSIB1NBAPERValue{}, q5.OperationError(err, "Value.New")
+		return RepetitionNumberofSIB1NBAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return RepetitionNumberofSIB1NBAPERValue{}, q5.OperationError(err, "Value.New")
+		return RepetitionNumberofSIB1NBAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return RepetitionNumberofSIB1NBAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return RepetitionNumberofSIB1NBAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c RepetitionNumberofSIB1NBValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (RepetitionNumberofSIB1NBAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c RepetitionNumberofSIB1NBValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (RepetitionNumberofSIB1NBAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return RepetitionNumberofSIB1NBAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return RepetitionNumberofSIB1NBAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return RepetitionNumberofSIB1NBAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return RepetitionNumberofSIB1NBAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return RepetitionNumberofSIB1NBAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return RepetitionNumberofSIB1NBAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return RepetitionNumberofSIB1NBAPERValue{}, report, q5.OperationError(err, c.path)
+		return RepetitionNumberofSIB1NBAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return RepetitionNumberofSIB1NBAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return RepetitionNumberofSIB1NBAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c RepetitionNumberofSIB1NBValueCodec) EncodeAPER(value RepetitionNumberofSIB1NBAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c RepetitionNumberofSIB1NBValueCodec) EncodeAPER(value RepetitionNumberofSIB1NBAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c RepetitionNumberofSIB1NBValueCodec) encodeBudget(value q4.RepetitionNumberofSIB1NB,
+func (c RepetitionNumberofSIB1NBValueCodec) encodeBudget(value s00.RepetitionNumberofSIB1NB,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c RepetitionNumberofSIB1NBValueCodec) encodeChanged(value q4.RepetitionNumberofSIB1NB,
+func (c RepetitionNumberofSIB1NBValueCodec) encodeChanged(value s00.RepetitionNumberofSIB1NB,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // SFNInitialisationTimeValueCodec is the concrete ValueCodec[SFNInitialisationTime].
 type SFNInitialisationTimeValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.SFNInitialisationTime, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.SFNInitialisationTime, aper.DecodeState,
 
-	) (q4.SFNInitialisationTime, q5.Snapshot,
+	) (s00.SFNInitialisationTime, aper.Snapshot,
 
 	)
-	compare func(q4.SFNInitialisationTime, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.SFNInitialisationTime, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.SFNInitialisationTime,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.SFNInitialisationTime,
 
 		error)
-	encode func(q4.SFNInitialisationTime,
+	encode func(s00.SFNInitialisationTime,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c SFNInitialisationTimeValueCodec) New(value q4.SFNInitialisationTime,
+// New validates value and returns a complete APER value.
+func (c SFNInitialisationTimeValueCodec) New(value s00.SFNInitialisationTime,
 
 ) (SFNInitialisationTimeAPERValue, error) {
 	if c.encode == nil {
-		return SFNInitialisationTimeAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return SFNInitialisationTimeAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return SFNInitialisationTimeAPERValue{}, q5.OperationError(err, "Value.New")
+		return SFNInitialisationTimeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return SFNInitialisationTimeAPERValue{}, q5.OperationError(err, "Value.New")
+		return SFNInitialisationTimeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return SFNInitialisationTimeAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return SFNInitialisationTimeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c SFNInitialisationTimeValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (SFNInitialisationTimeAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c SFNInitialisationTimeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SFNInitialisationTimeAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return SFNInitialisationTimeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return SFNInitialisationTimeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return SFNInitialisationTimeAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return SFNInitialisationTimeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return SFNInitialisationTimeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return SFNInitialisationTimeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return SFNInitialisationTimeAPERValue{}, report, q5.OperationError(err, c.path)
+		return SFNInitialisationTimeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return SFNInitialisationTimeAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return SFNInitialisationTimeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c SFNInitialisationTimeValueCodec) EncodeAPER(value SFNInitialisationTimeAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c SFNInitialisationTimeValueCodec) EncodeAPER(value SFNInitialisationTimeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c SFNInitialisationTimeValueCodec) encodeBudget(value q4.SFNInitialisationTime,
+func (c SFNInitialisationTimeValueCodec) encodeBudget(value s00.SFNInitialisationTime,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c SFNInitialisationTimeValueCodec) encodeChanged(value q4.SFNInitialisationTime,
+func (c SFNInitialisationTimeValueCodec) encodeChanged(value s00.SFNInitialisationTime,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // SSBIndexValueCodec is the concrete ValueCodec[SSBIndex].
 type SSBIndexValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.SSBIndex, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.SSBIndex, aper.DecodeState,
 
-	) (q4.SSBIndex, q5.Snapshot,
+	) (s00.SSBIndex, aper.Snapshot,
 
 	)
-	compare func(q4.SSBIndex, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.SSBIndex, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.SSBIndex,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.SSBIndex,
 
 		error)
-	encode func(q4.SSBIndex,
+	encode func(s00.SSBIndex,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c SSBIndexValueCodec) New(value q4.SSBIndex,
+// New validates value and returns a complete APER value.
+func (c SSBIndexValueCodec) New(value s00.SSBIndex,
 
 ) (SSBIndexAPERValue, error) {
 	if c.encode == nil {
-		return SSBIndexAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return SSBIndexAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return SSBIndexAPERValue{}, q5.OperationError(err, "Value.New")
+		return SSBIndexAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return SSBIndexAPERValue{}, q5.OperationError(err, "Value.New")
+		return SSBIndexAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return SSBIndexAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return SSBIndexAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c SSBIndexValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (SSBIndexAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c SSBIndexValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SSBIndexAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return SSBIndexAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return SSBIndexAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return SSBIndexAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return SSBIndexAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return SSBIndexAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return SSBIndexAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return SSBIndexAPERValue{}, report, q5.OperationError(err, c.path)
+		return SSBIndexAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return SSBIndexAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return SSBIndexAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c SSBIndexValueCodec) EncodeAPER(value SSBIndexAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c SSBIndexValueCodec) EncodeAPER(value SSBIndexAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c SSBIndexValueCodec) encodeBudget(value q4.SSBIndex,
+func (c SSBIndexValueCodec) encodeBudget(value s00.SSBIndex,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c SSBIndexValueCodec) encodeChanged(value q4.SSBIndex,
+func (c SSBIndexValueCodec) encodeChanged(value s00.SSBIndex,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // SSIDValueCodec is the concrete ValueCodec[SSID].
 type SSIDValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.SSID, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.SSID, aper.DecodeState,
 
-	) (q4.SSID, q5.Snapshot,
+	) (s00.SSID, aper.Snapshot,
 
 	)
-	compare func(q4.SSID, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.SSID, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.SSID,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.SSID,
 
 		error)
-	encode func(q4.SSID,
+	encode func(s00.SSID,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c SSIDValueCodec) New(value q4.SSID,
+// New validates value and returns a complete APER value.
+func (c SSIDValueCodec) New(value s00.SSID,
 
 ) (SSIDAPERValue, error) {
 	if c.encode == nil {
-		return SSIDAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return SSIDAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return SSIDAPERValue{}, q5.OperationError(err, "Value.New")
+		return SSIDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return SSIDAPERValue{}, q5.OperationError(err, "Value.New")
+		return SSIDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return SSIDAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return SSIDAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c SSIDValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (SSIDAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c SSIDValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SSIDAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return SSIDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return SSIDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return SSIDAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return SSIDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return SSIDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return SSIDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return SSIDAPERValue{}, report, q5.OperationError(err, c.path)
+		return SSIDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return SSIDAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return SSIDAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c SSIDValueCodec) EncodeAPER(value SSIDAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c SSIDValueCodec) EncodeAPER(value SSIDAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c SSIDValueCodec) encodeBudget(value q4.SSID,
+func (c SSIDValueCodec) encodeBudget(value s00.SSID,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c SSIDValueCodec) encodeChanged(value q4.SSID,
+func (c SSIDValueCodec) encodeChanged(value s00.SSID,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // SSNRRSRPValueCodec is the concrete ValueCodec[SSNRRSRP].
 type SSNRRSRPValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.SSNRRSRP, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.SSNRRSRP, aper.DecodeState,
 
-	) (q4.SSNRRSRP, q5.Snapshot,
+	) (s00.SSNRRSRP, aper.Snapshot,
 
 	)
-	compare func(q4.SSNRRSRP, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.SSNRRSRP, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.SSNRRSRP,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.SSNRRSRP,
 
 		error)
-	encode func(q4.SSNRRSRP,
+	encode func(s00.SSNRRSRP,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c SSNRRSRPValueCodec) New(value q4.SSNRRSRP,
+// New validates value and returns a complete APER value.
+func (c SSNRRSRPValueCodec) New(value s00.SSNRRSRP,
 
 ) (SSNRRSRPAPERValue, error) {
 	if c.encode == nil {
-		return SSNRRSRPAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return SSNRRSRPAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return SSNRRSRPAPERValue{}, q5.OperationError(err, "Value.New")
+		return SSNRRSRPAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return SSNRRSRPAPERValue{}, q5.OperationError(err, "Value.New")
+		return SSNRRSRPAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return SSNRRSRPAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return SSNRRSRPAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c SSNRRSRPValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (SSNRRSRPAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c SSNRRSRPValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SSNRRSRPAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return SSNRRSRPAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return SSNRRSRPAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return SSNRRSRPAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return SSNRRSRPAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return SSNRRSRPAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return SSNRRSRPAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return SSNRRSRPAPERValue{}, report, q5.OperationError(err, c.path)
+		return SSNRRSRPAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return SSNRRSRPAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return SSNRRSRPAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c SSNRRSRPValueCodec) EncodeAPER(value SSNRRSRPAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c SSNRRSRPValueCodec) EncodeAPER(value SSNRRSRPAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c SSNRRSRPValueCodec) encodeBudget(value q4.SSNRRSRP,
+func (c SSNRRSRPValueCodec) encodeBudget(value s00.SSNRRSRP,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c SSNRRSRPValueCodec) encodeChanged(value q4.SSNRRSRP,
+func (c SSNRRSRPValueCodec) encodeChanged(value s00.SSNRRSRP,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // SSNRRSRQValueCodec is the concrete ValueCodec[SSNRRSRQ].
 type SSNRRSRQValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.SSNRRSRQ, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.SSNRRSRQ, aper.DecodeState,
 
-	) (q4.SSNRRSRQ, q5.Snapshot,
+	) (s00.SSNRRSRQ, aper.Snapshot,
 
 	)
-	compare func(q4.SSNRRSRQ, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.SSNRRSRQ, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.SSNRRSRQ,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.SSNRRSRQ,
 
 		error)
-	encode func(q4.SSNRRSRQ,
+	encode func(s00.SSNRRSRQ,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c SSNRRSRQValueCodec) New(value q4.SSNRRSRQ,
+// New validates value and returns a complete APER value.
+func (c SSNRRSRQValueCodec) New(value s00.SSNRRSRQ,
 
 ) (SSNRRSRQAPERValue, error) {
 	if c.encode == nil {
-		return SSNRRSRQAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return SSNRRSRQAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return SSNRRSRQAPERValue{}, q5.OperationError(err, "Value.New")
+		return SSNRRSRQAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return SSNRRSRQAPERValue{}, q5.OperationError(err, "Value.New")
+		return SSNRRSRQAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return SSNRRSRQAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return SSNRRSRQAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c SSNRRSRQValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (SSNRRSRQAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c SSNRRSRQValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SSNRRSRQAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return SSNRRSRQAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return SSNRRSRQAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return SSNRRSRQAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return SSNRRSRQAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return SSNRRSRQAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return SSNRRSRQAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return SSNRRSRQAPERValue{}, report, q5.OperationError(err, c.path)
+		return SSNRRSRQAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return SSNRRSRQAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return SSNRRSRQAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c SSNRRSRQValueCodec) EncodeAPER(value SSNRRSRQAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c SSNRRSRQValueCodec) EncodeAPER(value SSNRRSRQAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c SSNRRSRQValueCodec) encodeBudget(value q4.SSNRRSRQ,
+func (c SSNRRSRQValueCodec) encodeBudget(value s00.SSNRRSRQ,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c SSNRRSRQValueCodec) encodeChanged(value q4.SSNRRSRQ,
+func (c SSNRRSRQValueCodec) encodeChanged(value s00.SSNRRSRQ,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // TACValueCodec is the concrete ValueCodec[TAC].
 type TACValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.TAC, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.TAC, aper.DecodeState,
 
-	) (q4.TAC, q5.Snapshot,
+	) (s00.TAC, aper.Snapshot,
 
 	)
-	compare func(q4.TAC, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.TAC, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.TAC,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.TAC,
 
 		error)
-	encode func(q4.TAC,
+	encode func(s00.TAC,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c TACValueCodec) New(value q4.TAC,
+// New validates value and returns a complete APER value.
+func (c TACValueCodec) New(value s00.TAC,
 
 ) (TACAPERValue, error) {
 	if c.encode == nil {
-		return TACAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return TACAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return TACAPERValue{}, q5.OperationError(err, "Value.New")
+		return TACAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return TACAPERValue{}, q5.OperationError(err, "Value.New")
+		return TACAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return TACAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return TACAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c TACValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (TACAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c TACValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TACAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return TACAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return TACAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return TACAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return TACAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return TACAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return TACAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return TACAPERValue{}, report, q5.OperationError(err, c.path)
+		return TACAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return TACAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return TACAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c TACValueCodec) EncodeAPER(value TACAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c TACValueCodec) EncodeAPER(value TACAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c TACValueCodec) encodeBudget(value q4.TAC,
+func (c TACValueCodec) encodeBudget(value s00.TAC,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c TACValueCodec) encodeChanged(value q4.TAC,
+func (c TACValueCodec) encodeChanged(value s00.TAC,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // TPIDValueCodec is the concrete ValueCodec[TPID].
 type TPIDValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.TPID, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.TPID, aper.DecodeState,
 
-	) (q4.TPID, q5.Snapshot,
+	) (s00.TPID, aper.Snapshot,
 
 	)
-	compare func(q4.TPID, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.TPID, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.TPID,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.TPID,
 
 		error)
-	encode func(q4.TPID,
+	encode func(s00.TPID,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c TPIDValueCodec) New(value q4.TPID,
+// New validates value and returns a complete APER value.
+func (c TPIDValueCodec) New(value s00.TPID,
 
 ) (TPIDAPERValue, error) {
 	if c.encode == nil {
-		return TPIDAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return TPIDAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return TPIDAPERValue{}, q5.OperationError(err, "Value.New")
+		return TPIDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return TPIDAPERValue{}, q5.OperationError(err, "Value.New")
+		return TPIDAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return TPIDAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return TPIDAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c TPIDValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (TPIDAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c TPIDValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TPIDAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return TPIDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return TPIDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return TPIDAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return TPIDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return TPIDAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return TPIDAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return TPIDAPERValue{}, report, q5.OperationError(err, c.path)
+		return TPIDAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return TPIDAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return TPIDAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c TPIDValueCodec) EncodeAPER(value TPIDAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c TPIDValueCodec) EncodeAPER(value TPIDAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c TPIDValueCodec) encodeBudget(value q4.TPID,
+func (c TPIDValueCodec) encodeBudget(value s00.TPID,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c TPIDValueCodec) encodeChanged(value q4.TPID,
+func (c TPIDValueCodec) encodeChanged(value s00.TPID,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // TPTypeValueCodec is the concrete ValueCodec[TPType].
 type TPTypeValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.TPType, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.TPType, aper.DecodeState,
 
-	) (q4.TPType, q5.Snapshot,
+	) (s00.TPType, aper.Snapshot,
 
 	)
-	compare func(q4.TPType, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.TPType, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.TPType,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.TPType,
 
 		error)
-	encode func(q4.TPType,
+	encode func(s00.TPType,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c TPTypeValueCodec) New(value q4.TPType,
+// New validates value and returns a complete APER value.
+func (c TPTypeValueCodec) New(value s00.TPType,
 
 ) (TPTypeAPERValue, error) {
 	if c.encode == nil {
-		return TPTypeAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return TPTypeAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return TPTypeAPERValue{}, q5.OperationError(err, "Value.New")
+		return TPTypeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return TPTypeAPERValue{}, q5.OperationError(err, "Value.New")
+		return TPTypeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return TPTypeAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return TPTypeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c TPTypeValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (TPTypeAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c TPTypeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TPTypeAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return TPTypeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return TPTypeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return TPTypeAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return TPTypeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return TPTypeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return TPTypeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return TPTypeAPERValue{}, report, q5.OperationError(err, c.path)
+		return TPTypeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return TPTypeAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return TPTypeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c TPTypeValueCodec) EncodeAPER(value TPTypeAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c TPTypeValueCodec) EncodeAPER(value TPTypeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c TPTypeValueCodec) encodeBudget(value q4.TPType,
+func (c TPTypeValueCodec) encodeBudget(value s00.TPType,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c TPTypeValueCodec) encodeChanged(value q4.TPType,
+func (c TPTypeValueCodec) encodeChanged(value s00.TPType,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // TriggeringMessageValueCodec is the concrete ValueCodec[TriggeringMessage].
 type TriggeringMessageValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.TriggeringMessage, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.TriggeringMessage, aper.DecodeState,
 
-	) (q4.TriggeringMessage, q5.Snapshot,
+	) (s00.TriggeringMessage, aper.Snapshot,
 
 	)
-	compare func(q4.TriggeringMessage, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.TriggeringMessage, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.TriggeringMessage,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.TriggeringMessage,
 
 		error)
-	encode func(q4.TriggeringMessage,
+	encode func(s00.TriggeringMessage,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c TriggeringMessageValueCodec) New(value q4.TriggeringMessage,
+// New validates value and returns a complete APER value.
+func (c TriggeringMessageValueCodec) New(value s00.TriggeringMessage,
 
 ) (TriggeringMessageAPERValue, error) {
 	if c.encode == nil {
-		return TriggeringMessageAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return TriggeringMessageAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return TriggeringMessageAPERValue{}, q5.OperationError(err, "Value.New")
+		return TriggeringMessageAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return TriggeringMessageAPERValue{}, q5.OperationError(err, "Value.New")
+		return TriggeringMessageAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return TriggeringMessageAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return TriggeringMessageAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c TriggeringMessageValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (TriggeringMessageAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c TriggeringMessageValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TriggeringMessageAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return TriggeringMessageAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return TriggeringMessageAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return TriggeringMessageAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return TriggeringMessageAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return TriggeringMessageAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return TriggeringMessageAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return TriggeringMessageAPERValue{}, report, q5.OperationError(err, c.path)
+		return TriggeringMessageAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return TriggeringMessageAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return TriggeringMessageAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c TriggeringMessageValueCodec) EncodeAPER(value TriggeringMessageAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c TriggeringMessageValueCodec) EncodeAPER(value TriggeringMessageAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c TriggeringMessageValueCodec) encodeBudget(value q4.TriggeringMessage,
+func (c TriggeringMessageValueCodec) encodeBudget(value s00.TriggeringMessage,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c TriggeringMessageValueCodec) encodeChanged(value q4.TriggeringMessage,
+func (c TriggeringMessageValueCodec) encodeChanged(value s00.TriggeringMessage,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // TypeOfErrorValueCodec is the concrete ValueCodec[TypeOfError].
 type TypeOfErrorValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.TypeOfError, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.TypeOfError, aper.DecodeState,
 
-	) (q4.TypeOfError, q5.Snapshot,
+	) (s00.TypeOfError, aper.Snapshot,
 
 	)
-	compare func(q4.TypeOfError, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.TypeOfError, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.TypeOfError,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.TypeOfError,
 
 		error)
-	encode func(q4.TypeOfError,
+	encode func(s00.TypeOfError,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c TypeOfErrorValueCodec) New(value q4.TypeOfError,
+// New validates value and returns a complete APER value.
+func (c TypeOfErrorValueCodec) New(value s00.TypeOfError,
 
 ) (TypeOfErrorAPERValue, error) {
 	if c.encode == nil {
-		return TypeOfErrorAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return TypeOfErrorAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return TypeOfErrorAPERValue{}, q5.OperationError(err, "Value.New")
+		return TypeOfErrorAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return TypeOfErrorAPERValue{}, q5.OperationError(err, "Value.New")
+		return TypeOfErrorAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return TypeOfErrorAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return TypeOfErrorAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c TypeOfErrorValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (TypeOfErrorAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c TypeOfErrorValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TypeOfErrorAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return TypeOfErrorAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return TypeOfErrorAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return TypeOfErrorAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return TypeOfErrorAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return TypeOfErrorAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return TypeOfErrorAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return TypeOfErrorAPERValue{}, report, q5.OperationError(err, c.path)
+		return TypeOfErrorAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return TypeOfErrorAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return TypeOfErrorAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c TypeOfErrorValueCodec) EncodeAPER(value TypeOfErrorAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c TypeOfErrorValueCodec) EncodeAPER(value TypeOfErrorAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c TypeOfErrorValueCodec) encodeBudget(value q4.TypeOfError,
+func (c TypeOfErrorValueCodec) encodeBudget(value s00.TypeOfError,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c TypeOfErrorValueCodec) encodeChanged(value q4.TypeOfError,
+func (c TypeOfErrorValueCodec) encodeChanged(value s00.TypeOfError,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // UARFCNValueCodec is the concrete ValueCodec[UARFCN].
 type UARFCNValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.UARFCN, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.UARFCN, aper.DecodeState,
 
-	) (q4.UARFCN, q5.Snapshot,
+	) (s00.UARFCN, aper.Snapshot,
 
 	)
-	compare func(q4.UARFCN, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.UARFCN, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.UARFCN,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.UARFCN,
 
 		error)
-	encode func(q4.UARFCN,
+	encode func(s00.UARFCN,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c UARFCNValueCodec) New(value q4.UARFCN,
+// New validates value and returns a complete APER value.
+func (c UARFCNValueCodec) New(value s00.UARFCN,
 
 ) (UARFCNAPERValue, error) {
 	if c.encode == nil {
-		return UARFCNAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return UARFCNAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return UARFCNAPERValue{}, q5.OperationError(err, "Value.New")
+		return UARFCNAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return UARFCNAPERValue{}, q5.OperationError(err, "Value.New")
+		return UARFCNAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return UARFCNAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return UARFCNAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c UARFCNValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (UARFCNAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c UARFCNValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UARFCNAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return UARFCNAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return UARFCNAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return UARFCNAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return UARFCNAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return UARFCNAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return UARFCNAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return UARFCNAPERValue{}, report, q5.OperationError(err, c.path)
+		return UARFCNAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return UARFCNAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return UARFCNAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c UARFCNValueCodec) EncodeAPER(value UARFCNAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c UARFCNValueCodec) EncodeAPER(value UARFCNAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c UARFCNValueCodec) encodeBudget(value q4.UARFCN,
+func (c UARFCNValueCodec) encodeBudget(value s00.UARFCN,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c UARFCNValueCodec) encodeChanged(value q4.UARFCN,
+func (c UARFCNValueCodec) encodeChanged(value s00.UARFCN,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // UTRAEcN0ValueCodec is the concrete ValueCodec[UTRAEcN0].
 type UTRAEcN0ValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.UTRAEcN0, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.UTRAEcN0, aper.DecodeState,
 
-	) (q4.UTRAEcN0, q5.Snapshot,
+	) (s00.UTRAEcN0, aper.Snapshot,
 
 	)
-	compare func(q4.UTRAEcN0, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.UTRAEcN0, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.UTRAEcN0,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.UTRAEcN0,
 
 		error)
-	encode func(q4.UTRAEcN0,
+	encode func(s00.UTRAEcN0,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c UTRAEcN0ValueCodec) New(value q4.UTRAEcN0,
+// New validates value and returns a complete APER value.
+func (c UTRAEcN0ValueCodec) New(value s00.UTRAEcN0,
 
 ) (UTRAEcN0APERValue, error) {
 	if c.encode == nil {
-		return UTRAEcN0APERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return UTRAEcN0APERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return UTRAEcN0APERValue{}, q5.OperationError(err, "Value.New")
+		return UTRAEcN0APERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return UTRAEcN0APERValue{}, q5.OperationError(err, "Value.New")
+		return UTRAEcN0APERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return UTRAEcN0APERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return UTRAEcN0APERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c UTRAEcN0ValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (UTRAEcN0APERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c UTRAEcN0ValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UTRAEcN0APERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return UTRAEcN0APERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return UTRAEcN0APERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return UTRAEcN0APERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return UTRAEcN0APERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return UTRAEcN0APERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return UTRAEcN0APERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return UTRAEcN0APERValue{}, report, q5.OperationError(err, c.path)
+		return UTRAEcN0APERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return UTRAEcN0APERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return UTRAEcN0APERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c UTRAEcN0ValueCodec) EncodeAPER(value UTRAEcN0APERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c UTRAEcN0ValueCodec) EncodeAPER(value UTRAEcN0APERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c UTRAEcN0ValueCodec) encodeBudget(value q4.UTRAEcN0,
+func (c UTRAEcN0ValueCodec) encodeBudget(value s00.UTRAEcN0,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c UTRAEcN0ValueCodec) encodeChanged(value q4.UTRAEcN0,
+func (c UTRAEcN0ValueCodec) encodeChanged(value s00.UTRAEcN0,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // UTRARSCPValueCodec is the concrete ValueCodec[UTRARSCP].
 type UTRARSCPValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.UTRARSCP, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.UTRARSCP, aper.DecodeState,
 
-	) (q4.UTRARSCP, q5.Snapshot,
+	) (s00.UTRARSCP, aper.Snapshot,
 
 	)
-	compare func(q4.UTRARSCP, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.UTRARSCP, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.UTRARSCP,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.UTRARSCP,
 
 		error)
-	encode func(q4.UTRARSCP,
+	encode func(s00.UTRARSCP,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c UTRARSCPValueCodec) New(value q4.UTRARSCP,
+// New validates value and returns a complete APER value.
+func (c UTRARSCPValueCodec) New(value s00.UTRARSCP,
 
 ) (UTRARSCPAPERValue, error) {
 	if c.encode == nil {
-		return UTRARSCPAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return UTRARSCPAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return UTRARSCPAPERValue{}, q5.OperationError(err, "Value.New")
+		return UTRARSCPAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return UTRARSCPAPERValue{}, q5.OperationError(err, "Value.New")
+		return UTRARSCPAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return UTRARSCPAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return UTRARSCPAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c UTRARSCPValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (UTRARSCPAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c UTRARSCPValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UTRARSCPAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return UTRARSCPAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return UTRARSCPAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return UTRARSCPAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return UTRARSCPAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return UTRARSCPAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return UTRARSCPAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return UTRARSCPAPERValue{}, report, q5.OperationError(err, c.path)
+		return UTRARSCPAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return UTRARSCPAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return UTRARSCPAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c UTRARSCPValueCodec) EncodeAPER(value UTRARSCPAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c UTRARSCPValueCodec) EncodeAPER(value UTRARSCPAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c UTRARSCPValueCodec) encodeBudget(value q4.UTRARSCP,
+func (c UTRARSCPValueCodec) encodeBudget(value s00.UTRARSCP,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c UTRARSCPValueCodec) encodeChanged(value q4.UTRARSCP,
+func (c UTRARSCPValueCodec) encodeChanged(value s00.UTRARSCP,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // ValueRSRPValueCodec is the concrete ValueCodec[ValueRSRP].
 type ValueRSRPValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.ValueRSRP, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.ValueRSRP, aper.DecodeState,
 
-	) (q4.ValueRSRP, q5.Snapshot,
+	) (s00.ValueRSRP, aper.Snapshot,
 
 	)
-	compare func(q4.ValueRSRP, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.ValueRSRP, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.ValueRSRP,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.ValueRSRP,
 
 		error)
-	encode func(q4.ValueRSRP,
+	encode func(s00.ValueRSRP,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c ValueRSRPValueCodec) New(value q4.ValueRSRP,
+// New validates value and returns a complete APER value.
+func (c ValueRSRPValueCodec) New(value s00.ValueRSRP,
 
 ) (ValueRSRPAPERValue, error) {
 	if c.encode == nil {
-		return ValueRSRPAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return ValueRSRPAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ValueRSRPAPERValue{}, q5.OperationError(err, "Value.New")
+		return ValueRSRPAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ValueRSRPAPERValue{}, q5.OperationError(err, "Value.New")
+		return ValueRSRPAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return ValueRSRPAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return ValueRSRPAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c ValueRSRPValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (ValueRSRPAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c ValueRSRPValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ValueRSRPAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return ValueRSRPAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return ValueRSRPAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return ValueRSRPAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return ValueRSRPAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return ValueRSRPAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return ValueRSRPAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return ValueRSRPAPERValue{}, report, q5.OperationError(err, c.path)
+		return ValueRSRPAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return ValueRSRPAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return ValueRSRPAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c ValueRSRPValueCodec) EncodeAPER(value ValueRSRPAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c ValueRSRPValueCodec) EncodeAPER(value ValueRSRPAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c ValueRSRPValueCodec) encodeBudget(value q4.ValueRSRP,
+func (c ValueRSRPValueCodec) encodeBudget(value s00.ValueRSRP,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c ValueRSRPValueCodec) encodeChanged(value q4.ValueRSRP,
+func (c ValueRSRPValueCodec) encodeChanged(value s00.ValueRSRP,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // ValueRSRQValueCodec is the concrete ValueCodec[ValueRSRQ].
 type ValueRSRQValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.ValueRSRQ, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.ValueRSRQ, aper.DecodeState,
 
-	) (q4.ValueRSRQ, q5.Snapshot,
+	) (s00.ValueRSRQ, aper.Snapshot,
 
 	)
-	compare func(q4.ValueRSRQ, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.ValueRSRQ, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.ValueRSRQ,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.ValueRSRQ,
 
 		error)
-	encode func(q4.ValueRSRQ,
+	encode func(s00.ValueRSRQ,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c ValueRSRQValueCodec) New(value q4.ValueRSRQ,
+// New validates value and returns a complete APER value.
+func (c ValueRSRQValueCodec) New(value s00.ValueRSRQ,
 
 ) (ValueRSRQAPERValue, error) {
 	if c.encode == nil {
-		return ValueRSRQAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return ValueRSRQAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ValueRSRQAPERValue{}, q5.OperationError(err, "Value.New")
+		return ValueRSRQAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ValueRSRQAPERValue{}, q5.OperationError(err, "Value.New")
+		return ValueRSRQAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return ValueRSRQAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return ValueRSRQAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c ValueRSRQValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (ValueRSRQAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c ValueRSRQValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ValueRSRQAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return ValueRSRQAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return ValueRSRQAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return ValueRSRQAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return ValueRSRQAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return ValueRSRQAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return ValueRSRQAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return ValueRSRQAPERValue{}, report, q5.OperationError(err, c.path)
+		return ValueRSRQAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return ValueRSRQAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return ValueRSRQAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c ValueRSRQValueCodec) EncodeAPER(value ValueRSRQAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c ValueRSRQValueCodec) EncodeAPER(value ValueRSRQAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c ValueRSRQValueCodec) encodeBudget(value q4.ValueRSRQ,
+func (c ValueRSRQValueCodec) encodeBudget(value s00.ValueRSRQ,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c ValueRSRQValueCodec) encodeChanged(value q4.ValueRSRQ,
+func (c ValueRSRQValueCodec) encodeChanged(value s00.ValueRSRQ,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // WLANBandValueCodec is the concrete ValueCodec[WLANBand].
 type WLANBandValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.WLANBand, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.WLANBand, aper.DecodeState,
 
-	) (q4.WLANBand, q5.Snapshot,
+	) (s00.WLANBand, aper.Snapshot,
 
 	)
-	compare func(q4.WLANBand, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.WLANBand, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.WLANBand,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.WLANBand,
 
 		error)
-	encode func(q4.WLANBand,
+	encode func(s00.WLANBand,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c WLANBandValueCodec) New(value q4.WLANBand,
+// New validates value and returns a complete APER value.
+func (c WLANBandValueCodec) New(value s00.WLANBand,
 
 ) (WLANBandAPERValue, error) {
 	if c.encode == nil {
-		return WLANBandAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return WLANBandAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return WLANBandAPERValue{}, q5.OperationError(err, "Value.New")
+		return WLANBandAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return WLANBandAPERValue{}, q5.OperationError(err, "Value.New")
+		return WLANBandAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return WLANBandAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return WLANBandAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c WLANBandValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (WLANBandAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c WLANBandValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (WLANBandAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return WLANBandAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return WLANBandAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return WLANBandAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return WLANBandAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return WLANBandAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return WLANBandAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return WLANBandAPERValue{}, report, q5.OperationError(err, c.path)
+		return WLANBandAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return WLANBandAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return WLANBandAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c WLANBandValueCodec) EncodeAPER(value WLANBandAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c WLANBandValueCodec) EncodeAPER(value WLANBandAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c WLANBandValueCodec) encodeBudget(value q4.WLANBand,
+func (c WLANBandValueCodec) encodeBudget(value s00.WLANBand,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c WLANBandValueCodec) encodeChanged(value q4.WLANBand,
+func (c WLANBandValueCodec) encodeChanged(value s00.WLANBand,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // WLANChannelValueCodec is the concrete ValueCodec[WLANChannel].
 type WLANChannelValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.WLANChannel, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.WLANChannel, aper.DecodeState,
 
-	) (q4.WLANChannel, q5.Snapshot,
+	) (s00.WLANChannel, aper.Snapshot,
 
 	)
-	compare func(q4.WLANChannel, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.WLANChannel, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.WLANChannel,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.WLANChannel,
 
 		error)
-	encode func(q4.WLANChannel,
+	encode func(s00.WLANChannel,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c WLANChannelValueCodec) New(value q4.WLANChannel,
+// New validates value and returns a complete APER value.
+func (c WLANChannelValueCodec) New(value s00.WLANChannel,
 
 ) (WLANChannelAPERValue, error) {
 	if c.encode == nil {
-		return WLANChannelAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return WLANChannelAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return WLANChannelAPERValue{}, q5.OperationError(err, "Value.New")
+		return WLANChannelAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return WLANChannelAPERValue{}, q5.OperationError(err, "Value.New")
+		return WLANChannelAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return WLANChannelAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return WLANChannelAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c WLANChannelValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (WLANChannelAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c WLANChannelValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (WLANChannelAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return WLANChannelAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return WLANChannelAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return WLANChannelAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return WLANChannelAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return WLANChannelAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return WLANChannelAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return WLANChannelAPERValue{}, report, q5.OperationError(err, c.path)
+		return WLANChannelAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return WLANChannelAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return WLANChannelAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c WLANChannelValueCodec) EncodeAPER(value WLANChannelAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c WLANChannelValueCodec) EncodeAPER(value WLANChannelAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c WLANChannelValueCodec) encodeBudget(value q4.WLANChannel,
+func (c WLANChannelValueCodec) encodeBudget(value s00.WLANChannel,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c WLANChannelValueCodec) encodeChanged(value q4.WLANChannel,
+func (c WLANChannelValueCodec) encodeChanged(value s00.WLANChannel,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // WLANChannelListValueCodec is the concrete ValueCodec[WLANChannelList].
 type WLANChannelListValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q4.WLANChannelList, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s00.WLANChannelList, aper.DecodeState,
 
-	) (q4.WLANChannelList, q5.Snapshot,
+	) (s00.WLANChannelList, aper.Snapshot,
 
 	)
-	compare func(q4.WLANChannelList, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s00.WLANChannelList, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q4.WLANChannelList,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s00.WLANChannelList,
 
 		error)
-	encode func(q4.WLANChannelList,
+	encode func(s00.WLANChannelList,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c WLANChannelListValueCodec) New(value q4.WLANChannelList,
+// New validates value and returns a complete APER value.
+func (c WLANChannelListValueCodec) New(value s00.WLANChannelList,
 
 ) (WLANChannelListAPERValue, error) {
 	if c.encode == nil {
-		return WLANChannelListAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return WLANChannelListAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return WLANChannelListAPERValue{}, q5.OperationError(err, "Value.New")
+		return WLANChannelListAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return WLANChannelListAPERValue{}, q5.OperationError(err, "Value.New")
+		return WLANChannelListAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return WLANChannelListAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return WLANChannelListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c WLANChannelListValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (WLANChannelListAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c WLANChannelListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (WLANChannelListAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return WLANChannelListAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return WLANChannelListAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return WLANChannelListAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return WLANChannelListAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return WLANChannelListAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return WLANChannelListAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return WLANChannelListAPERValue{}, report, q5.OperationError(err, c.path)
+		return WLANChannelListAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return WLANChannelListAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return WLANChannelListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c WLANChannelListValueCodec) EncodeAPER(value WLANChannelListAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c WLANChannelListValueCodec) EncodeAPER(value WLANChannelListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c WLANChannelListValueCodec) encodeBudget(value q4.WLANChannelList,
+func (c WLANChannelListValueCodec) encodeBudget(value s00.WLANChannelList,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c WLANChannelListValueCodec) encodeChanged(value q4.WLANChannelList,
+func (c WLANChannelListValueCodec) encodeChanged(value s00.WLANChannelList,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // ReportCharacteristicsAPERValue is the concrete APERValue[ReportCharacteristics].
 type ReportCharacteristicsAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.ReportCharacteristics
+	context s00.BridgeCodecContext
+	Value   s00.ReportCharacteristics
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v ReportCharacteristicsAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v ReportCharacteristicsAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v ReportCharacteristicsAPERValue) WithoutReplay() ReportCharacteristicsAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // NumberOfFrequencyHoppingBandsAPERValue is the concrete APERValue[NumberOfFrequencyHoppingBands].
 type NumberOfFrequencyHoppingBandsAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.NumberOfFrequencyHoppingBands
+	context s00.BridgeCodecContext
+	Value   s00.NumberOfFrequencyHoppingBands
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v NumberOfFrequencyHoppingBandsAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v NumberOfFrequencyHoppingBandsAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v NumberOfFrequencyHoppingBandsAPERValue) WithoutReplay() NumberOfFrequencyHoppingBandsAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // OTDOAInformationItemAPERValue is the concrete APERValue[OTDOAInformationItem].
 type OTDOAInformationItemAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.OTDOAInformationItem
+	context s00.BridgeCodecContext
+	Value   s00.OTDOAInformationItem
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v OTDOAInformationItemAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v OTDOAInformationItemAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v OTDOAInformationItemAPERValue) WithoutReplay() OTDOAInformationItemAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // OffsetNBChanneltoEARFCNAPERValue is the concrete APERValue[OffsetNBChanneltoEARFCN].
 type OffsetNBChanneltoEARFCNAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.OffsetNBChanneltoEARFCN
+	context s00.BridgeCodecContext
+	Value   s00.OffsetNBChanneltoEARFCN
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v OffsetNBChanneltoEARFCNAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v OffsetNBChanneltoEARFCNAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v OffsetNBChanneltoEARFCNAPERValue) WithoutReplay() OffsetNBChanneltoEARFCNAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // OperationModeInfoAPERValue is the concrete APERValue[OperationModeInfo].
 type OperationModeInfoAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.OperationModeInfo
+	context s00.BridgeCodecContext
+	Value   s00.OperationModeInfo
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v OperationModeInfoAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v OperationModeInfoAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v OperationModeInfoAPERValue) WithoutReplay() OperationModeInfoAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // OutcomeAPERValue is the concrete APERValue[Outcome].
 type OutcomeAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.Outcome
+	context s00.BridgeCodecContext
+	Value   s00.Outcome
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v OutcomeAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v OutcomeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v OutcomeAPERValue) WithoutReplay() OutcomeAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PCIAPERValue is the concrete APERValue[PCI].
 type PCIAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PCI
+	context s00.BridgeCodecContext
+	Value   s00.PCI
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PCIAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PCIAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PCIAPERValue) WithoutReplay() PCIAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PLMNIdentityAPERValue is the concrete APERValue[PLMNIdentity].
 type PLMNIdentityAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PLMNIdentity
+	context s00.BridgeCodecContext
+	Value   s00.PLMNIdentity
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PLMNIdentityAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PLMNIdentityAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PLMNIdentityAPERValue) WithoutReplay() PLMNIdentityAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PRSBandwidthAPERValue is the concrete APERValue[PRSBandwidth].
 type PRSBandwidthAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PRSBandwidth
+	context s00.BridgeCodecContext
+	Value   s00.PRSBandwidth
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PRSBandwidthAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PRSBandwidthAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PRSBandwidthAPERValue) WithoutReplay() PRSBandwidthAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PRSConfigurationIndexAPERValue is the concrete APERValue[PRSConfigurationIndex].
 type PRSConfigurationIndexAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PRSConfigurationIndex
+	context s00.BridgeCodecContext
+	Value   s00.PRSConfigurationIndex
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PRSConfigurationIndexAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PRSConfigurationIndexAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PRSConfigurationIndexAPERValue) WithoutReplay() PRSConfigurationIndexAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PRSFrequencyHoppingConfigurationBandPositionsAPERValue is the concrete APERValue[PRSFrequencyHoppingConfigurationBandPositions].
 type PRSFrequencyHoppingConfigurationBandPositionsAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PRSFrequencyHoppingConfigurationBandPositions
+	context s00.BridgeCodecContext
+	Value   s00.PRSFrequencyHoppingConfigurationBandPositions
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PRSFrequencyHoppingConfigurationBandPositionsAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PRSFrequencyHoppingConfigurationBandPositionsAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PRSFrequencyHoppingConfigurationBandPositionsAPERValue) WithoutReplay() PRSFrequencyHoppingConfigurationBandPositionsAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PRSIDAPERValue is the concrete APERValue[PRSID].
 type PRSIDAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PRSID
+	context s00.BridgeCodecContext
+	Value   s00.PRSID
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PRSIDAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PRSIDAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PRSIDAPERValue) WithoutReplay() PRSIDAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PRSOccasionGroupAPERValue is the concrete APERValue[PRSOccasionGroup].
 type PRSOccasionGroupAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PRSOccasionGroup
+	context s00.BridgeCodecContext
+	Value   s00.PRSOccasionGroup
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PRSOccasionGroupAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PRSOccasionGroupAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PRSOccasionGroupAPERValue) WithoutReplay() PRSOccasionGroupAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PhysCellIDGERANAPERValue is the concrete APERValue[PhysCellIDGERAN].
 type PhysCellIDGERANAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PhysCellIDGERAN
+	context s00.BridgeCodecContext
+	Value   s00.PhysCellIDGERAN
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PhysCellIDGERANAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PhysCellIDGERANAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PhysCellIDGERANAPERValue) WithoutReplay() PhysCellIDGERANAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PhysCellIDUTRAFDDAPERValue is the concrete APERValue[PhysCellIDUTRAFDD].
 type PhysCellIDUTRAFDDAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PhysCellIDUTRAFDD
+	context s00.BridgeCodecContext
+	Value   s00.PhysCellIDUTRAFDD
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PhysCellIDUTRAFDDAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PhysCellIDUTRAFDDAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PhysCellIDUTRAFDDAPERValue) WithoutReplay() PhysCellIDUTRAFDDAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PhysCellIDUTRATDDAPERValue is the concrete APERValue[PhysCellIDUTRATDD].
 type PhysCellIDUTRATDDAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PhysCellIDUTRATDD
+	context s00.BridgeCodecContext
+	Value   s00.PhysCellIDUTRATDD
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PhysCellIDUTRATDDAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PhysCellIDUTRATDDAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PhysCellIDUTRATDDAPERValue) WithoutReplay() PhysCellIDUTRATDDAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PosSIBTypeAPERValue is the concrete APERValue[PosSIBType].
 type PosSIBTypeAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.PosSIBType
+	context s00.BridgeCodecContext
+	Value   s00.PosSIBType
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PosSIBTypeAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PosSIBTypeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PosSIBTypeAPERValue) WithoutReplay() PosSIBTypeAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // PresenceAPERValue is the concrete APERValue[Presence].
 type PresenceAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.Presence
+	context s00.BridgeCodecContext
+	Value   s00.Presence
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v PresenceAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v PresenceAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PresenceAPERValue) WithoutReplay() PresenceAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // ProcedureCodeAPERValue is the concrete APERValue[ProcedureCode].
 type ProcedureCodeAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.ProcedureCode
+	context s00.BridgeCodecContext
+	Value   s00.ProcedureCode
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v ProcedureCodeAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v ProcedureCodeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v ProcedureCodeAPERValue) WithoutReplay() ProcedureCodeAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // ProtocolIEIDAPERValue is the concrete APERValue[ProtocolIEID].
 type ProtocolIEIDAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.ProtocolIEID
+	context s00.BridgeCodecContext
+	Value   s00.ProtocolIEID
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v ProtocolIEIDAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v ProtocolIEIDAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v ProtocolIEIDAPERValue) WithoutReplay() ProtocolIEIDAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // RSSIAPERValue is the concrete APERValue[RSSI].
 type RSSIAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.RSSI
+	context s00.BridgeCodecContext
+	Value   s00.RSSI
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v RSSIAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v RSSIAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v RSSIAPERValue) WithoutReplay() RSSIAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // RepetitionNumberofSIB1NBAPERValue is the concrete APERValue[RepetitionNumberofSIB1NB].
 type RepetitionNumberofSIB1NBAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.RepetitionNumberofSIB1NB
+	context s00.BridgeCodecContext
+	Value   s00.RepetitionNumberofSIB1NB
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v RepetitionNumberofSIB1NBAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v RepetitionNumberofSIB1NBAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v RepetitionNumberofSIB1NBAPERValue) WithoutReplay() RepetitionNumberofSIB1NBAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // SFNInitialisationTimeAPERValue is the concrete APERValue[SFNInitialisationTime].
 type SFNInitialisationTimeAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.SFNInitialisationTime
+	context s00.BridgeCodecContext
+	Value   s00.SFNInitialisationTime
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v SFNInitialisationTimeAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v SFNInitialisationTimeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v SFNInitialisationTimeAPERValue) WithoutReplay() SFNInitialisationTimeAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // SSBIndexAPERValue is the concrete APERValue[SSBIndex].
 type SSBIndexAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.SSBIndex
+	context s00.BridgeCodecContext
+	Value   s00.SSBIndex
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v SSBIndexAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v SSBIndexAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v SSBIndexAPERValue) WithoutReplay() SSBIndexAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // SSIDAPERValue is the concrete APERValue[SSID].
 type SSIDAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.SSID
+	context s00.BridgeCodecContext
+	Value   s00.SSID
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v SSIDAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v SSIDAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v SSIDAPERValue) WithoutReplay() SSIDAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // SSNRRSRPAPERValue is the concrete APERValue[SSNRRSRP].
 type SSNRRSRPAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.SSNRRSRP
+	context s00.BridgeCodecContext
+	Value   s00.SSNRRSRP
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v SSNRRSRPAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v SSNRRSRPAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v SSNRRSRPAPERValue) WithoutReplay() SSNRRSRPAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // SSNRRSRQAPERValue is the concrete APERValue[SSNRRSRQ].
 type SSNRRSRQAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.SSNRRSRQ
+	context s00.BridgeCodecContext
+	Value   s00.SSNRRSRQ
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v SSNRRSRQAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v SSNRRSRQAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v SSNRRSRQAPERValue) WithoutReplay() SSNRRSRQAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // TACAPERValue is the concrete APERValue[TAC].
 type TACAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.TAC
+	context s00.BridgeCodecContext
+	Value   s00.TAC
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v TACAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v TACAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v TACAPERValue) WithoutReplay() TACAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // TPIDAPERValue is the concrete APERValue[TPID].
 type TPIDAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.TPID
+	context s00.BridgeCodecContext
+	Value   s00.TPID
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v TPIDAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v TPIDAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v TPIDAPERValue) WithoutReplay() TPIDAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // TPTypeAPERValue is the concrete APERValue[TPType].
 type TPTypeAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.TPType
+	context s00.BridgeCodecContext
+	Value   s00.TPType
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v TPTypeAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v TPTypeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v TPTypeAPERValue) WithoutReplay() TPTypeAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // TriggeringMessageAPERValue is the concrete APERValue[TriggeringMessage].
 type TriggeringMessageAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.TriggeringMessage
+	context s00.BridgeCodecContext
+	Value   s00.TriggeringMessage
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v TriggeringMessageAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v TriggeringMessageAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v TriggeringMessageAPERValue) WithoutReplay() TriggeringMessageAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // TypeOfErrorAPERValue is the concrete APERValue[TypeOfError].
 type TypeOfErrorAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.TypeOfError
+	context s00.BridgeCodecContext
+	Value   s00.TypeOfError
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v TypeOfErrorAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v TypeOfErrorAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v TypeOfErrorAPERValue) WithoutReplay() TypeOfErrorAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // UARFCNAPERValue is the concrete APERValue[UARFCN].
 type UARFCNAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.UARFCN
+	context s00.BridgeCodecContext
+	Value   s00.UARFCN
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v UARFCNAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v UARFCNAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v UARFCNAPERValue) WithoutReplay() UARFCNAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // UTRAEcN0APERValue is the concrete APERValue[UTRAEcN0].
 type UTRAEcN0APERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.UTRAEcN0
+	context s00.BridgeCodecContext
+	Value   s00.UTRAEcN0
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v UTRAEcN0APERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v UTRAEcN0APERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v UTRAEcN0APERValue) WithoutReplay() UTRAEcN0APERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // UTRARSCPAPERValue is the concrete APERValue[UTRARSCP].
 type UTRARSCPAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.UTRARSCP
+	context s00.BridgeCodecContext
+	Value   s00.UTRARSCP
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v UTRARSCPAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v UTRARSCPAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v UTRARSCPAPERValue) WithoutReplay() UTRARSCPAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // ValueRSRPAPERValue is the concrete APERValue[ValueRSRP].
 type ValueRSRPAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.ValueRSRP
+	context s00.BridgeCodecContext
+	Value   s00.ValueRSRP
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v ValueRSRPAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v ValueRSRPAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v ValueRSRPAPERValue) WithoutReplay() ValueRSRPAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // ValueRSRQAPERValue is the concrete APERValue[ValueRSRQ].
 type ValueRSRQAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.ValueRSRQ
+	context s00.BridgeCodecContext
+	Value   s00.ValueRSRQ
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v ValueRSRQAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v ValueRSRQAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v ValueRSRQAPERValue) WithoutReplay() ValueRSRQAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // WLANBandAPERValue is the concrete APERValue[WLANBand].
 type WLANBandAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.WLANBand
+	context s00.BridgeCodecContext
+	Value   s00.WLANBand
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v WLANBandAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v WLANBandAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v WLANBandAPERValue) WithoutReplay() WLANBandAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // WLANChannelAPERValue is the concrete APERValue[WLANChannel].
 type WLANChannelAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.WLANChannel
+	context s00.BridgeCodecContext
+	Value   s00.WLANChannel
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v WLANChannelAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v WLANChannelAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v WLANChannelAPERValue) WithoutReplay() WLANChannelAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // WLANChannelListAPERValue is the concrete APERValue[WLANChannelList].
 type WLANChannelListAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.WLANChannelList
+	context s00.BridgeCodecContext
+	Value   s00.WLANChannelList
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v WLANChannelListAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v WLANChannelListAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v WLANChannelListAPERValue) WithoutReplay() WLANChannelListAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // WLANCountryCodeAPERValue is the concrete APERValue[WLANCountryCode].
 type WLANCountryCodeAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q4.WLANCountryCode
+	context s00.BridgeCodecContext
+	Value   s00.WLANCountryCode
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v WLANCountryCodeAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v WLANCountryCodeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v WLANCountryCodeAPERValue) WithoutReplay() WLANCountryCodeAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
-func BridgeNumberOfFrequencyHoppingBandsAPERValueFieldContext(v *NumberOfFrequencyHoppingBandsAPERValue) *q4.BridgeCodecContext {
+func BridgeNumberOfFrequencyHoppingBandsAPERValueFieldContext(v *NumberOfFrequencyHoppingBandsAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeNumberOfFrequencyHoppingBandsAPERValueFieldReceived(v *NumberOfFrequencyHoppingBandsAPERValue) *q5.WireSpan {
+func BridgeNumberOfFrequencyHoppingBandsAPERValueFieldReceived(v *NumberOfFrequencyHoppingBandsAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeNumberOfFrequencyHoppingBandsAPERValueFieldReplay(v *NumberOfFrequencyHoppingBandsAPERValue) *q5.Snapshot {
+func BridgeNumberOfFrequencyHoppingBandsAPERValueFieldReplay(v *NumberOfFrequencyHoppingBandsAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeNumberOfFrequencyHoppingBandsAPERValueFieldWithoutReplay(v *NumberOfFrequencyHoppingBandsAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldCapture(v *NumberOfFrequencyHoppingBandsValueCodec) *func(q4.NumberOfFrequencyHoppingBands, q5.DecodeState) (q4.NumberOfFrequencyHoppingBands, q5.Snapshot) {
+func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldCapture(v *NumberOfFrequencyHoppingBandsValueCodec) *func(s00.NumberOfFrequencyHoppingBands, aper.DecodeState) (s00.NumberOfFrequencyHoppingBands, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldCompare(v *NumberOfFrequencyHoppingBandsValueCodec) *func(q4.NumberOfFrequencyHoppingBands, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldCompare(v *NumberOfFrequencyHoppingBandsValueCodec) *func(s00.NumberOfFrequencyHoppingBands, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldContext(v *NumberOfFrequencyHoppingBandsValueCodec) *q4.BridgeCodecContext {
+func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldContext(v *NumberOfFrequencyHoppingBandsValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldDecode(v *NumberOfFrequencyHoppingBandsValueCodec) *func([]byte, q5.DecodeState) (q4.NumberOfFrequencyHoppingBands, error) {
+func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldDecode(v *NumberOfFrequencyHoppingBandsValueCodec) *func([]byte, aper.DecodeState) (s00.NumberOfFrequencyHoppingBands, error) {
 	return &v.decode
 }
-func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldEncode(v *NumberOfFrequencyHoppingBandsValueCodec) *func(q4.NumberOfFrequencyHoppingBands, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldEncode(v *NumberOfFrequencyHoppingBandsValueCodec) *func(s00.NumberOfFrequencyHoppingBands, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldPath(v *NumberOfFrequencyHoppingBandsValueCodec) *q5.Path {
+func BridgeNumberOfFrequencyHoppingBandsValueCodecFieldPath(v *NumberOfFrequencyHoppingBandsValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeNumberOfFrequencyHoppingBandsValueCodecMethodEncodeBudget(v NumberOfFrequencyHoppingBandsValueCodec, a0 q4.NumberOfFrequencyHoppingBands, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeNumberOfFrequencyHoppingBandsValueCodecMethodEncodeBudget(v NumberOfFrequencyHoppingBandsValueCodec, a0 s00.NumberOfFrequencyHoppingBands, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeNumberOfFrequencyHoppingBandsValueCodecMethodEncodeChanged(v NumberOfFrequencyHoppingBandsValueCodec, a0 q4.NumberOfFrequencyHoppingBands, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeNumberOfFrequencyHoppingBandsValueCodecMethodEncodeChanged(v NumberOfFrequencyHoppingBandsValueCodec, a0 s00.NumberOfFrequencyHoppingBands, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeOTDOAInformationItemAPERValueFieldContext(v *OTDOAInformationItemAPERValue) *q4.BridgeCodecContext {
+func BridgeOTDOAInformationItemAPERValueFieldContext(v *OTDOAInformationItemAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOTDOAInformationItemAPERValueFieldReceived(v *OTDOAInformationItemAPERValue) *q5.WireSpan {
+func BridgeOTDOAInformationItemAPERValueFieldReceived(v *OTDOAInformationItemAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeOTDOAInformationItemAPERValueFieldReplay(v *OTDOAInformationItemAPERValue) *q5.Snapshot {
+func BridgeOTDOAInformationItemAPERValueFieldReplay(v *OTDOAInformationItemAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeOTDOAInformationItemAPERValueFieldWithoutReplay(v *OTDOAInformationItemAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeOTDOAInformationItemValueCodecFieldCapture(v *OTDOAInformationItemValueCodec) *func(q4.OTDOAInformationItem, q5.DecodeState) (q4.OTDOAInformationItem, q5.Snapshot) {
+func BridgeOTDOAInformationItemValueCodecFieldCapture(v *OTDOAInformationItemValueCodec) *func(s00.OTDOAInformationItem, aper.DecodeState) (s00.OTDOAInformationItem, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeOTDOAInformationItemValueCodecFieldCompare(v *OTDOAInformationItemValueCodec) *func(q4.OTDOAInformationItem, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeOTDOAInformationItemValueCodecFieldCompare(v *OTDOAInformationItemValueCodec) *func(s00.OTDOAInformationItem, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeOTDOAInformationItemValueCodecFieldContext(v *OTDOAInformationItemValueCodec) *q4.BridgeCodecContext {
+func BridgeOTDOAInformationItemValueCodecFieldContext(v *OTDOAInformationItemValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOTDOAInformationItemValueCodecFieldDecode(v *OTDOAInformationItemValueCodec) *func([]byte, q5.DecodeState) (q4.OTDOAInformationItem, error) {
+func BridgeOTDOAInformationItemValueCodecFieldDecode(v *OTDOAInformationItemValueCodec) *func([]byte, aper.DecodeState) (s00.OTDOAInformationItem, error) {
 	return &v.decode
 }
-func BridgeOTDOAInformationItemValueCodecFieldEncode(v *OTDOAInformationItemValueCodec) *func(q4.OTDOAInformationItem, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeOTDOAInformationItemValueCodecFieldEncode(v *OTDOAInformationItemValueCodec) *func(s00.OTDOAInformationItem, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeOTDOAInformationItemValueCodecFieldPath(v *OTDOAInformationItemValueCodec) *q5.Path {
+func BridgeOTDOAInformationItemValueCodecFieldPath(v *OTDOAInformationItemValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeOTDOAInformationItemValueCodecMethodEncodeBudget(v OTDOAInformationItemValueCodec, a0 q4.OTDOAInformationItem, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeOTDOAInformationItemValueCodecMethodEncodeBudget(v OTDOAInformationItemValueCodec, a0 s00.OTDOAInformationItem, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeOTDOAInformationItemValueCodecMethodEncodeChanged(v OTDOAInformationItemValueCodec, a0 q4.OTDOAInformationItem, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeOTDOAInformationItemValueCodecMethodEncodeChanged(v OTDOAInformationItemValueCodec, a0 s00.OTDOAInformationItem, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeOffsetNBChanneltoEARFCNAPERValueFieldContext(v *OffsetNBChanneltoEARFCNAPERValue) *q4.BridgeCodecContext {
+func BridgeOffsetNBChanneltoEARFCNAPERValueFieldContext(v *OffsetNBChanneltoEARFCNAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOffsetNBChanneltoEARFCNAPERValueFieldReceived(v *OffsetNBChanneltoEARFCNAPERValue) *q5.WireSpan {
+func BridgeOffsetNBChanneltoEARFCNAPERValueFieldReceived(v *OffsetNBChanneltoEARFCNAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeOffsetNBChanneltoEARFCNAPERValueFieldReplay(v *OffsetNBChanneltoEARFCNAPERValue) *q5.Snapshot {
+func BridgeOffsetNBChanneltoEARFCNAPERValueFieldReplay(v *OffsetNBChanneltoEARFCNAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeOffsetNBChanneltoEARFCNAPERValueFieldWithoutReplay(v *OffsetNBChanneltoEARFCNAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeOffsetNBChanneltoEARFCNValueCodecFieldCapture(v *OffsetNBChanneltoEARFCNValueCodec) *func(q4.OffsetNBChanneltoEARFCN, q5.DecodeState) (q4.OffsetNBChanneltoEARFCN, q5.Snapshot) {
+func BridgeOffsetNBChanneltoEARFCNValueCodecFieldCapture(v *OffsetNBChanneltoEARFCNValueCodec) *func(s00.OffsetNBChanneltoEARFCN, aper.DecodeState) (s00.OffsetNBChanneltoEARFCN, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeOffsetNBChanneltoEARFCNValueCodecFieldCompare(v *OffsetNBChanneltoEARFCNValueCodec) *func(q4.OffsetNBChanneltoEARFCN, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeOffsetNBChanneltoEARFCNValueCodecFieldCompare(v *OffsetNBChanneltoEARFCNValueCodec) *func(s00.OffsetNBChanneltoEARFCN, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeOffsetNBChanneltoEARFCNValueCodecFieldContext(v *OffsetNBChanneltoEARFCNValueCodec) *q4.BridgeCodecContext {
+func BridgeOffsetNBChanneltoEARFCNValueCodecFieldContext(v *OffsetNBChanneltoEARFCNValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOffsetNBChanneltoEARFCNValueCodecFieldDecode(v *OffsetNBChanneltoEARFCNValueCodec) *func([]byte, q5.DecodeState) (q4.OffsetNBChanneltoEARFCN, error) {
+func BridgeOffsetNBChanneltoEARFCNValueCodecFieldDecode(v *OffsetNBChanneltoEARFCNValueCodec) *func([]byte, aper.DecodeState) (s00.OffsetNBChanneltoEARFCN, error) {
 	return &v.decode
 }
-func BridgeOffsetNBChanneltoEARFCNValueCodecFieldEncode(v *OffsetNBChanneltoEARFCNValueCodec) *func(q4.OffsetNBChanneltoEARFCN, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeOffsetNBChanneltoEARFCNValueCodecFieldEncode(v *OffsetNBChanneltoEARFCNValueCodec) *func(s00.OffsetNBChanneltoEARFCN, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeOffsetNBChanneltoEARFCNValueCodecFieldPath(v *OffsetNBChanneltoEARFCNValueCodec) *q5.Path {
+func BridgeOffsetNBChanneltoEARFCNValueCodecFieldPath(v *OffsetNBChanneltoEARFCNValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeOffsetNBChanneltoEARFCNValueCodecMethodEncodeBudget(v OffsetNBChanneltoEARFCNValueCodec, a0 q4.OffsetNBChanneltoEARFCN, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeOffsetNBChanneltoEARFCNValueCodecMethodEncodeBudget(v OffsetNBChanneltoEARFCNValueCodec, a0 s00.OffsetNBChanneltoEARFCN, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeOffsetNBChanneltoEARFCNValueCodecMethodEncodeChanged(v OffsetNBChanneltoEARFCNValueCodec, a0 q4.OffsetNBChanneltoEARFCN, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeOffsetNBChanneltoEARFCNValueCodecMethodEncodeChanged(v OffsetNBChanneltoEARFCNValueCodec, a0 s00.OffsetNBChanneltoEARFCN, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeOperationModeInfoAPERValueFieldContext(v *OperationModeInfoAPERValue) *q4.BridgeCodecContext {
+func BridgeOperationModeInfoAPERValueFieldContext(v *OperationModeInfoAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOperationModeInfoAPERValueFieldReceived(v *OperationModeInfoAPERValue) *q5.WireSpan {
+func BridgeOperationModeInfoAPERValueFieldReceived(v *OperationModeInfoAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeOperationModeInfoAPERValueFieldReplay(v *OperationModeInfoAPERValue) *q5.Snapshot {
+func BridgeOperationModeInfoAPERValueFieldReplay(v *OperationModeInfoAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeOperationModeInfoAPERValueFieldWithoutReplay(v *OperationModeInfoAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeOperationModeInfoValueCodecFieldCapture(v *OperationModeInfoValueCodec) *func(q4.OperationModeInfo, q5.DecodeState) (q4.OperationModeInfo, q5.Snapshot) {
+func BridgeOperationModeInfoValueCodecFieldCapture(v *OperationModeInfoValueCodec) *func(s00.OperationModeInfo, aper.DecodeState) (s00.OperationModeInfo, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeOperationModeInfoValueCodecFieldCompare(v *OperationModeInfoValueCodec) *func(q4.OperationModeInfo, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeOperationModeInfoValueCodecFieldCompare(v *OperationModeInfoValueCodec) *func(s00.OperationModeInfo, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeOperationModeInfoValueCodecFieldContext(v *OperationModeInfoValueCodec) *q4.BridgeCodecContext {
+func BridgeOperationModeInfoValueCodecFieldContext(v *OperationModeInfoValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOperationModeInfoValueCodecFieldDecode(v *OperationModeInfoValueCodec) *func([]byte, q5.DecodeState) (q4.OperationModeInfo, error) {
+func BridgeOperationModeInfoValueCodecFieldDecode(v *OperationModeInfoValueCodec) *func([]byte, aper.DecodeState) (s00.OperationModeInfo, error) {
 	return &v.decode
 }
-func BridgeOperationModeInfoValueCodecFieldEncode(v *OperationModeInfoValueCodec) *func(q4.OperationModeInfo, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeOperationModeInfoValueCodecFieldEncode(v *OperationModeInfoValueCodec) *func(s00.OperationModeInfo, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeOperationModeInfoValueCodecFieldPath(v *OperationModeInfoValueCodec) *q5.Path {
+func BridgeOperationModeInfoValueCodecFieldPath(v *OperationModeInfoValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeOperationModeInfoValueCodecMethodEncodeBudget(v OperationModeInfoValueCodec, a0 q4.OperationModeInfo, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeOperationModeInfoValueCodecMethodEncodeBudget(v OperationModeInfoValueCodec, a0 s00.OperationModeInfo, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeOperationModeInfoValueCodecMethodEncodeChanged(v OperationModeInfoValueCodec, a0 q4.OperationModeInfo, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeOperationModeInfoValueCodecMethodEncodeChanged(v OperationModeInfoValueCodec, a0 s00.OperationModeInfo, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeOutcomeAPERValueFieldContext(v *OutcomeAPERValue) *q4.BridgeCodecContext {
+func BridgeOutcomeAPERValueFieldContext(v *OutcomeAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOutcomeAPERValueFieldReceived(v *OutcomeAPERValue) *q5.WireSpan { return &v.received }
-func BridgeOutcomeAPERValueFieldReplay(v *OutcomeAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgeOutcomeAPERValueFieldWithoutReplay(v *OutcomeAPERValue) *bool   { return &v.withoutReplay }
-func BridgeOutcomeValueCodecFieldCapture(v *OutcomeValueCodec) *func(q4.Outcome, q5.DecodeState) (q4.Outcome, q5.Snapshot) {
+func BridgeOutcomeAPERValueFieldReceived(v *OutcomeAPERValue) *aper.WireSpan { return &v.received }
+func BridgeOutcomeAPERValueFieldReplay(v *OutcomeAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgeOutcomeAPERValueFieldWithoutReplay(v *OutcomeAPERValue) *bool     { return &v.withoutReplay }
+func BridgeOutcomeValueCodecFieldCapture(v *OutcomeValueCodec) *func(s00.Outcome, aper.DecodeState) (s00.Outcome, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeOutcomeValueCodecFieldCompare(v *OutcomeValueCodec) *func(q4.Outcome, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeOutcomeValueCodecFieldCompare(v *OutcomeValueCodec) *func(s00.Outcome, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeOutcomeValueCodecFieldContext(v *OutcomeValueCodec) *q4.BridgeCodecContext {
+func BridgeOutcomeValueCodecFieldContext(v *OutcomeValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOutcomeValueCodecFieldDecode(v *OutcomeValueCodec) *func([]byte, q5.DecodeState) (q4.Outcome, error) {
+func BridgeOutcomeValueCodecFieldDecode(v *OutcomeValueCodec) *func([]byte, aper.DecodeState) (s00.Outcome, error) {
 	return &v.decode
 }
-func BridgeOutcomeValueCodecFieldEncode(v *OutcomeValueCodec) *func(q4.Outcome, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeOutcomeValueCodecFieldEncode(v *OutcomeValueCodec) *func(s00.Outcome, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeOutcomeValueCodecFieldPath(v *OutcomeValueCodec) *q5.Path { return &v.path }
-func BridgeOutcomeValueCodecMethodEncodeBudget(v OutcomeValueCodec, a0 q4.Outcome, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeOutcomeValueCodecFieldPath(v *OutcomeValueCodec) *aper.Path { return &v.path }
+func BridgeOutcomeValueCodecMethodEncodeBudget(v OutcomeValueCodec, a0 s00.Outcome, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeOutcomeValueCodecMethodEncodeChanged(v OutcomeValueCodec, a0 q4.Outcome, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeOutcomeValueCodecMethodEncodeChanged(v OutcomeValueCodec, a0 s00.Outcome, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePCIAPERValueFieldContext(v *PCIAPERValue) *q4.BridgeCodecContext { return &v.context }
-func BridgePCIAPERValueFieldReceived(v *PCIAPERValue) *q5.WireSpan          { return &v.received }
-func BridgePCIAPERValueFieldReplay(v *PCIAPERValue) *q5.Snapshot            { return &v.replay }
-func BridgePCIAPERValueFieldWithoutReplay(v *PCIAPERValue) *bool            { return &v.withoutReplay }
-func BridgePCIValueCodecFieldCapture(v *PCIValueCodec) *func(q4.PCI, q5.DecodeState) (q4.PCI, q5.Snapshot) {
+func BridgePCIAPERValueFieldContext(v *PCIAPERValue) *s00.BridgeCodecContext { return &v.context }
+func BridgePCIAPERValueFieldReceived(v *PCIAPERValue) *aper.WireSpan         { return &v.received }
+func BridgePCIAPERValueFieldReplay(v *PCIAPERValue) *aper.Snapshot           { return &v.replay }
+func BridgePCIAPERValueFieldWithoutReplay(v *PCIAPERValue) *bool             { return &v.withoutReplay }
+func BridgePCIValueCodecFieldCapture(v *PCIValueCodec) *func(s00.PCI, aper.DecodeState) (s00.PCI, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePCIValueCodecFieldCompare(v *PCIValueCodec) *func(q4.PCI, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePCIValueCodecFieldCompare(v *PCIValueCodec) *func(s00.PCI, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePCIValueCodecFieldContext(v *PCIValueCodec) *q4.BridgeCodecContext { return &v.context }
-func BridgePCIValueCodecFieldDecode(v *PCIValueCodec) *func([]byte, q5.DecodeState) (q4.PCI, error) {
+func BridgePCIValueCodecFieldContext(v *PCIValueCodec) *s00.BridgeCodecContext { return &v.context }
+func BridgePCIValueCodecFieldDecode(v *PCIValueCodec) *func([]byte, aper.DecodeState) (s00.PCI, error) {
 	return &v.decode
 }
-func BridgePCIValueCodecFieldEncode(v *PCIValueCodec) *func(q4.PCI, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePCIValueCodecFieldEncode(v *PCIValueCodec) *func(s00.PCI, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePCIValueCodecFieldPath(v *PCIValueCodec) *q5.Path { return &v.path }
-func BridgePCIValueCodecMethodEncodeBudget(v PCIValueCodec, a0 q4.PCI, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePCIValueCodecFieldPath(v *PCIValueCodec) *aper.Path { return &v.path }
+func BridgePCIValueCodecMethodEncodeBudget(v PCIValueCodec, a0 s00.PCI, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePCIValueCodecMethodEncodeChanged(v PCIValueCodec, a0 q4.PCI, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePCIValueCodecMethodEncodeChanged(v PCIValueCodec, a0 s00.PCI, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePLMNIdentityAPERValueFieldContext(v *PLMNIdentityAPERValue) *q4.BridgeCodecContext {
+func BridgePLMNIdentityAPERValueFieldContext(v *PLMNIdentityAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePLMNIdentityAPERValueFieldReceived(v *PLMNIdentityAPERValue) *q5.WireSpan {
+func BridgePLMNIdentityAPERValueFieldReceived(v *PLMNIdentityAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgePLMNIdentityAPERValueFieldReplay(v *PLMNIdentityAPERValue) *q5.Snapshot { return &v.replay }
+func BridgePLMNIdentityAPERValueFieldReplay(v *PLMNIdentityAPERValue) *aper.Snapshot {
+	return &v.replay
+}
 func BridgePLMNIdentityAPERValueFieldWithoutReplay(v *PLMNIdentityAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgePLMNIdentityValueCodecFieldCapture(v *PLMNIdentityValueCodec) *func(q4.PLMNIdentity, q5.DecodeState) (q4.PLMNIdentity, q5.Snapshot) {
+func BridgePLMNIdentityValueCodecFieldCapture(v *PLMNIdentityValueCodec) *func(s00.PLMNIdentity, aper.DecodeState) (s00.PLMNIdentity, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePLMNIdentityValueCodecFieldCompare(v *PLMNIdentityValueCodec) *func(q4.PLMNIdentity, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePLMNIdentityValueCodecFieldCompare(v *PLMNIdentityValueCodec) *func(s00.PLMNIdentity, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePLMNIdentityValueCodecFieldContext(v *PLMNIdentityValueCodec) *q4.BridgeCodecContext {
+func BridgePLMNIdentityValueCodecFieldContext(v *PLMNIdentityValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePLMNIdentityValueCodecFieldDecode(v *PLMNIdentityValueCodec) *func([]byte, q5.DecodeState) (q4.PLMNIdentity, error) {
+func BridgePLMNIdentityValueCodecFieldDecode(v *PLMNIdentityValueCodec) *func([]byte, aper.DecodeState) (s00.PLMNIdentity, error) {
 	return &v.decode
 }
-func BridgePLMNIdentityValueCodecFieldEncode(v *PLMNIdentityValueCodec) *func(q4.PLMNIdentity, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePLMNIdentityValueCodecFieldEncode(v *PLMNIdentityValueCodec) *func(s00.PLMNIdentity, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePLMNIdentityValueCodecFieldPath(v *PLMNIdentityValueCodec) *q5.Path { return &v.path }
-func BridgePLMNIdentityValueCodecMethodEncodeBudget(v PLMNIdentityValueCodec, a0 q4.PLMNIdentity, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePLMNIdentityValueCodecFieldPath(v *PLMNIdentityValueCodec) *aper.Path { return &v.path }
+func BridgePLMNIdentityValueCodecMethodEncodeBudget(v PLMNIdentityValueCodec, a0 s00.PLMNIdentity, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePLMNIdentityValueCodecMethodEncodeChanged(v PLMNIdentityValueCodec, a0 q4.PLMNIdentity, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePLMNIdentityValueCodecMethodEncodeChanged(v PLMNIdentityValueCodec, a0 s00.PLMNIdentity, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePRSBandwidthAPERValueFieldContext(v *PRSBandwidthAPERValue) *q4.BridgeCodecContext {
+func BridgePRSBandwidthAPERValueFieldContext(v *PRSBandwidthAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePRSBandwidthAPERValueFieldReceived(v *PRSBandwidthAPERValue) *q5.WireSpan {
+func BridgePRSBandwidthAPERValueFieldReceived(v *PRSBandwidthAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgePRSBandwidthAPERValueFieldReplay(v *PRSBandwidthAPERValue) *q5.Snapshot { return &v.replay }
+func BridgePRSBandwidthAPERValueFieldReplay(v *PRSBandwidthAPERValue) *aper.Snapshot {
+	return &v.replay
+}
 func BridgePRSBandwidthAPERValueFieldWithoutReplay(v *PRSBandwidthAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgePRSBandwidthValueCodecFieldCapture(v *PRSBandwidthValueCodec) *func(q4.PRSBandwidth, q5.DecodeState) (q4.PRSBandwidth, q5.Snapshot) {
+func BridgePRSBandwidthValueCodecFieldCapture(v *PRSBandwidthValueCodec) *func(s00.PRSBandwidth, aper.DecodeState) (s00.PRSBandwidth, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePRSBandwidthValueCodecFieldCompare(v *PRSBandwidthValueCodec) *func(q4.PRSBandwidth, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePRSBandwidthValueCodecFieldCompare(v *PRSBandwidthValueCodec) *func(s00.PRSBandwidth, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePRSBandwidthValueCodecFieldContext(v *PRSBandwidthValueCodec) *q4.BridgeCodecContext {
+func BridgePRSBandwidthValueCodecFieldContext(v *PRSBandwidthValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePRSBandwidthValueCodecFieldDecode(v *PRSBandwidthValueCodec) *func([]byte, q5.DecodeState) (q4.PRSBandwidth, error) {
+func BridgePRSBandwidthValueCodecFieldDecode(v *PRSBandwidthValueCodec) *func([]byte, aper.DecodeState) (s00.PRSBandwidth, error) {
 	return &v.decode
 }
-func BridgePRSBandwidthValueCodecFieldEncode(v *PRSBandwidthValueCodec) *func(q4.PRSBandwidth, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePRSBandwidthValueCodecFieldEncode(v *PRSBandwidthValueCodec) *func(s00.PRSBandwidth, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePRSBandwidthValueCodecFieldPath(v *PRSBandwidthValueCodec) *q5.Path { return &v.path }
-func BridgePRSBandwidthValueCodecMethodEncodeBudget(v PRSBandwidthValueCodec, a0 q4.PRSBandwidth, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSBandwidthValueCodecFieldPath(v *PRSBandwidthValueCodec) *aper.Path { return &v.path }
+func BridgePRSBandwidthValueCodecMethodEncodeBudget(v PRSBandwidthValueCodec, a0 s00.PRSBandwidth, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePRSBandwidthValueCodecMethodEncodeChanged(v PRSBandwidthValueCodec, a0 q4.PRSBandwidth, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSBandwidthValueCodecMethodEncodeChanged(v PRSBandwidthValueCodec, a0 s00.PRSBandwidth, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePRSConfigurationIndexAPERValueFieldContext(v *PRSConfigurationIndexAPERValue) *q4.BridgeCodecContext {
+func BridgePRSConfigurationIndexAPERValueFieldContext(v *PRSConfigurationIndexAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePRSConfigurationIndexAPERValueFieldReceived(v *PRSConfigurationIndexAPERValue) *q5.WireSpan {
+func BridgePRSConfigurationIndexAPERValueFieldReceived(v *PRSConfigurationIndexAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgePRSConfigurationIndexAPERValueFieldReplay(v *PRSConfigurationIndexAPERValue) *q5.Snapshot {
+func BridgePRSConfigurationIndexAPERValueFieldReplay(v *PRSConfigurationIndexAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgePRSConfigurationIndexAPERValueFieldWithoutReplay(v *PRSConfigurationIndexAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgePRSConfigurationIndexValueCodecFieldCapture(v *PRSConfigurationIndexValueCodec) *func(q4.PRSConfigurationIndex, q5.DecodeState) (q4.PRSConfigurationIndex, q5.Snapshot) {
+func BridgePRSConfigurationIndexValueCodecFieldCapture(v *PRSConfigurationIndexValueCodec) *func(s00.PRSConfigurationIndex, aper.DecodeState) (s00.PRSConfigurationIndex, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePRSConfigurationIndexValueCodecFieldCompare(v *PRSConfigurationIndexValueCodec) *func(q4.PRSConfigurationIndex, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePRSConfigurationIndexValueCodecFieldCompare(v *PRSConfigurationIndexValueCodec) *func(s00.PRSConfigurationIndex, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePRSConfigurationIndexValueCodecFieldContext(v *PRSConfigurationIndexValueCodec) *q4.BridgeCodecContext {
+func BridgePRSConfigurationIndexValueCodecFieldContext(v *PRSConfigurationIndexValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePRSConfigurationIndexValueCodecFieldDecode(v *PRSConfigurationIndexValueCodec) *func([]byte, q5.DecodeState) (q4.PRSConfigurationIndex, error) {
+func BridgePRSConfigurationIndexValueCodecFieldDecode(v *PRSConfigurationIndexValueCodec) *func([]byte, aper.DecodeState) (s00.PRSConfigurationIndex, error) {
 	return &v.decode
 }
-func BridgePRSConfigurationIndexValueCodecFieldEncode(v *PRSConfigurationIndexValueCodec) *func(q4.PRSConfigurationIndex, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePRSConfigurationIndexValueCodecFieldEncode(v *PRSConfigurationIndexValueCodec) *func(s00.PRSConfigurationIndex, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePRSConfigurationIndexValueCodecFieldPath(v *PRSConfigurationIndexValueCodec) *q5.Path {
+func BridgePRSConfigurationIndexValueCodecFieldPath(v *PRSConfigurationIndexValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgePRSConfigurationIndexValueCodecMethodEncodeBudget(v PRSConfigurationIndexValueCodec, a0 q4.PRSConfigurationIndex, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSConfigurationIndexValueCodecMethodEncodeBudget(v PRSConfigurationIndexValueCodec, a0 s00.PRSConfigurationIndex, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePRSConfigurationIndexValueCodecMethodEncodeChanged(v PRSConfigurationIndexValueCodec, a0 q4.PRSConfigurationIndex, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSConfigurationIndexValueCodecMethodEncodeChanged(v PRSConfigurationIndexValueCodec, a0 s00.PRSConfigurationIndex, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsAPERValueFieldContext(v *PRSFrequencyHoppingConfigurationBandPositionsAPERValue) *q4.BridgeCodecContext {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsAPERValueFieldContext(v *PRSFrequencyHoppingConfigurationBandPositionsAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsAPERValueFieldReceived(v *PRSFrequencyHoppingConfigurationBandPositionsAPERValue) *q5.WireSpan {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsAPERValueFieldReceived(v *PRSFrequencyHoppingConfigurationBandPositionsAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsAPERValueFieldReplay(v *PRSFrequencyHoppingConfigurationBandPositionsAPERValue) *q5.Snapshot {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsAPERValueFieldReplay(v *PRSFrequencyHoppingConfigurationBandPositionsAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgePRSFrequencyHoppingConfigurationBandPositionsAPERValueFieldWithoutReplay(v *PRSFrequencyHoppingConfigurationBandPositionsAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldCapture(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *func(q4.PRSFrequencyHoppingConfigurationBandPositions, q5.DecodeState) (q4.PRSFrequencyHoppingConfigurationBandPositions, q5.Snapshot) {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldCapture(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *func(s00.PRSFrequencyHoppingConfigurationBandPositions, aper.DecodeState) (s00.PRSFrequencyHoppingConfigurationBandPositions, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldCompare(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *func(q4.PRSFrequencyHoppingConfigurationBandPositions, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldCompare(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *func(s00.PRSFrequencyHoppingConfigurationBandPositions, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldContext(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *q4.BridgeCodecContext {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldContext(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldDecode(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *func([]byte, q5.DecodeState) (q4.PRSFrequencyHoppingConfigurationBandPositions, error) {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldDecode(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *func([]byte, aper.DecodeState) (s00.PRSFrequencyHoppingConfigurationBandPositions, error) {
 	return &v.decode
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldEncode(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *func(q4.PRSFrequencyHoppingConfigurationBandPositions, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldEncode(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *func(s00.PRSFrequencyHoppingConfigurationBandPositions, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldPath(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *q5.Path {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecFieldPath(v *PRSFrequencyHoppingConfigurationBandPositionsValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecMethodEncodeBudget(v PRSFrequencyHoppingConfigurationBandPositionsValueCodec, a0 q4.PRSFrequencyHoppingConfigurationBandPositions, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecMethodEncodeBudget(v PRSFrequencyHoppingConfigurationBandPositionsValueCodec, a0 s00.PRSFrequencyHoppingConfigurationBandPositions, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecMethodEncodeChanged(v PRSFrequencyHoppingConfigurationBandPositionsValueCodec, a0 q4.PRSFrequencyHoppingConfigurationBandPositions, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSFrequencyHoppingConfigurationBandPositionsValueCodecMethodEncodeChanged(v PRSFrequencyHoppingConfigurationBandPositionsValueCodec, a0 s00.PRSFrequencyHoppingConfigurationBandPositions, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePRSIDAPERValueFieldContext(v *PRSIDAPERValue) *q4.BridgeCodecContext { return &v.context }
-func BridgePRSIDAPERValueFieldReceived(v *PRSIDAPERValue) *q5.WireSpan          { return &v.received }
-func BridgePRSIDAPERValueFieldReplay(v *PRSIDAPERValue) *q5.Snapshot            { return &v.replay }
-func BridgePRSIDAPERValueFieldWithoutReplay(v *PRSIDAPERValue) *bool            { return &v.withoutReplay }
-func BridgePRSIDValueCodecFieldCapture(v *PRSIDValueCodec) *func(q4.PRSID, q5.DecodeState) (q4.PRSID, q5.Snapshot) {
+func BridgePRSIDAPERValueFieldContext(v *PRSIDAPERValue) *s00.BridgeCodecContext { return &v.context }
+func BridgePRSIDAPERValueFieldReceived(v *PRSIDAPERValue) *aper.WireSpan         { return &v.received }
+func BridgePRSIDAPERValueFieldReplay(v *PRSIDAPERValue) *aper.Snapshot           { return &v.replay }
+func BridgePRSIDAPERValueFieldWithoutReplay(v *PRSIDAPERValue) *bool             { return &v.withoutReplay }
+func BridgePRSIDValueCodecFieldCapture(v *PRSIDValueCodec) *func(s00.PRSID, aper.DecodeState) (s00.PRSID, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePRSIDValueCodecFieldCompare(v *PRSIDValueCodec) *func(q4.PRSID, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePRSIDValueCodecFieldCompare(v *PRSIDValueCodec) *func(s00.PRSID, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePRSIDValueCodecFieldContext(v *PRSIDValueCodec) *q4.BridgeCodecContext { return &v.context }
-func BridgePRSIDValueCodecFieldDecode(v *PRSIDValueCodec) *func([]byte, q5.DecodeState) (q4.PRSID, error) {
+func BridgePRSIDValueCodecFieldContext(v *PRSIDValueCodec) *s00.BridgeCodecContext { return &v.context }
+func BridgePRSIDValueCodecFieldDecode(v *PRSIDValueCodec) *func([]byte, aper.DecodeState) (s00.PRSID, error) {
 	return &v.decode
 }
-func BridgePRSIDValueCodecFieldEncode(v *PRSIDValueCodec) *func(q4.PRSID, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePRSIDValueCodecFieldEncode(v *PRSIDValueCodec) *func(s00.PRSID, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePRSIDValueCodecFieldPath(v *PRSIDValueCodec) *q5.Path { return &v.path }
-func BridgePRSIDValueCodecMethodEncodeBudget(v PRSIDValueCodec, a0 q4.PRSID, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSIDValueCodecFieldPath(v *PRSIDValueCodec) *aper.Path { return &v.path }
+func BridgePRSIDValueCodecMethodEncodeBudget(v PRSIDValueCodec, a0 s00.PRSID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePRSIDValueCodecMethodEncodeChanged(v PRSIDValueCodec, a0 q4.PRSID, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSIDValueCodecMethodEncodeChanged(v PRSIDValueCodec, a0 s00.PRSID, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePRSOccasionGroupAPERValueFieldContext(v *PRSOccasionGroupAPERValue) *q4.BridgeCodecContext {
+func BridgePRSOccasionGroupAPERValueFieldContext(v *PRSOccasionGroupAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePRSOccasionGroupAPERValueFieldReceived(v *PRSOccasionGroupAPERValue) *q5.WireSpan {
+func BridgePRSOccasionGroupAPERValueFieldReceived(v *PRSOccasionGroupAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgePRSOccasionGroupAPERValueFieldReplay(v *PRSOccasionGroupAPERValue) *q5.Snapshot {
+func BridgePRSOccasionGroupAPERValueFieldReplay(v *PRSOccasionGroupAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgePRSOccasionGroupAPERValueFieldWithoutReplay(v *PRSOccasionGroupAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgePRSOccasionGroupValueCodecFieldCapture(v *PRSOccasionGroupValueCodec) *func(q4.PRSOccasionGroup, q5.DecodeState) (q4.PRSOccasionGroup, q5.Snapshot) {
+func BridgePRSOccasionGroupValueCodecFieldCapture(v *PRSOccasionGroupValueCodec) *func(s00.PRSOccasionGroup, aper.DecodeState) (s00.PRSOccasionGroup, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePRSOccasionGroupValueCodecFieldCompare(v *PRSOccasionGroupValueCodec) *func(q4.PRSOccasionGroup, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePRSOccasionGroupValueCodecFieldCompare(v *PRSOccasionGroupValueCodec) *func(s00.PRSOccasionGroup, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePRSOccasionGroupValueCodecFieldContext(v *PRSOccasionGroupValueCodec) *q4.BridgeCodecContext {
+func BridgePRSOccasionGroupValueCodecFieldContext(v *PRSOccasionGroupValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePRSOccasionGroupValueCodecFieldDecode(v *PRSOccasionGroupValueCodec) *func([]byte, q5.DecodeState) (q4.PRSOccasionGroup, error) {
+func BridgePRSOccasionGroupValueCodecFieldDecode(v *PRSOccasionGroupValueCodec) *func([]byte, aper.DecodeState) (s00.PRSOccasionGroup, error) {
 	return &v.decode
 }
-func BridgePRSOccasionGroupValueCodecFieldEncode(v *PRSOccasionGroupValueCodec) *func(q4.PRSOccasionGroup, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePRSOccasionGroupValueCodecFieldEncode(v *PRSOccasionGroupValueCodec) *func(s00.PRSOccasionGroup, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePRSOccasionGroupValueCodecFieldPath(v *PRSOccasionGroupValueCodec) *q5.Path {
+func BridgePRSOccasionGroupValueCodecFieldPath(v *PRSOccasionGroupValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgePRSOccasionGroupValueCodecMethodEncodeBudget(v PRSOccasionGroupValueCodec, a0 q4.PRSOccasionGroup, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSOccasionGroupValueCodecMethodEncodeBudget(v PRSOccasionGroupValueCodec, a0 s00.PRSOccasionGroup, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePRSOccasionGroupValueCodecMethodEncodeChanged(v PRSOccasionGroupValueCodec, a0 q4.PRSOccasionGroup, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePRSOccasionGroupValueCodecMethodEncodeChanged(v PRSOccasionGroupValueCodec, a0 s00.PRSOccasionGroup, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePhysCellIDGERANAPERValueFieldContext(v *PhysCellIDGERANAPERValue) *q4.BridgeCodecContext {
+func BridgePhysCellIDGERANAPERValueFieldContext(v *PhysCellIDGERANAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePhysCellIDGERANAPERValueFieldReceived(v *PhysCellIDGERANAPERValue) *q5.WireSpan {
+func BridgePhysCellIDGERANAPERValueFieldReceived(v *PhysCellIDGERANAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgePhysCellIDGERANAPERValueFieldReplay(v *PhysCellIDGERANAPERValue) *q5.Snapshot {
+func BridgePhysCellIDGERANAPERValueFieldReplay(v *PhysCellIDGERANAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgePhysCellIDGERANAPERValueFieldWithoutReplay(v *PhysCellIDGERANAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgePhysCellIDGERANValueCodecFieldCapture(v *PhysCellIDGERANValueCodec) *func(q4.PhysCellIDGERAN, q5.DecodeState) (q4.PhysCellIDGERAN, q5.Snapshot) {
+func BridgePhysCellIDGERANValueCodecFieldCapture(v *PhysCellIDGERANValueCodec) *func(s00.PhysCellIDGERAN, aper.DecodeState) (s00.PhysCellIDGERAN, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePhysCellIDGERANValueCodecFieldCompare(v *PhysCellIDGERANValueCodec) *func(q4.PhysCellIDGERAN, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePhysCellIDGERANValueCodecFieldCompare(v *PhysCellIDGERANValueCodec) *func(s00.PhysCellIDGERAN, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePhysCellIDGERANValueCodecFieldContext(v *PhysCellIDGERANValueCodec) *q4.BridgeCodecContext {
+func BridgePhysCellIDGERANValueCodecFieldContext(v *PhysCellIDGERANValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePhysCellIDGERANValueCodecFieldDecode(v *PhysCellIDGERANValueCodec) *func([]byte, q5.DecodeState) (q4.PhysCellIDGERAN, error) {
+func BridgePhysCellIDGERANValueCodecFieldDecode(v *PhysCellIDGERANValueCodec) *func([]byte, aper.DecodeState) (s00.PhysCellIDGERAN, error) {
 	return &v.decode
 }
-func BridgePhysCellIDGERANValueCodecFieldEncode(v *PhysCellIDGERANValueCodec) *func(q4.PhysCellIDGERAN, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePhysCellIDGERANValueCodecFieldEncode(v *PhysCellIDGERANValueCodec) *func(s00.PhysCellIDGERAN, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePhysCellIDGERANValueCodecFieldPath(v *PhysCellIDGERANValueCodec) *q5.Path { return &v.path }
-func BridgePhysCellIDGERANValueCodecMethodEncodeBudget(v PhysCellIDGERANValueCodec, a0 q4.PhysCellIDGERAN, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePhysCellIDGERANValueCodecFieldPath(v *PhysCellIDGERANValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgePhysCellIDGERANValueCodecMethodEncodeBudget(v PhysCellIDGERANValueCodec, a0 s00.PhysCellIDGERAN, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePhysCellIDGERANValueCodecMethodEncodeChanged(v PhysCellIDGERANValueCodec, a0 q4.PhysCellIDGERAN, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePhysCellIDGERANValueCodecMethodEncodeChanged(v PhysCellIDGERANValueCodec, a0 s00.PhysCellIDGERAN, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePhysCellIDUTRAFDDAPERValueFieldContext(v *PhysCellIDUTRAFDDAPERValue) *q4.BridgeCodecContext {
+func BridgePhysCellIDUTRAFDDAPERValueFieldContext(v *PhysCellIDUTRAFDDAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePhysCellIDUTRAFDDAPERValueFieldReceived(v *PhysCellIDUTRAFDDAPERValue) *q5.WireSpan {
+func BridgePhysCellIDUTRAFDDAPERValueFieldReceived(v *PhysCellIDUTRAFDDAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgePhysCellIDUTRAFDDAPERValueFieldReplay(v *PhysCellIDUTRAFDDAPERValue) *q5.Snapshot {
+func BridgePhysCellIDUTRAFDDAPERValueFieldReplay(v *PhysCellIDUTRAFDDAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgePhysCellIDUTRAFDDAPERValueFieldWithoutReplay(v *PhysCellIDUTRAFDDAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgePhysCellIDUTRAFDDValueCodecFieldCapture(v *PhysCellIDUTRAFDDValueCodec) *func(q4.PhysCellIDUTRAFDD, q5.DecodeState) (q4.PhysCellIDUTRAFDD, q5.Snapshot) {
+func BridgePhysCellIDUTRAFDDValueCodecFieldCapture(v *PhysCellIDUTRAFDDValueCodec) *func(s00.PhysCellIDUTRAFDD, aper.DecodeState) (s00.PhysCellIDUTRAFDD, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePhysCellIDUTRAFDDValueCodecFieldCompare(v *PhysCellIDUTRAFDDValueCodec) *func(q4.PhysCellIDUTRAFDD, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePhysCellIDUTRAFDDValueCodecFieldCompare(v *PhysCellIDUTRAFDDValueCodec) *func(s00.PhysCellIDUTRAFDD, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePhysCellIDUTRAFDDValueCodecFieldContext(v *PhysCellIDUTRAFDDValueCodec) *q4.BridgeCodecContext {
+func BridgePhysCellIDUTRAFDDValueCodecFieldContext(v *PhysCellIDUTRAFDDValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePhysCellIDUTRAFDDValueCodecFieldDecode(v *PhysCellIDUTRAFDDValueCodec) *func([]byte, q5.DecodeState) (q4.PhysCellIDUTRAFDD, error) {
+func BridgePhysCellIDUTRAFDDValueCodecFieldDecode(v *PhysCellIDUTRAFDDValueCodec) *func([]byte, aper.DecodeState) (s00.PhysCellIDUTRAFDD, error) {
 	return &v.decode
 }
-func BridgePhysCellIDUTRAFDDValueCodecFieldEncode(v *PhysCellIDUTRAFDDValueCodec) *func(q4.PhysCellIDUTRAFDD, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePhysCellIDUTRAFDDValueCodecFieldEncode(v *PhysCellIDUTRAFDDValueCodec) *func(s00.PhysCellIDUTRAFDD, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePhysCellIDUTRAFDDValueCodecFieldPath(v *PhysCellIDUTRAFDDValueCodec) *q5.Path {
+func BridgePhysCellIDUTRAFDDValueCodecFieldPath(v *PhysCellIDUTRAFDDValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgePhysCellIDUTRAFDDValueCodecMethodEncodeBudget(v PhysCellIDUTRAFDDValueCodec, a0 q4.PhysCellIDUTRAFDD, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePhysCellIDUTRAFDDValueCodecMethodEncodeBudget(v PhysCellIDUTRAFDDValueCodec, a0 s00.PhysCellIDUTRAFDD, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePhysCellIDUTRAFDDValueCodecMethodEncodeChanged(v PhysCellIDUTRAFDDValueCodec, a0 q4.PhysCellIDUTRAFDD, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePhysCellIDUTRAFDDValueCodecMethodEncodeChanged(v PhysCellIDUTRAFDDValueCodec, a0 s00.PhysCellIDUTRAFDD, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePhysCellIDUTRATDDAPERValueFieldContext(v *PhysCellIDUTRATDDAPERValue) *q4.BridgeCodecContext {
+func BridgePhysCellIDUTRATDDAPERValueFieldContext(v *PhysCellIDUTRATDDAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePhysCellIDUTRATDDAPERValueFieldReceived(v *PhysCellIDUTRATDDAPERValue) *q5.WireSpan {
+func BridgePhysCellIDUTRATDDAPERValueFieldReceived(v *PhysCellIDUTRATDDAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgePhysCellIDUTRATDDAPERValueFieldReplay(v *PhysCellIDUTRATDDAPERValue) *q5.Snapshot {
+func BridgePhysCellIDUTRATDDAPERValueFieldReplay(v *PhysCellIDUTRATDDAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgePhysCellIDUTRATDDAPERValueFieldWithoutReplay(v *PhysCellIDUTRATDDAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgePhysCellIDUTRATDDValueCodecFieldCapture(v *PhysCellIDUTRATDDValueCodec) *func(q4.PhysCellIDUTRATDD, q5.DecodeState) (q4.PhysCellIDUTRATDD, q5.Snapshot) {
+func BridgePhysCellIDUTRATDDValueCodecFieldCapture(v *PhysCellIDUTRATDDValueCodec) *func(s00.PhysCellIDUTRATDD, aper.DecodeState) (s00.PhysCellIDUTRATDD, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePhysCellIDUTRATDDValueCodecFieldCompare(v *PhysCellIDUTRATDDValueCodec) *func(q4.PhysCellIDUTRATDD, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePhysCellIDUTRATDDValueCodecFieldCompare(v *PhysCellIDUTRATDDValueCodec) *func(s00.PhysCellIDUTRATDD, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePhysCellIDUTRATDDValueCodecFieldContext(v *PhysCellIDUTRATDDValueCodec) *q4.BridgeCodecContext {
+func BridgePhysCellIDUTRATDDValueCodecFieldContext(v *PhysCellIDUTRATDDValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePhysCellIDUTRATDDValueCodecFieldDecode(v *PhysCellIDUTRATDDValueCodec) *func([]byte, q5.DecodeState) (q4.PhysCellIDUTRATDD, error) {
+func BridgePhysCellIDUTRATDDValueCodecFieldDecode(v *PhysCellIDUTRATDDValueCodec) *func([]byte, aper.DecodeState) (s00.PhysCellIDUTRATDD, error) {
 	return &v.decode
 }
-func BridgePhysCellIDUTRATDDValueCodecFieldEncode(v *PhysCellIDUTRATDDValueCodec) *func(q4.PhysCellIDUTRATDD, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePhysCellIDUTRATDDValueCodecFieldEncode(v *PhysCellIDUTRATDDValueCodec) *func(s00.PhysCellIDUTRATDD, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePhysCellIDUTRATDDValueCodecFieldPath(v *PhysCellIDUTRATDDValueCodec) *q5.Path {
+func BridgePhysCellIDUTRATDDValueCodecFieldPath(v *PhysCellIDUTRATDDValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgePhysCellIDUTRATDDValueCodecMethodEncodeBudget(v PhysCellIDUTRATDDValueCodec, a0 q4.PhysCellIDUTRATDD, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePhysCellIDUTRATDDValueCodecMethodEncodeBudget(v PhysCellIDUTRATDDValueCodec, a0 s00.PhysCellIDUTRATDD, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePhysCellIDUTRATDDValueCodecMethodEncodeChanged(v PhysCellIDUTRATDDValueCodec, a0 q4.PhysCellIDUTRATDD, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePhysCellIDUTRATDDValueCodecMethodEncodeChanged(v PhysCellIDUTRATDDValueCodec, a0 s00.PhysCellIDUTRATDD, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePosSIBTypeAPERValueFieldContext(v *PosSIBTypeAPERValue) *q4.BridgeCodecContext {
+func BridgePosSIBTypeAPERValueFieldContext(v *PosSIBTypeAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePosSIBTypeAPERValueFieldReceived(v *PosSIBTypeAPERValue) *q5.WireSpan { return &v.received }
-func BridgePosSIBTypeAPERValueFieldReplay(v *PosSIBTypeAPERValue) *q5.Snapshot   { return &v.replay }
+func BridgePosSIBTypeAPERValueFieldReceived(v *PosSIBTypeAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgePosSIBTypeAPERValueFieldReplay(v *PosSIBTypeAPERValue) *aper.Snapshot { return &v.replay }
 func BridgePosSIBTypeAPERValueFieldWithoutReplay(v *PosSIBTypeAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgePosSIBTypeValueCodecFieldCapture(v *PosSIBTypeValueCodec) *func(q4.PosSIBType, q5.DecodeState) (q4.PosSIBType, q5.Snapshot) {
+func BridgePosSIBTypeValueCodecFieldCapture(v *PosSIBTypeValueCodec) *func(s00.PosSIBType, aper.DecodeState) (s00.PosSIBType, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePosSIBTypeValueCodecFieldCompare(v *PosSIBTypeValueCodec) *func(q4.PosSIBType, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePosSIBTypeValueCodecFieldCompare(v *PosSIBTypeValueCodec) *func(s00.PosSIBType, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePosSIBTypeValueCodecFieldContext(v *PosSIBTypeValueCodec) *q4.BridgeCodecContext {
+func BridgePosSIBTypeValueCodecFieldContext(v *PosSIBTypeValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePosSIBTypeValueCodecFieldDecode(v *PosSIBTypeValueCodec) *func([]byte, q5.DecodeState) (q4.PosSIBType, error) {
+func BridgePosSIBTypeValueCodecFieldDecode(v *PosSIBTypeValueCodec) *func([]byte, aper.DecodeState) (s00.PosSIBType, error) {
 	return &v.decode
 }
-func BridgePosSIBTypeValueCodecFieldEncode(v *PosSIBTypeValueCodec) *func(q4.PosSIBType, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePosSIBTypeValueCodecFieldEncode(v *PosSIBTypeValueCodec) *func(s00.PosSIBType, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePosSIBTypeValueCodecFieldPath(v *PosSIBTypeValueCodec) *q5.Path { return &v.path }
-func BridgePosSIBTypeValueCodecMethodEncodeBudget(v PosSIBTypeValueCodec, a0 q4.PosSIBType, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePosSIBTypeValueCodecFieldPath(v *PosSIBTypeValueCodec) *aper.Path { return &v.path }
+func BridgePosSIBTypeValueCodecMethodEncodeBudget(v PosSIBTypeValueCodec, a0 s00.PosSIBType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePosSIBTypeValueCodecMethodEncodeChanged(v PosSIBTypeValueCodec, a0 q4.PosSIBType, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePosSIBTypeValueCodecMethodEncodeChanged(v PosSIBTypeValueCodec, a0 s00.PosSIBType, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgePresenceAPERValueFieldContext(v *PresenceAPERValue) *q4.BridgeCodecContext {
+func BridgePresenceAPERValueFieldContext(v *PresenceAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePresenceAPERValueFieldReceived(v *PresenceAPERValue) *q5.WireSpan { return &v.received }
-func BridgePresenceAPERValueFieldReplay(v *PresenceAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgePresenceAPERValueFieldWithoutReplay(v *PresenceAPERValue) *bool   { return &v.withoutReplay }
-func BridgePresenceValueCodecFieldCapture(v *PresenceValueCodec) *func(q4.Presence, q5.DecodeState) (q4.Presence, q5.Snapshot) {
+func BridgePresenceAPERValueFieldReceived(v *PresenceAPERValue) *aper.WireSpan { return &v.received }
+func BridgePresenceAPERValueFieldReplay(v *PresenceAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgePresenceAPERValueFieldWithoutReplay(v *PresenceAPERValue) *bool     { return &v.withoutReplay }
+func BridgePresenceValueCodecFieldCapture(v *PresenceValueCodec) *func(s00.Presence, aper.DecodeState) (s00.Presence, aper.Snapshot) {
 	return &v.capture
 }
-func BridgePresenceValueCodecFieldCompare(v *PresenceValueCodec) *func(q4.Presence, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgePresenceValueCodecFieldCompare(v *PresenceValueCodec) *func(s00.Presence, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgePresenceValueCodecFieldContext(v *PresenceValueCodec) *q4.BridgeCodecContext {
+func BridgePresenceValueCodecFieldContext(v *PresenceValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgePresenceValueCodecFieldDecode(v *PresenceValueCodec) *func([]byte, q5.DecodeState) (q4.Presence, error) {
+func BridgePresenceValueCodecFieldDecode(v *PresenceValueCodec) *func([]byte, aper.DecodeState) (s00.Presence, error) {
 	return &v.decode
 }
-func BridgePresenceValueCodecFieldEncode(v *PresenceValueCodec) *func(q4.Presence, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgePresenceValueCodecFieldEncode(v *PresenceValueCodec) *func(s00.Presence, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgePresenceValueCodecFieldPath(v *PresenceValueCodec) *q5.Path { return &v.path }
-func BridgePresenceValueCodecMethodEncodeBudget(v PresenceValueCodec, a0 q4.Presence, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgePresenceValueCodecFieldPath(v *PresenceValueCodec) *aper.Path { return &v.path }
+func BridgePresenceValueCodecMethodEncodeBudget(v PresenceValueCodec, a0 s00.Presence, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgePresenceValueCodecMethodEncodeChanged(v PresenceValueCodec, a0 q4.Presence, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgePresenceValueCodecMethodEncodeChanged(v PresenceValueCodec, a0 s00.Presence, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeProcedureCodeAPERValueFieldContext(v *ProcedureCodeAPERValue) *q4.BridgeCodecContext {
+func BridgeProcedureCodeAPERValueFieldContext(v *ProcedureCodeAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeProcedureCodeAPERValueFieldReceived(v *ProcedureCodeAPERValue) *q5.WireSpan {
+func BridgeProcedureCodeAPERValueFieldReceived(v *ProcedureCodeAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeProcedureCodeAPERValueFieldReplay(v *ProcedureCodeAPERValue) *q5.Snapshot {
+func BridgeProcedureCodeAPERValueFieldReplay(v *ProcedureCodeAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeProcedureCodeAPERValueFieldWithoutReplay(v *ProcedureCodeAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeProcedureCodeValueCodecFieldCapture(v *ProcedureCodeValueCodec) *func(q4.ProcedureCode, q5.DecodeState) (q4.ProcedureCode, q5.Snapshot) {
+func BridgeProcedureCodeValueCodecFieldCapture(v *ProcedureCodeValueCodec) *func(s00.ProcedureCode, aper.DecodeState) (s00.ProcedureCode, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeProcedureCodeValueCodecFieldCompare(v *ProcedureCodeValueCodec) *func(q4.ProcedureCode, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeProcedureCodeValueCodecFieldCompare(v *ProcedureCodeValueCodec) *func(s00.ProcedureCode, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeProcedureCodeValueCodecFieldContext(v *ProcedureCodeValueCodec) *q4.BridgeCodecContext {
+func BridgeProcedureCodeValueCodecFieldContext(v *ProcedureCodeValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeProcedureCodeValueCodecFieldDecode(v *ProcedureCodeValueCodec) *func([]byte, q5.DecodeState) (q4.ProcedureCode, error) {
+func BridgeProcedureCodeValueCodecFieldDecode(v *ProcedureCodeValueCodec) *func([]byte, aper.DecodeState) (s00.ProcedureCode, error) {
 	return &v.decode
 }
-func BridgeProcedureCodeValueCodecFieldEncode(v *ProcedureCodeValueCodec) *func(q4.ProcedureCode, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeProcedureCodeValueCodecFieldEncode(v *ProcedureCodeValueCodec) *func(s00.ProcedureCode, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeProcedureCodeValueCodecFieldPath(v *ProcedureCodeValueCodec) *q5.Path { return &v.path }
-func BridgeProcedureCodeValueCodecMethodEncodeBudget(v ProcedureCodeValueCodec, a0 q4.ProcedureCode, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeProcedureCodeValueCodecFieldPath(v *ProcedureCodeValueCodec) *aper.Path { return &v.path }
+func BridgeProcedureCodeValueCodecMethodEncodeBudget(v ProcedureCodeValueCodec, a0 s00.ProcedureCode, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeProcedureCodeValueCodecMethodEncodeChanged(v ProcedureCodeValueCodec, a0 q4.ProcedureCode, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeProcedureCodeValueCodecMethodEncodeChanged(v ProcedureCodeValueCodec, a0 s00.ProcedureCode, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeProtocolIEIDAPERValueFieldContext(v *ProtocolIEIDAPERValue) *q4.BridgeCodecContext {
+func BridgeProtocolIEIDAPERValueFieldContext(v *ProtocolIEIDAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeProtocolIEIDAPERValueFieldReceived(v *ProtocolIEIDAPERValue) *q5.WireSpan {
+func BridgeProtocolIEIDAPERValueFieldReceived(v *ProtocolIEIDAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeProtocolIEIDAPERValueFieldReplay(v *ProtocolIEIDAPERValue) *q5.Snapshot { return &v.replay }
+func BridgeProtocolIEIDAPERValueFieldReplay(v *ProtocolIEIDAPERValue) *aper.Snapshot {
+	return &v.replay
+}
 func BridgeProtocolIEIDAPERValueFieldWithoutReplay(v *ProtocolIEIDAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeProtocolIEIDValueCodecFieldCapture(v *ProtocolIEIDValueCodec) *func(q4.ProtocolIEID, q5.DecodeState) (q4.ProtocolIEID, q5.Snapshot) {
+func BridgeProtocolIEIDValueCodecFieldCapture(v *ProtocolIEIDValueCodec) *func(s00.ProtocolIEID, aper.DecodeState) (s00.ProtocolIEID, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeProtocolIEIDValueCodecFieldCompare(v *ProtocolIEIDValueCodec) *func(q4.ProtocolIEID, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeProtocolIEIDValueCodecFieldCompare(v *ProtocolIEIDValueCodec) *func(s00.ProtocolIEID, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeProtocolIEIDValueCodecFieldContext(v *ProtocolIEIDValueCodec) *q4.BridgeCodecContext {
+func BridgeProtocolIEIDValueCodecFieldContext(v *ProtocolIEIDValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeProtocolIEIDValueCodecFieldDecode(v *ProtocolIEIDValueCodec) *func([]byte, q5.DecodeState) (q4.ProtocolIEID, error) {
+func BridgeProtocolIEIDValueCodecFieldDecode(v *ProtocolIEIDValueCodec) *func([]byte, aper.DecodeState) (s00.ProtocolIEID, error) {
 	return &v.decode
 }
-func BridgeProtocolIEIDValueCodecFieldEncode(v *ProtocolIEIDValueCodec) *func(q4.ProtocolIEID, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeProtocolIEIDValueCodecFieldEncode(v *ProtocolIEIDValueCodec) *func(s00.ProtocolIEID, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeProtocolIEIDValueCodecFieldPath(v *ProtocolIEIDValueCodec) *q5.Path { return &v.path }
-func BridgeProtocolIEIDValueCodecMethodEncodeBudget(v ProtocolIEIDValueCodec, a0 q4.ProtocolIEID, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeProtocolIEIDValueCodecFieldPath(v *ProtocolIEIDValueCodec) *aper.Path { return &v.path }
+func BridgeProtocolIEIDValueCodecMethodEncodeBudget(v ProtocolIEIDValueCodec, a0 s00.ProtocolIEID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeProtocolIEIDValueCodecMethodEncodeChanged(v ProtocolIEIDValueCodec, a0 q4.ProtocolIEID, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeProtocolIEIDValueCodecMethodEncodeChanged(v ProtocolIEIDValueCodec, a0 s00.ProtocolIEID, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeRSSIAPERValueFieldContext(v *RSSIAPERValue) *q4.BridgeCodecContext { return &v.context }
-func BridgeRSSIAPERValueFieldReceived(v *RSSIAPERValue) *q5.WireSpan          { return &v.received }
-func BridgeRSSIAPERValueFieldReplay(v *RSSIAPERValue) *q5.Snapshot            { return &v.replay }
-func BridgeRSSIAPERValueFieldWithoutReplay(v *RSSIAPERValue) *bool            { return &v.withoutReplay }
-func BridgeRSSIValueCodecFieldCapture(v *RSSIValueCodec) *func(q4.RSSI, q5.DecodeState) (q4.RSSI, q5.Snapshot) {
+func BridgeRSSIAPERValueFieldContext(v *RSSIAPERValue) *s00.BridgeCodecContext { return &v.context }
+func BridgeRSSIAPERValueFieldReceived(v *RSSIAPERValue) *aper.WireSpan         { return &v.received }
+func BridgeRSSIAPERValueFieldReplay(v *RSSIAPERValue) *aper.Snapshot           { return &v.replay }
+func BridgeRSSIAPERValueFieldWithoutReplay(v *RSSIAPERValue) *bool             { return &v.withoutReplay }
+func BridgeRSSIValueCodecFieldCapture(v *RSSIValueCodec) *func(s00.RSSI, aper.DecodeState) (s00.RSSI, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeRSSIValueCodecFieldCompare(v *RSSIValueCodec) *func(q4.RSSI, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeRSSIValueCodecFieldCompare(v *RSSIValueCodec) *func(s00.RSSI, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeRSSIValueCodecFieldContext(v *RSSIValueCodec) *q4.BridgeCodecContext { return &v.context }
-func BridgeRSSIValueCodecFieldDecode(v *RSSIValueCodec) *func([]byte, q5.DecodeState) (q4.RSSI, error) {
+func BridgeRSSIValueCodecFieldContext(v *RSSIValueCodec) *s00.BridgeCodecContext { return &v.context }
+func BridgeRSSIValueCodecFieldDecode(v *RSSIValueCodec) *func([]byte, aper.DecodeState) (s00.RSSI, error) {
 	return &v.decode
 }
-func BridgeRSSIValueCodecFieldEncode(v *RSSIValueCodec) *func(q4.RSSI, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeRSSIValueCodecFieldEncode(v *RSSIValueCodec) *func(s00.RSSI, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeRSSIValueCodecFieldPath(v *RSSIValueCodec) *q5.Path { return &v.path }
-func BridgeRSSIValueCodecMethodEncodeBudget(v RSSIValueCodec, a0 q4.RSSI, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeRSSIValueCodecFieldPath(v *RSSIValueCodec) *aper.Path { return &v.path }
+func BridgeRSSIValueCodecMethodEncodeBudget(v RSSIValueCodec, a0 s00.RSSI, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeRSSIValueCodecMethodEncodeChanged(v RSSIValueCodec, a0 q4.RSSI, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeRSSIValueCodecMethodEncodeChanged(v RSSIValueCodec, a0 s00.RSSI, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeRepetitionNumberofSIB1NBAPERValueFieldContext(v *RepetitionNumberofSIB1NBAPERValue) *q4.BridgeCodecContext {
+func BridgeRepetitionNumberofSIB1NBAPERValueFieldContext(v *RepetitionNumberofSIB1NBAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeRepetitionNumberofSIB1NBAPERValueFieldReceived(v *RepetitionNumberofSIB1NBAPERValue) *q5.WireSpan {
+func BridgeRepetitionNumberofSIB1NBAPERValueFieldReceived(v *RepetitionNumberofSIB1NBAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeRepetitionNumberofSIB1NBAPERValueFieldReplay(v *RepetitionNumberofSIB1NBAPERValue) *q5.Snapshot {
+func BridgeRepetitionNumberofSIB1NBAPERValueFieldReplay(v *RepetitionNumberofSIB1NBAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeRepetitionNumberofSIB1NBAPERValueFieldWithoutReplay(v *RepetitionNumberofSIB1NBAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeRepetitionNumberofSIB1NBValueCodecFieldCapture(v *RepetitionNumberofSIB1NBValueCodec) *func(q4.RepetitionNumberofSIB1NB, q5.DecodeState) (q4.RepetitionNumberofSIB1NB, q5.Snapshot) {
+func BridgeRepetitionNumberofSIB1NBValueCodecFieldCapture(v *RepetitionNumberofSIB1NBValueCodec) *func(s00.RepetitionNumberofSIB1NB, aper.DecodeState) (s00.RepetitionNumberofSIB1NB, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeRepetitionNumberofSIB1NBValueCodecFieldCompare(v *RepetitionNumberofSIB1NBValueCodec) *func(q4.RepetitionNumberofSIB1NB, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeRepetitionNumberofSIB1NBValueCodecFieldCompare(v *RepetitionNumberofSIB1NBValueCodec) *func(s00.RepetitionNumberofSIB1NB, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeRepetitionNumberofSIB1NBValueCodecFieldContext(v *RepetitionNumberofSIB1NBValueCodec) *q4.BridgeCodecContext {
+func BridgeRepetitionNumberofSIB1NBValueCodecFieldContext(v *RepetitionNumberofSIB1NBValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeRepetitionNumberofSIB1NBValueCodecFieldDecode(v *RepetitionNumberofSIB1NBValueCodec) *func([]byte, q5.DecodeState) (q4.RepetitionNumberofSIB1NB, error) {
+func BridgeRepetitionNumberofSIB1NBValueCodecFieldDecode(v *RepetitionNumberofSIB1NBValueCodec) *func([]byte, aper.DecodeState) (s00.RepetitionNumberofSIB1NB, error) {
 	return &v.decode
 }
-func BridgeRepetitionNumberofSIB1NBValueCodecFieldEncode(v *RepetitionNumberofSIB1NBValueCodec) *func(q4.RepetitionNumberofSIB1NB, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeRepetitionNumberofSIB1NBValueCodecFieldEncode(v *RepetitionNumberofSIB1NBValueCodec) *func(s00.RepetitionNumberofSIB1NB, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeRepetitionNumberofSIB1NBValueCodecFieldPath(v *RepetitionNumberofSIB1NBValueCodec) *q5.Path {
+func BridgeRepetitionNumberofSIB1NBValueCodecFieldPath(v *RepetitionNumberofSIB1NBValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeRepetitionNumberofSIB1NBValueCodecMethodEncodeBudget(v RepetitionNumberofSIB1NBValueCodec, a0 q4.RepetitionNumberofSIB1NB, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeRepetitionNumberofSIB1NBValueCodecMethodEncodeBudget(v RepetitionNumberofSIB1NBValueCodec, a0 s00.RepetitionNumberofSIB1NB, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeRepetitionNumberofSIB1NBValueCodecMethodEncodeChanged(v RepetitionNumberofSIB1NBValueCodec, a0 q4.RepetitionNumberofSIB1NB, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeRepetitionNumberofSIB1NBValueCodecMethodEncodeChanged(v RepetitionNumberofSIB1NBValueCodec, a0 s00.RepetitionNumberofSIB1NB, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeReportCharacteristicsAPERValueFieldContext(v *ReportCharacteristicsAPERValue) *q4.BridgeCodecContext {
+func BridgeReportCharacteristicsAPERValueFieldContext(v *ReportCharacteristicsAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeReportCharacteristicsAPERValueFieldReceived(v *ReportCharacteristicsAPERValue) *q5.WireSpan {
+func BridgeReportCharacteristicsAPERValueFieldReceived(v *ReportCharacteristicsAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeReportCharacteristicsAPERValueFieldReplay(v *ReportCharacteristicsAPERValue) *q5.Snapshot {
+func BridgeReportCharacteristicsAPERValueFieldReplay(v *ReportCharacteristicsAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeReportCharacteristicsAPERValueFieldWithoutReplay(v *ReportCharacteristicsAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeReportCharacteristicsValueCodecFieldCapture(v *ReportCharacteristicsValueCodec) *func(q4.ReportCharacteristics, q5.DecodeState) (q4.ReportCharacteristics, q5.Snapshot) {
+func BridgeReportCharacteristicsValueCodecFieldCapture(v *ReportCharacteristicsValueCodec) *func(s00.ReportCharacteristics, aper.DecodeState) (s00.ReportCharacteristics, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeReportCharacteristicsValueCodecFieldCompare(v *ReportCharacteristicsValueCodec) *func(q4.ReportCharacteristics, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeReportCharacteristicsValueCodecFieldCompare(v *ReportCharacteristicsValueCodec) *func(s00.ReportCharacteristics, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeReportCharacteristicsValueCodecFieldContext(v *ReportCharacteristicsValueCodec) *q4.BridgeCodecContext {
+func BridgeReportCharacteristicsValueCodecFieldContext(v *ReportCharacteristicsValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeReportCharacteristicsValueCodecFieldDecode(v *ReportCharacteristicsValueCodec) *func([]byte, q5.DecodeState) (q4.ReportCharacteristics, error) {
+func BridgeReportCharacteristicsValueCodecFieldDecode(v *ReportCharacteristicsValueCodec) *func([]byte, aper.DecodeState) (s00.ReportCharacteristics, error) {
 	return &v.decode
 }
-func BridgeReportCharacteristicsValueCodecFieldEncode(v *ReportCharacteristicsValueCodec) *func(q4.ReportCharacteristics, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeReportCharacteristicsValueCodecFieldEncode(v *ReportCharacteristicsValueCodec) *func(s00.ReportCharacteristics, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeReportCharacteristicsValueCodecFieldPath(v *ReportCharacteristicsValueCodec) *q5.Path {
+func BridgeReportCharacteristicsValueCodecFieldPath(v *ReportCharacteristicsValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeReportCharacteristicsValueCodecMethodEncodeBudget(v ReportCharacteristicsValueCodec, a0 q4.ReportCharacteristics, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeReportCharacteristicsValueCodecMethodEncodeBudget(v ReportCharacteristicsValueCodec, a0 s00.ReportCharacteristics, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeReportCharacteristicsValueCodecMethodEncodeChanged(v ReportCharacteristicsValueCodec, a0 q4.ReportCharacteristics, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeReportCharacteristicsValueCodecMethodEncodeChanged(v ReportCharacteristicsValueCodec, a0 s00.ReportCharacteristics, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeSFNInitialisationTimeAPERValueFieldContext(v *SFNInitialisationTimeAPERValue) *q4.BridgeCodecContext {
+func BridgeSFNInitialisationTimeAPERValueFieldContext(v *SFNInitialisationTimeAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSFNInitialisationTimeAPERValueFieldReceived(v *SFNInitialisationTimeAPERValue) *q5.WireSpan {
+func BridgeSFNInitialisationTimeAPERValueFieldReceived(v *SFNInitialisationTimeAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeSFNInitialisationTimeAPERValueFieldReplay(v *SFNInitialisationTimeAPERValue) *q5.Snapshot {
+func BridgeSFNInitialisationTimeAPERValueFieldReplay(v *SFNInitialisationTimeAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeSFNInitialisationTimeAPERValueFieldWithoutReplay(v *SFNInitialisationTimeAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeSFNInitialisationTimeValueCodecFieldCapture(v *SFNInitialisationTimeValueCodec) *func(q4.SFNInitialisationTime, q5.DecodeState) (q4.SFNInitialisationTime, q5.Snapshot) {
+func BridgeSFNInitialisationTimeValueCodecFieldCapture(v *SFNInitialisationTimeValueCodec) *func(s00.SFNInitialisationTime, aper.DecodeState) (s00.SFNInitialisationTime, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeSFNInitialisationTimeValueCodecFieldCompare(v *SFNInitialisationTimeValueCodec) *func(q4.SFNInitialisationTime, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeSFNInitialisationTimeValueCodecFieldCompare(v *SFNInitialisationTimeValueCodec) *func(s00.SFNInitialisationTime, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeSFNInitialisationTimeValueCodecFieldContext(v *SFNInitialisationTimeValueCodec) *q4.BridgeCodecContext {
+func BridgeSFNInitialisationTimeValueCodecFieldContext(v *SFNInitialisationTimeValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSFNInitialisationTimeValueCodecFieldDecode(v *SFNInitialisationTimeValueCodec) *func([]byte, q5.DecodeState) (q4.SFNInitialisationTime, error) {
+func BridgeSFNInitialisationTimeValueCodecFieldDecode(v *SFNInitialisationTimeValueCodec) *func([]byte, aper.DecodeState) (s00.SFNInitialisationTime, error) {
 	return &v.decode
 }
-func BridgeSFNInitialisationTimeValueCodecFieldEncode(v *SFNInitialisationTimeValueCodec) *func(q4.SFNInitialisationTime, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeSFNInitialisationTimeValueCodecFieldEncode(v *SFNInitialisationTimeValueCodec) *func(s00.SFNInitialisationTime, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeSFNInitialisationTimeValueCodecFieldPath(v *SFNInitialisationTimeValueCodec) *q5.Path {
+func BridgeSFNInitialisationTimeValueCodecFieldPath(v *SFNInitialisationTimeValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeSFNInitialisationTimeValueCodecMethodEncodeBudget(v SFNInitialisationTimeValueCodec, a0 q4.SFNInitialisationTime, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeSFNInitialisationTimeValueCodecMethodEncodeBudget(v SFNInitialisationTimeValueCodec, a0 s00.SFNInitialisationTime, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeSFNInitialisationTimeValueCodecMethodEncodeChanged(v SFNInitialisationTimeValueCodec, a0 q4.SFNInitialisationTime, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeSFNInitialisationTimeValueCodecMethodEncodeChanged(v SFNInitialisationTimeValueCodec, a0 s00.SFNInitialisationTime, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeSSBIndexAPERValueFieldContext(v *SSBIndexAPERValue) *q4.BridgeCodecContext {
+func BridgeSSBIndexAPERValueFieldContext(v *SSBIndexAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSSBIndexAPERValueFieldReceived(v *SSBIndexAPERValue) *q5.WireSpan { return &v.received }
-func BridgeSSBIndexAPERValueFieldReplay(v *SSBIndexAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgeSSBIndexAPERValueFieldWithoutReplay(v *SSBIndexAPERValue) *bool   { return &v.withoutReplay }
-func BridgeSSBIndexValueCodecFieldCapture(v *SSBIndexValueCodec) *func(q4.SSBIndex, q5.DecodeState) (q4.SSBIndex, q5.Snapshot) {
+func BridgeSSBIndexAPERValueFieldReceived(v *SSBIndexAPERValue) *aper.WireSpan { return &v.received }
+func BridgeSSBIndexAPERValueFieldReplay(v *SSBIndexAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgeSSBIndexAPERValueFieldWithoutReplay(v *SSBIndexAPERValue) *bool     { return &v.withoutReplay }
+func BridgeSSBIndexValueCodecFieldCapture(v *SSBIndexValueCodec) *func(s00.SSBIndex, aper.DecodeState) (s00.SSBIndex, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeSSBIndexValueCodecFieldCompare(v *SSBIndexValueCodec) *func(q4.SSBIndex, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeSSBIndexValueCodecFieldCompare(v *SSBIndexValueCodec) *func(s00.SSBIndex, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeSSBIndexValueCodecFieldContext(v *SSBIndexValueCodec) *q4.BridgeCodecContext {
+func BridgeSSBIndexValueCodecFieldContext(v *SSBIndexValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSSBIndexValueCodecFieldDecode(v *SSBIndexValueCodec) *func([]byte, q5.DecodeState) (q4.SSBIndex, error) {
+func BridgeSSBIndexValueCodecFieldDecode(v *SSBIndexValueCodec) *func([]byte, aper.DecodeState) (s00.SSBIndex, error) {
 	return &v.decode
 }
-func BridgeSSBIndexValueCodecFieldEncode(v *SSBIndexValueCodec) *func(q4.SSBIndex, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeSSBIndexValueCodecFieldEncode(v *SSBIndexValueCodec) *func(s00.SSBIndex, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeSSBIndexValueCodecFieldPath(v *SSBIndexValueCodec) *q5.Path { return &v.path }
-func BridgeSSBIndexValueCodecMethodEncodeBudget(v SSBIndexValueCodec, a0 q4.SSBIndex, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeSSBIndexValueCodecFieldPath(v *SSBIndexValueCodec) *aper.Path { return &v.path }
+func BridgeSSBIndexValueCodecMethodEncodeBudget(v SSBIndexValueCodec, a0 s00.SSBIndex, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeSSBIndexValueCodecMethodEncodeChanged(v SSBIndexValueCodec, a0 q4.SSBIndex, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeSSBIndexValueCodecMethodEncodeChanged(v SSBIndexValueCodec, a0 s00.SSBIndex, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeSSIDAPERValueFieldContext(v *SSIDAPERValue) *q4.BridgeCodecContext { return &v.context }
-func BridgeSSIDAPERValueFieldReceived(v *SSIDAPERValue) *q5.WireSpan          { return &v.received }
-func BridgeSSIDAPERValueFieldReplay(v *SSIDAPERValue) *q5.Snapshot            { return &v.replay }
-func BridgeSSIDAPERValueFieldWithoutReplay(v *SSIDAPERValue) *bool            { return &v.withoutReplay }
-func BridgeSSIDValueCodecFieldCapture(v *SSIDValueCodec) *func(q4.SSID, q5.DecodeState) (q4.SSID, q5.Snapshot) {
+func BridgeSSIDAPERValueFieldContext(v *SSIDAPERValue) *s00.BridgeCodecContext { return &v.context }
+func BridgeSSIDAPERValueFieldReceived(v *SSIDAPERValue) *aper.WireSpan         { return &v.received }
+func BridgeSSIDAPERValueFieldReplay(v *SSIDAPERValue) *aper.Snapshot           { return &v.replay }
+func BridgeSSIDAPERValueFieldWithoutReplay(v *SSIDAPERValue) *bool             { return &v.withoutReplay }
+func BridgeSSIDValueCodecFieldCapture(v *SSIDValueCodec) *func(s00.SSID, aper.DecodeState) (s00.SSID, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeSSIDValueCodecFieldCompare(v *SSIDValueCodec) *func(q4.SSID, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeSSIDValueCodecFieldCompare(v *SSIDValueCodec) *func(s00.SSID, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeSSIDValueCodecFieldContext(v *SSIDValueCodec) *q4.BridgeCodecContext { return &v.context }
-func BridgeSSIDValueCodecFieldDecode(v *SSIDValueCodec) *func([]byte, q5.DecodeState) (q4.SSID, error) {
+func BridgeSSIDValueCodecFieldContext(v *SSIDValueCodec) *s00.BridgeCodecContext { return &v.context }
+func BridgeSSIDValueCodecFieldDecode(v *SSIDValueCodec) *func([]byte, aper.DecodeState) (s00.SSID, error) {
 	return &v.decode
 }
-func BridgeSSIDValueCodecFieldEncode(v *SSIDValueCodec) *func(q4.SSID, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeSSIDValueCodecFieldEncode(v *SSIDValueCodec) *func(s00.SSID, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeSSIDValueCodecFieldPath(v *SSIDValueCodec) *q5.Path { return &v.path }
-func BridgeSSIDValueCodecMethodEncodeBudget(v SSIDValueCodec, a0 q4.SSID, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeSSIDValueCodecFieldPath(v *SSIDValueCodec) *aper.Path { return &v.path }
+func BridgeSSIDValueCodecMethodEncodeBudget(v SSIDValueCodec, a0 s00.SSID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeSSIDValueCodecMethodEncodeChanged(v SSIDValueCodec, a0 q4.SSID, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeSSIDValueCodecMethodEncodeChanged(v SSIDValueCodec, a0 s00.SSID, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeSSNRRSRPAPERValueFieldContext(v *SSNRRSRPAPERValue) *q4.BridgeCodecContext {
+func BridgeSSNRRSRPAPERValueFieldContext(v *SSNRRSRPAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSSNRRSRPAPERValueFieldReceived(v *SSNRRSRPAPERValue) *q5.WireSpan { return &v.received }
-func BridgeSSNRRSRPAPERValueFieldReplay(v *SSNRRSRPAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgeSSNRRSRPAPERValueFieldWithoutReplay(v *SSNRRSRPAPERValue) *bool   { return &v.withoutReplay }
-func BridgeSSNRRSRPValueCodecFieldCapture(v *SSNRRSRPValueCodec) *func(q4.SSNRRSRP, q5.DecodeState) (q4.SSNRRSRP, q5.Snapshot) {
+func BridgeSSNRRSRPAPERValueFieldReceived(v *SSNRRSRPAPERValue) *aper.WireSpan { return &v.received }
+func BridgeSSNRRSRPAPERValueFieldReplay(v *SSNRRSRPAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgeSSNRRSRPAPERValueFieldWithoutReplay(v *SSNRRSRPAPERValue) *bool     { return &v.withoutReplay }
+func BridgeSSNRRSRPValueCodecFieldCapture(v *SSNRRSRPValueCodec) *func(s00.SSNRRSRP, aper.DecodeState) (s00.SSNRRSRP, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeSSNRRSRPValueCodecFieldCompare(v *SSNRRSRPValueCodec) *func(q4.SSNRRSRP, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeSSNRRSRPValueCodecFieldCompare(v *SSNRRSRPValueCodec) *func(s00.SSNRRSRP, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeSSNRRSRPValueCodecFieldContext(v *SSNRRSRPValueCodec) *q4.BridgeCodecContext {
+func BridgeSSNRRSRPValueCodecFieldContext(v *SSNRRSRPValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSSNRRSRPValueCodecFieldDecode(v *SSNRRSRPValueCodec) *func([]byte, q5.DecodeState) (q4.SSNRRSRP, error) {
+func BridgeSSNRRSRPValueCodecFieldDecode(v *SSNRRSRPValueCodec) *func([]byte, aper.DecodeState) (s00.SSNRRSRP, error) {
 	return &v.decode
 }
-func BridgeSSNRRSRPValueCodecFieldEncode(v *SSNRRSRPValueCodec) *func(q4.SSNRRSRP, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeSSNRRSRPValueCodecFieldEncode(v *SSNRRSRPValueCodec) *func(s00.SSNRRSRP, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeSSNRRSRPValueCodecFieldPath(v *SSNRRSRPValueCodec) *q5.Path { return &v.path }
-func BridgeSSNRRSRPValueCodecMethodEncodeBudget(v SSNRRSRPValueCodec, a0 q4.SSNRRSRP, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeSSNRRSRPValueCodecFieldPath(v *SSNRRSRPValueCodec) *aper.Path { return &v.path }
+func BridgeSSNRRSRPValueCodecMethodEncodeBudget(v SSNRRSRPValueCodec, a0 s00.SSNRRSRP, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeSSNRRSRPValueCodecMethodEncodeChanged(v SSNRRSRPValueCodec, a0 q4.SSNRRSRP, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeSSNRRSRPValueCodecMethodEncodeChanged(v SSNRRSRPValueCodec, a0 s00.SSNRRSRP, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeSSNRRSRQAPERValueFieldContext(v *SSNRRSRQAPERValue) *q4.BridgeCodecContext {
+func BridgeSSNRRSRQAPERValueFieldContext(v *SSNRRSRQAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSSNRRSRQAPERValueFieldReceived(v *SSNRRSRQAPERValue) *q5.WireSpan { return &v.received }
-func BridgeSSNRRSRQAPERValueFieldReplay(v *SSNRRSRQAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgeSSNRRSRQAPERValueFieldWithoutReplay(v *SSNRRSRQAPERValue) *bool   { return &v.withoutReplay }
-func BridgeSSNRRSRQValueCodecFieldCapture(v *SSNRRSRQValueCodec) *func(q4.SSNRRSRQ, q5.DecodeState) (q4.SSNRRSRQ, q5.Snapshot) {
+func BridgeSSNRRSRQAPERValueFieldReceived(v *SSNRRSRQAPERValue) *aper.WireSpan { return &v.received }
+func BridgeSSNRRSRQAPERValueFieldReplay(v *SSNRRSRQAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgeSSNRRSRQAPERValueFieldWithoutReplay(v *SSNRRSRQAPERValue) *bool     { return &v.withoutReplay }
+func BridgeSSNRRSRQValueCodecFieldCapture(v *SSNRRSRQValueCodec) *func(s00.SSNRRSRQ, aper.DecodeState) (s00.SSNRRSRQ, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeSSNRRSRQValueCodecFieldCompare(v *SSNRRSRQValueCodec) *func(q4.SSNRRSRQ, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeSSNRRSRQValueCodecFieldCompare(v *SSNRRSRQValueCodec) *func(s00.SSNRRSRQ, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeSSNRRSRQValueCodecFieldContext(v *SSNRRSRQValueCodec) *q4.BridgeCodecContext {
+func BridgeSSNRRSRQValueCodecFieldContext(v *SSNRRSRQValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSSNRRSRQValueCodecFieldDecode(v *SSNRRSRQValueCodec) *func([]byte, q5.DecodeState) (q4.SSNRRSRQ, error) {
+func BridgeSSNRRSRQValueCodecFieldDecode(v *SSNRRSRQValueCodec) *func([]byte, aper.DecodeState) (s00.SSNRRSRQ, error) {
 	return &v.decode
 }
-func BridgeSSNRRSRQValueCodecFieldEncode(v *SSNRRSRQValueCodec) *func(q4.SSNRRSRQ, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeSSNRRSRQValueCodecFieldEncode(v *SSNRRSRQValueCodec) *func(s00.SSNRRSRQ, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeSSNRRSRQValueCodecFieldPath(v *SSNRRSRQValueCodec) *q5.Path { return &v.path }
-func BridgeSSNRRSRQValueCodecMethodEncodeBudget(v SSNRRSRQValueCodec, a0 q4.SSNRRSRQ, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeSSNRRSRQValueCodecFieldPath(v *SSNRRSRQValueCodec) *aper.Path { return &v.path }
+func BridgeSSNRRSRQValueCodecMethodEncodeBudget(v SSNRRSRQValueCodec, a0 s00.SSNRRSRQ, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeSSNRRSRQValueCodecMethodEncodeChanged(v SSNRRSRQValueCodec, a0 q4.SSNRRSRQ, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeSSNRRSRQValueCodecMethodEncodeChanged(v SSNRRSRQValueCodec, a0 s00.SSNRRSRQ, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeTACAPERValueFieldContext(v *TACAPERValue) *q4.BridgeCodecContext { return &v.context }
-func BridgeTACAPERValueFieldReceived(v *TACAPERValue) *q5.WireSpan          { return &v.received }
-func BridgeTACAPERValueFieldReplay(v *TACAPERValue) *q5.Snapshot            { return &v.replay }
-func BridgeTACAPERValueFieldWithoutReplay(v *TACAPERValue) *bool            { return &v.withoutReplay }
-func BridgeTACValueCodecFieldCapture(v *TACValueCodec) *func(q4.TAC, q5.DecodeState) (q4.TAC, q5.Snapshot) {
+func BridgeTACAPERValueFieldContext(v *TACAPERValue) *s00.BridgeCodecContext { return &v.context }
+func BridgeTACAPERValueFieldReceived(v *TACAPERValue) *aper.WireSpan         { return &v.received }
+func BridgeTACAPERValueFieldReplay(v *TACAPERValue) *aper.Snapshot           { return &v.replay }
+func BridgeTACAPERValueFieldWithoutReplay(v *TACAPERValue) *bool             { return &v.withoutReplay }
+func BridgeTACValueCodecFieldCapture(v *TACValueCodec) *func(s00.TAC, aper.DecodeState) (s00.TAC, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeTACValueCodecFieldCompare(v *TACValueCodec) *func(q4.TAC, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeTACValueCodecFieldCompare(v *TACValueCodec) *func(s00.TAC, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeTACValueCodecFieldContext(v *TACValueCodec) *q4.BridgeCodecContext { return &v.context }
-func BridgeTACValueCodecFieldDecode(v *TACValueCodec) *func([]byte, q5.DecodeState) (q4.TAC, error) {
+func BridgeTACValueCodecFieldContext(v *TACValueCodec) *s00.BridgeCodecContext { return &v.context }
+func BridgeTACValueCodecFieldDecode(v *TACValueCodec) *func([]byte, aper.DecodeState) (s00.TAC, error) {
 	return &v.decode
 }
-func BridgeTACValueCodecFieldEncode(v *TACValueCodec) *func(q4.TAC, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeTACValueCodecFieldEncode(v *TACValueCodec) *func(s00.TAC, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeTACValueCodecFieldPath(v *TACValueCodec) *q5.Path { return &v.path }
-func BridgeTACValueCodecMethodEncodeBudget(v TACValueCodec, a0 q4.TAC, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeTACValueCodecFieldPath(v *TACValueCodec) *aper.Path { return &v.path }
+func BridgeTACValueCodecMethodEncodeBudget(v TACValueCodec, a0 s00.TAC, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeTACValueCodecMethodEncodeChanged(v TACValueCodec, a0 q4.TAC, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeTACValueCodecMethodEncodeChanged(v TACValueCodec, a0 s00.TAC, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeTPIDAPERValueFieldContext(v *TPIDAPERValue) *q4.BridgeCodecContext { return &v.context }
-func BridgeTPIDAPERValueFieldReceived(v *TPIDAPERValue) *q5.WireSpan          { return &v.received }
-func BridgeTPIDAPERValueFieldReplay(v *TPIDAPERValue) *q5.Snapshot            { return &v.replay }
-func BridgeTPIDAPERValueFieldWithoutReplay(v *TPIDAPERValue) *bool            { return &v.withoutReplay }
-func BridgeTPIDValueCodecFieldCapture(v *TPIDValueCodec) *func(q4.TPID, q5.DecodeState) (q4.TPID, q5.Snapshot) {
+func BridgeTPIDAPERValueFieldContext(v *TPIDAPERValue) *s00.BridgeCodecContext { return &v.context }
+func BridgeTPIDAPERValueFieldReceived(v *TPIDAPERValue) *aper.WireSpan         { return &v.received }
+func BridgeTPIDAPERValueFieldReplay(v *TPIDAPERValue) *aper.Snapshot           { return &v.replay }
+func BridgeTPIDAPERValueFieldWithoutReplay(v *TPIDAPERValue) *bool             { return &v.withoutReplay }
+func BridgeTPIDValueCodecFieldCapture(v *TPIDValueCodec) *func(s00.TPID, aper.DecodeState) (s00.TPID, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeTPIDValueCodecFieldCompare(v *TPIDValueCodec) *func(q4.TPID, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeTPIDValueCodecFieldCompare(v *TPIDValueCodec) *func(s00.TPID, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeTPIDValueCodecFieldContext(v *TPIDValueCodec) *q4.BridgeCodecContext { return &v.context }
-func BridgeTPIDValueCodecFieldDecode(v *TPIDValueCodec) *func([]byte, q5.DecodeState) (q4.TPID, error) {
+func BridgeTPIDValueCodecFieldContext(v *TPIDValueCodec) *s00.BridgeCodecContext { return &v.context }
+func BridgeTPIDValueCodecFieldDecode(v *TPIDValueCodec) *func([]byte, aper.DecodeState) (s00.TPID, error) {
 	return &v.decode
 }
-func BridgeTPIDValueCodecFieldEncode(v *TPIDValueCodec) *func(q4.TPID, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeTPIDValueCodecFieldEncode(v *TPIDValueCodec) *func(s00.TPID, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeTPIDValueCodecFieldPath(v *TPIDValueCodec) *q5.Path { return &v.path }
-func BridgeTPIDValueCodecMethodEncodeBudget(v TPIDValueCodec, a0 q4.TPID, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeTPIDValueCodecFieldPath(v *TPIDValueCodec) *aper.Path { return &v.path }
+func BridgeTPIDValueCodecMethodEncodeBudget(v TPIDValueCodec, a0 s00.TPID, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeTPIDValueCodecMethodEncodeChanged(v TPIDValueCodec, a0 q4.TPID, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeTPIDValueCodecMethodEncodeChanged(v TPIDValueCodec, a0 s00.TPID, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeTPTypeAPERValueFieldContext(v *TPTypeAPERValue) *q4.BridgeCodecContext { return &v.context }
-func BridgeTPTypeAPERValueFieldReceived(v *TPTypeAPERValue) *q5.WireSpan          { return &v.received }
-func BridgeTPTypeAPERValueFieldReplay(v *TPTypeAPERValue) *q5.Snapshot            { return &v.replay }
-func BridgeTPTypeAPERValueFieldWithoutReplay(v *TPTypeAPERValue) *bool            { return &v.withoutReplay }
-func BridgeTPTypeValueCodecFieldCapture(v *TPTypeValueCodec) *func(q4.TPType, q5.DecodeState) (q4.TPType, q5.Snapshot) {
+func BridgeTPTypeAPERValueFieldContext(v *TPTypeAPERValue) *s00.BridgeCodecContext { return &v.context }
+func BridgeTPTypeAPERValueFieldReceived(v *TPTypeAPERValue) *aper.WireSpan         { return &v.received }
+func BridgeTPTypeAPERValueFieldReplay(v *TPTypeAPERValue) *aper.Snapshot           { return &v.replay }
+func BridgeTPTypeAPERValueFieldWithoutReplay(v *TPTypeAPERValue) *bool             { return &v.withoutReplay }
+func BridgeTPTypeValueCodecFieldCapture(v *TPTypeValueCodec) *func(s00.TPType, aper.DecodeState) (s00.TPType, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeTPTypeValueCodecFieldCompare(v *TPTypeValueCodec) *func(q4.TPType, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeTPTypeValueCodecFieldCompare(v *TPTypeValueCodec) *func(s00.TPType, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeTPTypeValueCodecFieldContext(v *TPTypeValueCodec) *q4.BridgeCodecContext {
+func BridgeTPTypeValueCodecFieldContext(v *TPTypeValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeTPTypeValueCodecFieldDecode(v *TPTypeValueCodec) *func([]byte, q5.DecodeState) (q4.TPType, error) {
+func BridgeTPTypeValueCodecFieldDecode(v *TPTypeValueCodec) *func([]byte, aper.DecodeState) (s00.TPType, error) {
 	return &v.decode
 }
-func BridgeTPTypeValueCodecFieldEncode(v *TPTypeValueCodec) *func(q4.TPType, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeTPTypeValueCodecFieldEncode(v *TPTypeValueCodec) *func(s00.TPType, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeTPTypeValueCodecFieldPath(v *TPTypeValueCodec) *q5.Path { return &v.path }
-func BridgeTPTypeValueCodecMethodEncodeBudget(v TPTypeValueCodec, a0 q4.TPType, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeTPTypeValueCodecFieldPath(v *TPTypeValueCodec) *aper.Path { return &v.path }
+func BridgeTPTypeValueCodecMethodEncodeBudget(v TPTypeValueCodec, a0 s00.TPType, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeTPTypeValueCodecMethodEncodeChanged(v TPTypeValueCodec, a0 q4.TPType, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeTPTypeValueCodecMethodEncodeChanged(v TPTypeValueCodec, a0 s00.TPType, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeTriggeringMessageAPERValueFieldContext(v *TriggeringMessageAPERValue) *q4.BridgeCodecContext {
+func BridgeTriggeringMessageAPERValueFieldContext(v *TriggeringMessageAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeTriggeringMessageAPERValueFieldReceived(v *TriggeringMessageAPERValue) *q5.WireSpan {
+func BridgeTriggeringMessageAPERValueFieldReceived(v *TriggeringMessageAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeTriggeringMessageAPERValueFieldReplay(v *TriggeringMessageAPERValue) *q5.Snapshot {
+func BridgeTriggeringMessageAPERValueFieldReplay(v *TriggeringMessageAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeTriggeringMessageAPERValueFieldWithoutReplay(v *TriggeringMessageAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeTriggeringMessageValueCodecFieldCapture(v *TriggeringMessageValueCodec) *func(q4.TriggeringMessage, q5.DecodeState) (q4.TriggeringMessage, q5.Snapshot) {
+func BridgeTriggeringMessageValueCodecFieldCapture(v *TriggeringMessageValueCodec) *func(s00.TriggeringMessage, aper.DecodeState) (s00.TriggeringMessage, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeTriggeringMessageValueCodecFieldCompare(v *TriggeringMessageValueCodec) *func(q4.TriggeringMessage, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeTriggeringMessageValueCodecFieldCompare(v *TriggeringMessageValueCodec) *func(s00.TriggeringMessage, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeTriggeringMessageValueCodecFieldContext(v *TriggeringMessageValueCodec) *q4.BridgeCodecContext {
+func BridgeTriggeringMessageValueCodecFieldContext(v *TriggeringMessageValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeTriggeringMessageValueCodecFieldDecode(v *TriggeringMessageValueCodec) *func([]byte, q5.DecodeState) (q4.TriggeringMessage, error) {
+func BridgeTriggeringMessageValueCodecFieldDecode(v *TriggeringMessageValueCodec) *func([]byte, aper.DecodeState) (s00.TriggeringMessage, error) {
 	return &v.decode
 }
-func BridgeTriggeringMessageValueCodecFieldEncode(v *TriggeringMessageValueCodec) *func(q4.TriggeringMessage, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeTriggeringMessageValueCodecFieldEncode(v *TriggeringMessageValueCodec) *func(s00.TriggeringMessage, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeTriggeringMessageValueCodecFieldPath(v *TriggeringMessageValueCodec) *q5.Path {
+func BridgeTriggeringMessageValueCodecFieldPath(v *TriggeringMessageValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeTriggeringMessageValueCodecMethodEncodeBudget(v TriggeringMessageValueCodec, a0 q4.TriggeringMessage, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeTriggeringMessageValueCodecMethodEncodeBudget(v TriggeringMessageValueCodec, a0 s00.TriggeringMessage, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeTriggeringMessageValueCodecMethodEncodeChanged(v TriggeringMessageValueCodec, a0 q4.TriggeringMessage, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeTriggeringMessageValueCodecMethodEncodeChanged(v TriggeringMessageValueCodec, a0 s00.TriggeringMessage, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeTypeOfErrorAPERValueFieldContext(v *TypeOfErrorAPERValue) *q4.BridgeCodecContext {
+func BridgeTypeOfErrorAPERValueFieldContext(v *TypeOfErrorAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeTypeOfErrorAPERValueFieldReceived(v *TypeOfErrorAPERValue) *q5.WireSpan {
+func BridgeTypeOfErrorAPERValueFieldReceived(v *TypeOfErrorAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeTypeOfErrorAPERValueFieldReplay(v *TypeOfErrorAPERValue) *q5.Snapshot { return &v.replay }
+func BridgeTypeOfErrorAPERValueFieldReplay(v *TypeOfErrorAPERValue) *aper.Snapshot { return &v.replay }
 func BridgeTypeOfErrorAPERValueFieldWithoutReplay(v *TypeOfErrorAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeTypeOfErrorValueCodecFieldCapture(v *TypeOfErrorValueCodec) *func(q4.TypeOfError, q5.DecodeState) (q4.TypeOfError, q5.Snapshot) {
+func BridgeTypeOfErrorValueCodecFieldCapture(v *TypeOfErrorValueCodec) *func(s00.TypeOfError, aper.DecodeState) (s00.TypeOfError, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeTypeOfErrorValueCodecFieldCompare(v *TypeOfErrorValueCodec) *func(q4.TypeOfError, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeTypeOfErrorValueCodecFieldCompare(v *TypeOfErrorValueCodec) *func(s00.TypeOfError, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeTypeOfErrorValueCodecFieldContext(v *TypeOfErrorValueCodec) *q4.BridgeCodecContext {
+func BridgeTypeOfErrorValueCodecFieldContext(v *TypeOfErrorValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeTypeOfErrorValueCodecFieldDecode(v *TypeOfErrorValueCodec) *func([]byte, q5.DecodeState) (q4.TypeOfError, error) {
+func BridgeTypeOfErrorValueCodecFieldDecode(v *TypeOfErrorValueCodec) *func([]byte, aper.DecodeState) (s00.TypeOfError, error) {
 	return &v.decode
 }
-func BridgeTypeOfErrorValueCodecFieldEncode(v *TypeOfErrorValueCodec) *func(q4.TypeOfError, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeTypeOfErrorValueCodecFieldEncode(v *TypeOfErrorValueCodec) *func(s00.TypeOfError, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeTypeOfErrorValueCodecFieldPath(v *TypeOfErrorValueCodec) *q5.Path { return &v.path }
-func BridgeTypeOfErrorValueCodecMethodEncodeBudget(v TypeOfErrorValueCodec, a0 q4.TypeOfError, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeTypeOfErrorValueCodecFieldPath(v *TypeOfErrorValueCodec) *aper.Path { return &v.path }
+func BridgeTypeOfErrorValueCodecMethodEncodeBudget(v TypeOfErrorValueCodec, a0 s00.TypeOfError, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeTypeOfErrorValueCodecMethodEncodeChanged(v TypeOfErrorValueCodec, a0 q4.TypeOfError, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeTypeOfErrorValueCodecMethodEncodeChanged(v TypeOfErrorValueCodec, a0 s00.TypeOfError, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeUARFCNAPERValueFieldContext(v *UARFCNAPERValue) *q4.BridgeCodecContext { return &v.context }
-func BridgeUARFCNAPERValueFieldReceived(v *UARFCNAPERValue) *q5.WireSpan          { return &v.received }
-func BridgeUARFCNAPERValueFieldReplay(v *UARFCNAPERValue) *q5.Snapshot            { return &v.replay }
-func BridgeUARFCNAPERValueFieldWithoutReplay(v *UARFCNAPERValue) *bool            { return &v.withoutReplay }
-func BridgeUARFCNValueCodecFieldCapture(v *UARFCNValueCodec) *func(q4.UARFCN, q5.DecodeState) (q4.UARFCN, q5.Snapshot) {
+func BridgeUARFCNAPERValueFieldContext(v *UARFCNAPERValue) *s00.BridgeCodecContext { return &v.context }
+func BridgeUARFCNAPERValueFieldReceived(v *UARFCNAPERValue) *aper.WireSpan         { return &v.received }
+func BridgeUARFCNAPERValueFieldReplay(v *UARFCNAPERValue) *aper.Snapshot           { return &v.replay }
+func BridgeUARFCNAPERValueFieldWithoutReplay(v *UARFCNAPERValue) *bool             { return &v.withoutReplay }
+func BridgeUARFCNValueCodecFieldCapture(v *UARFCNValueCodec) *func(s00.UARFCN, aper.DecodeState) (s00.UARFCN, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeUARFCNValueCodecFieldCompare(v *UARFCNValueCodec) *func(q4.UARFCN, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeUARFCNValueCodecFieldCompare(v *UARFCNValueCodec) *func(s00.UARFCN, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeUARFCNValueCodecFieldContext(v *UARFCNValueCodec) *q4.BridgeCodecContext {
+func BridgeUARFCNValueCodecFieldContext(v *UARFCNValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUARFCNValueCodecFieldDecode(v *UARFCNValueCodec) *func([]byte, q5.DecodeState) (q4.UARFCN, error) {
+func BridgeUARFCNValueCodecFieldDecode(v *UARFCNValueCodec) *func([]byte, aper.DecodeState) (s00.UARFCN, error) {
 	return &v.decode
 }
-func BridgeUARFCNValueCodecFieldEncode(v *UARFCNValueCodec) *func(q4.UARFCN, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeUARFCNValueCodecFieldEncode(v *UARFCNValueCodec) *func(s00.UARFCN, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeUARFCNValueCodecFieldPath(v *UARFCNValueCodec) *q5.Path { return &v.path }
-func BridgeUARFCNValueCodecMethodEncodeBudget(v UARFCNValueCodec, a0 q4.UARFCN, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeUARFCNValueCodecFieldPath(v *UARFCNValueCodec) *aper.Path { return &v.path }
+func BridgeUARFCNValueCodecMethodEncodeBudget(v UARFCNValueCodec, a0 s00.UARFCN, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeUARFCNValueCodecMethodEncodeChanged(v UARFCNValueCodec, a0 q4.UARFCN, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeUARFCNValueCodecMethodEncodeChanged(v UARFCNValueCodec, a0 s00.UARFCN, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeUTRAEcN0APERValueFieldContext(v *UTRAEcN0APERValue) *q4.BridgeCodecContext {
+func BridgeUTRAEcN0APERValueFieldContext(v *UTRAEcN0APERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTRAEcN0APERValueFieldReceived(v *UTRAEcN0APERValue) *q5.WireSpan { return &v.received }
-func BridgeUTRAEcN0APERValueFieldReplay(v *UTRAEcN0APERValue) *q5.Snapshot   { return &v.replay }
-func BridgeUTRAEcN0APERValueFieldWithoutReplay(v *UTRAEcN0APERValue) *bool   { return &v.withoutReplay }
-func BridgeUTRAEcN0ValueCodecFieldCapture(v *UTRAEcN0ValueCodec) *func(q4.UTRAEcN0, q5.DecodeState) (q4.UTRAEcN0, q5.Snapshot) {
+func BridgeUTRAEcN0APERValueFieldReceived(v *UTRAEcN0APERValue) *aper.WireSpan { return &v.received }
+func BridgeUTRAEcN0APERValueFieldReplay(v *UTRAEcN0APERValue) *aper.Snapshot   { return &v.replay }
+func BridgeUTRAEcN0APERValueFieldWithoutReplay(v *UTRAEcN0APERValue) *bool     { return &v.withoutReplay }
+func BridgeUTRAEcN0ValueCodecFieldCapture(v *UTRAEcN0ValueCodec) *func(s00.UTRAEcN0, aper.DecodeState) (s00.UTRAEcN0, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeUTRAEcN0ValueCodecFieldCompare(v *UTRAEcN0ValueCodec) *func(q4.UTRAEcN0, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeUTRAEcN0ValueCodecFieldCompare(v *UTRAEcN0ValueCodec) *func(s00.UTRAEcN0, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeUTRAEcN0ValueCodecFieldContext(v *UTRAEcN0ValueCodec) *q4.BridgeCodecContext {
+func BridgeUTRAEcN0ValueCodecFieldContext(v *UTRAEcN0ValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTRAEcN0ValueCodecFieldDecode(v *UTRAEcN0ValueCodec) *func([]byte, q5.DecodeState) (q4.UTRAEcN0, error) {
+func BridgeUTRAEcN0ValueCodecFieldDecode(v *UTRAEcN0ValueCodec) *func([]byte, aper.DecodeState) (s00.UTRAEcN0, error) {
 	return &v.decode
 }
-func BridgeUTRAEcN0ValueCodecFieldEncode(v *UTRAEcN0ValueCodec) *func(q4.UTRAEcN0, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeUTRAEcN0ValueCodecFieldEncode(v *UTRAEcN0ValueCodec) *func(s00.UTRAEcN0, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeUTRAEcN0ValueCodecFieldPath(v *UTRAEcN0ValueCodec) *q5.Path { return &v.path }
-func BridgeUTRAEcN0ValueCodecMethodEncodeBudget(v UTRAEcN0ValueCodec, a0 q4.UTRAEcN0, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeUTRAEcN0ValueCodecFieldPath(v *UTRAEcN0ValueCodec) *aper.Path { return &v.path }
+func BridgeUTRAEcN0ValueCodecMethodEncodeBudget(v UTRAEcN0ValueCodec, a0 s00.UTRAEcN0, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeUTRAEcN0ValueCodecMethodEncodeChanged(v UTRAEcN0ValueCodec, a0 q4.UTRAEcN0, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeUTRAEcN0ValueCodecMethodEncodeChanged(v UTRAEcN0ValueCodec, a0 s00.UTRAEcN0, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeUTRARSCPAPERValueFieldContext(v *UTRARSCPAPERValue) *q4.BridgeCodecContext {
+func BridgeUTRARSCPAPERValueFieldContext(v *UTRARSCPAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTRARSCPAPERValueFieldReceived(v *UTRARSCPAPERValue) *q5.WireSpan { return &v.received }
-func BridgeUTRARSCPAPERValueFieldReplay(v *UTRARSCPAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgeUTRARSCPAPERValueFieldWithoutReplay(v *UTRARSCPAPERValue) *bool   { return &v.withoutReplay }
-func BridgeUTRARSCPValueCodecFieldCapture(v *UTRARSCPValueCodec) *func(q4.UTRARSCP, q5.DecodeState) (q4.UTRARSCP, q5.Snapshot) {
+func BridgeUTRARSCPAPERValueFieldReceived(v *UTRARSCPAPERValue) *aper.WireSpan { return &v.received }
+func BridgeUTRARSCPAPERValueFieldReplay(v *UTRARSCPAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgeUTRARSCPAPERValueFieldWithoutReplay(v *UTRARSCPAPERValue) *bool     { return &v.withoutReplay }
+func BridgeUTRARSCPValueCodecFieldCapture(v *UTRARSCPValueCodec) *func(s00.UTRARSCP, aper.DecodeState) (s00.UTRARSCP, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeUTRARSCPValueCodecFieldCompare(v *UTRARSCPValueCodec) *func(q4.UTRARSCP, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeUTRARSCPValueCodecFieldCompare(v *UTRARSCPValueCodec) *func(s00.UTRARSCP, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeUTRARSCPValueCodecFieldContext(v *UTRARSCPValueCodec) *q4.BridgeCodecContext {
+func BridgeUTRARSCPValueCodecFieldContext(v *UTRARSCPValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTRARSCPValueCodecFieldDecode(v *UTRARSCPValueCodec) *func([]byte, q5.DecodeState) (q4.UTRARSCP, error) {
+func BridgeUTRARSCPValueCodecFieldDecode(v *UTRARSCPValueCodec) *func([]byte, aper.DecodeState) (s00.UTRARSCP, error) {
 	return &v.decode
 }
-func BridgeUTRARSCPValueCodecFieldEncode(v *UTRARSCPValueCodec) *func(q4.UTRARSCP, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeUTRARSCPValueCodecFieldEncode(v *UTRARSCPValueCodec) *func(s00.UTRARSCP, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeUTRARSCPValueCodecFieldPath(v *UTRARSCPValueCodec) *q5.Path { return &v.path }
-func BridgeUTRARSCPValueCodecMethodEncodeBudget(v UTRARSCPValueCodec, a0 q4.UTRARSCP, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeUTRARSCPValueCodecFieldPath(v *UTRARSCPValueCodec) *aper.Path { return &v.path }
+func BridgeUTRARSCPValueCodecMethodEncodeBudget(v UTRARSCPValueCodec, a0 s00.UTRARSCP, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeUTRARSCPValueCodecMethodEncodeChanged(v UTRARSCPValueCodec, a0 q4.UTRARSCP, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeUTRARSCPValueCodecMethodEncodeChanged(v UTRARSCPValueCodec, a0 s00.UTRARSCP, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeValueRSRPAPERValueFieldContext(v *ValueRSRPAPERValue) *q4.BridgeCodecContext {
+func BridgeValueRSRPAPERValueFieldContext(v *ValueRSRPAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeValueRSRPAPERValueFieldReceived(v *ValueRSRPAPERValue) *q5.WireSpan { return &v.received }
-func BridgeValueRSRPAPERValueFieldReplay(v *ValueRSRPAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgeValueRSRPAPERValueFieldWithoutReplay(v *ValueRSRPAPERValue) *bool   { return &v.withoutReplay }
-func BridgeValueRSRPValueCodecFieldCapture(v *ValueRSRPValueCodec) *func(q4.ValueRSRP, q5.DecodeState) (q4.ValueRSRP, q5.Snapshot) {
+func BridgeValueRSRPAPERValueFieldReceived(v *ValueRSRPAPERValue) *aper.WireSpan { return &v.received }
+func BridgeValueRSRPAPERValueFieldReplay(v *ValueRSRPAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgeValueRSRPAPERValueFieldWithoutReplay(v *ValueRSRPAPERValue) *bool     { return &v.withoutReplay }
+func BridgeValueRSRPValueCodecFieldCapture(v *ValueRSRPValueCodec) *func(s00.ValueRSRP, aper.DecodeState) (s00.ValueRSRP, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeValueRSRPValueCodecFieldCompare(v *ValueRSRPValueCodec) *func(q4.ValueRSRP, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeValueRSRPValueCodecFieldCompare(v *ValueRSRPValueCodec) *func(s00.ValueRSRP, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeValueRSRPValueCodecFieldContext(v *ValueRSRPValueCodec) *q4.BridgeCodecContext {
+func BridgeValueRSRPValueCodecFieldContext(v *ValueRSRPValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeValueRSRPValueCodecFieldDecode(v *ValueRSRPValueCodec) *func([]byte, q5.DecodeState) (q4.ValueRSRP, error) {
+func BridgeValueRSRPValueCodecFieldDecode(v *ValueRSRPValueCodec) *func([]byte, aper.DecodeState) (s00.ValueRSRP, error) {
 	return &v.decode
 }
-func BridgeValueRSRPValueCodecFieldEncode(v *ValueRSRPValueCodec) *func(q4.ValueRSRP, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeValueRSRPValueCodecFieldEncode(v *ValueRSRPValueCodec) *func(s00.ValueRSRP, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeValueRSRPValueCodecFieldPath(v *ValueRSRPValueCodec) *q5.Path { return &v.path }
-func BridgeValueRSRPValueCodecMethodEncodeBudget(v ValueRSRPValueCodec, a0 q4.ValueRSRP, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeValueRSRPValueCodecFieldPath(v *ValueRSRPValueCodec) *aper.Path { return &v.path }
+func BridgeValueRSRPValueCodecMethodEncodeBudget(v ValueRSRPValueCodec, a0 s00.ValueRSRP, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeValueRSRPValueCodecMethodEncodeChanged(v ValueRSRPValueCodec, a0 q4.ValueRSRP, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeValueRSRPValueCodecMethodEncodeChanged(v ValueRSRPValueCodec, a0 s00.ValueRSRP, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeValueRSRQAPERValueFieldContext(v *ValueRSRQAPERValue) *q4.BridgeCodecContext {
+func BridgeValueRSRQAPERValueFieldContext(v *ValueRSRQAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeValueRSRQAPERValueFieldReceived(v *ValueRSRQAPERValue) *q5.WireSpan { return &v.received }
-func BridgeValueRSRQAPERValueFieldReplay(v *ValueRSRQAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgeValueRSRQAPERValueFieldWithoutReplay(v *ValueRSRQAPERValue) *bool   { return &v.withoutReplay }
-func BridgeValueRSRQValueCodecFieldCapture(v *ValueRSRQValueCodec) *func(q4.ValueRSRQ, q5.DecodeState) (q4.ValueRSRQ, q5.Snapshot) {
+func BridgeValueRSRQAPERValueFieldReceived(v *ValueRSRQAPERValue) *aper.WireSpan { return &v.received }
+func BridgeValueRSRQAPERValueFieldReplay(v *ValueRSRQAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgeValueRSRQAPERValueFieldWithoutReplay(v *ValueRSRQAPERValue) *bool     { return &v.withoutReplay }
+func BridgeValueRSRQValueCodecFieldCapture(v *ValueRSRQValueCodec) *func(s00.ValueRSRQ, aper.DecodeState) (s00.ValueRSRQ, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeValueRSRQValueCodecFieldCompare(v *ValueRSRQValueCodec) *func(q4.ValueRSRQ, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeValueRSRQValueCodecFieldCompare(v *ValueRSRQValueCodec) *func(s00.ValueRSRQ, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeValueRSRQValueCodecFieldContext(v *ValueRSRQValueCodec) *q4.BridgeCodecContext {
+func BridgeValueRSRQValueCodecFieldContext(v *ValueRSRQValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeValueRSRQValueCodecFieldDecode(v *ValueRSRQValueCodec) *func([]byte, q5.DecodeState) (q4.ValueRSRQ, error) {
+func BridgeValueRSRQValueCodecFieldDecode(v *ValueRSRQValueCodec) *func([]byte, aper.DecodeState) (s00.ValueRSRQ, error) {
 	return &v.decode
 }
-func BridgeValueRSRQValueCodecFieldEncode(v *ValueRSRQValueCodec) *func(q4.ValueRSRQ, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeValueRSRQValueCodecFieldEncode(v *ValueRSRQValueCodec) *func(s00.ValueRSRQ, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeValueRSRQValueCodecFieldPath(v *ValueRSRQValueCodec) *q5.Path { return &v.path }
-func BridgeValueRSRQValueCodecMethodEncodeBudget(v ValueRSRQValueCodec, a0 q4.ValueRSRQ, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeValueRSRQValueCodecFieldPath(v *ValueRSRQValueCodec) *aper.Path { return &v.path }
+func BridgeValueRSRQValueCodecMethodEncodeBudget(v ValueRSRQValueCodec, a0 s00.ValueRSRQ, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeValueRSRQValueCodecMethodEncodeChanged(v ValueRSRQValueCodec, a0 q4.ValueRSRQ, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeValueRSRQValueCodecMethodEncodeChanged(v ValueRSRQValueCodec, a0 s00.ValueRSRQ, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeWLANBandAPERValueFieldContext(v *WLANBandAPERValue) *q4.BridgeCodecContext {
+func BridgeWLANBandAPERValueFieldContext(v *WLANBandAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeWLANBandAPERValueFieldReceived(v *WLANBandAPERValue) *q5.WireSpan { return &v.received }
-func BridgeWLANBandAPERValueFieldReplay(v *WLANBandAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgeWLANBandAPERValueFieldWithoutReplay(v *WLANBandAPERValue) *bool   { return &v.withoutReplay }
-func BridgeWLANBandValueCodecFieldCapture(v *WLANBandValueCodec) *func(q4.WLANBand, q5.DecodeState) (q4.WLANBand, q5.Snapshot) {
+func BridgeWLANBandAPERValueFieldReceived(v *WLANBandAPERValue) *aper.WireSpan { return &v.received }
+func BridgeWLANBandAPERValueFieldReplay(v *WLANBandAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgeWLANBandAPERValueFieldWithoutReplay(v *WLANBandAPERValue) *bool     { return &v.withoutReplay }
+func BridgeWLANBandValueCodecFieldCapture(v *WLANBandValueCodec) *func(s00.WLANBand, aper.DecodeState) (s00.WLANBand, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeWLANBandValueCodecFieldCompare(v *WLANBandValueCodec) *func(q4.WLANBand, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeWLANBandValueCodecFieldCompare(v *WLANBandValueCodec) *func(s00.WLANBand, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeWLANBandValueCodecFieldContext(v *WLANBandValueCodec) *q4.BridgeCodecContext {
+func BridgeWLANBandValueCodecFieldContext(v *WLANBandValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeWLANBandValueCodecFieldDecode(v *WLANBandValueCodec) *func([]byte, q5.DecodeState) (q4.WLANBand, error) {
+func BridgeWLANBandValueCodecFieldDecode(v *WLANBandValueCodec) *func([]byte, aper.DecodeState) (s00.WLANBand, error) {
 	return &v.decode
 }
-func BridgeWLANBandValueCodecFieldEncode(v *WLANBandValueCodec) *func(q4.WLANBand, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeWLANBandValueCodecFieldEncode(v *WLANBandValueCodec) *func(s00.WLANBand, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeWLANBandValueCodecFieldPath(v *WLANBandValueCodec) *q5.Path { return &v.path }
-func BridgeWLANBandValueCodecMethodEncodeBudget(v WLANBandValueCodec, a0 q4.WLANBand, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeWLANBandValueCodecFieldPath(v *WLANBandValueCodec) *aper.Path { return &v.path }
+func BridgeWLANBandValueCodecMethodEncodeBudget(v WLANBandValueCodec, a0 s00.WLANBand, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeWLANBandValueCodecMethodEncodeChanged(v WLANBandValueCodec, a0 q4.WLANBand, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeWLANBandValueCodecMethodEncodeChanged(v WLANBandValueCodec, a0 s00.WLANBand, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeWLANChannelAPERValueFieldContext(v *WLANChannelAPERValue) *q4.BridgeCodecContext {
+func BridgeWLANChannelAPERValueFieldContext(v *WLANChannelAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeWLANChannelAPERValueFieldReceived(v *WLANChannelAPERValue) *q5.WireSpan {
+func BridgeWLANChannelAPERValueFieldReceived(v *WLANChannelAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeWLANChannelAPERValueFieldReplay(v *WLANChannelAPERValue) *q5.Snapshot { return &v.replay }
+func BridgeWLANChannelAPERValueFieldReplay(v *WLANChannelAPERValue) *aper.Snapshot { return &v.replay }
 func BridgeWLANChannelAPERValueFieldWithoutReplay(v *WLANChannelAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeWLANChannelListAPERValueFieldContext(v *WLANChannelListAPERValue) *q4.BridgeCodecContext {
+func BridgeWLANChannelListAPERValueFieldContext(v *WLANChannelListAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeWLANChannelListAPERValueFieldReceived(v *WLANChannelListAPERValue) *q5.WireSpan {
+func BridgeWLANChannelListAPERValueFieldReceived(v *WLANChannelListAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeWLANChannelListAPERValueFieldReplay(v *WLANChannelListAPERValue) *q5.Snapshot {
+func BridgeWLANChannelListAPERValueFieldReplay(v *WLANChannelListAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeWLANChannelListAPERValueFieldWithoutReplay(v *WLANChannelListAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeWLANChannelListValueCodecFieldCapture(v *WLANChannelListValueCodec) *func(q4.WLANChannelList, q5.DecodeState) (q4.WLANChannelList, q5.Snapshot) {
+func BridgeWLANChannelListValueCodecFieldCapture(v *WLANChannelListValueCodec) *func(s00.WLANChannelList, aper.DecodeState) (s00.WLANChannelList, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeWLANChannelListValueCodecFieldCompare(v *WLANChannelListValueCodec) *func(q4.WLANChannelList, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeWLANChannelListValueCodecFieldCompare(v *WLANChannelListValueCodec) *func(s00.WLANChannelList, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeWLANChannelListValueCodecFieldContext(v *WLANChannelListValueCodec) *q4.BridgeCodecContext {
+func BridgeWLANChannelListValueCodecFieldContext(v *WLANChannelListValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeWLANChannelListValueCodecFieldDecode(v *WLANChannelListValueCodec) *func([]byte, q5.DecodeState) (q4.WLANChannelList, error) {
+func BridgeWLANChannelListValueCodecFieldDecode(v *WLANChannelListValueCodec) *func([]byte, aper.DecodeState) (s00.WLANChannelList, error) {
 	return &v.decode
 }
-func BridgeWLANChannelListValueCodecFieldEncode(v *WLANChannelListValueCodec) *func(q4.WLANChannelList, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeWLANChannelListValueCodecFieldEncode(v *WLANChannelListValueCodec) *func(s00.WLANChannelList, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeWLANChannelListValueCodecFieldPath(v *WLANChannelListValueCodec) *q5.Path { return &v.path }
-func BridgeWLANChannelListValueCodecMethodEncodeBudget(v WLANChannelListValueCodec, a0 q4.WLANChannelList, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeWLANChannelListValueCodecFieldPath(v *WLANChannelListValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeWLANChannelListValueCodecMethodEncodeBudget(v WLANChannelListValueCodec, a0 s00.WLANChannelList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeWLANChannelListValueCodecMethodEncodeChanged(v WLANChannelListValueCodec, a0 q4.WLANChannelList, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeWLANChannelListValueCodecMethodEncodeChanged(v WLANChannelListValueCodec, a0 s00.WLANChannelList, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeWLANChannelValueCodecFieldCapture(v *WLANChannelValueCodec) *func(q4.WLANChannel, q5.DecodeState) (q4.WLANChannel, q5.Snapshot) {
+func BridgeWLANChannelValueCodecFieldCapture(v *WLANChannelValueCodec) *func(s00.WLANChannel, aper.DecodeState) (s00.WLANChannel, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeWLANChannelValueCodecFieldCompare(v *WLANChannelValueCodec) *func(q4.WLANChannel, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeWLANChannelValueCodecFieldCompare(v *WLANChannelValueCodec) *func(s00.WLANChannel, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeWLANChannelValueCodecFieldContext(v *WLANChannelValueCodec) *q4.BridgeCodecContext {
+func BridgeWLANChannelValueCodecFieldContext(v *WLANChannelValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeWLANChannelValueCodecFieldDecode(v *WLANChannelValueCodec) *func([]byte, q5.DecodeState) (q4.WLANChannel, error) {
+func BridgeWLANChannelValueCodecFieldDecode(v *WLANChannelValueCodec) *func([]byte, aper.DecodeState) (s00.WLANChannel, error) {
 	return &v.decode
 }
-func BridgeWLANChannelValueCodecFieldEncode(v *WLANChannelValueCodec) *func(q4.WLANChannel, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeWLANChannelValueCodecFieldEncode(v *WLANChannelValueCodec) *func(s00.WLANChannel, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeWLANChannelValueCodecFieldPath(v *WLANChannelValueCodec) *q5.Path { return &v.path }
-func BridgeWLANChannelValueCodecMethodEncodeBudget(v WLANChannelValueCodec, a0 q4.WLANChannel, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeWLANChannelValueCodecFieldPath(v *WLANChannelValueCodec) *aper.Path { return &v.path }
+func BridgeWLANChannelValueCodecMethodEncodeBudget(v WLANChannelValueCodec, a0 s00.WLANChannel, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeWLANChannelValueCodecMethodEncodeChanged(v WLANChannelValueCodec, a0 q4.WLANChannel, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeWLANChannelValueCodecMethodEncodeChanged(v WLANChannelValueCodec, a0 s00.WLANChannel, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeWLANCountryCodeAPERValueFieldContext(v *WLANCountryCodeAPERValue) *q4.BridgeCodecContext {
+func BridgeWLANCountryCodeAPERValueFieldContext(v *WLANCountryCodeAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeWLANCountryCodeAPERValueFieldReceived(v *WLANCountryCodeAPERValue) *q5.WireSpan {
+func BridgeWLANCountryCodeAPERValueFieldReceived(v *WLANCountryCodeAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeWLANCountryCodeAPERValueFieldReplay(v *WLANCountryCodeAPERValue) *q5.Snapshot {
+func BridgeWLANCountryCodeAPERValueFieldReplay(v *WLANCountryCodeAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeWLANCountryCodeAPERValueFieldWithoutReplay(v *WLANCountryCodeAPERValue) *bool {

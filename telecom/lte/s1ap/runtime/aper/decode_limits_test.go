@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits_test.go; SHA-256 98c216113bfd2939f345076f5f904ed07349b73d5cd12ef318afde9bbd89c489.
+// Runtime source: runtime/aper/decode_limits_test.go; SHA-256 82d708a4f794e3cb01cc901ad37a2055332eb5f3c273cceeaa8f389f6bdd4a83.
 package aper
 
 import (
@@ -10,23 +10,23 @@ import (
 )
 
 func TestDecodeLimitsValidation(t *testing.T) {
-	for _, change := range []func(*DecodeLimits){
-		func(l *DecodeLimits) { l.MaxDepth = -1 },
-		func(l *DecodeLimits) { l.MaxElements = -1 },
-		func(l *DecodeLimits) { l.MaxOpenTypeDepth = -1 },
-		func(l *DecodeLimits) { l.MaxWork = -1 },
+	for _, change := range []func(*decodeLimits){
+		func(l *decodeLimits) { l.MaxDepth = -1 },
+		func(l *decodeLimits) { l.MaxElements = -1 },
+		func(l *decodeLimits) { l.MaxOpenTypeDepth = -1 },
+		func(l *decodeLimits) { l.MaxWork = -1 },
 	} {
-		var limits DecodeLimits
+		var limits decodeLimits
 		change(&limits)
-		if err := ValidateDecodeOptions(DecodeOptions{Limits: limits}); !errors.Is(err, ErrInvalidValue) {
+		if err := validateDecodeSettings(decodeSettings{Limits: limits}); !errors.Is(err, ErrInvalidValue) {
 			t.Fatalf("invalid limits %+v: %v", limits, err)
 		}
 	}
-	if err := ValidateDecodeOptions(DecodeOptions{Limits: DecodeLimits{}}); err != nil {
+	if err := validateDecodeSettings(decodeSettings{Limits: decodeLimits{}}); err != nil {
 		t.Fatal(err)
 	}
-	for _, limit := range []DecodeLimits{{MaxDepth: math.MaxInt}, {MaxElements: math.MaxInt}, {MaxOpenTypeDepth: math.MaxInt}, {MaxWork: math.MaxInt}} {
-		if err := ValidateDecodeOptions(DecodeOptions{Limits: limit}); err != nil {
+	for _, limit := range []decodeLimits{{MaxDepth: math.MaxInt}, {MaxElements: math.MaxInt}, {MaxOpenTypeDepth: math.MaxInt}, {MaxWork: math.MaxInt}} {
+		if err := validateDecodeSettings(decodeSettings{Limits: limit}); err != nil {
 			t.Fatalf("large positive limit %+v: %v", limit, err)
 		}
 	}
@@ -35,12 +35,12 @@ func TestDecodeLimitsValidation(t *testing.T) {
 func TestDecodeLimitsBoundaries(t *testing.T) {
 	for _, aligned := range []bool{true} {
 		bb := NewBitBufferFromBytes([]byte{0xff, 0xff})
-		options := DecodeOptions{Limits: DecodeLimits{MaxDepth: 2, MaxElements: 3, MaxOpenTypeDepth: 1, MaxWork: 8}}
+		options := decodeSettings{Limits: decodeLimits{MaxDepth: 2, MaxElements: 3, MaxOpenTypeDepth: 1, MaxWork: 8}}
 		var err error
 		if aligned {
-			err = bb.SetDecodeOptionsAligned(options)
+			err = bb.setDecodeSettingsAligned(options)
 		} else {
-			err = bb.SetDecodeOptionsAligned(options)
+			err = bb.setDecodeSettingsAligned(options)
 		}
 		if err != nil {
 			t.Fatal(err)
@@ -58,7 +58,7 @@ func TestDecodeLimitsBoundaries(t *testing.T) {
 		bb.LeaveDecodeValue()
 
 		bb = NewBitBufferFromBytes([]byte{0xff, 0xff})
-		if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		if err := bb.setDecodeSettingsAligned(options); err != nil {
 			t.Fatal(err)
 		}
 		if err := bb.ChargeElements(3); err != nil {
@@ -69,15 +69,15 @@ func TestDecodeLimitsBoundaries(t *testing.T) {
 		}
 
 		bb = NewBitBufferFromBytes([]byte{0xff, 0xff})
-		if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		if err := bb.setDecodeSettingsAligned(options); err != nil {
 			t.Fatal(err)
 		}
 		first := NewBitBufferFromBytes([]byte{0xff})
-		if err := first.InheritOpenTypeDecodeOptions(bb); err != nil {
+		if err := first.InheritOpenTypedecodeSettings(bb); err != nil {
 			t.Fatal(err)
 		}
 		second := NewBitBufferFromBytes([]byte{0xff})
-		if err := second.InheritOpenTypeDecodeOptions(first); !errors.Is(err, ErrResourceLimit) {
+		if err := second.InheritOpenTypedecodeSettings(first); !errors.Is(err, ErrResourceLimit) {
 			t.Fatalf("open type: %v", err)
 		}
 		if _, err := first.ReadBit(); !errors.Is(err, ErrResourceLimit) {
@@ -85,7 +85,7 @@ func TestDecodeLimitsBoundaries(t *testing.T) {
 		}
 
 		bb = NewBitBufferFromBytes([]byte{0xff, 0xff})
-		if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		if err := bb.setDecodeSettingsAligned(options); err != nil {
 			t.Fatal(err)
 		}
 		if _, err := bb.ReadBits(8); err != nil {
@@ -100,12 +100,12 @@ func TestDecodeLimitsBoundaries(t *testing.T) {
 func TestDecodeBudgetSharedAcrossSiblings(t *testing.T) {
 	parent := NewBitBufferFromBytes([]byte{0xff})
 	var usage DecodeUsage
-	if err := parent.SetDecodeOptionsAligned(DecodeOptions{Limits: DecodeLimits{MaxElements: 2, MaxWork: 16}, Usage: &usage}); err != nil {
+	if err := parent.setDecodeSettingsAligned(decodeSettings{Limits: decodeLimits{MaxElements: 2, MaxWork: 16}, Usage: &usage}); err != nil {
 		t.Fatal(err)
 	}
 	for range 2 {
 		child := NewBitBufferFromBytes([]byte{0xff})
-		child.InheritDecodeOptions(parent)
+		child.InheritdecodeSettings(parent)
 		if err := child.ChargeElements(1); err != nil {
 			t.Fatal(err)
 		}
@@ -117,7 +117,7 @@ func TestDecodeBudgetSharedAcrossSiblings(t *testing.T) {
 		t.Fatalf("committed usage = %+v", usage)
 	}
 	child := NewBitBufferFromBytes([]byte{0xff})
-	child.InheritDecodeOptions(parent)
+	child.InheritdecodeSettings(parent)
 	if _, err := child.ReadBit(); !errors.Is(err, ErrResourceLimit) {
 		t.Fatalf("sibling exceeded work limit: %v", err)
 	}
@@ -148,7 +148,7 @@ func TestDecodeCollectionFragmentElementLimit(t *testing.T) {
 		}
 		for _, limit := range []int{count - 1, count} {
 			reader := NewBitBufferFromBytes(wire)
-			if err := reader.SetDecodeOptionsAligned(DecodeOptions{Limits: DecodeLimits{MaxElements: limit}}); err != nil {
+			if err := reader.setDecodeSettingsAligned(decodeSettings{Limits: decodeLimits{MaxElements: limit}}); err != nil {
 				t.Fatal(err)
 			}
 			_, err := DecodeCollection(reader, SizeConstraint{}, aligned, func(_, n int64) error {
@@ -174,7 +174,7 @@ func TestDecodeWorkIsLinearInInput(t *testing.T) {
 		wire := make([]byte, n)
 		reader := NewBitBufferFromBytes(wire)
 		var usage DecodeUsage
-		if err := reader.SetDecodeOptionsAligned(DecodeOptions{Usage: &usage}); err != nil {
+		if err := reader.setDecodeSettingsAligned(decodeSettings{Usage: &usage}); err != nil {
 			t.Fatal(err)
 		}
 		if _, err := reader.ReadBytes(n); err != nil {
@@ -191,7 +191,7 @@ func TestDecodeWorkIsLinearInInput(t *testing.T) {
 		}
 	}
 	reader := NewBitBufferFromBytes([]byte{0xff})
-	if err := reader.SetDecodeOptionsAligned(DecodeOptions{}); err != nil {
+	if err := reader.setDecodeSettingsAligned(decodeSettings{}); err != nil {
 		t.Fatal(err)
 	}
 	if allocations := testing.AllocsPerRun(100, func() {
@@ -240,12 +240,12 @@ func TestBulkReadBitsMatchesBitOracle(t *testing.T) {
 func TestSharedDecodeBudgetClosesOpenTypeScopes(t *testing.T) {
 	var budget DecodeBudget
 	parent := NewDecodeBuffer([]byte{0xff}, &budget)
-	if err := parent.SetDecodeOptionsAligned(DecodeOptions{Limits: DecodeLimits{MaxOpenTypeDepth: 1, MaxWork: 16}}); err != nil {
+	if err := parent.setDecodeSettingsAligned(decodeSettings{Limits: decodeLimits{MaxOpenTypeDepth: 1, MaxWork: 16}}); err != nil {
 		t.Fatal(err)
 	}
 	for range 2 {
 		child := NewBitBufferFromBytes([]byte{0xff})
-		if err := child.InheritOpenTypeDecodeOptions(parent); err != nil {
+		if err := child.InheritOpenTypedecodeSettings(parent); err != nil {
 			t.Fatal(err)
 		}
 		if child.budget != parent.budget {

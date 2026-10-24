@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/test_helpers_test.go; SHA-256 ef1cceeef86c14200183cc1cfdeda2a61637738c7e8465863f8b07eb4820414c.
+// Runtime source: runtime/aper/test_helpers_test.go; SHA-256 1e9dbb337cf03a63b2b8f97c0081f12bffccd56a3672f2506beddabe4226b741.
 package aper
 
 import "math/big"
@@ -26,4 +26,18 @@ func equalSignificantBits(left, right []byte, length int) bool {
 		}
 	}
 	return true
+}
+
+// Retained low-level recovery fixtures exercise private policies only.
+func ownTestDecodeInput(data []byte, settings decodeSettings) ([]byte, decodeSettings) {
+	owner := newSemanticOwner(data)
+	settings.owner = owner
+	return owner.original, settings
+}
+
+func newTestCompleteDecodeBuffer(data []byte, settings decodeSettings) *BitBuffer {
+	return NewCompleteDecodeBuffer(data, DecodeState{settings: settings})
+}
+func testSemanticCaptureFor(settings decodeSettings) SemanticCapture {
+	return SemanticCaptureFor(DecodeState{settings: settings})
 }

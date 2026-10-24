@@ -1,13 +1,13 @@
 package lppa
 
 import (
-	q27 "bytes"
-	bridge1 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
-	bridge0 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s01"
+	"bytes"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s01"
 
-	q30 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
-	q28 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
-	q9 "testing"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
+	"testing"
 )
 
 func causeFreshMust(value Cause,
@@ -18,7 +18,7 @@ func causeFreshMust(value Cause,
 	}
 	return value
 }
-func errorIndicationFreshInitiating(t *q9.T, binding ErrorIndicationInitiatingBinding, body ErrorIndication,
+func errorIndicationFreshInitiating(t *testing.T, binding ErrorIndicationInitiatingBinding, body ErrorIndication,
 
 ) LPPAPDU {
 	t.Helper()
@@ -47,7 +47,7 @@ func privateMessageIEsValuePrivateIEFieldFreshMust(value PrivateMessageIEsValueP
 	}
 	return value
 }
-func privateMessageFreshInitiating(t *q9.T, binding PrivateMessageInitiatingBinding, body PrivateMessage,
+func privateMessageFreshInitiating(t *testing.T, binding PrivateMessageInitiatingBinding, body PrivateMessage,
 
 ) LPPAPDU {
 	t.Helper()
@@ -82,7 +82,7 @@ func eCIDMeasurementInitiationRequestIEFieldFreshMust(value ECIDMeasurementIniti
 	}
 	return value
 }
-func eCIDMeasurementInitiationRequestFreshInitiating(t *q9.T, binding ECIDMeasurementInitiationRequestInitiatingBinding, body ECIDMeasurementInitiationRequest,
+func eCIDMeasurementInitiationRequestFreshInitiating(t *testing.T, binding ECIDMeasurementInitiationRequestInitiatingBinding, body ECIDMeasurementInitiationRequest,
 
 ) LPPAPDU {
 	t.Helper()
@@ -103,7 +103,7 @@ func eCIDMeasurementInitiationResponseIEFieldFreshMust(value ECIDMeasurementInit
 	}
 	return value
 }
-func eCIDMeasurementInitiationResponseFreshSuccessful(t *q9.T, binding ECIDMeasurementInitiationResponseSuccessfulBinding, body ECIDMeasurementInitiationResponse,
+func eCIDMeasurementInitiationResponseFreshSuccessful(t *testing.T, binding ECIDMeasurementInitiationResponseSuccessfulBinding, body ECIDMeasurementInitiationResponse,
 
 ) LPPAPDU {
 	t.Helper()
@@ -124,7 +124,7 @@ func eCIDMeasurementInitiationFailureIEFieldFreshMust(value ECIDMeasurementIniti
 	}
 	return value
 }
-func eCIDMeasurementInitiationFailureFreshUnsuccessful(t *q9.T, binding ECIDMeasurementInitiationFailureUnsuccessfulBinding, body ECIDMeasurementInitiationFailure,
+func eCIDMeasurementInitiationFailureFreshUnsuccessful(t *testing.T, binding ECIDMeasurementInitiationFailureUnsuccessfulBinding, body ECIDMeasurementInitiationFailure,
 
 ) LPPAPDU {
 	t.Helper()
@@ -145,7 +145,7 @@ func eCIDMeasurementFailureIndicationIEFieldFreshMust(value ECIDMeasurementFailu
 	}
 	return value
 }
-func eCIDMeasurementFailureIndicationFreshInitiating(t *q9.T, binding ECIDMeasurementFailureIndicationInitiatingBinding, body ECIDMeasurementFailureIndication,
+func eCIDMeasurementFailureIndicationFreshInitiating(t *testing.T, binding ECIDMeasurementFailureIndicationInitiatingBinding, body ECIDMeasurementFailureIndication,
 
 ) LPPAPDU {
 	t.Helper()
@@ -166,7 +166,7 @@ func eCIDMeasurementReportIEFieldFreshMust(value ECIDMeasurementReportIEField, e
 	}
 	return value
 }
-func eCIDMeasurementReportFreshInitiating(t *q9.T, binding ECIDMeasurementReportInitiatingBinding, body ECIDMeasurementReport,
+func eCIDMeasurementReportFreshInitiating(t *testing.T, binding ECIDMeasurementReportInitiatingBinding, body ECIDMeasurementReport,
 
 ) LPPAPDU {
 	t.Helper()
@@ -187,7 +187,7 @@ func eCIDMeasurementTerminationCommandIEFieldFreshMust(value ECIDMeasurementTerm
 	}
 	return value
 }
-func eCIDMeasurementTerminationCommandFreshInitiating(t *q9.T, binding ECIDMeasurementTerminationCommandInitiatingBinding, body ECIDMeasurementTerminationCommand,
+func eCIDMeasurementTerminationCommandFreshInitiating(t *testing.T, binding ECIDMeasurementTerminationCommandInitiatingBinding, body ECIDMeasurementTerminationCommand,
 
 ) LPPAPDU {
 	t.Helper()
@@ -214,7 +214,7 @@ func oTDOAInformationRequestIEFieldFreshMust(value OTDOAInformationRequestIEFiel
 	}
 	return value
 }
-func oTDOAInformationRequestFreshInitiating(t *q9.T, binding OTDOAInformationRequestInitiatingBinding, body OTDOAInformationRequest,
+func oTDOAInformationRequestFreshInitiating(t *testing.T, binding OTDOAInformationRequestInitiatingBinding, body OTDOAInformationRequest,
 
 ) LPPAPDU {
 	t.Helper()
@@ -243,7 +243,7 @@ func oTDOAInformationResponseIEFieldFreshMust(value OTDOAInformationResponseIEFi
 	}
 	return value
 }
-func oTDOAInformationResponseFreshSuccessful(t *q9.T, binding OTDOAInformationResponseSuccessfulBinding, body OTDOAInformationResponse,
+func oTDOAInformationResponseFreshSuccessful(t *testing.T, binding OTDOAInformationResponseSuccessfulBinding, body OTDOAInformationResponse,
 
 ) LPPAPDU {
 	t.Helper()
@@ -264,14 +264,14 @@ func oTDOAInformationFailureIEFieldFreshMust(value OTDOAInformationFailureIEFiel
 	}
 	return value
 }
-func oTDOAInformationFailureFreshUnsuccessful(t *q9.T, binding OTDOAInformationFailureUnsuccessfulBinding, body OTDOAInformationFailure,
+func oTDOAInformationFailureFreshUnsuccessful(t *testing.T, binding OTDOAInformationFailureUnsuccessfulBinding, body OTDOAInformationFailure,
 
 ) LPPAPDU {
 	t.Helper()
 	message := unsuccessfulOutcomeFreshMust(binding.Build(body, 7))
 	return lPPAPDUFreshMust(NewLPPAPDUUnsuccessfulOutcome(message))
 }
-func uTDOAInformationRequestFreshInitiating(t *q9.T, binding UTDOAInformationRequestInitiatingBinding, body UTDOAInformationRequest,
+func uTDOAInformationRequestFreshInitiating(t *testing.T, binding UTDOAInformationRequestInitiatingBinding, body UTDOAInformationRequest,
 
 ) LPPAPDU {
 	t.Helper()
@@ -300,7 +300,7 @@ func uTDOAInformationResponseIEFieldFreshMust(value UTDOAInformationResponseIEFi
 	}
 	return value
 }
-func uTDOAInformationResponseFreshSuccessful(t *q9.T, binding UTDOAInformationResponseSuccessfulBinding, body UTDOAInformationResponse,
+func uTDOAInformationResponseFreshSuccessful(t *testing.T, binding UTDOAInformationResponseSuccessfulBinding, body UTDOAInformationResponse,
 
 ) LPPAPDU {
 	t.Helper()
@@ -321,14 +321,14 @@ func uTDOAInformationFailureIEFieldFreshMust(value UTDOAInformationFailureIEFiel
 	}
 	return value
 }
-func uTDOAInformationFailureFreshUnsuccessful(t *q9.T, binding UTDOAInformationFailureUnsuccessfulBinding, body UTDOAInformationFailure,
+func uTDOAInformationFailureFreshUnsuccessful(t *testing.T, binding UTDOAInformationFailureUnsuccessfulBinding, body UTDOAInformationFailure,
 
 ) LPPAPDU {
 	t.Helper()
 	message := unsuccessfulOutcomeFreshMust(binding.Build(body, 7))
 	return lPPAPDUFreshMust(NewLPPAPDUUnsuccessfulOutcome(message))
 }
-func uTDOAInformationUpdateFreshInitiating(t *q9.T, binding UTDOAInformationUpdateInitiatingBinding, body UTDOAInformationUpdate,
+func uTDOAInformationUpdateFreshInitiating(t *testing.T, binding UTDOAInformationUpdateInitiatingBinding, body UTDOAInformationUpdate,
 
 ) LPPAPDU {
 	t.Helper()
@@ -343,7 +343,7 @@ func uTDOAInformationUpdateFreshMust(value UTDOAInformationUpdate,
 	}
 	return value
 }
-func assistanceInformationControlFreshInitiating(t *q9.T, binding AssistanceInformationControlInitiatingBinding, body AssistanceInformationControl,
+func assistanceInformationControlFreshInitiating(t *testing.T, binding AssistanceInformationControlInitiatingBinding, body AssistanceInformationControl,
 
 ) LPPAPDU {
 	t.Helper()
@@ -358,7 +358,7 @@ func assistanceInformationControlFreshMust(value AssistanceInformationControl,
 	}
 	return value
 }
-func assistanceInformationFeedbackFreshInitiating(t *q9.T, binding AssistanceInformationFeedbackInitiatingBinding, body AssistanceInformationFeedback,
+func assistanceInformationFeedbackFreshInitiating(t *testing.T, binding AssistanceInformationFeedbackInitiatingBinding, body AssistanceInformationFeedback,
 
 ) LPPAPDU {
 	t.Helper()
@@ -381,9 +381,9 @@ func sliceByteCodecFreshMust(value []byte,
 	}
 	return value
 }
-func nPRSSubframePartBCheckCodecFresh(t *q9.T, codec NPRSSubframePartBValueCodec, wire, preferred []byte) {
+func nPRSSubframePartBCheckCodecFresh(t *testing.T, codec NPRSSubframePartBValueCodec, wire, preferred []byte) {
 	t.Helper()
-	if q27.Equal(wire, preferred) {
+	if bytes.Equal(wire, preferred) {
 		t.Fatal("fixture has no nonpreferred representation")
 	}
 	decoded, _, err := codec.DecodeAPER(wire)
@@ -391,19 +391,19 @@ func nPRSSubframePartBCheckCodecFresh(t *q9.T, codec NPRSSubframePartBValueCodec
 		t.Fatal(err)
 	}
 	replay, err := codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("default replay=%x err=%v want=%x", replay, err, wire)
 	}
-	fresh, err := codec.EncodeAPER(decoded, q28.WithoutReplay())
-	if err != nil || !q27.Equal(fresh, preferred) {
+	fresh, err := codec.EncodeAPER(decoded, aper.WithoutReplay())
+	if err != nil || !bytes.Equal(fresh, preferred) {
 		t.Errorf("fresh=%x err=%v want=%x", fresh, err, preferred)
 	}
 	freshValue, err := codec.EncodeAPER(decoded.WithoutReplay())
-	if err != nil || !q27.Equal(freshValue, preferred) {
+	if err != nil || !bytes.Equal(freshValue, preferred) {
 		t.Errorf("value.WithoutReplay=%x err=%v want=%x", freshValue, err, preferred)
 	}
 	replay, err = codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Errorf("fresh encoding changed default replay=%x err=%v", replay, err)
 	}
 }
@@ -413,9 +413,9 @@ func measurementQuantitiesItemIEFieldCodecFreshMust(value MeasurementQuantitiesI
 	}
 	return value
 }
-func measurementQuantitiesCheckCodecFresh(t *q9.T, codec MeasurementQuantitiesConcreteValueCodec, wire, preferred []byte) {
+func measurementQuantitiesCheckCodecFresh(t *testing.T, codec MeasurementQuantitiesConcreteValueCodec, wire, preferred []byte) {
 	t.Helper()
-	if q27.Equal(wire, preferred) {
+	if bytes.Equal(wire, preferred) {
 		t.Fatal("fixture has no nonpreferred representation")
 	}
 	decoded, _, err := codec.DecodeAPER(wire)
@@ -423,25 +423,25 @@ func measurementQuantitiesCheckCodecFresh(t *q9.T, codec MeasurementQuantitiesCo
 		t.Fatal(err)
 	}
 	replay, err := codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("default replay=%x err=%v want=%x", replay, err, wire)
 	}
-	fresh, err := codec.EncodeAPER(decoded, q28.WithoutReplay())
-	if err != nil || !q27.Equal(fresh, preferred) {
+	fresh, err := codec.EncodeAPER(decoded, aper.WithoutReplay())
+	if err != nil || !bytes.Equal(fresh, preferred) {
 		t.Errorf("fresh=%x err=%v want=%x", fresh, err, preferred)
 	}
 	freshValue, err := codec.EncodeAPER(decoded.WithoutReplay())
-	if err != nil || !q27.Equal(freshValue, preferred) {
+	if err != nil || !bytes.Equal(freshValue, preferred) {
 		t.Errorf("value.WithoutReplay=%x err=%v want=%x", freshValue, err, preferred)
 	}
 	replay, err = codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Errorf("fresh encoding changed default replay=%x err=%v", replay, err)
 	}
 }
-func resultNRCheckCodecFresh(t *q9.T, codec ResultNRValueCodec, wire, preferred []byte) {
+func resultNRCheckCodecFresh(t *testing.T, codec ResultNRValueCodec, wire, preferred []byte) {
 	t.Helper()
-	if q27.Equal(wire, preferred) {
+	if bytes.Equal(wire, preferred) {
 		t.Fatal("fixture has no nonpreferred representation")
 	}
 	decoded, _, err := codec.DecodeAPER(wire)
@@ -449,25 +449,25 @@ func resultNRCheckCodecFresh(t *q9.T, codec ResultNRValueCodec, wire, preferred 
 		t.Fatal(err)
 	}
 	replay, err := codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("default replay=%x err=%v want=%x", replay, err, wire)
 	}
-	fresh, err := codec.EncodeAPER(decoded, q28.WithoutReplay())
-	if err != nil || !q27.Equal(fresh, preferred) {
+	fresh, err := codec.EncodeAPER(decoded, aper.WithoutReplay())
+	if err != nil || !bytes.Equal(fresh, preferred) {
 		t.Errorf("fresh=%x err=%v want=%x", fresh, err, preferred)
 	}
 	freshValue, err := codec.EncodeAPER(decoded.WithoutReplay())
-	if err != nil || !q27.Equal(freshValue, preferred) {
+	if err != nil || !bytes.Equal(freshValue, preferred) {
 		t.Errorf("value.WithoutReplay=%x err=%v want=%x", freshValue, err, preferred)
 	}
 	replay, err = codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Errorf("fresh encoding changed default replay=%x err=%v", replay, err)
 	}
 }
-func errorIndicationCheckCodecFresh(t *q9.T, codec ErrorIndicationValueCodec, wire, preferred []byte) {
+func errorIndicationCheckCodecFresh(t *testing.T, codec ErrorIndicationValueCodec, wire, preferred []byte) {
 	t.Helper()
-	if q27.Equal(wire, preferred) {
+	if bytes.Equal(wire, preferred) {
 		t.Fatal("fixture has no nonpreferred representation")
 	}
 	decoded, _, err := codec.DecodeAPER(wire)
@@ -475,25 +475,25 @@ func errorIndicationCheckCodecFresh(t *q9.T, codec ErrorIndicationValueCodec, wi
 		t.Fatal(err)
 	}
 	replay, err := codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("default replay=%x err=%v want=%x", replay, err, wire)
 	}
-	fresh, err := codec.EncodeAPER(decoded, q28.WithoutReplay())
-	if err != nil || !q27.Equal(fresh, preferred) {
+	fresh, err := codec.EncodeAPER(decoded, aper.WithoutReplay())
+	if err != nil || !bytes.Equal(fresh, preferred) {
 		t.Errorf("fresh=%x err=%v want=%x", fresh, err, preferred)
 	}
 	freshValue, err := codec.EncodeAPER(decoded.WithoutReplay())
-	if err != nil || !q27.Equal(freshValue, preferred) {
+	if err != nil || !bytes.Equal(freshValue, preferred) {
 		t.Errorf("value.WithoutReplay=%x err=%v want=%x", freshValue, err, preferred)
 	}
 	replay, err = codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Errorf("fresh encoding changed default replay=%x err=%v", replay, err)
 	}
 }
-func eCIDMeasurementInitiationResponseCheckCodecFresh(t *q9.T, codec ECIDMeasurementInitiationResponseValueCodec, wire, preferred []byte) {
+func eCIDMeasurementInitiationResponseCheckCodecFresh(t *testing.T, codec ECIDMeasurementInitiationResponseValueCodec, wire, preferred []byte) {
 	t.Helper()
-	if q27.Equal(wire, preferred) {
+	if bytes.Equal(wire, preferred) {
 		t.Fatal("fixture has no nonpreferred representation")
 	}
 	decoded, _, err := codec.DecodeAPER(wire)
@@ -501,25 +501,25 @@ func eCIDMeasurementInitiationResponseCheckCodecFresh(t *q9.T, codec ECIDMeasure
 		t.Fatal(err)
 	}
 	replay, err := codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("default replay=%x err=%v want=%x", replay, err, wire)
 	}
-	fresh, err := codec.EncodeAPER(decoded, q28.WithoutReplay())
-	if err != nil || !q27.Equal(fresh, preferred) {
+	fresh, err := codec.EncodeAPER(decoded, aper.WithoutReplay())
+	if err != nil || !bytes.Equal(fresh, preferred) {
 		t.Errorf("fresh=%x err=%v want=%x", fresh, err, preferred)
 	}
 	freshValue, err := codec.EncodeAPER(decoded.WithoutReplay())
-	if err != nil || !q27.Equal(freshValue, preferred) {
+	if err != nil || !bytes.Equal(freshValue, preferred) {
 		t.Errorf("value.WithoutReplay=%x err=%v want=%x", freshValue, err, preferred)
 	}
 	replay, err = codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Errorf("fresh encoding changed default replay=%x err=%v", replay, err)
 	}
 }
-func eCIDMeasurementInitiationFailureCheckCodecFresh(t *q9.T, codec ECIDMeasurementInitiationFailureValueCodec, wire, preferred []byte) {
+func eCIDMeasurementInitiationFailureCheckCodecFresh(t *testing.T, codec ECIDMeasurementInitiationFailureValueCodec, wire, preferred []byte) {
 	t.Helper()
-	if q27.Equal(wire, preferred) {
+	if bytes.Equal(wire, preferred) {
 		t.Fatal("fixture has no nonpreferred representation")
 	}
 	decoded, _, err := codec.DecodeAPER(wire)
@@ -527,19 +527,19 @@ func eCIDMeasurementInitiationFailureCheckCodecFresh(t *q9.T, codec ECIDMeasurem
 		t.Fatal(err)
 	}
 	replay, err := codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Fatalf("default replay=%x err=%v want=%x", replay, err, wire)
 	}
-	fresh, err := codec.EncodeAPER(decoded, q28.WithoutReplay())
-	if err != nil || !q27.Equal(fresh, preferred) {
+	fresh, err := codec.EncodeAPER(decoded, aper.WithoutReplay())
+	if err != nil || !bytes.Equal(fresh, preferred) {
 		t.Errorf("fresh=%x err=%v want=%x", fresh, err, preferred)
 	}
 	freshValue, err := codec.EncodeAPER(decoded.WithoutReplay())
-	if err != nil || !q27.Equal(freshValue, preferred) {
+	if err != nil || !bytes.Equal(freshValue, preferred) {
 		t.Errorf("value.WithoutReplay=%x err=%v want=%x", freshValue, err, preferred)
 	}
 	replay, err = codec.EncodeAPER(decoded)
-	if err != nil || !q27.Equal(replay, wire) {
+	if err != nil || !bytes.Equal(replay, wire) {
 		t.Errorf("fresh encoding changed default replay=%x err=%v", replay, err)
 	}
 }
@@ -651,9 +651,9 @@ func privateMessageIEsValuePrivateIEFieldEnvelopeMust(v PrivateMessageIEsValuePr
 	}
 	return v
 }
-func objectIdentifierEnvelopeMust(v q30.ObjectIdentifier,
+func objectIdentifierEnvelopeMust(v runtime.ObjectIdentifier,
 
-	err error) q30.ObjectIdentifier {
+	err error) runtime.ObjectIdentifier {
 	if err != nil {
 		panic(err)
 	}
@@ -673,22 +673,22 @@ func sliceByteReplayMust(v []byte,
 	}
 	return v
 }
-func pLMNIdentitySemanticEditRestore(t *q9.T, c PLMNIdentityValueCodec, initial PLMNIdentity,
+func pLMNIdentitySemanticEditRestore(t *testing.T, c PLMNIdentityValueCodec, initial PLMNIdentity,
 
 	edit, restore func(*PLMNIdentity,
 
 	)) {
 	t.Helper()
-	encoder := *bridge0.BridgePLMNIdentityValueCodecFieldEncode(&c)
+	encoder := *s01.BridgePLMNIdentityValueCodecFieldEncode(&c)
 	calls := 0
-	*bridge0.BridgePLMNIdentityValueCodecFieldEncode(&c) = func(v PLMNIdentity,
+	*s01.BridgePLMNIdentityValueCodecFieldEncode(&c) = func(v PLMNIdentity,
 
-		f bool, b *q28.DecodeBudget) ([]byte, error) {
+		f bool, b *aper.DecodeBudget) ([]byte, error) {
 		calls++
 		return encoder(v, f, b)
 	}
 	wire := sliceByteReplayMust(c.EncodeAPER(pLMNIdentityAPERValueReplayMust(c.New(initial))))
-	original := q27.Clone(wire)
+	original := bytes.Clone(wire)
 	calls = 0
 	decoded, _, err := c.DecodeAPER(wire)
 	if err != nil {
@@ -700,37 +700,37 @@ func pLMNIdentitySemanticEditRestore(t *q9.T, c PLMNIdentityValueCodec, initial 
 	for i := range wire {
 		wire[i] ^= 0xff
 	}
-	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !q27.Equal(got, original) || calls != 0 {
+	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !bytes.Equal(got, original) || calls != 0 {
 		t.Fatal("original storage borrowed or unchanged encode called encoder")
 	}
 	edit(&decoded.Value)
 	got := sliceByteReplayMust(c.EncodeAPER(decoded))
-	want := sliceByteReplayMust(c.EncodeAPER(decoded, q28.WithoutReplay()))
-	if q27.Equal(got, original) || !q27.Equal(got, want) {
+	want := sliceByteReplayMust(c.EncodeAPER(decoded, aper.WithoutReplay()))
+	if bytes.Equal(got, original) || !bytes.Equal(got, want) {
 		t.Fatalf("edited semantics: %x want %x original %x", got, want, original)
 	}
 	calls = 0
 	restore(&decoded.Value)
-	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !q27.Equal(got, original) || calls != 0 {
+	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !bytes.Equal(got, original) || calls != 0 {
 		t.Fatal("restored encode called encoder or failed exact replay")
 	}
 }
-func sSIDSemanticEditRestore(t *q9.T, c SSIDValueCodec, initial SSID,
+func sSIDSemanticEditRestore(t *testing.T, c SSIDValueCodec, initial SSID,
 
 	edit, restore func(*SSID,
 
 	)) {
 	t.Helper()
-	encoder := *bridge0.BridgeSSIDValueCodecFieldEncode(&c)
+	encoder := *s01.BridgeSSIDValueCodecFieldEncode(&c)
 	calls := 0
-	*bridge0.BridgeSSIDValueCodecFieldEncode(&c) = func(v SSID,
+	*s01.BridgeSSIDValueCodecFieldEncode(&c) = func(v SSID,
 
-		f bool, b *q28.DecodeBudget) ([]byte, error) {
+		f bool, b *aper.DecodeBudget) ([]byte, error) {
 		calls++
 		return encoder(v, f, b)
 	}
 	wire := sliceByteReplayMust(c.EncodeAPER(sSIDAPERValueReplayMust(c.New(initial))))
-	original := q27.Clone(wire)
+	original := bytes.Clone(wire)
 	calls = 0
 	decoded, _, err := c.DecodeAPER(wire)
 	if err != nil {
@@ -742,37 +742,37 @@ func sSIDSemanticEditRestore(t *q9.T, c SSIDValueCodec, initial SSID,
 	for i := range wire {
 		wire[i] ^= 0xff
 	}
-	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !q27.Equal(got, original) || calls != 0 {
+	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !bytes.Equal(got, original) || calls != 0 {
 		t.Fatal("original storage borrowed or unchanged encode called encoder")
 	}
 	edit(&decoded.Value)
 	got := sliceByteReplayMust(c.EncodeAPER(decoded))
-	want := sliceByteReplayMust(c.EncodeAPER(decoded, q28.WithoutReplay()))
-	if q27.Equal(got, original) || !q27.Equal(got, want) {
+	want := sliceByteReplayMust(c.EncodeAPER(decoded, aper.WithoutReplay()))
+	if bytes.Equal(got, original) || !bytes.Equal(got, want) {
 		t.Fatalf("edited semantics: %x want %x original %x", got, want, original)
 	}
 	calls = 0
 	restore(&decoded.Value)
-	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !q27.Equal(got, original) || calls != 0 {
+	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !bytes.Equal(got, original) || calls != 0 {
 		t.Fatal("restored encode called encoder or failed exact replay")
 	}
 }
-func measurementIDSemanticEditRestore(t *q9.T, c MeasurementIDValueCodec, initial MeasurementID,
+func measurementIDSemanticEditRestore(t *testing.T, c MeasurementIDValueCodec, initial MeasurementID,
 
 	edit, restore func(*MeasurementID,
 
 	)) {
 	t.Helper()
-	encoder := *bridge1.BridgeMeasurementIDValueCodecFieldEncode(&c)
+	encoder := *s00.BridgeMeasurementIDValueCodecFieldEncode(&c)
 	calls := 0
-	*bridge1.BridgeMeasurementIDValueCodecFieldEncode(&c) = func(v MeasurementID,
+	*s00.BridgeMeasurementIDValueCodecFieldEncode(&c) = func(v MeasurementID,
 
-		f bool, b *q28.DecodeBudget) ([]byte, error) {
+		f bool, b *aper.DecodeBudget) ([]byte, error) {
 		calls++
 		return encoder(v, f, b)
 	}
 	wire := sliceByteReplayMust(c.EncodeAPER(measurementIDAPERValueReplayMust(c.New(initial))))
-	original := q27.Clone(wire)
+	original := bytes.Clone(wire)
 	calls = 0
 	decoded, _, err := c.DecodeAPER(wire)
 	if err != nil {
@@ -784,37 +784,37 @@ func measurementIDSemanticEditRestore(t *q9.T, c MeasurementIDValueCodec, initia
 	for i := range wire {
 		wire[i] ^= 0xff
 	}
-	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !q27.Equal(got, original) || calls != 0 {
+	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !bytes.Equal(got, original) || calls != 0 {
 		t.Fatal("original storage borrowed or unchanged encode called encoder")
 	}
 	edit(&decoded.Value)
 	got := sliceByteReplayMust(c.EncodeAPER(decoded))
-	want := sliceByteReplayMust(c.EncodeAPER(decoded, q28.WithoutReplay()))
-	if q27.Equal(got, original) || !q27.Equal(got, want) {
+	want := sliceByteReplayMust(c.EncodeAPER(decoded, aper.WithoutReplay()))
+	if bytes.Equal(got, original) || !bytes.Equal(got, want) {
 		t.Fatalf("edited semantics: %x want %x original %x", got, want, original)
 	}
 	calls = 0
 	restore(&decoded.Value)
-	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !q27.Equal(got, original) || calls != 0 {
+	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !bytes.Equal(got, original) || calls != 0 {
 		t.Fatal("restored encode called encoder or failed exact replay")
 	}
 }
-func eUTRANCellIdentifierSemanticEditRestore(t *q9.T, c EUTRANCellIdentifierValueCodec, initial EUTRANCellIdentifier,
+func eUTRANCellIdentifierSemanticEditRestore(t *testing.T, c EUTRANCellIdentifierValueCodec, initial EUTRANCellIdentifier,
 
 	edit, restore func(*EUTRANCellIdentifier,
 
 	)) {
 	t.Helper()
-	encoder := *bridge1.BridgeEUTRANCellIdentifierValueCodecFieldEncode(&c)
+	encoder := *s00.BridgeEUTRANCellIdentifierValueCodecFieldEncode(&c)
 	calls := 0
-	*bridge1.BridgeEUTRANCellIdentifierValueCodecFieldEncode(&c) = func(v EUTRANCellIdentifier,
+	*s00.BridgeEUTRANCellIdentifierValueCodecFieldEncode(&c) = func(v EUTRANCellIdentifier,
 
-		f bool, b *q28.DecodeBudget) ([]byte, error) {
+		f bool, b *aper.DecodeBudget) ([]byte, error) {
 		calls++
 		return encoder(v, f, b)
 	}
 	wire := sliceByteReplayMust(c.EncodeAPER(eUTRANCellIdentifierAPERValueReplayMust(c.New(initial))))
-	original := q27.Clone(wire)
+	original := bytes.Clone(wire)
 	calls = 0
 	decoded, _, err := c.DecodeAPER(wire)
 	if err != nil {
@@ -826,18 +826,18 @@ func eUTRANCellIdentifierSemanticEditRestore(t *q9.T, c EUTRANCellIdentifierValu
 	for i := range wire {
 		wire[i] ^= 0xff
 	}
-	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !q27.Equal(got, original) || calls != 0 {
+	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !bytes.Equal(got, original) || calls != 0 {
 		t.Fatal("original storage borrowed or unchanged encode called encoder")
 	}
 	edit(&decoded.Value)
 	got := sliceByteReplayMust(c.EncodeAPER(decoded))
-	want := sliceByteReplayMust(c.EncodeAPER(decoded, q28.WithoutReplay()))
-	if q27.Equal(got, original) || !q27.Equal(got, want) {
+	want := sliceByteReplayMust(c.EncodeAPER(decoded, aper.WithoutReplay()))
+	if bytes.Equal(got, original) || !bytes.Equal(got, want) {
 		t.Fatalf("edited semantics: %x want %x original %x", got, want, original)
 	}
 	calls = 0
 	restore(&decoded.Value)
-	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !q27.Equal(got, original) || calls != 0 {
+	if got := sliceByteReplayMust(c.EncodeAPER(decoded)); !bytes.Equal(got, original) || calls != 0 {
 		t.Fatal("restored encode called encoder or failed exact replay")
 	}
 }

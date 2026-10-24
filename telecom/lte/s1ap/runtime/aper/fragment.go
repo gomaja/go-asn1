@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/fragment.go; SHA-256 a2c8728963a7b4fa5c299067ce3d41a7152ceb94cf3e44325b1d962bb84b3b44.
+// Runtime source: runtime/aper/fragment.go; SHA-256 75b7bc0a9cf0d40dea0604af376c689c0c286eda7be0bb4e544ac3ad92472828.
 package aper
 
 import (
@@ -74,14 +74,16 @@ func decodeLengthFragmentsBounded(bb *BitBuffer, aligned bool, maximum int64, de
 	var (
 		offset                     int64
 		previousFragmentMultiplier int
+		previousFragmentStart      int
 	)
 	for {
-		length, more, multiplier, err := decodeLengthFragmentDeterminant(bb, true)
+		determinantStart := bb.BitPos()
+		length, more, multiplier, err := decodeLengthFragmentDeterminant(bb, true, offset > 0)
 		if err != nil {
 			return 0, err
 		}
 		if more && previousFragmentMultiplier != 0 && previousFragmentMultiplier != 4 {
-			return 0, fmt.Errorf("%w: non-maximal PER fragment multiplier %d", ErrInvalidValue, previousFragmentMultiplier)
+			return 0, bb.syntaxError(previousFragmentStart, "§11.9.3.8.1", fmt.Sprintf("non-maximal PER fragment multiplier %d", previousFragmentMultiplier), ErrInvalidValue)
 		}
 		if offset < 0 || length < 0 {
 			return 0, fmt.Errorf("%w: negative fragmented offset %d or length %d", ErrInvalidValue, offset, length)
@@ -103,12 +105,16 @@ func decodeLengthFragmentsBounded(bb *BitBuffer, aligned bool, maximum int64, de
 			return offset, nil
 		}
 		previousFragmentMultiplier = multiplier
+		previousFragmentStart = determinantStart
 	}
 }
 
 // EncodeCollection writes a SEQUENCE OF or SET OF length and invokes
 // encodeFragment for each interleaved group of elements.
 func EncodeCollection(bb *BitBuffer, total int64, size SizeConstraint, aligned bool, encodeFragment func(offset, length int64) error) error {
+	if err := bb.ChargeElements(total); err != nil {
+		return err
+	}
 	if !aligned {
 		return fmt.Errorf("%w: unaligned encoding is not supported by APER", ErrInvalidValue)
 	}
@@ -238,6 +244,9 @@ func (size SizeConstraint) validateRoot(length int64) error {
 }
 
 func encodeLengthFragmentDeterminant(bb *BitBuffer, remaining int64, aligned bool) (length int64, more bool, err error) {
+	if err := bb.ChargeFragment(); err != nil {
+		return 0, false, err
+	}
 	if remaining < 0 {
 		return 0, false, fmt.Errorf("%w: negative remaining length %d", ErrInvalidValue, remaining)
 	}
@@ -266,7 +275,16 @@ func encodeLengthFragmentDeterminant(bb *BitBuffer, remaining int64, aligned boo
 	return multiplier * perFragmentUnit, true, nil
 }
 
-func decodeLengthFragmentDeterminant(bb *BitBuffer, aligned bool) (length int64, more bool, multiplier int, err error) {
+func decodeLengthFragmentDeterminant(bb *BitBuffer, aligned bool, continuation ...bool) (length int64, more bool, multiplier int, err error) {
+	sourceStart := bb.BitPos()
+	sourceClause := "§11.9.3.5"
+	if len(continuation) != 0 && continuation[0] {
+		sourceClause = "§11.9.3.8.3"
+	}
+	defer func() { bb.locateDecodeFailure(sourceStart, sourceClause, &err) }()
+	if err := bb.ChargeFragment(); err != nil {
+		return 0, false, 0, err
+	}
 	if aligned {
 		if err := bb.AlignToOctetRead(); err != nil {
 			return 0, false, 0, err
@@ -281,8 +299,10 @@ func decodeLengthFragmentDeterminant(bb *BitBuffer, aligned bool) (length int64,
 	}
 	switch {
 	case first&0x80 == 0:
+		sourceClause = "§11.9.3.6"
 		return int64(first), false, 0, nil
 	case first&0xc0 == 0x80:
+		sourceClause = "§11.9.3.7"
 		second, err := bb.ReadBits(8)
 		if err != nil {
 			return 0, false, 0, err
@@ -290,17 +310,18 @@ func decodeLengthFragmentDeterminant(bb *BitBuffer, aligned bool) (length int64,
 		if second <= 0xff {
 			length := int64(first&0x3f)<<8 | int64(second)
 			if length < 128 {
-				return 0, false, 0, fmt.Errorf("%w: non-minimal PER length determinant", ErrInvalidValue)
+				return 0, false, 0, bb.syntaxError(bb.BitPos()-16, "§11.9.3.6", "non-minimal PER length determinant", ErrInvalidValue)
 			}
 			return length, false, 0, nil
 		}
 		return 0, false, 0, fmt.Errorf("%w: invalid PER length octet %d", ErrInvalidValue, second)
 	case first&0xc0 == 0xc0:
+		sourceClause = "§11.9.3.8"
 		multiplier := int(first & 0x3f)
 		if multiplier >= 1 && multiplier <= 4 {
 			return int64(multiplier * perFragmentUnit), true, multiplier, nil
 		}
-		return 0, false, 0, fmt.Errorf("%w: invalid PER fragment multiplier %d", ErrInvalidValue, multiplier)
+		return 0, false, 0, bb.syntaxError(bb.BitPos()-8, "§11.9.3.8", fmt.Sprintf("invalid PER fragment multiplier %d", multiplier), ErrInvalidValue)
 	default:
 		return 0, false, 0, fmt.Errorf("%w: invalid PER length determinant", ErrInvalidValue)
 	}
@@ -323,19 +344,38 @@ func decodeLengthDelimitedOctets(bb *BitBuffer, aligned bool) ([]byte, error) {
 }
 
 func decodeLengthDelimitedOctetsBounded(bb *BitBuffer, aligned bool, maximum int64) ([]byte, error) {
+	return decodeLengthDelimitedOctetsObserved(bb, aligned, maximum, nil)
+}
+
+// decodeLengthDelimitedOctetsObserved preserves each payload fragment's
+// position before joining it. X.691 (02/2021) §11.9.3.7 permits fragmented
+// open values; their joined offsets are not original wire offsets.
+func decodeLengthDelimitedOctetsObserved(bb *BitBuffer, aligned bool, maximum int64, observe func(offset, length int64, bitStart int)) ([]byte, error) {
+
 	result := []byte{} // present empty is not absent (go-asn1#91); no allocation
-	_, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(_ int64, length int64) error {
+	_, err := decodeLengthFragmentsBounded(bb, aligned, maximum, func(offset int64, length int64) error {
 		if length < 0 || length > int64(math.MaxInt) {
 			return fmt.Errorf("%w: fragment length %d exceeds host int", ErrInvalidValue, length)
 		}
 		if int(length) > bb.BitsRemaining()/8 {
+			if offset > 0 || length >= perFragmentUnit {
+				return bb.syntaxError(bb.BitPos(), "§11.9.3.8.2", "incomplete fragment contents", ErrTruncated)
+			}
 			return fmt.Errorf("%w: fragment requires %d octets with %d bits remaining", ErrTruncated, length, bb.BitsRemaining())
 		}
+		bitStart := bb.BitPos()
 		fragment, err := bb.ReadBytes(int(length))
 		if err != nil {
 			return err
 		}
-		result = append(result, fragment...)
+		if observe != nil && length != 0 {
+			observe(offset, length, bitStart)
+		}
+		if offset == 0 {
+			result = fragment
+		} else {
+			result = append(result, fragment...)
+		}
 		return nil
 	})
 	if err != nil {

@@ -18,7 +18,7 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
-	s1apaper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
+	s1aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	"github.com/gomaja/go-asn1/telecom/lte/x2ap"
 	x2aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
@@ -157,29 +157,35 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 	}
 	if rec.ID == "s1ap-63-cause-zero-padding" || rec.ID == "s1ap-63-cause-nonzero-padding" {
 		var value s1ap.Cause
-		if err := value.UnmarshalAPER(wire); err != nil {
+		report, err := value.UnmarshalAPER(wire)
+		if strings.Contains(rec.ID, "nonzero") {
+			// X.691 (02/2021) §11.1.4 requires zero complete-value padding.
+			var located *s1aper.DecodeError
+			return errors.Is(err, s1aper.ErrSyntax) && errors.As(err, &located) && located.Rule.Clause == "§11.1.4" && located.Location.HasWireLocation && len(report.Deviations) == 1, true, fmt.Sprintf("strict Cause padding error=%v", err)
+		}
+		if err != nil {
 			return false, false, err.Error()
 		}
-		// Nonzero padding is retained with its width. All-zero padding is what
-		// an encoder emits anyway, so it is not retained: IsZero reports it
-		// and the width reads 0.
-		bits, count := value.PERPadding_.Bits()
-		wantNonzero := strings.Contains(rec.ID, "nonzero")
-		if encoded, err := value.MarshalAPER(); err != nil || !bytes.Equal(encoded, wire) {
-			return false, false, fmt.Sprintf("round trip: %v", err)
-		}
-		if !wantNonzero {
-			return value.PERPadding_.IsZero() && count == 0, true, "Cause padding accessor disagrees"
-		}
-		return count > 0 && bits != 0 && !value.PERPadding_.IsZero(), true, "Cause padding accessor disagrees"
+		encoded, err := value.MarshalAPER()
+		return err == nil && bytes.Equal(encoded, wire) && len(value.ReceivedForm().Padding()) == 0, true, fmt.Sprintf("Cause replay error=%v", err)
 	}
 	if strings.HasPrefix(rec.ID, "s1ap-") {
 		var value s1ap.S1APPDU
-		if err := value.UnmarshalAPER(wire); err != nil {
-			return strings.Contains(rec.Expected, "Rejected"), false, fmt.Sprintf("PDU error: %v", err)
+		report, err := value.UnmarshalAPER(wire)
+		if rec.ID == "s1ap-61-timetowait-nonzero-padding" || rec.ID == "s1ap-61-cause-nonzero-padding" {
+			// X.691 (02/2021) §11.1.4 also applies inside each known open value.
+			var located *s1aper.DecodeError
+			return errors.Is(err, s1aper.ErrSyntax) && errors.As(err, &located) && located.Rule.Clause == "§11.1.4" && located.Location.HasWireLocation && len(report.Deviations) == 1, true, fmt.Sprintf("strict known-value padding error=%v", err)
 		}
-		_, err := value.DecodeValueRecursive()
-		return checkSyntheticDispatch(rec, err, s1apaper.ErrExtraData)
+		wantError := strings.Contains(rec.Expected, "Extra octets should be reported") || strings.HasPrefix(rec.Expected, "Rejected")
+		if wantError {
+			return errors.Is(err, s1aper.ErrExtraData), !strings.Contains(rec.LibraryResult, "reject"), fmt.Sprintf("typed decode error=%v", err)
+		}
+		if err != nil {
+			return false, false, err.Error()
+		}
+		encoded, err := value.MarshalAPER()
+		return err == nil && bytes.Equal(encoded, wire), false, fmt.Sprintf("typed replay error=%v", err)
 	}
 	if strings.HasPrefix(rec.ID, "x2ap-") {
 		var value x2ap.X2APPDU

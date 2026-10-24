@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/s1ap_closure_test.go; SHA-256 b7b033c17bb766b6aa9653fbc6bdf9e2f8ca27ceba6a58b5a737c82ec164c5d9.
+// Runtime source: runtime/aper/s1ap_closure_test.go; SHA-256 e9429d8e1e0bc4a5881cf9b3d0122e3c18fecaba72a731e07fff579a02b55ba7.
 package aper
 
 import (
@@ -84,7 +84,7 @@ func TestS1APBigValueSetAligned(t *testing.T) {
 
 func TestS1APNestedZeroWidthLimit(t *testing.T) {
 	parent := NewBitBufferFromBytes([]byte{0})
-	if err := parent.SetDecodeOptionsAligned(DecodeOptions{MaxZeroWidthCharacters: 17}); err != nil {
+	if err := parent.setDecodeSettingsAligned(decodeSettings{MaxZeroWidthCharacters: 17}); err != nil {
 		t.Fatal(err)
 	}
 	child := NewNestedDecodeBuffer([]byte{0}, parent)

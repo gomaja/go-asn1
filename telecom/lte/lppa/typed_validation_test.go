@@ -1,12 +1,12 @@
 package lppa
 
 import (
-	bridge0 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
 
-	q8 "testing"
+	"testing"
 )
 
-func TestValidateMessageReportsEachStructuralIssue(t *q8.T) {
+func TestValidateMessageReportsEachStructuralIssue(t *testing.T) {
 	base := ECIDMeasurementInitiationRequestIEContainer{
 		{Id: 2, Criticality: CriticalityReject},
 		{Id: 3, Criticality: CriticalityReject},
@@ -24,12 +24,12 @@ func TestValidateMessageReportsEachStructuralIssue(t *q8.T) {
 		{"wrong order", ECIDMeasurementInitiationRequestIEContainer{base[1], base[0], base[2]}, WrongOrder},
 	}
 	for _, tc := range cases {
-		t.Run(tc.name, func(t *q8.T) {
+		t.Run(tc.name, func(t *testing.T) {
 			body := ECIDMeasurementInitiationRequest{ProtocolIEs: tc.fields}
 			message := InitiatingMessage{ProcedureCode: 2, Criticality: CriticalityReject, LppatransactionID: 7, Value: func() InitiatingValue {
 				sealed := InitiatingValue{}
-				*bridge0.BridgeInitiatingValueFieldCode(&sealed) = 2
-				*bridge0.BridgeInitiatingValueFieldBodyECIDMeasurementInitiationRequest(&sealed) = &body
+				*s21.BridgeInitiatingValueFieldCode(&sealed) = 2
+				*s21.BridgeInitiatingValueFieldBodyECIDMeasurementInitiationRequest(&sealed) = &body
 				return sealed
 			}()}
 			pdu := LPPAPDU{Choice: LPPAPDUChoiceInitiatingMessage, InitiatingMessage: &message}
@@ -53,7 +53,7 @@ func TestValidateMessageReportsEachStructuralIssue(t *q8.T) {
 		})
 	}
 }
-func TestValidateECIDMeasurementInitiationRequestStructure(t *q8.T) {
+func TestValidateECIDMeasurementInitiationRequestStructure(t *testing.T) {
 	request := ECIDMeasurementInitiationRequest{ProtocolIEs: ECIDMeasurementInitiationRequestIEContainer{
 		{Id: 3, Criticality: CriticalityReject},
 		{Id: 2, Criticality: CriticalityIgnore},

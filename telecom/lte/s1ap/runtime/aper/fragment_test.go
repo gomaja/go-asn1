@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/fragment_test.go; SHA-256 d436a578de2424600d5a2ea15a83fe1bc27f4aba73bd1c8a5de628688334499d.
+// Runtime source: runtime/aper/fragment_test.go; SHA-256 7eeccee77d16ec1f1561af8dcb5a710497afdb8ef629b7861a758c3f0e9ac246.
 package aper
 
 import (
@@ -163,18 +163,23 @@ func TestFragmentedBitStringRoundTrip(t *testing.T) {
 func TestFragmentedLengthRejectsMalformedDeterminants(t *testing.T) {
 	fragment := make([]byte, perFragmentUnit)
 	for _, tc := range []struct {
-		name string
-		wire []byte
+		name   string
+		wire   []byte
+		clause string
 	}{
-		{name: "non-minimal long form", wire: []byte{0x80, 0x7f}},
-		{name: "zero multiplier", wire: []byte{0xc0}},
-		{name: "multiplier above four", wire: []byte{0xc5}},
-		{name: "truncated fragment", wire: []byte{0xc1}},
-		{name: "missing terminal determinant", wire: append([]byte{0xc1}, fragment...)},
-		{name: "non-maximal prior fragment", wire: append(append(append([]byte{0xc1}, fragment...), 0xc1), fragment...)},
+		{name: "non-minimal long form", clause: "§11.9.3.6", wire: []byte{0x80, 0x7f}},
+		{name: "zero multiplier", clause: "§11.9.3.8", wire: []byte{0xc0}},
+		{name: "multiplier above four", clause: "§11.9.3.8", wire: []byte{0xc5}},
+		{name: "truncated fragment", clause: "§11.9.3.8.2", wire: []byte{0xc1}},
+		{name: "missing terminal determinant", clause: "§11.9.3.8.3", wire: append([]byte{0xc1}, fragment...)},
+		{name: "non-maximal prior fragment", clause: "§11.9.3.8.1", wire: append(append(append([]byte{0xc1}, fragment...), 0xc1), fragment...)},
 	} {
 		t.Run(tc.name, func(t *testing.T) {
 			_, err := DecodeOctetStringAligned(NewBitBufferFromBytes(tc.wire), 0, 0, false)
+			var located *DecodeError
+			if !errors.Is(err, ErrSyntax) || !errors.As(err, &located) || located.Rule.Clause != tc.clause || !located.Location.HasWireLocation {
+				t.Fatalf("rule/location: %v %+v", err, located)
+			}
 			if err == nil {
 				t.Fatal("malformed determinant accepted")
 			}

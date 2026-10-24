@@ -1,9 +1,10 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/aper.go; SHA-256 784a2ecdb099cb4c61c5b914d217ee7afc6ced743ba4bbf03d497ca01bfdc611.
+// Runtime source: runtime/aper/aper.go; SHA-256 ba45d385bd31ec7549f50f17fabd2302b03e8e5bd6c802a8dd0ee6eb26681234.
 package aper
 
 import (
+	"errors"
 	"fmt"
 	"math"
 	"math/bits"
@@ -12,6 +13,9 @@ import (
 // EncodeConstrainedWholeNumberAligned encodes v in [lb..ub] using APER rules.
 // ITU-T X.691 (02/2021), clauses 11.5.6-11.5.7.
 func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
+	if err := bb.ChargeAllocation(1, 16); err != nil {
+		return err
+	}
 	if lb > ub {
 		return fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub)
 	}
@@ -82,9 +86,11 @@ func EncodeConstrainedWholeNumberAligned(bb *BitBuffer, v, lb, ub int64) error {
 }
 
 // DecodeConstrainedWholeNumberAligned decodes a value from [lb..ub] using APER rules.
-func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, error) {
+func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (result0 int64, result1 error) {
+	sourceStart := bb.BitPos()
+
 	if lb > ub {
-		return 0, fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub)
+		return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), fmt.Errorf("%w: invalid range [%d..%d]", ErrInvalidValue, lb, ub))
 	}
 	rangeValue := uint64(ub) - uint64(lb)
 	if rangeValue == 0 {
@@ -95,72 +101,88 @@ func DecodeConstrainedWholeNumberAligned(bb *BitBuffer, lb, ub int64) (int64, er
 		// Up to 255 values: minimum bit-field, NOT octet-aligned.
 		offset, err := bb.ReadBits(bits.Len64(rangeValue))
 		if err != nil {
-			return 0, err
+			return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 		}
 		if offset > rangeValue {
-			return 0, int64OffsetError(offset, lb, ub)
+			return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), int64OffsetError(offset, lb, ub))
 		}
-		return addNonNegativeOffset(lb, offset)
+		result0, result1 = addNonNegativeOffset(lb, offset)
+		if result1 != nil {
+			bb.locateDecodeFailure(sourceStart, constrainedWholeClause(lb, ub), &result1)
+		}
+		return result0, result1
 	case rangeValue == 255:
 		// Exactly 256 values: 8-bit field, octet-aligned.
 		if err := bb.AlignToOctetRead(); err != nil {
-			return 0, err
+			return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 		}
 		offset, err := bb.ReadBits(8)
 		if err != nil {
-			return 0, err
+			return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 		}
-		return addNonNegativeOffset(lb, offset)
+		result0, result1 = addNonNegativeOffset(lb, offset)
+		if result1 != nil {
+			bb.locateDecodeFailure(sourceStart, constrainedWholeClause(lb, ub), &result1)
+		}
+		return result0, result1
 	case rangeValue < 65536:
 		if err := bb.AlignToOctetRead(); err != nil {
-			return 0, err
+			return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 		}
 		offset, err := bb.ReadBits(16)
 		if err != nil {
-			return 0, err
+			return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 		}
 		if offset > rangeValue {
-			return 0, int64OffsetError(offset, lb, ub)
+			return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), int64OffsetError(offset, lb, ub))
 		}
-		return addNonNegativeOffset(lb, offset)
+		result0, result1 = addNonNegativeOffset(lb, offset)
+		if result1 != nil {
+			bb.locateDecodeFailure(sourceStart, constrainedWholeClause(lb, ub), &result1)
+		}
+		return result0, result1
 	default:
 		// Range > 65535: length-determinant (NOT aligned) + value bytes (octet-aligned).
 		// The length determinant precedes octet alignment of the value.
 		var maxBytes int
 		maxBytes, err := octetsForBitLength(bits.Len64(rangeValue))
 		if err != nil {
-			return 0, err
+			return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 		}
 		n, err := DecodeConstrainedWholeNumber(bb, 1, int64(maxBytes))
 		if err != nil {
-			return 0, err
+			return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 		}
 		if n >= 1 && n <= 8 {
 			if err := bb.AlignToOctetRead(); err != nil {
-				return 0, err
+				return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 			}
 			var data []byte
 			data, err = bb.ReadBytes(int(n))
 			if err != nil {
-				return 0, err
+				return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 			}
 			// ITU-T X.691 (02/2021) §§11.3.6, 11.5.7.4.
 			if err := validateMinimalUnsigned(data); err != nil {
-				return 0, err
+				return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), err)
 			}
 			var val uint64
 			for _, b := range data {
 				if val > math.MaxUint64>>8 {
-					return 0, fmt.Errorf("%w: constrained INTEGER exceeds uint64", ErrInvalidValue)
+					return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), fmt.Errorf("%w: constrained INTEGER exceeds uint64", ErrInvalidValue))
 				}
 				val = (val << 8) | uint64(b)
 			}
 			if val > rangeValue {
-				return 0, int64OffsetError(val, lb, ub)
+				return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), int64OffsetError(val, lb, ub))
 			}
-			return addNonNegativeOffset(lb, val)
+			result0, result1 = addNonNegativeOffset(lb, val)
+			if result1 != nil {
+				bb.locateDecodeFailure(sourceStart, constrainedWholeClause(lb, ub), &result1)
+			}
+			return result0, result1
 		}
-		return 0, fmt.Errorf("%w: constrained INTEGER length %d is outside [1..8]", ErrInvalidValue, n)
+		return 0, bb.decodeFailure(sourceStart, constrainedWholeClause(lb, ub), fmt.Errorf("%w: constrained INTEGER length %d is outside [1..8]", ErrInvalidValue, n))
 	}
 }
 
@@ -183,6 +205,9 @@ func DecodeUnconstrainedLengthAligned(bb *BitBuffer) (int64, error) {
 
 // EncodeSemiConstrainedWholeNumberAligned encodes v with known lb, no ub (APER).
 func EncodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, v, lb int64) error {
+	if err := bb.ChargeAllocation(1, 16); err != nil {
+		return err
+	}
 	if v < lb {
 		return fmt.Errorf("%w: %d below lower bound %d", ErrConstraintViolation, v, lb)
 	}
@@ -197,25 +222,23 @@ func EncodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, v, lb int64) error {
 }
 
 // DecodeSemiConstrainedWholeNumberAligned decodes a semi-constrained value (APER).
-func DecodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, lb int64) (int64, error) {
-	length, err := DecodeUnconstrainedLengthAligned(bb)
-	if err != nil {
-		return 0, err
-	}
-	if length == 0 {
-		return 0, fmt.Errorf("%w: zero-length semi-constrained INTEGER", ErrInvalidValue)
-	}
-	if length < 0 || length > 8 {
-		return 0, fmt.Errorf("%w: non-negative integer uses %d octets, maximum is 8", ErrInvalidValue, length)
-	}
+func DecodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, lb int64) (result0 int64, result1 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, "§11.7.4", &result1)
+
 	var data []byte
-	data, err = bb.ReadBytes(int(length))
+	data, err := decodeIntegerContentsAligned(bb)
 	if err != nil {
 		return 0, err
 	}
 	// ITU-T X.691 (02/2021) §§11.3.6, 11.7.4 require minimum octets.
 	if err := validateMinimalUnsigned(data); err != nil {
 		return 0, err
+	}
+	// X.691 (02/2021) §§11.3.6, 11.7.4: inspect minimal contents
+	// before applying the operational uint64/int64 carrier boundaries.
+	if len(data) > 8 {
+		return 0, bb.resourceError("non-negative integer representation maximum is 8 octets")
 	}
 	var val uint64
 	for _, b := range data {
@@ -224,11 +247,18 @@ func DecodeSemiConstrainedWholeNumberAligned(bb *BitBuffer, lb int64) (int64, er
 		}
 		val = (val << 8) | uint64(b)
 	}
-	return addNonNegativeOffset(lb, val)
+	value, err := addNonNegativeOffset(lb, val)
+	if err != nil {
+		return 0, bb.resourceError("semi-constrained INTEGER exceeds int64 representation")
+	}
+	return value, nil
 }
 
 // EncodeUnconstrainedWholeNumberAligned encodes a signed integer with no bounds (APER).
 func EncodeUnconstrainedWholeNumberAligned(bb *BitBuffer, v int64) error {
+	if err := bb.ChargeAllocation(1, 24); err != nil {
+		return err
+	}
 	var buf []byte
 	if v >= 0 {
 		if v == 0 {
@@ -256,7 +286,7 @@ func DecodeUnconstrainedWholeNumberAligned(bb *BitBuffer) (int64, error) {
 		return 0, err
 	}
 	if !value.IsInt64() {
-		return 0, fmt.Errorf("%w: unconstrained INTEGER %s exceeds int64", ErrInvalidValue, value)
+		return 0, bb.resourceError("unconstrained INTEGER exceeds int64 representation")
 	}
 	return value.Int64(), nil
 }
@@ -279,7 +309,10 @@ func EncodeNormallySmallNonNegativeAligned(bb *BitBuffer, v int64) error {
 }
 
 // DecodeNormallySmallNonNegativeAligned decodes a normally small non-negative number (APER).
-func DecodeNormallySmallNonNegativeAligned(bb *BitBuffer) (int64, error) {
+func DecodeNormallySmallNonNegativeAligned(bb *BitBuffer) (result0 int64, result1 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, "§11.6.2", &result1)
+
 	bit, err := bb.ReadBit()
 	if err != nil {
 		return 0, err
@@ -312,7 +345,7 @@ func EncodeNormallySmallLengthAligned(bb *BitBuffer, n int64) error {
 		return fmt.Errorf("%w: normally small length %d is not positive", ErrInvalidValue, n)
 	}
 	if n >= 16384 {
-		return fmt.Errorf("%w: length %d is not below 16384", ErrUnsupportedFragmentedNormallySmallLength, n)
+		return bb.unsupportedBitmapLength(fmt.Sprintf("length %d is not below 16384", n))
 	}
 	if n <= 64 {
 		if err := bb.WriteBit(0); err != nil {
@@ -328,7 +361,10 @@ func EncodeNormallySmallLengthAligned(bb *BitBuffer, n int64) error {
 
 // DecodeNormallySmallLengthAligned decodes a positive normally small length.
 // ITU-T X.691 (02/2021) 11.9.3.4 and 19.8.
-func DecodeNormallySmallLengthAligned(bb *BitBuffer) (int64, error) {
+func DecodeNormallySmallLengthAligned(bb *BitBuffer) (result0 int64, result1 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, "§11.9.3.4", &result1)
+
 	bit, err := bb.ReadBit()
 	if err != nil {
 		return 0, err
@@ -342,7 +378,7 @@ func DecodeNormallySmallLengthAligned(bb *BitBuffer) (int64, error) {
 		return 0, err
 	}
 	if more {
-		return 0, fmt.Errorf("%w: first fragment length %d", ErrUnsupportedFragmentedNormallySmallLength, n)
+		return 0, bb.unsupportedBitmapLength(fmt.Sprintf("first fragment length %d", n))
 	}
 	if n <= 64 {
 		return 0, fmt.Errorf("%w: long normally small length %d is not greater than 64", ErrInvalidValue, n)
@@ -391,7 +427,10 @@ func EncodeIntegerAligned(bb *BitBuffer, v int64, lb, ub *int64, extensible bool
 }
 
 // DecodeIntegerAligned decodes an integer using APER rules.
-func DecodeIntegerAligned(bb *BitBuffer, lb, ub *int64, extensible bool) (int64, error) {
+func DecodeIntegerAligned(bb *BitBuffer, lb, ub *int64, extensible bool) (result0 int64, result1 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, integerClause(lb, ub, extensible), &result1)
+
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
@@ -447,27 +486,57 @@ func EncodeEnumeratedAligned(bb *BitBuffer, v int64, rootCount int, extensible b
 }
 
 // DecodeEnumeratedAligned decodes an enumerated value using APER rules.
-func DecodeEnumeratedAligned(bb *BitBuffer, rootCount int, extensible bool) (int64, error) {
+func DecodeEnumeratedAligned(bb *BitBuffer, rootCount int, extensible bool, source ...EnumerationSource) (result0 int64, result1 error) {
+	sourceStart := bb.BitPos()
+	sourceClause := "§14.2"
+
 	if rootCount <= 0 {
-		return 0, fmt.Errorf("%w: nonpositive ENUMERATED root count %d", ErrInvalidValue, rootCount)
+		return 0, bb.decodeFailure(sourceStart, sourceClause, fmt.Errorf("%w: nonpositive ENUMERATED root count %d", ErrInvalidValue, rootCount))
 	}
 	if extensible {
 		isExtension, err := DecodeBoolean(bb)
 		if err != nil {
-			return 0, err
+			return 0, bb.decodeFailure(sourceStart, sourceClause, err)
 		}
 		if isExtension {
+			sourceClause = "§14.3"
 			extIdx, err := DecodeNormallySmallNonNegativeAligned(bb)
 			if err != nil {
-				return 0, err
+				return 0, bb.decodeFailure(sourceStart, sourceClause, err)
 			}
-			return addExtensionIndex(rootCount, extIdx)
+			if extIdx > math.MaxInt64-int64(rootCount) {
+				return 0, bb.decodeFailure(sourceStart, sourceClause, bb.resourceError("enumerated extension exceeds int64 representation"))
+			}
+			value, err := addExtensionIndex(rootCount, extIdx)
+			if err != nil {
+				return 0, bb.decodeFailure(sourceStart, sourceClause, err)
+			}
+			info := EnumerationSource{}
+			if len(source) != 0 {
+				info = source[0]
+			}
+			if extIdx >= int64(info.KnownExtensions) {
+				location := Location{Path: info.Path}
+				if location.Path == "" {
+					location.Path = "ENUMERATED"
+				}
+				location.Spans, location.HasWireLocation = originalRange(bb, uint64(sourceStart), uint64(bb.BitPos()))
+				raw := OpaqueOpenType{parent: bb, origin: OpaqueOrigin{Location: location, Rule: SourceRule{Document: "ITU-T X.691", Edition: "02/2021", Clause: "§14.3"}}}
+				if err := raw.Observe(UnknownExtension); err != nil {
+					return 0, bb.decodeFailure(sourceStart, sourceClause, err)
+				}
+			}
+			return value, nil
 		}
 	}
 	if rootCount <= 1 {
 		return 0, nil
 	}
-	return DecodeConstrainedWholeNumberAligned(bb, 0, int64(rootCount-1))
+	result0, result1 = DecodeConstrainedWholeNumberAligned(bb, 0, int64(rootCount-1))
+	if result1 != nil {
+		bb.locateDecodeFailure(sourceStart, sourceClause, &result1)
+	}
+	return result0, result1
 }
 
 // EncodeBitStringAligned encodes a BIT STRING using APER rules.
@@ -531,7 +600,10 @@ func DecodeBitStringAligned(bb *BitBuffer, lb, ub int64, constrained bool) ([]by
 }
 
 // DecodeBitStringAlignedExt decodes a BIT STRING with optional SIZE extensibility.
-func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, int, error) {
+func DecodeBitStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) (result0 []byte, result1 int, result2 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, bitStringClause(lb, ub, constrained, extensible), &result2)
+
 	if err := validateSizeBounds(lb, ub, constrained); err != nil {
 		return nil, 0, err
 	}
@@ -651,7 +723,10 @@ func DecodeOctetStringAligned(bb *BitBuffer, lb, ub int64, constrained bool) ([]
 }
 
 // DecodeOctetStringAlignedExt decodes an OCTET STRING with optional SIZE extensibility.
-func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) ([]byte, error) {
+func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, extensible bool) (result0 []byte, result1 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, octetStringClause(lb, ub, constrained, extensible), &result1)
+
 	if err := validateSizeBounds(lb, ub, constrained); err != nil {
 		return nil, err
 	}
@@ -712,6 +787,9 @@ func DecodeOctetStringAlignedExt(bb *BitBuffer, lb, ub int64, constrained, exten
 // EncodeOpenTypeAligned wraps a complete encoding with an aligned length
 // determinant. ITU-T X.691 (02/2021), clause 11.2.
 func EncodeOpenTypeAligned(bb *BitBuffer, data []byte) error {
+	if uint64(len(data)) > bb.openTypeMaximum() {
+		return bb.resourceError("open type bytes exceeded")
+	}
 	if len(data) == 0 {
 		return fmt.Errorf("%w: APER open type requires a complete encoding", ErrInvalidValue)
 	}
@@ -720,20 +798,54 @@ func EncodeOpenTypeAligned(bb *BitBuffer, data []byte) error {
 
 // DecodeOpenTypeAligned decodes an open type's complete encoding (APER).
 func DecodeOpenTypeAligned(bb *BitBuffer) ([]byte, error) {
+	return decodeOpenTypeAlignedObserved(bb, nil)
+}
+
+func decodeOpenTypeAlignedObserved(bb *BitBuffer, observe func(offset, length int64, bitStart int)) (result0 []byte, result1 error) {
+	sourceStart := bb.BitPos()
+	defer bb.locateDecodeFailure(sourceStart, "§11.2.1", &result1)
+
 	// X.691 (02/2021) §11.2.2 delimits each frame; account for it
 	// even when the actual type is opaque. This is a receiver ceiling.
 	if err := bb.EnterOpenType(); err != nil {
 		return nil, err
 	}
 	defer bb.LeaveOpenType()
-	data, err := decodeLengthDelimitedOctets(bb, true)
+	data, err := decodeLengthDelimitedOctetsObserved(bb, true, int64(bb.openTypeMaximum()), observe)
 	if err != nil {
+		if errors.Is(err, ErrConstraintViolation) && bb.decodeBudget().operational.MaxOpenTypeBytes != 0 {
+			return nil, bb.resourceError("open type bytes exceeded")
+		}
 		return nil, err
 	}
 	if len(data) == 0 {
-		return nil, fmt.Errorf("%w: APER open type has an empty complete encoding", ErrInvalidValue)
+		return nil, bb.syntaxError(bb.BitPos(), "§11.2.1", "APER open type has an empty complete encoding", ErrInvalidValue)
 	}
 	return data, nil
+}
+
+// EnumerationSource identifies source-known ENUMERATED additions (X.691 §14.3).
+type EnumerationSource struct {
+	KnownExtensions int
+	Path            Path
+}
+
+func (bb *BitBuffer) openTypeMaximum() uint64 {
+	limit := bb.decodeBudget().operational.MaxOpenTypeBytes
+	if limit == 0 {
+		return math.MaxInt64
+	}
+	return limit
+}
+func (bb *BitBuffer) unsupportedBitmapLength(message string) error {
+	if err := bb.decodeBudget().err; err != nil {
+		return err
+	}
+	failure := bb.resourceError(message)
+	if located, ok := failure.(*DecodeError); ok {
+		located.Err = fmt.Errorf("%w: %s", ErrUnsupportedFragmentedNormallySmallLength, message)
+	}
+	return failure
 }
 
 // EncodeKnownMultiplierStringAligned is EncodeKnownMultiplierString in the

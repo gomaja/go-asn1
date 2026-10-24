@@ -1,26 +1,26 @@
 package lppa
 
 import (
-	q9 "encoding/hex"
-	bridge0 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s23"
+	"encoding/hex"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s23"
 
-	q10 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
-	q16 "strings"
-	q8 "testing"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
+	"strings"
+	"testing"
 )
 
-func TestTableSelectedOpenTypeDepth(t *q8.T) {
-	wire, _ := q9.DecodeString("00020000010d00000200020001300003000140")
-	state := q10.ApplyDecodeOptions()
+func TestTableSelectedOpenTypeDepth(t *testing.T) {
+	wire, _ := hex.DecodeString("00020000010d00000200020001300003000140")
+	state := aper.ApplyDecodeOptions()
 	var v LPPAPDU
-	if err := bridge0.BridgeLPPAPDUMethodUnmarshalAPERWithOptions(&v, wire, state); err != nil {
+	if err := s23.BridgeLPPAPDUMethodUnmarshalAPERWithOptions(&v, wire, state); err != nil {
 		t.Fatal(err)
 	}
 	if n := state.Usage().MaxOpenTypeDepth; n != 2 {
 		t.Fatalf("selected open-type depth=%d want 2", n)
 	}
 }
-func TestReplayUnknownDuplicateIE(t *q8.T) {
+func TestReplayUnknownDuplicateIE(t *testing.T) {
 	field := errorIndicationIEFieldReplayMust(ErrorIndicationIEs().NewOpaque(65532, CriticalityIgnore, []byte{0}))
 	body := ErrorIndication{ProtocolIEs: ErrorIndicationIEContainer{field, field}}
 	report, err := ValidateErrorIndication(&body)
@@ -40,9 +40,9 @@ func TestReplayUnknownDuplicateIE(t *q8.T) {
 		t.Fatal("builder accepted duplicate unknown IE")
 	}
 }
-func TestReplayZeroProcedureBinding(t *q8.T) {
+func TestReplayZeroProcedureBinding(t *testing.T) {
 	var b ErrorIndicationInitiatingBinding
-	if _, err := b.Build(ErrorIndication{}, 0); err == nil || !q16.Contains(err.Error(), "unbound") {
+	if _, err := b.Build(ErrorIndication{}, 0); err == nil || !strings.Contains(err.Error(), "unbound") {
 		t.Fatalf("zero binding=%v want unbound binding error", err)
 	}
 }

@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/padding_preserve_test.go; SHA-256 7b73aaa43469f33ae4ca3c65f2d6aad4e030375b41a358fff62219a95cc2ebf3.
+// Runtime source: runtime/aper/padding_preserve_test.go; SHA-256 46caee322191b8bd8b236d34f90097577fa88fe04027ca17693c5ab47bb0b5bc.
 package aper
 
 import (
@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestCompletePaddingPreservesObservedBits(t *testing.T) {
+func TestCompletePaddingPreservesZeroBits(t *testing.T) {
 	for _, read := range []struct {
 		name string
 		fn   func(*BitBuffer) (CompletePadding, error)
@@ -18,7 +18,7 @@ func TestCompletePaddingPreservesObservedBits(t *testing.T) {
 		{"open-type", CaptureOpenTypePadding},
 	} {
 		t.Run(read.name, func(t *testing.T) {
-			bb := NewBitBufferFromBytes([]byte{0xaf})
+			bb := NewBitBufferFromBytes([]byte{0xa0})
 			if value, err := bb.ReadBits(4); err != nil || value != 0xa {
 				t.Fatalf("decoded value = %x, %v", value, err)
 			}
@@ -31,8 +31,8 @@ func TestCompletePaddingPreservesObservedBits(t *testing.T) {
 				t.Fatal(err)
 			}
 			wire, err := out.CompleteBytesWithPadding(pad)
-			if err != nil || !bytes.Equal(wire, []byte{0xaf}) {
-				t.Fatalf("re-encoded = %x, %v; want af", wire, err)
+			if err != nil || !bytes.Equal(wire, []byte{0xa0}) {
+				t.Fatalf("re-encoded = %x, %v; want a0", wire, err)
 			}
 			canonical, err := out.CompleteBytesWithPadding(CompletePadding{})
 			if err != nil || !bytes.Equal(canonical, []byte{0xa0}) {

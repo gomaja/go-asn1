@@ -4,154 +4,169 @@
 package s23
 
 import (
-	q6 "fmt"
-	q4 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
-	q23 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s02"
-	q15 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
-	q19 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
-	q21 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
-	q13 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
-	q26 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s07"
-	q22 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s08"
-	q7 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
-	q11 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s10"
-	q12 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s11"
-	q17 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s12"
-	q14 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s13"
-	q27 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s14"
-	q10 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s16"
-	q18 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s17"
-	q16 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s18"
-	q25 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s19"
-	q24 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
-	q8 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
-	q9 "github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s22"
-	q20 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
-	q5 "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
+	"fmt"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s02"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s07"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s08"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s10"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s11"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s12"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s13"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s14"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s16"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s17"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s18"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s19"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s22"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
 type APERValue[T any] struct {
-	context       q4.BridgeCodecContext
+	context       s00.BridgeCodecContext
 	Value         T
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v APERValue[T]) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v APERValue[T]) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v APERValue[T]) WithoutReplay() APERValue[T] {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // ValueCodec binds one source value type to its complete APER encoding.
 type ValueCodec[T any] struct {
-	context q4.BridgeCodecContext
-	capture func(T, q5.DecodeState) (T, q5.Snapshot)
-	compare func(T, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan
-	path    q5.Path
-	decode  func([]byte, q5.DecodeState) (T, error)
-	encode  func(T, bool, *q5.DecodeBudget) ([]byte, error)
+	context s00.BridgeCodecContext
+	capture func(T, aper.DecodeState) (T, aper.Snapshot)
+	compare func(T, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (T, error)
+	encode  func(T, bool, *aper.DecodeBudget) ([]byte, error)
 }
 
+// New validates value and returns a complete APER value.
 func (c ValueCodec[T]) New(value T) (APERValue[T], error) {
 	if c.encode == nil {
-		return APERValue[T]{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return APERValue[T]{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return APERValue[T]{}, q5.OperationError(err, "Value.New")
+		return APERValue[T]{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return APERValue[T]{}, q5.OperationError(err, "Value.New")
+		return APERValue[T]{}, aper.OperationError(err, "Value.New")
 	}
-	return APERValue[T]{Value: value}, q5.OperationError(nil, "Value.New")
+	return APERValue[T]{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c ValueCodec[T]) DecodeAPER(data []byte, options ...q5.DecodeOption) (APERValue[T], q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c ValueCodec[T]) DecodeAPER(data []byte, options ...aper.DecodeOption) (APERValue[T], aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return APERValue[T]{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return APERValue[T]{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return APERValue[T]{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return APERValue[T]{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return APERValue[T]{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return APERValue[T]{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return APERValue[T]{}, report, q5.OperationError(err, c.path)
+		return APERValue[T]{}, report, aper.OperationError(err, c.path)
 	}
-	return APERValue[T]{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return APERValue[T]{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c ValueCodec[T]) EncodeAPER(value APERValue[T], options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c ValueCodec[T]) EncodeAPER(value APERValue[T], options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c ValueCodec[T]) encodeBudget(value T, fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+func (c ValueCodec[T]) encodeBudget(value T, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c ValueCodec[T]) encodeChanged(value T, fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+func (c ValueCodec[T]) encodeChanged(value T, fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 type IEBinding[T any, V ProtocolOpenValueConstraint[V]] struct {
-	info   q4.FieldInfo
+	info   s00.FieldInfo
 	codec  ValueCodec[T]
 	inject func(T) V
 	get    func(*V) (*T, bool)
 }
 
-func (b IEBinding[T, V]) Info() q4.FieldInfo   { return b.info }
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b IEBinding[T, V]) Info() s00.FieldInfo { return b.info }
+
+// Codec returns the complete APER codec for this binding's value type.
 func (b IEBinding[T, V]) Codec() ValueCodec[T] { return b.codec }
+
+// New validates value and constructs a field with this binding's identifier and criticality.
 func (b IEBinding[T, V]) New(value T) (ProtocolIEField[V], error) {
 	if b.inject == nil {
-		return ProtocolIEField[V]{}, q5.OperationError(q6.Errorf("unbound IE binding"), "Value.New")
+		return ProtocolIEField[V]{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ProtocolIEField[V]{}, q5.OperationError(err, "Value.New")
+		return ProtocolIEField[V]{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := b.codec.encode(value, false, budget); err != nil {
-		return ProtocolIEField[V]{}, q5.OperationError(q6.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
+		return ProtocolIEField[V]{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
 	}
-	if err := q5.ChargeValue(q5.NewBudgetBuffer(budget), value); err != nil {
-		return ProtocolIEField[V]{}, q5.OperationError(err, "Value.New")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return ProtocolIEField[V]{}, aper.OperationError(err, "Value.New")
 	}
-	return ProtocolIEField[V]{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, q5.OperationError(nil, "Value.New")
+	return ProtocolIEField[V]{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
 }
+
+// Get returns the selected typed value when the field belongs to this binding.
 func (b IEBinding[T, V]) Get(field *ProtocolIEField[V]) (*T, bool) {
 	if field == nil || field.Id != b.info.ID || b.get == nil {
 		return nil, false
@@ -160,30 +175,37 @@ func (b IEBinding[T, V]) Get(field *ProtocolIEField[V]) (*T, bool) {
 }
 
 type ExtensionBinding[T any, V ProtocolOpenValueConstraint[V]] struct {
-	info   q4.FieldInfo
+	info   s00.FieldInfo
 	codec  ValueCodec[T]
 	inject func(T) V
 	get    func(*V) (*T, bool)
 }
 
-func (b ExtensionBinding[T, V]) Info() q4.FieldInfo   { return b.info }
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b ExtensionBinding[T, V]) Info() s00.FieldInfo { return b.info }
+
+// Codec returns the complete APER codec for this binding's value type.
 func (b ExtensionBinding[T, V]) Codec() ValueCodec[T] { return b.codec }
+
+// New validates value and constructs a field with this binding's identifier and criticality.
 func (b ExtensionBinding[T, V]) New(value T) (ProtocolExtensionField[V], error) {
 	if b.inject == nil {
-		return ProtocolExtensionField[V]{}, q5.OperationError(q6.Errorf("unbound extension binding"), "Value.New")
+		return ProtocolExtensionField[V]{}, aper.OperationError(fmt.Errorf("unbound extension binding"), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ProtocolExtensionField[V]{}, q5.OperationError(err, "Value.New")
+		return ProtocolExtensionField[V]{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := b.codec.encode(value, false, budget); err != nil {
-		return ProtocolExtensionField[V]{}, q5.OperationError(q6.Errorf("extension %d: %w", b.info.ID, err), "Value.New")
+		return ProtocolExtensionField[V]{}, aper.OperationError(fmt.Errorf("extension %d: %w", b.info.ID, err), "Value.New")
 	}
-	if err := q5.ChargeValue(q5.NewBudgetBuffer(budget), value); err != nil {
-		return ProtocolExtensionField[V]{}, q5.OperationError(err, "Value.New")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return ProtocolExtensionField[V]{}, aper.OperationError(err, "Value.New")
 	}
-	return ProtocolExtensionField[V]{Id: b.info.ID, Criticality: b.info.Criticality, ExtensionValue: b.inject(value)}, q5.OperationError(nil, "Value.New")
+	return ProtocolExtensionField[V]{Id: b.info.ID, Criticality: b.info.Criticality, ExtensionValue: b.inject(value)}, aper.OperationError(nil, "Value.New")
 }
+
+// Get returns the selected typed value when the field belongs to this binding.
 func (b ExtensionBinding[T, V]) Get(field *ProtocolExtensionField[V]) (*T, bool) {
 	if field == nil || field.Id != b.info.ID || b.get == nil {
 		return nil, false
@@ -192,631 +214,656 @@ func (b ExtensionBinding[T, V]) Get(field *ProtocolExtensionField[V]) (*T, bool)
 }
 
 type InitiatingBinding[T any] struct {
-	context  q4.BridgeCodecContext
-	capture  func(T, q5.DecodeState) (T, q5.Snapshot)
-	compare  func(T, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan
-	info     q4.ProcedureInfo
-	validate func(*T, *q5.DecodeBudget) (q7.ValidationReport, error)
-	encode   func(*T, bool, *q5.DecodeBudget) ([]byte, error)
-	decode   func([]byte, q5.DecodeState) (T, error)
-	inject   func(T) q8.InitiatingValue
+	context  s00.BridgeCodecContext
+	capture  func(T, aper.DecodeState) (T, aper.Snapshot)
+	compare  func(T, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan
+	info     s00.ProcedureInfo
+	validate func(*T, *aper.DecodeBudget) (s09.ValidationReport, error)
+	encode   func(*T, bool, *aper.DecodeBudget) ([]byte, error)
+	decode   func([]byte, aper.DecodeState) (T, error)
+	inject   func(T) s21.InitiatingValue
 }
 
-func (b InitiatingBinding[T]) Info() q4.ProcedureInfo { return b.info }
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b InitiatingBinding[T]) Info() s00.ProcedureInfo { return b.info }
+
+// Codec returns the complete APER codec for this binding's value type.
 func (b InitiatingBinding[T]) Codec() ValueCodec[T] {
-	return ValueCodec[T]{path: q5.Path(b.info.Rule.Assignment.Assignment), decode: b.decode, encode: func(value T, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
+	return ValueCodec[T]{path: aper.Path(b.info.Rule.Assignment.Assignment), decode: b.decode, encode: func(value T, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return b.encode(&value, fresh, budget)
 	}, capture: b.capture, compare: b.compare, context: b.context,
 	}
 }
-func (b InitiatingBinding[T]) Build(body T, transactionID q4.LPPATransactionID, options ...q5.BuildOption) (q8.InitiatingMessage, error) {
+
+// Build validates the body and constructs a procedure message with the supplied transaction identifier.
+func (b InitiatingBinding[T]) Build(body T, transactionID s00.LPPATransactionID, options ...aper.BuildOption) (s21.InitiatingMessage, error) {
 	if b.validate == nil || b.encode == nil || b.inject == nil {
-		return q8.InitiatingMessage{}, q5.OperationError(q6.Errorf("%w: unbound procedure binding", q5.ErrInvalidValue), "Build")
+		return s21.InitiatingMessage{}, aper.OperationError(fmt.Errorf("%w: unbound procedure binding", aper.ErrInvalidValue), "Build")
 	}
-	budget, err := q5.BuildBudget(options...)
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q8.InitiatingMessage{}, q5.OperationError(err, "Build")
+		return s21.InitiatingMessage{}, aper.OperationError(err, "Build")
 	}
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return q8.InitiatingMessage{}, q5.OperationError(err, "Build")
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return s21.InitiatingMessage{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return q8.InitiatingMessage{}, q5.OperationError(err, "Build")
+		return s21.InitiatingMessage{}, aper.OperationError(err, "Build")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q8.InitiatingMessage{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "Build")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s21.InitiatingMessage{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "Build")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q8.InitiatingMessage{}, q5.OperationError(&q7.BuildError{Issues: issues}, "Build")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s21.InitiatingMessage{}, aper.OperationError(&s09.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return q8.InitiatingMessage{}, q5.OperationError(q6.Errorf("initiatingMessage.value: %w", err), "Build")
+		return s21.InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
 	}
-	if err := q5.ChargeValue(q5.NewBudgetBuffer(budget), body); err != nil {
-		return q8.InitiatingMessage{}, q5.OperationError(err, "Build")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return s21.InitiatingMessage{}, aper.OperationError(err, "Build")
 	}
-	return q8.InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, q5.OperationError(nil, "Build")
+	return s21.InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
 type SuccessfulBinding[T any] struct {
-	context  q4.BridgeCodecContext
-	capture  func(T, q5.DecodeState) (T, q5.Snapshot)
-	compare  func(T, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan
-	info     q4.ProcedureInfo
-	validate func(*T, *q5.DecodeBudget) (q7.ValidationReport, error)
-	encode   func(*T, bool, *q5.DecodeBudget) ([]byte, error)
-	decode   func([]byte, q5.DecodeState) (T, error)
-	inject   func(T) q9.SuccessfulValue
+	context  s00.BridgeCodecContext
+	capture  func(T, aper.DecodeState) (T, aper.Snapshot)
+	compare  func(T, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan
+	info     s00.ProcedureInfo
+	validate func(*T, *aper.DecodeBudget) (s09.ValidationReport, error)
+	encode   func(*T, bool, *aper.DecodeBudget) ([]byte, error)
+	decode   func([]byte, aper.DecodeState) (T, error)
+	inject   func(T) s22.SuccessfulValue
 }
 
-func (b SuccessfulBinding[T]) Info() q4.ProcedureInfo { return b.info }
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b SuccessfulBinding[T]) Info() s00.ProcedureInfo { return b.info }
+
+// Codec returns the complete APER codec for this binding's value type.
 func (b SuccessfulBinding[T]) Codec() ValueCodec[T] {
-	return ValueCodec[T]{path: q5.Path(b.info.Rule.Assignment.Assignment), decode: b.decode, encode: func(value T, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
+	return ValueCodec[T]{path: aper.Path(b.info.Rule.Assignment.Assignment), decode: b.decode, encode: func(value T, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return b.encode(&value, fresh, budget)
 	}, capture: b.capture, compare: b.compare, context: b.context,
 	}
 }
-func (b SuccessfulBinding[T]) Build(body T, transactionID q4.LPPATransactionID, options ...q5.BuildOption) (q9.SuccessfulOutcome, error) {
+
+// Build validates the body and constructs a procedure message with the supplied transaction identifier.
+func (b SuccessfulBinding[T]) Build(body T, transactionID s00.LPPATransactionID, options ...aper.BuildOption) (s22.SuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.inject == nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("%w: unbound procedure binding", q5.ErrInvalidValue), "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("%w: unbound procedure binding", aper.ErrInvalidValue), "Build")
 	}
-	budget, err := q5.BuildBudget(options...)
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "Build")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "Build")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q9.SuccessfulOutcome{}, q5.OperationError(&q7.BuildError{Issues: issues}, "Build")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s22.SuccessfulOutcome{}, aper.OperationError(&s09.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("successfulOutcome.value: %w", err), "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("successfulOutcome.value: %w", err), "Build")
 	}
-	if err := q5.ChargeValue(q5.NewBudgetBuffer(budget), body); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return q9.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, q5.OperationError(nil, "Build")
+	return s22.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
 type UnsuccessfulBinding[T any] struct {
-	context  q4.BridgeCodecContext
-	capture  func(T, q5.DecodeState) (T, q5.Snapshot)
-	compare  func(T, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan
-	info     q4.ProcedureInfo
-	validate func(*T, *q5.DecodeBudget) (q7.ValidationReport, error)
-	encode   func(*T, bool, *q5.DecodeBudget) ([]byte, error)
-	decode   func([]byte, q5.DecodeState) (T, error)
-	inject   func(T) q10.UnsuccessfulValue
+	context  s00.BridgeCodecContext
+	capture  func(T, aper.DecodeState) (T, aper.Snapshot)
+	compare  func(T, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan
+	info     s00.ProcedureInfo
+	validate func(*T, *aper.DecodeBudget) (s09.ValidationReport, error)
+	encode   func(*T, bool, *aper.DecodeBudget) ([]byte, error)
+	decode   func([]byte, aper.DecodeState) (T, error)
+	inject   func(T) s16.UnsuccessfulValue
 }
 
-func (b UnsuccessfulBinding[T]) Info() q4.ProcedureInfo { return b.info }
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b UnsuccessfulBinding[T]) Info() s00.ProcedureInfo { return b.info }
+
+// Codec returns the complete APER codec for this binding's value type.
 func (b UnsuccessfulBinding[T]) Codec() ValueCodec[T] {
-	return ValueCodec[T]{path: q5.Path(b.info.Rule.Assignment.Assignment), decode: b.decode, encode: func(value T, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
+	return ValueCodec[T]{path: aper.Path(b.info.Rule.Assignment.Assignment), decode: b.decode, encode: func(value T, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return b.encode(&value, fresh, budget)
 	}, capture: b.capture, compare: b.compare, context: b.context,
 	}
 }
-func (b UnsuccessfulBinding[T]) Build(body T, transactionID q4.LPPATransactionID, options ...q5.BuildOption) (q10.UnsuccessfulOutcome, error) {
+
+// Build validates the body and constructs a procedure message with the supplied transaction identifier.
+func (b UnsuccessfulBinding[T]) Build(body T, transactionID s00.LPPATransactionID, options ...aper.BuildOption) (s16.UnsuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.inject == nil {
-		return q10.UnsuccessfulOutcome{}, q5.OperationError(q6.Errorf("%w: unbound procedure binding", q5.ErrInvalidValue), "Build")
+		return s16.UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("%w: unbound procedure binding", aper.ErrInvalidValue), "Build")
 	}
-	budget, err := q5.BuildBudget(options...)
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q10.UnsuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s16.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return q10.UnsuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return s16.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return q10.UnsuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s16.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q10.UnsuccessfulOutcome{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "Build")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s16.UnsuccessfulOutcome{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "Build")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q10.UnsuccessfulOutcome{}, q5.OperationError(&q7.BuildError{Issues: issues}, "Build")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s16.UnsuccessfulOutcome{}, aper.OperationError(&s09.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return q10.UnsuccessfulOutcome{}, q5.OperationError(q6.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
+		return s16.UnsuccessfulOutcome{}, aper.OperationError(fmt.Errorf("unsuccessfulOutcome.value: %w", err), "Build")
 	}
-	if err := q5.ChargeValue(q5.NewBudgetBuffer(budget), body); err != nil {
-		return q10.UnsuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return s16.UnsuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return q10.UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, q5.OperationError(nil, "Build")
+	return s16.UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
-func NewErrorIndication(fields q11.ErrorIndicationIEContainer, options ...q5.BuildOption) (q12.ErrorIndication, error) {
-	budget, err := q5.BuildBudget(options...)
+func NewErrorIndication(fields s10.ErrorIndicationIEContainer, options ...aper.BuildOption) (s11.ErrorIndication, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q12.ErrorIndication{}, q5.OperationError(err, "ErrorIndication")
+		return s11.ErrorIndication{}, aper.OperationError(err, "ErrorIndication")
 	}
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[q11.ErrorIndicationIEField](bb, uint64(len(fields))); err != nil {
-		return q12.ErrorIndication{}, q5.OperationError(err, "ErrorIndication")
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s10.ErrorIndicationIEField](bb, uint64(len(fields))); err != nil {
+		return s11.ErrorIndication{}, aper.OperationError(err, "ErrorIndication")
 	}
-	v := q12.ErrorIndication{ProtocolIEs: make(q11.ErrorIndicationIEContainer, len(fields))}
+	v := s11.ErrorIndication{ProtocolIEs: make(s10.ErrorIndicationIEContainer, len(fields))}
 	copy(v.ProtocolIEs, fields)
 	report, err := BridgeValidateErrorIndicationBudget(&v, budget)
 	if err != nil {
-		return q12.ErrorIndication{}, q5.OperationError(err, "ErrorIndication")
+		return s11.ErrorIndication{}, aper.OperationError(err, "ErrorIndication")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q12.ErrorIndication{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "ErrorIndication")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s11.ErrorIndication{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "ErrorIndication")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q12.ErrorIndication{}, q5.OperationError(&q7.BuildError{Issues: issues}, "ErrorIndication")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s11.ErrorIndication{}, aper.OperationError(&s09.BuildError{Issues: issues}, "ErrorIndication")
 	}
-	if _, err := q12.BridgeErrorIndicationMethodMarshalAPERBudget(&v, budget, false); err != nil {
-		return q12.ErrorIndication{}, q5.OperationError(q6.Errorf("%s %w", "ErrorIndication.protocolIEs:", err), "ErrorIndication")
+	if _, err := s11.BridgeErrorIndicationMethodMarshalAPERBudget(&v, budget, false); err != nil {
+		return s11.ErrorIndication{}, aper.OperationError(fmt.Errorf("%s %w", "ErrorIndication.protocolIEs:", err), "ErrorIndication")
 	}
-	return v, q5.OperationError(nil, "ErrorIndication")
+	return v, aper.OperationError(nil, "ErrorIndication")
 }
-func NewECIDMeasurementInitiationFailure(fields q7.ECIDMeasurementInitiationFailureIEContainer, options ...q5.BuildOption) (q12.ECIDMeasurementInitiationFailure, error) {
-	budget, err := q5.BuildBudget(options...)
+func NewECIDMeasurementInitiationFailure(fields s09.ECIDMeasurementInitiationFailureIEContainer, options ...aper.BuildOption) (s11.ECIDMeasurementInitiationFailure, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q12.ECIDMeasurementInitiationFailure{}, q5.OperationError(err, "ECIDMeasurementInitiationFailure")
+		return s11.ECIDMeasurementInitiationFailure{}, aper.OperationError(err, "ECIDMeasurementInitiationFailure")
 	}
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[q7.ECIDMeasurementInitiationFailureIEField](bb, uint64(len(fields))); err != nil {
-		return q12.ECIDMeasurementInitiationFailure{}, q5.OperationError(err, "ECIDMeasurementInitiationFailure")
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s09.ECIDMeasurementInitiationFailureIEField](bb, uint64(len(fields))); err != nil {
+		return s11.ECIDMeasurementInitiationFailure{}, aper.OperationError(err, "ECIDMeasurementInitiationFailure")
 	}
-	v := q12.ECIDMeasurementInitiationFailure{ProtocolIEs: make(q7.ECIDMeasurementInitiationFailureIEContainer, len(fields))}
+	v := s11.ECIDMeasurementInitiationFailure{ProtocolIEs: make(s09.ECIDMeasurementInitiationFailureIEContainer, len(fields))}
 	copy(v.ProtocolIEs, fields)
 	report, err := BridgeValidateECIDMeasurementInitiationFailureBudget(&v, budget)
 	if err != nil {
-		return q12.ECIDMeasurementInitiationFailure{}, q5.OperationError(err, "ECIDMeasurementInitiationFailure")
+		return s11.ECIDMeasurementInitiationFailure{}, aper.OperationError(err, "ECIDMeasurementInitiationFailure")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q12.ECIDMeasurementInitiationFailure{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "ECIDMeasurementInitiationFailure")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s11.ECIDMeasurementInitiationFailure{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "ECIDMeasurementInitiationFailure")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q12.ECIDMeasurementInitiationFailure{}, q5.OperationError(&q7.BuildError{Issues: issues}, "ECIDMeasurementInitiationFailure")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s11.ECIDMeasurementInitiationFailure{}, aper.OperationError(&s09.BuildError{Issues: issues}, "ECIDMeasurementInitiationFailure")
 	}
-	if _, err := q12.BridgeECIDMeasurementInitiationFailureMethodMarshalAPERBudget(&v, budget, false); err != nil {
-		return q12.ECIDMeasurementInitiationFailure{}, q5.OperationError(q6.Errorf("%s %w", "ECIDMeasurementInitiationFailure.protocolIEs:", err), "ECIDMeasurementInitiationFailure")
+	if _, err := s11.BridgeECIDMeasurementInitiationFailureMethodMarshalAPERBudget(&v, budget, false); err != nil {
+		return s11.ECIDMeasurementInitiationFailure{}, aper.OperationError(fmt.Errorf("%s %w", "ECIDMeasurementInitiationFailure.protocolIEs:", err), "ECIDMeasurementInitiationFailure")
 	}
-	return v, q5.OperationError(nil, "ECIDMeasurementInitiationFailure")
+	return v, aper.OperationError(nil, "ECIDMeasurementInitiationFailure")
 }
-func NewECIDMeasurementFailureIndication(fields q13.ECIDMeasurementFailureIndicationIEContainer, options ...q5.BuildOption) (q12.ECIDMeasurementFailureIndication, error) {
-	budget, err := q5.BuildBudget(options...)
+func NewECIDMeasurementFailureIndication(fields s06.ECIDMeasurementFailureIndicationIEContainer, options ...aper.BuildOption) (s11.ECIDMeasurementFailureIndication, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q12.ECIDMeasurementFailureIndication{}, q5.OperationError(err, "ECIDMeasurementFailureIndication")
+		return s11.ECIDMeasurementFailureIndication{}, aper.OperationError(err, "ECIDMeasurementFailureIndication")
 	}
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[q13.ECIDMeasurementFailureIndicationIEField](bb, uint64(len(fields))); err != nil {
-		return q12.ECIDMeasurementFailureIndication{}, q5.OperationError(err, "ECIDMeasurementFailureIndication")
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s06.ECIDMeasurementFailureIndicationIEField](bb, uint64(len(fields))); err != nil {
+		return s11.ECIDMeasurementFailureIndication{}, aper.OperationError(err, "ECIDMeasurementFailureIndication")
 	}
-	v := q12.ECIDMeasurementFailureIndication{ProtocolIEs: make(q13.ECIDMeasurementFailureIndicationIEContainer, len(fields))}
+	v := s11.ECIDMeasurementFailureIndication{ProtocolIEs: make(s06.ECIDMeasurementFailureIndicationIEContainer, len(fields))}
 	copy(v.ProtocolIEs, fields)
 	report, err := BridgeValidateECIDMeasurementFailureIndicationBudget(&v, budget)
 	if err != nil {
-		return q12.ECIDMeasurementFailureIndication{}, q5.OperationError(err, "ECIDMeasurementFailureIndication")
+		return s11.ECIDMeasurementFailureIndication{}, aper.OperationError(err, "ECIDMeasurementFailureIndication")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q12.ECIDMeasurementFailureIndication{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "ECIDMeasurementFailureIndication")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s11.ECIDMeasurementFailureIndication{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "ECIDMeasurementFailureIndication")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q12.ECIDMeasurementFailureIndication{}, q5.OperationError(&q7.BuildError{Issues: issues}, "ECIDMeasurementFailureIndication")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s11.ECIDMeasurementFailureIndication{}, aper.OperationError(&s09.BuildError{Issues: issues}, "ECIDMeasurementFailureIndication")
 	}
-	if _, err := q12.BridgeECIDMeasurementFailureIndicationMethodMarshalAPERBudget(&v, budget, false); err != nil {
-		return q12.ECIDMeasurementFailureIndication{}, q5.OperationError(q6.Errorf("%s %w", "ECIDMeasurementFailureIndication.protocolIEs:", err), "ECIDMeasurementFailureIndication")
+	if _, err := s11.BridgeECIDMeasurementFailureIndicationMethodMarshalAPERBudget(&v, budget, false); err != nil {
+		return s11.ECIDMeasurementFailureIndication{}, aper.OperationError(fmt.Errorf("%s %w", "ECIDMeasurementFailureIndication.protocolIEs:", err), "ECIDMeasurementFailureIndication")
 	}
-	return v, q5.OperationError(nil, "ECIDMeasurementFailureIndication")
+	return v, aper.OperationError(nil, "ECIDMeasurementFailureIndication")
 }
-func NewECIDMeasurementReport(fields q14.ECIDMeasurementReportIEContainer, options ...q5.BuildOption) (q14.ECIDMeasurementReport, error) {
-	budget, err := q5.BuildBudget(options...)
+func NewECIDMeasurementReport(fields s13.ECIDMeasurementReportIEContainer, options ...aper.BuildOption) (s13.ECIDMeasurementReport, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q14.ECIDMeasurementReport{}, q5.OperationError(err, "ECIDMeasurementReport")
+		return s13.ECIDMeasurementReport{}, aper.OperationError(err, "ECIDMeasurementReport")
 	}
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[q14.ECIDMeasurementReportIEField](bb, uint64(len(fields))); err != nil {
-		return q14.ECIDMeasurementReport{}, q5.OperationError(err, "ECIDMeasurementReport")
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s13.ECIDMeasurementReportIEField](bb, uint64(len(fields))); err != nil {
+		return s13.ECIDMeasurementReport{}, aper.OperationError(err, "ECIDMeasurementReport")
 	}
-	v := q14.ECIDMeasurementReport{ProtocolIEs: make(q14.ECIDMeasurementReportIEContainer, len(fields))}
+	v := s13.ECIDMeasurementReport{ProtocolIEs: make(s13.ECIDMeasurementReportIEContainer, len(fields))}
 	copy(v.ProtocolIEs, fields)
 	report, err := BridgeValidateECIDMeasurementReportBudget(&v, budget)
 	if err != nil {
-		return q14.ECIDMeasurementReport{}, q5.OperationError(err, "ECIDMeasurementReport")
+		return s13.ECIDMeasurementReport{}, aper.OperationError(err, "ECIDMeasurementReport")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q14.ECIDMeasurementReport{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "ECIDMeasurementReport")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s13.ECIDMeasurementReport{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "ECIDMeasurementReport")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q14.ECIDMeasurementReport{}, q5.OperationError(&q7.BuildError{Issues: issues}, "ECIDMeasurementReport")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s13.ECIDMeasurementReport{}, aper.OperationError(&s09.BuildError{Issues: issues}, "ECIDMeasurementReport")
 	}
-	if _, err := q14.BridgeECIDMeasurementReportMethodMarshalAPERBudget(&v, budget, false); err != nil {
-		return q14.ECIDMeasurementReport{}, q5.OperationError(q6.Errorf("%s %w", "ECIDMeasurementReport.protocolIEs:", err), "ECIDMeasurementReport")
+	if _, err := s13.BridgeECIDMeasurementReportMethodMarshalAPERBudget(&v, budget, false); err != nil {
+		return s13.ECIDMeasurementReport{}, aper.OperationError(fmt.Errorf("%s %w", "ECIDMeasurementReport.protocolIEs:", err), "ECIDMeasurementReport")
 	}
-	return v, q5.OperationError(nil, "ECIDMeasurementReport")
+	return v, aper.OperationError(nil, "ECIDMeasurementReport")
 }
-func NewECIDMeasurementTerminationCommand(fields q15.ECIDMeasurementTerminationCommandIEContainer, options ...q5.BuildOption) (q13.ECIDMeasurementTerminationCommand, error) {
-	budget, err := q5.BuildBudget(options...)
+func NewECIDMeasurementTerminationCommand(fields s03.ECIDMeasurementTerminationCommandIEContainer, options ...aper.BuildOption) (s06.ECIDMeasurementTerminationCommand, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q13.ECIDMeasurementTerminationCommand{}, q5.OperationError(err, "ECIDMeasurementTerminationCommand")
+		return s06.ECIDMeasurementTerminationCommand{}, aper.OperationError(err, "ECIDMeasurementTerminationCommand")
 	}
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[q15.ECIDMeasurementTerminationCommandIEField](bb, uint64(len(fields))); err != nil {
-		return q13.ECIDMeasurementTerminationCommand{}, q5.OperationError(err, "ECIDMeasurementTerminationCommand")
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s03.ECIDMeasurementTerminationCommandIEField](bb, uint64(len(fields))); err != nil {
+		return s06.ECIDMeasurementTerminationCommand{}, aper.OperationError(err, "ECIDMeasurementTerminationCommand")
 	}
-	v := q13.ECIDMeasurementTerminationCommand{ProtocolIEs: make(q15.ECIDMeasurementTerminationCommandIEContainer, len(fields))}
+	v := s06.ECIDMeasurementTerminationCommand{ProtocolIEs: make(s03.ECIDMeasurementTerminationCommandIEContainer, len(fields))}
 	copy(v.ProtocolIEs, fields)
 	report, err := BridgeValidateECIDMeasurementTerminationCommandBudget(&v, budget)
 	if err != nil {
-		return q13.ECIDMeasurementTerminationCommand{}, q5.OperationError(err, "ECIDMeasurementTerminationCommand")
+		return s06.ECIDMeasurementTerminationCommand{}, aper.OperationError(err, "ECIDMeasurementTerminationCommand")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q13.ECIDMeasurementTerminationCommand{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "ECIDMeasurementTerminationCommand")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s06.ECIDMeasurementTerminationCommand{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "ECIDMeasurementTerminationCommand")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q13.ECIDMeasurementTerminationCommand{}, q5.OperationError(&q7.BuildError{Issues: issues}, "ECIDMeasurementTerminationCommand")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s06.ECIDMeasurementTerminationCommand{}, aper.OperationError(&s09.BuildError{Issues: issues}, "ECIDMeasurementTerminationCommand")
 	}
-	if _, err := q13.BridgeECIDMeasurementTerminationCommandMethodMarshalAPERBudget(&v, budget, false); err != nil {
-		return q13.ECIDMeasurementTerminationCommand{}, q5.OperationError(q6.Errorf("%s %w", "ECIDMeasurementTerminationCommand.protocolIEs:", err), "ECIDMeasurementTerminationCommand")
+	if _, err := s06.BridgeECIDMeasurementTerminationCommandMethodMarshalAPERBudget(&v, budget, false); err != nil {
+		return s06.ECIDMeasurementTerminationCommand{}, aper.OperationError(fmt.Errorf("%s %w", "ECIDMeasurementTerminationCommand.protocolIEs:", err), "ECIDMeasurementTerminationCommand")
 	}
-	return v, q5.OperationError(nil, "ECIDMeasurementTerminationCommand")
+	return v, aper.OperationError(nil, "ECIDMeasurementTerminationCommand")
 }
-func NewOTDOAInformationRequest(fields q16.OTDOAInformationRequestIEContainer, options ...q5.BuildOption) (q16.OTDOAInformationRequest, error) {
-	budget, err := q5.BuildBudget(options...)
+func NewOTDOAInformationRequest(fields s18.OTDOAInformationRequestIEContainer, options ...aper.BuildOption) (s18.OTDOAInformationRequest, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q16.OTDOAInformationRequest{}, q5.OperationError(err, "OTDOAInformationRequest")
+		return s18.OTDOAInformationRequest{}, aper.OperationError(err, "OTDOAInformationRequest")
 	}
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[q16.OTDOAInformationRequestIEField](bb, uint64(len(fields))); err != nil {
-		return q16.OTDOAInformationRequest{}, q5.OperationError(err, "OTDOAInformationRequest")
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s18.OTDOAInformationRequestIEField](bb, uint64(len(fields))); err != nil {
+		return s18.OTDOAInformationRequest{}, aper.OperationError(err, "OTDOAInformationRequest")
 	}
-	v := q16.OTDOAInformationRequest{ProtocolIEs: make(q16.OTDOAInformationRequestIEContainer, len(fields))}
+	v := s18.OTDOAInformationRequest{ProtocolIEs: make(s18.OTDOAInformationRequestIEContainer, len(fields))}
 	copy(v.ProtocolIEs, fields)
 	report, err := BridgeValidateOTDOAInformationRequestBudget(&v, budget)
 	if err != nil {
-		return q16.OTDOAInformationRequest{}, q5.OperationError(err, "OTDOAInformationRequest")
+		return s18.OTDOAInformationRequest{}, aper.OperationError(err, "OTDOAInformationRequest")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q16.OTDOAInformationRequest{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "OTDOAInformationRequest")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s18.OTDOAInformationRequest{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "OTDOAInformationRequest")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q16.OTDOAInformationRequest{}, q5.OperationError(&q7.BuildError{Issues: issues}, "OTDOAInformationRequest")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s18.OTDOAInformationRequest{}, aper.OperationError(&s09.BuildError{Issues: issues}, "OTDOAInformationRequest")
 	}
-	if _, err := q16.BridgeOTDOAInformationRequestMethodMarshalAPERBudget(&v, budget, false); err != nil {
-		return q16.OTDOAInformationRequest{}, q5.OperationError(q6.Errorf("%s %w", "OTDOAInformationRequest.protocolIEs:", err), "OTDOAInformationRequest")
+	if _, err := s18.BridgeOTDOAInformationRequestMethodMarshalAPERBudget(&v, budget, false); err != nil {
+		return s18.OTDOAInformationRequest{}, aper.OperationError(fmt.Errorf("%s %w", "OTDOAInformationRequest.protocolIEs:", err), "OTDOAInformationRequest")
 	}
-	return v, q5.OperationError(nil, "OTDOAInformationRequest")
+	return v, aper.OperationError(nil, "OTDOAInformationRequest")
 }
-func NewOTDOAInformationFailure(fields q11.OTDOAInformationFailureIEContainer, options ...q5.BuildOption) (q17.OTDOAInformationFailure, error) {
-	budget, err := q5.BuildBudget(options...)
+func NewOTDOAInformationFailure(fields s10.OTDOAInformationFailureIEContainer, options ...aper.BuildOption) (s12.OTDOAInformationFailure, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q17.OTDOAInformationFailure{}, q5.OperationError(err, "OTDOAInformationFailure")
+		return s12.OTDOAInformationFailure{}, aper.OperationError(err, "OTDOAInformationFailure")
 	}
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[q11.OTDOAInformationFailureIEField](bb, uint64(len(fields))); err != nil {
-		return q17.OTDOAInformationFailure{}, q5.OperationError(err, "OTDOAInformationFailure")
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s10.OTDOAInformationFailureIEField](bb, uint64(len(fields))); err != nil {
+		return s12.OTDOAInformationFailure{}, aper.OperationError(err, "OTDOAInformationFailure")
 	}
-	v := q17.OTDOAInformationFailure{ProtocolIEs: make(q11.OTDOAInformationFailureIEContainer, len(fields))}
+	v := s12.OTDOAInformationFailure{ProtocolIEs: make(s10.OTDOAInformationFailureIEContainer, len(fields))}
 	copy(v.ProtocolIEs, fields)
 	report, err := BridgeValidateOTDOAInformationFailureBudget(&v, budget)
 	if err != nil {
-		return q17.OTDOAInformationFailure{}, q5.OperationError(err, "OTDOAInformationFailure")
+		return s12.OTDOAInformationFailure{}, aper.OperationError(err, "OTDOAInformationFailure")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q17.OTDOAInformationFailure{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "OTDOAInformationFailure")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s12.OTDOAInformationFailure{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "OTDOAInformationFailure")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q17.OTDOAInformationFailure{}, q5.OperationError(&q7.BuildError{Issues: issues}, "OTDOAInformationFailure")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s12.OTDOAInformationFailure{}, aper.OperationError(&s09.BuildError{Issues: issues}, "OTDOAInformationFailure")
 	}
-	if _, err := q17.BridgeOTDOAInformationFailureMethodMarshalAPERBudget(&v, budget, false); err != nil {
-		return q17.OTDOAInformationFailure{}, q5.OperationError(q6.Errorf("%s %w", "OTDOAInformationFailure.protocolIEs:", err), "OTDOAInformationFailure")
+	if _, err := s12.BridgeOTDOAInformationFailureMethodMarshalAPERBudget(&v, budget, false); err != nil {
+		return s12.OTDOAInformationFailure{}, aper.OperationError(fmt.Errorf("%s %w", "OTDOAInformationFailure.protocolIEs:", err), "OTDOAInformationFailure")
 	}
-	return v, q5.OperationError(nil, "OTDOAInformationFailure")
+	return v, aper.OperationError(nil, "OTDOAInformationFailure")
 }
-func NewAssistanceInformationFeedback(fields q18.AssistanceInformationFeedbackIEContainer, options ...q5.BuildOption) (q18.AssistanceInformationFeedback, error) {
-	budget, err := q5.BuildBudget(options...)
+func NewAssistanceInformationFeedback(fields s17.AssistanceInformationFeedbackIEContainer, options ...aper.BuildOption) (s17.AssistanceInformationFeedback, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q18.AssistanceInformationFeedback{}, q5.OperationError(err, "AssistanceInformationFeedback")
+		return s17.AssistanceInformationFeedback{}, aper.OperationError(err, "AssistanceInformationFeedback")
 	}
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[q18.AssistanceInformationFeedbackIEField](bb, uint64(len(fields))); err != nil {
-		return q18.AssistanceInformationFeedback{}, q5.OperationError(err, "AssistanceInformationFeedback")
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s17.AssistanceInformationFeedbackIEField](bb, uint64(len(fields))); err != nil {
+		return s17.AssistanceInformationFeedback{}, aper.OperationError(err, "AssistanceInformationFeedback")
 	}
-	v := q18.AssistanceInformationFeedback{ProtocolIEs: make(q18.AssistanceInformationFeedbackIEContainer, len(fields))}
+	v := s17.AssistanceInformationFeedback{ProtocolIEs: make(s17.AssistanceInformationFeedbackIEContainer, len(fields))}
 	copy(v.ProtocolIEs, fields)
 	report, err := BridgeValidateAssistanceInformationFeedbackBudget(&v, budget)
 	if err != nil {
-		return q18.AssistanceInformationFeedback{}, q5.OperationError(err, "AssistanceInformationFeedback")
+		return s17.AssistanceInformationFeedback{}, aper.OperationError(err, "AssistanceInformationFeedback")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q18.AssistanceInformationFeedback{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "AssistanceInformationFeedback")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s17.AssistanceInformationFeedback{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "AssistanceInformationFeedback")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q18.AssistanceInformationFeedback{}, q5.OperationError(&q7.BuildError{Issues: issues}, "AssistanceInformationFeedback")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s17.AssistanceInformationFeedback{}, aper.OperationError(&s09.BuildError{Issues: issues}, "AssistanceInformationFeedback")
 	}
-	if _, err := q18.BridgeAssistanceInformationFeedbackMethodMarshalAPERBudget(&v, budget, false); err != nil {
-		return q18.AssistanceInformationFeedback{}, q5.OperationError(q6.Errorf("%s %w", "AssistanceInformationFeedback.protocolIEs:", err), "AssistanceInformationFeedback")
+	if _, err := s17.BridgeAssistanceInformationFeedbackMethodMarshalAPERBudget(&v, budget, false); err != nil {
+		return s17.AssistanceInformationFeedback{}, aper.OperationError(fmt.Errorf("%s %w", "AssistanceInformationFeedback.protocolIEs:", err), "AssistanceInformationFeedback")
 	}
-	return v, q5.OperationError(nil, "AssistanceInformationFeedback")
+	return v, aper.OperationError(nil, "AssistanceInformationFeedback")
 }
-func (ErrorIndicationDescriptor) Initiating() q8.ErrorIndicationInitiatingBinding {
-	return func() q8.ErrorIndicationInitiatingBinding {
-		sealed := q8.ErrorIndicationInitiatingBinding{}
-		*q8.BridgeErrorIndicationInitiatingBindingFieldInfo(&sealed) = ErrorIndicationProcedure().Info()
-		*q8.BridgeErrorIndicationInitiatingBindingFieldValidate(&sealed) = func(v *q12.ErrorIndication, budget *q5.DecodeBudget) (q7.ValidationReport, error) {
+
+// Initiating returns the binding for this procedure's initiating message.
+func (ErrorIndicationDescriptor) Initiating() s21.ErrorIndicationInitiatingBinding {
+	return func() s21.ErrorIndicationInitiatingBinding {
+		sealed := s21.ErrorIndicationInitiatingBinding{}
+		*s21.BridgeErrorIndicationInitiatingBindingFieldInfo(&sealed) = ErrorIndicationProcedure().Info()
+		*s21.BridgeErrorIndicationInitiatingBindingFieldValidate(&sealed) = func(v *s11.ErrorIndication, budget *aper.DecodeBudget) (s09.ValidationReport, error) {
 			return BridgeValidateErrorIndicationBudget(v, budget)
 		}
-		*q8.BridgeErrorIndicationInitiatingBindingFieldEncode(&sealed) = func(v *q12.ErrorIndication, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
-			return q12.BridgeErrorIndicationMethodMarshalAPERBudget(v, budget, fresh)
+		*s21.BridgeErrorIndicationInitiatingBindingFieldEncode(&sealed) = func(v *s11.ErrorIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s11.BridgeErrorIndicationMethodMarshalAPERBudget(v, budget, fresh)
 		}
-		*q8.BridgeErrorIndicationInitiatingBindingFieldDecode(&sealed) = func(data []byte, options q5.DecodeState) (q12.ErrorIndication, error) {
-			var v q12.ErrorIndication
-			err := q12.BridgeErrorIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
+		*s21.BridgeErrorIndicationInitiatingBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s11.ErrorIndication, error) {
+			var v s11.ErrorIndication
+			err := s11.BridgeErrorIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
 			if err != nil {
-				return q12.ErrorIndication{}, err
+				return s11.ErrorIndication{}, err
 			}
-			*q12.BridgeErrorIndicationFieldReceived(&v) = true
-			*q12.BridgeErrorIndicationFieldReceivedBytes(&v) = q5.OriginalWire(data)
+			*s11.BridgeErrorIndicationFieldReceived(&v) = true
+			*s11.BridgeErrorIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
 			return v, nil
 		}
-		*q8.BridgeErrorIndicationInitiatingBindingFieldInject(&sealed) = func(v q12.ErrorIndication) q8.InitiatingValue {
-			return func() q8.InitiatingValue {
-				sealed := q8.InitiatingValue{}
-				*q8.BridgeInitiatingValueFieldCode(&sealed) = q4.ProcedureCode(0)
-				*q8.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = &v
+		*s21.BridgeErrorIndicationInitiatingBindingFieldInject(&sealed) = func(v s11.ErrorIndication) s21.InitiatingValue {
+			return func() s21.InitiatingValue {
+				sealed := s21.InitiatingValue{}
+				*s21.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(0)
+				*s21.BridgeInitiatingValueFieldBodyErrorIndication(&sealed) = &v
 				return sealed
 			}()
 		}
-		*q8.BridgeErrorIndicationInitiatingBindingFieldCapture(&sealed) = func(v q12.ErrorIndication, options q5.DecodeState) (q12.ErrorIndication, q5.Snapshot) {
-			s := q5.SemanticCaptureFor(options)
+		*s21.BridgeErrorIndicationInitiatingBindingFieldCapture(&sealed) = func(v s11.ErrorIndication, options aper.DecodeState) (s11.ErrorIndication, aper.Snapshot) {
+			s := aper.SemanticCaptureFor(options)
 			f :=
 				s.Begin()
-			q12.BridgeCaptureLPPaErrorIndication(&v, &s)
-			var root q5.Snapshot
+			s11.BridgeCaptureLPPaErrorIndication(&v, &s)
+			var root aper.Snapshot
 
 			s.OperationCounts()
 			s.End(f, &root, false)
 			return v, root
 		}
-		*q8.BridgeErrorIndicationInitiatingBindingFieldCompare(&sealed) = func(v q12.ErrorIndication, root q5.Snapshot, limits q5.ComparisonLimits) q5.ReplayPlan {
-			s := q5.NewSemanticComparison(root,
+		*s21.BridgeErrorIndicationInitiatingBindingFieldCompare(&sealed) = func(v s11.ErrorIndication, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+			s := aper.NewSemanticComparison(root,
 				limits)
 			f := s.Begin()
-			q12.BridgeCompareLPPaErrorIndication(&v, &s)
+			s11.BridgeCompareLPPaErrorIndication(&v, &s)
 			s.
 				End(f, root, false)
 			return s.Plan()
 		}
-		*q8.BridgeErrorIndicationInitiatingBindingFieldContext(&sealed) = func() q4.BridgeCodecContext {
-			sealed := q4.BridgeCodecContext{}
-			*q4.BridgecodecContextFieldSource(&sealed) = "source-value:ErrorIndication"
+		*s21.BridgeErrorIndicationInitiatingBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ErrorIndication"
 			return sealed
 		}()
 		return sealed
 	}()
 
 }
-func (ECIDMeasurementFailureIndicationDescriptor) Initiating() q8.ECIDMeasurementFailureIndicationInitiatingBinding {
-	return func() q8.ECIDMeasurementFailureIndicationInitiatingBinding {
-		sealed := q8.ECIDMeasurementFailureIndicationInitiatingBinding{}
-		*q8.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldInfo(&sealed) = ECIDMeasurementFailureIndicationProcedure().Info()
-		*q8.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldValidate(&sealed) = func(v *q12.ECIDMeasurementFailureIndication, budget *q5.DecodeBudget) (q7.ValidationReport, error) {
+
+// Initiating returns the binding for this procedure's initiating message.
+func (ECIDMeasurementFailureIndicationDescriptor) Initiating() s21.ECIDMeasurementFailureIndicationInitiatingBinding {
+	return func() s21.ECIDMeasurementFailureIndicationInitiatingBinding {
+		sealed := s21.ECIDMeasurementFailureIndicationInitiatingBinding{}
+		*s21.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldInfo(&sealed) = ECIDMeasurementFailureIndicationProcedure().Info()
+		*s21.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldValidate(&sealed) = func(v *s11.ECIDMeasurementFailureIndication, budget *aper.DecodeBudget) (s09.ValidationReport, error) {
 			return BridgeValidateECIDMeasurementFailureIndicationBudget(v, budget)
 		}
-		*q8.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldEncode(&sealed) = func(v *q12.ECIDMeasurementFailureIndication, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
-			return q12.BridgeECIDMeasurementFailureIndicationMethodMarshalAPERBudget(v, budget, fresh)
+		*s21.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldEncode(&sealed) = func(v *s11.ECIDMeasurementFailureIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s11.BridgeECIDMeasurementFailureIndicationMethodMarshalAPERBudget(v, budget, fresh)
 		}
-		*q8.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldDecode(&sealed) = func(data []byte, options q5.DecodeState) (q12.ECIDMeasurementFailureIndication, error) {
-			var v q12.ECIDMeasurementFailureIndication
-			err := q12.BridgeECIDMeasurementFailureIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
+		*s21.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s11.ECIDMeasurementFailureIndication, error) {
+			var v s11.ECIDMeasurementFailureIndication
+			err := s11.BridgeECIDMeasurementFailureIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
 			if err != nil {
-				return q12.ECIDMeasurementFailureIndication{}, err
+				return s11.ECIDMeasurementFailureIndication{}, err
 			}
-			*q12.BridgeECIDMeasurementFailureIndicationFieldReceived(&v) = true
-			*q12.BridgeECIDMeasurementFailureIndicationFieldReceivedBytes(&v) = q5.OriginalWire(data)
+			*s11.BridgeECIDMeasurementFailureIndicationFieldReceived(&v) = true
+			*s11.BridgeECIDMeasurementFailureIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
 			return v, nil
 		}
-		*q8.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldInject(&sealed) = func(v q12.ECIDMeasurementFailureIndication) q8.InitiatingValue {
-			return func() q8.InitiatingValue {
-				sealed := q8.InitiatingValue{}
-				*q8.BridgeInitiatingValueFieldCode(&sealed) = q4.ProcedureCode(3)
-				*q8.BridgeInitiatingValueFieldBodyECIDMeasurementFailureIndication(&sealed) = &v
+		*s21.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldInject(&sealed) = func(v s11.ECIDMeasurementFailureIndication) s21.InitiatingValue {
+			return func() s21.InitiatingValue {
+				sealed := s21.InitiatingValue{}
+				*s21.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(3)
+				*s21.BridgeInitiatingValueFieldBodyECIDMeasurementFailureIndication(&sealed) = &v
 				return sealed
 			}()
 		}
-		*q8.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldCapture(&sealed) = func(v q12.ECIDMeasurementFailureIndication, options q5.DecodeState) (q12.ECIDMeasurementFailureIndication, q5.Snapshot,
+		*s21.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldCapture(&sealed) = func(v s11.ECIDMeasurementFailureIndication, options aper.DecodeState) (s11.ECIDMeasurementFailureIndication, aper.Snapshot,
 		) {
-			s := q5.SemanticCaptureFor(options)
+			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			q12.BridgeCaptureLPPaECIDMeasurementFailureIndication(&v, &s)
-			var root q5.Snapshot
+			s11.BridgeCaptureLPPaECIDMeasurementFailureIndication(&v, &s)
+			var root aper.Snapshot
 
 			s.OperationCounts()
 			s.End(f, &root, false)
 			return v, root
 		}
-		*q8.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldCompare(&sealed) = func(v q12.ECIDMeasurementFailureIndication, root q5.Snapshot, limits q5.ComparisonLimits) q5.ReplayPlan {
-			s := q5.NewSemanticComparison(root, limits)
+		*s21.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldCompare(&sealed) = func(v s11.ECIDMeasurementFailureIndication, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+			s := aper.NewSemanticComparison(root, limits)
 			f := s.Begin()
-			q12.BridgeCompareLPPaECIDMeasurementFailureIndication(&v, &s)
+			s11.BridgeCompareLPPaECIDMeasurementFailureIndication(&v, &s)
 			s.End(f, root, false)
 			return s.Plan()
 		}
-		*q8.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldContext(&sealed) = func() q4.BridgeCodecContext {
-			sealed := q4.BridgeCodecContext{}
-			*q4.BridgecodecContextFieldSource(&sealed) = "source-value:ECIDMeasurementFailureIndication"
+		*s21.BridgeECIDMeasurementFailureIndicationInitiatingBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ECIDMeasurementFailureIndication"
 			return sealed
 		}()
 		return sealed
 	}()
 
 }
-func (ECIDMeasurementReportDescriptor) Initiating() q8.ECIDMeasurementReportInitiatingBinding {
-	return func() q8.ECIDMeasurementReportInitiatingBinding {
-		sealed := q8.ECIDMeasurementReportInitiatingBinding{}
-		*q8.BridgeECIDMeasurementReportInitiatingBindingFieldInfo(&sealed) = ECIDMeasurementReportProcedure().Info()
-		*q8.BridgeECIDMeasurementReportInitiatingBindingFieldValidate(&sealed) = func(v *q14.ECIDMeasurementReport, budget *q5.DecodeBudget) (q7.ValidationReport, error) {
+
+// Initiating returns the binding for this procedure's initiating message.
+func (ECIDMeasurementReportDescriptor) Initiating() s21.ECIDMeasurementReportInitiatingBinding {
+	return func() s21.ECIDMeasurementReportInitiatingBinding {
+		sealed := s21.ECIDMeasurementReportInitiatingBinding{}
+		*s21.BridgeECIDMeasurementReportInitiatingBindingFieldInfo(&sealed) = ECIDMeasurementReportProcedure().Info()
+		*s21.BridgeECIDMeasurementReportInitiatingBindingFieldValidate(&sealed) = func(v *s13.ECIDMeasurementReport, budget *aper.DecodeBudget) (s09.ValidationReport, error) {
 			return BridgeValidateECIDMeasurementReportBudget(v, budget)
 		}
-		*q8.BridgeECIDMeasurementReportInitiatingBindingFieldEncode(&sealed) = func(v *q14.ECIDMeasurementReport, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
-			return q14.BridgeECIDMeasurementReportMethodMarshalAPERBudget(v, budget, fresh)
+		*s21.BridgeECIDMeasurementReportInitiatingBindingFieldEncode(&sealed) = func(v *s13.ECIDMeasurementReport, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s13.BridgeECIDMeasurementReportMethodMarshalAPERBudget(v, budget, fresh)
 		}
-		*q8.BridgeECIDMeasurementReportInitiatingBindingFieldDecode(&sealed) = func(data []byte, options q5.DecodeState) (q14.ECIDMeasurementReport, error) {
-			var v q14.ECIDMeasurementReport
-			err := q14.BridgeECIDMeasurementReportMethodUnmarshalAPERWithOptions(&v, data, options)
+		*s21.BridgeECIDMeasurementReportInitiatingBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s13.ECIDMeasurementReport, error) {
+			var v s13.ECIDMeasurementReport
+			err := s13.BridgeECIDMeasurementReportMethodUnmarshalAPERWithOptions(&v, data, options)
 			if err != nil {
-				return q14.ECIDMeasurementReport{}, err
+				return s13.ECIDMeasurementReport{}, err
 			}
-			*q14.BridgeECIDMeasurementReportFieldReceived(&v) = true
-			*q14.BridgeECIDMeasurementReportFieldReceivedBytes(&v) = q5.OriginalWire(data)
+			*s13.BridgeECIDMeasurementReportFieldReceived(&v) = true
+			*s13.BridgeECIDMeasurementReportFieldReceivedBytes(&v) = aper.OriginalWire(data)
 			return v, nil
 		}
-		*q8.BridgeECIDMeasurementReportInitiatingBindingFieldInject(&sealed) = func(v q14.ECIDMeasurementReport) q8.InitiatingValue {
-			return func() q8.InitiatingValue {
-				sealed := q8.InitiatingValue{}
-				*q8.BridgeInitiatingValueFieldCode(&sealed) = q4.ProcedureCode(4)
-				*q8.BridgeInitiatingValueFieldBodyECIDMeasurementReport(&sealed) = &v
+		*s21.BridgeECIDMeasurementReportInitiatingBindingFieldInject(&sealed) = func(v s13.ECIDMeasurementReport) s21.InitiatingValue {
+			return func() s21.InitiatingValue {
+				sealed := s21.InitiatingValue{}
+				*s21.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(4)
+				*s21.BridgeInitiatingValueFieldBodyECIDMeasurementReport(&sealed) = &v
 				return sealed
 			}()
 		}
-		*q8.BridgeECIDMeasurementReportInitiatingBindingFieldCapture(&sealed) = func(v q14.ECIDMeasurementReport, options q5.DecodeState) (q14.ECIDMeasurementReport, q5.Snapshot) {
-			s := q5.SemanticCaptureFor(options)
+		*s21.BridgeECIDMeasurementReportInitiatingBindingFieldCapture(&sealed) = func(v s13.ECIDMeasurementReport, options aper.DecodeState) (s13.ECIDMeasurementReport, aper.Snapshot) {
+			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			q14.BridgeCaptureLPPaECIDMeasurementReport(&v,
+			s13.BridgeCaptureLPPaECIDMeasurementReport(&v,
 				&s,
 			)
-			var root q5.Snapshot
+			var root aper.Snapshot
 			s.OperationCounts()
 			s.End(f,
 
 				&root, false)
 			return v, root
 		}
-		*q8.BridgeECIDMeasurementReportInitiatingBindingFieldCompare(&sealed) = func(v q14.ECIDMeasurementReport, root q5.Snapshot, limits q5.ComparisonLimits) q5.ReplayPlan {
-			s := q5.NewSemanticComparison(root, limits)
+		*s21.BridgeECIDMeasurementReportInitiatingBindingFieldCompare(&sealed) = func(v s13.ECIDMeasurementReport, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+			s := aper.NewSemanticComparison(root, limits)
 			f := s.Begin()
-			q14.BridgeCompareLPPaECIDMeasurementReport(&v, &s)
+			s13.BridgeCompareLPPaECIDMeasurementReport(&v, &s)
 			s.End(f, root, false)
 			return s.Plan()
 		}
-		*q8.BridgeECIDMeasurementReportInitiatingBindingFieldContext(&sealed) = func() q4.BridgeCodecContext {
-			sealed := q4.BridgeCodecContext{}
-			*q4.BridgecodecContextFieldSource(&sealed) = "source-value:ECIDMeasurementReport"
+		*s21.BridgeECIDMeasurementReportInitiatingBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ECIDMeasurementReport"
 			return sealed
 		}()
 		return sealed
 	}()
 
 }
-func (ECIDMeasurementTerminationDescriptor) Initiating() q8.ECIDMeasurementTerminationCommandInitiatingBinding {
-	return func() q8.ECIDMeasurementTerminationCommandInitiatingBinding {
-		sealed := q8.ECIDMeasurementTerminationCommandInitiatingBinding{}
-		*q8.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldInfo(&sealed) = ECIDMeasurementTerminationProcedure().Info()
-		*q8.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldValidate(&sealed) = func(v *q13.ECIDMeasurementTerminationCommand, budget *q5.DecodeBudget) (q7.ValidationReport, error) {
+
+// Initiating returns the binding for this procedure's initiating message.
+func (ECIDMeasurementTerminationDescriptor) Initiating() s21.ECIDMeasurementTerminationCommandInitiatingBinding {
+	return func() s21.ECIDMeasurementTerminationCommandInitiatingBinding {
+		sealed := s21.ECIDMeasurementTerminationCommandInitiatingBinding{}
+		*s21.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldInfo(&sealed) = ECIDMeasurementTerminationProcedure().Info()
+		*s21.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldValidate(&sealed) = func(v *s06.ECIDMeasurementTerminationCommand, budget *aper.DecodeBudget) (s09.ValidationReport, error) {
 			return BridgeValidateECIDMeasurementTerminationCommandBudget(v, budget)
 		}
-		*q8.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldEncode(&sealed) = func(v *q13.ECIDMeasurementTerminationCommand, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
-			return q13.BridgeECIDMeasurementTerminationCommandMethodMarshalAPERBudget(v, budget, fresh)
+		*s21.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldEncode(&sealed) = func(v *s06.ECIDMeasurementTerminationCommand, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s06.BridgeECIDMeasurementTerminationCommandMethodMarshalAPERBudget(v, budget, fresh)
 		}
-		*q8.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldDecode(&sealed) = func(data []byte, options q5.DecodeState) (q13.ECIDMeasurementTerminationCommand, error) {
-			var v q13.ECIDMeasurementTerminationCommand
-			err := q13.BridgeECIDMeasurementTerminationCommandMethodUnmarshalAPERWithOptions(&v, data, options)
+		*s21.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s06.ECIDMeasurementTerminationCommand, error) {
+			var v s06.ECIDMeasurementTerminationCommand
+			err := s06.BridgeECIDMeasurementTerminationCommandMethodUnmarshalAPERWithOptions(&v, data, options)
 			if err != nil {
-				return q13.ECIDMeasurementTerminationCommand{}, err
+				return s06.ECIDMeasurementTerminationCommand{}, err
 			}
-			*q13.BridgeECIDMeasurementTerminationCommandFieldReceived(&v) = true
-			*q13.BridgeECIDMeasurementTerminationCommandFieldReceivedBytes(&v) = q5.OriginalWire(data)
+			*s06.BridgeECIDMeasurementTerminationCommandFieldReceived(&v) = true
+			*s06.BridgeECIDMeasurementTerminationCommandFieldReceivedBytes(&v) = aper.OriginalWire(data)
 			return v, nil
 		}
-		*q8.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldInject(&sealed) = func(v q13.ECIDMeasurementTerminationCommand) q8.InitiatingValue {
-			return func() q8.InitiatingValue {
-				sealed := q8.InitiatingValue{}
-				*q8.BridgeInitiatingValueFieldCode(&sealed) = q4.ProcedureCode(5)
-				*q8.BridgeInitiatingValueFieldBodyECIDMeasurementTerminationCommand(&sealed) = &v
+		*s21.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldInject(&sealed) = func(v s06.ECIDMeasurementTerminationCommand) s21.InitiatingValue {
+			return func() s21.InitiatingValue {
+				sealed := s21.InitiatingValue{}
+				*s21.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(5)
+				*s21.BridgeInitiatingValueFieldBodyECIDMeasurementTerminationCommand(&sealed) = &v
 				return sealed
 			}()
 		}
-		*q8.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldCapture(&sealed) = func(v q13.ECIDMeasurementTerminationCommand, options q5.DecodeState) (q13.ECIDMeasurementTerminationCommand, q5.Snapshot,
+		*s21.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldCapture(&sealed) = func(v s06.ECIDMeasurementTerminationCommand, options aper.DecodeState) (s06.ECIDMeasurementTerminationCommand, aper.Snapshot,
 
 		) {
-			s := q5.SemanticCaptureFor(options)
+			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			q13.BridgeCaptureLPPaECIDMeasurementTerminationCommand(&v, &s)
-			var root q5.Snapshot
+			s06.BridgeCaptureLPPaECIDMeasurementTerminationCommand(&v, &s)
+			var root aper.Snapshot
 
 			s.OperationCounts()
 			s.End(f, &root, false)
 			return v, root
 		}
-		*q8.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldCompare(&sealed) = func(v q13.ECIDMeasurementTerminationCommand, root q5.Snapshot, limits q5.ComparisonLimits) q5.ReplayPlan {
-			s := q5.NewSemanticComparison(root, limits)
+		*s21.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldCompare(&sealed) = func(v s06.ECIDMeasurementTerminationCommand, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+			s := aper.NewSemanticComparison(root, limits)
 			f := s.Begin()
-			q13.BridgeCompareLPPaECIDMeasurementTerminationCommand(&v, &s)
+			s06.BridgeCompareLPPaECIDMeasurementTerminationCommand(&v, &s)
 			s.End(f, root, false)
 			return s.Plan()
 		}
-		*q8.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldContext(&sealed) = func() q4.BridgeCodecContext {
-			sealed := q4.BridgeCodecContext{}
-			*q4.BridgecodecContextFieldSource(&sealed) = "source-value:ECIDMeasurementTerminationCommand"
+		*s21.BridgeECIDMeasurementTerminationCommandInitiatingBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ECIDMeasurementTerminationCommand"
 			return sealed
 		}()
 		return sealed
 	}()
 
 }
-func (AssistanceInformationFeedbackDescriptor) Initiating() q8.AssistanceInformationFeedbackInitiatingBinding {
-	return func() q8.AssistanceInformationFeedbackInitiatingBinding {
-		sealed := q8.AssistanceInformationFeedbackInitiatingBinding{}
-		*q8.BridgeAssistanceInformationFeedbackInitiatingBindingFieldInfo(&sealed) = AssistanceInformationFeedbackProcedure().Info()
-		*q8.BridgeAssistanceInformationFeedbackInitiatingBindingFieldValidate(&sealed) = func(v *q18.AssistanceInformationFeedback, budget *q5.DecodeBudget) (q7.ValidationReport, error) {
+
+// Initiating returns the binding for this procedure's initiating message.
+func (AssistanceInformationFeedbackDescriptor) Initiating() s21.AssistanceInformationFeedbackInitiatingBinding {
+	return func() s21.AssistanceInformationFeedbackInitiatingBinding {
+		sealed := s21.AssistanceInformationFeedbackInitiatingBinding{}
+		*s21.BridgeAssistanceInformationFeedbackInitiatingBindingFieldInfo(&sealed) = AssistanceInformationFeedbackProcedure().Info()
+		*s21.BridgeAssistanceInformationFeedbackInitiatingBindingFieldValidate(&sealed) = func(v *s17.AssistanceInformationFeedback, budget *aper.DecodeBudget) (s09.ValidationReport, error) {
 			return BridgeValidateAssistanceInformationFeedbackBudget(v, budget)
 		}
-		*q8.BridgeAssistanceInformationFeedbackInitiatingBindingFieldEncode(&sealed) = func(v *q18.AssistanceInformationFeedback, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
-			return q18.BridgeAssistanceInformationFeedbackMethodMarshalAPERBudget(v, budget, fresh)
+		*s21.BridgeAssistanceInformationFeedbackInitiatingBindingFieldEncode(&sealed) = func(v *s17.AssistanceInformationFeedback, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s17.BridgeAssistanceInformationFeedbackMethodMarshalAPERBudget(v, budget, fresh)
 		}
-		*q8.BridgeAssistanceInformationFeedbackInitiatingBindingFieldDecode(&sealed) = func(data []byte, options q5.DecodeState) (q18.AssistanceInformationFeedback, error) {
-			var v q18.AssistanceInformationFeedback
-			err := q18.BridgeAssistanceInformationFeedbackMethodUnmarshalAPERWithOptions(&v, data, options)
+		*s21.BridgeAssistanceInformationFeedbackInitiatingBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s17.AssistanceInformationFeedback, error) {
+			var v s17.AssistanceInformationFeedback
+			err := s17.BridgeAssistanceInformationFeedbackMethodUnmarshalAPERWithOptions(&v, data, options)
 			if err != nil {
-				return q18.AssistanceInformationFeedback{}, err
+				return s17.AssistanceInformationFeedback{}, err
 			}
-			*q18.BridgeAssistanceInformationFeedbackFieldReceived(&v) = true
-			*q18.BridgeAssistanceInformationFeedbackFieldReceivedBytes(&v) = q5.OriginalWire(data)
+			*s17.BridgeAssistanceInformationFeedbackFieldReceived(&v) = true
+			*s17.BridgeAssistanceInformationFeedbackFieldReceivedBytes(&v) = aper.OriginalWire(data)
 			return v, nil
 		}
-		*q8.BridgeAssistanceInformationFeedbackInitiatingBindingFieldInject(&sealed) = func(v q18.AssistanceInformationFeedback) q8.InitiatingValue {
-			return func() q8.InitiatingValue {
-				sealed := q8.InitiatingValue{}
-				*q8.BridgeInitiatingValueFieldCode(&sealed) = q4.ProcedureCode(10)
-				*q8.BridgeInitiatingValueFieldBodyAssistanceInformationFeedback(&sealed) = &v
+		*s21.BridgeAssistanceInformationFeedbackInitiatingBindingFieldInject(&sealed) = func(v s17.AssistanceInformationFeedback) s21.InitiatingValue {
+			return func() s21.InitiatingValue {
+				sealed := s21.InitiatingValue{}
+				*s21.BridgeInitiatingValueFieldCode(&sealed) = s00.ProcedureCode(10)
+				*s21.BridgeInitiatingValueFieldBodyAssistanceInformationFeedback(&sealed) = &v
 				return sealed
 			}()
 		}
-		*q8.BridgeAssistanceInformationFeedbackInitiatingBindingFieldCapture(&sealed) = func(v q18.AssistanceInformationFeedback, options q5.DecodeState) (q18.AssistanceInformationFeedback, q5.Snapshot) {
-			s := q5.SemanticCaptureFor(options)
+		*s21.BridgeAssistanceInformationFeedbackInitiatingBindingFieldCapture(&sealed) = func(v s17.AssistanceInformationFeedback, options aper.DecodeState) (s17.AssistanceInformationFeedback, aper.Snapshot) {
+			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			q18.BridgeCaptureLPPaAssistanceInformationFeedback(&v, &s)
-			var root q5.Snapshot
+			s17.BridgeCaptureLPPaAssistanceInformationFeedback(&v, &s)
+			var root aper.Snapshot
 			s.OperationCounts()
 			s.End(f, &root, false)
 			return v, root
 		}
-		*q8.BridgeAssistanceInformationFeedbackInitiatingBindingFieldCompare(&sealed) = func(v q18.AssistanceInformationFeedback, root q5.Snapshot, limits q5.ComparisonLimits) q5.ReplayPlan {
-			s := q5.NewSemanticComparison(root, limits)
+		*s21.BridgeAssistanceInformationFeedbackInitiatingBindingFieldCompare(&sealed) = func(v s17.AssistanceInformationFeedback, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+			s := aper.NewSemanticComparison(root, limits)
 			f := s.Begin()
-			q18.BridgeCompareLPPaAssistanceInformationFeedback(&v, &s)
+			s17.BridgeCompareLPPaAssistanceInformationFeedback(&v, &s)
 			s.End(f, root, false)
 			return s.Plan()
 		}
-		*q8.BridgeAssistanceInformationFeedbackInitiatingBindingFieldContext(&sealed) = func() q4.BridgeCodecContext {
-			sealed := q4.BridgeCodecContext{}
-			*q4.BridgecodecContextFieldSource(&sealed) = "source-value:AssistanceInformationFeedback"
+		*s21.BridgeAssistanceInformationFeedbackInitiatingBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:AssistanceInformationFeedback"
 			return sealed
 		}()
 		return sealed
@@ -826,504 +873,529 @@ func (AssistanceInformationFeedbackDescriptor) Initiating() q8.AssistanceInforma
 
 // ECIDMeasurementInitiationResponseSuccessfulBinding is the concrete SuccessfulBinding[ECIDMeasurementInitiationResponse].
 type ECIDMeasurementInitiationResponseSuccessfulBinding struct {
-	context q4.BridgeCodecContext
-	capture func(q9.ECIDMeasurementInitiationResponse, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s22.ECIDMeasurementInitiationResponse, aper.DecodeState,
 
-	) (q9.ECIDMeasurementInitiationResponse, q5.Snapshot,
+	) (s22.ECIDMeasurementInitiationResponse, aper.Snapshot,
 
 	)
-	compare func(q9.ECIDMeasurementInitiationResponse, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s22.ECIDMeasurementInitiationResponse, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	info     q4.ProcedureInfo
-	validate func(*q9.ECIDMeasurementInitiationResponse,
+	) aper.ReplayPlan
+	info     s00.ProcedureInfo
+	validate func(*s22.ECIDMeasurementInitiationResponse,
 
-		*q5.DecodeBudget) (q7.ValidationReport, error)
-	encode func(*q9.ECIDMeasurementInitiationResponse,
+		*aper.DecodeBudget) (s09.ValidationReport, error)
+	encode func(*s22.ECIDMeasurementInitiationResponse,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
-	decode func([]byte, q5.DecodeState) (q9.ECIDMeasurementInitiationResponse,
+		bool, *aper.DecodeBudget) ([]byte, error)
+	decode func([]byte, aper.DecodeState) (s22.ECIDMeasurementInitiationResponse,
 
 		error)
-	inject func(q9.ECIDMeasurementInitiationResponse,
+	inject func(s22.ECIDMeasurementInitiationResponse,
 
-	) q9.SuccessfulValue
+	) s22.SuccessfulValue
 }
 
-func (b ECIDMeasurementInitiationResponseSuccessfulBinding) Info() q4.ProcedureInfo { return b.info }
-func (b ECIDMeasurementInitiationResponseSuccessfulBinding) Codec() q9.ECIDMeasurementInitiationResponseValueCodec {
-	return func() q9.ECIDMeasurementInitiationResponseValueCodec {
-		sealed := q9.ECIDMeasurementInitiationResponseValueCodec{}
-		*q9.BridgeECIDMeasurementInitiationResponseValueCodecFieldPath(&sealed) = q5.Path(b.info.Rule.Assignment.Assignment)
-		*q9.BridgeECIDMeasurementInitiationResponseValueCodecFieldDecode(&sealed) = b.decode
-		*q9.BridgeECIDMeasurementInitiationResponseValueCodecFieldEncode(&sealed) = func(value q9.ECIDMeasurementInitiationResponse,
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b ECIDMeasurementInitiationResponseSuccessfulBinding) Info() s00.ProcedureInfo { return b.info }
 
-			fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
+// Codec returns the complete APER codec for this binding's value type.
+func (b ECIDMeasurementInitiationResponseSuccessfulBinding) Codec() s22.ECIDMeasurementInitiationResponseValueCodec {
+	return func() s22.ECIDMeasurementInitiationResponseValueCodec {
+		sealed := s22.ECIDMeasurementInitiationResponseValueCodec{}
+		*s22.BridgeECIDMeasurementInitiationResponseValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
+		*s22.BridgeECIDMeasurementInitiationResponseValueCodecFieldDecode(&sealed) = b.decode
+		*s22.BridgeECIDMeasurementInitiationResponseValueCodecFieldEncode(&sealed) = func(value s22.ECIDMeasurementInitiationResponse,
+
+			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return b.encode(&value, fresh, budget)
 		}
-		*q9.BridgeECIDMeasurementInitiationResponseValueCodecFieldCapture(&sealed) = b.capture
-		*q9.BridgeECIDMeasurementInitiationResponseValueCodecFieldCompare(&sealed) = b.compare
-		*q9.BridgeECIDMeasurementInitiationResponseValueCodecFieldContext(&sealed) = b.context
+		*s22.BridgeECIDMeasurementInitiationResponseValueCodecFieldCapture(&sealed) = b.capture
+		*s22.BridgeECIDMeasurementInitiationResponseValueCodecFieldCompare(&sealed) = b.compare
+		*s22.BridgeECIDMeasurementInitiationResponseValueCodecFieldContext(&sealed) = b.context
 		return sealed
 	}()
 
 }
-func (b ECIDMeasurementInitiationResponseSuccessfulBinding) Build(body q9.ECIDMeasurementInitiationResponse,
 
-	transactionID q4.LPPATransactionID, options ...q5.BuildOption) (q9.SuccessfulOutcome, error) {
+// Build validates the body and constructs a procedure message with the supplied transaction identifier.
+func (b ECIDMeasurementInitiationResponseSuccessfulBinding) Build(body s22.ECIDMeasurementInitiationResponse,
+
+	transactionID s00.LPPATransactionID, options ...aper.BuildOption) (s22.SuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.inject == nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("%w: unbound procedure binding", q5.ErrInvalidValue), "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("%w: unbound procedure binding", aper.ErrInvalidValue), "Build")
 	}
-	budget, err := q5.BuildBudget(options...)
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "Build")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "Build")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q9.SuccessfulOutcome{}, q5.OperationError(&q7.BuildError{Issues: issues}, "Build")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s22.SuccessfulOutcome{}, aper.OperationError(&s09.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("successfulOutcome.value: %w", err), "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("successfulOutcome.value: %w", err), "Build")
 	}
-	if err := q5.ChargeValue(q5.NewBudgetBuffer(budget), body); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return q9.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, q5.OperationError(nil, "Build")
+	return s22.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
 // OTDOAInformationResponseSuccessfulBinding is the concrete SuccessfulBinding[OTDOAInformationResponse].
 type OTDOAInformationResponseSuccessfulBinding struct {
-	context q4.BridgeCodecContext
-	capture func(q16.OTDOAInformationResponse, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s18.OTDOAInformationResponse, aper.DecodeState,
 
-	) (q16.OTDOAInformationResponse, q5.Snapshot,
+	) (s18.OTDOAInformationResponse, aper.Snapshot,
 
 	)
-	compare func(q16.OTDOAInformationResponse, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s18.OTDOAInformationResponse, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	info     q4.ProcedureInfo
-	validate func(*q16.OTDOAInformationResponse,
+	) aper.ReplayPlan
+	info     s00.ProcedureInfo
+	validate func(*s18.OTDOAInformationResponse,
 
-		*q5.DecodeBudget) (q7.ValidationReport, error)
-	encode func(*q16.OTDOAInformationResponse,
+		*aper.DecodeBudget) (s09.ValidationReport, error)
+	encode func(*s18.OTDOAInformationResponse,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
-	decode func([]byte, q5.DecodeState) (q16.OTDOAInformationResponse,
+		bool, *aper.DecodeBudget) ([]byte, error)
+	decode func([]byte, aper.DecodeState) (s18.OTDOAInformationResponse,
 
 		error)
-	inject func(q16.OTDOAInformationResponse,
+	inject func(s18.OTDOAInformationResponse,
 
-	) q9.SuccessfulValue
+	) s22.SuccessfulValue
 }
 
-func (b OTDOAInformationResponseSuccessfulBinding) Info() q4.ProcedureInfo { return b.info }
-func (b OTDOAInformationResponseSuccessfulBinding) Codec() q16.OTDOAInformationResponseValueCodec {
-	return func() q16.OTDOAInformationResponseValueCodec {
-		sealed := q16.OTDOAInformationResponseValueCodec{}
-		*q16.BridgeOTDOAInformationResponseValueCodecFieldPath(&sealed) = q5.Path(b.info.Rule.Assignment.Assignment)
-		*q16.BridgeOTDOAInformationResponseValueCodecFieldDecode(&sealed) = b.decode
-		*q16.BridgeOTDOAInformationResponseValueCodecFieldEncode(&sealed) = func(value q16.OTDOAInformationResponse,
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b OTDOAInformationResponseSuccessfulBinding) Info() s00.ProcedureInfo { return b.info }
 
-			fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
+// Codec returns the complete APER codec for this binding's value type.
+func (b OTDOAInformationResponseSuccessfulBinding) Codec() s18.OTDOAInformationResponseValueCodec {
+	return func() s18.OTDOAInformationResponseValueCodec {
+		sealed := s18.OTDOAInformationResponseValueCodec{}
+		*s18.BridgeOTDOAInformationResponseValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
+		*s18.BridgeOTDOAInformationResponseValueCodecFieldDecode(&sealed) = b.decode
+		*s18.BridgeOTDOAInformationResponseValueCodecFieldEncode(&sealed) = func(value s18.OTDOAInformationResponse,
+
+			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return b.encode(&value, fresh, budget)
 		}
-		*q16.BridgeOTDOAInformationResponseValueCodecFieldCapture(&sealed) = b.capture
-		*q16.BridgeOTDOAInformationResponseValueCodecFieldCompare(&sealed) = b.compare
-		*q16.BridgeOTDOAInformationResponseValueCodecFieldContext(&sealed) = b.context
+		*s18.BridgeOTDOAInformationResponseValueCodecFieldCapture(&sealed) = b.capture
+		*s18.BridgeOTDOAInformationResponseValueCodecFieldCompare(&sealed) = b.compare
+		*s18.BridgeOTDOAInformationResponseValueCodecFieldContext(&sealed) = b.context
 		return sealed
 	}()
 
 }
-func (b OTDOAInformationResponseSuccessfulBinding) Build(body q16.OTDOAInformationResponse,
 
-	transactionID q4.LPPATransactionID, options ...q5.BuildOption) (q9.SuccessfulOutcome, error) {
+// Build validates the body and constructs a procedure message with the supplied transaction identifier.
+func (b OTDOAInformationResponseSuccessfulBinding) Build(body s18.OTDOAInformationResponse,
+
+	transactionID s00.LPPATransactionID, options ...aper.BuildOption) (s22.SuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.inject == nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("%w: unbound procedure binding", q5.ErrInvalidValue), "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("%w: unbound procedure binding", aper.ErrInvalidValue), "Build")
 	}
-	budget, err := q5.BuildBudget(options...)
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "Build")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "Build")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q9.SuccessfulOutcome{}, q5.OperationError(&q7.BuildError{Issues: issues}, "Build")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s22.SuccessfulOutcome{}, aper.OperationError(&s09.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("successfulOutcome.value: %w", err), "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("successfulOutcome.value: %w", err), "Build")
 	}
-	if err := q5.ChargeValue(q5.NewBudgetBuffer(budget), body); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return q9.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, q5.OperationError(nil, "Build")
+	return s22.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
 // UTDOAInformationResponseSuccessfulBinding is the concrete SuccessfulBinding[UTDOAInformationResponse].
 type UTDOAInformationResponseSuccessfulBinding struct {
-	context q4.BridgeCodecContext
-	capture func(q18.UTDOAInformationResponse, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s17.UTDOAInformationResponse, aper.DecodeState,
 
-	) (q18.UTDOAInformationResponse, q5.Snapshot,
+	) (s17.UTDOAInformationResponse, aper.Snapshot,
 
 	)
-	compare func(q18.UTDOAInformationResponse, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s17.UTDOAInformationResponse, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	info     q4.ProcedureInfo
-	validate func(*q18.UTDOAInformationResponse,
+	) aper.ReplayPlan
+	info     s00.ProcedureInfo
+	validate func(*s17.UTDOAInformationResponse,
 
-		*q5.DecodeBudget) (q7.ValidationReport, error)
-	encode func(*q18.UTDOAInformationResponse,
+		*aper.DecodeBudget) (s09.ValidationReport, error)
+	encode func(*s17.UTDOAInformationResponse,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
-	decode func([]byte, q5.DecodeState) (q18.UTDOAInformationResponse,
+		bool, *aper.DecodeBudget) ([]byte, error)
+	decode func([]byte, aper.DecodeState) (s17.UTDOAInformationResponse,
 
 		error)
-	inject func(q18.UTDOAInformationResponse,
+	inject func(s17.UTDOAInformationResponse,
 
-	) q9.SuccessfulValue
+	) s22.SuccessfulValue
 }
 
-func (b UTDOAInformationResponseSuccessfulBinding) Info() q4.ProcedureInfo { return b.info }
-func (b UTDOAInformationResponseSuccessfulBinding) Codec() q18.UTDOAInformationResponseValueCodec {
-	return func() q18.UTDOAInformationResponseValueCodec {
-		sealed := q18.UTDOAInformationResponseValueCodec{}
-		*q18.BridgeUTDOAInformationResponseValueCodecFieldPath(&sealed) = q5.Path(b.info.Rule.Assignment.Assignment)
-		*q18.BridgeUTDOAInformationResponseValueCodecFieldDecode(&sealed) = b.decode
-		*q18.BridgeUTDOAInformationResponseValueCodecFieldEncode(&sealed) = func(value q18.UTDOAInformationResponse,
+// Info returns the source-derived metadata for this descriptor or binding.
+func (b UTDOAInformationResponseSuccessfulBinding) Info() s00.ProcedureInfo { return b.info }
 
-			fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
+// Codec returns the complete APER codec for this binding's value type.
+func (b UTDOAInformationResponseSuccessfulBinding) Codec() s17.UTDOAInformationResponseValueCodec {
+	return func() s17.UTDOAInformationResponseValueCodec {
+		sealed := s17.UTDOAInformationResponseValueCodec{}
+		*s17.BridgeUTDOAInformationResponseValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
+		*s17.BridgeUTDOAInformationResponseValueCodecFieldDecode(&sealed) = b.decode
+		*s17.BridgeUTDOAInformationResponseValueCodecFieldEncode(&sealed) = func(value s17.UTDOAInformationResponse,
+
+			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return b.encode(&value, fresh, budget)
 		}
-		*q18.BridgeUTDOAInformationResponseValueCodecFieldCapture(&sealed) = b.capture
-		*q18.BridgeUTDOAInformationResponseValueCodecFieldCompare(&sealed) = b.compare
-		*q18.BridgeUTDOAInformationResponseValueCodecFieldContext(&sealed) = b.context
+		*s17.BridgeUTDOAInformationResponseValueCodecFieldCapture(&sealed) = b.capture
+		*s17.BridgeUTDOAInformationResponseValueCodecFieldCompare(&sealed) = b.compare
+		*s17.BridgeUTDOAInformationResponseValueCodecFieldContext(&sealed) = b.context
 		return sealed
 	}()
 
 }
-func (b UTDOAInformationResponseSuccessfulBinding) Build(body q18.UTDOAInformationResponse,
 
-	transactionID q4.LPPATransactionID, options ...q5.BuildOption) (q9.SuccessfulOutcome, error) {
+// Build validates the body and constructs a procedure message with the supplied transaction identifier.
+func (b UTDOAInformationResponseSuccessfulBinding) Build(body s17.UTDOAInformationResponse,
+
+	transactionID s00.LPPATransactionID, options ...aper.BuildOption) (s22.SuccessfulOutcome, error) {
 	if b.validate == nil || b.encode == nil || b.inject == nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("%w: unbound procedure binding", q5.ErrInvalidValue), "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("%w: unbound procedure binding", aper.ErrInvalidValue), "Build")
 	}
-	budget, err := q5.BuildBudget(options...)
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
 	report, err := b.validate(&body, budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(*q7.BridgeValidationReportFieldErr(&report), "Build")
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(*s09.BridgeValidationReportFieldErr(&report), "Build")
 	}
-	if issues := q7.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return q9.SuccessfulOutcome{}, q5.OperationError(&q7.BuildError{Issues: issues}, "Build")
+	if issues := s09.BridgeBuildBlockingIssues(report); len(issues) != 0 {
+		return s22.SuccessfulOutcome{}, aper.OperationError(&s09.BuildError{Issues: issues}, "Build")
 	}
 	_, err = b.encode(&body, false, budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("successfulOutcome.value: %w", err), "Build")
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("successfulOutcome.value: %w", err), "Build")
 	}
-	if err := q5.ChargeValue(q5.NewBudgetBuffer(budget), body); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "Build")
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "Build")
 	}
-	return q9.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, q5.OperationError(nil, "Build")
+	return s22.SuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, LppatransactionID: transactionID, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
 // LPPAPDUValueCodec is the concrete ValueCodec[LPPAPDU].
 type LPPAPDUValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(LPPAPDU, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(LPPAPDU, aper.DecodeState,
 
-	) (LPPAPDU, q5.Snapshot,
+	) (LPPAPDU, aper.Snapshot,
 
 	)
-	compare func(LPPAPDU, q5.Snapshot, q5.ComparisonLimits,
+	compare func(LPPAPDU, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (LPPAPDU,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (LPPAPDU,
 
 		error)
 	encode func(LPPAPDU,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
+// New validates value and returns a complete APER value.
 func (c LPPAPDUValueCodec) New(value LPPAPDU,
 
 ) (LPPAPDUAPERValue, error) {
 	if c.encode == nil {
-		return LPPAPDUAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return LPPAPDUAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return LPPAPDUAPERValue{}, q5.OperationError(err, "Value.New")
+		return LPPAPDUAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return LPPAPDUAPERValue{}, q5.OperationError(err, "Value.New")
+		return LPPAPDUAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return LPPAPDUAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return LPPAPDUAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c LPPAPDUValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (LPPAPDUAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c LPPAPDUValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (LPPAPDUAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return LPPAPDUAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return LPPAPDUAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return LPPAPDUAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return LPPAPDUAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return LPPAPDUAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return LPPAPDUAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return LPPAPDUAPERValue{}, report, q5.OperationError(err, c.path)
+		return LPPAPDUAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return LPPAPDUAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return LPPAPDUAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c LPPAPDUValueCodec) EncodeAPER(value LPPAPDUAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c LPPAPDUValueCodec) EncodeAPER(value LPPAPDUAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 func (c LPPAPDUValueCodec) encodeBudget(value LPPAPDU,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
 func (c LPPAPDUValueCodec) encodeChanged(value LPPAPDU,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // SuccessfulOutcomeValueCodec is the concrete ValueCodec[SuccessfulOutcome].
 type SuccessfulOutcomeValueCodec struct {
-	context q4.BridgeCodecContext
-	capture func(q9.SuccessfulOutcome, q5.DecodeState,
+	context s00.BridgeCodecContext
+	capture func(s22.SuccessfulOutcome, aper.DecodeState,
 
-	) (q9.SuccessfulOutcome, q5.Snapshot,
+	) (s22.SuccessfulOutcome, aper.Snapshot,
 
 	)
-	compare func(q9.SuccessfulOutcome, q5.Snapshot, q5.ComparisonLimits,
+	compare func(s22.SuccessfulOutcome, aper.Snapshot, aper.ComparisonLimits,
 
-	) q5.ReplayPlan
-	path   q5.Path
-	decode func([]byte, q5.DecodeState) (q9.SuccessfulOutcome,
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s22.SuccessfulOutcome,
 
 		error)
-	encode func(q9.SuccessfulOutcome,
+	encode func(s22.SuccessfulOutcome,
 
-		bool, *q5.DecodeBudget) ([]byte, error)
+		bool, *aper.DecodeBudget) ([]byte, error)
 }
 
-func (c SuccessfulOutcomeValueCodec) New(value q9.SuccessfulOutcome,
+// New validates value and returns a complete APER value.
+func (c SuccessfulOutcomeValueCodec) New(value s22.SuccessfulOutcome,
 
 ) (SuccessfulOutcomeAPERValue, error) {
 	if c.encode == nil {
-		return SuccessfulOutcomeAPERValue{}, q5.OperationError(q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue), "Value.New")
+		return SuccessfulOutcomeAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return SuccessfulOutcomeAPERValue{}, q5.OperationError(err, "Value.New")
+		return SuccessfulOutcomeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return SuccessfulOutcomeAPERValue{}, q5.OperationError(err, "Value.New")
+		return SuccessfulOutcomeAPERValue{}, aper.OperationError(err, "Value.New")
 	}
-	return SuccessfulOutcomeAPERValue{Value: value}, q5.OperationError(nil, "Value.New")
+	return SuccessfulOutcomeAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
-func (c SuccessfulOutcomeValueCodec) DecodeAPER(data []byte, options ...q5.DecodeOption) (SuccessfulOutcomeAPERValue, q5.DecodeReport, error) {
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c SuccessfulOutcomeValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SuccessfulOutcomeAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil {
-		return SuccessfulOutcomeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return SuccessfulOutcomeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	value, err := c.decode(data, settings)
 	if err != nil {
-		report, err := q5.FinishDecode(settings, err)
-		return SuccessfulOutcomeAPERValue{}, report, q5.OperationError(err, c.path)
+		report, err := aper.FinishDecode(settings, err)
+		return SuccessfulOutcomeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
 	if c.capture == nil {
-		return SuccessfulOutcomeAPERValue{}, q5.DecodeReport{}, q6.Errorf("%w: missing semantic capture", q5.ErrInvalidValue)
+		return SuccessfulOutcomeAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
 	}
 	value, replay := c.capture(value, settings)
-	report, err := q5.FinishDecode(settings, nil)
+	report, err := aper.FinishDecode(settings, nil)
 	if err != nil {
-		return SuccessfulOutcomeAPERValue{}, report, q5.OperationError(err, c.path)
+		return SuccessfulOutcomeAPERValue{}, report, aper.OperationError(err, c.path)
 	}
-	return SuccessfulOutcomeAPERValue{Value: value, received: q5.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	return SuccessfulOutcomeAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 }
-func (c SuccessfulOutcomeValueCodec) EncodeAPER(value SuccessfulOutcomeAPERValue, options ...q5.EncodeOption) ([]byte, error) {
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c SuccessfulOutcomeValueCodec) EncodeAPER(value SuccessfulOutcomeAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
-		return nil, q6.Errorf("%w: unbound value codec", q5.ErrInvalidValue)
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
 	}
-	fresh := value.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, c.path)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
 	}
 	if !fresh && value.context == c.context && value.replay.Present() {
 
-		plan := c.compare(value.Value, value.replay, q5.ComparisonBudget(&budget))
+		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
 		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, c.path)
+			return nil, aper.OperationError(err, c.path)
 		}
 		if plan.Unchanged(value.replay) {
 			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, c.path)
+				return nil, aper.OperationError(err, c.path)
 			}
 			out, err := value.received.ReplayBytes(&budget)
-			return out, q5.OperationError(err, c.path)
+			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, false, plan, budget)
 	}
 	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
-func (c SuccessfulOutcomeValueCodec) encodeBudget(value q9.SuccessfulOutcome,
+func (c SuccessfulOutcomeValueCodec) encodeBudget(value s22.SuccessfulOutcome,
 
-	fresh bool, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	return c.encode(value, fresh, &budget)
 }
-func (c SuccessfulOutcomeValueCodec) encodeChanged(value q9.SuccessfulOutcome,
+func (c SuccessfulOutcomeValueCodec) encodeChanged(value s22.SuccessfulOutcome,
 
-	fresh bool, plan q5.ReplayPlan, budget q5.DecodeBudget) ([]byte, error) {
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
-	return out, q5.OperationError(err, c.path)
+	return out, aper.OperationError(err, c.path)
 }
 
 // TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func BridgeECIDMeasurementInitiationResponseIEValueValidateLPPaIEContainer(fields q9.ECIDMeasurementInitiationResponseIEContainer, rows []q4.FieldInfo, path string, budget *q5.DecodeBudget,
+func BridgeECIDMeasurementInitiationResponseIEValueValidateLPPaIEContainer(fields s22.ECIDMeasurementInitiationResponseIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
 
-) q7.ValidationReport {
-	report := func() q7.ValidationReport {
-		sealed := q7.ValidationReport{Complete: true}
-		*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+) s09.ValidationReport {
+	report := func() s09.ValidationReport {
+		sealed := s09.ValidationReport{Complete: true}
+		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 		return sealed
 	}()
-	bb := q5.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*q7.BridgeValidationReportFieldErr(&report) = err
+		*s09.BridgeValidationReportFieldErr(&report) = err
 		return report
 	}
-	byID := make(map[q4.ProtocolIEID]int, len(rows))
-	counts := make(map[q4.ProtocolIEID]int, len(fields))
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
 	for i, row := range rows {
 		byID[row.ID] = i
 	}
 	lastRank := -1
 	for i, field := range fields {
-		if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if *s09.BridgeValidationReportFieldErr(&report) != nil {
 			return report
 		}
 		if err := bb.ChargeWork(1); err != nil {
-			*q7.BridgeValidationReportFieldErr(&report) = err
+			*s09.BridgeValidationReportFieldErr(&report) = err
 			return report
 		}
-		location := q5.Location{Path: q5.Path(q6.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !q9.BridgeECIDMeasurementInitiationResponseIEValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := q9.BridgeECIDMeasurementInitiationResponseIEValueMethodRule(field.Value)
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.ValueIDMismatch, Severity: q4.ValidationSeverityError, Location: q5.Location{Path: q5.Path(q6.Sprintf("%s.id", location.Path))}, Table: func() q4.TableID {
-				sealed := q4.TableID{}
-				*q4.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+		if !s22.BridgeECIDMeasurementInitiationResponseIEValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s22.BridgeECIDMeasurementInitiationResponseIEValueMethodRule(field.Value)
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.ValueIDMismatch), RelatedRules: []q5.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		q5.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
 			// including repetition of unknown selectors.
 			counts, field.Id)
 		if counts[field.Id] > 1 {
-			var row q4.FieldInfo
-			related := []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.RepeatedIE)}
+			var row s00.FieldInfo
+			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.RepeatedIE, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
-			severity := q4.ValidationSeverityUnrecognized
-			if _, globallyKnown := q19.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = q4.ValidationSeverityError
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.NotAllowed), RelatedRules: q19.BridgeLppaHandlingRules(q4.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongCriticality, Severity: q4.ValidationSeverityError, Location: q5.Location{Path: q5.Path(q6.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: q19.BridgeLppaValidationRule(q4.WrongCriticality), RelatedRules: []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongOrder, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.WrongOrder), RelatedRules: []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
-		if row.Presence == q4.PresenceMandatory && counts[row.ID] == 0 {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.MissingMandatory, Severity: q4.ValidationSeverityError, Location: q5.Location{Path: q5.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.MissingMandatory), RelatedRules: []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.MissingMandatory), row.Rule}})
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
-		if row.Presence == q4.PresenceConditional {
-			q7.BridgeValidationReportMethodAddDeferred(&report, q4.DeferredCondition{Location: q5.Location{Path: q5.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if row.Presence == s00.PresenceConditional {
+			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s09.BridgeValidationReportFieldErr(&report) != nil {
 				return report
 			}
 			report.Complete = false
@@ -1331,17 +1403,17 @@ func BridgeECIDMeasurementInitiationResponseIEValueValidateLPPaIEContainer(field
 	}
 	return report
 }
-func BridgeWLANMeasurementResultItemExtIEsValueValidateLPPaExtensionContainer(fields q19.WLANMeasurementResultItemExtIEsExtContainer, rows []q4.FieldInfo, path string, budget *q5.DecodeBudget) q7.ValidationReport {
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[q19.WLANMeasurementResultItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldErr(&sealed) = err
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+func BridgeWLANMeasurementResultItemExtIEsValueValidateLPPaExtensionContainer(fields s04.WLANMeasurementResultItemExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s09.ValidationReport {
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s04.WLANMeasurementResultItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldErr(&sealed) = err
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
 		}()
 	}
-	asIE := make(q19.WLANMeasurementResultItemExtIEsIEContainer, len(fields))
+	asIE := make(s04.WLANMeasurementResultItemExtIEsIEContainer, len(fields))
 	for i := range fields {
 		asIE[i].Id = fields[i].Id
 		asIE[i].Criticality = fields[i].Criticality
@@ -1352,74 +1424,80 @@ func BridgeWLANMeasurementResultItemExtIEsValueValidateLPPaExtensionContainer(fi
 
 // eCIDMeasurementInitiationResponseIEValueProtocolOpenValue is the concrete protocolOpenValue[ECIDMeasurementInitiationResponseIEValue].
 type ECIDMeasurementInitiationResponseIEValueProtocolOpenValueConstraint interface {
-	captureSemantics(q5.SemanticCapture) q9.ECIDMeasurementInitiationResponseIEValue
+	captureSemantics(aper.SemanticCapture) s22.ECIDMeasurementInitiationResponseIEValue
 
 	captureFraming() uint64
-	captureSnapshot() q5.Snapshot
-	compareSemantics(q5.SemanticComparison) q5.SemanticComparison
-	decode(q4.ProtocolIEID, q5.OpaqueOpenType) (q9.ECIDMeasurementInitiationResponseIEValue,
+	captureSnapshot() aper.Snapshot
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s22.ECIDMeasurementInitiationResponseIEValue,
 
 		error)
 	encode() ([]byte, error)
-	encodeFresh(bool, *q5.DecodeBudget) ([]byte, error)
-	matchesID(q4.ProtocolIEID, *q5.DecodeBudget) bool
-	reason(q4.ProtocolIEID) q5.OpaqueReason
-	rule() q5.SourceRule
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
 }
 
 // wLANMeasurementResultItemExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[WLANMeasurementResultItemExtIEsValue].
 type WLANMeasurementResultItemExtIEsValueProtocolOpenValueConstraint interface {
-	captureSemantics(q5.SemanticCapture) q15.WLANMeasurementResultItemExtIEsValue
+	captureSemantics(aper.SemanticCapture) s03.WLANMeasurementResultItemExtIEsValue
 
 	captureFraming() uint64
-	captureSnapshot() q5.Snapshot
-	compareSemantics(q5.SemanticComparison) q5.SemanticComparison
-	decode(q4.ProtocolIEID, q5.OpaqueOpenType) (q15.WLANMeasurementResultItemExtIEsValue,
+	captureSnapshot() aper.Snapshot
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s03.WLANMeasurementResultItemExtIEsValue,
 
 		error)
 	encode() ([]byte, error)
-	encodeFresh(bool, *q5.DecodeBudget) ([]byte, error)
-	matchesID(q4.ProtocolIEID, *q5.DecodeBudget) bool
-	reason(q4.ProtocolIEID) q5.OpaqueReason
-	rule() q5.SourceRule
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
 }
 
 // LPPAPDUAPERValue is the concrete APERValue[LPPAPDU].
 type LPPAPDUAPERValue struct {
-	context q4.BridgeCodecContext
+	context s00.BridgeCodecContext
 	Value   LPPAPDU
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v LPPAPDUAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v LPPAPDUAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v LPPAPDUAPERValue) WithoutReplay() LPPAPDUAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
 
 // SuccessfulOutcomeAPERValue is the concrete APERValue[SuccessfulOutcome].
 type SuccessfulOutcomeAPERValue struct {
-	context q4.BridgeCodecContext
-	Value   q9.SuccessfulOutcome
+	context s00.BridgeCodecContext
+	Value   s22.SuccessfulOutcome
 
-	received      q5.WireSpan
-	replay        q5.Snapshot
+	received      aper.WireSpan
+	replay        aper.Snapshot
 	withoutReplay bool
 }
 
-func (v SuccessfulOutcomeAPERValue) ReceivedForm() q5.ReceivedForm {
-	return q5.NewReceivedSpanForm(v.received.Present(), v.received, q5.Location{}, nil)
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v SuccessfulOutcomeAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
+
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v SuccessfulOutcomeAPERValue) WithoutReplay() SuccessfulOutcomeAPERValue {
-	v.received = q5.WireSpan{}
-	v.replay = q5.Snapshot{}
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
@@ -1427,82 +1505,82 @@ func (v SuccessfulOutcomeAPERValue) WithoutReplay() SuccessfulOutcomeAPERValue {
 // TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func BridgeWLANMeasurementResultItemExtIEsValueValidateLPPaIEContainer(fields q19.WLANMeasurementResultItemExtIEsIEContainer, rows []q4.FieldInfo, path string, budget *q5.DecodeBudget,
+func BridgeWLANMeasurementResultItemExtIEsValueValidateLPPaIEContainer(fields s04.WLANMeasurementResultItemExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
 
-) q7.ValidationReport {
-	report := func() q7.ValidationReport {
-		sealed := q7.ValidationReport{Complete: true}
-		*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+) s09.ValidationReport {
+	report := func() s09.ValidationReport {
+		sealed := s09.ValidationReport{Complete: true}
+		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 		return sealed
 	}()
-	bb := q5.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*q7.BridgeValidationReportFieldErr(&report) = err
+		*s09.BridgeValidationReportFieldErr(&report) = err
 		return report
 	}
-	byID := make(map[q4.ProtocolIEID]int, len(rows))
-	counts := make(map[q4.ProtocolIEID]int, len(fields))
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
 	for i, row := range rows {
 		byID[row.ID] = i
 	}
 	lastRank := -1
 	for i, field := range fields {
-		if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if *s09.BridgeValidationReportFieldErr(&report) != nil {
 			return report
 		}
 		if err := bb.ChargeWork(1); err != nil {
-			*q7.BridgeValidationReportFieldErr(&report) = err
+			*s09.BridgeValidationReportFieldErr(&report) = err
 			return report
 		}
-		location := q5.Location{Path: q5.Path(q6.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
-		if !q15.BridgeWLANMeasurementResultItemExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := q15.BridgeWLANMeasurementResultItemExtIEsValueMethodRule(field.Value)
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.ValueIDMismatch, Severity: q4.ValidationSeverityError, Location: q5.Location{Path: q5.Path(q6.Sprintf("%s.id", location.Path))}, Table: func() q4.TableID {
-				sealed := q4.TableID{}
-				*q4.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+		if !s03.BridgeWLANMeasurementResultItemExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s03.BridgeWLANMeasurementResultItemExtIEsValueMethodRule(field.Value)
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.ValueIDMismatch), RelatedRules: []q5.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		q5.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
 			// including repetition of unknown selectors.
 			counts, field.Id)
 		if counts[field.Id] > 1 {
-			var row q4.FieldInfo
-			related := []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.RepeatedIE)}
+			var row s00.FieldInfo
+			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.RepeatedIE, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
-			severity := q4.ValidationSeverityUnrecognized
-			if _, globallyKnown := q19.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = q4.ValidationSeverityError
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.NotAllowed), RelatedRules: q19.BridgeLppaHandlingRules(q4.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongCriticality, Severity: q4.ValidationSeverityError, Location: q5.Location{Path: q5.Path(q6.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: q19.BridgeLppaValidationRule(q4.WrongCriticality), RelatedRules: []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongOrder, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.WrongOrder), RelatedRules: []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
-		if row.Presence == q4.PresenceMandatory && counts[row.ID] == 0 {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.MissingMandatory, Severity: q4.ValidationSeverityError, Location: q5.Location{Path: q5.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.MissingMandatory), RelatedRules: []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.MissingMandatory), row.Rule}})
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
-		if row.Presence == q4.PresenceConditional {
-			q7.BridgeValidationReportMethodAddDeferred(&report, q4.DeferredCondition{Location: q5.Location{Path: q5.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if row.Presence == s00.PresenceConditional {
+			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s09.BridgeValidationReportFieldErr(&report) != nil {
 				return report
 			}
 			report.Complete = false
@@ -1512,14 +1590,14 @@ func BridgeWLANMeasurementResultItemExtIEsValueValidateLPPaIEContainer(fields q1
 }
 
 // MarshalAPERWLANMeasurementResult encodes a WLANMeasurementResult list to APER.
-func BridgeMarshalAPERWLANMeasurementResult(list q9.WLANMeasurementResultComplete) ([]byte, error) {
-	return q9.BridgeWLANMeasurementResultCompleteMethodMarshalAPERLegacy(&list)
+func BridgeMarshalAPERWLANMeasurementResult(list s22.WLANMeasurementResultComplete) ([]byte, error) {
+	return s22.BridgeWLANMeasurementResultCompleteMethodMarshalAPERLegacy(&list)
 }
 
 // UnmarshalAPERWLANMeasurementResult decodes a WLANMeasurementResult list from APER.
-func BridgeUnmarshalAPERWLANMeasurementResult(data []byte) (q9.WLANMeasurementResultComplete, error) {
-	var value q9.WLANMeasurementResultComplete
-	if err := q9.BridgeWLANMeasurementResultCompleteMethodUnmarshalAPERLegacy(&value, data); err != nil {
+func BridgeUnmarshalAPERWLANMeasurementResult(data []byte) (s22.WLANMeasurementResultComplete, error) {
+	var value s22.WLANMeasurementResultComplete
+	if err := s22.BridgeWLANMeasurementResultCompleteMethodUnmarshalAPERLegacy(&value, data); err != nil {
 		return value, err
 	}
 	return value, nil
@@ -1528,53 +1606,53 @@ func BridgeUnmarshalAPERWLANMeasurementResult(data []byte) (q9.WLANMeasurementRe
 // LPPAPDU represents the ASN.1 CHOICE type LPPA-PDU.
 type LPPAPDU struct {
 	knownOpenBytes      uint64
-	replay              q5.Snapshot
-	stream              q5.WireSpan
+	replay              aper.Snapshot
+	stream              aper.WireSpan
 	withoutReplay       bool
 	received            bool
-	receivedBytes       q5.WireSpan
+	receivedBytes       aper.WireSpan
 	Choice              int
-	perPadding          q5.CompletePadding       `json:"-"`
-	perOpenTypePadding  q5.CompletePadding       `json:"-"`
-	UnknownExtension    *q5.ChoiceExtension      `json:"UnknownExtension,omitempty"`
-	InitiatingMessage   *q8.InitiatingMessage    `json:"InitiatingMessage,omitempty"`
-	SuccessfulOutcome   *q9.SuccessfulOutcome    `json:"SuccessfulOutcome,omitempty"`
-	UnsuccessfulOutcome *q10.UnsuccessfulOutcome `json:"UnsuccessfulOutcome,omitempty"`
+	perPadding          aper.CompletePadding     `json:"-"`
+	perOpenTypePadding  aper.CompletePadding     `json:"-"`
+	UnknownExtension    *aper.ChoiceExtension    `json:"UnknownExtension,omitempty"`
+	InitiatingMessage   *s21.InitiatingMessage   `json:"InitiatingMessage,omitempty"`
+	SuccessfulOutcome   *s22.SuccessfulOutcome   `json:"SuccessfulOutcome,omitempty"`
+	UnsuccessfulOutcome *s16.UnsuccessfulOutcome `json:"UnsuccessfulOutcome,omitempty"`
 }
 
 // NewLPPAPDUInitiatingMessage creates a LPPAPDU with the initiatingMessage alternative.
-func BridgeNewLPPAPDUInitiatingMessageLegacy(v q8.InitiatingMessage) LPPAPDU {
+func BridgeNewLPPAPDUInitiatingMessageLegacy(v s21.InitiatingMessage) LPPAPDU {
 	return LPPAPDU{
-		Choice:            q4.LPPAPDUChoiceInitiatingMessage,
+		Choice:            s00.LPPAPDUChoiceInitiatingMessage,
 		InitiatingMessage: &v,
 	}
 }
 
 // NewLPPAPDUSuccessfulOutcome creates a LPPAPDU with the successfulOutcome alternative.
-func BridgeNewLPPAPDUSuccessfulOutcomeLegacy(v q9.SuccessfulOutcome) LPPAPDU {
+func BridgeNewLPPAPDUSuccessfulOutcomeLegacy(v s22.SuccessfulOutcome) LPPAPDU {
 	return LPPAPDU{
-		Choice:            q4.LPPAPDUChoiceSuccessfulOutcome,
+		Choice:            s00.LPPAPDUChoiceSuccessfulOutcome,
 		SuccessfulOutcome: &v,
 	}
 }
 
 // NewLPPAPDUUnsuccessfulOutcome creates a LPPAPDU with the unsuccessfulOutcome alternative.
-func BridgeNewLPPAPDUUnsuccessfulOutcomeLegacy(v q10.UnsuccessfulOutcome) LPPAPDU {
+func BridgeNewLPPAPDUUnsuccessfulOutcomeLegacy(v s16.UnsuccessfulOutcome) LPPAPDU {
 	return LPPAPDU{
-		Choice:              q4.LPPAPDUChoiceUnsuccessfulOutcome,
+		Choice:              s00.LPPAPDUChoiceUnsuccessfulOutcome,
 		UnsuccessfulOutcome: &v,
 	}
 }
 
 // MarshalAPER encodes LPPAPDU to APER format.
 func (v *LPPAPDU) marshalAPERLegacy() ([]byte, error) {
-	bb := q5.NewBitBuffer()
+	bb := aper.NewBitBuffer()
 	if err := v.marshalAPERTo(bb); err != nil {
 		return nil, err
 	}
 	return bb.CompleteBytesWithPadding(v.perPadding)
 }
-func (v *LPPAPDU) marshalAPERTo(bb *q5.BitBuffer, fresh ...bool) error {
+func (v *LPPAPDU) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	if v.withoutReplay {
 		fresh = []bool{true}
 	}
@@ -1599,89 +1677,89 @@ func (v *LPPAPDU) marshalAPERTo(bb *q5.BitBuffer, fresh ...bool) error {
 
 	if v.UnknownExtension != nil {
 		if v.Choice != 0 {
-			return q6.Errorf("%s known choice %d and unknown extension are both selected", "LPPAPDU:", v.Choice)
+			return fmt.Errorf("%s known choice %d and unknown extension are both selected", "LPPAPDU:", v.Choice)
 		}
 		if v.UnknownExtension.Index() < 0 {
-			return q6.Errorf("%s extension index %d must be non-negative", "LPPAPDU:", v.UnknownExtension.Index())
+			return fmt.Errorf("%s extension index %d must be non-negative", "LPPAPDU:", v.UnknownExtension.Index())
 		}
-		if err := q5.EncodeBoolean(bb, true); err != nil {
+		if err := aper.EncodeBoolean(bb, true); err != nil {
 			return err
 		}
-		if err := q5.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index()); err != nil {
+		if err := aper.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index()); err != nil {
 			return err
 		}
 		return v.UnknownExtension.EncodeTo(bb)
 	}
 	if v.Choice < 1 {
-		return q6.Errorf("%s choice %d must be positive", "LPPAPDU:", v.Choice)
+		return fmt.Errorf("%s choice %d must be positive", "LPPAPDU:", v.Choice)
 	}
 	isExtension := v.Choice > 3
-	if err := q5.EncodeBoolean(bb, isExtension); err != nil {
+	if err := aper.EncodeBoolean(bb, isExtension); err != nil {
 		return err
 	}
 	if isExtension {
-		return q6.Errorf("%s extension choice %d not supported", "LPPAPDU:", v.Choice)
+		return fmt.Errorf("%s extension choice %d not supported", "LPPAPDU:", v.Choice)
 	}
 	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
 	if v.Choice < 1 {
-		return q6.Errorf("choice index outside root")
+		return fmt.Errorf("choice index outside root")
 	}
-	if err := q5.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
+	if err := aper.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 2); err != nil {
 		return err
 	}
 	switch v.Choice {
-	case q4.LPPAPDUChoiceInitiatingMessage:
+	case s00.LPPAPDUChoiceInitiatingMessage:
 		if v.InitiatingMessage == nil {
-			return q6.Errorf("choice alternative initiatingMessage is nil")
+			return fmt.Errorf("choice alternative initiatingMessage is nil")
 		}
-		if err := q8.BridgeInitiatingMessageMethodMarshalAPERTo(v.InitiatingMessage, bb, len(fresh) != 0 && fresh[0]); err != nil {
-			return q6.Errorf("encoding initiatingMessage: %w", err)
+		if err := s21.BridgeInitiatingMessageMethodMarshalAPERTo(v.InitiatingMessage, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			return fmt.Errorf("encoding initiatingMessage: %w", err)
 		}
-	case q4.LPPAPDUChoiceSuccessfulOutcome:
+	case s00.LPPAPDUChoiceSuccessfulOutcome:
 		if v.SuccessfulOutcome == nil {
-			return q6.Errorf("choice alternative successfulOutcome is nil")
+			return fmt.Errorf("choice alternative successfulOutcome is nil")
 		}
-		if err := q9.BridgeSuccessfulOutcomeMethodMarshalAPERTo(v.SuccessfulOutcome, bb, len(fresh) != 0 && fresh[0]); err != nil {
-			return q6.Errorf("encoding successfulOutcome: %w", err)
+		if err := s22.BridgeSuccessfulOutcomeMethodMarshalAPERTo(v.SuccessfulOutcome, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			return fmt.Errorf("encoding successfulOutcome: %w", err)
 		}
-	case q4.LPPAPDUChoiceUnsuccessfulOutcome:
+	case s00.LPPAPDUChoiceUnsuccessfulOutcome:
 		if v.UnsuccessfulOutcome == nil {
-			return q6.Errorf("choice alternative unsuccessfulOutcome is nil")
+			return fmt.Errorf("choice alternative unsuccessfulOutcome is nil")
 		}
-		if err := q10.BridgeUnsuccessfulOutcomeMethodMarshalAPERTo(v.UnsuccessfulOutcome, bb, len(fresh) != 0 && fresh[0]); err != nil {
-			return q6.Errorf("encoding unsuccessfulOutcome: %w", err)
+		if err := s16.BridgeUnsuccessfulOutcomeMethodMarshalAPERTo(v.UnsuccessfulOutcome, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			return fmt.Errorf("encoding unsuccessfulOutcome: %w", err)
 		}
 	default:
-		return q6.Errorf("unknown LPPAPDU choice %d", v.Choice)
+		return fmt.Errorf("unknown LPPAPDU choice %d", v.Choice)
 	}
 	return nil
 }
 
 // UnmarshalAPER decodes LPPAPDU from APER format.
 func (v *LPPAPDU) unmarshalAPERLegacy(data []byte) error {
-	return v.unmarshalAPERWithOptions(data, q5.DecodeState{})
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
 }
 
 // UnmarshalAPERWithOptions decodes LPPAPDU with explicit receiver options:
 // TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
 // MaxZeroWidthCharacters (see
 // aper.BitBuffer.SetDecodeOptionsAligned).
-func (v *LPPAPDU) unmarshalAPERWithOptions(data []byte, options q5.DecodeState) error {
-	bb := q5.NewCompleteDecodeBuffer(data, options)
+func (v *LPPAPDU) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
-		return q20.WrapDecodePath(err, "LPPAPDU")
+		return runtime.WrapDecodePath(err, "LPPAPDU")
 	}
 	if err := v.unmarshalAPERFrom(bb); err != nil {
-		return q20.WrapDecodePath(err, "LPPAPDU")
+		return runtime.WrapDecodePath(err, "LPPAPDU")
 	}
-	padding, err := q5.CaptureFinalBits(bb, "LPPAPDU")
+	padding, err := aper.CaptureFinalBits(bb, "LPPAPDU")
 	if err != nil {
-		return q20.WrapDecodePath(err, "LPPAPDU")
+		return runtime.WrapDecodePath(err, "LPPAPDU")
 	}
 	v.perPadding = padding.Padding()
 	return nil
 }
-func (v *LPPAPDU) unmarshalAPERFrom(bb *q5.BitBuffer) error {
+func (v *LPPAPDU) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	replayStart := bb.BitPos()
 	replayUsage := bb.Usage()
 
@@ -1690,21 +1768,21 @@ func (v *LPPAPDU) unmarshalAPERFrom(bb *q5.BitBuffer) error {
 	}
 	defer bb.LeaveDecodeValue()
 	*v = LPPAPDU{}
-	isExtension, err := q5.DecodeBoolean(bb)
+	isExtension, err := aper.DecodeBoolean(bb)
 	if err != nil {
 		return err
 	}
 	if isExtension {
-		extIdx, err := q5.DecodeNormallySmallNonNegativeAligned(bb)
+		extIdx, err := aper.DecodeNormallySmallNonNegativeAligned(bb)
 		if err != nil {
-			return q20.WrapDecodePath(err, "UnknownExtension")
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
-		openExtension, err := q5.DecodeChoiceExtensionAligned(bb, extIdx, 0)
+		openExtension, err := aper.DecodeChoiceExtensionAligned(bb, extIdx, 0)
 		if extIdx < 0 {
 			v.knownOpenBytes = max(v.knownOpenBytes, openExtension.ContentLength())
 		}
 		if err != nil {
-			return q20.WrapDecodePath(err, "UnknownExtension")
+			return runtime.WrapDecodePath(err, "UnknownExtension")
 		}
 		v.UnknownExtension = &openExtension
 		v.stream = bb.CaptureWireSpan(replayStart)
@@ -1714,45 +1792,45 @@ func (v *LPPAPDU) unmarshalAPERFrom(bb *q5.BitBuffer) error {
 
 		return nil
 	}
-	idx, err := q5.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
+	idx, err := aper.DecodeConstrainedWholeNumberAligned(bb, 0, 2)
 	if err != nil {
 		return err
 	}
 	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:236
 	if idx < 0 || idx >= int64(^uint(0)>>1) {
-		return q6.Errorf("choice index exceeds host int")
+		return fmt.Errorf("choice index exceeds host int")
 	}
 	v.Choice = int(idx) + 1
 	switch v.Choice {
-	case q4.LPPAPDUChoiceInitiatingMessage:
+	case s00.LPPAPDUChoiceInitiatingMessage:
 		toleranceMark_initiatingmessage := bb.EnterComponent("InitiatingMessage")
-		var dec_initiatingmessage q8.InitiatingMessage
-		if err := q8.BridgeInitiatingMessageMethodUnmarshalAPERFrom(&dec_initiatingmessage, bb); err != nil {
-			return q20.WrapDecodePath(err, "InitiatingMessage")
+		var dec_initiatingmessage s21.InitiatingMessage
+		if err := s21.BridgeInitiatingMessageMethodUnmarshalAPERFrom(&dec_initiatingmessage, bb); err != nil {
+			return runtime.WrapDecodePath(err, "InitiatingMessage")
 		}
-		if err := q5.ChargeValue(bb, dec_initiatingmessage); err != nil {
+		if err := aper.ChargeValue(bb, dec_initiatingmessage); err != nil {
 			return err
 		}
 		v.InitiatingMessage = &dec_initiatingmessage
 		bb.LeaveComponent(toleranceMark_initiatingmessage)
-	case q4.LPPAPDUChoiceSuccessfulOutcome:
+	case s00.LPPAPDUChoiceSuccessfulOutcome:
 		toleranceMark_successfuloutcome := bb.EnterComponent("SuccessfulOutcome")
-		var dec_successfuloutcome q9.SuccessfulOutcome
-		if err := q9.BridgeSuccessfulOutcomeMethodUnmarshalAPERFrom(&dec_successfuloutcome, bb); err != nil {
-			return q20.WrapDecodePath(err, "SuccessfulOutcome")
+		var dec_successfuloutcome s22.SuccessfulOutcome
+		if err := s22.BridgeSuccessfulOutcomeMethodUnmarshalAPERFrom(&dec_successfuloutcome, bb); err != nil {
+			return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 		}
-		if err := q5.ChargeValue(bb, dec_successfuloutcome); err != nil {
+		if err := aper.ChargeValue(bb, dec_successfuloutcome); err != nil {
 			return err
 		}
 		v.SuccessfulOutcome = &dec_successfuloutcome
 		bb.LeaveComponent(toleranceMark_successfuloutcome)
-	case q4.LPPAPDUChoiceUnsuccessfulOutcome:
+	case s00.LPPAPDUChoiceUnsuccessfulOutcome:
 		toleranceMark_unsuccessfuloutcome := bb.EnterComponent("UnsuccessfulOutcome")
-		var dec_unsuccessfuloutcome q10.UnsuccessfulOutcome
-		if err := q10.BridgeUnsuccessfulOutcomeMethodUnmarshalAPERFrom(&dec_unsuccessfuloutcome, bb); err != nil {
-			return q20.WrapDecodePath(err, "UnsuccessfulOutcome")
+		var dec_unsuccessfuloutcome s16.UnsuccessfulOutcome
+		if err := s16.BridgeUnsuccessfulOutcomeMethodUnmarshalAPERFrom(&dec_unsuccessfuloutcome, bb); err != nil {
+			return runtime.WrapDecodePath(err, "UnsuccessfulOutcome")
 		}
-		if err := q5.ChargeValue(bb, dec_unsuccessfuloutcome); err != nil {
+		if err := aper.ChargeValue(bb, dec_unsuccessfuloutcome); err != nil {
 			return err
 		}
 		v.UnsuccessfulOutcome = &dec_unsuccessfuloutcome
@@ -1767,65 +1845,67 @@ func (v *LPPAPDU) unmarshalAPERFrom(bb *q5.BitBuffer) error {
 }
 
 // ReceivedForm returns an owned view of the complete value's original bytes.
-func (v *LPPAPDU) ReceivedForm() q5.ReceivedForm {
+func (v *LPPAPDU) ReceivedForm() aper.ReceivedForm {
 	if v == nil {
-		return q5.ReceivedForm{}
+		return aper.ReceivedForm{}
 	}
-	return q21.BridgeReceivedFormAt(v.received, v.receivedBytes, "LPPAPDU", v.receivedBytes.ContentLocation(), v.perPadding)
+	return s05.BridgeReceivedFormAt(v.received, v.receivedBytes, "LPPAPDU", v.receivedBytes.ContentLocation(), v.perPadding)
 }
 
 // WithoutReplay clears private received framing for a fresh complete encoding.
 func (v LPPAPDU) WithoutReplay() LPPAPDU {
 	v.withoutReplay = true
 	v.received = false
-	v.receivedBytes = q5.WireSpan{}
+	v.receivedBytes = aper.WireSpan{}
 	var zero LPPAPDU
 	v.perPadding = zero.perPadding
 	return v
 }
-func (v *LPPAPDU) MarshalAPER(options ...q5.EncodeOption) ([]byte, error) {
+
+// MarshalAPER encodes the complete value, replaying unchanged received bytes unless fresh encoding is requested.
+func (v *LPPAPDU) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
 	if v == nil {
-		return nil, q5.OperationError(q5.ErrInvalidValue, "LPPAPDU")
+		return nil, aper.OperationError(aper.ErrInvalidValue, "LPPAPDU")
 	}
-	fresh := v.withoutReplay || q5.EncodeWithoutReplay(options...)
-	var budget q5.DecodeBudget
-	if err := q5.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, q5.OperationError(err, "LPPAPDU")
+	fresh := v.withoutReplay || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, "LPPAPDU")
 	}
 	if !fresh && v.replay.Present() {
 
-		s := q5.NewSemanticComparison(v.replay, q5.ComparisonBudget(&budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(&budget))
 		BridgeCompareLPPaLPPAPDU(v, &s)
 		if err := s.ChargeComparison(&budget); err != nil {
-			return nil, q5.OperationError(err, "LPPAPDU")
+			return nil, aper.OperationError(err, "LPPAPDU")
 		}
 		if s.Unchanged(v.replay) && v.received {
 			if err := v.replay.ApplyReplay(&budget); err != nil {
-				return nil, q5.OperationError(err, "LPPAPDU")
+				return nil, aper.OperationError(err, "LPPAPDU")
 			}
 			out, err := v.receivedBytes.ReplayBytes(&budget)
-			return out, q5.OperationError(err, "LPPAPDU")
+			return out, aper.OperationError(err, "LPPAPDU")
 		}
 		out, err := v.marshalAPERChangedValue(budget, fresh, s.Plan())
-		return out, q5.OperationError(err, "LPPAPDU")
+		return out, aper.OperationError(err, "LPPAPDU")
 	}
 	out, err := v.marshalAPERFreshValue(budget, fresh)
-	return out, q5.OperationError(err, "LPPAPDU")
+	return out, aper.OperationError(err, "LPPAPDU")
 }
-func (v *LPPAPDU) marshalAPERChangedValue(budget q5.DecodeBudget, fresh bool, plan q5.ReplayPlan) ([]byte, error) {
+func (v *LPPAPDU) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(&budget, fresh, plan)
 }
-func (v *LPPAPDU) marshalAPERFreshValue(budget q5.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *LPPAPDU) marshalAPERFreshValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
 	return v.marshalAPERBudget(&budget, fresh)
 }
-func (v *LPPAPDU) marshalAPERBudget(budget *q5.DecodeBudget, fresh bool) ([]byte, error) {
+func (v *LPPAPDU) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
 	if v == nil {
-		return nil, q5.ErrInvalidValue
+		return nil, aper.ErrInvalidValue
 	}
 	fresh = fresh || v.withoutReplay
-	bb := q5.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if !fresh && v.replay.Present() && bb.ReplayPlan() == nil {
-		s := q5.NewSemanticComparison(v.replay, q5.ComparisonBudget(budget))
+		s := aper.NewSemanticComparison(v.replay, aper.ComparisonBudget(budget))
 		BridgeCompareLPPaLPPAPDU(v, &s)
 		if err := s.ChargeComparison(budget); err != nil {
 			return nil, err
@@ -1846,14 +1926,14 @@ func (v *LPPAPDU) marshalAPERBudget(budget *q5.DecodeBudget, fresh bool) ([]byte
 	}
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *LPPAPDU) marshalAPERChanged(budget *q5.DecodeBudget, fresh bool, plan q5.ReplayPlan) ([]byte, error) {
-	previous := q5.NewBudgetBuffer(budget).ReplayPlan()
+func (v *LPPAPDU) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
 	budget.SetReplayPlan(&plan)
 	defer budget.SetReplayPlan(previous)
 	return v.marshalAPERPlanned(budget, fresh)
 }
-func (v *LPPAPDU) marshalAPERPlanned(budget *q5.DecodeBudget, fresh bool) ([]byte, error) {
-	bb := q5.NewBudgetBuffer(budget)
+func (v *LPPAPDU) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	bb := aper.NewBudgetBuffer(budget)
 	value := v
 	if fresh {
 		previous := bb.SuspendReplayPlan()
@@ -1875,150 +1955,153 @@ func (v *LPPAPDU) marshalAPERPlanned(budget *q5.DecodeBudget, fresh bool) ([]byt
 }
 
 // UnmarshalAPER decodes one complete value and returns a per-call report.
-func (v *LPPAPDU) UnmarshalAPER(data []byte, options ...q5.DecodeOption) (q5.DecodeReport, error) {
+func (v *LPPAPDU) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
 	if v == nil {
-		return q5.DecodeReport{}, q5.OperationError(q5.ErrInvalidValue, "LPPAPDU")
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "LPPAPDU")
 	}
-	data, settings := q5.OwnDecodeInputOptions(data, options...)
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
 	var decoded LPPAPDU
 	err := decoded.unmarshalAPERWithOptions(data, settings)
 	if err == nil {
 		decoded.received = true
-		decoded.receivedBytes = q5.OriginalWire(data)
-		s := q5.SemanticCaptureFor(settings)
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(settings)
 		BridgeCaptureLPPaLPPAPDU(&decoded, &s)
 	}
-	report, err := q5.FinishDecode(settings, err)
+	report, err := aper.FinishDecode(settings, err)
 	if err != nil {
 		*v = LPPAPDU{}
-		return report, q5.OperationError(err, "LPPAPDU")
+		return report, aper.OperationError(err, "LPPAPDU")
 	}
 	*v = decoded
-	return report, q5.OperationError(nil, "LPPAPDU")
+	return report, aper.OperationError(nil, "LPPAPDU")
 }
 
 // NewLPPAPDUUnknownExtension builds a checked, owned unknown CHOICE alternative.
-func NewLPPAPDUUnknownExtension(index uint64, contents []byte, options ...q5.BuildOption) (LPPAPDU, error) {
-	budget, err := q5.BuildBudget(options...)
+func NewLPPAPDUUnknownExtension(index uint64, contents []byte, options ...aper.BuildOption) (LPPAPDU, error) {
+	budget, err := aper.BuildBudget(options...)
 	if err != nil {
-		return LPPAPDU{}, q5.OperationError(err, "LPPAPDUUnknownExtension")
+		return LPPAPDU{}, aper.OperationError(err, "LPPAPDUUnknownExtension")
 	}
-	extension, err := q5.BuildChoiceExtension(index, contents, budget)
+	extension, err := aper.BuildChoiceExtension(index, contents, budget)
 	if err != nil {
-		return LPPAPDU{}, q5.OperationError(err, "LPPAPDUUnknownExtension")
+		return LPPAPDU{}, aper.OperationError(err, "LPPAPDUUnknownExtension")
 	}
 	value := LPPAPDU{UnknownExtension: &extension}
 	if _, err := value.marshalAPERBudget(budget, false); err != nil {
-		return LPPAPDU{}, q5.OperationError(err, "LPPAPDUUnknownExtension")
+		return LPPAPDU{}, aper.OperationError(err, "LPPAPDUUnknownExtension")
 	}
-	return value, q5.OperationError(nil, "LPPAPDUUnknownExtension")
+	return value, aper.OperationError(nil, "LPPAPDUUnknownExtension")
 }
 
 // PayloadCodec owns a typed foreign decoder and encoder. The callbacks must
 // enforce the foreign schema and consume a complete value.
 type PayloadCodec[T any] struct {
-	decode func([]byte, q4.PayloadLimits) (T, q4.PayloadReport, error)
-	encode func(T, q4.PayloadLimits) ([]byte, error)
+	decode func([]byte, s00.PayloadLimits) (T, s00.PayloadReport, error)
+	encode func(T, s00.PayloadLimits) ([]byte, error)
 }
 type NewPayloadCodec[T any] struct{}
 
+// Call invokes the payload operation for the caller-selected value type.
 func (NewPayloadCodec[T]) Call(
-	decode func([]byte, q4.PayloadLimits) (T, q4.PayloadReport, error),
-	encode func(T, q4.PayloadLimits) ([]byte, error),
+	decode func([]byte, s00.PayloadLimits) (T, s00.PayloadReport, error),
+	encode func(T, s00.PayloadLimits) ([]byte, error),
 ) (PayloadCodec[T], error) {
 	if decode == nil || encode == nil {
-		return PayloadCodec[T]{}, q5.OperationError(q5.OperationError(q6.Errorf("%w: payload binding: nil callback", q5.ErrInvalidValue), "Payload.binding"), "PayloadCodec")
+		return PayloadCodec[T]{}, aper.OperationError(aper.OperationError(fmt.Errorf("%w: payload binding: nil callback", aper.ErrInvalidValue), "Payload.binding"), "PayloadCodec")
 	}
-	return PayloadCodec[T]{decode: decode, encode: encode}, q5.OperationError(nil, "PayloadCodec")
+	return PayloadCodec[T]{decode: decode, encode: encode}, aper.OperationError(nil, "PayloadCodec")
 }
 
 type DecodePayload[T any] struct{}
 
-func (DecodePayload[T]) Call(data []byte, codec PayloadCodec[T], limits q4.PayloadLimits) (T, q4.PayloadReport, error) {
+// Call invokes the payload operation for the caller-selected value type.
+func (DecodePayload[T]) Call(data []byte, codec PayloadCodec[T], limits s00.PayloadLimits) (T, s00.PayloadReport, error) {
 	var zero T
 	if codec.decode == nil || codec.encode == nil {
-		return zero, q4.PayloadReport{}, q5.OperationError(q6.Errorf("%w: payload binding: zero codec", q5.ErrInvalidValue), "Payload.binding")
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload binding: zero codec", aper.ErrInvalidValue), "Payload.binding")
 	}
-	limits = q15.BridgeEffectivePayloadLimits(limits)
+	limits = s03.BridgeEffectivePayloadLimits(limits)
 	if uint64(len(data)) > limits.MaxInputBytes {
-		return zero, q4.PayloadReport{}, q5.OperationError(q6.Errorf("%w: payload input: %d bytes exceed limit %d", q5.ErrLimit, len(data), limits.MaxInputBytes), "Payload.input")
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload input: %d bytes exceed limit %d", aper.ErrLimit, len(data), limits.MaxInputBytes), "Payload.input")
 	}
 	if uint64(len(data)) > limits.MaxAllocatedBytes {
-		return zero, q4.PayloadReport{}, q5.OperationError(q6.Errorf("%w: payload input copy: %d bytes exceed allocation limit %d", q5.ErrLimit, len(data), limits.MaxAllocatedBytes), "Payload.input")
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload input copy: %d bytes exceed allocation limit %d", aper.ErrLimit, len(data), limits.MaxAllocatedBytes), "Payload.input")
 	}
 	if uint64(len(data)) > limits.MaxWork {
-		return zero, q4.PayloadReport{}, q5.OperationError(q6.Errorf("%w: payload input copy work", q5.ErrLimit), "Payload.input")
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload input copy work", aper.ErrLimit), "Payload.input")
 	}
 	owned := append([]byte(nil), data...)
 	value, report, err := codec.decode(owned, limits)
 	if err != nil {
-		return zero, report, q6.Errorf("payload decode: %w", err)
+		return zero, report, fmt.Errorf("payload decode: %w", err)
 	}
 	if uint64(len(report.Deviations)) > limits.MaxReports {
-		return zero, q4.PayloadReport{}, q5.OperationError(q6.Errorf("%w: payload report: %d deviations exceed limit %d", q5.ErrLimit, len(report.Deviations), limits.MaxReports), "Payload.report")
+		return zero, s00.PayloadReport{}, aper.OperationError(fmt.Errorf("%w: payload report: %d deviations exceed limit %d", aper.ErrLimit, len(report.Deviations), limits.MaxReports), "Payload.report")
 	}
 	return value, report, nil
 }
 
 type EncodePayload[T any] struct{}
 
-func (EncodePayload[T]) Call(value T, codec PayloadCodec[T], limits q4.PayloadLimits) ([]byte, error) {
+// Call invokes the payload operation for the caller-selected value type.
+func (EncodePayload[T]) Call(value T, codec PayloadCodec[T], limits s00.PayloadLimits) ([]byte, error) {
 	if codec.decode == nil || codec.encode == nil {
-		return nil, q5.OperationError(q6.Errorf("%w: payload binding: zero codec", q5.ErrInvalidValue), "Payload.binding")
+		return nil, aper.OperationError(fmt.Errorf("%w: payload binding: zero codec", aper.ErrInvalidValue), "Payload.binding")
 	}
-	limits = q15.BridgeEffectivePayloadLimits(limits)
+	limits = s03.BridgeEffectivePayloadLimits(limits)
 	wire, err := codec.encode(value, limits)
 	if err != nil {
-		return nil, q6.Errorf("payload encode: %w", err)
+		return nil, fmt.Errorf("payload encode: %w", err)
 	}
 	if uint64(len(wire)) > limits.MaxOutputBytes {
-		return nil, q5.OperationError(q6.Errorf("%w: payload output: %d bytes exceed limit %d", q5.ErrLimit, len(wire), limits.MaxOutputBytes), "Payload.output")
+		return nil, aper.OperationError(fmt.Errorf("%w: payload output: %d bytes exceed limit %d", aper.ErrLimit, len(wire), limits.MaxOutputBytes), "Payload.output")
 	}
 	if uint64(len(wire)) > limits.MaxAllocatedBytes {
-		return nil, q5.OperationError(q6.Errorf("%w: payload output copy: %d bytes exceed allocation limit %d", q5.ErrLimit, len(wire), limits.MaxAllocatedBytes), "Payload.output")
+		return nil, aper.OperationError(fmt.Errorf("%w: payload output copy: %d bytes exceed allocation limit %d", aper.ErrLimit, len(wire), limits.MaxAllocatedBytes), "Payload.output")
 	}
 	if uint64(len(wire)) > limits.MaxWork {
-		return nil, q5.OperationError(q6.Errorf("%w: payload output copy work", q5.ErrLimit), "Payload.output")
+		return nil, aper.OperationError(fmt.Errorf("%w: payload output copy work", aper.ErrLimit), "Payload.output")
 	}
 	return append([]byte(nil), wire...), nil
 }
-func NewOpaqueSuccessfulOutcome(code q4.ProcedureCode, criticality q4.Criticality, transactionID q4.LPPATransactionID, data []byte) (q9.SuccessfulOutcome, error) {
-	if err := q4.BridgeCheckLPPaTransactionID(transactionID); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "OpaqueSuccessfulOutcome")
+func NewOpaqueSuccessfulOutcome(code s00.ProcedureCode, criticality s00.Criticality, transactionID s00.LPPATransactionID, data []byte) (s22.SuccessfulOutcome, error) {
+	if err := s00.BridgeCheckLPPaTransactionID(transactionID); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "OpaqueSuccessfulOutcome")
 	}
 	switch code {
-	case q4.ProcedureCode(2):
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("known Successful procedure id-e-CIDMeasurementInitiation requires its typed binding"), "OpaqueSuccessfulOutcome")
-	case q4.ProcedureCode(6):
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("known Successful procedure id-oTDOAInformationExchange requires its typed binding"), "OpaqueSuccessfulOutcome")
-	case q4.ProcedureCode(7):
-		return q9.SuccessfulOutcome{}, q5.OperationError(q6.Errorf("known Successful procedure id-uTDOAInformationExchange requires its typed binding"), "OpaqueSuccessfulOutcome")
+	case s00.ProcedureCode(2):
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("known Successful procedure id-e-CIDMeasurementInitiation requires its typed binding"), "OpaqueSuccessfulOutcome")
+	case s00.ProcedureCode(6):
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("known Successful procedure id-oTDOAInformationExchange requires its typed binding"), "OpaqueSuccessfulOutcome")
+	case s00.ProcedureCode(7):
+		return s22.SuccessfulOutcome{}, aper.OperationError(fmt.Errorf("known Successful procedure id-uTDOAInformationExchange requires its typed binding"), "OpaqueSuccessfulOutcome")
 	}
-	budget, err := q5.BuildBudget()
+	budget, err := aper.BuildBudget()
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "OpaqueSuccessfulOutcome")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "OpaqueSuccessfulOutcome")
 	}
-	opaque, err := q5.BuildOpaqueOpenType(data, budget)
+	opaque, err := aper.BuildOpaqueOpenType(data, budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "OpaqueSuccessfulOutcome")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "OpaqueSuccessfulOutcome")
 	}
 	retained, err := opaque.Retained(budget)
 	if err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "OpaqueSuccessfulOutcome")
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "OpaqueSuccessfulOutcome")
 	}
-	message := q9.SuccessfulOutcome{ProcedureCode: code, Criticality: criticality, LppatransactionID: transactionID, Value: func() q9.SuccessfulValue {
-		sealed := q9.SuccessfulValue{}
-		*q9.BridgeSuccessfulValueFieldCode(&sealed) = code
-		*q9.BridgeSuccessfulValueFieldOpaque(&sealed) = retained
-		*q9.BridgeSuccessfulValueFieldIsOpaque(&sealed) = true
+	message := s22.SuccessfulOutcome{ProcedureCode: code, Criticality: criticality, LppatransactionID: transactionID, Value: func() s22.SuccessfulValue {
+		sealed := s22.SuccessfulValue{}
+		*s22.BridgeSuccessfulValueFieldCode(&sealed) = code
+		*s22.BridgeSuccessfulValueFieldOpaque(&sealed) = retained
+		*s22.BridgeSuccessfulValueFieldIsOpaque(&sealed) = true
 		return sealed
 	}()}
-	if _, err := q9.BridgeSuccessfulOutcomeMethodMarshalAPERBudget(&message, budget, false); err != nil {
-		return q9.SuccessfulOutcome{}, q5.OperationError(err, "OpaqueSuccessfulOutcome")
+	if _, err := s22.BridgeSuccessfulOutcomeMethodMarshalAPERBudget(&message, budget, false); err != nil {
+		return s22.SuccessfulOutcome{}, aper.OperationError(err, "OpaqueSuccessfulOutcome")
 	}
-	return message, q5.OperationError(nil, "OpaqueSuccessfulOutcome")
+	return message, aper.OperationError(nil, "OpaqueSuccessfulOutcome")
 }
-func BridgeCaptureLPPaLPPAPDU(v *LPPAPDU, s *q5.SemanticCapture) {
+func BridgeCaptureLPPaLPPAPDU(v *LPPAPDU, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -2036,37 +2119,37 @@ func BridgeCaptureLPPaLPPAPDU(v *LPPAPDU, s *q5.SemanticCapture) {
 		s.End(f, nil, false)
 	}
 	switch v.Choice {
-	case q4.LPPAPDUChoiceInitiatingMessage:
+	case s00.LPPAPDUChoiceInitiatingMessage:
 		{
 			f := s.Begin()
 			s.Bool(v.InitiatingMessage == nil)
 			if v.InitiatingMessage != nil {
-				q8.BridgeCaptureLPPaInitiatingMessage(v.InitiatingMessage, s)
+				s21.BridgeCaptureLPPaInitiatingMessage(v.InitiatingMessage, s)
 			}
 			s.End(f, nil, false)
 		}
-	case q4.LPPAPDUChoiceSuccessfulOutcome:
+	case s00.LPPAPDUChoiceSuccessfulOutcome:
 		{
 			f := s.Begin()
 			s.Bool(v.SuccessfulOutcome == nil)
 			if v.SuccessfulOutcome != nil {
-				q9.BridgeCaptureLPPaSuccessfulOutcome(v.SuccessfulOutcome, s)
+				s22.BridgeCaptureLPPaSuccessfulOutcome(v.SuccessfulOutcome, s)
 			}
 			s.End(f, nil, false)
 		}
-	case q4.LPPAPDUChoiceUnsuccessfulOutcome:
+	case s00.LPPAPDUChoiceUnsuccessfulOutcome:
 		{
 			f := s.Begin()
 			s.Bool(v.UnsuccessfulOutcome == nil)
 			if v.UnsuccessfulOutcome != nil {
-				q10.BridgeCaptureLPPaUnsuccessfulOutcome(v.UnsuccessfulOutcome, s)
+				s16.BridgeCaptureLPPaUnsuccessfulOutcome(v.UnsuccessfulOutcome, s)
 			}
 			s.End(f, nil, false)
 		}
 	}
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func BridgeCompareLPPaLPPAPDU(v *LPPAPDU, s *q5.SemanticComparison) {
+func BridgeCompareLPPaLPPAPDU(v *LPPAPDU, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -2080,40 +2163,40 @@ func BridgeCompareLPPaLPPAPDU(v *LPPAPDU, s *q5.SemanticComparison) {
 		if v.UnknownExtension != nil {
 			s.ChoiceExtension(v.UnknownExtension)
 		}
-		s.End(f, q5.Snapshot{}, false)
+		s.End(f, aper.Snapshot{}, false)
 	}
 	switch v.Choice {
-	case q4.LPPAPDUChoiceInitiatingMessage:
+	case s00.LPPAPDUChoiceInitiatingMessage:
 		{
 			f := s.Begin()
 			s.Bool(v.InitiatingMessage == nil)
 			if v.InitiatingMessage != nil {
-				q8.BridgeCompareLPPaInitiatingMessage(v.InitiatingMessage, s)
+				s21.BridgeCompareLPPaInitiatingMessage(v.InitiatingMessage, s)
 			}
-			s.End(f, q5.Snapshot{}, false)
+			s.End(f, aper.Snapshot{}, false)
 		}
-	case q4.LPPAPDUChoiceSuccessfulOutcome:
+	case s00.LPPAPDUChoiceSuccessfulOutcome:
 		{
 			f := s.Begin()
 			s.Bool(v.SuccessfulOutcome == nil)
 			if v.SuccessfulOutcome != nil {
-				q9.BridgeCompareLPPaSuccessfulOutcome(v.SuccessfulOutcome, s)
+				s22.BridgeCompareLPPaSuccessfulOutcome(v.SuccessfulOutcome, s)
 			}
-			s.End(f, q5.Snapshot{}, false)
+			s.End(f, aper.Snapshot{}, false)
 		}
-	case q4.LPPAPDUChoiceUnsuccessfulOutcome:
+	case s00.LPPAPDUChoiceUnsuccessfulOutcome:
 		{
 			f := s.Begin()
 			s.Bool(v.UnsuccessfulOutcome == nil)
 			if v.UnsuccessfulOutcome != nil {
-				q10.BridgeCompareLPPaUnsuccessfulOutcome(v.UnsuccessfulOutcome, s)
+				s16.BridgeCompareLPPaUnsuccessfulOutcome(v.UnsuccessfulOutcome, s)
 			}
-			s.End(f, q5.Snapshot{}, false)
+			s.End(f, aper.Snapshot{}, false)
 		}
 	}
 	s.End(f, v.replay, v.withoutReplay)
 }
-func BridgeCaptureLPPaPrivateIEContainer[V ProtocolPrivateValueConstraint[V]](v *PrivateIEContainer[V], s *q5.SemanticCapture) {
+func BridgeCaptureLPPaPrivateIEContainer[V ProtocolPrivateValueConstraint[V]](v *PrivateIEContainer[V], s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -2130,7 +2213,7 @@ func BridgeCaptureLPPaPrivateIEContainer[V ProtocolPrivateValueConstraint[V]](v 
 		s.End(f, nil, false)
 	}
 }
-func BridgeCompareLPPaPrivateIEContainer[V ProtocolPrivateValueConstraint[V]](v *PrivateIEContainer[V], s *q5.SemanticComparison) {
+func BridgeCompareLPPaPrivateIEContainer[V ProtocolPrivateValueConstraint[V]](v *PrivateIEContainer[V], s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -2144,36 +2227,36 @@ func BridgeCompareLPPaPrivateIEContainer[V ProtocolPrivateValueConstraint[V]](v 
 			}
 			BridgeCompareLPPaPrivateIEField[V](&(*v)[i], s)
 		}
-		s.End(f, q5.Snapshot{}, false)
+		s.End(f, aper.Snapshot{}, false)
 	}
 }
-func BridgeCaptureLPPaPrivateIEField[V ProtocolPrivateValueConstraint[V]](v *PrivateIEField[V], s *q5.SemanticCapture) {
+func BridgeCaptureLPPaPrivateIEField[V ProtocolPrivateValueConstraint[V]](v *PrivateIEField[V], s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
 	s.Stream(v.stream)
-	q22.BridgeCaptureLPPaPrivateIEID(&v.Id, s)
-	q4.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s08.BridgeCaptureLPPaPrivateIEID(&v.Id, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
 	s.OpenBytes(v.Value.captureFraming())
 	v.Value = v.Value.captureSemantics(*s)
 	s.Child(v.Value.captureSnapshot())
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func BridgeCompareLPPaPrivateIEField[V ProtocolPrivateValueConstraint[V]](v *PrivateIEField[V], s *q5.SemanticComparison) {
+func BridgeCompareLPPaPrivateIEField[V ProtocolPrivateValueConstraint[V]](v *PrivateIEField[V], s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	q22.BridgeCompareLPPaPrivateIEID(&v.Id, s)
-	q23.BridgeCompareLPPaCriticality(&v.Criticality, s)
+	s08.BridgeCompareLPPaPrivateIEID(&v.Id, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
 
 	*s = v.Value.compareSemantics(*s)
 	s.End(f, v.replay, v.withoutReplay)
 }
-func BridgeCaptureLPPaProtocolExtensionContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolExtensionContainer[V], s *q5.SemanticCapture) {
+func BridgeCaptureLPPaProtocolExtensionContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolExtensionContainer[V], s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -2190,7 +2273,7 @@ func BridgeCaptureLPPaProtocolExtensionContainer[V ProtocolOpenValueConstraint[V
 		s.End(f, nil, false)
 	}
 }
-func BridgeCompareLPPaProtocolExtensionContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolExtensionContainer[V], s *q5.SemanticComparison) {
+func BridgeCompareLPPaProtocolExtensionContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolExtensionContainer[V], s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -2204,36 +2287,36 @@ func BridgeCompareLPPaProtocolExtensionContainer[V ProtocolOpenValueConstraint[V
 			}
 			BridgeCompareLPPaProtocolExtensionField[V](&(*v)[i], s)
 		}
-		s.End(f, q5.Snapshot{}, false)
+		s.End(f, aper.Snapshot{}, false)
 	}
 }
-func BridgeCaptureLPPaProtocolExtensionField[V ProtocolOpenValueConstraint[V]](v *ProtocolExtensionField[V], s *q5.SemanticCapture) {
+func BridgeCaptureLPPaProtocolExtensionField[V ProtocolOpenValueConstraint[V]](v *ProtocolExtensionField[V], s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
 	s.Stream(v.stream)
-	q4.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
-	q4.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
 	s.OpenBytes(v.ExtensionValue.captureFraming())
 	v.ExtensionValue = v.ExtensionValue.captureSemantics(*s)
 	s.Child(v.ExtensionValue.captureSnapshot())
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func BridgeCompareLPPaProtocolExtensionField[V ProtocolOpenValueConstraint[V]](v *ProtocolExtensionField[V], s *q5.SemanticComparison) {
+func BridgeCompareLPPaProtocolExtensionField[V ProtocolOpenValueConstraint[V]](v *ProtocolExtensionField[V], s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	q23.BridgeCompareLPPaProtocolIEID(&v.Id, s)
-	q23.BridgeCompareLPPaCriticality(&v.Criticality, s)
+	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
 
 	*s = v.ExtensionValue.compareSemantics(*s)
 	s.End(f, v.replay, v.withoutReplay)
 }
-func BridgeCaptureLPPaProtocolIEContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolIEContainer[V], s *q5.SemanticCapture) {
+func BridgeCaptureLPPaProtocolIEContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolIEContainer[V], s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
@@ -2250,7 +2333,7 @@ func BridgeCaptureLPPaProtocolIEContainer[V ProtocolOpenValueConstraint[V]](v *P
 		s.End(f, nil, false)
 	}
 }
-func BridgeCompareLPPaProtocolIEContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolIEContainer[V], s *q5.SemanticComparison) {
+func BridgeCompareLPPaProtocolIEContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolIEContainer[V], s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -2264,42 +2347,42 @@ func BridgeCompareLPPaProtocolIEContainer[V ProtocolOpenValueConstraint[V]](v *P
 			}
 			BridgeCompareLPPaProtocolIEField[V](&(*v)[i], s)
 		}
-		s.End(f, q5.Snapshot{}, false)
+		s.End(f, aper.Snapshot{}, false)
 	}
 }
-func BridgeCaptureLPPaProtocolIEField[V ProtocolOpenValueConstraint[V]](v *ProtocolIEField[V], s *q5.SemanticCapture) {
+func BridgeCaptureLPPaProtocolIEField[V ProtocolOpenValueConstraint[V]](v *ProtocolIEField[V], s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
 	s.Stream(v.stream)
-	q4.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
-	q4.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
 	s.OpenBytes(v.Value.captureFraming())
 	v.Value = v.Value.captureSemantics(*s)
 	s.Child(v.Value.captureSnapshot())
 	s.End(f, &v.replay, v.withoutReplay)
 }
-func BridgeCompareLPPaProtocolIEField[V ProtocolOpenValueConstraint[V]](v *ProtocolIEField[V], s *q5.SemanticComparison) {
+func BridgeCompareLPPaProtocolIEField[V ProtocolOpenValueConstraint[V]](v *ProtocolIEField[V], s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
 	f := s.Begin()
 	s.Value()
-	q23.BridgeCompareLPPaProtocolIEID(&v.Id, s)
-	q23.BridgeCompareLPPaCriticality(&v.Criticality, s)
+	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
 
 	*s = v.Value.compareSemantics(*s)
 	s.End(f, v.replay, v.withoutReplay)
 }
-func BridgeCaptureLPPaProtocolIESingleContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolIESingleContainer[V], s *q5.SemanticCapture) {
+func BridgeCaptureLPPaProtocolIESingleContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolIESingleContainer[V], s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
 	}
 	BridgeCaptureLPPaProtocolIEField[V](v, s)
 }
-func BridgeCompareLPPaProtocolIESingleContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolIESingleContainer[V], s *q5.SemanticComparison) {
+func BridgeCompareLPPaProtocolIESingleContainer[V ProtocolOpenValueConstraint[V]](v *ProtocolIESingleContainer[V], s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
 	}
@@ -2307,41 +2390,44 @@ func BridgeCompareLPPaProtocolIESingleContainer[V ProtocolOpenValueConstraint[V]
 }
 
 type ProtocolOpenValueConstraint[V any] interface {
-	captureSemantics(q5.SemanticCapture) V
+	captureSemantics(aper.SemanticCapture) V
 	captureFraming() uint64
-	captureSnapshot() q5.Snapshot
-	compareSemantics(q5.SemanticComparison) q5.SemanticComparison
-	decode(q4.ProtocolIEID, q5.OpaqueOpenType) (V, error)
+	captureSnapshot() aper.Snapshot
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (V, error)
 	encode() ([]byte, error)
-	encodeFresh(bool, *q5.DecodeBudget) ([]byte, error)
-	matchesID(q4.ProtocolIEID, *q5.DecodeBudget) bool
-	reason(q4.ProtocolIEID) q5.OpaqueReason
-	rule() q5.SourceRule
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
 }
 type ProtocolIEField[V ProtocolOpenValueConstraint[V]] struct {
 	withoutReplay bool
-	replay        q5.Snapshot
-	stream        q5.WireSpan
-	Id            q4.ProtocolIEID
-	Criticality   q4.Criticality
+	replay        aper.Snapshot
+	stream        aper.WireSpan
+	Id            s00.ProtocolIEID
+	Criticality   s00.Criticality
 	Value         V
-	received      q5.CompletePadding
+	received      aper.CompletePadding
 }
 type ProtocolIEContainer[V ProtocolOpenValueConstraint[V]] []ProtocolIEField[V]
 type ProtocolIEContainerList[V ProtocolOpenValueConstraint[V]] []ProtocolIEContainer[V]
 
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v ProtocolIEField[V]) WithoutReplay() ProtocolIEField[V] {
 	v.withoutReplay = true
-	v.stream = q5.WireSpan{}
+	v.stream = aper.WireSpan{}
 	return v
 }
-func (v *ProtocolIEField[V]) ReceivedForm() q5.ReceivedForm {
+
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v *ProtocolIEField[V]) ReceivedForm() aper.ReceivedForm {
 	if v == nil || v.withoutReplay {
-		return q5.ReceivedForm{}
+		return aper.ReceivedForm{}
 	}
-	return q5.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
+	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
 }
-func (v *ProtocolIEField[V]) marshalAPERTo(bb *q5.BitBuffer, fresh ...bool) error {
+func (v *ProtocolIEField[V]) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	if v != nil && v.withoutReplay {
 		fresh = []bool{true}
 	}
@@ -2365,60 +2451,60 @@ func (v *ProtocolIEField[V]) marshalAPERTo(bb *q5.BitBuffer, fresh ...bool) erro
 	defer bb.LeaveDecodeValue()
 
 	if v == nil {
-		return q6.Errorf("nil ProtocolIEField")
+		return fmt.Errorf("nil ProtocolIEField")
 	}
 	// TS 36.455 V19.0.0 §9.3.8 binds the table-selected value to @id.
 	if !v.Value.matchesID(v.Id, bb.Budget()) {
-		return q20.WrapDecodePath(q6.Errorf("%w: field id %d does not match its value selector", q5.ErrInvalidValue, v.Id), "ProtocolIEField.Id")
+		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolIEField.Id")
 	}
-	if err := q5.EncodeIntegerAligned(bb, int64(v.Id), q15.BridgeInt64Ptr(0), q15.BridgeInt64Ptr(65535), false); err != nil {
-		return q6.Errorf("encoding id: %w", err)
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := q5.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return q6.Errorf("encoding criticality: %w", err)
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	data, err := v.Value.encodeFresh(len(fresh) != 0 && fresh[0],
 
 		bb.Budget())
 	if err != nil {
-		return q6.Errorf("encoding value: %w", err)
+		return fmt.Errorf("encoding value: %w", err)
 	}
-	if err := q5.EncodeOpenTypeAligned(bb, data); err != nil {
-		return q6.Errorf("encoding value: %w", err)
+	if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
 	}
 	return nil
 }
-func (v *ProtocolIEField[V]) unmarshalAPERFrom(bb *q5.BitBuffer) error {
+func (v *ProtocolIEField[V]) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	replayStart := bb.BitPos()
 	replayUsage := bb.Usage()
 
 	if v == nil {
-		return q6.Errorf("nil ProtocolIEField")
+		return fmt.Errorf("nil ProtocolIEField")
 	}
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ProtocolIEField[V]{}
-	id, err := q5.DecodeIntegerAligned(bb, q15.BridgeInt64Ptr(0), q15.BridgeInt64Ptr(65535), false)
+	id, err := aper.DecodeIntegerAligned(bb, s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(65535), false)
 	if err != nil {
-		return q20.WrapDecodePath(err, "Id")
+		return runtime.WrapDecodePath(err, "Id")
 	}
-	v.Id = q4.ProtocolIEID(id)
-	criticality, err := q5.DecodeEnumeratedAligned(bb, 3, false)
+	v.Id = s00.ProtocolIEID(id)
+	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return q20.WrapDecodePath(err, "Criticality")
+		return runtime.WrapDecodePath(err, "Criticality")
 	}
-	v.Criticality = q4.Criticality(criticality)
+	v.Criticality = s00.Criticality(criticality)
 	var zero V
-	raw, err := q5.DecodeOpaqueOpenTypeAligned(bb, zero.reason(v.Id), zero.rule())
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, zero.reason(v.Id), zero.rule())
 	if err != nil {
-		return q20.WrapDecodePath(err, "Value")
+		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
 	value, err := zero.decode(v.Id, raw)
 	if err != nil {
-		return q20.WrapDecodePath(err, "Value")
+		return runtime.WrapDecodePath(err, "Value")
 	}
 	v.Value = value
 	v.stream = bb.CaptureWireSpan(replayStart)
@@ -2429,27 +2515,30 @@ func (v *ProtocolIEField[V]) unmarshalAPERFrom(bb *q5.BitBuffer) error {
 
 type ProtocolExtensionField[V ProtocolOpenValueConstraint[V]] struct {
 	withoutReplay  bool
-	replay         q5.Snapshot
-	stream         q5.WireSpan
-	Id             q4.ProtocolIEID
-	Criticality    q4.Criticality
+	replay         aper.Snapshot
+	stream         aper.WireSpan
+	Id             s00.ProtocolIEID
+	Criticality    s00.Criticality
 	ExtensionValue V
-	received       q5.CompletePadding
+	received       aper.CompletePadding
 }
 type ProtocolExtensionContainer[V ProtocolOpenValueConstraint[V]] []ProtocolExtensionField[V]
 
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v ProtocolExtensionField[V]) WithoutReplay() ProtocolExtensionField[V] {
 	v.withoutReplay = true
-	v.stream = q5.WireSpan{}
+	v.stream = aper.WireSpan{}
 	return v
 }
-func (v *ProtocolExtensionField[V]) ReceivedForm() q5.ReceivedForm {
+
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v *ProtocolExtensionField[V]) ReceivedForm() aper.ReceivedForm {
 	if v == nil || v.withoutReplay {
-		return q5.ReceivedForm{}
+		return aper.ReceivedForm{}
 	}
-	return q5.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
+	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
 }
-func (v *ProtocolExtensionField[V]) marshalAPERTo(bb *q5.BitBuffer, fresh ...bool) error {
+func (v *ProtocolExtensionField[V]) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	if v != nil && v.withoutReplay {
 		fresh = []bool{true}
 	}
@@ -2473,60 +2562,60 @@ func (v *ProtocolExtensionField[V]) marshalAPERTo(bb *q5.BitBuffer, fresh ...boo
 	defer bb.LeaveDecodeValue()
 
 	if v == nil {
-		return q6.Errorf("nil ProtocolExtensionField")
+		return fmt.Errorf("nil ProtocolExtensionField")
 	}
 	// TS 36.455 V19.0.0 §9.3.8 binds the table-selected value to @id.
 	if !v.ExtensionValue.matchesID(v.Id, bb.Budget()) {
-		return q20.WrapDecodePath(q6.Errorf("%w: field id %d does not match its value selector", q5.ErrInvalidValue, v.Id), "ProtocolExtensionField.Id")
+		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolExtensionField.Id")
 	}
-	if err := q5.EncodeIntegerAligned(bb, int64(v.Id), q15.BridgeInt64Ptr(0), q15.BridgeInt64Ptr(65535), false); err != nil {
-		return q6.Errorf("encoding id: %w", err)
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := q5.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return q6.Errorf("encoding criticality: %w", err)
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	data, err := v.ExtensionValue.encodeFresh(len(fresh) != 0 && fresh[0],
 
 		bb.Budget())
 	if err != nil {
-		return q6.Errorf("encoding extensionValue: %w", err)
+		return fmt.Errorf("encoding extensionValue: %w", err)
 	}
-	if err := q5.EncodeOpenTypeAligned(bb, data); err != nil {
-		return q6.Errorf("encoding extensionValue: %w", err)
+	if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+		return fmt.Errorf("encoding extensionValue: %w", err)
 	}
 	return nil
 }
-func (v *ProtocolExtensionField[V]) unmarshalAPERFrom(bb *q5.BitBuffer) error {
+func (v *ProtocolExtensionField[V]) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	replayStart := bb.BitPos()
 	replayUsage := bb.Usage()
 
 	if v == nil {
-		return q6.Errorf("nil ProtocolExtensionField")
+		return fmt.Errorf("nil ProtocolExtensionField")
 	}
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = ProtocolExtensionField[V]{}
-	id, err := q5.DecodeIntegerAligned(bb, q15.BridgeInt64Ptr(0), q15.BridgeInt64Ptr(65535), false)
+	id, err := aper.DecodeIntegerAligned(bb, s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(65535), false)
 	if err != nil {
-		return q20.WrapDecodePath(err, "Id")
+		return runtime.WrapDecodePath(err, "Id")
 	}
-	v.Id = q4.ProtocolIEID(id)
-	criticality, err := q5.DecodeEnumeratedAligned(bb, 3, false)
+	v.Id = s00.ProtocolIEID(id)
+	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return q20.WrapDecodePath(err, "Criticality")
+		return runtime.WrapDecodePath(err, "Criticality")
 	}
-	v.Criticality = q4.Criticality(criticality)
+	v.Criticality = s00.Criticality(criticality)
 	var zero V
-	raw, err := q5.DecodeOpaqueOpenTypeAligned(bb, zero.reason(v.Id), zero.rule())
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, zero.reason(v.Id), zero.rule())
 	if err != nil {
-		return q20.WrapDecodePath(err, "ExtensionValue")
+		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
 	value, err := zero.decode(v.Id, raw)
 	if err != nil {
-		return q20.WrapDecodePath(err, "ExtensionValue")
+		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	v.ExtensionValue = value
 	v.stream = bb.CaptureWireSpan(replayStart)
@@ -2536,39 +2625,42 @@ func (v *ProtocolExtensionField[V]) unmarshalAPERFrom(bb *q5.BitBuffer) error {
 }
 
 type ProtocolPrivateValueConstraint[V any] interface {
-	captureSemantics(q5.SemanticCapture) V
+	captureSemantics(aper.SemanticCapture) V
 	captureFraming() uint64
-	captureSnapshot() q5.Snapshot
-	compareSemantics(q5.SemanticComparison) q5.SemanticComparison
-	matchesID(q22.PrivateIEID, *q5.DecodeBudget) bool
-	decode(q22.PrivateIEID, q5.OpaqueOpenType) (V, error)
+	captureSnapshot() aper.Snapshot
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	matchesID(s08.PrivateIEID, *aper.DecodeBudget) bool
+	decode(s08.PrivateIEID, aper.OpaqueOpenType) (V, error)
 	encode() ([]byte, error)
-	encodeFresh(bool, *q5.DecodeBudget) ([]byte, error)
-	rule() q5.SourceRule
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	rule() aper.SourceRule
 }
 type PrivateIEField[V ProtocolPrivateValueConstraint[V]] struct {
 	withoutReplay bool
-	replay        q5.Snapshot
-	stream        q5.WireSpan
-	Id            q22.PrivateIEID
-	Criticality   q4.Criticality
+	replay        aper.Snapshot
+	stream        aper.WireSpan
+	Id            s08.PrivateIEID
+	Criticality   s00.Criticality
 	Value         V
-	received      q5.CompletePadding
+	received      aper.CompletePadding
 }
 type PrivateIEContainer[V ProtocolPrivateValueConstraint[V]] []PrivateIEField[V]
 
+// WithoutReplay returns a copy that requests fresh encoding of this value and its nested values.
 func (v PrivateIEField[V]) WithoutReplay() PrivateIEField[V] {
 	v.withoutReplay = true
-	v.stream = q5.WireSpan{}
+	v.stream = aper.WireSpan{}
 	return v
 }
-func (v *PrivateIEField[V]) ReceivedForm() q5.ReceivedForm {
+
+// ReceivedForm returns the retained wire form, or an empty form when no received framing is available.
+func (v *PrivateIEField[V]) ReceivedForm() aper.ReceivedForm {
 	if v == nil || v.withoutReplay {
-		return q5.ReceivedForm{}
+		return aper.ReceivedForm{}
 	}
-	return q5.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
+	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
 }
-func (v *PrivateIEField[V]) marshalAPERTo(bb *q5.BitBuffer, fresh ...bool) error {
+func (v *PrivateIEField[V]) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
 	if v != nil && v.withoutReplay {
 		fresh = []bool{true}
 	}
@@ -2592,55 +2684,55 @@ func (v *PrivateIEField[V]) marshalAPERTo(bb *q5.BitBuffer, fresh ...bool) error
 	defer bb.LeaveDecodeValue()
 
 	if v == nil {
-		return q6.Errorf("nil PrivateIEField")
+		return fmt.Errorf("nil PrivateIEField")
 	}
 	// TS 36.455 V19.0.0 §9.3.8 binds the private value to @id, too.
 	if !v.Value.matchesID(v.Id, bb.Budget()) {
-		return q20.WrapDecodePath(q6.Errorf("%w: private field id does not match its value selector", q5.ErrInvalidValue), "PrivateIEField.Id")
+		return runtime.WrapDecodePath(fmt.Errorf("%w: private field id does not match its value selector", aper.ErrInvalidValue), "PrivateIEField.Id")
 	}
-	if err := q22.BridgePrivateIEIDMethodMarshalAPERTo(&v.Id, bb, len(fresh) != 0 && fresh[0]); err != nil {
-		return q6.Errorf("encoding id: %w", err)
+	if err := s08.BridgePrivateIEIDMethodMarshalAPERTo(&v.Id, bb, len(fresh) != 0 && fresh[0]); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
 	}
-	if err := q5.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
-		return q6.Errorf("encoding criticality: %w", err)
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
 	}
 	data, err := v.Value.encodeFresh(len(fresh) != 0 && fresh[0],
 
 		bb.Budget())
 	if err != nil {
-		return q6.Errorf("encoding value: %w", err)
+		return fmt.Errorf("encoding value: %w", err)
 	}
-	return q5.EncodeOpenTypeAligned(bb, data)
+	return aper.EncodeOpenTypeAligned(bb, data)
 }
-func (v *PrivateIEField[V]) unmarshalAPERFrom(bb *q5.BitBuffer) error {
+func (v *PrivateIEField[V]) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	replayStart := bb.BitPos()
 	replayUsage := bb.Usage()
 
 	if v == nil {
-		return q6.Errorf("nil PrivateIEField")
+		return fmt.Errorf("nil PrivateIEField")
 	}
 	if err := bb.EnterDecodeValue(); err != nil {
 		return err
 	}
 	defer bb.LeaveDecodeValue()
 	*v = PrivateIEField[V]{}
-	if err := q22.BridgePrivateIEIDMethodUnmarshalAPERFrom(&v.Id, bb); err != nil {
-		return q20.WrapDecodePath(err, "Id")
+	if err := s08.BridgePrivateIEIDMethodUnmarshalAPERFrom(&v.Id, bb); err != nil {
+		return runtime.WrapDecodePath(err, "Id")
 	}
-	criticality, err := q5.DecodeEnumeratedAligned(bb, 3, false)
+	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
 	if err != nil {
-		return q20.WrapDecodePath(err, "Criticality")
+		return runtime.WrapDecodePath(err, "Criticality")
 	}
-	v.Criticality = q4.Criticality(criticality)
+	v.Criticality = s00.Criticality(criticality)
 	var zero V
-	raw, err := q5.DecodeOpaqueOpenTypeAligned(bb, q5.UnknownSelector, zero.rule())
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, zero.rule())
 	if err != nil {
-		return q20.WrapDecodePath(err, "Value")
+		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("PrivateIEField.Value")
 	value, err := zero.decode(v.Id, raw)
 	if err != nil {
-		return q20.WrapDecodePath(err, "Value")
+		return runtime.WrapDecodePath(err, "Value")
 	}
 	v.Value = value
 	v.stream = bb.CaptureWireSpan(replayStart)
@@ -2650,10 +2742,10 @@ func (v *PrivateIEField[V]) unmarshalAPERFrom(bb *q5.BitBuffer) error {
 }
 
 type ProtocolIEFieldPair[A ProtocolOpenValueConstraint[A], B ProtocolOpenValueConstraint[B]] struct {
-	Id                q4.ProtocolIEID
-	FirstCriticality  q4.Criticality
+	Id                s00.ProtocolIEID
+	FirstCriticality  s00.Criticality
 	FirstValue        A
-	SecondCriticality q4.Criticality
+	SecondCriticality s00.Criticality
 	SecondValue       B
 }
 type ProtocolIEContainerPair[A ProtocolOpenValueConstraint[A], B ProtocolOpenValueConstraint[B]] []ProtocolIEFieldPair[A, B]
@@ -2662,8 +2754,10 @@ type ProtocolIESingleContainer[V ProtocolOpenValueConstraint[V]] = ProtocolIEFie
 type ErrorIndicationDescriptor struct{}
 
 func ErrorIndicationProcedure() ErrorIndicationDescriptor { return ErrorIndicationDescriptor{} }
-func (ErrorIndicationDescriptor) Info() q4.ProcedureInfo {
-	return q4.ProcedureInfo{Code: q4.ProcedureCode(0), Criticality: q4.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: q5.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: q5.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-errorIndication"}}}
+
+// Info returns the source-derived metadata for this descriptor or binding.
+func (ErrorIndicationDescriptor) Info() s00.ProcedureInfo {
+	return s00.ProcedureInfo{Code: s00.ProcedureCode(0), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-errorIndication"}}}
 }
 
 type ECIDMeasurementFailureIndicationDescriptor struct{}
@@ -2671,8 +2765,10 @@ type ECIDMeasurementFailureIndicationDescriptor struct{}
 func ECIDMeasurementFailureIndicationProcedure() ECIDMeasurementFailureIndicationDescriptor {
 	return ECIDMeasurementFailureIndicationDescriptor{}
 }
-func (ECIDMeasurementFailureIndicationDescriptor) Info() q4.ProcedureInfo {
-	return q4.ProcedureInfo{Code: q4.ProcedureCode(3), Criticality: q4.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: q5.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: q5.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-e-CIDMeasurementFailureIndication"}}}
+
+// Info returns the source-derived metadata for this descriptor or binding.
+func (ECIDMeasurementFailureIndicationDescriptor) Info() s00.ProcedureInfo {
+	return s00.ProcedureInfo{Code: s00.ProcedureCode(3), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-e-CIDMeasurementFailureIndication"}}}
 }
 
 type ECIDMeasurementReportDescriptor struct{}
@@ -2680,8 +2776,10 @@ type ECIDMeasurementReportDescriptor struct{}
 func ECIDMeasurementReportProcedure() ECIDMeasurementReportDescriptor {
 	return ECIDMeasurementReportDescriptor{}
 }
-func (ECIDMeasurementReportDescriptor) Info() q4.ProcedureInfo {
-	return q4.ProcedureInfo{Code: q4.ProcedureCode(4), Criticality: q4.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: q5.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: q5.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-e-CIDMeasurementReport"}}}
+
+// Info returns the source-derived metadata for this descriptor or binding.
+func (ECIDMeasurementReportDescriptor) Info() s00.ProcedureInfo {
+	return s00.ProcedureInfo{Code: s00.ProcedureCode(4), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-e-CIDMeasurementReport"}}}
 }
 
 type ECIDMeasurementTerminationDescriptor struct{}
@@ -2689,8 +2787,10 @@ type ECIDMeasurementTerminationDescriptor struct{}
 func ECIDMeasurementTerminationProcedure() ECIDMeasurementTerminationDescriptor {
 	return ECIDMeasurementTerminationDescriptor{}
 }
-func (ECIDMeasurementTerminationDescriptor) Info() q4.ProcedureInfo {
-	return q4.ProcedureInfo{Code: q4.ProcedureCode(5), Criticality: q4.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: q5.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: q5.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-e-CIDMeasurementTermination"}}}
+
+// Info returns the source-derived metadata for this descriptor or binding.
+func (ECIDMeasurementTerminationDescriptor) Info() s00.ProcedureInfo {
+	return s00.ProcedureInfo{Code: s00.ProcedureCode(5), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-e-CIDMeasurementTermination"}}}
 }
 
 type AssistanceInformationFeedbackDescriptor struct{}
@@ -2698,68 +2798,70 @@ type AssistanceInformationFeedbackDescriptor struct{}
 func AssistanceInformationFeedbackProcedure() AssistanceInformationFeedbackDescriptor {
 	return AssistanceInformationFeedbackDescriptor{}
 }
-func (AssistanceInformationFeedbackDescriptor) Info() q4.ProcedureInfo {
-	return q4.ProcedureInfo{Code: q4.ProcedureCode(10), Criticality: q4.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: q5.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: q5.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-assistanceInformationFeedback"}}}
+
+// Info returns the source-derived metadata for this descriptor or binding.
+func (AssistanceInformationFeedbackDescriptor) Info() s00.ProcedureInfo {
+	return s00.ProcedureInfo{Code: s00.ProcedureCode(10), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "id-assistanceInformationFeedback"}}}
 }
 
 // AssistanceInformationFeedbackCodec binds the complete APER value type.
-func AssistanceInformationFeedbackCodec() q18.AssistanceInformationFeedbackValueCodec {
+func AssistanceInformationFeedbackCodec() s17.AssistanceInformationFeedbackValueCodec {
 	return AssistanceInformationFeedbackProcedure().Initiating().Codec()
 }
 
 // ECIDMeasurementFailureIndicationCodec binds the complete APER value type.
-func ECIDMeasurementFailureIndicationCodec() q12.ECIDMeasurementFailureIndicationValueCodec {
+func ECIDMeasurementFailureIndicationCodec() s11.ECIDMeasurementFailureIndicationValueCodec {
 	return ECIDMeasurementFailureIndicationProcedure().Initiating().Codec()
 }
 
 // ECIDMeasurementReportCodec binds the complete APER value type.
-func ECIDMeasurementReportCodec() q14.ECIDMeasurementReportValueCodec {
+func ECIDMeasurementReportCodec() s13.ECIDMeasurementReportValueCodec {
 	return ECIDMeasurementReportProcedure().Initiating().Codec()
 }
 
 // ECIDMeasurementTerminationCommandCodec binds the complete APER value type.
-func ECIDMeasurementTerminationCommandCodec() q13.ECIDMeasurementTerminationCommandValueCodec {
+func ECIDMeasurementTerminationCommandCodec() s06.ECIDMeasurementTerminationCommandValueCodec {
 	return ECIDMeasurementTerminationProcedure().Initiating().Codec()
 }
 
 // ErrorIndicationCodec binds the complete APER value type.
-func ErrorIndicationCodec() q12.ErrorIndicationValueCodec {
+func ErrorIndicationCodec() s11.ErrorIndicationValueCodec {
 	return ErrorIndicationProcedure().Initiating().Codec()
 }
 
 // LPPAPDUCodec binds the complete source value type.
 func LPPAPDUCodec() LPPAPDUValueCodec {
-	return LPPAPDUValueCodec{path: "LPPAPDU", decode: func(data []byte, options q5.DecodeState) (LPPAPDU, error) {
+	return LPPAPDUValueCodec{path: "LPPAPDU", decode: func(data []byte, options aper.DecodeState) (LPPAPDU, error) {
 		var value LPPAPDU
 		if err := value.unmarshalAPERWithOptions(data, options); err != nil {
 			return LPPAPDU{}, err
 		}
 		value.received = true
-		value.receivedBytes = q5.OriginalWire(data)
+		value.receivedBytes = aper.OriginalWire(data)
 		return value, nil
-	}, encode: func(value LPPAPDU, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
+	}, encode: func(value LPPAPDU, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return (&value).marshalAPERBudget(budget, fresh)
-	}, capture: func(v LPPAPDU, options q5.DecodeState) (LPPAPDU, q5.Snapshot) {
-		s := q5.SemanticCaptureFor(options)
+	}, capture: func(v LPPAPDU, options aper.DecodeState) (LPPAPDU, aper.Snapshot) {
+		s := aper.SemanticCaptureFor(options)
 		f :=
 			s.Begin()
 		BridgeCaptureLPPaLPPAPDU(&v, &s)
-		var root q5.Snapshot
+		var root aper.Snapshot
 		s.
 			OperationCounts()
 		s.End(f, &root, false)
 		return v, root
-	}, compare: func(v LPPAPDU, root q5.Snapshot, limits q5.ComparisonLimits) q5.ReplayPlan {
-		s := q5.NewSemanticComparison(
+	}, compare: func(v LPPAPDU, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(
 			root, limits)
 		f := s.Begin()
 		BridgeCompareLPPaLPPAPDU(&v, &s)
 		s.
 			End(f, root, false)
 		return s.Plan()
-	}, context: func() q4.BridgeCodecContext {
-		sealed := q4.BridgeCodecContext{}
-		*q4.BridgecodecContextFieldSource(&sealed) = "source-value:LPPAPDU"
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:LPPAPDU"
 		return sealed
 	}(),
 	}
@@ -2767,35 +2869,35 @@ func LPPAPDUCodec() LPPAPDUValueCodec {
 
 // SuccessfulOutcomeCodec binds the complete source value type.
 func SuccessfulOutcomeCodec() SuccessfulOutcomeValueCodec {
-	return SuccessfulOutcomeValueCodec{path: "SuccessfulOutcome", decode: func(data []byte, options q5.DecodeState) (q9.SuccessfulOutcome, error) {
-		var value q9.SuccessfulOutcome
-		if err := q9.BridgeSuccessfulOutcomeMethodUnmarshalAPERWithOptions(&value, data, options); err != nil {
-			return q9.SuccessfulOutcome{}, err
+	return SuccessfulOutcomeValueCodec{path: "SuccessfulOutcome", decode: func(data []byte, options aper.DecodeState) (s22.SuccessfulOutcome, error) {
+		var value s22.SuccessfulOutcome
+		if err := s22.BridgeSuccessfulOutcomeMethodUnmarshalAPERWithOptions(&value, data, options); err != nil {
+			return s22.SuccessfulOutcome{}, err
 		}
-		*q9.BridgeSuccessfulOutcomeFieldReceived(&value) = true
-		*q9.BridgeSuccessfulOutcomeFieldReceivedBytes(&value) = q5.OriginalWire(data)
+		*s22.BridgeSuccessfulOutcomeFieldReceived(&value) = true
+		*s22.BridgeSuccessfulOutcomeFieldReceivedBytes(&value) = aper.OriginalWire(data)
 		return value, nil
-	}, encode: func(value q9.SuccessfulOutcome, fresh bool, budget *q5.DecodeBudget) ([]byte, error) {
-		return q9.BridgeSuccessfulOutcomeMethodMarshalAPERBudget((&value), budget, fresh)
-	}, capture: func(v q9.SuccessfulOutcome, options q5.DecodeState) (q9.SuccessfulOutcome, q5.Snapshot) {
-		s := q5.SemanticCaptureFor(options)
+	}, encode: func(value s22.SuccessfulOutcome, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return s22.BridgeSuccessfulOutcomeMethodMarshalAPERBudget((&value), budget, fresh)
+	}, capture: func(v s22.SuccessfulOutcome, options aper.DecodeState) (s22.SuccessfulOutcome, aper.Snapshot) {
+		s := aper.SemanticCaptureFor(options)
 		f := s.Begin()
-		q9.BridgeCaptureLPPaSuccessfulOutcome(&v, &s)
-		var root q5.Snapshot
+		s22.BridgeCaptureLPPaSuccessfulOutcome(&v, &s)
+		var root aper.Snapshot
 		s.OperationCounts()
 		s.End(f, &root,
 
 			false)
 		return v, root
-	}, compare: func(v q9.SuccessfulOutcome, root q5.Snapshot, limits q5.ComparisonLimits) q5.ReplayPlan {
-		s := q5.NewSemanticComparison(root, limits)
+	}, compare: func(v s22.SuccessfulOutcome, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(root, limits)
 		f := s.Begin()
-		q9.BridgeCompareLPPaSuccessfulOutcome(&v, &s)
+		s22.BridgeCompareLPPaSuccessfulOutcome(&v, &s)
 		s.End(f, root, false)
 		return s.Plan()
-	}, context: func() q4.BridgeCodecContext {
-		sealed := q4.BridgeCodecContext{}
-		*q4.BridgecodecContextFieldSource(&sealed) = "source-value:SuccessfulOutcome"
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:SuccessfulOutcome"
 		return sealed
 	}(),
 	}
@@ -2804,82 +2906,82 @@ func SuccessfulOutcomeCodec() SuccessfulOutcomeValueCodec {
 // TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
 // presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
 // not determine the order of known rows.
-func BridgeValidateLPPaIEContainer[V ProtocolOpenValueConstraint[V]](fields ProtocolIEContainer[V], rows []q4.FieldInfo, path string, budget *q5.DecodeBudget,
+func BridgeValidateLPPaIEContainer[V ProtocolOpenValueConstraint[V]](fields ProtocolIEContainer[V], rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
 
-) q7.ValidationReport {
-	report := func() q7.ValidationReport {
-		sealed := q7.ValidationReport{Complete: true}
-		*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+) s09.ValidationReport {
+	report := func() s09.ValidationReport {
+		sealed := s09.ValidationReport{Complete: true}
+		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 		return sealed
 	}()
-	bb := q5.NewBudgetBuffer(budget)
+	bb := aper.NewBudgetBuffer(budget)
 	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*q7.BridgeValidationReportFieldErr(&report) = err
+		*s09.BridgeValidationReportFieldErr(&report) = err
 		return report
 	}
-	byID := make(map[q4.ProtocolIEID]int, len(rows))
-	counts := make(map[q4.ProtocolIEID]int, len(fields))
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
 	for i, row := range rows {
 		byID[row.ID] = i
 	}
 	lastRank := -1
 	for i, field := range fields {
-		if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if *s09.BridgeValidationReportFieldErr(&report) != nil {
 			return report
 		}
 		if err := bb.ChargeWork(1); err != nil {
-			*q7.BridgeValidationReportFieldErr(&report) = err
+			*s09.BridgeValidationReportFieldErr(&report) = err
 			return report
 		}
-		location := q5.Location{Path: q5.Path(q6.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
 		if !field.Value.matchesID(field.Id, budget) {
 			rule := field.Value.rule()
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.ValueIDMismatch, Severity: q4.ValidationSeverityError, Location: q5.Location{Path: q5.Path(q6.Sprintf("%s.id", location.Path))}, Table: func() q4.TableID {
-				sealed := q4.TableID{}
-				*q4.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.ValueIDMismatch), RelatedRules: []q5.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
-		q5.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
 			// including repetition of unknown selectors.
 			counts, field.Id)
 		if counts[field.Id] > 1 {
-			var row q4.FieldInfo
-			related := []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.RepeatedIE)}
+			var row s00.FieldInfo
+			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.RepeatedIE, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
-			severity := q4.ValidationSeverityUnrecognized
-			if _, globallyKnown := q19.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
-				severity = q4.ValidationSeverityError
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
 			}
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.NotAllowed), RelatedRules: q19.BridgeLppaHandlingRules(q4.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongCriticality, Severity: q4.ValidationSeverityError, Location: q5.Location{Path: q5.Path(q6.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: q19.BridgeLppaValidationRule(q4.WrongCriticality), RelatedRules: []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.WrongOrder, Severity: q4.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.WrongOrder), RelatedRules: []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
-		if row.Presence == q4.PresenceMandatory && counts[row.ID] == 0 {
-			q7.BridgeValidationReportMethodAddIssue(&report, q7.ValidationIssue{Code: q4.MissingMandatory, Severity: q4.ValidationSeverityError, Location: q5.Location{Path: q5.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: q19.BridgeLppaValidationRule(q4.MissingMandatory), RelatedRules: []q5.SourceRule{q19.BridgeLppaAdoptedRule(q4.MissingMandatory), row.Rule}})
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
-		if row.Presence == q4.PresenceConditional {
-			q7.BridgeValidationReportMethodAddDeferred(&report, q4.DeferredCondition{Location: q5.Location{Path: q5.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *q7.BridgeValidationReportFieldErr(&report) != nil {
+		if row.Presence == s00.PresenceConditional {
+			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s09.BridgeValidationReportFieldErr(&report) != nil {
 				return report
 			}
 			report.Complete = false
@@ -2887,261 +2989,261 @@ func BridgeValidateLPPaIEContainer[V ProtocolOpenValueConstraint[V]](fields Prot
 	}
 	return report
 }
-func BridgeValidateErrorIndicationBudget(v *q12.ErrorIndication, budget *q5.DecodeBudget,
+func BridgeValidateErrorIndicationBudget(v *s11.ErrorIndication, budget *aper.DecodeBudget,
 
-) (q7.ValidationReport, error) {
+) (s09.ValidationReport, error) {
 	if v == nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
-		}(), q6.Errorf("nil ErrorIndication")
+		}(), fmt.Errorf("nil ErrorIndication")
 	}
-	rows := []q4.FieldInfo{q11.ErrorIndicationIEs().Cause().Info(), q11.ErrorIndicationIEs().CriticalityDiagnostics().Info()}
-	report := q12.BridgeErrorIndicationIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ErrorIndication.protocolIEs", budget)
+	rows := []s00.FieldInfo{s10.ErrorIndicationIEs().Cause().Info(), s10.ErrorIndicationIEs().CriticalityDiagnostics().Info()}
+	report := s11.BridgeErrorIndicationIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ErrorIndication.protocolIEs", budget)
 	BridgeWalkValidationErrorIndication(v, &report, "ErrorIndication", true)
 	return report, nil
 }
-func BridgeValidateECIDMeasurementInitiationFailureBudget(v *q12.ECIDMeasurementInitiationFailure, budget *q5.DecodeBudget,
+func BridgeValidateECIDMeasurementInitiationFailureBudget(v *s11.ECIDMeasurementInitiationFailure, budget *aper.DecodeBudget,
 
-) (q7.ValidationReport, error) {
+) (s09.ValidationReport, error) {
 	if v == nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
-		}(), q6.Errorf("nil ECIDMeasurementInitiationFailure")
+		}(), fmt.Errorf("nil ECIDMeasurementInitiationFailure")
 	}
-	rows := []q4.FieldInfo{q11.ECIDMeasurementInitiationFailureIEs().ESMLCUEMeasurementID().Info(), q11.ECIDMeasurementInitiationFailureIEs().Cause().Info(), q11.ECIDMeasurementInitiationFailureIEs().CriticalityDiagnostics().Info()}
-	report := q12.BridgeECIDMeasurementInitiationFailureIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ECIDMeasurementInitiationFailure.protocolIEs", budget)
+	rows := []s00.FieldInfo{s10.ECIDMeasurementInitiationFailureIEs().ESMLCUEMeasurementID().Info(), s10.ECIDMeasurementInitiationFailureIEs().Cause().Info(), s10.ECIDMeasurementInitiationFailureIEs().CriticalityDiagnostics().Info()}
+	report := s11.BridgeECIDMeasurementInitiationFailureIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ECIDMeasurementInitiationFailure.protocolIEs", budget)
 	BridgeWalkValidationECIDMeasurementInitiationFailure(v, &report, "ECIDMeasurementInitiationFailure", true)
 	return report, nil
 }
-func BridgeValidateECIDMeasurementFailureIndicationBudget(v *q12.ECIDMeasurementFailureIndication, budget *q5.DecodeBudget,
+func BridgeValidateECIDMeasurementFailureIndicationBudget(v *s11.ECIDMeasurementFailureIndication, budget *aper.DecodeBudget,
 
-) (q7.ValidationReport, error) {
+) (s09.ValidationReport, error) {
 	if v == nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
-		}(), q6.Errorf("nil ECIDMeasurementFailureIndication")
+		}(), fmt.Errorf("nil ECIDMeasurementFailureIndication")
 	}
-	rows := []q4.FieldInfo{q13.ECIDMeasurementFailureIndicationIEs().ESMLCUEMeasurementID().Info(), q13.ECIDMeasurementFailureIndicationIEs().ENBUEMeasurementID().Info(), q13.ECIDMeasurementFailureIndicationIEs().Cause().Info()}
-	report := q12.BridgeECIDMeasurementFailureIndicationIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ECIDMeasurementFailureIndication.protocolIEs", budget)
+	rows := []s00.FieldInfo{s06.ECIDMeasurementFailureIndicationIEs().ESMLCUEMeasurementID().Info(), s06.ECIDMeasurementFailureIndicationIEs().ENBUEMeasurementID().Info(), s06.ECIDMeasurementFailureIndicationIEs().Cause().Info()}
+	report := s11.BridgeECIDMeasurementFailureIndicationIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ECIDMeasurementFailureIndication.protocolIEs", budget)
 	BridgeWalkValidationECIDMeasurementFailureIndication(v, &report, "ECIDMeasurementFailureIndication", true)
 	return report, nil
 }
-func BridgeValidateECIDMeasurementReportBudget(v *q14.ECIDMeasurementReport, budget *q5.DecodeBudget,
+func BridgeValidateECIDMeasurementReportBudget(v *s13.ECIDMeasurementReport, budget *aper.DecodeBudget,
 
-) (q7.ValidationReport, error) {
+) (s09.ValidationReport, error) {
 	if v == nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
-		}(), q6.Errorf("nil ECIDMeasurementReport")
+		}(), fmt.Errorf("nil ECIDMeasurementReport")
 	}
-	rows := []q4.FieldInfo{q14.ECIDMeasurementReportIEs().ESMLCUEMeasurementID().Info(), q14.ECIDMeasurementReportIEs().ENBUEMeasurementID().Info(), q14.ECIDMeasurementReportIEs().ECIDMeasurementResult().Info(), q14.ECIDMeasurementReportIEs().CellPortionID().Info()}
-	report := q14.BridgeECIDMeasurementReportIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ECIDMeasurementReport.protocolIEs", budget)
+	rows := []s00.FieldInfo{s13.ECIDMeasurementReportIEs().ESMLCUEMeasurementID().Info(), s13.ECIDMeasurementReportIEs().ENBUEMeasurementID().Info(), s13.ECIDMeasurementReportIEs().ECIDMeasurementResult().Info(), s13.ECIDMeasurementReportIEs().CellPortionID().Info()}
+	report := s13.BridgeECIDMeasurementReportIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ECIDMeasurementReport.protocolIEs", budget)
 	BridgeWalkValidationECIDMeasurementReport(v, &report, "ECIDMeasurementReport", true)
 	return report, nil
 }
-func BridgeValidateECIDMeasurementTerminationCommandBudget(v *q13.ECIDMeasurementTerminationCommand, budget *q5.DecodeBudget,
+func BridgeValidateECIDMeasurementTerminationCommandBudget(v *s06.ECIDMeasurementTerminationCommand, budget *aper.DecodeBudget,
 
-) (q7.ValidationReport, error) {
+) (s09.ValidationReport, error) {
 	if v == nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
-		}(), q6.Errorf("nil ECIDMeasurementTerminationCommand")
+		}(), fmt.Errorf("nil ECIDMeasurementTerminationCommand")
 	}
-	rows := []q4.FieldInfo{q15.ECIDMeasurementTerminationCommandIEs().ESMLCUEMeasurementID().Info(), q15.ECIDMeasurementTerminationCommandIEs().ENBUEMeasurementID().Info()}
-	report := q12.BridgeECIDMeasurementTerminationCommandIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ECIDMeasurementTerminationCommand.protocolIEs", budget)
+	rows := []s00.FieldInfo{s03.ECIDMeasurementTerminationCommandIEs().ESMLCUEMeasurementID().Info(), s03.ECIDMeasurementTerminationCommandIEs().ENBUEMeasurementID().Info()}
+	report := s11.BridgeECIDMeasurementTerminationCommandIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "ECIDMeasurementTerminationCommand.protocolIEs", budget)
 	BridgeWalkValidationECIDMeasurementTerminationCommand(v, &report, "ECIDMeasurementTerminationCommand", true)
 	return report, nil
 }
-func BridgeValidateOTDOAInformationRequestBudget(v *q16.OTDOAInformationRequest, budget *q5.DecodeBudget,
+func BridgeValidateOTDOAInformationRequestBudget(v *s18.OTDOAInformationRequest, budget *aper.DecodeBudget,
 
-) (q7.ValidationReport, error) {
+) (s09.ValidationReport, error) {
 	if v == nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
-		}(), q6.Errorf("nil OTDOAInformationRequest")
+		}(), fmt.Errorf("nil OTDOAInformationRequest")
 	}
-	rows := []q4.FieldInfo{q16.OTDOAInformationRequestIEs().OTDOAInformationTypeGroup().Info()}
-	report := q16.BridgeOTDOAInformationRequestIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "OTDOAInformationRequest.protocolIEs", budget)
+	rows := []s00.FieldInfo{s18.OTDOAInformationRequestIEs().OTDOAInformationTypeGroup().Info()}
+	report := s18.BridgeOTDOAInformationRequestIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "OTDOAInformationRequest.protocolIEs", budget)
 	BridgeWalkValidationOTDOAInformationRequest(v, &report, "OTDOAInformationRequest", true)
 	return report, nil
 }
-func BridgeValidateOTDOAInformationFailureBudget(v *q17.OTDOAInformationFailure, budget *q5.DecodeBudget,
+func BridgeValidateOTDOAInformationFailureBudget(v *s12.OTDOAInformationFailure, budget *aper.DecodeBudget,
 
-) (q7.ValidationReport, error) {
+) (s09.ValidationReport, error) {
 	if v == nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
-		}(), q6.Errorf("nil OTDOAInformationFailure")
+		}(), fmt.Errorf("nil OTDOAInformationFailure")
 	}
-	rows := []q4.FieldInfo{q11.OTDOAInformationFailureIEs().Cause().Info(), q11.OTDOAInformationFailureIEs().CriticalityDiagnostics().Info()}
-	report := q17.BridgeOTDOAInformationFailureIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "OTDOAInformationFailure.protocolIEs", budget)
+	rows := []s00.FieldInfo{s10.OTDOAInformationFailureIEs().Cause().Info(), s10.OTDOAInformationFailureIEs().CriticalityDiagnostics().Info()}
+	report := s12.BridgeOTDOAInformationFailureIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "OTDOAInformationFailure.protocolIEs", budget)
 	BridgeWalkValidationOTDOAInformationFailure(v, &report, "OTDOAInformationFailure", true)
 	return report, nil
 }
-func BridgeValidateAssistanceInformationFeedbackBudget(v *q18.AssistanceInformationFeedback, budget *q5.DecodeBudget,
+func BridgeValidateAssistanceInformationFeedbackBudget(v *s17.AssistanceInformationFeedback, budget *aper.DecodeBudget,
 
-) (q7.ValidationReport, error) {
+) (s09.ValidationReport, error) {
 	if v == nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
-		}(), q6.Errorf("nil AssistanceInformationFeedback")
+		}(), fmt.Errorf("nil AssistanceInformationFeedback")
 	}
-	rows := []q4.FieldInfo{q18.AssistanceInformationFeedbackIEs().AssistanceInformationFailureList().Info(), q18.AssistanceInformationFeedbackIEs().CriticalityDiagnostics().Info()}
-	report := q18.BridgeAssistanceInformationFeedbackIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "AssistanceInformationFeedback.protocolIEs", budget)
+	rows := []s00.FieldInfo{s17.AssistanceInformationFeedbackIEs().AssistanceInformationFailureList().Info(), s17.AssistanceInformationFeedbackIEs().CriticalityDiagnostics().Info()}
+	report := s17.BridgeAssistanceInformationFeedbackIEValueValidateLPPaIEContainer(v.ProtocolIEs, rows, "AssistanceInformationFeedback.protocolIEs", budget)
 	BridgeWalkValidationAssistanceInformationFeedback(v, &report, "AssistanceInformationFeedback", true)
 	return report, nil
 }
-func ValidateErrorIndication(v *q12.ErrorIndication, options ...q5.ValidationOption) (q7.ValidationReport, error) {
-	budget, err := q5.ValidationBudget(options...)
+func ValidateErrorIndication(v *s11.ErrorIndication, options ...aper.ValidationOption) (s09.ValidationReport, error) {
+	budget, err := aper.ValidationBudget(options...)
 	if err != nil {
-		return q7.ValidationReport{}, q5.OperationError(err, "ErrorIndication")
+		return s09.ValidationReport{}, aper.OperationError(err, "ErrorIndication")
 	}
 	report, err := BridgeValidateErrorIndicationBudget(v, budget)
-	if err == nil && !q24.BridgeValidationHasValueMismatch(report) {
-		_, err = q12.BridgeErrorIndicationMethodMarshalAPERBudget(v, budget, false)
+	if err == nil && !s20.BridgeValidationHasValueMismatch(report) {
+		_, err = s11.BridgeErrorIndicationMethodMarshalAPERBudget(v, budget, false)
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		err = *q7.BridgeValidationReportFieldErr(&report)
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		err = *s09.BridgeValidationReportFieldErr(&report)
 	}
-	*q7.BridgeValidationReportFieldBudget(&report) = nil
-	*q7.BridgeValidationReportFieldErr(&report) = nil
-	return report, q5.OperationError(err, "ErrorIndication")
+	*s09.BridgeValidationReportFieldBudget(&report) = nil
+	*s09.BridgeValidationReportFieldErr(&report) = nil
+	return report, aper.OperationError(err, "ErrorIndication")
 }
-func ValidateECIDMeasurementInitiationFailure(v *q12.ECIDMeasurementInitiationFailure, options ...q5.ValidationOption) (q7.ValidationReport, error) {
-	budget, err := q5.ValidationBudget(options...)
+func ValidateECIDMeasurementInitiationFailure(v *s11.ECIDMeasurementInitiationFailure, options ...aper.ValidationOption) (s09.ValidationReport, error) {
+	budget, err := aper.ValidationBudget(options...)
 	if err != nil {
-		return q7.ValidationReport{}, q5.OperationError(err, "ECIDMeasurementInitiationFailure")
+		return s09.ValidationReport{}, aper.OperationError(err, "ECIDMeasurementInitiationFailure")
 	}
 	report, err := BridgeValidateECIDMeasurementInitiationFailureBudget(v, budget)
-	if err == nil && !q24.BridgeValidationHasValueMismatch(report) {
-		_, err = q12.BridgeECIDMeasurementInitiationFailureMethodMarshalAPERBudget(v, budget, false)
+	if err == nil && !s20.BridgeValidationHasValueMismatch(report) {
+		_, err = s11.BridgeECIDMeasurementInitiationFailureMethodMarshalAPERBudget(v, budget, false)
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		err = *q7.BridgeValidationReportFieldErr(&report)
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		err = *s09.BridgeValidationReportFieldErr(&report)
 	}
-	*q7.BridgeValidationReportFieldBudget(&report) = nil
-	*q7.BridgeValidationReportFieldErr(&report) = nil
-	return report, q5.OperationError(err, "ECIDMeasurementInitiationFailure")
+	*s09.BridgeValidationReportFieldBudget(&report) = nil
+	*s09.BridgeValidationReportFieldErr(&report) = nil
+	return report, aper.OperationError(err, "ECIDMeasurementInitiationFailure")
 }
-func ValidateECIDMeasurementFailureIndication(v *q12.ECIDMeasurementFailureIndication, options ...q5.ValidationOption) (q7.ValidationReport, error) {
-	budget, err := q5.ValidationBudget(options...)
+func ValidateECIDMeasurementFailureIndication(v *s11.ECIDMeasurementFailureIndication, options ...aper.ValidationOption) (s09.ValidationReport, error) {
+	budget, err := aper.ValidationBudget(options...)
 	if err != nil {
-		return q7.ValidationReport{}, q5.OperationError(err, "ECIDMeasurementFailureIndication")
+		return s09.ValidationReport{}, aper.OperationError(err, "ECIDMeasurementFailureIndication")
 	}
 	report, err := BridgeValidateECIDMeasurementFailureIndicationBudget(v, budget)
-	if err == nil && !q24.BridgeValidationHasValueMismatch(report) {
-		_, err = q12.BridgeECIDMeasurementFailureIndicationMethodMarshalAPERBudget(v, budget, false)
+	if err == nil && !s20.BridgeValidationHasValueMismatch(report) {
+		_, err = s11.BridgeECIDMeasurementFailureIndicationMethodMarshalAPERBudget(v, budget, false)
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		err = *q7.BridgeValidationReportFieldErr(&report)
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		err = *s09.BridgeValidationReportFieldErr(&report)
 	}
-	*q7.BridgeValidationReportFieldBudget(&report) = nil
-	*q7.BridgeValidationReportFieldErr(&report) = nil
-	return report, q5.OperationError(err, "ECIDMeasurementFailureIndication")
+	*s09.BridgeValidationReportFieldBudget(&report) = nil
+	*s09.BridgeValidationReportFieldErr(&report) = nil
+	return report, aper.OperationError(err, "ECIDMeasurementFailureIndication")
 }
-func ValidateECIDMeasurementReport(v *q14.ECIDMeasurementReport, options ...q5.ValidationOption) (q7.ValidationReport, error) {
-	budget, err := q5.ValidationBudget(options...)
+func ValidateECIDMeasurementReport(v *s13.ECIDMeasurementReport, options ...aper.ValidationOption) (s09.ValidationReport, error) {
+	budget, err := aper.ValidationBudget(options...)
 	if err != nil {
-		return q7.ValidationReport{}, q5.OperationError(err, "ECIDMeasurementReport")
+		return s09.ValidationReport{}, aper.OperationError(err, "ECIDMeasurementReport")
 	}
 	report, err := BridgeValidateECIDMeasurementReportBudget(v, budget)
-	if err == nil && !q24.BridgeValidationHasValueMismatch(report) {
-		_, err = q14.BridgeECIDMeasurementReportMethodMarshalAPERBudget(v, budget, false)
+	if err == nil && !s20.BridgeValidationHasValueMismatch(report) {
+		_, err = s13.BridgeECIDMeasurementReportMethodMarshalAPERBudget(v, budget, false)
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		err = *q7.BridgeValidationReportFieldErr(&report)
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		err = *s09.BridgeValidationReportFieldErr(&report)
 	}
-	*q7.BridgeValidationReportFieldBudget(&report) = nil
-	*q7.BridgeValidationReportFieldErr(&report) = nil
-	return report, q5.OperationError(err, "ECIDMeasurementReport")
+	*s09.BridgeValidationReportFieldBudget(&report) = nil
+	*s09.BridgeValidationReportFieldErr(&report) = nil
+	return report, aper.OperationError(err, "ECIDMeasurementReport")
 }
-func ValidateECIDMeasurementTerminationCommand(v *q13.ECIDMeasurementTerminationCommand, options ...q5.ValidationOption) (q7.ValidationReport, error) {
-	budget, err := q5.ValidationBudget(options...)
+func ValidateECIDMeasurementTerminationCommand(v *s06.ECIDMeasurementTerminationCommand, options ...aper.ValidationOption) (s09.ValidationReport, error) {
+	budget, err := aper.ValidationBudget(options...)
 	if err != nil {
-		return q7.ValidationReport{}, q5.OperationError(err, "ECIDMeasurementTerminationCommand")
+		return s09.ValidationReport{}, aper.OperationError(err, "ECIDMeasurementTerminationCommand")
 	}
 	report, err := BridgeValidateECIDMeasurementTerminationCommandBudget(v, budget)
-	if err == nil && !q24.BridgeValidationHasValueMismatch(report) {
-		_, err = q13.BridgeECIDMeasurementTerminationCommandMethodMarshalAPERBudget(v, budget, false)
+	if err == nil && !s20.BridgeValidationHasValueMismatch(report) {
+		_, err = s06.BridgeECIDMeasurementTerminationCommandMethodMarshalAPERBudget(v, budget, false)
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		err = *q7.BridgeValidationReportFieldErr(&report)
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		err = *s09.BridgeValidationReportFieldErr(&report)
 	}
-	*q7.BridgeValidationReportFieldBudget(&report) = nil
-	*q7.BridgeValidationReportFieldErr(&report) = nil
-	return report, q5.OperationError(err, "ECIDMeasurementTerminationCommand")
+	*s09.BridgeValidationReportFieldBudget(&report) = nil
+	*s09.BridgeValidationReportFieldErr(&report) = nil
+	return report, aper.OperationError(err, "ECIDMeasurementTerminationCommand")
 }
-func ValidateOTDOAInformationRequest(v *q16.OTDOAInformationRequest, options ...q5.ValidationOption) (q7.ValidationReport, error) {
-	budget, err := q5.ValidationBudget(options...)
+func ValidateOTDOAInformationRequest(v *s18.OTDOAInformationRequest, options ...aper.ValidationOption) (s09.ValidationReport, error) {
+	budget, err := aper.ValidationBudget(options...)
 	if err != nil {
-		return q7.ValidationReport{}, q5.OperationError(err, "OTDOAInformationRequest")
+		return s09.ValidationReport{}, aper.OperationError(err, "OTDOAInformationRequest")
 	}
 	report, err := BridgeValidateOTDOAInformationRequestBudget(v, budget)
-	if err == nil && !q24.BridgeValidationHasValueMismatch(report) {
-		_, err = q16.BridgeOTDOAInformationRequestMethodMarshalAPERBudget(v, budget, false)
+	if err == nil && !s20.BridgeValidationHasValueMismatch(report) {
+		_, err = s18.BridgeOTDOAInformationRequestMethodMarshalAPERBudget(v, budget, false)
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		err = *q7.BridgeValidationReportFieldErr(&report)
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		err = *s09.BridgeValidationReportFieldErr(&report)
 	}
-	*q7.BridgeValidationReportFieldBudget(&report) = nil
-	*q7.BridgeValidationReportFieldErr(&report) = nil
-	return report, q5.OperationError(err, "OTDOAInformationRequest")
+	*s09.BridgeValidationReportFieldBudget(&report) = nil
+	*s09.BridgeValidationReportFieldErr(&report) = nil
+	return report, aper.OperationError(err, "OTDOAInformationRequest")
 }
-func ValidateOTDOAInformationFailure(v *q17.OTDOAInformationFailure, options ...q5.ValidationOption) (q7.ValidationReport, error) {
-	budget, err := q5.ValidationBudget(options...)
+func ValidateOTDOAInformationFailure(v *s12.OTDOAInformationFailure, options ...aper.ValidationOption) (s09.ValidationReport, error) {
+	budget, err := aper.ValidationBudget(options...)
 	if err != nil {
-		return q7.ValidationReport{}, q5.OperationError(err, "OTDOAInformationFailure")
+		return s09.ValidationReport{}, aper.OperationError(err, "OTDOAInformationFailure")
 	}
 	report, err := BridgeValidateOTDOAInformationFailureBudget(v, budget)
-	if err == nil && !q24.BridgeValidationHasValueMismatch(report) {
-		_, err = q17.BridgeOTDOAInformationFailureMethodMarshalAPERBudget(v, budget, false)
+	if err == nil && !s20.BridgeValidationHasValueMismatch(report) {
+		_, err = s12.BridgeOTDOAInformationFailureMethodMarshalAPERBudget(v, budget, false)
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		err = *q7.BridgeValidationReportFieldErr(&report)
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		err = *s09.BridgeValidationReportFieldErr(&report)
 	}
-	*q7.BridgeValidationReportFieldBudget(&report) = nil
-	*q7.BridgeValidationReportFieldErr(&report) = nil
-	return report, q5.OperationError(err, "OTDOAInformationFailure")
+	*s09.BridgeValidationReportFieldBudget(&report) = nil
+	*s09.BridgeValidationReportFieldErr(&report) = nil
+	return report, aper.OperationError(err, "OTDOAInformationFailure")
 }
-func ValidateAssistanceInformationFeedback(v *q18.AssistanceInformationFeedback, options ...q5.ValidationOption) (q7.ValidationReport, error) {
-	budget, err := q5.ValidationBudget(options...)
+func ValidateAssistanceInformationFeedback(v *s17.AssistanceInformationFeedback, options ...aper.ValidationOption) (s09.ValidationReport, error) {
+	budget, err := aper.ValidationBudget(options...)
 	if err != nil {
-		return q7.ValidationReport{}, q5.OperationError(err, "AssistanceInformationFeedback")
+		return s09.ValidationReport{}, aper.OperationError(err, "AssistanceInformationFeedback")
 	}
 	report, err := BridgeValidateAssistanceInformationFeedbackBudget(v, budget)
-	if err == nil && !q24.BridgeValidationHasValueMismatch(report) {
-		_, err = q18.BridgeAssistanceInformationFeedbackMethodMarshalAPERBudget(v, budget, false)
+	if err == nil && !s20.BridgeValidationHasValueMismatch(report) {
+		_, err = s17.BridgeAssistanceInformationFeedbackMethodMarshalAPERBudget(v, budget, false)
 	}
-	if *q7.BridgeValidationReportFieldErr(&report) != nil {
-		err = *q7.BridgeValidationReportFieldErr(&report)
+	if *s09.BridgeValidationReportFieldErr(&report) != nil {
+		err = *s09.BridgeValidationReportFieldErr(&report)
 	}
-	*q7.BridgeValidationReportFieldBudget(&report) = nil
-	*q7.BridgeValidationReportFieldErr(&report) = nil
-	return report, q5.OperationError(err, "AssistanceInformationFeedback")
+	*s09.BridgeValidationReportFieldBudget(&report) = nil
+	*s09.BridgeValidationReportFieldErr(&report) = nil
+	return report, aper.OperationError(err, "AssistanceInformationFeedback")
 }
-func BridgeValidateLPPaExtensionContainer[V ProtocolOpenValueConstraint[V]](fields ProtocolExtensionContainer[V], rows []q4.FieldInfo, path string, budget *q5.DecodeBudget) q7.ValidationReport {
-	bb := q5.NewBudgetBuffer(budget)
-	if err := q5.ChargeSlice[ProtocolIEField[V]](bb, uint64(len(fields))); err != nil {
-		return func() q7.ValidationReport {
-			sealed := q7.ValidationReport{}
-			*q7.BridgeValidationReportFieldErr(&sealed) = err
-			*q7.BridgeValidationReportFieldBudget(&sealed) = budget
+func BridgeValidateLPPaExtensionContainer[V ProtocolOpenValueConstraint[V]](fields ProtocolExtensionContainer[V], rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s09.ValidationReport {
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[ProtocolIEField[V]](bb, uint64(len(fields))); err != nil {
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldErr(&sealed) = err
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 			return sealed
 		}()
 	}
@@ -3153,37 +3255,37 @@ func BridgeValidateLPPaExtensionContainer[V ProtocolOpenValueConstraint[V]](fiel
 	}
 	return BridgeValidateLPPaIEContainer(asIE, rows, path, budget)
 }
-func BridgeWalkValidationAssistanceInformationFailureList(v *q21.AssistanceInformationFailureList, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationAssistanceInformationFailureList(v *s05.AssistanceInformationFailureList, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationAssistanceInformationFailureListElem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationAssistanceInformationFailureListElem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationAssistanceInformationFailureListElem(v *q21.AssistanceInformationFailureListElem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationAssistanceInformationFailureListElem(v *s05.AssistanceInformationFailureListElem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -3191,11 +3293,11 @@ func BridgeWalkValidationAssistanceInformationFailureListElem(v *q21.AssistanceI
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q7.BridgeAssistanceInformationFailureListExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s09.BridgeAssistanceInformationFailureListExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -3203,17 +3305,17 @@ func BridgeWalkValidationAssistanceInformationFailureListElem(v *q21.AssistanceI
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationAssistanceInformationFeedback(v *q18.AssistanceInformationFeedback, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationAssistanceInformationFeedback(v *s17.AssistanceInformationFeedback, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
@@ -3221,46 +3323,46 @@ func BridgeWalkValidationAssistanceInformationFeedback(v *q18.AssistanceInformat
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []q4.FieldInfo{q18.AssistanceInformationFeedbackIEs().AssistanceInformationFailureList().Info(), q18.AssistanceInformationFeedbackIEs().CriticalityDiagnostics().Info()}
-			q12.BridgeMergeNestedValidation(report, q18.BridgeAssistanceInformationFeedbackIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+			rows := []s00.FieldInfo{s17.AssistanceInformationFeedbackIEs().AssistanceInformationFailureList().Info(), s17.AssistanceInformationFeedbackIEs().CriticalityDiagnostics().Info()}
+			s11.BridgeMergeNestedValidation(report, s17.BridgeAssistanceInformationFeedbackIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(24):
+			case s00.ProtocolIEID(24):
 				if value, ok := fields[i].Value.AsAssistanceInformationFailureList(); ok {
-					BridgeWalkValidationAssistanceInformationFailureList(value, report, q6.Sprintf("%s[%d]{id=24}", nestedPath, i), false)
+					BridgeWalkValidationAssistanceInformationFailureList(value, report, fmt.Sprintf("%s[%d]{id=24}", nestedPath, i), false)
 				}
-			case q4.ProtocolIEID(1):
+			case s00.ProtocolIEID(1):
 				if value, ok := fields[i].Value.AsCriticalityDiagnostics(); ok {
-					BridgeWalkValidationCriticalityDiagnostics(value, report, q6.Sprintf("%s[%d]{id=1}", nestedPath, i), false)
+					BridgeWalkValidationCriticalityDiagnostics(value, report, fmt.Sprintf("%s[%d]{id=1}", nestedPath, i), false)
 				}
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationAssistanceInformationMetaData(v *q21.AssistanceInformationMetaData, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationAssistanceInformationMetaData(v *s05.AssistanceInformationMetaData, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -3268,11 +3370,11 @@ func BridgeWalkValidationAssistanceInformationMetaData(v *q21.AssistanceInformat
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q7.BridgeAssistanceInformationMetaDataExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s09.BridgeAssistanceInformationMetaDataExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -3280,58 +3382,58 @@ func BridgeWalkValidationAssistanceInformationMetaData(v *q21.AssistanceInformat
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationBitmapsforNPRS(v *q21.BitmapsforNPRS, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationBitmapsforNPRS(v *s05.BitmapsforNPRS, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 }
-func BridgeWalkValidationCause(v *q21.Cause, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationCause(v *s05.Cause, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 }
-func BridgeWalkValidationCriticalityDiagnostics(v *q7.CriticalityDiagnostics, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationCriticalityDiagnostics(v *s09.CriticalityDiagnostics, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEsCriticalityDiagnostics != nil {
 		BridgeWalkValidationCriticalityDiagnosticsIEList(&v.IEsCriticalityDiagnostics, report, path+".iEsCriticalityDiagnostics", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -3339,11 +3441,11 @@ func BridgeWalkValidationCriticalityDiagnostics(v *q7.CriticalityDiagnostics, re
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q12.BridgeCriticalityDiagnosticsExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s11.BridgeCriticalityDiagnosticsExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -3351,44 +3453,44 @@ func BridgeWalkValidationCriticalityDiagnostics(v *q7.CriticalityDiagnostics, re
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationCriticalityDiagnosticsIEList(v *q21.CriticalityDiagnosticsIEList, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationCriticalityDiagnosticsIEList(v *s05.CriticalityDiagnosticsIEList, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationCriticalityDiagnosticsIEListElem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationCriticalityDiagnosticsIEListElem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationCriticalityDiagnosticsIEListElem(v *q21.CriticalityDiagnosticsIEListElem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationCriticalityDiagnosticsIEListElem(v *s05.CriticalityDiagnosticsIEListElem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -3396,11 +3498,11 @@ func BridgeWalkValidationCriticalityDiagnosticsIEListElem(v *q21.CriticalityDiag
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q12.BridgeCriticalityDiagnosticsIEListExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s11.BridgeCriticalityDiagnosticsIEListExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -3408,24 +3510,24 @@ func BridgeWalkValidationCriticalityDiagnosticsIEListElem(v *q21.CriticalityDiag
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationECGI(v *q21.ECGI, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationECGI(v *s05.ECGI, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -3433,11 +3535,11 @@ func BridgeWalkValidationECGI(v *q21.ECGI, report *q7.ValidationReport, path str
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q12.BridgeECGIExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s11.BridgeECGIExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -3445,17 +3547,17 @@ func BridgeWalkValidationECGI(v *q21.ECGI, report *q7.ValidationReport, path str
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationECIDMeasurementFailureIndication(v *q12.ECIDMeasurementFailureIndication, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationECIDMeasurementFailureIndication(v *s11.ECIDMeasurementFailureIndication, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
@@ -3463,32 +3565,32 @@ func BridgeWalkValidationECIDMeasurementFailureIndication(v *q12.ECIDMeasurement
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []q4.FieldInfo{q13.ECIDMeasurementFailureIndicationIEs().ESMLCUEMeasurementID().Info(), q13.ECIDMeasurementFailureIndicationIEs().ENBUEMeasurementID().Info(), q13.ECIDMeasurementFailureIndicationIEs().Cause().Info()}
-			q12.BridgeMergeNestedValidation(report, q12.BridgeECIDMeasurementFailureIndicationIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+			rows := []s00.FieldInfo{s06.ECIDMeasurementFailureIndicationIEs().ESMLCUEMeasurementID().Info(), s06.ECIDMeasurementFailureIndicationIEs().ENBUEMeasurementID().Info(), s06.ECIDMeasurementFailureIndicationIEs().Cause().Info()}
+			s11.BridgeMergeNestedValidation(report, s11.BridgeECIDMeasurementFailureIndicationIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(0):
+			case s00.ProtocolIEID(0):
 				if value, ok := fields[i].Value.AsCause(); ok {
-					BridgeWalkValidationCause(value, report, q6.Sprintf("%s[%d]{id=0}", nestedPath, i), false)
+					BridgeWalkValidationCause(value, report, fmt.Sprintf("%s[%d]{id=0}", nestedPath, i), false)
 				}
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationECIDMeasurementInitiationFailure(v *q12.ECIDMeasurementInitiationFailure, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationECIDMeasurementInitiationFailure(v *s11.ECIDMeasurementInitiationFailure, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
@@ -3496,36 +3598,36 @@ func BridgeWalkValidationECIDMeasurementInitiationFailure(v *q12.ECIDMeasurement
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []q4.FieldInfo{q11.ECIDMeasurementInitiationFailureIEs().ESMLCUEMeasurementID().Info(), q11.ECIDMeasurementInitiationFailureIEs().Cause().Info(), q11.ECIDMeasurementInitiationFailureIEs().CriticalityDiagnostics().Info()}
-			q12.BridgeMergeNestedValidation(report, q12.BridgeECIDMeasurementInitiationFailureIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+			rows := []s00.FieldInfo{s10.ECIDMeasurementInitiationFailureIEs().ESMLCUEMeasurementID().Info(), s10.ECIDMeasurementInitiationFailureIEs().Cause().Info(), s10.ECIDMeasurementInitiationFailureIEs().CriticalityDiagnostics().Info()}
+			s11.BridgeMergeNestedValidation(report, s11.BridgeECIDMeasurementInitiationFailureIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(0):
+			case s00.ProtocolIEID(0):
 				if value, ok := fields[i].Value.AsCause(); ok {
-					BridgeWalkValidationCause(value, report, q6.Sprintf("%s[%d]{id=0}", nestedPath, i), false)
+					BridgeWalkValidationCause(value, report, fmt.Sprintf("%s[%d]{id=0}", nestedPath, i), false)
 				}
-			case q4.ProtocolIEID(1):
+			case s00.ProtocolIEID(1):
 				if value, ok := fields[i].Value.AsCriticalityDiagnostics(); ok {
-					BridgeWalkValidationCriticalityDiagnostics(value, report, q6.Sprintf("%s[%d]{id=1}", nestedPath, i), false)
+					BridgeWalkValidationCriticalityDiagnostics(value, report, fmt.Sprintf("%s[%d]{id=1}", nestedPath, i), false)
 				}
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationECIDMeasurementReport(v *q14.ECIDMeasurementReport, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationECIDMeasurementReport(v *s13.ECIDMeasurementReport, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
@@ -3533,62 +3635,62 @@ func BridgeWalkValidationECIDMeasurementReport(v *q14.ECIDMeasurementReport, rep
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []q4.FieldInfo{q14.ECIDMeasurementReportIEs().ESMLCUEMeasurementID().Info(), q14.ECIDMeasurementReportIEs().ENBUEMeasurementID().Info(), q14.ECIDMeasurementReportIEs().ECIDMeasurementResult().Info(), q14.ECIDMeasurementReportIEs().CellPortionID().Info()}
-			q12.BridgeMergeNestedValidation(report, q14.BridgeECIDMeasurementReportIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+			rows := []s00.FieldInfo{s13.ECIDMeasurementReportIEs().ESMLCUEMeasurementID().Info(), s13.ECIDMeasurementReportIEs().ENBUEMeasurementID().Info(), s13.ECIDMeasurementReportIEs().ECIDMeasurementResult().Info(), s13.ECIDMeasurementReportIEs().CellPortionID().Info()}
+			s11.BridgeMergeNestedValidation(report, s13.BridgeECIDMeasurementReportIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(7):
+			case s00.ProtocolIEID(7):
 				if value, ok := fields[i].Value.AsECIDMeasurementResult(); ok {
-					BridgeWalkValidationECIDMeasurementResult(value, report, q6.Sprintf("%s[%d]{id=7}", nestedPath, i), false)
+					BridgeWalkValidationECIDMeasurementResult(value, report, fmt.Sprintf("%s[%d]{id=7}", nestedPath, i), false)
 				}
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationECIDMeasurementResult(v *q14.ECIDMeasurementResult, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationECIDMeasurementResult(v *s13.ECIDMeasurementResult, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	BridgeWalkValidationECGI(&v.ServingCellID, report, path+".servingCell-ID", false)
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.EUTRANAccessPointPosition != nil {
 		BridgeWalkValidationEUTRANAccessPointPosition(v.EUTRANAccessPointPosition, report, path+".e-UTRANAccessPointPosition", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.MeasuredResults != nil {
 		BridgeWalkValidationMeasuredResults(&v.MeasuredResults, report, path+".measuredResults", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationECIDMeasurementTerminationCommand(v *q13.ECIDMeasurementTerminationCommand, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationECIDMeasurementTerminationCommand(v *s06.ECIDMeasurementTerminationCommand, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
@@ -3596,69 +3698,69 @@ func BridgeWalkValidationECIDMeasurementTerminationCommand(v *q13.ECIDMeasuremen
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []q4.FieldInfo{q15.ECIDMeasurementTerminationCommandIEs().ESMLCUEMeasurementID().Info(), q15.ECIDMeasurementTerminationCommandIEs().ENBUEMeasurementID().Info()}
-			q12.BridgeMergeNestedValidation(report, q12.BridgeECIDMeasurementTerminationCommandIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+			rows := []s00.FieldInfo{s03.ECIDMeasurementTerminationCommandIEs().ESMLCUEMeasurementID().Info(), s03.ECIDMeasurementTerminationCommandIEs().ENBUEMeasurementID().Info()}
+			s11.BridgeMergeNestedValidation(report, s11.BridgeECIDMeasurementTerminationCommandIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationEUTRANAccessPointPosition(v *q13.EUTRANAccessPointPosition, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationEUTRANAccessPointPosition(v *s06.EUTRANAccessPointPosition, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationErrorIndication(v *q12.ErrorIndication, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationErrorIndication(v *s11.ErrorIndication, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
@@ -3666,121 +3768,121 @@ func BridgeWalkValidationErrorIndication(v *q12.ErrorIndication, report *q7.Vali
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []q4.FieldInfo{q11.ErrorIndicationIEs().Cause().Info(), q11.ErrorIndicationIEs().CriticalityDiagnostics().Info()}
-			q12.BridgeMergeNestedValidation(report, q12.BridgeErrorIndicationIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+			rows := []s00.FieldInfo{s10.ErrorIndicationIEs().Cause().Info(), s10.ErrorIndicationIEs().CriticalityDiagnostics().Info()}
+			s11.BridgeMergeNestedValidation(report, s11.BridgeErrorIndicationIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(0):
+			case s00.ProtocolIEID(0):
 				if value, ok := fields[i].Value.AsCause(); ok {
-					BridgeWalkValidationCause(value, report, q6.Sprintf("%s[%d]{id=0}", nestedPath, i), false)
+					BridgeWalkValidationCause(value, report, fmt.Sprintf("%s[%d]{id=0}", nestedPath, i), false)
 				}
-			case q4.ProtocolIEID(1):
+			case s00.ProtocolIEID(1):
 				if value, ok := fields[i].Value.AsCriticalityDiagnostics(); ok {
-					BridgeWalkValidationCriticalityDiagnostics(value, report, q6.Sprintf("%s[%d]{id=1}", nestedPath, i), false)
+					BridgeWalkValidationCriticalityDiagnostics(value, report, fmt.Sprintf("%s[%d]{id=1}", nestedPath, i), false)
 				}
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationInitiatingMessage(v *q8.InitiatingMessage, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationInitiatingMessage(v *s21.InitiatingMessage, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationInterRATMeasuredResultsValue(v *q25.InterRATMeasuredResultsValue, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationInterRATMeasuredResultsValue(v *s19.InterRATMeasuredResultsValue, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if v.Choice == q4.InterRATMeasuredResultsValueChoiceResultGERAN {
+	if v.Choice == s00.InterRATMeasuredResultsValueChoiceResultGERAN {
 		if v.ResultGERAN != nil {
 			BridgeWalkValidationResultGERAN(&v.ResultGERAN, report, path+".resultGERAN", false)
 		}
 	}
-	if v.Choice == q4.InterRATMeasuredResultsValueChoiceResultUTRAN {
+	if v.Choice == s00.InterRATMeasuredResultsValueChoiceResultUTRAN {
 		if v.ResultUTRAN != nil {
 			BridgeWalkValidationResultUTRAN(&v.ResultUTRAN, report, path+".resultUTRAN", false)
 		}
 	}
-	if v.Choice == q4.InterRATMeasuredResultsValueChoiceResultNR {
+	if v.Choice == s00.InterRATMeasuredResultsValueChoiceResultNR {
 		if v.ResultNR != nil {
 			BridgeWalkValidationResultNR(&v.ResultNR, report, path+".resultNR", false)
 		}
 	}
 }
-func BridgeWalkValidationInterRATMeasurementQuantities(v *q13.InterRATMeasurementQuantities, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationInterRATMeasurementQuantities(v *s06.InterRATMeasurementQuantities, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
 		field := (*v)[i]
-		nestedPath := q6.Sprintf("%s[%d]", path, i)
-		rows := []q4.FieldInfo{q13.InterRATMeasurementQuantitiesItemIEs().InterRATMeasurementQuantitiesItem().Info()}
-		q12.BridgeMergeNestedValidation(report, q12.BridgeInterRATMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(q13.InterRATMeasurementQuantitiesItemIEContainer{field}, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
-		fields := q13.InterRATMeasurementQuantitiesItemIEContainer{field}
+		nestedPath := fmt.Sprintf("%s[%d]", path, i)
+		rows := []s00.FieldInfo{s06.InterRATMeasurementQuantitiesItemIEs().InterRATMeasurementQuantitiesItem().Info()}
+		s11.BridgeMergeNestedValidation(report, s11.BridgeInterRATMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(s06.InterRATMeasurementQuantitiesItemIEContainer{field}, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
+		fields := s06.InterRATMeasurementQuantitiesItemIEContainer{field}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(16):
+			case s00.ProtocolIEID(16):
 				if value, ok := fields[i].Value.AsInterRATMeasurementQuantitiesItem(); ok {
-					BridgeWalkValidationInterRATMeasurementQuantitiesItem(value, report, q6.Sprintf("%s[%d]{id=16}", nestedPath, i), false)
+					BridgeWalkValidationInterRATMeasurementQuantitiesItem(value, report, fmt.Sprintf("%s[%d]{id=16}", nestedPath, i), false)
 				}
 			}
 		}
 	}
 }
-func BridgeWalkValidationInterRATMeasurementQuantitiesItem(v *q13.InterRATMeasurementQuantitiesItem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationInterRATMeasurementQuantitiesItem(v *s06.InterRATMeasurementQuantitiesItem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -3788,11 +3890,11 @@ func BridgeWalkValidationInterRATMeasurementQuantitiesItem(v *q13.InterRATMeasur
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q12.BridgeInterRATMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s11.BridgeInterRATMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -3800,108 +3902,108 @@ func BridgeWalkValidationInterRATMeasurementQuantitiesItem(v *q13.InterRATMeasur
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationInterRATMeasurementResult(v *q24.InterRATMeasurementResult, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationInterRATMeasurementResult(v *s20.InterRATMeasurementResult, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationInterRATMeasuredResultsValue(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationInterRATMeasuredResultsValue(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationMeasuredResults(v *q14.MeasuredResults, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationMeasuredResults(v *s13.MeasuredResults, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationMeasuredResultsValue(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationMeasuredResultsValue(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationMeasuredResultsValue(v *q14.MeasuredResultsValue, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationMeasuredResultsValue(v *s13.MeasuredResultsValue, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if v.Choice == q4.MeasuredResultsValueChoiceResultRSRP {
+	if v.Choice == s00.MeasuredResultsValueChoiceResultRSRP {
 		if v.ResultRSRP != nil {
 			BridgeWalkValidationResultRSRP(&v.ResultRSRP, report, path+".resultRSRP", false)
 		}
 	}
-	if v.Choice == q4.MeasuredResultsValueChoiceResultRSRQ {
+	if v.Choice == s00.MeasuredResultsValueChoiceResultRSRQ {
 		if v.ResultRSRQ != nil {
 			BridgeWalkValidationResultRSRQ(&v.ResultRSRQ, report, path+".resultRSRQ", false)
 		}
 	}
 }
-func BridgeWalkValidationMeasurementQuantities(v *q13.MeasurementQuantities, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationMeasurementQuantities(v *s06.MeasurementQuantities, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
 		field := (*v)[i]
-		nestedPath := q6.Sprintf("%s[%d]", path, i)
-		rows := []q4.FieldInfo{q26.MeasurementQuantitiesItemIEs().MeasurementQuantitiesItem().Info()}
-		q12.BridgeMergeNestedValidation(report, q12.BridgeMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(q13.MeasurementQuantitiesItemIEContainer{field}, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
-		fields := q13.MeasurementQuantitiesItemIEContainer{field}
+		nestedPath := fmt.Sprintf("%s[%d]", path, i)
+		rows := []s00.FieldInfo{s07.MeasurementQuantitiesItemIEs().MeasurementQuantitiesItem().Info()}
+		s11.BridgeMergeNestedValidation(report, s11.BridgeMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(s06.MeasurementQuantitiesItemIEContainer{field}, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
+		fields := s06.MeasurementQuantitiesItemIEContainer{field}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(11):
+			case s00.ProtocolIEID(11):
 				if value, ok := fields[i].Value.AsMeasurementQuantitiesItem(); ok {
-					BridgeWalkValidationMeasurementQuantitiesItem(value, report, q6.Sprintf("%s[%d]{id=11}", nestedPath, i), false)
+					BridgeWalkValidationMeasurementQuantitiesItem(value, report, fmt.Sprintf("%s[%d]{id=11}", nestedPath, i), false)
 				}
 			}
 		}
 	}
 }
-func BridgeWalkValidationMeasurementQuantitiesItem(v *q13.MeasurementQuantitiesItem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationMeasurementQuantitiesItem(v *s06.MeasurementQuantitiesItem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -3909,11 +4011,11 @@ func BridgeWalkValidationMeasurementQuantitiesItem(v *q13.MeasurementQuantitiesI
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q12.BridgeMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s11.BridgeMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -3921,108 +4023,108 @@ func BridgeWalkValidationMeasurementQuantitiesItem(v *q13.MeasurementQuantitiesI
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationNPRSConfiguration(v *q26.NPRSConfiguration, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationNPRSConfiguration(v *s07.NPRSConfiguration, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	if v.NPRSSubframePartA != nil {
 		BridgeWalkValidationNPRSSubframePartA(v.NPRSSubframePartA, report, path+".nPRSSubframePartA", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.NPRSSubframePartB != nil {
 		BridgeWalkValidationNPRSSubframePartB(v.NPRSSubframePartB, report, path+".nPRSSubframePartB", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationNPRSMutingConfiguration(v *q26.NPRSMutingConfiguration, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationNPRSMutingConfiguration(v *s07.NPRSMutingConfiguration, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 }
-func BridgeWalkValidationNPRSSubframePartA(v *q26.NPRSSubframePartA, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationNPRSSubframePartA(v *s07.NPRSSubframePartA, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	BridgeWalkValidationBitmapsforNPRS(&v.BitmapsforNPRS, report, path+".bitmapsforNPRS", false)
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.NPRSMutingConfiguration != nil {
 		BridgeWalkValidationNPRSMutingConfiguration(v.NPRSMutingConfiguration, report, path+".nPRSMutingConfiguration", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationNPRSSubframePartB(v *q26.NPRSSubframePartB, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationNPRSSubframePartB(v *s07.NPRSSubframePartB, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.NPRSMutingConfiguration != nil {
 		BridgeWalkValidationNPRSMutingConfiguration(v.NPRSMutingConfiguration, report, path+".nPRSMutingConfiguration", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationNRCGI(v *q26.NRCGI, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationNRCGI(v *s07.NRCGI, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4030,11 +4132,11 @@ func BridgeWalkValidationNRCGI(v *q26.NRCGI, report *q7.ValidationReport, path s
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q12.BridgeNRCGIExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s11.BridgeNRCGIExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -4042,17 +4144,17 @@ func BridgeWalkValidationNRCGI(v *q26.NRCGI, report *q7.ValidationReport, path s
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationOTDOAInformationFailure(v *q17.OTDOAInformationFailure, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationOTDOAInformationFailure(v *s12.OTDOAInformationFailure, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
@@ -4060,36 +4162,36 @@ func BridgeWalkValidationOTDOAInformationFailure(v *q17.OTDOAInformationFailure,
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []q4.FieldInfo{q11.OTDOAInformationFailureIEs().Cause().Info(), q11.OTDOAInformationFailureIEs().CriticalityDiagnostics().Info()}
-			q12.BridgeMergeNestedValidation(report, q17.BridgeOTDOAInformationFailureIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+			rows := []s00.FieldInfo{s10.OTDOAInformationFailureIEs().Cause().Info(), s10.OTDOAInformationFailureIEs().CriticalityDiagnostics().Info()}
+			s11.BridgeMergeNestedValidation(report, s12.BridgeOTDOAInformationFailureIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(0):
+			case s00.ProtocolIEID(0):
 				if value, ok := fields[i].Value.AsCause(); ok {
-					BridgeWalkValidationCause(value, report, q6.Sprintf("%s[%d]{id=0}", nestedPath, i), false)
+					BridgeWalkValidationCause(value, report, fmt.Sprintf("%s[%d]{id=0}", nestedPath, i), false)
 				}
-			case q4.ProtocolIEID(1):
+			case s00.ProtocolIEID(1):
 				if value, ok := fields[i].Value.AsCriticalityDiagnostics(); ok {
-					BridgeWalkValidationCriticalityDiagnostics(value, report, q6.Sprintf("%s[%d]{id=1}", nestedPath, i), false)
+					BridgeWalkValidationCriticalityDiagnostics(value, report, fmt.Sprintf("%s[%d]{id=1}", nestedPath, i), false)
 				}
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationOTDOAInformationRequest(v *q16.OTDOAInformationRequest, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationOTDOAInformationRequest(v *s18.OTDOAInformationRequest, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
@@ -4097,68 +4199,68 @@ func BridgeWalkValidationOTDOAInformationRequest(v *q16.OTDOAInformationRequest,
 		fields := v.ProtocolIEs
 		nestedPath := path + ".ProtocolIEs"
 		if !skipRoot {
-			rows := []q4.FieldInfo{q16.OTDOAInformationRequestIEs().OTDOAInformationTypeGroup().Info()}
-			q12.BridgeMergeNestedValidation(report, q16.BridgeOTDOAInformationRequestIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+			rows := []s00.FieldInfo{s18.OTDOAInformationRequestIEs().OTDOAInformationTypeGroup().Info()}
+			s11.BridgeMergeNestedValidation(report, s18.BridgeOTDOAInformationRequestIEValueValidateLPPaIEContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(9):
+			case s00.ProtocolIEID(9):
 				if value, ok := fields[i].Value.AsOTDOAInformationTypeGroup(); ok {
-					BridgeWalkValidationOTDOAInformationType(value, report, q6.Sprintf("%s[%d]{id=9}", nestedPath, i), false)
+					BridgeWalkValidationOTDOAInformationType(value, report, fmt.Sprintf("%s[%d]{id=9}", nestedPath, i), false)
 				}
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationOTDOAInformationType(v *q26.OTDOAInformationType, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationOTDOAInformationType(v *s07.OTDOAInformationType, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
 		field := (*v)[i]
-		nestedPath := q6.Sprintf("%s[%d]", path, i)
-		rows := []q4.FieldInfo{q26.OTDOAInformationTypeIEs().OTDOAInformationTypeItem().Info()}
-		q12.BridgeMergeNestedValidation(report, q17.BridgeOTDOAInformationTypeIEValueValidateLPPaIEContainer(q26.OTDOAInformationTypeIEContainer{field}, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
-		fields := q26.OTDOAInformationTypeIEContainer{field}
+		nestedPath := fmt.Sprintf("%s[%d]", path, i)
+		rows := []s00.FieldInfo{s07.OTDOAInformationTypeIEs().OTDOAInformationTypeItem().Info()}
+		s11.BridgeMergeNestedValidation(report, s12.BridgeOTDOAInformationTypeIEValueValidateLPPaIEContainer(s07.OTDOAInformationTypeIEContainer{field}, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
+		fields := s07.OTDOAInformationTypeIEContainer{field}
 		for i := range fields {
-			if *q7.BridgeValidationReportFieldErr(report) != nil {
+			if *s09.BridgeValidationReportFieldErr(report) != nil {
 				return
 			}
 			switch fields[i].Id {
-			case q4.ProtocolIEID(10):
+			case s00.ProtocolIEID(10):
 				if value, ok := fields[i].Value.AsOTDOAInformationTypeItem(); ok {
-					BridgeWalkValidationOTDOAInformationTypeItem(value, report, q6.Sprintf("%s[%d]{id=10}", nestedPath, i), false)
+					BridgeWalkValidationOTDOAInformationTypeItem(value, report, fmt.Sprintf("%s[%d]{id=10}", nestedPath, i), false)
 				}
 			}
 		}
 	}
 }
-func BridgeWalkValidationOTDOAInformationTypeItem(v *q26.OTDOAInformationTypeItem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationOTDOAInformationTypeItem(v *s07.OTDOAInformationTypeItem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4166,11 +4268,11 @@ func BridgeWalkValidationOTDOAInformationTypeItem(v *q26.OTDOAInformationTypeIte
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q17.BridgeOTDOAInformationTypeItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s12.BridgeOTDOAInformationTypeItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -4178,25 +4280,25 @@ func BridgeWalkValidationOTDOAInformationTypeItem(v *q26.OTDOAInformationTypeIte
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationPRSFrequencyHoppingConfiguration(v *q22.PRSFrequencyHoppingConfiguration, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationPRSFrequencyHoppingConfiguration(v *s08.PRSFrequencyHoppingConfiguration, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	BridgeWalkValidationPRSFrequencyHoppingConfigurationBandPositions(&v.BandPositions, report, path+".bandPositions", false)
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4204,11 +4306,11 @@ func BridgeWalkValidationPRSFrequencyHoppingConfiguration(v *q22.PRSFrequencyHop
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q17.BridgePRSFrequencyHoppingConfigurationItemIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s12.BridgePRSFrequencyHoppingConfigurationItemIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -4216,60 +4318,60 @@ func BridgeWalkValidationPRSFrequencyHoppingConfiguration(v *q22.PRSFrequencyHop
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationPRSFrequencyHoppingConfigurationBandPositions(v *q4.PRSFrequencyHoppingConfigurationBandPositions, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationPRSFrequencyHoppingConfigurationBandPositions(v *s00.PRSFrequencyHoppingConfigurationBandPositions, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 }
-func BridgeWalkValidationPRSMutingConfiguration(v *q22.PRSMutingConfiguration, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationPRSMutingConfiguration(v *s08.PRSMutingConfiguration, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 }
-func BridgeWalkValidationPosSIBSegments(v *q22.PosSIBSegments, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationPosSIBSegments(v *s08.PosSIBSegments, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationPosSIBSegmentsElem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationPosSIBSegmentsElem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationPosSIBSegmentsElem(v *q22.PosSIBSegmentsElem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationPosSIBSegmentsElem(v *s08.PosSIBSegmentsElem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4277,11 +4379,11 @@ func BridgeWalkValidationPosSIBSegmentsElem(v *q22.PosSIBSegmentsElem, report *q
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q17.BridgePosSIBSegmentsExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s12.BridgePosSIBSegmentsExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -4289,51 +4391,51 @@ func BridgeWalkValidationPosSIBSegmentsElem(v *q22.PosSIBSegmentsElem, report *q
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationPosSIBs(v *q11.PosSIBs, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationPosSIBs(v *s10.PosSIBs, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationPosSIBsElem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationPosSIBsElem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationPosSIBsElem(v *q11.PosSIBsElem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationPosSIBsElem(v *s10.PosSIBsElem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	BridgeWalkValidationPosSIBSegments(&v.PosSIBSegments, report, path+".posSIB-Segments", false)
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.AssistanceInformationMetaData != nil {
 		BridgeWalkValidationAssistanceInformationMetaData(v.AssistanceInformationMetaData, report, path+".assistanceInformationMetaData", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4341,11 +4443,11 @@ func BridgeWalkValidationPosSIBsElem(v *q11.PosSIBsElem, report *q7.ValidationRe
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q17.BridgePosSIBsExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s12.BridgePosSIBsExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -4353,86 +4455,86 @@ func BridgeWalkValidationPosSIBsElem(v *q11.PosSIBsElem, report *q7.ValidationRe
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationPrivateIEID(v *q22.PrivateIEID, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationPrivateIEID(v *s08.PrivateIEID, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 }
-func BridgeWalkValidationPrivateMessage(v *q17.PrivateMessage, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationPrivateMessage(v *s12.PrivateMessage, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationRequestedSRSTransmissionCharacteristics(v *q22.RequestedSRSTransmissionCharacteristics, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationRequestedSRSTransmissionCharacteristics(v *s08.RequestedSRSTransmissionCharacteristics, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationResultGERAN(v *q17.ResultGERAN, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultGERAN(v *s12.ResultGERAN, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationResultGERANItem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationResultGERANItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationResultGERANItem(v *q17.ResultGERANItem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultGERANItem(v *s12.ResultGERANItem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4440,11 +4542,11 @@ func BridgeWalkValidationResultGERANItem(v *q17.ResultGERANItem, report *q7.Vali
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q17.BridgeResultGERANItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s12.BridgeResultGERANItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -4452,47 +4554,47 @@ func BridgeWalkValidationResultGERANItem(v *q17.ResultGERANItem, report *q7.Vali
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationResultNR(v *q25.ResultNR, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultNR(v *s19.ResultNR, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationResultNRItem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationResultNRItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationResultNRItem(v *q25.ResultNRItem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultNRItem(v *s19.ResultNRItem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4500,70 +4602,70 @@ func BridgeWalkValidationResultNRItem(v *q25.ResultNRItem, report *q7.Validation
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{q25.ResultNRItemExtIEs().ResultsPerSSBIndexList().Info(), q25.ResultNRItemExtIEs().NRCGI().Info()}
-				q12.BridgeMergeNestedValidation(report, q24.BridgeResultNRItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{s19.ResultNRItemExtIEs().ResultsPerSSBIndexList().Info(), s19.ResultNRItemExtIEs().NRCGI().Info()}
+				s11.BridgeMergeNestedValidation(report, s20.BridgeResultNRItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
-				case q4.ProtocolIEID(25):
+				case s00.ProtocolIEID(25):
 					if value, ok := fields[i].ExtensionValue.AsResultsPerSSBIndexList(); ok {
-						BridgeWalkValidationResultsPerSSBIndexList(value, report, q6.Sprintf("%s[%d]{id=25}", nestedPath, i), false)
+						BridgeWalkValidationResultsPerSSBIndexList(value, report, fmt.Sprintf("%s[%d]{id=25}", nestedPath, i), false)
 					}
-				case q4.ProtocolIEID(27):
+				case s00.ProtocolIEID(27):
 					if value, ok := fields[i].ExtensionValue.AsNRCGI(); ok {
-						BridgeWalkValidationNRCGI(value, report, q6.Sprintf("%s[%d]{id=27}", nestedPath, i), false)
+						BridgeWalkValidationNRCGI(value, report, fmt.Sprintf("%s[%d]{id=27}", nestedPath, i), false)
 					}
 				}
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationResultRSRP(v *q17.ResultRSRP, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultRSRP(v *s12.ResultRSRP, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationResultRSRPItem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationResultRSRPItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationResultRSRPItem(v *q17.ResultRSRPItem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultRSRPItem(v *s12.ResultRSRPItem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.ECGI != nil {
 		BridgeWalkValidationECGI(v.ECGI, report, path+".eCGI", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4571,11 +4673,11 @@ func BridgeWalkValidationResultRSRPItem(v *q17.ResultRSRPItem, report *q7.Valida
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q17.BridgeResultRSRPItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s12.BridgeResultRSRPItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -4583,50 +4685,50 @@ func BridgeWalkValidationResultRSRPItem(v *q17.ResultRSRPItem, report *q7.Valida
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationResultRSRQ(v *q14.ResultRSRQ, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultRSRQ(v *s13.ResultRSRQ, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationResultRSRQItem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationResultRSRQItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationResultRSRQItem(v *q14.ResultRSRQItem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultRSRQItem(v *s13.ResultRSRQItem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.ECGI != nil {
 		BridgeWalkValidationECGI(v.ECGI, report, path+".eCGI", false)
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4634,11 +4736,11 @@ func BridgeWalkValidationResultRSRQItem(v *q14.ResultRSRQItem, report *q7.Valida
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q14.BridgeResultRSRQItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s13.BridgeResultRSRQItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -4646,99 +4748,48 @@ func BridgeWalkValidationResultRSRQItem(v *q14.ResultRSRQItem, report *q7.Valida
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationResultUTRAN(v *q27.ResultUTRAN, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultUTRAN(v *s14.ResultUTRAN, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationResultUTRANItem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationResultUTRANItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationResultUTRANItem(v *q27.ResultUTRANItem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultUTRANItem(v *s14.ResultUTRANItem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	BridgeWalkValidationResultUTRANItemPhysCellIDUTRAN(&v.PhysCellIDUTRAN, report, path+".physCellIDUTRAN", false)
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
-		return
-	}
-	if v.IEExtensions != nil {
-		{
-			fields := v.IEExtensions
-			nestedPath := path + ".IEExtensions"
-			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q27.BridgeResultUTRANItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
-			}
-			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
-					return
-				}
-				switch fields[i].Id {
-				}
-			}
-		}
-	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
-		return
-	}
-}
-func BridgeWalkValidationResultUTRANItemPhysCellIDUTRAN(v *q22.ResultUTRANItemPhysCellIDUTRAN, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
-		return
-	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
-	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
-		return
-	}
-	defer bb.LeaveDecodeValue()
-}
-func BridgeWalkValidationResultsPerSSBIndexItem(v *q27.ResultsPerSSBIndexItem, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
-		return
-	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
-	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
-		return
-	}
-	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
-		return
-	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
-		return
-	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 	if v.IEExtensions != nil {
@@ -4746,11 +4797,11 @@ func BridgeWalkValidationResultsPerSSBIndexItem(v *q27.ResultsPerSSBIndexItem, r
 			fields := v.IEExtensions
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
-				rows := []q4.FieldInfo{}
-				q12.BridgeMergeNestedValidation(report, q27.BridgeResultsPerSSBIndexItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *q7.BridgeValidationReportFieldBudget(report)))
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s14.BridgeResultUTRANItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
-				if *q7.BridgeValidationReportFieldErr(report) != nil {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
 					return
 				}
 				switch fields[i].Id {
@@ -4758,274 +4809,325 @@ func BridgeWalkValidationResultsPerSSBIndexItem(v *q27.ResultsPerSSBIndexItem, r
 			}
 		}
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeWalkValidationResultsPerSSBIndexList(v *q27.ResultsPerSSBIndexList, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationResultUTRANItemPhysCellIDUTRAN(v *s08.ResultUTRANItemPhysCellIDUTRAN, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
+		return
+	}
+	defer bb.LeaveDecodeValue()
+}
+func BridgeWalkValidationResultsPerSSBIndexItem(v *s14.ResultsPerSSBIndexItem, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
+		return
+	}
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
+	if err := bb.EnterDecodeValue(); err != nil {
+		*s09.BridgeValidationReportFieldErr(report) = err
+		return
+	}
+	defer bb.LeaveDecodeValue()
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
+		return
+	}
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
+		return
+	}
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
+		return
+	}
+	if v.IEExtensions != nil {
+		{
+			fields := v.IEExtensions
+			nestedPath := path + ".IEExtensions"
+			if !skipRoot {
+				rows := []s00.FieldInfo{}
+				s11.BridgeMergeNestedValidation(report, s14.BridgeResultsPerSSBIndexItemExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
+			}
+			for i := range fields {
+				if *s09.BridgeValidationReportFieldErr(report) != nil {
+					return
+				}
+				switch fields[i].Id {
+				}
+			}
+		}
+	}
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
+		return
+	}
+}
+func BridgeWalkValidationResultsPerSSBIndexList(v *s14.ResultsPerSSBIndexList, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
+		return
+	}
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
+	if err := bb.EnterDecodeValue(); err != nil {
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationResultsPerSSBIndexItem(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationResultsPerSSBIndexItem(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationSRSConfigurationForAllCells(v *q7.SRSConfigurationForAllCells, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationSRSConfigurationForAllCells(v *s09.SRSConfigurationForAllCells, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
 	for i := range *v {
-		if *q7.BridgeValidationReportFieldErr(report) != nil {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
 			return
 		}
-		BridgeWalkValidationSRSConfigurationForOneCell(&(*v)[i], report, q6.Sprintf("%s[%d]", path, i), false)
+		BridgeWalkValidationSRSConfigurationForOneCell(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
 	}
 }
-func BridgeWalkValidationSRSConfigurationForOneCell(v *q7.SRSConfigurationForOneCell, report *q7.ValidationReport, path string, skipRoot bool) {
-	if v == nil || report == nil || *q7.BridgeValidationReportFieldErr(report) != nil {
+func BridgeWalkValidationSRSConfigurationForOneCell(v *s09.SRSConfigurationForOneCell, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	bb := q5.NewBudgetBuffer(*q7.BridgeValidationReportFieldBudget(report))
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
 	if err := bb.EnterDecodeValue(); err != nil {
-		*q7.BridgeValidationReportFieldErr(report) = err
+		*s09.BridgeValidationReportFieldErr(report) = err
 		return
 	}
 	defer bb.LeaveDecodeValue()
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	if *q7.BridgeValidationReportFieldErr(report) != nil {
+	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
 }
-func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldCapture(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(q9.ECIDMeasurementInitiationResponse, q5.DecodeState) (q9.ECIDMeasurementInitiationResponse, q5.Snapshot) {
+func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldCapture(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(s22.ECIDMeasurementInitiationResponse, aper.DecodeState) (s22.ECIDMeasurementInitiationResponse, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldCompare(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(q9.ECIDMeasurementInitiationResponse, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldCompare(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(s22.ECIDMeasurementInitiationResponse, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldContext(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *q4.BridgeCodecContext {
+func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldContext(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldDecode(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func([]byte, q5.DecodeState) (q9.ECIDMeasurementInitiationResponse, error) {
+func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldDecode(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func([]byte, aper.DecodeState) (s22.ECIDMeasurementInitiationResponse, error) {
 	return &v.decode
 }
-func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldEncode(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(*q9.ECIDMeasurementInitiationResponse, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldEncode(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(*s22.ECIDMeasurementInitiationResponse, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldInfo(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *q4.ProcedureInfo {
+func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldInfo(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *s00.ProcedureInfo {
 	return &v.info
 }
-func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldInject(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(q9.ECIDMeasurementInitiationResponse) q9.SuccessfulValue {
+func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldInject(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(s22.ECIDMeasurementInitiationResponse) s22.SuccessfulValue {
 	return &v.inject
 }
-func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldValidate(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(*q9.ECIDMeasurementInitiationResponse, *q5.DecodeBudget) (q7.ValidationReport, error) {
+func BridgeECIDMeasurementInitiationResponseSuccessfulBindingFieldValidate(v *ECIDMeasurementInitiationResponseSuccessfulBinding) *func(*s22.ECIDMeasurementInitiationResponse, *aper.DecodeBudget) (s09.ValidationReport, error) {
 	return &v.validate
 }
-func BridgeLPPAPDUAPERValueFieldContext(v *LPPAPDUAPERValue) *q4.BridgeCodecContext {
+func BridgeLPPAPDUAPERValueFieldContext(v *LPPAPDUAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeLPPAPDUAPERValueFieldReceived(v *LPPAPDUAPERValue) *q5.WireSpan { return &v.received }
-func BridgeLPPAPDUAPERValueFieldReplay(v *LPPAPDUAPERValue) *q5.Snapshot   { return &v.replay }
-func BridgeLPPAPDUAPERValueFieldWithoutReplay(v *LPPAPDUAPERValue) *bool   { return &v.withoutReplay }
-func BridgeLPPAPDUFieldKnownOpenBytes(v *LPPAPDU) *uint64                  { return &v.knownOpenBytes }
-func BridgeLPPAPDUFieldPerOpenTypePadding(v *LPPAPDU) *q5.CompletePadding {
+func BridgeLPPAPDUAPERValueFieldReceived(v *LPPAPDUAPERValue) *aper.WireSpan { return &v.received }
+func BridgeLPPAPDUAPERValueFieldReplay(v *LPPAPDUAPERValue) *aper.Snapshot   { return &v.replay }
+func BridgeLPPAPDUAPERValueFieldWithoutReplay(v *LPPAPDUAPERValue) *bool     { return &v.withoutReplay }
+func BridgeLPPAPDUFieldKnownOpenBytes(v *LPPAPDU) *uint64                    { return &v.knownOpenBytes }
+func BridgeLPPAPDUFieldPerOpenTypePadding(v *LPPAPDU) *aper.CompletePadding {
 	return &v.perOpenTypePadding
 }
-func BridgeLPPAPDUFieldPerPadding(v *LPPAPDU) *q5.CompletePadding { return &v.perPadding }
-func BridgeLPPAPDUFieldReceived(v *LPPAPDU) *bool                 { return &v.received }
-func BridgeLPPAPDUFieldReceivedBytes(v *LPPAPDU) *q5.WireSpan     { return &v.receivedBytes }
-func BridgeLPPAPDUFieldReplay(v *LPPAPDU) *q5.Snapshot            { return &v.replay }
-func BridgeLPPAPDUFieldStream(v *LPPAPDU) *q5.WireSpan            { return &v.stream }
-func BridgeLPPAPDUFieldWithoutReplay(v *LPPAPDU) *bool            { return &v.withoutReplay }
-func BridgeLPPAPDUMethodMarshalAPERBudget(v *LPPAPDU, a0 *q5.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeLPPAPDUFieldPerPadding(v *LPPAPDU) *aper.CompletePadding { return &v.perPadding }
+func BridgeLPPAPDUFieldReceived(v *LPPAPDU) *bool                   { return &v.received }
+func BridgeLPPAPDUFieldReceivedBytes(v *LPPAPDU) *aper.WireSpan     { return &v.receivedBytes }
+func BridgeLPPAPDUFieldReplay(v *LPPAPDU) *aper.Snapshot            { return &v.replay }
+func BridgeLPPAPDUFieldStream(v *LPPAPDU) *aper.WireSpan            { return &v.stream }
+func BridgeLPPAPDUFieldWithoutReplay(v *LPPAPDU) *bool              { return &v.withoutReplay }
+func BridgeLPPAPDUMethodMarshalAPERBudget(v *LPPAPDU, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERBudget(a0, a1)
 }
-func BridgeLPPAPDUMethodMarshalAPERChanged(v *LPPAPDU, a0 *q5.DecodeBudget, a1 bool, a2 q5.ReplayPlan) ([]byte, error) {
+func BridgeLPPAPDUMethodMarshalAPERChanged(v *LPPAPDU, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChanged(a0, a1, a2)
 }
-func BridgeLPPAPDUMethodMarshalAPERChangedValue(v *LPPAPDU, a0 q5.DecodeBudget, a1 bool, a2 q5.ReplayPlan) ([]byte, error) {
+func BridgeLPPAPDUMethodMarshalAPERChangedValue(v *LPPAPDU, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
 	return v.marshalAPERChangedValue(a0, a1, a2)
 }
-func BridgeLPPAPDUMethodMarshalAPERFreshValue(v *LPPAPDU, a0 q5.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeLPPAPDUMethodMarshalAPERFreshValue(v *LPPAPDU, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERFreshValue(a0, a1)
 }
 func BridgeLPPAPDUMethodMarshalAPERLegacy(v *LPPAPDU) ([]byte, error) { return v.marshalAPERLegacy() }
-func BridgeLPPAPDUMethodMarshalAPERPlanned(v *LPPAPDU, a0 *q5.DecodeBudget, a1 bool) ([]byte, error) {
+func BridgeLPPAPDUMethodMarshalAPERPlanned(v *LPPAPDU, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERPlanned(a0, a1)
 }
-func BridgeLPPAPDUMethodMarshalAPERTo(v *LPPAPDU, a0 *q5.BitBuffer, a1 ...bool) error {
+func BridgeLPPAPDUMethodMarshalAPERTo(v *LPPAPDU, a0 *aper.BitBuffer, a1 ...bool) error {
 	return v.marshalAPERTo(a0, a1...)
 }
-func BridgeLPPAPDUMethodUnmarshalAPERFrom(v *LPPAPDU, a0 *q5.BitBuffer) error {
+func BridgeLPPAPDUMethodUnmarshalAPERFrom(v *LPPAPDU, a0 *aper.BitBuffer) error {
 	return v.unmarshalAPERFrom(a0)
 }
 func BridgeLPPAPDUMethodUnmarshalAPERLegacy(v *LPPAPDU, a0 []byte) error {
 	return v.unmarshalAPERLegacy(a0)
 }
-func BridgeLPPAPDUMethodUnmarshalAPERWithOptions(v *LPPAPDU, a0 []byte, a1 q5.DecodeState) error {
+func BridgeLPPAPDUMethodUnmarshalAPERWithOptions(v *LPPAPDU, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
 }
-func BridgeLPPAPDUValueCodecFieldCapture(v *LPPAPDUValueCodec) *func(LPPAPDU, q5.DecodeState) (LPPAPDU, q5.Snapshot) {
+func BridgeLPPAPDUValueCodecFieldCapture(v *LPPAPDUValueCodec) *func(LPPAPDU, aper.DecodeState) (LPPAPDU, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeLPPAPDUValueCodecFieldCompare(v *LPPAPDUValueCodec) *func(LPPAPDU, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeLPPAPDUValueCodecFieldCompare(v *LPPAPDUValueCodec) *func(LPPAPDU, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeLPPAPDUValueCodecFieldContext(v *LPPAPDUValueCodec) *q4.BridgeCodecContext {
+func BridgeLPPAPDUValueCodecFieldContext(v *LPPAPDUValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeLPPAPDUValueCodecFieldDecode(v *LPPAPDUValueCodec) *func([]byte, q5.DecodeState) (LPPAPDU, error) {
+func BridgeLPPAPDUValueCodecFieldDecode(v *LPPAPDUValueCodec) *func([]byte, aper.DecodeState) (LPPAPDU, error) {
 	return &v.decode
 }
-func BridgeLPPAPDUValueCodecFieldEncode(v *LPPAPDUValueCodec) *func(LPPAPDU, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeLPPAPDUValueCodecFieldEncode(v *LPPAPDUValueCodec) *func(LPPAPDU, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeLPPAPDUValueCodecFieldPath(v *LPPAPDUValueCodec) *q5.Path { return &v.path }
-func BridgeLPPAPDUValueCodecMethodEncodeBudget(v LPPAPDUValueCodec, a0 LPPAPDU, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeLPPAPDUValueCodecFieldPath(v *LPPAPDUValueCodec) *aper.Path { return &v.path }
+func BridgeLPPAPDUValueCodecMethodEncodeBudget(v LPPAPDUValueCodec, a0 LPPAPDU, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeLPPAPDUValueCodecMethodEncodeChanged(v LPPAPDUValueCodec, a0 LPPAPDU, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeLPPAPDUValueCodecMethodEncodeChanged(v LPPAPDUValueCodec, a0 LPPAPDU, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeOTDOAInformationResponseSuccessfulBindingFieldCapture(v *OTDOAInformationResponseSuccessfulBinding) *func(q16.OTDOAInformationResponse, q5.DecodeState) (q16.OTDOAInformationResponse, q5.Snapshot) {
+func BridgeOTDOAInformationResponseSuccessfulBindingFieldCapture(v *OTDOAInformationResponseSuccessfulBinding) *func(s18.OTDOAInformationResponse, aper.DecodeState) (s18.OTDOAInformationResponse, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeOTDOAInformationResponseSuccessfulBindingFieldCompare(v *OTDOAInformationResponseSuccessfulBinding) *func(q16.OTDOAInformationResponse, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeOTDOAInformationResponseSuccessfulBindingFieldCompare(v *OTDOAInformationResponseSuccessfulBinding) *func(s18.OTDOAInformationResponse, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeOTDOAInformationResponseSuccessfulBindingFieldContext(v *OTDOAInformationResponseSuccessfulBinding) *q4.BridgeCodecContext {
+func BridgeOTDOAInformationResponseSuccessfulBindingFieldContext(v *OTDOAInformationResponseSuccessfulBinding) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeOTDOAInformationResponseSuccessfulBindingFieldDecode(v *OTDOAInformationResponseSuccessfulBinding) *func([]byte, q5.DecodeState) (q16.OTDOAInformationResponse, error) {
+func BridgeOTDOAInformationResponseSuccessfulBindingFieldDecode(v *OTDOAInformationResponseSuccessfulBinding) *func([]byte, aper.DecodeState) (s18.OTDOAInformationResponse, error) {
 	return &v.decode
 }
-func BridgeOTDOAInformationResponseSuccessfulBindingFieldEncode(v *OTDOAInformationResponseSuccessfulBinding) *func(*q16.OTDOAInformationResponse, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeOTDOAInformationResponseSuccessfulBindingFieldEncode(v *OTDOAInformationResponseSuccessfulBinding) *func(*s18.OTDOAInformationResponse, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeOTDOAInformationResponseSuccessfulBindingFieldInfo(v *OTDOAInformationResponseSuccessfulBinding) *q4.ProcedureInfo {
+func BridgeOTDOAInformationResponseSuccessfulBindingFieldInfo(v *OTDOAInformationResponseSuccessfulBinding) *s00.ProcedureInfo {
 	return &v.info
 }
-func BridgeOTDOAInformationResponseSuccessfulBindingFieldInject(v *OTDOAInformationResponseSuccessfulBinding) *func(q16.OTDOAInformationResponse) q9.SuccessfulValue {
+func BridgeOTDOAInformationResponseSuccessfulBindingFieldInject(v *OTDOAInformationResponseSuccessfulBinding) *func(s18.OTDOAInformationResponse) s22.SuccessfulValue {
 	return &v.inject
 }
-func BridgeOTDOAInformationResponseSuccessfulBindingFieldValidate(v *OTDOAInformationResponseSuccessfulBinding) *func(*q16.OTDOAInformationResponse, *q5.DecodeBudget) (q7.ValidationReport, error) {
+func BridgeOTDOAInformationResponseSuccessfulBindingFieldValidate(v *OTDOAInformationResponseSuccessfulBinding) *func(*s18.OTDOAInformationResponse, *aper.DecodeBudget) (s09.ValidationReport, error) {
 	return &v.validate
 }
-func BridgeSuccessfulOutcomeAPERValueFieldContext(v *SuccessfulOutcomeAPERValue) *q4.BridgeCodecContext {
+func BridgeSuccessfulOutcomeAPERValueFieldContext(v *SuccessfulOutcomeAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSuccessfulOutcomeAPERValueFieldReceived(v *SuccessfulOutcomeAPERValue) *q5.WireSpan {
+func BridgeSuccessfulOutcomeAPERValueFieldReceived(v *SuccessfulOutcomeAPERValue) *aper.WireSpan {
 	return &v.received
 }
-func BridgeSuccessfulOutcomeAPERValueFieldReplay(v *SuccessfulOutcomeAPERValue) *q5.Snapshot {
+func BridgeSuccessfulOutcomeAPERValueFieldReplay(v *SuccessfulOutcomeAPERValue) *aper.Snapshot {
 	return &v.replay
 }
 func BridgeSuccessfulOutcomeAPERValueFieldWithoutReplay(v *SuccessfulOutcomeAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeSuccessfulOutcomeValueCodecFieldCapture(v *SuccessfulOutcomeValueCodec) *func(q9.SuccessfulOutcome, q5.DecodeState) (q9.SuccessfulOutcome, q5.Snapshot) {
+func BridgeSuccessfulOutcomeValueCodecFieldCapture(v *SuccessfulOutcomeValueCodec) *func(s22.SuccessfulOutcome, aper.DecodeState) (s22.SuccessfulOutcome, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeSuccessfulOutcomeValueCodecFieldCompare(v *SuccessfulOutcomeValueCodec) *func(q9.SuccessfulOutcome, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeSuccessfulOutcomeValueCodecFieldCompare(v *SuccessfulOutcomeValueCodec) *func(s22.SuccessfulOutcome, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeSuccessfulOutcomeValueCodecFieldContext(v *SuccessfulOutcomeValueCodec) *q4.BridgeCodecContext {
+func BridgeSuccessfulOutcomeValueCodecFieldContext(v *SuccessfulOutcomeValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSuccessfulOutcomeValueCodecFieldDecode(v *SuccessfulOutcomeValueCodec) *func([]byte, q5.DecodeState) (q9.SuccessfulOutcome, error) {
+func BridgeSuccessfulOutcomeValueCodecFieldDecode(v *SuccessfulOutcomeValueCodec) *func([]byte, aper.DecodeState) (s22.SuccessfulOutcome, error) {
 	return &v.decode
 }
-func BridgeSuccessfulOutcomeValueCodecFieldEncode(v *SuccessfulOutcomeValueCodec) *func(q9.SuccessfulOutcome, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeSuccessfulOutcomeValueCodecFieldEncode(v *SuccessfulOutcomeValueCodec) *func(s22.SuccessfulOutcome, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeSuccessfulOutcomeValueCodecFieldPath(v *SuccessfulOutcomeValueCodec) *q5.Path {
+func BridgeSuccessfulOutcomeValueCodecFieldPath(v *SuccessfulOutcomeValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeSuccessfulOutcomeValueCodecMethodEncodeBudget(v SuccessfulOutcomeValueCodec, a0 q9.SuccessfulOutcome, a1 bool, a2 q5.DecodeBudget) ([]byte, error) {
+func BridgeSuccessfulOutcomeValueCodecMethodEncodeBudget(v SuccessfulOutcomeValueCodec, a0 s22.SuccessfulOutcome, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudget(a0, a1, a2)
 }
-func BridgeSuccessfulOutcomeValueCodecMethodEncodeChanged(v SuccessfulOutcomeValueCodec, a0 q9.SuccessfulOutcome, a1 bool, a2 q5.ReplayPlan, a3 q5.DecodeBudget) ([]byte, error) {
+func BridgeSuccessfulOutcomeValueCodecMethodEncodeChanged(v SuccessfulOutcomeValueCodec, a0 s22.SuccessfulOutcome, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeUTDOAInformationResponseSuccessfulBindingFieldCapture(v *UTDOAInformationResponseSuccessfulBinding) *func(q18.UTDOAInformationResponse, q5.DecodeState) (q18.UTDOAInformationResponse, q5.Snapshot) {
+func BridgeUTDOAInformationResponseSuccessfulBindingFieldCapture(v *UTDOAInformationResponseSuccessfulBinding) *func(s17.UTDOAInformationResponse, aper.DecodeState) (s17.UTDOAInformationResponse, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeUTDOAInformationResponseSuccessfulBindingFieldCompare(v *UTDOAInformationResponseSuccessfulBinding) *func(q18.UTDOAInformationResponse, q5.Snapshot, q5.ComparisonLimits) q5.ReplayPlan {
+func BridgeUTDOAInformationResponseSuccessfulBindingFieldCompare(v *UTDOAInformationResponseSuccessfulBinding) *func(s17.UTDOAInformationResponse, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
 	return &v.compare
 }
-func BridgeUTDOAInformationResponseSuccessfulBindingFieldContext(v *UTDOAInformationResponseSuccessfulBinding) *q4.BridgeCodecContext {
+func BridgeUTDOAInformationResponseSuccessfulBindingFieldContext(v *UTDOAInformationResponseSuccessfulBinding) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUTDOAInformationResponseSuccessfulBindingFieldDecode(v *UTDOAInformationResponseSuccessfulBinding) *func([]byte, q5.DecodeState) (q18.UTDOAInformationResponse, error) {
+func BridgeUTDOAInformationResponseSuccessfulBindingFieldDecode(v *UTDOAInformationResponseSuccessfulBinding) *func([]byte, aper.DecodeState) (s17.UTDOAInformationResponse, error) {
 	return &v.decode
 }
-func BridgeUTDOAInformationResponseSuccessfulBindingFieldEncode(v *UTDOAInformationResponseSuccessfulBinding) *func(*q18.UTDOAInformationResponse, bool, *q5.DecodeBudget) ([]byte, error) {
+func BridgeUTDOAInformationResponseSuccessfulBindingFieldEncode(v *UTDOAInformationResponseSuccessfulBinding) *func(*s17.UTDOAInformationResponse, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
-func BridgeUTDOAInformationResponseSuccessfulBindingFieldInfo(v *UTDOAInformationResponseSuccessfulBinding) *q4.ProcedureInfo {
+func BridgeUTDOAInformationResponseSuccessfulBindingFieldInfo(v *UTDOAInformationResponseSuccessfulBinding) *s00.ProcedureInfo {
 	return &v.info
 }
-func BridgeUTDOAInformationResponseSuccessfulBindingFieldInject(v *UTDOAInformationResponseSuccessfulBinding) *func(q18.UTDOAInformationResponse) q9.SuccessfulValue {
+func BridgeUTDOAInformationResponseSuccessfulBindingFieldInject(v *UTDOAInformationResponseSuccessfulBinding) *func(s17.UTDOAInformationResponse) s22.SuccessfulValue {
 	return &v.inject
 }
-func BridgeUTDOAInformationResponseSuccessfulBindingFieldValidate(v *UTDOAInformationResponseSuccessfulBinding) *func(*q18.UTDOAInformationResponse, *q5.DecodeBudget) (q7.ValidationReport, error) {
+func BridgeUTDOAInformationResponseSuccessfulBindingFieldValidate(v *UTDOAInformationResponseSuccessfulBinding) *func(*s17.UTDOAInformationResponse, *aper.DecodeBudget) (s09.ValidationReport, error) {
 	return &v.validate
 }

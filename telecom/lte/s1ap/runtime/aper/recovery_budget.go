@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/recovery_budget.go; SHA-256 0171733edb1be3be1390485c0b1f6a7597346177c0708a8aeb12636def991403.
+// Runtime source: runtime/aper/recovery_budget.go; SHA-256 ae37d664bff1260324c8a5b98238a5fb4c06c628da75967f37d0ee2a4cfe373a.
 package aper
 
 import "fmt"
@@ -9,7 +9,7 @@ import "fmt"
 // input lengths permit local provenance and replay scans while bounding
 // repeated scans of recursively recovered values.
 // It is independent of the wire rules in X.691 (02/2021) 11.2.1–11.2.2,
-// 19.9. DecodeLimits.MaxWork separately counts all examined bits; both
+// 19.9. decodeLimits.MaxWork separately counts all examined bits; both
 // budgets must permit a read.
 const recoveryWorkInputMultiple = 4
 
@@ -58,7 +58,7 @@ func (bb *BitBuffer) checkRecoveryBits(bits uint64) error {
 		return budget.err
 	}
 	if bits > uint64(budget.limits.MaxWork)-budget.usage.Work {
-		return budget.fail("PER total-work bit limit exceeded")
+		return bb.resourceError("PER total-work bit limit exceeded")
 	}
 	trace := bb.trace
 	if trace == nil || trace.work == nil {

@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/log_interfaces_test.go; SHA-256 b14ab40d2cb922f27e29e2f4000c40bafaab98fb482d10882ed2381e80a82cb3.
+// Runtime source: runtime/aper/log_interfaces_test.go; SHA-256 c627b2b4e6e2009791de7f2c8a64d2fa692c42a1ee26ecf32a13a47ff2024f7e.
 package aper
 
 import "testing"
@@ -25,7 +25,7 @@ func TestExtensionRecoveryRequiresExplicitOption(t *testing.T) {
 	if additions.RecoveryEnabled(reader) {
 		t.Fatal("recovery enabled by default")
 	}
-	if err := reader.SetDecodeOptionsAligned(DecodeOptions{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
+	if err := reader.setDecodeSettingsAligned(decodeSettings{ExtensionRecoveryTolerance: &ToleranceLog{}}); err != nil {
 		t.Fatal(err)
 	}
 	if !additions.RecoveryEnabled(reader) {
