@@ -1,4 +1,4 @@
-// Code generated from ASN.1. DO NOT EDIT.
+// Code generated from the pinned LPPa source closure. DO NOT EDIT.
 
 // Package lppa contains generated APER codecs. Complete decoders accept and retain
 // observed terminal padding bits for byte-exact re-encoding; newly constructed
@@ -11,4 +11,7 @@
 // XxxFrom helpers operate on embedded values without a complete boundary.
 // Open types keep their complete padding in the enclosing value; OCTET STRING
 // CONTAINING a list uses the contained XxxComplete value.
+//
+// Each type is an alias of its definition in an internal/ package, where its
+// methods and fields are documented.
 package lppa

@@ -14,6 +14,7 @@ import (
 
 	"github.com/gomaja/go-asn1/runtime/per"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa"
+	lppaaper "github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc"
 	"github.com/gomaja/go-asn1/telecom/lte/rrc/runtime/uper"
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
@@ -196,12 +197,16 @@ func checkTrainingRecord(file string, rec trainingRecord, wire []byte) (bool, bo
 		return checkSyntheticDispatch(rec, err, x2aper.ErrExtraData)
 	}
 	if strings.HasPrefix(rec.ID, "lppa-") {
+		// The typed decoder decodes every known IE value in the same pass.
 		var value lppa.LPPAPDU
-		if err := value.UnmarshalAPER(wire); err != nil {
-			return false, false, err.Error()
+		_, err := value.UnmarshalAPER(wire)
+		if rec.ID == "lppa-61-reportcharacteristics-nonzero-padding" {
+			// Strict decoding refuses non-zero terminal padding in a complete
+			// value (ITU-T X.691 (02/2021) §11.1.4). The record's acceptance
+			// predates that policy.
+			return errors.Is(err, lppaaper.ErrSyntax), true, fmt.Sprintf("strict padding error = %v", err)
 		}
-		_, err := value.DecodeValueRecursive()
-		return checkSyntheticDispatch(rec, err, per.ErrExtraData)
+		return checkSyntheticDispatch(rec, err, lppaaper.ErrExtraData)
 	}
 	return false, false, "unrecognized training record"
 }

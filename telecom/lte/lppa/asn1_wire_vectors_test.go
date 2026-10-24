@@ -101,15 +101,6 @@ func asn1VectorValueAtPath(current reflect.Value, path string) (any, error) {
 			if err != nil {
 				return nil, fmt.Errorf("path %s: %w", path, err)
 			}
-			// Generated BER collections own their slice and wire provenance.
-			// Treat their Values field as the indexed abstract value.
-			if current.Kind() == reflect.Struct {
-				_, hasOriginal := current.Type().FieldByName("berOriginal_")
-				_, hasSnapshot := current.Type().FieldByName("berSnapshot_")
-				if hasOriginal && hasSnapshot {
-					current = current.FieldByName("Values")
-				}
-			}
 			if current.Kind() != reflect.Array && current.Kind() != reflect.Slice {
 				return nil, fmt.Errorf("path %s: indexed value is not a list", path)
 			}
@@ -160,16 +151,22 @@ func TestVectorEcidMeasurementIdDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "0002000000080000010002000100")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	asn1VectorAssertPath(t, recursive, "ProtocolIEs[0].Field.Id", "2")
-	asn1VectorAssertPath(t, recursive, "ProtocolIEs[0].Value.Value", "1")
+	body, ok := decoded.InitiatingMessage.Value.AsECIDMeasurementInitiationRequest()
+	if !ok || body == nil {
+		t.Fatal("typed value is not ECIDMeasurementInitiationRequest")
+	}
+	asn1VectorAssertPath(t, body, "ProtocolIEs[0].Id", "2")
+	value, ok := body.ProtocolIEs[0].Value.AsESMLCUEMeasurementID()
+	if !ok || value == nil || *value == nil || (*value).Int64() != 1 {
+		t.Fatalf("typed IE = %v, ok=%v", value, ok)
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -184,7 +181,7 @@ func TestVectorEcidMeasurementIdHeader(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "0002000000080000010002000100")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -206,7 +203,7 @@ func TestVectorErrorIndicationEmpty(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000040000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -228,7 +225,7 @@ func TestVectorTruncatedEcidPdu(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "00020000000800000100020001")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err == nil {
 		t.Fatal("decode succeeded, want error")
 	}
@@ -245,18 +242,20 @@ func TestVectorEcidInitiationInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000200000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*ECIDMeasurementInitiationRequest); !ok {
-		t.Fatalf("recursive value type = %T, want *ECIDMeasurementInitiationRequest", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsECIDMeasurementInitiationRequest()
+	if !ok || body == nil {
+		t.Fatal("typed value is not ECIDMeasurementInitiationRequest")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -271,18 +270,20 @@ func TestVectorEcidInitiationSuccessfulTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "200200000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.SuccessfulOutcome == nil {
+		t.Fatal("missing SuccessfulOutcome")
 	}
-	if _, ok := recursive.Value.(*ECIDMeasurementInitiationResponse); !ok {
-		t.Fatalf("recursive value type = %T, want *ECIDMeasurementInitiationResponse", recursive.Value)
+	body, ok := decoded.SuccessfulOutcome.Value.AsECIDMeasurementInitiationResponse()
+	if !ok || body == nil {
+		t.Fatal("typed value is not ECIDMeasurementInitiationResponse")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -297,18 +298,20 @@ func TestVectorEcidInitiationUnsuccessfulTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "400200000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.UnsuccessfulOutcome == nil {
+		t.Fatal("missing UnsuccessfulOutcome")
 	}
-	if _, ok := recursive.Value.(*ECIDMeasurementInitiationFailure); !ok {
-		t.Fatalf("recursive value type = %T, want *ECIDMeasurementInitiationFailure", recursive.Value)
+	body, ok := decoded.UnsuccessfulOutcome.Value.AsECIDMeasurementInitiationFailure()
+	if !ok || body == nil {
+		t.Fatal("typed value is not ECIDMeasurementInitiationFailure")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -323,18 +326,20 @@ func TestVectorEcidFailureIndicationInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000340000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*ECIDMeasurementFailureIndication); !ok {
-		t.Fatalf("recursive value type = %T, want *ECIDMeasurementFailureIndication", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsECIDMeasurementFailureIndication()
+	if !ok || body == nil {
+		t.Fatal("typed value is not ECIDMeasurementFailureIndication")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -349,18 +354,20 @@ func TestVectorEcidReportInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000440000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*ECIDMeasurementReport); !ok {
-		t.Fatalf("recursive value type = %T, want *ECIDMeasurementReport", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsECIDMeasurementReport()
+	if !ok || body == nil {
+		t.Fatal("typed value is not ECIDMeasurementReport")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -375,18 +382,20 @@ func TestVectorEcidTerminationInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000500000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*ECIDMeasurementTerminationCommand); !ok {
-		t.Fatalf("recursive value type = %T, want *ECIDMeasurementTerminationCommand", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsECIDMeasurementTerminationCommand()
+	if !ok || body == nil {
+		t.Fatal("typed value is not ECIDMeasurementTerminationCommand")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -401,18 +410,20 @@ func TestVectorOtdoaExchangeInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000600000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*OTDOAInformationRequest); !ok {
-		t.Fatalf("recursive value type = %T, want *OTDOAInformationRequest", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsOTDOAInformationRequest()
+	if !ok || body == nil {
+		t.Fatal("typed value is not OTDOAInformationRequest")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -427,18 +438,20 @@ func TestVectorOtdoaExchangeSuccessfulTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "200600000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.SuccessfulOutcome == nil {
+		t.Fatal("missing SuccessfulOutcome")
 	}
-	if _, ok := recursive.Value.(*OTDOAInformationResponse); !ok {
-		t.Fatalf("recursive value type = %T, want *OTDOAInformationResponse", recursive.Value)
+	body, ok := decoded.SuccessfulOutcome.Value.AsOTDOAInformationResponse()
+	if !ok || body == nil {
+		t.Fatal("typed value is not OTDOAInformationResponse")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -453,18 +466,20 @@ func TestVectorOtdoaExchangeUnsuccessfulTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "400600000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.UnsuccessfulOutcome == nil {
+		t.Fatal("missing UnsuccessfulOutcome")
 	}
-	if _, ok := recursive.Value.(*OTDOAInformationFailure); !ok {
-		t.Fatalf("recursive value type = %T, want *OTDOAInformationFailure", recursive.Value)
+	body, ok := decoded.UnsuccessfulOutcome.Value.AsOTDOAInformationFailure()
+	if !ok || body == nil {
+		t.Fatal("typed value is not OTDOAInformationFailure")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -479,18 +494,20 @@ func TestVectorUtdoaExchangeInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000700000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*UTDOAInformationRequest); !ok {
-		t.Fatalf("recursive value type = %T, want *UTDOAInformationRequest", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsUTDOAInformationRequest()
+	if !ok || body == nil {
+		t.Fatal("typed value is not UTDOAInformationRequest")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -505,18 +522,20 @@ func TestVectorUtdoaExchangeSuccessfulTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "200700000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.SuccessfulOutcome == nil {
+		t.Fatal("missing SuccessfulOutcome")
 	}
-	if _, ok := recursive.Value.(*UTDOAInformationResponse); !ok {
-		t.Fatalf("recursive value type = %T, want *UTDOAInformationResponse", recursive.Value)
+	body, ok := decoded.SuccessfulOutcome.Value.AsUTDOAInformationResponse()
+	if !ok || body == nil {
+		t.Fatal("typed value is not UTDOAInformationResponse")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -531,18 +550,20 @@ func TestVectorUtdoaExchangeUnsuccessfulTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "400700000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.UnsuccessfulOutcome == nil {
+		t.Fatal("missing UnsuccessfulOutcome")
 	}
-	if _, ok := recursive.Value.(*UTDOAInformationFailure); !ok {
-		t.Fatalf("recursive value type = %T, want *UTDOAInformationFailure", recursive.Value)
+	body, ok := decoded.UnsuccessfulOutcome.Value.AsUTDOAInformationFailure()
+	if !ok || body == nil {
+		t.Fatal("typed value is not UTDOAInformationFailure")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -557,18 +578,20 @@ func TestVectorUtdoaUpdateInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000840000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*UTDOAInformationUpdate); !ok {
-		t.Fatalf("recursive value type = %T, want *UTDOAInformationUpdate", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsUTDOAInformationUpdate()
+	if !ok || body == nil {
+		t.Fatal("typed value is not UTDOAInformationUpdate")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -583,18 +606,20 @@ func TestVectorAssistanceControlInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000900000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*AssistanceInformationControl); !ok {
-		t.Fatalf("recursive value type = %T, want *AssistanceInformationControl", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsAssistanceInformationControl()
+	if !ok || body == nil {
+		t.Fatal("typed value is not AssistanceInformationControl")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -609,18 +634,20 @@ func TestVectorAssistanceFeedbackInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000a00000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*AssistanceInformationFeedback); !ok {
-		t.Fatalf("recursive value type = %T, want *AssistanceInformationFeedback", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsAssistanceInformationFeedback()
+	if !ok || body == nil {
+		t.Fatal("typed value is not AssistanceInformationFeedback")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -635,18 +662,20 @@ func TestVectorErrorIndicationInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000040000003000000")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*ErrorIndication); !ok {
-		t.Fatalf("recursive value type = %T, want *ErrorIndication", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsErrorIndication()
+	if !ok || body == nil {
+		t.Fatal("typed value is not ErrorIndication")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.ExtCount_", "0")
+	if len(body.Extensions()) != 0 {
+		t.Fatalf("unexpected extensions: %+v", body.Extensions())
+	}
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -661,18 +690,18 @@ func TestVectorPrivateMessageInitiatingTypedDispatch(t *testing.T) {
 	t.Parallel()
 	input := asn1VectorHex(t, "000140000009000000000001400100")
 	var decoded LPPAPDU
-	err := decoded.UnmarshalAPER(input)
+	_, err := decoded.UnmarshalAPER(input)
 	if err != nil {
 		t.Fatal(err)
 	}
-	recursive, err := decoded.DecodeValueRecursive()
-	if err != nil {
-		t.Fatal(err)
+	if decoded.InitiatingMessage == nil {
+		t.Fatal("missing InitiatingMessage")
 	}
-	if _, ok := recursive.Value.(*PrivateMessage); !ok {
-		t.Fatalf("recursive value type = %T, want *PrivateMessage", recursive.Value)
+	body, ok := decoded.InitiatingMessage.Value.AsPrivateMessage()
+	if !ok || body == nil {
+		t.Fatal("typed value is not PrivateMessage")
 	}
-	asn1VectorAssertPath(t, recursive, "Value.PrivateIEs[0].Id.Local", "1")
+	asn1VectorAssertPath(t, body, "PrivateIEs[0].Id.Local", "1")
 	wire, err := decoded.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
@@ -703,9 +732,7 @@ func FuzzAPERLPPAPDUProtocolValue(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("000140000009000000000001400100"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded LPPAPDU
-		if err := decoded.UnmarshalAPER(input); err == nil {
-			_, _ = decoded.DecodeValueRecursive()
-		}
+		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
 
@@ -715,6 +742,6 @@ func FuzzAPERLPPAPDU(f *testing.F) {
 	f.Add(asn1VectorHexForFuzz("00020000000800000100020001"))
 	f.Fuzz(func(t *testing.T, input []byte) {
 		var decoded LPPAPDU
-		_ = decoded.UnmarshalAPER(input)
+		_, _ = decoded.UnmarshalAPER(input)
 	})
 }
