@@ -753,6 +753,98 @@ earlier decode-then-dispatch interface, with the same package layout as LPPa.
   - `X2APPDUAPERValue` for `APERValue[X2APPDU]`;
   - `HandoverRequestIEContainer` for `ProtocolIEContainer[HandoverRequestIEValue]`.
 
+### S1AP typed API
+
+The S1AP package (3GPP TS 36.413 V19.2.0) has a typed API that replaces the
+earlier decode-then-dispatch interface, with the same package layout as LPPa
+and X2AP.
+
+- **Decoding.** `S1APPDU` and every other SEQUENCE and CHOICE type have
+  `UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error)`.
+  A named list `Xxx` has
+  `UnmarshalAPERXxx(data, options...) (XxxComplete, aper.DecodeReport, error)`.
+  A named type with no methods, such as `MMEUES1APID` (an `int64`), is
+  decoded through its codec: `MMEUES1APIDCodec().DecodeAPER(data, options...)`.
+  One call decodes every known procedure body, IE value and extension value
+  into typed fields, for example
+  `pdu.InitiatingMessage.Value.AsHandoverRequired()`.
+  The following are removed, together with their `Decoded…` result types:
+  `DecodeValueRecursive`, `DecodeInitiatingMessageValue`,
+  `DecodeSuccessfulOutcomeValue`, `DecodeUnsuccessfulOutcomeValue`,
+  `DecodeIEFieldValue`, `DecodeExtensionFieldValue` and the
+  `Decode…Recursive` helpers.
+- **Strict decoding.** Decoding refuses encodings that ITU-T X.691 (02/2021)
+  forbids, including non-zero terminal padding in a complete value (§11.1.4),
+  which the earlier package accepted.
+  - `aper.WithReceiverMode()` names the receiver policy of TS 36.413 §10. Its
+    wire tolerance set is empty, so it accepts exactly what default decoding
+    accepts, and both report the same observations, such as an unknown IE.
+  - `aper.WithLimits(aper.Limits{…})` bounds the input, nesting, element
+    counts, work and allocation of each call; `aper.DefaultLimits()` returns
+    the defaults.
+- **Encoding and replay.**
+  `MarshalAPER(options ...aper.EncodeOption) ([]byte, error)` encodes a value.
+  - A decoded value that is not changed encodes to the octets it was decoded
+    from.
+  - An edited value re-encodes only the changed parts and their framing.
+  - A value that is edited and then restored encodes to its received octets
+    again.
+  - A value's `WithoutReplay()` method, or the `aper.WithoutReplay()` option,
+    produces the fresh preferred encoding through every nested value.
+
+  Decoding runs no encoder.
+- **Construction and checks.**
+  - `ValidateMessage` checks a decoded or constructed PDU against the
+    elementary procedure and PDU definitions of TS 36.413 §§9.3.2–9.3.3. It
+    reports issues of eight kinds, from `MissingMandatory` and
+    `WrongCriticality` to `ValueIDMismatch`.
+  - Checked builders such as `NewHandoverRequired(fields, options...)` run the
+    same checks and refuse a message that has a blocking issue.
+  - Procedure descriptors build each elementary procedure's messages, for
+    example `HandoverPreparationProcedure().Initiating().Build(body)`.
+    `NewS1APPDUInitiatingMessage` wraps the result in a PDU.
+- **Table codecs.** The generic table-codec factories, such as
+  `IEFieldTableCodec[V]` and `ExtensionTableCodec[V]`, are generic types with
+  a `Call` method. Code outside the package calls the typed variable for each
+  table the package uses instead, named type arguments first:
+  `TAIItemIEValueIEFieldTableCodec(table)` for `IEFieldTableCodec[TAIItemIEValue]`.
+  Each generic type's comment lists its variables.
+- **Removed low-level entry points.** The following are removed:
+  - the bit-buffer variants `MarshalAPERTo`, `UnmarshalAPERFrom`,
+    `MarshalAPERXxxTo` and `UnmarshalAPERXxxFrom`;
+  - `UnmarshalAPERWithOptions` and its options;
+  - the container-level functions `MarshalAPERProtocolIEContainer` and
+    `UnmarshalAPERProtocolIEContainer`, with their `List`, `Pair`,
+    `PairList`, `ProtocolExtensionContainer` and `PrivateIEContainer`
+    counterparts and the `ERABIEContainerList`, `ERABIEContainerPairList`
+    and `ProtocolErrorIEContainerList` pairs;
+  - the `…Complete` container wrappers, such as `ProtocolIEContainerComplete`.
+
+  The container types are generic over their value union, as in
+  `ProtocolIEContainer[V]` and `ProtocolIEField[V]`. Each message's container
+  has a concrete name: `HandoverRequiredIEContainer` holds
+  `HandoverRequiredIEField` values.
+- **Payloads.** An IE that carries another protocol's message, such as a NAS
+  PDU or an LPPa PDU, stays an octet string. To decode or encode one, supply
+  that protocol's functions:
+  - `(s1ap.NewPayloadCodec[T]{}).Call(decode, encode)` creates a codec;
+  - `(s1ap.DecodePayload[T]{}).Call(data, codec, limits)` decodes;
+  - `(s1ap.EncodePayload[T]{}).Call(value, codec, limits)` encodes.
+
+  The calls enforce `PayloadLimits`:
+  - decoding checks the input before it runs the supplied function, and the deviation count after;
+  - encoding checks the output;
+  - a zero field takes its default.
+- **Package layout.** The package's types are aliases of definitions in the
+  packages under `telecom/lte/s1ap/internal/`, where their methods and fields
+  are documented. Functions are package-level variables of function type,
+  such as `NewHandoverRequired`. Call them like functions and do not assign to
+  them. A concrete codec or value type is named after the generic form it
+  replaces, type arguments first:
+  - `S1APPDUValueCodec` for `ValueCodec[S1APPDU]`;
+  - `S1APPDUAPERValue` for `APERValue[S1APPDU]`;
+  - `HandoverRequiredIEContainer` for `ProtocolIEContainer[HandoverRequiredIEValue]`.
+
 ### ObjectIdentifier migration
 
 `runtime.ObjectIdentifier` changed from `[]uint64` to an immutable value.
