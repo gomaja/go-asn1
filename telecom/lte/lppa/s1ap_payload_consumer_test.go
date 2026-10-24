@@ -8,12 +8,11 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 	"github.com/gomaja/go-asn1/telecom/lte/s1ap"
-	"github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
-	lppaaper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
-// TS 36.413 V19.2.0 §§9.3.3–9.3.5: procedure 47 carries Routing-ID and
-// LPPa-PDU, in that order. Its OCTET STRING remains an opaque byte boundary.
+// TS 36.413 V19.2.0 §9.3.2 defines procedure 47 (§9.3.6), whose message
+// carries Routing-ID and LPPa-PDU, in that order (§9.3.3). LPPa-PDU is an
+// OCTET STRING (§9.3.4), so the LPPa message remains an opaque byte boundary.
 // TS 36.455 V19.0.0 §§9.3.3–9.3.4 defines the synthetic ErrorIndication.
 func TestS1APPayloadCodecDecodesLPPaWithoutProtocolCoupling(t *testing.T) {
 	body, err := lppa.NewErrorIndication(nil)
@@ -32,49 +31,47 @@ func TestS1APPayloadCodecDecodesLPPaWithoutProtocolCoupling(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	payloadBuffer := lppaaper.NewBitBuffer()
-	if err := lppaaper.EncodeOctetStringAligned(payloadBuffer, innerWire, 0, 0, false); err != nil {
-		t.Fatal(err)
-	}
-	routingBuffer := lppaaper.NewBitBuffer()
-	if err := lppaaper.EncodeConstrainedWholeNumberAligned(routingBuffer, 9, 0, 255); err != nil {
-		t.Fatal(err)
-	}
-	transport := s1ap.UplinkNonUEAssociatedLPPaTransport{ProtocolIEs: s1ap.ProtocolIEContainer{
-		{Id: s1ap.IdRoutingID, Criticality: s1ap.CriticalityReject, Value: runtime.RawValue{Bytes: routingBuffer.CompleteBytes()}},
-		{Id: s1ap.IdLPPaPDU, Criticality: s1ap.CriticalityReject, Value: runtime.RawValue{Bytes: payloadBuffer.CompleteBytes()}},
-	}}
-	transportWire, err := transport.MarshalAPER()
+	ies := s1ap.UplinkNonUEAssociatedLPPaTransportIEs()
+	routing, err := ies.RoutingID().New(9)
 	if err != nil {
 		t.Fatal(err)
 	}
-	outer := s1ap.NewS1APPDUInitiatingMessage(s1ap.InitiatingMessage{ProcedureCode: s1ap.IdUplinkNonUEAssociatedLPPaTransport, Criticality: s1ap.CriticalityIgnore, Value: runtime.RawValue{Bytes: transportWire}})
+	carried, err := ies.LPPaPDU().New(innerWire)
+	if err != nil {
+		t.Fatal(err)
+	}
+	transport, err := s1ap.NewUplinkNonUEAssociatedLPPaTransport(s1ap.UplinkNonUEAssociatedLPPaTransportIEContainer{routing, carried})
+	if err != nil {
+		t.Fatal(err)
+	}
+	initiating, err := s1ap.UplinkNonUEAssociatedLPPaTransportProcedure().Initiating().Build(transport)
+	if err != nil {
+		t.Fatal(err)
+	}
+	outer, err := s1ap.NewS1APPDUInitiatingMessage(initiating)
+	if err != nil {
+		t.Fatal(err)
+	}
 	outerWire, err := outer.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
 	}
 	var received s1ap.S1APPDU
-	if err := received.UnmarshalAPER(outerWire); err != nil {
+	if _, err := received.UnmarshalAPER(outerWire); err != nil {
 		t.Fatal(err)
 	}
 	if received.Choice != s1ap.S1APPDUChoiceInitiatingMessage || received.InitiatingMessage.ProcedureCode != 47 {
 		t.Fatalf("outer=%+v", received)
 	}
-	var receivedTransport s1ap.UplinkNonUEAssociatedLPPaTransport
-	if err := receivedTransport.UnmarshalAPER(received.InitiatingMessage.Value.Bytes); err != nil {
-		t.Fatal(err)
-	}
-	if len(receivedTransport.ProtocolIEs) != 2 || receivedTransport.ProtocolIEs[1].Id != 147 {
+	receivedTransport, ok := received.InitiatingMessage.Value.AsUplinkNonUEAssociatedLPPaTransport()
+	if !ok || len(receivedTransport.ProtocolIEs) != 2 || receivedTransport.ProtocolIEs[0].Id != 148 || receivedTransport.ProtocolIEs[1].Id != 147 {
 		t.Fatalf("transport=%+v", receivedTransport)
 	}
-	payloadReader := lppaaper.NewBitBufferFromBytes(receivedTransport.ProtocolIEs[1].Value.Bytes)
-	payload, err := lppaaper.DecodeOctetStringAligned(payloadReader, 0, 0, false)
-	if err != nil {
-		t.Fatal(err)
+	carriedPDU, ok := receivedTransport.ProtocolIEs[1].Value.AsLPPaPDU()
+	if !ok {
+		t.Fatal("LPPa-PDU IE lost its type")
 	}
-	if err := lppaaper.ValidateOpenTypePadding(payloadReader); err != nil {
-		t.Fatal(err)
-	}
+	payload := *carriedPDU
 	codec, err := (lppa.NewPayloadCodec[lppa.LPPAPDU]{}).Call(
 		func(data []byte, limits lppa.PayloadLimits) (lppa.LPPAPDU, lppa.PayloadReport, error) {
 			var value lppa.LPPAPDU
