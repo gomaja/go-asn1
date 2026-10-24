@@ -3,14 +3,14 @@
 package rrc
 
 import (
-	"github.com/gomaja/go-asn1/runtime"
-	"github.com/gomaja/go-asn1/runtime/per"
+	"github.com/gomaja/go-asn1/telecom/umts/rrc/runtime"
+	"github.com/gomaja/go-asn1/telecom/umts/rrc/runtime/uper"
 )
 
 // Ensure imports are used.
 var (
 	_ runtime.BitString
-	_ = per.NewBitBuffer
+	_ = uper.NewBitBuffer
 )
 
 const (
