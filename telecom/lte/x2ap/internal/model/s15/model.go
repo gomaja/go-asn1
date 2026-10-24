@@ -14167,6 +14167,8 @@ func X2apInternalDataForwardingAddressIndicationIEValueMatchesID(v DataForwardin
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of DataForwardingAddressIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *DataForwardingAddressIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15056,54 +15058,72 @@ func X2apInternalDataForwardingAddressIndicationIEValueReason(internalReceiver D
 		return aper.UnknownSelector
 	}
 }
+
+// AsNewENBUEX2APID returns the selected NewENBUEX2APID value of DataForwardingAddressIndicationIEValue and reports whether that alternative is active.
 func (v *DataForwardingAddressIndicationIEValue) AsNewENBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(9) || v.rowNewENBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowNewENBUEX2APID, true
 }
+
+// AsNewENBUEX2APIDExtension returns the selected NewENBUEX2APIDExtension value of DataForwardingAddressIndicationIEValue and reports whether that alternative is active.
 func (v *DataForwardingAddressIndicationIEValue) AsNewENBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(155) || v.rowNewENBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowNewENBUEX2APIDExtension, true
 }
+
+// AsOldENBUEX2APID returns the selected OldENBUEX2APID value of DataForwardingAddressIndicationIEValue and reports whether that alternative is active.
 func (v *DataForwardingAddressIndicationIEValue) AsOldENBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(10) || v.rowOldENBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowOldENBUEX2APID, true
 }
+
+// AsOldENBUEX2APIDExtension returns the selected OldENBUEX2APIDExtension value of DataForwardingAddressIndicationIEValue and reports whether that alternative is active.
 func (v *DataForwardingAddressIndicationIEValue) AsOldENBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(156) || v.rowOldENBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowOldENBUEX2APIDExtension, true
 }
+
+// AsERABsDataForwardingAddressList returns the selected ERABsDataForwardingAddressList value of DataForwardingAddressIndicationIEValue and reports whether that alternative is active.
 func (v *DataForwardingAddressIndicationIEValue) AsERABsDataForwardingAddressList() (*s11.ERABsDataForwardingAddressList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(307) || v.rowERABsDataForwardingAddressList == nil {
 		return nil, false
 	}
 	return v.rowERABsDataForwardingAddressList, true
 }
+
+// AsCHODCIndicator returns the selected CHODCIndicator value of DataForwardingAddressIndicationIEValue and reports whether that alternative is active.
 func (v *DataForwardingAddressIndicationIEValue) AsCHODCIndicator() (*s00.CHODCIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(368) || v.rowCHODCIndicator == nil {
 		return nil, false
 	}
 	return v.rowCHODCIndicator, true
 }
+
+// AsCHODCEarlyDataForwarding returns the selected CHODCEarlyDataForwarding value of DataForwardingAddressIndicationIEValue and reports whether that alternative is active.
 func (v *DataForwardingAddressIndicationIEValue) AsCHODCEarlyDataForwarding() (*s00.CHODCEarlyDataForwarding, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(407) || v.rowCHODCEarlyDataForwarding == nil {
 		return nil, false
 	}
 	return v.rowCHODCEarlyDataForwarding, true
 }
+
+// AsSgNBUEX2APID returns the selected SgNBUEX2APID value of DataForwardingAddressIndicationIEValue and reports whether that alternative is active.
 func (v *DataForwardingAddressIndicationIEValue) AsSgNBUEX2APID() (*s08.SgNBUEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(207) || v.rowSgNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSgNBUEX2APID, true
 }
+
+// AsCPCinformationNOTIFY returns the selected CPCinformationNOTIFY value of DataForwardingAddressIndicationIEValue and reports whether that alternative is active.
 func (v *DataForwardingAddressIndicationIEValue) AsCPCinformationNOTIFY() (*s01.CPCinformationNOTIFY, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(431) || v.rowCPCinformationNOTIFY == nil {
 		return nil, false
@@ -15489,6 +15509,8 @@ func X2apInternalENBEUTRANRCellResourceCoordinationReqAckIEValueMatchesID(v ENBE
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENBEUTRANRCellResourceCoordinationReqAckIEValue and reports whether the opaque alternative is selected.
 func (v *ENBEUTRANRCellResourceCoordinationReqAckIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16378,18 +16400,24 @@ func X2apInternalENBEUTRANRCellResourceCoordinationReqAckIEValueReason(internalR
 		return aper.UnknownSelector
 	}
 }
+
+// AsDataTrafficResourceIndication returns the selected DataTrafficResourceIndication value of ENBEUTRANRCellResourceCoordinationReqAckIEValue and reports whether that alternative is active.
 func (v *ENBEUTRANRCellResourceCoordinationReqAckIEValue) AsDataTrafficResourceIndication() (*s12.DataTrafficResourceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(287) || v.rowDataTrafficResourceIndication == nil {
 		return nil, false
 	}
 	return v.rowDataTrafficResourceIndication, true
 }
+
+// AsSpectrumSharingGroupID returns the selected SpectrumSharingGroupID value of ENBEUTRANRCellResourceCoordinationReqAckIEValue and reports whether that alternative is active.
 func (v *ENBEUTRANRCellResourceCoordinationReqAckIEValue) AsSpectrumSharingGroupID() (*s08.SpectrumSharingGroupID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(288) || v.rowSpectrumSharingGroupID == nil {
 		return nil, false
 	}
 	return v.rowSpectrumSharingGroupID, true
 }
+
+// AsListofEUTRACellsinEUTRACoordinationResp returns the selected ListofEUTRACellsinEUTRACoordinationResp value of ENBEUTRANRCellResourceCoordinationReqAckIEValue and reports whether that alternative is active.
 func (v *ENBEUTRANRCellResourceCoordinationReqAckIEValue) AsListofEUTRACellsinEUTRACoordinationResp() (*s08.ListofEUTRACellsinEUTRACoordinationResp, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(290) || v.rowListofEUTRACellsinEUTRACoordinationResp == nil {
 		return nil, false
@@ -16565,6 +16593,8 @@ func X2apInternalENBEUTRANRCellResourceCoordinationReqIEValueMatchesID(v ENBEUTR
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENBEUTRANRCellResourceCoordinationReqIEValue and reports whether the opaque alternative is selected.
 func (v *ENBEUTRANRCellResourceCoordinationReqIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17454,18 +17484,24 @@ func X2apInternalENBEUTRANRCellResourceCoordinationReqIEValueReason(internalRece
 		return aper.UnknownSelector
 	}
 }
+
+// AsDataTrafficResourceIndication returns the selected DataTrafficResourceIndication value of ENBEUTRANRCellResourceCoordinationReqIEValue and reports whether that alternative is active.
 func (v *ENBEUTRANRCellResourceCoordinationReqIEValue) AsDataTrafficResourceIndication() (*s12.DataTrafficResourceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(287) || v.rowDataTrafficResourceIndication == nil {
 		return nil, false
 	}
 	return v.rowDataTrafficResourceIndication, true
 }
+
+// AsSpectrumSharingGroupID returns the selected SpectrumSharingGroupID value of ENBEUTRANRCellResourceCoordinationReqIEValue and reports whether that alternative is active.
 func (v *ENBEUTRANRCellResourceCoordinationReqIEValue) AsSpectrumSharingGroupID() (*s08.SpectrumSharingGroupID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(288) || v.rowSpectrumSharingGroupID == nil {
 		return nil, false
 	}
 	return v.rowSpectrumSharingGroupID, true
 }
+
+// AsListofEUTRACellsinEUTRACoordinationReq returns the selected ListofEUTRACellsinEUTRACoordinationReq value of ENBEUTRANRCellResourceCoordinationReqIEValue and reports whether that alternative is active.
 func (v *ENBEUTRANRCellResourceCoordinationReqIEValue) AsListofEUTRACellsinEUTRACoordinationReq() (*s08.ListofEUTRACellsinEUTRACoordinationReq, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(289) || v.rowListofEUTRACellsinEUTRACoordinationReq == nil {
 		return nil, false
@@ -17638,6 +17674,8 @@ func X2apInternalEUTRANRCellResourceCoordinationRequestIEValueMatchesID(v EUTRAN
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of EUTRANRCellResourceCoordinationRequestIEValue and reports whether the opaque alternative is selected.
 func (v *EUTRANRCellResourceCoordinationRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18527,12 +18565,16 @@ func X2apInternalEUTRANRCellResourceCoordinationRequestIEValueReason(internalRec
 		return aper.UnknownSelector
 	}
 }
+
+// AsInitiatingNodeTypeEutranrCellResourceCoordination returns the selected InitiatingNodeTypeEutranrCellResourceCoordination value of EUTRANRCellResourceCoordinationRequestIEValue and reports whether that alternative is active.
 func (v *EUTRANRCellResourceCoordinationRequestIEValue) AsInitiatingNodeTypeEutranrCellResourceCoordination() (*InitiatingNodeTypeEutranrCellResourceCoordination, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(285) || v.rowInitiatingNodeTypeEutranrCellResourceCoordination == nil {
 		return nil, false
 	}
 	return v.rowInitiatingNodeTypeEutranrCellResourceCoordination, true
 }
+
+// AsInterfaceInstanceIndication returns the selected InterfaceInstanceIndication value of EUTRANRCellResourceCoordinationRequestIEValue and reports whether that alternative is active.
 func (v *EUTRANRCellResourceCoordinationRequestIEValue) AsInterfaceInstanceIndication() (*s00.InterfaceInstanceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(335) || v.rowInterfaceInstanceIndication == nil {
 		return nil, false
@@ -18671,6 +18713,8 @@ func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqAckIEValueMatchesID(v En
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of EnGNBEUTRANRCellResourceCoordinationReqAckIEValue and reports whether the opaque alternative is selected.
 func (v *EnGNBEUTRANRCellResourceCoordinationReqAckIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19560,18 +19604,24 @@ func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqAckIEValueReason(interna
 		return aper.UnknownSelector
 	}
 }
+
+// AsDataTrafficResourceIndication returns the selected DataTrafficResourceIndication value of EnGNBEUTRANRCellResourceCoordinationReqAckIEValue and reports whether that alternative is active.
 func (v *EnGNBEUTRANRCellResourceCoordinationReqAckIEValue) AsDataTrafficResourceIndication() (*s12.DataTrafficResourceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(287) || v.rowDataTrafficResourceIndication == nil {
 		return nil, false
 	}
 	return v.rowDataTrafficResourceIndication, true
 }
+
+// AsSpectrumSharingGroupID returns the selected SpectrumSharingGroupID value of EnGNBEUTRANRCellResourceCoordinationReqAckIEValue and reports whether that alternative is active.
 func (v *EnGNBEUTRANRCellResourceCoordinationReqAckIEValue) AsSpectrumSharingGroupID() (*s08.SpectrumSharingGroupID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(288) || v.rowSpectrumSharingGroupID == nil {
 		return nil, false
 	}
 	return v.rowSpectrumSharingGroupID, true
 }
+
+// AsListofNRCellsinNRCoordinationResp returns the selected ListofNRCellsinNRCoordinationResp value of EnGNBEUTRANRCellResourceCoordinationReqAckIEValue and reports whether that alternative is active.
 func (v *EnGNBEUTRANRCellResourceCoordinationReqAckIEValue) AsListofNRCellsinNRCoordinationResp() (*s08.ListofNRCellsinNRCoordinationResp, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(293) || v.rowListofNRCellsinNRCoordinationResp == nil {
 		return nil, false
@@ -19750,6 +19800,8 @@ func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIEValueMatchesID(v EnGNB
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of EnGNBEUTRANRCellResourceCoordinationReqIEValue and reports whether the opaque alternative is selected.
 func (v *EnGNBEUTRANRCellResourceCoordinationReqIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -20639,24 +20691,32 @@ func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIEValueReason(internalRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsDataTrafficResourceIndication returns the selected DataTrafficResourceIndication value of EnGNBEUTRANRCellResourceCoordinationReqIEValue and reports whether that alternative is active.
 func (v *EnGNBEUTRANRCellResourceCoordinationReqIEValue) AsDataTrafficResourceIndication() (*s12.DataTrafficResourceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(287) || v.rowDataTrafficResourceIndication == nil {
 		return nil, false
 	}
 	return v.rowDataTrafficResourceIndication, true
 }
+
+// AsListofEUTRACellsinNRCoordinationReq returns the selected ListofEUTRACellsinNRCoordinationReq value of EnGNBEUTRANRCellResourceCoordinationReqIEValue and reports whether that alternative is active.
 func (v *EnGNBEUTRANRCellResourceCoordinationReqIEValue) AsListofEUTRACellsinNRCoordinationReq() (*s08.ListofEUTRACellsinNRCoordinationReq, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(291) || v.rowListofEUTRACellsinNRCoordinationReq == nil {
 		return nil, false
 	}
 	return v.rowListofEUTRACellsinNRCoordinationReq, true
 }
+
+// AsSpectrumSharingGroupID returns the selected SpectrumSharingGroupID value of EnGNBEUTRANRCellResourceCoordinationReqIEValue and reports whether that alternative is active.
 func (v *EnGNBEUTRANRCellResourceCoordinationReqIEValue) AsSpectrumSharingGroupID() (*s08.SpectrumSharingGroupID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(288) || v.rowSpectrumSharingGroupID == nil {
 		return nil, false
 	}
 	return v.rowSpectrumSharingGroupID, true
 }
+
+// AsListofNRCellsinNRCoordinationReq returns the selected ListofNRCellsinNRCoordinationReq value of EnGNBEUTRANRCellResourceCoordinationReqIEValue and reports whether that alternative is active.
 func (v *EnGNBEUTRANRCellResourceCoordinationReqIEValue) AsListofNRCellsinNRCoordinationReq() (*s08.ListofNRCellsinNRCoordinationReq, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(292) || v.rowListofNRCellsinNRCoordinationReq == nil {
 		return nil, false
@@ -20878,6 +20938,8 @@ func X2apInternalSNStatusTransferIEValueMatchesID(v SNStatusTransferIEValue, id 
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SNStatusTransferIEValue and reports whether the opaque alternative is selected.
 func (v *SNStatusTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -21767,36 +21829,48 @@ func X2apInternalSNStatusTransferIEValueReason(internalReceiver SNStatusTransfer
 		return aper.UnknownSelector
 	}
 }
+
+// AsOldENBUEX2APID returns the selected OldENBUEX2APID value of SNStatusTransferIEValue and reports whether that alternative is active.
 func (v *SNStatusTransferIEValue) AsOldENBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(10) || v.rowOldENBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowOldENBUEX2APID, true
 }
+
+// AsNewENBUEX2APID returns the selected NewENBUEX2APID value of SNStatusTransferIEValue and reports whether that alternative is active.
 func (v *SNStatusTransferIEValue) AsNewENBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(9) || v.rowNewENBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowNewENBUEX2APID, true
 }
+
+// AsERABsSubjectToStatusTransferList returns the selected ERABsSubjectToStatusTransferList value of SNStatusTransferIEValue and reports whether that alternative is active.
 func (v *SNStatusTransferIEValue) AsERABsSubjectToStatusTransferList() (*s08.ERABsSubjectToStatusTransferList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(18) || v.rowERABsSubjectToStatusTransferList == nil {
 		return nil, false
 	}
 	return v.rowERABsSubjectToStatusTransferList, true
 }
+
+// AsOldENBUEX2APIDExtension returns the selected OldENBUEX2APIDExtension value of SNStatusTransferIEValue and reports whether that alternative is active.
 func (v *SNStatusTransferIEValue) AsOldENBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(156) || v.rowOldENBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowOldENBUEX2APIDExtension, true
 }
+
+// AsNewENBUEX2APIDExtension returns the selected NewENBUEX2APIDExtension value of SNStatusTransferIEValue and reports whether that alternative is active.
 func (v *SNStatusTransferIEValue) AsNewENBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(155) || v.rowNewENBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowNewENBUEX2APIDExtension, true
 }
+
+// AsSgNBUEX2APID returns the selected SgNBUEX2APID value of SNStatusTransferIEValue and reports whether that alternative is active.
 func (v *SNStatusTransferIEValue) AsSgNBUEX2APID() (*s08.SgNBUEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(207) || v.rowSgNBUEX2APID == nil {
 		return nil, false
@@ -22101,6 +22175,8 @@ func X2apInternalSeNBAdditionRequestIEValueMatchesID(v SeNBAdditionRequestIEValu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SeNBAdditionRequestIEValue and reports whether the opaque alternative is selected.
 func (v *SeNBAdditionRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -22990,72 +23066,96 @@ func X2apInternalSeNBAdditionRequestIEValueReason(internalReceiver SeNBAdditionR
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsUESecurityCapabilities returns the selected UESecurityCapabilities value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsUESecurityCapabilities() (*s06.UESecurityCapabilities, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(113) || v.rowUESecurityCapabilities == nil {
 		return nil, false
 	}
 	return v.rowUESecurityCapabilities, true
 }
+
+// AsSeNBSecurityKey returns the selected SeNBSecurityKey value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsSeNBSecurityKey() (*s08.SeNBSecurityKey, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(114) || v.rowSeNBSecurityKey == nil {
 		return nil, false
 	}
 	return v.rowSeNBSecurityKey, true
 }
+
+// AsSeNBUEAggregateMaximumBitRate returns the selected SeNBUEAggregateMaximumBitRate value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsSeNBUEAggregateMaximumBitRate() (*s08.UEAggregateMaximumBitRate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(115) || v.rowSeNBUEAggregateMaximumBitRate == nil {
 		return nil, false
 	}
 	return v.rowSeNBUEAggregateMaximumBitRate, true
 }
+
+// AsServingPLMN returns the selected ServingPLMN value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsServingPLMN() (*s00.PLMNIdentity, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(116) || v.rowServingPLMN == nil {
 		return nil, false
 	}
 	return v.rowServingPLMN, true
 }
+
+// AsERABsToBeAddedList returns the selected ERABsToBeAddedList value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsERABsToBeAddedList() (*s11.ERABsToBeAddedList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(117) || v.rowERABsToBeAddedList == nil {
 		return nil, false
 	}
 	return v.rowERABsToBeAddedList, true
 }
+
+// AsMeNBtoSeNBContainer returns the selected MeNBtoSeNBContainer value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsMeNBtoSeNBContainer() (*s00.MeNBtoSeNBContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(119) || v.rowMeNBtoSeNBContainer == nil {
 		return nil, false
 	}
 	return v.rowMeNBtoSeNBContainer, true
 }
+
+// AsCSGMembershipStatus returns the selected CSGMembershipStatus value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsCSGMembershipStatus() (*s00.CSGMembershipStatus, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(71) || v.rowCSGMembershipStatus == nil {
 		return nil, false
 	}
 	return v.rowCSGMembershipStatus, true
 }
+
+// AsSeNBUEX2APID returns the selected SeNBUEX2APID value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsSeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(112) || v.rowSeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSeNBUEX2APID, true
 }
+
+// AsSeNBUEX2APIDExtension returns the selected SeNBUEX2APIDExtension value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsSeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(158) || v.rowSeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowSeNBUEX2APIDExtension, true
 }
+
+// AsExpectedUEBehaviour returns the selected ExpectedUEBehaviour value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsExpectedUEBehaviour() (*s05.ExpectedUEBehaviour, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(104) || v.rowExpectedUEBehaviour == nil {
 		return nil, false
 	}
 	return v.rowExpectedUEBehaviour, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SeNBAdditionRequestIEValue and reports whether that alternative is active.
 func (v *SeNBAdditionRequestIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
@@ -23558,6 +23658,8 @@ func X2apInternalSeNBCounterCheckRequestIEValueMatchesID(v SeNBCounterCheckReque
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SeNBCounterCheckRequestIEValue and reports whether the opaque alternative is selected.
 func (v *SeNBCounterCheckRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -24447,30 +24549,40 @@ func X2apInternalSeNBCounterCheckRequestIEValueReason(internalReceiver SeNBCount
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SeNBCounterCheckRequestIEValue and reports whether that alternative is active.
 func (v *SeNBCounterCheckRequestIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSeNBUEX2APID returns the selected SeNBUEX2APID value of SeNBCounterCheckRequestIEValue and reports whether that alternative is active.
 func (v *SeNBCounterCheckRequestIEValue) AsSeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(112) || v.rowSeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSeNBUEX2APID, true
 }
+
+// AsERABsSubjectToCounterCheckList returns the selected ERABsSubjectToCounterCheckList value of SeNBCounterCheckRequestIEValue and reports whether that alternative is active.
 func (v *SeNBCounterCheckRequestIEValue) AsERABsSubjectToCounterCheckList() (*s08.ERABsSubjectToCounterCheckList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(141) || v.rowERABsSubjectToCounterCheckList == nil {
 		return nil, false
 	}
 	return v.rowERABsSubjectToCounterCheckList, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SeNBCounterCheckRequestIEValue and reports whether that alternative is active.
 func (v *SeNBCounterCheckRequestIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APIDExtension, true
 }
+
+// AsSeNBUEX2APIDExtension returns the selected SeNBUEX2APIDExtension value of SeNBCounterCheckRequestIEValue and reports whether that alternative is active.
 func (v *SeNBCounterCheckRequestIEValue) AsSeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(158) || v.rowSeNBUEX2APIDExtension == nil {
 		return nil, false
@@ -24734,6 +24846,8 @@ func X2apInternalSeNBModificationRequestAcknowledgeIEValueMatchesID(v SeNBModifi
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SeNBModificationRequestAcknowledgeIEValue and reports whether the opaque alternative is selected.
 func (v *SeNBModificationRequestAcknowledgeIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -25623,60 +25737,80 @@ func X2apInternalSeNBModificationRequestAcknowledgeIEValueReason(internalReceive
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSeNBUEX2APID returns the selected SeNBUEX2APID value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsSeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(112) || v.rowSeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSeNBUEX2APID, true
 }
+
+// AsERABsAdmittedToBeAddedModAckList returns the selected ERABsAdmittedToBeAddedModAckList value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsERABsAdmittedToBeAddedModAckList() (*s11.ERABsAdmittedToBeAddedModAckList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(128) || v.rowERABsAdmittedToBeAddedModAckList == nil {
 		return nil, false
 	}
 	return v.rowERABsAdmittedToBeAddedModAckList, true
 }
+
+// AsERABsAdmittedToBeModifiedModAckList returns the selected ERABsAdmittedToBeModifiedModAckList value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsERABsAdmittedToBeModifiedModAckList() (*s11.ERABsAdmittedToBeModifiedModAckList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(129) || v.rowERABsAdmittedToBeModifiedModAckList == nil {
 		return nil, false
 	}
 	return v.rowERABsAdmittedToBeModifiedModAckList, true
 }
+
+// AsERABsAdmittedToBeReleasedModAckList returns the selected ERABsAdmittedToBeReleasedModAckList value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsERABsAdmittedToBeReleasedModAckList() (*s08.ERABsAdmittedToBeReleasedModAckList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(130) || v.rowERABsAdmittedToBeReleasedModAckList == nil {
 		return nil, false
 	}
 	return v.rowERABsAdmittedToBeReleasedModAckList, true
 }
+
+// AsERABsNotAdmittedList returns the selected ERABsNotAdmittedList value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsERABsNotAdmittedList() (*s08.ERABList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(3) || v.rowERABsNotAdmittedList == nil {
 		return nil, false
 	}
 	return v.rowERABsNotAdmittedList, true
 }
+
+// AsSeNBtoMeNBContainer returns the selected SeNBtoMeNBContainer value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsSeNBtoMeNBContainer() (*s08.SeNBtoMeNBContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(122) || v.rowSeNBtoMeNBContainer == nil {
 		return nil, false
 	}
 	return v.rowSeNBtoMeNBContainer, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsCriticalityDiagnostics() (*s06.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APIDExtension, true
 }
+
+// AsSeNBUEX2APIDExtension returns the selected SeNBUEX2APIDExtension value of SeNBModificationRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequestAcknowledgeIEValue) AsSeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(158) || v.rowSeNBUEX2APIDExtension == nil {
 		return nil, false
@@ -26118,6 +26252,8 @@ func X2apInternalSeNBModificationRequiredIEValueMatchesID(v SeNBModificationRequ
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SeNBModificationRequiredIEValue and reports whether the opaque alternative is selected.
 func (v *SeNBModificationRequiredIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -27007,48 +27143,64 @@ func X2apInternalSeNBModificationRequiredIEValueReason(internalReceiver SeNBModi
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SeNBModificationRequiredIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequiredIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSeNBUEX2APID returns the selected SeNBUEX2APID value of SeNBModificationRequiredIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequiredIEValue) AsSeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(112) || v.rowSeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSeNBUEX2APID, true
 }
+
+// AsCause returns the selected Cause value of SeNBModificationRequiredIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequiredIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsSCGChangeIndication returns the selected SCGChangeIndication value of SeNBModificationRequiredIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequiredIEValue) AsSCGChangeIndication() (*s00.SCGChangeIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(136) || v.rowSCGChangeIndication == nil {
 		return nil, false
 	}
 	return v.rowSCGChangeIndication, true
 }
+
+// AsERABsToBeReleasedModReqd returns the selected ERABsToBeReleasedModReqd value of SeNBModificationRequiredIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequiredIEValue) AsERABsToBeReleasedModReqd() (*s08.ERABsToBeReleasedModReqd, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(134) || v.rowERABsToBeReleasedModReqd == nil {
 		return nil, false
 	}
 	return v.rowERABsToBeReleasedModReqd, true
 }
+
+// AsSeNBtoMeNBContainer returns the selected SeNBtoMeNBContainer value of SeNBModificationRequiredIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequiredIEValue) AsSeNBtoMeNBContainer() (*s08.SeNBtoMeNBContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(122) || v.rowSeNBtoMeNBContainer == nil {
 		return nil, false
 	}
 	return v.rowSeNBtoMeNBContainer, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SeNBModificationRequiredIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequiredIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APIDExtension, true
 }
+
+// AsSeNBUEX2APIDExtension returns the selected SeNBUEX2APIDExtension value of SeNBModificationRequiredIEValue and reports whether that alternative is active.
 func (v *SeNBModificationRequiredIEValue) AsSeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(158) || v.rowSeNBUEX2APIDExtension == nil {
 		return nil, false
@@ -27408,6 +27560,8 @@ func X2apInternalSeNBReleaseConfirmIEValueMatchesID(v SeNBReleaseConfirmIEValue,
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SeNBReleaseConfirmIEValue and reports whether the opaque alternative is selected.
 func (v *SeNBReleaseConfirmIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -28297,36 +28451,48 @@ func X2apInternalSeNBReleaseConfirmIEValueReason(internalReceiver SeNBReleaseCon
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SeNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseConfirmIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSeNBUEX2APID returns the selected SeNBUEX2APID value of SeNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseConfirmIEValue) AsSeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(112) || v.rowSeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSeNBUEX2APID, true
 }
+
+// AsERABsToBeReleasedListRelConf returns the selected ERABsToBeReleasedListRelConf value of SeNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseConfirmIEValue) AsERABsToBeReleasedListRelConf() (*s11.ERABsToBeReleasedListRelConf, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(139) || v.rowERABsToBeReleasedListRelConf == nil {
 		return nil, false
 	}
 	return v.rowERABsToBeReleasedListRelConf, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of SeNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseConfirmIEValue) AsCriticalityDiagnostics() (*s06.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SeNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseConfirmIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APIDExtension, true
 }
+
+// AsSeNBUEX2APIDExtension returns the selected SeNBUEX2APIDExtension value of SeNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseConfirmIEValue) AsSeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(158) || v.rowSeNBUEX2APIDExtension == nil {
 		return nil, false
@@ -28622,6 +28788,8 @@ func X2apInternalSeNBReleaseRequestIEValueMatchesID(v SeNBReleaseRequestIEValue,
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SeNBReleaseRequestIEValue and reports whether the opaque alternative is selected.
 func (v *SeNBReleaseRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -29511,48 +29679,64 @@ func X2apInternalSeNBReleaseRequestIEValueReason(internalReceiver SeNBReleaseReq
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SeNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseRequestIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSeNBUEX2APID returns the selected SeNBUEX2APID value of SeNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseRequestIEValue) AsSeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(112) || v.rowSeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSeNBUEX2APID, true
 }
+
+// AsCause returns the selected Cause value of SeNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseRequestIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsERABsToBeReleasedListRelReq returns the selected ERABsToBeReleasedListRelReq value of SeNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseRequestIEValue) AsERABsToBeReleasedListRelReq() (*s11.ERABsToBeReleasedListRelReq, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(137) || v.rowERABsToBeReleasedListRelReq == nil {
 		return nil, false
 	}
 	return v.rowERABsToBeReleasedListRelReq, true
 }
+
+// AsUEContextKeptIndicator returns the selected UEContextKeptIndicator value of SeNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseRequestIEValue) AsUEContextKeptIndicator() (*s00.UEContextKeptIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(154) || v.rowUEContextKeptIndicator == nil {
 		return nil, false
 	}
 	return v.rowUEContextKeptIndicator, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SeNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseRequestIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APIDExtension, true
 }
+
+// AsSeNBUEX2APIDExtension returns the selected SeNBUEX2APIDExtension value of SeNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseRequestIEValue) AsSeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(158) || v.rowSeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowSeNBUEX2APIDExtension, true
 }
+
+// AsMakeBeforeBreakIndicator returns the selected MakeBeforeBreakIndicator value of SeNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SeNBReleaseRequestIEValue) AsMakeBeforeBreakIndicator() (*s00.MakeBeforeBreakIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(181) || v.rowMakeBeforeBreakIndicator == nil {
 		return nil, false
@@ -29939,6 +30123,8 @@ func X2apInternalSgNBAdditionRequestAcknowledgeIEValueMatchesID(v SgNBAdditionRe
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SgNBAdditionRequestAcknowledgeIEValue and reports whether the opaque alternative is selected.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -30828,90 +31014,120 @@ func X2apInternalSgNBAdditionRequestAcknowledgeIEValueReason(internalReceiver Sg
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSgNBUEX2APID returns the selected SgNBUEX2APID value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsSgNBUEX2APID() (*s08.SgNBUEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(207) || v.rowSgNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSgNBUEX2APID, true
 }
+
+// AsERABsAdmittedToBeAddedSgNBAddReqAckList returns the selected ERABsAdmittedToBeAddedSgNBAddReqAckList value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsERABsAdmittedToBeAddedSgNBAddReqAckList() (*s11.ERABsAdmittedToBeAddedSgNBAddReqAckList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(210) || v.rowERABsAdmittedToBeAddedSgNBAddReqAckList == nil {
 		return nil, false
 	}
 	return v.rowERABsAdmittedToBeAddedSgNBAddReqAckList, true
 }
+
+// AsERABsNotAdmittedList returns the selected ERABsNotAdmittedList value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsERABsNotAdmittedList() (*s08.ERABList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(3) || v.rowERABsNotAdmittedList == nil {
 		return nil, false
 	}
 	return v.rowERABsNotAdmittedList, true
 }
+
+// AsSgNBtoMeNBContainer returns the selected SgNBtoMeNBContainer value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsSgNBtoMeNBContainer() (*s08.SgNBtoMeNBContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(211) || v.rowSgNBtoMeNBContainer == nil {
 		return nil, false
 	}
 	return v.rowSgNBtoMeNBContainer, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsCriticalityDiagnostics() (*s06.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APIDExtension, true
 }
+
+// AsAdmittedSplitSRBs returns the selected AdmittedSplitSRBs value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsAdmittedSplitSRBs() (*s00.SplitSRBs, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(212) || v.rowAdmittedSplitSRBs == nil {
 		return nil, false
 	}
 	return v.rowAdmittedSplitSRBs, true
 }
+
+// AsSgNBResourceCoordinationInformation returns the selected SgNBResourceCoordinationInformation value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsSgNBResourceCoordinationInformation() (*s08.SgNBResourceCoordinationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(258) || v.rowSgNBResourceCoordinationInformation == nil {
 		return nil, false
 	}
 	return v.rowSgNBResourceCoordinationInformation, true
 }
+
+// AsRRCConfigIndication returns the selected RRCConfigIndication value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsRRCConfigIndication() (*s00.RRCConfigInd, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(272) || v.rowRRCConfigIndication == nil {
 		return nil, false
 	}
 	return v.rowRRCConfigIndication, true
 }
+
+// AsLocationInformationSgNB returns the selected LocationInformationSgNB value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsLocationInformationSgNB() (*s05.LocationInformationSgNB, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(331) || v.rowLocationInformationSgNB == nil {
 		return nil, false
 	}
 	return v.rowLocationInformationSgNB, true
 }
+
+// AsAvailableFastMCGRecoveryViaSRB3 returns the selected AvailableFastMCGRecoveryViaSRB3 value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsAvailableFastMCGRecoveryViaSRB3() (*s00.AvailableFastMCGRecoveryViaSRB3, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(344) || v.rowAvailableFastMCGRecoveryViaSRB3 == nil {
 		return nil, false
 	}
 	return v.rowAvailableFastMCGRecoveryViaSRB3, true
 }
+
+// AsDirectForwardingPathAvailability returns the selected DirectForwardingPathAvailability value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsDirectForwardingPathAvailability() (*s00.DirectForwardingPathAvailability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(410) || v.rowDirectForwardingPathAvailability == nil {
 		return nil, false
 	}
 	return v.rowDirectForwardingPathAvailability, true
 }
+
+// AsSCGActivationStatus returns the selected SCGActivationStatus value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsSCGActivationStatus() (*s00.SCGActivationStatus, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(422) || v.rowSCGActivationStatus == nil {
 		return nil, false
 	}
 	return v.rowSCGActivationStatus, true
 }
+
+// AsCPAinformationREQACK returns the selected CPAinformationREQACK value of SgNBAdditionRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *SgNBAdditionRequestAcknowledgeIEValue) AsCPAinformationREQACK() (*s06.CPAinformationREQACK, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(425) || v.rowCPAinformationREQACK == nil {
 		return nil, false
@@ -31530,6 +31746,8 @@ func X2apInternalSgNBChangeConfirmIEValueMatchesID(v SgNBChangeConfirmIEValue, i
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SgNBChangeConfirmIEValue and reports whether the opaque alternative is selected.
 func (v *SgNBChangeConfirmIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -32419,42 +32637,56 @@ func X2apInternalSgNBChangeConfirmIEValueReason(internalReceiver SgNBChangeConfi
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SgNBChangeConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBChangeConfirmIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSgNBUEX2APID returns the selected SgNBUEX2APID value of SgNBChangeConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBChangeConfirmIEValue) AsSgNBUEX2APID() (*s08.SgNBUEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(207) || v.rowSgNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSgNBUEX2APID, true
 }
+
+// AsERABsToBeReleasedSgNBChaConfList returns the selected ERABsToBeReleasedSgNBChaConfList value of SgNBChangeConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBChangeConfirmIEValue) AsERABsToBeReleasedSgNBChaConfList() (*s13.ERABsToBeReleasedSgNBChaConfList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(229) || v.rowERABsToBeReleasedSgNBChaConfList == nil {
 		return nil, false
 	}
 	return v.rowERABsToBeReleasedSgNBChaConfList, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of SgNBChangeConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBChangeConfirmIEValue) AsCriticalityDiagnostics() (*s06.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SgNBChangeConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBChangeConfirmIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APIDExtension, true
 }
+
+// AsCPCinformationCONF returns the selected CPCinformationCONF value of SgNBChangeConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBChangeConfirmIEValue) AsCPCinformationCONF() (*s06.CPCinformationCONF, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(430) || v.rowCPCinformationCONF == nil {
 		return nil, false
 	}
 	return v.rowCPCinformationCONF, true
 }
+
+// AsMeNBtoSgNBContainer returns the selected MeNBtoSgNBContainer value of SgNBChangeConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBChangeConfirmIEValue) AsMeNBtoSgNBContainer() (*s00.MeNBtoSgNBContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(206) || v.rowMeNBtoSgNBContainer == nil {
 		return nil, false
@@ -32776,6 +33008,8 @@ func X2apInternalSgNBCounterCheckRequestIEValueMatchesID(v SgNBCounterCheckReque
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SgNBCounterCheckRequestIEValue and reports whether the opaque alternative is selected.
 func (v *SgNBCounterCheckRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -33665,24 +33899,32 @@ func X2apInternalSgNBCounterCheckRequestIEValueReason(internalReceiver SgNBCount
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SgNBCounterCheckRequestIEValue and reports whether that alternative is active.
 func (v *SgNBCounterCheckRequestIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSgNBUEX2APID returns the selected SgNBUEX2APID value of SgNBCounterCheckRequestIEValue and reports whether that alternative is active.
 func (v *SgNBCounterCheckRequestIEValue) AsSgNBUEX2APID() (*s08.SgNBUEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(207) || v.rowSgNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSgNBUEX2APID, true
 }
+
+// AsERABsSubjectToSgNBCounterCheckList returns the selected ERABsSubjectToSgNBCounterCheckList value of SgNBCounterCheckRequestIEValue and reports whether that alternative is active.
 func (v *SgNBCounterCheckRequestIEValue) AsERABsSubjectToSgNBCounterCheckList() (*s08.ERABsSubjectToSgNBCounterCheckList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(235) || v.rowERABsSubjectToSgNBCounterCheckList == nil {
 		return nil, false
 	}
 	return v.rowERABsSubjectToSgNBCounterCheckList, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SgNBCounterCheckRequestIEValue and reports whether that alternative is active.
 func (v *SgNBCounterCheckRequestIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
@@ -33902,6 +34144,8 @@ func X2apInternalSgNBModificationConfirmIEValueMatchesID(v SgNBModificationConfi
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SgNBModificationConfirmIEValue and reports whether the opaque alternative is selected.
 func (v *SgNBModificationConfirmIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -34791,42 +35035,56 @@ func X2apInternalSgNBModificationConfirmIEValueReason(internalReceiver SgNBModif
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SgNBModificationConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBModificationConfirmIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSgNBUEX2APID returns the selected SgNBUEX2APID value of SgNBModificationConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBModificationConfirmIEValue) AsSgNBUEX2APID() (*s08.SgNBUEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(207) || v.rowSgNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSgNBUEX2APID, true
 }
+
+// AsERABsAdmittedToBeModifiedSgNBModConfList returns the selected ERABsAdmittedToBeModifiedSgNBModConfList value of SgNBModificationConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBModificationConfirmIEValue) AsERABsAdmittedToBeModifiedSgNBModConfList() (*s11.ERABsAdmittedToBeModifiedSgNBModConfList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(294) || v.rowERABsAdmittedToBeModifiedSgNBModConfList == nil {
 		return nil, false
 	}
 	return v.rowERABsAdmittedToBeModifiedSgNBModConfList, true
 }
+
+// AsMeNBtoSgNBContainer returns the selected MeNBtoSgNBContainer value of SgNBModificationConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBModificationConfirmIEValue) AsMeNBtoSgNBContainer() (*s00.MeNBtoSgNBContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(206) || v.rowMeNBtoSgNBContainer == nil {
 		return nil, false
 	}
 	return v.rowMeNBtoSgNBContainer, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of SgNBModificationConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBModificationConfirmIEValue) AsCriticalityDiagnostics() (*s06.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SgNBModificationConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBModificationConfirmIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APIDExtension, true
 }
+
+// AsMeNBResourceCoordinationInformation returns the selected MeNBResourceCoordinationInformation value of SgNBModificationConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBModificationConfirmIEValue) AsMeNBResourceCoordinationInformation() (*s08.MeNBResourceCoordinationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(257) || v.rowMeNBResourceCoordinationInformation == nil {
 		return nil, false
@@ -35151,6 +35409,8 @@ func X2apInternalSgNBReleaseConfirmIEValueMatchesID(v SgNBReleaseConfirmIEValue,
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SgNBReleaseConfirmIEValue and reports whether the opaque alternative is selected.
 func (v *SgNBReleaseConfirmIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -36040,30 +36300,40 @@ func X2apInternalSgNBReleaseConfirmIEValueReason(internalReceiver SgNBReleaseCon
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SgNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseConfirmIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSgNBUEX2APID returns the selected SgNBUEX2APID value of SgNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseConfirmIEValue) AsSgNBUEX2APID() (*s08.SgNBUEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(207) || v.rowSgNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSgNBUEX2APID, true
 }
+
+// AsERABsToBeReleasedSgNBRelConfList returns the selected ERABsToBeReleasedSgNBRelConfList value of SgNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseConfirmIEValue) AsERABsToBeReleasedSgNBRelConfList() (*s11.ERABsToBeReleasedSgNBRelConfList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(233) || v.rowERABsToBeReleasedSgNBRelConfList == nil {
 		return nil, false
 	}
 	return v.rowERABsToBeReleasedSgNBRelConfList, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of SgNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseConfirmIEValue) AsCriticalityDiagnostics() (*s06.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SgNBReleaseConfirmIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseConfirmIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
@@ -36324,6 +36594,8 @@ func X2apInternalSgNBReleaseRequestIEValueMatchesID(v SgNBReleaseRequestIEValue,
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SgNBReleaseRequestIEValue and reports whether the opaque alternative is selected.
 func (v *SgNBReleaseRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -37213,48 +37485,64 @@ func X2apInternalSgNBReleaseRequestIEValueReason(internalReceiver SgNBReleaseReq
 		return aper.UnknownSelector
 	}
 }
+
+// AsMeNBUEX2APID returns the selected MeNBUEX2APID value of SgNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseRequestIEValue) AsMeNBUEX2APID() (*s11.UEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMeNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APID, true
 }
+
+// AsSgNBUEX2APID returns the selected SgNBUEX2APID value of SgNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseRequestIEValue) AsSgNBUEX2APID() (*s08.SgNBUEX2APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(207) || v.rowSgNBUEX2APID == nil {
 		return nil, false
 	}
 	return v.rowSgNBUEX2APID, true
 }
+
+// AsCause returns the selected Cause value of SgNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseRequestIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsERABsToBeReleasedSgNBRelReqList returns the selected ERABsToBeReleasedSgNBRelReqList value of SgNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseRequestIEValue) AsERABsToBeReleasedSgNBRelReqList() (*s11.ERABsToBeReleasedSgNBRelReqList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(231) || v.rowERABsToBeReleasedSgNBRelReqList == nil {
 		return nil, false
 	}
 	return v.rowERABsToBeReleasedSgNBRelReqList, true
 }
+
+// AsUEContextKeptIndicator returns the selected UEContextKeptIndicator value of SgNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseRequestIEValue) AsUEContextKeptIndicator() (*s00.UEContextKeptIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(154) || v.rowUEContextKeptIndicator == nil {
 		return nil, false
 	}
 	return v.rowUEContextKeptIndicator, true
 }
+
+// AsMeNBUEX2APIDExtension returns the selected MeNBUEX2APIDExtension value of SgNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseRequestIEValue) AsMeNBUEX2APIDExtension() (*s11.UEX2APIDExtension, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(157) || v.rowMeNBUEX2APIDExtension == nil {
 		return nil, false
 	}
 	return v.rowMeNBUEX2APIDExtension, true
 }
+
+// AsMeNBtoSgNBContainer returns the selected MeNBtoSgNBContainer value of SgNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseRequestIEValue) AsMeNBtoSgNBContainer() (*s00.MeNBtoSgNBContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(206) || v.rowMeNBtoSgNBContainer == nil {
 		return nil, false
 	}
 	return v.rowMeNBtoSgNBContainer, true
 }
+
+// AsERABsTransferredToMeNB returns the selected ERABsTransferredToMeNB value of SgNBReleaseRequestIEValue and reports whether that alternative is active.
 func (v *SgNBReleaseRequestIEValue) AsERABsTransferredToMeNB() (*s08.ERABList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(339) || v.rowERABsTransferredToMeNB == nil {
 		return nil, false
@@ -37583,12 +37871,16 @@ type DataForwardingAddressIndicationIETable struct{}
 func DataForwardingAddressIndicationIEs() DataForwardingAddressIndicationIETable {
 	return DataForwardingAddressIndicationIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of DataForwardingAddressIndicationIETable.
 func (DataForwardingAddressIndicationIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs"})
 }
 func X2apInternalDataForwardingAddressIndicationIETableInfoNewENBUEX2APID(internalReceiver DataForwardingAddressIndicationIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: DataForwardingAddressIndicationIEs().ID(), ID: s00.ProtocolIEID(9), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs", Row: "id-New-eNB-UE-X2AP-ID"}}}
 }
+
+// NewENBUEX2APID returns the typed binding for the NewENBUEX2APID row of DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) NewENBUEX2APID() DataForwardingAddressIndicationUEX2APIDIEBinding {
 	return DataForwardingAddressIndicationUEX2APIDIEBinding{info: X2apInternalDataForwardingAddressIndicationIETableInfoNewENBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -37642,6 +37934,8 @@ func (t DataForwardingAddressIndicationIETable) NewENBUEX2APID() DataForwardingA
 func X2apInternalDataForwardingAddressIndicationIETableInfoNewENBUEX2APIDExtension(internalReceiver DataForwardingAddressIndicationIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: DataForwardingAddressIndicationIEs().ID(), ID: s00.ProtocolIEID(155), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs", Row: "id-New-eNB-UE-X2AP-ID-Extension"}}}
 }
+
+// NewENBUEX2APIDExtension returns the typed binding for the NewENBUEX2APIDExtension row of DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) NewENBUEX2APIDExtension() DataForwardingAddressIndicationUEX2APIDExtensionIEBinding {
 	return DataForwardingAddressIndicationUEX2APIDExtensionIEBinding{info: X2apInternalDataForwardingAddressIndicationIETableInfoNewENBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -37695,6 +37989,8 @@ func (t DataForwardingAddressIndicationIETable) NewENBUEX2APIDExtension() DataFo
 func X2apInternalDataForwardingAddressIndicationIETableInfoOldENBUEX2APID(internalReceiver DataForwardingAddressIndicationIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: DataForwardingAddressIndicationIEs().ID(), ID: s00.ProtocolIEID(10), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs", Row: "id-Old-eNB-UE-X2AP-ID"}}}
 }
+
+// OldENBUEX2APID returns the typed binding for the OldENBUEX2APID row of DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) OldENBUEX2APID() DataForwardingAddressIndicationUEX2APIDIEBinding {
 	return DataForwardingAddressIndicationUEX2APIDIEBinding{info: X2apInternalDataForwardingAddressIndicationIETableInfoOldENBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -37748,6 +38044,8 @@ func (t DataForwardingAddressIndicationIETable) OldENBUEX2APID() DataForwardingA
 func X2apInternalDataForwardingAddressIndicationIETableInfoOldENBUEX2APIDExtension(internalReceiver DataForwardingAddressIndicationIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: DataForwardingAddressIndicationIEs().ID(), ID: s00.ProtocolIEID(156), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs", Row: "id-Old-eNB-UE-X2AP-ID-Extension"}}}
 }
+
+// OldENBUEX2APIDExtension returns the typed binding for the OldENBUEX2APIDExtension row of DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) OldENBUEX2APIDExtension() DataForwardingAddressIndicationUEX2APIDExtensionIEBinding {
 	return DataForwardingAddressIndicationUEX2APIDExtensionIEBinding{info: X2apInternalDataForwardingAddressIndicationIETableInfoOldENBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -37801,6 +38099,8 @@ func (t DataForwardingAddressIndicationIETable) OldENBUEX2APIDExtension() DataFo
 func X2apInternalDataForwardingAddressIndicationIETableInfoERABsDataForwardingAddressList(internalReceiver DataForwardingAddressIndicationIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: DataForwardingAddressIndicationIEs().ID(), ID: s00.ProtocolIEID(307), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsDataForwardingAddressList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs", Row: "id-E-RABs-DataForwardingAddress-List"}}}
 }
+
+// ERABsDataForwardingAddressList returns the typed binding for the ERABsDataForwardingAddressList row of DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) ERABsDataForwardingAddressList() DataForwardingAddressIndicationERABsDataForwardingAddressListIEBinding {
 	return DataForwardingAddressIndicationERABsDataForwardingAddressListIEBinding{info: X2apInternalDataForwardingAddressIndicationIETableInfoERABsDataForwardingAddressList(t), codec: s11.X2apInternalConstructT40ERABsDataForwardingAddressListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsDataForwardingAddressList", func(data []byte, options aper.DecodeState) (s11.ERABsDataForwardingAddressList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -37842,6 +38142,8 @@ func (t DataForwardingAddressIndicationIETable) ERABsDataForwardingAddressList()
 func X2apInternalDataForwardingAddressIndicationIETableInfoCHODCIndicator(internalReceiver DataForwardingAddressIndicationIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: DataForwardingAddressIndicationIEs().ID(), ID: s00.ProtocolIEID(368), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CHODCIndicator"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs", Row: "id-CHO-DC-Indicator"}}}
 }
+
+// CHODCIndicator returns the typed binding for the CHODCIndicator row of DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) CHODCIndicator() DataForwardingAddressIndicationCHODCIndicatorIEBinding {
 	return DataForwardingAddressIndicationCHODCIndicatorIEBinding{info: X2apInternalDataForwardingAddressIndicationIETableInfoCHODCIndicator(t), codec: s00.X2apInternalConstructT24CHODCIndicatorValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CHODCIndicator", func(data []byte, options aper.DecodeState) (s00.CHODCIndicator, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -37893,6 +38195,8 @@ func (t DataForwardingAddressIndicationIETable) CHODCIndicator() DataForwardingA
 func X2apInternalDataForwardingAddressIndicationIETableInfoCHODCEarlyDataForwarding(internalReceiver DataForwardingAddressIndicationIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: DataForwardingAddressIndicationIEs().ID(), ID: s00.ProtocolIEID(407), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CHODCEarlyDataForwarding"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs", Row: "id-CHO-DC-EarlyDataForwarding"}}}
 }
+
+// CHODCEarlyDataForwarding returns the typed binding for the CHODCEarlyDataForwarding row of DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) CHODCEarlyDataForwarding() DataForwardingAddressIndicationCHODCEarlyDataForwardingIEBinding {
 	return DataForwardingAddressIndicationCHODCEarlyDataForwardingIEBinding{info: X2apInternalDataForwardingAddressIndicationIETableInfoCHODCEarlyDataForwarding(t), codec: s00.X2apInternalConstructT34CHODCEarlyDataForwardingValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CHODCEarlyDataForwarding", func(data []byte, options aper.DecodeState) (s00.CHODCEarlyDataForwarding, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -37945,6 +38249,8 @@ func (t DataForwardingAddressIndicationIETable) CHODCEarlyDataForwarding() DataF
 func X2apInternalDataForwardingAddressIndicationIETableInfoSgNBUEX2APID(internalReceiver DataForwardingAddressIndicationIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: DataForwardingAddressIndicationIEs().ID(), ID: s00.ProtocolIEID(207), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBUEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs", Row: "id-SgNB-UE-X2AP-ID"}}}
 }
+
+// SgNBUEX2APID returns the typed binding for the SgNBUEX2APID row of DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) SgNBUEX2APID() DataForwardingAddressIndicationSgNBUEX2APIDIEBinding {
 	return DataForwardingAddressIndicationSgNBUEX2APIDIEBinding{info: X2apInternalDataForwardingAddressIndicationIETableInfoSgNBUEX2APID(t), codec: s08.X2apInternalConstructT22SgNBUEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBUEX2APID", func(data []byte, options aper.DecodeState) (s08.SgNBUEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -37997,6 +38303,8 @@ func (t DataForwardingAddressIndicationIETable) SgNBUEX2APID() DataForwardingAdd
 func X2apInternalDataForwardingAddressIndicationIETableInfoCPCinformationNOTIFY(internalReceiver DataForwardingAddressIndicationIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: DataForwardingAddressIndicationIEs().ID(), ID: s00.ProtocolIEID(431), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPCinformationNOTIFY"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DataForwardingAddressIndication-IEs", Row: "id-CPCinformation-NOTIFY"}}}
 }
+
+// CPCinformationNOTIFY returns the typed binding for the CPCinformationNOTIFY row of DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) CPCinformationNOTIFY() DataForwardingAddressIndicationCPCinformationNOTIFYIEBinding {
 	return DataForwardingAddressIndicationCPCinformationNOTIFYIEBinding{info: X2apInternalDataForwardingAddressIndicationIETableInfoCPCinformationNOTIFY(t), codec: s01.X2apInternalConstructT30CPCinformationNOTIFYValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CPCinformationNOTIFY", func(data []byte, options aper.DecodeState) (s01.CPCinformationNOTIFY, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38037,6 +38345,8 @@ func (t DataForwardingAddressIndicationIETable) CPCinformationNOTIFY() DataForwa
 			return value.AsCPCinformationNOTIFY()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in DataForwardingAddressIndicationIETable.
 func (t DataForwardingAddressIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (DataForwardingAddressIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return DataForwardingAddressIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -38078,12 +38388,16 @@ type ENBEUTRANRCellResourceCoordinationReqAckIETable struct{}
 func ENBEUTRANRCellResourceCoordinationReqAckIEs() ENBEUTRANRCellResourceCoordinationReqAckIETable {
 	return ENBEUTRANRCellResourceCoordinationReqAckIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBEUTRANRCellResourceCoordinationReqAckIETable.
 func (ENBEUTRANRCellResourceCoordinationReqAckIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-EUTRA-NRCellResourceCoordinationReqAckIEs"})
 }
 func X2apInternalENBEUTRANRCellResourceCoordinationReqAckIETableInfoDataTrafficResourceIndication(internalReceiver ENBEUTRANRCellResourceCoordinationReqAckIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ENBEUTRANRCellResourceCoordinationReqAckIEs().ID(), ID: s00.ProtocolIEID(287), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DataTrafficResourceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-EUTRA-NRCellResourceCoordinationReqAckIEs", Row: "id-DataTrafficResourceIndication"}}}
 }
+
+// DataTrafficResourceIndication returns the typed binding for the DataTrafficResourceIndication row of ENBEUTRANRCellResourceCoordinationReqAckIETable.
 func (t ENBEUTRANRCellResourceCoordinationReqAckIETable) DataTrafficResourceIndication() ENBEUTRANRCellResourceCoordinationReqAckDataTrafficResourceIndicationIEBinding {
 	return ENBEUTRANRCellResourceCoordinationReqAckDataTrafficResourceIndicationIEBinding{info: X2apInternalENBEUTRANRCellResourceCoordinationReqAckIETableInfoDataTrafficResourceIndication(t), codec: s12.X2apInternalConstructT39DataTrafficResourceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("DataTrafficResourceIndication", func(data []byte, options aper.DecodeState) (s12.DataTrafficResourceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38128,6 +38442,8 @@ func (t ENBEUTRANRCellResourceCoordinationReqAckIETable) DataTrafficResourceIndi
 func X2apInternalENBEUTRANRCellResourceCoordinationReqAckIETableInfoSpectrumSharingGroupID(internalReceiver ENBEUTRANRCellResourceCoordinationReqAckIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ENBEUTRANRCellResourceCoordinationReqAckIEs().ID(), ID: s00.ProtocolIEID(288), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SpectrumSharingGroupID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-EUTRA-NRCellResourceCoordinationReqAckIEs", Row: "id-SpectrumSharingGroupID"}}}
 }
+
+// SpectrumSharingGroupID returns the typed binding for the SpectrumSharingGroupID row of ENBEUTRANRCellResourceCoordinationReqAckIETable.
 func (t ENBEUTRANRCellResourceCoordinationReqAckIETable) SpectrumSharingGroupID() ENBEUTRANRCellResourceCoordinationReqAckSpectrumSharingGroupIDIEBinding {
 	return ENBEUTRANRCellResourceCoordinationReqAckSpectrumSharingGroupIDIEBinding{info: X2apInternalENBEUTRANRCellResourceCoordinationReqAckIETableInfoSpectrumSharingGroupID(t), codec: s08.X2apInternalConstructT32SpectrumSharingGroupIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SpectrumSharingGroupID", func(data []byte, options aper.DecodeState) (s08.SpectrumSharingGroupID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38180,6 +38496,8 @@ func (t ENBEUTRANRCellResourceCoordinationReqAckIETable) SpectrumSharingGroupID(
 func X2apInternalENBEUTRANRCellResourceCoordinationReqAckIETableInfoListofEUTRACellsinEUTRACoordinationResp(internalReceiver ENBEUTRANRCellResourceCoordinationReqAckIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ENBEUTRANRCellResourceCoordinationReqAckIEs().ID(), ID: s00.ProtocolIEID(290), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ListofEUTRACellsinEUTRACoordinationResp"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-EUTRA-NRCellResourceCoordinationReqAckIEs", Row: "id-ListofEUTRACellsinEUTRACoordinationResp"}}}
 }
+
+// ListofEUTRACellsinEUTRACoordinationResp returns the typed binding for the ListofEUTRACellsinEUTRACoordinationResp row of ENBEUTRANRCellResourceCoordinationReqAckIETable.
 func (t ENBEUTRANRCellResourceCoordinationReqAckIETable) ListofEUTRACellsinEUTRACoordinationResp() ENBEUTRANRCellResourceCoordinationReqAckListofEUTRACellsinEUTRACoordinationRespIEBinding {
 	return ENBEUTRANRCellResourceCoordinationReqAckListofEUTRACellsinEUTRACoordinationRespIEBinding{info: X2apInternalENBEUTRANRCellResourceCoordinationReqAckIETableInfoListofEUTRACellsinEUTRACoordinationResp(t), codec: s08.X2apInternalConstructT49ListofEUTRACellsinEUTRACoordinationRespValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ListofEUTRACellsinEUTRACoordinationResp", func(data []byte, options aper.DecodeState) (s08.ListofEUTRACellsinEUTRACoordinationResp, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38220,6 +38538,8 @@ func (t ENBEUTRANRCellResourceCoordinationReqAckIETable) ListofEUTRACellsinEUTRA
 			return value.AsListofEUTRACellsinEUTRACoordinationResp()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBEUTRANRCellResourceCoordinationReqAckIETable.
 func (t ENBEUTRANRCellResourceCoordinationReqAckIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBEUTRANRCellResourceCoordinationReqAckIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBEUTRANRCellResourceCoordinationReqAckIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -38249,12 +38569,16 @@ type ENBEUTRANRCellResourceCoordinationReqIETable struct{}
 func ENBEUTRANRCellResourceCoordinationReqIEs() ENBEUTRANRCellResourceCoordinationReqIETable {
 	return ENBEUTRANRCellResourceCoordinationReqIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBEUTRANRCellResourceCoordinationReqIETable.
 func (ENBEUTRANRCellResourceCoordinationReqIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-EUTRA-NRCellResourceCoordinationReqIEs"})
 }
 func X2apInternalENBEUTRANRCellResourceCoordinationReqIETableInfoDataTrafficResourceIndication(internalReceiver ENBEUTRANRCellResourceCoordinationReqIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ENBEUTRANRCellResourceCoordinationReqIEs().ID(), ID: s00.ProtocolIEID(287), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DataTrafficResourceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-EUTRA-NRCellResourceCoordinationReqIEs", Row: "id-DataTrafficResourceIndication"}}}
 }
+
+// DataTrafficResourceIndication returns the typed binding for the DataTrafficResourceIndication row of ENBEUTRANRCellResourceCoordinationReqIETable.
 func (t ENBEUTRANRCellResourceCoordinationReqIETable) DataTrafficResourceIndication() ENBEUTRANRCellResourceCoordinationReqDataTrafficResourceIndicationIEBinding {
 	return ENBEUTRANRCellResourceCoordinationReqDataTrafficResourceIndicationIEBinding{info: X2apInternalENBEUTRANRCellResourceCoordinationReqIETableInfoDataTrafficResourceIndication(t), codec: s12.X2apInternalConstructT39DataTrafficResourceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("DataTrafficResourceIndication", func(data []byte, options aper.DecodeState) (s12.DataTrafficResourceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38299,6 +38623,8 @@ func (t ENBEUTRANRCellResourceCoordinationReqIETable) DataTrafficResourceIndicat
 func X2apInternalENBEUTRANRCellResourceCoordinationReqIETableInfoSpectrumSharingGroupID(internalReceiver ENBEUTRANRCellResourceCoordinationReqIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ENBEUTRANRCellResourceCoordinationReqIEs().ID(), ID: s00.ProtocolIEID(288), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SpectrumSharingGroupID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-EUTRA-NRCellResourceCoordinationReqIEs", Row: "id-SpectrumSharingGroupID"}}}
 }
+
+// SpectrumSharingGroupID returns the typed binding for the SpectrumSharingGroupID row of ENBEUTRANRCellResourceCoordinationReqIETable.
 func (t ENBEUTRANRCellResourceCoordinationReqIETable) SpectrumSharingGroupID() ENBEUTRANRCellResourceCoordinationReqSpectrumSharingGroupIDIEBinding {
 	return ENBEUTRANRCellResourceCoordinationReqSpectrumSharingGroupIDIEBinding{info: X2apInternalENBEUTRANRCellResourceCoordinationReqIETableInfoSpectrumSharingGroupID(t), codec: s08.X2apInternalConstructT32SpectrumSharingGroupIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SpectrumSharingGroupID", func(data []byte, options aper.DecodeState) (s08.SpectrumSharingGroupID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38351,6 +38677,8 @@ func (t ENBEUTRANRCellResourceCoordinationReqIETable) SpectrumSharingGroupID() E
 func X2apInternalENBEUTRANRCellResourceCoordinationReqIETableInfoListofEUTRACellsinEUTRACoordinationReq(internalReceiver ENBEUTRANRCellResourceCoordinationReqIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ENBEUTRANRCellResourceCoordinationReqIEs().ID(), ID: s00.ProtocolIEID(289), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ListofEUTRACellsinEUTRACoordinationReq"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-EUTRA-NRCellResourceCoordinationReqIEs", Row: "id-ListofEUTRACellsinEUTRACoordinationReq"}}}
 }
+
+// ListofEUTRACellsinEUTRACoordinationReq returns the typed binding for the ListofEUTRACellsinEUTRACoordinationReq row of ENBEUTRANRCellResourceCoordinationReqIETable.
 func (t ENBEUTRANRCellResourceCoordinationReqIETable) ListofEUTRACellsinEUTRACoordinationReq() ENBEUTRANRCellResourceCoordinationReqListofEUTRACellsinEUTRACoordinationReqIEBinding {
 	return ENBEUTRANRCellResourceCoordinationReqListofEUTRACellsinEUTRACoordinationReqIEBinding{info: X2apInternalENBEUTRANRCellResourceCoordinationReqIETableInfoListofEUTRACellsinEUTRACoordinationReq(t), codec: s08.X2apInternalConstructT48ListofEUTRACellsinEUTRACoordinationReqValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ListofEUTRACellsinEUTRACoordinationReq", func(data []byte, options aper.DecodeState) (s08.ListofEUTRACellsinEUTRACoordinationReq, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38391,6 +38719,8 @@ func (t ENBEUTRANRCellResourceCoordinationReqIETable) ListofEUTRACellsinEUTRACoo
 			return value.AsListofEUTRACellsinEUTRACoordinationReq()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBEUTRANRCellResourceCoordinationReqIETable.
 func (t ENBEUTRANRCellResourceCoordinationReqIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBEUTRANRCellResourceCoordinationReqIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBEUTRANRCellResourceCoordinationReqIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -38420,12 +38750,16 @@ type EUTRANRCellResourceCoordinationRequestIETable struct{}
 func EUTRANRCellResourceCoordinationRequestIEs() EUTRANRCellResourceCoordinationRequestIETable {
 	return EUTRANRCellResourceCoordinationRequestIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of EUTRANRCellResourceCoordinationRequestIETable.
 func (EUTRANRCellResourceCoordinationRequestIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "EUTRANRCellResourceCoordinationRequest-IEs"})
 }
 func X2apInternalEUTRANRCellResourceCoordinationRequestIETableInfoInitiatingNodeTypeEutranrCellResourceCoordination(internalReceiver EUTRANRCellResourceCoordinationRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: EUTRANRCellResourceCoordinationRequestIEs().ID(), ID: s00.ProtocolIEID(285), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "InitiatingNodeTypeEutranrCellResourceCoordination"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "EUTRANRCellResourceCoordinationRequest-IEs", Row: "id-InitiatingNodeType-EutranrCellResourceCoordination"}}}
 }
+
+// InitiatingNodeTypeEutranrCellResourceCoordination returns the typed binding for the InitiatingNodeTypeEutranrCellResourceCoordination row of EUTRANRCellResourceCoordinationRequestIETable.
 func (t EUTRANRCellResourceCoordinationRequestIETable) InitiatingNodeTypeEutranrCellResourceCoordination() EUTRANRCellResourceCoordinationRequestInitiatingNodeTypeEutranrCellResourceCoordinationIEBinding {
 	return EUTRANRCellResourceCoordinationRequestInitiatingNodeTypeEutranrCellResourceCoordinationIEBinding{info: X2apInternalEUTRANRCellResourceCoordinationRequestIETableInfoInitiatingNodeTypeEutranrCellResourceCoordination(t), codec: InitiatingNodeTypeEutranrCellResourceCoordinationValueCodec{path: "InitiatingNodeTypeEutranrCellResourceCoordination", decode: func(data []byte, options aper.DecodeState) (InitiatingNodeTypeEutranrCellResourceCoordination, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38469,6 +38803,8 @@ func (t EUTRANRCellResourceCoordinationRequestIETable) InitiatingNodeTypeEutranr
 func X2apInternalEUTRANRCellResourceCoordinationRequestIETableInfoInterfaceInstanceIndication(internalReceiver EUTRANRCellResourceCoordinationRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: EUTRANRCellResourceCoordinationRequestIEs().ID(), ID: s00.ProtocolIEID(335), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "InterfaceInstanceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "EUTRANRCellResourceCoordinationRequest-IEs", Row: "id-InterfaceInstanceIndication"}}}
 }
+
+// InterfaceInstanceIndication returns the typed binding for the InterfaceInstanceIndication row of EUTRANRCellResourceCoordinationRequestIETable.
 func (t EUTRANRCellResourceCoordinationRequestIETable) InterfaceInstanceIndication() EUTRANRCellResourceCoordinationRequestInterfaceInstanceIndicationIEBinding {
 	return EUTRANRCellResourceCoordinationRequestInterfaceInstanceIndicationIEBinding{info: X2apInternalEUTRANRCellResourceCoordinationRequestIETableInfoInterfaceInstanceIndication(t), codec: s00.X2apInternalConstructT37InterfaceInstanceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("InterfaceInstanceIndication", func(data []byte, options aper.DecodeState) (s00.InterfaceInstanceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38519,6 +38855,8 @@ func (t EUTRANRCellResourceCoordinationRequestIETable) InterfaceInstanceIndicati
 			return value.AsInterfaceInstanceIndication()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in EUTRANRCellResourceCoordinationRequestIETable.
 func (t EUTRANRCellResourceCoordinationRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (EUTRANRCellResourceCoordinationRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return EUTRANRCellResourceCoordinationRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -38546,12 +38884,16 @@ type EnGNBEUTRANRCellResourceCoordinationReqAckIETable struct{}
 func EnGNBEUTRANRCellResourceCoordinationReqAckIEs() EnGNBEUTRANRCellResourceCoordinationReqAckIETable {
 	return EnGNBEUTRANRCellResourceCoordinationReqAckIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of EnGNBEUTRANRCellResourceCoordinationReqAckIETable.
 func (EnGNBEUTRANRCellResourceCoordinationReqAckIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs"})
 }
 func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqAckIETableInfoDataTrafficResourceIndication(internalReceiver EnGNBEUTRANRCellResourceCoordinationReqAckIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: EnGNBEUTRANRCellResourceCoordinationReqAckIEs().ID(), ID: s00.ProtocolIEID(287), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DataTrafficResourceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs", Row: "id-DataTrafficResourceIndication"}}}
 }
+
+// DataTrafficResourceIndication returns the typed binding for the DataTrafficResourceIndication row of EnGNBEUTRANRCellResourceCoordinationReqAckIETable.
 func (t EnGNBEUTRANRCellResourceCoordinationReqAckIETable) DataTrafficResourceIndication() EnGNBEUTRANRCellResourceCoordinationReqAckDataTrafficResourceIndicationIEBinding {
 	return EnGNBEUTRANRCellResourceCoordinationReqAckDataTrafficResourceIndicationIEBinding{info: X2apInternalEnGNBEUTRANRCellResourceCoordinationReqAckIETableInfoDataTrafficResourceIndication(t), codec: s12.X2apInternalConstructT39DataTrafficResourceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("DataTrafficResourceIndication", func(data []byte, options aper.DecodeState) (s12.DataTrafficResourceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38596,6 +38938,8 @@ func (t EnGNBEUTRANRCellResourceCoordinationReqAckIETable) DataTrafficResourceIn
 func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqAckIETableInfoSpectrumSharingGroupID(internalReceiver EnGNBEUTRANRCellResourceCoordinationReqAckIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: EnGNBEUTRANRCellResourceCoordinationReqAckIEs().ID(), ID: s00.ProtocolIEID(288), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SpectrumSharingGroupID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs", Row: "id-SpectrumSharingGroupID"}}}
 }
+
+// SpectrumSharingGroupID returns the typed binding for the SpectrumSharingGroupID row of EnGNBEUTRANRCellResourceCoordinationReqAckIETable.
 func (t EnGNBEUTRANRCellResourceCoordinationReqAckIETable) SpectrumSharingGroupID() EnGNBEUTRANRCellResourceCoordinationReqAckSpectrumSharingGroupIDIEBinding {
 	return EnGNBEUTRANRCellResourceCoordinationReqAckSpectrumSharingGroupIDIEBinding{info: X2apInternalEnGNBEUTRANRCellResourceCoordinationReqAckIETableInfoSpectrumSharingGroupID(t), codec: s08.X2apInternalConstructT32SpectrumSharingGroupIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SpectrumSharingGroupID", func(data []byte, options aper.DecodeState) (s08.SpectrumSharingGroupID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38648,6 +38992,8 @@ func (t EnGNBEUTRANRCellResourceCoordinationReqAckIETable) SpectrumSharingGroupI
 func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqAckIETableInfoListofNRCellsinNRCoordinationResp(internalReceiver EnGNBEUTRANRCellResourceCoordinationReqAckIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: EnGNBEUTRANRCellResourceCoordinationReqAckIEs().ID(), ID: s00.ProtocolIEID(293), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ListofNRCellsinNRCoordinationResp"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "En-gNB-EUTRA-NRCellResourceCoordinationReqAckIEs", Row: "id-ListofNRCellsinNRCoordinationResp"}}}
 }
+
+// ListofNRCellsinNRCoordinationResp returns the typed binding for the ListofNRCellsinNRCoordinationResp row of EnGNBEUTRANRCellResourceCoordinationReqAckIETable.
 func (t EnGNBEUTRANRCellResourceCoordinationReqAckIETable) ListofNRCellsinNRCoordinationResp() EnGNBEUTRANRCellResourceCoordinationReqAckListofNRCellsinNRCoordinationRespIEBinding {
 	return EnGNBEUTRANRCellResourceCoordinationReqAckListofNRCellsinNRCoordinationRespIEBinding{info: X2apInternalEnGNBEUTRANRCellResourceCoordinationReqAckIETableInfoListofNRCellsinNRCoordinationResp(t), codec: s08.X2apInternalConstructT43ListofNRCellsinNRCoordinationRespValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ListofNRCellsinNRCoordinationResp", func(data []byte, options aper.DecodeState) (s08.ListofNRCellsinNRCoordinationResp, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38688,6 +39034,8 @@ func (t EnGNBEUTRANRCellResourceCoordinationReqAckIETable) ListofNRCellsinNRCoor
 			return value.AsListofNRCellsinNRCoordinationResp()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in EnGNBEUTRANRCellResourceCoordinationReqAckIETable.
 func (t EnGNBEUTRANRCellResourceCoordinationReqAckIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (EnGNBEUTRANRCellResourceCoordinationReqAckIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return EnGNBEUTRANRCellResourceCoordinationReqAckIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -38717,12 +39065,16 @@ type EnGNBEUTRANRCellResourceCoordinationReqIETable struct{}
 func EnGNBEUTRANRCellResourceCoordinationReqIEs() EnGNBEUTRANRCellResourceCoordinationReqIETable {
 	return EnGNBEUTRANRCellResourceCoordinationReqIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of EnGNBEUTRANRCellResourceCoordinationReqIETable.
 func (EnGNBEUTRANRCellResourceCoordinationReqIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs"})
 }
 func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIETableInfoDataTrafficResourceIndication(internalReceiver EnGNBEUTRANRCellResourceCoordinationReqIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: EnGNBEUTRANRCellResourceCoordinationReqIEs().ID(), ID: s00.ProtocolIEID(287), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DataTrafficResourceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs", Row: "id-DataTrafficResourceIndication"}}}
 }
+
+// DataTrafficResourceIndication returns the typed binding for the DataTrafficResourceIndication row of EnGNBEUTRANRCellResourceCoordinationReqIETable.
 func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) DataTrafficResourceIndication() EnGNBEUTRANRCellResourceCoordinationReqDataTrafficResourceIndicationIEBinding {
 	return EnGNBEUTRANRCellResourceCoordinationReqDataTrafficResourceIndicationIEBinding{info: X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIETableInfoDataTrafficResourceIndication(t), codec: s12.X2apInternalConstructT39DataTrafficResourceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("DataTrafficResourceIndication", func(data []byte, options aper.DecodeState) (s12.DataTrafficResourceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38767,6 +39119,8 @@ func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) DataTrafficResourceIndic
 func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIETableInfoListofEUTRACellsinNRCoordinationReq(internalReceiver EnGNBEUTRANRCellResourceCoordinationReqIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: EnGNBEUTRANRCellResourceCoordinationReqIEs().ID(), ID: s00.ProtocolIEID(291), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ListofEUTRACellsinNRCoordinationReq"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs", Row: "id-ListofEUTRACellsinNRCoordinationReq"}}}
 }
+
+// ListofEUTRACellsinNRCoordinationReq returns the typed binding for the ListofEUTRACellsinNRCoordinationReq row of EnGNBEUTRANRCellResourceCoordinationReqIETable.
 func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) ListofEUTRACellsinNRCoordinationReq() EnGNBEUTRANRCellResourceCoordinationReqListofEUTRACellsinNRCoordinationReqIEBinding {
 	return EnGNBEUTRANRCellResourceCoordinationReqListofEUTRACellsinNRCoordinationReqIEBinding{info: X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIETableInfoListofEUTRACellsinNRCoordinationReq(t), codec: s08.X2apInternalConstructT45ListofEUTRACellsinNRCoordinationReqValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ListofEUTRACellsinNRCoordinationReq", func(data []byte, options aper.DecodeState) (s08.ListofEUTRACellsinNRCoordinationReq, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38811,6 +39165,8 @@ func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) ListofEUTRACellsinNRCoor
 func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIETableInfoSpectrumSharingGroupID(internalReceiver EnGNBEUTRANRCellResourceCoordinationReqIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: EnGNBEUTRANRCellResourceCoordinationReqIEs().ID(), ID: s00.ProtocolIEID(288), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SpectrumSharingGroupID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs", Row: "id-SpectrumSharingGroupID"}}}
 }
+
+// SpectrumSharingGroupID returns the typed binding for the SpectrumSharingGroupID row of EnGNBEUTRANRCellResourceCoordinationReqIETable.
 func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) SpectrumSharingGroupID() EnGNBEUTRANRCellResourceCoordinationReqSpectrumSharingGroupIDIEBinding {
 	return EnGNBEUTRANRCellResourceCoordinationReqSpectrumSharingGroupIDIEBinding{info: X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIETableInfoSpectrumSharingGroupID(t), codec: s08.X2apInternalConstructT32SpectrumSharingGroupIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SpectrumSharingGroupID", func(data []byte, options aper.DecodeState) (s08.SpectrumSharingGroupID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38863,6 +39219,8 @@ func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) SpectrumSharingGroupID()
 func X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIETableInfoListofNRCellsinNRCoordinationReq(internalReceiver EnGNBEUTRANRCellResourceCoordinationReqIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: EnGNBEUTRANRCellResourceCoordinationReqIEs().ID(), ID: s00.ProtocolIEID(292), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ListofNRCellsinNRCoordinationReq"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "En-gNB-EUTRA-NRCellResourceCoordinationReqIEs", Row: "id-ListofNRCellsinNRCoordinationReq"}}}
 }
+
+// ListofNRCellsinNRCoordinationReq returns the typed binding for the ListofNRCellsinNRCoordinationReq row of EnGNBEUTRANRCellResourceCoordinationReqIETable.
 func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) ListofNRCellsinNRCoordinationReq() EnGNBEUTRANRCellResourceCoordinationReqListofNRCellsinNRCoordinationReqIEBinding {
 	return EnGNBEUTRANRCellResourceCoordinationReqListofNRCellsinNRCoordinationReqIEBinding{info: X2apInternalEnGNBEUTRANRCellResourceCoordinationReqIETableInfoListofNRCellsinNRCoordinationReq(t), codec: s08.X2apInternalConstructT42ListofNRCellsinNRCoordinationReqValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ListofNRCellsinNRCoordinationReq", func(data []byte, options aper.DecodeState) (s08.ListofNRCellsinNRCoordinationReq, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38902,6 +39260,8 @@ func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) ListofNRCellsinNRCoordin
 			return value.AsListofNRCellsinNRCoordinationReq()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in EnGNBEUTRANRCellResourceCoordinationReqIETable.
 func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (EnGNBEUTRANRCellResourceCoordinationReqIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return EnGNBEUTRANRCellResourceCoordinationReqIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -38931,12 +39291,16 @@ func (t EnGNBEUTRANRCellResourceCoordinationReqIETable) NewOpaque(id s00.Protoco
 type SNStatusTransferIETable struct{}
 
 func SNStatusTransferIEs() SNStatusTransferIETable { return SNStatusTransferIETable{} }
+
+// ID returns the ASN.1 object-set identity of SNStatusTransferIETable.
 func (SNStatusTransferIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SNStatusTransfer-IEs"})
 }
 func X2apInternalSNStatusTransferIETableInfoOldENBUEX2APID(internalReceiver SNStatusTransferIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SNStatusTransferIEs().ID(), ID: s00.ProtocolIEID(10), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SNStatusTransfer-IEs", Row: "id-Old-eNB-UE-X2AP-ID"}}}
 }
+
+// OldENBUEX2APID returns the typed binding for the OldENBUEX2APID row of SNStatusTransferIETable.
 func (t SNStatusTransferIETable) OldENBUEX2APID() SNStatusTransferUEX2APIDIEBinding {
 	return SNStatusTransferUEX2APIDIEBinding{info: X2apInternalSNStatusTransferIETableInfoOldENBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -38988,6 +39352,8 @@ func (t SNStatusTransferIETable) OldENBUEX2APID() SNStatusTransferUEX2APIDIEBind
 func X2apInternalSNStatusTransferIETableInfoNewENBUEX2APID(internalReceiver SNStatusTransferIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SNStatusTransferIEs().ID(), ID: s00.ProtocolIEID(9), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SNStatusTransfer-IEs", Row: "id-New-eNB-UE-X2AP-ID"}}}
 }
+
+// NewENBUEX2APID returns the typed binding for the NewENBUEX2APID row of SNStatusTransferIETable.
 func (t SNStatusTransferIETable) NewENBUEX2APID() SNStatusTransferUEX2APIDIEBinding {
 	return SNStatusTransferUEX2APIDIEBinding{info: X2apInternalSNStatusTransferIETableInfoNewENBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39039,6 +39405,8 @@ func (t SNStatusTransferIETable) NewENBUEX2APID() SNStatusTransferUEX2APIDIEBind
 func X2apInternalSNStatusTransferIETableInfoERABsSubjectToStatusTransferList(internalReceiver SNStatusTransferIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SNStatusTransferIEs().ID(), ID: s00.ProtocolIEID(18), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsSubjectToStatusTransferList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SNStatusTransfer-IEs", Row: "id-E-RABs-SubjectToStatusTransfer-List"}}}
 }
+
+// ERABsSubjectToStatusTransferList returns the typed binding for the ERABsSubjectToStatusTransferList row of SNStatusTransferIETable.
 func (t SNStatusTransferIETable) ERABsSubjectToStatusTransferList() SNStatusTransferERABsSubjectToStatusTransferListIEBinding {
 	return SNStatusTransferERABsSubjectToStatusTransferListIEBinding{info: X2apInternalSNStatusTransferIETableInfoERABsSubjectToStatusTransferList(t), codec: s08.X2apInternalConstructT42ERABsSubjectToStatusTransferListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsSubjectToStatusTransferList", func(data []byte, options aper.DecodeState) (s08.ERABsSubjectToStatusTransferList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39081,6 +39449,8 @@ func (t SNStatusTransferIETable) ERABsSubjectToStatusTransferList() SNStatusTran
 func X2apInternalSNStatusTransferIETableInfoOldENBUEX2APIDExtension(internalReceiver SNStatusTransferIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SNStatusTransferIEs().ID(), ID: s00.ProtocolIEID(156), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SNStatusTransfer-IEs", Row: "id-Old-eNB-UE-X2AP-ID-Extension"}}}
 }
+
+// OldENBUEX2APIDExtension returns the typed binding for the OldENBUEX2APIDExtension row of SNStatusTransferIETable.
 func (t SNStatusTransferIETable) OldENBUEX2APIDExtension() SNStatusTransferUEX2APIDExtensionIEBinding {
 	return SNStatusTransferUEX2APIDExtensionIEBinding{info: X2apInternalSNStatusTransferIETableInfoOldENBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39134,6 +39504,8 @@ func (t SNStatusTransferIETable) OldENBUEX2APIDExtension() SNStatusTransferUEX2A
 func X2apInternalSNStatusTransferIETableInfoNewENBUEX2APIDExtension(internalReceiver SNStatusTransferIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SNStatusTransferIEs().ID(), ID: s00.ProtocolIEID(155), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SNStatusTransfer-IEs", Row: "id-New-eNB-UE-X2AP-ID-Extension"}}}
 }
+
+// NewENBUEX2APIDExtension returns the typed binding for the NewENBUEX2APIDExtension row of SNStatusTransferIETable.
 func (t SNStatusTransferIETable) NewENBUEX2APIDExtension() SNStatusTransferUEX2APIDExtensionIEBinding {
 	return SNStatusTransferUEX2APIDExtensionIEBinding{info: X2apInternalSNStatusTransferIETableInfoNewENBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39187,6 +39559,8 @@ func (t SNStatusTransferIETable) NewENBUEX2APIDExtension() SNStatusTransferUEX2A
 func X2apInternalSNStatusTransferIETableInfoSgNBUEX2APID(internalReceiver SNStatusTransferIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SNStatusTransferIEs().ID(), ID: s00.ProtocolIEID(207), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBUEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SNStatusTransfer-IEs", Row: "id-SgNB-UE-X2AP-ID"}}}
 }
+
+// SgNBUEX2APID returns the typed binding for the SgNBUEX2APID row of SNStatusTransferIETable.
 func (t SNStatusTransferIETable) SgNBUEX2APID() SNStatusTransferSgNBUEX2APIDIEBinding {
 	return SNStatusTransferSgNBUEX2APIDIEBinding{info: X2apInternalSNStatusTransferIETableInfoSgNBUEX2APID(t), codec: s08.X2apInternalConstructT22SgNBUEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBUEX2APID", func(data []byte, options aper.DecodeState) (s08.SgNBUEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39234,6 +39608,8 @@ func (t SNStatusTransferIETable) SgNBUEX2APID() SNStatusTransferSgNBUEX2APIDIEBi
 			return SNStatusTransferIEValue{id: s00.ProtocolIEID(207), rowSgNBUEX2APID: &value}
 		}, get: func(value *SNStatusTransferIEValue) (*s08.SgNBUEX2APID, bool) { return value.AsSgNBUEX2APID() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SNStatusTransferIETable.
 func (t SNStatusTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SNStatusTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SNStatusTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -39267,12 +39643,16 @@ func (t SNStatusTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.
 type SeNBAdditionRequestIETable struct{}
 
 func SeNBAdditionRequestIEs() SeNBAdditionRequestIETable { return SeNBAdditionRequestIETable{} }
+
+// ID returns the ASN.1 object-set identity of SeNBAdditionRequestIETable.
 func (SeNBAdditionRequestIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs"})
 }
 func X2apInternalSeNBAdditionRequestIETableInfoMeNBUEX2APID(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) MeNBUEX2APID() SeNBAdditionRequestUEX2APIDIEBinding {
 	return SeNBAdditionRequestUEX2APIDIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39324,6 +39704,8 @@ func (t SeNBAdditionRequestIETable) MeNBUEX2APID() SeNBAdditionRequestUEX2APIDIE
 func X2apInternalSeNBAdditionRequestIETableInfoUESecurityCapabilities(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(113), Criticality: s00.CriticalityReject, Presence: s00.PresenceConditional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UESecurityCapabilities"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-UE-SecurityCapabilities"}}}
 }
+
+// UESecurityCapabilities returns the typed binding for the UESecurityCapabilities row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) UESecurityCapabilities() SeNBAdditionRequestUESecurityCapabilitiesIEBinding {
 	return SeNBAdditionRequestUESecurityCapabilitiesIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoUESecurityCapabilities(t), codec: s06.X2apInternalConstructT32UESecurityCapabilitiesValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UESecurityCapabilities", func(data []byte, options aper.DecodeState) (s06.UESecurityCapabilities, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39367,6 +39749,8 @@ func (t SeNBAdditionRequestIETable) UESecurityCapabilities() SeNBAdditionRequest
 func X2apInternalSeNBAdditionRequestIETableInfoSeNBSecurityKey(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(114), Criticality: s00.CriticalityReject, Presence: s00.PresenceConditional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SeNBSecurityKey"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-SeNBSecurityKey"}}}
 }
+
+// SeNBSecurityKey returns the typed binding for the SeNBSecurityKey row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) SeNBSecurityKey() SeNBAdditionRequestSeNBSecurityKeyIEBinding {
 	return SeNBAdditionRequestSeNBSecurityKeyIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoSeNBSecurityKey(t), codec: s08.X2apInternalConstructT25SeNBSecurityKeyValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SeNBSecurityKey", func(data []byte, options aper.DecodeState) (s08.SeNBSecurityKey, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39418,6 +39802,8 @@ func (t SeNBAdditionRequestIETable) SeNBSecurityKey() SeNBAdditionRequestSeNBSec
 func X2apInternalSeNBAdditionRequestIETableInfoSeNBUEAggregateMaximumBitRate(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(115), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEAggregateMaximumBitRate"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-SeNBUEAggregateMaximumBitRate"}}}
 }
+
+// SeNBUEAggregateMaximumBitRate returns the typed binding for the SeNBUEAggregateMaximumBitRate row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) SeNBUEAggregateMaximumBitRate() SeNBAdditionRequestUEAggregateMaximumBitRateIEBinding {
 	return SeNBAdditionRequestUEAggregateMaximumBitRateIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoSeNBUEAggregateMaximumBitRate(t), codec: s08.X2apInternalConstructT35UEAggregateMaximumBitRateValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEAggregateMaximumBitRate", func(data []byte, options aper.DecodeState) (s08.UEAggregateMaximumBitRate, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39462,6 +39848,8 @@ func (t SeNBAdditionRequestIETable) SeNBUEAggregateMaximumBitRate() SeNBAddition
 func X2apInternalSeNBAdditionRequestIETableInfoServingPLMN(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(116), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "PLMNIdentity"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-ServingPLMN"}}}
 }
+
+// ServingPLMN returns the typed binding for the ServingPLMN row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) ServingPLMN() SeNBAdditionRequestPLMNIdentityIEBinding {
 	return SeNBAdditionRequestPLMNIdentityIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoServingPLMN(t), codec: s00.X2apInternalConstructT22PLMNIdentityValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("PLMNIdentity", func(data []byte, options aper.DecodeState) (s00.PLMNIdentity, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39512,6 +39900,8 @@ func (t SeNBAdditionRequestIETable) ServingPLMN() SeNBAdditionRequestPLMNIdentit
 func X2apInternalSeNBAdditionRequestIETableInfoERABsToBeAddedList(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(117), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeAddedList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-E-RABs-ToBeAdded-List"}}}
 }
+
+// ERABsToBeAddedList returns the typed binding for the ERABsToBeAddedList row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) ERABsToBeAddedList() SeNBAdditionRequestERABsToBeAddedListIEBinding {
 	return SeNBAdditionRequestERABsToBeAddedListIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoERABsToBeAddedList(t), codec: s11.X2apInternalConstructT28ERABsToBeAddedListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsToBeAddedList", func(data []byte, options aper.DecodeState) (s11.ERABsToBeAddedList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39555,6 +39945,8 @@ func (t SeNBAdditionRequestIETable) ERABsToBeAddedList() SeNBAdditionRequestERAB
 func X2apInternalSeNBAdditionRequestIETableInfoMeNBtoSeNBContainer(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(119), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MeNBtoSeNBContainer"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-MeNBtoSeNBContainer"}}}
 }
+
+// MeNBtoSeNBContainer returns the typed binding for the MeNBtoSeNBContainer row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) MeNBtoSeNBContainer() SeNBAdditionRequestMeNBtoSeNBContainerIEBinding {
 	return SeNBAdditionRequestMeNBtoSeNBContainerIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoMeNBtoSeNBContainer(t), codec: s00.X2apInternalConstructT29MeNBtoSeNBContainerValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MeNBtoSeNBContainer", func(data []byte, options aper.DecodeState) (s00.MeNBtoSeNBContainer, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39607,6 +39999,8 @@ func (t SeNBAdditionRequestIETable) MeNBtoSeNBContainer() SeNBAdditionRequestMeN
 func X2apInternalSeNBAdditionRequestIETableInfoCSGMembershipStatus(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(71), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CSGMembershipStatus"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-CSGMembershipStatus"}}}
 }
+
+// CSGMembershipStatus returns the typed binding for the CSGMembershipStatus row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) CSGMembershipStatus() SeNBAdditionRequestCSGMembershipStatusIEBinding {
 	return SeNBAdditionRequestCSGMembershipStatusIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoCSGMembershipStatus(t), codec: s00.X2apInternalConstructT29CSGMembershipStatusValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CSGMembershipStatus", func(data []byte, options aper.DecodeState) (s00.CSGMembershipStatus, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39659,6 +40053,8 @@ func (t SeNBAdditionRequestIETable) CSGMembershipStatus() SeNBAdditionRequestCSG
 func X2apInternalSeNBAdditionRequestIETableInfoSeNBUEX2APID(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(112), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-SeNB-UE-X2AP-ID"}}}
 }
+
+// SeNBUEX2APID returns the typed binding for the SeNBUEX2APID row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) SeNBUEX2APID() SeNBAdditionRequestUEX2APIDIEBinding {
 	return SeNBAdditionRequestUEX2APIDIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoSeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39710,6 +40106,8 @@ func (t SeNBAdditionRequestIETable) SeNBUEX2APID() SeNBAdditionRequestUEX2APIDIE
 func X2apInternalSeNBAdditionRequestIETableInfoSeNBUEX2APIDExtension(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(158), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-SeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// SeNBUEX2APIDExtension returns the typed binding for the SeNBUEX2APIDExtension row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) SeNBUEX2APIDExtension() SeNBAdditionRequestUEX2APIDExtensionIEBinding {
 	return SeNBAdditionRequestUEX2APIDExtensionIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoSeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39763,6 +40161,8 @@ func (t SeNBAdditionRequestIETable) SeNBUEX2APIDExtension() SeNBAdditionRequestU
 func X2apInternalSeNBAdditionRequestIETableInfoExpectedUEBehaviour(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(104), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ExpectedUEBehaviour"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-ExpectedUEBehaviour"}}}
 }
+
+// ExpectedUEBehaviour returns the typed binding for the ExpectedUEBehaviour row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) ExpectedUEBehaviour() SeNBAdditionRequestExpectedUEBehaviourIEBinding {
 	return SeNBAdditionRequestExpectedUEBehaviourIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoExpectedUEBehaviour(t), codec: s05.X2apInternalConstructT29ExpectedUEBehaviourValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ExpectedUEBehaviour", func(data []byte, options aper.DecodeState) (s05.ExpectedUEBehaviour, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39806,6 +40206,8 @@ func (t SeNBAdditionRequestIETable) ExpectedUEBehaviour() SeNBAdditionRequestExp
 func X2apInternalSeNBAdditionRequestIETableInfoMeNBUEX2APIDExtension(internalReceiver SeNBAdditionRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBAdditionRequestIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBAdditionRequest-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) MeNBUEX2APIDExtension() SeNBAdditionRequestUEX2APIDExtensionIEBinding {
 	return SeNBAdditionRequestUEX2APIDExtensionIEBinding{info: X2apInternalSeNBAdditionRequestIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39856,6 +40258,8 @@ func (t SeNBAdditionRequestIETable) MeNBUEX2APIDExtension() SeNBAdditionRequestU
 			return value.AsMeNBUEX2APIDExtension()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SeNBAdditionRequestIETable.
 func (t SeNBAdditionRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SeNBAdditionRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SeNBAdditionRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -39903,12 +40307,16 @@ type SeNBCounterCheckRequestIETable struct{}
 func SeNBCounterCheckRequestIEs() SeNBCounterCheckRequestIETable {
 	return SeNBCounterCheckRequestIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SeNBCounterCheckRequestIETable.
 func (SeNBCounterCheckRequestIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBCounterCheckRequest-IEs"})
 }
 func X2apInternalSeNBCounterCheckRequestIETableInfoMeNBUEX2APID(internalReceiver SeNBCounterCheckRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBCounterCheckRequestIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBCounterCheckRequest-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SeNBCounterCheckRequestIETable.
 func (t SeNBCounterCheckRequestIETable) MeNBUEX2APID() SeNBCounterCheckRequestUEX2APIDIEBinding {
 	return SeNBCounterCheckRequestUEX2APIDIEBinding{info: X2apInternalSeNBCounterCheckRequestIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -39960,6 +40368,8 @@ func (t SeNBCounterCheckRequestIETable) MeNBUEX2APID() SeNBCounterCheckRequestUE
 func X2apInternalSeNBCounterCheckRequestIETableInfoSeNBUEX2APID(internalReceiver SeNBCounterCheckRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBCounterCheckRequestIEs().ID(), ID: s00.ProtocolIEID(112), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBCounterCheckRequest-IEs", Row: "id-SeNB-UE-X2AP-ID"}}}
 }
+
+// SeNBUEX2APID returns the typed binding for the SeNBUEX2APID row of SeNBCounterCheckRequestIETable.
 func (t SeNBCounterCheckRequestIETable) SeNBUEX2APID() SeNBCounterCheckRequestUEX2APIDIEBinding {
 	return SeNBCounterCheckRequestUEX2APIDIEBinding{info: X2apInternalSeNBCounterCheckRequestIETableInfoSeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40011,6 +40421,8 @@ func (t SeNBCounterCheckRequestIETable) SeNBUEX2APID() SeNBCounterCheckRequestUE
 func X2apInternalSeNBCounterCheckRequestIETableInfoERABsSubjectToCounterCheckList(internalReceiver SeNBCounterCheckRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBCounterCheckRequestIEs().ID(), ID: s00.ProtocolIEID(141), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsSubjectToCounterCheckList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBCounterCheckRequest-IEs", Row: "id-E-RABs-SubjectToCounterCheck-List"}}}
 }
+
+// ERABsSubjectToCounterCheckList returns the typed binding for the ERABsSubjectToCounterCheckList row of SeNBCounterCheckRequestIETable.
 func (t SeNBCounterCheckRequestIETable) ERABsSubjectToCounterCheckList() SeNBCounterCheckRequestERABsSubjectToCounterCheckListIEBinding {
 	return SeNBCounterCheckRequestERABsSubjectToCounterCheckListIEBinding{info: X2apInternalSeNBCounterCheckRequestIETableInfoERABsSubjectToCounterCheckList(t), codec: s08.X2apInternalConstructT40ERABsSubjectToCounterCheckListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsSubjectToCounterCheckList", func(data []byte, options aper.DecodeState) (s08.ERABsSubjectToCounterCheckList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40052,6 +40464,8 @@ func (t SeNBCounterCheckRequestIETable) ERABsSubjectToCounterCheckList() SeNBCou
 func X2apInternalSeNBCounterCheckRequestIETableInfoMeNBUEX2APIDExtension(internalReceiver SeNBCounterCheckRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBCounterCheckRequestIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBCounterCheckRequest-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SeNBCounterCheckRequestIETable.
 func (t SeNBCounterCheckRequestIETable) MeNBUEX2APIDExtension() SeNBCounterCheckRequestUEX2APIDExtensionIEBinding {
 	return SeNBCounterCheckRequestUEX2APIDExtensionIEBinding{info: X2apInternalSeNBCounterCheckRequestIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40105,6 +40519,8 @@ func (t SeNBCounterCheckRequestIETable) MeNBUEX2APIDExtension() SeNBCounterCheck
 func X2apInternalSeNBCounterCheckRequestIETableInfoSeNBUEX2APIDExtension(internalReceiver SeNBCounterCheckRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBCounterCheckRequestIEs().ID(), ID: s00.ProtocolIEID(158), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBCounterCheckRequest-IEs", Row: "id-SeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// SeNBUEX2APIDExtension returns the typed binding for the SeNBUEX2APIDExtension row of SeNBCounterCheckRequestIETable.
 func (t SeNBCounterCheckRequestIETable) SeNBUEX2APIDExtension() SeNBCounterCheckRequestUEX2APIDExtensionIEBinding {
 	return SeNBCounterCheckRequestUEX2APIDExtensionIEBinding{info: X2apInternalSeNBCounterCheckRequestIETableInfoSeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40155,6 +40571,8 @@ func (t SeNBCounterCheckRequestIETable) SeNBUEX2APIDExtension() SeNBCounterCheck
 			return value.AsSeNBUEX2APIDExtension()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SeNBCounterCheckRequestIETable.
 func (t SeNBCounterCheckRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SeNBCounterCheckRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SeNBCounterCheckRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -40188,12 +40606,16 @@ type SeNBModificationRequestAcknowledgeIETable struct{}
 func SeNBModificationRequestAcknowledgeIEs() SeNBModificationRequestAcknowledgeIETable {
 	return SeNBModificationRequestAcknowledgeIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SeNBModificationRequestAcknowledgeIETable.
 func (SeNBModificationRequestAcknowledgeIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs"})
 }
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoMeNBUEX2APID(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) MeNBUEX2APID() SeNBModificationRequestAcknowledgeUEX2APIDIEBinding {
 	return SeNBModificationRequestAcknowledgeUEX2APIDIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40247,6 +40669,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) MeNBUEX2APID() SeNBModificati
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoSeNBUEX2APID(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(112), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-SeNB-UE-X2AP-ID"}}}
 }
+
+// SeNBUEX2APID returns the typed binding for the SeNBUEX2APID row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) SeNBUEX2APID() SeNBModificationRequestAcknowledgeUEX2APIDIEBinding {
 	return SeNBModificationRequestAcknowledgeUEX2APIDIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoSeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40300,6 +40724,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) SeNBUEX2APID() SeNBModificati
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoERABsAdmittedToBeAddedModAckList(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(128), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeAddedModAckList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-E-RABs-Admitted-ToBeAdded-ModAckList"}}}
 }
+
+// ERABsAdmittedToBeAddedModAckList returns the typed binding for the ERABsAdmittedToBeAddedModAckList row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) ERABsAdmittedToBeAddedModAckList() SeNBModificationRequestAcknowledgeERABsAdmittedToBeAddedModAckListIEBinding {
 	return SeNBModificationRequestAcknowledgeERABsAdmittedToBeAddedModAckListIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoERABsAdmittedToBeAddedModAckList(t), codec: s11.X2apInternalConstructT42ERABsAdmittedToBeAddedModAckListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsAdmittedToBeAddedModAckList", func(data []byte, options aper.DecodeState) (s11.ERABsAdmittedToBeAddedModAckList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40342,6 +40768,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) ERABsAdmittedToBeAddedModAckL
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoERABsAdmittedToBeModifiedModAckList(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(129), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeModifiedModAckList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-E-RABs-Admitted-ToBeModified-ModAckList"}}}
 }
+
+// ERABsAdmittedToBeModifiedModAckList returns the typed binding for the ERABsAdmittedToBeModifiedModAckList row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) ERABsAdmittedToBeModifiedModAckList() SeNBModificationRequestAcknowledgeERABsAdmittedToBeModifiedModAckListIEBinding {
 	return SeNBModificationRequestAcknowledgeERABsAdmittedToBeModifiedModAckListIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoERABsAdmittedToBeModifiedModAckList(t), codec: s11.X2apInternalConstructT45ERABsAdmittedToBeModifiedModAckListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsAdmittedToBeModifiedModAckList", func(data []byte, options aper.DecodeState) (s11.ERABsAdmittedToBeModifiedModAckList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40386,6 +40814,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) ERABsAdmittedToBeModifiedModA
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoERABsAdmittedToBeReleasedModAckList(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(130), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeReleasedModAckList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-E-RABs-Admitted-ToBeReleased-ModAckList"}}}
 }
+
+// ERABsAdmittedToBeReleasedModAckList returns the typed binding for the ERABsAdmittedToBeReleasedModAckList row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) ERABsAdmittedToBeReleasedModAckList() SeNBModificationRequestAcknowledgeERABsAdmittedToBeReleasedModAckListIEBinding {
 	return SeNBModificationRequestAcknowledgeERABsAdmittedToBeReleasedModAckListIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoERABsAdmittedToBeReleasedModAckList(t), codec: s08.X2apInternalConstructT45ERABsAdmittedToBeReleasedModAckListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsAdmittedToBeReleasedModAckList", func(data []byte, options aper.DecodeState) (s08.ERABsAdmittedToBeReleasedModAckList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40430,6 +40860,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) ERABsAdmittedToBeReleasedModA
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoERABsNotAdmittedList(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(3), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ERABList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-E-RABs-NotAdmitted-List"}}}
 }
+
+// ERABsNotAdmittedList returns the typed binding for the ERABsNotAdmittedList row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) ERABsNotAdmittedList() SeNBModificationRequestAcknowledgeERABListIEBinding {
 	return SeNBModificationRequestAcknowledgeERABListIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoERABsNotAdmittedList(t), codec: s08.X2apInternalConstructT18ERABListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABList", func(data []byte, options aper.DecodeState) (s08.ERABList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40473,6 +40905,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) ERABsNotAdmittedList() SeNBMo
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoSeNBtoMeNBContainer(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(122), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SeNBtoMeNBContainer"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-SeNBtoMeNBContainer"}}}
 }
+
+// SeNBtoMeNBContainer returns the typed binding for the SeNBtoMeNBContainer row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) SeNBtoMeNBContainer() SeNBModificationRequestAcknowledgeSeNBtoMeNBContainerIEBinding {
 	return SeNBModificationRequestAcknowledgeSeNBtoMeNBContainerIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoSeNBtoMeNBContainer(t), codec: s08.X2apInternalConstructT29SeNBtoMeNBContainerValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SeNBtoMeNBContainer", func(data []byte, options aper.DecodeState) (s08.SeNBtoMeNBContainer, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40525,6 +40959,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) SeNBtoMeNBContainer() SeNBMod
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoCriticalityDiagnostics(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) CriticalityDiagnostics() SeNBModificationRequestAcknowledgeCriticalityDiagnosticsIEBinding {
 	return SeNBModificationRequestAcknowledgeCriticalityDiagnosticsIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoCriticalityDiagnostics(t), codec: s06.X2apInternalConstructT32CriticalityDiagnosticsValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CriticalityDiagnostics", func(data []byte, options aper.DecodeState) (s06.CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40568,6 +41004,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) CriticalityDiagnostics() SeNB
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoMeNBUEX2APIDExtension(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) MeNBUEX2APIDExtension() SeNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding {
 	return SeNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40621,6 +41059,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) MeNBUEX2APIDExtension() SeNBM
 func X2apInternalSeNBModificationRequestAcknowledgeIETableInfoSeNBUEX2APIDExtension(internalReceiver SeNBModificationRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(158), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequestAcknowledge-IEs", Row: "id-SeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// SeNBUEX2APIDExtension returns the typed binding for the SeNBUEX2APIDExtension row of SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) SeNBUEX2APIDExtension() SeNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding {
 	return SeNBModificationRequestAcknowledgeUEX2APIDExtensionIEBinding{info: X2apInternalSeNBModificationRequestAcknowledgeIETableInfoSeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40671,6 +41111,8 @@ func (t SeNBModificationRequestAcknowledgeIETable) SeNBUEX2APIDExtension() SeNBM
 			return value.AsSeNBUEX2APIDExtension()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SeNBModificationRequestAcknowledgeIETable.
 func (t SeNBModificationRequestAcknowledgeIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SeNBModificationRequestAcknowledgeIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SeNBModificationRequestAcknowledgeIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -40714,12 +41156,16 @@ type SeNBModificationRequiredIETable struct{}
 func SeNBModificationRequiredIEs() SeNBModificationRequiredIETable {
 	return SeNBModificationRequiredIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SeNBModificationRequiredIETable.
 func (SeNBModificationRequiredIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequired-IEs"})
 }
 func X2apInternalSeNBModificationRequiredIETableInfoMeNBUEX2APID(internalReceiver SeNBModificationRequiredIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequiredIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequired-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SeNBModificationRequiredIETable.
 func (t SeNBModificationRequiredIETable) MeNBUEX2APID() SeNBModificationRequiredUEX2APIDIEBinding {
 	return SeNBModificationRequiredUEX2APIDIEBinding{info: X2apInternalSeNBModificationRequiredIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40771,6 +41217,8 @@ func (t SeNBModificationRequiredIETable) MeNBUEX2APID() SeNBModificationRequired
 func X2apInternalSeNBModificationRequiredIETableInfoSeNBUEX2APID(internalReceiver SeNBModificationRequiredIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequiredIEs().ID(), ID: s00.ProtocolIEID(112), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequired-IEs", Row: "id-SeNB-UE-X2AP-ID"}}}
 }
+
+// SeNBUEX2APID returns the typed binding for the SeNBUEX2APID row of SeNBModificationRequiredIETable.
 func (t SeNBModificationRequiredIETable) SeNBUEX2APID() SeNBModificationRequiredUEX2APIDIEBinding {
 	return SeNBModificationRequiredUEX2APIDIEBinding{info: X2apInternalSeNBModificationRequiredIETableInfoSeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40822,6 +41270,8 @@ func (t SeNBModificationRequiredIETable) SeNBUEX2APID() SeNBModificationRequired
 func X2apInternalSeNBModificationRequiredIETableInfoCause(internalReceiver SeNBModificationRequiredIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequiredIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequired-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of SeNBModificationRequiredIETable.
 func (t SeNBModificationRequiredIETable) Cause() SeNBModificationRequiredCauseIEBinding {
 	return SeNBModificationRequiredCauseIEBinding{info: X2apInternalSeNBModificationRequiredIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40863,6 +41313,8 @@ func (t SeNBModificationRequiredIETable) Cause() SeNBModificationRequiredCauseIE
 func X2apInternalSeNBModificationRequiredIETableInfoSCGChangeIndication(internalReceiver SeNBModificationRequiredIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequiredIEs().ID(), ID: s00.ProtocolIEID(136), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SCGChangeIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequired-IEs", Row: "id-SCGChangeIndication"}}}
 }
+
+// SCGChangeIndication returns the typed binding for the SCGChangeIndication row of SeNBModificationRequiredIETable.
 func (t SeNBModificationRequiredIETable) SCGChangeIndication() SeNBModificationRequiredSCGChangeIndicationIEBinding {
 	return SeNBModificationRequiredSCGChangeIndicationIEBinding{info: X2apInternalSeNBModificationRequiredIETableInfoSCGChangeIndication(t), codec: s00.X2apInternalConstructT29SCGChangeIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SCGChangeIndication", func(data []byte, options aper.DecodeState) (s00.SCGChangeIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40915,6 +41367,8 @@ func (t SeNBModificationRequiredIETable) SCGChangeIndication() SeNBModificationR
 func X2apInternalSeNBModificationRequiredIETableInfoERABsToBeReleasedModReqd(internalReceiver SeNBModificationRequiredIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequiredIEs().ID(), ID: s00.ProtocolIEID(134), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedModReqd"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequired-IEs", Row: "id-E-RABs-ToBeReleased-ModReqd"}}}
 }
+
+// ERABsToBeReleasedModReqd returns the typed binding for the ERABsToBeReleasedModReqd row of SeNBModificationRequiredIETable.
 func (t SeNBModificationRequiredIETable) ERABsToBeReleasedModReqd() SeNBModificationRequiredERABsToBeReleasedModReqdIEBinding {
 	return SeNBModificationRequiredERABsToBeReleasedModReqdIEBinding{info: X2apInternalSeNBModificationRequiredIETableInfoERABsToBeReleasedModReqd(t), codec: s08.X2apInternalConstructT34ERABsToBeReleasedModReqdValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsToBeReleasedModReqd", func(data []byte, options aper.DecodeState) (s08.ERABsToBeReleasedModReqd, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -40957,6 +41411,8 @@ func (t SeNBModificationRequiredIETable) ERABsToBeReleasedModReqd() SeNBModifica
 func X2apInternalSeNBModificationRequiredIETableInfoSeNBtoMeNBContainer(internalReceiver SeNBModificationRequiredIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequiredIEs().ID(), ID: s00.ProtocolIEID(122), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SeNBtoMeNBContainer"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequired-IEs", Row: "id-SeNBtoMeNBContainer"}}}
 }
+
+// SeNBtoMeNBContainer returns the typed binding for the SeNBtoMeNBContainer row of SeNBModificationRequiredIETable.
 func (t SeNBModificationRequiredIETable) SeNBtoMeNBContainer() SeNBModificationRequiredSeNBtoMeNBContainerIEBinding {
 	return SeNBModificationRequiredSeNBtoMeNBContainerIEBinding{info: X2apInternalSeNBModificationRequiredIETableInfoSeNBtoMeNBContainer(t), codec: s08.X2apInternalConstructT29SeNBtoMeNBContainerValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SeNBtoMeNBContainer", func(data []byte, options aper.DecodeState) (s08.SeNBtoMeNBContainer, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41009,6 +41465,8 @@ func (t SeNBModificationRequiredIETable) SeNBtoMeNBContainer() SeNBModificationR
 func X2apInternalSeNBModificationRequiredIETableInfoMeNBUEX2APIDExtension(internalReceiver SeNBModificationRequiredIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequiredIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequired-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SeNBModificationRequiredIETable.
 func (t SeNBModificationRequiredIETable) MeNBUEX2APIDExtension() SeNBModificationRequiredUEX2APIDExtensionIEBinding {
 	return SeNBModificationRequiredUEX2APIDExtensionIEBinding{info: X2apInternalSeNBModificationRequiredIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41062,6 +41520,8 @@ func (t SeNBModificationRequiredIETable) MeNBUEX2APIDExtension() SeNBModificatio
 func X2apInternalSeNBModificationRequiredIETableInfoSeNBUEX2APIDExtension(internalReceiver SeNBModificationRequiredIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBModificationRequiredIEs().ID(), ID: s00.ProtocolIEID(158), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBModificationRequired-IEs", Row: "id-SeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// SeNBUEX2APIDExtension returns the typed binding for the SeNBUEX2APIDExtension row of SeNBModificationRequiredIETable.
 func (t SeNBModificationRequiredIETable) SeNBUEX2APIDExtension() SeNBModificationRequiredUEX2APIDExtensionIEBinding {
 	return SeNBModificationRequiredUEX2APIDExtensionIEBinding{info: X2apInternalSeNBModificationRequiredIETableInfoSeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41112,6 +41572,8 @@ func (t SeNBModificationRequiredIETable) SeNBUEX2APIDExtension() SeNBModificatio
 			return value.AsSeNBUEX2APIDExtension()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SeNBModificationRequiredIETable.
 func (t SeNBModificationRequiredIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SeNBModificationRequiredIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SeNBModificationRequiredIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -41149,12 +41611,16 @@ func (t SeNBModificationRequiredIETable) NewOpaque(id s00.ProtocolIEID, critical
 type SeNBReleaseConfirmIETable struct{}
 
 func SeNBReleaseConfirmIEs() SeNBReleaseConfirmIETable { return SeNBReleaseConfirmIETable{} }
+
+// ID returns the ASN.1 object-set identity of SeNBReleaseConfirmIETable.
 func (SeNBReleaseConfirmIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseConfirm-IEs"})
 }
 func X2apInternalSeNBReleaseConfirmIETableInfoMeNBUEX2APID(internalReceiver SeNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseConfirm-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SeNBReleaseConfirmIETable.
 func (t SeNBReleaseConfirmIETable) MeNBUEX2APID() SeNBReleaseConfirmUEX2APIDIEBinding {
 	return SeNBReleaseConfirmUEX2APIDIEBinding{info: X2apInternalSeNBReleaseConfirmIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41206,6 +41672,8 @@ func (t SeNBReleaseConfirmIETable) MeNBUEX2APID() SeNBReleaseConfirmUEX2APIDIEBi
 func X2apInternalSeNBReleaseConfirmIETableInfoSeNBUEX2APID(internalReceiver SeNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(112), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseConfirm-IEs", Row: "id-SeNB-UE-X2AP-ID"}}}
 }
+
+// SeNBUEX2APID returns the typed binding for the SeNBUEX2APID row of SeNBReleaseConfirmIETable.
 func (t SeNBReleaseConfirmIETable) SeNBUEX2APID() SeNBReleaseConfirmUEX2APIDIEBinding {
 	return SeNBReleaseConfirmUEX2APIDIEBinding{info: X2apInternalSeNBReleaseConfirmIETableInfoSeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41257,6 +41725,8 @@ func (t SeNBReleaseConfirmIETable) SeNBUEX2APID() SeNBReleaseConfirmUEX2APIDIEBi
 func X2apInternalSeNBReleaseConfirmIETableInfoERABsToBeReleasedListRelConf(internalReceiver SeNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(139), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedListRelConf"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseConfirm-IEs", Row: "id-E-RABs-ToBeReleased-List-RelConf"}}}
 }
+
+// ERABsToBeReleasedListRelConf returns the typed binding for the ERABsToBeReleasedListRelConf row of SeNBReleaseConfirmIETable.
 func (t SeNBReleaseConfirmIETable) ERABsToBeReleasedListRelConf() SeNBReleaseConfirmERABsToBeReleasedListRelConfIEBinding {
 	return SeNBReleaseConfirmERABsToBeReleasedListRelConfIEBinding{info: X2apInternalSeNBReleaseConfirmIETableInfoERABsToBeReleasedListRelConf(t), codec: s11.X2apInternalConstructT38ERABsToBeReleasedListRelConfValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsToBeReleasedListRelConf", func(data []byte, options aper.DecodeState) (s11.ERABsToBeReleasedListRelConf, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41299,6 +41769,8 @@ func (t SeNBReleaseConfirmIETable) ERABsToBeReleasedListRelConf() SeNBReleaseCon
 func X2apInternalSeNBReleaseConfirmIETableInfoCriticalityDiagnostics(internalReceiver SeNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseConfirm-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of SeNBReleaseConfirmIETable.
 func (t SeNBReleaseConfirmIETable) CriticalityDiagnostics() SeNBReleaseConfirmCriticalityDiagnosticsIEBinding {
 	return SeNBReleaseConfirmCriticalityDiagnosticsIEBinding{info: X2apInternalSeNBReleaseConfirmIETableInfoCriticalityDiagnostics(t), codec: s06.X2apInternalConstructT32CriticalityDiagnosticsValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CriticalityDiagnostics", func(data []byte, options aper.DecodeState) (s06.CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41342,6 +41814,8 @@ func (t SeNBReleaseConfirmIETable) CriticalityDiagnostics() SeNBReleaseConfirmCr
 func X2apInternalSeNBReleaseConfirmIETableInfoMeNBUEX2APIDExtension(internalReceiver SeNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseConfirm-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SeNBReleaseConfirmIETable.
 func (t SeNBReleaseConfirmIETable) MeNBUEX2APIDExtension() SeNBReleaseConfirmUEX2APIDExtensionIEBinding {
 	return SeNBReleaseConfirmUEX2APIDExtensionIEBinding{info: X2apInternalSeNBReleaseConfirmIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41395,6 +41869,8 @@ func (t SeNBReleaseConfirmIETable) MeNBUEX2APIDExtension() SeNBReleaseConfirmUEX
 func X2apInternalSeNBReleaseConfirmIETableInfoSeNBUEX2APIDExtension(internalReceiver SeNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(158), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseConfirm-IEs", Row: "id-SeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// SeNBUEX2APIDExtension returns the typed binding for the SeNBUEX2APIDExtension row of SeNBReleaseConfirmIETable.
 func (t SeNBReleaseConfirmIETable) SeNBUEX2APIDExtension() SeNBReleaseConfirmUEX2APIDExtensionIEBinding {
 	return SeNBReleaseConfirmUEX2APIDExtensionIEBinding{info: X2apInternalSeNBReleaseConfirmIETableInfoSeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41445,6 +41921,8 @@ func (t SeNBReleaseConfirmIETable) SeNBUEX2APIDExtension() SeNBReleaseConfirmUEX
 			return value.AsSeNBUEX2APIDExtension()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SeNBReleaseConfirmIETable.
 func (t SeNBReleaseConfirmIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SeNBReleaseConfirmIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SeNBReleaseConfirmIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -41478,12 +41956,16 @@ func (t SeNBReleaseConfirmIETable) NewOpaque(id s00.ProtocolIEID, criticality s0
 type SeNBReleaseRequestIETable struct{}
 
 func SeNBReleaseRequestIEs() SeNBReleaseRequestIETable { return SeNBReleaseRequestIETable{} }
+
+// ID returns the ASN.1 object-set identity of SeNBReleaseRequestIETable.
 func (SeNBReleaseRequestIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseRequest-IEs"})
 }
 func X2apInternalSeNBReleaseRequestIETableInfoMeNBUEX2APID(internalReceiver SeNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseRequest-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SeNBReleaseRequestIETable.
 func (t SeNBReleaseRequestIETable) MeNBUEX2APID() SeNBReleaseRequestUEX2APIDIEBinding {
 	return SeNBReleaseRequestUEX2APIDIEBinding{info: X2apInternalSeNBReleaseRequestIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41535,6 +42017,8 @@ func (t SeNBReleaseRequestIETable) MeNBUEX2APID() SeNBReleaseRequestUEX2APIDIEBi
 func X2apInternalSeNBReleaseRequestIETableInfoSeNBUEX2APID(internalReceiver SeNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(112), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseRequest-IEs", Row: "id-SeNB-UE-X2AP-ID"}}}
 }
+
+// SeNBUEX2APID returns the typed binding for the SeNBUEX2APID row of SeNBReleaseRequestIETable.
 func (t SeNBReleaseRequestIETable) SeNBUEX2APID() SeNBReleaseRequestUEX2APIDIEBinding {
 	return SeNBReleaseRequestUEX2APIDIEBinding{info: X2apInternalSeNBReleaseRequestIETableInfoSeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41586,6 +42070,8 @@ func (t SeNBReleaseRequestIETable) SeNBUEX2APID() SeNBReleaseRequestUEX2APIDIEBi
 func X2apInternalSeNBReleaseRequestIETableInfoCause(internalReceiver SeNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseRequest-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of SeNBReleaseRequestIETable.
 func (t SeNBReleaseRequestIETable) Cause() SeNBReleaseRequestCauseIEBinding {
 	return SeNBReleaseRequestCauseIEBinding{info: X2apInternalSeNBReleaseRequestIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41627,6 +42113,8 @@ func (t SeNBReleaseRequestIETable) Cause() SeNBReleaseRequestCauseIEBinding {
 func X2apInternalSeNBReleaseRequestIETableInfoERABsToBeReleasedListRelReq(internalReceiver SeNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(137), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedListRelReq"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseRequest-IEs", Row: "id-E-RABs-ToBeReleased-List-RelReq"}}}
 }
+
+// ERABsToBeReleasedListRelReq returns the typed binding for the ERABsToBeReleasedListRelReq row of SeNBReleaseRequestIETable.
 func (t SeNBReleaseRequestIETable) ERABsToBeReleasedListRelReq() SeNBReleaseRequestERABsToBeReleasedListRelReqIEBinding {
 	return SeNBReleaseRequestERABsToBeReleasedListRelReqIEBinding{info: X2apInternalSeNBReleaseRequestIETableInfoERABsToBeReleasedListRelReq(t), codec: s11.X2apInternalConstructT37ERABsToBeReleasedListRelReqValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsToBeReleasedListRelReq", func(data []byte, options aper.DecodeState) (s11.ERABsToBeReleasedListRelReq, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41670,6 +42158,8 @@ func (t SeNBReleaseRequestIETable) ERABsToBeReleasedListRelReq() SeNBReleaseRequ
 func X2apInternalSeNBReleaseRequestIETableInfoUEContextKeptIndicator(internalReceiver SeNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(154), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEContextKeptIndicator"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseRequest-IEs", Row: "id-UE-ContextKeptIndicator"}}}
 }
+
+// UEContextKeptIndicator returns the typed binding for the UEContextKeptIndicator row of SeNBReleaseRequestIETable.
 func (t SeNBReleaseRequestIETable) UEContextKeptIndicator() SeNBReleaseRequestUEContextKeptIndicatorIEBinding {
 	return SeNBReleaseRequestUEContextKeptIndicatorIEBinding{info: X2apInternalSeNBReleaseRequestIETableInfoUEContextKeptIndicator(t), codec: s00.X2apInternalConstructT32UEContextKeptIndicatorValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEContextKeptIndicator", func(data []byte, options aper.DecodeState) (s00.UEContextKeptIndicator, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41722,6 +42212,8 @@ func (t SeNBReleaseRequestIETable) UEContextKeptIndicator() SeNBReleaseRequestUE
 func X2apInternalSeNBReleaseRequestIETableInfoMeNBUEX2APIDExtension(internalReceiver SeNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseRequest-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SeNBReleaseRequestIETable.
 func (t SeNBReleaseRequestIETable) MeNBUEX2APIDExtension() SeNBReleaseRequestUEX2APIDExtensionIEBinding {
 	return SeNBReleaseRequestUEX2APIDExtensionIEBinding{info: X2apInternalSeNBReleaseRequestIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41775,6 +42267,8 @@ func (t SeNBReleaseRequestIETable) MeNBUEX2APIDExtension() SeNBReleaseRequestUEX
 func X2apInternalSeNBReleaseRequestIETableInfoSeNBUEX2APIDExtension(internalReceiver SeNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(158), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseRequest-IEs", Row: "id-SeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// SeNBUEX2APIDExtension returns the typed binding for the SeNBUEX2APIDExtension row of SeNBReleaseRequestIETable.
 func (t SeNBReleaseRequestIETable) SeNBUEX2APIDExtension() SeNBReleaseRequestUEX2APIDExtensionIEBinding {
 	return SeNBReleaseRequestUEX2APIDExtensionIEBinding{info: X2apInternalSeNBReleaseRequestIETableInfoSeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41828,6 +42322,8 @@ func (t SeNBReleaseRequestIETable) SeNBUEX2APIDExtension() SeNBReleaseRequestUEX
 func X2apInternalSeNBReleaseRequestIETableInfoMakeBeforeBreakIndicator(internalReceiver SeNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SeNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(181), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MakeBeforeBreakIndicator"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SeNBReleaseRequest-IEs", Row: "id-MakeBeforeBreakIndicator"}}}
 }
+
+// MakeBeforeBreakIndicator returns the typed binding for the MakeBeforeBreakIndicator row of SeNBReleaseRequestIETable.
 func (t SeNBReleaseRequestIETable) MakeBeforeBreakIndicator() SeNBReleaseRequestMakeBeforeBreakIndicatorIEBinding {
 	return SeNBReleaseRequestMakeBeforeBreakIndicatorIEBinding{info: X2apInternalSeNBReleaseRequestIETableInfoMakeBeforeBreakIndicator(t), codec: s00.X2apInternalConstructT34MakeBeforeBreakIndicatorValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MakeBeforeBreakIndicator", func(data []byte, options aper.DecodeState) (s00.MakeBeforeBreakIndicator, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41877,6 +42373,8 @@ func (t SeNBReleaseRequestIETable) MakeBeforeBreakIndicator() SeNBReleaseRequest
 			return value.AsMakeBeforeBreakIndicator()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SeNBReleaseRequestIETable.
 func (t SeNBReleaseRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SeNBReleaseRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SeNBReleaseRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -41916,12 +42414,16 @@ type SgNBAdditionRequestAcknowledgeIETable struct{}
 func SgNBAdditionRequestAcknowledgeIEs() SgNBAdditionRequestAcknowledgeIETable {
 	return SgNBAdditionRequestAcknowledgeIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SgNBAdditionRequestAcknowledgeIETable.
 func (SgNBAdditionRequestAcknowledgeIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs"})
 }
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoMeNBUEX2APID(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) MeNBUEX2APID() SgNBAdditionRequestAcknowledgeUEX2APIDIEBinding {
 	return SgNBAdditionRequestAcknowledgeUEX2APIDIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -41975,6 +42477,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) MeNBUEX2APID() SgNBAdditionReques
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoSgNBUEX2APID(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(207), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBUEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-SgNB-UE-X2AP-ID"}}}
 }
+
+// SgNBUEX2APID returns the typed binding for the SgNBUEX2APID row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) SgNBUEX2APID() SgNBAdditionRequestAcknowledgeSgNBUEX2APIDIEBinding {
 	return SgNBAdditionRequestAcknowledgeSgNBUEX2APIDIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoSgNBUEX2APID(t), codec: s08.X2apInternalConstructT22SgNBUEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBUEX2APID", func(data []byte, options aper.DecodeState) (s08.SgNBUEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42027,6 +42531,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) SgNBUEX2APID() SgNBAdditionReques
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoERABsAdmittedToBeAddedSgNBAddReqAckList(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(210), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeAddedSgNBAddReqAckList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-E-RABs-Admitted-ToBeAdded-SgNBAddReqAckList"}}}
 }
+
+// ERABsAdmittedToBeAddedSgNBAddReqAckList returns the typed binding for the ERABsAdmittedToBeAddedSgNBAddReqAckList row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) ERABsAdmittedToBeAddedSgNBAddReqAckList() SgNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedSgNBAddReqAckListIEBinding {
 	return SgNBAdditionRequestAcknowledgeERABsAdmittedToBeAddedSgNBAddReqAckListIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoERABsAdmittedToBeAddedSgNBAddReqAckList(t), codec: s11.X2apInternalConstructT49ERABsAdmittedToBeAddedSgNBAddReqAckListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsAdmittedToBeAddedSgNBAddReqAckList", func(data []byte, options aper.DecodeState) (s11.ERABsAdmittedToBeAddedSgNBAddReqAckList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42070,6 +42576,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) ERABsAdmittedToBeAddedSgNBAddReqA
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoERABsNotAdmittedList(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(3), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ERABList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-E-RABs-NotAdmitted-List"}}}
 }
+
+// ERABsNotAdmittedList returns the typed binding for the ERABsNotAdmittedList row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) ERABsNotAdmittedList() SgNBAdditionRequestAcknowledgeERABListIEBinding {
 	return SgNBAdditionRequestAcknowledgeERABListIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoERABsNotAdmittedList(t), codec: s08.X2apInternalConstructT18ERABListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABList", func(data []byte, options aper.DecodeState) (s08.ERABList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42113,6 +42621,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) ERABsNotAdmittedList() SgNBAdditi
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoSgNBtoMeNBContainer(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(211), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBtoMeNBContainer"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-SgNBtoMeNBContainer"}}}
 }
+
+// SgNBtoMeNBContainer returns the typed binding for the SgNBtoMeNBContainer row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) SgNBtoMeNBContainer() SgNBAdditionRequestAcknowledgeSgNBtoMeNBContainerIEBinding {
 	return SgNBAdditionRequestAcknowledgeSgNBtoMeNBContainerIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoSgNBtoMeNBContainer(t), codec: s08.X2apInternalConstructT29SgNBtoMeNBContainerValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBtoMeNBContainer", func(data []byte, options aper.DecodeState) (s08.SgNBtoMeNBContainer, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42165,6 +42675,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) SgNBtoMeNBContainer() SgNBAdditio
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoCriticalityDiagnostics(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) CriticalityDiagnostics() SgNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding {
 	return SgNBAdditionRequestAcknowledgeCriticalityDiagnosticsIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoCriticalityDiagnostics(t), codec: s06.X2apInternalConstructT32CriticalityDiagnosticsValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CriticalityDiagnostics", func(data []byte, options aper.DecodeState) (s06.CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42208,6 +42720,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) CriticalityDiagnostics() SgNBAddi
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoMeNBUEX2APIDExtension(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) MeNBUEX2APIDExtension() SgNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding {
 	return SgNBAdditionRequestAcknowledgeUEX2APIDExtensionIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42261,6 +42775,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) MeNBUEX2APIDExtension() SgNBAddit
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoAdmittedSplitSRBs(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(212), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SplitSRBs"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-AdmittedSplitSRBs"}}}
 }
+
+// AdmittedSplitSRBs returns the typed binding for the AdmittedSplitSRBs row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) AdmittedSplitSRBs() SgNBAdditionRequestAcknowledgeSplitSRBsIEBinding {
 	return SgNBAdditionRequestAcknowledgeSplitSRBsIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoAdmittedSplitSRBs(t), codec: s00.X2apInternalConstructT19SplitSRBsValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SplitSRBs", func(data []byte, options aper.DecodeState) (s00.SplitSRBs, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42315,6 +42831,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) AdmittedSplitSRBs() SgNBAdditionR
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoSgNBResourceCoordinationInformation(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(258), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBResourceCoordinationInformation"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-SgNBResourceCoordinationInformation"}}}
 }
+
+// SgNBResourceCoordinationInformation returns the typed binding for the SgNBResourceCoordinationInformation row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) SgNBResourceCoordinationInformation() SgNBAdditionRequestAcknowledgeSgNBResourceCoordinationInformationIEBinding {
 	return SgNBAdditionRequestAcknowledgeSgNBResourceCoordinationInformationIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoSgNBResourceCoordinationInformation(t), codec: s08.X2apInternalConstructT45SgNBResourceCoordinationInformationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBResourceCoordinationInformation", func(data []byte, options aper.DecodeState) (s08.SgNBResourceCoordinationInformation, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42360,6 +42878,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) SgNBResourceCoordinationInformati
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoRRCConfigIndication(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(272), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "RRCConfigInd"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-RRCConfigIndication"}}}
 }
+
+// RRCConfigIndication returns the typed binding for the RRCConfigIndication row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) RRCConfigIndication() SgNBAdditionRequestAcknowledgeRRCConfigIndIEBinding {
 	return SgNBAdditionRequestAcknowledgeRRCConfigIndIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoRRCConfigIndication(t), codec: s00.X2apInternalConstructT22RRCConfigIndValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("RRCConfigInd", func(data []byte, options aper.DecodeState) (s00.RRCConfigInd, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42412,6 +42932,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) RRCConfigIndication() SgNBAdditio
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoLocationInformationSgNB(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(331), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "LocationInformationSgNB"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-LocationInformationSgNB"}}}
 }
+
+// LocationInformationSgNB returns the typed binding for the LocationInformationSgNB row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) LocationInformationSgNB() SgNBAdditionRequestAcknowledgeLocationInformationSgNBIEBinding {
 	return SgNBAdditionRequestAcknowledgeLocationInformationSgNBIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoLocationInformationSgNB(t), codec: s05.X2apInternalConstructT33LocationInformationSgNBValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("LocationInformationSgNB", func(data []byte, options aper.DecodeState) (s05.LocationInformationSgNB, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42456,6 +42978,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) LocationInformationSgNB() SgNBAdd
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoAvailableFastMCGRecoveryViaSRB3(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(344), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "AvailableFastMCGRecoveryViaSRB3"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-AvailableFastMCGRecoveryViaSRB3"}}}
 }
+
+// AvailableFastMCGRecoveryViaSRB3 returns the typed binding for the AvailableFastMCGRecoveryViaSRB3 row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) AvailableFastMCGRecoveryViaSRB3() SgNBAdditionRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding {
 	return SgNBAdditionRequestAcknowledgeAvailableFastMCGRecoveryViaSRB3IEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoAvailableFastMCGRecoveryViaSRB3(t), codec: s00.X2apInternalConstructT41AvailableFastMCGRecoveryViaSRB3ValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("AvailableFastMCGRecoveryViaSRB3", func(data []byte, options aper.DecodeState) (s00.AvailableFastMCGRecoveryViaSRB3, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42509,6 +43033,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) AvailableFastMCGRecoveryViaSRB3()
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoDirectForwardingPathAvailability(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(410), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DirectForwardingPathAvailability"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-DirectForwardingPathAvailability"}}}
 }
+
+// DirectForwardingPathAvailability returns the typed binding for the DirectForwardingPathAvailability row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) DirectForwardingPathAvailability() SgNBAdditionRequestAcknowledgeDirectForwardingPathAvailabilityIEBinding {
 	return SgNBAdditionRequestAcknowledgeDirectForwardingPathAvailabilityIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoDirectForwardingPathAvailability(t), codec: s00.X2apInternalConstructT42DirectForwardingPathAvailabilityValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("DirectForwardingPathAvailability", func(data []byte, options aper.DecodeState) (s00.DirectForwardingPathAvailability, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42561,6 +43087,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) DirectForwardingPathAvailability(
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoSCGActivationStatus(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(422), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SCGActivationStatus"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-SCGActivationStatus"}}}
 }
+
+// SCGActivationStatus returns the typed binding for the SCGActivationStatus row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) SCGActivationStatus() SgNBAdditionRequestAcknowledgeSCGActivationStatusIEBinding {
 	return SgNBAdditionRequestAcknowledgeSCGActivationStatusIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoSCGActivationStatus(t), codec: s00.X2apInternalConstructT29SCGActivationStatusValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SCGActivationStatus", func(data []byte, options aper.DecodeState) (s00.SCGActivationStatus, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42613,6 +43141,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) SCGActivationStatus() SgNBAdditio
 func X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoCPAinformationREQACK(internalReceiver SgNBAdditionRequestAcknowledgeIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBAdditionRequestAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(425), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPAinformationREQACK"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBAdditionRequestAcknowledge-IEs", Row: "id-CPAinformation-REQ-ACK"}}}
 }
+
+// CPAinformationREQACK returns the typed binding for the CPAinformationREQACK row of SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) CPAinformationREQACK() SgNBAdditionRequestAcknowledgeCPAinformationREQACKIEBinding {
 	return SgNBAdditionRequestAcknowledgeCPAinformationREQACKIEBinding{info: X2apInternalSgNBAdditionRequestAcknowledgeIETableInfoCPAinformationREQACK(t), codec: s06.X2apInternalConstructT30CPAinformationREQACKValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CPAinformationREQACK", func(data []byte, options aper.DecodeState) (s06.CPAinformationREQACK, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42653,6 +43183,8 @@ func (t SgNBAdditionRequestAcknowledgeIETable) CPAinformationREQACK() SgNBAdditi
 			return value.AsCPAinformationREQACK()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SgNBAdditionRequestAcknowledgeIETable.
 func (t SgNBAdditionRequestAcknowledgeIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SgNBAdditionRequestAcknowledgeIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SgNBAdditionRequestAcknowledgeIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -42704,12 +43236,16 @@ func (t SgNBAdditionRequestAcknowledgeIETable) NewOpaque(id s00.ProtocolIEID, cr
 type SgNBChangeConfirmIETable struct{}
 
 func SgNBChangeConfirmIEs() SgNBChangeConfirmIETable { return SgNBChangeConfirmIETable{} }
+
+// ID returns the ASN.1 object-set identity of SgNBChangeConfirmIETable.
 func (SgNBChangeConfirmIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBChangeConfirm-IEs"})
 }
 func X2apInternalSgNBChangeConfirmIETableInfoMeNBUEX2APID(internalReceiver SgNBChangeConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBChangeConfirmIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBChangeConfirm-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SgNBChangeConfirmIETable.
 func (t SgNBChangeConfirmIETable) MeNBUEX2APID() SgNBChangeConfirmUEX2APIDIEBinding {
 	return SgNBChangeConfirmUEX2APIDIEBinding{info: X2apInternalSgNBChangeConfirmIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42761,6 +43297,8 @@ func (t SgNBChangeConfirmIETable) MeNBUEX2APID() SgNBChangeConfirmUEX2APIDIEBind
 func X2apInternalSgNBChangeConfirmIETableInfoSgNBUEX2APID(internalReceiver SgNBChangeConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBChangeConfirmIEs().ID(), ID: s00.ProtocolIEID(207), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBUEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBChangeConfirm-IEs", Row: "id-SgNB-UE-X2AP-ID"}}}
 }
+
+// SgNBUEX2APID returns the typed binding for the SgNBUEX2APID row of SgNBChangeConfirmIETable.
 func (t SgNBChangeConfirmIETable) SgNBUEX2APID() SgNBChangeConfirmSgNBUEX2APIDIEBinding {
 	return SgNBChangeConfirmSgNBUEX2APIDIEBinding{info: X2apInternalSgNBChangeConfirmIETableInfoSgNBUEX2APID(t), codec: s08.X2apInternalConstructT22SgNBUEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBUEX2APID", func(data []byte, options aper.DecodeState) (s08.SgNBUEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42811,6 +43349,8 @@ func (t SgNBChangeConfirmIETable) SgNBUEX2APID() SgNBChangeConfirmSgNBUEX2APIDIE
 func X2apInternalSgNBChangeConfirmIETableInfoERABsToBeReleasedSgNBChaConfList(internalReceiver SgNBChangeConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBChangeConfirmIEs().ID(), ID: s00.ProtocolIEID(229), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedSgNBChaConfList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBChangeConfirm-IEs", Row: "id-E-RABs-ToBeReleased-SgNBChaConfList"}}}
 }
+
+// ERABsToBeReleasedSgNBChaConfList returns the typed binding for the ERABsToBeReleasedSgNBChaConfList row of SgNBChangeConfirmIETable.
 func (t SgNBChangeConfirmIETable) ERABsToBeReleasedSgNBChaConfList() SgNBChangeConfirmERABsToBeReleasedSgNBChaConfListIEBinding {
 	return SgNBChangeConfirmERABsToBeReleasedSgNBChaConfListIEBinding{info: X2apInternalSgNBChangeConfirmIETableInfoERABsToBeReleasedSgNBChaConfList(t), codec: s13.X2apInternalConstructT42ERABsToBeReleasedSgNBChaConfListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsToBeReleasedSgNBChaConfList", func(data []byte, options aper.DecodeState) (s13.ERABsToBeReleasedSgNBChaConfList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42853,6 +43393,8 @@ func (t SgNBChangeConfirmIETable) ERABsToBeReleasedSgNBChaConfList() SgNBChangeC
 func X2apInternalSgNBChangeConfirmIETableInfoCriticalityDiagnostics(internalReceiver SgNBChangeConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBChangeConfirmIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBChangeConfirm-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of SgNBChangeConfirmIETable.
 func (t SgNBChangeConfirmIETable) CriticalityDiagnostics() SgNBChangeConfirmCriticalityDiagnosticsIEBinding {
 	return SgNBChangeConfirmCriticalityDiagnosticsIEBinding{info: X2apInternalSgNBChangeConfirmIETableInfoCriticalityDiagnostics(t), codec: s06.X2apInternalConstructT32CriticalityDiagnosticsValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CriticalityDiagnostics", func(data []byte, options aper.DecodeState) (s06.CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42896,6 +43438,8 @@ func (t SgNBChangeConfirmIETable) CriticalityDiagnostics() SgNBChangeConfirmCrit
 func X2apInternalSgNBChangeConfirmIETableInfoMeNBUEX2APIDExtension(internalReceiver SgNBChangeConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBChangeConfirmIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBChangeConfirm-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SgNBChangeConfirmIETable.
 func (t SgNBChangeConfirmIETable) MeNBUEX2APIDExtension() SgNBChangeConfirmUEX2APIDExtensionIEBinding {
 	return SgNBChangeConfirmUEX2APIDExtensionIEBinding{info: X2apInternalSgNBChangeConfirmIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42949,6 +43493,8 @@ func (t SgNBChangeConfirmIETable) MeNBUEX2APIDExtension() SgNBChangeConfirmUEX2A
 func X2apInternalSgNBChangeConfirmIETableInfoCPCinformationCONF(internalReceiver SgNBChangeConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBChangeConfirmIEs().ID(), ID: s00.ProtocolIEID(430), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPCinformationCONF"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBChangeConfirm-IEs", Row: "id-CPCinformation-CONF"}}}
 }
+
+// CPCinformationCONF returns the typed binding for the CPCinformationCONF row of SgNBChangeConfirmIETable.
 func (t SgNBChangeConfirmIETable) CPCinformationCONF() SgNBChangeConfirmCPCinformationCONFIEBinding {
 	return SgNBChangeConfirmCPCinformationCONFIEBinding{info: X2apInternalSgNBChangeConfirmIETableInfoCPCinformationCONF(t), codec: s06.X2apInternalConstructT28CPCinformationCONFValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CPCinformationCONF", func(data []byte, options aper.DecodeState) (s06.CPCinformationCONF, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -42993,6 +43539,8 @@ func (t SgNBChangeConfirmIETable) CPCinformationCONF() SgNBChangeConfirmCPCinfor
 func X2apInternalSgNBChangeConfirmIETableInfoMeNBtoSgNBContainer(internalReceiver SgNBChangeConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBChangeConfirmIEs().ID(), ID: s00.ProtocolIEID(206), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MeNBtoSgNBContainer"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBChangeConfirm-IEs", Row: "id-MeNBtoSgNBContainer"}}}
 }
+
+// MeNBtoSgNBContainer returns the typed binding for the MeNBtoSgNBContainer row of SgNBChangeConfirmIETable.
 func (t SgNBChangeConfirmIETable) MeNBtoSgNBContainer() SgNBChangeConfirmMeNBtoSgNBContainerIEBinding {
 	return SgNBChangeConfirmMeNBtoSgNBContainerIEBinding{info: X2apInternalSgNBChangeConfirmIETableInfoMeNBtoSgNBContainer(t), codec: s00.X2apInternalConstructT29MeNBtoSgNBContainerValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MeNBtoSgNBContainer", func(data []byte, options aper.DecodeState) (s00.MeNBtoSgNBContainer, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43042,6 +43590,8 @@ func (t SgNBChangeConfirmIETable) MeNBtoSgNBContainer() SgNBChangeConfirmMeNBtoS
 			return value.AsMeNBtoSgNBContainer()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SgNBChangeConfirmIETable.
 func (t SgNBChangeConfirmIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SgNBChangeConfirmIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SgNBChangeConfirmIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -43079,12 +43629,16 @@ type SgNBCounterCheckRequestIETable struct{}
 func SgNBCounterCheckRequestIEs() SgNBCounterCheckRequestIETable {
 	return SgNBCounterCheckRequestIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SgNBCounterCheckRequestIETable.
 func (SgNBCounterCheckRequestIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBCounterCheckRequest-IEs"})
 }
 func X2apInternalSgNBCounterCheckRequestIETableInfoMeNBUEX2APID(internalReceiver SgNBCounterCheckRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBCounterCheckRequestIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBCounterCheckRequest-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SgNBCounterCheckRequestIETable.
 func (t SgNBCounterCheckRequestIETable) MeNBUEX2APID() SgNBCounterCheckRequestUEX2APIDIEBinding {
 	return SgNBCounterCheckRequestUEX2APIDIEBinding{info: X2apInternalSgNBCounterCheckRequestIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43136,6 +43690,8 @@ func (t SgNBCounterCheckRequestIETable) MeNBUEX2APID() SgNBCounterCheckRequestUE
 func X2apInternalSgNBCounterCheckRequestIETableInfoSgNBUEX2APID(internalReceiver SgNBCounterCheckRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBCounterCheckRequestIEs().ID(), ID: s00.ProtocolIEID(207), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBUEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBCounterCheckRequest-IEs", Row: "id-SgNB-UE-X2AP-ID"}}}
 }
+
+// SgNBUEX2APID returns the typed binding for the SgNBUEX2APID row of SgNBCounterCheckRequestIETable.
 func (t SgNBCounterCheckRequestIETable) SgNBUEX2APID() SgNBCounterCheckRequestSgNBUEX2APIDIEBinding {
 	return SgNBCounterCheckRequestSgNBUEX2APIDIEBinding{info: X2apInternalSgNBCounterCheckRequestIETableInfoSgNBUEX2APID(t), codec: s08.X2apInternalConstructT22SgNBUEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBUEX2APID", func(data []byte, options aper.DecodeState) (s08.SgNBUEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43186,6 +43742,8 @@ func (t SgNBCounterCheckRequestIETable) SgNBUEX2APID() SgNBCounterCheckRequestSg
 func X2apInternalSgNBCounterCheckRequestIETableInfoERABsSubjectToSgNBCounterCheckList(internalReceiver SgNBCounterCheckRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBCounterCheckRequestIEs().ID(), ID: s00.ProtocolIEID(235), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsSubjectToSgNBCounterCheckList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBCounterCheckRequest-IEs", Row: "id-E-RABs-SubjectToSgNBCounterCheck-List"}}}
 }
+
+// ERABsSubjectToSgNBCounterCheckList returns the typed binding for the ERABsSubjectToSgNBCounterCheckList row of SgNBCounterCheckRequestIETable.
 func (t SgNBCounterCheckRequestIETable) ERABsSubjectToSgNBCounterCheckList() SgNBCounterCheckRequestERABsSubjectToSgNBCounterCheckListIEBinding {
 	return SgNBCounterCheckRequestERABsSubjectToSgNBCounterCheckListIEBinding{info: X2apInternalSgNBCounterCheckRequestIETableInfoERABsSubjectToSgNBCounterCheckList(t), codec: s08.X2apInternalConstructT44ERABsSubjectToSgNBCounterCheckListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsSubjectToSgNBCounterCheckList", func(data []byte, options aper.DecodeState) (s08.ERABsSubjectToSgNBCounterCheckList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43229,6 +43787,8 @@ func (t SgNBCounterCheckRequestIETable) ERABsSubjectToSgNBCounterCheckList() SgN
 func X2apInternalSgNBCounterCheckRequestIETableInfoMeNBUEX2APIDExtension(internalReceiver SgNBCounterCheckRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBCounterCheckRequestIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBCounterCheckRequest-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SgNBCounterCheckRequestIETable.
 func (t SgNBCounterCheckRequestIETable) MeNBUEX2APIDExtension() SgNBCounterCheckRequestUEX2APIDExtensionIEBinding {
 	return SgNBCounterCheckRequestUEX2APIDExtensionIEBinding{info: X2apInternalSgNBCounterCheckRequestIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43279,6 +43839,8 @@ func (t SgNBCounterCheckRequestIETable) MeNBUEX2APIDExtension() SgNBCounterCheck
 			return value.AsMeNBUEX2APIDExtension()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SgNBCounterCheckRequestIETable.
 func (t SgNBCounterCheckRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SgNBCounterCheckRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SgNBCounterCheckRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -43310,12 +43872,16 @@ type SgNBModificationConfirmIETable struct{}
 func SgNBModificationConfirmIEs() SgNBModificationConfirmIETable {
 	return SgNBModificationConfirmIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SgNBModificationConfirmIETable.
 func (SgNBModificationConfirmIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBModificationConfirm-IEs"})
 }
 func X2apInternalSgNBModificationConfirmIETableInfoMeNBUEX2APID(internalReceiver SgNBModificationConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBModificationConfirmIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBModificationConfirm-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SgNBModificationConfirmIETable.
 func (t SgNBModificationConfirmIETable) MeNBUEX2APID() SgNBModificationConfirmUEX2APIDIEBinding {
 	return SgNBModificationConfirmUEX2APIDIEBinding{info: X2apInternalSgNBModificationConfirmIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43367,6 +43933,8 @@ func (t SgNBModificationConfirmIETable) MeNBUEX2APID() SgNBModificationConfirmUE
 func X2apInternalSgNBModificationConfirmIETableInfoSgNBUEX2APID(internalReceiver SgNBModificationConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBModificationConfirmIEs().ID(), ID: s00.ProtocolIEID(207), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBUEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBModificationConfirm-IEs", Row: "id-SgNB-UE-X2AP-ID"}}}
 }
+
+// SgNBUEX2APID returns the typed binding for the SgNBUEX2APID row of SgNBModificationConfirmIETable.
 func (t SgNBModificationConfirmIETable) SgNBUEX2APID() SgNBModificationConfirmSgNBUEX2APIDIEBinding {
 	return SgNBModificationConfirmSgNBUEX2APIDIEBinding{info: X2apInternalSgNBModificationConfirmIETableInfoSgNBUEX2APID(t), codec: s08.X2apInternalConstructT22SgNBUEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBUEX2APID", func(data []byte, options aper.DecodeState) (s08.SgNBUEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43417,6 +43985,8 @@ func (t SgNBModificationConfirmIETable) SgNBUEX2APID() SgNBModificationConfirmSg
 func X2apInternalSgNBModificationConfirmIETableInfoERABsAdmittedToBeModifiedSgNBModConfList(internalReceiver SgNBModificationConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBModificationConfirmIEs().ID(), ID: s00.ProtocolIEID(294), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeModifiedSgNBModConfList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBModificationConfirm-IEs", Row: "id-E-RABs-AdmittedToBeModified-SgNBModConfList"}}}
 }
+
+// ERABsAdmittedToBeModifiedSgNBModConfList returns the typed binding for the ERABsAdmittedToBeModifiedSgNBModConfList row of SgNBModificationConfirmIETable.
 func (t SgNBModificationConfirmIETable) ERABsAdmittedToBeModifiedSgNBModConfList() SgNBModificationConfirmERABsAdmittedToBeModifiedSgNBModConfListIEBinding {
 	return SgNBModificationConfirmERABsAdmittedToBeModifiedSgNBModConfListIEBinding{info: X2apInternalSgNBModificationConfirmIETableInfoERABsAdmittedToBeModifiedSgNBModConfList(t), codec: s11.X2apInternalConstructT50ERABsAdmittedToBeModifiedSgNBModConfListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsAdmittedToBeModifiedSgNBModConfList", func(data []byte, options aper.DecodeState) (s11.ERABsAdmittedToBeModifiedSgNBModConfList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43460,6 +44030,8 @@ func (t SgNBModificationConfirmIETable) ERABsAdmittedToBeModifiedSgNBModConfList
 func X2apInternalSgNBModificationConfirmIETableInfoMeNBtoSgNBContainer(internalReceiver SgNBModificationConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBModificationConfirmIEs().ID(), ID: s00.ProtocolIEID(206), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MeNBtoSgNBContainer"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBModificationConfirm-IEs", Row: "id-MeNBtoSgNBContainer"}}}
 }
+
+// MeNBtoSgNBContainer returns the typed binding for the MeNBtoSgNBContainer row of SgNBModificationConfirmIETable.
 func (t SgNBModificationConfirmIETable) MeNBtoSgNBContainer() SgNBModificationConfirmMeNBtoSgNBContainerIEBinding {
 	return SgNBModificationConfirmMeNBtoSgNBContainerIEBinding{info: X2apInternalSgNBModificationConfirmIETableInfoMeNBtoSgNBContainer(t), codec: s00.X2apInternalConstructT29MeNBtoSgNBContainerValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MeNBtoSgNBContainer", func(data []byte, options aper.DecodeState) (s00.MeNBtoSgNBContainer, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43512,6 +44084,8 @@ func (t SgNBModificationConfirmIETable) MeNBtoSgNBContainer() SgNBModificationCo
 func X2apInternalSgNBModificationConfirmIETableInfoCriticalityDiagnostics(internalReceiver SgNBModificationConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBModificationConfirmIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBModificationConfirm-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of SgNBModificationConfirmIETable.
 func (t SgNBModificationConfirmIETable) CriticalityDiagnostics() SgNBModificationConfirmCriticalityDiagnosticsIEBinding {
 	return SgNBModificationConfirmCriticalityDiagnosticsIEBinding{info: X2apInternalSgNBModificationConfirmIETableInfoCriticalityDiagnostics(t), codec: s06.X2apInternalConstructT32CriticalityDiagnosticsValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CriticalityDiagnostics", func(data []byte, options aper.DecodeState) (s06.CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43555,6 +44129,8 @@ func (t SgNBModificationConfirmIETable) CriticalityDiagnostics() SgNBModificatio
 func X2apInternalSgNBModificationConfirmIETableInfoMeNBUEX2APIDExtension(internalReceiver SgNBModificationConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBModificationConfirmIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBModificationConfirm-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SgNBModificationConfirmIETable.
 func (t SgNBModificationConfirmIETable) MeNBUEX2APIDExtension() SgNBModificationConfirmUEX2APIDExtensionIEBinding {
 	return SgNBModificationConfirmUEX2APIDExtensionIEBinding{info: X2apInternalSgNBModificationConfirmIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43608,6 +44184,8 @@ func (t SgNBModificationConfirmIETable) MeNBUEX2APIDExtension() SgNBModification
 func X2apInternalSgNBModificationConfirmIETableInfoMeNBResourceCoordinationInformation(internalReceiver SgNBModificationConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBModificationConfirmIEs().ID(), ID: s00.ProtocolIEID(257), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MeNBResourceCoordinationInformation"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBModificationConfirm-IEs", Row: "id-MeNBResourceCoordinationInformation"}}}
 }
+
+// MeNBResourceCoordinationInformation returns the typed binding for the MeNBResourceCoordinationInformation row of SgNBModificationConfirmIETable.
 func (t SgNBModificationConfirmIETable) MeNBResourceCoordinationInformation() SgNBModificationConfirmMeNBResourceCoordinationInformationIEBinding {
 	return SgNBModificationConfirmMeNBResourceCoordinationInformationIEBinding{info: X2apInternalSgNBModificationConfirmIETableInfoMeNBResourceCoordinationInformation(t), codec: s08.X2apInternalConstructT45MeNBResourceCoordinationInformationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MeNBResourceCoordinationInformation", func(data []byte, options aper.DecodeState) (s08.MeNBResourceCoordinationInformation, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43650,6 +44228,8 @@ func (t SgNBModificationConfirmIETable) MeNBResourceCoordinationInformation() Sg
 			return value.AsMeNBResourceCoordinationInformation()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SgNBModificationConfirmIETable.
 func (t SgNBModificationConfirmIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SgNBModificationConfirmIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SgNBModificationConfirmIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -43685,12 +44265,16 @@ func (t SgNBModificationConfirmIETable) NewOpaque(id s00.ProtocolIEID, criticali
 type SgNBReleaseConfirmIETable struct{}
 
 func SgNBReleaseConfirmIEs() SgNBReleaseConfirmIETable { return SgNBReleaseConfirmIETable{} }
+
+// ID returns the ASN.1 object-set identity of SgNBReleaseConfirmIETable.
 func (SgNBReleaseConfirmIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseConfirm-IEs"})
 }
 func X2apInternalSgNBReleaseConfirmIETableInfoMeNBUEX2APID(internalReceiver SgNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseConfirm-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SgNBReleaseConfirmIETable.
 func (t SgNBReleaseConfirmIETable) MeNBUEX2APID() SgNBReleaseConfirmUEX2APIDIEBinding {
 	return SgNBReleaseConfirmUEX2APIDIEBinding{info: X2apInternalSgNBReleaseConfirmIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43742,6 +44326,8 @@ func (t SgNBReleaseConfirmIETable) MeNBUEX2APID() SgNBReleaseConfirmUEX2APIDIEBi
 func X2apInternalSgNBReleaseConfirmIETableInfoSgNBUEX2APID(internalReceiver SgNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(207), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBUEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseConfirm-IEs", Row: "id-SgNB-UE-X2AP-ID"}}}
 }
+
+// SgNBUEX2APID returns the typed binding for the SgNBUEX2APID row of SgNBReleaseConfirmIETable.
 func (t SgNBReleaseConfirmIETable) SgNBUEX2APID() SgNBReleaseConfirmSgNBUEX2APIDIEBinding {
 	return SgNBReleaseConfirmSgNBUEX2APIDIEBinding{info: X2apInternalSgNBReleaseConfirmIETableInfoSgNBUEX2APID(t), codec: s08.X2apInternalConstructT22SgNBUEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBUEX2APID", func(data []byte, options aper.DecodeState) (s08.SgNBUEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43792,6 +44378,8 @@ func (t SgNBReleaseConfirmIETable) SgNBUEX2APID() SgNBReleaseConfirmSgNBUEX2APID
 func X2apInternalSgNBReleaseConfirmIETableInfoERABsToBeReleasedSgNBRelConfList(internalReceiver SgNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(233), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedSgNBRelConfList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseConfirm-IEs", Row: "id-E-RABs-ToBeReleased-SgNBRelConfList"}}}
 }
+
+// ERABsToBeReleasedSgNBRelConfList returns the typed binding for the ERABsToBeReleasedSgNBRelConfList row of SgNBReleaseConfirmIETable.
 func (t SgNBReleaseConfirmIETable) ERABsToBeReleasedSgNBRelConfList() SgNBReleaseConfirmERABsToBeReleasedSgNBRelConfListIEBinding {
 	return SgNBReleaseConfirmERABsToBeReleasedSgNBRelConfListIEBinding{info: X2apInternalSgNBReleaseConfirmIETableInfoERABsToBeReleasedSgNBRelConfList(t), codec: s11.X2apInternalConstructT42ERABsToBeReleasedSgNBRelConfListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsToBeReleasedSgNBRelConfList", func(data []byte, options aper.DecodeState) (s11.ERABsToBeReleasedSgNBRelConfList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43834,6 +44422,8 @@ func (t SgNBReleaseConfirmIETable) ERABsToBeReleasedSgNBRelConfList() SgNBReleas
 func X2apInternalSgNBReleaseConfirmIETableInfoCriticalityDiagnostics(internalReceiver SgNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseConfirm-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of SgNBReleaseConfirmIETable.
 func (t SgNBReleaseConfirmIETable) CriticalityDiagnostics() SgNBReleaseConfirmCriticalityDiagnosticsIEBinding {
 	return SgNBReleaseConfirmCriticalityDiagnosticsIEBinding{info: X2apInternalSgNBReleaseConfirmIETableInfoCriticalityDiagnostics(t), codec: s06.X2apInternalConstructT32CriticalityDiagnosticsValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CriticalityDiagnostics", func(data []byte, options aper.DecodeState) (s06.CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43877,6 +44467,8 @@ func (t SgNBReleaseConfirmIETable) CriticalityDiagnostics() SgNBReleaseConfirmCr
 func X2apInternalSgNBReleaseConfirmIETableInfoMeNBUEX2APIDExtension(internalReceiver SgNBReleaseConfirmIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseConfirmIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseConfirm-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SgNBReleaseConfirmIETable.
 func (t SgNBReleaseConfirmIETable) MeNBUEX2APIDExtension() SgNBReleaseConfirmUEX2APIDExtensionIEBinding {
 	return SgNBReleaseConfirmUEX2APIDExtensionIEBinding{info: X2apInternalSgNBReleaseConfirmIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43927,6 +44519,8 @@ func (t SgNBReleaseConfirmIETable) MeNBUEX2APIDExtension() SgNBReleaseConfirmUEX
 			return value.AsMeNBUEX2APIDExtension()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SgNBReleaseConfirmIETable.
 func (t SgNBReleaseConfirmIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SgNBReleaseConfirmIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SgNBReleaseConfirmIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -43958,12 +44552,16 @@ func (t SgNBReleaseConfirmIETable) NewOpaque(id s00.ProtocolIEID, criticality s0
 type SgNBReleaseRequestIETable struct{}
 
 func SgNBReleaseRequestIEs() SgNBReleaseRequestIETable { return SgNBReleaseRequestIETable{} }
+
+// ID returns the ASN.1 object-set identity of SgNBReleaseRequestIETable.
 func (SgNBReleaseRequestIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseRequest-IEs"})
 }
 func X2apInternalSgNBReleaseRequestIETableInfoMeNBUEX2APID(internalReceiver SgNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(111), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseRequest-IEs", Row: "id-MeNB-UE-X2AP-ID"}}}
 }
+
+// MeNBUEX2APID returns the typed binding for the MeNBUEX2APID row of SgNBReleaseRequestIETable.
 func (t SgNBReleaseRequestIETable) MeNBUEX2APID() SgNBReleaseRequestUEX2APIDIEBinding {
 	return SgNBReleaseRequestUEX2APIDIEBinding{info: X2apInternalSgNBReleaseRequestIETableInfoMeNBUEX2APID(t), codec: s11.X2apInternalConstructT18UEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APID", func(data []byte, options aper.DecodeState) (s11.UEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44015,6 +44613,8 @@ func (t SgNBReleaseRequestIETable) MeNBUEX2APID() SgNBReleaseRequestUEX2APIDIEBi
 func X2apInternalSgNBReleaseRequestIETableInfoSgNBUEX2APID(internalReceiver SgNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(207), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SgNBUEX2APID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseRequest-IEs", Row: "id-SgNB-UE-X2AP-ID"}}}
 }
+
+// SgNBUEX2APID returns the typed binding for the SgNBUEX2APID row of SgNBReleaseRequestIETable.
 func (t SgNBReleaseRequestIETable) SgNBUEX2APID() SgNBReleaseRequestSgNBUEX2APIDIEBinding {
 	return SgNBReleaseRequestSgNBUEX2APIDIEBinding{info: X2apInternalSgNBReleaseRequestIETableInfoSgNBUEX2APID(t), codec: s08.X2apInternalConstructT22SgNBUEX2APIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SgNBUEX2APID", func(data []byte, options aper.DecodeState) (s08.SgNBUEX2APID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44065,6 +44665,8 @@ func (t SgNBReleaseRequestIETable) SgNBUEX2APID() SgNBReleaseRequestSgNBUEX2APID
 func X2apInternalSgNBReleaseRequestIETableInfoCause(internalReceiver SgNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseRequest-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of SgNBReleaseRequestIETable.
 func (t SgNBReleaseRequestIETable) Cause() SgNBReleaseRequestCauseIEBinding {
 	return SgNBReleaseRequestCauseIEBinding{info: X2apInternalSgNBReleaseRequestIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44106,6 +44708,8 @@ func (t SgNBReleaseRequestIETable) Cause() SgNBReleaseRequestCauseIEBinding {
 func X2apInternalSgNBReleaseRequestIETableInfoERABsToBeReleasedSgNBRelReqList(internalReceiver SgNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(231), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedSgNBRelReqList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseRequest-IEs", Row: "id-E-RABs-ToBeReleased-SgNBRelReqList"}}}
 }
+
+// ERABsToBeReleasedSgNBRelReqList returns the typed binding for the ERABsToBeReleasedSgNBRelReqList row of SgNBReleaseRequestIETable.
 func (t SgNBReleaseRequestIETable) ERABsToBeReleasedSgNBRelReqList() SgNBReleaseRequestERABsToBeReleasedSgNBRelReqListIEBinding {
 	return SgNBReleaseRequestERABsToBeReleasedSgNBRelReqListIEBinding{info: X2apInternalSgNBReleaseRequestIETableInfoERABsToBeReleasedSgNBRelReqList(t), codec: s11.X2apInternalConstructT41ERABsToBeReleasedSgNBRelReqListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsToBeReleasedSgNBRelReqList", func(data []byte, options aper.DecodeState) (s11.ERABsToBeReleasedSgNBRelReqList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44149,6 +44753,8 @@ func (t SgNBReleaseRequestIETable) ERABsToBeReleasedSgNBRelReqList() SgNBRelease
 func X2apInternalSgNBReleaseRequestIETableInfoUEContextKeptIndicator(internalReceiver SgNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(154), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEContextKeptIndicator"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseRequest-IEs", Row: "id-UE-ContextKeptIndicator"}}}
 }
+
+// UEContextKeptIndicator returns the typed binding for the UEContextKeptIndicator row of SgNBReleaseRequestIETable.
 func (t SgNBReleaseRequestIETable) UEContextKeptIndicator() SgNBReleaseRequestUEContextKeptIndicatorIEBinding {
 	return SgNBReleaseRequestUEContextKeptIndicatorIEBinding{info: X2apInternalSgNBReleaseRequestIETableInfoUEContextKeptIndicator(t), codec: s00.X2apInternalConstructT32UEContextKeptIndicatorValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEContextKeptIndicator", func(data []byte, options aper.DecodeState) (s00.UEContextKeptIndicator, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44201,6 +44807,8 @@ func (t SgNBReleaseRequestIETable) UEContextKeptIndicator() SgNBReleaseRequestUE
 func X2apInternalSgNBReleaseRequestIETableInfoMeNBUEX2APIDExtension(internalReceiver SgNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(157), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "UEX2APIDExtension"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseRequest-IEs", Row: "id-MeNB-UE-X2AP-ID-Extension"}}}
 }
+
+// MeNBUEX2APIDExtension returns the typed binding for the MeNBUEX2APIDExtension row of SgNBReleaseRequestIETable.
 func (t SgNBReleaseRequestIETable) MeNBUEX2APIDExtension() SgNBReleaseRequestUEX2APIDExtensionIEBinding {
 	return SgNBReleaseRequestUEX2APIDExtensionIEBinding{info: X2apInternalSgNBReleaseRequestIETableInfoMeNBUEX2APIDExtension(t), codec: s11.X2apInternalConstructT27UEX2APIDExtensionValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("UEX2APIDExtension", func(data []byte, options aper.DecodeState) (s11.UEX2APIDExtension, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44254,6 +44862,8 @@ func (t SgNBReleaseRequestIETable) MeNBUEX2APIDExtension() SgNBReleaseRequestUEX
 func X2apInternalSgNBReleaseRequestIETableInfoMeNBtoSgNBContainer(internalReceiver SgNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(206), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MeNBtoSgNBContainer"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseRequest-IEs", Row: "id-MeNBtoSgNBContainer"}}}
 }
+
+// MeNBtoSgNBContainer returns the typed binding for the MeNBtoSgNBContainer row of SgNBReleaseRequestIETable.
 func (t SgNBReleaseRequestIETable) MeNBtoSgNBContainer() SgNBReleaseRequestMeNBtoSgNBContainerIEBinding {
 	return SgNBReleaseRequestMeNBtoSgNBContainerIEBinding{info: X2apInternalSgNBReleaseRequestIETableInfoMeNBtoSgNBContainer(t), codec: s00.X2apInternalConstructT29MeNBtoSgNBContainerValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MeNBtoSgNBContainer", func(data []byte, options aper.DecodeState) (s00.MeNBtoSgNBContainer, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44306,6 +44916,8 @@ func (t SgNBReleaseRequestIETable) MeNBtoSgNBContainer() SgNBReleaseRequestMeNBt
 func X2apInternalSgNBReleaseRequestIETableInfoERABsTransferredToMeNB(internalReceiver SgNBReleaseRequestIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: SgNBReleaseRequestIEs().ID(), ID: s00.ProtocolIEID(339), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ERABList"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "SgNBReleaseRequest-IEs", Row: "id-ERABs-transferred-to-MeNB"}}}
 }
+
+// ERABsTransferredToMeNB returns the typed binding for the ERABsTransferredToMeNB row of SgNBReleaseRequestIETable.
 func (t SgNBReleaseRequestIETable) ERABsTransferredToMeNB() SgNBReleaseRequestERABListIEBinding {
 	return SgNBReleaseRequestERABListIEBinding{info: X2apInternalSgNBReleaseRequestIETableInfoERABsTransferredToMeNB(t), codec: s08.X2apInternalConstructT18ERABListValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABList", func(data []byte, options aper.DecodeState) (s08.ERABList, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44344,6 +44956,8 @@ func (t SgNBReleaseRequestIETable) ERABsTransferredToMeNB() SgNBReleaseRequestER
 			return SgNBReleaseRequestIEValue{id: s00.ProtocolIEID(339), rowERABsTransferredToMeNB: &value}
 		}, get: func(value *SgNBReleaseRequestIEValue) (*s08.ERABList, bool) { return value.AsERABsTransferredToMeNB() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SgNBReleaseRequestIETable.
 func (t SgNBReleaseRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SgNBReleaseRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SgNBReleaseRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

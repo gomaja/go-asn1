@@ -18979,6 +18979,8 @@ func X2apInternalExtendedULInterferenceOverloadInfoExtIEsValueMatchesID(v Extend
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ExtendedULInterferenceOverloadInfoExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ExtendedULInterferenceOverloadInfoExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19918,6 +19920,8 @@ func X2apInternalFastMCGRecoveryExtIEsValueMatchesID(v FastMCGRecoveryExtIEsValu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of FastMCGRecoveryExtIEsValue and reports whether the opaque alternative is selected.
 func (v *FastMCGRecoveryExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -20857,6 +20861,8 @@ func X2apInternalForbiddenLAsItemExtIEsValueMatchesID(v ForbiddenLAsItemExtIEsVa
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ForbiddenLAsItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ForbiddenLAsItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -21796,6 +21802,8 @@ func X2apInternalForbiddenTAsItemExtIEsValueMatchesID(v ForbiddenTAsItemExtIEsVa
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ForbiddenTAsItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ForbiddenTAsItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -22735,6 +22743,8 @@ func X2apInternalFreqBandNrItemExtIEsValueMatchesID(v FreqBandNrItemExtIEsValue,
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of FreqBandNrItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *FreqBandNrItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -23674,6 +23684,8 @@ func X2apInternalGTPTLAItemExtIEsValueMatchesID(v GTPTLAItemExtIEsValue, id s00.
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of GTPTLAItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GTPTLAItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -24613,6 +24625,8 @@ func X2apInternalGUGroupIDExtIEsValueMatchesID(v GUGroupIDExtIEsValue, id s00.Pr
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of GUGroupIDExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GUGroupIDExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -25552,6 +25566,8 @@ func X2apInternalGUMMEIExtIEsValueMatchesID(v GUMMEIExtIEsValue, id s00.Protocol
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of GUMMEIExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GUMMEIExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -26491,6 +26507,8 @@ func X2apInternalGlobalRANNODEIDExtIEValueMatchesID(v GlobalRANNODEIDExtIEValue,
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of GlobalRANNODEIDExtIEValue and reports whether the opaque alternative is selected.
 func (v *GlobalRANNODEIDExtIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -27430,6 +27448,8 @@ func X2apInternalGlobalENBIDExtIEsValueMatchesID(v GlobalENBIDExtIEsValue, id s0
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of GlobalENBIDExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GlobalENBIDExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -28369,6 +28389,8 @@ func X2apInternalGlobalGNBIDExtIEsValueMatchesID(v GlobalGNBIDExtIEsValue, id s0
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of GlobalGNBIDExtIEsValue and reports whether the opaque alternative is selected.
 func (v *GlobalGNBIDExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -29308,6 +29330,8 @@ func X2apInternalHWLoadIndicatorExtIEsValueMatchesID(v HWLoadIndicatorExtIEsValu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of HWLoadIndicatorExtIEsValue and reports whether the opaque alternative is selected.
 func (v *HWLoadIndicatorExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -30247,6 +30271,8 @@ func X2apInternalLocationInformationSgNBExtIEsValueMatchesID(v LocationInformati
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of LocationInformationSgNBExtIEsValue and reports whether the opaque alternative is selected.
 func (v *LocationInformationSgNBExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -31186,6 +31212,8 @@ func X2apInternalM1PeriodicReportingExtIEsValueMatchesID(v M1PeriodicReportingEx
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of M1PeriodicReportingExtIEsValue and reports whether the opaque alternative is selected.
 func (v *M1PeriodicReportingExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -32125,6 +32153,8 @@ func X2apInternalM1ThresholdEventA2ExtIEsValueMatchesID(v M1ThresholdEventA2ExtI
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of M1ThresholdEventA2ExtIEsValue and reports whether the opaque alternative is selected.
 func (v *M1ThresholdEventA2ExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -33064,6 +33094,8 @@ func X2apInternalM3ConfigurationExtIEsValueMatchesID(v M3ConfigurationExtIEsValu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of M3ConfigurationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *M3ConfigurationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -34003,6 +34035,8 @@ func X2apInternalMBSFNSubframeInfoExtIEsValueMatchesID(v MBSFNSubframeInfoExtIEs
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of MBSFNSubframeInfoExtIEsValue and reports whether the opaque alternative is selected.
 func (v *MBSFNSubframeInfoExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -34942,6 +34976,8 @@ func X2apInternalMIMOPRBusageInformationExtIEsValueMatchesID(v MIMOPRBusageInfor
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of MIMOPRBusageInformationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *MIMOPRBusageInformationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -35881,6 +35917,8 @@ func X2apInternalMeasurementResultforNRCellsPossiblyAggregatedItemExtIEsValueMat
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of MeasurementResultforNRCellsPossiblyAggregatedItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *MeasurementResultforNRCellsPossiblyAggregatedItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -36820,6 +36858,8 @@ func X2apInternalMessageOversizeNotificationExtIEsValueMatchesID(v MessageOversi
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of MessageOversizeNotificationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *MessageOversizeNotificationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -37759,6 +37799,8 @@ func X2apInternalNPRACHConfigurationExtIEsValueMatchesID(v NPRACHConfigurationEx
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NPRACHConfigurationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NPRACHConfigurationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -38698,6 +38740,8 @@ func X2apInternalNPRACHConfigurationFDDExtIEsValueMatchesID(v NPRACHConfiguratio
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NPRACHConfigurationFDDExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NPRACHConfigurationFDDExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -39637,6 +39681,8 @@ func X2apInternalNPRACHConfigurationTDDExtIEsValueMatchesID(v NPRACHConfiguratio
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NPRACHConfigurationTDDExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NPRACHConfigurationTDDExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -40576,6 +40622,8 @@ func X2apInternalNRTxBWExtIEsValueMatchesID(v NRTxBWExtIEsValue, id s00.Protocol
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRTxBWExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRTxBWExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -41515,6 +41563,8 @@ func X2apInternalNRCGIExtIEsValueMatchesID(v NRCGIExtIEsValue, id s00.ProtocolIE
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRCGIExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRCGIExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -42454,6 +42504,8 @@ func X2apInternalNRCapacityValueExtIEsValueMatchesID(v NRCapacityValueExtIEsValu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRCapacityValueExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRCapacityValueExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -43393,6 +43445,8 @@ func X2apInternalNRCarrierItemExtIEsValueMatchesID(v NRCarrierItemExtIEsValue, i
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRCarrierItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRCarrierItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -44332,6 +44386,8 @@ func X2apInternalNRCompositeAvailableCapacityExtIEsValueMatchesID(v NRCompositeA
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRCompositeAvailableCapacityExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRCompositeAvailableCapacityExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -45271,6 +45327,8 @@ func X2apInternalNRCompositeAvailableCapacityGroupExtIEsValueMatchesID(v NRCompo
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRCompositeAvailableCapacityGroupExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRCompositeAvailableCapacityGroupExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -46210,6 +46268,8 @@ func X2apInternalNRUESecurityCapabilitiesExtIEsValueMatchesID(v NRUESecurityCapa
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRUESecurityCapabilitiesExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRUESecurityCapabilitiesExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -47149,6 +47209,8 @@ func X2apInternalNRUESidelinkAggregateMaximumBitRateExtIEsValueMatchesID(v NRUES
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRUESidelinkAggregateMaximumBitRateExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRUESidelinkAggregateMaximumBitRateExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -48088,6 +48150,8 @@ func X2apInternalNRUeReportExtIEsValueMatchesID(v NRUeReportExtIEsValue, id s00.
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRUeReportExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRUeReportExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -49027,6 +49091,8 @@ func X2apInternalNRV2XServicesAuthorizedExtIEsValueMatchesID(v NRV2XServicesAuth
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NRV2XServicesAuthorizedExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NRV2XServicesAuthorizedExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -49966,6 +50032,8 @@ func X2apInternalNonAnchorCarrierFrequencylistExtIEsValueMatchesID(v NonAnchorCa
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of NonAnchorCarrierFrequencylistExtIEsValue and reports whether the opaque alternative is selected.
 func (v *NonAnchorCarrierFrequencylistExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -50905,6 +50973,8 @@ func X2apInternalPC5FlowBitRatesExtIEsValueMatchesID(v PC5FlowBitRatesExtIEsValu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of PC5FlowBitRatesExtIEsValue and reports whether the opaque alternative is selected.
 func (v *PC5FlowBitRatesExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -51844,6 +51914,8 @@ func X2apInternalPC5QoSFlowItemExtIEsValueMatchesID(v PC5QoSFlowItemExtIEsValue,
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of PC5QoSFlowItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *PC5QoSFlowItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -52783,6 +52855,8 @@ func X2apInternalPC5QoSParametersExtIEsValueMatchesID(v PC5QoSParametersExtIEsVa
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of PC5QoSParametersExtIEsValue and reports whether the opaque alternative is selected.
 func (v *PC5QoSParametersExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -53722,6 +53796,8 @@ func X2apInternalPLMNAreaBasedQMCExtIEsValueMatchesID(v PLMNAreaBasedQMCExtIEsVa
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of PLMNAreaBasedQMCExtIEsValue and reports whether the opaque alternative is selected.
 func (v *PLMNAreaBasedQMCExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -54661,6 +54737,8 @@ func X2apInternalPRACHConfigurationExtIEsValueMatchesID(v PRACHConfigurationExtI
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of PRACHConfigurationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *PRACHConfigurationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -55600,6 +55678,8 @@ func X2apInternalProtectedEUTRAResourceIndicationExtIEsValueMatchesID(v Protecte
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ProtectedEUTRAResourceIndicationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ProtectedEUTRAResourceIndicationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -56539,6 +56619,8 @@ func X2apInternalProtectedFootprintTimePatternExtIEsValueMatchesID(v ProtectedFo
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ProtectedFootprintTimePatternExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ProtectedFootprintTimePatternExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -57478,6 +57560,8 @@ func X2apInternalProtectedResourceListItemExtIEsValueMatchesID(v ProtectedResour
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ProtectedResourceListItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ProtectedResourceListItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -58417,6 +58501,8 @@ func X2apInternalQoSMappingInformationExtIEsValueMatchesID(v QoSMappingInformati
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of QoSMappingInformationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *QoSMappingInformationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -59356,6 +59442,8 @@ func X2apInternalRATRestrictionsItemExtIEsValueMatchesID(v RATRestrictionsItemEx
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of RATRestrictionsItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *RATRestrictionsItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -60295,6 +60383,8 @@ func X2apInternalRLCStatusExtIEsValueMatchesID(v RLCStatusExtIEsValue, id s00.Pr
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of RLCStatusExtIEsValue and reports whether the opaque alternative is selected.
 func (v *RLCStatusExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -61234,6 +61324,8 @@ func X2apInternalRSRPMeasurementResultExtIEsValueMatchesID(v RSRPMeasurementResu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of RSRPMeasurementResultExtIEsValue and reports whether the opaque alternative is selected.
 func (v *RSRPMeasurementResultExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -62173,6 +62265,8 @@ func X2apInternalRaReportIndicationListItemExtIEsValueMatchesID(v RaReportIndica
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of RaReportIndicationListItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *RaReportIndicationListItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -63112,6 +63206,8 @@ func X2apInternalReservedSubframePatternExtIEsValueMatchesID(v ReservedSubframeP
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ReservedSubframePatternExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ReservedSubframePatternExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -64051,6 +64147,8 @@ func X2apInternalS1TNLLoadIndicatorExtIEsValueMatchesID(v S1TNLLoadIndicatorExtI
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of S1TNLLoadIndicatorExtIEsValue and reports whether the opaque alternative is selected.
 func (v *S1TNLLoadIndicatorExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -64990,6 +65088,8 @@ func X2apInternalSFNOffsetExtIEsValueMatchesID(v SFNOffsetExtIEsValue, id s00.Pr
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SFNOffsetExtIEsValue and reports whether the opaque alternative is selected.
 func (v *SFNOffsetExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -65929,6 +66029,8 @@ func X2apInternalSSBPositionsInBurstExtIEValueMatchesID(v SSBPositionsInBurstExt
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SSBPositionsInBurstExtIEValue and reports whether the opaque alternative is selected.
 func (v *SSBPositionsInBurstExtIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -66868,6 +66970,8 @@ func X2apInternalSSBAreaCapacityValueExtIEsValueMatchesID(v SSBAreaCapacityValue
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SSBAreaCapacityValueExtIEsValue and reports whether the opaque alternative is selected.
 func (v *SSBAreaCapacityValueExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -67807,6 +67911,8 @@ func X2apInternalSSBAreaRadioResourceStatusExtIEsValueMatchesID(v SSBAreaRadioRe
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SSBAreaRadioResourceStatusExtIEsValue and reports whether the opaque alternative is selected.
 func (v *SSBAreaRadioResourceStatusExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -68746,6 +68852,8 @@ func X2apInternalScheduledCommunicationTimeExtIEsValueMatchesID(v ScheduledCommu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ScheduledCommunicationTimeExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ScheduledCommunicationTimeExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -69685,6 +69793,8 @@ func X2apInternalSecondaryRATUsageReportItemExtIEsValueMatchesID(v SecondaryRATU
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SecondaryRATUsageReportItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *SecondaryRATUsageReportItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -70624,6 +70734,8 @@ func X2apInternalSecurityIndicationExtIEsValueMatchesID(v SecurityIndicationExtI
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SecurityIndicationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *SecurityIndicationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -71563,6 +71675,8 @@ func X2apInternalFirstDLCountExtIEsValueMatchesID(v FirstDLCountExtIEsValue, id 
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of FirstDLCountExtIEsValue and reports whether the opaque alternative is selected.
 func (v *FirstDLCountExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -72502,6 +72616,8 @@ func X2apInternalLimitedListExtIEsValueMatchesID(v LimitedListExtIEsValue, id s0
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of LimitedListExtIEsValue and reports whether the opaque alternative is selected.
 func (v *LimitedListExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -73441,6 +73557,8 @@ func X2apInternalMeasurementFailureCauseItemExtIEsValueMatchesID(v MeasurementFa
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of MeasurementFailureCauseItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *MeasurementFailureCauseItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -74380,6 +74498,8 @@ func X2apInternalMeasurementInitiationResultItemExtIEsValueMatchesID(v Measureme
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of MeasurementInitiationResultItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *MeasurementInitiationResultItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -75319,6 +75439,8 @@ func X2apInternalProcedureStageChoiceExtIEValueMatchesID(v ProcedureStageChoiceE
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ProcedureStageChoiceExtIEValue and reports whether the opaque alternative is selected.
 func (v *ProcedureStageChoiceExtIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -76258,6 +76380,8 @@ func X2apInternalRNLHeaderItemExtIEsValueMatchesID(v RNLHeaderItemExtIEsValue, i
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of RNLHeaderItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *RNLHeaderItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -77197,6 +77321,8 @@ func X2apInternalResponseInformationSeNBReconfCompRejectByMeNBItemExtIEsValueMat
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ResponseInformationSeNBReconfCompRejectByMeNBItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ResponseInformationSeNBReconfCompRejectByMeNBItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -78136,6 +78262,8 @@ func X2apInternalResponseInformationSeNBReconfCompSuccessItemExtIEsValueMatchesI
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ResponseInformationSeNBReconfCompSuccessItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ResponseInformationSeNBReconfCompSuccessItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -79075,6 +79203,8 @@ func X2apInternalResponseInformationSgNBReconfCompRejectByMeNBItemExtIEsValueMat
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ResponseInformationSgNBReconfCompRejectByMeNBItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ResponseInformationSgNBReconfCompRejectByMeNBItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -80014,6 +80144,8 @@ func X2apInternalResponseInformationSgNBReconfCompSuccessItemExtIEsValueMatchesI
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ResponseInformationSgNBReconfCompSuccessItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ResponseInformationSgNBReconfCompSuccessItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -80953,6 +81085,8 @@ func X2apInternalSSBToReportItemExtIEsValueMatchesID(v SSBToReportItemExtIEsValu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of SSBToReportItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *SSBToReportItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false

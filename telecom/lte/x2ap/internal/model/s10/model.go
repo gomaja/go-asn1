@@ -15244,6 +15244,8 @@ func X2apInternalERABsAdmittedToBeAddedItemIEValueMatchesID(v ERABsAdmittedToBeA
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeAddedItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeAddedItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16133,6 +16135,8 @@ func X2apInternalERABsAdmittedToBeAddedItemIEValueReason(internalReceiver ERABsA
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsAdmittedToBeAddedItem returns the selected ERABsAdmittedToBeAddedItem value of ERABsAdmittedToBeAddedItemIEValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeAddedItemIEValue) AsERABsAdmittedToBeAddedItem() (*ERABsAdmittedToBeAddedItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(121) || v.rowERABsAdmittedToBeAddedItem == nil {
 		return nil, false
@@ -16230,6 +16234,8 @@ func X2apInternalERABsAdmittedToBeAddedModAckItemIEValueMatchesID(v ERABsAdmitte
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeAddedModAckItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeAddedModAckItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17119,6 +17125,8 @@ func X2apInternalERABsAdmittedToBeAddedModAckItemIEValueReason(internalReceiver 
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsAdmittedToBeAddedModAckItem returns the selected ERABsAdmittedToBeAddedModAckItem value of ERABsAdmittedToBeAddedModAckItemIEValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeAddedModAckItemIEValue) AsERABsAdmittedToBeAddedModAckItem() (*ERABsAdmittedToBeAddedModAckItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(131) || v.rowERABsAdmittedToBeAddedModAckItem == nil {
 		return nil, false
@@ -17216,6 +17224,8 @@ func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIEValueMatchesID(v ERABs
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeAddedSgNBAddReqAckItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18105,6 +18115,8 @@ func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIEValueReason(internalRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsAdmittedToBeAddedSgNBAddReqAckItem returns the selected ERABsAdmittedToBeAddedSgNBAddReqAckItem value of ERABsAdmittedToBeAddedSgNBAddReqAckItemIEValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemIEValue) AsERABsAdmittedToBeAddedSgNBAddReqAckItem() (*ERABsAdmittedToBeAddedSgNBAddReqAckItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(213) || v.rowERABsAdmittedToBeAddedSgNBAddReqAckItem == nil {
 		return nil, false
@@ -18202,6 +18214,8 @@ func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIEValueMatchesID(v ERABsAdm
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeAddedSgNBModAckItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeAddedSgNBModAckItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19091,6 +19105,8 @@ func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIEValueReason(internalRecei
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsAdmittedToBeAddedSgNBModAckItem returns the selected ERABsAdmittedToBeAddedSgNBModAckItem value of ERABsAdmittedToBeAddedSgNBModAckItemIEValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeAddedSgNBModAckItemIEValue) AsERABsAdmittedToBeAddedSgNBModAckItem() (*ERABsAdmittedToBeAddedSgNBModAckItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(222) || v.rowERABsAdmittedToBeAddedSgNBModAckItem == nil {
 		return nil, false
@@ -19188,6 +19204,8 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIEValueMatchesID(v ERABs
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeModifiedSgNBModAckItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeModifiedSgNBModAckItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -20077,6 +20095,8 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIEValueReason(internalRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsAdmittedToBeModifiedSgNBModAckItem returns the selected ERABsAdmittedToBeModifiedSgNBModAckItem value of ERABsAdmittedToBeModifiedSgNBModAckItemIEValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeModifiedSgNBModAckItemIEValue) AsERABsAdmittedToBeModifiedSgNBModAckItem() (*ERABsAdmittedToBeModifiedSgNBModAckItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(223) || v.rowERABsAdmittedToBeModifiedSgNBModAckItem == nil {
 		return nil, false
@@ -20174,6 +20194,8 @@ func X2apInternalERABsToBeAddedItemIEValueMatchesID(v ERABsToBeAddedItemIEValue,
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeAddedItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeAddedItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -21063,6 +21085,8 @@ func X2apInternalERABsToBeAddedItemIEValueReason(internalReceiver ERABsToBeAdded
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeAddedItem returns the selected ERABsToBeAddedItem value of ERABsToBeAddedItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeAddedItemIEValue) AsERABsToBeAddedItem() (*ERABsToBeAddedItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(118) || v.rowERABsToBeAddedItem == nil {
 		return nil, false
@@ -21160,6 +21184,8 @@ func X2apInternalERABsToBeAddedModReqItemIEValueMatchesID(v ERABsToBeAddedModReq
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeAddedModReqItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeAddedModReqItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -22049,6 +22075,8 @@ func X2apInternalERABsToBeAddedModReqItemIEValueReason(internalReceiver ERABsToB
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeAddedModReqItem returns the selected ERABsToBeAddedModReqItem value of ERABsToBeAddedModReqItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeAddedModReqItemIEValue) AsERABsToBeAddedModReqItem() (*ERABsToBeAddedModReqItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(125) || v.rowERABsToBeAddedModReqItem == nil {
 		return nil, false
@@ -22146,6 +22174,8 @@ func X2apInternalERABsToBeAddedSgNBAddReqItemIEValueMatchesID(v ERABsToBeAddedSg
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeAddedSgNBAddReqItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeAddedSgNBAddReqItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -23035,6 +23065,8 @@ func X2apInternalERABsToBeAddedSgNBAddReqItemIEValueReason(internalReceiver ERAB
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeAddedSgNBAddReqItem returns the selected ERABsToBeAddedSgNBAddReqItem value of ERABsToBeAddedSgNBAddReqItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeAddedSgNBAddReqItemIEValue) AsERABsToBeAddedSgNBAddReqItem() (*ERABsToBeAddedSgNBAddReqItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(209) || v.rowERABsToBeAddedSgNBAddReqItem == nil {
 		return nil, false
@@ -23132,6 +23164,8 @@ func X2apInternalERABsToBeAddedSgNBModReqItemIEValueMatchesID(v ERABsToBeAddedSg
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeAddedSgNBModReqItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeAddedSgNBModReqItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -24021,6 +24055,8 @@ func X2apInternalERABsToBeAddedSgNBModReqItemIEValueReason(internalReceiver ERAB
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeAddedSgNBModReqItem returns the selected ERABsToBeAddedSgNBModReqItem value of ERABsToBeAddedSgNBModReqItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeAddedSgNBModReqItemIEValue) AsERABsToBeAddedSgNBModReqItem() (*ERABsToBeAddedSgNBModReqItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(216) || v.rowERABsToBeAddedSgNBModReqItem == nil {
 		return nil, false
@@ -24118,6 +24154,8 @@ func X2apInternalERABsToBeModifiedSgNBModReqdItemIEValueMatchesID(v ERABsToBeMod
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeModifiedSgNBModReqdItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeModifiedSgNBModReqdItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -25007,6 +25045,8 @@ func X2apInternalERABsToBeModifiedSgNBModReqdItemIEValueReason(internalReceiver 
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeModifiedSgNBModReqdItem returns the selected ERABsToBeModifiedSgNBModReqdItem value of ERABsToBeModifiedSgNBModReqdItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeModifiedSgNBModReqdItemIEValue) AsERABsToBeModifiedSgNBModReqdItem() (*s09.ERABsToBeModifiedSgNBModReqdItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(228) || v.rowERABsToBeModifiedSgNBModReqdItem == nil {
 		return nil, false
@@ -25104,6 +25144,8 @@ func X2apInternalERABsToBeReleasedModReqItemIEValueMatchesID(v ERABsToBeReleased
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeReleasedModReqItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeReleasedModReqItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -25993,6 +26035,8 @@ func X2apInternalERABsToBeReleasedModReqItemIEValueReason(internalReceiver ERABs
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeReleasedModReqItem returns the selected ERABsToBeReleasedModReqItem value of ERABsToBeReleasedModReqItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeReleasedModReqItemIEValue) AsERABsToBeReleasedModReqItem() (*ERABsToBeReleasedModReqItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(127) || v.rowERABsToBeReleasedModReqItem == nil {
 		return nil, false
@@ -26090,6 +26134,8 @@ func X2apInternalERABsToBeReleasedRelConfItemIEValueMatchesID(v ERABsToBeRelease
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeReleasedRelConfItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeReleasedRelConfItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -26979,6 +27025,8 @@ func X2apInternalERABsToBeReleasedRelConfItemIEValueReason(internalReceiver ERAB
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeReleasedRelConfItem returns the selected ERABsToBeReleasedRelConfItem value of ERABsToBeReleasedRelConfItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeReleasedRelConfItemIEValue) AsERABsToBeReleasedRelConfItem() (*ERABsToBeReleasedRelConfItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(140) || v.rowERABsToBeReleasedRelConfItem == nil {
 		return nil, false
@@ -27076,6 +27124,8 @@ func X2apInternalERABsToBeReleasedRelReqItemIEValueMatchesID(v ERABsToBeReleased
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeReleasedRelReqItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeReleasedRelReqItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -27965,6 +28015,8 @@ func X2apInternalERABsToBeReleasedRelReqItemIEValueReason(internalReceiver ERABs
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeReleasedRelReqItem returns the selected ERABsToBeReleasedRelReqItem value of ERABsToBeReleasedRelReqItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeReleasedRelReqItemIEValue) AsERABsToBeReleasedRelReqItem() (*ERABsToBeReleasedRelReqItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(138) || v.rowERABsToBeReleasedRelReqItem == nil {
 		return nil, false
@@ -28062,6 +28114,8 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemIEValueMatchesID(v ERABsToBeRele
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeReleasedSgNBModReqItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeReleasedSgNBModReqItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -28951,6 +29005,8 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemIEValueReason(internalReceiver E
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeReleasedSgNBModReqItem returns the selected ERABsToBeReleasedSgNBModReqItem value of ERABsToBeReleasedSgNBModReqItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeReleasedSgNBModReqItemIEValue) AsERABsToBeReleasedSgNBModReqItem() (*ERABsToBeReleasedSgNBModReqItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(218) || v.rowERABsToBeReleasedSgNBModReqItem == nil {
 		return nil, false
@@ -29048,6 +29104,8 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemIEValueMatchesID(v ERABsToBeRel
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeReleasedSgNBRelConfItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeReleasedSgNBRelConfItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -29937,6 +29995,8 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemIEValueReason(internalReceiver 
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeReleasedSgNBRelConfItem returns the selected ERABsToBeReleasedSgNBRelConfItem value of ERABsToBeReleasedSgNBRelConfItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeReleasedSgNBRelConfItemIEValue) AsERABsToBeReleasedSgNBRelConfItem() (*ERABsToBeReleasedSgNBRelConfItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(234) || v.rowERABsToBeReleasedSgNBRelConfItem == nil {
 		return nil, false
@@ -30034,6 +30094,8 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemIEValueMatchesID(v ERABsToBeRele
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeReleasedSgNBRelReqItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeReleasedSgNBRelReqItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -30923,6 +30985,8 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemIEValueReason(internalReceiver E
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsToBeReleasedSgNBRelReqItem returns the selected ERABsToBeReleasedSgNBRelReqItem value of ERABsToBeReleasedSgNBRelReqItemIEValue and reports whether that alternative is active.
 func (v *ERABsToBeReleasedSgNBRelReqItemIEValue) AsERABsToBeReleasedSgNBRelReqItem() (*ERABsToBeReleasedSgNBRelReqItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(232) || v.rowERABsToBeReleasedSgNBRelReqItem == nil {
 		return nil, false
@@ -31032,6 +31096,8 @@ func X2apInternalERABsToBeSetupRetrieveItemExtIEsValueMatchesID(v ERABsToBeSetup
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsToBeSetupRetrieveItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABsToBeSetupRetrieveItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -31921,30 +31987,40 @@ func X2apInternalERABsToBeSetupRetrieveItemExtIEsValueReason(internalReceiver ER
 		return aper.UnknownSelector
 	}
 }
+
+// AsULGTPtunnelEndpoint returns the selected ULGTPtunnelEndpoint value of ERABsToBeSetupRetrieveItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABsToBeSetupRetrieveItemExtIEsValue) AsULGTPtunnelEndpoint() (*s09.GTPtunnelEndpoint, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(185) || v.rowULGTPtunnelEndpoint == nil {
 		return nil, false
 	}
 	return v.rowULGTPtunnelEndpoint, true
 }
+
+// AsDLForwarding returns the selected DLForwarding value of ERABsToBeSetupRetrieveItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABsToBeSetupRetrieveItemExtIEsValue) AsDLForwarding() (*s00.DLForwarding, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(306) || v.rowDLForwarding == nil {
 		return nil, false
 	}
 	return v.rowDLForwarding, true
 }
+
+// AsEthernetType returns the selected EthernetType value of ERABsToBeSetupRetrieveItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABsToBeSetupRetrieveItemExtIEsValue) AsEthernetType() (*s00.EthernetType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(369) || v.rowEthernetType == nil {
 		return nil, false
 	}
 	return v.rowEthernetType, true
 }
+
+// AsSecurityIndication returns the selected SecurityIndication value of ERABsToBeSetupRetrieveItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABsToBeSetupRetrieveItemExtIEsValue) AsSecurityIndication() (*s05.SecurityIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(435) || v.rowSecurityIndication == nil {
 		return nil, false
 	}
 	return v.rowSecurityIndication, true
 }
+
+// AsSourceDLForwardingIPAddress returns the selected SourceDLForwardingIPAddress value of ERABsToBeSetupRetrieveItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABsToBeSetupRetrieveItemExtIEsValue) AsSourceDLForwardingIPAddress() (*s09.TransportLayerAddress, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(412) || v.rowSourceDLForwardingIPAddress == nil {
 		return nil, false
@@ -32167,12 +32243,16 @@ type ERABsAdmittedToBeAddedItemIETable struct{}
 func ERABsAdmittedToBeAddedItemIEs() ERABsAdmittedToBeAddedItemIETable {
 	return ERABsAdmittedToBeAddedItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeAddedItemIETable.
 func (ERABsAdmittedToBeAddedItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-ItemIEs"})
 }
 func X2apInternalERABsAdmittedToBeAddedItemIETableInfoERABsAdmittedToBeAddedItem(internalReceiver ERABsAdmittedToBeAddedItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsAdmittedToBeAddedItemIEs().ID(), ID: s00.ProtocolIEID(121), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeAddedItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-ItemIEs", Row: "id-E-RABs-Admitted-ToBeAdded-Item"}}}
 }
+
+// ERABsAdmittedToBeAddedItem returns the typed binding for the ERABsAdmittedToBeAddedItem row of ERABsAdmittedToBeAddedItemIETable.
 func (t ERABsAdmittedToBeAddedItemIETable) ERABsAdmittedToBeAddedItem() ERABsAdmittedToBeAddedItemERABsAdmittedToBeAddedItemIEBinding {
 	return ERABsAdmittedToBeAddedItemERABsAdmittedToBeAddedItemIEBinding{info: X2apInternalERABsAdmittedToBeAddedItemIETableInfoERABsAdmittedToBeAddedItem(t), codec: ERABsAdmittedToBeAddedItemValueCodec{path: "ERABsAdmittedToBeAddedItem", decode: func(data []byte, options aper.DecodeState) (ERABsAdmittedToBeAddedItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32214,6 +32294,8 @@ func (t ERABsAdmittedToBeAddedItemIETable) ERABsAdmittedToBeAddedItem() ERABsAdm
 		return value.AsERABsAdmittedToBeAddedItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeAddedItemIETable.
 func (t ERABsAdmittedToBeAddedItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeAddedItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeAddedItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32239,12 +32321,16 @@ type ERABsAdmittedToBeAddedModAckItemIETable struct{}
 func ERABsAdmittedToBeAddedModAckItemIEs() ERABsAdmittedToBeAddedModAckItemIETable {
 	return ERABsAdmittedToBeAddedModAckItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeAddedModAckItemIETable.
 func (ERABsAdmittedToBeAddedModAckItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-ModAckItemIEs"})
 }
 func X2apInternalERABsAdmittedToBeAddedModAckItemIETableInfoERABsAdmittedToBeAddedModAckItem(internalReceiver ERABsAdmittedToBeAddedModAckItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsAdmittedToBeAddedModAckItemIEs().ID(), ID: s00.ProtocolIEID(131), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeAddedModAckItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-ModAckItemIEs", Row: "id-E-RABs-Admitted-ToBeAdded-ModAckItem"}}}
 }
+
+// ERABsAdmittedToBeAddedModAckItem returns the typed binding for the ERABsAdmittedToBeAddedModAckItem row of ERABsAdmittedToBeAddedModAckItemIETable.
 func (t ERABsAdmittedToBeAddedModAckItemIETable) ERABsAdmittedToBeAddedModAckItem() ERABsAdmittedToBeAddedModAckItemERABsAdmittedToBeAddedModAckItemIEBinding {
 	return ERABsAdmittedToBeAddedModAckItemERABsAdmittedToBeAddedModAckItemIEBinding{info: X2apInternalERABsAdmittedToBeAddedModAckItemIETableInfoERABsAdmittedToBeAddedModAckItem(t), codec: ERABsAdmittedToBeAddedModAckItemValueCodec{path: "ERABsAdmittedToBeAddedModAckItem", decode: func(data []byte, options aper.DecodeState) (ERABsAdmittedToBeAddedModAckItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32285,6 +32371,8 @@ func (t ERABsAdmittedToBeAddedModAckItemIETable) ERABsAdmittedToBeAddedModAckIte
 		return value.AsERABsAdmittedToBeAddedModAckItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeAddedModAckItemIETable.
 func (t ERABsAdmittedToBeAddedModAckItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeAddedModAckItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeAddedModAckItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32310,12 +32398,16 @@ type ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable struct{}
 func ERABsAdmittedToBeAddedSgNBAddReqAckItemIEs() ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable {
 	return ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable.
 func (ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-ItemIEs"})
 }
 func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIETableInfoERABsAdmittedToBeAddedSgNBAddReqAckItem(internalReceiver ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsAdmittedToBeAddedSgNBAddReqAckItemIEs().ID(), ID: s00.ProtocolIEID(213), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeAddedSgNBAddReqAckItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-ItemIEs", Row: "id-E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item"}}}
 }
+
+// ERABsAdmittedToBeAddedSgNBAddReqAckItem returns the typed binding for the ERABsAdmittedToBeAddedSgNBAddReqAckItem row of ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable.
 func (t ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable) ERABsAdmittedToBeAddedSgNBAddReqAckItem() ERABsAdmittedToBeAddedSgNBAddReqAckItemERABsAdmittedToBeAddedSgNBAddReqAckItemIEBinding {
 	return ERABsAdmittedToBeAddedSgNBAddReqAckItemERABsAdmittedToBeAddedSgNBAddReqAckItemIEBinding{info: X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemIETableInfoERABsAdmittedToBeAddedSgNBAddReqAckItem(t), codec: ERABsAdmittedToBeAddedSgNBAddReqAckItemValueCodec{path: "ERABsAdmittedToBeAddedSgNBAddReqAckItem", decode: func(data []byte, options aper.DecodeState) (ERABsAdmittedToBeAddedSgNBAddReqAckItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32357,6 +32449,8 @@ func (t ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable) ERABsAdmittedToBeAddedSg
 		return value.AsERABsAdmittedToBeAddedSgNBAddReqAckItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable.
 func (t ERABsAdmittedToBeAddedSgNBAddReqAckItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeAddedSgNBAddReqAckItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeAddedSgNBAddReqAckItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32382,12 +32476,16 @@ type ERABsAdmittedToBeAddedSgNBModAckItemIETable struct{}
 func ERABsAdmittedToBeAddedSgNBModAckItemIEs() ERABsAdmittedToBeAddedSgNBModAckItemIETable {
 	return ERABsAdmittedToBeAddedSgNBModAckItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeAddedSgNBModAckItemIETable.
 func (ERABsAdmittedToBeAddedSgNBModAckItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemIEs"})
 }
 func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIETableInfoERABsAdmittedToBeAddedSgNBModAckItem(internalReceiver ERABsAdmittedToBeAddedSgNBModAckItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsAdmittedToBeAddedSgNBModAckItemIEs().ID(), ID: s00.ProtocolIEID(222), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeAddedSgNBModAckItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemIEs", Row: "id-E-RABs-Admitted-ToBeAdded-SgNBModAck-Item"}}}
 }
+
+// ERABsAdmittedToBeAddedSgNBModAckItem returns the typed binding for the ERABsAdmittedToBeAddedSgNBModAckItem row of ERABsAdmittedToBeAddedSgNBModAckItemIETable.
 func (t ERABsAdmittedToBeAddedSgNBModAckItemIETable) ERABsAdmittedToBeAddedSgNBModAckItem() ERABsAdmittedToBeAddedSgNBModAckItemERABsAdmittedToBeAddedSgNBModAckItemIEBinding {
 	return ERABsAdmittedToBeAddedSgNBModAckItemERABsAdmittedToBeAddedSgNBModAckItemIEBinding{info: X2apInternalERABsAdmittedToBeAddedSgNBModAckItemIETableInfoERABsAdmittedToBeAddedSgNBModAckItem(t), codec: ERABsAdmittedToBeAddedSgNBModAckItemValueCodec{path: "ERABsAdmittedToBeAddedSgNBModAckItem", decode: func(data []byte, options aper.DecodeState) (ERABsAdmittedToBeAddedSgNBModAckItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32434,6 +32532,8 @@ func (t ERABsAdmittedToBeAddedSgNBModAckItemIETable) ERABsAdmittedToBeAddedSgNBM
 		return value.AsERABsAdmittedToBeAddedSgNBModAckItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeAddedSgNBModAckItemIETable.
 func (t ERABsAdmittedToBeAddedSgNBModAckItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeAddedSgNBModAckItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeAddedSgNBModAckItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32459,12 +32559,16 @@ type ERABsAdmittedToBeModifiedSgNBModAckItemIETable struct{}
 func ERABsAdmittedToBeModifiedSgNBModAckItemIEs() ERABsAdmittedToBeModifiedSgNBModAckItemIETable {
 	return ERABsAdmittedToBeModifiedSgNBModAckItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeModifiedSgNBModAckItemIETable.
 func (ERABsAdmittedToBeModifiedSgNBModAckItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeModified-SgNBModAck-ItemIEs"})
 }
 func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIETableInfoERABsAdmittedToBeModifiedSgNBModAckItem(internalReceiver ERABsAdmittedToBeModifiedSgNBModAckItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsAdmittedToBeModifiedSgNBModAckItemIEs().ID(), ID: s00.ProtocolIEID(223), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeModifiedSgNBModAckItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeModified-SgNBModAck-ItemIEs", Row: "id-E-RABs-Admitted-ToBeModified-SgNBModAck-Item"}}}
 }
+
+// ERABsAdmittedToBeModifiedSgNBModAckItem returns the typed binding for the ERABsAdmittedToBeModifiedSgNBModAckItem row of ERABsAdmittedToBeModifiedSgNBModAckItemIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModAckItemIETable) ERABsAdmittedToBeModifiedSgNBModAckItem() ERABsAdmittedToBeModifiedSgNBModAckItemERABsAdmittedToBeModifiedSgNBModAckItemIEBinding {
 	return ERABsAdmittedToBeModifiedSgNBModAckItemERABsAdmittedToBeModifiedSgNBModAckItemIEBinding{info: X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemIETableInfoERABsAdmittedToBeModifiedSgNBModAckItem(t), codec: ERABsAdmittedToBeModifiedSgNBModAckItemValueCodec{path: "ERABsAdmittedToBeModifiedSgNBModAckItem", decode: func(data []byte, options aper.DecodeState) (ERABsAdmittedToBeModifiedSgNBModAckItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32506,6 +32610,8 @@ func (t ERABsAdmittedToBeModifiedSgNBModAckItemIETable) ERABsAdmittedToBeModifie
 		return value.AsERABsAdmittedToBeModifiedSgNBModAckItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeModifiedSgNBModAckItemIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModAckItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeModifiedSgNBModAckItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeModifiedSgNBModAckItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32529,12 +32635,16 @@ func (t ERABsAdmittedToBeModifiedSgNBModAckItemIETable) NewOpaque(id s00.Protoco
 type ERABsToBeAddedItemIETable struct{}
 
 func ERABsToBeAddedItemIEs() ERABsToBeAddedItemIETable { return ERABsToBeAddedItemIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeAddedItemIETable.
 func (ERABsToBeAddedItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-ItemIEs"})
 }
 func X2apInternalERABsToBeAddedItemIETableInfoERABsToBeAddedItem(internalReceiver ERABsToBeAddedItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeAddedItemIEs().ID(), ID: s00.ProtocolIEID(118), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeAddedItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-ItemIEs", Row: "id-E-RABs-ToBeAdded-Item"}}}
 }
+
+// ERABsToBeAddedItem returns the typed binding for the ERABsToBeAddedItem row of ERABsToBeAddedItemIETable.
 func (t ERABsToBeAddedItemIETable) ERABsToBeAddedItem() ERABsToBeAddedItemERABsToBeAddedItemIEBinding {
 	return ERABsToBeAddedItemERABsToBeAddedItemIEBinding{info: X2apInternalERABsToBeAddedItemIETableInfoERABsToBeAddedItem(t), codec: ERABsToBeAddedItemValueCodec{path: "ERABsToBeAddedItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeAddedItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32576,6 +32686,8 @@ func (t ERABsToBeAddedItemIETable) ERABsToBeAddedItem() ERABsToBeAddedItemERABsT
 		return value.AsERABsToBeAddedItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeAddedItemIETable.
 func (t ERABsToBeAddedItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeAddedItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeAddedItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32601,12 +32713,16 @@ type ERABsToBeAddedModReqItemIETable struct{}
 func ERABsToBeAddedModReqItemIEs() ERABsToBeAddedModReqItemIETable {
 	return ERABsToBeAddedModReqItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeAddedModReqItemIETable.
 func (ERABsToBeAddedModReqItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-ModReqItemIEs"})
 }
 func X2apInternalERABsToBeAddedModReqItemIETableInfoERABsToBeAddedModReqItem(internalReceiver ERABsToBeAddedModReqItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeAddedModReqItemIEs().ID(), ID: s00.ProtocolIEID(125), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeAddedModReqItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-ModReqItemIEs", Row: "id-E-RABs-ToBeAdded-ModReqItem"}}}
 }
+
+// ERABsToBeAddedModReqItem returns the typed binding for the ERABsToBeAddedModReqItem row of ERABsToBeAddedModReqItemIETable.
 func (t ERABsToBeAddedModReqItemIETable) ERABsToBeAddedModReqItem() ERABsToBeAddedModReqItemERABsToBeAddedModReqItemIEBinding {
 	return ERABsToBeAddedModReqItemERABsToBeAddedModReqItemIEBinding{info: X2apInternalERABsToBeAddedModReqItemIETableInfoERABsToBeAddedModReqItem(t), codec: ERABsToBeAddedModReqItemValueCodec{path: "ERABsToBeAddedModReqItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeAddedModReqItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32647,6 +32763,8 @@ func (t ERABsToBeAddedModReqItemIETable) ERABsToBeAddedModReqItem() ERABsToBeAdd
 		return value.AsERABsToBeAddedModReqItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeAddedModReqItemIETable.
 func (t ERABsToBeAddedModReqItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeAddedModReqItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeAddedModReqItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32672,12 +32790,16 @@ type ERABsToBeAddedSgNBAddReqItemIETable struct{}
 func ERABsToBeAddedSgNBAddReqItemIEs() ERABsToBeAddedSgNBAddReqItemIETable {
 	return ERABsToBeAddedSgNBAddReqItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeAddedSgNBAddReqItemIETable.
 func (ERABsToBeAddedSgNBAddReqItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-SgNBAddReq-ItemIEs"})
 }
 func X2apInternalERABsToBeAddedSgNBAddReqItemIETableInfoERABsToBeAddedSgNBAddReqItem(internalReceiver ERABsToBeAddedSgNBAddReqItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeAddedSgNBAddReqItemIEs().ID(), ID: s00.ProtocolIEID(209), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeAddedSgNBAddReqItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-SgNBAddReq-ItemIEs", Row: "id-E-RABs-ToBeAdded-SgNBAddReq-Item"}}}
 }
+
+// ERABsToBeAddedSgNBAddReqItem returns the typed binding for the ERABsToBeAddedSgNBAddReqItem row of ERABsToBeAddedSgNBAddReqItemIETable.
 func (t ERABsToBeAddedSgNBAddReqItemIETable) ERABsToBeAddedSgNBAddReqItem() ERABsToBeAddedSgNBAddReqItemERABsToBeAddedSgNBAddReqItemIEBinding {
 	return ERABsToBeAddedSgNBAddReqItemERABsToBeAddedSgNBAddReqItemIEBinding{info: X2apInternalERABsToBeAddedSgNBAddReqItemIETableInfoERABsToBeAddedSgNBAddReqItem(t), codec: ERABsToBeAddedSgNBAddReqItemValueCodec{path: "ERABsToBeAddedSgNBAddReqItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeAddedSgNBAddReqItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32718,6 +32840,8 @@ func (t ERABsToBeAddedSgNBAddReqItemIETable) ERABsToBeAddedSgNBAddReqItem() ERAB
 		return value.AsERABsToBeAddedSgNBAddReqItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeAddedSgNBAddReqItemIETable.
 func (t ERABsToBeAddedSgNBAddReqItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeAddedSgNBAddReqItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeAddedSgNBAddReqItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32743,12 +32867,16 @@ type ERABsToBeAddedSgNBModReqItemIETable struct{}
 func ERABsToBeAddedSgNBModReqItemIEs() ERABsToBeAddedSgNBModReqItemIETable {
 	return ERABsToBeAddedSgNBModReqItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeAddedSgNBModReqItemIETable.
 func (ERABsToBeAddedSgNBModReqItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-SgNBModReq-ItemIEs"})
 }
 func X2apInternalERABsToBeAddedSgNBModReqItemIETableInfoERABsToBeAddedSgNBModReqItem(internalReceiver ERABsToBeAddedSgNBModReqItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeAddedSgNBModReqItemIEs().ID(), ID: s00.ProtocolIEID(216), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeAddedSgNBModReqItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-SgNBModReq-ItemIEs", Row: "id-E-RABs-ToBeAdded-SgNBModReq-Item"}}}
 }
+
+// ERABsToBeAddedSgNBModReqItem returns the typed binding for the ERABsToBeAddedSgNBModReqItem row of ERABsToBeAddedSgNBModReqItemIETable.
 func (t ERABsToBeAddedSgNBModReqItemIETable) ERABsToBeAddedSgNBModReqItem() ERABsToBeAddedSgNBModReqItemERABsToBeAddedSgNBModReqItemIEBinding {
 	return ERABsToBeAddedSgNBModReqItemERABsToBeAddedSgNBModReqItemIEBinding{info: X2apInternalERABsToBeAddedSgNBModReqItemIETableInfoERABsToBeAddedSgNBModReqItem(t), codec: ERABsToBeAddedSgNBModReqItemValueCodec{path: "ERABsToBeAddedSgNBModReqItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeAddedSgNBModReqItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32789,6 +32917,8 @@ func (t ERABsToBeAddedSgNBModReqItemIETable) ERABsToBeAddedSgNBModReqItem() ERAB
 		return value.AsERABsToBeAddedSgNBModReqItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeAddedSgNBModReqItemIETable.
 func (t ERABsToBeAddedSgNBModReqItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeAddedSgNBModReqItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeAddedSgNBModReqItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32814,12 +32944,16 @@ type ERABsToBeModifiedSgNBModReqdItemIETable struct{}
 func ERABsToBeModifiedSgNBModReqdItemIEs() ERABsToBeModifiedSgNBModReqdItemIETable {
 	return ERABsToBeModifiedSgNBModReqdItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeModifiedSgNBModReqdItemIETable.
 func (ERABsToBeModifiedSgNBModReqdItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeModified-SgNBModReqd-ItemIEs"})
 }
 func X2apInternalERABsToBeModifiedSgNBModReqdItemIETableInfoERABsToBeModifiedSgNBModReqdItem(internalReceiver ERABsToBeModifiedSgNBModReqdItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeModifiedSgNBModReqdItemIEs().ID(), ID: s00.ProtocolIEID(228), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeModifiedSgNBModReqdItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeModified-SgNBModReqd-ItemIEs", Row: "id-E-RABs-ToBeModified-SgNBModReqd-Item"}}}
 }
+
+// ERABsToBeModifiedSgNBModReqdItem returns the typed binding for the ERABsToBeModifiedSgNBModReqdItem row of ERABsToBeModifiedSgNBModReqdItemIETable.
 func (t ERABsToBeModifiedSgNBModReqdItemIETable) ERABsToBeModifiedSgNBModReqdItem() ERABsToBeModifiedSgNBModReqdItemERABsToBeModifiedSgNBModReqdItemIEBinding {
 	return ERABsToBeModifiedSgNBModReqdItemERABsToBeModifiedSgNBModReqdItemIEBinding{info: X2apInternalERABsToBeModifiedSgNBModReqdItemIETableInfoERABsToBeModifiedSgNBModReqdItem(t), codec: s09.X2apInternalConstructT42ERABsToBeModifiedSgNBModReqdItemValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsToBeModifiedSgNBModReqdItem", func(data []byte, options aper.DecodeState) (s09.ERABsToBeModifiedSgNBModReqdItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32860,6 +32994,8 @@ func (t ERABsToBeModifiedSgNBModReqdItemIETable) ERABsToBeModifiedSgNBModReqdIte
 			return value.AsERABsToBeModifiedSgNBModReqdItem()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeModifiedSgNBModReqdItemIETable.
 func (t ERABsToBeModifiedSgNBModReqdItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeModifiedSgNBModReqdItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeModifiedSgNBModReqdItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32885,12 +33021,16 @@ type ERABsToBeReleasedModReqItemIETable struct{}
 func ERABsToBeReleasedModReqItemIEs() ERABsToBeReleasedModReqItemIETable {
 	return ERABsToBeReleasedModReqItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedModReqItemIETable.
 func (ERABsToBeReleasedModReqItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-ModReqItemIEs"})
 }
 func X2apInternalERABsToBeReleasedModReqItemIETableInfoERABsToBeReleasedModReqItem(internalReceiver ERABsToBeReleasedModReqItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeReleasedModReqItemIEs().ID(), ID: s00.ProtocolIEID(127), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedModReqItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-ModReqItemIEs", Row: "id-E-RABs-ToBeReleased-ModReqItem"}}}
 }
+
+// ERABsToBeReleasedModReqItem returns the typed binding for the ERABsToBeReleasedModReqItem row of ERABsToBeReleasedModReqItemIETable.
 func (t ERABsToBeReleasedModReqItemIETable) ERABsToBeReleasedModReqItem() ERABsToBeReleasedModReqItemERABsToBeReleasedModReqItemIEBinding {
 	return ERABsToBeReleasedModReqItemERABsToBeReleasedModReqItemIEBinding{info: X2apInternalERABsToBeReleasedModReqItemIETableInfoERABsToBeReleasedModReqItem(t), codec: ERABsToBeReleasedModReqItemValueCodec{path: "ERABsToBeReleasedModReqItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeReleasedModReqItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -32932,6 +33072,8 @@ func (t ERABsToBeReleasedModReqItemIETable) ERABsToBeReleasedModReqItem() ERABsT
 		return value.AsERABsToBeReleasedModReqItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedModReqItemIETable.
 func (t ERABsToBeReleasedModReqItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeReleasedModReqItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeReleasedModReqItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -32957,12 +33099,16 @@ type ERABsToBeReleasedRelConfItemIETable struct{}
 func ERABsToBeReleasedRelConfItemIEs() ERABsToBeReleasedRelConfItemIETable {
 	return ERABsToBeReleasedRelConfItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedRelConfItemIETable.
 func (ERABsToBeReleasedRelConfItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-RelConfItemIEs"})
 }
 func X2apInternalERABsToBeReleasedRelConfItemIETableInfoERABsToBeReleasedRelConfItem(internalReceiver ERABsToBeReleasedRelConfItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeReleasedRelConfItemIEs().ID(), ID: s00.ProtocolIEID(140), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedRelConfItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-RelConfItemIEs", Row: "id-E-RABs-ToBeReleased-RelConfItem"}}}
 }
+
+// ERABsToBeReleasedRelConfItem returns the typed binding for the ERABsToBeReleasedRelConfItem row of ERABsToBeReleasedRelConfItemIETable.
 func (t ERABsToBeReleasedRelConfItemIETable) ERABsToBeReleasedRelConfItem() ERABsToBeReleasedRelConfItemERABsToBeReleasedRelConfItemIEBinding {
 	return ERABsToBeReleasedRelConfItemERABsToBeReleasedRelConfItemIEBinding{info: X2apInternalERABsToBeReleasedRelConfItemIETableInfoERABsToBeReleasedRelConfItem(t), codec: ERABsToBeReleasedRelConfItemValueCodec{path: "ERABsToBeReleasedRelConfItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeReleasedRelConfItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33003,6 +33149,8 @@ func (t ERABsToBeReleasedRelConfItemIETable) ERABsToBeReleasedRelConfItem() ERAB
 		return value.AsERABsToBeReleasedRelConfItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedRelConfItemIETable.
 func (t ERABsToBeReleasedRelConfItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeReleasedRelConfItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeReleasedRelConfItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -33028,12 +33176,16 @@ type ERABsToBeReleasedRelReqItemIETable struct{}
 func ERABsToBeReleasedRelReqItemIEs() ERABsToBeReleasedRelReqItemIETable {
 	return ERABsToBeReleasedRelReqItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedRelReqItemIETable.
 func (ERABsToBeReleasedRelReqItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-RelReqItemIEs"})
 }
 func X2apInternalERABsToBeReleasedRelReqItemIETableInfoERABsToBeReleasedRelReqItem(internalReceiver ERABsToBeReleasedRelReqItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeReleasedRelReqItemIEs().ID(), ID: s00.ProtocolIEID(138), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedRelReqItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-RelReqItemIEs", Row: "id-E-RABs-ToBeReleased-RelReqItem"}}}
 }
+
+// ERABsToBeReleasedRelReqItem returns the typed binding for the ERABsToBeReleasedRelReqItem row of ERABsToBeReleasedRelReqItemIETable.
 func (t ERABsToBeReleasedRelReqItemIETable) ERABsToBeReleasedRelReqItem() ERABsToBeReleasedRelReqItemERABsToBeReleasedRelReqItemIEBinding {
 	return ERABsToBeReleasedRelReqItemERABsToBeReleasedRelReqItemIEBinding{info: X2apInternalERABsToBeReleasedRelReqItemIETableInfoERABsToBeReleasedRelReqItem(t), codec: ERABsToBeReleasedRelReqItemValueCodec{path: "ERABsToBeReleasedRelReqItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeReleasedRelReqItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33075,6 +33227,8 @@ func (t ERABsToBeReleasedRelReqItemIETable) ERABsToBeReleasedRelReqItem() ERABsT
 		return value.AsERABsToBeReleasedRelReqItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedRelReqItemIETable.
 func (t ERABsToBeReleasedRelReqItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeReleasedRelReqItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeReleasedRelReqItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -33100,12 +33254,16 @@ type ERABsToBeReleasedSgNBModReqItemIETable struct{}
 func ERABsToBeReleasedSgNBModReqItemIEs() ERABsToBeReleasedSgNBModReqItemIETable {
 	return ERABsToBeReleasedSgNBModReqItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBModReqItemIETable.
 func (ERABsToBeReleasedSgNBModReqItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBModReq-ItemIEs"})
 }
 func X2apInternalERABsToBeReleasedSgNBModReqItemIETableInfoERABsToBeReleasedSgNBModReqItem(internalReceiver ERABsToBeReleasedSgNBModReqItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeReleasedSgNBModReqItemIEs().ID(), ID: s00.ProtocolIEID(218), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedSgNBModReqItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBModReq-ItemIEs", Row: "id-E-RABs-ToBeReleased-SgNBModReq-Item"}}}
 }
+
+// ERABsToBeReleasedSgNBModReqItem returns the typed binding for the ERABsToBeReleasedSgNBModReqItem row of ERABsToBeReleasedSgNBModReqItemIETable.
 func (t ERABsToBeReleasedSgNBModReqItemIETable) ERABsToBeReleasedSgNBModReqItem() ERABsToBeReleasedSgNBModReqItemERABsToBeReleasedSgNBModReqItemIEBinding {
 	return ERABsToBeReleasedSgNBModReqItemERABsToBeReleasedSgNBModReqItemIEBinding{info: X2apInternalERABsToBeReleasedSgNBModReqItemIETableInfoERABsToBeReleasedSgNBModReqItem(t), codec: ERABsToBeReleasedSgNBModReqItemValueCodec{path: "ERABsToBeReleasedSgNBModReqItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeReleasedSgNBModReqItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33147,6 +33305,8 @@ func (t ERABsToBeReleasedSgNBModReqItemIETable) ERABsToBeReleasedSgNBModReqItem(
 		return value.AsERABsToBeReleasedSgNBModReqItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBModReqItemIETable.
 func (t ERABsToBeReleasedSgNBModReqItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeReleasedSgNBModReqItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeReleasedSgNBModReqItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -33172,12 +33332,16 @@ type ERABsToBeReleasedSgNBRelConfItemIETable struct{}
 func ERABsToBeReleasedSgNBRelConfItemIEs() ERABsToBeReleasedSgNBRelConfItemIETable {
 	return ERABsToBeReleasedSgNBRelConfItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBRelConfItemIETable.
 func (ERABsToBeReleasedSgNBRelConfItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelConf-ItemIEs"})
 }
 func X2apInternalERABsToBeReleasedSgNBRelConfItemIETableInfoERABsToBeReleasedSgNBRelConfItem(internalReceiver ERABsToBeReleasedSgNBRelConfItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeReleasedSgNBRelConfItemIEs().ID(), ID: s00.ProtocolIEID(234), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedSgNBRelConfItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelConf-ItemIEs", Row: "id-E-RABs-ToBeReleased-SgNBRelConf-Item"}}}
 }
+
+// ERABsToBeReleasedSgNBRelConfItem returns the typed binding for the ERABsToBeReleasedSgNBRelConfItem row of ERABsToBeReleasedSgNBRelConfItemIETable.
 func (t ERABsToBeReleasedSgNBRelConfItemIETable) ERABsToBeReleasedSgNBRelConfItem() ERABsToBeReleasedSgNBRelConfItemERABsToBeReleasedSgNBRelConfItemIEBinding {
 	return ERABsToBeReleasedSgNBRelConfItemERABsToBeReleasedSgNBRelConfItemIEBinding{info: X2apInternalERABsToBeReleasedSgNBRelConfItemIETableInfoERABsToBeReleasedSgNBRelConfItem(t), codec: ERABsToBeReleasedSgNBRelConfItemValueCodec{path: "ERABsToBeReleasedSgNBRelConfItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeReleasedSgNBRelConfItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33218,6 +33382,8 @@ func (t ERABsToBeReleasedSgNBRelConfItemIETable) ERABsToBeReleasedSgNBRelConfIte
 		return value.AsERABsToBeReleasedSgNBRelConfItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBRelConfItemIETable.
 func (t ERABsToBeReleasedSgNBRelConfItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeReleasedSgNBRelConfItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeReleasedSgNBRelConfItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -33243,12 +33409,16 @@ type ERABsToBeReleasedSgNBRelReqItemIETable struct{}
 func ERABsToBeReleasedSgNBRelReqItemIEs() ERABsToBeReleasedSgNBRelReqItemIETable {
 	return ERABsToBeReleasedSgNBRelReqItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBRelReqItemIETable.
 func (ERABsToBeReleasedSgNBRelReqItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelReq-ItemIEs"})
 }
 func X2apInternalERABsToBeReleasedSgNBRelReqItemIETableInfoERABsToBeReleasedSgNBRelReqItem(internalReceiver ERABsToBeReleasedSgNBRelReqItemIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeReleasedSgNBRelReqItemIEs().ID(), ID: s00.ProtocolIEID(232), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsToBeReleasedSgNBRelReqItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelReq-ItemIEs", Row: "id-E-RABs-ToBeReleased-SgNBRelReq-Item"}}}
 }
+
+// ERABsToBeReleasedSgNBRelReqItem returns the typed binding for the ERABsToBeReleasedSgNBRelReqItem row of ERABsToBeReleasedSgNBRelReqItemIETable.
 func (t ERABsToBeReleasedSgNBRelReqItemIETable) ERABsToBeReleasedSgNBRelReqItem() ERABsToBeReleasedSgNBRelReqItemERABsToBeReleasedSgNBRelReqItemIEBinding {
 	return ERABsToBeReleasedSgNBRelReqItemERABsToBeReleasedSgNBRelReqItemIEBinding{info: X2apInternalERABsToBeReleasedSgNBRelReqItemIETableInfoERABsToBeReleasedSgNBRelReqItem(t), codec: ERABsToBeReleasedSgNBRelReqItemValueCodec{path: "ERABsToBeReleasedSgNBRelReqItem", decode: func(data []byte, options aper.DecodeState) (ERABsToBeReleasedSgNBRelReqItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33290,6 +33460,8 @@ func (t ERABsToBeReleasedSgNBRelReqItemIETable) ERABsToBeReleasedSgNBRelReqItem(
 		return value.AsERABsToBeReleasedSgNBRelReqItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBRelReqItemIETable.
 func (t ERABsToBeReleasedSgNBRelReqItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeReleasedSgNBRelReqItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeReleasedSgNBRelReqItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -33315,12 +33487,16 @@ type ERABsToBeSetupRetrieveItemExtIETable struct{}
 func ERABsToBeSetupRetrieveItemExtIEs() ERABsToBeSetupRetrieveItemExtIETable {
 	return ERABsToBeSetupRetrieveItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeSetupRetrieveItemExtIETable.
 func (ERABsToBeSetupRetrieveItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeSetupRetrieve-ItemExtIEs"})
 }
 func X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoULGTPtunnelEndpoint(internalReceiver ERABsToBeSetupRetrieveItemExtIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeSetupRetrieveItemExtIEs().ID(), ID: s00.ProtocolIEID(185), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "GTPtunnelEndpoint"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeSetupRetrieve-ItemExtIEs", Row: "id-uL-GTPtunnelEndpoint"}}}
 }
+
+// ULGTPtunnelEndpoint returns the typed binding for the ULGTPtunnelEndpoint row of ERABsToBeSetupRetrieveItemExtIETable.
 func (t ERABsToBeSetupRetrieveItemExtIETable) ULGTPtunnelEndpoint() ERABsToBeSetupRetrieveItemExtIEsGTPtunnelEndpointExtBinding {
 	return ERABsToBeSetupRetrieveItemExtIEsGTPtunnelEndpointExtBinding{info: X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoULGTPtunnelEndpoint(t), codec: s09.X2apInternalConstructT27GTPtunnelEndpointValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("GTPtunnelEndpoint", func(data []byte, options aper.DecodeState) (s09.GTPtunnelEndpoint, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33365,6 +33541,8 @@ func (t ERABsToBeSetupRetrieveItemExtIETable) ULGTPtunnelEndpoint() ERABsToBeSet
 func X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoDLForwarding(internalReceiver ERABsToBeSetupRetrieveItemExtIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeSetupRetrieveItemExtIEs().ID(), ID: s00.ProtocolIEID(306), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DLForwarding"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeSetupRetrieve-ItemExtIEs", Row: "id-dL-Forwarding"}}}
 }
+
+// DLForwarding returns the typed binding for the DLForwarding row of ERABsToBeSetupRetrieveItemExtIETable.
 func (t ERABsToBeSetupRetrieveItemExtIETable) DLForwarding() ERABsToBeSetupRetrieveItemExtIEsDLForwardingExtBinding {
 	return ERABsToBeSetupRetrieveItemExtIEsDLForwardingExtBinding{info: X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoDLForwarding(t), codec: s00.X2apInternalConstructT22DLForwardingValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("DLForwarding", func(data []byte, options aper.DecodeState) (s00.DLForwarding, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33417,6 +33595,8 @@ func (t ERABsToBeSetupRetrieveItemExtIETable) DLForwarding() ERABsToBeSetupRetri
 func X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoEthernetType(internalReceiver ERABsToBeSetupRetrieveItemExtIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeSetupRetrieveItemExtIEs().ID(), ID: s00.ProtocolIEID(369), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "EthernetType"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeSetupRetrieve-ItemExtIEs", Row: "id-Ethernet-Type"}}}
 }
+
+// EthernetType returns the typed binding for the EthernetType row of ERABsToBeSetupRetrieveItemExtIETable.
 func (t ERABsToBeSetupRetrieveItemExtIETable) EthernetType() ERABsToBeSetupRetrieveItemExtIEsEthernetTypeExtBinding {
 	return ERABsToBeSetupRetrieveItemExtIEsEthernetTypeExtBinding{info: X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoEthernetType(t), codec: s00.X2apInternalConstructT22EthernetTypeValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("EthernetType", func(data []byte, options aper.DecodeState) (s00.EthernetType, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33469,6 +33649,8 @@ func (t ERABsToBeSetupRetrieveItemExtIETable) EthernetType() ERABsToBeSetupRetri
 func X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoSecurityIndication(internalReceiver ERABsToBeSetupRetrieveItemExtIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeSetupRetrieveItemExtIEs().ID(), ID: s00.ProtocolIEID(435), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "SecurityIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeSetupRetrieve-ItemExtIEs", Row: "id-SecurityIndication"}}}
 }
+
+// SecurityIndication returns the typed binding for the SecurityIndication row of ERABsToBeSetupRetrieveItemExtIETable.
 func (t ERABsToBeSetupRetrieveItemExtIETable) SecurityIndication() ERABsToBeSetupRetrieveItemExtIEsSecurityIndicationExtBinding {
 	return ERABsToBeSetupRetrieveItemExtIEsSecurityIndicationExtBinding{info: X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoSecurityIndication(t), codec: s05.X2apInternalConstructT28SecurityIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("SecurityIndication", func(data []byte, options aper.DecodeState) (s05.SecurityIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33513,6 +33695,8 @@ func (t ERABsToBeSetupRetrieveItemExtIETable) SecurityIndication() ERABsToBeSetu
 func X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoSourceDLForwardingIPAddress(internalReceiver ERABsToBeSetupRetrieveItemExtIETable) s06.FieldInfo {
 	return s06.FieldInfo{Table: ERABsToBeSetupRetrieveItemExtIEs().ID(), ID: s00.ProtocolIEID(412), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "TransportLayerAddress"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeSetupRetrieve-ItemExtIEs", Row: "id-SourceDLForwardingIPAddress"}}}
 }
+
+// SourceDLForwardingIPAddress returns the typed binding for the SourceDLForwardingIPAddress row of ERABsToBeSetupRetrieveItemExtIETable.
 func (t ERABsToBeSetupRetrieveItemExtIETable) SourceDLForwardingIPAddress() ERABsToBeSetupRetrieveItemExtIEsTransportLayerAddressExtBinding {
 	return ERABsToBeSetupRetrieveItemExtIEsTransportLayerAddressExtBinding{info: X2apInternalERABsToBeSetupRetrieveItemExtIETableInfoSourceDLForwardingIPAddress(t), codec: s09.X2apInternalConstructT31TransportLayerAddressValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("TransportLayerAddress", func(data []byte, options aper.DecodeState) (s09.TransportLayerAddress, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -33562,6 +33746,8 @@ func (t ERABsToBeSetupRetrieveItemExtIETable) SourceDLForwardingIPAddress() ERAB
 			return value.AsSourceDLForwardingIPAddress()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeSetupRetrieveItemExtIETable.
 func (t ERABsToBeSetupRetrieveItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsToBeSetupRetrieveItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsToBeSetupRetrieveItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
