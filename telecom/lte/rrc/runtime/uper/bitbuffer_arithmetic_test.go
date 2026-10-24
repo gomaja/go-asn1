@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer_arithmetic_test.go; SHA-256 978bc5a8d5baf3773236967c1c64cf989832eb85ebb853a0de4d56a40e62e647.
+// Runtime source: runtime/uper/bitbuffer_arithmetic_test.go; SHA-256 019e17521543d949c217158f229c88baa5322ecb7fa3386761a8dd6b0bf8a945.
 package uper
 
 import (
@@ -34,6 +34,32 @@ func TestBitBufferRejectsUnrepresentableBitCount386(t *testing.T) {
 	bounded, err := NewBitBufferFromBits(wire, math.MaxInt)
 	if err != nil || bounded.BitsRemaining() != math.MaxInt {
 		t.Fatalf("NewBitBufferFromBits rejected maximum representable bit length: %v", err)
+	}
+	// X.691 (02/2021) §§11.1.1(b), 11.1.3.2: the exact unpadded
+	// bit length can fit even when the backing octets' padded length does not.
+	if err := input.SetReadBitLength(math.MaxInt); err != nil || input.BitsRemaining() != math.MaxInt {
+		t.Fatalf("SetReadBitLength rejected maximum representable bit length: %v", err)
+	}
+	for _, bits := range []int{math.MaxInt - 6, math.MaxInt} {
+		bounded, err := NewBitBufferFromBits(wire, bits)
+		if err != nil || bounded.BitsRemaining() != bits {
+			t.Fatalf("NewBitBufferFromBits(%d): %v", bits, err)
+		}
+		bounded.bitPos = bits - 1
+		if _, err := bounded.ReadBit(); err != nil || bounded.BitsRemaining() != 0 {
+			t.Fatalf("last declared bit (%d): %v", bits, err)
+		}
+		if _, err := bounded.ReadBit(); !errors.Is(err, ErrTruncated) {
+			t.Fatalf("read past declared length (%d): %v", bits, err)
+		}
+	}
+	wire[len(wire)-1] = 1
+	if _, err := NewBitBufferFromBits(wire, math.MaxInt); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("nonzero unused bit accepted: %v", err)
+	}
+	wire[len(wire)-1] = 0
+	if _, err := NewBitBufferFromBits(wire, math.MaxInt-7); !errors.Is(err, ErrInvalidValue) {
+		t.Fatalf("excess backing octet accepted: %v", err)
 	}
 }
 
