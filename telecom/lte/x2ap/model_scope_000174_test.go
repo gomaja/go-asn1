@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s03 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s03"
 )
 
-func x2APPDUapiMust(v s19.X2APPDU, err error) s19.X2APPDU {
+func sSBPositionsInBurstExtIEFieldapiMust(v s03.SSBPositionsInBurstExtIEField, err error) s03.SSBPositionsInBurstExtIEField {
 	if err != nil {
 		panic(err)
 	}

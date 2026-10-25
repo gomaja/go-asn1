@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func errorIndicationfreshMust(value s19.ErrorIndication, err error) s19.ErrorIndication {
+func handoverCancelfreshMust(value s20.HandoverCancel, err error) s20.HandoverCancel {
 	if err != nil {
 		panic(err)
 	}

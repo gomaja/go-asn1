@@ -4,7 +4,7 @@ package x2ap
 
 import (
 	errors "errors"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -14,7 +14,7 @@ func TestReceiverDefaultReportCeilingAndLinearGrowth(t *testing.T) {
 	for _, size := range []int{128, 256, 512} {
 		wire := receiverUnknownWire(t, size)
 		allocations := testing.AllocsPerRun(3, func() {
-			var value s19.X2APPDU
+			var value s20.X2APPDU
 			report, err := value.UnmarshalAPER(wire, aper.WithReceiverMode())
 			if err != nil || len(report.Observations) != size {
 				panic("unknown observations lost")
@@ -29,11 +29,11 @@ func TestReceiverDefaultReportCeilingAndLinearGrowth(t *testing.T) {
 	for _, size := range []int{1023, 1024, 1025} {
 		wire := receiverUnknownWire(t, size)
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var reused s19.X2APPDU
+			var reused s20.X2APPDU
 			if _, err := reused.UnmarshalAPER(valid, options...); err != nil {
 				t.Fatal(err)
 			}
-			for _, value := range []*s19.X2APPDU{new(s19.X2APPDU), &reused} {
+			for _, value := range []*s20.X2APPDU{new(s20.X2APPDU), &reused} {
 				report, err := value.UnmarshalAPER(wire, options...)
 				if size <= 1024 {
 					if err != nil || len(report.Observations) != size {

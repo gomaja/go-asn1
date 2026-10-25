@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 )
 
-func sCGFailureTransferfreshMust(value s19.SCGFailureTransfer, err error) s19.SCGFailureTransfer {
+func sCGFailureInformationReportIEFieldfreshMust(value s11.SCGFailureInformationReportIEField, err error) s11.SCGFailureInformationReportIEField {
 	if err != nil {
 		panic(err)
 	}

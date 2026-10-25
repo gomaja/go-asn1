@@ -149,7 +149,9 @@ func (v *ECIDMeasurementInitiationFailureIEField) unmarshalAPERFrom(bb *aper.Bit
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -265,7 +267,9 @@ func (v *UTDOAInformationRequestIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1261,7 +1265,7 @@ func BridgeAddOTDOACellsExtIEsValueValidateLPPaIEContainer(fields s03.AddOTDOACe
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -1269,35 +1273,35 @@ func BridgeAddOTDOACellsExtIEsValueValidateLPPaIEContainer(fields s03.AddOTDOACe
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			report.addIssue(ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			report.addIssue(ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			report.addIssue(ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			report.addIssue(ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			report.addIssue(ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			report.addIssue(ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			report.addIssue(ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			report.addDeferred(s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -1344,7 +1348,7 @@ func BridgeAssistanceInformationExtIEsValueValidateLPPaIEContainer(fields s03.As
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -1352,35 +1356,35 @@ func BridgeAssistanceInformationExtIEsValueValidateLPPaIEContainer(fields s03.As
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			report.addIssue(ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			report.addIssue(ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			report.addIssue(ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			report.addIssue(ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			report.addIssue(ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			report.addIssue(ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			report.addIssue(ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			report.addDeferred(s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -1427,7 +1431,7 @@ func BridgeAssistanceInformationFailureListExtIEsValueValidateLPPaIEContainer(fi
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -1435,35 +1439,35 @@ func BridgeAssistanceInformationFailureListExtIEsValueValidateLPPaIEContainer(fi
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			report.addIssue(ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			report.addIssue(ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			report.addIssue(ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			report.addIssue(ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			report.addIssue(ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			report.addIssue(ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			report.addIssue(ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			report.addDeferred(s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -1510,7 +1514,7 @@ func BridgeAssistanceInformationMetaDataExtIEsValueValidateLPPaIEContainer(field
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -1518,35 +1522,35 @@ func BridgeAssistanceInformationMetaDataExtIEsValueValidateLPPaIEContainer(field
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			report.addIssue(ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			report.addIssue(ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			report.addIssue(ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			report.addIssue(ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			report.addIssue(ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			report.addIssue(ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			report.addIssue(ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			report.addIssue(ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			report.addDeferred(s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -1826,6 +1830,7 @@ func (v *CriticalityDiagnostics) unmarshalAPERWithOptions(data []byte, options a
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 	}
+	bb.EnterComponent("CriticalityDiagnostics")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 	}
@@ -1949,6 +1954,7 @@ func (v *CriticalityDiagnostics) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		bb.LeaveComponent(toleranceMark_iescriticalitydiagnostics)
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.CriticalityDiagnosticsExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1957,9 +1963,11 @@ func (v *CriticalityDiagnostics) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.CriticalityDiagnosticsExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.BridgeCriticalityDiagnosticsExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -1972,6 +1980,7 @@ func (v *CriticalityDiagnostics) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -2100,6 +2109,7 @@ func (v *MBSFNsubframeConfigurationValue) unmarshalAPERWithOptions(data []byte, 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNsubframeConfigurationValue")
 	}
+	bb.EnterComponent("MBSFNsubframeConfigurationValue")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNsubframeConfigurationValue")
 	}
@@ -2129,9 +2139,11 @@ func (v *MBSFNsubframeConfigurationValue) unmarshalAPERFrom(bb *aper.BitBuffer) 
 		return runtime.WrapDecodePath(err, "RadioframeAllocationOffset")
 	}
 	v.RadioframeAllocationOffset = val_radioframeallocationoffset
+	toleranceMark_subframeallocation := bb.EnterComponent("SubframeAllocation")
 	if err := v.SubframeAllocation.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SubframeAllocation")
 	}
+	bb.LeaveComponent(toleranceMark_subframeallocation)
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.
 		stream.RecordUsage(replayUsage,
@@ -2311,6 +2323,7 @@ func (v *SRSConfigurationForOneCell) unmarshalAPERWithOptions(data []byte, optio
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SRSConfigurationForOneCell")
 	}
+	bb.EnterComponent("SRSConfigurationForOneCell")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SRSConfigurationForOneCell")
 	}
@@ -2561,6 +2574,7 @@ func (v *Subframeallocation) unmarshalAPERWithOptions(data []byte, options aper.
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "Subframeallocation")
 	}
+	bb.EnterComponent("Subframeallocation")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Subframeallocation")
 	}
@@ -4343,6 +4357,7 @@ func (t UTDOAInformationRequestIETable) RequestedSRSTransmissionCharacteristics(
 				var empty s08.RequestedSRSTransmissionCharacteristics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("RequestedSRSTransmissionCharacteristics")
 			var zero UTDOAInformationRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(12), raw)
 			if err != nil {

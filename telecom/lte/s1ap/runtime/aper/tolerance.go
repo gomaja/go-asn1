@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/tolerance.go; SHA-256 30a491d2c6235cd36d1bac750e9684786f9d7b7e0219520444c9e2fbc1b30a47.
+// Runtime source: runtime/aper/tolerance.go; SHA-256 4c08b3ae955bc1a617d2b6e1cfa571d65775b7afd07d78bef1844df88fdc877b.
 package aper
 
 import (
@@ -124,8 +124,10 @@ func (log *ToleranceLog) append(records []Tolerance) {
 // for extension tolerance, so a strict eager decode pays one nil check per
 // tracked component.
 type decodeTrace struct {
-	path    []pathSegment
-	pending []Tolerance
+	terminalPadding bool
+	nonzeroPadding  bool
+	path            []pathSegment
+	pending         []Tolerance
 	// truncated is decodeSettings.TruncatedExtensionTolerance (see
 	// BitBuffer.outermost).
 	truncated *ToleranceLog
@@ -170,7 +172,7 @@ func (bb *BitBuffer) EnterComponent(name string) int {
 	if bb.trace == nil {
 		return 0
 	}
-	return bb.trace.enter(pathSegment{name: name})
+	return bb.enterPaddingSegment(pathSegment{name: name})
 }
 
 // EnterIndex marks the start of a list element decode that can apply a
@@ -179,7 +181,7 @@ func (bb *BitBuffer) EnterIndex(index int64) int {
 	if bb.trace == nil {
 		return 0
 	}
-	return bb.trace.enter(pathSegment{index: index})
+	return bb.enterPaddingSegment(pathSegment{index: index})
 }
 
 // LeaveComponent restores the path recorded before the matching Enter call.
@@ -245,18 +247,23 @@ func qualifyPath(root, path string) string {
 	}
 }
 
-// CaptureFinalBits validates and consumes zero terminal padding, returning
-// zero padding state, and publishes extension-tolerance records with the
+// CaptureFinalBits validates terminal padding, or records a departure under
+// WithNonzeroTerminalPadding, returning zero padding state. It publishes records with the
 // top-level path (X.691 (02/2021) §11.1.4).
 func CaptureFinalBits(bb *BitBuffer, root string) (FinalPadding, error) {
 	if err := bb.checkRecoveryBits(0); err != nil {
 		return FinalPadding{}, err
 	}
-	padding, err := captureTrailingPadding(bb, "top-level value")
+	padding, err := captureNamedPadding(bb, "top-level value", root)
 	if err != nil {
 		return FinalPadding{}, err
 	}
 	final := finalPaddingOf(padding)
+	if bb.trace != nil && bb.trace.terminalPadding {
+		if err := bb.qualifyPaddingReports(root); err != nil {
+			return FinalPadding{}, err
+		}
+	}
 	bb.commitRecords(root)
 	return final, nil
 }

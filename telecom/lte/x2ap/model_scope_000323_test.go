@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func eNDCX2SetupResponseIEFieldfreshMust(value s18.ENDCX2SetupResponseIEField, err error) s18.ENDCX2SetupResponseIEField {
+func rRCTransferfreshMust(value s20.RRCTransfer, err error) s20.RRCTransfer {
 	if err != nil {
 		panic(err)
 	}

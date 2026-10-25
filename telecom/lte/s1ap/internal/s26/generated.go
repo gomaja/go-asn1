@@ -132,7 +132,9 @@ func (v *LocationReportingControlIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -179,6 +181,25 @@ func BridgeLocationReportingControlIEValueCompareS1APProtocolIEContainer(v *Loca
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
+func BridgePathSwitchRequestFailureIEValueCompareS1APProtocolIEContainer(v *s23.PathSwitchRequestFailureIEContainer, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			s25.BridgePathSwitchRequestFailureIEValueCompareS1APProtocolIEField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.End(f, aper.Snapshot{}, false)
+}
 func BridgePrivateMessageIEsValueCaptureS1APPrivateIEContainer(v *s25.PrivateMessageIEsValuePrivateIEContainer, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
@@ -217,7 +238,7 @@ func BridgePrivateMessageIEsValueCompareS1APPrivateIEContainer(v *s25.PrivateMes
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeRecommendedCellsForPagingItemExtIEsValueCaptureS1APProtocolExtensionContainer(v *s10.RecommendedCellsForPagingItemExtIEsExtContainer, s *aper.SemanticCapture) {
+func BridgeRecommendedCellsForPagingItemExtIEsValueCaptureS1APProtocolExtensionContainer(v *s11.RecommendedCellsForPagingItemExtIEsExtContainer, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -236,7 +257,7 @@ func BridgeRecommendedCellsForPagingItemExtIEsValueCaptureS1APProtocolExtensionC
 	}
 	s.End(f, nil, false)
 }
-func BridgeRecommendedCellsForPagingItemExtIEsValueCompareS1APProtocolExtensionContainer(v *s10.RecommendedCellsForPagingItemExtIEsExtContainer, s *aper.SemanticComparison) {
+func BridgeRecommendedCellsForPagingItemExtIEsValueCompareS1APProtocolExtensionContainer(v *s11.RecommendedCellsForPagingItemExtIEsExtContainer, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -910,7 +931,9 @@ func (v *RecommendedCellItemIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -2677,7 +2700,7 @@ func BridgeBearersSubjectToEarlyStatusTransferItemExtIEsValueValidateS1APExtensi
 // TS 36.413 V19.2.0 §§9.3.3–9.3.4 supply the selected object-set order and
 // presence. §§10.3.1–10.3.6 define abstract-syntax diagnostics. Unknown IEs do
 // not determine the order of known rows.
-func BridgeBearersSubjectToEarlyStatusTransferItemIEValueValidateS1APIEContainer(fields s14.BearersSubjectToEarlyStatusTransferItemIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
+func BridgeBearersSubjectToEarlyStatusTransferItemIEValueValidateS1APIEContainer(fields s15.BearersSubjectToEarlyStatusTransferItemIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s21.ValidationReport {
 	report := func() s21.ValidationReport {
@@ -2706,8 +2729,8 @@ func BridgeBearersSubjectToEarlyStatusTransferItemIEValueValidateS1APIEContainer
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.413 V19.2.0 §9.3.7 binds the selected value to @id.
-		if !s14.BridgeBearersSubjectToEarlyStatusTransferItemIEValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := s14.BridgeBearersSubjectToEarlyStatusTransferItemIEValueMethodRule(field.Value)
+		if !s15.BridgeBearersSubjectToEarlyStatusTransferItemIEValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s15.BridgeBearersSubjectToEarlyStatusTransferItemIEValueMethodRule(field.Value)
 			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
@@ -2717,7 +2740,7 @@ func BridgeBearersSubjectToEarlyStatusTransferItemIEValueValidateS1APIEContainer
 		rank, allowed := byID[field.Id]
 		table := func() s00.TableID {
 			sealed := s00.TableID{}
-			*s00.BridgeTableIDFieldSource(&sealed) = s14.BridgeBearersSubjectToEarlyStatusTransferItemIEValueMethodRule(field.Value).Assignment
+			*s00.BridgeTableIDFieldSource(&sealed) = s15.BridgeBearersSubjectToEarlyStatusTransferItemIEValueMethodRule(field.Value).Assignment
 			return sealed
 		}()
 		var sourceRules []aper.SourceRule
@@ -3067,24 +3090,6 @@ func BridgeCdma2000OneXSRVCCInfoExtIEsValueValidateS1APExtensionContainer(fields
 	}
 	return BridgeCdma2000OneXSRVCCInfoExtIEsValueValidateS1APIEContainer(asIE, rows, path, budget)
 }
-func BridgeCellBasedMDTExtIEsValueValidateS1APExtensionContainer(fields s07.CellBasedMDTExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
-	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s07.CellBasedMDTExtIEsIEField](bb, uint64(len(fields))); err != nil {
-		return func() s21.ValidationReport {
-			sealed := s21.ValidationReport{}
-			*s21.BridgeValidationReportFieldErr(&sealed) = err
-			*s21.BridgeValidationReportFieldBudget(&sealed) = budget
-			return sealed
-		}()
-	}
-	asIE := make(s07.CellBasedMDTExtIEsIEContainer, len(fields))
-	for i := range fields {
-		asIE[i].Id = fields[i].Id
-		asIE[i].Criticality = fields[i].Criticality
-		asIE[i].Value = fields[i].ExtensionValue
-	}
-	return BridgeCellBasedMDTExtIEsValueValidateS1APIEContainer(asIE, rows, path, budget)
-}
 
 // RecommendedCellItemIEContainer is the concrete ProtocolIEContainer[RecommendedCellItemIEValue].
 type RecommendedCellItemIEContainer []RecommendedCellItemIEField
@@ -3393,13 +3398,13 @@ func S1SetupFailureIEValueERABIEContainerListCodec(table s00.S1SetupFailureIEVal
 	}()
 
 }
-func RecommendedCellsForPagingExtIEsValueExtensionFieldTableCodec(table s00.RecommendedCellsForPagingExtIEsValueExtensionTable) s10.RecommendedCellsForPagingExtIEsExtFieldValueCodec {
+func RecommendedCellsForPagingExtIEsValueExtensionFieldTableCodec(table s00.RecommendedCellsForPagingExtIEsValueExtensionTable) s11.RecommendedCellsForPagingExtIEsExtFieldValueCodec {
 	if !*s00.BridgeRecommendedCellsForPagingExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.RecommendedCellsForPagingExtIEsExtFieldValueCodec{}
+		return s11.RecommendedCellsForPagingExtIEsExtFieldValueCodec{}
 	}
-	return func() s10.RecommendedCellsForPagingExtIEsExtFieldValueCodec {
-		sealed := s10.RecommendedCellsForPagingExtIEsExtFieldValueCodec{}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtField, error) {
+	return func() s11.RecommendedCellsForPagingExtIEsExtFieldValueCodec {
+		sealed := s11.RecommendedCellsForPagingExtIEsExtFieldValueCodec{}
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtField, error) {
 			var field s10.RecommendedCellsForPagingExtIEsExtField
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
@@ -3413,14 +3418,14 @@ func RecommendedCellsForPagingExtIEsValueExtensionFieldTableCodec(table s00.Reco
 			}
 			return field, nil
 		}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.RecommendedCellsForPagingExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.RecommendedCellsForPagingExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
 			if err := s10.BridgeRecommendedCellsForPagingExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.RecommendedCellsForPagingExtIEsExtField, options aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtField, aper.Snapshot,
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.RecommendedCellsForPagingExtIEsExtField, options aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtField, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -3430,7 +3435,7 @@ func RecommendedCellsForPagingExtIEsValueExtensionFieldTableCodec(table s00.Reco
 				false)
 			return v, root
 		}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.RecommendedCellsForPagingExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.RecommendedCellsForPagingExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -3440,7 +3445,7 @@ func RecommendedCellsForPagingExtIEsValueExtensionFieldTableCodec(table s00.Reco
 				false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -3456,13 +3461,13 @@ func RecommendedCellsForPagingItemExtIEsValueExtensionFieldTableCodec(table s00.
 	}
 	return func() s11.RecommendedCellsForPagingItemExtIEsExtFieldValueCodec {
 		sealed := s11.RecommendedCellsForPagingItemExtIEsExtFieldValueCodec{}
-		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.RecommendedCellsForPagingItemExtIEsExtField, error) {
-			var field s10.RecommendedCellsForPagingItemExtIEsExtField
+		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s11.RecommendedCellsForPagingItemExtIEsExtField, error) {
+			var field s11.RecommendedCellsForPagingItemExtIEsExtField
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return field, err
 			}
-			if err := s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+			if err := s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
 				return field, err
 			}
 			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
@@ -3470,14 +3475,14 @@ func RecommendedCellsForPagingItemExtIEsValueExtensionFieldTableCodec(table s00.
 			}
 			return field, nil
 		}
-		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.RecommendedCellsForPagingItemExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s11.RecommendedCellsForPagingItemExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
-			if err := s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+			if err := s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.RecommendedCellsForPagingItemExtIEsExtField, options aper.DecodeState) (s10.RecommendedCellsForPagingItemExtIEsExtField, aper.Snapshot,
+		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s11.RecommendedCellsForPagingItemExtIEsExtField, options aper.DecodeState) (s11.RecommendedCellsForPagingItemExtIEsExtField, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -3487,7 +3492,7 @@ func RecommendedCellsForPagingItemExtIEsValueExtensionFieldTableCodec(table s00.
 				false)
 			return v, root
 		}
-		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.RecommendedCellsForPagingItemExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s11.RecommendedCellsForPagingItemExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -3735,14 +3740,14 @@ func RequestedTNLInfoExtIEsValueExtensionFieldTableCodec(table s00.RequestedTNLI
 	}()
 
 }
-func RecommendedCellsForPagingExtIEsValueExtensionTableCodec(table s00.RecommendedCellsForPagingExtIEsValueExtensionTable, bounds aper.ListBounds) s10.RecommendedCellsForPagingExtIEsExtContainerValueCodec {
+func RecommendedCellsForPagingExtIEsValueExtensionTableCodec(table s00.RecommendedCellsForPagingExtIEsValueExtensionTable, bounds aper.ListBounds) s11.RecommendedCellsForPagingExtIEsExtContainerValueCodec {
 	if !*s00.BridgeRecommendedCellsForPagingExtIEsValueExtensionTableFieldBound(&table) {
-		return s10.RecommendedCellsForPagingExtIEsExtContainerValueCodec{}
+		return s11.RecommendedCellsForPagingExtIEsExtContainerValueCodec{}
 	}
 	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s10.RecommendedCellsForPagingExtIEsExtContainerValueCodec {
-		sealed := s10.RecommendedCellsForPagingExtIEsExtContainerValueCodec{}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtContainer, error) {
+	return func() s11.RecommendedCellsForPagingExtIEsExtContainerValueCodec {
+		sealed := s11.RecommendedCellsForPagingExtIEsExtContainerValueCodec{}
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return nil, err
@@ -3770,7 +3775,7 @@ func RecommendedCellsForPagingExtIEsValueExtensionTableCodec(table s00.Recommend
 			}
 			return fields, nil
 		}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.RecommendedCellsForPagingExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.RecommendedCellsForPagingExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
 			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
 				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
@@ -3788,7 +3793,7 @@ func RecommendedCellsForPagingExtIEsValueExtensionTableCodec(table s00.Recommend
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.RecommendedCellsForPagingExtIEsExtContainer, options aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot,
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.RecommendedCellsForPagingExtIEsExtContainer, options aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -3798,7 +3803,7 @@ func RecommendedCellsForPagingExtIEsValueExtensionTableCodec(table s00.Recommend
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.RecommendedCellsForPagingExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.RecommendedCellsForPagingExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
@@ -3808,7 +3813,7 @@ func RecommendedCellsForPagingExtIEsValueExtensionTableCodec(table s00.Recommend
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s10.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s11.BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
@@ -3825,16 +3830,16 @@ func RecommendedCellsForPagingItemExtIEsValueExtensionTableCodec(table s00.Recom
 	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
 	return func() s11.RecommendedCellsForPagingItemExtIEsExtContainerValueCodec {
 		sealed := s11.RecommendedCellsForPagingItemExtIEsExtContainerValueCodec{}
-		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.RecommendedCellsForPagingItemExtIEsExtContainer, error) {
+		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s11.RecommendedCellsForPagingItemExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return nil, err
 			}
-			var fields s10.RecommendedCellsForPagingItemExtIEsExtContainer
+			var fields s11.RecommendedCellsForPagingItemExtIEsExtContainer
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
-					var field s10.RecommendedCellsForPagingItemExtIEsExtField
-					if err := s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+					var field s11.RecommendedCellsForPagingItemExtIEsExtField
+					if err := s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
 						return err
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
@@ -3853,14 +3858,14 @@ func RecommendedCellsForPagingItemExtIEsValueExtensionTableCodec(table s00.Recom
 			}
 			return fields, nil
 		}
-		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.RecommendedCellsForPagingItemExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s11.RecommendedCellsForPagingItemExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
 			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
 				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
 					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
 				}
 				for _, field := range fields[offset:][:length] {
-					if err := s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+					if err := s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
 						return err
 					}
 				}
@@ -3871,7 +3876,7 @@ func RecommendedCellsForPagingItemExtIEsValueExtensionTableCodec(table s00.Recom
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.RecommendedCellsForPagingItemExtIEsExtContainer, options aper.DecodeState) (s10.RecommendedCellsForPagingItemExtIEsExtContainer, aper.Snapshot,
+		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s11.RecommendedCellsForPagingItemExtIEsExtContainer, options aper.DecodeState) (s11.RecommendedCellsForPagingItemExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -3881,7 +3886,7 @@ func RecommendedCellsForPagingItemExtIEsValueExtensionTableCodec(table s00.Recom
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.RecommendedCellsForPagingItemExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s11.BridgeRecommendedCellsForPagingItemExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s11.RecommendedCellsForPagingItemExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
@@ -4281,6 +4286,63 @@ func LocationReportingControlIEValueIEFieldTableCodec(table s00.LocationReportin
 		return sealed
 	}(),
 	}
+}
+func PathSwitchRequestFailureIEValueIEFieldTableCodec(table s00.PathSwitchRequestFailureIEValueIETable) s23.PathSwitchRequestFailureIEFieldValueCodec {
+	if !*s00.BridgePathSwitchRequestFailureIEValueIETableFieldBound(&table) {
+		return s23.PathSwitchRequestFailureIEFieldValueCodec{}
+	}
+	return func() s23.PathSwitchRequestFailureIEFieldValueCodec {
+		sealed := s23.PathSwitchRequestFailureIEFieldValueCodec{}
+		*s23.BridgePathSwitchRequestFailureIEFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s23.PathSwitchRequestFailureIEField, error) {
+			var field s23.PathSwitchRequestFailureIEField
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return field, err
+			}
+			if err := s23.BridgePathSwitchRequestFailureIEFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+				return field, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolIEField"); err != nil {
+				return field, err
+			}
+			return field, nil
+		}
+		*s23.BridgePathSwitchRequestFailureIEFieldValueCodecFieldEncode(&sealed) = func(field s23.PathSwitchRequestFailureIEField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			if err := s23.BridgePathSwitchRequestFailureIEFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		}
+		*s23.BridgePathSwitchRequestFailureIEFieldValueCodecFieldCapture(&sealed) = func(v s23.PathSwitchRequestFailureIEField, options aper.DecodeState) (s23.PathSwitchRequestFailureIEField, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			s25.BridgePathSwitchRequestFailureIEValueCaptureS1APProtocolIEField(&v,
+				&s)
+			var root aper.Snapshot
+			s.End(f, &root, false)
+			return v,
+				root
+		}
+		*s23.BridgePathSwitchRequestFailureIEFieldValueCodecFieldCompare(&sealed) = func(v s23.PathSwitchRequestFailureIEField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			s25.BridgePathSwitchRequestFailureIEValueCompareS1APProtocolIEField(&v, &s)
+			s.End(f, root, false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s23.BridgePathSwitchRequestFailureIEFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEField[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}()
+		return sealed
+	}()
+
 }
 func RecommendedCellItemIEValueIEFieldTableCodec(table s00.RecommendedCellItemIEValueIETable) RecommendedCellItemIEFieldValueCodec {
 	if !*s00.BridgeRecommendedCellItemIEValueIETableFieldBound(&table) {
@@ -4753,7 +4815,7 @@ func PathSwitchRequestFailureIEValueIETableCodec(table s00.PathSwitchRequestFail
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			s25.BridgePathSwitchRequestFailureIEValueCompareS1APProtocolIEContainer(&v, &s)
+			BridgePathSwitchRequestFailureIEValueCompareS1APProtocolIEContainer(&v, &s)
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -6169,7 +6231,7 @@ type RecommendedCellsForPagingItemExtIEsValueProtocolOpenValueConstraint interfa
 	rule() aper.SourceRule
 }
 
-func BridgeRecommendedCellsForPagingItemExtIEsValueCaptureS1APProtocolExtensionField(v *s10.RecommendedCellsForPagingItemExtIEsExtField, s *aper.SemanticCapture) {
+func BridgeRecommendedCellsForPagingItemExtIEsValueCaptureS1APProtocolExtensionField(v *s11.RecommendedCellsForPagingItemExtIEsExtField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -6177,9 +6239,9 @@ func BridgeRecommendedCellsForPagingItemExtIEsValueCaptureS1APProtocolExtensionF
 	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
 	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
 	v.ExtensionValue = s05.BridgeRecommendedCellsForPagingItemExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
-	s.End(f, s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldFieldReplay(v), *s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldFieldWithoutReplay(v))
+	s.End(f, s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldFieldReplay(v), *s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldFieldWithoutReplay(v))
 }
-func BridgeRecommendedCellsForPagingItemExtIEsValueCompareS1APProtocolExtensionField(v *s10.RecommendedCellsForPagingItemExtIEsExtField, s *aper.SemanticComparison) {
+func BridgeRecommendedCellsForPagingItemExtIEsValueCompareS1APProtocolExtensionField(v *s11.RecommendedCellsForPagingItemExtIEsExtField, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -6187,7 +6249,7 @@ func BridgeRecommendedCellsForPagingItemExtIEsValueCompareS1APProtocolExtensionF
 	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
 	*s = s05.BridgeRecommendedCellsForPagingItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
-	s.End(f, *s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldFieldReplay(v), *s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldFieldWithoutReplay(v))
+	s.End(f, *s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldFieldReplay(v), *s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // recommendedCellItemIEValueProtocolOpenValue is the concrete protocolOpenValue[RecommendedCellItemIEValue].
@@ -8488,95 +8550,6 @@ func BridgeCdma2000OneXSRVCCInfoExtIEsValueValidateS1APIEContainer(fields s07.Cd
 		table := func() s00.TableID {
 			sealed := s00.TableID{}
 			*s00.BridgeTableIDFieldSource(&sealed) = s03.BridgeCdma2000OneXSRVCCInfoExtIEsValueMethodRule(field.Value).Assignment
-			return sealed
-		}()
-		var sourceRules []aper.SourceRule
-		if allowed {
-			table = rows[rank].Table
-			sourceRules = append(sourceRules, rows[rank].Rule)
-		}
-		aper.IncrementCount(counts, field.Id)
-		if counts[field.Id] > 1 {
-			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: BridgeS1apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{BridgeS1apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
-		}
-		if !allowed {
-			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s13.BridgeKnownS1APIEIDs[field.Id]; globallyKnown {
-				severity = s00.ValidationSeverityError
-			}
-			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: BridgeS1apValidationRule(s00.NotAllowed), RelatedRules: BridgeS1apHandlingRules(s00.NotAllowed)})
-			continue
-		}
-		row := rows[rank]
-		if field.Criticality != row.Criticality {
-			expected, received := row.Criticality, field.Criticality
-			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: BridgeS1apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{BridgeS1apAdoptedRule(s00.WrongCriticality), row.Rule}})
-		}
-		if rank < lastRank {
-			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: BridgeS1apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{BridgeS1apAdoptedRule(s00.WrongOrder), row.Rule}})
-		} else {
-			lastRank = rank
-		}
-	}
-	for _, row := range rows {
-		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: BridgeS1apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{BridgeS1apAdoptedRule(s00.MissingMandatory), row.Rule}})
-		}
-		if row.Presence == s00.PresenceConditional {
-			s21.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
-			if *s21.BridgeValidationReportFieldErr(&report) != nil {
-				return report
-			}
-			report.Complete = false
-		}
-	}
-	return report
-}
-
-// TS 36.413 V19.2.0 §§9.3.3–9.3.4 supply the selected object-set order and
-// presence. §§10.3.1–10.3.6 define abstract-syntax diagnostics. Unknown IEs do
-// not determine the order of known rows.
-func BridgeCellBasedMDTExtIEsValueValidateS1APIEContainer(fields s07.CellBasedMDTExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
-
-) s21.ValidationReport {
-	report := func() s21.ValidationReport {
-		sealed := s21.ValidationReport{Complete: true}
-		*s21.BridgeValidationReportFieldBudget(&sealed) = budget
-		return sealed
-	}()
-	bb := aper.NewBudgetBuffer(budget)
-	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
-		*s21.BridgeValidationReportFieldErr(&report) = err
-		return report
-	}
-	byID := make(map[s00.ProtocolIEID]int, len(rows))
-	counts := make(map[s00.ProtocolIEID]int, len(fields))
-	for i, row := range rows {
-		byID[row.ID] = i
-	}
-	lastRank := -1
-	for i, field := range fields {
-		if *s21.BridgeValidationReportFieldErr(&report) != nil {
-			return report
-		}
-		if err := bb.ChargeWork(1); err != nil {
-			*s21.BridgeValidationReportFieldErr(&report) = err
-			return report
-		}
-		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
-		// TS 36.413 V19.2.0 §9.3.7 binds the selected value to @id.
-		if !s03.BridgeCellBasedMDTExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := s03.BridgeCellBasedMDTExtIEsValueMethodRule(field.Value)
-			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
-				sealed := s00.TableID{}
-				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
-				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: BridgeS1apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
-		}
-		rank, allowed := byID[field.Id]
-		table := func() s00.TableID {
-			sealed := s00.TableID{}
-			*s00.BridgeTableIDFieldSource(&sealed) = s03.BridgeCellBasedMDTExtIEsValueMethodRule(field.Value).Assignment
 			return sealed
 		}()
 		var sourceRules []aper.SourceRule
@@ -10924,7 +10897,7 @@ func BridgeCompareS1APPathSwitchRequestFailure(v *PathSwitchRequestFailure, s *a
 		return
 	}
 	f := s.Begin()
-	s25.BridgePathSwitchRequestFailureIEValueCompareS1APProtocolIEContainer(&v.ProtocolIEs, s)
+	BridgePathSwitchRequestFailureIEValueCompareS1APProtocolIEContainer(&v.ProtocolIEs, s)
 	s.ExtensionData(v.extData, v.extWire, 0)
 	s.End(f, v.replay, v.withoutReplay)
 }
@@ -11319,7 +11292,7 @@ type RecommendedCellItem struct {
 	receivedLocation  aper.Location
 	EUTRANCGI         s17.EUTRANCGI                                       `asn1:"tag:0,context,implicit"`
 	TimeStayedInCell  *int64                                              `asn1:"tag:1,context,implicit,optional" json:"TimeStayedInCell,omitempty"`
-	IEExtensions      s10.RecommendedCellsForPagingItemExtIEsExtContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitzero"`
+	IEExtensions      s11.RecommendedCellsForPagingItemExtIEsExtContainer `asn1:"tag:2,context,implicit,optional" json:"IEExtensions,omitzero"`
 	iEExtensionsIndef bool                                                `asn1:"-" json:"-"`
 	extCount          int64                                               `asn1:"-" json:"-"`
 	extPresent        []bool                                              `asn1:"-" json:"-"`
@@ -11532,6 +11505,7 @@ func (v *AssistanceDataForPaging) unmarshalAPERWithOptions(data []byte, options 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForPaging")
 	}
+	bb.EnterComponent("AssistanceDataForPaging")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForPaging")
 	}
@@ -11609,6 +11583,7 @@ func (v *AssistanceDataForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		bb.LeaveComponent(toleranceMark_pagingattemptinformation)
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s07.AssistanceDataForPagingExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -11617,9 +11592,11 @@ func (v *AssistanceDataForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s07.AssistanceDataForPagingExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s07.BridgeAssistanceDataForPagingExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -11632,6 +11609,7 @@ func (v *AssistanceDataForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -11829,6 +11807,7 @@ func (v *AssistanceDataForRecommendedCells) unmarshalAPERWithOptions(data []byte
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCells")
 	}
+	bb.EnterComponent("AssistanceDataForRecommendedCells")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceDataForRecommendedCells")
 	}
@@ -11863,6 +11842,7 @@ func (v *AssistanceDataForRecommendedCells) unmarshalAPERFrom(bb *aper.BitBuffer
 	}
 	bb.LeaveComponent(toleranceMark_recommendedcellsforpaging)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s07.AssistanceDataForRecommendedCellsExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -11871,9 +11851,11 @@ func (v *AssistanceDataForRecommendedCells) unmarshalAPERFrom(bb *aper.BitBuffer
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s07.AssistanceDataForRecommendedCellsExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s07.BridgeAssistanceDataForRecommendedCellsExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -11886,6 +11868,7 @@ func (v *AssistanceDataForRecommendedCells) unmarshalAPERFrom(bb *aper.BitBuffer
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -12094,6 +12077,7 @@ func (v *RecommendedCellsForPaging) unmarshalAPERWithOptions(data []byte, option
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellsForPaging")
 	}
+	bb.EnterComponent("RecommendedCellsForPaging")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellsForPaging")
 	}
@@ -12122,6 +12106,7 @@ func (v *RecommendedCellsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	if err != nil {
 		return err
 	}
+	toleranceMark_recommendedcelllist := bb.EnterComponent("RecommendedCellList")
 	v.RecommendedCellList = make(RecommendedCellList, 0)
 	_, errCollection_recommendedcelllist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_recommendedcelllist, fragmentLength_recommendedcelllist int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -12130,9 +12115,11 @@ func (v *RecommendedCellsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		}
 		for i := int64(0); i < fragmentLength_recommendedcelllist; i++ {
 			var elem RecommendedCellItemIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_recommendedcelllist + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("RecommendedCellList[%d]", fragmentOffset_recommendedcelllist+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.RecommendedCellList, elem); err != nil {
 				return err
 			} else {
@@ -12144,7 +12131,9 @@ func (v *RecommendedCellsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	if errCollection_recommendedcelllist != nil {
 		return runtime.WrapDecodePath(errCollection_recommendedcelllist, "RecommendedCellList")
 	}
+	bb.LeaveComponent(toleranceMark_recommendedcelllist)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s10.RecommendedCellsForPagingExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -12153,9 +12142,11 @@ func (v *RecommendedCellsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s10.RecommendedCellsForPagingExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s10.BridgeRecommendedCellsForPagingExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -12168,6 +12159,7 @@ func (v *RecommendedCellsForPaging) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -12336,7 +12328,7 @@ func (v *RecommendedCellItem) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) e
 				return fmt.Errorf("collection fragment outside value")
 			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
-				if err := s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				if err := s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
 				}
 			}
@@ -12400,6 +12392,7 @@ func (v *RecommendedCellItem) unmarshalAPERWithOptions(data []byte, options aper
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellItem")
 	}
+	bb.EnterComponent("RecommendedCellItem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RecommendedCellItem")
 	}
@@ -12449,17 +12442,20 @@ func (v *RecommendedCellItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 
 	}
 	if opt_ieextensions {
-		tmp_ieextensions := make(s10.RecommendedCellsForPagingItemExtIEsExtContainer, 0)
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
+		tmp_ieextensions := make(s11.RecommendedCellsForPagingItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
-				var elem s10.RecommendedCellsForPagingItemExtIEsExtField
-				if err := s10.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+				var elem s11.RecommendedCellsForPagingItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
+				if err := s11.BridgeRecommendedCellsForPagingItemExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -12472,6 +12468,7 @@ func (v *RecommendedCellItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -12669,6 +12666,7 @@ func (v *RequestedTNLInfo) unmarshalAPERWithOptions(data []byte, options aper.De
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RequestedTNLInfo")
 	}
+	bb.EnterComponent("RequestedTNLInfo")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RequestedTNLInfo")
 	}
@@ -12703,6 +12701,7 @@ func (v *RequestedTNLInfo) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	v.PLMNidentity = s00.PLMNidentity(val_plmnidentity)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s11.RequestedTNLInfoExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -12711,9 +12710,11 @@ func (v *RequestedTNLInfo) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s11.RequestedTNLInfoExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s11.BridgeRequestedTNLInfoExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -12726,6 +12727,7 @@ func (v *RequestedTNLInfo) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -12926,6 +12928,7 @@ func (v *RequestType) unmarshalAPERWithOptions(data []byte, options aper.DecodeS
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RequestType")
 	}
+	bb.EnterComponent("RequestType")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RequestType")
 	}
@@ -12965,6 +12968,7 @@ func (v *RequestType) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	v.ReportArea = s00.ReportArea(val_reportarea)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s11.RequestTypeExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -12973,9 +12977,11 @@ func (v *RequestType) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s11.RequestTypeExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s11.BridgeRequestTypeExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -12988,6 +12994,7 @@ func (v *RequestType) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -14350,6 +14357,7 @@ func (v *PathSwitchRequestFailure) unmarshalAPERWithOptions(data []byte, options
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PathSwitchRequestFailure")
 	}
+	bb.EnterComponent("PathSwitchRequestFailure")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PathSwitchRequestFailure")
 	}
@@ -14373,6 +14381,7 @@ func (v *PathSwitchRequestFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s23.PathSwitchRequestFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -14381,9 +14390,11 @@ func (v *PathSwitchRequestFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s23.PathSwitchRequestFailureIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s23.BridgePathSwitchRequestFailureIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -14395,6 +14406,7 @@ func (v *PathSwitchRequestFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -14582,6 +14594,7 @@ func (v *RerouteNASRequest) unmarshalAPERWithOptions(data []byte, options aper.D
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "RerouteNASRequest")
 	}
+	bb.EnterComponent("RerouteNASRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "RerouteNASRequest")
 	}
@@ -14605,6 +14618,7 @@ func (v *RerouteNASRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s20.RerouteNASRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -14613,9 +14627,11 @@ func (v *RerouteNASRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s20.RerouteNASRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s20.BridgeRerouteNASRequestIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -14627,6 +14643,7 @@ func (v *RerouteNASRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -14814,6 +14831,7 @@ func (v *S1SetupFailure) unmarshalAPERWithOptions(data []byte, options aper.Deco
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "S1SetupFailure")
 	}
+	bb.EnterComponent("S1SetupFailure")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1SetupFailure")
 	}
@@ -14837,6 +14855,7 @@ func (v *S1SetupFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s23.S1SetupFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -14845,9 +14864,11 @@ func (v *S1SetupFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s23.S1SetupFailureIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s23.BridgeS1SetupFailureIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -14859,6 +14880,7 @@ func (v *S1SetupFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -15046,6 +15068,7 @@ func (v *LocationReportingControl) unmarshalAPERWithOptions(data []byte, options
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "LocationReportingControl")
 	}
+	bb.EnterComponent("LocationReportingControl")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "LocationReportingControl")
 	}
@@ -15069,6 +15092,7 @@ func (v *LocationReportingControl) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(LocationReportingControlIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -15077,9 +15101,11 @@ func (v *LocationReportingControl) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem LocationReportingControlIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -15091,6 +15117,7 @@ func (v *LocationReportingControl) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -15278,6 +15305,7 @@ func (v *PrivateMessage) unmarshalAPERWithOptions(data []byte, options aper.Deco
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateMessage")
 	}
+	bb.EnterComponent("PrivateMessage")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PrivateMessage")
 	}
@@ -15301,6 +15329,7 @@ func (v *PrivateMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_privateies := bb.EnterComponent("PrivateIEs")
 	v.PrivateIEs = make(s25.PrivateMessageIEsValuePrivateIEContainer, 0)
 	_, errCollection_privateies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_privateies, fragmentLength_privateies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -15309,9 +15338,11 @@ func (v *PrivateMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_privateies; i++ {
 			var elem s25.PrivateMessageIEsValuePrivateIEField
+			elementMark := bb.EnterIndex(fragmentOffset_privateies + i)
 			if err := s25.BridgePrivateMessageIEsValuePrivateIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("PrivateIEs[%d]", fragmentOffset_privateies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.PrivateIEs, elem); err != nil {
 				return err
 			} else {
@@ -15323,6 +15354,7 @@ func (v *PrivateMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_privateies != nil {
 		return runtime.WrapDecodePath(errCollection_privateies, "PrivateIEs")
 	}
+	bb.LeaveComponent(toleranceMark_privateies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -15510,6 +15542,7 @@ func (v *S1RemovalRequest) unmarshalAPERWithOptions(data []byte, options aper.De
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalRequest")
 	}
+	bb.EnterComponent("S1RemovalRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalRequest")
 	}
@@ -15533,6 +15566,7 @@ func (v *S1RemovalRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s20.S1RemovalRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -15541,9 +15575,11 @@ func (v *S1RemovalRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s20.S1RemovalRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s20.BridgeS1RemovalRequestIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -15555,6 +15591,7 @@ func (v *S1RemovalRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -15742,6 +15779,7 @@ func (v *S1RemovalResponse) unmarshalAPERWithOptions(data []byte, options aper.D
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalResponse")
 	}
+	bb.EnterComponent("S1RemovalResponse")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalResponse")
 	}
@@ -15765,6 +15803,7 @@ func (v *S1RemovalResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s23.S1RemovalResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -15773,9 +15812,11 @@ func (v *S1RemovalResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s23.S1RemovalResponseIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s23.BridgeS1RemovalResponseIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -15787,6 +15828,7 @@ func (v *S1RemovalResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -15974,6 +16016,7 @@ func (v *S1RemovalFailure) unmarshalAPERWithOptions(data []byte, options aper.De
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalFailure")
 	}
+	bb.EnterComponent("S1RemovalFailure")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "S1RemovalFailure")
 	}
@@ -15997,6 +16040,7 @@ func (v *S1RemovalFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s23.S1RemovalFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -16005,9 +16049,11 @@ func (v *S1RemovalFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s23.S1RemovalFailureIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s23.BridgeS1RemovalFailureIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -16019,6 +16065,7 @@ func (v *S1RemovalFailure) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -19079,6 +19126,7 @@ func (t RecommendedCellItemIETable) RecommendedCellItem() RecommendedCellItemRec
 				var empty RecommendedCellItem
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("RecommendedCellItem")
 			var zero RecommendedCellItemIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(214), raw)
 			if err != nil {
@@ -19185,6 +19233,7 @@ func (t LocationReportingControlIETable) MMEUES1APID() LocationReportingControlM
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero LocationReportingControlIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -19249,6 +19298,7 @@ func (t LocationReportingControlIETable) ENBUES1APID() LocationReportingControlE
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero LocationReportingControlIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -19311,6 +19361,7 @@ func (t LocationReportingControlIETable) RequestType() LocationReportingControlR
 				var empty RequestType
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("RequestType")
 			var zero LocationReportingControlIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(98), raw)
 			if err != nil {

@@ -8,10 +8,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s02"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s07"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s08"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s10"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s11"
@@ -129,7 +129,9 @@ func (v *OTDOAInformationRequestIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -245,7 +247,9 @@ func (v *OTDOAInformationResponseIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -327,7 +331,7 @@ func BridgeOTDOAInformationResponseIEValueCompareLPPaProtocolIEContainer(v *OTDO
 // OTDOAInformationRequestOTDOAInformationTypeIEBinding is the concrete IEBinding[OTDOAInformationType, OTDOAInformationRequestIEValue].
 type OTDOAInformationRequestOTDOAInformationTypeIEBinding struct {
 	info   s00.FieldInfo
-	codec  s07.OTDOAInformationTypeValueCodec
+	codec  s08.OTDOAInformationTypeValueCodec
 	inject func(s07.OTDOAInformationType,
 
 	) OTDOAInformationRequestIEValue
@@ -343,7 +347,7 @@ type OTDOAInformationRequestOTDOAInformationTypeIEBinding struct {
 func (b OTDOAInformationRequestOTDOAInformationTypeIEBinding) Info() s00.FieldInfo { return b.info }
 
 // Codec returns the complete APER codec for this binding's value type.
-func (b OTDOAInformationRequestOTDOAInformationTypeIEBinding) Codec() s07.OTDOAInformationTypeValueCodec {
+func (b OTDOAInformationRequestOTDOAInformationTypeIEBinding) Codec() s08.OTDOAInformationTypeValueCodec {
 	return b.codec
 }
 
@@ -358,7 +362,7 @@ func (b OTDOAInformationRequestOTDOAInformationTypeIEBinding) New(value s07.OTDO
 	if err != nil {
 		return OTDOAInformationRequestIEField{}, aper.OperationError(err, "Value.New")
 	}
-	if _, err := (*s07.BridgeOTDOAInformationTypeValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+	if _, err := (*s08.BridgeOTDOAInformationTypeValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
 		return OTDOAInformationRequestIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
 	}
 	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
@@ -774,7 +778,7 @@ func BridgeOTDOAInformationRequestIEValueValidateLPPaIEContainer(fields OTDOAInf
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -782,35 +786,35 @@ func BridgeOTDOAInformationRequestIEValueValidateLPPaIEContainer(fields OTDOAInf
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -861,7 +865,7 @@ func BridgeOTDOAInformationResponseIEValueValidateLPPaIEContainer(fields OTDOAIn
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -869,35 +873,35 @@ func BridgeOTDOAInformationResponseIEValueValidateLPPaIEContainer(fields OTDOAIn
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -1078,6 +1082,7 @@ func (v *MeasurementQuantitiesComplete) unmarshalAPERWithOptions(data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementQuantities")
 	}
+	bb.EnterComponent("MeasurementQuantities")
 	value, err := BridgeUnmarshalAPERMeasurementQuantitiesFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementQuantities")
@@ -1117,6 +1122,7 @@ func BridgeUnmarshalAPERMeasurementQuantitiesFrom(bb *aper.BitBuffer) (s06.Measu
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPERMeasurementQuantitiesListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.MeasurementQuantities, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1125,9 +1131,11 @@ func BridgeUnmarshalAPERMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPERMeasurem
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s06.MeasurementQuantitiesItemIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s06.BridgeMeasurementQuantitiesItemIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -1139,6 +1147,7 @@ func BridgeUnmarshalAPERMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPERMeasurem
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1176,6 +1185,7 @@ func (v *MeasuredResultsComplete) unmarshalAPERWithOptions(data []byte, options 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "MeasuredResults")
 	}
+	bb.EnterComponent("MeasuredResults")
 	value, err := BridgeUnmarshalAPERMeasuredResultsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MeasuredResults")
@@ -1278,6 +1288,7 @@ func (v *MBSFNsubframeConfigurationComplete) unmarshalAPERWithOptions(data []byt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNsubframeConfiguration")
 	}
+	bb.EnterComponent("MBSFNsubframeConfiguration")
 	value, err := s17.BridgeUnmarshalAPERMBSFNsubframeConfigurationFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "MBSFNsubframeConfiguration")
@@ -1338,6 +1349,7 @@ func (v *OTDOACellsComplete) unmarshalAPERWithOptions(data []byte, options aper.
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACells")
 	}
+	bb.EnterComponent("OTDOACells")
 	value, err := BridgeUnmarshalAPEROTDOACellsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACells")
@@ -1440,6 +1452,7 @@ func (v *OTDOACellInformationComplete) unmarshalAPERWithOptions(data []byte, opt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACellInformation")
 	}
+	bb.EnterComponent("OTDOACellInformation")
 	value, err := BridgeUnmarshalAPEROTDOACellInformationFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOACellInformation")
@@ -1505,31 +1518,6 @@ func BridgeUnmarshalAPEROTDOACellInformationInto(v *s15.BridgeAsn1cAPEROTDOACell
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
 	bb.LeaveComponent(toleranceMark_value)
-	return nil
-}
-func BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsInto(v *s00.BridgeAsn1cAPERPRSFrequencyHoppingConfigurationBandPositionsListValue, bb *aper.BitBuffer) error {
-	v.Value = make(s00.PRSFrequencyHoppingConfigurationBandPositions, 0)
-	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1136
-		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
-			return fmt.Errorf("collection fragment count out of range")
-		}
-		for i := int64(0); i < fragmentLength_value; i++ {
-			val, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.BridgeAsn1IntegerBound1, s00.BridgeAsn1IntegerBound7, true)
-			if err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
-			}
-			if next, err := aper.AppendValues(bb, v.Value, val); err != nil {
-				return err
-			} else {
-				v.Value = next
-			}
-		}
-		return nil
-	})
-	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
-	}
 	return nil
 }
 
@@ -2417,6 +2405,7 @@ func (v *OTDOAInformationRequest) unmarshalAPERWithOptions(data []byte, options 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationRequest")
 	}
+	bb.EnterComponent("OTDOAInformationRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationRequest")
 	}
@@ -2441,6 +2430,7 @@ func (v *OTDOAInformationRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(OTDOAInformationRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2449,9 +2439,11 @@ func (v *OTDOAInformationRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem OTDOAInformationRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -2463,6 +2455,7 @@ func (v *OTDOAInformationRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -2558,6 +2551,7 @@ func (v *OTDOAInformationTypeComplete) unmarshalAPERWithOptions(data []byte, opt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationType")
 	}
+	bb.EnterComponent("OTDOAInformationType")
 	value, err := BridgeUnmarshalAPEROTDOAInformationTypeFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationType")
@@ -2575,15 +2569,6 @@ func BridgeMarshalAPEROTDOAInformationType(list OTDOAInformationTypeComplete) ([
 	return list.marshalAPERLegacy()
 }
 
-// UnmarshalAPEROTDOAInformationType decodes a OTDOAInformationType list from APER.
-func BridgeUnmarshalAPEROTDOAInformationType(data []byte) (OTDOAInformationTypeComplete, error) {
-	var value OTDOAInformationTypeComplete
-	if err := value.unmarshalAPERLegacy(data); err != nil {
-		return value, err
-	}
-	return value, nil
-}
-
 // UnmarshalAPEROTDOAInformationTypeFrom decodes a OTDOAInformationType list from bb.
 func BridgeUnmarshalAPEROTDOAInformationTypeFrom(bb *aper.BitBuffer) (s07.OTDOAInformationType, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
@@ -2597,6 +2582,7 @@ func BridgeUnmarshalAPEROTDOAInformationTypeFrom(bb *aper.BitBuffer) (s07.OTDOAI
 	return v.Value, nil
 }
 func BridgeUnmarshalAPEROTDOAInformationTypeInto(v *s09.BridgeAsn1cAPEROTDOAInformationTypeListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s07.OTDOAInformationType, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2605,9 +2591,11 @@ func BridgeUnmarshalAPEROTDOAInformationTypeInto(v *s09.BridgeAsn1cAPEROTDOAInfo
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s07.OTDOAInformationTypeIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s07.BridgeOTDOAInformationTypeIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -2619,6 +2607,7 @@ func BridgeUnmarshalAPEROTDOAInformationTypeInto(v *s09.BridgeAsn1cAPEROTDOAInfo
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2745,6 +2734,7 @@ func (v *OTDOAInformationResponse) unmarshalAPERWithOptions(data []byte, options
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationResponse")
 	}
+	bb.EnterComponent("OTDOAInformationResponse")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "OTDOAInformationResponse")
 	}
@@ -2769,6 +2759,7 @@ func (v *OTDOAInformationResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(OTDOAInformationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2777,9 +2768,11 @@ func (v *OTDOAInformationResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem OTDOAInformationResponseIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -2791,6 +2784,7 @@ func (v *OTDOAInformationResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -4195,15 +4189,16 @@ func (OTDOAInformationRequestIETable) infoOTDOAInformationTypeGroup() s00.FieldI
 
 // OTDOAInformationTypeGroup returns the typed binding for the OTDOAInformationTypeGroup row of this table.
 func (t OTDOAInformationRequestIETable) OTDOAInformationTypeGroup() OTDOAInformationRequestOTDOAInformationTypeIEBinding {
-	return OTDOAInformationRequestOTDOAInformationTypeIEBinding{info: t.infoOTDOAInformationTypeGroup(), codec: func() s07.OTDOAInformationTypeValueCodec {
-		sealed := s07.OTDOAInformationTypeValueCodec{}
-		*s07.BridgeOTDOAInformationTypeValueCodecFieldPath(&sealed) = "OTDOAInformationType"
-		*s07.BridgeOTDOAInformationTypeValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.OTDOAInformationType, error) {
+	return OTDOAInformationRequestOTDOAInformationTypeIEBinding{info: t.infoOTDOAInformationTypeGroup(), codec: func() s08.OTDOAInformationTypeValueCodec {
+		sealed := s08.OTDOAInformationTypeValueCodec{}
+		*s08.BridgeOTDOAInformationTypeValueCodecFieldPath(&sealed) = "OTDOAInformationType"
+		*s08.BridgeOTDOAInformationTypeValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s07.OTDOAInformationType, error) {
 			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
 			if err != nil {
 				var empty s07.OTDOAInformationType
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("OTDOAInformationType")
 			var zero OTDOAInformationRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(9), raw)
 			if err != nil {
@@ -4217,10 +4212,10 @@ func (t OTDOAInformationRequestIETable) OTDOAInformationTypeGroup() OTDOAInforma
 			}
 			return *value, nil
 		}
-		*s07.BridgeOTDOAInformationTypeValueCodecFieldEncode(&sealed) = func(value s07.OTDOAInformationType, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s08.BridgeOTDOAInformationTypeValueCodecFieldEncode(&sealed) = func(value s07.OTDOAInformationType, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (OTDOAInformationRequestIEValue{id: s00.ProtocolIEID(9), rowOTDOAInformationTypeGroup: &value}).encodeFresh(fresh, budget)
 		}
-		*s07.BridgeOTDOAInformationTypeValueCodecFieldCapture(&sealed) = func(v s07.OTDOAInformationType, options aper.DecodeState) (s07.OTDOAInformationType, aper.Snapshot,
+		*s08.BridgeOTDOAInformationTypeValueCodecFieldCapture(&sealed) = func(v s07.OTDOAInformationType, options aper.DecodeState) (s07.OTDOAInformationType, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -4231,14 +4226,14 @@ func (t OTDOAInformationRequestIETable) OTDOAInformationTypeGroup() OTDOAInforma
 				End(f, &root, false)
 			return v, root
 		}
-		*s07.BridgeOTDOAInformationTypeValueCodecFieldCompare(&sealed) = func(v s07.OTDOAInformationType, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+		*s08.BridgeOTDOAInformationTypeValueCodecFieldCompare(&sealed) = func(v s07.OTDOAInformationType, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
 			s := aper.NewSemanticComparison(root, limits)
 			f := s.Begin()
 			s12.BridgeCompareLPPaOTDOAInformationType(&v, &s)
 			s.End(f, root, false)
 			return s.Plan()
 		}
-		*s07.BridgeOTDOAInformationTypeValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s08.BridgeOTDOAInformationTypeValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:OTDOAInformationType"
 			return sealed
@@ -4310,6 +4305,7 @@ func (t OTDOAInformationResponseIETable) OTDOACells() OTDOAInformationResponseOT
 				var empty s16.OTDOACells
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("OTDOACells")
 			var zero OTDOAInformationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -4375,6 +4371,7 @@ func (t OTDOAInformationResponseIETable) CriticalityDiagnostics() OTDOAInformati
 				var empty s09.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero OTDOAInformationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {
@@ -4441,6 +4438,7 @@ func (t OTDOAInformationResponseIETable) AddOTDOACells() OTDOAInformationRespons
 				var empty s15.AddOTDOACells
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("AddOTDOACells")
 			var zero OTDOAInformationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(18), raw)
 			if err != nil {
@@ -4659,7 +4657,7 @@ func OTDOACellsCodec() s16.OTDOACellsValueCodec {
 }
 
 // OTDOAInformationTypeCodec binds the complete APER value type.
-func OTDOAInformationTypeCodec() s07.OTDOAInformationTypeValueCodec {
+func OTDOAInformationTypeCodec() s08.OTDOAInformationTypeValueCodec {
 	return OTDOAInformationRequestIEs().OTDOAInformationTypeGroup().Codec()
 }
 func BridgeMBSFNsubframeConfigurationCompleteFieldPerPadding(v *MBSFNsubframeConfigurationComplete) *aper.CompletePadding {
@@ -5013,7 +5011,7 @@ func BridgeOTDOAInformationRequestMethodUnmarshalAPERLegacy(v *OTDOAInformationR
 func BridgeOTDOAInformationRequestMethodUnmarshalAPERWithOptions(v *OTDOAInformationRequest, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
 }
-func BridgeOTDOAInformationRequestOTDOAInformationTypeIEBindingFieldCodec(v *OTDOAInformationRequestOTDOAInformationTypeIEBinding) *s07.OTDOAInformationTypeValueCodec {
+func BridgeOTDOAInformationRequestOTDOAInformationTypeIEBindingFieldCodec(v *OTDOAInformationRequestOTDOAInformationTypeIEBinding) *s08.OTDOAInformationTypeValueCodec {
 	return &v.codec
 }
 func BridgeOTDOAInformationRequestOTDOAInformationTypeIEBindingFieldGet(v *OTDOAInformationRequestOTDOAInformationTypeIEBinding) *func(*OTDOAInformationRequestIEValue) (*s07.OTDOAInformationType, bool) {

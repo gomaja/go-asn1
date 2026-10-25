@@ -5,19 +5,19 @@ package x2ap
 import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
 
 func TestReceiverReportsOnlyUnknownBoundaries(t *testing.T) {
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		opaque, err := s19.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0})
+		opaque, err := s20.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0})
 		if err != nil {
 			t.Fatal(err)
 		}
-		unknown, err := s20.NewX2APPDUInitiatingMessage(opaque)
+		unknown, err := s21.NewX2APPDUInitiatingMessage(opaque)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -25,12 +25,12 @@ func TestReceiverReportsOnlyUnknownBoundaries(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		var pdu s19.X2APPDU
+		var pdu s20.X2APPDU
 		report, err := pdu.UnmarshalAPER(wire, options...)
 		if err != nil || len(report.Observations) != 1 || report.Observations[0].Kind != aper.UnknownProcedure {
 			t.Fatalf("procedure report=%+v err=%v", report, err)
 		}
-		choice, err := s19.NewX2APPDUUnknownExtension(7, []byte{0})
+		choice, err := s20.NewX2APPDUUnknownExtension(7, []byte{0})
 		if err != nil {
 			t.Fatal(err)
 		}

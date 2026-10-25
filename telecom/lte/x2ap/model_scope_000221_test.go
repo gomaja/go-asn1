@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
 )
 
-func rLFIndicationfreshMust(value s19.RLFIndication, err error) s19.RLFIndication {
+func resourceStatusUpdateIEFieldfreshMust(value s17.ResourceStatusUpdateIEField, err error) s17.ResourceStatusUpdateIEField {
 	if err != nil {
 		panic(err)
 	}

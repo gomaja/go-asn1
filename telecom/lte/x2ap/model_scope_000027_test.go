@@ -4,14 +4,14 @@ package x2ap
 
 import (
 	bytes "bytes"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	testing "testing"
 )
 
 // TestVectorNrraReportRecursive verifies 3GPP TS 36.423 V19.1.0 (2025-12), sections 9.3.4–9.3.5; recursive NRRA report open-type decoding.
 func TestVectorNrraReportRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "000001019e4009000006040000000000")
-	codec := s19.AccessAndMobilityIndicationCodec()
+	codec := s20.AccessAndMobilityIndicationCodec()
 	decoded, _, err := codec.DecodeAPER(input)
 	if err != nil {
 		t.Fatal(err)

@@ -9,8 +9,8 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
 	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
 	os "os"
 	testing "testing"
@@ -23,9 +23,9 @@ func TestFragmentedNestedReplayAfterScalarEdit(t *testing.T) {
 	}
 	header := s05.RNLHeader{SourceGlobalENBID: s05.GlobalENBID{PLMNIdentity: []byte{1, 2, 3}, ENBID: eNBIDapiMust(s00.NewENBIDMacroENBID(runtime.BitString{Bytes: []byte{0, 0, 0}, BitLength: 20}))}}
 	table := s13.X2APMessageTransferIEs()
-	body := x2APMessageTransferapiMust(s20.NewX2APMessageTransfer(s13.X2APMessageTransferIEContainer{x2APMessageTransferIEFieldapiMust(table.RNLHeader().New(header)), x2APMessageTransferIEFieldapiMust(table.X2APMessage().New(payload))}))
-	envelope := initiatingMessageapiMust(s20.X2APMessageTransferProcedure().Initiating().Build(body))
-	pdu := x2APPDUapiMust(s20.NewX2APPDUInitiatingMessage(envelope))
+	body := x2APMessageTransferapiMust(s21.NewX2APMessageTransfer(s13.X2APMessageTransferIEContainer{x2APMessageTransferIEFieldapiMust(table.RNLHeader().New(header)), x2APMessageTransferIEFieldapiMust(table.X2APMessage().New(payload))}))
+	envelope := initiatingMessageapiMust(s21.X2APMessageTransferProcedure().Initiating().Build(body))
+	pdu := x2APPDUapiMust(s21.NewX2APPDUInitiatingMessage(envelope))
 	wire := listByteapiMust(pdu.MarshalAPER())
 	t.Logf("synthetic carrier size=%d sha256=%x", len(wire), sha256.Sum256(wire))
 	if got := fmt.Sprintf("%x", sha256.Sum256(wire)); got != "f49b0db4a5b50d02ab51e7d1e620d6605d9a9d66c6bf95974c92fe293fa37982" {
@@ -36,7 +36,7 @@ func TestFragmentedNestedReplayAfterScalarEdit(t *testing.T) {
 			t.Fatal(err)
 		}
 	}
-	var value s19.X2APPDU
+	var value s20.X2APPDU
 	if _, err := value.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
@@ -53,7 +53,7 @@ func TestFragmentedNestedReplayAfterScalarEdit(t *testing.T) {
 	}
 	receivedHeader.SourceGlobalENBID.PLMNIdentity[0] = 9
 	changed := listByteapiMust(value.MarshalAPER())
-	var next s19.X2APPDU
+	var next s20.X2APPDU
 	if _, err := next.UnmarshalAPER(changed); err != nil {
 		t.Fatal(err)
 	}

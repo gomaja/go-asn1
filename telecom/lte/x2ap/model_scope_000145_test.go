@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
 )
 
-func errorIndicationapiMust(v s19.ErrorIndication, err error) s19.ErrorIndication {
+func traceActivationExtIEsExtFieldapiMust(v s16.TraceActivationExtIEsExtField, err error) s16.TraceActivationExtIEsExtField {
 	if err != nil {
 		panic(err)
 	}

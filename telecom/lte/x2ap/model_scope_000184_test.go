@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func successfulOutcomefreshMust(value s18.SuccessfulOutcome, err error) s18.SuccessfulOutcome {
+func x2APPDUfreshMust(value s20.X2APPDU, err error) s20.X2APPDU {
 	if err != nil {
 		panic(err)
 	}

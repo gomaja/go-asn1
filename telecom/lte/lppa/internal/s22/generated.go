@@ -15,7 +15,6 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s17"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s18"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s20"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s21"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
@@ -125,7 +124,9 @@ func (v *ECIDMeasurementInitiationResponseIEField) unmarshalAPERFrom(bb *aper.Bi
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -165,6 +166,40 @@ func BridgeECIDMeasurementInitiationResponseIEValueCompareLPPaProtocolIEContaine
 				break
 			}
 			BridgeECIDMeasurementInitiationResponseIEValueCompareLPPaProtocolIEField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+}
+func BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionContainer(v *s04.WLANMeasurementResultItemExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Failed() {
+		return
+	}
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+}
+func BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionContainer(v *s04.WLANMeasurementResultItemExtIEsExtContainer, s *aper.SemanticComparison) {
+	if s.Failed() {
+		return
+	}
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionField(&(*v)[i], s)
 		}
 		s.End(f, aper.Snapshot{}, false)
 	}
@@ -795,6 +830,111 @@ func (c WLANMeasurementResultItemValueCodec) encodeChanged(value WLANMeasurement
 	out, err := c.encode(value, fresh, &budget)
 	return out, aper.OperationError(err, c.path)
 }
+
+// TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
+// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
+// not determine the order of known rows.
+func BridgeWLANMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(fields s20.WLANMeasurementQuantitiesItemIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
+
+) s09.ValidationReport {
+	report := func() s09.ValidationReport {
+		sealed := s09.ValidationReport{Complete: true}
+		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
+		return sealed
+	}()
+	bb := aper.NewBudgetBuffer(budget)
+	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
+		*s09.BridgeValidationReportFieldErr(&report) = err
+		return report
+	}
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
+	for i, row := range rows {
+		byID[row.ID] = i
+	}
+	lastRank := -1
+	for i, field := range fields {
+		if *s09.BridgeValidationReportFieldErr(&report) != nil {
+			return report
+		}
+		if err := bb.ChargeWork(1); err != nil {
+			*s09.BridgeValidationReportFieldErr(&report) = err
+			return report
+		}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
+		if !s20.BridgeWLANMeasurementQuantitiesItemIEValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s20.BridgeWLANMeasurementQuantitiesItemIEValueMethodRule(field.Value)
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+				return sealed
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+		}
+		rank, allowed := byID[field.Id]
+		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+			// including repetition of unknown selectors.
+			counts, field.Id)
+		if counts[field.Id] > 1 {
+			var row s00.FieldInfo
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			if allowed {
+				row = rows[rank]
+				related = append(related, row.Rule)
+			}
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+		}
+		if !allowed {
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
+			}
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
+			continue
+		}
+		row := rows[rank]
+		if field.Criticality != row.Criticality {
+			expected, received := row.Criticality, field.Criticality
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+		}
+		if rank < lastRank {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+		} else {
+			lastRank = rank
+		}
+	}
+	for _, row := range rows {
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+		}
+		if row.Presence == s00.PresenceConditional {
+			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s09.BridgeValidationReportFieldErr(&report) != nil {
+				return report
+			}
+			report.Complete = false
+		}
+	}
+	return report
+}
+func BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields s04.WLANMeasurementQuantitiesValueExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s09.ValidationReport {
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s04.WLANMeasurementQuantitiesValueExtIEsIEField](bb, uint64(len(fields))); err != nil {
+		return func() s09.ValidationReport {
+			sealed := s09.ValidationReport{}
+			*s09.BridgeValidationReportFieldErr(&sealed) = err
+			*s09.BridgeValidationReportFieldBudget(&sealed) = budget
+			return sealed
+		}()
+	}
+	asIE := make(s04.WLANMeasurementQuantitiesValueExtIEsIEContainer, len(fields))
+	for i := range fields {
+		asIE[i].Id = fields[i].Id
+		asIE[i].Criticality = fields[i].Criticality
+		asIE[i].Value = fields[i].ExtensionValue
+	}
+	return BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaIEContainer(asIE, rows, path, budget)
+}
 func BridgeECIDMeasurementInitiationResponseIEValueCaptureLPPaProtocolIEField(v *ECIDMeasurementInitiationResponseIEField, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
@@ -820,6 +960,50 @@ func BridgeECIDMeasurementInitiationResponseIEValueCompareLPPaProtocolIEField(v 
 
 	*s = v.Value.compareSemantics(*s)
 	s.End(f, v.replay, v.withoutReplay)
+}
+
+// wLANMeasurementQuantitiesValueExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[WLANMeasurementQuantitiesValueExtIEsValue].
+type WLANMeasurementQuantitiesValueExtIEsValueProtocolOpenValueConstraint interface {
+	captureSemantics(aper.SemanticCapture) s03.WLANMeasurementQuantitiesValueExtIEsValue
+
+	captureFraming() uint64
+	captureSnapshot() aper.Snapshot
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s03.WLANMeasurementQuantitiesValueExtIEsValue,
+
+		error)
+	encode() ([]byte, error)
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
+}
+
+func BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionField(v *s04.WLANMeasurementResultItemExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s.Value()
+	s.Stream(*s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldStream(v))
+	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s.OpenBytes(s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCaptureFraming(v.ExtensionValue))
+	v.ExtensionValue = s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.Child(s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCaptureSnapshot(v.ExtensionValue))
+	s.End(f, s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldReplay(v), *s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionField(v *s04.WLANMeasurementResultItemExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s.Value()
+	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
+
+	*s = s03.BridgeWLANMeasurementResultItemExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldReplay(v), *s04.BridgeWLANMeasurementResultItemExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // WLANMeasurementResultAPERValue is the concrete APERValue[WLANMeasurementResult].
@@ -891,6 +1075,93 @@ func (v WLANMeasurementResultItemAPERValue) WithoutReplay() WLANMeasurementResul
 	return v
 }
 
+// TS 36.455 V19.0.0 §§9.3.4–9.3.5 supply the selected object-set order and
+// presence. Its §10 adopts TS 36.413 V19.2.0 §§10.3.1–10.3.6. Unknown IEs do
+// not determine the order of known rows.
+func BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaIEContainer(fields s04.WLANMeasurementQuantitiesValueExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
+
+) s09.ValidationReport {
+	report := func() s09.ValidationReport {
+		sealed := s09.ValidationReport{Complete: true}
+		*s09.BridgeValidationReportFieldBudget(&sealed) = budget
+		return sealed
+	}()
+	bb := aper.NewBudgetBuffer(budget)
+	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
+		*s09.BridgeValidationReportFieldErr(&report) = err
+		return report
+	}
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
+	for i, row := range rows {
+		byID[row.ID] = i
+	}
+	lastRank := -1
+	for i, field := range fields {
+		if *s09.BridgeValidationReportFieldErr(&report) != nil {
+			return report
+		}
+		if err := bb.ChargeWork(1); err != nil {
+			*s09.BridgeValidationReportFieldErr(&report) = err
+			return report
+		}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		// TS 36.455 V19.0.0 §9.3.8 binds the selected value to @id.
+		if !s03.BridgeWLANMeasurementQuantitiesValueExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s03.BridgeWLANMeasurementQuantitiesValueExtIEsValueMethodRule(field.Value)
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+				return sealed
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+		}
+		rank, allowed := byID[field.Id]
+		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
+			// including repetition of unknown selectors.
+			counts, field.Id)
+		if counts[field.Id] > 1 {
+			var row s00.FieldInfo
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			if allowed {
+				row = rows[rank]
+				related = append(related, row.Rule)
+			}
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+		}
+		if !allowed {
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
+			}
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
+			continue
+		}
+		row := rows[rank]
+		if field.Criticality != row.Criticality {
+			expected, received := row.Criticality, field.Criticality
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+		}
+		if rank < lastRank {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+		} else {
+			lastRank = rank
+		}
+	}
+	for _, row := range rows {
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+		}
+		if row.Presence == s00.PresenceConditional {
+			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s09.BridgeValidationReportFieldErr(&report) != nil {
+				return report
+			}
+			report.Complete = false
+		}
+	}
+	return report
+}
+
 type WLANMeasurementResult = []WLANMeasurementResultItem
 
 // WLANMeasurementResultItem represents the ASN.1 type WLANMeasurementResult-Item (SEQUENCE).
@@ -955,6 +1226,7 @@ func (v *WLANMeasurementResultComplete) unmarshalAPERWithOptions(data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementResult")
 	}
+	bb.EnterComponent("WLANMeasurementResult")
 	value, err := BridgeUnmarshalAPERWLANMeasurementResultFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementResult")
@@ -1232,6 +1504,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERWithOptions(data []byte, option
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementResultItem")
 	}
+	bb.EnterComponent("WLANMeasurementResultItem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WLANMeasurementResultItem")
 	}
@@ -1350,6 +1623,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		v.CountryCode = (*s00.WLANCountryCode)(bb.OwnInt64(int64(tmp_countrycode)))
 	}
 	if opt_wlanchannellist {
+		toleranceMark_wlanchannellist := bb.EnterComponent("WLANChannelList")
 		tmp_wlanchannellist := make(s00.WLANChannelList, 0)
 		_, errCollection_wlanchannellist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_wlanchannellist, fragmentLength_wlanchannellist int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1136
@@ -1373,6 +1647,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			return runtime.WrapDecodePath(errCollection_wlanchannellist, "WLANChannelList")
 		}
 		v.WLANChannelList = tmp_wlanchannellist
+		bb.LeaveComponent(toleranceMark_wlanchannellist)
 	}
 	if opt_wlanband {
 		val_wlanband, err := aper.DecodeEnumeratedAligned(bb, 2, true, aper.EnumerationSource{KnownExtensions: 0, Path: "WLANBand"})
@@ -1386,6 +1661,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		v.WLANBand = (*s00.WLANBand)(bb.OwnInt64(int64(tmp_wlanband)))
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.WLANMeasurementResultItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1394,9 +1670,11 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.WLANMeasurementResultItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.BridgeWLANMeasurementResultItemExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -1409,6 +1687,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -1930,6 +2209,7 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERWithOptions(data []byte
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationResponse")
 	}
+	bb.EnterComponent("ECIDMeasurementInitiationResponse")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementInitiationResponse")
 	}
@@ -1954,6 +2234,7 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(ECIDMeasurementInitiationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1962,9 +2243,11 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ECIDMeasurementInitiationResponseIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -1976,6 +2259,7 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -2291,6 +2575,7 @@ func (v *SuccessfulOutcome) unmarshalAPERWithOptions(data []byte, options aper.D
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
+	bb.EnterComponent("SuccessfulOutcome")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "SuccessfulOutcome")
 	}
@@ -2325,6 +2610,7 @@ func (v *SuccessfulOutcome) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "LppatransactionID")
 	}
 	v.LppatransactionID = s00.LPPATransactionID(val_lppatransactionid)
+	toleranceMark_value := bb.EnterComponent("Value")
 	opaque_value, err := aper.DecodeOpaqueOpenTypeAligned(bb, s00.SuccessfulReason(v.ProcedureCode), aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "Successful"}})
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
@@ -2335,6 +2621,7 @@ func (v *SuccessfulOutcome) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
 	}
 	v.Value = decoded_value
+	bb.LeaveComponent(toleranceMark_value)
 	v.stream = bb.CaptureWireSpan(replayStart)
 	v.stream.RecordUsage(replayUsage,
 
@@ -3143,7 +3430,7 @@ func BridgeCaptureLPPaWLANMeasurementResultItem(v *WLANMeasurementResultItem, s 
 		s.End(f, nil, false)
 	}
 	s.Bool(v.IEExtensions == nil)
-	s21.BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionContainer(&v.IEExtensions, s)
+	BridgeWLANMeasurementResultItemExtIEsValueCaptureLPPaProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, &v.replay, v.withoutReplay)
 }
@@ -3205,7 +3492,7 @@ func BridgeCompareLPPaWLANMeasurementResultItem(v *WLANMeasurementResultItem, s 
 		s.End(f, aper.Snapshot{}, false)
 	}
 	s.Bool(v.IEExtensions == nil)
-	s21.BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionContainer(&v.IEExtensions, s)
+	BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }
@@ -3706,6 +3993,7 @@ func (t ECIDMeasurementInitiationResponseIETable) ESMLCUEMeasurementID() ECIDMea
 				var empty s00.MeasurementID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MeasurementID")
 			var zero ECIDMeasurementInitiationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -3770,6 +4058,7 @@ func (t ECIDMeasurementInitiationResponseIETable) ENBUEMeasurementID() ECIDMeasu
 				var empty s00.MeasurementID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MeasurementID")
 			var zero ECIDMeasurementInitiationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(6), raw)
 			if err != nil {
@@ -3834,6 +4123,7 @@ func (t ECIDMeasurementInitiationResponseIETable) ECIDMeasurementResult() ECIDMe
 				var empty s13.ECIDMeasurementResult
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ECIDMeasurementResult")
 			var zero ECIDMeasurementInitiationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(7), raw)
 			if err != nil {
@@ -3900,6 +4190,7 @@ func (t ECIDMeasurementInitiationResponseIETable) CriticalityDiagnostics() ECIDM
 				var empty s09.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero ECIDMeasurementInitiationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {
@@ -3966,6 +4257,7 @@ func (t ECIDMeasurementInitiationResponseIETable) CellPortionID() ECIDMeasuremen
 				var empty s00.CellPortionID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CellPortionID")
 			var zero ECIDMeasurementInitiationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(14), raw)
 			if err != nil {
@@ -4030,6 +4322,7 @@ func (t ECIDMeasurementInitiationResponseIETable) InterRATMeasurementResult() EC
 				var empty s20.InterRATMeasurementResult
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("InterRATMeasurementResult")
 			var zero ECIDMeasurementInitiationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(17), raw)
 			if err != nil {
@@ -4093,6 +4386,7 @@ func (t ECIDMeasurementInitiationResponseIETable) WLANMeasurementResult() ECIDMe
 				var empty WLANMeasurementResult
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("WLANMeasurementResult")
 			var zero ECIDMeasurementInitiationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(21), raw)
 			if err != nil {

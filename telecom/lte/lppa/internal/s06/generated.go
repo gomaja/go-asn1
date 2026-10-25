@@ -119,7 +119,9 @@ func (v *ECIDMeasurementFailureIndicationIEField) unmarshalAPERFrom(bb *aper.Bit
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -393,7 +395,9 @@ func (v *InterRATMeasurementQuantitiesItemIEField) unmarshalAPERFrom(bb *aper.Bi
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -402,161 +406,6 @@ func (v *InterRATMeasurementQuantitiesItemIEField) unmarshalAPERFrom(bb *aper.Bi
 	v.stream.RecordUsage(replayUsage, bb)
 
 	return nil
-}
-
-// MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding is the concrete IEBinding[MeasurementQuantitiesItem, MeasurementQuantitiesItemIEValue].
-type MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding struct {
-	info   s00.FieldInfo
-	codec  MeasurementQuantitiesItemValueCodec
-	inject func(MeasurementQuantitiesItem,
-
-	) MeasurementQuantitiesItemIEValue
-
-	get func(*MeasurementQuantitiesItemIEValue,
-
-	) (*MeasurementQuantitiesItem,
-
-		bool)
-}
-
-// Info returns the source-derived metadata for this descriptor or binding.
-func (b MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding) Info() s00.FieldInfo {
-	return b.info
-}
-
-// Codec returns the complete APER codec for this binding's value type.
-func (b MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding) Codec() MeasurementQuantitiesItemValueCodec {
-	return b.codec
-}
-
-// New validates value and constructs a field with this binding's identifier and criticality.
-func (b MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding) New(value MeasurementQuantitiesItem,
-
-) (MeasurementQuantitiesItemIEField, error) {
-	if b.inject == nil {
-		return MeasurementQuantitiesItemIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return MeasurementQuantitiesItemIEField{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := b.codec.encode(value, false, budget); err != nil {
-		return MeasurementQuantitiesItemIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
-		return MeasurementQuantitiesItemIEField{}, aper.OperationError(err, "Value.New")
-	}
-	return MeasurementQuantitiesItemIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
-}
-
-// Get returns the selected typed value when the field belongs to this binding.
-func (b MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding) Get(field *MeasurementQuantitiesItemIEField) (*MeasurementQuantitiesItem,
-
-	bool) {
-	if field == nil || field.Id != b.info.ID || b.get == nil {
-		return nil, false
-	}
-	return b.get(&field.Value)
-}
-
-// MeasurementQuantitiesItemValueCodec is the concrete ValueCodec[MeasurementQuantitiesItem].
-type MeasurementQuantitiesItemValueCodec struct {
-	context s00.BridgeCodecContext
-	capture func(MeasurementQuantitiesItem, aper.DecodeState,
-
-	) (MeasurementQuantitiesItem, aper.Snapshot,
-
-	)
-	compare func(MeasurementQuantitiesItem, aper.Snapshot, aper.ComparisonLimits,
-
-	) aper.ReplayPlan
-	path   aper.Path
-	decode func([]byte, aper.DecodeState) (MeasurementQuantitiesItem,
-
-		error)
-	encode func(MeasurementQuantitiesItem,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-}
-
-// New validates value and returns a complete APER value.
-func (c MeasurementQuantitiesItemValueCodec) New(value MeasurementQuantitiesItem,
-
-) (MeasurementQuantitiesItemAPERValue, error) {
-	if c.encode == nil {
-		return MeasurementQuantitiesItemAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return MeasurementQuantitiesItemAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return MeasurementQuantitiesItemAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	return MeasurementQuantitiesItemAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
-func (c MeasurementQuantitiesItemValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (MeasurementQuantitiesItemAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil {
-		return MeasurementQuantitiesItemAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
-	}
-	data, settings := aper.OwnDecodeInputOptions(data, options...)
-	value, err := c.decode(data, settings)
-	if err != nil {
-		report, err := aper.FinishDecode(settings, err)
-		return MeasurementQuantitiesItemAPERValue{}, report, aper.OperationError(err, c.path)
-	}
-	if c.capture == nil {
-		return MeasurementQuantitiesItemAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
-	}
-	value, replay := c.capture(value, settings)
-	report, err := aper.FinishDecode(settings, nil)
-	if err != nil {
-		return MeasurementQuantitiesItemAPERValue{}, report, aper.OperationError(err, c.path)
-	}
-	return MeasurementQuantitiesItemAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-}
-
-// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
-func (c MeasurementQuantitiesItemValueCodec) EncodeAPER(value MeasurementQuantitiesItemAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	var budget aper.DecodeBudget
-	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	if !fresh && value.context == c.context && value.replay.Present() {
-
-		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
-		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, aper.OperationError(err, c.path)
-			}
-			out, err := value.received.ReplayBytes(&budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, false, plan, budget)
-	}
-	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, aper.OperationError(err, c.path)
-}
-func (c MeasurementQuantitiesItemValueCodec) encodeBudget(value MeasurementQuantitiesItem,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	return c.encode(value, fresh, &budget)
-}
-func (c MeasurementQuantitiesItemValueCodec) encodeChanged(value MeasurementQuantitiesItem,
-
-	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	return out, aper.OperationError(err, c.path)
 }
 
 // MeasurementQuantitiesItemIEField is the concrete ProtocolIEField[MeasurementQuantitiesItemIEValue].
@@ -661,7 +510,9 @@ func (v *MeasurementQuantitiesItemIEField) unmarshalAPERFrom(bb *aper.BitBuffer)
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -969,6 +820,112 @@ func (c InterRATMeasurementQuantitiesConcreteValueCodec) encodeBudget(value Inte
 	return c.encode(value, fresh, &budget)
 }
 func (c InterRATMeasurementQuantitiesConcreteValueCodec) encodeChanged(value InterRATMeasurementQuantities,
+
+	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	return out, aper.OperationError(err, c.path)
+}
+
+// ECGIValueCodec is the concrete ValueCodec[ECGI].
+type ECGIValueCodec struct {
+	context s00.BridgeCodecContext
+	capture func(s05.ECGI, aper.DecodeState,
+
+	) (s05.ECGI, aper.Snapshot,
+
+	)
+	compare func(s05.ECGI, aper.Snapshot, aper.ComparisonLimits,
+
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (s05.ECGI,
+
+		error)
+	encode func(s05.ECGI,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+}
+
+// New validates value and returns a complete APER value.
+func (c ECGIValueCodec) New(value s05.ECGI,
+
+) (s05.ECGIAPERValue, error) {
+	if c.encode == nil {
+		return s05.ECGIAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return s05.ECGIAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return s05.ECGIAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	return s05.ECGIAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
+func (c ECGIValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (s05.ECGIAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil {
+		return s05.ECGIAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	data, settings := aper.OwnDecodeInputOptions(data, options...)
+	value, err := c.decode(data, settings)
+	if err != nil {
+		report, err := aper.FinishDecode(settings, err)
+		return s05.ECGIAPERValue{}, report, aper.OperationError(err, c.path)
+	}
+	if c.capture == nil {
+		return s05.ECGIAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
+	}
+	value, replay := c.capture(value, settings)
+	report, err := aper.FinishDecode(settings, nil)
+	if err != nil {
+		return s05.ECGIAPERValue{}, report, aper.OperationError(err, c.path)
+	}
+	return func() s05.ECGIAPERValue {
+		sealed := s05.ECGIAPERValue{Value: value}
+		*s05.BridgeECGIAPERValueFieldReceived(&sealed) = aper.OriginalWire(data)
+		*s05.BridgeECGIAPERValueFieldReplay(&sealed) = replay
+		*s05.BridgeECGIAPERValueFieldContext(&sealed) = c.context
+		return sealed
+	}(), report, nil
+}
+
+// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
+func (c ECGIValueCodec) EncodeAPER(value s05.ECGIAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+	}
+	fresh := *s05.BridgeECGIAPERValueFieldWithoutReplay(&value) || aper.EncodeWithoutReplay(options...)
+	var budget aper.DecodeBudget
+	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	if !fresh && *s05.BridgeECGIAPERValueFieldContext(&value) == c.context && (*s05.BridgeECGIAPERValueFieldReplay(&value)).Present() {
+
+		plan := c.compare(value.Value, *s05.BridgeECGIAPERValueFieldReplay(&value), aper.ComparisonBudget(&budget))
+		if err := plan.ChargeComparison(&budget); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(*s05.BridgeECGIAPERValueFieldReplay(&value)) {
+			if err := (*s05.BridgeECGIAPERValueFieldReplay(&value)).ApplyReplay(&budget); err != nil {
+				return nil, aper.OperationError(err, c.path)
+			}
+			out, err := (*s05.BridgeECGIAPERValueFieldReceived(&value)).ReplayBytes(&budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, false, plan, budget)
+	}
+	out, err := c.encodeBudget(value.Value, fresh, budget)
+	return out, aper.OperationError(err, c.path)
+}
+func (c ECGIValueCodec) encodeBudget(value s05.ECGI,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	return c.encode(value, fresh, &budget)
+}
+func (c ECGIValueCodec) encodeChanged(value s05.ECGI,
 
 	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -1524,6 +1481,7 @@ func (v *EUTRANAccessPointPosition) unmarshalAPERWithOptions(data []byte, option
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "EUTRANAccessPointPosition")
 	}
+	bb.EnterComponent("EUTRANAccessPointPosition")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "EUTRANAccessPointPosition")
 	}
@@ -1790,6 +1748,7 @@ func (v *InterRATMeasurementQuantitiesItem) unmarshalAPERWithOptions(data []byte
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantitiesItem")
 	}
+	bb.EnterComponent("InterRATMeasurementQuantitiesItem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantitiesItem")
 	}
@@ -1825,6 +1784,7 @@ func (v *InterRATMeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer
 	}
 	v.InterRATMeasurementQuantitiesValue = s00.InterRATMeasurementQuantitiesValue(val_interratmeasurementquantitiesvalue)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.InterRATMeasurementQuantitiesValueExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1833,9 +1793,11 @@ func (v *InterRATMeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.InterRATMeasurementQuantitiesValueExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.BridgeInterRATMeasurementQuantitiesValueExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -1848,6 +1810,7 @@ func (v *InterRATMeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -2041,6 +2004,7 @@ func (v *MeasurementQuantitiesItem) unmarshalAPERWithOptions(data []byte, option
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementQuantitiesItem")
 	}
+	bb.EnterComponent("MeasurementQuantitiesItem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MeasurementQuantitiesItem")
 	}
@@ -2076,6 +2040,7 @@ func (v *MeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	}
 	v.MeasurementQuantitiesValue = s00.MeasurementQuantitiesValue(val_measurementquantitiesvalue)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.MeasurementQuantitiesValueExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2084,9 +2049,11 @@ func (v *MeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.MeasurementQuantitiesValueExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.BridgeMeasurementQuantitiesValueExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -2099,6 +2066,7 @@ func (v *MeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -2821,6 +2789,7 @@ func (v *ECIDMeasurementTerminationCommand) unmarshalAPERWithOptions(data []byte
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementTerminationCommand")
 	}
+	bb.EnterComponent("ECIDMeasurementTerminationCommand")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECIDMeasurementTerminationCommand")
 	}
@@ -2845,6 +2814,7 @@ func (v *ECIDMeasurementTerminationCommand) unmarshalAPERFrom(bb *aper.BitBuffer
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s03.ECIDMeasurementTerminationCommandIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2853,9 +2823,11 @@ func (v *ECIDMeasurementTerminationCommand) unmarshalAPERFrom(bb *aper.BitBuffer
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s03.ECIDMeasurementTerminationCommandIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s03.BridgeECIDMeasurementTerminationCommandIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -2867,6 +2839,7 @@ func (v *ECIDMeasurementTerminationCommand) unmarshalAPERFrom(bb *aper.BitBuffer
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -3305,7 +3278,7 @@ func BridgeCompareLPPaInterRATMeasurementQuantitiesItem(v *InterRATMeasurementQu
 	s.Value()
 	s02.BridgeCompareLPPaInterRATMeasurementQuantitiesValue(&v.InterRATMeasurementQuantitiesValue, s)
 	s.Bool(v.IEExtensions == nil)
-	s04.BridgeInterRATMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExtensionContainer(&v.IEExtensions, s)
+	s05.BridgeInterRATMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, v.replay, v.withoutReplay)
 }
@@ -3405,7 +3378,7 @@ func BridgeCaptureLPPaMeasurementQuantitiesItem(v *MeasurementQuantitiesItem, s 
 	s.Stream(v.stream)
 	s00.BridgeCaptureLPPaMeasurementQuantitiesValue(&v.MeasurementQuantitiesValue, s)
 	s.Bool(v.IEExtensions == nil)
-	s04.BridgeMeasurementQuantitiesValueExtIEsValueCaptureLPPaProtocolExtensionContainer(&v.IEExtensions, s)
+	s05.BridgeMeasurementQuantitiesValueExtIEsValueCaptureLPPaProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire)
 	s.End(f, &v.replay, v.withoutReplay)
 }
@@ -4195,6 +4168,7 @@ func (t InterRATMeasurementQuantitiesItemIETable) InterRATMeasurementQuantitiesI
 				var empty InterRATMeasurementQuantitiesItem
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("InterRATMeasurementQuantitiesItem")
 			var zero InterRATMeasurementQuantitiesItemIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(16), raw)
 			if err != nil {
@@ -4297,6 +4271,7 @@ func (t ECIDMeasurementFailureIndicationIETable) ESMLCUEMeasurementID() ECIDMeas
 				var empty s00.MeasurementID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MeasurementID")
 			var zero ECIDMeasurementFailureIndicationIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -4361,6 +4336,7 @@ func (t ECIDMeasurementFailureIndicationIETable) ENBUEMeasurementID() ECIDMeasur
 				var empty s00.MeasurementID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MeasurementID")
 			var zero ECIDMeasurementFailureIndicationIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(6), raw)
 			if err != nil {
@@ -4425,6 +4401,7 @@ func (t ECIDMeasurementFailureIndicationIETable) Cause() ECIDMeasurementFailureI
 				var empty s05.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero ECIDMeasurementFailureIndicationIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -4503,6 +4480,42 @@ func (t ECIDMeasurementFailureIndicationIETable) NewOpaque(id s00.ProtocolIEID, 
 // CauseCodec binds the complete APER value type.
 func CauseCodec() s05.CauseValueCodec { return ECIDMeasurementFailureIndicationIEs().Cause().Codec() }
 
+// ECGICodec binds the complete source value type.
+func ECGICodec() ECGIValueCodec {
+	return ECGIValueCodec{path: "ECGI", decode: func(data []byte, options aper.DecodeState) (s05.ECGI, error) {
+		var value s05.ECGI
+		if err := s05.BridgeECGIMethodUnmarshalAPERWithOptions(&value, data, options); err != nil {
+			return s05.ECGI{}, err
+		}
+		*s05.BridgeECGIFieldReceived(&value) = true
+		*s05.BridgeECGIFieldReceivedBytes(&value) = aper.OriginalWire(data)
+		return value, nil
+	}, encode: func(value s05.ECGI, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return s05.BridgeECGIMethodMarshalAPERBudget((&value), budget, fresh)
+	}, capture: func(v s05.ECGI, options aper.DecodeState) (s05.ECGI, aper.Snapshot) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		s05.BridgeCaptureLPPaECGI(&v, &s)
+		var root aper.Snapshot
+		s.OperationCounts()
+		s.End(f, &root, false)
+		return v, root
+	}, compare: func(v s05.ECGI, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
+		s := aper.NewSemanticComparison(root,
+			limits)
+		f := s.Begin()
+		s05.BridgeCompareLPPaECGI(&v, &s)
+		s.End(f,
+			root, false)
+		return s.Plan()
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ECGI"
+		return sealed
+	}(),
+	}
+}
+
 // EUTRANAccessPointPositionCodec binds the complete source value type.
 func EUTRANAccessPointPositionCodec() EUTRANAccessPointPositionValueCodec {
 	return EUTRANAccessPointPositionValueCodec{path: "EUTRANAccessPointPosition", decode: func(data []byte, options aper.DecodeState) (EUTRANAccessPointPosition, error) {
@@ -4546,6 +4559,26 @@ func InterRATMeasurementQuantitiesItemCodec() InterRATMeasurementQuantitiesItemV
 // MeasurementIDCodec binds the complete APER value type.
 func MeasurementIDCodec() s00.MeasurementIDValueCodec {
 	return ECIDMeasurementFailureIndicationIEs().ESMLCUEMeasurementID().Codec()
+}
+func BridgeECGIValueCodecFieldCapture(v *ECGIValueCodec) *func(s05.ECGI, aper.DecodeState) (s05.ECGI, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeECGIValueCodecFieldCompare(v *ECGIValueCodec) *func(s05.ECGI, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
+	return &v.compare
+}
+func BridgeECGIValueCodecFieldContext(v *ECGIValueCodec) *s00.BridgeCodecContext { return &v.context }
+func BridgeECGIValueCodecFieldDecode(v *ECGIValueCodec) *func([]byte, aper.DecodeState) (s05.ECGI, error) {
+	return &v.decode
+}
+func BridgeECGIValueCodecFieldEncode(v *ECGIValueCodec) *func(s05.ECGI, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeECGIValueCodecFieldPath(v *ECGIValueCodec) *aper.Path { return &v.path }
+func BridgeECGIValueCodecMethodEncodeBudget(v ECGIValueCodec, a0 s05.ECGI, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudget(a0, a1, a2)
+}
+func BridgeECGIValueCodecMethodEncodeChanged(v ECGIValueCodec, a0 s05.ECGI, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeECIDMeasurementFailureIndicationCauseIEBindingFieldCodec(v *ECIDMeasurementFailureIndicationCauseIEBinding) *s05.CauseValueCodec {
 	return &v.codec
@@ -5243,18 +5276,6 @@ func BridgeMeasurementQuantitiesItemIEValueMethodReason(v MeasurementQuantitiesI
 func BridgeMeasurementQuantitiesItemIEValueMethodRule(v MeasurementQuantitiesItemIEValue) aper.SourceRule {
 	return v.rule()
 }
-func BridgeMeasurementQuantitiesItemMeasurementQuantitiesItemIEBindingFieldCodec(v *MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding) *MeasurementQuantitiesItemValueCodec {
-	return &v.codec
-}
-func BridgeMeasurementQuantitiesItemMeasurementQuantitiesItemIEBindingFieldGet(v *MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding) *func(*MeasurementQuantitiesItemIEValue) (*MeasurementQuantitiesItem, bool) {
-	return &v.get
-}
-func BridgeMeasurementQuantitiesItemMeasurementQuantitiesItemIEBindingFieldInfo(v *MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding) *s00.FieldInfo {
-	return &v.info
-}
-func BridgeMeasurementQuantitiesItemMeasurementQuantitiesItemIEBindingFieldInject(v *MeasurementQuantitiesItemMeasurementQuantitiesItemIEBinding) *func(MeasurementQuantitiesItem) MeasurementQuantitiesItemIEValue {
-	return &v.inject
-}
 func BridgeMeasurementQuantitiesItemMethodMarshalAPERBudget(v *MeasurementQuantitiesItem, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERBudget(a0, a1)
 }
@@ -5284,28 +5305,4 @@ func BridgeMeasurementQuantitiesItemMethodUnmarshalAPERLegacy(v *MeasurementQuan
 }
 func BridgeMeasurementQuantitiesItemMethodUnmarshalAPERWithOptions(v *MeasurementQuantitiesItem, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
-}
-func BridgeMeasurementQuantitiesItemValueCodecFieldCapture(v *MeasurementQuantitiesItemValueCodec) *func(MeasurementQuantitiesItem, aper.DecodeState) (MeasurementQuantitiesItem, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeMeasurementQuantitiesItemValueCodecFieldCompare(v *MeasurementQuantitiesItemValueCodec) *func(MeasurementQuantitiesItem, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
-	return &v.compare
-}
-func BridgeMeasurementQuantitiesItemValueCodecFieldContext(v *MeasurementQuantitiesItemValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeMeasurementQuantitiesItemValueCodecFieldDecode(v *MeasurementQuantitiesItemValueCodec) *func([]byte, aper.DecodeState) (MeasurementQuantitiesItem, error) {
-	return &v.decode
-}
-func BridgeMeasurementQuantitiesItemValueCodecFieldEncode(v *MeasurementQuantitiesItemValueCodec) *func(MeasurementQuantitiesItem, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeMeasurementQuantitiesItemValueCodecFieldPath(v *MeasurementQuantitiesItemValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeMeasurementQuantitiesItemValueCodecMethodEncodeBudget(v MeasurementQuantitiesItemValueCodec, a0 MeasurementQuantitiesItem, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudget(a0, a1, a2)
-}
-func BridgeMeasurementQuantitiesItemValueCodecMethodEncodeChanged(v MeasurementQuantitiesItemValueCodec, a0 MeasurementQuantitiesItem, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }

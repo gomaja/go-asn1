@@ -122,7 +122,9 @@ func (v *ErrorIndicationIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -238,7 +240,9 @@ func (v *OTDOAInformationFailureIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -354,7 +358,9 @@ func (v *UTDOAInformationResponseIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -470,7 +476,9 @@ func (v *UTDOAInformationFailureIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1518,6 +1526,7 @@ func (v *ULConfiguration) unmarshalAPERWithOptions(data []byte, options aper.Dec
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ULConfiguration")
 	}
+	bb.EnterComponent("ULConfiguration")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ULConfiguration")
 	}
@@ -1834,6 +1843,7 @@ func (v *PosSIBsElem) unmarshalAPERWithOptions(data []byte, options aper.DecodeS
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBsElem")
 	}
+	bb.EnterComponent("PosSIBsElem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "PosSIBsElem")
 	}
@@ -1922,6 +1932,7 @@ func (v *PosSIBsElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		v.BroadcastPriority = val_broadcastpriority
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.PosSIBsExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1930,9 +1941,11 @@ func (v *PosSIBsElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s04.PosSIBsExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s04.BridgePosSIBsExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -1945,6 +1958,7 @@ func (v *PosSIBsElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -3966,6 +3980,7 @@ func (t ECIDMeasurementInitiationFailureIETable) ESMLCUEMeasurementID() ECIDMeas
 				var empty s00.MeasurementID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MeasurementID")
 			var zero s09.ECIDMeasurementInitiationFailureIEValue
 			decoded, err := s09.BridgeECIDMeasurementInitiationFailureIEValueMethodDecode(zero, s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -4043,6 +4058,7 @@ func (t ECIDMeasurementInitiationFailureIETable) Cause() s09.ECIDMeasurementInit
 					var empty s05.Cause
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("Cause")
 				var zero s09.ECIDMeasurementInitiationFailureIEValue
 				decoded, err := s09.BridgeECIDMeasurementInitiationFailureIEValueMethodDecode(zero, s00.ProtocolIEID(0), raw)
 				if err != nil {
@@ -4123,6 +4139,7 @@ func (t ECIDMeasurementInitiationFailureIETable) CriticalityDiagnostics() s09.EC
 					var empty s09.CriticalityDiagnostics
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 				var zero s09.ECIDMeasurementInitiationFailureIEValue
 				decoded, err := s09.BridgeECIDMeasurementInitiationFailureIEValueMethodDecode(zero, s00.ProtocolIEID(1), raw)
 				if err != nil {
@@ -4250,6 +4267,7 @@ func (t ErrorIndicationIETable) Cause() ErrorIndicationCauseIEBinding {
 				var empty s05.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero ErrorIndicationIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -4314,6 +4332,7 @@ func (t ErrorIndicationIETable) CriticalityDiagnostics() ErrorIndicationCritical
 				var empty s09.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero ErrorIndicationIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {
@@ -4422,6 +4441,7 @@ func (t OTDOAInformationFailureIETable) Cause() OTDOAInformationFailureCauseIEBi
 				var empty s05.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero OTDOAInformationFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -4486,6 +4506,7 @@ func (t OTDOAInformationFailureIETable) CriticalityDiagnostics() OTDOAInformatio
 				var empty s09.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero OTDOAInformationFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {
@@ -4594,6 +4615,7 @@ func (t UTDOAInformationFailureIETable) Cause() UTDOAInformationFailureCauseIEBi
 				var empty s05.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero UTDOAInformationFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -4658,6 +4680,7 @@ func (t UTDOAInformationFailureIETable) CriticalityDiagnostics() UTDOAInformatio
 				var empty s09.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero UTDOAInformationFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {
@@ -4764,6 +4787,7 @@ func (t UTDOAInformationResponseIETable) ULConfiguration() UTDOAInformationRespo
 				var empty ULConfiguration
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ULConfiguration")
 			var zero UTDOAInformationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(13), raw)
 			if err != nil {
@@ -4823,6 +4847,7 @@ func (t UTDOAInformationResponseIETable) CriticalityDiagnostics() UTDOAInformati
 				var empty s09.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero UTDOAInformationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {

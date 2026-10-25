@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits.go; SHA-256 2229a6004822387a4122c2a159a41265598c824204d634b3f82d782ef94c91ee.
+// Runtime source: runtime/aper/decode_limits.go; SHA-256 66bcb3c9559e8506d9dc440c3bb90308ce1d2588bc1fc9141c53f1199d8401e0.
 package aper
 
 import "fmt"
@@ -43,6 +43,7 @@ type DecodeBudget struct {
 	outputLimited                 bool
 	reading                       bool
 	locating                      bool
+	nonzeroTerminalPadding        bool
 	limits                        decodeLimits
 	usage                         DecodeUsage
 	report                        *DecodeUsage

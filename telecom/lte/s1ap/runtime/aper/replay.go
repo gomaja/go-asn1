@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/replay.go; SHA-256 5eb7e27a9ca348fc1b4b289878ab0ec9c20ca21a31121de397babc907e29fe60.
+// Runtime source: runtime/aper/replay.go; SHA-256 7513345e73634fc5b35225d9b96f00b55e3a1313579589ae2077be5db2c6871c.
 package aper
 
 import (
@@ -182,6 +182,17 @@ func (p *ReplayPlan) markChanged(node int) {
 	if node < 0 || p.root.owner == nil || node >= p.root.owner.nodes {
 		return
 	}
+	// A semantic edit after tolerated padding requests canonical padding throughout
+	// the known value tree (X.691 (02/2021) §§11.1.4, 11.2.1). The negative node
+	// belongs only to this plan; the immutable received snapshot is unchanged.
+	if p.root.owner.budget.nonzeroTerminalPadding && len(p.root.owner.buffers) > 0 {
+		trace := p.root.owner.buffers[0].trace
+		if trace != nil && trace.nonzeroPadding {
+			p.root.node = -1
+			return
+		}
+	}
+
 	index := node / 8
 	mask := uint8(1) << uint(node%8)
 	if index < len(p.states) {
@@ -194,7 +205,7 @@ func (p *ReplayPlan) markChanged(node int) {
 	p.extra[index-len(p.states)] |= mask
 }
 func (p *ReplayPlan) Unchanged(node Snapshot) bool {
-	if p == nil || node.owner == nil || node.owner != p.root.owner || node.node < 0 || node.node >= node.owner.nodes {
+	if p == nil || p.root.node < 0 || node.owner == nil || node.owner != p.root.owner || node.node < 0 || node.node >= node.owner.nodes {
 		return false
 	}
 	index := node.node / 8

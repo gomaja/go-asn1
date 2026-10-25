@@ -15,8 +15,8 @@ import (
 	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
 	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
 	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -56,10 +56,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err5)
 		}
 		fields = append(fields, handoverRequestIEFieldfreshMust(s18.HandoverRequestIEs().UEHistoryInformation().New(v5.Value)))
-		body := handoverRequestfreshMust(s19.NewHandoverRequest(fields))
-		env := initiatingMessagefreshMust(s19.HandoverPreparationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := handoverRequestfreshMust(s20.NewHandoverRequest(fields))
+		env := initiatingMessagefreshMust(s20.HandoverPreparationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -90,10 +90,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err3)
 		}
 		fields = append(fields, handoverRequestAcknowledgeIEFieldfreshMust(s14.HandoverRequestAcknowledgeIEs().TargeteNBtoSourceENBTransparentContainer().New(v3.Value)))
-		body := handoverRequestAcknowledgefreshMust(s19.NewHandoverRequestAcknowledge(fields))
-		env := successfulOutcomefreshMust(s19.HandoverPreparationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := handoverRequestAcknowledgefreshMust(s20.NewHandoverRequestAcknowledge(fields))
+		env := successfulOutcomefreshMust(s20.HandoverPreparationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -115,9 +115,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, handoverPreparationFailureIEFieldfreshMust(s11.HandoverPreparationFailureIEs().Cause().New(v1.Value)))
 		body := handoverPreparationFailurefreshMust(s14.NewHandoverPreparationFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.HandoverPreparationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.HandoverPreparationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -143,10 +143,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, sNStatusTransferIEFieldfreshMust(s15.SNStatusTransferIEs().ERABsSubjectToStatusTransferList().New(v2.Value)))
-		body := sNStatusTransferfreshMust(s19.NewSNStatusTransfer(fields))
-		env := initiatingMessagefreshMust(s19.SnStatusTransferProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sNStatusTransferfreshMust(s20.NewSNStatusTransfer(fields))
+		env := initiatingMessagefreshMust(s20.SnStatusTransferProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -167,10 +167,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, uEContextReleaseIEFieldfreshMust(s12.UEContextReleaseIEs().NewENBUEX2APID().New(v1.Value)))
-		body := uEContextReleasefreshMust(s20.NewUEContextRelease(fields))
-		env := initiatingMessagefreshMust(s20.UEContextReleaseProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := uEContextReleasefreshMust(s21.NewUEContextRelease(fields))
+		env := initiatingMessagefreshMust(s21.UEContextReleaseProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -191,10 +191,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, handoverCancelIEFieldfreshMust(s14.HandoverCancelIEs().Cause().New(v1.Value)))
-		body := handoverCancelfreshMust(s19.NewHandoverCancel(fields))
-		env := initiatingMessagefreshMust(s19.HandoverCancelProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := handoverCancelfreshMust(s20.NewHandoverCancel(fields))
+		env := initiatingMessagefreshMust(s20.HandoverCancelProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -225,10 +225,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err3)
 		}
 		fields = append(fields, handoverReportIEFieldfreshMust(s11.HandoverReportIEs().FailureCellECGI().New(v3.Value)))
-		body := handoverReportfreshMust(s19.NewHandoverReport(fields))
-		env := initiatingMessagefreshMust(s19.HandoverReportProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := handoverReportfreshMust(s20.NewHandoverReport(fields))
+		env := initiatingMessagefreshMust(s20.HandoverReportProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -239,10 +239,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 	})
 	t.Run("ErrorIndication", func(t *testing.T) {
 		var fields s11.ErrorIndicationIEContainer
-		body := errorIndicationfreshMust(s19.NewErrorIndication(fields))
-		env := initiatingMessagefreshMust(s19.ErrorIndicationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := errorIndicationfreshMust(s20.NewErrorIndication(fields))
+		env := initiatingMessagefreshMust(s20.ErrorIndicationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -258,10 +258,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, resetRequestIEFieldfreshMust(s07.ResetRequestIEs().Cause().New(v0.Value)))
-		body := resetRequestfreshMust(s19.NewResetRequest(fields))
-		env := initiatingMessagefreshMust(s19.ResetProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := resetRequestfreshMust(s20.NewResetRequest(fields))
+		env := initiatingMessagefreshMust(s20.ResetProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -272,10 +272,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 	})
 	t.Run("ResetResponse", func(t *testing.T) {
 		var fields s07.ResetResponseIEContainer
-		body := resetResponsefreshMust(s19.NewResetResponse(fields))
-		env := successfulOutcomefreshMust(s19.ResetProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := resetResponsefreshMust(s20.NewResetResponse(fields))
+		env := successfulOutcomefreshMust(s20.ResetProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -296,10 +296,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, x2SetupRequestIEFieldfreshMust(s17.X2SetupRequestIEs().ServedCells().New(v1.Value)))
-		body := x2SetupRequestfreshMust(s20.NewX2SetupRequest(fields))
-		env := initiatingMessagefreshMust(s20.X2SetupProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := x2SetupRequestfreshMust(s21.NewX2SetupRequest(fields))
+		env := initiatingMessagefreshMust(s21.X2SetupProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -320,10 +320,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, x2SetupResponseIEFieldfreshMust(s17.X2SetupResponseIEs().ServedCells().New(v1.Value)))
-		body := x2SetupResponsefreshMust(s20.NewX2SetupResponse(fields))
-		env := successfulOutcomefreshMust(s20.X2SetupProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := x2SetupResponsefreshMust(s21.NewX2SetupResponse(fields))
+		env := successfulOutcomefreshMust(s21.X2SetupProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -340,9 +340,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, x2SetupFailureIEFieldfreshMust(s07.X2SetupFailureIEs().Cause().New(v0.Value)))
 		body := x2SetupFailurefreshMust(s14.NewX2SetupFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s20.X2SetupProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s21.X2SetupProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -358,10 +358,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, loadInformationIEFieldfreshMust(s14.LoadInformationIEs().CellInformation().New(v0.Value)))
-		body := loadInformationfreshMust(s19.NewLoadInformation(fields))
-		env := initiatingMessagefreshMust(s19.LoadIndicationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := loadInformationfreshMust(s20.NewLoadInformation(fields))
+		env := initiatingMessagefreshMust(s20.LoadIndicationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -372,10 +372,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 	})
 	t.Run("ENBConfigurationUpdate", func(t *testing.T) {
 		var fields s17.ENBConfigurationUpdateIEContainer
-		body := eNBConfigurationUpdatefreshMust(s19.NewENBConfigurationUpdate(fields))
-		env := initiatingMessagefreshMust(s19.ENBConfigurationUpdateProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNBConfigurationUpdatefreshMust(s20.NewENBConfigurationUpdate(fields))
+		env := initiatingMessagefreshMust(s20.ENBConfigurationUpdateProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -386,10 +386,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 	})
 	t.Run("ENBConfigurationUpdateAcknowledge", func(t *testing.T) {
 		var fields s06.ENBConfigurationUpdateAcknowledgeIEContainer
-		body := eNBConfigurationUpdateAcknowledgefreshMust(s19.NewENBConfigurationUpdateAcknowledge(fields))
-		env := successfulOutcomefreshMust(s19.ENBConfigurationUpdateProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNBConfigurationUpdateAcknowledgefreshMust(s20.NewENBConfigurationUpdateAcknowledge(fields))
+		env := successfulOutcomefreshMust(s20.ENBConfigurationUpdateProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -406,9 +406,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, eNBConfigurationUpdateFailureIEFieldfreshMust(s06.ENBConfigurationUpdateFailureIEs().Cause().New(v0.Value)))
 		body := eNBConfigurationUpdateFailurefreshMust(s14.NewENBConfigurationUpdateFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.ENBConfigurationUpdateProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.ENBConfigurationUpdateProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -434,10 +434,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, resourceStatusRequestIEFieldfreshMust(s14.ResourceStatusRequestIEs().CellToReport().New(v2.Value)))
-		body := resourceStatusRequestfreshMust(s19.NewResourceStatusRequest(fields))
-		env := initiatingMessagefreshMust(s19.ResourceStatusReportingInitiationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := resourceStatusRequestfreshMust(s20.NewResourceStatusRequest(fields))
+		env := initiatingMessagefreshMust(s20.ResourceStatusReportingInitiationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -458,10 +458,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, resourceStatusResponseIEFieldfreshMust(s16.ResourceStatusResponseIEs().ENB2MeasurementID().New(v1.Value)))
-		body := resourceStatusResponsefreshMust(s19.NewResourceStatusResponse(fields))
-		env := successfulOutcomefreshMust(s19.ResourceStatusReportingInitiationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := resourceStatusResponsefreshMust(s20.NewResourceStatusResponse(fields))
+		env := successfulOutcomefreshMust(s20.ResourceStatusReportingInitiationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -488,9 +488,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, resourceStatusFailureIEFieldfreshMust(s14.ResourceStatusFailureIEs().Cause().New(v2.Value)))
 		body := resourceStatusFailurefreshMust(s14.NewResourceStatusFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.ResourceStatusReportingInitiationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.ResourceStatusReportingInitiationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -516,10 +516,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, resourceStatusUpdateIEFieldfreshMust(s17.ResourceStatusUpdateIEs().CellMeasurementResult().New(v2.Value)))
-		body := resourceStatusUpdatefreshMust(s19.NewResourceStatusUpdate(fields))
-		env := initiatingMessagefreshMust(s19.ResourceStatusReportingProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := resourceStatusUpdatefreshMust(s20.NewResourceStatusUpdate(fields))
+		env := initiatingMessagefreshMust(s20.ResourceStatusReportingProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -545,10 +545,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, rLFIndicationIEFieldfreshMust(s11.RLFIndicationIEs().FailureCellCRNTI().New(v2.Value)))
-		body := rLFIndicationfreshMust(s19.NewRLFIndication(fields))
-		env := initiatingMessagefreshMust(s19.RLFIndicationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := rLFIndicationfreshMust(s20.NewRLFIndication(fields))
+		env := initiatingMessagefreshMust(s20.RLFIndicationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -558,10 +558,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 	})
 	t.Run("PrivateMessage", func(t *testing.T) {
-		body := privateMessagefreshMust(s19.NewPrivateMessage(s00.PrivateMessageIEsValuePrivateIEContainer{privateMessageIEsValuePrivateIEFieldfreshMust(s00.PrivateMessageIEs().NewOpaque(privateIEIDfreshMust(s00.NewPrivateIEIDLocal(1)), s00.CriticalityIgnore, []byte{0}))}))
-		env := initiatingMessagefreshMust(s19.PrivateMessageProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := privateMessagefreshMust(s20.NewPrivateMessage(s00.PrivateMessageIEsValuePrivateIEContainer{privateMessageIEsValuePrivateIEFieldfreshMust(s00.PrivateMessageIEs().NewOpaque(privateIEIDfreshMust(s00.NewPrivateIEIDLocal(1)), s00.CriticalityIgnore, []byte{0}))}))
+		env := initiatingMessagefreshMust(s20.PrivateMessageProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -592,10 +592,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err3)
 		}
 		fields = append(fields, mobilityChangeRequestIEFieldfreshMust(s07.MobilityChangeRequestIEs().Cause().New(v3.Value)))
-		body := mobilityChangeRequestfreshMust(s19.NewMobilityChangeRequest(fields))
-		env := initiatingMessagefreshMust(s19.MobilitySettingsChangeProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := mobilityChangeRequestfreshMust(s20.NewMobilityChangeRequest(fields))
+		env := initiatingMessagefreshMust(s20.MobilitySettingsChangeProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -616,10 +616,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, mobilityChangeAcknowledgeIEFieldfreshMust(s07.MobilityChangeAcknowledgeIEs().ENB2CellID().New(v1.Value)))
-		body := mobilityChangeAcknowledgefreshMust(s19.NewMobilityChangeAcknowledge(fields))
-		env := successfulOutcomefreshMust(s19.MobilitySettingsChangeProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := mobilityChangeAcknowledgefreshMust(s20.NewMobilityChangeAcknowledge(fields))
+		env := successfulOutcomefreshMust(s20.MobilitySettingsChangeProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -646,9 +646,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, mobilityChangeFailureIEFieldfreshMust(s07.MobilityChangeFailureIEs().Cause().New(v2.Value)))
 		body := mobilityChangeFailurefreshMust(s14.NewMobilityChangeFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.MobilitySettingsChangeProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.MobilitySettingsChangeProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -664,10 +664,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, cellActivationRequestIEFieldfreshMust(s17.CellActivationRequestIEs().ServedCellsToActivate().New(v0.Value)))
-		body := cellActivationRequestfreshMust(s19.NewCellActivationRequest(fields))
-		env := initiatingMessagefreshMust(s19.CellActivationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := cellActivationRequestfreshMust(s20.NewCellActivationRequest(fields))
+		env := initiatingMessagefreshMust(s20.CellActivationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -683,10 +683,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, cellActivationResponseIEFieldfreshMust(s13.CellActivationResponseIEs().ActivatedCellList().New(v0.Value)))
-		body := cellActivationResponsefreshMust(s19.NewCellActivationResponse(fields))
-		env := successfulOutcomefreshMust(s19.CellActivationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := cellActivationResponsefreshMust(s20.NewCellActivationResponse(fields))
+		env := successfulOutcomefreshMust(s20.CellActivationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -703,9 +703,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, cellActivationFailureIEFieldfreshMust(s06.CellActivationFailureIEs().Cause().New(v0.Value)))
 		body := cellActivationFailurefreshMust(s14.NewCellActivationFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.CellActivationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.CellActivationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -721,10 +721,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, x2ReleaseIEFieldfreshMust(s07.X2ReleaseIEs().GlobalENBID().New(v0.Value)))
-		body := x2ReleasefreshMust(s20.NewX2Release(fields))
-		env := initiatingMessagefreshMust(s20.X2ReleaseProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := x2ReleasefreshMust(s21.NewX2Release(fields))
+		env := initiatingMessagefreshMust(s21.X2ReleaseProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -740,10 +740,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, x2APMessageTransferIEFieldfreshMust(s13.X2APMessageTransferIEs().RNLHeader().New(v0.Value)))
-		body := x2APMessageTransferfreshMust(s20.NewX2APMessageTransfer(fields))
-		env := initiatingMessagefreshMust(s20.X2APMessageTransferProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := x2APMessageTransferfreshMust(s21.NewX2APMessageTransfer(fields))
+		env := initiatingMessagefreshMust(s21.X2APMessageTransferProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -774,10 +774,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err3)
 		}
 		fields = append(fields, seNBAdditionRequestIEFieldfreshMust(s15.SeNBAdditionRequestIEs().MeNBtoSeNBContainer().New(v3.Value)))
-		body := seNBAdditionRequestfreshMust(s19.NewSeNBAdditionRequest(fields))
-		env := initiatingMessagefreshMust(s19.SeNBAdditionPreparationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := seNBAdditionRequestfreshMust(s20.NewSeNBAdditionRequest(fields))
+		env := initiatingMessagefreshMust(s20.SeNBAdditionPreparationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -787,31 +787,31 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 	})
 	t.Run("SeNBAdditionRequestAcknowledge", func(t *testing.T) {
-		var fields s14.SeNBAdditionRequestAcknowledgeIEContainer
-		v0, _, err0 := s14.SeNBAdditionRequestAcknowledgeIEs().MeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
+		var fields s15.SeNBAdditionRequestAcknowledgeIEContainer
+		v0, _, err0 := s15.SeNBAdditionRequestAcknowledgeIEs().MeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
 		if err0 != nil {
 			t.Fatal(err0)
 		}
-		fields = append(fields, seNBAdditionRequestAcknowledgeIEFieldfreshMust(s14.SeNBAdditionRequestAcknowledgeIEs().MeNBUEX2APID().New(v0.Value)))
-		v1, _, err1 := s14.SeNBAdditionRequestAcknowledgeIEs().SeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
+		fields = append(fields, seNBAdditionRequestAcknowledgeIEFieldfreshMust(s15.SeNBAdditionRequestAcknowledgeIEs().MeNBUEX2APID().New(v0.Value)))
+		v1, _, err1 := s15.SeNBAdditionRequestAcknowledgeIEs().SeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
 		if err1 != nil {
 			t.Fatal(err1)
 		}
-		fields = append(fields, seNBAdditionRequestAcknowledgeIEFieldfreshMust(s14.SeNBAdditionRequestAcknowledgeIEs().SeNBUEX2APID().New(v1.Value)))
-		v2, _, err2 := s14.SeNBAdditionRequestAcknowledgeIEs().ERABsAdmittedToBeAddedList().Codec().DecodeAPER(freshHex("00007940080000000000000000"))
+		fields = append(fields, seNBAdditionRequestAcknowledgeIEFieldfreshMust(s15.SeNBAdditionRequestAcknowledgeIEs().SeNBUEX2APID().New(v1.Value)))
+		v2, _, err2 := s15.SeNBAdditionRequestAcknowledgeIEs().ERABsAdmittedToBeAddedList().Codec().DecodeAPER(freshHex("00007940080000000000000000"))
 		if err2 != nil {
 			t.Fatal(err2)
 		}
-		fields = append(fields, seNBAdditionRequestAcknowledgeIEFieldfreshMust(s14.SeNBAdditionRequestAcknowledgeIEs().ERABsAdmittedToBeAddedList().New(v2.Value)))
-		v3, _, err3 := s14.SeNBAdditionRequestAcknowledgeIEs().SeNBtoMeNBContainer().Codec().DecodeAPER(freshHex("00"))
+		fields = append(fields, seNBAdditionRequestAcknowledgeIEFieldfreshMust(s15.SeNBAdditionRequestAcknowledgeIEs().ERABsAdmittedToBeAddedList().New(v2.Value)))
+		v3, _, err3 := s15.SeNBAdditionRequestAcknowledgeIEs().SeNBtoMeNBContainer().Codec().DecodeAPER(freshHex("00"))
 		if err3 != nil {
 			t.Fatal(err3)
 		}
-		fields = append(fields, seNBAdditionRequestAcknowledgeIEFieldfreshMust(s14.SeNBAdditionRequestAcknowledgeIEs().SeNBtoMeNBContainer().New(v3.Value)))
-		body := seNBAdditionRequestAcknowledgefreshMust(s19.NewSeNBAdditionRequestAcknowledge(fields))
-		env := successfulOutcomefreshMust(s19.SeNBAdditionPreparationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		fields = append(fields, seNBAdditionRequestAcknowledgeIEFieldfreshMust(s15.SeNBAdditionRequestAcknowledgeIEs().SeNBtoMeNBContainer().New(v3.Value)))
+		body := seNBAdditionRequestAcknowledgefreshMust(s20.NewSeNBAdditionRequestAcknowledge(fields))
+		env := successfulOutcomefreshMust(s20.SeNBAdditionPreparationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -821,26 +821,26 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 	})
 	t.Run("SeNBAdditionRequestReject", func(t *testing.T) {
-		var fields s11.SeNBAdditionRequestRejectIEContainer
-		v0, _, err0 := s11.SeNBAdditionRequestRejectIEs().MeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
+		var fields s12.SeNBAdditionRequestRejectIEContainer
+		v0, _, err0 := s12.SeNBAdditionRequestRejectIEs().MeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
 		if err0 != nil {
 			t.Fatal(err0)
 		}
-		fields = append(fields, seNBAdditionRequestRejectIEFieldfreshMust(s11.SeNBAdditionRequestRejectIEs().MeNBUEX2APID().New(v0.Value)))
-		v1, _, err1 := s11.SeNBAdditionRequestRejectIEs().SeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
+		fields = append(fields, seNBAdditionRequestRejectIEFieldfreshMust(s12.SeNBAdditionRequestRejectIEs().MeNBUEX2APID().New(v0.Value)))
+		v1, _, err1 := s12.SeNBAdditionRequestRejectIEs().SeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
 		if err1 != nil {
 			t.Fatal(err1)
 		}
-		fields = append(fields, seNBAdditionRequestRejectIEFieldfreshMust(s11.SeNBAdditionRequestRejectIEs().SeNBUEX2APID().New(v1.Value)))
-		v2, _, err2 := s11.SeNBAdditionRequestRejectIEs().Cause().Codec().DecodeAPER(freshHex("0000"))
+		fields = append(fields, seNBAdditionRequestRejectIEFieldfreshMust(s12.SeNBAdditionRequestRejectIEs().SeNBUEX2APID().New(v1.Value)))
+		v2, _, err2 := s12.SeNBAdditionRequestRejectIEs().Cause().Codec().DecodeAPER(freshHex("0000"))
 		if err2 != nil {
 			t.Fatal(err2)
 		}
-		fields = append(fields, seNBAdditionRequestRejectIEFieldfreshMust(s11.SeNBAdditionRequestRejectIEs().Cause().New(v2.Value)))
+		fields = append(fields, seNBAdditionRequestRejectIEFieldfreshMust(s12.SeNBAdditionRequestRejectIEs().Cause().New(v2.Value)))
 		body := seNBAdditionRequestRejectfreshMust(s14.NewSeNBAdditionRequestReject(fields))
-		env := unsuccessfulOutcomefreshMust(s19.SeNBAdditionPreparationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.SeNBAdditionPreparationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -866,10 +866,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, seNBReconfigurationCompleteIEFieldfreshMust(s12.SeNBReconfigurationCompleteIEs().ResponseInformationSeNBReconfComp().New(v2.Value)))
-		body := seNBReconfigurationCompletefreshMust(s19.NewSeNBReconfigurationComplete(fields))
-		env := initiatingMessagefreshMust(s19.SeNBReconfigurationCompletionProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := seNBReconfigurationCompletefreshMust(s20.NewSeNBReconfigurationComplete(fields))
+		env := initiatingMessagefreshMust(s20.SeNBReconfigurationCompletionProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -895,10 +895,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, seNBModificationRequestIEFieldfreshMust(s12.SeNBModificationRequestIEs().Cause().New(v2.Value)))
-		body := seNBModificationRequestfreshMust(s19.NewSeNBModificationRequest(fields))
-		env := initiatingMessagefreshMust(s19.MeNBinitiatedSeNBModificationPreparationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := seNBModificationRequestfreshMust(s20.NewSeNBModificationRequest(fields))
+		env := initiatingMessagefreshMust(s20.MeNBinitiatedSeNBModificationPreparationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -919,10 +919,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, seNBModificationRequestAcknowledgeIEFieldfreshMust(s15.SeNBModificationRequestAcknowledgeIEs().SeNBUEX2APID().New(v1.Value)))
-		body := seNBModificationRequestAcknowledgefreshMust(s19.NewSeNBModificationRequestAcknowledge(fields))
-		env := successfulOutcomefreshMust(s19.MeNBinitiatedSeNBModificationPreparationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := seNBModificationRequestAcknowledgefreshMust(s20.NewSeNBModificationRequestAcknowledge(fields))
+		env := successfulOutcomefreshMust(s20.MeNBinitiatedSeNBModificationPreparationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -949,9 +949,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, seNBModificationRequestRejectIEFieldfreshMust(s12.SeNBModificationRequestRejectIEs().Cause().New(v2.Value)))
 		body := seNBModificationRequestRejectfreshMust(s14.NewSeNBModificationRequestReject(fields))
-		env := unsuccessfulOutcomefreshMust(s19.MeNBinitiatedSeNBModificationPreparationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.MeNBinitiatedSeNBModificationPreparationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -977,10 +977,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, seNBModificationRequiredIEFieldfreshMust(s15.SeNBModificationRequiredIEs().Cause().New(v2.Value)))
-		body := seNBModificationRequiredfreshMust(s19.NewSeNBModificationRequired(fields))
-		env := initiatingMessagefreshMust(s19.SeNBinitiatedSeNBModificationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := seNBModificationRequiredfreshMust(s20.NewSeNBModificationRequired(fields))
+		env := initiatingMessagefreshMust(s20.SeNBinitiatedSeNBModificationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -990,21 +990,21 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 	})
 	t.Run("SeNBModificationConfirm", func(t *testing.T) {
-		var fields s11.SeNBModificationConfirmIEContainer
-		v0, _, err0 := s11.SeNBModificationConfirmIEs().MeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
+		var fields s12.SeNBModificationConfirmIEContainer
+		v0, _, err0 := s12.SeNBModificationConfirmIEs().MeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
 		if err0 != nil {
 			t.Fatal(err0)
 		}
-		fields = append(fields, seNBModificationConfirmIEFieldfreshMust(s11.SeNBModificationConfirmIEs().MeNBUEX2APID().New(v0.Value)))
-		v1, _, err1 := s11.SeNBModificationConfirmIEs().SeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
+		fields = append(fields, seNBModificationConfirmIEFieldfreshMust(s12.SeNBModificationConfirmIEs().MeNBUEX2APID().New(v0.Value)))
+		v1, _, err1 := s12.SeNBModificationConfirmIEs().SeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
 		if err1 != nil {
 			t.Fatal(err1)
 		}
-		fields = append(fields, seNBModificationConfirmIEFieldfreshMust(s11.SeNBModificationConfirmIEs().SeNBUEX2APID().New(v1.Value)))
-		body := seNBModificationConfirmfreshMust(s19.NewSeNBModificationConfirm(fields))
-		env := successfulOutcomefreshMust(s19.SeNBinitiatedSeNBModificationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		fields = append(fields, seNBModificationConfirmIEFieldfreshMust(s12.SeNBModificationConfirmIEs().SeNBUEX2APID().New(v1.Value)))
+		body := seNBModificationConfirmfreshMust(s20.NewSeNBModificationConfirm(fields))
+		env := successfulOutcomefreshMust(s20.SeNBinitiatedSeNBModificationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1031,9 +1031,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, seNBModificationRefuseIEFieldfreshMust(s12.SeNBModificationRefuseIEs().Cause().New(v2.Value)))
 		body := seNBModificationRefusefreshMust(s14.NewSeNBModificationRefuse(fields))
-		env := unsuccessfulOutcomefreshMust(s19.SeNBinitiatedSeNBModificationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.SeNBinitiatedSeNBModificationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1049,10 +1049,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, seNBReleaseRequestIEFieldfreshMust(s15.SeNBReleaseRequestIEs().MeNBUEX2APID().New(v0.Value)))
-		body := seNBReleaseRequestfreshMust(s19.NewSeNBReleaseRequest(fields))
-		env := initiatingMessagefreshMust(s19.MeNBinitiatedSeNBReleaseProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := seNBReleaseRequestfreshMust(s20.NewSeNBReleaseRequest(fields))
+		env := initiatingMessagefreshMust(s20.MeNBinitiatedSeNBReleaseProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1078,10 +1078,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, seNBReleaseRequiredIEFieldfreshMust(s12.SeNBReleaseRequiredIEs().Cause().New(v2.Value)))
-		body := seNBReleaseRequiredfreshMust(s19.NewSeNBReleaseRequired(fields))
-		env := initiatingMessagefreshMust(s19.SeNBinitiatedSeNBReleaseProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := seNBReleaseRequiredfreshMust(s20.NewSeNBReleaseRequired(fields))
+		env := initiatingMessagefreshMust(s20.SeNBinitiatedSeNBReleaseProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1102,10 +1102,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, seNBReleaseConfirmIEFieldfreshMust(s15.SeNBReleaseConfirmIEs().SeNBUEX2APID().New(v1.Value)))
-		body := seNBReleaseConfirmfreshMust(s19.NewSeNBReleaseConfirm(fields))
-		env := successfulOutcomefreshMust(s19.SeNBinitiatedSeNBReleaseProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := seNBReleaseConfirmfreshMust(s20.NewSeNBReleaseConfirm(fields))
+		env := successfulOutcomefreshMust(s20.SeNBinitiatedSeNBReleaseProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1131,10 +1131,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, seNBCounterCheckRequestIEFieldfreshMust(s15.SeNBCounterCheckRequestIEs().ERABsSubjectToCounterCheckList().New(v2.Value)))
-		body := seNBCounterCheckRequestfreshMust(s19.NewSeNBCounterCheckRequest(fields))
-		env := initiatingMessagefreshMust(s19.SeNBCounterCheckProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := seNBCounterCheckRequestfreshMust(s20.NewSeNBCounterCheckRequest(fields))
+		env := initiatingMessagefreshMust(s20.SeNBCounterCheckProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1150,10 +1150,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, x2RemovalRequestIEFieldfreshMust(s13.X2RemovalRequestIEs().GlobalENBID().New(v0.Value)))
-		body := x2RemovalRequestfreshMust(s20.NewX2RemovalRequest(fields))
-		env := initiatingMessagefreshMust(s20.X2RemovalProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := x2RemovalRequestfreshMust(s21.NewX2RemovalRequest(fields))
+		env := initiatingMessagefreshMust(s21.X2RemovalProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1169,10 +1169,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, x2RemovalResponseIEFieldfreshMust(s07.X2RemovalResponseIEs().GlobalENBID().New(v0.Value)))
-		body := x2RemovalResponsefreshMust(s20.NewX2RemovalResponse(fields))
-		env := successfulOutcomefreshMust(s20.X2RemovalProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := x2RemovalResponsefreshMust(s21.NewX2RemovalResponse(fields))
+		env := successfulOutcomefreshMust(s21.X2RemovalProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1189,9 +1189,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, x2RemovalFailureIEFieldfreshMust(s07.X2RemovalFailureIEs().Cause().New(v0.Value)))
 		body := x2RemovalFailurefreshMust(s14.NewX2RemovalFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s20.X2RemovalProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s21.X2RemovalProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1222,10 +1222,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err3)
 		}
 		fields = append(fields, retrieveUEContextRequestIEFieldfreshMust(s11.RetrieveUEContextRequestIEs().NewEUTRANCellIdentifier().New(v3.Value)))
-		body := retrieveUEContextRequestfreshMust(s19.NewRetrieveUEContextRequest(fields))
-		env := initiatingMessagefreshMust(s19.RetrieveUEContextProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := retrieveUEContextRequestfreshMust(s20.NewRetrieveUEContextRequest(fields))
+		env := initiatingMessagefreshMust(s20.RetrieveUEContextProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1256,10 +1256,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err3)
 		}
 		fields = append(fields, retrieveUEContextResponseIEFieldfreshMust(s17.RetrieveUEContextResponseIEs().UEContextInformationRetrieve().New(v3.Value)))
-		body := retrieveUEContextResponsefreshMust(s19.NewRetrieveUEContextResponse(fields))
-		env := successfulOutcomefreshMust(s19.RetrieveUEContextProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := retrieveUEContextResponsefreshMust(s20.NewRetrieveUEContextResponse(fields))
+		env := successfulOutcomefreshMust(s20.RetrieveUEContextProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1281,9 +1281,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, retrieveUEContextFailureIEFieldfreshMust(s11.RetrieveUEContextFailureIEs().Cause().New(v1.Value)))
 		body := retrieveUEContextFailurefreshMust(s14.NewRetrieveUEContextFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.RetrieveUEContextProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.RetrieveUEContextProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1329,10 +1329,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err6)
 		}
 		fields = append(fields, sgNBAdditionRequestIEFieldfreshMust(s18.SgNBAdditionRequestIEs().MeNBCellID().New(v6.Value)))
-		body := sgNBAdditionRequestfreshMust(s19.NewSgNBAdditionRequest(fields))
-		env := initiatingMessagefreshMust(s19.SgNBAdditionPreparationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBAdditionRequestfreshMust(s20.NewSgNBAdditionRequest(fields))
+		env := initiatingMessagefreshMust(s20.SgNBAdditionPreparationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1363,10 +1363,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err3)
 		}
 		fields = append(fields, sgNBAdditionRequestAcknowledgeIEFieldfreshMust(s15.SgNBAdditionRequestAcknowledgeIEs().SgNBtoMeNBContainer().New(v3.Value)))
-		body := sgNBAdditionRequestAcknowledgefreshMust(s19.NewSgNBAdditionRequestAcknowledge(fields))
-		env := successfulOutcomefreshMust(s19.SgNBAdditionPreparationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBAdditionRequestAcknowledgefreshMust(s20.NewSgNBAdditionRequestAcknowledge(fields))
+		env := successfulOutcomefreshMust(s20.SgNBAdditionPreparationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1388,9 +1388,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, sgNBAdditionRequestRejectIEFieldfreshMust(s12.SgNBAdditionRequestRejectIEs().Cause().New(v1.Value)))
 		body := sgNBAdditionRequestRejectfreshMust(s14.NewSgNBAdditionRequestReject(fields))
-		env := unsuccessfulOutcomefreshMust(s19.SgNBAdditionPreparationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.SgNBAdditionPreparationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1416,10 +1416,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, sgNBReconfigurationCompleteIEFieldfreshMust(s12.SgNBReconfigurationCompleteIEs().ResponseInformationSgNBReconfComp().New(v2.Value)))
-		body := sgNBReconfigurationCompletefreshMust(s20.NewSgNBReconfigurationComplete(fields))
-		env := initiatingMessagefreshMust(s20.SgNBReconfigurationCompletionProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBReconfigurationCompletefreshMust(s21.NewSgNBReconfigurationComplete(fields))
+		env := initiatingMessagefreshMust(s21.SgNBReconfigurationCompletionProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1429,26 +1429,26 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 	})
 	t.Run("SgNBModificationRequest", func(t *testing.T) {
-		var fields s16.SgNBModificationRequestIEContainer
-		v0, _, err0 := s16.SgNBModificationRequestIEs().MeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
+		var fields s17.SgNBModificationRequestIEContainer
+		v0, _, err0 := s17.SgNBModificationRequestIEs().MeNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
 		if err0 != nil {
 			t.Fatal(err0)
 		}
-		fields = append(fields, sgNBModificationRequestIEFieldfreshMust(s16.SgNBModificationRequestIEs().MeNBUEX2APID().New(v0.Value)))
-		v1, _, err1 := s16.SgNBModificationRequestIEs().SgNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
+		fields = append(fields, sgNBModificationRequestIEFieldfreshMust(s17.SgNBModificationRequestIEs().MeNBUEX2APID().New(v0.Value)))
+		v1, _, err1 := s17.SgNBModificationRequestIEs().SgNBUEX2APID().Codec().DecodeAPER(freshHex("0000"))
 		if err1 != nil {
 			t.Fatal(err1)
 		}
-		fields = append(fields, sgNBModificationRequestIEFieldfreshMust(s16.SgNBModificationRequestIEs().SgNBUEX2APID().New(v1.Value)))
-		v2, _, err2 := s16.SgNBModificationRequestIEs().Cause().Codec().DecodeAPER(freshHex("0000"))
+		fields = append(fields, sgNBModificationRequestIEFieldfreshMust(s17.SgNBModificationRequestIEs().SgNBUEX2APID().New(v1.Value)))
+		v2, _, err2 := s17.SgNBModificationRequestIEs().Cause().Codec().DecodeAPER(freshHex("0000"))
 		if err2 != nil {
 			t.Fatal(err2)
 		}
-		fields = append(fields, sgNBModificationRequestIEFieldfreshMust(s16.SgNBModificationRequestIEs().Cause().New(v2.Value)))
-		body := sgNBModificationRequestfreshMust(s19.NewSgNBModificationRequest(fields))
-		env := initiatingMessagefreshMust(s19.MeNBinitiatedSgNBModificationPreparationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		fields = append(fields, sgNBModificationRequestIEFieldfreshMust(s17.SgNBModificationRequestIEs().Cause().New(v2.Value)))
+		body := sgNBModificationRequestfreshMust(s20.NewSgNBModificationRequest(fields))
+		env := initiatingMessagefreshMust(s21.MeNBinitiatedSgNBModificationPreparationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1469,10 +1469,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, sgNBModificationRequestAcknowledgeIEFieldfreshMust(s17.SgNBModificationRequestAcknowledgeIEs().SgNBUEX2APID().New(v1.Value)))
-		body := sgNBModificationRequestAcknowledgefreshMust(s19.NewSgNBModificationRequestAcknowledge(fields))
-		env := successfulOutcomefreshMust(s19.MeNBinitiatedSgNBModificationPreparationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBModificationRequestAcknowledgefreshMust(s21.NewSgNBModificationRequestAcknowledge(fields))
+		env := successfulOutcomefreshMust(s21.MeNBinitiatedSgNBModificationPreparationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1499,9 +1499,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, sgNBModificationRequestRejectIEFieldfreshMust(s12.SgNBModificationRequestRejectIEs().Cause().New(v2.Value)))
 		body := sgNBModificationRequestRejectfreshMust(s14.NewSgNBModificationRequestReject(fields))
-		env := unsuccessfulOutcomefreshMust(s19.MeNBinitiatedSgNBModificationPreparationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s21.MeNBinitiatedSgNBModificationPreparationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1527,10 +1527,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, sgNBModificationRequiredIEFieldfreshMust(s17.SgNBModificationRequiredIEs().Cause().New(v2.Value)))
-		body := sgNBModificationRequiredfreshMust(s19.NewSgNBModificationRequired(fields))
-		env := initiatingMessagefreshMust(s20.SgNBinitiatedSgNBModificationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBModificationRequiredfreshMust(s21.NewSgNBModificationRequired(fields))
+		env := initiatingMessagefreshMust(s21.SgNBinitiatedSgNBModificationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1551,10 +1551,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, sgNBModificationConfirmIEFieldfreshMust(s15.SgNBModificationConfirmIEs().SgNBUEX2APID().New(v1.Value)))
-		body := sgNBModificationConfirmfreshMust(s19.NewSgNBModificationConfirm(fields))
-		env := successfulOutcomefreshMust(s20.SgNBinitiatedSgNBModificationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBModificationConfirmfreshMust(s20.NewSgNBModificationConfirm(fields))
+		env := successfulOutcomefreshMust(s21.SgNBinitiatedSgNBModificationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1581,9 +1581,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, sgNBModificationRefuseIEFieldfreshMust(s12.SgNBModificationRefuseIEs().Cause().New(v2.Value)))
 		body := sgNBModificationRefusefreshMust(s14.NewSgNBModificationRefuse(fields))
-		env := unsuccessfulOutcomefreshMust(s20.SgNBinitiatedSgNBModificationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s21.SgNBinitiatedSgNBModificationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1604,10 +1604,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, sgNBReleaseRequestIEFieldfreshMust(s15.SgNBReleaseRequestIEs().Cause().New(v1.Value)))
-		body := sgNBReleaseRequestfreshMust(s20.NewSgNBReleaseRequest(fields))
-		env := initiatingMessagefreshMust(s20.MeNBinitiatedSgNBReleaseProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBReleaseRequestfreshMust(s21.NewSgNBReleaseRequest(fields))
+		env := initiatingMessagefreshMust(s21.MeNBinitiatedSgNBReleaseProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1628,10 +1628,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, sgNBReleaseRequestAcknowledgeIEFieldfreshMust(s17.SgNBReleaseRequestAcknowledgeIEs().SgNBUEX2APID().New(v1.Value)))
-		body := sgNBReleaseRequestAcknowledgefreshMust(s20.NewSgNBReleaseRequestAcknowledge(fields))
-		env := successfulOutcomefreshMust(s20.MeNBinitiatedSgNBReleaseProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBReleaseRequestAcknowledgefreshMust(s21.NewSgNBReleaseRequestAcknowledge(fields))
+		env := successfulOutcomefreshMust(s21.MeNBinitiatedSgNBReleaseProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1658,9 +1658,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, sgNBReleaseRequestRejectIEFieldfreshMust(s12.SgNBReleaseRequestRejectIEs().Cause().New(v2.Value)))
 		body := sgNBReleaseRequestRejectfreshMust(s14.NewSgNBReleaseRequestReject(fields))
-		env := unsuccessfulOutcomefreshMust(s20.MeNBinitiatedSgNBReleaseProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s21.MeNBinitiatedSgNBReleaseProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1686,10 +1686,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, sgNBReleaseRequiredIEFieldfreshMust(s17.SgNBReleaseRequiredIEs().Cause().New(v2.Value)))
-		body := sgNBReleaseRequiredfreshMust(s20.NewSgNBReleaseRequired(fields))
-		env := initiatingMessagefreshMust(s20.SgNBinitiatedSgNBReleaseProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBReleaseRequiredfreshMust(s21.NewSgNBReleaseRequired(fields))
+		env := initiatingMessagefreshMust(s21.SgNBinitiatedSgNBReleaseProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1710,10 +1710,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, sgNBReleaseConfirmIEFieldfreshMust(s15.SgNBReleaseConfirmIEs().SgNBUEX2APID().New(v1.Value)))
-		body := sgNBReleaseConfirmfreshMust(s20.NewSgNBReleaseConfirm(fields))
-		env := successfulOutcomefreshMust(s20.SgNBinitiatedSgNBReleaseProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBReleaseConfirmfreshMust(s21.NewSgNBReleaseConfirm(fields))
+		env := successfulOutcomefreshMust(s21.SgNBinitiatedSgNBReleaseProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1739,10 +1739,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, sgNBCounterCheckRequestIEFieldfreshMust(s15.SgNBCounterCheckRequestIEs().ERABsSubjectToSgNBCounterCheckList().New(v2.Value)))
-		body := sgNBCounterCheckRequestfreshMust(s19.NewSgNBCounterCheckRequest(fields))
-		env := initiatingMessagefreshMust(s19.SgNBCounterCheckProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBCounterCheckRequestfreshMust(s20.NewSgNBCounterCheckRequest(fields))
+		env := initiatingMessagefreshMust(s20.SgNBCounterCheckProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1773,10 +1773,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err3)
 		}
 		fields = append(fields, sgNBChangeRequiredIEFieldfreshMust(s17.SgNBChangeRequiredIEs().Cause().New(v3.Value)))
-		body := sgNBChangeRequiredfreshMust(s19.NewSgNBChangeRequired(fields))
-		env := initiatingMessagefreshMust(s19.SgNBChangeProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBChangeRequiredfreshMust(s20.NewSgNBChangeRequired(fields))
+		env := initiatingMessagefreshMust(s20.SgNBChangeProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1797,10 +1797,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, sgNBChangeConfirmIEFieldfreshMust(s15.SgNBChangeConfirmIEs().SgNBUEX2APID().New(v1.Value)))
-		body := sgNBChangeConfirmfreshMust(s19.NewSgNBChangeConfirm(fields))
-		env := successfulOutcomefreshMust(s19.SgNBChangeProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBChangeConfirmfreshMust(s20.NewSgNBChangeConfirm(fields))
+		env := successfulOutcomefreshMust(s20.SgNBChangeProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1827,9 +1827,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, sgNBChangeRefuseIEFieldfreshMust(s12.SgNBChangeRefuseIEs().Cause().New(v2.Value)))
 		body := sgNBChangeRefusefreshMust(s14.NewSgNBChangeRefuse(fields))
-		env := unsuccessfulOutcomefreshMust(s19.SgNBChangeProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.SgNBChangeProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1850,10 +1850,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, rRCTransferIEFieldfreshMust(s11.RRCTransferIEs().SgNBUEX2APID().New(v1.Value)))
-		body := rRCTransferfreshMust(s19.NewRRCTransfer(fields))
-		env := initiatingMessagefreshMust(s19.RRCTransferProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := rRCTransferfreshMust(s20.NewRRCTransfer(fields))
+		env := initiatingMessagefreshMust(s20.RRCTransferProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1869,10 +1869,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, eNDCX2SetupRequestIEFieldfreshMust(s18.ENDCX2SetupRequestIEs().InitiatingNodeTypeEndcX2Setup().New(v0.Value)))
-		body := eNDCX2SetupRequestfreshMust(s19.NewENDCX2SetupRequest(fields))
-		env := initiatingMessagefreshMust(s19.EndcX2SetupProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCX2SetupRequestfreshMust(s20.NewENDCX2SetupRequest(fields))
+		env := initiatingMessagefreshMust(s20.EndcX2SetupProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1888,10 +1888,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, eNDCX2SetupResponseIEFieldfreshMust(s18.ENDCX2SetupResponseIEs().RespondingNodeTypeEndcX2Setup().New(v0.Value)))
-		body := eNDCX2SetupResponsefreshMust(s19.NewENDCX2SetupResponse(fields))
-		env := successfulOutcomefreshMust(s19.EndcX2SetupProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCX2SetupResponsefreshMust(s20.NewENDCX2SetupResponse(fields))
+		env := successfulOutcomefreshMust(s20.EndcX2SetupProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1908,9 +1908,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, eNDCX2SetupFailureIEFieldfreshMust(s06.ENDCX2SetupFailureIEs().Cause().New(v0.Value)))
 		body := eNDCX2SetupFailurefreshMust(s14.NewENDCX2SetupFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.EndcX2SetupProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.EndcX2SetupProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1926,10 +1926,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, eNDCConfigurationUpdateIEFieldfreshMust(s18.ENDCConfigurationUpdateIEs().InitiatingNodeTypeEndcConfigUpdate().New(v0.Value)))
-		body := eNDCConfigurationUpdatefreshMust(s19.NewENDCConfigurationUpdate(fields))
-		env := initiatingMessagefreshMust(s19.EndcConfigurationUpdateProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCConfigurationUpdatefreshMust(s20.NewENDCConfigurationUpdate(fields))
+		env := initiatingMessagefreshMust(s20.EndcConfigurationUpdateProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1945,10 +1945,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, eNDCConfigurationUpdateAcknowledgeIEFieldfreshMust(s18.ENDCConfigurationUpdateAcknowledgeIEs().RespondingNodeTypeEndcConfigUpdate().New(v0.Value)))
-		body := eNDCConfigurationUpdateAcknowledgefreshMust(s19.NewENDCConfigurationUpdateAcknowledge(fields))
-		env := successfulOutcomefreshMust(s19.EndcConfigurationUpdateProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCConfigurationUpdateAcknowledgefreshMust(s20.NewENDCConfigurationUpdateAcknowledge(fields))
+		env := successfulOutcomefreshMust(s20.EndcConfigurationUpdateProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1965,9 +1965,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, eNDCConfigurationUpdateFailureIEFieldfreshMust(s06.ENDCConfigurationUpdateFailureIEs().Cause().New(v0.Value)))
 		body := eNDCConfigurationUpdateFailurefreshMust(s14.NewENDCConfigurationUpdateFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.EndcConfigurationUpdateProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.EndcConfigurationUpdateProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -1993,10 +1993,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, secondaryRATDataUsageReportIEFieldfreshMust(s17.SecondaryRATDataUsageReportIEs().SecondaryRATUsageReportList().New(v2.Value)))
-		body := secondaryRATDataUsageReportfreshMust(s19.NewSecondaryRATDataUsageReport(fields))
-		env := initiatingMessagefreshMust(s19.SecondaryRATDataUsageReportProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := secondaryRATDataUsageReportfreshMust(s20.NewSecondaryRATDataUsageReport(fields))
+		env := initiatingMessagefreshMust(s20.SecondaryRATDataUsageReportProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2006,21 +2006,21 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 	})
 	t.Run("ENDCCellActivationRequest", func(t *testing.T) {
-		var fields s17.ENDCCellActivationRequestIEContainer
-		v0, _, err0 := s17.ENDCCellActivationRequestIEs().ServedNRCellsToActivate().Codec().DecodeAPER(freshHex("0000000000000000000000"))
+		var fields s18.ENDCCellActivationRequestIEContainer
+		v0, _, err0 := s18.ENDCCellActivationRequestIEs().ServedNRCellsToActivate().Codec().DecodeAPER(freshHex("0000000000000000000000"))
 		if err0 != nil {
 			t.Fatal(err0)
 		}
-		fields = append(fields, eNDCCellActivationRequestIEFieldfreshMust(s17.ENDCCellActivationRequestIEs().ServedNRCellsToActivate().New(v0.Value)))
-		v1, _, err1 := s17.ENDCCellActivationRequestIEs().ActivationID().Codec().DecodeAPER(freshHex("00"))
+		fields = append(fields, eNDCCellActivationRequestIEFieldfreshMust(s18.ENDCCellActivationRequestIEs().ServedNRCellsToActivate().New(v0.Value)))
+		v1, _, err1 := s18.ENDCCellActivationRequestIEs().ActivationID().Codec().DecodeAPER(freshHex("00"))
 		if err1 != nil {
 			t.Fatal(err1)
 		}
-		fields = append(fields, eNDCCellActivationRequestIEFieldfreshMust(s17.ENDCCellActivationRequestIEs().ActivationID().New(v1.Value)))
-		body := eNDCCellActivationRequestfreshMust(s19.NewENDCCellActivationRequest(fields))
-		env := initiatingMessagefreshMust(s19.EndcCellActivationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		fields = append(fields, eNDCCellActivationRequestIEFieldfreshMust(s18.ENDCCellActivationRequestIEs().ActivationID().New(v1.Value)))
+		body := eNDCCellActivationRequestfreshMust(s20.NewENDCCellActivationRequest(fields))
+		env := initiatingMessagefreshMust(s20.EndcCellActivationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2041,10 +2041,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, eNDCCellActivationResponseIEFieldfreshMust(s13.ENDCCellActivationResponseIEs().ActivationID().New(v1.Value)))
-		body := eNDCCellActivationResponsefreshMust(s19.NewENDCCellActivationResponse(fields))
-		env := successfulOutcomefreshMust(s19.EndcCellActivationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCCellActivationResponsefreshMust(s20.NewENDCCellActivationResponse(fields))
+		env := successfulOutcomefreshMust(s20.EndcCellActivationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2066,9 +2066,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, eNDCCellActivationFailureIEFieldfreshMust(s06.ENDCCellActivationFailureIEs().Cause().New(v1.Value)))
 		body := eNDCCellActivationFailurefreshMust(s14.NewENDCCellActivationFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.EndcCellActivationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.EndcCellActivationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2089,10 +2089,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, eNDCPartialResetRequiredIEFieldfreshMust(s18.ENDCPartialResetRequiredIEs().Cause().New(v1.Value)))
-		body := eNDCPartialResetRequiredfreshMust(s19.NewENDCPartialResetRequired(fields))
-		env := initiatingMessagefreshMust(s19.EndcPartialResetProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCPartialResetRequiredfreshMust(s20.NewENDCPartialResetRequired(fields))
+		env := initiatingMessagefreshMust(s20.EndcPartialResetProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2108,10 +2108,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, eNDCPartialResetConfirmIEFieldfreshMust(s18.ENDCPartialResetConfirmIEs().UEsAdmittedToBeReset().New(v0.Value)))
-		body := eNDCPartialResetConfirmfreshMust(s19.NewENDCPartialResetConfirm(fields))
-		env := successfulOutcomefreshMust(s19.EndcPartialResetProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCPartialResetConfirmfreshMust(s20.NewENDCPartialResetConfirm(fields))
+		env := successfulOutcomefreshMust(s20.EndcPartialResetProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2121,16 +2121,16 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 	})
 	t.Run("EUTRANRCellResourceCoordinationRequest", func(t *testing.T) {
-		var fields s15.EUTRANRCellResourceCoordinationRequestIEContainer
-		v0, _, err0 := s15.EUTRANRCellResourceCoordinationRequestIEs().InitiatingNodeTypeEutranrCellResourceCoordination().Codec().DecodeAPER(freshHex("000003011f0007000000000000000120000100012100020000"))
+		var fields s16.EUTRANRCellResourceCoordinationRequestIEContainer
+		v0, _, err0 := s16.EUTRANRCellResourceCoordinationRequestIEs().InitiatingNodeTypeEutranrCellResourceCoordination().Codec().DecodeAPER(freshHex("000003011f0007000000000000000120000100012100020000"))
 		if err0 != nil {
 			t.Fatal(err0)
 		}
-		fields = append(fields, eUTRANRCellResourceCoordinationRequestIEFieldfreshMust(s15.EUTRANRCellResourceCoordinationRequestIEs().InitiatingNodeTypeEutranrCellResourceCoordination().New(v0.Value)))
-		body := eUTRANRCellResourceCoordinationRequestfreshMust(s19.NewEUTRANRCellResourceCoordinationRequest(fields))
-		env := initiatingMessagefreshMust(s19.EUTRANRCellResourceCoordinationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		fields = append(fields, eUTRANRCellResourceCoordinationRequestIEFieldfreshMust(s16.EUTRANRCellResourceCoordinationRequestIEs().InitiatingNodeTypeEutranrCellResourceCoordination().New(v0.Value)))
+		body := eUTRANRCellResourceCoordinationRequestfreshMust(s20.NewEUTRANRCellResourceCoordinationRequest(fields))
+		env := initiatingMessagefreshMust(s20.EUTRANRCellResourceCoordinationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2146,10 +2146,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, eUTRANRCellResourceCoordinationResponseIEFieldfreshMust(s16.EUTRANRCellResourceCoordinationResponseIEs().RespondingNodeTypeEutranrCellResourceCoordination().New(v0.Value)))
-		body := eUTRANRCellResourceCoordinationResponsefreshMust(s19.NewEUTRANRCellResourceCoordinationResponse(fields))
-		env := successfulOutcomefreshMust(s19.EUTRANRCellResourceCoordinationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eUTRANRCellResourceCoordinationResponsefreshMust(s20.NewEUTRANRCellResourceCoordinationResponse(fields))
+		env := successfulOutcomefreshMust(s20.EUTRANRCellResourceCoordinationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2170,10 +2170,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, sgNBActivityNotificationIEFieldfreshMust(s14.SgNBActivityNotificationIEs().SgNBUEX2APID().New(v1.Value)))
-		body := sgNBActivityNotificationfreshMust(s19.NewSgNBActivityNotification(fields))
-		env := initiatingMessagefreshMust(s19.SgNBActivityNotificationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sgNBActivityNotificationfreshMust(s20.NewSgNBActivityNotification(fields))
+		env := initiatingMessagefreshMust(s20.SgNBActivityNotificationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2189,10 +2189,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, eNDCX2RemovalRequestIEFieldfreshMust(s07.ENDCX2RemovalRequestIEs().InitiatingNodeTypeEndcX2Removal().New(v0.Value)))
-		body := eNDCX2RemovalRequestfreshMust(s19.NewENDCX2RemovalRequest(fields))
-		env := initiatingMessagefreshMust(s19.EndcX2RemovalProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCX2RemovalRequestfreshMust(s20.NewENDCX2RemovalRequest(fields))
+		env := initiatingMessagefreshMust(s20.EndcX2RemovalProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2208,10 +2208,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, eNDCX2RemovalResponseIEFieldfreshMust(s07.ENDCX2RemovalResponseIEs().RespondingNodeTypeEndcX2Removal().New(v0.Value)))
-		body := eNDCX2RemovalResponsefreshMust(s19.NewENDCX2RemovalResponse(fields))
-		env := successfulOutcomefreshMust(s19.EndcX2RemovalProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCX2RemovalResponsefreshMust(s20.NewENDCX2RemovalResponse(fields))
+		env := successfulOutcomefreshMust(s20.EndcX2RemovalProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2228,9 +2228,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, eNDCX2RemovalFailureIEFieldfreshMust(s06.ENDCX2RemovalFailureIEs().Cause().New(v0.Value)))
 		body := eNDCX2RemovalFailurefreshMust(s14.NewENDCX2RemovalFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.EndcX2RemovalProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.EndcX2RemovalProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2256,10 +2256,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, dataForwardingAddressIndicationIEFieldfreshMust(s15.DataForwardingAddressIndicationIEs().ERABsDataForwardingAddressList().New(v2.Value)))
-		body := dataForwardingAddressIndicationfreshMust(s19.NewDataForwardingAddressIndication(fields))
-		env := initiatingMessagefreshMust(s19.DataForwardingAddressIndicationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := dataForwardingAddressIndicationfreshMust(s20.NewDataForwardingAddressIndication(fields))
+		env := initiatingMessagefreshMust(s20.DataForwardingAddressIndicationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2275,10 +2275,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, gNBStatusIndicationIEFieldfreshMust(s07.GNBStatusIndicationIEs().GNBOverloadInformation().New(v0.Value)))
-		body := gNBStatusIndicationfreshMust(s19.NewGNBStatusIndication(fields))
-		env := initiatingMessagefreshMust(s19.GNBStatusIndicationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := gNBStatusIndicationfreshMust(s20.NewGNBStatusIndication(fields))
+		env := initiatingMessagefreshMust(s20.GNBStatusIndicationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2289,10 +2289,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 	})
 	t.Run("ENDCConfigurationTransfer", func(t *testing.T) {
 		var fields s06.ENDCConfigurationTransferIEContainer
-		body := eNDCConfigurationTransferfreshMust(s19.NewENDCConfigurationTransfer(fields))
-		env := initiatingMessagefreshMust(s19.EndcConfigurationTransferProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCConfigurationTransferfreshMust(s20.NewENDCConfigurationTransfer(fields))
+		env := initiatingMessagefreshMust(s20.EndcConfigurationTransferProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2318,10 +2318,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, deactivateTraceIEFieldfreshMust(s11.DeactivateTraceIEs().EUTRANTraceID().New(v2.Value)))
-		body := deactivateTracefreshMust(s19.NewDeactivateTrace(fields))
-		env := initiatingMessagefreshMust(s19.DeactivateTraceProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := deactivateTracefreshMust(s20.NewDeactivateTrace(fields))
+		env := initiatingMessagefreshMust(s20.DeactivateTraceProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2347,10 +2347,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, traceStartIEFieldfreshMust(s16.TraceStartIEs().TraceActivation().New(v2.Value)))
-		body := traceStartfreshMust(s20.NewTraceStart(fields))
-		env := initiatingMessagefreshMust(s20.TraceStartProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := traceStartfreshMust(s21.NewTraceStart(fields))
+		env := initiatingMessagefreshMust(s21.TraceStartProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2376,10 +2376,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, handoverSuccessIEFieldfreshMust(s11.HandoverSuccessIEs().TargetCellID().New(v2.Value)))
-		body := handoverSuccessfreshMust(s19.NewHandoverSuccess(fields))
-		env := initiatingMessagefreshMust(s19.HandoverSuccessProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := handoverSuccessfreshMust(s20.NewHandoverSuccess(fields))
+		env := initiatingMessagefreshMust(s20.HandoverSuccessProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2405,10 +2405,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, earlyStatusTransferIEFieldfreshMust(s11.EarlyStatusTransferIEs().ProcedureStage().New(v2.Value)))
-		body := earlyStatusTransferfreshMust(s19.NewEarlyStatusTransfer(fields))
-		env := initiatingMessagefreshMust(s19.EarlyStatusTransferProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := earlyStatusTransferfreshMust(s20.NewEarlyStatusTransfer(fields))
+		env := initiatingMessagefreshMust(s20.EarlyStatusTransferProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2429,10 +2429,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, conditionalHandoverCancelIEFieldfreshMust(s14.ConditionalHandoverCancelIEs().Cause().New(v1.Value)))
-		body := conditionalHandoverCancelfreshMust(s19.NewConditionalHandoverCancel(fields))
-		env := initiatingMessagefreshMust(s19.ConditionalHandoverCancelProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := conditionalHandoverCancelfreshMust(s20.NewConditionalHandoverCancel(fields))
+		env := initiatingMessagefreshMust(s20.ConditionalHandoverCancelProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2453,10 +2453,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, eNDCResourceStatusRequestIEFieldfreshMust(s14.ENDCResourceStatusRequestIEs().RegistrationRequest().New(v1.Value)))
-		body := eNDCResourceStatusRequestfreshMust(s19.NewENDCResourceStatusRequest(fields))
-		env := initiatingMessagefreshMust(s19.EndcresourceStatusReportingInitiationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCResourceStatusRequestfreshMust(s20.NewENDCResourceStatusRequest(fields))
+		env := initiatingMessagefreshMust(s20.EndcresourceStatusReportingInitiationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2477,10 +2477,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, eNDCResourceStatusResponseIEFieldfreshMust(s06.ENDCResourceStatusResponseIEs().EUTRANNode2MeasurementID().New(v1.Value)))
-		body := eNDCResourceStatusResponsefreshMust(s19.NewENDCResourceStatusResponse(fields))
-		env := successfulOutcomefreshMust(s19.EndcresourceStatusReportingInitiationProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCResourceStatusResponsefreshMust(s20.NewENDCResourceStatusResponse(fields))
+		env := successfulOutcomefreshMust(s20.EndcresourceStatusReportingInitiationProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2507,9 +2507,9 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 		}
 		fields = append(fields, eNDCResourceStatusFailureIEFieldfreshMust(s06.ENDCResourceStatusFailureIEs().Cause().New(v2.Value)))
 		body := eNDCResourceStatusFailurefreshMust(s14.NewENDCResourceStatusFailure(fields))
-		env := unsuccessfulOutcomefreshMust(s19.EndcresourceStatusReportingInitiationProcedure().Unsuccessful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUUnsuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		env := unsuccessfulOutcomefreshMust(s20.EndcresourceStatusReportingInitiationProcedure().Unsuccessful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUUnsuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2530,10 +2530,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, eNDCResourceStatusUpdateIEFieldfreshMust(s14.ENDCResourceStatusUpdateIEs().EUTRANNode2MeasurementID().New(v1.Value)))
-		body := eNDCResourceStatusUpdatefreshMust(s19.NewENDCResourceStatusUpdate(fields))
-		env := initiatingMessagefreshMust(s19.EndcresourceStatusReportingProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := eNDCResourceStatusUpdatefreshMust(s20.NewENDCResourceStatusUpdate(fields))
+		env := initiatingMessagefreshMust(s20.EndcresourceStatusReportingProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2564,10 +2564,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err3)
 		}
 		fields = append(fields, cellTrafficTraceIEFieldfreshMust(s11.CellTrafficTraceIEs().TraceCollectionEntityIPAddress().New(v3.Value)))
-		body := cellTrafficTracefreshMust(s19.NewCellTrafficTrace(fields))
-		env := initiatingMessagefreshMust(s19.CellTrafficTraceProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := cellTrafficTracefreshMust(s20.NewCellTrafficTrace(fields))
+		env := initiatingMessagefreshMust(s20.CellTrafficTraceProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2593,10 +2593,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, f1CTrafficTransferIEFieldfreshMust(s11.F1CTrafficTransferIEs().F1CTrafficContainer().New(v2.Value)))
-		body := f1CTrafficTransferfreshMust(s19.NewF1CTrafficTransfer(fields))
-		env := initiatingMessagefreshMust(s19.F1CTrafficTransferProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := f1CTrafficTransferfreshMust(s20.NewF1CTrafficTransfer(fields))
+		env := initiatingMessagefreshMust(s20.F1CTrafficTransferProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2612,10 +2612,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, uERadioCapabilityIDMappingRequestIEFieldfreshMust(s11.UERadioCapabilityIDMappingRequestIEs().UERadioCapabilityID().New(v0.Value)))
-		body := uERadioCapabilityIDMappingRequestfreshMust(s20.NewUERadioCapabilityIDMappingRequest(fields))
-		env := initiatingMessagefreshMust(s20.UERadioCapabilityIDMappingProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := uERadioCapabilityIDMappingRequestfreshMust(s21.NewUERadioCapabilityIDMappingRequest(fields))
+		env := initiatingMessagefreshMust(s21.UERadioCapabilityIDMappingProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2636,10 +2636,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, uERadioCapabilityIDMappingResponseIEFieldfreshMust(s11.UERadioCapabilityIDMappingResponseIEs().UERadioCapability().New(v1.Value)))
-		body := uERadioCapabilityIDMappingResponsefreshMust(s20.NewUERadioCapabilityIDMappingResponse(fields))
-		env := successfulOutcomefreshMust(s20.UERadioCapabilityIDMappingProcedure().Successful().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUSuccessfulOutcome(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := uERadioCapabilityIDMappingResponsefreshMust(s21.NewUERadioCapabilityIDMappingResponse(fields))
+		env := successfulOutcomefreshMust(s21.UERadioCapabilityIDMappingProcedure().Successful().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUSuccessfulOutcome(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2650,10 +2650,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 	})
 	t.Run("AccessAndMobilityIndication", func(t *testing.T) {
 		var fields s16.AccessAndMobilityIndicationIEContainer
-		body := accessAndMobilityIndicationfreshMust(s19.NewAccessAndMobilityIndication(fields))
-		env := initiatingMessagefreshMust(s19.AccessAndMobilityIndicationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := accessAndMobilityIndicationfreshMust(s20.NewAccessAndMobilityIndication(fields))
+		env := initiatingMessagefreshMust(s20.AccessAndMobilityIndicationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2679,10 +2679,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, cPCCancelIEFieldfreshMust(s11.CPCCancelIEs().TargetSgNBID().New(v2.Value)))
-		body := cPCCancelfreshMust(s19.NewCPCCancel(fields))
-		env := initiatingMessagefreshMust(s19.CPCCancelProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := cPCCancelfreshMust(s20.NewCPCCancel(fields))
+		env := initiatingMessagefreshMust(s20.CPCCancelProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2698,10 +2698,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err0)
 		}
 		fields = append(fields, rachIndicationIEFieldfreshMust(s17.RachIndicationIEs().RaReportIndicationList().New(v0.Value)))
-		body := rachIndicationfreshMust(s19.NewRachIndication(fields))
-		env := initiatingMessagefreshMust(s19.RachIndicationProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := rachIndicationfreshMust(s20.NewRachIndication(fields))
+		env := initiatingMessagefreshMust(s20.RachIndicationProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2727,10 +2727,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err2)
 		}
 		fields = append(fields, sCGFailureInformationReportIEFieldfreshMust(s11.SCGFailureInformationReportIEs().SCGFailureReportContainer().New(v2.Value)))
-		body := sCGFailureInformationReportfreshMust(s19.NewSCGFailureInformationReport(fields))
-		env := initiatingMessagefreshMust(s19.ScgFailureInformationReportProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sCGFailureInformationReportfreshMust(s20.NewSCGFailureInformationReport(fields))
+		env := initiatingMessagefreshMust(s20.ScgFailureInformationReportProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}
@@ -2751,10 +2751,10 @@ func TestEveryProcedureFreshConstruction(t *testing.T) {
 			t.Fatal(err1)
 		}
 		fields = append(fields, sCGFailureTransferIEFieldfreshMust(s11.SCGFailureTransferIEs().SgNBUEX2APID().New(v1.Value)))
-		body := sCGFailureTransferfreshMust(s19.NewSCGFailureTransfer(fields))
-		env := initiatingMessagefreshMust(s19.ScgFailureTransferProcedure().Initiating().Build(body))
-		pdu := x2APPDUfreshMust(s20.NewX2APPDUInitiatingMessage(env))
-		report, err := s20.ValidateMessage(&pdu)
+		body := sCGFailureTransferfreshMust(s20.NewSCGFailureTransfer(fields))
+		env := initiatingMessagefreshMust(s20.ScgFailureTransferProcedure().Initiating().Build(body))
+		pdu := x2APPDUfreshMust(s21.NewX2APPDUInitiatingMessage(env))
+		report, err := s21.ValidateMessage(&pdu)
 		if err != nil || len(report.Issues) != 0 {
 			t.Fatalf("validation: %+v, %v", report, err)
 		}

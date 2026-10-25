@@ -6,7 +6,7 @@ import (
 	fmt "fmt"
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -18,9 +18,9 @@ func TestValidationGrowthIsLinear(t *testing.T) {
 		for i := range fields {
 			fields[i] = errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().NewOpaque(s00.ProtocolIEID(1000+i), s00.CriticalityIgnore, []byte{0}))
 		}
-		body := s19.ErrorIndication{ProtocolIEs: fields}
+		body := s20.ErrorIndication{ProtocolIEs: fields}
 		allocations := testing.AllocsPerRun(3, func() {
-			report, err := s19.ValidateErrorIndication(&body, aper.WithValidationLimits(aper.Limits{MaxReports: uint64(size)}))
+			report, err := s20.ValidateErrorIndication(&body, aper.WithValidationLimits(aper.Limits{MaxReports: uint64(size)}))
 			if err != nil || len(report.Issues) != size {
 				panic(fmt.Sprintf("validation rows=%d want=%d err=%v", len(report.Issues), size, err))
 			}

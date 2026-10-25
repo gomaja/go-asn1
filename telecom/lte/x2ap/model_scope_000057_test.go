@@ -7,7 +7,7 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -19,9 +19,9 @@ func TestTypedReplayFreshAndPayloadOwnership(t *testing.T) {
 	}
 	*s06.X2apInternalCriticalityDiagnosticsFieldExtCount(&cd) = 7
 	field := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().CriticalityDiagnostics().New(cd))
-	body := errorIndicationapiMust(s19.NewErrorIndication(s11.ErrorIndicationIEContainer{field}))
+	body := errorIndicationapiMust(s20.NewErrorIndication(s11.ErrorIndicationIEContainer{field}))
 	wire := listByteapiMust(body.MarshalAPER())
-	var received s19.ErrorIndication
+	var received s20.ErrorIndication
 	if _, err := received.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}

@@ -8,8 +8,8 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	testing "testing"
 )
 
@@ -20,10 +20,10 @@ func TestUnknownIEOpaqueChildReader(t *testing.T) {
 			cause := x2SetupFailureIEFieldapiMust(s07.X2SetupFailureIEs().Cause().New(causeapiMust(s00.NewCauseMisc(s00.CauseMiscUnspecified))))
 			opaque := x2SetupFailureIEFieldapiMust(s07.X2SetupFailureIEs().NewOpaque(65532, s00.CriticalityIgnore, payload))
 			body := x2SetupFailureapiMust(s14.NewX2SetupFailure(s07.X2SetupFailureIEContainer{cause, opaque}))
-			message := unsuccessfulOutcomeapiMust(s20.X2SetupProcedure().Unsuccessful().Build(body))
-			pdu := x2APPDUapiMust(s20.NewX2APPDUUnsuccessfulOutcome(message))
+			message := unsuccessfulOutcomeapiMust(s21.X2SetupProcedure().Unsuccessful().Build(body))
+			pdu := x2APPDUapiMust(s21.NewX2APPDUUnsuccessfulOutcome(message))
 			wire := listByteapiMust(pdu.MarshalAPER())
-			var decoded s19.X2APPDU
+			var decoded s20.X2APPDU
 			if _, err := decoded.UnmarshalAPER(wire); err != nil {
 				t.Fatal(err)
 			}

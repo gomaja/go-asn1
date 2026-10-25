@@ -8,7 +8,6 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s02"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s03"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s06"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
@@ -125,7 +124,9 @@ func (v *AssistanceInformationFeedbackIEField) unmarshalAPERFrom(bb *aper.BitBuf
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -652,7 +653,7 @@ func BridgeUTDOAInformationResponseIEValueValidateLPPaIEContainer(fields s10.UTD
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -660,35 +661,35 @@ func BridgeUTDOAInformationResponseIEValueValidateLPPaIEContainer(fields s10.UTD
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -739,7 +740,7 @@ func BridgeUTDOAInformationUpdateIEValueValidateLPPaIEContainer(fields s11.UTDOA
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -747,35 +748,35 @@ func BridgeUTDOAInformationUpdateIEValueValidateLPPaIEContainer(fields s11.UTDOA
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -826,7 +827,7 @@ func BridgeAssistanceInformationFeedbackIEValueValidateLPPaIEContainer(fields As
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
 				return sealed
-			}(), IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+			}(), IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
 		}
 		rank, allowed := byID[field.Id]
 		aper.IncrementCount( // TS 36.455 V19.0.0 §10 adopts TS 36.413 V19.2.0 §10.3.6,
@@ -834,35 +835,35 @@ func BridgeAssistanceInformationFeedbackIEValueValidateLPPaIEContainer(fields As
 			counts, field.Id)
 		if counts[field.Id] > 1 {
 			var row s00.FieldInfo
-			related := []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.RepeatedIE)}
+			related := []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.RepeatedIE)}
 			if allowed {
 				row = rows[rank]
 				related = append(related, row.Rule)
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.RepeatedIE), RelatedRules: related})
 		}
 		if !allowed {
 			severity := s00.ValidationSeverityUnrecognized
-			if _, globallyKnown := s04.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
+			if _, globallyKnown := s05.BridgeKnownLPPaIEIDs[field.Id]; globallyKnown {
 				severity = s00.ValidationSeverityError
 			}
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s04.BridgeLppaHandlingRules(s00.NotAllowed)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.NotAllowed), RelatedRules: s05.BridgeLppaHandlingRules(s00.NotAllowed)})
 			continue
 		}
 		row := rows[rank]
 		if field.Criticality != row.Criticality {
 			expected, received := row.Criticality, field.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongCriticality), row.Rule}})
 		}
 		if rank < lastRank {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.WrongOrder), row.Rule}})
 		} else {
 			lastRank = rank
 		}
 	}
 	for _, row := range rows {
 		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s04.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s04.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s05.BridgeLppaValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s05.BridgeLppaAdoptedRule(s00.MissingMandatory), row.Rule}})
 		}
 		if row.Presence == s00.PresenceConditional {
 			s09.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
@@ -1083,6 +1084,7 @@ func (v *AddOTDOACellsComplete) unmarshalAPERWithOptions(data []byte, options ap
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACells")
 	}
+	bb.EnterComponent("AddOTDOACells")
 	value, err := BridgeUnmarshalAPERAddOTDOACellsFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACells")
@@ -1185,6 +1187,7 @@ func (v *AddOTDOACellInformationComplete) unmarshalAPERWithOptions(data []byte, 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACellInformation")
 	}
+	bb.EnterComponent("AddOTDOACellInformation")
 	value, err := BridgeUnmarshalAPERAddOTDOACellInformationFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AddOTDOACellInformation")
@@ -1287,6 +1290,7 @@ func (v *AssistanceInformationFailureListComplete) unmarshalAPERWithOptions(data
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFailureList")
 	}
+	bb.EnterComponent("AssistanceInformationFailureList")
 	value, err := BridgeUnmarshalAPERAssistanceInformationFailureListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFailureList")
@@ -1389,6 +1393,7 @@ func (v *CriticalityDiagnosticsIEListComplete) unmarshalAPERWithOptions(data []b
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
 	}
+	bb.EnterComponent("CriticalityDiagnosticsIEList")
 	value, err := BridgeUnmarshalAPERCriticalityDiagnosticsIEListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEList")
@@ -1491,6 +1496,7 @@ func (v *InterRATMeasurementQuantitiesComplete) unmarshalAPERWithOptions(data []
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantities")
 	}
+	bb.EnterComponent("InterRATMeasurementQuantities")
 	value, err := BridgeUnmarshalAPERInterRATMeasurementQuantitiesFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "InterRATMeasurementQuantities")
@@ -1530,6 +1536,7 @@ func BridgeUnmarshalAPERInterRATMeasurementQuantitiesFrom(bb *aper.BitBuffer) (s
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERInterRATMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPERInterRATMeasurementQuantitiesListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s06.InterRATMeasurementQuantities, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1538,9 +1545,11 @@ func BridgeUnmarshalAPERInterRATMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPER
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s06.InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s06.BridgeInterRATMeasurementQuantitiesItemIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -1552,6 +1561,7 @@ func BridgeUnmarshalAPERInterRATMeasurementQuantitiesInto(v *s09.BridgeAsn1cAPER
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1568,6 +1578,7 @@ func BridgeUnmarshalAPERMBSFNsubframeConfigurationFrom(bb *aper.BitBuffer) (s09.
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERMBSFNsubframeConfigurationInto(v *s09.BridgeAsn1cAPERMBSFNsubframeConfigurationListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s09.MBSFNsubframeConfiguration, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1576,9 +1587,11 @@ func BridgeUnmarshalAPERMBSFNsubframeConfigurationInto(v *s09.BridgeAsn1cAPERMBS
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s09.MBSFNsubframeConfigurationValue
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s09.BridgeMBSFNsubframeConfigurationValueMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -1590,6 +1603,7 @@ func BridgeUnmarshalAPERMBSFNsubframeConfigurationInto(v *s09.BridgeAsn1cAPERMBS
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -2495,6 +2509,7 @@ func (v *UTDOAInformationResponse) unmarshalAPERWithOptions(data []byte, options
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationResponse")
 	}
+	bb.EnterComponent("UTDOAInformationResponse")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationResponse")
 	}
@@ -2519,6 +2534,7 @@ func (v *UTDOAInformationResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s10.UTDOAInformationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2527,9 +2543,11 @@ func (v *UTDOAInformationResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s10.UTDOAInformationResponseIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s10.BridgeUTDOAInformationResponseIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -2541,6 +2559,7 @@ func (v *UTDOAInformationResponse) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -2725,6 +2744,7 @@ func (v *UTDOAInformationUpdate) unmarshalAPERWithOptions(data []byte, options a
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationUpdate")
 	}
+	bb.EnterComponent("UTDOAInformationUpdate")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UTDOAInformationUpdate")
 	}
@@ -2749,6 +2769,7 @@ func (v *UTDOAInformationUpdate) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s11.UTDOAInformationUpdateIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2757,9 +2778,11 @@ func (v *UTDOAInformationUpdate) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s11.UTDOAInformationUpdateIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s11.BridgeUTDOAInformationUpdateIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -2771,6 +2794,7 @@ func (v *UTDOAInformationUpdate) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -2955,6 +2979,7 @@ func (v *AssistanceInformationFeedback) unmarshalAPERWithOptions(data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFeedback")
 	}
+	bb.EnterComponent("AssistanceInformationFeedback")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFeedback")
 	}
@@ -2979,6 +3004,7 @@ func (v *AssistanceInformationFeedback) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(AssistanceInformationFeedbackIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2987,9 +3013,11 @@ func (v *AssistanceInformationFeedback) unmarshalAPERFrom(bb *aper.BitBuffer) er
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem AssistanceInformationFeedbackIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -3001,6 +3029,7 @@ func (v *AssistanceInformationFeedback) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -4102,6 +4131,7 @@ func (t AssistanceInformationFeedbackIETable) AssistanceInformationFailureList()
 				var empty s05.AssistanceInformationFailureList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("AssistanceInformationFailureList")
 			var zero AssistanceInformationFeedbackIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(24), raw)
 			if err != nil {
@@ -4172,6 +4202,7 @@ func (t AssistanceInformationFeedbackIETable) CriticalityDiagnostics() Assistanc
 				var empty s09.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero AssistanceInformationFeedbackIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {

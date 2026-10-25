@@ -139,7 +139,9 @@ func (v *InitialContextSetupRequestIEField) unmarshalAPERFrom(bb *aper.BitBuffer
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -254,7 +256,9 @@ func (v *TraceStartIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -7220,6 +7224,7 @@ func (v *WUSAssistanceInformation) unmarshalAPERWithOptions(data []byte, options
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "WUSAssistanceInformation")
 	}
+	bb.EnterComponent("WUSAssistanceInformation")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "WUSAssistanceInformation")
 	}
@@ -7254,6 +7259,7 @@ func (v *WUSAssistanceInformation) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	v.PagingProbabilityInformation = s00.PagingProbabilityInformation(val_pagingprobabilityinformation)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s12.WUSAssistanceInformationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -7262,9 +7268,11 @@ func (v *WUSAssistanceInformation) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s12.WUSAssistanceInformationExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s12.BridgeWUSAssistanceInformationExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -7277,6 +7285,7 @@ func (v *WUSAssistanceInformation) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -7694,6 +7703,7 @@ func (v *HandoverRequest) unmarshalAPERWithOptions(data []byte, options aper.Dec
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRequest")
 	}
+	bb.EnterComponent("HandoverRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverRequest")
 	}
@@ -7717,6 +7727,7 @@ func (v *HandoverRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s47.HandoverRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -7725,9 +7736,11 @@ func (v *HandoverRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s47.HandoverRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s47.BridgeHandoverRequestIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -7739,6 +7752,7 @@ func (v *HandoverRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -7926,6 +7940,7 @@ func (v *InitialContextSetupRequest) unmarshalAPERWithOptions(data []byte, optio
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InitialContextSetupRequest")
 	}
+	bb.EnterComponent("InitialContextSetupRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitialContextSetupRequest")
 	}
@@ -7949,6 +7964,7 @@ func (v *InitialContextSetupRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(InitialContextSetupRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -7957,9 +7973,11 @@ func (v *InitialContextSetupRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem InitialContextSetupRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -7971,6 +7989,7 @@ func (v *InitialContextSetupRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -8158,6 +8177,7 @@ func (v *TraceStart) unmarshalAPERWithOptions(data []byte, options aper.DecodeSt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "TraceStart")
 	}
+	bb.EnterComponent("TraceStart")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "TraceStart")
 	}
@@ -8181,6 +8201,7 @@ func (v *TraceStart) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(TraceStartIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -8189,9 +8210,11 @@ func (v *TraceStart) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem TraceStartIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -8203,6 +8226,7 @@ func (v *TraceStart) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -12171,6 +12195,7 @@ func (t HandoverRequestIETable) MMEUES1APID() s47.HandoverRequestMMEUES1APIDIEBi
 					var empty s00.MMEUES1APID
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(0), raw)
 				if err != nil {
@@ -12251,6 +12276,7 @@ func (t HandoverRequestIETable) HandoverType() s47.HandoverRequestHandoverTypeIE
 					var empty s00.HandoverType
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("HandoverType")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(1), raw)
 				if err != nil {
@@ -12331,6 +12357,7 @@ func (t HandoverRequestIETable) Cause() s47.HandoverRequestCauseIEBinding {
 					var empty s14.Cause
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("Cause")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(2), raw)
 				if err != nil {
@@ -12411,6 +12438,7 @@ func (t HandoverRequestIETable) UEaggregateMaximumBitrate() s47.HandoverRequestU
 					var empty s35.UEAggregateMaximumBitrate
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("UEAggregateMaximumBitrate")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(66), raw)
 				if err != nil {
@@ -12491,26 +12519,27 @@ func (t HandoverRequestIETable) ERABToBeSetupListHOReq() s47.HandoverRequestERAB
 		*s47.BridgeHandoverRequestERABToBeSetupListHOReqIEBindingFieldCodec(&sealed) = func() s30.ERABToBeSetupListHOReqValueCodec {
 			sealed := s30.ERABToBeSetupListHOReqValueCodec{}
 			*s30.BridgeERABToBeSetupListHOReqValueCodecFieldPath(&sealed) = "ERABToBeSetupListHOReq"
-			*s30.BridgeERABToBeSetupListHOReqValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s29.ERABToBeSetupListHOReq, error) {
+			*s30.BridgeERABToBeSetupListHOReqValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s30.ERABToBeSetupListHOReq, error) {
 				raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
 				if err != nil {
-					var empty s29.ERABToBeSetupListHOReq
+					var empty s30.ERABToBeSetupListHOReq
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("ERABToBeSetupListHOReq")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(53), raw)
 				if err != nil {
-					var empty s29.ERABToBeSetupListHOReq
+					var empty s30.ERABToBeSetupListHOReq
 					return empty, err
 				}
 				value, ok := decoded.AsERABToBeSetupListHOReq()
 				if !ok {
-					var empty s29.ERABToBeSetupListHOReq
+					var empty s30.ERABToBeSetupListHOReq
 					return empty, fmt.Errorf("binding HandoverRequestIEs.id-E-RABToBeSetupListHOReq: no selected value")
 				}
 				return *value, nil
 			}
-			*s30.BridgeERABToBeSetupListHOReqValueCodecFieldEncode(&sealed) = func(value s29.ERABToBeSetupListHOReq, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			*s30.BridgeERABToBeSetupListHOReqValueCodecFieldEncode(&sealed) = func(value s30.ERABToBeSetupListHOReq, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 				return s47.BridgeHandoverRequestIEValueMethodEncodeFresh((func() s47.HandoverRequestIEValue {
 					sealed := s47.HandoverRequestIEValue{}
 					*s47.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(53)
@@ -12518,7 +12547,7 @@ func (t HandoverRequestIETable) ERABToBeSetupListHOReq() s47.HandoverRequestERAB
 					return sealed
 				}()), fresh, budget)
 			}
-			*s30.BridgeERABToBeSetupListHOReqValueCodecFieldCapture(&sealed) = func(v s29.ERABToBeSetupListHOReq, options aper.DecodeState) (s29.ERABToBeSetupListHOReq, aper.Snapshot,
+			*s30.BridgeERABToBeSetupListHOReqValueCodecFieldCapture(&sealed) = func(v s30.ERABToBeSetupListHOReq, options aper.DecodeState) (s30.ERABToBeSetupListHOReq, aper.Snapshot,
 
 			) {
 				s := aper.SemanticCaptureFor(options)
@@ -12528,7 +12557,7 @@ func (t HandoverRequestIETable) ERABToBeSetupListHOReq() s47.HandoverRequestERAB
 				s.End(f, &root, false)
 				return v, root
 			}
-			*s30.BridgeERABToBeSetupListHOReqValueCodecFieldCompare(&sealed) = func(v s29.ERABToBeSetupListHOReq, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+			*s30.BridgeERABToBeSetupListHOReqValueCodecFieldCompare(&sealed) = func(v s30.ERABToBeSetupListHOReq, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 			) {
 				s := aper.NewSemanticComparison(root, budget)
@@ -12545,7 +12574,7 @@ func (t HandoverRequestIETable) ERABToBeSetupListHOReq() s47.HandoverRequestERAB
 			}()
 			return sealed
 		}()
-		*s47.BridgeHandoverRequestERABToBeSetupListHOReqIEBindingFieldInject(&sealed) = func(value s29.ERABToBeSetupListHOReq) s47.HandoverRequestIEValue {
+		*s47.BridgeHandoverRequestERABToBeSetupListHOReqIEBindingFieldInject(&sealed) = func(value s30.ERABToBeSetupListHOReq) s47.HandoverRequestIEValue {
 			return func() s47.HandoverRequestIEValue {
 				sealed := s47.HandoverRequestIEValue{}
 				*s47.BridgeHandoverRequestIEValueFieldId(&sealed) = s00.ProtocolIEID(53)
@@ -12553,7 +12582,7 @@ func (t HandoverRequestIETable) ERABToBeSetupListHOReq() s47.HandoverRequestERAB
 				return sealed
 			}()
 		}
-		*s47.BridgeHandoverRequestERABToBeSetupListHOReqIEBindingFieldGet(&sealed) = func(value *s47.HandoverRequestIEValue) (*s29.ERABToBeSetupListHOReq, bool) {
+		*s47.BridgeHandoverRequestERABToBeSetupListHOReqIEBindingFieldGet(&sealed) = func(value *s47.HandoverRequestIEValue) (*s30.ERABToBeSetupListHOReq, bool) {
 			return value.AsERABToBeSetupListHOReq()
 		}
 		return sealed
@@ -12581,6 +12610,7 @@ func (t HandoverRequestIETable) SourceToTargetTransparentContainer() s47.Handove
 					var empty s00.SourceToTargetTransparentContainer
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("SourceToTargetTransparentContainer")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(104), raw)
 				if err != nil {
@@ -12663,6 +12693,7 @@ func (t HandoverRequestIETable) UESecurityCapabilities() s47.HandoverRequestUESe
 					var empty s37.UESecurityCapabilities
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("UESecurityCapabilities")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(107), raw)
 				if err != nil {
@@ -12747,6 +12778,7 @@ func (t HandoverRequestIETable) HandoverRestrictionList() s47.HandoverRequestHan
 					var empty s42.HandoverRestrictionList
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("HandoverRestrictionList")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(41), raw)
 				if err != nil {
@@ -12829,6 +12861,7 @@ func (t HandoverRequestIETable) TraceActivation() HandoverRequestTraceActivation
 				var empty s47.TraceActivation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TraceActivation")
 			var zero s47.HandoverRequestIEValue
 			decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(25), raw)
 			if err != nil {
@@ -12902,6 +12935,7 @@ func (t HandoverRequestIETable) RequestType() s47.HandoverRequestRequestTypeIEBi
 					var empty s26.RequestType
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("RequestType")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(98), raw)
 				if err != nil {
@@ -12982,6 +13016,7 @@ func (t HandoverRequestIETable) SRVCCOperationPossible() s47.HandoverRequestSRVC
 					var empty s00.SRVCCOperationPossible
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("SRVCCOperationPossible")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(124), raw)
 				if err != nil {
@@ -13066,6 +13101,7 @@ func (t HandoverRequestIETable) SecurityContext() s47.HandoverRequestSecurityCon
 					var empty s28.SecurityContext
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("SecurityContext")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(40), raw)
 				if err != nil {
@@ -13147,6 +13183,7 @@ func (t HandoverRequestIETable) NASSecurityParameterstoEUTRAN() s47.HandoverRequ
 					var empty s00.NASSecurityParameterstoEUTRAN
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("NASSecurityParameterstoEUTRAN")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(136), raw)
 				if err != nil {
@@ -13233,6 +13270,7 @@ func (t HandoverRequestIETable) CSGId() s47.HandoverRequestCSGIdIEBinding {
 					var empty s00.CSGId
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("CSGId")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(127), raw)
 				if err != nil {
@@ -13313,6 +13351,7 @@ func (t HandoverRequestIETable) CSGMembershipStatus() s47.HandoverRequestCSGMemb
 					var empty s00.CSGMembershipStatus
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("CSGMembershipStatus")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(146), raw)
 				if err != nil {
@@ -13395,6 +13434,7 @@ func (t HandoverRequestIETable) GUMMEIID() s47.HandoverRequestGUMMEIIEBinding {
 					var empty s18.GUMMEI
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("GUMMEI")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(75), raw)
 				if err != nil {
@@ -13475,6 +13515,7 @@ func (t HandoverRequestIETable) MMEUES1APID2() s47.HandoverRequestMMEUES1APIDIEB
 					var empty s00.MMEUES1APID
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(158), raw)
 				if err != nil {
@@ -13555,6 +13596,7 @@ func (t HandoverRequestIETable) ManagementBasedMDTAllowed() s47.HandoverRequestM
 					var empty s00.ManagementBasedMDTAllowed
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("ManagementBasedMDTAllowed")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(165), raw)
 				if err != nil {
@@ -13641,6 +13683,7 @@ func (t HandoverRequestIETable) ManagementBasedMDTPLMNList() s47.HandoverRequest
 					var empty s00.MDTPLMNList
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("MDTPLMNList")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(177), raw)
 				if err != nil {
@@ -13723,6 +13766,7 @@ func (t HandoverRequestIETable) MaskedIMEISV() s47.HandoverRequestMaskedIMEISVIE
 					var empty s00.MaskedIMEISV
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("MaskedIMEISV")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(192), raw)
 				if err != nil {
@@ -13803,6 +13847,7 @@ func (t HandoverRequestIETable) ExpectedUEBehaviour() s47.HandoverRequestExpecte
 					var empty s18.ExpectedUEBehaviour
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("ExpectedUEBehaviour")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(196), raw)
 				if err != nil {
@@ -13885,6 +13930,7 @@ func (t HandoverRequestIETable) ProSeAuthorized() s47.HandoverRequestProSeAuthor
 					var empty s20.ProSeAuthorized
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("ProSeAuthorized")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(195), raw)
 				if err != nil {
@@ -13966,6 +14012,7 @@ func (t HandoverRequestIETable) UEUserPlaneCIoTSupportIndicator() s47.HandoverRe
 					var empty s00.UEUserPlaneCIoTSupportIndicator
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("UEUserPlaneCIoTSupportIndicator")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(241), raw)
 				if err != nil {
@@ -14050,6 +14097,7 @@ func (t HandoverRequestIETable) V2XServicesAuthorized() s47.HandoverRequestV2XSe
 					var empty s46.V2XServicesAuthorized
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("V2XServicesAuthorized")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(240), raw)
 				if err != nil {
@@ -14135,6 +14183,7 @@ func (t HandoverRequestIETable) UESidelinkAggregateMaximumBitrate() s47.Handover
 					var empty s37.UESidelinkAggregateMaximumBitrate
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("UESidelinkAggregateMaximumBitrate")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(248), raw)
 				if err != nil {
@@ -14221,6 +14270,7 @@ func (t HandoverRequestIETable) EnhancedCoverageRestricted() s47.HandoverRequest
 					var empty s00.EnhancedCoverageRestricted
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("EnhancedCoverageRestricted")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(251), raw)
 				if err != nil {
@@ -14307,6 +14357,7 @@ func (t HandoverRequestIETable) NRUESecurityCapabilities() s47.HandoverRequestNR
 					var empty s19.NRUESecurityCapabilities
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("NRUESecurityCapabilities")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(269), raw)
 				if err != nil {
@@ -14394,6 +14445,7 @@ func (t HandoverRequestIETable) CEModeBRestricted() s47.HandoverRequestCEModeBRe
 					var empty s00.CEModeBRestricted
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("CEModeBRestricted")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(271), raw)
 				if err != nil {
@@ -14477,6 +14529,7 @@ func (t HandoverRequestIETable) AerialUEsubscriptionInformation() s47.HandoverRe
 					var empty s00.AerialUEsubscriptionInformation
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("AerialUEsubscriptionInformation")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(277), raw)
 				if err != nil {
@@ -14561,6 +14614,7 @@ func (t HandoverRequestIETable) PendingDataIndication() s47.HandoverRequestPendi
 					var empty s00.PendingDataIndication
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("PendingDataIndication")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(283), raw)
 				if err != nil {
@@ -14646,6 +14700,7 @@ func (t HandoverRequestIETable) SubscriptionBasedUEDifferentiationInfo() s47.Han
 					var empty s30.SubscriptionBasedUEDifferentiationInfo
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("SubscriptionBasedUEDifferentiationInfo")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(278), raw)
 				if err != nil {
@@ -14730,6 +14785,7 @@ func (t HandoverRequestIETable) AdditionalRRMPriorityIndex() s47.HandoverRequest
 					var empty s00.AdditionalRRMPriorityIndex
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("AdditionalRRMPriorityIndex")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(299), raw)
 				if err != nil {
@@ -14816,6 +14872,7 @@ func (t HandoverRequestIETable) IABAuthorized() s47.HandoverRequestIABAuthorized
 					var empty s00.IABAuthorized
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("IABAuthorized")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(301), raw)
 				if err != nil {
@@ -14896,6 +14953,7 @@ func (t HandoverRequestIETable) NRV2XServicesAuthorized() s47.HandoverRequestNRV
 					var empty s19.NRV2XServicesAuthorized
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("NRV2XServicesAuthorized")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(306), raw)
 				if err != nil {
@@ -14983,6 +15041,7 @@ func (t HandoverRequestIETable) NRUESidelinkAggregateMaximumBitrate() s47.Handov
 					var empty s19.NRUESidelinkAggregateMaximumBitrate
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("NRUESidelinkAggregateMaximumBitrate")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(307), raw)
 				if err != nil {
@@ -15067,6 +15126,7 @@ func (t HandoverRequestIETable) PC5QoSParameters() s47.HandoverRequestPC5QoSPara
 					var empty s24.PC5QoSParameters
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("PC5QoSParameters")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(308), raw)
 				if err != nil {
@@ -15149,6 +15209,7 @@ func (t HandoverRequestIETable) UERadioCapabilityID() s47.HandoverRequestUERadio
 					var empty s00.UERadioCapabilityID
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("UERadioCapabilityID")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(314), raw)
 				if err != nil {
@@ -15231,6 +15292,7 @@ func (t HandoverRequestIETable) TimeRefDistribution() s47.HandoverRequestTimeRef
 					var empty s00.TimeRefDistribution
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("TimeRefDistribution")
 				var zero s47.HandoverRequestIEValue
 				decoded, err := s47.BridgeHandoverRequestIEValueMethodDecode(zero, s00.ProtocolIEID(355), raw)
 				if err != nil {
@@ -15435,6 +15497,7 @@ func (t InitialContextSetupRequestIETable) MMEUES1APID() InitialContextSetupRequ
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -15499,6 +15562,7 @@ func (t InitialContextSetupRequestIETable) ENBUES1APID() InitialContextSetupRequ
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -15563,6 +15627,7 @@ func (t InitialContextSetupRequestIETable) UEaggregateMaximumBitrate() InitialCo
 				var empty s35.UEAggregateMaximumBitrate
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEAggregateMaximumBitrate")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(66), raw)
 			if err != nil {
@@ -15633,6 +15698,7 @@ func (t InitialContextSetupRequestIETable) ERABToBeSetupListCtxtSUReq() InitialC
 				var empty s29.ERABToBeSetupListCtxtSUReq
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABToBeSetupListCtxtSUReq")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(24), raw)
 			if err != nil {
@@ -15703,6 +15769,7 @@ func (t InitialContextSetupRequestIETable) UESecurityCapabilities() InitialConte
 				var empty s37.UESecurityCapabilities
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UESecurityCapabilities")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(107), raw)
 			if err != nil {
@@ -15771,6 +15838,7 @@ func (t InitialContextSetupRequestIETable) SecurityKey() InitialContextSetupRequ
 				var empty s00.SecurityKey
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SecurityKey")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(73), raw)
 			if err != nil {
@@ -15833,6 +15901,7 @@ func (t InitialContextSetupRequestIETable) TraceActivation() InitialContextSetup
 				var empty s47.TraceActivation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TraceActivation")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(25), raw)
 			if err != nil {
@@ -15893,6 +15962,7 @@ func (t InitialContextSetupRequestIETable) HandoverRestrictionList() InitialCont
 				var empty s42.HandoverRestrictionList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("HandoverRestrictionList")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(41), raw)
 			if err != nil {
@@ -15964,6 +16034,7 @@ func (t InitialContextSetupRequestIETable) UERadioCapability() InitialContextSet
 				var empty s00.UERadioCapability
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UERadioCapability")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(74), raw)
 			if err != nil {
@@ -16031,6 +16102,7 @@ func (t InitialContextSetupRequestIETable) SubscriberProfileIDforRFP() InitialCo
 				var empty s00.SubscriberProfileIDforRFP
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SubscriberProfileIDforRFP")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(106), raw)
 			if err != nil {
@@ -16101,6 +16173,7 @@ func (t InitialContextSetupRequestIETable) CSFallbackIndicator() InitialContextS
 				var empty s00.CSFallbackIndicator
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CSFallbackIndicator")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(108), raw)
 			if err != nil {
@@ -16167,6 +16240,7 @@ func (t InitialContextSetupRequestIETable) SRVCCOperationPossible() InitialConte
 				var empty s00.SRVCCOperationPossible
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SRVCCOperationPossible")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(124), raw)
 			if err != nil {
@@ -16235,6 +16309,7 @@ func (t InitialContextSetupRequestIETable) CSGMembershipStatus() InitialContextS
 				var empty s00.CSGMembershipStatus
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CSGMembershipStatus")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(146), raw)
 			if err != nil {
@@ -16301,6 +16376,7 @@ func (t InitialContextSetupRequestIETable) RegisteredLAI() InitialContextSetupRe
 				var empty s18.LAI
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("LAI")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(159), raw)
 			if err != nil {
@@ -16364,6 +16440,7 @@ func (t InitialContextSetupRequestIETable) GUMMEIID() InitialContextSetupRequest
 				var empty s18.GUMMEI
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("GUMMEI")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(75), raw)
 			if err != nil {
@@ -16428,6 +16505,7 @@ func (t InitialContextSetupRequestIETable) MMEUES1APID2() InitialContextSetupReq
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(158), raw)
 			if err != nil {
@@ -16494,6 +16572,7 @@ func (t InitialContextSetupRequestIETable) ManagementBasedMDTAllowed() InitialCo
 				var empty s00.ManagementBasedMDTAllowed
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ManagementBasedMDTAllowed")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(165), raw)
 			if err != nil {
@@ -16564,6 +16643,7 @@ func (t InitialContextSetupRequestIETable) ManagementBasedMDTPLMNList() InitialC
 				var empty s00.MDTPLMNList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MDTPLMNList")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(177), raw)
 			if err != nil {
@@ -16630,6 +16710,7 @@ func (t InitialContextSetupRequestIETable) AdditionalCSFallbackIndicator() Initi
 				var empty s00.AdditionalCSFallbackIndicator
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("AdditionalCSFallbackIndicator")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(187), raw)
 			if err != nil {
@@ -16700,6 +16781,7 @@ func (t InitialContextSetupRequestIETable) MaskedIMEISV() InitialContextSetupReq
 				var empty s00.MaskedIMEISV
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MaskedIMEISV")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(192), raw)
 			if err != nil {
@@ -16766,6 +16848,7 @@ func (t InitialContextSetupRequestIETable) ExpectedUEBehaviour() InitialContextS
 				var empty s18.ExpectedUEBehaviour
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ExpectedUEBehaviour")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(196), raw)
 			if err != nil {
@@ -16832,6 +16915,7 @@ func (t InitialContextSetupRequestIETable) ProSeAuthorized() InitialContextSetup
 				var empty s20.ProSeAuthorized
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ProSeAuthorized")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(195), raw)
 			if err != nil {
@@ -16897,6 +16981,7 @@ func (t InitialContextSetupRequestIETable) UEUserPlaneCIoTSupportIndicator() Ini
 				var empty s00.UEUserPlaneCIoTSupportIndicator
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEUserPlaneCIoTSupportIndicator")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(241), raw)
 			if err != nil {
@@ -16965,6 +17050,7 @@ func (t InitialContextSetupRequestIETable) V2XServicesAuthorized() InitialContex
 				var empty s46.V2XServicesAuthorized
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("V2XServicesAuthorized")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(240), raw)
 			if err != nil {
@@ -17034,6 +17120,7 @@ func (t InitialContextSetupRequestIETable) UESidelinkAggregateMaximumBitrate() I
 				var empty s37.UESidelinkAggregateMaximumBitrate
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UESidelinkAggregateMaximumBitrate")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(248), raw)
 			if err != nil {
@@ -17104,6 +17191,7 @@ func (t InitialContextSetupRequestIETable) EnhancedCoverageRestricted() InitialC
 				var empty s00.EnhancedCoverageRestricted
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("EnhancedCoverageRestricted")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(251), raw)
 			if err != nil {
@@ -17174,6 +17262,7 @@ func (t InitialContextSetupRequestIETable) NRUESecurityCapabilities() InitialCon
 				var empty s19.NRUESecurityCapabilities
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NRUESecurityCapabilities")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(269), raw)
 			if err != nil {
@@ -17245,6 +17334,7 @@ func (t InitialContextSetupRequestIETable) CEModeBRestricted() InitialContextSet
 				var empty s00.CEModeBRestricted
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CEModeBRestricted")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(271), raw)
 			if err != nil {
@@ -17312,6 +17402,7 @@ func (t InitialContextSetupRequestIETable) AerialUEsubscriptionInformation() Ini
 				var empty s00.AerialUEsubscriptionInformation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("AerialUEsubscriptionInformation")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(277), raw)
 			if err != nil {
@@ -17380,6 +17471,7 @@ func (t InitialContextSetupRequestIETable) PendingDataIndication() InitialContex
 				var empty s00.PendingDataIndication
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PendingDataIndication")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(283), raw)
 			if err != nil {
@@ -17449,6 +17541,7 @@ func (t InitialContextSetupRequestIETable) SubscriptionBasedUEDifferentiationInf
 				var empty s30.SubscriptionBasedUEDifferentiationInfo
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SubscriptionBasedUEDifferentiationInfo")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(278), raw)
 			if err != nil {
@@ -17517,6 +17610,7 @@ func (t InitialContextSetupRequestIETable) AdditionalRRMPriorityIndex() InitialC
 				var empty s00.AdditionalRRMPriorityIndex
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("AdditionalRRMPriorityIndex")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(299), raw)
 			if err != nil {
@@ -17587,6 +17681,7 @@ func (t InitialContextSetupRequestIETable) IABAuthorized() InitialContextSetupRe
 				var empty s00.IABAuthorized
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("IABAuthorized")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(301), raw)
 			if err != nil {
@@ -17653,6 +17748,7 @@ func (t InitialContextSetupRequestIETable) NRV2XServicesAuthorized() InitialCont
 				var empty s19.NRV2XServicesAuthorized
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NRV2XServicesAuthorized")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(306), raw)
 			if err != nil {
@@ -17724,6 +17820,7 @@ func (t InitialContextSetupRequestIETable) NRUESidelinkAggregateMaximumBitrate()
 				var empty s19.NRUESidelinkAggregateMaximumBitrate
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NRUESidelinkAggregateMaximumBitrate")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(307), raw)
 			if err != nil {
@@ -17792,6 +17889,7 @@ func (t InitialContextSetupRequestIETable) PC5QoSParameters() InitialContextSetu
 				var empty s24.PC5QoSParameters
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PC5QoSParameters")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(308), raw)
 			if err != nil {
@@ -17858,6 +17956,7 @@ func (t InitialContextSetupRequestIETable) UERadioCapabilityID() InitialContextS
 				var empty s00.UERadioCapabilityID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UERadioCapabilityID")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(314), raw)
 			if err != nil {
@@ -17924,6 +18023,7 @@ func (t InitialContextSetupRequestIETable) CoarseUELocation() InitialContextSetu
 				var empty s00.CoarseUELocation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CoarseUELocation")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(354), raw)
 			if err != nil {
@@ -17990,6 +18090,7 @@ func (t InitialContextSetupRequestIETable) TimeRefDistribution() InitialContextS
 				var empty s00.TimeRefDistribution
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TimeRefDistribution")
 			var zero InitialContextSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(355), raw)
 			if err != nil {
@@ -18175,6 +18276,7 @@ func (t TraceStartIETable) MMEUES1APID() TraceStartMMEUES1APIDIEBinding {
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero TraceStartIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -18239,6 +18341,7 @@ func (t TraceStartIETable) ENBUES1APID() TraceStartENBUES1APIDIEBinding {
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero TraceStartIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -18301,6 +18404,7 @@ func (t TraceStartIETable) TraceActivation() TraceStartTraceActivationIEBinding 
 				var empty s47.TraceActivation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TraceActivation")
 			var zero TraceStartIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(25), raw)
 			if err != nil {

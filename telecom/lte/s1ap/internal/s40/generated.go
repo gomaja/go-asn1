@@ -139,7 +139,9 @@ func (v *HandoverCommandIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -254,7 +256,9 @@ func (v *PathSwitchRequestIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -369,7 +373,9 @@ func (v *ERABSetupRequestIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -484,7 +490,9 @@ func (v *ERABModifyRequestIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -599,7 +607,9 @@ func (v *DownlinkS1cdma2000tunnellingIEField) unmarshalAPERFrom(bb *aper.BitBuff
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -870,14 +880,14 @@ func (b DownlinkS1cdma2000tunnellingENBUES1APIDIEBinding) Get(field *DownlinkS1c
 // DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding is the concrete IEBinding[ERABSubjecttoDataForwardingList, DownlinkS1cdma2000tunnellingIEValue].
 type DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding struct {
 	info   s00.FieldInfo
-	codec  s16.ERABSubjecttoDataForwardingListValueCodec
-	inject func(s16.ERABSubjecttoDataForwardingList,
+	codec  s17.ERABSubjecttoDataForwardingListValueCodec
+	inject func(s17.ERABSubjecttoDataForwardingList,
 
 	) DownlinkS1cdma2000tunnellingIEValue
 
 	get func(*DownlinkS1cdma2000tunnellingIEValue,
 
-	) (*s16.ERABSubjecttoDataForwardingList,
+	) (*s17.ERABSubjecttoDataForwardingList,
 
 		bool)
 }
@@ -888,12 +898,12 @@ func (b DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) In
 }
 
 // Codec returns the complete value codec for this binding.
-func (b DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) Codec() s16.ERABSubjecttoDataForwardingListValueCodec {
+func (b DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) Codec() s17.ERABSubjecttoDataForwardingListValueCodec {
 	return b.codec
 }
 
 // New validates a source value and constructs its bound field.
-func (b DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) New(value s16.ERABSubjecttoDataForwardingList,
+func (b DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) New(value s17.ERABSubjecttoDataForwardingList,
 
 ) (DownlinkS1cdma2000tunnellingIEField, error) {
 	if b.inject == nil {
@@ -903,7 +913,7 @@ func (b DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) Ne
 	if err != nil {
 		return DownlinkS1cdma2000tunnellingIEField{}, aper.OperationError(err, "Value.New")
 	}
-	if _, err := (*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+	if _, err := (*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
 		return DownlinkS1cdma2000tunnellingIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
 	}
 	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
@@ -913,7 +923,7 @@ func (b DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) Ne
 }
 
 // Get returns the selected typed value when the field matches this binding.
-func (b DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) Get(field *DownlinkS1cdma2000tunnellingIEField) (*s16.ERABSubjecttoDataForwardingList,
+func (b DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) Get(field *DownlinkS1cdma2000tunnellingIEField) (*s17.ERABSubjecttoDataForwardingList,
 
 	bool) {
 	if field == nil || field.Id != b.info.ID || b.get == nil {
@@ -1761,14 +1771,14 @@ func (b HandoverCommandNASSecurityParametersfromEUTRANIEBinding) Get(field *Hand
 // HandoverCommandERABSubjecttoDataForwardingListIEBinding is the concrete IEBinding[ERABSubjecttoDataForwardingList, HandoverCommandIEValue].
 type HandoverCommandERABSubjecttoDataForwardingListIEBinding struct {
 	info   s00.FieldInfo
-	codec  s16.ERABSubjecttoDataForwardingListValueCodec
-	inject func(s16.ERABSubjecttoDataForwardingList,
+	codec  s17.ERABSubjecttoDataForwardingListValueCodec
+	inject func(s17.ERABSubjecttoDataForwardingList,
 
 	) HandoverCommandIEValue
 
 	get func(*HandoverCommandIEValue,
 
-	) (*s16.ERABSubjecttoDataForwardingList,
+	) (*s17.ERABSubjecttoDataForwardingList,
 
 		bool)
 }
@@ -1777,12 +1787,12 @@ type HandoverCommandERABSubjecttoDataForwardingListIEBinding struct {
 func (b HandoverCommandERABSubjecttoDataForwardingListIEBinding) Info() s00.FieldInfo { return b.info }
 
 // Codec returns the complete value codec for this binding.
-func (b HandoverCommandERABSubjecttoDataForwardingListIEBinding) Codec() s16.ERABSubjecttoDataForwardingListValueCodec {
+func (b HandoverCommandERABSubjecttoDataForwardingListIEBinding) Codec() s17.ERABSubjecttoDataForwardingListValueCodec {
 	return b.codec
 }
 
 // New validates a source value and constructs its bound field.
-func (b HandoverCommandERABSubjecttoDataForwardingListIEBinding) New(value s16.ERABSubjecttoDataForwardingList,
+func (b HandoverCommandERABSubjecttoDataForwardingListIEBinding) New(value s17.ERABSubjecttoDataForwardingList,
 
 ) (HandoverCommandIEField, error) {
 	if b.inject == nil {
@@ -1792,7 +1802,7 @@ func (b HandoverCommandERABSubjecttoDataForwardingListIEBinding) New(value s16.E
 	if err != nil {
 		return HandoverCommandIEField{}, aper.OperationError(err, "Value.New")
 	}
-	if _, err := (*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+	if _, err := (*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
 		return HandoverCommandIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
 	}
 	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
@@ -1802,7 +1812,7 @@ func (b HandoverCommandERABSubjecttoDataForwardingListIEBinding) New(value s16.E
 }
 
 // Get returns the selected typed value when the field matches this binding.
-func (b HandoverCommandERABSubjecttoDataForwardingListIEBinding) Get(field *HandoverCommandIEField) (*s16.ERABSubjecttoDataForwardingList,
+func (b HandoverCommandERABSubjecttoDataForwardingListIEBinding) Get(field *HandoverCommandIEField) (*s17.ERABSubjecttoDataForwardingList,
 
 	bool) {
 	if field == nil || field.Id != b.info.ID || b.get == nil {
@@ -8408,7 +8418,7 @@ func BridgeCaptureS1APERABToBeModifiedListBearerModIndComplete(v *ERABToBeModifi
 		return
 	}
 	f := s.Begin()
-	s24.BridgeCaptureS1APERABToBeModifiedListBearerModInd(&v.Value, s)
+	s25.BridgeCaptureS1APERABToBeModifiedListBearerModInd(&v.Value, s)
 	s.End(f, &v.replay, v.withoutReplay)
 }
 func BridgeCompareS1APERABToBeModifiedListBearerModIndComplete(v *ERABToBeModifiedListBearerModIndComplete, s *aper.SemanticComparison) {
@@ -8416,7 +8426,7 @@ func BridgeCompareS1APERABToBeModifiedListBearerModIndComplete(v *ERABToBeModifi
 		return
 	}
 	f := s.Begin()
-	s24.BridgeCompareS1APERABToBeModifiedListBearerModInd(&v.Value, s)
+	s25.BridgeCompareS1APERABToBeModifiedListBearerModInd(&v.Value, s)
 	s.End(f, v.replay, v.withoutReplay)
 }
 func BridgeCaptureS1APERABToBeModifiedListBearerModReqComplete(v *ERABToBeModifiedListBearerModReqComplete, s *aper.SemanticCapture) {
@@ -9261,6 +9271,7 @@ func (v *HandoverCommand) unmarshalAPERWithOptions(data []byte, options aper.Dec
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommand")
 	}
+	bb.EnterComponent("HandoverCommand")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverCommand")
 	}
@@ -9284,6 +9295,7 @@ func (v *HandoverCommand) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(HandoverCommandIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -9292,9 +9304,11 @@ func (v *HandoverCommand) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem HandoverCommandIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -9306,6 +9320,7 @@ func (v *HandoverCommand) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -9388,7 +9403,7 @@ type ERABToBeSetupListHOReqComplete struct {
 	receivedAbsolute bool
 	receivedBytes    aper.WireSpan
 	receivedLocation aper.Location
-	Value            s29.ERABToBeSetupListHOReq
+	Value            s30.ERABToBeSetupListHOReq
 	perPadding       aper.CompletePadding `json:"-"`
 }
 
@@ -9414,6 +9429,7 @@ func (v *ERABToBeSetupListHOReqComplete) unmarshalAPERWithOptions(data []byte, o
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupListHOReq")
 	}
+	bb.EnterComponent("ERABToBeSetupListHOReq")
 	value, err := BridgeUnmarshalAPERERABToBeSetupListHOReqFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupListHOReq")
@@ -9441,7 +9457,7 @@ func BridgeUnmarshalAPERERABToBeSetupListHOReq(data []byte) (ERABToBeSetupListHO
 }
 
 // UnmarshalAPERERABToBeSetupListHOReqFrom decodes a ERABToBeSetupListHOReq list from bb.
-func BridgeUnmarshalAPERERABToBeSetupListHOReqFrom(bb *aper.BitBuffer) (s29.ERABToBeSetupListHOReq, error) {
+func BridgeUnmarshalAPERERABToBeSetupListHOReqFrom(bb *aper.BitBuffer) (s30.ERABToBeSetupListHOReq, error) {
 	if err := bb.EnterDecodeValue(); err != nil {
 		return nil, err
 	}
@@ -9453,7 +9469,8 @@ func BridgeUnmarshalAPERERABToBeSetupListHOReqFrom(bb *aper.BitBuffer) (s29.ERAB
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERERABToBeSetupListHOReqInto(v *s30.BridgeAsn1cAPERERABToBeSetupListHOReqListValue, bb *aper.BitBuffer) error {
-	v.Value = make(s29.ERABToBeSetupListHOReq, 0)
+	toleranceMark_value := bb.EnterComponent("Value")
+	v.Value = make(s30.ERABToBeSetupListHOReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
@@ -9461,9 +9478,11 @@ func BridgeUnmarshalAPERERABToBeSetupListHOReqInto(v *s30.BridgeAsn1cAPERERABToB
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s29.ERABToBeSetupItemHOReqIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s29.BridgeERABToBeSetupItemHOReqIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -9475,6 +9494,7 @@ func BridgeUnmarshalAPERERABToBeSetupListHOReqInto(v *s30.BridgeAsn1cAPERERABToB
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -9514,6 +9534,7 @@ func (v *ERABToBeSwitchedDLListComplete) unmarshalAPERWithOptions(data []byte, o
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSwitchedDLList")
 	}
+	bb.EnterComponent("ERABToBeSwitchedDLList")
 	value, err := BridgeUnmarshalAPERERABToBeSwitchedDLListFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSwitchedDLList")
@@ -9539,6 +9560,7 @@ func BridgeUnmarshalAPERERABToBeSwitchedDLListFrom(bb *aper.BitBuffer) (s30.ERAB
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERERABToBeSwitchedDLListInto(v *s30.BridgeAsn1cAPERERABToBeSwitchedDLListListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s30.ERABToBeSwitchedDLList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -9547,9 +9569,11 @@ func BridgeUnmarshalAPERERABToBeSwitchedDLListInto(v *s30.BridgeAsn1cAPERERABToB
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s30.ERABToBeSwitchedDLItemIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s30.BridgeERABToBeSwitchedDLItemIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -9561,6 +9585,7 @@ func BridgeUnmarshalAPERERABToBeSwitchedDLListInto(v *s30.BridgeAsn1cAPERERABToB
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -9693,6 +9718,7 @@ func (v *ERABSetupRequest) unmarshalAPERWithOptions(data []byte, options aper.De
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupRequest")
 	}
+	bb.EnterComponent("ERABSetupRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupRequest")
 	}
@@ -9716,6 +9742,7 @@ func (v *ERABSetupRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(ERABSetupRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -9724,9 +9751,11 @@ func (v *ERABSetupRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ERABSetupRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -9738,6 +9767,7 @@ func (v *ERABSetupRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -9832,6 +9862,7 @@ func (v *ERABToBeSetupListBearerSUReqComplete) unmarshalAPERWithOptions(data []b
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupListBearerSUReq")
 	}
+	bb.EnterComponent("ERABToBeSetupListBearerSUReq")
 	value, err := BridgeUnmarshalAPERERABToBeSetupListBearerSUReqFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupListBearerSUReq")
@@ -9871,6 +9902,7 @@ func BridgeUnmarshalAPERERABToBeSetupListBearerSUReqFrom(bb *aper.BitBuffer) (s2
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERERABToBeSetupListBearerSUReqInto(v *s29.BridgeAsn1cAPERERABToBeSetupListBearerSUReqListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s29.ERABToBeSetupListBearerSUReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -9879,9 +9911,11 @@ func BridgeUnmarshalAPERERABToBeSetupListBearerSUReqInto(v *s29.BridgeAsn1cAPERE
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s29.ERABToBeSetupItemBearerSUReqIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s29.BridgeERABToBeSetupItemBearerSUReqIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -9893,6 +9927,7 @@ func BridgeUnmarshalAPERERABToBeSetupListBearerSUReqInto(v *s29.BridgeAsn1cAPERE
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -10025,6 +10060,7 @@ func (v *ERABModifyRequest) unmarshalAPERWithOptions(data []byte, options aper.D
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyRequest")
 	}
+	bb.EnterComponent("ERABModifyRequest")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyRequest")
 	}
@@ -10048,6 +10084,7 @@ func (v *ERABModifyRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(ERABModifyRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10056,9 +10093,11 @@ func (v *ERABModifyRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem ERABModifyRequestIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -10070,6 +10109,7 @@ func (v *ERABModifyRequest) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -10164,6 +10204,7 @@ func (v *ERABToBeModifiedListBearerModReqComplete) unmarshalAPERWithOptions(data
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModReq")
 	}
+	bb.EnterComponent("ERABToBeModifiedListBearerModReq")
 	value, err := BridgeUnmarshalAPERERABToBeModifiedListBearerModReqFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModReq")
@@ -10203,6 +10244,7 @@ func BridgeUnmarshalAPERERABToBeModifiedListBearerModReqFrom(bb *aper.BitBuffer)
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERERABToBeModifiedListBearerModReqInto(v *s25.BridgeAsn1cAPERERABToBeModifiedListBearerModReqListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s25.ERABToBeModifiedListBearerModReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10211,9 +10253,11 @@ func BridgeUnmarshalAPERERABToBeModifiedListBearerModReqInto(v *s25.BridgeAsn1cA
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s25.ERABToBeModifiedItemBearerModReqIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s25.BridgeERABToBeModifiedItemBearerModReqIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -10225,6 +10269,7 @@ func BridgeUnmarshalAPERERABToBeModifiedListBearerModReqInto(v *s25.BridgeAsn1cA
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -10264,6 +10309,7 @@ func (v *ERABToBeSetupListCtxtSUReqComplete) unmarshalAPERWithOptions(data []byt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupListCtxtSUReq")
 	}
+	bb.EnterComponent("ERABToBeSetupListCtxtSUReq")
 	value, err := BridgeUnmarshalAPERERABToBeSetupListCtxtSUReqFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeSetupListCtxtSUReq")
@@ -10303,6 +10349,7 @@ func BridgeUnmarshalAPERERABToBeSetupListCtxtSUReqFrom(bb *aper.BitBuffer) (s29.
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERERABToBeSetupListCtxtSUReqInto(v *s29.BridgeAsn1cAPERERABToBeSetupListCtxtSUReqListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s29.ERABToBeSetupListCtxtSUReq, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10311,9 +10358,11 @@ func BridgeUnmarshalAPERERABToBeSetupListCtxtSUReqInto(v *s29.BridgeAsn1cAPERERA
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s29.ERABToBeSetupItemCtxtSUReqIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s29.BridgeERABToBeSetupItemCtxtSUReqIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -10325,6 +10374,7 @@ func BridgeUnmarshalAPERERABToBeSetupListCtxtSUReqInto(v *s29.BridgeAsn1cAPERERA
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -10457,6 +10507,7 @@ func (v *DownlinkS1cdma2000tunnelling) unmarshalAPERWithOptions(data []byte, opt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkS1cdma2000tunnelling")
 	}
+	bb.EnterComponent("DownlinkS1cdma2000tunnelling")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "DownlinkS1cdma2000tunnelling")
 	}
@@ -10480,6 +10531,7 @@ func (v *DownlinkS1cdma2000tunnelling) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(DownlinkS1cdma2000tunnellingIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10488,9 +10540,11 @@ func (v *DownlinkS1cdma2000tunnelling) unmarshalAPERFrom(bb *aper.BitBuffer) err
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem DownlinkS1cdma2000tunnellingIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -10502,6 +10556,7 @@ func (v *DownlinkS1cdma2000tunnelling) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -10596,6 +10651,7 @@ func (v *ERABToBeModifiedListBearerModIndComplete) unmarshalAPERWithOptions(data
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModInd")
 	}
+	bb.EnterComponent("ERABToBeModifiedListBearerModInd")
 	value, err := BridgeUnmarshalAPERERABToBeModifiedListBearerModIndFrom(bb)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ERABToBeModifiedListBearerModInd")
@@ -10635,6 +10691,7 @@ func BridgeUnmarshalAPERERABToBeModifiedListBearerModIndFrom(bb *aper.BitBuffer)
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERERABToBeModifiedListBearerModIndInto(v *s21.BridgeAsn1cAPERERABToBeModifiedListBearerModIndListValue, bb *aper.BitBuffer) error {
+	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s17.ERABToBeModifiedListBearerModInd, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10643,9 +10700,11 @@ func BridgeUnmarshalAPERERABToBeModifiedListBearerModIndInto(v *s21.BridgeAsn1cA
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			var elem s17.ERABToBeModifiedItemBearerModIndIEValueProtocolIESingleContainer
+			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s17.BridgeERABToBeModifiedItemBearerModIndIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
 				return err
 			} else {
@@ -10657,6 +10716,7 @@ func BridgeUnmarshalAPERERABToBeModifiedListBearerModIndInto(v *s21.BridgeAsn1cA
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
+	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -12195,7 +12255,7 @@ type DownlinkS1cdma2000tunnellingIEValue struct {
 	isOpaque                           bool
 	rowMMEUES1APID                     *s00.MMEUES1APID
 	rowENBUES1APID                     *s00.ENBUES1APID
-	rowERABSubjecttoDataForwardingList *s16.ERABSubjecttoDataForwardingList
+	rowERABSubjecttoDataForwardingList *s17.ERABSubjecttoDataForwardingList
 	rowCdma2000HOStatus                *s00.Cdma2000HOStatus
 	rowCdma2000RATType                 *s00.Cdma2000RATType
 	rowCdma2000PDU                     *s00.Cdma2000PDU
@@ -12913,7 +12973,7 @@ func (v *DownlinkS1cdma2000tunnellingIEValue) AsENBUES1APID() (*s00.ENBUES1APID,
 }
 
 // AsERABSubjecttoDataForwardingList returns the selected ERABSubjecttoDataForwardingList value of DownlinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
-func (v *DownlinkS1cdma2000tunnellingIEValue) AsERABSubjecttoDataForwardingList() (*s16.ERABSubjecttoDataForwardingList, bool) {
+func (v *DownlinkS1cdma2000tunnellingIEValue) AsERABSubjecttoDataForwardingList() (*s17.ERABSubjecttoDataForwardingList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(12) || v.rowERABSubjecttoDataForwardingList == nil {
 		return nil, false
 	}
@@ -15012,7 +15072,7 @@ type HandoverCommandIEValue struct {
 	rowENBUES1APID                                 *s00.ENBUES1APID
 	rowHandoverType                                *s00.HandoverType
 	rowNASSecurityParametersfromEUTRAN             *s00.NASSecurityParametersfromEUTRAN
-	rowERABSubjecttoDataForwardingList             *s16.ERABSubjecttoDataForwardingList
+	rowERABSubjecttoDataForwardingList             *s17.ERABSubjecttoDataForwardingList
 	rowERABtoReleaseListHOCmd                      *s16.ERABList
 	rowTargetToSourceTransparentContainer          *s00.TargetToSourceTransparentContainer
 	rowTargetToSourceTransparentContainerSecondary *s00.TargetToSourceTransparentContainer
@@ -15753,7 +15813,7 @@ func (v *HandoverCommandIEValue) AsNASSecurityParametersfromEUTRAN() (*s00.NASSe
 }
 
 // AsERABSubjecttoDataForwardingList returns the selected ERABSubjecttoDataForwardingList value of HandoverCommandIEValue and reports whether that alternative is active.
-func (v *HandoverCommandIEValue) AsERABSubjecttoDataForwardingList() (*s16.ERABSubjecttoDataForwardingList, bool) {
+func (v *HandoverCommandIEValue) AsERABSubjecttoDataForwardingList() (*s17.ERABSubjecttoDataForwardingList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(12) || v.rowERABSubjecttoDataForwardingList == nil {
 		return nil, false
 	}
@@ -17671,6 +17731,7 @@ func (t DownlinkS1cdma2000tunnellingIETable) MMEUES1APID() DownlinkS1cdma2000tun
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero DownlinkS1cdma2000tunnellingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -17737,6 +17798,7 @@ func (t DownlinkS1cdma2000tunnellingIETable) ENBUES1APID() DownlinkS1cdma2000tun
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero DownlinkS1cdma2000tunnellingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -17794,32 +17856,33 @@ func (DownlinkS1cdma2000tunnellingIETable) infoERABSubjecttoDataForwardingList()
 
 // ERABSubjecttoDataForwardingList returns the typed binding for the ERABSubjecttoDataForwardingList row of DownlinkS1cdma2000tunnellingIETable.
 func (t DownlinkS1cdma2000tunnellingIETable) ERABSubjecttoDataForwardingList() DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding {
-	return DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding{info: t.infoERABSubjecttoDataForwardingList(), codec: func() s16.ERABSubjecttoDataForwardingListValueCodec {
-		sealed := s16.ERABSubjecttoDataForwardingListValueCodec{}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldPath(&sealed) = "ERABSubjecttoDataForwardingList"
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSubjecttoDataForwardingList, error) {
+	return DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding{info: t.infoERABSubjecttoDataForwardingList(), codec: func() s17.ERABSubjecttoDataForwardingListValueCodec {
+		sealed := s17.ERABSubjecttoDataForwardingListValueCodec{}
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldPath(&sealed) = "ERABSubjecttoDataForwardingList"
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s17.ERABSubjecttoDataForwardingList, error) {
 			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
 			if err != nil {
-				var empty s16.ERABSubjecttoDataForwardingList
+				var empty s17.ERABSubjecttoDataForwardingList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABSubjecttoDataForwardingList")
 			var zero DownlinkS1cdma2000tunnellingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(12), raw)
 			if err != nil {
-				var empty s16.ERABSubjecttoDataForwardingList
+				var empty s17.ERABSubjecttoDataForwardingList
 				return empty, err
 			}
 			value, ok := decoded.AsERABSubjecttoDataForwardingList()
 			if !ok {
-				var empty s16.ERABSubjecttoDataForwardingList
+				var empty s17.ERABSubjecttoDataForwardingList
 				return empty, fmt.Errorf("binding DownlinkS1cdma2000tunnellingIEs.id-E-RABSubjecttoDataForwardingList: no selected value")
 			}
 			return *value, nil
 		}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldEncode(&sealed) = func(value s16.ERABSubjecttoDataForwardingList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldEncode(&sealed) = func(value s17.ERABSubjecttoDataForwardingList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (DownlinkS1cdma2000tunnellingIEValue{id: s00.ProtocolIEID(12), rowERABSubjecttoDataForwardingList: &value}).encodeFresh(fresh, budget)
 		}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldCapture(&sealed) = func(v s16.ERABSubjecttoDataForwardingList, options aper.DecodeState) (s16.ERABSubjecttoDataForwardingList, aper.Snapshot,
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldCapture(&sealed) = func(v s17.ERABSubjecttoDataForwardingList, options aper.DecodeState) (s17.ERABSubjecttoDataForwardingList, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -17829,7 +17892,7 @@ func (t DownlinkS1cdma2000tunnellingIETable) ERABSubjecttoDataForwardingList() D
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldCompare(&sealed) = func(v s16.ERABSubjecttoDataForwardingList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldCompare(&sealed) = func(v s17.ERABSubjecttoDataForwardingList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -17838,7 +17901,7 @@ func (t DownlinkS1cdma2000tunnellingIETable) ERABSubjecttoDataForwardingList() D
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABSubjecttoDataForwardingList"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -17846,9 +17909,9 @@ func (t DownlinkS1cdma2000tunnellingIETable) ERABSubjecttoDataForwardingList() D
 		}()
 		return sealed
 	}(),
-		inject: func(value s16.ERABSubjecttoDataForwardingList) DownlinkS1cdma2000tunnellingIEValue {
+		inject: func(value s17.ERABSubjecttoDataForwardingList) DownlinkS1cdma2000tunnellingIEValue {
 			return DownlinkS1cdma2000tunnellingIEValue{id: s00.ProtocolIEID(12), rowERABSubjecttoDataForwardingList: &value}
-		}, get: func(value *DownlinkS1cdma2000tunnellingIEValue) (*s16.ERABSubjecttoDataForwardingList, bool) {
+		}, get: func(value *DownlinkS1cdma2000tunnellingIEValue) (*s17.ERABSubjecttoDataForwardingList, bool) {
 			return value.AsERABSubjecttoDataForwardingList()
 		}}
 }
@@ -17871,6 +17934,7 @@ func (t DownlinkS1cdma2000tunnellingIETable) Cdma2000HOStatus() DownlinkS1cdma20
 				var empty s00.Cdma2000HOStatus
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cdma2000HOStatus")
 			var zero DownlinkS1cdma2000tunnellingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(83), raw)
 			if err != nil {
@@ -17937,6 +18001,7 @@ func (t DownlinkS1cdma2000tunnellingIETable) Cdma2000RATType() DownlinkS1cdma200
 				var empty s00.Cdma2000RATType
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cdma2000RATType")
 			var zero DownlinkS1cdma2000tunnellingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(71), raw)
 			if err != nil {
@@ -18002,6 +18067,7 @@ func (t DownlinkS1cdma2000tunnellingIETable) Cdma2000PDU() DownlinkS1cdma2000tun
 				var empty s00.Cdma2000PDU
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cdma2000PDU")
 			var zero DownlinkS1cdma2000tunnellingIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(70), raw)
 			if err != nil {
@@ -18121,6 +18187,7 @@ func (t ERABModifyRequestIETable) MMEUES1APID() ERABModifyRequestMMEUES1APIDIEBi
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero ERABModifyRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -18185,6 +18252,7 @@ func (t ERABModifyRequestIETable) ENBUES1APID() ERABModifyRequestENBUES1APIDIEBi
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero ERABModifyRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -18249,6 +18317,7 @@ func (t ERABModifyRequestIETable) UEaggregateMaximumBitrate() ERABModifyRequestU
 				var empty s35.UEAggregateMaximumBitrate
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEAggregateMaximumBitrate")
 			var zero ERABModifyRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(66), raw)
 			if err != nil {
@@ -18319,6 +18388,7 @@ func (t ERABModifyRequestIETable) ERABToBeModifiedListBearerModReq() ERABModifyR
 				var empty s25.ERABToBeModifiedListBearerModReq
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABToBeModifiedListBearerModReq")
 			var zero ERABModifyRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(30), raw)
 			if err != nil {
@@ -18388,6 +18458,7 @@ func (t ERABModifyRequestIETable) SecondaryRATDataUsageRequest() ERABModifyReque
 				var empty s00.SecondaryRATDataUsageRequest
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SecondaryRATDataUsageRequest")
 			var zero ERABModifyRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(268), raw)
 			if err != nil {
@@ -18508,6 +18579,7 @@ func (t ERABSetupRequestIETable) MMEUES1APID() ERABSetupRequestMMEUES1APIDIEBind
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero ERABSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -18572,6 +18644,7 @@ func (t ERABSetupRequestIETable) ENBUES1APID() ERABSetupRequestENBUES1APIDIEBind
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero ERABSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -18636,6 +18709,7 @@ func (t ERABSetupRequestIETable) UEaggregateMaximumBitrate() ERABSetupRequestUEA
 				var empty s35.UEAggregateMaximumBitrate
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEAggregateMaximumBitrate")
 			var zero ERABSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(66), raw)
 			if err != nil {
@@ -18706,6 +18780,7 @@ func (t ERABSetupRequestIETable) ERABToBeSetupListBearerSUReq() ERABSetupRequest
 				var empty s29.ERABToBeSetupListBearerSUReq
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABToBeSetupListBearerSUReq")
 			var zero ERABSetupRequestIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(16), raw)
 			if err != nil {
@@ -18824,6 +18899,7 @@ func (t HandoverCommandIETable) MMEUES1APID() HandoverCommandMMEUES1APIDIEBindin
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero HandoverCommandIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -18888,6 +18964,7 @@ func (t HandoverCommandIETable) ENBUES1APID() HandoverCommandENBUES1APIDIEBindin
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero HandoverCommandIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -18952,6 +19029,7 @@ func (t HandoverCommandIETable) HandoverType() HandoverCommandHandoverTypeIEBind
 				var empty s00.HandoverType
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("HandoverType")
 			var zero HandoverCommandIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {
@@ -19016,6 +19094,7 @@ func (t HandoverCommandIETable) NASSecurityParametersfromEUTRAN() HandoverComman
 				var empty s00.NASSecurityParametersfromEUTRAN
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NASSecurityParametersfromEUTRAN")
 			var zero HandoverCommandIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(135), raw)
 			if err != nil {
@@ -19075,32 +19154,33 @@ func (HandoverCommandIETable) infoERABSubjecttoDataForwardingList() s00.FieldInf
 
 // ERABSubjecttoDataForwardingList returns the typed binding for the ERABSubjecttoDataForwardingList row of HandoverCommandIETable.
 func (t HandoverCommandIETable) ERABSubjecttoDataForwardingList() HandoverCommandERABSubjecttoDataForwardingListIEBinding {
-	return HandoverCommandERABSubjecttoDataForwardingListIEBinding{info: t.infoERABSubjecttoDataForwardingList(), codec: func() s16.ERABSubjecttoDataForwardingListValueCodec {
-		sealed := s16.ERABSubjecttoDataForwardingListValueCodec{}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldPath(&sealed) = "ERABSubjecttoDataForwardingList"
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSubjecttoDataForwardingList, error) {
+	return HandoverCommandERABSubjecttoDataForwardingListIEBinding{info: t.infoERABSubjecttoDataForwardingList(), codec: func() s17.ERABSubjecttoDataForwardingListValueCodec {
+		sealed := s17.ERABSubjecttoDataForwardingListValueCodec{}
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldPath(&sealed) = "ERABSubjecttoDataForwardingList"
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s17.ERABSubjecttoDataForwardingList, error) {
 			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
 			if err != nil {
-				var empty s16.ERABSubjecttoDataForwardingList
+				var empty s17.ERABSubjecttoDataForwardingList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABSubjecttoDataForwardingList")
 			var zero HandoverCommandIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(12), raw)
 			if err != nil {
-				var empty s16.ERABSubjecttoDataForwardingList
+				var empty s17.ERABSubjecttoDataForwardingList
 				return empty, err
 			}
 			value, ok := decoded.AsERABSubjecttoDataForwardingList()
 			if !ok {
-				var empty s16.ERABSubjecttoDataForwardingList
+				var empty s17.ERABSubjecttoDataForwardingList
 				return empty, fmt.Errorf("binding HandoverCommandIEs.id-E-RABSubjecttoDataForwardingList: no selected value")
 			}
 			return *value, nil
 		}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldEncode(&sealed) = func(value s16.ERABSubjecttoDataForwardingList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldEncode(&sealed) = func(value s17.ERABSubjecttoDataForwardingList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (HandoverCommandIEValue{id: s00.ProtocolIEID(12), rowERABSubjecttoDataForwardingList: &value}).encodeFresh(fresh, budget)
 		}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldCapture(&sealed) = func(v s16.ERABSubjecttoDataForwardingList, options aper.DecodeState) (s16.ERABSubjecttoDataForwardingList, aper.Snapshot,
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldCapture(&sealed) = func(v s17.ERABSubjecttoDataForwardingList, options aper.DecodeState) (s17.ERABSubjecttoDataForwardingList, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -19110,7 +19190,7 @@ func (t HandoverCommandIETable) ERABSubjecttoDataForwardingList() HandoverComman
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldCompare(&sealed) = func(v s16.ERABSubjecttoDataForwardingList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldCompare(&sealed) = func(v s17.ERABSubjecttoDataForwardingList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -19119,7 +19199,7 @@ func (t HandoverCommandIETable) ERABSubjecttoDataForwardingList() HandoverComman
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s16.BridgeERABSubjecttoDataForwardingListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s17.BridgeERABSubjecttoDataForwardingListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABSubjecttoDataForwardingList"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
@@ -19127,9 +19207,9 @@ func (t HandoverCommandIETable) ERABSubjecttoDataForwardingList() HandoverComman
 		}()
 		return sealed
 	}(),
-		inject: func(value s16.ERABSubjecttoDataForwardingList) HandoverCommandIEValue {
+		inject: func(value s17.ERABSubjecttoDataForwardingList) HandoverCommandIEValue {
 			return HandoverCommandIEValue{id: s00.ProtocolIEID(12), rowERABSubjecttoDataForwardingList: &value}
-		}, get: func(value *HandoverCommandIEValue) (*s16.ERABSubjecttoDataForwardingList, bool) {
+		}, get: func(value *HandoverCommandIEValue) (*s17.ERABSubjecttoDataForwardingList, bool) {
 			return value.AsERABSubjecttoDataForwardingList()
 		}}
 }
@@ -19152,6 +19232,7 @@ func (t HandoverCommandIETable) ERABtoReleaseListHOCmd() HandoverCommandERABList
 				var empty s16.ERABList
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABList")
 			var zero HandoverCommandIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(13), raw)
 			if err != nil {
@@ -19216,6 +19297,7 @@ func (t HandoverCommandIETable) TargetToSourceTransparentContainer() HandoverCom
 				var empty s00.TargetToSourceTransparentContainer
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TargetToSourceTransparentContainer")
 			var zero HandoverCommandIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(123), raw)
 			if err != nil {
@@ -19282,6 +19364,7 @@ func (t HandoverCommandIETable) TargetToSourceTransparentContainerSecondary() Ha
 				var empty s00.TargetToSourceTransparentContainer
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TargetToSourceTransparentContainer")
 			var zero HandoverCommandIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(139), raw)
 			if err != nil {
@@ -19348,6 +19431,7 @@ func (t HandoverCommandIETable) CriticalityDiagnostics() HandoverCommandCritical
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero HandoverCommandIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -19451,7 +19535,7 @@ func Cdma2000RATTypeCodec() s00.Cdma2000RATTypeValueCodec {
 }
 
 // ERABSubjecttoDataForwardingListCodec binds the complete APER value type.
-func ERABSubjecttoDataForwardingListCodec() s16.ERABSubjecttoDataForwardingListValueCodec {
+func ERABSubjecttoDataForwardingListCodec() s17.ERABSubjecttoDataForwardingListValueCodec {
 	return DownlinkS1cdma2000tunnellingIEs().ERABSubjecttoDataForwardingList().Codec()
 }
 
@@ -19549,16 +19633,16 @@ func BridgeDownlinkS1cdma2000tunnellingENBUES1APIDIEBindingFieldInfo(v *Downlink
 func BridgeDownlinkS1cdma2000tunnellingENBUES1APIDIEBindingFieldInject(v *DownlinkS1cdma2000tunnellingENBUES1APIDIEBinding) *func(s00.ENBUES1APID) DownlinkS1cdma2000tunnellingIEValue {
 	return &v.inject
 }
-func BridgeDownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBindingFieldCodec(v *DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) *s16.ERABSubjecttoDataForwardingListValueCodec {
+func BridgeDownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBindingFieldCodec(v *DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) *s17.ERABSubjecttoDataForwardingListValueCodec {
 	return &v.codec
 }
-func BridgeDownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBindingFieldGet(v *DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) *func(*DownlinkS1cdma2000tunnellingIEValue) (*s16.ERABSubjecttoDataForwardingList, bool) {
+func BridgeDownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBindingFieldGet(v *DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) *func(*DownlinkS1cdma2000tunnellingIEValue) (*s17.ERABSubjecttoDataForwardingList, bool) {
 	return &v.get
 }
 func BridgeDownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBindingFieldInfo(v *DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeDownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBindingFieldInject(v *DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) *func(s16.ERABSubjecttoDataForwardingList) DownlinkS1cdma2000tunnellingIEValue {
+func BridgeDownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBindingFieldInject(v *DownlinkS1cdma2000tunnellingERABSubjecttoDataForwardingListIEBinding) *func(s17.ERABSubjecttoDataForwardingList) DownlinkS1cdma2000tunnellingIEValue {
 	return &v.inject
 }
 func BridgeDownlinkS1cdma2000tunnellingFieldExtCount(v *DownlinkS1cdma2000tunnelling) *int64 {
@@ -19777,7 +19861,7 @@ func BridgeDownlinkS1cdma2000tunnellingIEValueFieldRowCdma2000RATType(v *Downlin
 func BridgeDownlinkS1cdma2000tunnellingIEValueFieldRowENBUES1APID(v *DownlinkS1cdma2000tunnellingIEValue) **s00.ENBUES1APID {
 	return &v.rowENBUES1APID
 }
-func BridgeDownlinkS1cdma2000tunnellingIEValueFieldRowERABSubjecttoDataForwardingList(v *DownlinkS1cdma2000tunnellingIEValue) **s16.ERABSubjecttoDataForwardingList {
+func BridgeDownlinkS1cdma2000tunnellingIEValueFieldRowERABSubjecttoDataForwardingList(v *DownlinkS1cdma2000tunnellingIEValue) **s17.ERABSubjecttoDataForwardingList {
 	return &v.rowERABSubjecttoDataForwardingList
 }
 func BridgeDownlinkS1cdma2000tunnellingIEValueFieldRowMMEUES1APID(v *DownlinkS1cdma2000tunnellingIEValue) **s00.MMEUES1APID {
@@ -21130,16 +21214,16 @@ func BridgeHandoverCommandERABListIEBindingFieldInfo(v *HandoverCommandERABListI
 func BridgeHandoverCommandERABListIEBindingFieldInject(v *HandoverCommandERABListIEBinding) *func(s16.ERABList) HandoverCommandIEValue {
 	return &v.inject
 }
-func BridgeHandoverCommandERABSubjecttoDataForwardingListIEBindingFieldCodec(v *HandoverCommandERABSubjecttoDataForwardingListIEBinding) *s16.ERABSubjecttoDataForwardingListValueCodec {
+func BridgeHandoverCommandERABSubjecttoDataForwardingListIEBindingFieldCodec(v *HandoverCommandERABSubjecttoDataForwardingListIEBinding) *s17.ERABSubjecttoDataForwardingListValueCodec {
 	return &v.codec
 }
-func BridgeHandoverCommandERABSubjecttoDataForwardingListIEBindingFieldGet(v *HandoverCommandERABSubjecttoDataForwardingListIEBinding) *func(*HandoverCommandIEValue) (*s16.ERABSubjecttoDataForwardingList, bool) {
+func BridgeHandoverCommandERABSubjecttoDataForwardingListIEBindingFieldGet(v *HandoverCommandERABSubjecttoDataForwardingListIEBinding) *func(*HandoverCommandIEValue) (*s17.ERABSubjecttoDataForwardingList, bool) {
 	return &v.get
 }
 func BridgeHandoverCommandERABSubjecttoDataForwardingListIEBindingFieldInfo(v *HandoverCommandERABSubjecttoDataForwardingListIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeHandoverCommandERABSubjecttoDataForwardingListIEBindingFieldInject(v *HandoverCommandERABSubjecttoDataForwardingListIEBinding) *func(s16.ERABSubjecttoDataForwardingList) HandoverCommandIEValue {
+func BridgeHandoverCommandERABSubjecttoDataForwardingListIEBindingFieldInject(v *HandoverCommandERABSubjecttoDataForwardingListIEBinding) *func(s17.ERABSubjecttoDataForwardingList) HandoverCommandIEValue {
 	return &v.inject
 }
 func BridgeHandoverCommandFieldExtCount(v *HandoverCommand) *int64   { return &v.extCount }
@@ -21349,7 +21433,7 @@ func BridgeHandoverCommandIEValueFieldRowCriticalityDiagnostics(v *HandoverComma
 func BridgeHandoverCommandIEValueFieldRowENBUES1APID(v *HandoverCommandIEValue) **s00.ENBUES1APID {
 	return &v.rowENBUES1APID
 }
-func BridgeHandoverCommandIEValueFieldRowERABSubjecttoDataForwardingList(v *HandoverCommandIEValue) **s16.ERABSubjecttoDataForwardingList {
+func BridgeHandoverCommandIEValueFieldRowERABSubjecttoDataForwardingList(v *HandoverCommandIEValue) **s17.ERABSubjecttoDataForwardingList {
 	return &v.rowERABSubjecttoDataForwardingList
 }
 func BridgeHandoverCommandIEValueFieldRowERABtoReleaseListHOCmd(v *HandoverCommandIEValue) **s16.ERABList {

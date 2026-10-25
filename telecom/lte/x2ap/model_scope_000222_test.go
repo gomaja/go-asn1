@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func privateMessagefreshMust(value s19.PrivateMessage, err error) s19.PrivateMessage {
+func resourceStatusUpdatefreshMust(value s20.ResourceStatusUpdate, err error) s20.ResourceStatusUpdate {
 	if err != nil {
 		panic(err)
 	}

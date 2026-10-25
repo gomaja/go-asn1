@@ -9,6 +9,7 @@ import (
 	s02 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s02"
 	s07 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s07"
 	s08 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s08"
+	s09 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s09"
 	s13 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s13"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s14"
 	s15 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s15"
@@ -39,6 +40,9 @@ type ERABNotToBeModifiedItemBearerModIndIEValueProtocolIESingleContainer = ERABN
 
 // ERABModifyItemBearerModConfIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABModifyItemBearerModConfIEValue].
 type ERABModifyItemBearerModConfIEValueProtocolIESingleContainer = ERABModifyItemBearerModConfIEField
+
+// ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABFailedToResumeItemResumeResIEValue].
+type ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer = s15.ERABFailedToResumeItemResumeResIEField
 
 // ERABItemERABItemIEBinding is the concrete IEBinding[ERABItem, ERABItemIEValue].
 type ERABItemERABItemIEBinding struct {
@@ -293,7 +297,9 @@ func (v *ERABItemIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -303,47 +309,102 @@ func (v *ERABItemIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// ERABSubjecttoDataForwardingListValueCodec is the concrete ValueCodec[ERABSubjecttoDataForwardingList].
-type ERABSubjecttoDataForwardingListValueCodec struct {
+// ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding is the concrete IEBinding[ERABFailedToResumeItemResumeRes, ERABFailedToResumeItemResumeResIEValue].
+type ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding struct {
+	info   s00.FieldInfo
+	codec  ERABFailedToResumeItemResumeResValueCodec
+	inject func(s15.ERABFailedToResumeItemResumeRes,
+
+	) s15.ERABFailedToResumeItemResumeResIEValue
+
+	get func(*s15.ERABFailedToResumeItemResumeResIEValue,
+
+	) (*s15.ERABFailedToResumeItemResumeRes,
+
+		bool)
+}
+
+// Info returns the source descriptor for this binding.
+func (b ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding) Info() s00.FieldInfo {
+	return b.info
+}
+
+// Codec returns the complete value codec for this binding.
+func (b ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding) Codec() ERABFailedToResumeItemResumeResValueCodec {
+	return b.codec
+}
+
+// New validates a source value and constructs its bound field.
+func (b ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding) New(value s15.ERABFailedToResumeItemResumeRes,
+
+) (s15.ERABFailedToResumeItemResumeResIEField, error) {
+	if b.inject == nil {
+		return s15.ERABFailedToResumeItemResumeResIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return s15.ERABFailedToResumeItemResumeResIEField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := b.codec.encode(value, false, budget); err != nil {
+		return s15.ERABFailedToResumeItemResumeResIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return s15.ERABFailedToResumeItemResumeResIEField{}, aper.OperationError(err, "Value.New")
+	}
+	return s15.ERABFailedToResumeItemResumeResIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected typed value when the field matches this binding.
+func (b ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding) Get(field *s15.ERABFailedToResumeItemResumeResIEField) (*s15.ERABFailedToResumeItemResumeRes,
+
+	bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.Value)
+}
+
+// ERABFailedToResumeItemResumeResValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeRes].
+type ERABFailedToResumeItemResumeResValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ERABSubjecttoDataForwardingList,
+	decode  func([]byte, aper.DecodeState) (s15.ERABFailedToResumeItemResumeRes,
 
 		error)
-	encode func(ERABSubjecttoDataForwardingList,
+	encode func(s15.ERABFailedToResumeItemResumeRes,
 
 		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ERABSubjecttoDataForwardingList, aper.DecodeState,
+	capture func(s15.ERABFailedToResumeItemResumeRes, aper.DecodeState,
 
-	) (ERABSubjecttoDataForwardingList, aper.Snapshot,
+	) (s15.ERABFailedToResumeItemResumeRes, aper.Snapshot,
 
 	)
-	compare func(ERABSubjecttoDataForwardingList, aper.Snapshot, aper.DecodeBudget,
+	compare func(s15.ERABFailedToResumeItemResumeRes, aper.Snapshot, aper.DecodeBudget,
 
 	) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c ERABSubjecttoDataForwardingListValueCodec) New(value ERABSubjecttoDataForwardingList,
+func (c ERABFailedToResumeItemResumeResValueCodec) New(value s15.ERABFailedToResumeItemResumeRes,
 
-) (ERABSubjecttoDataForwardingListAPERValue, error) {
+) (s15.ERABFailedToResumeItemResumeResAPERValue, error) {
 	if c.encode == nil {
-		return ERABSubjecttoDataForwardingListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return s15.ERABFailedToResumeItemResumeResAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ERABSubjecttoDataForwardingListAPERValue{}, aper.OperationError(err, "Value.New")
+		return s15.ERABFailedToResumeItemResumeResAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABSubjecttoDataForwardingListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return s15.ERABFailedToResumeItemResumeResAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return ERABSubjecttoDataForwardingListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return s15.ERABFailedToResumeItemResumeResAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c ERABSubjecttoDataForwardingListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABSubjecttoDataForwardingListAPERValue, aper.DecodeReport, error) {
+func (c ERABFailedToResumeItemResumeResValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (s15.ERABFailedToResumeItemResumeResAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ERABSubjecttoDataForwardingListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return s15.ERABFailedToResumeItemResumeResAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -351,16 +412,22 @@ func (c ERABSubjecttoDataForwardingListValueCodec) DecodeAPER(data []byte, optio
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return ERABSubjecttoDataForwardingListAPERValue{}, report, aper.OperationError(err, c.path)
+			return s15.ERABFailedToResumeItemResumeResAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return ERABSubjecttoDataForwardingListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		return func() s15.ERABFailedToResumeItemResumeResAPERValue {
+			sealed := s15.ERABFailedToResumeItemResumeResAPERValue{Value: value}
+			*s15.BridgeERABFailedToResumeItemResumeResAPERValueFieldReceived(&sealed) = aper.OriginalWire(data)
+			*s15.BridgeERABFailedToResumeItemResumeResAPERValueFieldReplay(&sealed) = replay
+			*s15.BridgeERABFailedToResumeItemResumeResAPERValueFieldContext(&sealed) = c.context
+			return sealed
+		}(), report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ERABSubjecttoDataForwardingListAPERValue{}, report, err
+	return s15.ERABFailedToResumeItemResumeResAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABSubjecttoDataForwardingListValueCodec) EncodeAPER(value ERABSubjecttoDataForwardingListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResValueCodec) EncodeAPER(value s15.ERABFailedToResumeItemResumeResAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -368,22 +435,22 @@ func (c ERABSubjecttoDataForwardingListValueCodec) EncodeAPER(value ERABSubjectt
 	if err != nil {
 		return nil, aper.OperationError(err, c.path)
 	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
+	fresh := *s15.BridgeERABFailedToResumeItemResumeResAPERValueFieldWithoutReplay(&value) || aper.EncodeWithoutReplay(options...)
+	if *s15.BridgeERABFailedToResumeItemResumeResAPERValueFieldContext(&value) == c.context && !fresh && (*s15.BridgeERABFailedToResumeItemResumeResAPERValueFieldReplay(&value)).Present() {
+		plan, next := c.compare(value.Value, *s15.BridgeERABFailedToResumeItemResumeResAPERValueFieldReplay(&value), budget)
 		budget = next
 		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
 			return nil, aper.OperationError(err, c.path)
 		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
+		if plan.Unchanged(*s15.BridgeERABFailedToResumeItemResumeResAPERValueFieldReplay(&value)) {
+			out, err := aper.CopyReplay(*s15.BridgeERABFailedToResumeItemResumeResAPERValueFieldReceived(&value), &budget)
 			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, fresh, budget, plan)
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c ERABSubjecttoDataForwardingListValueCodec) encodeBudgetValue(value ERABSubjecttoDataForwardingList,
+func (c ERABFailedToResumeItemResumeResValueCodec) encodeBudgetValue(value s15.ERABFailedToResumeItemResumeRes,
 
 	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
@@ -392,7 +459,7 @@ func (c ERABSubjecttoDataForwardingListValueCodec) encodeBudgetValue(value ERABS
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c ERABSubjecttoDataForwardingListValueCodec) encodeChanged(value ERABSubjecttoDataForwardingList,
+func (c ERABFailedToResumeItemResumeResValueCodec) encodeChanged(value s15.ERABFailedToResumeItemResumeRes,
 
 	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -660,7 +727,9 @@ func (v *ERABFailedtoSetupItemHOReqAckIEField) unmarshalAPERFrom(bb *aper.BitBuf
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1227,7 +1296,9 @@ func (v *ERABModifyItemBearerModConfIEField) unmarshalAPERFrom(bb *aper.BitBuffe
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1494,7 +1565,9 @@ func (v *ERABModifyItemBearerModResIEField) unmarshalAPERFrom(bb *aper.BitBuffer
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1861,7 +1934,9 @@ func (v *ERABNotToBeModifiedItemBearerModIndIEField) unmarshalAPERFrom(bb *aper.
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -2128,7 +2203,9 @@ func (v *ERABReleaseItemBearerRelCompIEField) unmarshalAPERFrom(bb *aper.BitBuff
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -2495,7 +2572,9 @@ func (v *ERABSetupItemBearerSUResIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -2503,159 +2582,6 @@ func (v *ERABSetupItemBearerSUResIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 	v.stream = bb.CaptureWireSpan(replayStart)
 
 	return nil
-}
-
-// ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding is the concrete IEBinding[ERABSetupItemCtxtSURes, ERABSetupItemCtxtSUResIEValue].
-type ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding struct {
-	info   s00.FieldInfo
-	codec  ERABSetupItemCtxtSUResValueCodec
-	inject func(ERABSetupItemCtxtSURes,
-
-	) ERABSetupItemCtxtSUResIEValue
-
-	get func(*ERABSetupItemCtxtSUResIEValue,
-
-	) (*ERABSetupItemCtxtSURes,
-
-		bool)
-}
-
-// Info returns the source descriptor for this binding.
-func (b ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding) Info() s00.FieldInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding) Codec() ERABSetupItemCtxtSUResValueCodec {
-	return b.codec
-}
-
-// New validates a source value and constructs its bound field.
-func (b ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding) New(value ERABSetupItemCtxtSURes,
-
-) (ERABSetupItemCtxtSUResIEField, error) {
-	if b.inject == nil {
-		return ERABSetupItemCtxtSUResIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ERABSetupItemCtxtSUResIEField{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := b.codec.encode(value, false, budget); err != nil {
-		return ERABSetupItemCtxtSUResIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
-		return ERABSetupItemCtxtSUResIEField{}, aper.OperationError(err, "Value.New")
-	}
-	return ERABSetupItemCtxtSUResIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
-}
-
-// Get returns the selected typed value when the field matches this binding.
-func (b ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding) Get(field *ERABSetupItemCtxtSUResIEField) (*ERABSetupItemCtxtSURes,
-
-	bool) {
-	if field == nil || field.Id != b.info.ID || b.get == nil {
-		return nil, false
-	}
-	return b.get(&field.Value)
-}
-
-// ERABSetupItemCtxtSUResValueCodec is the concrete ValueCodec[ERABSetupItemCtxtSURes].
-type ERABSetupItemCtxtSUResValueCodec struct {
-	path    aper.Path
-	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ERABSetupItemCtxtSURes,
-
-		error)
-	encode func(ERABSetupItemCtxtSURes,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ERABSetupItemCtxtSURes, aper.DecodeState,
-
-	) (ERABSetupItemCtxtSURes, aper.Snapshot,
-
-	)
-	compare func(ERABSetupItemCtxtSURes, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c ERABSetupItemCtxtSUResValueCodec) New(value ERABSetupItemCtxtSURes,
-
-) (ERABSetupItemCtxtSUResAPERValue, error) {
-	if c.encode == nil {
-		return ERABSetupItemCtxtSUResAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ERABSetupItemCtxtSUResAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABSetupItemCtxtSUResAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return ERABSetupItemCtxtSUResAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c ERABSetupItemCtxtSUResValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABSetupItemCtxtSUResAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ERABSetupItemCtxtSUResAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return ERABSetupItemCtxtSUResAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return ERABSetupItemCtxtSUResAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ERABSetupItemCtxtSUResAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABSetupItemCtxtSUResValueCodec) EncodeAPER(value ERABSetupItemCtxtSUResAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c ERABSetupItemCtxtSUResValueCodec) encodeBudgetValue(value ERABSetupItemCtxtSURes,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c ERABSetupItemCtxtSUResValueCodec) encodeChanged(value ERABSetupItemCtxtSURes,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
 }
 
 // ERABSetupItemCtxtSUResIEField is the concrete ProtocolIEField[ERABSetupItemCtxtSUResIEValue].
@@ -2760,7 +2686,9 @@ func (v *ERABSetupItemCtxtSUResIEField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -2768,106 +2696,6 @@ func (v *ERABSetupItemCtxtSUResIEField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	v.stream = bb.CaptureWireSpan(replayStart)
 
 	return nil
-}
-
-// ERABSetupListBearerSUResValueCodec is the concrete ValueCodec[ERABSetupListBearerSURes].
-type ERABSetupListBearerSUResValueCodec struct {
-	path    aper.Path
-	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ERABSetupListBearerSURes,
-
-		error)
-	encode func(ERABSetupListBearerSURes,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ERABSetupListBearerSURes, aper.DecodeState,
-
-	) (ERABSetupListBearerSURes, aper.Snapshot,
-
-	)
-	compare func(ERABSetupListBearerSURes, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c ERABSetupListBearerSUResValueCodec) New(value ERABSetupListBearerSURes,
-
-) (ERABSetupListBearerSUResAPERValue, error) {
-	if c.encode == nil {
-		return ERABSetupListBearerSUResAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ERABSetupListBearerSUResAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABSetupListBearerSUResAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return ERABSetupListBearerSUResAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c ERABSetupListBearerSUResValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABSetupListBearerSUResAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ERABSetupListBearerSUResAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return ERABSetupListBearerSUResAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return ERABSetupListBearerSUResAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ERABSetupListBearerSUResAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABSetupListBearerSUResValueCodec) EncodeAPER(value ERABSetupListBearerSUResAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c ERABSetupListBearerSUResValueCodec) encodeBudgetValue(value ERABSetupListBearerSURes,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c ERABSetupListBearerSUResValueCodec) encodeChanged(value ERABSetupListBearerSURes,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
 }
 
 // ERABFailedtoSetupListHOReqAckValueCodec is the concrete ValueCodec[ERABFailedtoSetupListHOReqAck].
@@ -2970,47 +2798,47 @@ func (c ERABFailedtoSetupListHOReqAckValueCodec) encodeChanged(value ERABFailedt
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupListCtxtSUResValueCodec is the concrete ValueCodec[ERABSetupListCtxtSURes].
-type ERABSetupListCtxtSUResValueCodec struct {
+// ERABFailedToResumeListResumeReqValueCodec is the concrete ValueCodec[ERABFailedToResumeListResumeReq].
+type ERABFailedToResumeListResumeReqValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ERABSetupListCtxtSURes,
+	decode  func([]byte, aper.DecodeState) (ERABFailedToResumeListResumeReq,
 
 		error)
-	encode func(ERABSetupListCtxtSURes,
+	encode func(ERABFailedToResumeListResumeReq,
 
 		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ERABSetupListCtxtSURes, aper.DecodeState,
+	capture func(ERABFailedToResumeListResumeReq, aper.DecodeState,
 
-	) (ERABSetupListCtxtSURes, aper.Snapshot,
+	) (ERABFailedToResumeListResumeReq, aper.Snapshot,
 
 	)
-	compare func(ERABSetupListCtxtSURes, aper.Snapshot, aper.DecodeBudget,
+	compare func(ERABFailedToResumeListResumeReq, aper.Snapshot, aper.DecodeBudget,
 
 	) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c ERABSetupListCtxtSUResValueCodec) New(value ERABSetupListCtxtSURes,
+func (c ERABFailedToResumeListResumeReqValueCodec) New(value ERABFailedToResumeListResumeReq,
 
-) (ERABSetupListCtxtSUResAPERValue, error) {
+) (ERABFailedToResumeListResumeReqAPERValue, error) {
 	if c.encode == nil {
-		return ERABSetupListCtxtSUResAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return ERABFailedToResumeListResumeReqAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ERABSetupListCtxtSUResAPERValue{}, aper.OperationError(err, "Value.New")
+		return ERABFailedToResumeListResumeReqAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABSetupListCtxtSUResAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return ERABFailedToResumeListResumeReqAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return ERABSetupListCtxtSUResAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return ERABFailedToResumeListResumeReqAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c ERABSetupListCtxtSUResValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABSetupListCtxtSUResAPERValue, aper.DecodeReport, error) {
+func (c ERABFailedToResumeListResumeReqValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABFailedToResumeListResumeReqAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ERABSetupListCtxtSUResAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return ERABFailedToResumeListResumeReqAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -3018,16 +2846,16 @@ func (c ERABSetupListCtxtSUResValueCodec) DecodeAPER(data []byte, options ...ape
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return ERABSetupListCtxtSUResAPERValue{}, report, aper.OperationError(err, c.path)
+			return ERABFailedToResumeListResumeReqAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return ERABSetupListCtxtSUResAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		return ERABFailedToResumeListResumeReqAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ERABSetupListCtxtSUResAPERValue{}, report, err
+	return ERABFailedToResumeListResumeReqAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABSetupListCtxtSUResValueCodec) EncodeAPER(value ERABSetupListCtxtSUResAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c ERABFailedToResumeListResumeReqValueCodec) EncodeAPER(value ERABFailedToResumeListResumeReqAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -3050,7 +2878,7 @@ func (c ERABSetupListCtxtSUResValueCodec) EncodeAPER(value ERABSetupListCtxtSURe
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c ERABSetupListCtxtSUResValueCodec) encodeBudgetValue(value ERABSetupListCtxtSURes,
+func (c ERABFailedToResumeListResumeReqValueCodec) encodeBudgetValue(value ERABFailedToResumeListResumeReq,
 
 	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
@@ -3059,7 +2887,7 @@ func (c ERABSetupListCtxtSUResValueCodec) encodeBudgetValue(value ERABSetupListC
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c ERABSetupListCtxtSUResValueCodec) encodeChanged(value ERABSetupListCtxtSURes,
+func (c ERABFailedToResumeListResumeReqValueCodec) encodeChanged(value ERABFailedToResumeListResumeReq,
 
 	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -3074,43 +2902,43 @@ func (c ERABSetupListCtxtSUResValueCodec) encodeChanged(value ERABSetupListCtxtS
 type ERABFailedToResumeListResumeResValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (s15.ERABFailedToResumeListResumeRes,
+	decode  func([]byte, aper.DecodeState) (ERABFailedToResumeListResumeRes,
 
 		error)
-	encode func(s15.ERABFailedToResumeListResumeRes,
+	encode func(ERABFailedToResumeListResumeRes,
 
 		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(s15.ERABFailedToResumeListResumeRes, aper.DecodeState,
+	capture func(ERABFailedToResumeListResumeRes, aper.DecodeState,
 
-	) (s15.ERABFailedToResumeListResumeRes, aper.Snapshot,
+	) (ERABFailedToResumeListResumeRes, aper.Snapshot,
 
 	)
-	compare func(s15.ERABFailedToResumeListResumeRes, aper.Snapshot, aper.DecodeBudget,
+	compare func(ERABFailedToResumeListResumeRes, aper.Snapshot, aper.DecodeBudget,
 
 	) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c ERABFailedToResumeListResumeResValueCodec) New(value s15.ERABFailedToResumeListResumeRes,
+func (c ERABFailedToResumeListResumeResValueCodec) New(value ERABFailedToResumeListResumeRes,
 
-) (s15.ERABFailedToResumeListResumeResAPERValue, error) {
+) (ERABFailedToResumeListResumeResAPERValue, error) {
 	if c.encode == nil {
-		return s15.ERABFailedToResumeListResumeResAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return ERABFailedToResumeListResumeResAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return s15.ERABFailedToResumeListResumeResAPERValue{}, aper.OperationError(err, "Value.New")
+		return ERABFailedToResumeListResumeResAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return s15.ERABFailedToResumeListResumeResAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return ERABFailedToResumeListResumeResAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return s15.ERABFailedToResumeListResumeResAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return ERABFailedToResumeListResumeResAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c ERABFailedToResumeListResumeResValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (s15.ERABFailedToResumeListResumeResAPERValue, aper.DecodeReport, error) {
+func (c ERABFailedToResumeListResumeResValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABFailedToResumeListResumeResAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return s15.ERABFailedToResumeListResumeResAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return ERABFailedToResumeListResumeResAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -3118,22 +2946,16 @@ func (c ERABFailedToResumeListResumeResValueCodec) DecodeAPER(data []byte, optio
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return s15.ERABFailedToResumeListResumeResAPERValue{}, report, aper.OperationError(err, c.path)
+			return ERABFailedToResumeListResumeResAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return func() s15.ERABFailedToResumeListResumeResAPERValue {
-			sealed := s15.ERABFailedToResumeListResumeResAPERValue{Value: value}
-			*s15.BridgeERABFailedToResumeListResumeResAPERValueFieldReceived(&sealed) = aper.OriginalWire(data)
-			*s15.BridgeERABFailedToResumeListResumeResAPERValueFieldReplay(&sealed) = replay
-			*s15.BridgeERABFailedToResumeListResumeResAPERValueFieldContext(&sealed) = c.context
-			return sealed
-		}(), report, nil
+		return ERABFailedToResumeListResumeResAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return s15.ERABFailedToResumeListResumeResAPERValue{}, report, err
+	return ERABFailedToResumeListResumeResAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABFailedToResumeListResumeResValueCodec) EncodeAPER(value s15.ERABFailedToResumeListResumeResAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c ERABFailedToResumeListResumeResValueCodec) EncodeAPER(value ERABFailedToResumeListResumeResAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -3141,22 +2963,22 @@ func (c ERABFailedToResumeListResumeResValueCodec) EncodeAPER(value s15.ERABFail
 	if err != nil {
 		return nil, aper.OperationError(err, c.path)
 	}
-	fresh := *s15.BridgeERABFailedToResumeListResumeResAPERValueFieldWithoutReplay(&value) || aper.EncodeWithoutReplay(options...)
-	if *s15.BridgeERABFailedToResumeListResumeResAPERValueFieldContext(&value) == c.context && !fresh && (*s15.BridgeERABFailedToResumeListResumeResAPERValueFieldReplay(&value)).Present() {
-		plan, next := c.compare(value.Value, *s15.BridgeERABFailedToResumeListResumeResAPERValueFieldReplay(&value), budget)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
 		budget = next
 		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
 			return nil, aper.OperationError(err, c.path)
 		}
-		if plan.Unchanged(*s15.BridgeERABFailedToResumeListResumeResAPERValueFieldReplay(&value)) {
-			out, err := aper.CopyReplay(*s15.BridgeERABFailedToResumeListResumeResAPERValueFieldReceived(&value), &budget)
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
 			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, fresh, budget, plan)
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c ERABFailedToResumeListResumeResValueCodec) encodeBudgetValue(value s15.ERABFailedToResumeListResumeRes,
+func (c ERABFailedToResumeListResumeResValueCodec) encodeBudgetValue(value ERABFailedToResumeListResumeRes,
 
 	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
@@ -3165,7 +2987,7 @@ func (c ERABFailedToResumeListResumeResValueCodec) encodeBudgetValue(value s15.E
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c ERABFailedToResumeListResumeResValueCodec) encodeChanged(value s15.ERABFailedToResumeListResumeRes,
+func (c ERABFailedToResumeListResumeResValueCodec) encodeChanged(value ERABFailedToResumeListResumeRes,
 
 	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -3217,29 +3039,6 @@ func (v ERABItemAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v ERABItemAPERValue) WithoutReplay() ERABItemAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// ERABSubjecttoDataForwardingListAPERValue is the concrete APERValue[ERABSubjecttoDataForwardingList].
-type ERABSubjecttoDataForwardingListAPERValue struct {
-	context s00.BridgeCodecContext
-	Value   ERABSubjecttoDataForwardingList
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v ERABSubjecttoDataForwardingListAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v ERABSubjecttoDataForwardingListAPERValue) WithoutReplay() ERABSubjecttoDataForwardingListAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -3522,29 +3321,6 @@ func (v ERABSetupItemCtxtSUResAPERValue) WithoutReplay() ERABSetupItemCtxtSUResA
 	return v
 }
 
-// ERABSetupListBearerSUResAPERValue is the concrete APERValue[ERABSetupListBearerSURes].
-type ERABSetupListBearerSUResAPERValue struct {
-	context s00.BridgeCodecContext
-	Value   ERABSetupListBearerSURes
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v ERABSetupListBearerSUResAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v ERABSetupListBearerSUResAPERValue) WithoutReplay() ERABSetupListBearerSUResAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
 // ERABFailedtoSetupListHOReqAckAPERValue is the concrete APERValue[ERABFailedtoSetupListHOReqAck].
 type ERABFailedtoSetupListHOReqAckAPERValue struct {
 	context s00.BridgeCodecContext
@@ -3568,10 +3344,10 @@ func (v ERABFailedtoSetupListHOReqAckAPERValue) WithoutReplay() ERABFailedtoSetu
 	return v
 }
 
-// ERABSetupListCtxtSUResAPERValue is the concrete APERValue[ERABSetupListCtxtSURes].
-type ERABSetupListCtxtSUResAPERValue struct {
+// ERABFailedToResumeListResumeReqAPERValue is the concrete APERValue[ERABFailedToResumeListResumeReq].
+type ERABFailedToResumeListResumeReqAPERValue struct {
 	context s00.BridgeCodecContext
-	Value   ERABSetupListCtxtSURes
+	Value   ERABFailedToResumeListResumeReq
 
 	received      aper.WireSpan
 	replay        aper.Snapshot
@@ -3579,17 +3355,127 @@ type ERABSetupListCtxtSUResAPERValue struct {
 }
 
 // ReceivedForm returns the retained wire form, if one is available.
-func (v ERABSetupListCtxtSUResAPERValue) ReceivedForm() aper.ReceivedForm {
+func (v ERABFailedToResumeListResumeReqAPERValue) ReceivedForm() aper.ReceivedForm {
 	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v ERABSetupListCtxtSUResAPERValue) WithoutReplay() ERABSetupListCtxtSUResAPERValue {
+func (v ERABFailedToResumeListResumeReqAPERValue) WithoutReplay() ERABFailedToResumeListResumeReqAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
 }
+
+// ERABFailedToResumeListResumeResAPERValue is the concrete APERValue[ERABFailedToResumeListResumeRes].
+type ERABFailedToResumeListResumeResAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   ERABFailedToResumeListResumeRes
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ERABFailedToResumeListResumeResAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ERABFailedToResumeListResumeResAPERValue) WithoutReplay() ERABFailedToResumeListResumeResAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+type ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueERABIEContainerList, error)
+	encode  func(ERABFailedToResumeItemResumeResIEValueERABIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(ERABFailedToResumeItemResumeResIEValueERABIEContainerList, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueERABIEContainerList, aper.Snapshot)
+	compare func(ERABFailedToResumeItemResumeResIEValueERABIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) New(value ERABFailedToResumeItemResumeResIEValueERABIEContainerList) (ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue, error) {
+	if c.encode == nil {
+		return ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) EncodeAPER(value ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) encodeBudgetValue(value ERABFailedToResumeItemResumeResIEValueERABIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) encodeChanged(value ERABFailedToResumeItemResumeResIEValueERABIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ERABFailedToResumeItemResumeResIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABFailedToResumeItemResumeResIEValue].
+type ERABFailedToResumeItemResumeResIEValueERABIEContainerList []ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer
 
 // ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
 type ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListValueCodec struct {
@@ -4200,35 +4086,38 @@ func (c ERABSetupItemBearerSUResIEValueERABIEContainerListValueCodec) encodeChan
 // ERABSetupItemBearerSUResIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABSetupItemBearerSUResIEValue].
 type ERABSetupItemBearerSUResIEValueERABIEContainerList []ERABSetupItemBearerSUResIEValueProtocolIESingleContainer
 
-// ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABSetupItemCtxtSUResIEValue]].
-type ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec struct {
+// ERABSetupItemCtxtSUResIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABSetupItemCtxtSUResIEValue].
+type ERABSetupItemCtxtSUResIEValueERABIEContainerList []ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer
+
+// ERABFailedToResumeItemResumeResIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABFailedToResumeItemResumeResIEValue]].
+type ERABFailedToResumeItemResumeResIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueERABIEContainerList, error)
-	encode  func(ERABSetupItemCtxtSUResIEValueERABIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ERABSetupItemCtxtSUResIEValueERABIEContainerList, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueERABIEContainerList, aper.Snapshot)
-	compare func(ERABSetupItemCtxtSUResIEValueERABIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+	decode  func([]byte, aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEField, error)
+	encode  func(s15.ERABFailedToResumeItemResumeResIEField, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s15.ERABFailedToResumeItemResumeResIEField, aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEField, aper.Snapshot)
+	compare func(s15.ERABFailedToResumeItemResumeResIEField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) New(value ERABSetupItemCtxtSUResIEValueERABIEContainerList) (ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue, error) {
+func (c ERABFailedToResumeItemResumeResIEFieldValueCodec) New(value s15.ERABFailedToResumeItemResumeResIEField) (ERABFailedToResumeItemResumeResIEFieldAPERValue, error) {
 	if c.encode == nil {
-		return ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return ERABFailedToResumeItemResumeResIEFieldAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+		return ERABFailedToResumeItemResumeResIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return ERABFailedToResumeItemResumeResIEFieldAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return ERABFailedToResumeItemResumeResIEFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue, aper.DecodeReport, error) {
+func (c ERABFailedToResumeItemResumeResIEFieldValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABFailedToResumeItemResumeResIEFieldAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return ERABFailedToResumeItemResumeResIEFieldAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -4236,16 +4125,16 @@ func (c ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) DecodeAPER(d
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+			return ERABFailedToResumeItemResumeResIEFieldAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		return ERABFailedToResumeItemResumeResIEFieldAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue{}, report, err
+	return ERABFailedToResumeItemResumeResIEFieldAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) EncodeAPER(value ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResIEFieldValueCodec) EncodeAPER(value ERABFailedToResumeItemResumeResIEFieldAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -4268,14 +4157,14 @@ func (c ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) EncodeAPER(v
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) encodeBudgetValue(value ERABSetupItemCtxtSUResIEValueERABIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResIEFieldValueCodec) encodeBudgetValue(value s15.ERABFailedToResumeItemResumeResIEField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
 		err = failure
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) encodeChanged(value ERABSetupItemCtxtSUResIEValueERABIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResIEFieldValueCodec) encodeChanged(value s15.ERABFailedToResumeItemResumeResIEField, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
@@ -4283,9 +4172,6 @@ func (c ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) encodeChange
 	}
 	return out, aper.OperationError(err, c.path)
 }
-
-// ERABSetupItemCtxtSUResIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABSetupItemCtxtSUResIEValue].
-type ERABSetupItemCtxtSUResIEValueERABIEContainerList []ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer
 
 // ERABFailedtoSetupItemHOReqAckIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABFailedtoSetupItemHOReqAckIEValue]].
 type ERABFailedtoSetupItemHOReqAckIEFieldValueCodec struct {
@@ -5631,6 +5517,93 @@ func (c ERABSetupItemCtxtSUResIEContainerValueCodec) encodeChanged(value ERABSet
 	return out, aper.OperationError(err, c.path)
 }
 
+// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+type ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, error)
+	encode  func(ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, aper.Snapshot)
+	compare func(ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) New(value ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList) (ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue, error) {
+	if c.encode == nil {
+		return ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) EncodeAPER(value ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) encodeBudgetValue(value ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) encodeChanged(value ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABFailedToResumeItemResumeResIEValue].
+type ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList []ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer
+
 // ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
@@ -6240,35 +6213,35 @@ func (c ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodec) e
 // ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABSetupItemBearerSUResIEValue].
 type ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList []ERABSetupItemBearerSUResIEValueProtocolIESingleContainer
 
-// ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABSetupItemCtxtSUResIEValue]].
-type ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec struct {
+// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+type ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, error)
-	encode  func(ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, aper.Snapshot)
-	compare func(ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+	decode  func([]byte, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, error)
+	encode  func(ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, aper.Snapshot)
+	compare func(ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) New(value ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList) (ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue, error) {
+func (c ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) New(value ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList) (ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue, error) {
 	if c.encode == nil {
-		return ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+		return ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue, aper.DecodeReport, error) {
+func (c ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -6276,16 +6249,16 @@ func (c ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) Dec
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+			return ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		return ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue{}, report, err
+	return ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) EncodeAPER(value ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) EncodeAPER(value ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -6308,14 +6281,14 @@ func (c ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) Enc
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) encodeBudgetValue(value ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) encodeBudgetValue(value ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
 		err = failure
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) encodeChanged(value ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) encodeChanged(value ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
@@ -6324,8 +6297,8 @@ func (c ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) enc
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABSetupItemCtxtSUResIEValue].
-type ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList []ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer
+// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABFailedToResumeItemResumeResIEValue].
+type ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList []ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer
 
 // ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListValueCodec struct {
@@ -6936,92 +6909,27 @@ func (c ERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodec) encode
 // ERABSetupItemBearerSUResIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABSetupItemBearerSUResIEValue].
 type ERABSetupItemBearerSUResIEValueProtocolIEContainerList []ERABSetupItemBearerSUResIEValueProtocolIESingleContainer
 
-// ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABSetupItemCtxtSUResIEValue]].
-type ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec struct {
-	path    aper.Path
-	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, error)
-	encode  func(ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, aper.Snapshot)
-	compare func(ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+// ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+type ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         ERABFailedToResumeItemResumeResIEValueERABIEContainerList
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
 }
 
-// New validates a source value and returns its complete APER value.
-func (c ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) New(value ERABSetupItemCtxtSUResIEValueProtocolIEContainerList) (ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue, error) {
-	if c.encode == nil {
-		return ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
 
-// DecodeAPER decodes a complete value and retains its received form.
-func (c ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue{}, report, err
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue) WithoutReplay() ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
 }
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) EncodeAPER(value ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) encodeBudgetValue(value ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) encodeChanged(value ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// ERABSetupItemCtxtSUResIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABSetupItemCtxtSUResIEValue].
-type ERABSetupItemCtxtSUResIEValueProtocolIEContainerList []ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer
 
 // ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
 type ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListAPERValue struct {
@@ -7193,6 +7101,28 @@ func (v ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) ReceivedForm(
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) WithoutReplay() ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ERABFailedToResumeItemResumeResIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABFailedToResumeItemResumeResIEValue]].
+type ERABFailedToResumeItemResumeResIEFieldAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         s15.ERABFailedToResumeItemResumeResIEField
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ERABFailedToResumeItemResumeResIEFieldAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ERABFailedToResumeItemResumeResIEFieldAPERValue) WithoutReplay() ERABFailedToResumeItemResumeResIEFieldAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -7551,6 +7481,28 @@ func (v ERABSetupItemCtxtSUResIEContainerAPERValue) WithoutReplay() ERABSetupIte
 	return v
 }
 
+// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+type ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue) WithoutReplay() ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
 // ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
@@ -7705,22 +7657,22 @@ func (v ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListAPERValue) Wi
 	return v
 }
 
-// ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABSetupItemCtxtSUResIEValue]].
-type ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue struct {
+// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+type ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
-	Value         ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList
+	Value         ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList
 	received      aper.WireSpan
 	replay        aper.Snapshot
 	withoutReplay bool
 }
 
 // ReceivedForm returns the retained wire form, if one is available.
-func (v ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
+func (v ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
 	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
 }
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue) WithoutReplay() ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue {
+func (v ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue) WithoutReplay() ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -7875,28 +7827,6 @@ func (v ERABSetupItemBearerSUResIEValueProtocolIEContainerListAPERValue) Receive
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v ERABSetupItemBearerSUResIEValueProtocolIEContainerListAPERValue) WithoutReplay() ERABSetupItemBearerSUResIEValueProtocolIEContainerListAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABSetupItemCtxtSUResIEValue]].
-type ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue struct {
-	context       s00.BridgeCodecContext
-	Value         ERABSetupItemCtxtSUResIEValueProtocolIEContainerList
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue) WithoutReplay() ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -8740,6 +8670,7 @@ func (v *ERABItem) unmarshalAPERWithOptions(data []byte, options aper.DecodeStat
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABItem")
 	}
+	bb.EnterComponent("ERABItem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABItem")
 	}
@@ -8773,10 +8704,13 @@ func (v *ERABItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
+	toleranceMark_cause := bb.EnterComponent("Cause")
 	if err := s14.BridgeCauseMethodUnmarshalAPERFrom(&v.Cause, bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
+	bb.LeaveComponent(toleranceMark_cause)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s08.ERABItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -8785,9 +8719,11 @@ func (v *ERABItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s08.ERABItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s08.BridgeERABItemExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -8800,6 +8736,7 @@ func (v *ERABItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -9028,7 +8965,6 @@ func (v *ERABItem) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (ape
 	return report, aper.OperationError(nil, "ERABItem")
 }
 
-type ERABSubjecttoDataForwardingList = []s15.ERABDataForwardingItemIEValueProtocolIESingleContainer
 type ERABFailedtoSetupListHOReqAck = []ERABFailedtoSetupItemHOReqAckIEValueProtocolIESingleContainer
 
 // ERABFailedToSetupItemHOReqAck represents the ASN.1 type E-RABFailedToSetupItemHOReqAck (SEQUENCE).
@@ -9052,7 +8988,6 @@ type ERABFailedToSetupItemHOReqAck struct {
 	extOrigin         []aper.OpaqueOrigin
 	extWire           []aper.WireSpan
 }
-type ERABSetupListBearerSURes = []ERABSetupItemBearerSUResIEValueProtocolIESingleContainer
 
 // ERABSetupItemBearerSURes represents the ASN.1 type E-RABSetupItemBearerSURes (SEQUENCE).
 type ERABSetupItemBearerSURes struct {
@@ -9120,7 +9055,6 @@ type ERABReleaseItemBearerRelComp struct {
 	extOrigin         []aper.OpaqueOrigin
 	extWire           []aper.WireSpan
 }
-type ERABSetupListCtxtSURes = []ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer
 
 // ERABSetupItemCtxtSURes represents the ASN.1 type E-RABSetupItemCtxtSURes (SEQUENCE).
 type ERABSetupItemCtxtSURes struct {
@@ -9134,7 +9068,7 @@ type ERABSetupItemCtxtSURes struct {
 	ERABID                s00.ERABID                                   `asn1:"tag:0,context,implicit"`
 	TransportLayerAddress s00.TransportLayerAddress                    `asn1:"tag:1,context,implicit"`
 	GTPTEID               s00.GTPTEID                                  `asn1:"tag:2,context,implicit"`
-	IEExtensions          s08.ERABSetupItemCtxtSUResExtIEsExtContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitzero"`
+	IEExtensions          s09.ERABSetupItemCtxtSUResExtIEsExtContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitzero"`
 	iEExtensionsIndef     bool                                         `asn1:"-" json:"-"`
 	extCount              int64                                        `asn1:"-" json:"-"`
 	extPresent            []bool                                       `asn1:"-" json:"-"`
@@ -9190,6 +9124,8 @@ type ERABModifyItemBearerModConf struct {
 	extOrigin         []aper.OpaqueOrigin
 	extWire           []aper.WireSpan
 }
+type ERABFailedToResumeListResumeReq = []s15.ERABFailedToResumeItemResumeReqIEValueProtocolIESingleContainer
+type ERABFailedToResumeListResumeRes = []ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer
 
 // MarshalAPER encodes ERABFailedToSetupItemHOReqAck to APER format.
 func (v *ERABFailedToSetupItemHOReqAck) marshalAPERLegacy() ([]byte, error) {
@@ -9332,6 +9268,7 @@ func (v *ERABFailedToSetupItemHOReqAck) unmarshalAPERWithOptions(data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABFailedToSetupItemHOReqAck")
 	}
+	bb.EnterComponent("ERABFailedToSetupItemHOReqAck")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABFailedToSetupItemHOReqAck")
 	}
@@ -9365,10 +9302,13 @@ func (v *ERABFailedToSetupItemHOReqAck) unmarshalAPERFrom(bb *aper.BitBuffer) er
 		return runtime.WrapDecodePath(err, "ERABID")
 	}
 	v.ERABID = val_erabid
+	toleranceMark_cause := bb.EnterComponent("Cause")
 	if err := s14.BridgeCauseMethodUnmarshalAPERFrom(&v.Cause, bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
+	bb.LeaveComponent(toleranceMark_cause)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s08.ERABFailedToSetupItemHOReqAckExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -9377,9 +9317,11 @@ func (v *ERABFailedToSetupItemHOReqAck) unmarshalAPERFrom(bb *aper.BitBuffer) er
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s08.ERABFailedToSetupItemHOReqAckExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s08.BridgeERABFailedToSetupItemHOReqAckExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -9392,6 +9334,7 @@ func (v *ERABFailedToSetupItemHOReqAck) unmarshalAPERFrom(bb *aper.BitBuffer) er
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -9595,6 +9538,7 @@ func (v *ERABSetupItemBearerSURes) unmarshalAPERWithOptions(data []byte, options
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupItemBearerSURes")
 	}
+	bb.EnterComponent("ERABSetupItemBearerSURes")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupItemBearerSURes")
 	}
@@ -9639,6 +9583,7 @@ func (v *ERABSetupItemBearerSURes) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	v.GTPTEID = s00.GTPTEID(val_gtpteid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s08.ERABSetupItemBearerSUResExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -9647,9 +9592,11 @@ func (v *ERABSetupItemBearerSURes) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s08.ERABSetupItemBearerSUResExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s08.BridgeERABSetupItemBearerSUResExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -9662,6 +9609,7 @@ func (v *ERABSetupItemBearerSURes) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -9859,6 +9807,7 @@ func (v *ERABModifyItemBearerModRes) unmarshalAPERWithOptions(data []byte, optio
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyItemBearerModRes")
 	}
+	bb.EnterComponent("ERABModifyItemBearerModRes")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyItemBearerModRes")
 	}
@@ -9893,6 +9842,7 @@ func (v *ERABModifyItemBearerModRes) unmarshalAPERFrom(bb *aper.BitBuffer) error
 	}
 	v.ERABID = val_erabid
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s08.ERABModifyItemBearerModResExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -9901,9 +9851,11 @@ func (v *ERABModifyItemBearerModRes) unmarshalAPERFrom(bb *aper.BitBuffer) error
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s08.ERABModifyItemBearerModResExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s08.BridgeERABModifyItemBearerModResExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -9916,6 +9868,7 @@ func (v *ERABModifyItemBearerModRes) unmarshalAPERFrom(bb *aper.BitBuffer) error
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -10113,6 +10066,7 @@ func (v *ERABReleaseItemBearerRelComp) unmarshalAPERWithOptions(data []byte, opt
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseItemBearerRelComp")
 	}
+	bb.EnterComponent("ERABReleaseItemBearerRelComp")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABReleaseItemBearerRelComp")
 	}
@@ -10147,6 +10101,7 @@ func (v *ERABReleaseItemBearerRelComp) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	}
 	v.ERABID = val_erabid
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s08.ERABReleaseItemBearerRelCompExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10155,9 +10110,11 @@ func (v *ERABReleaseItemBearerRelComp) unmarshalAPERFrom(bb *aper.BitBuffer) err
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s08.ERABReleaseItemBearerRelCompExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s08.BridgeERABReleaseItemBearerRelCompExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -10170,6 +10127,7 @@ func (v *ERABReleaseItemBearerRelComp) unmarshalAPERFrom(bb *aper.BitBuffer) err
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -10309,7 +10267,7 @@ func (v *ERABSetupItemCtxtSURes) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool
 				return fmt.Errorf("collection fragment outside value")
 			}
 			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
-				if err := s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+				if err := s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
 					return fmt.Errorf("encoding iE-Extensions element: %w", err)
 				}
 			}
@@ -10373,6 +10331,7 @@ func (v *ERABSetupItemCtxtSURes) unmarshalAPERWithOptions(data []byte, options a
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupItemCtxtSURes")
 	}
+	bb.EnterComponent("ERABSetupItemCtxtSURes")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABSetupItemCtxtSURes")
 	}
@@ -10417,17 +10376,20 @@ func (v *ERABSetupItemCtxtSURes) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	v.GTPTEID = s00.GTPTEID(val_gtpteid)
 	if opt_ieextensions {
-		tmp_ieextensions := make(s08.ERABSetupItemCtxtSUResExtIEsExtContainer, 0)
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
+		tmp_ieextensions := make(s09.ERABSetupItemCtxtSUResExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
-				var elem s08.ERABSetupItemCtxtSUResExtIEsExtField
-				if err := s08.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+				var elem s09.ERABSetupItemCtxtSUResExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
+				if err := s09.BridgeERABSetupItemCtxtSUResExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -10440,6 +10402,7 @@ func (v *ERABSetupItemCtxtSURes) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -10643,6 +10606,7 @@ func (v *ERABNotToBeModifiedItemBearerModInd) unmarshalAPERWithOptions(data []by
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABNotToBeModifiedItemBearerModInd")
 	}
+	bb.EnterComponent("ERABNotToBeModifiedItemBearerModInd")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABNotToBeModifiedItemBearerModInd")
 	}
@@ -10687,6 +10651,7 @@ func (v *ERABNotToBeModifiedItemBearerModInd) unmarshalAPERFrom(bb *aper.BitBuff
 	}
 	v.DLGTPTEID = s00.GTPTEID(val_dlgtpteid)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s08.ERABNotToBeModifiedItemBearerModIndExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10695,9 +10660,11 @@ func (v *ERABNotToBeModifiedItemBearerModInd) unmarshalAPERFrom(bb *aper.BitBuff
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s08.ERABNotToBeModifiedItemBearerModIndExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s08.BridgeERABNotToBeModifiedItemBearerModIndExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -10710,6 +10677,7 @@ func (v *ERABNotToBeModifiedItemBearerModInd) unmarshalAPERFrom(bb *aper.BitBuff
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -10907,6 +10875,7 @@ func (v *ERABModifyItemBearerModConf) unmarshalAPERWithOptions(data []byte, opti
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyItemBearerModConf")
 	}
+	bb.EnterComponent("ERABModifyItemBearerModConf")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ERABModifyItemBearerModConf")
 	}
@@ -10941,6 +10910,7 @@ func (v *ERABModifyItemBearerModConf) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 	}
 	v.ERABID = val_erabid
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s08.ERABModifyItemBearerModConfExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10949,9 +10919,11 @@ func (v *ERABModifyItemBearerModConf) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s08.ERABModifyItemBearerModConfExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s08.BridgeERABModifyItemBearerModConfExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -10964,6 +10936,7 @@ func (v *ERABModifyItemBearerModConf) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -18374,6 +18347,7 @@ func (t ERABItemIETable) ERABItem() ERABItemERABItemIEBinding {
 				var empty ERABItem
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABItem")
 			var zero ERABItemIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(35), raw)
 			if err != nil {
@@ -18436,6 +18410,129 @@ func (t ERABItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Critical
 	}
 }
 
+type ERABFailedToResumeItemResumeResIETable struct{}
+
+func ERABFailedToResumeItemResumeResIEs() ERABFailedToResumeItemResumeResIETable {
+	return ERABFailedToResumeItemResumeResIETable{}
+}
+
+// ID returns the ASN.1 object-set identity of ERABFailedToResumeItemResumeResIETable.
+func (ERABFailedToResumeItemResumeResIETable) ID() s00.TableID {
+	return func() s00.TableID {
+		sealed := s00.TableID{}
+		*s00.BridgeTableIDFieldSource(&sealed) = aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABFailedToResumeItemResumeResIEs"}
+		return sealed
+	}()
+}
+
+// Table returns the ASN.1 object-set table described by ERABFailedToResumeItemResumeResIETable.
+func (ERABFailedToResumeItemResumeResIETable) Table() s00.ERABFailedToResumeItemResumeResIEValueIETable {
+	return func() s00.ERABFailedToResumeItemResumeResIEValueIETable {
+		sealed := s00.ERABFailedToResumeItemResumeResIEValueIETable{}
+		*s00.BridgeERABFailedToResumeItemResumeResIEValueIETableFieldBound(&sealed) = true
+		return sealed
+	}()
+}
+func (ERABFailedToResumeItemResumeResIETable) infoERABFailedToResumeItemResumeRes() s00.FieldInfo {
+	return s00.FieldInfo{Table: ERABFailedToResumeItemResumeResIEs().ID(), ID: s00.ProtocolIEID(238), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: func() s00.TypeID {
+		sealed := s00.TypeID{}
+		*s00.BridgeTypeIDFieldSource(&sealed) = aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABFailedToResumeItemResumeRes"}
+		return sealed
+	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABFailedToResumeItemResumeResIEs", Row: "id-E-RABFailedToResumeItemResumeRes"}}}
+}
+
+// ERABFailedToResumeItemResumeRes returns the typed binding for the ERABFailedToResumeItemResumeRes row of ERABFailedToResumeItemResumeResIETable.
+func (t ERABFailedToResumeItemResumeResIETable) ERABFailedToResumeItemResumeRes() ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding {
+	return ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding{info: t.infoERABFailedToResumeItemResumeRes(), codec: ERABFailedToResumeItemResumeResValueCodec{path: "ERABFailedToResumeItemResumeRes",
+		decode: func(data []byte, options aper.DecodeState) (s15.ERABFailedToResumeItemResumeRes, error) {
+			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
+			if err != nil {
+				var empty s15.ERABFailedToResumeItemResumeRes
+				return empty, err
+			}
+			raw.BudgetBuffer().EnterComponent("ERABFailedToResumeItemResumeRes")
+			var zero s15.ERABFailedToResumeItemResumeResIEValue
+			decoded, err := s15.BridgeERABFailedToResumeItemResumeResIEValueMethodDecode(zero, s00.ProtocolIEID(238), raw)
+			if err != nil {
+				var empty s15.ERABFailedToResumeItemResumeRes
+				return empty, err
+			}
+			value, ok := decoded.AsERABFailedToResumeItemResumeRes()
+			if !ok {
+				var empty s15.ERABFailedToResumeItemResumeRes
+				return empty, fmt.Errorf("binding E-RABFailedToResumeItemResumeResIEs.id-E-RABFailedToResumeItemResumeRes: no selected value")
+			}
+			return *value, nil
+		},
+		encode: func(value s15.ERABFailedToResumeItemResumeRes, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s15.BridgeERABFailedToResumeItemResumeResIEValueMethodEncodeFresh((func() s15.ERABFailedToResumeItemResumeResIEValue {
+				sealed := s15.ERABFailedToResumeItemResumeResIEValue{}
+				*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldId(&sealed) = s00.ProtocolIEID(238)
+				*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldRowERABFailedToResumeItemResumeRes(&sealed) = &value
+				return sealed
+			}()), fresh, budget)
+		}, capture: func(v s15.ERABFailedToResumeItemResumeRes, options aper.DecodeState) (s15.ERABFailedToResumeItemResumeRes, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			s15.BridgeCaptureS1APERABFailedToResumeItemResumeRes(&v, &s)
+			var root aper.Snapshot
+
+			s.End(f, &root, false)
+			return v, root
+		}, compare: func(v s15.ERABFailedToResumeItemResumeRes, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			s15.BridgeCompareS1APERABFailedToResumeItemResumeRes(&v, &s)
+
+			s.End(f, root, false)
+			return s.Plan(), s.BudgetValue()
+		}, context: func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABFailedToResumeItemResumeRes"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}(),
+	}, inject: func(value s15.ERABFailedToResumeItemResumeRes) s15.ERABFailedToResumeItemResumeResIEValue {
+		return func() s15.ERABFailedToResumeItemResumeResIEValue {
+			sealed := s15.ERABFailedToResumeItemResumeResIEValue{}
+			*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldId(&sealed) = s00.ProtocolIEID(238)
+			*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldRowERABFailedToResumeItemResumeRes(&sealed) = &value
+			return sealed
+		}()
+	}, get: func(value *s15.ERABFailedToResumeItemResumeResIEValue) (*s15.ERABFailedToResumeItemResumeRes, bool) {
+		return value.AsERABFailedToResumeItemResumeRes()
+	}}
+}
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABFailedToResumeItemResumeResIETable.
+func (t ERABFailedToResumeItemResumeResIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s15.ERABFailedToResumeItemResumeResIEField, error) {
+	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
+		return s15.ERABFailedToResumeItemResumeResIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
+	}
+	switch id {
+	case s00.ProtocolIEID(238):
+		return s15.ERABFailedToResumeItemResumeResIEField{}, aper.OperationError(fmt.Errorf("known IE id-E-RABFailedToResumeItemResumeRes requires its typed binding"), "Opaque")
+	default:
+		budget, err := aper.BuildBudget()
+		if err != nil {
+			return s15.ERABFailedToResumeItemResumeResIEField{}, aper.OperationError(err, "Opaque")
+		}
+		opaque, err := aper.BuildOpaqueOpenType(data, budget)
+		if err != nil {
+			return s15.ERABFailedToResumeItemResumeResIEField{}, aper.OperationError(err, "Opaque")
+		}
+		return s15.ERABFailedToResumeItemResumeResIEField{Id: id, Criticality: criticality, Value: func() s15.ERABFailedToResumeItemResumeResIEValue {
+			sealed := s15.ERABFailedToResumeItemResumeResIEValue{}
+			*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldId(&sealed) = id
+			*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldOpaque(&sealed) = opaque
+			*s15.BridgeERABFailedToResumeItemResumeResIEValueFieldIsOpaque(&sealed) = true
+			return sealed
+		}()}, aper.OperationError(nil, "Opaque")
+	}
+}
+
 type ERABFailedtoSetupItemHOReqAckIETable struct{}
 
 func ERABFailedtoSetupItemHOReqAckIEs() ERABFailedtoSetupItemHOReqAckIETable {
@@ -18476,6 +18573,7 @@ func (t ERABFailedtoSetupItemHOReqAckIETable) ERABFailedtoSetupItemHOReqAck() ER
 				var empty ERABFailedToSetupItemHOReqAck
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABFailedToSetupItemHOReqAck")
 			var zero ERABFailedtoSetupItemHOReqAckIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(21), raw)
 			if err != nil {
@@ -18584,6 +18682,7 @@ func (t ERABModifyItemBearerModConfIETable) ERABModifyItemBearerModConf() ERABMo
 				var empty ERABModifyItemBearerModConf
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABModifyItemBearerModConf")
 			var zero ERABModifyItemBearerModConfIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(204), raw)
 			if err != nil {
@@ -18691,6 +18790,7 @@ func (t ERABModifyItemBearerModResIETable) ERABModifyItemBearerModRes() ERABModi
 				var empty ERABModifyItemBearerModRes
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABModifyItemBearerModRes")
 			var zero ERABModifyItemBearerModResIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(37), raw)
 			if err != nil {
@@ -18799,6 +18899,7 @@ func (t ERABNotToBeModifiedItemBearerModIndIETable) ERABNotToBeModifiedItemBeare
 				var empty ERABNotToBeModifiedItemBearerModInd
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABNotToBeModifiedItemBearerModInd")
 			var zero ERABNotToBeModifiedItemBearerModIndIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(202), raw)
 			if err != nil {
@@ -18905,6 +19006,7 @@ func (t ERABReleaseItemBearerRelCompIETable) ERABReleaseItemBearerRelComp() ERAB
 				var empty ERABReleaseItemBearerRelComp
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABReleaseItemBearerRelComp")
 			var zero ERABReleaseItemBearerRelCompIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(15), raw)
 			if err != nil {
@@ -19012,6 +19114,7 @@ func (t ERABSetupItemBearerSUResIETable) ERABSetupItemBearerSURes() ERABSetupIte
 				var empty ERABSetupItemBearerSURes
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ERABSetupItemBearerSURes")
 			var zero ERABSetupItemBearerSUResIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(39), raw)
 			if err != nil {
@@ -19081,110 +19184,9 @@ func (t ERABSetupItemBearerSUResIETable) NewOpaque(id s00.ProtocolIEID, critical
 	}
 }
 
-type ERABSetupItemCtxtSUResIETable struct{}
-
-func ERABSetupItemCtxtSUResIEs() ERABSetupItemCtxtSUResIETable {
-	return ERABSetupItemCtxtSUResIETable{}
-}
-
-// ID returns the ASN.1 object-set identity of ERABSetupItemCtxtSUResIETable.
-func (ERABSetupItemCtxtSUResIETable) ID() s00.TableID {
-	return func() s00.TableID {
-		sealed := s00.TableID{}
-		*s00.BridgeTableIDFieldSource(&sealed) = aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABSetupItemCtxtSUResIEs"}
-		return sealed
-	}()
-}
-
-// Table returns the ASN.1 object-set table described by ERABSetupItemCtxtSUResIETable.
-func (ERABSetupItemCtxtSUResIETable) Table() s00.ERABSetupItemCtxtSUResIEValueIETable {
-	return func() s00.ERABSetupItemCtxtSUResIEValueIETable {
-		sealed := s00.ERABSetupItemCtxtSUResIEValueIETable{}
-		*s00.BridgeERABSetupItemCtxtSUResIEValueIETableFieldBound(&sealed) = true
-		return sealed
-	}()
-}
-func (ERABSetupItemCtxtSUResIETable) infoERABSetupItemCtxtSURes() s00.FieldInfo {
-	return s00.FieldInfo{Table: ERABSetupItemCtxtSUResIEs().ID(), ID: s00.ProtocolIEID(50), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: func() s00.TypeID {
-		sealed := s00.TypeID{}
-		*s00.BridgeTypeIDFieldSource(&sealed) = aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABSetupItemCtxtSURes"}
-		return sealed
-	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABSetupItemCtxtSUResIEs", Row: "id-E-RABSetupItemCtxtSURes"}}}
-}
-
-// ERABSetupItemCtxtSURes returns the typed binding for the ERABSetupItemCtxtSURes row of ERABSetupItemCtxtSUResIETable.
-func (t ERABSetupItemCtxtSUResIETable) ERABSetupItemCtxtSURes() ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding {
-	return ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding{info: t.infoERABSetupItemCtxtSURes(), codec: ERABSetupItemCtxtSUResValueCodec{path: "ERABSetupItemCtxtSURes",
-		decode: func(data []byte, options aper.DecodeState) (ERABSetupItemCtxtSURes, error) {
-			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
-			if err != nil {
-				var empty ERABSetupItemCtxtSURes
-				return empty, err
-			}
-			var zero ERABSetupItemCtxtSUResIEValue
-			decoded, err := zero.decode(s00.ProtocolIEID(50), raw)
-			if err != nil {
-				var empty ERABSetupItemCtxtSURes
-				return empty, err
-			}
-			value, ok := decoded.AsERABSetupItemCtxtSURes()
-			if !ok {
-				var empty ERABSetupItemCtxtSURes
-				return empty, fmt.Errorf("binding E-RABSetupItemCtxtSUResIEs.id-E-RABSetupItemCtxtSURes: no selected value")
-			}
-			return *value, nil
-		},
-		encode: func(value ERABSetupItemCtxtSURes, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (ERABSetupItemCtxtSUResIEValue{id: s00.ProtocolIEID(50), rowERABSetupItemCtxtSURes: &value}).encodeFresh(fresh, budget)
-		}, capture: func(v ERABSetupItemCtxtSURes, options aper.DecodeState) (ERABSetupItemCtxtSURes, aper.Snapshot,
-
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeCaptureS1APERABSetupItemCtxtSURes(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}, compare: func(v ERABSetupItemCtxtSURes, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeCompareS1APERABSetupItemCtxtSURes(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}, context: func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABSetupItemCtxtSURes"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}(),
-	}, inject: func(value ERABSetupItemCtxtSURes) ERABSetupItemCtxtSUResIEValue {
-		return ERABSetupItemCtxtSUResIEValue{id: s00.ProtocolIEID(50), rowERABSetupItemCtxtSURes: &value}
-	}, get: func(value *ERABSetupItemCtxtSUResIEValue) (*ERABSetupItemCtxtSURes, bool) {
-		return value.AsERABSetupItemCtxtSURes()
-	}}
-}
-
-// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABSetupItemCtxtSUResIETable.
-func (t ERABSetupItemCtxtSUResIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABSetupItemCtxtSUResIEField, error) {
-	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
-		return ERABSetupItemCtxtSUResIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
-	}
-	switch id {
-	case s00.ProtocolIEID(50):
-		return ERABSetupItemCtxtSUResIEField{}, aper.OperationError(fmt.Errorf("known IE id-E-RABSetupItemCtxtSURes requires its typed binding"), "Opaque")
-	default:
-		budget, err := aper.BuildBudget()
-		if err != nil {
-			return ERABSetupItemCtxtSUResIEField{}, aper.OperationError(err, "Opaque")
-		}
-		opaque, err := aper.BuildOpaqueOpenType(data, budget)
-		if err != nil {
-			return ERABSetupItemCtxtSUResIEField{}, aper.OperationError(err, "Opaque")
-		}
-		return ERABSetupItemCtxtSUResIEField{Id: id, Criticality: criticality, Value: ERABSetupItemCtxtSUResIEValue{id: id, opaque: opaque, isOpaque: true}}, aper.OperationError(nil, "Opaque")
-	}
+// ERABFailedToResumeItemResumeResCodec binds the complete APER value type.
+func ERABFailedToResumeItemResumeResCodec() ERABFailedToResumeItemResumeResValueCodec {
+	return ERABFailedToResumeItemResumeResIEs().ERABFailedToResumeItemResumeRes().Codec()
 }
 
 // ERABFailedToSetupItemHOReqAckCodec binds the complete APER value type.
@@ -19219,33 +19221,259 @@ func ERABReleaseItemBearerRelCompCodec() ERABReleaseItemBearerRelCompValueCodec 
 func ERABSetupItemBearerSUResCodec() ERABSetupItemBearerSUResValueCodec {
 	return ERABSetupItemBearerSUResIEs().ERABSetupItemBearerSURes().Codec()
 }
-
-// ERABSetupItemCtxtSUResCodec binds the complete APER value type.
-func ERABSetupItemCtxtSUResCodec() ERABSetupItemCtxtSUResValueCodec {
-	return ERABSetupItemCtxtSUResIEs().ERABSetupItemCtxtSURes().Codec()
+func BridgeERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBindingFieldCodec(v *ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding) *ERABFailedToResumeItemResumeResValueCodec {
+	return &v.codec
 }
-func BridgeERABFailedToResumeListResumeResValueCodecFieldCapture(v *ERABFailedToResumeListResumeResValueCodec) *func(s15.ERABFailedToResumeListResumeRes, aper.DecodeState) (s15.ERABFailedToResumeListResumeRes, aper.Snapshot) {
+func BridgeERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBindingFieldGet(v *ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding) *func(*s15.ERABFailedToResumeItemResumeResIEValue) (*s15.ERABFailedToResumeItemResumeRes, bool) {
+	return &v.get
+}
+func BridgeERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBindingFieldInfo(v *ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding) *s00.FieldInfo {
+	return &v.info
+}
+func BridgeERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBindingFieldInject(v *ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding) *func(s15.ERABFailedToResumeItemResumeRes) s15.ERABFailedToResumeItemResumeResIEValue {
+	return &v.inject
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldAPERValueFieldContext(v *ERABFailedToResumeItemResumeResIEFieldAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldAPERValueFieldReceived(v *ERABFailedToResumeItemResumeResIEFieldAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldAPERValueFieldReplay(v *ERABFailedToResumeItemResumeResIEFieldAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldAPERValueFieldWithoutReplay(v *ERABFailedToResumeItemResumeResIEFieldAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldValueCodecFieldCapture(v *ERABFailedToResumeItemResumeResIEFieldValueCodec) *func(s15.ERABFailedToResumeItemResumeResIEField, aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEField, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeERABFailedToResumeListResumeResValueCodecFieldCompare(v *ERABFailedToResumeListResumeResValueCodec) *func(s15.ERABFailedToResumeListResumeRes, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+func BridgeERABFailedToResumeItemResumeResIEFieldValueCodecFieldCompare(v *ERABFailedToResumeItemResumeResIEFieldValueCodec) *func(s15.ERABFailedToResumeItemResumeResIEField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldValueCodecFieldContext(v *ERABFailedToResumeItemResumeResIEFieldValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldValueCodecFieldDecode(v *ERABFailedToResumeItemResumeResIEFieldValueCodec) *func([]byte, aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEField, error) {
+	return &v.decode
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldValueCodecFieldEncode(v *ERABFailedToResumeItemResumeResIEFieldValueCodec) *func(s15.ERABFailedToResumeItemResumeResIEField, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldValueCodecFieldPath(v *ERABFailedToResumeItemResumeResIEFieldValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeItemResumeResIEFieldValueCodec, a0 s15.ERABFailedToResumeItemResumeResIEField, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeERABFailedToResumeItemResumeResIEFieldValueCodecMethodEncodeChanged(v ERABFailedToResumeItemResumeResIEFieldValueCodec, a0 s15.ERABFailedToResumeItemResumeResIEField, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeERABFailedToResumeItemResumeResIETableMethodInfoERABFailedToResumeItemResumeRes(v ERABFailedToResumeItemResumeResIETable) s00.FieldInfo {
+	return v.infoERABFailedToResumeItemResumeRes()
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValueFieldContext(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValueFieldReceived(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValueFieldReplay(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValueFieldWithoutReplay(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecFieldCapture(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) *func(ERABFailedToResumeItemResumeResIEValueERABIEContainerList, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueERABIEContainerList, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecFieldCompare(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) *func(ERABFailedToResumeItemResumeResIEValueERABIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecFieldContext(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecFieldDecode(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) *func([]byte, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueERABIEContainerList, error) {
+	return &v.decode
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecFieldEncode(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) *func(ERABFailedToResumeItemResumeResIEValueERABIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecFieldPath(v *ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec, a0 ERABFailedToResumeItemResumeResIEValueERABIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecMethodEncodeChanged(v ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec, a0 ERABFailedToResumeItemResumeResIEValueERABIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValueFieldContext(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValueFieldReceived(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValueFieldReplay(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValueFieldWithoutReplay(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecFieldCapture(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) *func(ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecFieldCompare(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) *func(ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecFieldContext(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecFieldDecode(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) *func([]byte, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, error) {
+	return &v.decode
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecFieldEncode(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) *func(ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecFieldPath(v *ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec, a0 ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecMethodEncodeChanged(v ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec, a0 ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValueFieldContext(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValueFieldReceived(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValueFieldReplay(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValueFieldWithoutReplay(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecFieldCapture(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) *func(ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecFieldCompare(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) *func(ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecFieldContext(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecFieldDecode(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) *func([]byte, aper.DecodeState) (ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, error) {
+	return &v.decode
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecFieldEncode(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) *func(ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecFieldPath(v *ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec, a0 ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecMethodEncodeChanged(v ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec, a0 ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeERABFailedToResumeItemResumeResValueCodecFieldCapture(v *ERABFailedToResumeItemResumeResValueCodec) *func(s15.ERABFailedToResumeItemResumeRes, aper.DecodeState) (s15.ERABFailedToResumeItemResumeRes, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeERABFailedToResumeItemResumeResValueCodecFieldCompare(v *ERABFailedToResumeItemResumeResValueCodec) *func(s15.ERABFailedToResumeItemResumeRes, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeERABFailedToResumeItemResumeResValueCodecFieldContext(v *ERABFailedToResumeItemResumeResValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResValueCodecFieldDecode(v *ERABFailedToResumeItemResumeResValueCodec) *func([]byte, aper.DecodeState) (s15.ERABFailedToResumeItemResumeRes, error) {
+	return &v.decode
+}
+func BridgeERABFailedToResumeItemResumeResValueCodecFieldEncode(v *ERABFailedToResumeItemResumeResValueCodec) *func(s15.ERABFailedToResumeItemResumeRes, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeERABFailedToResumeItemResumeResValueCodecFieldPath(v *ERABFailedToResumeItemResumeResValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeERABFailedToResumeItemResumeResValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeItemResumeResValueCodec, a0 s15.ERABFailedToResumeItemResumeRes, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeERABFailedToResumeItemResumeResValueCodecMethodEncodeChanged(v ERABFailedToResumeItemResumeResValueCodec, a0 s15.ERABFailedToResumeItemResumeRes, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeERABFailedToResumeListResumeReqAPERValueFieldContext(v *ERABFailedToResumeListResumeReqAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeListResumeReqAPERValueFieldReceived(v *ERABFailedToResumeListResumeReqAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeERABFailedToResumeListResumeReqAPERValueFieldReplay(v *ERABFailedToResumeListResumeReqAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeERABFailedToResumeListResumeReqAPERValueFieldWithoutReplay(v *ERABFailedToResumeListResumeReqAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeERABFailedToResumeListResumeReqValueCodecFieldCapture(v *ERABFailedToResumeListResumeReqValueCodec) *func(ERABFailedToResumeListResumeReq, aper.DecodeState) (ERABFailedToResumeListResumeReq, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeERABFailedToResumeListResumeReqValueCodecFieldCompare(v *ERABFailedToResumeListResumeReqValueCodec) *func(ERABFailedToResumeListResumeReq, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeERABFailedToResumeListResumeReqValueCodecFieldContext(v *ERABFailedToResumeListResumeReqValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeListResumeReqValueCodecFieldDecode(v *ERABFailedToResumeListResumeReqValueCodec) *func([]byte, aper.DecodeState) (ERABFailedToResumeListResumeReq, error) {
+	return &v.decode
+}
+func BridgeERABFailedToResumeListResumeReqValueCodecFieldEncode(v *ERABFailedToResumeListResumeReqValueCodec) *func(ERABFailedToResumeListResumeReq, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeERABFailedToResumeListResumeReqValueCodecFieldPath(v *ERABFailedToResumeListResumeReqValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeERABFailedToResumeListResumeReqValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeListResumeReqValueCodec, a0 ERABFailedToResumeListResumeReq, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeERABFailedToResumeListResumeReqValueCodecMethodEncodeChanged(v ERABFailedToResumeListResumeReqValueCodec, a0 ERABFailedToResumeListResumeReq, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeERABFailedToResumeListResumeResAPERValueFieldContext(v *ERABFailedToResumeListResumeResAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeListResumeResAPERValueFieldReceived(v *ERABFailedToResumeListResumeResAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeERABFailedToResumeListResumeResAPERValueFieldReplay(v *ERABFailedToResumeListResumeResAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeERABFailedToResumeListResumeResAPERValueFieldWithoutReplay(v *ERABFailedToResumeListResumeResAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeERABFailedToResumeListResumeResValueCodecFieldCapture(v *ERABFailedToResumeListResumeResValueCodec) *func(ERABFailedToResumeListResumeRes, aper.DecodeState) (ERABFailedToResumeListResumeRes, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeERABFailedToResumeListResumeResValueCodecFieldCompare(v *ERABFailedToResumeListResumeResValueCodec) *func(ERABFailedToResumeListResumeRes, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 	return &v.compare
 }
 func BridgeERABFailedToResumeListResumeResValueCodecFieldContext(v *ERABFailedToResumeListResumeResValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeERABFailedToResumeListResumeResValueCodecFieldDecode(v *ERABFailedToResumeListResumeResValueCodec) *func([]byte, aper.DecodeState) (s15.ERABFailedToResumeListResumeRes, error) {
+func BridgeERABFailedToResumeListResumeResValueCodecFieldDecode(v *ERABFailedToResumeListResumeResValueCodec) *func([]byte, aper.DecodeState) (ERABFailedToResumeListResumeRes, error) {
 	return &v.decode
 }
-func BridgeERABFailedToResumeListResumeResValueCodecFieldEncode(v *ERABFailedToResumeListResumeResValueCodec) *func(s15.ERABFailedToResumeListResumeRes, bool, *aper.DecodeBudget) ([]byte, error) {
+func BridgeERABFailedToResumeListResumeResValueCodecFieldEncode(v *ERABFailedToResumeListResumeResValueCodec) *func(ERABFailedToResumeListResumeRes, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
 func BridgeERABFailedToResumeListResumeResValueCodecFieldPath(v *ERABFailedToResumeListResumeResValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeERABFailedToResumeListResumeResValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeListResumeResValueCodec, a0 s15.ERABFailedToResumeListResumeRes, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+func BridgeERABFailedToResumeListResumeResValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeListResumeResValueCodec, a0 ERABFailedToResumeListResumeRes, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudgetValue(a0, a1, a2)
 }
-func BridgeERABFailedToResumeListResumeResValueCodecMethodEncodeChanged(v ERABFailedToResumeListResumeResValueCodec, a0 s15.ERABFailedToResumeListResumeRes, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+func BridgeERABFailedToResumeListResumeResValueCodecMethodEncodeChanged(v ERABFailedToResumeListResumeResValueCodec, a0 ERABFailedToResumeListResumeRes, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeERABFailedToSetupItemHOReqAckAPERValueFieldContext(v *ERABFailedToSetupItemHOReqAckAPERValue) *s00.BridgeCodecContext {
@@ -21987,18 +22215,6 @@ func BridgeERABSetupItemCtxtSUResAPERValueFieldReplay(v *ERABSetupItemCtxtSUResA
 func BridgeERABSetupItemCtxtSUResAPERValueFieldWithoutReplay(v *ERABSetupItemCtxtSUResAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBindingFieldCodec(v *ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding) *ERABSetupItemCtxtSUResValueCodec {
-	return &v.codec
-}
-func BridgeERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBindingFieldGet(v *ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding) *func(*ERABSetupItemCtxtSUResIEValue) (*ERABSetupItemCtxtSURes, bool) {
-	return &v.get
-}
-func BridgeERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBindingFieldInfo(v *ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding) *s00.FieldInfo {
-	return &v.info
-}
-func BridgeERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBindingFieldInject(v *ERABSetupItemCtxtSUResERABSetupItemCtxtSUResIEBinding) *func(ERABSetupItemCtxtSURes) ERABSetupItemCtxtSUResIEValue {
-	return &v.inject
-}
 func BridgeERABSetupItemCtxtSUResFieldExtCount(v *ERABSetupItemCtxtSURes) *int64   { return &v.extCount }
 func BridgeERABSetupItemCtxtSUResFieldExtData(v *ERABSetupItemCtxtSURes) *[][]byte { return &v.extData }
 func BridgeERABSetupItemCtxtSUResFieldExtOrigin(v *ERABSetupItemCtxtSURes) *[]aper.OpaqueOrigin {
@@ -22128,9 +22344,6 @@ func BridgeERABSetupItemCtxtSUResIEFieldValueCodecMethodEncodeBudgetValue(v ERAB
 func BridgeERABSetupItemCtxtSUResIEFieldValueCodecMethodEncodeChanged(v ERABSetupItemCtxtSUResIEFieldValueCodec, a0 ERABSetupItemCtxtSUResIEField, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeERABSetupItemCtxtSUResIETableMethodInfoERABSetupItemCtxtSURes(v ERABSetupItemCtxtSUResIETable) s00.FieldInfo {
-	return v.infoERABSetupItemCtxtSURes()
-}
 func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValueFieldContext(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
@@ -22142,30 +22355,6 @@ func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValueFieldReplay(
 }
 func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValueFieldWithoutReplay(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) *bool {
 	return &v.withoutReplay
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldCapture(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) *func(ERABSetupItemCtxtSUResIEValueERABIEContainerList, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueERABIEContainerList, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldCompare(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) *func(ERABSetupItemCtxtSUResIEValueERABIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldContext(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldDecode(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) *func([]byte, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueERABIEContainerList, error) {
-	return &v.decode
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldEncode(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) *func(ERABSetupItemCtxtSUResIEValueERABIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldPath(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecMethodEncodeBudgetValue(v ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec, a0 ERABSetupItemCtxtSUResIEValueERABIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecMethodEncodeChanged(v ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec, a0 ERABSetupItemCtxtSUResIEValueERABIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeERABSetupItemCtxtSUResIEValueFieldId(v *ERABSetupItemCtxtSUResIEValue) *s00.ProtocolIEID {
 	return &v.id
@@ -22209,78 +22398,6 @@ func BridgeERABSetupItemCtxtSUResIEValueMethodReason(v ERABSetupItemCtxtSUResIEV
 func BridgeERABSetupItemCtxtSUResIEValueMethodRule(v ERABSetupItemCtxtSUResIEValue) aper.SourceRule {
 	return v.rule()
 }
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValueFieldContext(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValueFieldReceived(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValueFieldReplay(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValueFieldWithoutReplay(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldCapture(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) *func(ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldCompare(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) *func(ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldContext(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldDecode(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) *func([]byte, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, error) {
-	return &v.decode
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldEncode(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) *func(ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldPath(v *ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecMethodEncodeBudgetValue(v ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec, a0 ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecMethodEncodeChanged(v ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec, a0 ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValueFieldContext(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValueFieldReceived(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValueFieldReplay(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValueFieldWithoutReplay(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldCapture(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) *func(ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldCompare(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) *func(ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldContext(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldDecode(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) *func([]byte, aper.DecodeState) (ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, error) {
-	return &v.decode
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldEncode(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) *func(ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldPath(v *ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecMethodEncodeBudgetValue(v ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec, a0 ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecMethodEncodeChanged(v ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec, a0 ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeERABSetupItemCtxtSUResMethodMarshalAPERBudget(v *ERABSetupItemCtxtSURes, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERBudget(a0, a1)
 }
@@ -22313,136 +22430,4 @@ func BridgeERABSetupItemCtxtSUResMethodUnmarshalAPERLegacy(v *ERABSetupItemCtxtS
 }
 func BridgeERABSetupItemCtxtSUResMethodUnmarshalAPERWithOptions(v *ERABSetupItemCtxtSURes, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
-}
-func BridgeERABSetupItemCtxtSUResValueCodecFieldCapture(v *ERABSetupItemCtxtSUResValueCodec) *func(ERABSetupItemCtxtSURes, aper.DecodeState) (ERABSetupItemCtxtSURes, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeERABSetupItemCtxtSUResValueCodecFieldCompare(v *ERABSetupItemCtxtSUResValueCodec) *func(ERABSetupItemCtxtSURes, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeERABSetupItemCtxtSUResValueCodecFieldContext(v *ERABSetupItemCtxtSUResValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupItemCtxtSUResValueCodecFieldDecode(v *ERABSetupItemCtxtSUResValueCodec) *func([]byte, aper.DecodeState) (ERABSetupItemCtxtSURes, error) {
-	return &v.decode
-}
-func BridgeERABSetupItemCtxtSUResValueCodecFieldEncode(v *ERABSetupItemCtxtSUResValueCodec) *func(ERABSetupItemCtxtSURes, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeERABSetupItemCtxtSUResValueCodecFieldPath(v *ERABSetupItemCtxtSUResValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeERABSetupItemCtxtSUResValueCodecMethodEncodeBudgetValue(v ERABSetupItemCtxtSUResValueCodec, a0 ERABSetupItemCtxtSURes, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABSetupItemCtxtSUResValueCodecMethodEncodeChanged(v ERABSetupItemCtxtSUResValueCodec, a0 ERABSetupItemCtxtSURes, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeERABSetupListBearerSUResAPERValueFieldContext(v *ERABSetupListBearerSUResAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupListBearerSUResAPERValueFieldReceived(v *ERABSetupListBearerSUResAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeERABSetupListBearerSUResAPERValueFieldReplay(v *ERABSetupListBearerSUResAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeERABSetupListBearerSUResAPERValueFieldWithoutReplay(v *ERABSetupListBearerSUResAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeERABSetupListBearerSUResValueCodecFieldCapture(v *ERABSetupListBearerSUResValueCodec) *func(ERABSetupListBearerSURes, aper.DecodeState) (ERABSetupListBearerSURes, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeERABSetupListBearerSUResValueCodecFieldCompare(v *ERABSetupListBearerSUResValueCodec) *func(ERABSetupListBearerSURes, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeERABSetupListBearerSUResValueCodecFieldContext(v *ERABSetupListBearerSUResValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupListBearerSUResValueCodecFieldDecode(v *ERABSetupListBearerSUResValueCodec) *func([]byte, aper.DecodeState) (ERABSetupListBearerSURes, error) {
-	return &v.decode
-}
-func BridgeERABSetupListBearerSUResValueCodecFieldEncode(v *ERABSetupListBearerSUResValueCodec) *func(ERABSetupListBearerSURes, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeERABSetupListBearerSUResValueCodecFieldPath(v *ERABSetupListBearerSUResValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeERABSetupListBearerSUResValueCodecMethodEncodeBudgetValue(v ERABSetupListBearerSUResValueCodec, a0 ERABSetupListBearerSURes, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABSetupListBearerSUResValueCodecMethodEncodeChanged(v ERABSetupListBearerSUResValueCodec, a0 ERABSetupListBearerSURes, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeERABSetupListCtxtSUResAPERValueFieldContext(v *ERABSetupListCtxtSUResAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupListCtxtSUResAPERValueFieldReceived(v *ERABSetupListCtxtSUResAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeERABSetupListCtxtSUResAPERValueFieldReplay(v *ERABSetupListCtxtSUResAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeERABSetupListCtxtSUResAPERValueFieldWithoutReplay(v *ERABSetupListCtxtSUResAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeERABSetupListCtxtSUResValueCodecFieldCapture(v *ERABSetupListCtxtSUResValueCodec) *func(ERABSetupListCtxtSURes, aper.DecodeState) (ERABSetupListCtxtSURes, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeERABSetupListCtxtSUResValueCodecFieldCompare(v *ERABSetupListCtxtSUResValueCodec) *func(ERABSetupListCtxtSURes, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeERABSetupListCtxtSUResValueCodecFieldContext(v *ERABSetupListCtxtSUResValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupListCtxtSUResValueCodecFieldDecode(v *ERABSetupListCtxtSUResValueCodec) *func([]byte, aper.DecodeState) (ERABSetupListCtxtSURes, error) {
-	return &v.decode
-}
-func BridgeERABSetupListCtxtSUResValueCodecFieldEncode(v *ERABSetupListCtxtSUResValueCodec) *func(ERABSetupListCtxtSURes, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeERABSetupListCtxtSUResValueCodecFieldPath(v *ERABSetupListCtxtSUResValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeERABSetupListCtxtSUResValueCodecMethodEncodeBudgetValue(v ERABSetupListCtxtSUResValueCodec, a0 ERABSetupListCtxtSURes, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABSetupListCtxtSUResValueCodecMethodEncodeChanged(v ERABSetupListCtxtSUResValueCodec, a0 ERABSetupListCtxtSURes, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeERABSubjecttoDataForwardingListAPERValueFieldContext(v *ERABSubjecttoDataForwardingListAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSubjecttoDataForwardingListAPERValueFieldReceived(v *ERABSubjecttoDataForwardingListAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeERABSubjecttoDataForwardingListAPERValueFieldReplay(v *ERABSubjecttoDataForwardingListAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeERABSubjecttoDataForwardingListAPERValueFieldWithoutReplay(v *ERABSubjecttoDataForwardingListAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeERABSubjecttoDataForwardingListValueCodecFieldCapture(v *ERABSubjecttoDataForwardingListValueCodec) *func(ERABSubjecttoDataForwardingList, aper.DecodeState) (ERABSubjecttoDataForwardingList, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeERABSubjecttoDataForwardingListValueCodecFieldCompare(v *ERABSubjecttoDataForwardingListValueCodec) *func(ERABSubjecttoDataForwardingList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeERABSubjecttoDataForwardingListValueCodecFieldContext(v *ERABSubjecttoDataForwardingListValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSubjecttoDataForwardingListValueCodecFieldDecode(v *ERABSubjecttoDataForwardingListValueCodec) *func([]byte, aper.DecodeState) (ERABSubjecttoDataForwardingList, error) {
-	return &v.decode
-}
-func BridgeERABSubjecttoDataForwardingListValueCodecFieldEncode(v *ERABSubjecttoDataForwardingListValueCodec) *func(ERABSubjecttoDataForwardingList, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeERABSubjecttoDataForwardingListValueCodecFieldPath(v *ERABSubjecttoDataForwardingListValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeERABSubjecttoDataForwardingListValueCodecMethodEncodeBudgetValue(v ERABSubjecttoDataForwardingListValueCodec, a0 ERABSubjecttoDataForwardingList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABSubjecttoDataForwardingListValueCodecMethodEncodeChanged(v ERABSubjecttoDataForwardingListValueCodec, a0 ERABSubjecttoDataForwardingList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }

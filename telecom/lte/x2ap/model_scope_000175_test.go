@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-func eNBIDapiMust(v s00.ENBID, err error) s00.ENBID {
+func choiceExtensionapiMust(v aper.ChoiceExtension, err error) aper.ChoiceExtension {
 	if err != nil {
 		panic(err)
 	}

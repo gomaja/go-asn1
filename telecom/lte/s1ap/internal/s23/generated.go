@@ -120,7 +120,9 @@ func (v *PathSwitchRequestFailureIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -235,7 +237,9 @@ func (v *S1SetupFailureIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -350,7 +354,9 @@ func (v *UEContextModificationResponseIEField) unmarshalAPERFrom(bb *aper.BitBuf
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -465,7 +471,9 @@ func (v *UEContextModificationFailureIEField) unmarshalAPERFrom(bb *aper.BitBuff
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -580,7 +588,9 @@ func (v *MMEConfigurationUpdateFailureIEField) unmarshalAPERFrom(bb *aper.BitBuf
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -695,7 +705,9 @@ func (v *UEContextModificationConfirmIEField) unmarshalAPERFrom(bb *aper.BitBuff
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -810,7 +822,9 @@ func (v *UEContextResumeFailureIEField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -925,7 +939,9 @@ func (v *UERadioCapabilityIDMappingResponseIEField) unmarshalAPERFrom(bb *aper.B
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1040,7 +1056,9 @@ func (v *S1RemovalResponseIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -1155,7 +1173,9 @@ func (v *S1RemovalFailureIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -6084,35 +6104,38 @@ func (c UEContextResumeFailureIEValueProtocolErrorIEContainerListValueCodec) enc
 // UEContextResumeFailureIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[UEContextResumeFailureIEValue].
 type UEContextResumeFailureIEValueProtocolErrorIEContainerList []UEContextResumeFailureIEValueProtocolIESingleContainer
 
-// UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[UERadioCapabilityIDMappingResponseIEValue]].
-type UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec struct {
+// UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[UERadioCapabilityIDMappingResponseIEValue].
+type UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList []UERadioCapabilityIDMappingResponseIEValueProtocolIESingleContainer
+
+// MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[MMEConfigurationUpdateAcknowledgeIEValue]].
+type MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, error)
-	encode  func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot)
-	compare func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+	decode  func([]byte, aper.DecodeState) (s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, error)
+	encode  func(s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, aper.DecodeState) (s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, aper.Snapshot)
+	compare func(s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) New(value UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue, error) {
+func (c MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) New(value s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList) (s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue, error) {
 	if c.encode == nil {
-		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+		return s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue, aper.DecodeReport, error) {
+func (c MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -6120,16 +6143,22 @@ func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListVal
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+			return s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		return func() s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue {
+			sealed := s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue{Value: value}
+			*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValueFieldReceived(&sealed) = aper.OriginalWire(data)
+			*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValueFieldReplay(&sealed) = replay
+			*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValueFieldContext(&sealed) = c.context
+			return sealed
+		}(), report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, report, err
+	return s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) EncodeAPER(value UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) EncodeAPER(value s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -6137,29 +6166,29 @@ func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListVal
 	if err != nil {
 		return nil, aper.OperationError(err, c.path)
 	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
+	fresh := *s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValueFieldWithoutReplay(&value) || aper.EncodeWithoutReplay(options...)
+	if *s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValueFieldContext(&value) == c.context && !fresh && (*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValueFieldReplay(&value)).Present() {
+		plan, next := c.compare(value.Value, *s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValueFieldReplay(&value), budget)
 		budget = next
 		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
 			return nil, aper.OperationError(err, c.path)
 		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
+		if plan.Unchanged(*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValueFieldReplay(&value)) {
+			out, err := aper.CopyReplay(*s22.BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListAPERValueFieldReceived(&value), &budget)
 			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, fresh, budget, plan)
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) encodeBudgetValue(value UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+func (c MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) encodeBudgetValue(value s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
 		err = failure
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) encodeChanged(value UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+func (c MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) encodeChanged(value s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
@@ -6167,9 +6196,6 @@ func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListVal
 	}
 	return out, aper.OperationError(err, c.path)
 }
-
-// UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[UERadioCapabilityIDMappingResponseIEValue].
-type UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList []UERadioCapabilityIDMappingResponseIEValueProtocolIESingleContainer
 
 // MMEConfigurationUpdateFailureIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[MMEConfigurationUpdateFailureIEValue]].
 type MMEConfigurationUpdateFailureIEValueProtocolIEContainerListValueCodec struct {
@@ -6953,9 +6979,6 @@ func (c UEContextResumeFailureIEValueProtocolIEContainerListValueCodec) encodeCh
 
 // UEContextResumeFailureIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[UEContextResumeFailureIEValue].
 type UEContextResumeFailureIEValueProtocolIEContainerList []UEContextResumeFailureIEValueProtocolIESingleContainer
-
-// UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[UERadioCapabilityIDMappingResponseIEValue].
-type UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList []UERadioCapabilityIDMappingResponseIEValueProtocolIESingleContainer
 
 // MMEConfigurationUpdateFailureIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[MMEConfigurationUpdateFailureIEValue]].
 type MMEConfigurationUpdateFailureIEValueERABIEContainerListAPERValue struct {
@@ -8059,28 +8082,6 @@ func (v UEContextResumeFailureIEValueProtocolIEContainerListAPERValue) ReceivedF
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v UEContextResumeFailureIEValueProtocolIEContainerListAPERValue) WithoutReplay() UEContextResumeFailureIEValueProtocolIEContainerListAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[UERadioCapabilityIDMappingResponseIEValue]].
-type UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue struct {
-	context       s00.BridgeCodecContext
-	Value         UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue) WithoutReplay() UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -17774,6 +17775,7 @@ func (t MMEConfigurationUpdateFailureIETable) Cause() MMEConfigurationUpdateFail
 				var empty s14.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero MMEConfigurationUpdateFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -17838,6 +17840,7 @@ func (t MMEConfigurationUpdateFailureIETable) TimeToWait() MMEConfigurationUpdat
 				var empty s00.TimeToWait
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TimeToWait")
 			var zero MMEConfigurationUpdateFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(65), raw)
 			if err != nil {
@@ -17905,6 +17908,7 @@ func (t MMEConfigurationUpdateFailureIETable) CriticalityDiagnostics() MMEConfig
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero MMEConfigurationUpdateFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -18022,6 +18026,7 @@ func (t PathSwitchRequestFailureIETable) MMEUES1APID() PathSwitchRequestFailureM
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero PathSwitchRequestFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -18086,6 +18091,7 @@ func (t PathSwitchRequestFailureIETable) ENBUES1APID() PathSwitchRequestFailureE
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero PathSwitchRequestFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -18150,6 +18156,7 @@ func (t PathSwitchRequestFailureIETable) Cause() PathSwitchRequestFailureCauseIE
 				var empty s14.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero PathSwitchRequestFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -18214,6 +18221,7 @@ func (t PathSwitchRequestFailureIETable) CriticalityDiagnostics() PathSwitchRequ
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero PathSwitchRequestFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -18331,6 +18339,7 @@ func (t S1RemovalFailureIETable) Cause() S1RemovalFailureCauseIEBinding {
 				var empty s14.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero S1RemovalFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -18395,6 +18404,7 @@ func (t S1RemovalFailureIETable) CriticalityDiagnostics() S1RemovalFailureCritic
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero S1RemovalFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -18508,6 +18518,7 @@ func (t S1RemovalResponseIETable) MMEname() S1RemovalResponseMMEnameIEBinding {
 				var empty s00.MMEname
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEname")
 			var zero S1RemovalResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(61), raw)
 			if err != nil {
@@ -18573,6 +18584,7 @@ func (t S1RemovalResponseIETable) CriticalityDiagnostics() S1RemovalResponseCrit
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero S1RemovalResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -18686,6 +18698,7 @@ func (t S1SetupFailureIETable) Cause() S1SetupFailureCauseIEBinding {
 				var empty s14.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero S1SetupFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -18750,6 +18763,7 @@ func (t S1SetupFailureIETable) TimeToWait() S1SetupFailureTimeToWaitIEBinding {
 				var empty s00.TimeToWait
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TimeToWait")
 			var zero S1SetupFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(65), raw)
 			if err != nil {
@@ -18815,6 +18829,7 @@ func (t S1SetupFailureIETable) CriticalityDiagnostics() S1SetupFailureCriticalit
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero S1SetupFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -18932,6 +18947,7 @@ func (t UEContextModificationConfirmIETable) MMEUES1APID() UEContextModification
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero UEContextModificationConfirmIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -18998,6 +19014,7 @@ func (t UEContextModificationConfirmIETable) ENBUES1APID() UEContextModification
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero UEContextModificationConfirmIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -19064,6 +19081,7 @@ func (t UEContextModificationConfirmIETable) CSGMembershipStatus() UEContextModi
 				var empty s00.CSGMembershipStatus
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CSGMembershipStatus")
 			var zero UEContextModificationConfirmIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(146), raw)
 			if err != nil {
@@ -19130,6 +19148,7 @@ func (t UEContextModificationConfirmIETable) CriticalityDiagnostics() UEContextM
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero UEContextModificationConfirmIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -19249,6 +19268,7 @@ func (t UEContextModificationFailureIETable) MMEUES1APID() UEContextModification
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero UEContextModificationFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -19315,6 +19335,7 @@ func (t UEContextModificationFailureIETable) ENBUES1APID() UEContextModification
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero UEContextModificationFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -19381,6 +19402,7 @@ func (t UEContextModificationFailureIETable) Cause() UEContextModificationFailur
 				var empty s14.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero UEContextModificationFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -19445,6 +19467,7 @@ func (t UEContextModificationFailureIETable) CriticalityDiagnostics() UEContextM
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero UEContextModificationFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -19564,6 +19587,7 @@ func (t UEContextModificationResponseIETable) MMEUES1APID() UEContextModificatio
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero UEContextModificationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -19630,6 +19654,7 @@ func (t UEContextModificationResponseIETable) ENBUES1APID() UEContextModificatio
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero UEContextModificationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -19696,6 +19721,7 @@ func (t UEContextModificationResponseIETable) CriticalityDiagnostics() UEContext
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero UEContextModificationResponseIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -19813,6 +19839,7 @@ func (t UEContextResumeFailureIETable) MMEUES1APID() UEContextResumeFailureMMEUE
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero UEContextResumeFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -19877,6 +19904,7 @@ func (t UEContextResumeFailureIETable) ENBUES1APID() UEContextResumeFailureENBUE
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero UEContextResumeFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -19941,6 +19969,7 @@ func (t UEContextResumeFailureIETable) Cause() UEContextResumeFailureCauseIEBind
 				var empty s14.Cause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("Cause")
 			var zero UEContextResumeFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
@@ -20005,6 +20034,7 @@ func (t UEContextResumeFailureIETable) CriticalityDiagnostics() UEContextResumeF
 				var empty s22.CriticalityDiagnostics
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
 			var zero UEContextResumeFailureIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
@@ -20085,6 +20115,30 @@ func (t UEContextResumeFailureIETable) NewOpaque(id s00.ProtocolIEID, criticalit
 // TimeToWaitCodec binds the complete APER value type.
 func TimeToWaitCodec() s02.TimeToWaitValueCodec {
 	return s22.ENBConfigurationUpdateFailureIEs().TimeToWait().Codec()
+}
+func BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodecFieldCapture(v *MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) *func(s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, aper.DecodeState) (s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodecFieldCompare(v *MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) *func(s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodecFieldContext(v *MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodecFieldDecode(v *MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) *func([]byte, aper.DecodeState) (s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, error) {
+	return &v.decode
+}
+func BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodecFieldEncode(v *MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) *func(s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodecFieldPath(v *MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodecMethodEncodeBudgetValue(v MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec, a0 s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeMMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodecMethodEncodeChanged(v MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec, a0 s22.MMEConfigurationUpdateAcknowledgeIEValueProtocolIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeMMEConfigurationUpdateFailureCauseIEBindingFieldCodec(v *MMEConfigurationUpdateFailureCauseIEBinding) *s14.CauseValueCodec {
 	return &v.codec
@@ -22927,41 +22981,5 @@ func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList
 	return &v.replay
 }
 func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldWithoutReplay(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue) *bool {
-	return &v.withoutReplay
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldCapture(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldCompare(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldContext(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldDecode(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, error) {
-	return &v.decode
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldEncode(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldPath(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecMethodEncodeBudgetValue(v UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec, a0 UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecMethodEncodeChanged(v UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec, a0 UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValueFieldContext(v *UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValueFieldReceived(v *UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValueFieldReplay(v *UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValueFieldWithoutReplay(v *UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue) *bool {
 	return &v.withoutReplay
 }

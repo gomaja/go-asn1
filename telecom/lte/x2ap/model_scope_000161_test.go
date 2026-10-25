@@ -6,7 +6,7 @@ import (
 	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
 )
 
-func enGNBENDCConfigUpdateAckIEFieldapiMust(v s17.EnGNBENDCConfigUpdateAckIEField, err error) s17.EnGNBENDCConfigUpdateAckIEField {
+func eNBENDCConfigUpdateIEFieldapiMust(v s17.ENBENDCConfigUpdateIEField, err error) s17.ENBENDCConfigUpdateIEField {
 	if err != nil {
 		panic(err)
 	}

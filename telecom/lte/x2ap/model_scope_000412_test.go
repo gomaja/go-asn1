@@ -3,10 +3,15 @@
 package x2ap
 
 import (
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 )
 
-func uEX2APIDreplayBoundCodecOps(c s11.UEX2APIDValueCodec, raw []byte) replayBoundOps {
-	v, _, _ := c.DecodeAPER(raw)
-	return replayBoundOps{decode: func() error { _, _, err := c.DecodeAPER(raw); return err }, encode: func() ([]byte, error) { return c.EncodeAPER(v) }}
+// IntPayloadCodec is the concrete PayloadCodec[int].
+type IntPayloadCodec struct {
+	decode func([]byte, s00.PayloadLimits) (int, s00.PayloadReport,
+
+		error)
+	encode func(int, s00.PayloadLimits,
+
+	) ([]byte, error)
 }

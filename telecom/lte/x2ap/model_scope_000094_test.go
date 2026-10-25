@@ -5,7 +5,7 @@ package x2ap
 import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -22,7 +22,7 @@ func TestEveryObservationNamesItsMember(t *testing.T) {
 		}
 	}
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		unknown, err := s19.NewX2APPDUUnknownExtension(7, []byte{0})
+		unknown, err := s20.NewX2APPDUUnknownExtension(7, []byte{0})
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -30,7 +30,7 @@ func TestEveryObservationNamesItsMember(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		var pdu s19.X2APPDU
+		var pdu s20.X2APPDU
 		report, err := pdu.UnmarshalAPER(wire, options...)
 		check(report, err, "UnknownExtension")
 		cd := s06.CriticalityDiagnostics{}
@@ -47,7 +47,7 @@ func TestEveryObservationNamesItsMember(t *testing.T) {
 		if report.Observations[0].Location.Path != decoded.Extensions()[0].Origin().Location.Path {
 			t.Fatal("sequence view and observation disagree")
 		}
-		opaque, err := s19.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0})
+		opaque, err := s20.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0})
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -55,7 +55,7 @@ func TestEveryObservationNamesItsMember(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		var envelope s19.InitiatingMessage
+		var envelope s20.InitiatingMessage
 		report, err = envelope.UnmarshalAPER(wire, options...)
 		check(report, err, "InitiatingMessage.Value")
 		wire = receiverUnknownWire(t, 1)

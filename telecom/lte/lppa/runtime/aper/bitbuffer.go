@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 78d228905794c942a36f0c5a5f8c72887d47b30add75a771b4b694eae149f010.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 1512fa51dc5fcdab7aad068d1e7e605192961a4364be89927dc3c8d8af16b0b1.
 package aper
 
 import (
@@ -96,6 +96,11 @@ type decodeSettings struct {
 func (bb *BitBuffer) setDecodeSettings(options decodeSettings) error {
 	if options.operation != nil {
 		bb.budget = options.operation
+		if bb.budget.nonzeroTerminalPadding {
+			if err := bb.startPaddingTrace(); err != nil {
+				return err
+			}
+		}
 		if bb.budget.err != nil {
 			return bb.budget.err
 		}
@@ -453,7 +458,7 @@ type CompleteValue[T any] struct {
 // padding and no trailing data, then wraps value with zero padding state
 // (X.691 (02/2021) §§11.1.4, 11.2.1).
 func CompleteOpenTypeValue[T any](bb *BitBuffer, value T) (*CompleteValue[T], error) {
-	padding, err := CaptureOpenTypePadding(bb)
+	padding, err := capturePrimitivePadding[T](bb)
 	if err != nil {
 		return nil, err
 	}
@@ -545,6 +550,10 @@ func ValidateFinalPadding(bb *BitBuffer) error {
 }
 
 func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, error) {
+	return captureNamedPadding(bb, context, context)
+}
+
+func captureNamedPadding(bb *BitBuffer, context, path string) (CompletePadding, error) {
 	if bb.invalidLength {
 		return CompletePadding{}, fmt.Errorf("%w: PER input bit length exceeds int", ErrInvalidValue)
 	}
@@ -566,7 +575,15 @@ func captureTrailingPadding(bb *BitBuffer, context string) (CompletePadding, err
 		return CompletePadding{}, err
 	}
 	if padding != 0 {
-		return CompletePadding{}, bb.syntaxError(start, "§11.1.4", context+" has non-zero terminal padding", ErrInvalidValue)
+		if bb.budget != nil && bb.budget.nonzeroTerminalPadding {
+			if err := bb.observeTerminalPadding(start, remaining, uint8(padding), path, context == "open type" || bb.nested); err != nil {
+				return CompletePadding{}, err
+			}
+			return CompletePadding{}, nil
+		}
+		failure := bb.syntaxError(start, "§11.1.4", context+" has non-zero terminal padding", ErrInvalidValue).(*DecodeError)
+		failure.Location.Path = Path(path)
+		return CompletePadding{}, failure
 	}
 	return CompletePadding{}, nil
 }

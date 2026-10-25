@@ -3,23 +3,52 @@
 package x2ap
 
 import (
-	fmt "fmt"
+	bytes "bytes"
+	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	testing "testing"
 )
 
-// New validates the source value and constructs a value without received replay state.
-func (c Int64ValueCodec) New(value int64,
-
-) (Int64APERValue, error) {
-	if c.encode == nil {
-		return Int64APERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
+// The callback counter separates semantic capture from encoding, including
+// after caller input reuse and edit/restore (X.691 (02/2021) §§11.1–11.2).
+func uRIAddresssemanticEditRestore(t *testing.T, c s12.URIAddressValueCodec, initial s12.URIAddress, edit, restore func(*s12.URIAddress)) {
+	t.Helper()
+	encoder := *s12.X2apInternalURIAddressValueCodecFieldEncode(&c)
+	calls := 0
+	*s12.X2apInternalURIAddressValueCodecFieldEncode(&c) = func(v s12.URIAddress, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		calls++
+		return encoder(v, fresh, budget)
 	}
-	budget, err := aper.BuildBudget()
+	wire := listByteapiMust(c.EncodeAPER(uRIAddressAPERValueapiMust(c.New(initial))))
+	original := bytes.Clone(wire)
+	calls = 0
+	v, _, err := c.DecodeAPER(wire)
 	if err != nil {
-		return Int64APERValue{}, aper.OperationError(err, "Value.New")
+		t.Fatal(err)
 	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return Int64APERValue{}, aper.OperationError(err, "Value.New")
+	if calls != 0 {
+		t.Fatal("decode called value encoder")
 	}
-	return Int64APERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	for i := range wire {
+		wire[i] ^= 0xff
+	}
+	got := listByteapiMust(c.EncodeAPER(v))
+	if !bytes.Equal(got, original) || calls != 0 {
+		t.Fatal("unchanged encode called encoder or borrowed input")
+	}
+	got[0] ^= 0xff
+	if !bytes.Equal(listByteapiMust(c.EncodeAPER(v)), original) {
+		t.Fatal("encode exposed received storage")
+	}
+	edit(&v.Value)
+	got = listByteapiMust(c.EncodeAPER(v))
+	want := listByteapiMust(c.EncodeAPER(v, aper.WithoutReplay()))
+	if bytes.Equal(got, original) || !bytes.Equal(got, want) {
+		t.Fatal("edit did not reach encoder")
+	}
+	before := calls
+	restore(&v.Value)
+	if !bytes.Equal(listByteapiMust(c.EncodeAPER(v)), original) || calls != before {
+		t.Fatal("restored encode called value encoder")
+	}
 }

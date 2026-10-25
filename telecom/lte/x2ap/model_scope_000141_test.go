@@ -2,9 +2,11 @@
 
 package x2ap
 
-func listByteapiMust(v []byte,
+import (
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+)
 
-	err error) []byte {
+func initiatingMessageapiMust(v s20.InitiatingMessage, err error) s20.InitiatingMessage {
 	if err != nil {
 		panic(err)
 	}

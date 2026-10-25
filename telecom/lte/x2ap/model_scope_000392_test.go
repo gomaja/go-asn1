@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 )
 
-func rachIndicationfreshMust(value s19.RachIndication, err error) s19.RachIndication {
+func cPCCancelIEFieldfreshMust(value s11.CPCCancelIEField, err error) s11.CPCCancelIEField {
 	if err != nil {
 		panic(err)
 	}

@@ -14,6 +14,40 @@ import (
 	"math/bits"
 )
 
+func BridgeInterRATMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExtensionContainer(v *s03.InterRATMeasurementQuantitiesValueExtIEsExtContainer, s *aper.SemanticComparison) {
+	if s.Failed() {
+		return
+	}
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			s04.BridgeInterRATMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+}
+func BridgeMeasurementQuantitiesValueExtIEsValueCaptureLPPaProtocolExtensionContainer(v *s04.MeasurementQuantitiesValueExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Failed() {
+		return
+	}
+	{
+		f := s.Begin()
+		s.Uint(uint64(len((*v))))
+		s.Elements(uint64(len((*v))))
+		for i := range *v {
+			if s.Failed() {
+				break
+			}
+			BridgeMeasurementQuantitiesValueExtIEsValueCaptureLPPaProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+}
 func BridgeMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExtensionContainer(v *s04.MeasurementQuantitiesValueExtIEsExtContainer, s *aper.SemanticComparison) {
 	if s.Failed() {
 		return
@@ -26,7 +60,7 @@ func BridgeMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExtensionCont
 			if s.Failed() {
 				break
 			}
-			s04.BridgeMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExtensionField(&(*v)[i], s)
+			BridgeMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExtensionField(&(*v)[i], s)
 		}
 		s.End(f, aper.Snapshot{}, false)
 	}
@@ -936,104 +970,21 @@ func (c CriticalityDiagnosticsIEListElemValueCodec) encodeChanged(value Critical
 	return out, aper.OperationError(err, c.path)
 }
 
-// ECGIValueCodec is the concrete ValueCodec[ECGI].
-type ECGIValueCodec struct {
-	context s00.BridgeCodecContext
-	capture func(ECGI, aper.DecodeState,
+// interRATMeasurementQuantitiesValueExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[InterRATMeasurementQuantitiesValueExtIEsValue].
+type InterRATMeasurementQuantitiesValueExtIEsValueProtocolOpenValueConstraint interface {
+	captureSemantics(aper.SemanticCapture) s02.InterRATMeasurementQuantitiesValueExtIEsValue
 
-	) (ECGI, aper.Snapshot,
-
-	)
-	compare func(ECGI, aper.Snapshot, aper.ComparisonLimits,
-
-	) aper.ReplayPlan
-	path   aper.Path
-	decode func([]byte, aper.DecodeState) (ECGI,
+	captureFraming() uint64
+	captureSnapshot() aper.Snapshot
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s02.InterRATMeasurementQuantitiesValueExtIEsValue,
 
 		error)
-	encode func(ECGI,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-}
-
-// New validates value and returns a complete APER value.
-func (c ECGIValueCodec) New(value ECGI,
-
-) (ECGIAPERValue, error) {
-	if c.encode == nil {
-		return ECGIAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ECGIAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ECGIAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	return ECGIAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete APER value with the supplied options and retains its received wire form.
-func (c ECGIValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ECGIAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil {
-		return ECGIAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
-	}
-	data, settings := aper.OwnDecodeInputOptions(data, options...)
-	value, err := c.decode(data, settings)
-	if err != nil {
-		report, err := aper.FinishDecode(settings, err)
-		return ECGIAPERValue{}, report, aper.OperationError(err, c.path)
-	}
-	if c.capture == nil {
-		return ECGIAPERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: missing semantic capture", aper.ErrInvalidValue)
-	}
-	value, replay := c.capture(value, settings)
-	report, err := aper.FinishDecode(settings, nil)
-	if err != nil {
-		return ECGIAPERValue{}, report, aper.OperationError(err, c.path)
-	}
-	return ECGIAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-}
-
-// EncodeAPER encodes a complete APER value, replaying unchanged received bytes unless fresh encoding is requested.
-func (c ECGIValueCodec) EncodeAPER(value ECGIAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	var budget aper.DecodeBudget
-	if err := aper.InitEncodeBudget(&budget, options...); err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	if !fresh && value.context == c.context && value.replay.Present() {
-
-		plan := c.compare(value.Value, value.replay, aper.ComparisonBudget(&budget))
-		if err := plan.ChargeComparison(&budget); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			if err := value.replay.ApplyReplay(&budget); err != nil {
-				return nil, aper.OperationError(err, c.path)
-			}
-			out, err := value.received.ReplayBytes(&budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, false, plan, budget)
-	}
-	out, err := c.encodeBudget(value.Value, fresh, budget)
-	return out, aper.OperationError(err, c.path)
-}
-func (c ECGIValueCodec) encodeBudget(value ECGI,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	return c.encode(value, fresh, &budget)
-}
-func (c ECGIValueCodec) encodeChanged(value ECGI,
-
-	fresh bool, plan aper.ReplayPlan, budget aper.DecodeBudget) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	return out, aper.OperationError(err, c.path)
+	encode() ([]byte, error)
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
 }
 
 // measurementQuantitiesValueExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[MeasurementQuantitiesValueExtIEsValue].
@@ -1051,6 +1002,33 @@ type MeasurementQuantitiesValueExtIEsValueProtocolOpenValueConstraint interface 
 	matchesID(s00.ProtocolIEID, *aper.DecodeBudget) bool
 	reason(s00.ProtocolIEID) aper.OpaqueReason
 	rule() aper.SourceRule
+}
+
+func BridgeMeasurementQuantitiesValueExtIEsValueCaptureLPPaProtocolExtensionField(v *s04.MeasurementQuantitiesValueExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s.Value()
+	s.Stream(*s04.BridgeMeasurementQuantitiesValueExtIEsExtFieldFieldStream(v))
+	s00.BridgeCaptureLPPaProtocolIEID(&v.Id, s)
+	s00.BridgeCaptureLPPaCriticality(&v.Criticality, s)
+	s.OpenBytes(s02.BridgeMeasurementQuantitiesValueExtIEsValueMethodCaptureFraming(v.ExtensionValue))
+	v.ExtensionValue = s02.BridgeMeasurementQuantitiesValueExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.Child(s02.BridgeMeasurementQuantitiesValueExtIEsValueMethodCaptureSnapshot(v.ExtensionValue))
+	s.End(f, s04.BridgeMeasurementQuantitiesValueExtIEsExtFieldFieldReplay(v), *s04.BridgeMeasurementQuantitiesValueExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeMeasurementQuantitiesValueExtIEsValueCompareLPPaProtocolExtensionField(v *s04.MeasurementQuantitiesValueExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Failed() {
+		return
+	}
+	f := s.Begin()
+	s.Value()
+	s02.BridgeCompareLPPaProtocolIEID(&v.Id, s)
+	s02.BridgeCompareLPPaCriticality(&v.Criticality, s)
+
+	*s = s02.BridgeMeasurementQuantitiesValueExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s04.BridgeMeasurementQuantitiesValueExtIEsExtFieldFieldReplay(v), *s04.BridgeMeasurementQuantitiesValueExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // nRCGIExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[NRCGIExtIEsValue].
@@ -1773,6 +1751,7 @@ func (v *AssistanceInformationMetaData) unmarshalAPERWithOptions(data []byte, op
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationMetaData")
 	}
+	bb.EnterComponent("AssistanceInformationMetaData")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationMetaData")
 	}
@@ -1845,6 +1824,7 @@ func (v *AssistanceInformationMetaData) unmarshalAPERFrom(bb *aper.BitBuffer) er
 		v.SBASID = (*int64)(bb.OwnInt64(int64(val_sbasid)))
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.AssistanceInformationMetaDataExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -1853,9 +1833,11 @@ func (v *AssistanceInformationMetaData) unmarshalAPERFrom(bb *aper.BitBuffer) er
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.AssistanceInformationMetaDataExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.BridgeAssistanceInformationMetaDataExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -1868,6 +1850,7 @@ func (v *AssistanceInformationMetaData) unmarshalAPERFrom(bb *aper.BitBuffer) er
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -2054,6 +2037,7 @@ func (v *BitmapsforNPRS) unmarshalAPERWithOptions(data []byte, options aper.Deco
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "BitmapsforNPRS")
 	}
+	bb.EnterComponent("BitmapsforNPRS")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "BitmapsforNPRS")
 	}
@@ -2134,7 +2118,9 @@ func (v *BitmapsforNPRS) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			v.FortyTdd = &tmp_fortytdd
 		}
+		paddingMark := inner.EnterComponent(extensionPath)
 		padding, err := aper.CaptureOpenTypePadding(inner)
+		inner.LeaveComponent(paddingMark)
 		if err != nil {
 			return runtime.WrapDecodePath(err, extensionPath)
 		}
@@ -2282,6 +2268,7 @@ func (v *Cause) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
+	bb.EnterComponent("Cause")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "Cause")
 	}
@@ -2513,6 +2500,7 @@ func (v *ECGI) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) e
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ECGI")
 	}
+	bb.EnterComponent("ECGI")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ECGI")
 	}
@@ -2553,6 +2541,7 @@ func (v *ECGI) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	v.EUTRANcellIdentifier = runtime.BitString{Bytes: bsBytes_eutrancellidentifier, BitLength: bsBitLen_eutrancellidentifier}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.ECGIExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2561,9 +2550,11 @@ func (v *ECGI) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.ECGIExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.BridgeECGIExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -2576,6 +2567,7 @@ func (v *ECGI) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -2635,6 +2627,31 @@ func (v *ECGI) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 
 		bb)
 
+	return nil
+}
+
+// MarshalAPERWLANChannelListTo appends a WLANChannelList list to bb.
+func BridgeMarshalAPERWLANChannelListTo(list s00.WLANChannelList, bb *aper.BitBuffer, fresh ...bool) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	v := s00.BridgeAsn1cAPERWLANChannelListListValue{Value: list}
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := aper.EncodeIntegerAligned(bb, int64(elem), s03.BridgeInt64Ptr(0), s03.BridgeInt64Ptr(255), false); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
 	return nil
 }
 
@@ -2772,6 +2789,7 @@ func (v *AssistanceInformationFailureListElem) unmarshalAPERWithOptions(data []b
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFailureListElem")
 	}
+	bb.EnterComponent("AssistanceInformationFailureListElem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "AssistanceInformationFailureListElem")
 	}
@@ -2812,6 +2830,7 @@ func (v *AssistanceInformationFailureListElem) unmarshalAPERFrom(bb *aper.BitBuf
 	}
 	v.Outcome = s00.Outcome(val_outcome)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.AssistanceInformationFailureListExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -2820,9 +2839,11 @@ func (v *AssistanceInformationFailureListElem) unmarshalAPERFrom(bb *aper.BitBuf
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.AssistanceInformationFailureListExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.BridgeAssistanceInformationFailureListExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -2835,6 +2856,7 @@ func (v *AssistanceInformationFailureListElem) unmarshalAPERFrom(bb *aper.BitBuf
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -3034,6 +3056,7 @@ func (v *CriticalityDiagnosticsIEListElem) unmarshalAPERWithOptions(data []byte,
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEListElem")
 	}
+	bb.EnterComponent("CriticalityDiagnosticsIEListElem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "CriticalityDiagnosticsIEListElem")
 	}
@@ -3079,6 +3102,7 @@ func (v *CriticalityDiagnosticsIEListElem) unmarshalAPERFrom(bb *aper.BitBuffer)
 	}
 	v.TypeOfError = s00.TypeOfError(val_typeoferror)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.CriticalityDiagnosticsIEListExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
@@ -3087,9 +3111,11 @@ func (v *CriticalityDiagnosticsIEListElem) unmarshalAPERFrom(bb *aper.BitBuffer)
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s03.CriticalityDiagnosticsIEListExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s03.BridgeCriticalityDiagnosticsIEListExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -3102,6 +3128,7 @@ func (v *CriticalityDiagnosticsIEListElem) unmarshalAPERFrom(bb *aper.BitBuffer)
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -3161,6 +3188,31 @@ func (v *CriticalityDiagnosticsIEListElem) unmarshalAPERFrom(bb *aper.BitBuffer)
 
 		bb)
 
+	return nil
+}
+
+// MarshalAPERPRSFrequencyHoppingConfigurationBandPositionsTo appends a PRSFrequencyHoppingConfigurationBandPositions list to bb.
+func BridgeMarshalAPERPRSFrequencyHoppingConfigurationBandPositionsTo(list s00.PRSFrequencyHoppingConfigurationBandPositions, bb *aper.BitBuffer, fresh ...bool) error {
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	v := s00.BridgeAsn1cAPERPRSFrequencyHoppingConfigurationBandPositionsListValue{Value: list}
+	if err := aper.EncodeCollection(bb, int64(len(v.Value)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
+		// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+		if fragmentOffset_value < 0 || fragmentOffset_value > int64(len(v.Value)) || fragmentLength_value < 0 || fragmentLength_value > int64(len(v.Value[fragmentOffset_value:])) {
+			return fmt.Errorf("collection fragment outside value")
+		}
+		for _, elem := range v.Value[fragmentOffset_value : fragmentOffset_value+fragmentLength_value] {
+			if err := aper.EncodeIntegerBigBoundsAligned(bb, elem, s00.BridgeAsn1IntegerBound1, s00.BridgeAsn1IntegerBound7, true); err != nil {
+				return fmt.Errorf("encoding value element: %w", err)
+			}
+		}
+		return nil
+	}); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
 	return nil
 }
 
@@ -4674,42 +4726,74 @@ func CriticalityDiagnosticsIEListElemCodec() CriticalityDiagnosticsIEListElemVal
 	}(),
 	}
 }
-
-// ECGICodec binds the complete source value type.
-func ECGICodec() ECGIValueCodec {
-	return ECGIValueCodec{path: "ECGI", decode: func(data []byte, options aper.DecodeState) (ECGI, error) {
-		var value ECGI
-		if err := value.unmarshalAPERWithOptions(data, options); err != nil {
-			return ECGI{}, err
-		}
-		value.received = true
-		value.receivedBytes = aper.OriginalWire(data)
-		return value, nil
-	}, encode: func(value ECGI, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return (&value).marshalAPERBudget(budget, fresh)
-	}, capture: func(v ECGI, options aper.DecodeState) (ECGI, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		BridgeCaptureLPPaECGI(&v, &s)
-		var root aper.Snapshot
-		s.OperationCounts()
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v ECGI, root aper.Snapshot, limits aper.ComparisonLimits) aper.ReplayPlan {
-		s := aper.NewSemanticComparison(root,
-			limits)
-		f := s.Begin()
-		BridgeCompareLPPaECGI(&v, &s)
-		s.End(f,
-			root, false)
-		return s.Plan()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ECGI"
-		return sealed
-	}(),
-	}
+func BridgeLppaValidationRule(code s00.ValidationCode) aper.SourceRule {
+	_ = code
+	return aper.SourceRule{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§10"}
 }
+
+// TS 36.413 V19.2.0 §10.3.4.2 supplies receiver handling, not the
+// identifier-membership severity policy. §10.3.4.1A handles message type.
+func BridgeLppaHandlingRules(code s00.ValidationCode) []aper.SourceRule {
+	rules := []aper.SourceRule{BridgeLppaAdoptedRule(code)}
+	clause := ""
+	switch code {
+	case s00.NotAllowed:
+		clause = "§10.3.4.2"
+	case s00.UnavailableOutcome:
+		clause = "§10.3.4.1A"
+	}
+	if clause != "" {
+		rules = append(rules, aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: clause})
+	}
+	return rules
+}
+func BridgeLppaAdoptedRule(code s00.ValidationCode) aper.SourceRule {
+	clause := "§10"
+	switch code {
+	case s00.MissingMandatory:
+		clause = "§10.3.5"
+	case s00.NotAllowed:
+		clause = "§10.3.1"
+	case s00.WrongCriticality:
+		clause = "§10.3.2"
+	case s00.RepeatedIE, s00.WrongOrder:
+		clause = "§10.3.6"
+	case s00.UnknownProcedure, s00.UnavailableOutcome:
+		clause = "§10.3.4.1"
+	}
+	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: clause}
+}
+
+var BridgeKnownLPPaIEIDs = map[s00.ProtocolIEID]struct{}{
+	0:  {},
+	1:  {},
+	2:  {},
+	3:  {},
+	4:  {},
+	5:  {},
+	6:  {},
+	7:  {},
+	8:  {},
+	9:  {},
+	10: {},
+	11: {},
+	12: {},
+	13: {},
+	14: {},
+	15: {},
+	16: {},
+	17: {},
+	18: {},
+	19: {},
+	20: {},
+	21: {},
+	22: {},
+	23: {},
+	24: {},
+	25: {},
+	27: {},
+}
+
 func BridgeAssistanceInformationFailureListAPERValueFieldContext(v *AssistanceInformationFailureListAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
@@ -5277,24 +5361,4 @@ func BridgeECGIMethodUnmarshalAPERFrom(v *ECGI, a0 *aper.BitBuffer) error {
 func BridgeECGIMethodUnmarshalAPERLegacy(v *ECGI, a0 []byte) error { return v.unmarshalAPERLegacy(a0) }
 func BridgeECGIMethodUnmarshalAPERWithOptions(v *ECGI, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
-}
-func BridgeECGIValueCodecFieldCapture(v *ECGIValueCodec) *func(ECGI, aper.DecodeState) (ECGI, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeECGIValueCodecFieldCompare(v *ECGIValueCodec) *func(ECGI, aper.Snapshot, aper.ComparisonLimits) aper.ReplayPlan {
-	return &v.compare
-}
-func BridgeECGIValueCodecFieldContext(v *ECGIValueCodec) *s00.BridgeCodecContext { return &v.context }
-func BridgeECGIValueCodecFieldDecode(v *ECGIValueCodec) *func([]byte, aper.DecodeState) (ECGI, error) {
-	return &v.decode
-}
-func BridgeECGIValueCodecFieldEncode(v *ECGIValueCodec) *func(ECGI, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeECGIValueCodecFieldPath(v *ECGIValueCodec) *aper.Path { return &v.path }
-func BridgeECGIValueCodecMethodEncodeBudget(v ECGIValueCodec, a0 ECGI, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudget(a0, a1, a2)
-}
-func BridgeECGIValueCodecMethodEncodeChanged(v ECGIValueCodec, a0 ECGI, a1 bool, a2 aper.ReplayPlan, a3 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }

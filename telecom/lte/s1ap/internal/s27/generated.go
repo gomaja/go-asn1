@@ -2492,6 +2492,24 @@ func BridgeInformationForCECapableUEsExtIEsValueValidateS1APExtensionContainer(f
 	}
 	return BridgeInformationForCECapableUEsExtIEsValueValidateS1APIEContainer(asIE, rows, path, budget)
 }
+func BridgeCellBasedMDTExtIEsValueValidateS1APExtensionContainer(fields s07.CellBasedMDTExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
+	bb := aper.NewBudgetBuffer(budget)
+	if err := aper.ChargeSlice[s07.CellBasedMDTExtIEsIEField](bb, uint64(len(fields))); err != nil {
+		return func() s21.ValidationReport {
+			sealed := s21.ValidationReport{}
+			*s21.BridgeValidationReportFieldErr(&sealed) = err
+			*s21.BridgeValidationReportFieldBudget(&sealed) = budget
+			return sealed
+		}()
+	}
+	asIE := make(s07.CellBasedMDTExtIEsIEContainer, len(fields))
+	for i := range fields {
+		asIE[i].Id = fields[i].Id
+		asIE[i].Criticality = fields[i].Criticality
+		asIE[i].Value = fields[i].ExtensionValue
+	}
+	return BridgeCellBasedMDTExtIEsValueValidateS1APIEContainer(asIE, rows, path, budget)
+}
 func BridgeCellBasedQMCExtIEsValueValidateS1APExtensionContainer(fields s07.CellBasedQMCExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
 	if err := aper.ChargeSlice[s07.CellBasedQMCExtIEsIEField](bb, uint64(len(fields))); err != nil {
@@ -4012,7 +4030,7 @@ func BridgeERABSetupItemBearerSUResExtIEsValueValidateS1APExtensionContainer(fie
 	}
 	return BridgeERABSetupItemBearerSUResExtIEsValueValidateS1APIEContainer(asIE, rows, path, budget)
 }
-func BridgeERABSetupItemCtxtSUResExtIEsValueValidateS1APExtensionContainer(fields s08.ERABSetupItemCtxtSUResExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
+func BridgeERABSetupItemCtxtSUResExtIEsValueValidateS1APExtensionContainer(fields s09.ERABSetupItemCtxtSUResExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
 	if err := aper.ChargeSlice[s09.ERABSetupItemCtxtSUResExtIEsIEField](bb, uint64(len(fields))); err != nil {
 		return func() s21.ValidationReport {
@@ -5193,7 +5211,7 @@ func BridgeLoggedMBSFNMDTExtIEsValueValidateS1APExtensionContainer(fields s09.Lo
 	}
 	return BridgeLoggedMBSFNMDTExtIEsValueValidateS1APIEContainer(asIE, rows, path, budget)
 }
-func BridgeM1PeriodicReportingExtIEsValueValidateS1APExtensionContainer(fields s09.M1PeriodicReportingExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
+func BridgeM1PeriodicReportingExtIEsValueValidateS1APExtensionContainer(fields s10.M1PeriodicReportingExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
 	if err := aper.ChargeSlice[s10.M1PeriodicReportingExtIEsIEField](bb, uint64(len(fields))); err != nil {
 		return func() s21.ValidationReport {
@@ -5661,7 +5679,7 @@ func BridgeRLFReportInformationExtIEsValueValidateS1APExtensionContainer(fields 
 	}
 	return BridgeRLFReportInformationExtIEsValueValidateS1APIEContainer(asIE, rows, path, budget)
 }
-func BridgeRecommendedCellsForPagingItemExtIEsValueValidateS1APExtensionContainer(fields s10.RecommendedCellsForPagingItemExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
+func BridgeRecommendedCellsForPagingItemExtIEsValueValidateS1APExtensionContainer(fields s11.RecommendedCellsForPagingItemExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
 	if err := aper.ChargeSlice[s11.RecommendedCellsForPagingItemExtIEsIEField](bb, uint64(len(fields))); err != nil {
 		return func() s21.ValidationReport {
@@ -5770,7 +5788,7 @@ func BridgeRecommendedCellItemIEValueValidateS1APIEContainer(fields s26.Recommen
 }
 func BridgeRecommendedCellsForPagingExtIEsValueValidateS1APExtensionContainer(fields s10.RecommendedCellsForPagingExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
-	if err := aper.ChargeSlice[s10.RecommendedCellsForPagingExtIEsIEField](bb, uint64(len(fields))); err != nil {
+	if err := aper.ChargeSlice[s11.RecommendedCellsForPagingExtIEsIEField](bb, uint64(len(fields))); err != nil {
 		return func() s21.ValidationReport {
 			sealed := s21.ValidationReport{}
 			*s21.BridgeValidationReportFieldErr(&sealed) = err
@@ -5778,7 +5796,7 @@ func BridgeRecommendedCellsForPagingExtIEsValueValidateS1APExtensionContainer(fi
 			return sealed
 		}()
 	}
-	asIE := make(s10.RecommendedCellsForPagingExtIEsIEContainer, len(fields))
+	asIE := make(s11.RecommendedCellsForPagingExtIEsIEContainer, len(fields))
 	for i := range fields {
 		asIE[i].Id = fields[i].Id
 		asIE[i].Criticality = fields[i].Criticality
@@ -6247,6 +6265,95 @@ func BridgeInformationForCECapableUEsExtIEsValueValidateS1APIEContainer(fields s
 		table := func() s00.TableID {
 			sealed := s00.TableID{}
 			*s00.BridgeTableIDFieldSource(&sealed) = s04.BridgeInformationForCECapableUEsExtIEsValueMethodRule(field.Value).Assignment
+			return sealed
+		}()
+		var sourceRules []aper.SourceRule
+		if allowed {
+			table = rows[rank].Table
+			sourceRules = append(sourceRules, rows[rank].Rule)
+		}
+		aper.IncrementCount(counts, field.Id)
+		if counts[field.Id] > 1 {
+			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.RepeatedIE, Severity: s00.ValidationSeverityError, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s26.BridgeS1apValidationRule(s00.RepeatedIE), RelatedRules: append([]aper.SourceRule{s26.BridgeS1apAdoptedRule(s00.RepeatedIE)}, sourceRules...)})
+		}
+		if !allowed {
+			severity := s00.ValidationSeverityUnrecognized
+			if _, globallyKnown := s13.BridgeKnownS1APIEIDs[field.Id]; globallyKnown {
+				severity = s00.ValidationSeverityError
+			}
+			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.NotAllowed, Severity: severity, Location: location, Table: table, IEID: field.Id, HasIEID: true, Rule: s26.BridgeS1apValidationRule(s00.NotAllowed), RelatedRules: s26.BridgeS1apHandlingRules(s00.NotAllowed)})
+			continue
+		}
+		row := rows[rank]
+		if field.Criticality != row.Criticality {
+			expected, received := row.Criticality, field.Criticality
+			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.criticality", location.Path))}, Table: row.Table, IEID: field.Id, HasIEID: true, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s26.BridgeS1apValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s26.BridgeS1apAdoptedRule(s00.WrongCriticality), row.Rule}})
+		}
+		if rank < lastRank {
+			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.WrongOrder, Severity: s00.ValidationSeverityError, Location: location, Table: row.Table, IEID: field.Id, HasIEID: true, Rule: s26.BridgeS1apValidationRule(s00.WrongOrder), RelatedRules: []aper.SourceRule{s26.BridgeS1apAdoptedRule(s00.WrongOrder), row.Rule}})
+		} else {
+			lastRank = rank
+		}
+	}
+	for _, row := range rows {
+		if row.Presence == s00.PresenceMandatory && counts[row.ID] == 0 {
+			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.MissingMandatory, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, HasIEID: true, Rule: s26.BridgeS1apValidationRule(s00.MissingMandatory), RelatedRules: []aper.SourceRule{s26.BridgeS1apAdoptedRule(s00.MissingMandatory), row.Rule}})
+		}
+		if row.Presence == s00.PresenceConditional {
+			s21.BridgeValidationReportMethodAddDeferred(&report, s00.DeferredCondition{Location: aper.Location{Path: aper.Path(path)}, Table: row.Table, IEID: row.ID, Rule: row.Rule})
+			if *s21.BridgeValidationReportFieldErr(&report) != nil {
+				return report
+			}
+			report.Complete = false
+		}
+	}
+	return report
+}
+
+// TS 36.413 V19.2.0 §§9.3.3–9.3.4 supply the selected object-set order and
+// presence. §§10.3.1–10.3.6 define abstract-syntax diagnostics. Unknown IEs do
+// not determine the order of known rows.
+func BridgeCellBasedMDTExtIEsValueValidateS1APIEContainer(fields s07.CellBasedMDTExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
+
+) s21.ValidationReport {
+	report := func() s21.ValidationReport {
+		sealed := s21.ValidationReport{Complete: true}
+		*s21.BridgeValidationReportFieldBudget(&sealed) = budget
+		return sealed
+	}()
+	bb := aper.NewBudgetBuffer(budget)
+	if err := bb.ChargeAllocation(uint64(len(rows))+uint64(len(fields)), 32); err != nil {
+		*s21.BridgeValidationReportFieldErr(&report) = err
+		return report
+	}
+	byID := make(map[s00.ProtocolIEID]int, len(rows))
+	counts := make(map[s00.ProtocolIEID]int, len(fields))
+	for i, row := range rows {
+		byID[row.ID] = i
+	}
+	lastRank := -1
+	for i, field := range fields {
+		if *s21.BridgeValidationReportFieldErr(&report) != nil {
+			return report
+		}
+		if err := bb.ChargeWork(1); err != nil {
+			*s21.BridgeValidationReportFieldErr(&report) = err
+			return report
+		}
+		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
+		// TS 36.413 V19.2.0 §9.3.7 binds the selected value to @id.
+		if !s03.BridgeCellBasedMDTExtIEsValueMethodMatchesID(field.Value, field.Id, budget) {
+			rule := s03.BridgeCellBasedMDTExtIEsValueMethodRule(field.Value)
+			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
+				sealed := s00.TableID{}
+				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
+				return sealed
+			}(), IEID: field.Id, HasIEID: true, Rule: s26.BridgeS1apValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{rule}})
+		}
+		rank, allowed := byID[field.Id]
+		table := func() s00.TableID {
+			sealed := s00.TableID{}
+			*s00.BridgeTableIDFieldSource(&sealed) = s03.BridgeCellBasedMDTExtIEsValueMethodRule(field.Value).Assignment
 			return sealed
 		}()
 		var sourceRules []aper.SourceRule
@@ -14572,7 +14679,7 @@ func BridgeRecommendedCellsForPagingItemExtIEsValueValidateS1APIEContainer(field
 // TS 36.413 V19.2.0 §§9.3.3–9.3.4 supply the selected object-set order and
 // presence. §§10.3.1–10.3.6 define abstract-syntax diagnostics. Unknown IEs do
 // not determine the order of known rows.
-func BridgeRecommendedCellsForPagingExtIEsValueValidateS1APIEContainer(fields s10.RecommendedCellsForPagingExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
+func BridgeRecommendedCellsForPagingExtIEsValueValidateS1APIEContainer(fields s11.RecommendedCellsForPagingExtIEsIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s21.ValidationReport {
 	report := func() s21.ValidationReport {
@@ -15405,6 +15512,7 @@ func (v *STMSI) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) 
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "STMSI")
 	}
+	bb.EnterComponent("STMSI")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "STMSI")
 	}
@@ -15444,6 +15552,7 @@ func (v *STMSI) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	v.MTMSI = s00.MTMSI(val_mtmsi)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s11.STMSIExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -15452,9 +15561,11 @@ func (v *STMSI) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s11.STMSIExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s11.BridgeSTMSIExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -15467,6 +15578,7 @@ func (v *STMSI) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)

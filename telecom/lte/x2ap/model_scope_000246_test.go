@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
 )
 
-func seNBAdditionRequestRejectfreshMust(value s14.SeNBAdditionRequestReject, err error) s14.SeNBAdditionRequestReject {
+func seNBAdditionRequestAcknowledgeIEFieldfreshMust(value s15.SeNBAdditionRequestAcknowledgeIEField, err error) s15.SeNBAdditionRequestAcknowledgeIEField {
 	if err != nil {
 		panic(err)
 	}

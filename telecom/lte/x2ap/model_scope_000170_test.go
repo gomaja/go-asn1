@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 )
 
-func sensorNameConfigExtIEFieldapiMust(v s04.SensorNameConfigExtIEField, err error) s04.SensorNameConfigExtIEField {
+func enGNBENDCX2RemovalReqIEFieldapiMust(v s07.EnGNBENDCX2RemovalReqIEField, err error) s07.EnGNBENDCX2RemovalReqIEField {
 	if err != nil {
 		panic(err)
 	}

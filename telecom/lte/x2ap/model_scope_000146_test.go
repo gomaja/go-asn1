@@ -2,7 +2,11 @@
 
 package x2ap
 
-func listBytePayloadCodecapiMust(v ListBytePayloadCodec, err error) ListBytePayloadCodec {
+import (
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+)
+
+func privateIEIDapiMust(v s00.PrivateIEID, err error) s00.PrivateIEID {
 	if err != nil {
 		panic(err)
 	}

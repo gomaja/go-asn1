@@ -7,7 +7,7 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -26,14 +26,14 @@ func TestNestedWithoutReplaySequenceBitmap(t *testing.T) {
 		t.Fatal(err)
 	}
 	field := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().CriticalityDiagnostics().New(original))
-	body := s19.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
-	outer := s19.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s19.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s19.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}}
+	body := s20.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
+	outer := s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s20.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s20.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}}
 	parentWire := listByteapiMust(outer.MarshalAPER())
-	var received s19.X2APPDU
+	var received s20.X2APPDU
 	if _, err := received.UnmarshalAPER(parentWire); err != nil {
 		t.Fatal(err)
 	}
-	for _, source := range []s19.X2APPDU{received, outer} {
+	for _, source := range []s20.X2APPDU{received, outer} {
 		copy := source.WithoutReplay()
 		if got, want := listByteapiMust(copy.MarshalAPER()), listByteapiMust(source.MarshalAPER(aper.WithoutReplay())); !bytes.Equal(got, want) {
 			t.Fatalf("root copy = %x, option = %x", got, want)

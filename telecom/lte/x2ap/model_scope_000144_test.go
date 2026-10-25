@@ -2,11 +2,9 @@
 
 package x2ap
 
-import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-)
+func listByteapiMust(v []byte,
 
-func privateMessageIEsValuePrivateIEFieldapiMust(v s00.PrivateMessageIEsValuePrivateIEField, err error) s00.PrivateMessageIEsValuePrivateIEField {
+	err error) []byte {
 	if err != nil {
 		panic(err)
 	}

@@ -8,8 +8,8 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	strings "strings"
 	testing "testing"
@@ -26,15 +26,15 @@ func TestReceiverModeReportsAndAtomicReuse(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	body, err := s19.NewErrorIndication(s11.ErrorIndicationIEContainer{unknown, known})
+	body, err := s20.NewErrorIndication(s11.ErrorIndicationIEContainer{unknown, known})
 	if err != nil {
 		t.Fatal(err)
 	}
-	message, err := s19.ErrorIndicationProcedure().Initiating().Build(body)
+	message, err := s20.ErrorIndicationProcedure().Initiating().Build(body)
 	if err != nil {
 		t.Fatal(err)
 	}
-	value, err := s20.NewX2APPDUInitiatingMessage(message)
+	value, err := s21.NewX2APPDUInitiatingMessage(message)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -43,7 +43,7 @@ func TestReceiverModeReportsAndAtomicReuse(t *testing.T) {
 		t.Fatal(err)
 	}
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		var reused s19.X2APPDU
+		var reused s20.X2APPDU
 		for range 2 {
 			report, err := reused.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Deviations) != 0 || len(report.Observations) != 1 {
@@ -71,11 +71,11 @@ func TestReceiverModeReportsAndAtomicReuse(t *testing.T) {
 				t.Fatalf("failed value retained: %+v", reused)
 			}
 		}
-		codecValue, report, err := s19.X2APPDUCodec().DecodeAPER(wire, options...)
+		codecValue, report, err := s20.X2APPDUCodec().DecodeAPER(wire, options...)
 		if err != nil || len(report.Observations) != 1 {
 			t.Fatalf("codec report=%+v err=%v", report, err)
 		}
-		replay, err := s19.X2APPDUCodec().EncodeAPER(codecValue)
+		replay, err := s20.X2APPDUCodec().EncodeAPER(codecValue)
 		if err != nil || !bytes.Equal(wire, replay) {
 			t.Fatalf("codec replay=%x err=%v", replay, err)
 		}

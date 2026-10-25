@@ -3,29 +3,26 @@
 package x2ap
 
 import (
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
-func (c Int64ValueCodec) EncodeAPER(value Int64APERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.ErrInvalidValue
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	if !fresh && value.context == c.context && value.replay.Present() {
-		plan := c.compare(value.Value, value.replay, budget)
-		if err := plan.Error(); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := value.received.EncodePlanBytes(plan)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, plan)
-	}
-	return c.encodeUnplanned(value.Value, fresh, budget)
+// Int64ValueCodec is the concrete ValueCodec[int64].
+type Int64ValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(int64, aper.DecodeState,
+
+	) (int64, aper.Snapshot,
+
+	)
+	compare func(int64, aper.Snapshot, aper.DecodeBudget,
+
+	) aper.ReplayPlan
+	path   aper.Path
+	decode func([]byte, aper.DecodeState) (int64,
+
+		error)
+	encode func(int64,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
 }

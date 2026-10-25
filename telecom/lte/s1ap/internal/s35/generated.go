@@ -10,7 +10,6 @@ import (
 	s02 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s02"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s06"
 	s07 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s07"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s11"
 	s12 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s12"
 	s13 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s13"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s14"
@@ -133,7 +132,9 @@ func (v *HandoverNotifyIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -248,7 +249,9 @@ func (v *InitialUEMessageIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -2856,7 +2859,9 @@ func (v *UEAssociatedLogicalS1ConnectionItemResIEField) unmarshalAPERFrom(bb *ap
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -3023,7 +3028,9 @@ func (v *UEAssociatedLogicalS1ConnectionItemResAckIEField) unmarshalAPERFrom(bb 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -3510,7 +3517,7 @@ func BridgeInitialUEMessageIEValueValidateS1APIEContainer(fields InitialUEMessag
 	}
 	return report
 }
-func BridgeTunnelInformationExtIEsValueValidateS1APExtensionContainer(fields s11.TunnelInformationExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
+func BridgeTunnelInformationExtIEsValueValidateS1APExtensionContainer(fields s12.TunnelInformationExtIEsExtContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget) s21.ValidationReport {
 	bb := aper.NewBudgetBuffer(budget)
 	if err := aper.ChargeSlice[s12.TunnelInformationExtIEsIEField](bb, uint64(len(fields))); err != nil {
 		return func() s21.ValidationReport {
@@ -3945,23 +3952,23 @@ func UEAssociatedLogicalS1ConnectionItemExtIEsValueExtensionFieldTableCodec(tabl
 	}()
 
 }
-func TunnelInformationExtIEsValueExtensionTableCodec(table s00.TunnelInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s11.TunnelInformationExtIEsExtContainerValueCodec {
+func TunnelInformationExtIEsValueExtensionTableCodec(table s00.TunnelInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s12.TunnelInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeTunnelInformationExtIEsValueExtensionTableFieldBound(&table) {
-		return s11.TunnelInformationExtIEsExtContainerValueCodec{}
+		return s12.TunnelInformationExtIEsExtContainerValueCodec{}
 	}
 	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s11.TunnelInformationExtIEsExtContainerValueCodec {
-		sealed := s11.TunnelInformationExtIEsExtContainerValueCodec{}
-		*s11.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s11.TunnelInformationExtIEsExtContainer, error) {
+	return func() s12.TunnelInformationExtIEsExtContainerValueCodec {
+		sealed := s12.TunnelInformationExtIEsExtContainerValueCodec{}
+		*s12.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s12.TunnelInformationExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return nil, err
 			}
-			var fields s11.TunnelInformationExtIEsExtContainer
+			var fields s12.TunnelInformationExtIEsExtContainer
 			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
 				for i := int64(0); i < length; i++ {
-					var field s11.TunnelInformationExtIEsExtField
-					if err := s11.BridgeTunnelInformationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+					var field s12.TunnelInformationExtIEsExtField
+					if err := s12.BridgeTunnelInformationExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
 						return err
 					}
 					if next, err := aper.AppendValues(bb, fields, field); err != nil {
@@ -3980,14 +3987,14 @@ func TunnelInformationExtIEsValueExtensionTableCodec(table s00.TunnelInformation
 			}
 			return fields, nil
 		}
-		*s11.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s11.TunnelInformationExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s12.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s12.TunnelInformationExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
 			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
 				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
 					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
 				}
 				for _, field := range fields[offset:][:length] {
-					if err := s11.BridgeTunnelInformationExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+					if err := s12.BridgeTunnelInformationExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
 						return err
 					}
 				}
@@ -3998,7 +4005,7 @@ func TunnelInformationExtIEsValueExtensionTableCodec(table s00.TunnelInformation
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s11.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s11.TunnelInformationExtIEsExtContainer, options aper.DecodeState) (s11.TunnelInformationExtIEsExtContainer, aper.Snapshot,
+		*s12.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s12.TunnelInformationExtIEsExtContainer, options aper.DecodeState) (s12.TunnelInformationExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
@@ -4008,7 +4015,7 @@ func TunnelInformationExtIEsValueExtensionTableCodec(table s00.TunnelInformation
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s11.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s11.TunnelInformationExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s12.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s12.TunnelInformationExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
@@ -4018,7 +4025,7 @@ func TunnelInformationExtIEsValueExtensionTableCodec(table s00.TunnelInformation
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s11.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s12.BridgeTunnelInformationExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
@@ -9754,6 +9761,7 @@ func (v *UEAggregateMaximumBitrate) unmarshalAPERWithOptions(data []byte, option
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "UEAggregateMaximumBitrate")
 	}
+	bb.EnterComponent("UEAggregateMaximumBitrate")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEAggregateMaximumBitrate")
 	}
@@ -9793,6 +9801,7 @@ func (v *UEAggregateMaximumBitrate) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	}
 	v.UEaggregateMaximumBitRateUL = s00.BitRate(val_ueaggregatemaximumbitrateul)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s12.UEAggregateMaximumBitratesExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -9801,9 +9810,11 @@ func (v *UEAggregateMaximumBitrate) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s12.UEAggregateMaximumBitratesExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s12.BridgeUEAggregateMaximumBitratesExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -9816,6 +9827,7 @@ func (v *UEAggregateMaximumBitrate) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -10016,6 +10028,7 @@ func (v *UEAppLayerMeasConfig) unmarshalAPERWithOptions(data []byte, options ape
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "UEAppLayerMeasConfig")
 	}
+	bb.EnterComponent("UEAppLayerMeasConfig")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEAppLayerMeasConfig")
 	}
@@ -10055,6 +10068,7 @@ func (v *UEAppLayerMeasConfig) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	}
 	bb.LeaveComponent(toleranceMark_areascopeofqmc)
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s12.UEAppLayerMeasConfigExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10063,9 +10077,11 @@ func (v *UEAppLayerMeasConfig) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s12.UEAppLayerMeasConfigExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s12.BridgeUEAppLayerMeasConfigExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -10078,6 +10094,7 @@ func (v *UEAppLayerMeasConfig) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -10288,6 +10305,7 @@ func (v *UEAssociatedLogicalS1ConnectionItem) unmarshalAPERWithOptions(data []by
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionItem")
 	}
+	bb.EnterComponent("UEAssociatedLogicalS1ConnectionItem")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "UEAssociatedLogicalS1ConnectionItem")
 	}
@@ -10349,6 +10367,7 @@ func (v *UEAssociatedLogicalS1ConnectionItem) unmarshalAPERFrom(bb *aper.BitBuff
 
 	}
 	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s12.UEAssociatedLogicalS1ConnectionItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -10357,9 +10376,11 @@ func (v *UEAssociatedLogicalS1ConnectionItem) unmarshalAPERFrom(bb *aper.BitBuff
 			}
 			for i := int64(0); i < fragmentLength_ieextensions; i++ {
 				var elem s12.UEAssociatedLogicalS1ConnectionItemExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
 				if err := s12.BridgeUEAssociatedLogicalS1ConnectionItemExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
 					return err
 				} else {
@@ -10372,6 +10393,7 @@ func (v *UEAssociatedLogicalS1ConnectionItem) unmarshalAPERFrom(bb *aper.BitBuff
 			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
 		}
 		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
 	}
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
@@ -11126,6 +11148,7 @@ func (v *HandoverNotify) unmarshalAPERWithOptions(data []byte, options aper.Deco
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverNotify")
 	}
+	bb.EnterComponent("HandoverNotify")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "HandoverNotify")
 	}
@@ -11149,6 +11172,7 @@ func (v *HandoverNotify) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(HandoverNotifyIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -11157,9 +11181,11 @@ func (v *HandoverNotify) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem HandoverNotifyIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -11171,6 +11197,7 @@ func (v *HandoverNotify) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -11358,6 +11385,7 @@ func (v *InitialUEMessage) unmarshalAPERWithOptions(data []byte, options aper.De
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InitialUEMessage")
 	}
+	bb.EnterComponent("InitialUEMessage")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitialUEMessage")
 	}
@@ -11381,6 +11409,7 @@ func (v *InitialUEMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(InitialUEMessageIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -11389,9 +11418,11 @@ func (v *InitialUEMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem InitialUEMessageIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -11403,6 +11434,7 @@ func (v *InitialUEMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -11566,6 +11598,7 @@ func (v *ResetType) unmarshalAPERWithOptions(data []byte, options aper.DecodeSta
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ResetType")
 	}
+	bb.EnterComponent("ResetType")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ResetType")
 	}
@@ -11627,6 +11660,7 @@ func (v *ResetType) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		v.S1Interface = (*s00.ResetAll)(bb.OwnInt64(int64(tmp_s1interface)))
 
 	case s00.ResetTypeChoicePartOfS1Interface:
+		toleranceMark_partofs1interface := bb.EnterComponent("PartOfS1Interface")
 		tmp_partofs1interface := make(UEAssociatedLogicalS1ConnectionListRes, 0)
 		_, errCollection_partofs1interface := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_partofs1interface, fragmentLength_partofs1interface int64) error {
 			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -11635,9 +11669,11 @@ func (v *ResetType) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			}
 			for i := int64(0); i < fragmentLength_partofs1interface; i++ {
 				var elem UEAssociatedLogicalS1ConnectionItemResIEValueProtocolIESingleContainer
+				elementMark := bb.EnterIndex(fragmentOffset_partofs1interface + i)
 				if err := elem.unmarshalAPERFrom(bb); err != nil {
 					return runtime.WrapDecodePath(err, fmt.Sprintf("PartOfS1Interface[%d]", fragmentOffset_partofs1interface+i))
 				}
+				bb.LeaveComponent(elementMark)
 				if next, err := aper.AppendValues(bb, tmp_partofs1interface, elem); err != nil {
 					return err
 				} else {
@@ -11650,6 +11686,7 @@ func (v *ResetType) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 			return runtime.WrapDecodePath(errCollection_partofs1interface, "PartOfS1Interface")
 		}
 		v.PartOfS1Interface = tmp_partofs1interface
+		bb.LeaveComponent(toleranceMark_partofs1interface)
 	}
 	v.stream = bb.CaptureWireSpan(replayStart)
 
@@ -16832,6 +16869,7 @@ func (t HandoverNotifyIETable) MMEUES1APID() HandoverNotifyMMEUES1APIDIEBinding 
 				var empty s00.MMEUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEUES1APID")
 			var zero HandoverNotifyIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
@@ -16896,6 +16934,7 @@ func (t HandoverNotifyIETable) ENBUES1APID() HandoverNotifyENBUES1APIDIEBinding 
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero HandoverNotifyIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -16960,6 +16999,7 @@ func (t HandoverNotifyIETable) EUTRANCGI() HandoverNotifyEUTRANCGIIEBinding {
 				var empty s17.EUTRANCGI
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("EUTRANCGI")
 			var zero HandoverNotifyIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(100), raw)
 			if err != nil {
@@ -17025,6 +17065,7 @@ func (t HandoverNotifyIETable) TAI() HandoverNotifyTAIIEBinding {
 				var empty s31.TAI
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TAI")
 			var zero HandoverNotifyIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(67), raw)
 			if err != nil {
@@ -17086,6 +17127,7 @@ func (t HandoverNotifyIETable) TunnelInformationForBBF() HandoverNotifyTunnelInf
 				var empty s34.TunnelInformation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TunnelInformation")
 			var zero HandoverNotifyIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(176), raw)
 			if err != nil {
@@ -17148,6 +17190,7 @@ func (t HandoverNotifyIETable) LHNID() HandoverNotifyLHNIDIEBinding {
 				var empty s00.LHNID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("LHNID")
 			var zero HandoverNotifyIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(186), raw)
 			if err != nil {
@@ -17212,6 +17255,7 @@ func (t HandoverNotifyIETable) PSCellInformation() HandoverNotifyPSCellInformati
 				var empty s20.PSCellInformation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("PSCellInformation")
 			var zero HandoverNotifyIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(288), raw)
 			if err != nil {
@@ -17277,6 +17321,7 @@ func (t HandoverNotifyIETable) NotifySourceeNB() HandoverNotifyNotifySourceeNBIE
 				var empty s00.NotifySourceeNB
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NotifySourceeNB")
 			var zero HandoverNotifyIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(320), raw)
 			if err != nil {
@@ -17340,6 +17385,7 @@ func (t HandoverNotifyIETable) LTENTNTAIInformation() HandoverNotifyLTENTNTAIInf
 				var empty s18.LTENTNTAIInformation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("LTENTNTAIInformation")
 			var zero HandoverNotifyIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(339), raw)
 			if err != nil {
@@ -17466,6 +17512,7 @@ func (t InitialUEMessageIETable) ENBUES1APID() InitialUEMessageENBUES1APIDIEBind
 				var empty s00.ENBUES1APID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENBUES1APID")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
@@ -17530,6 +17577,7 @@ func (t InitialUEMessageIETable) NASPDU() InitialUEMessageNASPDUIEBinding {
 				var empty s00.NASPDU
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("NASPDU")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(26), raw)
 			if err != nil {
@@ -17594,6 +17642,7 @@ func (t InitialUEMessageIETable) TAI() InitialUEMessageTAIIEBinding {
 				var empty s31.TAI
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TAI")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(67), raw)
 			if err != nil {
@@ -17657,6 +17706,7 @@ func (t InitialUEMessageIETable) EUTRANCGI() InitialUEMessageEUTRANCGIIEBinding 
 				var empty s17.EUTRANCGI
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("EUTRANCGI")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(100), raw)
 			if err != nil {
@@ -17722,6 +17772,7 @@ func (t InitialUEMessageIETable) RRCEstablishmentCause() InitialUEMessageRRCEsta
 				var empty s00.RRCEstablishmentCause
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("RRCEstablishmentCause")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(134), raw)
 			if err != nil {
@@ -17791,6 +17842,7 @@ func (t InitialUEMessageIETable) STMSI() InitialUEMessageSTMSIIEBinding {
 				var empty s27.STMSI
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("STMSI")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(96), raw)
 			if err != nil {
@@ -17855,6 +17907,7 @@ func (t InitialUEMessageIETable) CSGId() InitialUEMessageCSGIdIEBinding {
 				var empty s00.CSGId
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CSGId")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(127), raw)
 			if err != nil {
@@ -17919,6 +17972,7 @@ func (t InitialUEMessageIETable) GUMMEIID() InitialUEMessageGUMMEIIEBinding {
 				var empty s18.GUMMEI
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("GUMMEI")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(75), raw)
 			if err != nil {
@@ -17983,6 +18037,7 @@ func (t InitialUEMessageIETable) CellAccessMode() InitialUEMessageCellAccessMode
 				var empty s00.CellAccessMode
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CellAccessMode")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(145), raw)
 			if err != nil {
@@ -18045,6 +18100,7 @@ func (t InitialUEMessageIETable) GWTransportLayerAddress() InitialUEMessageTrans
 				var empty s00.TransportLayerAddress
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TransportLayerAddress")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(155), raw)
 			if err != nil {
@@ -18114,6 +18170,7 @@ func (t InitialUEMessageIETable) RelayNodeIndicator() InitialUEMessageRelayNodeI
 				var empty s00.RelayNodeIndicator
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("RelayNodeIndicator")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(160), raw)
 			if err != nil {
@@ -18181,6 +18238,7 @@ func (t InitialUEMessageIETable) GUMMEIType() InitialUEMessageGUMMEITypeIEBindin
 				var empty s00.GUMMEIType
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("GUMMEIType")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(170), raw)
 			if err != nil {
@@ -18244,6 +18302,7 @@ func (t InitialUEMessageIETable) TunnelInformationForBBF() InitialUEMessageTunne
 				var empty s34.TunnelInformation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TunnelInformation")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(176), raw)
 			if err != nil {
@@ -18306,6 +18365,7 @@ func (t InitialUEMessageIETable) SIPTOLGWTransportLayerAddress() InitialUEMessag
 				var empty s00.TransportLayerAddress
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("TransportLayerAddress")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(184), raw)
 			if err != nil {
@@ -18375,6 +18435,7 @@ func (t InitialUEMessageIETable) LHNID() InitialUEMessageLHNIDIEBinding {
 				var empty s00.LHNID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("LHNID")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(186), raw)
 			if err != nil {
@@ -18439,6 +18500,7 @@ func (t InitialUEMessageIETable) MMEGroupID() InitialUEMessageMMEGroupIDIEBindin
 				var empty s00.MMEGroupID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("MMEGroupID")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(223), raw)
 			if err != nil {
@@ -18504,6 +18566,7 @@ func (t InitialUEMessageIETable) UEUsageType() InitialUEMessageUEUsageTypeIEBind
 				var empty s00.UEUsageType
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEUsageType")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(230), raw)
 			if err != nil {
@@ -18568,6 +18631,7 @@ func (t InitialUEMessageIETable) CEModeBSupportIndicator() InitialUEMessageCEMod
 				var empty s00.CEModeBSupportIndicator
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CEModeBSupportIndicator")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(242), raw)
 			if err != nil {
@@ -18639,6 +18703,7 @@ func (t InitialUEMessageIETable) DCNID() InitialUEMessageDCNIDIEBinding {
 				var empty s00.DCNID
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("DCNID")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(246), raw)
 			if err != nil {
@@ -18703,6 +18768,7 @@ func (t InitialUEMessageIETable) CoverageLevel() InitialUEMessageCoverageLevelIE
 				var empty s00.CoverageLevel
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CoverageLevel")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(250), raw)
 			if err != nil {
@@ -18767,6 +18833,7 @@ func (t InitialUEMessageIETable) UEApplicationLayerMeasurementCapability() Initi
 				var empty s00.UEApplicationLayerMeasurementCapability
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEApplicationLayerMeasurementCapability")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(263), raw)
 			if err != nil {
@@ -18836,6 +18903,7 @@ func (t InitialUEMessageIETable) EDTSession() InitialUEMessageEDTSessionIEBindin
 				var empty s00.EDTSession
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("EDTSession")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(281), raw)
 			if err != nil {
@@ -18901,6 +18969,7 @@ func (t InitialUEMessageIETable) IABNodeIndication() InitialUEMessageIABNodeIndi
 				var empty s00.IABNodeIndication
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("IABNodeIndication")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(302), raw)
 			if err != nil {
@@ -18968,6 +19037,7 @@ func (t InitialUEMessageIETable) LTENTNTAIInformation() InitialUEMessageLTENTNTA
 				var empty s18.LTENTNTAIInformation
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("LTENTNTAIInformation")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(339), raw)
 			if err != nil {
@@ -19035,6 +19105,7 @@ func (t InitialUEMessageIETable) CoarseUELocationRequested() InitialUEMessageCoa
 				var empty s00.CoarseUELocationRequested
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("CoarseUELocationRequested")
 			var zero InitialUEMessageIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(353), raw)
 			if err != nil {
@@ -19196,6 +19267,7 @@ func (t UEAssociatedLogicalS1ConnectionItemResTable) UEAssociatedLogicalS1Connec
 				var empty UEAssociatedLogicalS1ConnectionItem
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEAssociatedLogicalS1ConnectionItem")
 			var zero UEAssociatedLogicalS1ConnectionItemResIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(91), raw)
 			if err != nil {
@@ -19302,6 +19374,7 @@ func (t UEAssociatedLogicalS1ConnectionItemResAckTable) UEAssociatedLogicalS1Con
 				var empty UEAssociatedLogicalS1ConnectionItem
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("UEAssociatedLogicalS1ConnectionItem")
 			var zero UEAssociatedLogicalS1ConnectionItemResAckIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(91), raw)
 			if err != nil {

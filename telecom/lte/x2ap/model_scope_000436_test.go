@@ -3,29 +3,52 @@
 package x2ap
 
 import (
-	fmt "fmt"
+	bytes "bytes"
+	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	testing "testing"
 )
 
-// DecodeAPER decodes one complete APER value and retains its received representation.
-func (c Int64ValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (Int64APERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil {
-		return Int64APERValue{}, aper.DecodeReport{}, fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue)
+// The callback counter separates semantic capture from encoding, including
+// after caller input reuse and edit/restore (X.691 (02/2021) §§11.1–11.2).
+func eRABUsageReportItemsemanticEditRestore(t *testing.T, c s04.ERABUsageReportItemValueCodec, initial s04.ERABUsageReportItem, edit, restore func(*s04.ERABUsageReportItem)) {
+	t.Helper()
+	encoder := *s04.X2apInternalERABUsageReportItemValueCodecFieldEncode(&c)
+	calls := 0
+	*s04.X2apInternalERABUsageReportItemValueCodecFieldEncode(&c) = func(v s04.ERABUsageReportItem, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		calls++
+		return encoder(v, fresh, budget)
 	}
-	data, settings := aper.OwnDecodeOptions(data, options...)
-	value, err := c.decode(data, settings)
-	if err == nil {
-		if c.capture == nil {
-			err = fmt.Errorf("%w: missing semantic visitor", aper.ErrInvalidValue)
-		} else {
-			value, replay := c.capture(value, settings)
-			report, err := aper.FinishDecode(settings, nil)
-			if err != nil {
-				return Int64APERValue{}, report, aper.OperationError(err, c.path)
-			}
-			return Int64APERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-		}
+	wire := listByteapiMust(c.EncodeAPER(eRABUsageReportItemAPERValueapiMust(c.New(initial))))
+	original := bytes.Clone(wire)
+	calls = 0
+	v, _, err := c.DecodeAPER(wire)
+	if err != nil {
+		t.Fatal(err)
 	}
-	report, err := aper.FinishDecode(settings, aper.OperationError(err, c.path))
-	return Int64APERValue{}, report, aper.OperationError(err, c.path)
+	if calls != 0 {
+		t.Fatal("decode called value encoder")
+	}
+	for i := range wire {
+		wire[i] ^= 0xff
+	}
+	got := listByteapiMust(c.EncodeAPER(v))
+	if !bytes.Equal(got, original) || calls != 0 {
+		t.Fatal("unchanged encode called encoder or borrowed input")
+	}
+	got[0] ^= 0xff
+	if !bytes.Equal(listByteapiMust(c.EncodeAPER(v)), original) {
+		t.Fatal("encode exposed received storage")
+	}
+	edit(&v.Value)
+	got = listByteapiMust(c.EncodeAPER(v))
+	want := listByteapiMust(c.EncodeAPER(v, aper.WithoutReplay()))
+	if bytes.Equal(got, original) || !bytes.Equal(got, want) {
+		t.Fatal("edit did not reach encoder")
+	}
+	before := calls
+	restore(&v.Value)
+	if !bytes.Equal(listByteapiMust(c.EncodeAPER(v)), original) || calls != before {
+		t.Fatal("restored encode called value encoder")
+	}
 }

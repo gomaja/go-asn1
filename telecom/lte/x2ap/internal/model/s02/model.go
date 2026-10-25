@@ -116,7 +116,9 @@ func X2apInternalCoMPInformationStartTimeExtIEsExtFieldUnmarshalAPERFrom(v *CoMP
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCoMPInformationStartTimeExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -232,7 +234,9 @@ func X2apInternalCompositeAvailableCapacityExtIEsExtFieldUnmarshalAPERFrom(v *Co
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCompositeAvailableCapacityExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -348,7 +352,9 @@ func X2apInternalCompositeAvailableCapacityGroupExtIEsExtFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCompositeAvailableCapacityGroupExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -464,7 +470,9 @@ func X2apInternalCriticalityDiagnosticsExtIEsExtFieldUnmarshalAPERFrom(v *Critic
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCriticalityDiagnosticsExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -580,7 +588,9 @@ func X2apInternalCriticalityDiagnosticsIEListExtIEsExtFieldUnmarshalAPERFrom(v *
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCriticalityDiagnosticsIEListExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -696,7 +706,9 @@ func X2apInternalDAPSRequestInfoExtIEsExtFieldUnmarshalAPERFrom(v *DAPSRequestIn
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalDAPSRequestInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -812,7 +824,9 @@ func X2apInternalDAPSResponseInfoExtIEsExtFieldUnmarshalAPERFrom(v *DAPSResponse
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalDAPSResponseInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -928,7 +942,9 @@ func X2apInternalDataTrafficResourceIndicationExtIEsExtFieldUnmarshalAPERFrom(v 
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalDataTrafficResourceIndicationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1044,7 +1060,9 @@ func X2apInternalDeliveryStatusExtIEsExtFieldUnmarshalAPERFrom(v *DeliveryStatus
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalDeliveryStatusExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1160,7 +1178,9 @@ func X2apInternalDynamicNAICSInformationExtIEsExtFieldUnmarshalAPERFrom(v *Dynam
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalDynamicNAICSInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1276,7 +1296,9 @@ func X2apInternalERABItemExtIEsExtFieldUnmarshalAPERFrom(v *ERABItemExtIEsExtFie
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1392,7 +1414,9 @@ func X2apInternalERABUsageReportItemExtIEsExtFieldUnmarshalAPERFrom(v *ERABUsage
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABUsageReportItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1508,7 +1532,9 @@ func X2apInternalERABsSubjectToDLDiscardingItemExtIEsExtFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsSubjectToDLDiscardingItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1624,7 +1650,9 @@ func X2apInternalERABsSubjectToEarlyStatusTransferItemExtIEsExtFieldUnmarshalAPE
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsSubjectToEarlyStatusTransferItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1740,7 +1768,9 @@ func X2apInternalECGIExtIEsExtFieldUnmarshalAPERFrom(v *ECGIExtIEsExtField, bb *
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalECGIExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1856,7 +1886,9 @@ func X2apInternalENDCResourceConfigurationExtIEsExtFieldUnmarshalAPERFrom(v *END
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalENDCResourceConfigurationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -1972,7 +2004,9 @@ func X2apInternalERABActivityNotifyItemExtIEsExtFieldUnmarshalAPERFrom(v *ERABAc
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABActivityNotifyItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2088,7 +2122,9 @@ func X2apInternalEnhancedRNTPExtIEsExtFieldUnmarshalAPERFrom(v *EnhancedRNTPExtI
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalEnhancedRNTPExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2204,7 +2240,9 @@ func X2apInternalEnhancedRNTPStartTimeExtIEsExtFieldUnmarshalAPERFrom(v *Enhance
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalEnhancedRNTPStartTimeExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2320,7 +2358,9 @@ func X2apInternalExpectedUEActivityBehaviourExtIEsExtFieldUnmarshalAPERFrom(v *E
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalExpectedUEActivityBehaviourExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2436,7 +2476,9 @@ func X2apInternalExpectedUEBehaviourExtIEsExtFieldUnmarshalAPERFrom(v *ExpectedU
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalExpectedUEBehaviourExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2552,7 +2594,9 @@ func X2apInternalCompleteFailureCauseInformationItemExtIEsExtFieldUnmarshalAPERF
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalCompleteFailureCauseInformationItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2668,7 +2712,9 @@ func X2apInternalDLDiscardingExtIEsExtFieldUnmarshalAPERFrom(v *DLDiscardingExtI
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalDLDiscardingExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2784,7 +2830,9 @@ func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsExtFieldUnmarshalAPER
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -2900,7 +2948,9 @@ func X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsExtFieldUnmar
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3016,7 +3066,9 @@ func X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsExtFieldUnm
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3132,7 +3184,9 @@ func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtFieldUnmar
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3248,7 +3302,9 @@ func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtFieldUnm
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3364,7 +3420,9 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEs
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3480,7 +3538,9 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsExt
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3596,7 +3656,9 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsExtFieldUnmarsh
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3712,7 +3774,9 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsEx
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3828,7 +3892,9 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsExtFieldUnmarshal
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -3944,7 +4010,9 @@ func X2apInternalERABsDataForwardingAddressItemExtIEsExtFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsDataForwardingAddressItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4060,7 +4128,9 @@ func X2apInternalERABsSubjectToCounterCheckItemExtIEsExtFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsSubjectToCounterCheckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4176,7 +4246,9 @@ func X2apInternalERABsSubjectToSgNBCounterCheckItemExtIEsExtFieldUnmarshalAPERFr
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsSubjectToSgNBCounterCheckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4292,7 +4364,9 @@ func X2apInternalERABsToBeAddedSgNBAddReqItemExtIEsExtFieldUnmarshalAPERFrom(v *
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeAddedSgNBAddReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4408,7 +4482,9 @@ func X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsExtFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4524,7 +4600,9 @@ func X2apInternalERABsToBeAddedSgNBModAckItemExtIEsExtFieldUnmarshalAPERFrom(v *
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeAddedSgNBModAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4640,7 +4718,9 @@ func X2apInternalERABsToBeAddedSgNBModReqItemExtIEsExtFieldUnmarshalAPERFrom(v *
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeAddedSgNBModReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4756,7 +4836,9 @@ func X2apInternalERABsToBeModifiedModReqItemSCGBearerExtIEsExtFieldUnmarshalAPER
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeModifiedModReqItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4872,7 +4954,9 @@ func X2apInternalERABsToBeModifiedModReqItemSplitBearerExtIEsExtFieldUnmarshalAP
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeModifiedModReqItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -4988,7 +5072,9 @@ func X2apInternalERABsToBeModifiedSgNBModReqItemExtIEsExtFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeModifiedSgNBModReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5104,7 +5190,9 @@ func X2apInternalERABsToBeModifiedSgNBModReqdItemExtIEsExtFieldUnmarshalAPERFrom
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeModifiedSgNBModReqdItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5220,7 +5308,9 @@ func X2apInternalERABsToBeReleasedModReqItemSCGBearerExtIEsExtFieldUnmarshalAPER
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedModReqItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5336,7 +5426,9 @@ func X2apInternalERABsToBeReleasedModReqItemSplitBearerExtIEsExtFieldUnmarshalAP
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedModReqItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5452,7 +5544,9 @@ func X2apInternalERABsToBeReleasedModReqdItemExtIEsExtFieldUnmarshalAPERFrom(v *
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedModReqdItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5568,7 +5662,9 @@ func X2apInternalERABsToBeReleasedRelConfItemSCGBearerExtIEsExtFieldUnmarshalAPE
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedRelConfItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5684,7 +5780,9 @@ func X2apInternalERABsToBeReleasedRelConfItemSplitBearerExtIEsExtFieldUnmarshalA
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedRelConfItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5800,7 +5898,9 @@ func X2apInternalERABsToBeReleasedRelReqItemSCGBearerExtIEsExtFieldUnmarshalAPER
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedRelReqItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -5916,7 +6016,9 @@ func X2apInternalERABsToBeReleasedRelReqItemSplitBearerExtIEsExtFieldUnmarshalAP
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedRelReqItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6032,7 +6134,9 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsExtFiel
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6148,7 +6252,9 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemExtIEsExtFieldUnmarshalAPERFrom
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBChaConfItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6264,7 +6370,9 @@ func X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsExtFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6380,7 +6488,9 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEsExtField
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6496,7 +6606,9 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIEsExtFieldUnm
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6612,7 +6724,9 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemExtIEsExtFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBModReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6728,7 +6842,9 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEsExtFiel
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6844,7 +6960,9 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIEsExtFieldUn
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -6960,7 +7078,9 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemExtIEsExtFieldUnmarshalAPERFrom
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelConfItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7076,7 +7196,9 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEsExtField
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7192,7 +7314,9 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIEsExtFieldUnm
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7308,7 +7432,9 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemExtIEsExtFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7424,7 +7550,9 @@ func X2apInternalERABsToBeReleasedSgNBRelReqdItemExtIEsExtFieldUnmarshalAPERFrom
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelReqdItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "ExtensionValue")
 	}
@@ -7540,7 +7668,9 @@ func X2apInternalENBENDCConfigUpdateAckIEFieldUnmarshalAPERFrom(v *ENBENDCConfig
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalENBENDCConfigUpdateAckIEValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -8631,7 +8761,9 @@ func X2apInternalCoMPInformationStartTimeExtIEsIEFieldUnmarshalAPERFrom(v *CoMPI
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCoMPInformationStartTimeExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -8750,7 +8882,9 @@ func X2apInternalCompleteFailureCauseInformationItemExtIEsIEFieldUnmarshalAPERFr
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCompleteFailureCauseInformationItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -8869,7 +9003,9 @@ func X2apInternalCompositeAvailableCapacityExtIEsIEFieldUnmarshalAPERFrom(v *Com
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCompositeAvailableCapacityExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -8988,7 +9124,9 @@ func X2apInternalCompositeAvailableCapacityGroupExtIEsIEFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCompositeAvailableCapacityGroupExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -9107,7 +9245,9 @@ func X2apInternalCriticalityDiagnosticsExtIEsIEFieldUnmarshalAPERFrom(v *Critica
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCriticalityDiagnosticsExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -9226,7 +9366,9 @@ func X2apInternalCriticalityDiagnosticsIEListExtIEsIEFieldUnmarshalAPERFrom(v *C
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalCriticalityDiagnosticsIEListExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -9345,7 +9487,9 @@ func X2apInternalDAPSRequestInfoExtIEsIEFieldUnmarshalAPERFrom(v *DAPSRequestInf
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalDAPSRequestInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -9464,7 +9608,9 @@ func X2apInternalDAPSResponseInfoExtIEsIEFieldUnmarshalAPERFrom(v *DAPSResponseI
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalDAPSResponseInfoExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -9583,7 +9729,9 @@ func X2apInternalDLDiscardingExtIEsIEFieldUnmarshalAPERFrom(v *DLDiscardingExtIE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalDLDiscardingExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -9702,7 +9850,9 @@ func X2apInternalDataTrafficResourceIndicationExtIEsIEFieldUnmarshalAPERFrom(v *
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalDataTrafficResourceIndicationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -9821,7 +9971,9 @@ func X2apInternalDeliveryStatusExtIEsIEFieldUnmarshalAPERFrom(v *DeliveryStatusE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalDeliveryStatusExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -9940,7 +10092,9 @@ func X2apInternalDynamicNAICSInformationExtIEsIEFieldUnmarshalAPERFrom(v *Dynami
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalDynamicNAICSInformationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -10059,7 +10213,9 @@ func X2apInternalECGIExtIEsIEFieldUnmarshalAPERFrom(v *ECGIExtIEsIEField, bb *ap
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalECGIExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -10178,7 +10334,9 @@ func X2apInternalENDCResourceConfigurationExtIEsIEFieldUnmarshalAPERFrom(v *ENDC
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalENDCResourceConfigurationExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -10297,7 +10455,9 @@ func X2apInternalERABActivityNotifyItemExtIEsIEFieldUnmarshalAPERFrom(v *ERABAct
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABActivityNotifyItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -10416,7 +10576,9 @@ func X2apInternalERABItemExtIEsIEFieldUnmarshalAPERFrom(v *ERABItemExtIEsIEField
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -10535,7 +10697,9 @@ func X2apInternalERABUsageReportItemExtIEsIEFieldUnmarshalAPERFrom(v *ERABUsageR
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABUsageReportItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -10654,7 +10818,9 @@ func X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsIEFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeAddedSgNBAddReqAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -10773,7 +10939,9 @@ func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsIEFieldUnmarshalAPERF
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeAddedSgNBModAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -10892,7 +11060,9 @@ func X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsIEFieldUnmars
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11011,7 +11181,9 @@ func X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsIEFieldUnma
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11130,7 +11302,9 @@ func X2apInternalERABsToBeAddedSgNBModAckItemExtIEsIEFieldUnmarshalAPERFrom(v *E
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeAddedSgNBModAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11249,7 +11423,9 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsIEFieldUnmarshalA
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11368,7 +11544,9 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsIE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11487,7 +11665,9 @@ func X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsIEFieldUnmars
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11606,7 +11786,9 @@ func X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsIEFieldUnma
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11725,7 +11907,9 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEs
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11844,7 +12028,9 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsIEF
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -11963,7 +12149,9 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsIEFieldUnmarsha
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12082,7 +12270,9 @@ func X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsIEFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBModAckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12201,7 +12391,9 @@ func X2apInternalERABsDataForwardingAddressItemExtIEsIEFieldUnmarshalAPERFrom(v 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsDataForwardingAddressItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12320,7 +12512,9 @@ func X2apInternalERABsSubjectToCounterCheckItemExtIEsIEFieldUnmarshalAPERFrom(v 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsSubjectToCounterCheckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12439,7 +12633,9 @@ func X2apInternalERABsSubjectToDLDiscardingItemExtIEsIEFieldUnmarshalAPERFrom(v 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsSubjectToDLDiscardingItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12558,7 +12754,9 @@ func X2apInternalERABsSubjectToEarlyStatusTransferItemExtIEsIEFieldUnmarshalAPER
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsSubjectToEarlyStatusTransferItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12677,7 +12875,9 @@ func X2apInternalERABsSubjectToSgNBCounterCheckItemExtIEsIEFieldUnmarshalAPERFro
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsSubjectToSgNBCounterCheckItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12796,7 +12996,9 @@ func X2apInternalERABsToBeAddedSgNBAddReqItemExtIEsIEFieldUnmarshalAPERFrom(v *E
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeAddedSgNBAddReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -12915,7 +13117,9 @@ func X2apInternalERABsToBeAddedSgNBModReqItemExtIEsIEFieldUnmarshalAPERFrom(v *E
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeAddedSgNBModReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13034,7 +13238,9 @@ func X2apInternalERABsToBeModifiedModReqItemSCGBearerExtIEsIEFieldUnmarshalAPERF
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeModifiedModReqItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13153,7 +13359,9 @@ func X2apInternalERABsToBeModifiedModReqItemSplitBearerExtIEsIEFieldUnmarshalAPE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeModifiedModReqItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13272,7 +13480,9 @@ func X2apInternalERABsToBeModifiedSgNBModReqItemExtIEsIEFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeModifiedSgNBModReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13391,7 +13601,9 @@ func X2apInternalERABsToBeModifiedSgNBModReqdItemExtIEsIEFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeModifiedSgNBModReqdItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13510,7 +13722,9 @@ func X2apInternalERABsToBeReleasedModReqItemSCGBearerExtIEsIEFieldUnmarshalAPERF
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedModReqItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13629,7 +13843,9 @@ func X2apInternalERABsToBeReleasedModReqItemSplitBearerExtIEsIEFieldUnmarshalAPE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedModReqItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13748,7 +13964,9 @@ func X2apInternalERABsToBeReleasedModReqdItemExtIEsIEFieldUnmarshalAPERFrom(v *E
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedModReqdItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13867,7 +14085,9 @@ func X2apInternalERABsToBeReleasedRelConfItemSCGBearerExtIEsIEFieldUnmarshalAPER
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedRelConfItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -13986,7 +14206,9 @@ func X2apInternalERABsToBeReleasedRelConfItemSplitBearerExtIEsIEFieldUnmarshalAP
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedRelConfItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14105,7 +14327,9 @@ func X2apInternalERABsToBeReleasedRelReqItemSCGBearerExtIEsIEFieldUnmarshalAPERF
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedRelReqItemSCGBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14224,7 +14448,9 @@ func X2apInternalERABsToBeReleasedRelReqItemSplitBearerExtIEsIEFieldUnmarshalAPE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedRelReqItemSplitBearerExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14343,7 +14569,9 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemExtIEsIEFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBChaConfItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14462,7 +14690,9 @@ func X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsIEField
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14581,7 +14811,9 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemExtIEsIEFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBModReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14700,7 +14932,9 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEsIEFieldU
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14819,7 +15053,9 @@ func X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIEsIEFieldUnma
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -14938,7 +15174,9 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemExtIEsIEFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelConfItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15057,7 +15295,9 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEsIEField
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15176,7 +15416,9 @@ func X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIEsIEFieldUnm
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15295,7 +15537,9 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemExtIEsIEFieldUnmarshalAPERFrom(v
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelReqItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15414,7 +15658,9 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEsIEFieldU
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15533,7 +15779,9 @@ func X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIEsIEFieldUnma
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15652,7 +15900,9 @@ func X2apInternalERABsToBeReleasedSgNBRelReqdItemExtIEsIEFieldUnmarshalAPERFrom(
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalERABsToBeReleasedSgNBRelReqdItemExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15771,7 +16021,9 @@ func X2apInternalEnhancedRNTPExtIEsIEFieldUnmarshalAPERFrom(v *EnhancedRNTPExtIE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalEnhancedRNTPExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -15890,7 +16142,9 @@ func X2apInternalEnhancedRNTPStartTimeExtIEsIEFieldUnmarshalAPERFrom(v *Enhanced
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalEnhancedRNTPStartTimeExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16009,7 +16263,9 @@ func X2apInternalExpectedUEActivityBehaviourExtIEsIEFieldUnmarshalAPERFrom(v *Ex
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalExpectedUEActivityBehaviourExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -16128,7 +16384,9 @@ func X2apInternalExpectedUEBehaviourExtIEsIEFieldUnmarshalAPERFrom(v *ExpectedUE
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := X2apInternalExpectedUEBehaviourExtIEsValueDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}

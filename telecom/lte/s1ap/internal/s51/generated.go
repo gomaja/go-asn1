@@ -35,6 +35,7 @@ import (
 	s44 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s44"
 	s45 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s45"
 	s46 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s46"
+	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
 	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
 	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
@@ -625,24 +626,24 @@ func (PathSwitchRequestDescriptor) Successful() s50.PathSwitchRequestAcknowledge
 	return func() s50.PathSwitchRequestAcknowledgeSuccessfulBinding {
 		sealed := s50.PathSwitchRequestAcknowledgeSuccessfulBinding{}
 		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldInfo(&sealed) = PathSwitchRequestProcedure().Info()
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldValidate(&sealed) = func(v *s46.PathSwitchRequestAcknowledge, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
+		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldValidate(&sealed) = func(v *s47.PathSwitchRequestAcknowledge, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 			return s50.BridgeValidatePathSwitchRequestAcknowledgeBudget(v, budget)
 		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldEncode(&sealed) = func(v *s46.PathSwitchRequestAcknowledge, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s46.BridgePathSwitchRequestAcknowledgeMethodMarshalAPERBudget(v, budget, fresh)
+		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldEncode(&sealed) = func(v *s47.PathSwitchRequestAcknowledge, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s47.BridgePathSwitchRequestAcknowledgeMethodMarshalAPERBudget(v, budget, fresh)
 		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s46.PathSwitchRequestAcknowledge, error) {
-			var v s46.PathSwitchRequestAcknowledge
-			err := s46.BridgePathSwitchRequestAcknowledgeMethodUnmarshalAPERWithOptions(&v, data, options)
+		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s47.PathSwitchRequestAcknowledge, error) {
+			var v s47.PathSwitchRequestAcknowledge
+			err := s47.BridgePathSwitchRequestAcknowledgeMethodUnmarshalAPERWithOptions(&v, data, options)
 			if err != nil {
-				return s46.PathSwitchRequestAcknowledge{}, err
+				return s47.PathSwitchRequestAcknowledge{}, err
 			}
-			*s46.BridgePathSwitchRequestAcknowledgeFieldReceived(&v) = true
-			*s46.BridgePathSwitchRequestAcknowledgeFieldReceivedAbsolute(&v) = true
-			*s46.BridgePathSwitchRequestAcknowledgeFieldReceivedBytes(&v) = aper.OriginalWire(data)
+			*s47.BridgePathSwitchRequestAcknowledgeFieldReceived(&v) = true
+			*s47.BridgePathSwitchRequestAcknowledgeFieldReceivedAbsolute(&v) = true
+			*s47.BridgePathSwitchRequestAcknowledgeFieldReceivedBytes(&v) = aper.OriginalWire(data)
 			return v, nil
 		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldInject(&sealed) = func(v s46.PathSwitchRequestAcknowledge) s50.SuccessfulValue {
+		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldInject(&sealed) = func(v s47.PathSwitchRequestAcknowledge) s50.SuccessfulValue {
 			return func() s50.SuccessfulValue {
 				sealed := s50.SuccessfulValue{}
 				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(3)
@@ -650,21 +651,21 @@ func (PathSwitchRequestDescriptor) Successful() s50.PathSwitchRequestAcknowledge
 				return sealed
 			}()
 		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldCapture(&sealed) = func(v s46.PathSwitchRequestAcknowledge, options aper.DecodeState) (s46.PathSwitchRequestAcknowledge, aper.Snapshot) {
+		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldCapture(&sealed) = func(v s47.PathSwitchRequestAcknowledge, options aper.DecodeState) (s47.PathSwitchRequestAcknowledge, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s46.BridgeCaptureS1APPathSwitchRequestAcknowledge(&v, &s)
+			s47.BridgeCaptureS1APPathSwitchRequestAcknowledge(&v, &s)
 			var root aper.Snapshot
 			s.End(
 				f,
 				&root, false)
 			return v, root
 		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldCompare(&sealed) = func(v s46.PathSwitchRequestAcknowledge, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldCompare(&sealed) = func(v s47.PathSwitchRequestAcknowledge, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			s46.BridgeCompareS1APPathSwitchRequestAcknowledge(&v, &s)
+			s47.BridgeCompareS1APPathSwitchRequestAcknowledge(&v, &s)
 			s.End(f, root,
 
 				false)
@@ -887,24 +888,24 @@ func (ERABSetupDescriptor) Successful() s50.ERABSetupResponseSuccessfulBinding {
 	return func() s50.ERABSetupResponseSuccessfulBinding {
 		sealed := s50.ERABSetupResponseSuccessfulBinding{}
 		*s50.BridgeERABSetupResponseSuccessfulBindingFieldInfo(&sealed) = ERABSetupProcedure().Info()
-		*s50.BridgeERABSetupResponseSuccessfulBindingFieldValidate(&sealed) = func(v *s45.ERABSetupResponse, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
+		*s50.BridgeERABSetupResponseSuccessfulBindingFieldValidate(&sealed) = func(v *s46.ERABSetupResponse, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 			return s50.BridgeValidateERABSetupResponseBudget(v, budget)
 		}
-		*s50.BridgeERABSetupResponseSuccessfulBindingFieldEncode(&sealed) = func(v *s45.ERABSetupResponse, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s45.BridgeERABSetupResponseMethodMarshalAPERBudget(v, budget, fresh)
+		*s50.BridgeERABSetupResponseSuccessfulBindingFieldEncode(&sealed) = func(v *s46.ERABSetupResponse, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s46.BridgeERABSetupResponseMethodMarshalAPERBudget(v, budget, fresh)
 		}
-		*s50.BridgeERABSetupResponseSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s45.ERABSetupResponse, error) {
-			var v s45.ERABSetupResponse
-			err := s45.BridgeERABSetupResponseMethodUnmarshalAPERWithOptions(&v, data, options)
+		*s50.BridgeERABSetupResponseSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s46.ERABSetupResponse, error) {
+			var v s46.ERABSetupResponse
+			err := s46.BridgeERABSetupResponseMethodUnmarshalAPERWithOptions(&v, data, options)
 			if err != nil {
-				return s45.ERABSetupResponse{}, err
+				return s46.ERABSetupResponse{}, err
 			}
-			*s45.BridgeERABSetupResponseFieldReceived(&v) = true
-			*s45.BridgeERABSetupResponseFieldReceivedAbsolute(&v) = true
-			*s45.BridgeERABSetupResponseFieldReceivedBytes(&v) = aper.OriginalWire(data)
+			*s46.BridgeERABSetupResponseFieldReceived(&v) = true
+			*s46.BridgeERABSetupResponseFieldReceivedAbsolute(&v) = true
+			*s46.BridgeERABSetupResponseFieldReceivedBytes(&v) = aper.OriginalWire(data)
 			return v, nil
 		}
-		*s50.BridgeERABSetupResponseSuccessfulBindingFieldInject(&sealed) = func(v s45.ERABSetupResponse) s50.SuccessfulValue {
+		*s50.BridgeERABSetupResponseSuccessfulBindingFieldInject(&sealed) = func(v s46.ERABSetupResponse) s50.SuccessfulValue {
 			return func() s50.SuccessfulValue {
 				sealed := s50.SuccessfulValue{}
 				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(5)
@@ -912,22 +913,22 @@ func (ERABSetupDescriptor) Successful() s50.ERABSetupResponseSuccessfulBinding {
 				return sealed
 			}()
 		}
-		*s50.BridgeERABSetupResponseSuccessfulBindingFieldCapture(&sealed) = func(v s45.ERABSetupResponse, options aper.DecodeState) (s45.ERABSetupResponse, aper.Snapshot) {
+		*s50.BridgeERABSetupResponseSuccessfulBindingFieldCapture(&sealed) = func(v s46.ERABSetupResponse, options aper.DecodeState) (s46.ERABSetupResponse, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(
 				options,
 			)
 			f := s.Begin()
-			s45.BridgeCaptureS1APERABSetupResponse(&v, &s)
+			s46.BridgeCaptureS1APERABSetupResponse(&v, &s)
 			var root aper.Snapshot
 
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s50.BridgeERABSetupResponseSuccessfulBindingFieldCompare(&sealed) = func(v s45.ERABSetupResponse, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s50.BridgeERABSetupResponseSuccessfulBindingFieldCompare(&sealed) = func(v s46.ERABSetupResponse, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			s45.BridgeCompareS1APERABSetupResponse(&v, &s)
+			s46.BridgeCompareS1APERABSetupResponse(&v, &s)
 			s.End(f, root, false)
 			return s.Plan(),
 				s.BudgetValue()
@@ -1093,24 +1094,24 @@ func (ERABReleaseDescriptor) Successful() s50.ERABReleaseResponseSuccessfulBindi
 	return func() s50.ERABReleaseResponseSuccessfulBinding {
 		sealed := s50.ERABReleaseResponseSuccessfulBinding{}
 		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldInfo(&sealed) = ERABReleaseProcedure().Info()
-		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldValidate(&sealed) = func(v *s45.ERABReleaseResponse, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
+		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldValidate(&sealed) = func(v *s46.ERABReleaseResponse, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 			return s50.BridgeValidateERABReleaseResponseBudget(v, budget)
 		}
-		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldEncode(&sealed) = func(v *s45.ERABReleaseResponse, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s45.BridgeERABReleaseResponseMethodMarshalAPERBudget(v, budget, fresh)
+		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldEncode(&sealed) = func(v *s46.ERABReleaseResponse, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s46.BridgeERABReleaseResponseMethodMarshalAPERBudget(v, budget, fresh)
 		}
-		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s45.ERABReleaseResponse, error) {
-			var v s45.ERABReleaseResponse
-			err := s45.BridgeERABReleaseResponseMethodUnmarshalAPERWithOptions(&v, data, options)
+		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s46.ERABReleaseResponse, error) {
+			var v s46.ERABReleaseResponse
+			err := s46.BridgeERABReleaseResponseMethodUnmarshalAPERWithOptions(&v, data, options)
 			if err != nil {
-				return s45.ERABReleaseResponse{}, err
+				return s46.ERABReleaseResponse{}, err
 			}
-			*s45.BridgeERABReleaseResponseFieldReceived(&v) = true
-			*s45.BridgeERABReleaseResponseFieldReceivedAbsolute(&v) = true
-			*s45.BridgeERABReleaseResponseFieldReceivedBytes(&v) = aper.OriginalWire(data)
+			*s46.BridgeERABReleaseResponseFieldReceived(&v) = true
+			*s46.BridgeERABReleaseResponseFieldReceivedAbsolute(&v) = true
+			*s46.BridgeERABReleaseResponseFieldReceivedBytes(&v) = aper.OriginalWire(data)
 			return v, nil
 		}
-		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldInject(&sealed) = func(v s45.ERABReleaseResponse) s50.SuccessfulValue {
+		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldInject(&sealed) = func(v s46.ERABReleaseResponse) s50.SuccessfulValue {
 			return func() s50.SuccessfulValue {
 				sealed := s50.SuccessfulValue{}
 				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(7)
@@ -1118,21 +1119,21 @@ func (ERABReleaseDescriptor) Successful() s50.ERABReleaseResponseSuccessfulBindi
 				return sealed
 			}()
 		}
-		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldCapture(&sealed) = func(v s45.ERABReleaseResponse, options aper.DecodeState) (s45.ERABReleaseResponse, aper.Snapshot) {
+		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldCapture(&sealed) = func(v s46.ERABReleaseResponse, options aper.DecodeState) (s46.ERABReleaseResponse, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s45.BridgeCaptureS1APERABReleaseResponse(&v, &s)
+			s46.BridgeCaptureS1APERABReleaseResponse(&v, &s)
 			var root aper.Snapshot
 			s.End(f, &root, false)
 			return v, root
 
 		}
-		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldCompare(&sealed) = func(v s45.ERABReleaseResponse, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s50.BridgeERABReleaseResponseSuccessfulBindingFieldCompare(&sealed) = func(v s46.ERABReleaseResponse, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			s45.BridgeCompareS1APERABReleaseResponse(&v, &s)
+			s46.BridgeCompareS1APERABReleaseResponse(&v, &s)
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -3204,7 +3205,9 @@ func (v *MMEConfigurationTransferIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -5481,88 +5484,6 @@ func (b MMEDirectInformationTransferInitiatingBinding) Codec() s34.MMEDirectInfo
 
 // Build validates a body and constructs its bound procedure message.
 func (b MMEDirectInformationTransferInitiatingBinding) Build(body s34.MMEDirectInformationTransfer,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// PrivateMessageInitiatingBinding is the concrete InitiatingBinding[PrivateMessage].
-type PrivateMessageInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s26.PrivateMessage, aper.DecodeState,
-
-	) (s26.PrivateMessage, aper.Snapshot,
-
-	)
-	compare func(s26.PrivateMessage, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s26.PrivateMessage,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s26.PrivateMessage,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s26.PrivateMessage,
-
-		error)
-	inject func(s26.PrivateMessage,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b PrivateMessageInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b PrivateMessageInitiatingBinding) Codec() s26.PrivateMessageValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s26.PrivateMessageValueCodec{}
-	}
-	return func() s26.PrivateMessageValueCodec {
-		sealed := s26.PrivateMessageValueCodec{}
-		*s26.BridgePrivateMessageValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s26.BridgePrivateMessageValueCodecFieldDecode(&sealed) = b.decode
-		*s26.BridgePrivateMessageValueCodecFieldEncode(&sealed) = func(value s26.PrivateMessage,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s26.BridgePrivateMessageValueCodecFieldCapture(&sealed) = b.capture
-		*s26.BridgePrivateMessageValueCodecFieldCompare(&sealed) = b.compare
-		*s26.BridgePrivateMessageValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b PrivateMessageInitiatingBinding) Build(body s26.PrivateMessage,
 
 	options ...aper.BuildOption) (InitiatingMessage, error) {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
@@ -9316,7 +9237,7 @@ type InitiatingValue struct {
 	bodyUEContextReleaseRequest              *s42.UEContextReleaseRequest
 	bodyDownlinkS1cdma2000tunnelling         *s40.DownlinkS1cdma2000tunnelling
 	bodyUplinkS1cdma2000tunnelling           *s44.UplinkS1cdma2000tunnelling
-	bodyUEContextModificationRequest         *s46.UEContextModificationRequest
+	bodyUEContextModificationRequest         *s47.UEContextModificationRequest
 	bodyUECapabilityInfoIndication           *s36.UECapabilityInfoIndication
 	bodyUEContextReleaseCommand              *s37.UEContextReleaseCommand
 	bodyENBStatusTransfer                    *s24.ENBStatusTransfer
@@ -9542,7 +9463,7 @@ func (v *InitiatingValue) AsUplinkS1cdma2000tunnelling() (*s44.UplinkS1cdma2000t
 }
 
 // AsUEContextModificationRequest returns the selected UEContextModificationRequest value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsUEContextModificationRequest() (*s46.UEContextModificationRequest, bool) {
+func (v *InitiatingValue) AsUEContextModificationRequest() (*s47.UEContextModificationRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(21) || v.bodyUEContextModificationRequest == nil {
 		return nil, false
 	}
@@ -10340,23 +10261,23 @@ func BridgeDecodeInitiatingValue(code s00.ProcedureCode, raw aper.OpaqueOpenType
 		v.bodyUplinkS1cdma2000tunnelling = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(21):
-		var body s46.UEContextModificationRequest
+		var body s47.UEContextModificationRequest
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s46.BridgeUEContextModificationRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s47.BridgeUEContextModificationRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.UEContextModificationRequest:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "UEContextModificationRequest")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s46.BridgeUEContextModificationRequestFieldPerPadding(&body) = padding
-		*s46.BridgeUEContextModificationRequestFieldReceived(&body) = true
-		raw.RetainContents(s46.BridgeUEContextModificationRequestFieldReceivedBytes(&body))
-		*s46.BridgeUEContextModificationRequestFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s47.BridgeUEContextModificationRequestFieldPerPadding(&body) = padding
+		*s47.BridgeUEContextModificationRequestFieldReceived(&body) = true
+		raw.RetainContents(s47.BridgeUEContextModificationRequestFieldReceivedBytes(&body))
+		*s47.BridgeUEContextModificationRequestFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyUEContextModificationRequest = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(22):
@@ -11477,7 +11398,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s46.BridgeUEContextModificationRequestMethodMarshalAPERBudget(v.bodyUEContextModificationRequest, budget, fresh)
+		return s47.BridgeUEContextModificationRequestMethodMarshalAPERBudget(v.bodyUEContextModificationRequest, budget, fresh)
 	case s00.ProcedureCode(22):
 		if v.bodyUECapabilityInfoIndication == nil {
 			return nil, fmt.Errorf("%s value: missing UECapabilityInfoIndication", "Initiating")
@@ -12285,7 +12206,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyUEContextModificationRequest == nil)
 				if v.bodyUEContextModificationRequest != nil {
-					s46.BridgeCaptureS1APUEContextModificationRequest(v.bodyUEContextModificationRequest, s)
+					s47.BridgeCaptureS1APUEContextModificationRequest(v.bodyUEContextModificationRequest, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12918,7 +12839,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyUEContextModificationRequest == nil)
 				if v.bodyUEContextModificationRequest != nil {
-					s46.BridgeCompareS1APUEContextModificationRequest(v.bodyUEContextModificationRequest, s)
+					s47.BridgeCompareS1APUEContextModificationRequest(v.bodyUEContextModificationRequest, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -13895,6 +13816,7 @@ func (v *ENBConfigurationTransfer) unmarshalAPERWithOptions(data []byte, options
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationTransfer")
 	}
+	bb.EnterComponent("ENBConfigurationTransfer")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "ENBConfigurationTransfer")
 	}
@@ -13918,6 +13840,7 @@ func (v *ENBConfigurationTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s50.ENBConfigurationTransferIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -13926,9 +13849,11 @@ func (v *ENBConfigurationTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem s50.ENBConfigurationTransferIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := s50.BridgeENBConfigurationTransferIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -13940,6 +13865,7 @@ func (v *ENBConfigurationTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -14127,6 +14053,7 @@ func (v *MMEConfigurationTransfer) unmarshalAPERWithOptions(data []byte, options
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationTransfer")
 	}
+	bb.EnterComponent("MMEConfigurationTransfer")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "MMEConfigurationTransfer")
 	}
@@ -14150,6 +14077,7 @@ func (v *MMEConfigurationTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if err != nil {
 		return err
 	}
+	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(MMEConfigurationTransferIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
@@ -14158,9 +14086,11 @@ func (v *MMEConfigurationTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
 			var elem MMEConfigurationTransferIEField
+			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
+			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.ProtocolIEs, elem); err != nil {
 				return err
 			} else {
@@ -14172,6 +14102,7 @@ func (v *MMEConfigurationTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	if errCollection_protocolies != nil {
 		return runtime.WrapDecodePath(errCollection_protocolies, "ProtocolIEs")
 	}
+	bb.LeaveComponent(toleranceMark_protocolies)
 	if hasExtensions {
 		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
 		if err != nil {
@@ -14646,6 +14577,7 @@ func (v *InitiatingMessage) unmarshalAPERWithOptions(data []byte, options aper.D
 	if err := bb.SetDecodeOptionsAligned(options); err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
+	bb.EnterComponent("InitiatingMessage")
 	if err := v.unmarshalAPERFrom(bb); err != nil {
 		return runtime.WrapDecodePath(err, "InitiatingMessage")
 	}
@@ -14674,6 +14606,7 @@ func (v *InitiatingMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Criticality")
 	}
 	v.Criticality = s00.Criticality(val_criticality)
+	toleranceMark_value := bb.EnterComponent("Value")
 	opaque_value, err := aper.DecodeOpaqueOpenTypeAligned(bb, s00.InitiatingReason(v.ProcedureCode), aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "Initiating"}})
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
@@ -14684,6 +14617,7 @@ func (v *InitiatingMessage) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(fmt.Errorf("procedureCode %v: %w", v.ProcedureCode, err), "Value")
 	}
 	v.Value = decoded_value
+	bb.LeaveComponent(toleranceMark_value)
 	v.stream = bb.CaptureWireSpan(replayStart)
 
 	return nil
@@ -18465,7 +18399,9 @@ func (v *ProtocolIEField[V]) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -18575,7 +18511,9 @@ func (v *ProtocolExtensionField[V]) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		return runtime.WrapDecodePath(fmt.Errorf("extension %d: %w", v.Id, err), "ExtensionValue")
 	}
 	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(fmt.Errorf("extension %d: %w", v.Id, err), "ExtensionValue")
 	}
@@ -18689,7 +18627,9 @@ func (v *PrivateIEField[V]) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return runtime.WrapDecodePath(err, "Value")
 	}
 	raw = raw.WithPath("PrivateIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
 	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
 	if err != nil {
 		return runtime.WrapDecodePath(err, "Value")
 	}
@@ -19177,6 +19117,7 @@ func (t ENBConfigurationTransferIETable) SONConfigurationTransferECT() ENBConfig
 				var empty s50.SONConfigurationTransfer
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SONConfigurationTransfer")
 			var zero s50.ENBConfigurationTransferIEValue
 			decoded, err := s50.BridgeENBConfigurationTransferIEValueMethodDecode(zero, s00.ProtocolIEID(129), raw)
 			if err != nil {
@@ -19256,6 +19197,7 @@ func (t ENBConfigurationTransferIETable) ENDCSONConfigurationTransferECT() s50.E
 					var empty s50.ENDCSONConfigurationTransfer
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("ENDCSONConfigurationTransfer")
 				var zero s50.ENBConfigurationTransferIEValue
 				decoded, err := s50.BridgeENBConfigurationTransferIEValueMethodDecode(zero, s00.ProtocolIEID(294), raw)
 				if err != nil {
@@ -19341,6 +19283,7 @@ func (t ENBConfigurationTransferIETable) IntersystemSONConfigurationTransferECT(
 					var empty s00.IntersystemSONConfigurationTransfer
 					return empty, err
 				}
+				raw.BudgetBuffer().EnterComponent("IntersystemSONConfigurationTransfer")
 				var zero s50.ENBConfigurationTransferIEValue
 				decoded, err := s50.BridgeENBConfigurationTransferIEValueMethodDecode(zero, s00.ProtocolIEID(310), raw)
 				if err != nil {
@@ -19475,6 +19418,7 @@ func (t MMEConfigurationTransferIETable) SONConfigurationTransferMCT() MMEConfig
 				var empty s50.SONConfigurationTransfer
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("SONConfigurationTransfer")
 			var zero MMEConfigurationTransferIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(130), raw)
 			if err != nil {
@@ -19541,6 +19485,7 @@ func (t MMEConfigurationTransferIETable) ENDCSONConfigurationTransferMCT() MMECo
 				var empty s50.ENDCSONConfigurationTransfer
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("ENDCSONConfigurationTransfer")
 			var zero MMEConfigurationTransferIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(295), raw)
 			if err != nil {
@@ -19610,6 +19555,7 @@ func (t MMEConfigurationTransferIETable) IntersystemSONConfigurationTransferMCT(
 				var empty s00.IntersystemSONConfigurationTransfer
 				return empty, err
 			}
+			raw.BudgetBuffer().EnterComponent("IntersystemSONConfigurationTransfer")
 			var zero MMEConfigurationTransferIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(309), raw)
 			if err != nil {
@@ -19791,7 +19737,7 @@ func ERABReleaseIndicationCodec() s45.ERABReleaseIndicationValueCodec {
 }
 
 // ERABReleaseResponseCodec binds the complete APER value type.
-func ERABReleaseResponseCodec() s45.ERABReleaseResponseValueCodec {
+func ERABReleaseResponseCodec() s46.ERABReleaseResponseValueCodec {
 	return ERABReleaseProcedure().Successful().Codec()
 }
 
@@ -19801,7 +19747,7 @@ func ERABSetupRequestCodec() s40.ERABSetupRequestValueCodec {
 }
 
 // ERABSetupResponseCodec binds the complete APER value type.
-func ERABSetupResponseCodec() s45.ERABSetupResponseValueCodec {
+func ERABSetupResponseCodec() s46.ERABSetupResponseValueCodec {
 	return ERABSetupProcedure().Successful().Codec()
 }
 
@@ -20013,7 +19959,7 @@ func PWSRestartIndicationCodec() s44.PWSRestartIndicationValueCodec {
 func PagingCodec() s49.PagingValueCodec { return PagingProcedure().Initiating().Codec() }
 
 // PathSwitchRequestAcknowledgeCodec binds the complete APER value type.
-func PathSwitchRequestAcknowledgeCodec() s46.PathSwitchRequestAcknowledgeValueCodec {
+func PathSwitchRequestAcknowledgeCodec() s47.PathSwitchRequestAcknowledgeValueCodec {
 	return PathSwitchRequestProcedure().Successful().Codec()
 }
 
@@ -21143,7 +21089,7 @@ func BridgeInitiatingValueFieldBodyUECapabilityInfoIndication(v *InitiatingValue
 func BridgeInitiatingValueFieldBodyUEContextModificationIndication(v *InitiatingValue) **s36.UEContextModificationIndication {
 	return &v.bodyUEContextModificationIndication
 }
-func BridgeInitiatingValueFieldBodyUEContextModificationRequest(v *InitiatingValue) **s46.UEContextModificationRequest {
+func BridgeInitiatingValueFieldBodyUEContextModificationRequest(v *InitiatingValue) **s47.UEContextModificationRequest {
 	return &v.bodyUEContextModificationRequest
 }
 func BridgeInitiatingValueFieldBodyUEContextReleaseCommand(v *InitiatingValue) **s37.UEContextReleaseCommand {
@@ -22032,30 +21978,6 @@ func BridgePathSwitchRequestInitiatingBindingFieldInject(v *PathSwitchRequestIni
 	return &v.inject
 }
 func BridgePathSwitchRequestInitiatingBindingFieldValidate(v *PathSwitchRequestInitiatingBinding) *func(*s41.PathSwitchRequest, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgePrivateMessageInitiatingBindingFieldCapture(v *PrivateMessageInitiatingBinding) *func(s26.PrivateMessage, aper.DecodeState) (s26.PrivateMessage, aper.Snapshot) {
-	return &v.capture
-}
-func BridgePrivateMessageInitiatingBindingFieldCompare(v *PrivateMessageInitiatingBinding) *func(s26.PrivateMessage, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgePrivateMessageInitiatingBindingFieldContext(v *PrivateMessageInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgePrivateMessageInitiatingBindingFieldDecode(v *PrivateMessageInitiatingBinding) *func([]byte, aper.DecodeState) (s26.PrivateMessage, error) {
-	return &v.decode
-}
-func BridgePrivateMessageInitiatingBindingFieldEncode(v *PrivateMessageInitiatingBinding) *func(*s26.PrivateMessage, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgePrivateMessageInitiatingBindingFieldInfo(v *PrivateMessageInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgePrivateMessageInitiatingBindingFieldInject(v *PrivateMessageInitiatingBinding) *func(s26.PrivateMessage) InitiatingValue {
-	return &v.inject
-}
-func BridgePrivateMessageInitiatingBindingFieldValidate(v *PrivateMessageInitiatingBinding) *func(*s26.PrivateMessage, *aper.DecodeBudget) (s21.ValidationReport, error) {
 	return &v.validate
 }
 func BridgeSONConfigurationTransferAPERValueFieldContext(v *SONConfigurationTransferAPERValue) *s00.BridgeCodecContext {

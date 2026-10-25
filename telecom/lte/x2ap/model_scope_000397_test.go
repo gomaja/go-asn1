@@ -3,12 +3,12 @@
 package x2ap
 
 import (
-	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func eRABsAdmittedItemIEFieldapiMust(v s09.ERABsAdmittedItemIEField, err error) s09.ERABsAdmittedItemIEField {
+func sCGFailureInformationReportfreshMust(value s20.SCGFailureInformationReport, err error) s20.SCGFailureInformationReport {
 	if err != nil {
 		panic(err)
 	}
-	return v
+	return value
 }

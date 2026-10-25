@@ -6,7 +6,7 @@ import (
 	s03 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s03"
 )
 
-func procedureStageChoiceExtIEFieldapiMust(v s03.ProcedureStageChoiceExtIEField, err error) s03.ProcedureStageChoiceExtIEField {
+func globalRANNODEIDExtIEFieldapiMust(v s03.GlobalRANNODEIDExtIEField, err error) s03.GlobalRANNODEIDExtIEField {
 	if err != nil {
 		panic(err)
 	}

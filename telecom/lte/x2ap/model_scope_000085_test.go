@@ -4,8 +4,8 @@ package x2ap
 
 import (
 	errors "errors"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s21 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s21"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -27,7 +27,7 @@ func TestPublicOperationLimitBoundaries(t *testing.T) {
 		{"allocation", func(n uint64) aper.Limits { return aper.Limits{MaxAllocatedBytes: n} }, true, true, true, true},
 		{"reports", func(n uint64) aper.Limits { return aper.Limits{MaxReports: n} }, true, false, true, true},
 	}
-	var original s19.X2APPDU
+	var original s20.X2APPDU
 	if _, err := original.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}
@@ -38,7 +38,7 @@ func TestPublicOperationLimitBoundaries(t *testing.T) {
 			run     func(aper.Limits) error
 		}{
 			{"decode", setter.decode, func(limits aper.Limits) error {
-				var v s19.X2APPDU
+				var v s20.X2APPDU
 				_, err := v.UnmarshalAPER(wire, aper.WithLimits(limits))
 				return err
 			}},
@@ -47,11 +47,11 @@ func TestPublicOperationLimitBoundaries(t *testing.T) {
 				return err
 			}},
 			{"build", setter.build, func(limits aper.Limits) error {
-				_, err := s20.NewX2APPDUInitiatingMessage(*original.InitiatingMessage, aper.WithBuildLimits(limits))
+				_, err := s21.NewX2APPDUInitiatingMessage(*original.InitiatingMessage, aper.WithBuildLimits(limits))
 				return err
 			}},
 			{"validate", setter.validate, func(limits aper.Limits) error {
-				_, err := s20.ValidateMessage(&original, aper.WithValidationLimits(limits))
+				_, err := s21.ValidateMessage(&original, aper.WithValidationLimits(limits))
 				return err
 			}},
 		}
@@ -87,7 +87,7 @@ func TestPublicOperationLimitBoundaries(t *testing.T) {
 				t.Logf("minimum %s %s=%d", op.name, setter.name, required)
 				if op.name == "decode" {
 					for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-						var reused s19.X2APPDU
+						var reused s20.X2APPDU
 						for _, limit := range []uint64{required, required - 1, required + 1} {
 							opts := append([]aper.DecodeOption{}, options...)
 							opts = append(opts, aper.WithLimits(setter.set(limit)))

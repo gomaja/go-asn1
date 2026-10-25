@@ -3,11 +3,11 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
 func replayBoundCaptureDecode(raw []byte) error {
-	var v s19.X2APPDU
+	var v s20.X2APPDU
 	_, err := v.UnmarshalAPER(raw)
 	return err
 }

@@ -7,7 +7,7 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
 )
@@ -21,10 +21,10 @@ func TestReceivedAncestorHonorsNestedFreshBitmap(t *testing.T) {
 	*s06.X2apInternalCriticalityDiagnosticsFieldExtPresent(&diagnostics) = append(*s06.X2apInternalCriticalityDiagnosticsFieldExtPresent(&diagnostics), false, false, false)
 	*s06.X2apInternalCriticalityDiagnosticsFieldExtData(&diagnostics) = append(*s06.X2apInternalCriticalityDiagnosticsFieldExtData(&diagnostics), nil, nil, nil)
 	field := errorIndicationIEFieldapiMust(s11.ErrorIndicationIEs().CriticalityDiagnostics().New(diagnostics))
-	body := s19.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
-	original := s19.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s19.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s19.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}}
+	body := s20.ErrorIndication{ProtocolIEs: s11.ErrorIndicationIEContainer{field}}
+	original := s20.X2APPDU{Choice: s00.X2APPDUChoiceInitiatingMessage, InitiatingMessage: &s20.InitiatingMessage{ProcedureCode: s00.IdErrorIndication, Criticality: s00.CriticalityIgnore, Value: s20.X2apInternalConstructT15InitiatingValueF4codeF19bodyErrorIndication(s00.IdErrorIndication, &body)}}
 	wire := listByteapiMust(original.MarshalAPER())
-	var received s19.X2APPDU
+	var received s20.X2APPDU
 	if _, err := received.UnmarshalAPER(wire); err != nil {
 		t.Fatal(err)
 	}

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s15 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s15"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func eNBEUTRANRCellResourceCoordinationReqAckIEFieldapiMust(v s15.ENBEUTRANRCellResourceCoordinationReqAckIEField, err error) s15.ENBEUTRANRCellResourceCoordinationReqAckIEField {
+func enGNBENDCConfigUpdateAckIEFieldapiMust(v s18.EnGNBENDCConfigUpdateAckIEField, err error) s18.EnGNBENDCConfigUpdateAckIEField {
 	if err != nil {
 		panic(err)
 	}

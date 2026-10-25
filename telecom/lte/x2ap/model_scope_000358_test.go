@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 )
 
-func dataForwardingAddressIndicationfreshMust(value s19.DataForwardingAddressIndication, err error) s19.DataForwardingAddressIndication {
+func eNDCX2RemovalFailureIEFieldfreshMust(value s06.ENDCX2RemovalFailureIEField, err error) s06.ENDCX2RemovalFailureIEField {
 	if err != nil {
 		panic(err)
 	}

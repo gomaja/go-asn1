@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func eUTRANRCellResourceCoordinationRequestfreshMust(value s19.EUTRANRCellResourceCoordinationRequest, err error) s19.EUTRANRCellResourceCoordinationRequest {
+func eNDCPartialResetConfirmIEFieldfreshMust(value s18.ENDCPartialResetConfirmIEField, err error) s18.ENDCPartialResetConfirmIEField {
 	if err != nil {
 		panic(err)
 	}

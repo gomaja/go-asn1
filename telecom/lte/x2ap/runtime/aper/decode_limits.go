@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/decode_limits.go; SHA-256 cb8e23b9c9785ddf036743271e589ac12ec2ca4c291f973d4977ed1832421a5b.
+// Runtime source: runtime/aper/decode_limits.go; SHA-256 884ab8501047a75268d3e28d2bcc159c5b5640c80b5df03d64a9890c8ef4d751.
 package aper
 
 import "fmt"
@@ -42,6 +42,7 @@ type DecodeBudget struct {
 	outputLimited                 bool
 	reading                       bool
 	locating                      bool
+	nonzeroTerminalPadding        bool
 	limits                        decodeLimits
 	usage                         DecodeUsage
 	report                        *DecodeUsage

@@ -51,7 +51,7 @@ func TestEveryChoiceTableSelector(t *testing.T) {
 		apiHas(t, report, s00.ValueIDMismatch)
 	})
 	t.Run("InitiatingNodeTypeEndcX2Setup/InitEnGNB", func(t *testing.T) {
-		row := enGNBENDCX2SetupReqIEFieldapiMust(s17.EnGNBENDCX2SetupReqIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
+		row := enGNBENDCX2SetupReqIEFieldapiMust(s18.EnGNBENDCX2SetupReqIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
 		var value s18.InitiatingNodeTypeEndcX2Setup
 		value.Choice = s00.InitiatingNodeTypeEndcX2SetupChoiceInitEnGNB
 		value.InitEnGNB = append(value.InitEnGNB, row)
@@ -83,7 +83,7 @@ func TestEveryChoiceTableSelector(t *testing.T) {
 		apiHas(t, report, s00.ValueIDMismatch)
 	})
 	t.Run("RespondingNodeTypeEndcX2Setup/RespondEnGNB", func(t *testing.T) {
-		row := enGNBENDCX2SetupReqAckIEFieldapiMust(s17.EnGNBENDCX2SetupReqAckIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
+		row := enGNBENDCX2SetupReqAckIEFieldapiMust(s18.EnGNBENDCX2SetupReqAckIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
 		var value s18.RespondingNodeTypeEndcX2Setup
 		value.Choice = s00.RespondingNodeTypeEndcX2SetupChoiceRespondEnGNB
 		value.RespondEnGNB = append(value.RespondEnGNB, row)
@@ -147,7 +147,7 @@ func TestEveryChoiceTableSelector(t *testing.T) {
 		apiHas(t, report, s00.ValueIDMismatch)
 	})
 	t.Run("RespondingNodeTypeEndcConfigUpdate/RespondEnGNB", func(t *testing.T) {
-		row := enGNBENDCConfigUpdateAckIEFieldapiMust(s17.EnGNBENDCConfigUpdateAckIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
+		row := enGNBENDCConfigUpdateAckIEFieldapiMust(s18.EnGNBENDCConfigUpdateAckIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
 		var value s18.RespondingNodeTypeEndcConfigUpdate
 		value.Choice = s00.RespondingNodeTypeEndcConfigUpdateChoiceRespondEnGNB
 		value.RespondEnGNB = append(value.RespondEnGNB, row)
@@ -175,7 +175,7 @@ func TestEveryChoiceTableSelector(t *testing.T) {
 		_, err := value.MarshalAPER()
 		apiRefused(t, err)
 		report := s12.ValidationReport{Complete: true}
-		s15.X2apInternalWalkValidationInitiatingNodeTypeEutranrCellResourceCoordination(&value, &report, "InitiatingNodeTypeEutranrCellResourceCoordination", false)
+		s16.X2apInternalWalkValidationInitiatingNodeTypeEutranrCellResourceCoordination(&value, &report, "InitiatingNodeTypeEutranrCellResourceCoordination", false)
 		apiHas(t, report, s00.ValueIDMismatch)
 	})
 	t.Run("InitiatingNodeTypeEutranrCellResourceCoordination/InitiateEnGNB", func(t *testing.T) {
@@ -191,12 +191,12 @@ func TestEveryChoiceTableSelector(t *testing.T) {
 		_, err := value.MarshalAPER()
 		apiRefused(t, err)
 		report := s12.ValidationReport{Complete: true}
-		s15.X2apInternalWalkValidationInitiatingNodeTypeEutranrCellResourceCoordination(&value, &report, "InitiatingNodeTypeEutranrCellResourceCoordination", false)
+		s16.X2apInternalWalkValidationInitiatingNodeTypeEutranrCellResourceCoordination(&value, &report, "InitiatingNodeTypeEutranrCellResourceCoordination", false)
 		apiHas(t, report, s00.ValueIDMismatch)
 	})
 	t.Run("RespondingNodeTypeEutranrCellResourceCoordination/RespondENB", func(t *testing.T) {
 		row := eNBEUTRANRCellResourceCoordinationReqAckIEFieldapiMust(s15.ENBEUTRANRCellResourceCoordinationReqAckIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
-		var value s15.RespondingNodeTypeEutranrCellResourceCoordination
+		var value s16.RespondingNodeTypeEutranrCellResourceCoordination
 		value.Choice = s00.RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondENB
 		value.RespondENB = append(value.RespondENB, row)
 		selected := &value.RespondENB[0]
@@ -211,8 +211,8 @@ func TestEveryChoiceTableSelector(t *testing.T) {
 		apiHas(t, report, s00.ValueIDMismatch)
 	})
 	t.Run("RespondingNodeTypeEutranrCellResourceCoordination/RespondEnGNB", func(t *testing.T) {
-		row := enGNBEUTRANRCellResourceCoordinationReqAckIEFieldapiMust(s15.EnGNBEUTRANRCellResourceCoordinationReqAckIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
-		var value s15.RespondingNodeTypeEutranrCellResourceCoordination
+		row := enGNBEUTRANRCellResourceCoordinationReqAckIEFieldapiMust(s16.EnGNBEUTRANRCellResourceCoordinationReqAckIEs().NewOpaque(65532, s00.CriticalityIgnore, []byte{0}))
+		var value s16.RespondingNodeTypeEutranrCellResourceCoordination
 		value.Choice = s00.RespondingNodeTypeEutranrCellResourceCoordinationChoiceRespondEnGNB
 		value.RespondEnGNB = append(value.RespondEnGNB, row)
 		selected := &value.RespondEnGNB[0]

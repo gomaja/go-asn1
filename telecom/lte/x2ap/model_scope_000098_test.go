@@ -6,7 +6,7 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s05 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s05"
 	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 	testing "testing"
@@ -21,12 +21,12 @@ func TestKnownChoiceAdditionsDoNotConsumeReports(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	body := s19.X2SetupRequest{ProtocolIEs: s17.X2SetupRequestIEContainer{field, field}}
+	body := s20.X2SetupRequest{ProtocolIEs: s17.X2SetupRequestIEContainer{field, field}}
 	wire, err := body.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
 	}
-	var value s19.X2SetupRequest
+	var value s20.X2SetupRequest
 	report, err := value.UnmarshalAPER(wire, aper.WithLimits(aper.Limits{MaxReports: 1}))
 	if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 {
 		t.Fatalf("known choice exhausted reports: %+v %v", report, err)

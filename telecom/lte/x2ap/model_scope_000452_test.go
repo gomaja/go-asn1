@@ -3,17 +3,29 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// ERABsAdmittedItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[ERABsAdmittedItemExtIEsValue]].
-type ERABsAdmittedItemExtIEsExtFieldValueCodec struct {
-	context s00.X2apInternalCodecContext
-	capture func(s06.ERABsAdmittedItemExtIEsExtField, aper.DecodeState) (s06.ERABsAdmittedItemExtIEsExtField, aper.Snapshot)
-	compare func(s06.ERABsAdmittedItemExtIEsExtField, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
-	path    aper.Path
-	decode  func([]byte, aper.DecodeState) (s06.ERABsAdmittedItemExtIEsExtField, error)
-	encode  func(s06.ERABsAdmittedItemExtIEsExtField, bool, *aper.DecodeBudget) ([]byte, error)
+// EncodeAPER encodes the value, preserving unchanged received contents unless replay is disabled.
+func (c ERABsToBeSetupItemIEFieldValueCodec) EncodeAPER(value ERABsToBeSetupItemIEFieldAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	if !fresh && value.context == c.context && value.replay.Present() {
+		plan := c.compare(value.Value, value.replay, budget)
+		if err := plan.Error(); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := value.received.EncodePlanBytes(plan)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, plan)
+	}
+	return c.encodeUnplanned(value.Value, fresh, budget)
 }

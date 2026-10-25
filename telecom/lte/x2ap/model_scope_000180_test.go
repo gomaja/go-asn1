@@ -2,11 +2,9 @@
 
 package x2ap
 
-import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
-)
+func listBytefreshMust(value []byte,
 
-func initiatingMessagefreshMust(value s19.InitiatingMessage, err error) s19.InitiatingMessage {
+	err error) []byte {
 	if err != nil {
 		panic(err)
 	}

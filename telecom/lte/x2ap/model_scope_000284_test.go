@@ -6,7 +6,7 @@ import (
 	s18 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s18"
 )
 
-func sgNBAdditionRequestAcknowledgefreshMust(value s18.SgNBAdditionRequestAcknowledge, err error) s18.SgNBAdditionRequestAcknowledge {
+func sgNBAdditionRequestIEFieldfreshMust(value s18.SgNBAdditionRequestIEField, err error) s18.SgNBAdditionRequestIEField {
 	if err != nil {
 		panic(err)
 	}

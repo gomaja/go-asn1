@@ -6,7 +6,7 @@ package s24
 import (
 	"fmt"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s00"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s04"
+	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s05"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s09"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s10"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s11"
@@ -1173,7 +1173,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "InitiatingMessage"}}}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "InitiatingMessage"}}}})
 			return report
 		}(), nil
 	}
@@ -1196,7 +1196,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityIgnore {
 			expected, received := s00.CriticalityIgnore, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.ErrorIndicationProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.ErrorIndicationProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 1:
@@ -1217,7 +1217,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityIgnore {
 			expected, received := s00.CriticalityIgnore, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s21.PrivateMessageProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s21.PrivateMessageProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 2:
@@ -1238,7 +1238,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{ECIDMeasurementInitiationProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{ECIDMeasurementInitiationProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 3:
@@ -1259,7 +1259,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityIgnore {
 			expected, received := s00.CriticalityIgnore, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.ECIDMeasurementFailureIndicationProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.ECIDMeasurementFailureIndicationProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 4:
@@ -1280,7 +1280,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityIgnore {
 			expected, received := s00.CriticalityIgnore, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.ECIDMeasurementReportProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.ECIDMeasurementReportProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 5:
@@ -1301,7 +1301,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.ECIDMeasurementTerminationProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.ECIDMeasurementTerminationProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 6:
@@ -1322,7 +1322,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{OTDOAInformationExchangeProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{OTDOAInformationExchangeProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 7:
@@ -1343,7 +1343,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{UTDOAInformationExchangeProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{UTDOAInformationExchangeProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 8:
@@ -1364,7 +1364,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityIgnore {
 			expected, received := s00.CriticalityIgnore, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{UTDOAInformationUpdateProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{UTDOAInformationUpdateProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 9:
@@ -1385,7 +1385,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{AssistanceInformationControlProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{AssistanceInformationControlProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 10:
@@ -1406,7 +1406,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.AssistanceInformationFeedbackProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "InitiatingMessage.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{s23.AssistanceInformationFeedbackProcedure().Info().Rule}})
 		}
 		return report, nil
 	default:
@@ -1416,7 +1416,7 @@ func BridgeValidateInitiatingMessage(v *s21.InitiatingMessage, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnknownProcedure, Severity: s00.ValidationSeverityUnrecognized, Location: aper.Location{Path: "InitiatingMessage.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnknownProcedure)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnknownProcedure, Severity: s00.ValidationSeverityUnrecognized, Location: aper.Location{Path: "InitiatingMessage.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnknownProcedure)})
 			s09.BridgeValidationReportMethodAddUnchecked(&report, aper.Location{Path: "InitiatingMessage.value"})
 			return report
 		}(), nil
@@ -1439,7 +1439,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "SuccessfulOutcome"}}}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "SuccessfulOutcome"}}}})
 			return report
 		}(), nil
 	}
@@ -1451,7 +1451,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 1:
@@ -1461,7 +1461,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 2:
@@ -1482,7 +1482,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{ECIDMeasurementInitiationProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{ECIDMeasurementInitiationProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 3:
@@ -1492,7 +1492,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 4:
@@ -1502,7 +1502,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 5:
@@ -1512,7 +1512,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 6:
@@ -1533,7 +1533,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{OTDOAInformationExchangeProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{OTDOAInformationExchangeProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 7:
@@ -1554,7 +1554,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{UTDOAInformationExchangeProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{UTDOAInformationExchangeProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 8:
@@ -1564,7 +1564,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 9:
@@ -1574,7 +1574,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 10:
@@ -1584,7 +1584,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	default:
@@ -1594,7 +1594,7 @@ func BridgeValidateSuccessfulOutcome(v *s22.SuccessfulOutcome, budget *aper.Deco
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnknownProcedure, Severity: s00.ValidationSeverityUnrecognized, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnknownProcedure)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnknownProcedure, Severity: s00.ValidationSeverityUnrecognized, Location: aper.Location{Path: "SuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnknownProcedure)})
 			s09.BridgeValidationReportMethodAddUnchecked(&report, aper.Location{Path: "SuccessfulOutcome.value"})
 			return report
 		}(), nil
@@ -1617,7 +1617,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "UnsuccessfulOutcome"}}}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.ValueIDMismatch), RelatedRules: []aper.SourceRule{{Document: "3GPP TS 36.455", Edition: "V19.0.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "LPPA-PDU-Descriptions", Assignment: "UnsuccessfulOutcome"}}}})
 			return report
 		}(), nil
 	}
@@ -1629,7 +1629,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 1:
@@ -1639,7 +1639,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 2:
@@ -1660,7 +1660,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{ECIDMeasurementInitiationProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{ECIDMeasurementInitiationProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 3:
@@ -1670,7 +1670,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 4:
@@ -1680,7 +1680,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 5:
@@ -1690,7 +1690,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 6:
@@ -1711,7 +1711,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{OTDOAInformationExchangeProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{OTDOAInformationExchangeProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 7:
@@ -1732,7 +1732,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 		}
 		if v.Criticality != s00.CriticalityReject {
 			expected, received := s00.CriticalityReject, v.Criticality
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s04.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{UTDOAInformationExchangeProcedure().Info().Rule}})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.WrongCriticality, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.criticality"}, ExpectedCriticality: &expected, ReceivedCriticality: &received, Rule: s05.BridgeLppaValidationRule(s00.WrongCriticality), RelatedRules: []aper.SourceRule{UTDOAInformationExchangeProcedure().Info().Rule}})
 		}
 		return report, nil
 	case 8:
@@ -1742,7 +1742,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 9:
@@ -1752,7 +1752,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	case 10:
@@ -1762,7 +1762,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s04.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnavailableOutcome, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnavailableOutcome), RelatedRules: s05.BridgeLppaHandlingRules(s00.UnavailableOutcome)})
 			return report
 		}(), nil
 	default:
@@ -1772,7 +1772,7 @@ func BridgeValidateUnsuccessfulOutcome(v *s16.UnsuccessfulOutcome, budget *aper.
 				*s09.BridgeValidationReportFieldBudget(&sealed) = budget
 				return sealed
 			}()
-			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnknownProcedure, Severity: s00.ValidationSeverityUnrecognized, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s04.BridgeLppaValidationRule(s00.UnknownProcedure)})
+			s09.BridgeValidationReportMethodAddIssue(&report, s09.ValidationIssue{Code: s00.UnknownProcedure, Severity: s00.ValidationSeverityUnrecognized, Location: aper.Location{Path: "UnsuccessfulOutcome.procedureCode"}, Rule: s05.BridgeLppaValidationRule(s00.UnknownProcedure)})
 			s09.BridgeValidationReportMethodAddUnchecked(&report, aper.Location{Path: "UnsuccessfulOutcome.value"})
 			return report
 		}(), nil
@@ -2406,6 +2406,23 @@ func BridgeWalkValidationOTDOAInformationResponse(v *s18.OTDOAInformationRespons
 		return
 	}
 }
+func BridgeWalkValidationSRSConfigurationForAllCells(v *s09.SRSConfigurationForAllCells, report *s09.ValidationReport, path string, skipRoot bool) {
+	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
+		return
+	}
+	bb := aper.NewBudgetBuffer(*s09.BridgeValidationReportFieldBudget(report))
+	if err := bb.EnterDecodeValue(); err != nil {
+		*s09.BridgeValidationReportFieldErr(report) = err
+		return
+	}
+	defer bb.LeaveDecodeValue()
+	for i := range *v {
+		if *s09.BridgeValidationReportFieldErr(report) != nil {
+			return
+		}
+		s23.BridgeWalkValidationSRSConfigurationForOneCell(&(*v)[i], report, fmt.Sprintf("%s[%d]", path, i), false)
+	}
+}
 func BridgeWalkValidationSubframeallocation(v *s09.Subframeallocation, report *s09.ValidationReport, path string, skipRoot bool) {
 	if v == nil || report == nil || *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
@@ -2554,7 +2571,7 @@ func BridgeWalkValidationULConfiguration(v *s10.ULConfiguration, report *s09.Val
 	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
-	s23.BridgeWalkValidationSRSConfigurationForAllCells(&v.SrsConfiguration, report, path+".srsConfiguration", false)
+	BridgeWalkValidationSRSConfigurationForAllCells(&v.SrsConfiguration, report, path+".srsConfiguration", false)
 	if *s09.BridgeValidationReportFieldErr(report) != nil {
 		return
 	}
@@ -2750,7 +2767,7 @@ func BridgeWalkValidationWLANMeasurementQuantities(v *s20.WLANMeasurementQuantit
 		field := (*v)[i]
 		nestedPath := fmt.Sprintf("%s[%d]", path, i)
 		rows := []s00.FieldInfo{s20.WLANMeasurementQuantitiesItemIEs().WLANMeasurementQuantitiesItem().Info()}
-		s11.BridgeMergeNestedValidation(report, s21.BridgeWLANMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(s20.WLANMeasurementQuantitiesItemIEContainer{field}, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
+		s11.BridgeMergeNestedValidation(report, s22.BridgeWLANMeasurementQuantitiesItemIEValueValidateLPPaIEContainer(s20.WLANMeasurementQuantitiesItemIEContainer{field}, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 		fields := s20.WLANMeasurementQuantitiesItemIEContainer{field}
 		for i := range fields {
 			if *s09.BridgeValidationReportFieldErr(report) != nil {
@@ -2784,7 +2801,7 @@ func BridgeWalkValidationWLANMeasurementQuantitiesItem(v *s20.WLANMeasurementQua
 			nestedPath := path + ".IEExtensions"
 			if !skipRoot {
 				rows := []s00.FieldInfo{}
-				s11.BridgeMergeNestedValidation(report, s21.BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
+				s11.BridgeMergeNestedValidation(report, s22.BridgeWLANMeasurementQuantitiesValueExtIEsValueValidateLPPaExtensionContainer(fields, rows, nestedPath, *s09.BridgeValidationReportFieldBudget(report)))
 			}
 			for i := range fields {
 				if *s09.BridgeValidationReportFieldErr(report) != nil {

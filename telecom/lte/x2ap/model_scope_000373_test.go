@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
 )
 
-func eNDCResourceStatusRequestfreshMust(value s19.ENDCResourceStatusRequest, err error) s19.ENDCResourceStatusRequest {
+func conditionalHandoverCancelIEFieldfreshMust(value s14.ConditionalHandoverCancelIEField, err error) s14.ConditionalHandoverCancelIEField {
 	if err != nil {
 		panic(err)
 	}

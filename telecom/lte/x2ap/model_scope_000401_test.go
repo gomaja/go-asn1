@@ -3,17 +3,12 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
 )
 
-// Codec returns the complete APER codec for the bound source value.
-func (b ErrorIndicationSuccessfulBinding) Codec() s19.ErrorIndicationValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s19.ErrorIndicationValueCodec{}
+func eRABsToBeSetupRetrieveItemExtIEsExtFieldapiMust(v s10.ERABsToBeSetupRetrieveItemExtIEsExtField, err error) s10.ERABsToBeSetupRetrieveItemExtIEsExtField {
+	if err != nil {
+		panic(err)
 	}
-	return s19.X2apInternalConstructT25ErrorIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context(aper.Path(b.info.Rule.Assignment.Assignment), b.decode, func(value s19.ErrorIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return b.encode(&value, fresh, budget)
-	}, b.capture, b.compare, b.context)
-
+	return v
 }
