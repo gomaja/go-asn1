@@ -50,7 +50,6 @@ import (
 	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
 	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
 	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
-	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	s52 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s52"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
@@ -280,7 +279,7 @@ var asn1TypedTableNames = map[string]string{
 	"M5ConfigurationExtIEsValue":                               s10.M5ConfigurationExtIEs().ID().Source().Assignment,
 	"M6ConfigurationExtIEsValue":                               s10.M6ConfigurationExtIEs().ID().Source().Assignment,
 	"M7ConfigurationExtIEsValue":                               s10.M7ConfigurationExtIEs().ID().Source().Assignment,
-	"MDTConfigurationExtIEsValue":                              s41.MDTConfigurationExtIEs().ID().Source().Assignment,
+	"MDTConfigurationExtIEsValue":                              s42.MDTConfigurationExtIEs().ID().Source().Assignment,
 	"MBSFNResultToLogInfoExtIEsValue":                          s10.MBSFNResultToLogInfoExtIEs().ID().Source().Assignment,
 	"MDTModeExtensionIEIEValue":                                s24.MDTModeExtensionIE().ID().Source().Assignment,
 	"MeasurementThresholdL1LoggedMDTExtIEValue":                s10.MeasurementThresholdL1LoggedMDTExtIEs().ID().Source().Assignment,
@@ -299,7 +298,7 @@ var asn1TypedTableNames = map[string]string{
 	"PLMNAreaBasedQMCExtIEsValue":                              s10.PLMNAreaBasedQMCExtIEs().ID().Source().Assignment,
 	"ProSeAuthorizedExtIEsValue":                               s10.ProSeAuthorizedExtIEs().ID().Source().Assignment,
 	"PSCellInformationExtIEsValue":                             s10.PSCellInformationExtIEs().ID().Source().Assignment,
-	"RecommendedCellsForPagingExtIEsValue":                     s10.RecommendedCellsForPagingExtIEs().ID().Source().Assignment,
+	"RecommendedCellsForPagingExtIEsValue":                     s11.RecommendedCellsForPagingExtIEs().ID().Source().Assignment,
 	"RecommendedCellItemIEValue":                               s26.RecommendedCellItemIEs().ID().Source().Assignment,
 	"RecommendedCellsForPagingItemExtIEsValue":                 s11.RecommendedCellsForPagingItemExtIEs().ID().Source().Assignment,
 	"RecommendedENBsForPagingExtIEsValue":                      s11.RecommendedENBsForPagingExtIEs().ID().Source().Assignment,
@@ -320,7 +319,7 @@ var asn1TypedTableNames = map[string]string{
 	"SensorNameConfigExtIEValue":                               s11.SensorNameConfigExtIEs().ID().Source().Assignment,
 	"SONInformationExtensionIEIEValue":                         s20.SONInformationExtensionIE().ID().Source().Assignment,
 	"SONInformationReplyExtIEsValue":                           s34.SONInformationReplyExtIEs().ID().Source().Assignment,
-	"SONConfigurationTransferExtIEsValue":                      s50.SONConfigurationTransferExtIEs().ID().Source().Assignment,
+	"SONConfigurationTransferExtIEsValue":                      s51.SONConfigurationTransferExtIEs().ID().Source().Assignment,
 	"SynchronisationInformationExtIEsValue":                    s11.SynchronisationInformationExtIEs().ID().Source().Assignment,
 	"SourceeNBIDExtIEsValue":                                   s11.SourceeNBIDExtIEs().ID().Source().Assignment,
 	"SourceNodeIDExtensionIEIEValue":                           s11.SourceNodeIDExtensionIE().ID().Source().Assignment,
@@ -382,7 +381,7 @@ var asn1TypedTableNames = map[string]string{
 	"PathSwitchRequestIEValue":                                 s41.PathSwitchRequestIEs().ID().Source().Assignment,
 	"ERABToBeSwitchedDLItemIEValue":                            s30.ERABToBeSwitchedDLItemIEs().ID().Source().Assignment,
 	"ERABToBeSwitchedDLItemExtIEsValue":                        s29.ERABToBeSwitchedDLItemExtIEs().ID().Source().Assignment,
-	"PathSwitchRequestAcknowledgeIEValue":                      s46.PathSwitchRequestAcknowledgeIEs().ID().Source().Assignment,
+	"PathSwitchRequestAcknowledgeIEValue":                      s47.PathSwitchRequestAcknowledgeIEs().ID().Source().Assignment,
 	"ERABToBeSwitchedULItemIEValue":                            s17.ERABToBeSwitchedULItemIEs().ID().Source().Assignment,
 	"ERABToBeSwitchedULItemExtIEsValue":                        s09.ERABToBeSwitchedULItemExtIEs().ID().Source().Assignment,
 	"ERABToBeUpdatedItemIEValue":                               s29.ERABToBeUpdatedItemIEs().ID().Source().Assignment,
@@ -413,17 +412,17 @@ var asn1TypedTableNames = map[string]string{
 	"InitialContextSetupRequestIEValue":                        s48.InitialContextSetupRequestIEs().ID().Source().Assignment,
 	"ERABToBeSetupItemCtxtSUReqIEValue":                        s29.ERABToBeSetupItemCtxtSUReqIEs().ID().Source().Assignment,
 	"ERABToBeSetupItemCtxtSUReqExtIEsValue":                    s29.ERABToBeSetupItemCtxtSUReqExtIEs().ID().Source().Assignment,
-	"InitialContextSetupResponseIEValue":                       s39.InitialContextSetupResponseIEs().ID().Source().Assignment,
+	"InitialContextSetupResponseIEValue":                       s40.InitialContextSetupResponseIEs().ID().Source().Assignment,
 	"ERABSetupItemCtxtSUResIEValue":                            s17.ERABSetupItemCtxtSUResIEs().ID().Source().Assignment,
 	"ERABSetupItemCtxtSUResExtIEsValue":                        s09.ERABSetupItemCtxtSUResExtIEs().ID().Source().Assignment,
 	"InitialContextSetupFailureIEValue":                        s22.InitialContextSetupFailureIEs().ID().Source().Assignment,
 	"PagingIEValue":                                            s49.PagingIEs().ID().Source().Assignment,
 	"TAIItemIEValue":                                           s33.TAIItemIEs().ID().Source().Assignment,
 	"TAIItemExtIEsValue":                                       s11.TAIItemExtIEs().ID().Source().Assignment,
-	"UEContextReleaseRequestIEValue":                           s42.UEContextReleaseRequestIEs().ID().Source().Assignment,
+	"UEContextReleaseRequestIEValue":                           s43.UEContextReleaseRequestIEs().ID().Source().Assignment,
 	"UEContextReleaseCommandIEValue":                           s37.UEContextReleaseCommandIEs().ID().Source().Assignment,
 	"UEContextReleaseCompleteIEValue":                          s45.UEContextReleaseCompleteIEs().ID().Source().Assignment,
-	"UEContextModificationRequestIEValue":                      s46.UEContextModificationRequestIEs().ID().Source().Assignment,
+	"UEContextModificationRequestIEValue":                      s47.UEContextModificationRequestIEs().ID().Source().Assignment,
 	"UEContextModificationResponseIEValue":                     s23.UEContextModificationResponseIEs().ID().Source().Assignment,
 	"UEContextModificationFailureIEValue":                      s23.UEContextModificationFailureIEs().ID().Source().Assignment,
 	"UERadioCapabilityMatchRequestIEValue":                     s12.UERadioCapabilityMatchRequestIEs().ID().Source().Assignment,
@@ -446,14 +445,14 @@ var asn1TypedTableNames = map[string]string{
 	"ENBConfigurationUpdateAcknowledgeIEValue":                 s22.ENBConfigurationUpdateAcknowledgeIEs().ID().Source().Assignment,
 	"ENBConfigurationUpdateFailureIEValue":                     s22.ENBConfigurationUpdateFailureIEs().ID().Source().Assignment,
 	"MMEConfigurationUpdateIEValue":                            s43.MMEConfigurationUpdateIEs().ID().Source().Assignment,
-	"MMEConfigurationUpdateAcknowledgeIEValue":                 s22.MMEConfigurationUpdateAcknowledgeIEs().ID().Source().Assignment,
+	"MMEConfigurationUpdateAcknowledgeIEValue":                 s23.MMEConfigurationUpdateAcknowledgeIEs().ID().Source().Assignment,
 	"MMEConfigurationUpdateFailureIEValue":                     s23.MMEConfigurationUpdateFailureIEs().ID().Source().Assignment,
 	"DownlinkS1cdma2000tunnellingIEValue":                      s40.DownlinkS1cdma2000tunnellingIEs().ID().Source().Assignment,
 	"UplinkS1cdma2000tunnellingIEValue":                        s21.UplinkS1cdma2000tunnellingIEs().ID().Source().Assignment,
 	"UECapabilityInfoIndicationIEValue":                        s12.UECapabilityInfoIndicationIEs().ID().Source().Assignment,
 	"ENBStatusTransferIEValue":                                 s21.ENBStatusTransferIEs().ID().Source().Assignment,
 	"MMEStatusTransferIEValue":                                 s22.MMEStatusTransferIEs().ID().Source().Assignment,
-	"TraceStartIEValue":                                        s48.TraceStartIEs().ID().Source().Assignment,
+	"TraceStartIEValue":                                        s49.TraceStartIEs().ID().Source().Assignment,
 	"TraceFailureIndicationIEValue":                            s21.TraceFailureIndicationIEs().ID().Source().Assignment,
 	"DeactivateTraceIEValue":                                   s08.DeactivateTraceIEs().ID().Source().Assignment,
 	"CellTrafficTraceIEValue":                                  s17.CellTrafficTraceIEs().ID().Source().Assignment,
@@ -464,11 +463,11 @@ var asn1TypedTableNames = map[string]string{
 	"OverloadStopIEValue":                                      s41.OverloadStopIEs().ID().Source().Assignment,
 	"WriteReplaceWarningRequestIEValue":                        s33.WriteReplaceWarningRequestIEs().ID().Source().Assignment,
 	"WriteReplaceWarningResponseIEValue":                       s32.WriteReplaceWarningResponseIEs().ID().Source().Assignment,
-	"ENBDirectInformationTransferIEValue":                      s33.ENBDirectInformationTransferIEs().ID().Source().Assignment,
-	"MMEDirectInformationTransferIEValue":                      s33.MMEDirectInformationTransferIEs().ID().Source().Assignment,
+	"ENBDirectInformationTransferIEValue":                      s34.ENBDirectInformationTransferIEs().ID().Source().Assignment,
+	"MMEDirectInformationTransferIEValue":                      s34.MMEDirectInformationTransferIEs().ID().Source().Assignment,
 	"ENBConfigurationTransferIEValue":                          s51.ENBConfigurationTransferIEs().ID().Source().Assignment,
 	"MMEConfigurationTransferIEValue":                          s51.MMEConfigurationTransferIEs().ID().Source().Assignment,
-	"KillRequestIEValue":                                       s32.KillRequestIEs().ID().Source().Assignment,
+	"KillRequestIEValue":                                       s33.KillRequestIEs().ID().Source().Assignment,
 	"KillResponseIEValue":                                      s32.KillResponseIEs().ID().Source().Assignment,
 	"PWSRestartIndicationIEValue":                              s44.PWSRestartIndicationIEs().ID().Source().Assignment,
 	"PWSFailureIndicationIEValue":                              s42.PWSFailureIndicationIEs().ID().Source().Assignment,
@@ -487,7 +486,7 @@ var asn1TypedTableNames = map[string]string{
 	"ERABModifyItemBearerModConfExtIEsValue":                   s08.ERABModifyItemBearerModConfExtIEs().ID().Source().Assignment,
 	"UEContextModificationIndicationIEValue":                   s21.UEContextModificationIndicationIEs().ID().Source().Assignment,
 	"UEContextModificationConfirmIEValue":                      s23.UEContextModificationConfirmIEs().ID().Source().Assignment,
-	"UEContextSuspendRequestIEValue":                           s45.UEContextSuspendRequestIEs().ID().Source().Assignment,
+	"UEContextSuspendRequestIEValue":                           s46.UEContextSuspendRequestIEs().ID().Source().Assignment,
 	"UEContextSuspendResponseIEValue":                          s28.UEContextSuspendResponseIEs().ID().Source().Assignment,
 	"UEContextResumeRequestIEValue":                            s38.UEContextResumeRequestIEs().ID().Source().Assignment,
 	"ERABFailedToResumeItemResumeReqIEValue":                   s15.ERABFailedToResumeItemResumeReqIEs().ID().Source().Assignment,
@@ -509,6 +508,63 @@ var asn1TypedTableNames = map[string]string{
 	"S1RemovalFailureIEValue":                                  s23.S1RemovalFailureIEs().ID().Source().Assignment,
 }
 
+func asn1SelectedObserve(value reflect.Value) {
+	for value.IsValid() && (value.Kind() == reflect.Pointer || value.Kind() == reflect.Interface) {
+		if value.IsNil() {
+			return
+		}
+		value = value.Elem()
+	}
+	if !value.IsValid() {
+		return
+	}
+	if value.Kind() == reflect.Struct {
+		pointer := reflect.New(value.Type())
+		pointer.Elem().Set(value)
+		if selected, ok := pointer.Interface().(interface{ Selected() (any, bool) }); ok {
+			var want any
+			var row string
+			for i := 0; i < pointer.NumMethod(); i++ {
+				method := pointer.Type().Method(i)
+				if !strings.HasPrefix(method.Name, "As") {
+					continue
+				}
+				call := pointer.Method(i)
+				if call.Type().NumIn() != 0 || call.Type().NumOut() != 2 || call.Type().Out(1).Kind() != reflect.Bool {
+					continue
+				}
+				result := call.Call(nil)
+				if result[1].Bool() {
+					want = result[0].Interface()
+					row = method.Name
+					break
+				}
+			}
+			got, active := selected.Selected()
+			if active != (want != nil) || got != want {
+				panic("Selected differs from As accessor")
+			}
+			if row != "" {
+				fmt.Printf("selected decoded row %s.%s\n", value.Type().Name(), row)
+				asn1SelectedObserve(reflect.ValueOf(got))
+			}
+			return
+		}
+		for i := 0; i < value.NumField(); i++ {
+			if value.Type().Field(i).IsExported() {
+				asn1SelectedObserve(value.Field(i))
+			}
+		}
+	}
+	if value.Kind() == reflect.Slice || value.Kind() == reflect.Array {
+		if value.Type().Elem().Kind() == reflect.Uint8 {
+			return
+		}
+		for i := 0; i < value.Len(); i++ {
+			asn1SelectedObserve(value.Index(i))
+		}
+	}
+}
 func asn1TypedProjection(value reflect.Value, path string) any {
 	for value.IsValid() && (value.Kind() == reflect.Pointer || value.Kind() == reflect.Interface) {
 		if value.IsNil() {
@@ -611,6 +667,7 @@ func TestVectorUeContextReleaseRequestCauseNas(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	var body any
 	switch decoded.Choice {
 	case s00.S1APPDUChoiceInitiatingMessage:
@@ -642,6 +699,7 @@ func TestVectorCauseNasRootExtensionBoundary(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf(&decoded), "Cause")
 	asn1VectorAssertPath(t, subject, "Choice", "3")
 	asn1VectorAssertPath(t, subject, "Nas", "3")
@@ -662,6 +720,7 @@ func TestVectorErabInformationDapsExtensionRecursive(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf(decoded.IEExtensions), "ERABInformationListItem.IEExtensions")
 	asn1VectorAssertPath(t, subject, "[0].Path", "\"ERABInformationListItem.IEExtensions[0]\"")
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"E-RABInformationListItem-ExtIEs\"")
@@ -683,6 +742,7 @@ func TestVectorErabInformationUnknownExtensionPreserved(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf(decoded.IEExtensions), "ERABInformationListItem.IEExtensions")
 	asn1VectorAssertPath(t, subject, "[0].Field.Id", "65532")
 	asn1VectorAssertPath(t, subject, "[0].Field.ExtensionValue.Bytes", "\"3q2+7w==\"")
@@ -721,6 +781,7 @@ func TestVectorProtocolIeFieldConstrainedHeader(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf(&decoded), "ProtocolIEField")
 	asn1VectorAssertPath(t, subject, "Field.Id", "4660")
 	asn1VectorAssertPath(t, subject, "Field.Criticality", "1")
@@ -755,6 +816,7 @@ func TestVectorPagingTaiListRecursive(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf(decoded.ProtocolIEs), "Paging")
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"PagingIEs\"")
 	asn1VectorAssertPath(t, subject, "[0].Children[0].ObjectSet", "\"TAIItemIEs\"")
@@ -777,6 +839,7 @@ func TestVectorPagingProcedureRecursive(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	var body any
 	switch decoded.Choice {
 	case s00.S1APPDUChoiceInitiatingMessage:
@@ -808,6 +871,7 @@ func TestVectorResetAcknowledgeConnectionListRecursive(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf(decoded.ProtocolIEs), "ResetAcknowledge")
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"ResetAcknowledgeIEs\"")
 	asn1VectorAssertPath(t, subject, "[0].Children[0].ObjectSet", "\"UE-associatedLogicalS1-ConnectionItemResAck\"")
@@ -830,6 +894,7 @@ func TestVectorEventTriggerEmptyChoiceExtensionSet(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf([]any{decoded.ChoiceExtensions}), "EventTrigger.ChoiceExtensions")
 	asn1VectorAssertPath(t, subject, "[0].Path", "\"EventTrigger.ChoiceExtensions[0]\"")
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"EventTrigger-ExtIEs\"")
@@ -852,6 +917,7 @@ func TestVectorMeasurementThresholdEmptyChoiceExtensionSet(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf([]any{decoded.ChoiceExtensions}), "MeasurementThresholdL1LoggedMDT.ChoiceExtensions")
 	asn1VectorAssertPath(t, subject, "[0].Path", "\"MeasurementThresholdL1LoggedMDT.ChoiceExtensions[0]\"")
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"MeasurementThresholdL1LoggedMDT-ExtIEs\"")
@@ -874,6 +940,7 @@ func TestVectorSensorNameEmptyChoiceExtensionSet(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf([]any{decoded.ChoiceExtensions}), "SensorNameConfig.ChoiceExtensions")
 	asn1VectorAssertPath(t, subject, "[0].Path", "\"SensorNameConfig.ChoiceExtensions[0]\"")
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"SensorNameConfig-ExtIEs\"")
@@ -896,6 +963,7 @@ func TestVectorTargetTransparentContainerDapsRecursive(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf(decoded.IEExtensions), "TargeteNBToSourceeNBTransparentContainer.IEExtensions")
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs\"")
 	asn1VectorAssertPath(t, subject, "[0].ProtocolIEs[0].ObjectSet", "\"DAPSResponseInfoListIEs\"")
@@ -921,6 +989,7 @@ func TestVectorTargetTransparentContainerUnknownExtension(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&decoded))
 	subject := asn1TypedProjection(reflect.ValueOf(decoded.IEExtensions), "TargeteNBToSourceeNBTransparentContainer.IEExtensions")
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs\"")
 	asn1VectorAssertPath(t, subject, "[0].Field.Id", "65532")
@@ -963,6 +1032,7 @@ func TestVectorTargetTransparentContainerDirectExtensionField(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&field))
 	subject := []any{asn1TypedProjection(reflect.ValueOf(&field), "")}
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"TargeteNB-ToSourceeNB-TransparentContainer-ExtIEs\"")
 	asn1VectorAssertPath(t, subject, "[0].ProtocolIEs[0].ObjectSet", "\"DAPSResponseInfoListIEs\"")
@@ -980,6 +1050,7 @@ func TestVectorTaiItemDirectProtocolIeField(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+	asn1SelectedObserve(reflect.ValueOf(&field))
 	subject := []any{asn1TypedProjection(reflect.ValueOf(&field), "")}
 	asn1VectorAssertPath(t, subject, "[0].ObjectSet", "\"TAIItemIEs\"")
 	asn1VectorAssertPath(t, subject, "[0].Value.TAI.PLMNidentity", "\"AfAQ\"")

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s10 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s10"
+	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
 )
 
-func eRABsToBeSetupRetrieveItemExtIEsExtFieldapiMust(v s10.ERABsToBeSetupRetrieveItemExtIEsExtField, err error) s10.ERABsToBeSetupRetrieveItemExtIEsExtField {
+func eRABsAdmittedItemIEFieldapiMust(v s09.ERABsAdmittedItemIEField, err error) s09.ERABsAdmittedItemIEField {
 	if err != nil {
 		panic(err)
 	}

@@ -6,7 +6,7 @@ import (
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func x2APPDUfreshMust(value s20.X2APPDU, err error) s20.X2APPDU {
+func initiatingMessagefreshMust(value s20.InitiatingMessage, err error) s20.InitiatingMessage {
 	if err != nil {
 		panic(err)
 	}

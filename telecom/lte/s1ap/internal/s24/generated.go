@@ -21,15 +21,14 @@ import (
 	s20 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s20"
 	s21 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s21"
 	s22 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s22"
-	s23 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s23"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
-// UERadioCapabilityMatchResponseIEContainer is the concrete ProtocolIEContainer[UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseIEContainer is ProtocolIE-Container {{UERadioCapabilityMatchResponseIEs}} of TS 36.413: a list of UERadioCapabilityMatchResponseIEField values.
 type UERadioCapabilityMatchResponseIEContainer []UERadioCapabilityMatchResponseIEField
 
-// UERadioCapabilityMatchResponseIEField is the concrete ProtocolIEField[UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseIEField is ProtocolIE-Field {{UERadioCapabilityMatchResponseIEs}} of TS 36.413: an information element field.
 type UERadioCapabilityMatchResponseIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -125,6 +124,123 @@ func (v *UERadioCapabilityMatchResponseIEField) unmarshalAPERFrom(bb *aper.BitBu
 	}
 	v.Criticality = s00.Criticality(criticality)
 	var zero UERadioCapabilityMatchResponseIEValue
+
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, zero.reason(v.Id), zero.rule())
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Value")
+	}
+	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
+	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Value")
+	}
+	v.Value = value
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// UERadioCapabilityIDMappingResponseIEContainer is ProtocolIE-Container {{UERadioCapabilityIDMappingResponseIEs}} of TS 36.413: a list of UERadioCapabilityIDMappingResponseIEField values.
+type UERadioCapabilityIDMappingResponseIEContainer []UERadioCapabilityIDMappingResponseIEField
+
+// UERadioCapabilityIDMappingResponseIEField is ProtocolIE-Field {{UERadioCapabilityIDMappingResponseIEs}} of TS 36.413: an information element field.
+type UERadioCapabilityIDMappingResponseIEField struct {
+	withoutReplay bool
+	replay        aper.Snapshot
+	stream        aper.WireSpan
+	Id            s00.ProtocolIEID
+	Criticality   s00.Criticality
+	Value         UERadioCapabilityIDMappingResponseIEValue
+
+	received aper.CompletePadding
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v UERadioCapabilityIDMappingResponseIEField) WithoutReplay() UERadioCapabilityIDMappingResponseIEField {
+	v.withoutReplay = true
+	v.stream = aper.WireSpan{}
+	return v
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v *UERadioCapabilityIDMappingResponseIEField) ReceivedForm() aper.ReceivedForm {
+	if v == nil || v.withoutReplay {
+		return aper.ReceivedForm{}
+	}
+	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
+}
+
+// MarshalAPERTo appends the field encoding to the supplied APER buffer.
+func (v *UERadioCapabilityIDMappingResponseIEField) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
+	if v != nil && v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.RestoreReplayPlan(previous)
+	}
+	if v !=
+		nil && bb.
+		ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err !=
+			nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolIEField")
+	}
+	// TS 36.413 V19.2.0 §9.3.7 binds the table-selected value to @id.
+	if !v.Value.matchesID(v.Id, bb.Budget()) {
+		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolIEField.Id")
+	}
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), s07.BridgeInt64Ptr(0), s07.BridgeInt64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	data, err := v.Value.encodeFresh(len(fresh) != 0 && fresh[0], bb.Budget())
+	if err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERFrom decodes the field from the supplied APER buffer.
+func (v *UERadioCapabilityIDMappingResponseIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolIEField")
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = UERadioCapabilityIDMappingResponseIEField{}
+	id, err := aper.DecodeIntegerAligned(bb, s07.BridgeInt64Ptr(0), s07.BridgeInt64Ptr(65535), false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Id")
+	}
+	v.Id = s00.ProtocolIEID(id)
+	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Criticality")
+	}
+	v.Criticality = s00.Criticality(criticality)
+	var zero UERadioCapabilityIDMappingResponseIEValue
 
 	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, zero.reason(v.Id), zero.rule())
 	if err != nil {
@@ -400,54 +516,6 @@ func BridgeERABNotToBeModifiedItemBearerModIndIEValueCompareS1APProtocolIESingle
 	BridgeERABNotToBeModifiedItemBearerModIndIEValueCompareS1APProtocolIEField(v, s)
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIESingleContainer(v *s16.ERABReleaseItemBearerRelCompIEValueProtocolIESingleContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIEField(v, s)
-	s.End(f, nil, false)
-}
-func BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIESingleContainer(v *s16.ERABReleaseItemBearerRelCompIEValueProtocolIESingleContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIEField(v, s)
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIESingleContainer(v *s16.ERABSetupItemBearerSUResIEValueProtocolIESingleContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIEField(v, s)
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIESingleContainer(v *s16.ERABSetupItemBearerSUResIEValueProtocolIESingleContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIEField(v, s)
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIESingleContainer(v *s16.ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIEField(v, s)
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIESingleContainer(v *s16.ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIEField(v, s)
-	s.End(f, aper.Snapshot{}, false)
-}
 func BridgeERABDataForwardingItemIEValueCaptureS1APProtocolIESingleContainer(v *s15.ERABDataForwardingItemIEValueProtocolIESingleContainer, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
@@ -465,7 +533,7 @@ func BridgeERABDataForwardingItemIEValueCompareS1APProtocolIESingleContainer(v *
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// MDTModeExtensionIELoggedMBSFNMDTIEBinding is the concrete IEBinding[LoggedMBSFNMDT, MDTModeExtensionIEIEValue].
+// MDTModeExtensionIELoggedMBSFNMDTIEBinding binds LoggedMBSFNMDT to the MDTMode-ExtensionIE object set of TS 36.413.
 type MDTModeExtensionIELoggedMBSFNMDTIEBinding struct {
 	info   s00.FieldInfo
 	codec  LoggedMBSFNMDTValueCodec
@@ -616,7 +684,7 @@ func (c LoggedMBSFNMDTValueCodec) encodeChanged(value LoggedMBSFNMDT,
 	return out, aper.OperationError(err, c.path)
 }
 
-// MDTModeExtensionIEIEField is the concrete ProtocolIEField[MDTModeExtensionIEIEValue].
+// MDTModeExtensionIEIEField is ProtocolIE-Field {{MDTMode-ExtensionIE}} of TS 36.413: an information element field.
 type MDTModeExtensionIEIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -930,15 +998,15 @@ func (c PC5QoSParametersValueCodec) encodeChanged(value PC5QoSParameters,
 	return out, aper.OperationError(err, c.path)
 }
 
-// UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding is the concrete IEBinding[UERadioCapabilityID, UERadioCapabilityIDMappingResponseIEValue].
+// UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding binds UERadioCapabilityID to the UERadioCapabilityIDMappingResponseIEs object set of TS 36.413.
 type UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s02.UERadioCapabilityIDValueCodec
 	inject func(s00.UERadioCapabilityID,
 
-	) s23.UERadioCapabilityIDMappingResponseIEValue
+	) UERadioCapabilityIDMappingResponseIEValue
 
-	get func(*s23.UERadioCapabilityIDMappingResponseIEValue,
+	get func(*UERadioCapabilityIDMappingResponseIEValue,
 
 	) (*s00.UERadioCapabilityID,
 
@@ -958,25 +1026,25 @@ func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) Codec() 
 // New validates a source value and constructs its bound field.
 func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) New(value s00.UERadioCapabilityID,
 
-) (s23.UERadioCapabilityIDMappingResponseIEField, error) {
+) (UERadioCapabilityIDMappingResponseIEField, error) {
 	if b.inject == nil {
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := (*s02.BridgeUERadioCapabilityIDValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
 	}
 	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
 	}
-	return s23.UERadioCapabilityIDMappingResponseIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
+	return UERadioCapabilityIDMappingResponseIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
 }
 
 // Get returns the selected typed value when the field matches this binding.
-func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) Get(field *s23.UERadioCapabilityIDMappingResponseIEField) (*s00.UERadioCapabilityID,
+func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) Get(field *UERadioCapabilityIDMappingResponseIEField) (*s00.UERadioCapabilityID,
 
 	bool) {
 	if field == nil || field.Id != b.info.ID || b.get == nil {
@@ -985,15 +1053,15 @@ func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) Get(fiel
 	return b.get(&field.Value)
 }
 
-// UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding is the concrete IEBinding[UERadioCapability, UERadioCapabilityIDMappingResponseIEValue].
+// UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding binds UERadioCapability to the UERadioCapabilityIDMappingResponseIEs object set of TS 36.413.
 type UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding struct {
 	info   s00.FieldInfo
 	codec  s02.UERadioCapabilityValueCodec
 	inject func(s00.UERadioCapability,
 
-	) s23.UERadioCapabilityIDMappingResponseIEValue
+	) UERadioCapabilityIDMappingResponseIEValue
 
-	get func(*s23.UERadioCapabilityIDMappingResponseIEValue,
+	get func(*UERadioCapabilityIDMappingResponseIEValue,
 
 	) (*s00.UERadioCapability,
 
@@ -1013,25 +1081,25 @@ func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) Codec() s0
 // New validates a source value and constructs its bound field.
 func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) New(value s00.UERadioCapability,
 
-) (s23.UERadioCapabilityIDMappingResponseIEField, error) {
+) (UERadioCapabilityIDMappingResponseIEField, error) {
 	if b.inject == nil {
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := (*s02.BridgeUERadioCapabilityValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
 	}
 	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
 	}
-	return s23.UERadioCapabilityIDMappingResponseIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
+	return UERadioCapabilityIDMappingResponseIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
 }
 
 // Get returns the selected typed value when the field matches this binding.
-func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) Get(field *s23.UERadioCapabilityIDMappingResponseIEField) (*s00.UERadioCapability,
+func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) Get(field *UERadioCapabilityIDMappingResponseIEField) (*s00.UERadioCapability,
 
 	bool) {
 	if field == nil || field.Id != b.info.ID || b.get == nil {
@@ -1040,7 +1108,62 @@ func (b UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) Get(field 
 	return b.get(&field.Value)
 }
 
-// UERadioCapabilityMatchResponseMMEUES1APIDIEBinding is the concrete IEBinding[MMEUES1APID, UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to the UERadioCapabilityIDMappingResponseIEs object set of TS 36.413.
+type UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding struct {
+	info   s00.FieldInfo
+	codec  s22.CriticalityDiagnosticsValueCodec
+	inject func(s22.CriticalityDiagnostics,
+
+	) UERadioCapabilityIDMappingResponseIEValue
+
+	get func(*UERadioCapabilityIDMappingResponseIEValue,
+
+	) (*s22.CriticalityDiagnostics,
+
+		bool)
+}
+
+// Info returns the source descriptor for this binding.
+func (b UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding) Info() s00.FieldInfo {
+	return b.info
+}
+
+// Codec returns the complete value codec for this binding.
+func (b UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding) Codec() s22.CriticalityDiagnosticsValueCodec {
+	return b.codec
+}
+
+// New validates a source value and constructs its bound field.
+func (b UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding) New(value s22.CriticalityDiagnostics,
+
+) (UERadioCapabilityIDMappingResponseIEField, error) {
+	if b.inject == nil {
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := (*s22.BridgeCriticalityDiagnosticsValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Value.New")
+	}
+	return UERadioCapabilityIDMappingResponseIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected typed value when the field matches this binding.
+func (b UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding) Get(field *UERadioCapabilityIDMappingResponseIEField) (*s22.CriticalityDiagnostics,
+
+	bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.Value)
+}
+
+// UERadioCapabilityMatchResponseMMEUES1APIDIEBinding binds MMEUES1APID to the UERadioCapabilityMatchResponseIEs object set of TS 36.413.
 type UERadioCapabilityMatchResponseMMEUES1APIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s01.MMEUES1APIDValueCodec
@@ -1093,7 +1216,7 @@ func (b UERadioCapabilityMatchResponseMMEUES1APIDIEBinding) Get(field *UERadioCa
 	return b.get(&field.Value)
 }
 
-// UERadioCapabilityMatchResponseENBUES1APIDIEBinding is the concrete IEBinding[ENBUES1APID, UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseENBUES1APIDIEBinding binds ENBUES1APID to the UERadioCapabilityMatchResponseIEs object set of TS 36.413.
 type UERadioCapabilityMatchResponseENBUES1APIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.ENBUES1APIDValueCodec
@@ -1146,7 +1269,7 @@ func (b UERadioCapabilityMatchResponseENBUES1APIDIEBinding) Get(field *UERadioCa
 	return b.get(&field.Value)
 }
 
-// UERadioCapabilityMatchResponseVoiceSupportMatchIndicatorIEBinding is the concrete IEBinding[VoiceSupportMatchIndicator, UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseVoiceSupportMatchIndicatorIEBinding binds VoiceSupportMatchIndicator to the UERadioCapabilityMatchResponseIEs object set of TS 36.413.
 type UERadioCapabilityMatchResponseVoiceSupportMatchIndicatorIEBinding struct {
 	info   s00.FieldInfo
 	codec  s02.VoiceSupportMatchIndicatorValueCodec
@@ -1201,7 +1324,7 @@ func (b UERadioCapabilityMatchResponseVoiceSupportMatchIndicatorIEBinding) Get(f
 	return b.get(&field.Value)
 }
 
-// UERadioCapabilityMatchResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to the UERadioCapabilityMatchResponseIEs object set of TS 36.413.
 type UERadioCapabilityMatchResponseCriticalityDiagnosticsIEBinding struct {
 	info   s00.FieldInfo
 	codec  s22.CriticalityDiagnosticsValueCodec
@@ -2055,6 +2178,8 @@ func (c SONtransferResponseContainerValueCodec) encodeChanged(value SONtransferR
 	}
 	return out, aper.OperationError(err, c.path)
 }
+
+// DAPSResponseInfoListIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{DAPSResponseInfoListIEs}} codec of TS 36.413.
 func DAPSResponseInfoListIEValueERABIEContainerListCodec(table s00.DAPSResponseInfoListIEValueIETable) s14.DAPSResponseInfoListIEValueERABIEContainerListValueCodec {
 	codec := DAPSResponseInfoListIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s14.BridgeDAPSResponseInfoListIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2095,6 +2220,8 @@ func DAPSResponseInfoListIEValueERABIEContainerListCodec(table s00.DAPSResponseI
 	}()
 
 }
+
+// ENBConfigurationUpdateAcknowledgeIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{ENBConfigurationUpdateAcknowledgeIEs}} codec of TS 36.413.
 func ENBConfigurationUpdateAcknowledgeIEValueERABIEContainerListCodec(table s00.ENBConfigurationUpdateAcknowledgeIEValueIETable) s22.ENBConfigurationUpdateAcknowledgeIEValueERABIEContainerListValueCodec {
 	codec := ENBConfigurationUpdateAcknowledgeIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s22.BridgeENBConfigurationUpdateAcknowledgeIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2135,6 +2262,8 @@ func ENBConfigurationUpdateAcknowledgeIEValueERABIEContainerListCodec(table s00.
 	}()
 
 }
+
+// ENBConfigurationUpdateFailureIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{ENBConfigurationUpdateFailureIEs}} codec of TS 36.413.
 func ENBConfigurationUpdateFailureIEValueERABIEContainerListCodec(table s00.ENBConfigurationUpdateFailureIEValueIETable) s22.ENBConfigurationUpdateFailureIEValueERABIEContainerListValueCodec {
 	codec := ENBConfigurationUpdateFailureIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s22.BridgeENBConfigurationUpdateFailureIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2175,6 +2304,8 @@ func ENBConfigurationUpdateFailureIEValueERABIEContainerListCodec(table s00.ENBC
 	}()
 
 }
+
+// ENBStatusTransferIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{ENBStatusTransferIEs}} codec of TS 36.413.
 func ENBStatusTransferIEValueERABIEContainerListCodec(table s00.ENBStatusTransferIEValueIETable) s21.ENBStatusTransferIEValueERABIEContainerListValueCodec {
 	codec := ENBStatusTransferIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s21.BridgeENBStatusTransferIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2215,6 +2346,8 @@ func ENBStatusTransferIEValueERABIEContainerListCodec(table s00.ENBStatusTransfe
 	}()
 
 }
+
+// ERABAdmittedItemIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{E-RABAdmittedItemIEs}} codec of TS 36.413.
 func ERABAdmittedItemIEValueERABIEContainerListCodec(table s00.ERABAdmittedItemIEValueIETable) s15.ERABAdmittedItemIEValueERABIEContainerListValueCodec {
 	codec := ERABAdmittedItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s15.BridgeERABAdmittedItemIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2255,6 +2388,8 @@ func ERABAdmittedItemIEValueERABIEContainerListCodec(table s00.ERABAdmittedItemI
 	}()
 
 }
+
+// ERABDataForwardingItemIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{E-RABDataForwardingItemIEs}} codec of TS 36.413.
 func ERABDataForwardingItemIEValueERABIEContainerListCodec(table s00.ERABDataForwardingItemIEValueIETable) s15.ERABDataForwardingItemIEValueERABIEContainerListValueCodec {
 	codec := ERABDataForwardingItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s15.BridgeERABDataForwardingItemIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2295,6 +2430,8 @@ func ERABDataForwardingItemIEValueERABIEContainerListCodec(table s00.ERABDataFor
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeReqIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{E-RABFailedToResumeItemResumeReqIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeReqIEValueERABIEContainerListCodec(table s00.ERABFailedToResumeItemResumeReqIEValueIETable) s15.ERABFailedToResumeItemResumeReqIEValueERABIEContainerListValueCodec {
 	codec := ERABFailedToResumeItemResumeReqIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s15.BridgeERABFailedToResumeItemResumeReqIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2335,19 +2472,21 @@ func ERABFailedToResumeItemResumeReqIEValueERABIEContainerListCodec(table s00.ER
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeResIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{E-RABFailedToResumeItemResumeResIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeResIEValueERABIEContainerListCodec(table s00.ERABFailedToResumeItemResumeResIEValueIETable) s16.ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec {
 	codec := ERABFailedToResumeItemResumeResIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec) == nil {
+	if *s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec) == nil {
 		return s16.ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec{}
 	}
 	return func() s16.ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec {
 		sealed := s16.ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec{}
 		*s16.BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABFailedToResumeItemResumeResIEValueERABIEContainerList, error) {
-			value, err := (*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec))(data, options)
+			value, err := (*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec))(data, options)
 			return s16.ERABFailedToResumeItemResumeResIEValueERABIEContainerList(value), err
 		}
 		*s16.BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABFailedToResumeItemResumeResIEValueERABIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(&codec))(s15.ERABFailedToResumeItemResumeResIEContainer(value), fresh, budget)
+			return (*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(&codec))(s15.ERABFailedToResumeItemResumeResIEContainer(value), fresh, budget)
 		}
 		*s16.BridgeERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABFailedToResumeItemResumeResIEValueERABIEContainerList, options aper.DecodeState) (s16.ERABFailedToResumeItemResumeResIEValueERABIEContainerList, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
@@ -2375,6 +2514,8 @@ func ERABFailedToResumeItemResumeResIEValueERABIEContainerListCodec(table s00.ER
 	}()
 
 }
+
+// ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{E-RABFailedtoSetupItemHOReqAckIEs}} codec of TS 36.413.
 func ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListCodec(table s00.ERABFailedtoSetupItemHOReqAckIEValueIETable) s16.ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListValueCodec {
 	codec := ERABFailedtoSetupItemHOReqAckIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABFailedtoSetupItemHOReqAckIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2415,6 +2556,8 @@ func ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListCodec(table s00.ERAB
 	}()
 
 }
+
+// ERABItemIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{E-RABItemIEs}} codec of TS 36.413.
 func ERABItemIEValueERABIEContainerListCodec(table s00.ERABItemIEValueIETable) s16.ERABItemIEValueERABIEContainerListValueCodec {
 	codec := ERABItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABItemIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2455,6 +2598,8 @@ func ERABItemIEValueERABIEContainerListCodec(table s00.ERABItemIEValueIETable) s
 	}()
 
 }
+
+// ERABModifyItemBearerModConfIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{E-RABModifyItemBearerModConfIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModConfIEValueERABIEContainerListCodec(table s00.ERABModifyItemBearerModConfIEValueIETable) s16.ERABModifyItemBearerModConfIEValueERABIEContainerListValueCodec {
 	codec := ERABModifyItemBearerModConfIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABModifyItemBearerModConfIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2495,6 +2640,8 @@ func ERABModifyItemBearerModConfIEValueERABIEContainerListCodec(table s00.ERABMo
 	}()
 
 }
+
+// ERABModifyItemBearerModResIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{E-RABModifyItemBearerModResIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModResIEValueERABIEContainerListCodec(table s00.ERABModifyItemBearerModResIEValueIETable) s16.ERABModifyItemBearerModResIEValueERABIEContainerListValueCodec {
 	codec := ERABModifyItemBearerModResIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABModifyItemBearerModResIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2535,6 +2682,8 @@ func ERABModifyItemBearerModResIEValueERABIEContainerListCodec(table s00.ERABMod
 	}()
 
 }
+
+// ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{E-RABNotToBeModifiedItemBearerModIndIEs}} codec of TS 36.413.
 func ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListCodec(table s00.ERABNotToBeModifiedItemBearerModIndIEValueIETable) s16.ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListValueCodec {
 	codec := ERABNotToBeModifiedItemBearerModIndIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABNotToBeModifiedItemBearerModIndIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -2575,126 +2724,8 @@ func ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListCodec(table s0
 	}()
 
 }
-func ERABReleaseItemBearerRelCompIEValueERABIEContainerListCodec(table s00.ERABReleaseItemBearerRelCompIEValueIETable) s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodec {
-	codec := ERABReleaseItemBearerRelCompIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodec{}
-	}
-	return func() s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodec {
-		sealed := s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodec{}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerList, error) {
-			value, err := (*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerList(value), err
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldEncode(&codec))(s16.ERABReleaseItemBearerRelCompIEContainer(value), fresh, budget)
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerList, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerList, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APERABIEContainerList(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodecFieldCompare(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APERABIEContainerList(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
 
-}
-func ERABSetupItemBearerSUResIEValueERABIEContainerListCodec(table s00.ERABSetupItemBearerSUResIEValueIETable) s16.ERABSetupItemBearerSUResIEValueERABIEContainerListValueCodec {
-	codec := ERABSetupItemBearerSUResIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s16.ERABSetupItemBearerSUResIEValueERABIEContainerListValueCodec{}
-	}
-	return func() s16.ERABSetupItemBearerSUResIEValueERABIEContainerListValueCodec {
-		sealed := s16.ERABSetupItemBearerSUResIEValueERABIEContainerListValueCodec{}
-		*s16.BridgeERABSetupItemBearerSUResIEValueERABIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEValueERABIEContainerList, error) {
-			value, err := (*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s16.ERABSetupItemBearerSUResIEValueERABIEContainerList(value), err
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueERABIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABSetupItemBearerSUResIEValueERABIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldEncode(&codec))(s16.ERABSetupItemBearerSUResIEContainer(value), fresh, budget)
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueERABIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABSetupItemBearerSUResIEValueERABIEContainerList, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEValueERABIEContainerList, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APERABIEContainerList(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueERABIEContainerListValueCodecFieldCompare(&sealed) = func(v s16.ERABSetupItemBearerSUResIEValueERABIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APERABIEContainerList(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueERABIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABSetupItemCtxtSUResIEValueERABIEContainerListCodec(table s00.ERABSetupItemCtxtSUResIEValueIETable) s17.ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec {
-	codec := ERABSetupItemCtxtSUResIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s17.ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec{}
-	}
-	return func() s17.ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec {
-		sealed := s17.ERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodec{}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSetupItemCtxtSUResIEValueERABIEContainerList, error) {
-			value, err := (*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s16.ERABSetupItemCtxtSUResIEValueERABIEContainerList(value), err
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABSetupItemCtxtSUResIEValueERABIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldEncode(&codec))(s16.ERABSetupItemCtxtSUResIEContainer(value), fresh, budget)
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABSetupItemCtxtSUResIEValueERABIEContainerList, options aper.DecodeState) (s16.ERABSetupItemCtxtSUResIEValueERABIEContainerList, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APERABIEContainerList(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldCompare(&sealed) = func(v s16.ERABSetupItemCtxtSUResIEValueERABIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APERABIEContainerList(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
+// DAPSResponseInfoListIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{DAPSResponseInfoListIEs}} codec of TS 36.413.
 func DAPSResponseInfoListIEValueIEFieldTableCodec(table s00.DAPSResponseInfoListIEValueIETable) s14.DAPSResponseInfoListIEFieldValueCodec {
 	if !*s00.BridgeDAPSResponseInfoListIEValueIETableFieldBound(&table) {
 		return s14.DAPSResponseInfoListIEFieldValueCodec{}
@@ -2752,6 +2783,8 @@ func DAPSResponseInfoListIEValueIEFieldTableCodec(table s00.DAPSResponseInfoList
 	}()
 
 }
+
+// ENBConfigurationUpdateAcknowledgeIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{ENBConfigurationUpdateAcknowledgeIEs}} codec of TS 36.413.
 func ENBConfigurationUpdateAcknowledgeIEValueIEFieldTableCodec(table s00.ENBConfigurationUpdateAcknowledgeIEValueIETable) s22.ENBConfigurationUpdateAcknowledgeIEFieldValueCodec {
 	if !*s00.BridgeENBConfigurationUpdateAcknowledgeIEValueIETableFieldBound(&table) {
 		return s22.ENBConfigurationUpdateAcknowledgeIEFieldValueCodec{}
@@ -2809,6 +2842,8 @@ func ENBConfigurationUpdateAcknowledgeIEValueIEFieldTableCodec(table s00.ENBConf
 	}()
 
 }
+
+// ENBConfigurationUpdateFailureIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{ENBConfigurationUpdateFailureIEs}} codec of TS 36.413.
 func ENBConfigurationUpdateFailureIEValueIEFieldTableCodec(table s00.ENBConfigurationUpdateFailureIEValueIETable) s22.ENBConfigurationUpdateFailureIEFieldValueCodec {
 	if !*s00.BridgeENBConfigurationUpdateFailureIEValueIETableFieldBound(&table) {
 		return s22.ENBConfigurationUpdateFailureIEFieldValueCodec{}
@@ -2866,6 +2901,8 @@ func ENBConfigurationUpdateFailureIEValueIEFieldTableCodec(table s00.ENBConfigur
 	}()
 
 }
+
+// ENBStatusTransferIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{ENBStatusTransferIEs}} codec of TS 36.413.
 func ENBStatusTransferIEValueIEFieldTableCodec(table s00.ENBStatusTransferIEValueIETable) s21.ENBStatusTransferIEFieldValueCodec {
 	if !*s00.BridgeENBStatusTransferIEValueIETableFieldBound(&table) {
 		return s21.ENBStatusTransferIEFieldValueCodec{}
@@ -2923,6 +2960,8 @@ func ENBStatusTransferIEValueIEFieldTableCodec(table s00.ENBStatusTransferIEValu
 	}()
 
 }
+
+// ERABAdmittedItemIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{E-RABAdmittedItemIEs}} codec of TS 36.413.
 func ERABAdmittedItemIEValueIEFieldTableCodec(table s00.ERABAdmittedItemIEValueIETable) s15.ERABAdmittedItemIEFieldValueCodec {
 	if !*s00.BridgeERABAdmittedItemIEValueIETableFieldBound(&table) {
 		return s15.ERABAdmittedItemIEFieldValueCodec{}
@@ -2980,6 +3019,8 @@ func ERABAdmittedItemIEValueIEFieldTableCodec(table s00.ERABAdmittedItemIEValueI
 	}()
 
 }
+
+// ERABDataForwardingItemIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{E-RABDataForwardingItemIEs}} codec of TS 36.413.
 func ERABDataForwardingItemIEValueIEFieldTableCodec(table s00.ERABDataForwardingItemIEValueIETable) s15.ERABDataForwardingItemIEFieldValueCodec {
 	if !*s00.BridgeERABDataForwardingItemIEValueIETableFieldBound(&table) {
 		return s15.ERABDataForwardingItemIEFieldValueCodec{}
@@ -3037,6 +3078,8 @@ func ERABDataForwardingItemIEValueIEFieldTableCodec(table s00.ERABDataForwarding
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeReqIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{E-RABFailedToResumeItemResumeReqIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeReqIEValueIEFieldTableCodec(table s00.ERABFailedToResumeItemResumeReqIEValueIETable) s15.ERABFailedToResumeItemResumeReqIEFieldValueCodec {
 	if !*s00.BridgeERABFailedToResumeItemResumeReqIEValueIETableFieldBound(&table) {
 		return s15.ERABFailedToResumeItemResumeReqIEFieldValueCodec{}
@@ -3094,6 +3137,8 @@ func ERABFailedToResumeItemResumeReqIEValueIEFieldTableCodec(table s00.ERABFaile
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeResIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{E-RABFailedToResumeItemResumeResIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeResIEValueIEFieldTableCodec(table s00.ERABFailedToResumeItemResumeResIEValueIETable) s16.ERABFailedToResumeItemResumeResIEFieldValueCodec {
 	if !*s00.BridgeERABFailedToResumeItemResumeResIEValueIETableFieldBound(&table) {
 		return s16.ERABFailedToResumeItemResumeResIEFieldValueCodec{}
@@ -3151,6 +3196,8 @@ func ERABFailedToResumeItemResumeResIEValueIEFieldTableCodec(table s00.ERABFaile
 	}()
 
 }
+
+// ERABFailedtoSetupItemHOReqAckIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{E-RABFailedtoSetupItemHOReqAckIEs}} codec of TS 36.413.
 func ERABFailedtoSetupItemHOReqAckIEValueIEFieldTableCodec(table s00.ERABFailedtoSetupItemHOReqAckIEValueIETable) s16.ERABFailedtoSetupItemHOReqAckIEFieldValueCodec {
 	if !*s00.BridgeERABFailedtoSetupItemHOReqAckIEValueIETableFieldBound(&table) {
 		return s16.ERABFailedtoSetupItemHOReqAckIEFieldValueCodec{}
@@ -3208,6 +3255,8 @@ func ERABFailedtoSetupItemHOReqAckIEValueIEFieldTableCodec(table s00.ERABFailedt
 	}()
 
 }
+
+// ERABItemIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{E-RABItemIEs}} codec of TS 36.413.
 func ERABItemIEValueIEFieldTableCodec(table s00.ERABItemIEValueIETable) s16.ERABItemIEFieldValueCodec {
 	if !*s00.BridgeERABItemIEValueIETableFieldBound(&table) {
 		return s16.ERABItemIEFieldValueCodec{}
@@ -3265,6 +3314,8 @@ func ERABItemIEValueIEFieldTableCodec(table s00.ERABItemIEValueIETable) s16.ERAB
 	}()
 
 }
+
+// ERABModifyItemBearerModConfIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{E-RABModifyItemBearerModConfIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModConfIEValueIEFieldTableCodec(table s00.ERABModifyItemBearerModConfIEValueIETable) s16.ERABModifyItemBearerModConfIEFieldValueCodec {
 	if !*s00.BridgeERABModifyItemBearerModConfIEValueIETableFieldBound(&table) {
 		return s16.ERABModifyItemBearerModConfIEFieldValueCodec{}
@@ -3322,6 +3373,8 @@ func ERABModifyItemBearerModConfIEValueIEFieldTableCodec(table s00.ERABModifyIte
 	}()
 
 }
+
+// ERABModifyItemBearerModResIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{E-RABModifyItemBearerModResIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModResIEValueIEFieldTableCodec(table s00.ERABModifyItemBearerModResIEValueIETable) s16.ERABModifyItemBearerModResIEFieldValueCodec {
 	if !*s00.BridgeERABModifyItemBearerModResIEValueIETableFieldBound(&table) {
 		return s16.ERABModifyItemBearerModResIEFieldValueCodec{}
@@ -3379,6 +3432,8 @@ func ERABModifyItemBearerModResIEValueIEFieldTableCodec(table s00.ERABModifyItem
 	}()
 
 }
+
+// ERABNotToBeModifiedItemBearerModIndIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{E-RABNotToBeModifiedItemBearerModIndIEs}} codec of TS 36.413.
 func ERABNotToBeModifiedItemBearerModIndIEValueIEFieldTableCodec(table s00.ERABNotToBeModifiedItemBearerModIndIEValueIETable) s16.ERABNotToBeModifiedItemBearerModIndIEFieldValueCodec {
 	if !*s00.BridgeERABNotToBeModifiedItemBearerModIndIEValueIETableFieldBound(&table) {
 		return s16.ERABNotToBeModifiedItemBearerModIndIEFieldValueCodec{}
@@ -3436,177 +3491,8 @@ func ERABNotToBeModifiedItemBearerModIndIEValueIEFieldTableCodec(table s00.ERABN
 	}()
 
 }
-func ERABReleaseItemBearerRelCompIEValueIEFieldTableCodec(table s00.ERABReleaseItemBearerRelCompIEValueIETable) s16.ERABReleaseItemBearerRelCompIEFieldValueCodec {
-	if !*s00.BridgeERABReleaseItemBearerRelCompIEValueIETableFieldBound(&table) {
-		return s16.ERABReleaseItemBearerRelCompIEFieldValueCodec{}
-	}
-	return func() s16.ERABReleaseItemBearerRelCompIEFieldValueCodec {
-		sealed := s16.ERABReleaseItemBearerRelCompIEFieldValueCodec{}
-		*s16.BridgeERABReleaseItemBearerRelCompIEFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEField, error) {
-			var field s16.ERABReleaseItemBearerRelCompIEField
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
-			}
-			if err := s16.BridgeERABReleaseItemBearerRelCompIEFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolIEField"); err != nil {
-				return field, err
-			}
-			return field, nil
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEFieldValueCodecFieldEncode(&sealed) = func(field s16.ERABReleaseItemBearerRelCompIEField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			if err := s16.BridgeERABReleaseItemBearerRelCompIEFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEFieldValueCodecFieldCapture(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEField, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEField, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIEField(&v,
-				&s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v,
-				root
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEFieldValueCodecFieldCompare(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIEField(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABSetupItemBearerSUResIEValueIEFieldTableCodec(table s00.ERABSetupItemBearerSUResIEValueIETable) s16.ERABSetupItemBearerSUResIEFieldValueCodec {
-	if !*s00.BridgeERABSetupItemBearerSUResIEValueIETableFieldBound(&table) {
-		return s16.ERABSetupItemBearerSUResIEFieldValueCodec{}
-	}
-	return func() s16.ERABSetupItemBearerSUResIEFieldValueCodec {
-		sealed := s16.ERABSetupItemBearerSUResIEFieldValueCodec{}
-		*s16.BridgeERABSetupItemBearerSUResIEFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEField, error) {
-			var field s16.ERABSetupItemBearerSUResIEField
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
-			}
-			if err := s16.BridgeERABSetupItemBearerSUResIEFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolIEField"); err != nil {
-				return field, err
-			}
-			return field, nil
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEFieldValueCodecFieldEncode(&sealed) = func(field s16.ERABSetupItemBearerSUResIEField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			if err := s16.BridgeERABSetupItemBearerSUResIEFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEFieldValueCodecFieldCapture(&sealed) = func(v s16.ERABSetupItemBearerSUResIEField, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEField, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIEField(&v,
-				&s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v,
-				root
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEFieldValueCodecFieldCompare(&sealed) = func(v s16.ERABSetupItemBearerSUResIEField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIEField(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABSetupItemCtxtSUResIEValueIEFieldTableCodec(table s00.ERABSetupItemCtxtSUResIEValueIETable) s16.ERABSetupItemCtxtSUResIEFieldValueCodec {
-	if !*s00.BridgeERABSetupItemCtxtSUResIEValueIETableFieldBound(&table) {
-		return s16.ERABSetupItemCtxtSUResIEFieldValueCodec{}
-	}
-	return func() s16.ERABSetupItemCtxtSUResIEFieldValueCodec {
-		sealed := s16.ERABSetupItemCtxtSUResIEFieldValueCodec{}
-		*s16.BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSetupItemCtxtSUResIEField, error) {
-			var field s16.ERABSetupItemCtxtSUResIEField
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
-			}
-			if err := s16.BridgeERABSetupItemCtxtSUResIEFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolIEField"); err != nil {
-				return field, err
-			}
-			return field, nil
-		}
-		*s16.BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldEncode(&sealed) = func(field s16.ERABSetupItemCtxtSUResIEField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			if err := s16.BridgeERABSetupItemCtxtSUResIEFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s16.BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldCapture(&sealed) = func(v s16.ERABSetupItemCtxtSUResIEField, options aper.DecodeState) (s16.ERABSetupItemCtxtSUResIEField, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIEField(&v,
-				&s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v,
-				root
-		}
-		*s16.BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldCompare(&sealed) = func(v s16.ERABSetupItemCtxtSUResIEField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIEField(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
+// DAPSResponseInfoListIEValueIETableCodec constructs the ProtocolIE-Container {{DAPSResponseInfoListIEs}} codec of TS 36.413.
 func DAPSResponseInfoListIEValueIETableCodec(table s00.DAPSResponseInfoListIEValueIETable, bounds aper.ListBounds) s14.DAPSResponseInfoListIEContainerValueCodec {
 	if !*s00.BridgeDAPSResponseInfoListIEValueIETableFieldBound(&table) {
 		return s14.DAPSResponseInfoListIEContainerValueCodec{}
@@ -3686,6 +3572,8 @@ func DAPSResponseInfoListIEValueIETableCodec(table s00.DAPSResponseInfoListIEVal
 	}()
 
 }
+
+// ENBConfigurationUpdateAcknowledgeIEValueIETableCodec constructs the ProtocolIE-Container {{ENBConfigurationUpdateAcknowledgeIEs}} codec of TS 36.413.
 func ENBConfigurationUpdateAcknowledgeIEValueIETableCodec(table s00.ENBConfigurationUpdateAcknowledgeIEValueIETable, bounds aper.ListBounds) s22.ENBConfigurationUpdateAcknowledgeIEContainerValueCodec {
 	if !*s00.BridgeENBConfigurationUpdateAcknowledgeIEValueIETableFieldBound(&table) {
 		return s22.ENBConfigurationUpdateAcknowledgeIEContainerValueCodec{}
@@ -3765,6 +3653,8 @@ func ENBConfigurationUpdateAcknowledgeIEValueIETableCodec(table s00.ENBConfigura
 	}()
 
 }
+
+// ENBConfigurationUpdateFailureIEValueIETableCodec constructs the ProtocolIE-Container {{ENBConfigurationUpdateFailureIEs}} codec of TS 36.413.
 func ENBConfigurationUpdateFailureIEValueIETableCodec(table s00.ENBConfigurationUpdateFailureIEValueIETable, bounds aper.ListBounds) s22.ENBConfigurationUpdateFailureIEContainerValueCodec {
 	if !*s00.BridgeENBConfigurationUpdateFailureIEValueIETableFieldBound(&table) {
 		return s22.ENBConfigurationUpdateFailureIEContainerValueCodec{}
@@ -3844,6 +3734,8 @@ func ENBConfigurationUpdateFailureIEValueIETableCodec(table s00.ENBConfiguration
 	}()
 
 }
+
+// ENBStatusTransferIEValueIETableCodec constructs the ProtocolIE-Container {{ENBStatusTransferIEs}} codec of TS 36.413.
 func ENBStatusTransferIEValueIETableCodec(table s00.ENBStatusTransferIEValueIETable, bounds aper.ListBounds) s21.ENBStatusTransferIEContainerValueCodec {
 	if !*s00.BridgeENBStatusTransferIEValueIETableFieldBound(&table) {
 		return s21.ENBStatusTransferIEContainerValueCodec{}
@@ -3923,6 +3815,8 @@ func ENBStatusTransferIEValueIETableCodec(table s00.ENBStatusTransferIEValueIETa
 	}()
 
 }
+
+// ERABAdmittedItemIEValueIETableCodec constructs the ProtocolIE-Container {{E-RABAdmittedItemIEs}} codec of TS 36.413.
 func ERABAdmittedItemIEValueIETableCodec(table s00.ERABAdmittedItemIEValueIETable, bounds aper.ListBounds) s15.ERABAdmittedItemIEContainerValueCodec {
 	if !*s00.BridgeERABAdmittedItemIEValueIETableFieldBound(&table) {
 		return s15.ERABAdmittedItemIEContainerValueCodec{}
@@ -4002,6 +3896,8 @@ func ERABAdmittedItemIEValueIETableCodec(table s00.ERABAdmittedItemIEValueIETabl
 	}()
 
 }
+
+// ERABDataForwardingItemIEValueIETableCodec constructs the ProtocolIE-Container {{E-RABDataForwardingItemIEs}} codec of TS 36.413.
 func ERABDataForwardingItemIEValueIETableCodec(table s00.ERABDataForwardingItemIEValueIETable, bounds aper.ListBounds) s15.ERABDataForwardingItemIEContainerValueCodec {
 	if !*s00.BridgeERABDataForwardingItemIEValueIETableFieldBound(&table) {
 		return s15.ERABDataForwardingItemIEContainerValueCodec{}
@@ -4081,6 +3977,8 @@ func ERABDataForwardingItemIEValueIETableCodec(table s00.ERABDataForwardingItemI
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeReqIEValueIETableCodec constructs the ProtocolIE-Container {{E-RABFailedToResumeItemResumeReqIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeReqIEValueIETableCodec(table s00.ERABFailedToResumeItemResumeReqIEValueIETable, bounds aper.ListBounds) s15.ERABFailedToResumeItemResumeReqIEContainerValueCodec {
 	if !*s00.BridgeERABFailedToResumeItemResumeReqIEValueIETableFieldBound(&table) {
 		return s15.ERABFailedToResumeItemResumeReqIEContainerValueCodec{}
@@ -4160,14 +4058,16 @@ func ERABFailedToResumeItemResumeReqIEValueIETableCodec(table s00.ERABFailedToRe
 	}()
 
 }
-func ERABFailedToResumeItemResumeResIEValueIETableCodec(table s00.ERABFailedToResumeItemResumeResIEValueIETable, bounds aper.ListBounds) s15.ERABFailedToResumeItemResumeResIEContainerValueCodec {
+
+// ERABFailedToResumeItemResumeResIEValueIETableCodec constructs the ProtocolIE-Container {{E-RABFailedToResumeItemResumeResIEs}} codec of TS 36.413.
+func ERABFailedToResumeItemResumeResIEValueIETableCodec(table s00.ERABFailedToResumeItemResumeResIEValueIETable, bounds aper.ListBounds) s16.ERABFailedToResumeItemResumeResIEContainerValueCodec {
 	if !*s00.BridgeERABFailedToResumeItemResumeResIEValueIETableFieldBound(&table) {
-		return s15.ERABFailedToResumeItemResumeResIEContainerValueCodec{}
+		return s16.ERABFailedToResumeItemResumeResIEContainerValueCodec{}
 	}
 	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s15.ERABFailedToResumeItemResumeResIEContainerValueCodec {
-		sealed := s15.ERABFailedToResumeItemResumeResIEContainerValueCodec{}
-		*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEContainer, error) {
+	return func() s16.ERABFailedToResumeItemResumeResIEContainerValueCodec {
+		sealed := s16.ERABFailedToResumeItemResumeResIEContainerValueCodec{}
+		*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
 				return nil, err
@@ -4195,7 +4095,7 @@ func ERABFailedToResumeItemResumeResIEValueIETableCodec(table s00.ERABFailedToRe
 			}
 			return fields, nil
 		}
-		*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(&sealed) = func(fields s15.ERABFailedToResumeItemResumeResIEContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(&sealed) = func(fields s15.ERABFailedToResumeItemResumeResIEContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
 			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
 				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
@@ -4213,7 +4113,7 @@ func ERABFailedToResumeItemResumeResIEValueIETableCodec(table s00.ERABFailedToRe
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldCapture(&sealed) = func(v s15.ERABFailedToResumeItemResumeResIEContainer, options aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot) {
+		*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldCapture(&sealed) = func(v s15.ERABFailedToResumeItemResumeResIEContainer, options aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
 			BridgeERABFailedToResumeItemResumeResIEValueCaptureS1APProtocolIEContainer(&v, &s)
@@ -4221,7 +4121,7 @@ func ERABFailedToResumeItemResumeResIEValueIETableCodec(table s00.ERABFailedToRe
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldCompare(&sealed) = func(v s15.ERABFailedToResumeItemResumeResIEContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldCompare(&sealed) = func(v s15.ERABFailedToResumeItemResumeResIEContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
@@ -4229,7 +4129,7 @@ func ERABFailedToResumeItemResumeResIEValueIETableCodec(table s00.ERABFailedToRe
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainer[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
@@ -4239,6 +4139,8 @@ func ERABFailedToResumeItemResumeResIEValueIETableCodec(table s00.ERABFailedToRe
 	}()
 
 }
+
+// ERABFailedtoSetupItemHOReqAckIEValueIETableCodec constructs the ProtocolIE-Container {{E-RABFailedtoSetupItemHOReqAckIEs}} codec of TS 36.413.
 func ERABFailedtoSetupItemHOReqAckIEValueIETableCodec(table s00.ERABFailedtoSetupItemHOReqAckIEValueIETable, bounds aper.ListBounds) s16.ERABFailedtoSetupItemHOReqAckIEContainerValueCodec {
 	if !*s00.BridgeERABFailedtoSetupItemHOReqAckIEValueIETableFieldBound(&table) {
 		return s16.ERABFailedtoSetupItemHOReqAckIEContainerValueCodec{}
@@ -4318,6 +4220,8 @@ func ERABFailedtoSetupItemHOReqAckIEValueIETableCodec(table s00.ERABFailedtoSetu
 	}()
 
 }
+
+// ERABItemIEValueIETableCodec constructs the ProtocolIE-Container {{E-RABItemIEs}} codec of TS 36.413.
 func ERABItemIEValueIETableCodec(table s00.ERABItemIEValueIETable, bounds aper.ListBounds) s16.ERABItemIEContainerValueCodec {
 	if !*s00.BridgeERABItemIEValueIETableFieldBound(&table) {
 		return s16.ERABItemIEContainerValueCodec{}
@@ -4397,6 +4301,8 @@ func ERABItemIEValueIETableCodec(table s00.ERABItemIEValueIETable, bounds aper.L
 	}()
 
 }
+
+// ERABModifyItemBearerModConfIEValueIETableCodec constructs the ProtocolIE-Container {{E-RABModifyItemBearerModConfIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModConfIEValueIETableCodec(table s00.ERABModifyItemBearerModConfIEValueIETable, bounds aper.ListBounds) s16.ERABModifyItemBearerModConfIEContainerValueCodec {
 	if !*s00.BridgeERABModifyItemBearerModConfIEValueIETableFieldBound(&table) {
 		return s16.ERABModifyItemBearerModConfIEContainerValueCodec{}
@@ -4476,6 +4382,8 @@ func ERABModifyItemBearerModConfIEValueIETableCodec(table s00.ERABModifyItemBear
 	}()
 
 }
+
+// ERABModifyItemBearerModResIEValueIETableCodec constructs the ProtocolIE-Container {{E-RABModifyItemBearerModResIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModResIEValueIETableCodec(table s00.ERABModifyItemBearerModResIEValueIETable, bounds aper.ListBounds) s16.ERABModifyItemBearerModResIEContainerValueCodec {
 	if !*s00.BridgeERABModifyItemBearerModResIEValueIETableFieldBound(&table) {
 		return s16.ERABModifyItemBearerModResIEContainerValueCodec{}
@@ -4555,6 +4463,8 @@ func ERABModifyItemBearerModResIEValueIETableCodec(table s00.ERABModifyItemBeare
 	}()
 
 }
+
+// ERABNotToBeModifiedItemBearerModIndIEValueIETableCodec constructs the ProtocolIE-Container {{E-RABNotToBeModifiedItemBearerModIndIEs}} codec of TS 36.413.
 func ERABNotToBeModifiedItemBearerModIndIEValueIETableCodec(table s00.ERABNotToBeModifiedItemBearerModIndIEValueIETable, bounds aper.ListBounds) s16.ERABNotToBeModifiedItemBearerModIndIEContainerValueCodec {
 	if !*s00.BridgeERABNotToBeModifiedItemBearerModIndIEValueIETableFieldBound(&table) {
 		return s16.ERABNotToBeModifiedItemBearerModIndIEContainerValueCodec{}
@@ -4634,243 +4544,8 @@ func ERABNotToBeModifiedItemBearerModIndIEValueIETableCodec(table s00.ERABNotToB
 	}()
 
 }
-func ERABReleaseItemBearerRelCompIEValueIETableCodec(table s00.ERABReleaseItemBearerRelCompIEValueIETable, bounds aper.ListBounds) s16.ERABReleaseItemBearerRelCompIEContainerValueCodec {
-	if !*s00.BridgeERABReleaseItemBearerRelCompIEValueIETableFieldBound(&table) {
-		return s16.ERABReleaseItemBearerRelCompIEContainerValueCodec{}
-	}
-	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s16.ERABReleaseItemBearerRelCompIEContainerValueCodec {
-		sealed := s16.ERABReleaseItemBearerRelCompIEContainerValueCodec{}
-		*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s16.ERABReleaseItemBearerRelCompIEContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s16.ERABReleaseItemBearerRelCompIEField
-					if err := s16.BridgeERABReleaseItemBearerRelCompIEFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolIEContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldEncode(&sealed) = func(fields s16.ERABReleaseItemBearerRelCompIEContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
-				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
-					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
-				}
-				for _, field := range fields[offset:][:length] {
-					if err := s16.BridgeERABReleaseItemBearerRelCompIEFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldCapture(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEContainer, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEContainer, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIEContainer(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldCompare(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIEContainer(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainer[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
 
-}
-func ERABSetupItemBearerSUResIEValueIETableCodec(table s00.ERABSetupItemBearerSUResIEValueIETable, bounds aper.ListBounds) s16.ERABSetupItemBearerSUResIEContainerValueCodec {
-	if !*s00.BridgeERABSetupItemBearerSUResIEValueIETableFieldBound(&table) {
-		return s16.ERABSetupItemBearerSUResIEContainerValueCodec{}
-	}
-	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s16.ERABSetupItemBearerSUResIEContainerValueCodec {
-		sealed := s16.ERABSetupItemBearerSUResIEContainerValueCodec{}
-		*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s16.ERABSetupItemBearerSUResIEContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s16.ERABSetupItemBearerSUResIEField
-					if err := s16.BridgeERABSetupItemBearerSUResIEFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolIEContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldEncode(&sealed) = func(fields s16.ERABSetupItemBearerSUResIEContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
-				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
-					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
-				}
-				for _, field := range fields[offset:][:length] {
-					if err := s16.BridgeERABSetupItemBearerSUResIEFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldCapture(&sealed) = func(v s16.ERABSetupItemBearerSUResIEContainer, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEContainer, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIEContainer(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldCompare(&sealed) = func(v s16.ERABSetupItemBearerSUResIEContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIEContainer(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainer[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABSetupItemCtxtSUResIEValueIETableCodec(table s00.ERABSetupItemCtxtSUResIEValueIETable, bounds aper.ListBounds) s16.ERABSetupItemCtxtSUResIEContainerValueCodec {
-	if !*s00.BridgeERABSetupItemCtxtSUResIEValueIETableFieldBound(&table) {
-		return s16.ERABSetupItemCtxtSUResIEContainerValueCodec{}
-	}
-	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s16.ERABSetupItemCtxtSUResIEContainerValueCodec {
-		sealed := s16.ERABSetupItemCtxtSUResIEContainerValueCodec{}
-		*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSetupItemCtxtSUResIEContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s16.ERABSetupItemCtxtSUResIEContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s16.ERABSetupItemCtxtSUResIEField
-					if err := s16.BridgeERABSetupItemCtxtSUResIEFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolIEContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
-		}
-		*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldEncode(&sealed) = func(fields s16.ERABSetupItemCtxtSUResIEContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			bb := aper.NewBudgetBuffer(budget)
-			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
-				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
-					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
-				}
-				for _, field := range fields[offset:][:length] {
-					if err := s16.BridgeERABSetupItemCtxtSUResIEFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
-						return err
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			return bb.CompleteBytes(), nil
-		}
-		*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldCapture(&sealed) = func(v s16.ERABSetupItemCtxtSUResIEContainer, options aper.DecodeState) (s16.ERABSetupItemCtxtSUResIEContainer, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIEContainer(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldCompare(&sealed) = func(v s16.ERABSetupItemCtxtSUResIEContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIEContainer(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainer[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
+// DAPSResponseInfoListIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{DAPSResponseInfoListIEs}} codec of TS 36.413.
 func DAPSResponseInfoListIEValueProtocolErrorIEContainerListCodec(table s00.DAPSResponseInfoListIEValueIETable) s14.DAPSResponseInfoListIEValueProtocolErrorIEContainerListValueCodec {
 	codec := DAPSResponseInfoListIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s14.BridgeDAPSResponseInfoListIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -4917,6 +4592,8 @@ func DAPSResponseInfoListIEValueProtocolErrorIEContainerListCodec(table s00.DAPS
 	}()
 
 }
+
+// ENBConfigurationUpdateAcknowledgeIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{ENBConfigurationUpdateAcknowledgeIEs}} codec of TS 36.413.
 func ENBConfigurationUpdateAcknowledgeIEValueProtocolErrorIEContainerListCodec(table s00.ENBConfigurationUpdateAcknowledgeIEValueIETable) s22.ENBConfigurationUpdateAcknowledgeIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ENBConfigurationUpdateAcknowledgeIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s22.BridgeENBConfigurationUpdateAcknowledgeIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -4963,6 +4640,8 @@ func ENBConfigurationUpdateAcknowledgeIEValueProtocolErrorIEContainerListCodec(t
 	}()
 
 }
+
+// ENBConfigurationUpdateFailureIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{ENBConfigurationUpdateFailureIEs}} codec of TS 36.413.
 func ENBConfigurationUpdateFailureIEValueProtocolErrorIEContainerListCodec(table s00.ENBConfigurationUpdateFailureIEValueIETable) s22.ENBConfigurationUpdateFailureIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ENBConfigurationUpdateFailureIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s22.BridgeENBConfigurationUpdateFailureIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5009,6 +4688,8 @@ func ENBConfigurationUpdateFailureIEValueProtocolErrorIEContainerListCodec(table
 	}()
 
 }
+
+// ENBStatusTransferIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{ENBStatusTransferIEs}} codec of TS 36.413.
 func ENBStatusTransferIEValueProtocolErrorIEContainerListCodec(table s00.ENBStatusTransferIEValueIETable) s21.ENBStatusTransferIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ENBStatusTransferIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s21.BridgeENBStatusTransferIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5055,6 +4736,8 @@ func ENBStatusTransferIEValueProtocolErrorIEContainerListCodec(table s00.ENBStat
 	}()
 
 }
+
+// ERABAdmittedItemIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{E-RABAdmittedItemIEs}} codec of TS 36.413.
 func ERABAdmittedItemIEValueProtocolErrorIEContainerListCodec(table s00.ERABAdmittedItemIEValueIETable) s15.ERABAdmittedItemIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ERABAdmittedItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s15.BridgeERABAdmittedItemIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5101,6 +4784,8 @@ func ERABAdmittedItemIEValueProtocolErrorIEContainerListCodec(table s00.ERABAdmi
 	}()
 
 }
+
+// ERABDataForwardingItemIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{E-RABDataForwardingItemIEs}} codec of TS 36.413.
 func ERABDataForwardingItemIEValueProtocolErrorIEContainerListCodec(table s00.ERABDataForwardingItemIEValueIETable) s15.ERABDataForwardingItemIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ERABDataForwardingItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s15.BridgeERABDataForwardingItemIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5147,6 +4832,8 @@ func ERABDataForwardingItemIEValueProtocolErrorIEContainerListCodec(table s00.ER
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{E-RABFailedToResumeItemResumeReqIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListCodec(table s00.ERABFailedToResumeItemResumeReqIEValueIETable) s15.ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ERABFailedToResumeItemResumeReqIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s15.BridgeERABFailedToResumeItemResumeReqIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5193,19 +4880,21 @@ func ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListCodec(tab
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{E-RABFailedToResumeItemResumeResIEs}} codec of TS 36.413.
 func ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListCodec(table s00.ERABFailedToResumeItemResumeResIEValueIETable) s16.ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ERABFailedToResumeItemResumeResIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec) == nil {
+	if *s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec) == nil {
 		return s16.ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec{}
 	}
 	return func() s16.ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec {
 		sealed := s16.ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec{}
 		*s16.BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, error) {
-			value, err := (*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec))(data, options)
+			value, err := (*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec))(data, options)
 			return s16.ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList(value), err
 		}
 		*s16.BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(&codec))(s15.ERABFailedToResumeItemResumeResIEContainer(value), fresh, budget)
+			return (*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(&codec))(s15.ERABFailedToResumeItemResumeResIEContainer(value), fresh, budget)
 		}
 		*s16.BridgeERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, options aper.DecodeState) (s16.ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList, aper.Snapshot,
 		) {
@@ -5239,6 +4928,8 @@ func ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListCodec(tab
 	}()
 
 }
+
+// ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{E-RABFailedtoSetupItemHOReqAckIEs}} codec of TS 36.413.
 func ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListCodec(table s00.ERABFailedtoSetupItemHOReqAckIEValueIETable) s16.ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ERABFailedtoSetupItemHOReqAckIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABFailedtoSetupItemHOReqAckIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5285,6 +4976,8 @@ func ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListCodec(table
 	}()
 
 }
+
+// ERABItemIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{E-RABItemIEs}} codec of TS 36.413.
 func ERABItemIEValueProtocolErrorIEContainerListCodec(table s00.ERABItemIEValueIETable) s16.ERABItemIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ERABItemIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABItemIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5331,6 +5024,8 @@ func ERABItemIEValueProtocolErrorIEContainerListCodec(table s00.ERABItemIEValueI
 	}()
 
 }
+
+// ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{E-RABModifyItemBearerModConfIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListCodec(table s00.ERABModifyItemBearerModConfIEValueIETable) s16.ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ERABModifyItemBearerModConfIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABModifyItemBearerModConfIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5377,6 +5072,8 @@ func ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListCodec(table s
 	}()
 
 }
+
+// ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{E-RABModifyItemBearerModResIEs}} codec of TS 36.413.
 func ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListCodec(table s00.ERABModifyItemBearerModResIEValueIETable) s16.ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ERABModifyItemBearerModResIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABModifyItemBearerModResIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5423,6 +5120,8 @@ func ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListCodec(table s0
 	}()
 
 }
+
+// ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{E-RABNotToBeModifiedItemBearerModIndIEs}} codec of TS 36.413.
 func ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListCodec(table s00.ERABNotToBeModifiedItemBearerModIndIEValueIETable) s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ERABNotToBeModifiedItemBearerModIndIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
 	if *s16.BridgeERABNotToBeModifiedItemBearerModIndIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5469,144 +5168,8 @@ func ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListCodec
 	}()
 
 }
-func ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListCodec(table s00.ERABReleaseItemBearerRelCompIEValueIETable) s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodec {
-	codec := ERABReleaseItemBearerRelCompIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodec{}
-	}
-	return func() s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodec {
-		sealed := s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodec{}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList, error) {
-			value, err := (*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList(value), err
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldEncode(&codec))(s16.ERABReleaseItemBearerRelCompIEContainer(value), fresh, budget)
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolErrorIEContainerList(&v, &s)
-			var root aper.Snapshot
 
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodecFieldCompare(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f :=
-				s.
-					Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolErrorIEContainerList(&v, &s)
-			s.
-				End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolErrorIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListCodec(table s00.ERABSetupItemBearerSUResIEValueIETable) s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodec {
-	codec := ERABSetupItemBearerSUResIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodec{}
-	}
-	return func() s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodec {
-		sealed := s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodec{}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList, error) {
-			value, err := (*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList(value), err
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldEncode(&codec))(s16.ERABSetupItemBearerSUResIEContainer(value), fresh, budget)
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolErrorIEContainerList(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodecFieldCompare(&sealed) = func(v s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f :=
-				s.
-					Begin()
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolErrorIEContainerList(&v, &s)
-			s.
-				End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolErrorIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListCodec(table s00.ERABSetupItemCtxtSUResIEValueIETable) s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec {
-	codec := ERABSetupItemCtxtSUResIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec{}
-	}
-	return func() s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec {
-		sealed := s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodec{}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, error) {
-			value, err := (*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList(value), err
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldEncode(&sealed) = func(value s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldEncode(&codec))(s16.ERABSetupItemCtxtSUResIEContainer(value), fresh, budget)
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldCapture(&sealed) = func(v s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, options aper.DecodeState) (s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolErrorIEContainerList(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldCompare(&sealed) = func(v s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f :=
-				s.
-					Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolErrorIEContainerList(&v, &s)
-			s.
-				End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolErrorIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
+// DAPSResponseInfoListIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {DAPSResponseInfoListIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func DAPSResponseInfoListIEValueProtocolIEContainerListCodec(table s00.DAPSResponseInfoListIEValueIETable, bounds aper.ListBounds) s14.DAPSResponseInfoListIEValueProtocolIEContainerListValueCodec {
 	codec := DAPSResponseInfoListIEValueIETableCodec(table, bounds)
 	if *s14.BridgeDAPSResponseInfoListIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5652,6 +5215,8 @@ func DAPSResponseInfoListIEValueProtocolIEContainerListCodec(table s00.DAPSRespo
 	}()
 
 }
+
+// ENBConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {ENBConfigurationUpdateAcknowledgeIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ENBConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListCodec(table s00.ENBConfigurationUpdateAcknowledgeIEValueIETable, bounds aper.ListBounds) s22.ENBConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListValueCodec {
 	codec := ENBConfigurationUpdateAcknowledgeIEValueIETableCodec(table, bounds)
 	if *s22.BridgeENBConfigurationUpdateAcknowledgeIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5697,6 +5262,8 @@ func ENBConfigurationUpdateAcknowledgeIEValueProtocolIEContainerListCodec(table 
 	}()
 
 }
+
+// ENBConfigurationUpdateFailureIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {ENBConfigurationUpdateFailureIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ENBConfigurationUpdateFailureIEValueProtocolIEContainerListCodec(table s00.ENBConfigurationUpdateFailureIEValueIETable, bounds aper.ListBounds) s22.ENBConfigurationUpdateFailureIEValueProtocolIEContainerListValueCodec {
 	codec := ENBConfigurationUpdateFailureIEValueIETableCodec(table, bounds)
 	if *s22.BridgeENBConfigurationUpdateFailureIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5742,6 +5309,8 @@ func ENBConfigurationUpdateFailureIEValueProtocolIEContainerListCodec(table s00.
 	}()
 
 }
+
+// ENBStatusTransferIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {ENBStatusTransferIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ENBStatusTransferIEValueProtocolIEContainerListCodec(table s00.ENBStatusTransferIEValueIETable, bounds aper.ListBounds) s21.ENBStatusTransferIEValueProtocolIEContainerListValueCodec {
 	codec := ENBStatusTransferIEValueIETableCodec(table, bounds)
 	if *s21.BridgeENBStatusTransferIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5787,6 +5356,8 @@ func ENBStatusTransferIEValueProtocolIEContainerListCodec(table s00.ENBStatusTra
 	}()
 
 }
+
+// ERABAdmittedItemIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {E-RABAdmittedItemIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ERABAdmittedItemIEValueProtocolIEContainerListCodec(table s00.ERABAdmittedItemIEValueIETable, bounds aper.ListBounds) s15.ERABAdmittedItemIEValueProtocolIEContainerListValueCodec {
 	codec := ERABAdmittedItemIEValueIETableCodec(table, bounds)
 	if *s15.BridgeERABAdmittedItemIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5832,6 +5403,8 @@ func ERABAdmittedItemIEValueProtocolIEContainerListCodec(table s00.ERABAdmittedI
 	}()
 
 }
+
+// ERABDataForwardingItemIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {E-RABDataForwardingItemIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ERABDataForwardingItemIEValueProtocolIEContainerListCodec(table s00.ERABDataForwardingItemIEValueIETable, bounds aper.ListBounds) s15.ERABDataForwardingItemIEValueProtocolIEContainerListValueCodec {
 	codec := ERABDataForwardingItemIEValueIETableCodec(table, bounds)
 	if *s15.BridgeERABDataForwardingItemIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5877,6 +5450,8 @@ func ERABDataForwardingItemIEValueProtocolIEContainerListCodec(table s00.ERABDat
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {E-RABFailedToResumeItemResumeReqIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListCodec(table s00.ERABFailedToResumeItemResumeReqIEValueIETable, bounds aper.ListBounds) s15.ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListValueCodec {
 	codec := ERABFailedToResumeItemResumeReqIEValueIETableCodec(table, bounds)
 	if *s15.BridgeERABFailedToResumeItemResumeReqIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -5922,19 +5497,21 @@ func ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListCodec(table s0
 	}()
 
 }
+
+// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {E-RABFailedToResumeItemResumeResIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListCodec(table s00.ERABFailedToResumeItemResumeResIEValueIETable, bounds aper.ListBounds) s16.ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec {
 	codec := ERABFailedToResumeItemResumeResIEValueIETableCodec(table, bounds)
-	if *s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec) == nil {
+	if *s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec) == nil {
 		return s16.ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec{}
 	}
 	return func() s16.ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec {
 		sealed := s16.ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec{}
 		*s16.BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, error) {
-			value, err := (*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec))(data, options)
+			value, err := (*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(&codec))(data, options)
 			return s16.ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList(value), err
 		}
 		*s16.BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s15.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(&codec))(s15.ERABFailedToResumeItemResumeResIEContainer(value), fresh, budget)
+			return (*s16.BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(&codec))(s15.ERABFailedToResumeItemResumeResIEContainer(value), fresh, budget)
 		}
 		*s16.BridgeERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, options aper.DecodeState) (s16.ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList, aper.Snapshot,
 		) {
@@ -5967,6 +5544,8 @@ func ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListCodec(table s0
 	}()
 
 }
+
+// ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {E-RABFailedtoSetupItemHOReqAckIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListCodec(table s00.ERABFailedtoSetupItemHOReqAckIEValueIETable, bounds aper.ListBounds) s16.ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListValueCodec {
 	codec := ERABFailedtoSetupItemHOReqAckIEValueIETableCodec(table, bounds)
 	if *s16.BridgeERABFailedtoSetupItemHOReqAckIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -6012,6 +5591,8 @@ func ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListCodec(table s00.
 	}()
 
 }
+
+// ERABItemIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {E-RABItemIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ERABItemIEValueProtocolIEContainerListCodec(table s00.ERABItemIEValueIETable, bounds aper.ListBounds) s16.ERABItemIEValueProtocolIEContainerListValueCodec {
 	codec := ERABItemIEValueIETableCodec(table, bounds)
 	if *s16.BridgeERABItemIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -6057,6 +5638,8 @@ func ERABItemIEValueProtocolIEContainerListCodec(table s00.ERABItemIEValueIETabl
 	}()
 
 }
+
+// ERABModifyItemBearerModConfIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {E-RABModifyItemBearerModConfIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ERABModifyItemBearerModConfIEValueProtocolIEContainerListCodec(table s00.ERABModifyItemBearerModConfIEValueIETable, bounds aper.ListBounds) s16.ERABModifyItemBearerModConfIEValueProtocolIEContainerListValueCodec {
 	codec := ERABModifyItemBearerModConfIEValueIETableCodec(table, bounds)
 	if *s16.BridgeERABModifyItemBearerModConfIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -6102,6 +5685,8 @@ func ERABModifyItemBearerModConfIEValueProtocolIEContainerListCodec(table s00.ER
 	}()
 
 }
+
+// ERABModifyItemBearerModResIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {E-RABModifyItemBearerModResIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
 func ERABModifyItemBearerModResIEValueProtocolIEContainerListCodec(table s00.ERABModifyItemBearerModResIEValueIETable, bounds aper.ListBounds) s16.ERABModifyItemBearerModResIEValueProtocolIEContainerListValueCodec {
 	codec := ERABModifyItemBearerModResIEValueIETableCodec(table, bounds)
 	if *s16.BridgeERABModifyItemBearerModResIEContainerValueCodecFieldDecode(&codec) == nil {
@@ -6138,186 +5723,6 @@ func ERABModifyItemBearerModResIEValueProtocolIEContainerListCodec(table s00.ERA
 			return s.Plan(), s.BudgetValue()
 		}
 		*s16.BridgeERABModifyItemBearerModResIEValueProtocolIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListCodec(table s00.ERABNotToBeModifiedItemBearerModIndIEValueIETable, bounds aper.ListBounds) s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodec {
-	codec := ERABNotToBeModifiedItemBearerModIndIEValueIETableCodec(table, bounds)
-	if *s16.BridgeERABNotToBeModifiedItemBearerModIndIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodec{}
-	}
-	return func() s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodec {
-		sealed := s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodec{}
-		*s16.BridgeERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList, error) {
-			value, err := (*s16.BridgeERABNotToBeModifiedItemBearerModIndIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList(value), err
-		}
-		*s16.BridgeERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABNotToBeModifiedItemBearerModIndIEContainerValueCodecFieldEncode(&codec))(s16.ERABNotToBeModifiedItemBearerModIndIEContainer(value), fresh, budget)
-		}
-		*s16.BridgeERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList, options aper.DecodeState) (s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABNotToBeModifiedItemBearerModIndIEValueCaptureS1APProtocolIEContainerList(&v, &s)
-			var root aper.Snapshot
-			s.End(
-				f,
-				&root, false)
-			return v, root
-		}
-		*s16.BridgeERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodecFieldCompare(&sealed) = func(v s16.ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABNotToBeModifiedItemBearerModIndIEValueCompareS1APProtocolIEContainerList(&v, &s)
-			s.End(f, root,
-
-				false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListCodec(table s00.ERABReleaseItemBearerRelCompIEValueIETable, bounds aper.ListBounds) s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodec {
-	codec := ERABReleaseItemBearerRelCompIEValueIETableCodec(table, bounds)
-	if *s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodec{}
-	}
-	return func() s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodec {
-		sealed := s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodec{}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList, error) {
-			value, err := (*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList(value), err
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABReleaseItemBearerRelCompIEContainerValueCodecFieldEncode(&codec))(s16.ERABReleaseItemBearerRelCompIEContainer(value), fresh, budget)
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList, options aper.DecodeState) (s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIEContainerList(&v, &s)
-			var root aper.Snapshot
-			s.End(
-				f,
-				&root, false)
-			return v, root
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodecFieldCompare(&sealed) = func(v s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIEContainerList(&v, &s)
-			s.End(f, root,
-
-				false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABSetupItemBearerSUResIEValueProtocolIEContainerListCodec(table s00.ERABSetupItemBearerSUResIEValueIETable, bounds aper.ListBounds) s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodec {
-	codec := ERABSetupItemBearerSUResIEValueIETableCodec(table, bounds)
-	if *s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodec{}
-	}
-	return func() s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodec {
-		sealed := s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodec{}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerList, error) {
-			value, err := (*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerList(value), err
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodecFieldEncode(&sealed) = func(value s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABSetupItemBearerSUResIEContainerValueCodecFieldEncode(&codec))(s16.ERABSetupItemBearerSUResIEContainer(value), fresh, budget)
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodecFieldCapture(&sealed) = func(v s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerList, options aper.DecodeState) (s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerList, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIEContainerList(&v, &s)
-			var root aper.Snapshot
-			s.End(
-				f,
-				&root, false)
-			return v, root
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodecFieldCompare(&sealed) = func(v s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIEContainerList(&v, &s)
-			s.End(f, root,
-
-				false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s16.BridgeERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-func ERABSetupItemCtxtSUResIEValueProtocolIEContainerListCodec(table s00.ERABSetupItemCtxtSUResIEValueIETable, bounds aper.ListBounds) s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec {
-	codec := ERABSetupItemCtxtSUResIEValueIETableCodec(table, bounds)
-	if *s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec{}
-	}
-	return func() s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec {
-		sealed := s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodec{}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, error) {
-			value, err := (*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerList(value), err
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldEncode(&sealed) = func(value s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s16.BridgeERABSetupItemCtxtSUResIEContainerValueCodecFieldEncode(&codec))(s16.ERABSetupItemCtxtSUResIEContainer(value), fresh, budget)
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldCapture(&sealed) = func(v s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, options aper.DecodeState) (s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIEContainerList(&v, &s)
-			var root aper.Snapshot
-			s.End(
-				f,
-				&root, false)
-			return v, root
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldCompare(&sealed) = func(v s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIEContainerList(&v, &s)
-			s.End(f, root,
-
-				false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s17.BridgeERABSetupItemCtxtSUResIEValueProtocolIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainerList[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
@@ -6723,22 +6128,6 @@ func BridgeERABModifyItemBearerModResIEValueCompareS1APProtocolIEField(v *s16.ER
 	*s = s16.BridgeERABModifyItemBearerModResIEValueMethodCompareSemantics(v.Value, *s)
 	s.End(f, *s16.BridgeERABModifyItemBearerModResIEFieldFieldReplay(v), *s16.BridgeERABModifyItemBearerModResIEFieldFieldWithoutReplay(v))
 }
-
-// eRABNotToBeModifiedItemBearerModIndIEValueProtocolOpenValue is the concrete protocolOpenValue[ERABNotToBeModifiedItemBearerModIndIEValue].
-type ERABNotToBeModifiedItemBearerModIndIEValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s16.ERABNotToBeModifiedItemBearerModIndIEValue
-
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s16.ERABNotToBeModifiedItemBearerModIndIEValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
 func BridgeERABNotToBeModifiedItemBearerModIndIEValueCaptureS1APProtocolIEField(v *s16.ERABNotToBeModifiedItemBearerModIndIEField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
@@ -6758,114 +6147,6 @@ func BridgeERABNotToBeModifiedItemBearerModIndIEValueCompareS1APProtocolIEField(
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
 	*s = s16.BridgeERABNotToBeModifiedItemBearerModIndIEValueMethodCompareSemantics(v.Value, *s)
 	s.End(f, *s16.BridgeERABNotToBeModifiedItemBearerModIndIEFieldFieldReplay(v), *s16.BridgeERABNotToBeModifiedItemBearerModIndIEFieldFieldWithoutReplay(v))
-}
-
-// eRABReleaseItemBearerRelCompIEValueProtocolOpenValue is the concrete protocolOpenValue[ERABReleaseItemBearerRelCompIEValue].
-type ERABReleaseItemBearerRelCompIEValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s16.ERABReleaseItemBearerRelCompIEValue
-
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s16.ERABReleaseItemBearerRelCompIEValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
-func BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIEField(v *s16.ERABReleaseItemBearerRelCompIEField, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.Id, s)
-	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.Value = s16.BridgeERABReleaseItemBearerRelCompIEValueMethodCaptureSemantics(v.Value, *s)
-	s.End(f, s16.BridgeERABReleaseItemBearerRelCompIEFieldFieldReplay(v), *s16.BridgeERABReleaseItemBearerRelCompIEFieldFieldWithoutReplay(v))
-}
-func BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIEField(v *s16.ERABReleaseItemBearerRelCompIEField, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s02.BridgeCompareS1APProtocolIEID(&v.Id, s)
-	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s16.BridgeERABReleaseItemBearerRelCompIEValueMethodCompareSemantics(v.Value, *s)
-	s.End(f, *s16.BridgeERABReleaseItemBearerRelCompIEFieldFieldReplay(v), *s16.BridgeERABReleaseItemBearerRelCompIEFieldFieldWithoutReplay(v))
-}
-
-// eRABSetupItemBearerSUResIEValueProtocolOpenValue is the concrete protocolOpenValue[ERABSetupItemBearerSUResIEValue].
-type ERABSetupItemBearerSUResIEValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s16.ERABSetupItemBearerSUResIEValue
-
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s16.ERABSetupItemBearerSUResIEValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
-func BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIEField(v *s16.ERABSetupItemBearerSUResIEField, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.Id, s)
-	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.Value = s16.BridgeERABSetupItemBearerSUResIEValueMethodCaptureSemantics(v.Value, *s)
-	s.End(f, s16.BridgeERABSetupItemBearerSUResIEFieldFieldReplay(v), *s16.BridgeERABSetupItemBearerSUResIEFieldFieldWithoutReplay(v))
-}
-func BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIEField(v *s16.ERABSetupItemBearerSUResIEField, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s02.BridgeCompareS1APProtocolIEID(&v.Id, s)
-	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s16.BridgeERABSetupItemBearerSUResIEValueMethodCompareSemantics(v.Value, *s)
-	s.End(f, *s16.BridgeERABSetupItemBearerSUResIEFieldFieldReplay(v), *s16.BridgeERABSetupItemBearerSUResIEFieldFieldWithoutReplay(v))
-}
-
-// eRABSetupItemCtxtSUResIEValueProtocolOpenValue is the concrete protocolOpenValue[ERABSetupItemCtxtSUResIEValue].
-type ERABSetupItemCtxtSUResIEValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s16.ERABSetupItemCtxtSUResIEValue
-
-	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s16.ERABSetupItemCtxtSUResIEValue,
-
-		error)
-	encode() ([]byte, error)
-	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
-	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
-	reason(s00.ProtocolIEID) aper.OpaqueReason
-	rule() aper.SourceRule
-}
-
-func BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIEField(v *s16.ERABSetupItemCtxtSUResIEField, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s00.BridgeCaptureS1APProtocolIEID(&v.Id, s)
-	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.Value = s16.BridgeERABSetupItemCtxtSUResIEValueMethodCaptureSemantics(v.Value, *s)
-	s.End(f, s16.BridgeERABSetupItemCtxtSUResIEFieldFieldReplay(v), *s16.BridgeERABSetupItemCtxtSUResIEFieldFieldWithoutReplay(v))
-}
-func BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIEField(v *s16.ERABSetupItemCtxtSUResIEField, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	s02.BridgeCompareS1APProtocolIEID(&v.Id, s)
-	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s16.BridgeERABSetupItemCtxtSUResIEValueMethodCompareSemantics(v.Value, *s)
-	s.End(f, *s16.BridgeERABSetupItemCtxtSUResIEFieldFieldReplay(v), *s16.BridgeERABSetupItemCtxtSUResIEFieldFieldWithoutReplay(v))
 }
 
 // eRABDataForwardingItemIEValueProtocolOpenValue is the concrete protocolOpenValue[ERABDataForwardingItemIEValue].
@@ -7650,122 +6931,8 @@ func BridgeERABNotToBeModifiedItemBearerModIndIEValueCompareS1APERABIEContainerL
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APERABIEContainerList(v *s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerList, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABReleaseItemBearerRelCompIEValueCompareS1APERABIEContainerList(v *s16.ERABReleaseItemBearerRelCompIEValueERABIEContainerList, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCaptureS1APERABIEContainerList(v *s16.ERABSetupItemBearerSUResIEValueERABIEContainerList, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCompareS1APERABIEContainerList(v *s16.ERABSetupItemBearerSUResIEValueERABIEContainerList, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCaptureS1APERABIEContainerList(v *s16.ERABSetupItemCtxtSUResIEValueERABIEContainerList, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCompareS1APERABIEContainerList(v *s16.ERABSetupItemCtxtSUResIEValueERABIEContainerList, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
 
-// MDTModeExtensionIEIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEValueERABIEContainerListValueCodec is the concrete ValueCodec[MDTModeExtensionIEIEValueERABIEContainerList].
 type MDTModeExtensionIEIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -7849,13 +7016,100 @@ func (c MDTModeExtensionIEIEValueERABIEContainerListValueCodec) encodeChanged(va
 	return out, aper.OperationError(err, c.path)
 }
 
-// MDTModeExtensionIEIEValueERABIEContainerList is the concrete ERABIEContainerList[MDTModeExtensionIEIEValue].
+// MDTModeExtensionIEIEValueERABIEContainerList is E-RAB-IE-ContainerList {{MDTMode-ExtensionIE}} of TS 36.413: a list of information element fields.
 type MDTModeExtensionIEIEValueERABIEContainerList []MDTModeExtensionIEIEValueProtocolIESingleContainer
 
-// MDTModeExtensionIEIEContainer is the concrete ProtocolIEContainer[MDTModeExtensionIEIEValue].
+// MDTModeExtensionIEIEContainer is ProtocolIE-Container {{MDTMode-ExtensionIE}} of TS 36.413: a list of MDTModeExtensionIEIEField values.
 type MDTModeExtensionIEIEContainer []MDTModeExtensionIEIEField
 
-// UERadioCapabilityMatchResponseIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec is the concrete ValueCodec[UERadioCapabilityIDMappingResponseIEValueERABIEContainerList].
+type UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, error)
+	encode  func(UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, aper.Snapshot)
+	compare func(UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) New(value UERadioCapabilityIDMappingResponseIEValueERABIEContainerList) (UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue, error) {
+	if c.encode == nil {
+		return UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) EncodeAPER(value UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) encodeBudgetValue(value UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) encodeChanged(value UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// UERadioCapabilityIDMappingResponseIEValueERABIEContainerList is E-RAB-IE-ContainerList {{UERadioCapabilityIDMappingResponseIEs}} of TS 36.413: a list of information element fields.
+type UERadioCapabilityIDMappingResponseIEValueERABIEContainerList []UERadioCapabilityIDMappingResponseIEValueProtocolIESingleContainer
+
+// UERadioCapabilityMatchResponseIEValueERABIEContainerListValueCodec is the concrete ValueCodec[UERadioCapabilityMatchResponseIEValueERABIEContainerList].
 type UERadioCapabilityMatchResponseIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -7939,10 +7193,10 @@ func (c UERadioCapabilityMatchResponseIEValueERABIEContainerListValueCodec) enco
 	return out, aper.OperationError(err, c.path)
 }
 
-// UERadioCapabilityMatchResponseIEValueERABIEContainerList is the concrete ERABIEContainerList[UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseIEValueERABIEContainerList is E-RAB-IE-ContainerList {{UERadioCapabilityMatchResponseIEs}} of TS 36.413: a list of information element fields.
 type UERadioCapabilityMatchResponseIEValueERABIEContainerList []UERadioCapabilityMatchResponseIEValueProtocolIESingleContainer
 
-// MDTModeExtensionIEIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEFieldValueCodec is the concrete ValueCodec[MDTModeExtensionIEIEField].
 type MDTModeExtensionIEIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8026,7 +7280,91 @@ func (c MDTModeExtensionIEIEFieldValueCodec) encodeChanged(value MDTModeExtensio
 	return out, aper.OperationError(err, c.path)
 }
 
-// UERadioCapabilityMatchResponseIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEFieldValueCodec is the concrete ValueCodec[UERadioCapabilityIDMappingResponseIEField].
+type UERadioCapabilityIDMappingResponseIEFieldValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEField, error)
+	encode  func(UERadioCapabilityIDMappingResponseIEField, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(UERadioCapabilityIDMappingResponseIEField, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEField, aper.Snapshot)
+	compare func(UERadioCapabilityIDMappingResponseIEField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c UERadioCapabilityIDMappingResponseIEFieldValueCodec) New(value UERadioCapabilityIDMappingResponseIEField) (UERadioCapabilityIDMappingResponseIEFieldAPERValue, error) {
+	if c.encode == nil {
+		return UERadioCapabilityIDMappingResponseIEFieldAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return UERadioCapabilityIDMappingResponseIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return UERadioCapabilityIDMappingResponseIEFieldAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return UERadioCapabilityIDMappingResponseIEFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c UERadioCapabilityIDMappingResponseIEFieldValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UERadioCapabilityIDMappingResponseIEFieldAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return UERadioCapabilityIDMappingResponseIEFieldAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return UERadioCapabilityIDMappingResponseIEFieldAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return UERadioCapabilityIDMappingResponseIEFieldAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return UERadioCapabilityIDMappingResponseIEFieldAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c UERadioCapabilityIDMappingResponseIEFieldValueCodec) EncodeAPER(value UERadioCapabilityIDMappingResponseIEFieldAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c UERadioCapabilityIDMappingResponseIEFieldValueCodec) encodeBudgetValue(value UERadioCapabilityIDMappingResponseIEField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c UERadioCapabilityIDMappingResponseIEFieldValueCodec) encodeChanged(value UERadioCapabilityIDMappingResponseIEField, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// UERadioCapabilityMatchResponseIEFieldValueCodec is the concrete ValueCodec[UERadioCapabilityMatchResponseIEField].
 type UERadioCapabilityMatchResponseIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8489,122 +7827,8 @@ func BridgeERABNotToBeModifiedItemBearerModIndIEValueCompareS1APProtocolIEContai
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIEContainer(v *s16.ERABReleaseItemBearerRelCompIEContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIEField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIEContainer(v *s16.ERABReleaseItemBearerRelCompIEContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIEField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIEContainer(v *s16.ERABSetupItemBearerSUResIEContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIEField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIEContainer(v *s16.ERABSetupItemBearerSUResIEContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIEField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIEContainer(v *s16.ERABSetupItemCtxtSUResIEContainer, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIEField(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIEContainer(v *s16.ERABSetupItemCtxtSUResIEContainer, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIEField(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
 
-// MDTModeExtensionIEIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEContainerValueCodec is the concrete ValueCodec[MDTModeExtensionIEIEContainer].
 type MDTModeExtensionIEIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8688,7 +7912,91 @@ func (c MDTModeExtensionIEIEContainerValueCodec) encodeChanged(value MDTModeExte
 	return out, aper.OperationError(err, c.path)
 }
 
-// UERadioCapabilityMatchResponseIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEContainerValueCodec is the concrete ValueCodec[UERadioCapabilityIDMappingResponseIEContainer].
+type UERadioCapabilityIDMappingResponseIEContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEContainer, error)
+	encode  func(UERadioCapabilityIDMappingResponseIEContainer, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(UERadioCapabilityIDMappingResponseIEContainer, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEContainer, aper.Snapshot)
+	compare func(UERadioCapabilityIDMappingResponseIEContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c UERadioCapabilityIDMappingResponseIEContainerValueCodec) New(value UERadioCapabilityIDMappingResponseIEContainer) (UERadioCapabilityIDMappingResponseIEContainerAPERValue, error) {
+	if c.encode == nil {
+		return UERadioCapabilityIDMappingResponseIEContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return UERadioCapabilityIDMappingResponseIEContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return UERadioCapabilityIDMappingResponseIEContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return UERadioCapabilityIDMappingResponseIEContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c UERadioCapabilityIDMappingResponseIEContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UERadioCapabilityIDMappingResponseIEContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return UERadioCapabilityIDMappingResponseIEContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return UERadioCapabilityIDMappingResponseIEContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return UERadioCapabilityIDMappingResponseIEContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return UERadioCapabilityIDMappingResponseIEContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c UERadioCapabilityIDMappingResponseIEContainerValueCodec) EncodeAPER(value UERadioCapabilityIDMappingResponseIEContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c UERadioCapabilityIDMappingResponseIEContainerValueCodec) encodeBudgetValue(value UERadioCapabilityIDMappingResponseIEContainer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c UERadioCapabilityIDMappingResponseIEContainerValueCodec) encodeChanged(value UERadioCapabilityIDMappingResponseIEContainer, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// UERadioCapabilityMatchResponseIEContainerValueCodec is the concrete ValueCodec[UERadioCapabilityMatchResponseIEContainer].
 type UERadioCapabilityMatchResponseIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9265,122 +8573,8 @@ func BridgeERABNotToBeModifiedItemBearerModIndIEValueCompareS1APProtocolErrorIEC
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolErrorIEContainerList(v *s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolErrorIEContainerList(v *s16.ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolErrorIEContainerList(v *s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolErrorIEContainerList(v *s16.ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolErrorIEContainerList(v *s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolErrorIEContainerList(v *s17.ERABSetupItemCtxtSUResIEValueProtocolErrorIEContainerList, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
 
-// MDTModeExtensionIEIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[MDTModeExtensionIEIEValueProtocolErrorIEContainerList].
 type MDTModeExtensionIEIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9464,38 +8658,38 @@ func (c MDTModeExtensionIEIEValueProtocolErrorIEContainerListValueCodec) encodeC
 	return out, aper.OperationError(err, c.path)
 }
 
-// MDTModeExtensionIEIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[MDTModeExtensionIEIEValue].
+// MDTModeExtensionIEIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{MDTMode-ExtensionIE}} of TS 36.413: a list of information element fields.
 type MDTModeExtensionIEIEValueProtocolErrorIEContainerList []MDTModeExtensionIEIEValueProtocolIESingleContainer
 
-// UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[UERadioCapabilityIDMappingResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList].
 type UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, error)
-	encode  func(s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.DecodeState) (s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot)
-	compare func(s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+	decode  func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, error)
+	encode  func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot)
+	compare func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) New(value s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList) (s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue, error) {
+func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) New(value UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue, error) {
 	if c.encode == nil {
-		return s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue, aper.DecodeReport, error) {
+func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -9503,22 +8697,16 @@ func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListVal
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+			return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return func() s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue {
-			sealed := s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{Value: value}
-			*s23.BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldReceived(&sealed) = aper.OriginalWire(data)
-			*s23.BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldReplay(&sealed) = replay
-			*s23.BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldContext(&sealed) = c.context
-			return sealed
-		}(), report, nil
+		return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, report, err
+	return UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) EncodeAPER(value s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) EncodeAPER(value UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -9526,29 +8714,29 @@ func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListVal
 	if err != nil {
 		return nil, aper.OperationError(err, c.path)
 	}
-	fresh := *s23.BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldWithoutReplay(&value) || aper.EncodeWithoutReplay(options...)
-	if *s23.BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldContext(&value) == c.context && !fresh && (*s23.BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldReplay(&value)).Present() {
-		plan, next := c.compare(value.Value, *s23.BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldReplay(&value), budget)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
 		budget = next
 		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
 			return nil, aper.OperationError(err, c.path)
 		}
-		if plan.Unchanged(*s23.BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldReplay(&value)) {
-			out, err := aper.CopyReplay(*s23.BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldReceived(&value), &budget)
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
 			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, fresh, budget, plan)
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) encodeBudgetValue(value s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) encodeBudgetValue(value UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
 		err = failure
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) encodeChanged(value s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) encodeChanged(value UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
@@ -9557,7 +8745,10 @@ func (c UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListVal
 	return out, aper.OperationError(err, c.path)
 }
 
-// UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{UERadioCapabilityIDMappingResponseIEs}} of TS 36.413: a list of information element fields.
+type UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList []UERadioCapabilityIDMappingResponseIEValueProtocolIESingleContainer
+
+// UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerList].
 type UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9641,7 +8832,7 @@ func (c UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerListValueCo
 	return out, aper.OperationError(err, c.path)
 }
 
-// UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{UERadioCapabilityMatchResponseIEs}} of TS 36.413: a list of information element fields.
 type UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerList []UERadioCapabilityMatchResponseIEValueProtocolIESingleContainer
 
 func BridgeDAPSResponseInfoListIEValueCaptureS1APProtocolIEContainerList(v *s14.DAPSResponseInfoListIEValueProtocolIEContainerList, s *aper.SemanticCapture) {
@@ -10138,122 +9329,8 @@ func BridgeERABNotToBeModifiedItemBearerModIndIEValueCompareS1APProtocolIEContai
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIEContainerList(v *s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIEContainerList(v *s16.ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIEContainerList(v *s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerList, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIEContainerList(v *s16.ERABSetupItemBearerSUResIEValueProtocolIEContainerList, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIEContainerList(v *s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIEContainerList(v *s17.ERABSetupItemCtxtSUResIEValueProtocolIEContainerList, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
 
-// MDTModeExtensionIEIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[MDTModeExtensionIEIEValueProtocolIEContainerList].
 type MDTModeExtensionIEIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10337,10 +9414,10 @@ func (c MDTModeExtensionIEIEValueProtocolIEContainerListValueCodec) encodeChange
 	return out, aper.OperationError(err, c.path)
 }
 
-// MDTModeExtensionIEIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[MDTModeExtensionIEIEValue].
+// MDTModeExtensionIEIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {MDTMode-ExtensionIE} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type MDTModeExtensionIEIEValueProtocolIEContainerList []MDTModeExtensionIEIEValueProtocolIESingleContainer
 
-// UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[UERadioCapabilityIDMappingResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList].
 type UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10424,10 +9501,10 @@ func (c UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListValueCod
 	return out, aper.OperationError(err, c.path)
 }
 
-// UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[UERadioCapabilityIDMappingResponseIEValue].
-type UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList []s23.UERadioCapabilityIDMappingResponseIEValueProtocolIESingleContainer
+// UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {UERadioCapabilityIDMappingResponseIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
+type UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList []UERadioCapabilityIDMappingResponseIEValueProtocolIESingleContainer
 
-// UERadioCapabilityMatchResponseIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityMatchResponseIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[UERadioCapabilityMatchResponseIEValueProtocolIEContainerList].
 type UERadioCapabilityMatchResponseIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10511,7 +9588,7 @@ func (c UERadioCapabilityMatchResponseIEValueProtocolIEContainerListValueCodec) 
 	return out, aper.OperationError(err, c.path)
 }
 
-// UERadioCapabilityMatchResponseIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {UERadioCapabilityMatchResponseIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type UERadioCapabilityMatchResponseIEValueProtocolIEContainerList []UERadioCapabilityMatchResponseIEValueProtocolIESingleContainer
 
 func BridgeENBConfigurationUpdateAcknowledgeIEValueCaptureS1APProtocolIESingleContainer(v *s22.ENBConfigurationUpdateAcknowledgeIEValueProtocolIESingleContainer, s *aper.SemanticCapture) {
@@ -10563,7 +9640,7 @@ func BridgeENBStatusTransferIEValueCompareS1APProtocolIESingleContainer(v *s21.E
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// MDTModeExtensionIEIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEValueERABIEContainerListAPERValue is the concrete APERValue[MDTModeExtensionIEIEValueERABIEContainerList].
 type MDTModeExtensionIEIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MDTModeExtensionIEIEValueERABIEContainerList
@@ -10585,10 +9662,35 @@ func (v MDTModeExtensionIEIEValueERABIEContainerListAPERValue) WithoutReplay() M
 	return v
 }
 
-// MDTModeExtensionIEIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[MDTModeExtensionIEIEValue].
+// MDTModeExtensionIEIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{MDTMode-ExtensionIE}} of TS 36.413: a single information element field.
 type MDTModeExtensionIEIEValueProtocolIESingleContainer = MDTModeExtensionIEIEField
 
-// UERadioCapabilityMatchResponseIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue is the concrete APERValue[UERadioCapabilityIDMappingResponseIEValueERABIEContainerList].
+type UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         UERadioCapabilityIDMappingResponseIEValueERABIEContainerList
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue) WithoutReplay() UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// UERadioCapabilityIDMappingResponseIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{UERadioCapabilityIDMappingResponseIEs}} of TS 36.413: a single information element field.
+type UERadioCapabilityIDMappingResponseIEValueProtocolIESingleContainer = UERadioCapabilityIDMappingResponseIEField
+
+// UERadioCapabilityMatchResponseIEValueERABIEContainerListAPERValue is the concrete APERValue[UERadioCapabilityMatchResponseIEValueERABIEContainerList].
 type UERadioCapabilityMatchResponseIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         UERadioCapabilityMatchResponseIEValueERABIEContainerList
@@ -10610,10 +9712,10 @@ func (v UERadioCapabilityMatchResponseIEValueERABIEContainerListAPERValue) Witho
 	return v
 }
 
-// UERadioCapabilityMatchResponseIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[UERadioCapabilityMatchResponseIEValue].
+// UERadioCapabilityMatchResponseIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{UERadioCapabilityMatchResponseIEs}} of TS 36.413: a single information element field.
 type UERadioCapabilityMatchResponseIEValueProtocolIESingleContainer = UERadioCapabilityMatchResponseIEField
 
-// MDTModeExtensionIEIEFieldAPERValue is the concrete APERValue[ProtocolIEField[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEFieldAPERValue is the concrete APERValue[MDTModeExtensionIEIEField].
 type MDTModeExtensionIEIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MDTModeExtensionIEIEField
@@ -10635,7 +9737,29 @@ func (v MDTModeExtensionIEIEFieldAPERValue) WithoutReplay() MDTModeExtensionIEIE
 	return v
 }
 
-// UERadioCapabilityMatchResponseIEFieldAPERValue is the concrete APERValue[ProtocolIEField[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEFieldAPERValue is the concrete APERValue[UERadioCapabilityIDMappingResponseIEField].
+type UERadioCapabilityIDMappingResponseIEFieldAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         UERadioCapabilityIDMappingResponseIEField
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v UERadioCapabilityIDMappingResponseIEFieldAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v UERadioCapabilityIDMappingResponseIEFieldAPERValue) WithoutReplay() UERadioCapabilityIDMappingResponseIEFieldAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// UERadioCapabilityMatchResponseIEFieldAPERValue is the concrete APERValue[UERadioCapabilityMatchResponseIEField].
 type UERadioCapabilityMatchResponseIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         UERadioCapabilityMatchResponseIEField
@@ -10657,7 +9781,7 @@ func (v UERadioCapabilityMatchResponseIEFieldAPERValue) WithoutReplay() UERadioC
 	return v
 }
 
-// MDTModeExtensionIEIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEContainerAPERValue is the concrete APERValue[MDTModeExtensionIEIEContainer].
 type MDTModeExtensionIEIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MDTModeExtensionIEIEContainer
@@ -10679,7 +9803,29 @@ func (v MDTModeExtensionIEIEContainerAPERValue) WithoutReplay() MDTModeExtension
 	return v
 }
 
-// UERadioCapabilityMatchResponseIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEContainerAPERValue is the concrete APERValue[UERadioCapabilityIDMappingResponseIEContainer].
+type UERadioCapabilityIDMappingResponseIEContainerAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         UERadioCapabilityIDMappingResponseIEContainer
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v UERadioCapabilityIDMappingResponseIEContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v UERadioCapabilityIDMappingResponseIEContainerAPERValue) WithoutReplay() UERadioCapabilityIDMappingResponseIEContainerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// UERadioCapabilityMatchResponseIEContainerAPERValue is the concrete APERValue[UERadioCapabilityMatchResponseIEContainer].
 type UERadioCapabilityMatchResponseIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         UERadioCapabilityMatchResponseIEContainer
@@ -10701,7 +9847,7 @@ func (v UERadioCapabilityMatchResponseIEContainerAPERValue) WithoutReplay() UERa
 	return v
 }
 
-// MDTModeExtensionIEIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[MDTModeExtensionIEIEValueProtocolErrorIEContainerList].
 type MDTModeExtensionIEIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MDTModeExtensionIEIEValueProtocolErrorIEContainerList
@@ -10723,7 +9869,29 @@ func (v MDTModeExtensionIEIEValueProtocolErrorIEContainerListAPERValue) WithoutR
 	return v
 }
 
-// UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList].
+type UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue) WithoutReplay() UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerList].
 type UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerList
@@ -10745,7 +9913,7 @@ func (v UERadioCapabilityMatchResponseIEValueProtocolErrorIEContainerListAPERVal
 	return v
 }
 
-// MDTModeExtensionIEIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[MDTModeExtensionIEIEValue]].
+// MDTModeExtensionIEIEValueProtocolIEContainerListAPERValue is the concrete APERValue[MDTModeExtensionIEIEValueProtocolIEContainerList].
 type MDTModeExtensionIEIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MDTModeExtensionIEIEValueProtocolIEContainerList
@@ -10767,7 +9935,7 @@ func (v MDTModeExtensionIEIEValueProtocolIEContainerListAPERValue) WithoutReplay
 	return v
 }
 
-// UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[UERadioCapabilityIDMappingResponseIEValue]].
+// UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue is the concrete APERValue[UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList].
 type UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerList
@@ -10789,7 +9957,7 @@ func (v UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValu
 	return v
 }
 
-// UERadioCapabilityMatchResponseIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[UERadioCapabilityMatchResponseIEValue]].
+// UERadioCapabilityMatchResponseIEValueProtocolIEContainerListAPERValue is the concrete APERValue[UERadioCapabilityMatchResponseIEValueProtocolIEContainerList].
 type UERadioCapabilityMatchResponseIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         UERadioCapabilityMatchResponseIEValueProtocolIEContainerList
@@ -11281,120 +10449,6 @@ func BridgeCompareS1APERABNotToBeModifiedListBearerModInd(v *s16.ERABNotToBeModi
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeCaptureS1APERABReleaseListBearerRelComp(v *s16.ERABReleaseListBearerRelComp, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeCompareS1APERABReleaseListBearerRelComp(v *s16.ERABReleaseListBearerRelComp, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABReleaseItemBearerRelCompIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeCaptureS1APERABSetupListBearerSURes(v *s17.ERABSetupListBearerSURes, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeCompareS1APERABSetupListBearerSURes(v *s17.ERABSetupListBearerSURes, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemBearerSUResIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
-func BridgeCaptureS1APERABSetupListCtxtSURes(v *s17.ERABSetupListCtxtSURes, s *aper.SemanticCapture) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCaptureS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, nil, false)
-	}
-	s.End(f, nil, false)
-}
-func BridgeCompareS1APERABSetupListCtxtSURes(v *s17.ERABSetupListCtxtSURes, s *aper.SemanticComparison) {
-	if s.Err() != nil {
-		return
-	}
-	f := s.Begin()
-	{
-		f := s.Begin()
-		s.Elements(len((*v)))
-		s.Uint(uint64(len((*v))))
-		for i := range *v {
-			if s.Err() != nil {
-				break
-			}
-			BridgeERABSetupItemCtxtSUResIEValueCompareS1APProtocolIESingleContainer(&(*v)[i], s)
-		}
-		s.End(f, aper.Snapshot{}, false)
-	}
-	s.End(f, aper.Snapshot{}, false)
-}
 func BridgeCaptureS1APERABSubjecttoDataForwardingList(v *s17.ERABSubjecttoDataForwardingList, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
@@ -11825,7 +10879,7 @@ func BridgeCompareS1APMultiCellLoadReportingResponse(v *s19.MultiCellLoadReporti
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
-func BridgeCompareS1APNotificationCellList(v *s19.NotificationCellList, s *aper.SemanticComparison) {
+func BridgeCompareS1APNotificationCellList(v *s20.NotificationCellList, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -11838,7 +10892,7 @@ func BridgeCompareS1APNotificationCellList(v *s19.NotificationCellList, s *aper.
 			if s.Err() != nil {
 				break
 			}
-			s19.BridgeCompareS1APNotificationCellListItem(&(*v)[i], s)
+			s20.BridgeCompareS1APNotificationCellListItem(&(*v)[i], s)
 		}
 		s.End(f, aper.Snapshot{}, false)
 	}
@@ -11878,7 +10932,7 @@ func BridgeCaptureS1APPC5QoSParameters(v *PC5QoSParameters, s *aper.SemanticCapt
 		s.End(f, nil, false)
 	}
 	s.Bool(v.IEExtensions == nil)
-	s13.BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionContainer(&v.IEExtensions, s)
+	s14.BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire, 0)
 	s.End(f, &v.replay, v.withoutReplay)
 }
@@ -12290,6 +11344,102 @@ func BridgeCompareS1APSONtransferResponseContainer(v *SONtransferResponseContain
 	if v.UnknownExtension == nil && v.Choice > 1 {
 		s.CheckChoice(v.replay, v.stream)
 	}
+}
+func BridgeCaptureS1APUERadioCapabilityIDMappingResponseIEValue(v *UERadioCapabilityIDMappingResponseIEValue, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		s.Opaque(v.opaque)
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(314):
+			{
+				f := s.Begin()
+				s.Bool(v.rowUERadioCapabilityID == nil)
+				if v.rowUERadioCapabilityID != nil {
+					s00.BridgeCaptureS1APUERadioCapabilityID(v.rowUERadioCapabilityID, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(74):
+			{
+				f := s.Begin()
+				s.Bool(v.rowUERadioCapability == nil)
+				if v.rowUERadioCapability != nil {
+					s00.BridgeCaptureS1APUERadioCapability(v.rowUERadioCapability, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(58):
+			{
+				f := s.Begin()
+				s.Bool(v.rowCriticalityDiagnostics == nil)
+				if v.rowCriticalityDiagnostics != nil {
+					s22.BridgeCaptureS1APCriticalityDiagnostics(v.rowCriticalityDiagnostics, s)
+				}
+				s.End(f, nil, false)
+			}
+		}
+	}
+	s.End(f, &v.replay, false)
+	s.CheckReceived(v.replay, v.received)
+}
+func (v UERadioCapabilityIDMappingResponseIEValue) captureSemantics(s aper.SemanticCapture) UERadioCapabilityIDMappingResponseIEValue {
+	BridgeCaptureS1APUERadioCapabilityIDMappingResponseIEValue(&v, &s)
+	return v
+}
+func BridgeCompareS1APUERadioCapabilityIDMappingResponseIEValue(v *UERadioCapabilityIDMappingResponseIEValue, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareS1APProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		s.Opaque(v.opaque)
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(314):
+			{
+				f := s.Begin()
+				s.Bool(v.rowUERadioCapabilityID == nil)
+				if v.rowUERadioCapabilityID != nil {
+					s07.BridgeCompareS1APUERadioCapabilityID(v.rowUERadioCapabilityID, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(74):
+			{
+				f := s.Begin()
+				s.Bool(v.rowUERadioCapability == nil)
+				if v.rowUERadioCapability != nil {
+					s07.BridgeCompareS1APUERadioCapability(v.rowUERadioCapability, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(58):
+			{
+				f := s.Begin()
+				s.Bool(v.rowCriticalityDiagnostics == nil)
+				if v.rowCriticalityDiagnostics != nil {
+					s22.BridgeCompareS1APCriticalityDiagnostics(v.rowCriticalityDiagnostics, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		}
+	}
+	s.End(f, v.replay, false)
+	s.CheckReceived(v.replay, v.received)
+}
+func (v UERadioCapabilityIDMappingResponseIEValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
+	BridgeCompareS1APUERadioCapabilityIDMappingResponseIEValue(&v, &s)
+	return s
 }
 func BridgeCaptureS1APUERadioCapabilityMatchResponseIEValue(v *UERadioCapabilityMatchResponseIEValue, s *aper.SemanticCapture) {
 	if s.Err() != nil {
@@ -15800,7 +14950,7 @@ type CellStateIndication struct {
 	receivedAbsolute          bool
 	receivedBytes             aper.WireSpan
 	receivedLocation          aper.Location
-	NotificationCellList      s19.NotificationCellList `asn1:"tag:0,context,implicit"`
+	NotificationCellList      s20.NotificationCellList `asn1:"tag:0,context,implicit"`
 	notificationCellListIndef bool                     `asn1:"-" json:"-"`
 	extCount                  int64                    `asn1:"-" json:"-"`
 	extPresent                []bool                   `asn1:"-" json:"-"`
@@ -16671,7 +15821,7 @@ func (v *CellStateIndication) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) e
 			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.NotificationCellList[fragmentOffset_notificationcelllist : fragmentOffset_notificationcelllist+fragmentLength_notificationcelllist] {
-			if err := s19.BridgeNotificationCellListItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			if err := s20.BridgeNotificationCellListItemMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
 				return fmt.Errorf("encoding notificationCellList element: %w", err)
 			}
 		}
@@ -16759,16 +15909,16 @@ func (v *CellStateIndication) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return err
 	}
 	toleranceMark_notificationcelllist := bb.EnterComponent("NotificationCellList")
-	v.NotificationCellList = make(s19.NotificationCellList, 0)
+	v.NotificationCellList = make(s20.NotificationCellList, 0)
 	_, errCollection_notificationcelllist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_notificationcelllist, fragmentLength_notificationcelllist int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
 		if fragmentOffset_notificationcelllist < 0 || fragmentLength_notificationcelllist < 0 || fragmentLength_notificationcelllist > int64(^uint(0)>>1) || fragmentOffset_notificationcelllist > int64(^uint(0)>>1)-fragmentLength_notificationcelllist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_notificationcelllist; i++ {
-			var elem s19.NotificationCellListItem
+			var elem s20.NotificationCellListItem
 			elementMark := bb.EnterIndex(fragmentOffset_notificationcelllist + i)
-			if err := s19.BridgeNotificationCellListItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+			if err := s20.BridgeNotificationCellListItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("NotificationCellList[%d]", fragmentOffset_notificationcelllist+i))
 			}
 			bb.LeaveComponent(elementMark)
@@ -18243,6 +17393,901 @@ func (v MDTModeExtensionIEIEValue) encodeFresh(fresh bool, budget *aper.DecodeBu
 	}
 }
 
+type UERadioCapabilityIDMappingResponseIEValue struct {
+	id                        s00.ProtocolIEID
+	received                  aper.WireSpan
+	replay                    aper.Snapshot
+	opaque                    aper.OpaqueOpenType
+	isOpaque                  bool
+	rowUERadioCapabilityID    *s00.UERadioCapabilityID
+	rowUERadioCapability      *s00.UERadioCapability
+	rowCriticalityDiagnostics *s22.CriticalityDiagnostics
+}
+
+func (v UERadioCapabilityIDMappingResponseIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
+	if v.id != id {
+		return false
+	}
+	if v.isOpaque {
+		return true
+	}
+	switch id {
+	case s00.ProtocolIEID(314):
+		return v.rowUERadioCapabilityID != nil
+	case s00.ProtocolIEID(74):
+		return v.rowUERadioCapability != nil
+	case s00.ProtocolIEID(58):
+		return v.rowCriticalityDiagnostics != nil
+	}
+	return false
+}
+
+// Opaque returns the retained opaque open value of UERadioCapabilityIDMappingResponseIEValue and reports whether the opaque alternative is selected.
+func (v *UERadioCapabilityIDMappingResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
+	if v == nil || !v.isOpaque {
+		return aper.OpaqueOpenType{}, false
+	}
+	return v.opaque, true
+}
+func (UERadioCapabilityIDMappingResponseIEValue) rule() aper.SourceRule {
+	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityIDMappingResponseIEs"}}
+}
+func (UERadioCapabilityIDMappingResponseIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
+	switch id {
+	case s00.ProtocolIEID(314):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(74):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(58):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(0):
+		return aper.NotInTable
+	case s00.ProtocolIEID(1):
+		return aper.NotInTable
+	case s00.ProtocolIEID(2):
+		return aper.NotInTable
+	case s00.ProtocolIEID(4):
+		return aper.NotInTable
+	case s00.ProtocolIEID(8):
+		return aper.NotInTable
+	case s00.ProtocolIEID(12):
+		return aper.NotInTable
+	case s00.ProtocolIEID(13):
+		return aper.NotInTable
+	case s00.ProtocolIEID(14):
+		return aper.NotInTable
+	case s00.ProtocolIEID(15):
+		return aper.NotInTable
+	case s00.ProtocolIEID(16):
+		return aper.NotInTable
+	case s00.ProtocolIEID(17):
+		return aper.NotInTable
+	case s00.ProtocolIEID(18):
+		return aper.NotInTable
+	case s00.ProtocolIEID(19):
+		return aper.NotInTable
+	case s00.ProtocolIEID(20):
+		return aper.NotInTable
+	case s00.ProtocolIEID(21):
+		return aper.NotInTable
+	case s00.ProtocolIEID(22):
+		return aper.NotInTable
+	case s00.ProtocolIEID(23):
+		return aper.NotInTable
+	case s00.ProtocolIEID(24):
+		return aper.NotInTable
+	case s00.ProtocolIEID(25):
+		return aper.NotInTable
+	case s00.ProtocolIEID(26):
+		return aper.NotInTable
+	case s00.ProtocolIEID(27):
+		return aper.NotInTable
+	case s00.ProtocolIEID(28):
+		return aper.NotInTable
+	case s00.ProtocolIEID(29):
+		return aper.NotInTable
+	case s00.ProtocolIEID(30):
+		return aper.NotInTable
+	case s00.ProtocolIEID(31):
+		return aper.NotInTable
+	case s00.ProtocolIEID(32):
+		return aper.NotInTable
+	case s00.ProtocolIEID(33):
+		return aper.NotInTable
+	case s00.ProtocolIEID(34):
+		return aper.NotInTable
+	case s00.ProtocolIEID(35):
+		return aper.NotInTable
+	case s00.ProtocolIEID(36):
+		return aper.NotInTable
+	case s00.ProtocolIEID(37):
+		return aper.NotInTable
+	case s00.ProtocolIEID(39):
+		return aper.NotInTable
+	case s00.ProtocolIEID(40):
+		return aper.NotInTable
+	case s00.ProtocolIEID(41):
+		return aper.NotInTable
+	case s00.ProtocolIEID(43):
+		return aper.NotInTable
+	case s00.ProtocolIEID(44):
+		return aper.NotInTable
+	case s00.ProtocolIEID(46):
+		return aper.NotInTable
+	case s00.ProtocolIEID(47):
+		return aper.NotInTable
+	case s00.ProtocolIEID(48):
+		return aper.NotInTable
+	case s00.ProtocolIEID(50):
+		return aper.NotInTable
+	case s00.ProtocolIEID(51):
+		return aper.NotInTable
+	case s00.ProtocolIEID(52):
+		return aper.NotInTable
+	case s00.ProtocolIEID(53):
+		return aper.NotInTable
+	case s00.ProtocolIEID(59):
+		return aper.NotInTable
+	case s00.ProtocolIEID(60):
+		return aper.NotInTable
+	case s00.ProtocolIEID(61):
+		return aper.NotInTable
+	case s00.ProtocolIEID(64):
+		return aper.NotInTable
+	case s00.ProtocolIEID(65):
+		return aper.NotInTable
+	case s00.ProtocolIEID(66):
+		return aper.NotInTable
+	case s00.ProtocolIEID(67):
+		return aper.NotInTable
+	case s00.ProtocolIEID(69):
+		return aper.NotInTable
+	case s00.ProtocolIEID(70):
+		return aper.NotInTable
+	case s00.ProtocolIEID(71):
+		return aper.NotInTable
+	case s00.ProtocolIEID(72):
+		return aper.NotInTable
+	case s00.ProtocolIEID(73):
+		return aper.NotInTable
+	case s00.ProtocolIEID(75):
+		return aper.NotInTable
+	case s00.ProtocolIEID(78):
+		return aper.NotInTable
+	case s00.ProtocolIEID(79):
+		return aper.NotInTable
+	case s00.ProtocolIEID(80):
+		return aper.NotInTable
+	case s00.ProtocolIEID(83):
+		return aper.NotInTable
+	case s00.ProtocolIEID(84):
+		return aper.NotInTable
+	case s00.ProtocolIEID(86):
+		return aper.NotInTable
+	case s00.ProtocolIEID(87):
+		return aper.NotInTable
+	case s00.ProtocolIEID(88):
+		return aper.NotInTable
+	case s00.ProtocolIEID(89):
+		return aper.NotInTable
+	case s00.ProtocolIEID(90):
+		return aper.NotInTable
+	case s00.ProtocolIEID(91):
+		return aper.NotInTable
+	case s00.ProtocolIEID(92):
+		return aper.NotInTable
+	case s00.ProtocolIEID(93):
+		return aper.NotInTable
+	case s00.ProtocolIEID(94):
+		return aper.NotInTable
+	case s00.ProtocolIEID(95):
+		return aper.NotInTable
+	case s00.ProtocolIEID(96):
+		return aper.NotInTable
+	case s00.ProtocolIEID(97):
+		return aper.NotInTable
+	case s00.ProtocolIEID(98):
+		return aper.NotInTable
+	case s00.ProtocolIEID(99):
+		return aper.NotInTable
+	case s00.ProtocolIEID(100):
+		return aper.NotInTable
+	case s00.ProtocolIEID(101):
+		return aper.NotInTable
+	case s00.ProtocolIEID(102):
+		return aper.NotInTable
+	case s00.ProtocolIEID(104):
+		return aper.NotInTable
+	case s00.ProtocolIEID(105):
+		return aper.NotInTable
+	case s00.ProtocolIEID(106):
+		return aper.NotInTable
+	case s00.ProtocolIEID(107):
+		return aper.NotInTable
+	case s00.ProtocolIEID(108):
+		return aper.NotInTable
+	case s00.ProtocolIEID(109):
+		return aper.NotInTable
+	case s00.ProtocolIEID(110):
+		return aper.NotInTable
+	case s00.ProtocolIEID(111):
+		return aper.NotInTable
+	case s00.ProtocolIEID(112):
+		return aper.NotInTable
+	case s00.ProtocolIEID(113):
+		return aper.NotInTable
+	case s00.ProtocolIEID(114):
+		return aper.NotInTable
+	case s00.ProtocolIEID(115):
+		return aper.NotInTable
+	case s00.ProtocolIEID(116):
+		return aper.NotInTable
+	case s00.ProtocolIEID(117):
+		return aper.NotInTable
+	case s00.ProtocolIEID(118):
+		return aper.NotInTable
+	case s00.ProtocolIEID(119):
+		return aper.NotInTable
+	case s00.ProtocolIEID(120):
+		return aper.NotInTable
+	case s00.ProtocolIEID(121):
+		return aper.NotInTable
+	case s00.ProtocolIEID(122):
+		return aper.NotInTable
+	case s00.ProtocolIEID(123):
+		return aper.NotInTable
+	case s00.ProtocolIEID(124):
+		return aper.NotInTable
+	case s00.ProtocolIEID(125):
+		return aper.NotInTable
+	case s00.ProtocolIEID(127):
+		return aper.NotInTable
+	case s00.ProtocolIEID(128):
+		return aper.NotInTable
+	case s00.ProtocolIEID(129):
+		return aper.NotInTable
+	case s00.ProtocolIEID(130):
+		return aper.NotInTable
+	case s00.ProtocolIEID(131):
+		return aper.NotInTable
+	case s00.ProtocolIEID(132):
+		return aper.NotInTable
+	case s00.ProtocolIEID(133):
+		return aper.NotInTable
+	case s00.ProtocolIEID(134):
+		return aper.NotInTable
+	case s00.ProtocolIEID(135):
+		return aper.NotInTable
+	case s00.ProtocolIEID(136):
+		return aper.NotInTable
+	case s00.ProtocolIEID(137):
+		return aper.NotInTable
+	case s00.ProtocolIEID(138):
+		return aper.NotInTable
+	case s00.ProtocolIEID(139):
+		return aper.NotInTable
+	case s00.ProtocolIEID(140):
+		return aper.NotInTable
+	case s00.ProtocolIEID(141):
+		return aper.NotInTable
+	case s00.ProtocolIEID(142):
+		return aper.NotInTable
+	case s00.ProtocolIEID(143):
+		return aper.NotInTable
+	case s00.ProtocolIEID(144):
+		return aper.NotInTable
+	case s00.ProtocolIEID(145):
+		return aper.NotInTable
+	case s00.ProtocolIEID(146):
+		return aper.NotInTable
+	case s00.ProtocolIEID(147):
+		return aper.NotInTable
+	case s00.ProtocolIEID(148):
+		return aper.NotInTable
+	case s00.ProtocolIEID(149):
+		return aper.NotInTable
+	case s00.ProtocolIEID(150):
+		return aper.NotInTable
+	case s00.ProtocolIEID(151):
+		return aper.NotInTable
+	case s00.ProtocolIEID(152):
+		return aper.NotInTable
+	case s00.ProtocolIEID(153):
+		return aper.NotInTable
+	case s00.ProtocolIEID(154):
+		return aper.NotInTable
+	case s00.ProtocolIEID(155):
+		return aper.NotInTable
+	case s00.ProtocolIEID(156):
+		return aper.NotInTable
+	case s00.ProtocolIEID(157):
+		return aper.NotInTable
+	case s00.ProtocolIEID(158):
+		return aper.NotInTable
+	case s00.ProtocolIEID(159):
+		return aper.NotInTable
+	case s00.ProtocolIEID(160):
+		return aper.NotInTable
+	case s00.ProtocolIEID(161):
+		return aper.NotInTable
+	case s00.ProtocolIEID(162):
+		return aper.NotInTable
+	case s00.ProtocolIEID(163):
+		return aper.NotInTable
+	case s00.ProtocolIEID(164):
+		return aper.NotInTable
+	case s00.ProtocolIEID(165):
+		return aper.NotInTable
+	case s00.ProtocolIEID(166):
+		return aper.NotInTable
+	case s00.ProtocolIEID(167):
+		return aper.NotInTable
+	case s00.ProtocolIEID(168):
+		return aper.NotInTable
+	case s00.ProtocolIEID(169):
+		return aper.NotInTable
+	case s00.ProtocolIEID(170):
+		return aper.NotInTable
+	case s00.ProtocolIEID(171):
+		return aper.NotInTable
+	case s00.ProtocolIEID(172):
+		return aper.NotInTable
+	case s00.ProtocolIEID(173):
+		return aper.NotInTable
+	case s00.ProtocolIEID(174):
+		return aper.NotInTable
+	case s00.ProtocolIEID(175):
+		return aper.NotInTable
+	case s00.ProtocolIEID(176):
+		return aper.NotInTable
+	case s00.ProtocolIEID(177):
+		return aper.NotInTable
+	case s00.ProtocolIEID(178):
+		return aper.NotInTable
+	case s00.ProtocolIEID(179):
+		return aper.NotInTable
+	case s00.ProtocolIEID(180):
+		return aper.NotInTable
+	case s00.ProtocolIEID(181):
+		return aper.NotInTable
+	case s00.ProtocolIEID(182):
+		return aper.NotInTable
+	case s00.ProtocolIEID(183):
+		return aper.NotInTable
+	case s00.ProtocolIEID(184):
+		return aper.NotInTable
+	case s00.ProtocolIEID(185):
+		return aper.NotInTable
+	case s00.ProtocolIEID(186):
+		return aper.NotInTable
+	case s00.ProtocolIEID(187):
+		return aper.NotInTable
+	case s00.ProtocolIEID(188):
+		return aper.NotInTable
+	case s00.ProtocolIEID(189):
+		return aper.NotInTable
+	case s00.ProtocolIEID(190):
+		return aper.NotInTable
+	case s00.ProtocolIEID(191):
+		return aper.NotInTable
+	case s00.ProtocolIEID(192):
+		return aper.NotInTable
+	case s00.ProtocolIEID(193):
+		return aper.NotInTable
+	case s00.ProtocolIEID(194):
+		return aper.NotInTable
+	case s00.ProtocolIEID(195):
+		return aper.NotInTable
+	case s00.ProtocolIEID(196):
+		return aper.NotInTable
+	case s00.ProtocolIEID(197):
+		return aper.NotInTable
+	case s00.ProtocolIEID(198):
+		return aper.NotInTable
+	case s00.ProtocolIEID(199):
+		return aper.NotInTable
+	case s00.ProtocolIEID(200):
+		return aper.NotInTable
+	case s00.ProtocolIEID(201):
+		return aper.NotInTable
+	case s00.ProtocolIEID(202):
+		return aper.NotInTable
+	case s00.ProtocolIEID(203):
+		return aper.NotInTable
+	case s00.ProtocolIEID(204):
+		return aper.NotInTable
+	case s00.ProtocolIEID(205):
+		return aper.NotInTable
+	case s00.ProtocolIEID(206):
+		return aper.NotInTable
+	case s00.ProtocolIEID(207):
+		return aper.NotInTable
+	case s00.ProtocolIEID(208):
+		return aper.NotInTable
+	case s00.ProtocolIEID(209):
+		return aper.NotInTable
+	case s00.ProtocolIEID(210):
+		return aper.NotInTable
+	case s00.ProtocolIEID(211):
+		return aper.NotInTable
+	case s00.ProtocolIEID(212):
+		return aper.NotInTable
+	case s00.ProtocolIEID(213):
+		return aper.NotInTable
+	case s00.ProtocolIEID(214):
+		return aper.NotInTable
+	case s00.ProtocolIEID(215):
+		return aper.NotInTable
+	case s00.ProtocolIEID(216):
+		return aper.NotInTable
+	case s00.ProtocolIEID(217):
+		return aper.NotInTable
+	case s00.ProtocolIEID(218):
+		return aper.NotInTable
+	case s00.ProtocolIEID(219):
+		return aper.NotInTable
+	case s00.ProtocolIEID(220):
+		return aper.NotInTable
+	case s00.ProtocolIEID(221):
+		return aper.NotInTable
+	case s00.ProtocolIEID(222):
+		return aper.NotInTable
+	case s00.ProtocolIEID(223):
+		return aper.NotInTable
+	case s00.ProtocolIEID(224):
+		return aper.NotInTable
+	case s00.ProtocolIEID(225):
+		return aper.NotInTable
+	case s00.ProtocolIEID(226):
+		return aper.NotInTable
+	case s00.ProtocolIEID(227):
+		return aper.NotInTable
+	case s00.ProtocolIEID(228):
+		return aper.NotInTable
+	case s00.ProtocolIEID(230):
+		return aper.NotInTable
+	case s00.ProtocolIEID(231):
+		return aper.NotInTable
+	case s00.ProtocolIEID(232):
+		return aper.NotInTable
+	case s00.ProtocolIEID(233):
+		return aper.NotInTable
+	case s00.ProtocolIEID(234):
+		return aper.NotInTable
+	case s00.ProtocolIEID(235):
+		return aper.NotInTable
+	case s00.ProtocolIEID(236):
+		return aper.NotInTable
+	case s00.ProtocolIEID(237):
+		return aper.NotInTable
+	case s00.ProtocolIEID(238):
+		return aper.NotInTable
+	case s00.ProtocolIEID(239):
+		return aper.NotInTable
+	case s00.ProtocolIEID(240):
+		return aper.NotInTable
+	case s00.ProtocolIEID(241):
+		return aper.NotInTable
+	case s00.ProtocolIEID(242):
+		return aper.NotInTable
+	case s00.ProtocolIEID(243):
+		return aper.NotInTable
+	case s00.ProtocolIEID(244):
+		return aper.NotInTable
+	case s00.ProtocolIEID(245):
+		return aper.NotInTable
+	case s00.ProtocolIEID(246):
+		return aper.NotInTable
+	case s00.ProtocolIEID(247):
+		return aper.NotInTable
+	case s00.ProtocolIEID(248):
+		return aper.NotInTable
+	case s00.ProtocolIEID(249):
+		return aper.NotInTable
+	case s00.ProtocolIEID(250):
+		return aper.NotInTable
+	case s00.ProtocolIEID(251):
+		return aper.NotInTable
+	case s00.ProtocolIEID(252):
+		return aper.NotInTable
+	case s00.ProtocolIEID(253):
+		return aper.NotInTable
+	case s00.ProtocolIEID(254):
+		return aper.NotInTable
+	case s00.ProtocolIEID(255):
+		return aper.NotInTable
+	case s00.ProtocolIEID(256):
+		return aper.NotInTable
+	case s00.ProtocolIEID(257):
+		return aper.NotInTable
+	case s00.ProtocolIEID(258):
+		return aper.NotInTable
+	case s00.ProtocolIEID(259):
+		return aper.NotInTable
+	case s00.ProtocolIEID(260):
+		return aper.NotInTable
+	case s00.ProtocolIEID(261):
+		return aper.NotInTable
+	case s00.ProtocolIEID(262):
+		return aper.NotInTable
+	case s00.ProtocolIEID(263):
+		return aper.NotInTable
+	case s00.ProtocolIEID(264):
+		return aper.NotInTable
+	case s00.ProtocolIEID(265):
+		return aper.NotInTable
+	case s00.ProtocolIEID(266):
+		return aper.NotInTable
+	case s00.ProtocolIEID(267):
+		return aper.NotInTable
+	case s00.ProtocolIEID(268):
+		return aper.NotInTable
+	case s00.ProtocolIEID(269):
+		return aper.NotInTable
+	case s00.ProtocolIEID(270):
+		return aper.NotInTable
+	case s00.ProtocolIEID(271):
+		return aper.NotInTable
+	case s00.ProtocolIEID(272):
+		return aper.NotInTable
+	case s00.ProtocolIEID(273):
+		return aper.NotInTable
+	case s00.ProtocolIEID(274):
+		return aper.NotInTable
+	case s00.ProtocolIEID(275):
+		return aper.NotInTable
+	case s00.ProtocolIEID(276):
+		return aper.NotInTable
+	case s00.ProtocolIEID(277):
+		return aper.NotInTable
+	case s00.ProtocolIEID(278):
+		return aper.NotInTable
+	case s00.ProtocolIEID(280):
+		return aper.NotInTable
+	case s00.ProtocolIEID(281):
+		return aper.NotInTable
+	case s00.ProtocolIEID(282):
+		return aper.NotInTable
+	case s00.ProtocolIEID(283):
+		return aper.NotInTable
+	case s00.ProtocolIEID(284):
+		return aper.NotInTable
+	case s00.ProtocolIEID(285):
+		return aper.NotInTable
+	case s00.ProtocolIEID(286):
+		return aper.NotInTable
+	case s00.ProtocolIEID(287):
+		return aper.NotInTable
+	case s00.ProtocolIEID(288):
+		return aper.NotInTable
+	case s00.ProtocolIEID(290):
+		return aper.NotInTable
+	case s00.ProtocolIEID(291):
+		return aper.NotInTable
+	case s00.ProtocolIEID(292):
+		return aper.NotInTable
+	case s00.ProtocolIEID(293):
+		return aper.NotInTable
+	case s00.ProtocolIEID(294):
+		return aper.NotInTable
+	case s00.ProtocolIEID(295):
+		return aper.NotInTable
+	case s00.ProtocolIEID(296):
+		return aper.NotInTable
+	case s00.ProtocolIEID(297):
+		return aper.NotInTable
+	case s00.ProtocolIEID(298):
+		return aper.NotInTable
+	case s00.ProtocolIEID(299):
+		return aper.NotInTable
+	case s00.ProtocolIEID(300):
+		return aper.NotInTable
+	case s00.ProtocolIEID(301):
+		return aper.NotInTable
+	case s00.ProtocolIEID(302):
+		return aper.NotInTable
+	case s00.ProtocolIEID(303):
+		return aper.NotInTable
+	case s00.ProtocolIEID(304):
+		return aper.NotInTable
+	case s00.ProtocolIEID(305):
+		return aper.NotInTable
+	case s00.ProtocolIEID(306):
+		return aper.NotInTable
+	case s00.ProtocolIEID(307):
+		return aper.NotInTable
+	case s00.ProtocolIEID(308):
+		return aper.NotInTable
+	case s00.ProtocolIEID(309):
+		return aper.NotInTable
+	case s00.ProtocolIEID(310):
+		return aper.NotInTable
+	case s00.ProtocolIEID(311):
+		return aper.NotInTable
+	case s00.ProtocolIEID(312):
+		return aper.NotInTable
+	case s00.ProtocolIEID(313):
+		return aper.NotInTable
+	case s00.ProtocolIEID(315):
+		return aper.NotInTable
+	case s00.ProtocolIEID(316):
+		return aper.NotInTable
+	case s00.ProtocolIEID(317):
+		return aper.NotInTable
+	case s00.ProtocolIEID(318):
+		return aper.NotInTable
+	case s00.ProtocolIEID(319):
+		return aper.NotInTable
+	case s00.ProtocolIEID(320):
+		return aper.NotInTable
+	case s00.ProtocolIEID(321):
+		return aper.NotInTable
+	case s00.ProtocolIEID(322):
+		return aper.NotInTable
+	case s00.ProtocolIEID(323):
+		return aper.NotInTable
+	case s00.ProtocolIEID(324):
+		return aper.NotInTable
+	case s00.ProtocolIEID(325):
+		return aper.NotInTable
+	case s00.ProtocolIEID(326):
+		return aper.NotInTable
+	case s00.ProtocolIEID(327):
+		return aper.NotInTable
+	case s00.ProtocolIEID(328):
+		return aper.NotInTable
+	case s00.ProtocolIEID(329):
+		return aper.NotInTable
+	case s00.ProtocolIEID(330):
+		return aper.NotInTable
+	case s00.ProtocolIEID(331):
+		return aper.NotInTable
+	case s00.ProtocolIEID(332):
+		return aper.NotInTable
+	case s00.ProtocolIEID(334):
+		return aper.NotInTable
+	case s00.ProtocolIEID(335):
+		return aper.NotInTable
+	case s00.ProtocolIEID(336):
+		return aper.NotInTable
+	case s00.ProtocolIEID(337):
+		return aper.NotInTable
+	case s00.ProtocolIEID(339):
+		return aper.NotInTable
+	case s00.ProtocolIEID(340):
+		return aper.NotInTable
+	case s00.ProtocolIEID(341):
+		return aper.NotInTable
+	case s00.ProtocolIEID(342):
+		return aper.NotInTable
+	case s00.ProtocolIEID(343):
+		return aper.NotInTable
+	case s00.ProtocolIEID(344):
+		return aper.NotInTable
+	case s00.ProtocolIEID(345):
+		return aper.NotInTable
+	case s00.ProtocolIEID(346):
+		return aper.NotInTable
+	case s00.ProtocolIEID(347):
+		return aper.NotInTable
+	case s00.ProtocolIEID(348):
+		return aper.NotInTable
+	case s00.ProtocolIEID(349):
+		return aper.NotInTable
+	case s00.ProtocolIEID(350):
+		return aper.NotInTable
+	case s00.ProtocolIEID(351):
+		return aper.NotInTable
+	case s00.ProtocolIEID(352):
+		return aper.NotInTable
+	case s00.ProtocolIEID(353):
+		return aper.NotInTable
+	case s00.ProtocolIEID(354):
+		return aper.NotInTable
+	case s00.ProtocolIEID(355):
+		return aper.NotInTable
+	case s00.ProtocolIEID(356):
+		return aper.NotInTable
+	default:
+		return aper.UnknownSelector
+	}
+}
+
+// AsUERadioCapabilityID returns the selected UERadioCapabilityID value of UERadioCapabilityIDMappingResponseIEValue and reports whether that alternative is active.
+func (v *UERadioCapabilityIDMappingResponseIEValue) AsUERadioCapabilityID() (*s00.UERadioCapabilityID, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowUERadioCapabilityID == nil {
+		return nil, false
+	}
+	return v.rowUERadioCapabilityID, true
+}
+
+// AsUERadioCapability returns the selected UERadioCapability value of UERadioCapabilityIDMappingResponseIEValue and reports whether that alternative is active.
+func (v *UERadioCapabilityIDMappingResponseIEValue) AsUERadioCapability() (*s00.UERadioCapability, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(74) || v.rowUERadioCapability == nil {
+		return nil, false
+	}
+	return v.rowUERadioCapability, true
+}
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of UERadioCapabilityIDMappingResponseIEValue and reports whether that alternative is active.
+func (v *UERadioCapabilityIDMappingResponseIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
+		return nil, false
+	}
+	return v.rowCriticalityDiagnostics, true
+}
+func (v UERadioCapabilityIDMappingResponseIEValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (UERadioCapabilityIDMappingResponseIEValue, error) {
+	out := UERadioCapabilityIDMappingResponseIEValue{id: id}
+	switch id {
+	case s00.ProtocolIEID(314):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		child := scope
+		value, err := (func(bb *aper.BitBuffer) (s00.UERadioCapabilityID, error) {
+			var v struct{ Value s00.UERadioCapabilityID }
+			err := func() error {
+				val_value, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
+				if err != nil {
+					return runtime.WrapDecodePath(err, "Value")
+				}
+				v.Value = s00.UERadioCapabilityID(val_value)
+				return nil
+			}()
+			return v.Value, err
+		})(child)
+		if err != nil {
+			return out, err
+		}
+		if _, err := aper.CompleteOpenTypeValue(child, value); err != nil {
+			return out, err
+		}
+		out.rowUERadioCapabilityID = &value
+		raw.RetainContents(&out.received)
+	case s00.ProtocolIEID(74):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		child := scope
+		value, err := (func(bb *aper.BitBuffer) (s00.UERadioCapability, error) {
+			var v struct{ Value s00.UERadioCapability }
+			err := func() error {
+				val_value, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
+				if err != nil {
+					return runtime.WrapDecodePath(err, "Value")
+				}
+				v.Value = s00.UERadioCapability(val_value)
+				return nil
+			}()
+			return v.Value, err
+		})(child)
+		if err != nil {
+			return out, err
+		}
+		if _, err := aper.CompleteOpenTypeValue(child, value); err != nil {
+			return out, err
+		}
+		out.rowUERadioCapability = &value
+		raw.RetainContents(&out.received)
+	case s00.ProtocolIEID(58):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		var value s22.CriticalityDiagnostics
+		child := scope
+		if err := s22.BridgeCriticalityDiagnosticsMethodUnmarshalAPERFrom(&value, child); err != nil {
+			return out, fmt.Errorf("%s %w", "CriticalityDiagnostics:", err)
+		}
+		padding, err := aper.CaptureFinalBits(child, "CriticalityDiagnostics")
+		if err != nil {
+			return out, err
+		}
+		*s22.BridgeCriticalityDiagnosticsFieldPerPadding(&value) = padding
+		*s22.BridgeCriticalityDiagnosticsFieldReceived(&value) = true
+		raw.RetainContents(s22.BridgeCriticalityDiagnosticsFieldReceivedBytes(&value))
+		*s22.BridgeCriticalityDiagnosticsFieldReceivedLocation(&value) = raw.ContentLocation()
+		out.rowCriticalityDiagnostics = &value
+		raw.RetainContents(&out.received)
+	default:
+		if err := raw.Observe(aper.UnknownIE); err != nil {
+			return out, err
+		}
+		out.opaque = raw.Detached()
+		out.isOpaque = true
+	}
+	return out, nil
+}
+func (v UERadioCapabilityIDMappingResponseIEValue) encode() ([]byte, error) {
+	return v.encodeFresh(false, nil)
+}
+func (v UERadioCapabilityIDMappingResponseIEValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+	if budget == nil {
+		var err error
+		budget, err = aper.EncodeBudget()
+		if err != nil {
+			return nil, err
+		}
+	}
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if v.isOpaque {
+		return aper.CopyOpaque(v.opaque, budget)
+	}
+	switch v.id {
+	case s00.ProtocolIEID(314):
+		if v.rowUERadioCapabilityID == nil {
+			return nil, fmt.Errorf("%s missing value", "UERadioCapabilityIDMappingResponseIEs.id-UERadioCapabilityID:")
+		}
+		if !fresh && plan != nil && plan.Unchanged(v.replay) {
+			return aper.CopyReplay(v.received, budget)
+		}
+		candidate, err := (func(value s00.UERadioCapabilityID, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			v := struct{ Value s00.UERadioCapabilityID }{Value: value}
+			_ = v
+			err := func() error {
+				if err := aper.EncodeOctetStringAligned(bb, []byte(v.Value), 0, 0, false); err != nil {
+					return fmt.Errorf("encoding value: %w", err)
+				}
+				return nil
+			}()
+			if err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		})(*v.rowUERadioCapabilityID, budget)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	case s00.ProtocolIEID(74):
+		if v.rowUERadioCapability == nil {
+			return nil, fmt.Errorf("%s missing value", "UERadioCapabilityIDMappingResponseIEs.id-UERadioCapability:")
+		}
+		if !fresh && plan != nil && plan.Unchanged(v.replay) {
+			return aper.CopyReplay(v.received, budget)
+		}
+		candidate, err := (func(value s00.UERadioCapability, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			v := struct{ Value s00.UERadioCapability }{Value: value}
+			_ = v
+			err := func() error {
+				if err := aper.EncodeOctetStringAligned(bb, []byte(v.Value), 0, 0, false); err != nil {
+					return fmt.Errorf("encoding value: %w", err)
+				}
+				return nil
+			}()
+			if err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		})(*v.rowUERadioCapability, budget)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	case s00.ProtocolIEID(58):
+		if v.rowCriticalityDiagnostics == nil {
+			return nil, fmt.Errorf("%s missing value", "UERadioCapabilityIDMappingResponseIEs.id-CriticalityDiagnostics:")
+		}
+		if !fresh && plan != nil && plan.Unchanged(v.replay) {
+			return aper.CopyReplay(v.received, budget)
+		}
+		candidate, err := s22.BridgeCriticalityDiagnosticsMethodMarshalAPERBudget(v.rowCriticalityDiagnostics, budget, fresh)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	default:
+		return nil, fmt.Errorf("%s id %d has no value", "UERadioCapabilityIDMappingResponseIEValue:", v.id)
+	}
+}
+
 type UERadioCapabilityMatchResponseIEValue struct {
 	id                            s00.ProtocolIEID
 	received                      aper.WireSpan
@@ -19176,7 +19221,7 @@ func (t MDTModeExtensionIETable) LoggedMBSFNMDT() MDTModeExtensionIELoggedMBSFNM
 			decoded, err := zero.decode(s00.ProtocolIEID(197), raw)
 			if err != nil {
 				var empty LoggedMBSFNMDT
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "LoggedMBSFNMDT")
 			}
 			value, ok := decoded.AsLoggedMBSFNMDT()
 			if !ok {
@@ -19275,11 +19320,11 @@ func (t UERadioCapabilityIDMappingResponseIETable) UERadioCapabilityID() UERadio
 				return empty, err
 			}
 			raw.BudgetBuffer().EnterComponent("UERadioCapabilityID")
-			var zero s23.UERadioCapabilityIDMappingResponseIEValue
-			decoded, err := s23.BridgeUERadioCapabilityIDMappingResponseIEValueMethodDecode(zero, s00.ProtocolIEID(314), raw)
+			var zero UERadioCapabilityIDMappingResponseIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(314), raw)
 			if err != nil {
 				var empty s00.UERadioCapabilityID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "UERadioCapabilityID")
 			}
 			value, ok := decoded.AsUERadioCapabilityID()
 			if !ok {
@@ -19289,12 +19334,7 @@ func (t UERadioCapabilityIDMappingResponseIETable) UERadioCapabilityID() UERadio
 			return *value, nil
 		}
 		*s02.BridgeUERadioCapabilityIDValueCodecFieldEncode(&sealed) = func(value s00.UERadioCapabilityID, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s23.BridgeUERadioCapabilityIDMappingResponseIEValueMethodEncodeFresh((func() s23.UERadioCapabilityIDMappingResponseIEValue {
-				sealed := s23.UERadioCapabilityIDMappingResponseIEValue{}
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldRowUERadioCapabilityID(&sealed) = &value
-				return sealed
-			}()), fresh, budget)
+			return (UERadioCapabilityIDMappingResponseIEValue{id: s00.ProtocolIEID(314), rowUERadioCapabilityID: &value}).encodeFresh(fresh, budget)
 		}
 		*s02.BridgeUERadioCapabilityIDValueCodecFieldCapture(&sealed) = func(v s00.UERadioCapabilityID, options aper.DecodeState) (s00.UERadioCapabilityID, aper.Snapshot,
 		) {
@@ -19321,14 +19361,9 @@ func (t UERadioCapabilityIDMappingResponseIETable) UERadioCapabilityID() UERadio
 		}()
 		return sealed
 	}(),
-		inject: func(value s00.UERadioCapabilityID) s23.UERadioCapabilityIDMappingResponseIEValue {
-			return func() s23.UERadioCapabilityIDMappingResponseIEValue {
-				sealed := s23.UERadioCapabilityIDMappingResponseIEValue{}
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(314)
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldRowUERadioCapabilityID(&sealed) = &value
-				return sealed
-			}()
-		}, get: func(value *s23.UERadioCapabilityIDMappingResponseIEValue) (*s00.UERadioCapabilityID, bool) {
+		inject: func(value s00.UERadioCapabilityID) UERadioCapabilityIDMappingResponseIEValue {
+			return UERadioCapabilityIDMappingResponseIEValue{id: s00.ProtocolIEID(314), rowUERadioCapabilityID: &value}
+		}, get: func(value *UERadioCapabilityIDMappingResponseIEValue) (*s00.UERadioCapabilityID, bool) {
 			return value.AsUERadioCapabilityID()
 		}}
 }
@@ -19352,11 +19387,11 @@ func (t UERadioCapabilityIDMappingResponseIETable) UERadioCapability() UERadioCa
 				return empty, err
 			}
 			raw.BudgetBuffer().EnterComponent("UERadioCapability")
-			var zero s23.UERadioCapabilityIDMappingResponseIEValue
-			decoded, err := s23.BridgeUERadioCapabilityIDMappingResponseIEValueMethodDecode(zero, s00.ProtocolIEID(74), raw)
+			var zero UERadioCapabilityIDMappingResponseIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(74), raw)
 			if err != nil {
 				var empty s00.UERadioCapability
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "UERadioCapability")
 			}
 			value, ok := decoded.AsUERadioCapability()
 			if !ok {
@@ -19366,12 +19401,7 @@ func (t UERadioCapabilityIDMappingResponseIETable) UERadioCapability() UERadioCa
 			return *value, nil
 		}
 		*s02.BridgeUERadioCapabilityValueCodecFieldEncode(&sealed) = func(value s00.UERadioCapability, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s23.BridgeUERadioCapabilityIDMappingResponseIEValueMethodEncodeFresh((func() s23.UERadioCapabilityIDMappingResponseIEValue {
-				sealed := s23.UERadioCapabilityIDMappingResponseIEValue{}
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(74)
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldRowUERadioCapability(&sealed) = &value
-				return sealed
-			}()), fresh, budget)
+			return (UERadioCapabilityIDMappingResponseIEValue{id: s00.ProtocolIEID(74), rowUERadioCapability: &value}).encodeFresh(fresh, budget)
 		}
 		*s02.BridgeUERadioCapabilityValueCodecFieldCapture(&sealed) = func(v s00.UERadioCapability, options aper.DecodeState) (s00.UERadioCapability, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
@@ -19399,14 +19429,9 @@ func (t UERadioCapabilityIDMappingResponseIETable) UERadioCapability() UERadioCa
 		}()
 		return sealed
 	}(),
-		inject: func(value s00.UERadioCapability) s23.UERadioCapabilityIDMappingResponseIEValue {
-			return func() s23.UERadioCapabilityIDMappingResponseIEValue {
-				sealed := s23.UERadioCapabilityIDMappingResponseIEValue{}
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(74)
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldRowUERadioCapability(&sealed) = &value
-				return sealed
-			}()
-		}, get: func(value *s23.UERadioCapabilityIDMappingResponseIEValue) (*s00.UERadioCapability, bool) {
+		inject: func(value s00.UERadioCapability) UERadioCapabilityIDMappingResponseIEValue {
+			return UERadioCapabilityIDMappingResponseIEValue{id: s00.ProtocolIEID(74), rowUERadioCapability: &value}
+		}, get: func(value *UERadioCapabilityIDMappingResponseIEValue) (*s00.UERadioCapability, bool) {
 			return value.AsUERadioCapability()
 		}}
 }
@@ -19419,111 +19444,89 @@ func (UERadioCapabilityIDMappingResponseIETable) infoCriticalityDiagnostics() s0
 }
 
 // CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of UERadioCapabilityIDMappingResponseIETable.
-func (t UERadioCapabilityIDMappingResponseIETable) CriticalityDiagnostics() s23.UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding {
-	return func() s23.UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding {
-		sealed := s23.UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding{}
-		*s23.BridgeUERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBindingFieldInfo(&sealed) = t.infoCriticalityDiagnostics()
-		*s23.BridgeUERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBindingFieldCodec(&sealed) = func() s22.CriticalityDiagnosticsValueCodec {
-			sealed := s22.CriticalityDiagnosticsValueCodec{}
-			*s22.BridgeCriticalityDiagnosticsValueCodecFieldPath(&sealed) = "CriticalityDiagnostics"
-			*s22.BridgeCriticalityDiagnosticsValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s22.CriticalityDiagnostics, error) {
-				raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
-				if err != nil {
-					var empty s22.CriticalityDiagnostics
-					return empty, err
-				}
-				raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
-				var zero s23.UERadioCapabilityIDMappingResponseIEValue
-				decoded, err := s23.BridgeUERadioCapabilityIDMappingResponseIEValueMethodDecode(zero, s00.ProtocolIEID(58), raw)
-				if err != nil {
-					var empty s22.CriticalityDiagnostics
-					return empty, err
-				}
-				value, ok := decoded.AsCriticalityDiagnostics()
-				if !ok {
-					var empty s22.CriticalityDiagnostics
-					return empty, fmt.Errorf("binding UERadioCapabilityIDMappingResponseIEs.id-CriticalityDiagnostics: no selected value")
-				}
-				return *value, nil
+func (t UERadioCapabilityIDMappingResponseIETable) CriticalityDiagnostics() UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding {
+	return UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
+		sealed := s22.CriticalityDiagnosticsValueCodec{}
+		*s22.BridgeCriticalityDiagnosticsValueCodecFieldPath(&sealed) = "CriticalityDiagnostics"
+		*s22.BridgeCriticalityDiagnosticsValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s22.CriticalityDiagnostics, error) {
+			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
+			if err != nil {
+				var empty s22.CriticalityDiagnostics
+				return empty, err
 			}
-			*s22.BridgeCriticalityDiagnosticsValueCodecFieldEncode(&sealed) = func(value s22.CriticalityDiagnostics, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-				return s23.BridgeUERadioCapabilityIDMappingResponseIEValueMethodEncodeFresh((func() s23.UERadioCapabilityIDMappingResponseIEValue {
-					sealed := s23.UERadioCapabilityIDMappingResponseIEValue{}
-					*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-					*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = &value
-					return sealed
-				}()), fresh, budget)
+			raw.BudgetBuffer().EnterComponent("CriticalityDiagnostics")
+			var zero UERadioCapabilityIDMappingResponseIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
+			if err != nil {
+				var empty s22.CriticalityDiagnostics
+				return empty, runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 			}
-			*s22.BridgeCriticalityDiagnosticsValueCodecFieldCapture(&sealed) = func(v s22.CriticalityDiagnostics, options aper.DecodeState) (s22.CriticalityDiagnostics, aper.Snapshot,
+			value, ok := decoded.AsCriticalityDiagnostics()
+			if !ok {
+				var empty s22.CriticalityDiagnostics
+				return empty, fmt.Errorf("binding UERadioCapabilityIDMappingResponseIEs.id-CriticalityDiagnostics: no selected value")
+			}
+			return *value, nil
+		}
+		*s22.BridgeCriticalityDiagnosticsValueCodecFieldEncode(&sealed) = func(value s22.CriticalityDiagnostics, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return (UERadioCapabilityIDMappingResponseIEValue{id: s00.ProtocolIEID(58), rowCriticalityDiagnostics: &value}).encodeFresh(fresh, budget)
+		}
+		*s22.BridgeCriticalityDiagnosticsValueCodecFieldCapture(&sealed) = func(v s22.CriticalityDiagnostics, options aper.DecodeState) (s22.CriticalityDiagnostics, aper.Snapshot,
 
-			) {
-				s := aper.SemanticCaptureFor(options)
-				f := s.Begin()
-				s22.BridgeCaptureS1APCriticalityDiagnostics(&v, &s)
-				var root aper.Snapshot
-				s.End(f, &root, false)
-				return v, root
-			}
-			*s22.BridgeCriticalityDiagnosticsValueCodecFieldCompare(&sealed) = func(v s22.CriticalityDiagnostics, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			s22.BridgeCaptureS1APCriticalityDiagnostics(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root, false)
+			return v, root
+		}
+		*s22.BridgeCriticalityDiagnosticsValueCodecFieldCompare(&sealed) = func(v s22.CriticalityDiagnostics, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
-			) {
-				s := aper.NewSemanticComparison(root, budget)
-				f := s.Begin()
-				s22.BridgeCompareS1APCriticalityDiagnostics(&v, &s)
-				s.End(f, root, false)
-				return s.Plan(), s.BudgetValue()
-			}
-			*s22.BridgeCriticalityDiagnosticsValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-				sealed := s00.BridgeCodecContext{}
-				*s00.BridgecodecContextFieldSource(&sealed) = "source-value:CriticalityDiagnostics"
-				*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-				return sealed
-			}()
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			s22.BridgeCompareS1APCriticalityDiagnostics(&v, &s)
+			s.End(f, root, false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s22.BridgeCriticalityDiagnosticsValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:CriticalityDiagnostics"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 			return sealed
 		}()
-		*s23.BridgeUERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBindingFieldInject(&sealed) = func(value s22.CriticalityDiagnostics) s23.UERadioCapabilityIDMappingResponseIEValue {
-			return func() s23.UERadioCapabilityIDMappingResponseIEValue {
-				sealed := s23.UERadioCapabilityIDMappingResponseIEValue{}
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldId(&sealed) = s00.ProtocolIEID(58)
-				*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldRowCriticalityDiagnostics(&sealed) = &value
-				return sealed
-			}()
-		}
-		*s23.BridgeUERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBindingFieldGet(&sealed) = func(value *s23.UERadioCapabilityIDMappingResponseIEValue) (*s22.CriticalityDiagnostics, bool) {
-			return value.AsCriticalityDiagnostics()
-		}
 		return sealed
-	}()
+	}(),
+		inject: func(value s22.CriticalityDiagnostics) UERadioCapabilityIDMappingResponseIEValue {
+			return UERadioCapabilityIDMappingResponseIEValue{id: s00.ProtocolIEID(58), rowCriticalityDiagnostics: &value}
+		}, get: func(value *UERadioCapabilityIDMappingResponseIEValue) (*s22.CriticalityDiagnostics, bool) {
+			return value.AsCriticalityDiagnostics()
+		}}
 }
 
 // NewOpaque constructs an owned opaque field for an identifier without a typed row in UERadioCapabilityIDMappingResponseIETable.
-func (t UERadioCapabilityIDMappingResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s23.UERadioCapabilityIDMappingResponseIEField, error) {
+func (t UERadioCapabilityIDMappingResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UERadioCapabilityIDMappingResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
 	}
 	switch id {
 	case s00.ProtocolIEID(314):
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("known IE id-UERadioCapabilityID requires its typed binding"), "Opaque")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("known IE id-UERadioCapabilityID requires its typed binding"), "Opaque")
 	case s00.ProtocolIEID(74):
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("known IE id-UERadioCapability requires its typed binding"), "Opaque")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("known IE id-UERadioCapability requires its typed binding"), "Opaque")
 	case s00.ProtocolIEID(58):
-		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("known IE id-CriticalityDiagnostics requires its typed binding"), "Opaque")
+		return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("known IE id-CriticalityDiagnostics requires its typed binding"), "Opaque")
 	default:
 		budget, err := aper.BuildBudget()
 		if err != nil {
-			return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Opaque")
+			return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Opaque")
 		}
 		opaque, err := aper.BuildOpaqueOpenType(data, budget)
 		if err != nil {
-			return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Opaque")
+			return UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(err, "Opaque")
 		}
-		return s23.UERadioCapabilityIDMappingResponseIEField{Id: id, Criticality: criticality, Value: func() s23.UERadioCapabilityIDMappingResponseIEValue {
-			sealed := s23.UERadioCapabilityIDMappingResponseIEValue{}
-			*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldId(&sealed) = id
-			*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldOpaque(&sealed) = opaque
-			*s23.BridgeUERadioCapabilityIDMappingResponseIEValueFieldIsOpaque(&sealed) = true
-			return sealed
-		}()}, aper.OperationError(nil, "Opaque")
+		return UERadioCapabilityIDMappingResponseIEField{Id: id, Criticality: criticality, Value: UERadioCapabilityIDMappingResponseIEValue{id: id, opaque: opaque, isOpaque: true}}, aper.OperationError(nil, "Opaque")
 	}
 }
 
@@ -19574,7 +19577,7 @@ func (t UERadioCapabilityMatchResponseIETable) MMEUES1APID() UERadioCapabilityMa
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
 				var empty s00.MMEUES1APID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MMEUES1APID")
 			}
 			value, ok := decoded.AsMMEUES1APID()
 			if !ok {
@@ -19641,7 +19644,7 @@ func (t UERadioCapabilityMatchResponseIETable) ENBUES1APID() UERadioCapabilityMa
 			decoded, err := zero.decode(s00.ProtocolIEID(8), raw)
 			if err != nil {
 				var empty s00.ENBUES1APID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ENBUES1APID")
 			}
 			value, ok := decoded.AsENBUES1APID()
 			if !ok {
@@ -19708,7 +19711,7 @@ func (t UERadioCapabilityMatchResponseIETable) VoiceSupportMatchIndicator() UERa
 			decoded, err := zero.decode(s00.ProtocolIEID(169), raw)
 			if err != nil {
 				var empty s00.VoiceSupportMatchIndicator
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "VoiceSupportMatchIndicator")
 			}
 			value, ok := decoded.AsVoiceSupportMatchIndicator()
 			if !ok {
@@ -19779,7 +19782,7 @@ func (t UERadioCapabilityMatchResponseIETable) CriticalityDiagnostics() UERadioC
 			decoded, err := zero.decode(s00.ProtocolIEID(58), raw)
 			if err != nil {
 				var empty s22.CriticalityDiagnostics
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 			}
 			value, ok := decoded.AsCriticalityDiagnostics()
 			if !ok {
@@ -21471,6 +21474,108 @@ func BridgeSONtransferResponseContainerValueCodecMethodEncodeBudgetValue(v SONtr
 func BridgeSONtransferResponseContainerValueCodecMethodEncodeChanged(v SONtransferResponseContainerValueCodec, a0 SONtransferResponseContainer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
+func BridgeUERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBindingFieldCodec(v *UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding) *s22.CriticalityDiagnosticsValueCodec {
+	return &v.codec
+}
+func BridgeUERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBindingFieldGet(v *UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding) *func(*UERadioCapabilityIDMappingResponseIEValue) (*s22.CriticalityDiagnostics, bool) {
+	return &v.get
+}
+func BridgeUERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBindingFieldInfo(v *UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding) *s00.FieldInfo {
+	return &v.info
+}
+func BridgeUERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBindingFieldInject(v *UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding) *func(s22.CriticalityDiagnostics) UERadioCapabilityIDMappingResponseIEValue {
+	return &v.inject
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerAPERValueFieldContext(v *UERadioCapabilityIDMappingResponseIEContainerAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerAPERValueFieldReceived(v *UERadioCapabilityIDMappingResponseIEContainerAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerAPERValueFieldReplay(v *UERadioCapabilityIDMappingResponseIEContainerAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerAPERValueFieldWithoutReplay(v *UERadioCapabilityIDMappingResponseIEContainerAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerValueCodecFieldCapture(v *UERadioCapabilityIDMappingResponseIEContainerValueCodec) *func(UERadioCapabilityIDMappingResponseIEContainer, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEContainer, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerValueCodecFieldCompare(v *UERadioCapabilityIDMappingResponseIEContainerValueCodec) *func(UERadioCapabilityIDMappingResponseIEContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerValueCodecFieldContext(v *UERadioCapabilityIDMappingResponseIEContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerValueCodecFieldDecode(v *UERadioCapabilityIDMappingResponseIEContainerValueCodec) *func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEContainer, error) {
+	return &v.decode
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerValueCodecFieldEncode(v *UERadioCapabilityIDMappingResponseIEContainerValueCodec) *func(UERadioCapabilityIDMappingResponseIEContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerValueCodecFieldPath(v *UERadioCapabilityIDMappingResponseIEContainerValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerValueCodecMethodEncodeBudgetValue(v UERadioCapabilityIDMappingResponseIEContainerValueCodec, a0 UERadioCapabilityIDMappingResponseIEContainer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEContainerValueCodecMethodEncodeChanged(v UERadioCapabilityIDMappingResponseIEContainerValueCodec, a0 UERadioCapabilityIDMappingResponseIEContainer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldAPERValueFieldContext(v *UERadioCapabilityIDMappingResponseIEFieldAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldAPERValueFieldReceived(v *UERadioCapabilityIDMappingResponseIEFieldAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldAPERValueFieldReplay(v *UERadioCapabilityIDMappingResponseIEFieldAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldAPERValueFieldWithoutReplay(v *UERadioCapabilityIDMappingResponseIEFieldAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldFieldReceived(v *UERadioCapabilityIDMappingResponseIEField) *aper.CompletePadding {
+	return &v.received
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldFieldReplay(v *UERadioCapabilityIDMappingResponseIEField) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldFieldStream(v *UERadioCapabilityIDMappingResponseIEField) *aper.WireSpan {
+	return &v.stream
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldFieldWithoutReplay(v *UERadioCapabilityIDMappingResponseIEField) *bool {
+	return &v.withoutReplay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldMethodMarshalAPERTo(v *UERadioCapabilityIDMappingResponseIEField, a0 *aper.BitBuffer, a1 ...bool) error {
+	return v.marshalAPERTo(a0, a1...)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldMethodUnmarshalAPERFrom(v *UERadioCapabilityIDMappingResponseIEField, a0 *aper.BitBuffer) error {
+	return v.unmarshalAPERFrom(a0)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldValueCodecFieldCapture(v *UERadioCapabilityIDMappingResponseIEFieldValueCodec) *func(UERadioCapabilityIDMappingResponseIEField, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEField, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldValueCodecFieldCompare(v *UERadioCapabilityIDMappingResponseIEFieldValueCodec) *func(UERadioCapabilityIDMappingResponseIEField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldValueCodecFieldContext(v *UERadioCapabilityIDMappingResponseIEFieldValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldValueCodecFieldDecode(v *UERadioCapabilityIDMappingResponseIEFieldValueCodec) *func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEField, error) {
+	return &v.decode
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldValueCodecFieldEncode(v *UERadioCapabilityIDMappingResponseIEFieldValueCodec) *func(UERadioCapabilityIDMappingResponseIEField, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldValueCodecFieldPath(v *UERadioCapabilityIDMappingResponseIEFieldValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldValueCodecMethodEncodeBudgetValue(v UERadioCapabilityIDMappingResponseIEFieldValueCodec, a0 UERadioCapabilityIDMappingResponseIEField, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEFieldValueCodecMethodEncodeChanged(v UERadioCapabilityIDMappingResponseIEFieldValueCodec, a0 UERadioCapabilityIDMappingResponseIEField, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
 func BridgeUERadioCapabilityIDMappingResponseIETableMethodInfoCriticalityDiagnostics(v UERadioCapabilityIDMappingResponseIETable) s00.FieldInfo {
 	return v.infoCriticalityDiagnostics()
 }
@@ -21480,28 +21585,124 @@ func BridgeUERadioCapabilityIDMappingResponseIETableMethodInfoUERadioCapability(
 func BridgeUERadioCapabilityIDMappingResponseIETableMethodInfoUERadioCapabilityID(v UERadioCapabilityIDMappingResponseIETable) s00.FieldInfo {
 	return v.infoUERadioCapabilityID()
 }
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldCapture(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func(s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.DecodeState) (s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot) {
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValueFieldContext(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValueFieldReceived(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValueFieldReplay(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValueFieldWithoutReplay(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodecFieldCapture(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) *func(UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldCompare(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func(s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodecFieldCompare(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) *func(UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodecFieldContext(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodecFieldDecode(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) *func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, error) {
+	return &v.decode
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodecFieldEncode(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) *func(UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodecFieldPath(v *UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodecMethodEncodeBudgetValue(v UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec, a0 UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodecMethodEncodeChanged(v UERadioCapabilityIDMappingResponseIEValueERABIEContainerListValueCodec, a0 UERadioCapabilityIDMappingResponseIEValueERABIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueFieldId(v *UERadioCapabilityIDMappingResponseIEValue) *s00.ProtocolIEID {
+	return &v.id
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueFieldIsOpaque(v *UERadioCapabilityIDMappingResponseIEValue) *bool {
+	return &v.isOpaque
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueFieldOpaque(v *UERadioCapabilityIDMappingResponseIEValue) *aper.OpaqueOpenType {
+	return &v.opaque
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueFieldReceived(v *UERadioCapabilityIDMappingResponseIEValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueFieldReplay(v *UERadioCapabilityIDMappingResponseIEValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueFieldRowCriticalityDiagnostics(v *UERadioCapabilityIDMappingResponseIEValue) **s22.CriticalityDiagnostics {
+	return &v.rowCriticalityDiagnostics
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueFieldRowUERadioCapability(v *UERadioCapabilityIDMappingResponseIEValue) **s00.UERadioCapability {
+	return &v.rowUERadioCapability
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueFieldRowUERadioCapabilityID(v *UERadioCapabilityIDMappingResponseIEValue) **s00.UERadioCapabilityID {
+	return &v.rowUERadioCapabilityID
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueMethodCaptureSemantics(v UERadioCapabilityIDMappingResponseIEValue, a0 aper.SemanticCapture) UERadioCapabilityIDMappingResponseIEValue {
+	return v.captureSemantics(a0)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueMethodCompareSemantics(v UERadioCapabilityIDMappingResponseIEValue, a0 aper.SemanticComparison) aper.SemanticComparison {
+	return v.compareSemantics(a0)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueMethodDecode(v UERadioCapabilityIDMappingResponseIEValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (UERadioCapabilityIDMappingResponseIEValue, error) {
+	return v.decode(a0, a1)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueMethodEncode(v UERadioCapabilityIDMappingResponseIEValue) ([]byte, error) {
+	return v.encode()
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueMethodEncodeFresh(v UERadioCapabilityIDMappingResponseIEValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
+	return v.encodeFresh(a0, a1)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueMethodMatchesID(v UERadioCapabilityIDMappingResponseIEValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
+	return v.matchesID(a0, a1...)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueMethodReason(v UERadioCapabilityIDMappingResponseIEValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
+	return v.reason(a0)
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueMethodRule(v UERadioCapabilityIDMappingResponseIEValue) aper.SourceRule {
+	return v.rule()
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldContext(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldReceived(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldReplay(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValueFieldWithoutReplay(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldCapture(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldCompare(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 	return &v.compare
 }
 func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldContext(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldDecode(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func([]byte, aper.DecodeState) (s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, error) {
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldDecode(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func([]byte, aper.DecodeState) (UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, error) {
 	return &v.decode
 }
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldEncode(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func(s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldEncode(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *func(UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
 func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecFieldPath(v *UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecMethodEncodeBudgetValue(v UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec, a0 s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecMethodEncodeBudgetValue(v UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec, a0 UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudgetValue(a0, a1, a2)
 }
-func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecMethodEncodeChanged(v UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec, a0 s23.UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodecMethodEncodeChanged(v UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerListValueCodec, a0 UERadioCapabilityIDMappingResponseIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValueFieldContext(v *UERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListAPERValue) *s00.BridgeCodecContext {
@@ -21543,25 +21744,25 @@ func BridgeUERadioCapabilityIDMappingResponseIEValueProtocolIEContainerListValue
 func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBindingFieldCodec(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) *s02.UERadioCapabilityIDValueCodec {
 	return &v.codec
 }
-func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBindingFieldGet(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) *func(*s23.UERadioCapabilityIDMappingResponseIEValue) (*s00.UERadioCapabilityID, bool) {
+func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBindingFieldGet(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) *func(*UERadioCapabilityIDMappingResponseIEValue) (*s00.UERadioCapabilityID, bool) {
 	return &v.get
 }
 func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBindingFieldInfo(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBindingFieldInject(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) *func(s00.UERadioCapabilityID) s23.UERadioCapabilityIDMappingResponseIEValue {
+func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBindingFieldInject(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding) *func(s00.UERadioCapabilityID) UERadioCapabilityIDMappingResponseIEValue {
 	return &v.inject
 }
 func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIEBindingFieldCodec(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) *s02.UERadioCapabilityValueCodec {
 	return &v.codec
 }
-func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIEBindingFieldGet(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) *func(*s23.UERadioCapabilityIDMappingResponseIEValue) (*s00.UERadioCapability, bool) {
+func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIEBindingFieldGet(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) *func(*UERadioCapabilityIDMappingResponseIEValue) (*s00.UERadioCapability, bool) {
 	return &v.get
 }
 func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIEBindingFieldInfo(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIEBindingFieldInject(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) *func(s00.UERadioCapability) s23.UERadioCapabilityIDMappingResponseIEValue {
+func BridgeUERadioCapabilityIDMappingResponseUERadioCapabilityIEBindingFieldInject(v *UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding) *func(s00.UERadioCapability) UERadioCapabilityIDMappingResponseIEValue {
 	return &v.inject
 }
 func BridgeUERadioCapabilityMatchResponseCriticalityDiagnosticsIEBindingFieldCodec(v *UERadioCapabilityMatchResponseCriticalityDiagnosticsIEBinding) *s22.CriticalityDiagnosticsValueCodec {
@@ -21872,4 +22073,68 @@ func BridgeUERadioCapabilityMatchResponseVoiceSupportMatchIndicatorIEBindingFiel
 }
 func BridgeUERadioCapabilityMatchResponseVoiceSupportMatchIndicatorIEBindingFieldInject(v *UERadioCapabilityMatchResponseVoiceSupportMatchIndicatorIEBinding) *func(s00.VoiceSupportMatchIndicator) UERadioCapabilityMatchResponseIEValue {
 	return &v.inject
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *MDTModeExtensionIEIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 197:
+		if value, ok := v.AsLoggedMBSFNMDT(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// The field's Id distinguishes alternatives with the same Go type.
+func (v *UERadioCapabilityIDMappingResponseIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 314:
+		if value, ok := v.AsUERadioCapabilityID(); ok {
+			return value, true
+		}
+	case 74:
+		if value, ok := v.AsUERadioCapability(); ok {
+			return value, true
+		}
+	case 58:
+		if value, ok := v.AsCriticalityDiagnostics(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// The field's Id distinguishes alternatives with the same Go type.
+func (v *UERadioCapabilityMatchResponseIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 0:
+		if value, ok := v.AsMMEUES1APID(); ok {
+			return value, true
+		}
+	case 8:
+		if value, ok := v.AsENBUES1APID(); ok {
+			return value, true
+		}
+	case 169:
+		if value, ok := v.AsVoiceSupportMatchIndicator(); ok {
+			return value, true
+		}
+	case 58:
+		if value, ok := v.AsCriticalityDiagnostics(); ok {
+			return value, true
+		}
+	}
+	return nil, false
 }

@@ -6,7 +6,7 @@ import (
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func eNBConfigurationUpdatefreshMust(value s20.ENBConfigurationUpdate, err error) s20.ENBConfigurationUpdate {
+func loadInformationfreshMust(value s20.LoadInformation, err error) s20.LoadInformation {
 	if err != nil {
 		panic(err)
 	}

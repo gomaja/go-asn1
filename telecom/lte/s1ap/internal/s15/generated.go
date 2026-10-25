@@ -16,22 +16,22 @@ import (
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
-// BearersSubjectToEarlyStatusTransferItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[BearersSubjectToEarlyStatusTransferItemIEValue].
+// BearersSubjectToEarlyStatusTransferItemIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{Bearers-SubjectToEarlyStatusTransfer-ItemIEs}} of TS 36.413: a single information element field.
 type BearersSubjectToEarlyStatusTransferItemIEValueProtocolIESingleContainer = BearersSubjectToEarlyStatusTransferItemIEField
 
-// BearersSubjectToDLDiscardingItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[BearersSubjectToDLDiscardingItemIEValue].
+// BearersSubjectToDLDiscardingItemIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{Bearers-SubjectToDLDiscarding-ItemIEs}} of TS 36.413: a single information element field.
 type BearersSubjectToDLDiscardingItemIEValueProtocolIESingleContainer = BearersSubjectToDLDiscardingItemIEField
 
-// ERABDataForwardingItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABDataForwardingItemIEValue].
+// ERABDataForwardingItemIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABDataForwardingItemIEs}} of TS 36.413: a single information element field.
 type ERABDataForwardingItemIEValueProtocolIESingleContainer = ERABDataForwardingItemIEField
 
-// ERABAdmittedItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABAdmittedItemIEValue].
+// ERABAdmittedItemIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABAdmittedItemIEs}} of TS 36.413: a single information element field.
 type ERABAdmittedItemIEValueProtocolIESingleContainer = ERABAdmittedItemIEField
 
-// ERABFailedToResumeItemResumeReqIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABFailedToResumeItemResumeReqIEValue].
+// ERABFailedToResumeItemResumeReqIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABFailedToResumeItemResumeReqIEs}} of TS 36.413: a single information element field.
 type ERABFailedToResumeItemResumeReqIEValueProtocolIESingleContainer = ERABFailedToResumeItemResumeReqIEField
 
-// BearersSubjectToDLDiscardingItemBearersSubjectToDLDiscardingItemIEBinding is the concrete IEBinding[BearersSubjectToDLDiscardingItem, BearersSubjectToDLDiscardingItemIEValue].
+// BearersSubjectToDLDiscardingItemBearersSubjectToDLDiscardingItemIEBinding binds BearersSubjectToDLDiscardingItem to the Bearers-SubjectToDLDiscarding-ItemIEs object set of TS 36.413.
 type BearersSubjectToDLDiscardingItemBearersSubjectToDLDiscardingItemIEBinding struct {
 	info   s00.FieldInfo
 	codec  BearersSubjectToDLDiscardingItemValueCodec
@@ -186,7 +186,7 @@ func (c BearersSubjectToDLDiscardingItemValueCodec) encodeChanged(value BearersS
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToDLDiscardingItemIEField is the concrete ProtocolIEField[BearersSubjectToDLDiscardingItemIEValue].
+// BearersSubjectToDLDiscardingItemIEField is ProtocolIE-Field {{Bearers-SubjectToDLDiscarding-ItemIEs}} of TS 36.413: an information element field.
 type BearersSubjectToDLDiscardingItemIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -300,7 +300,7 @@ func (v *BearersSubjectToDLDiscardingItemIEField) unmarshalAPERFrom(bb *aper.Bit
 	return nil
 }
 
-// BearersSubjectToEarlyStatusTransferItemBearersSubjectToEarlyStatusTransferItemIEBinding is the concrete IEBinding[BearersSubjectToEarlyStatusTransferItem, BearersSubjectToEarlyStatusTransferItemIEValue].
+// BearersSubjectToEarlyStatusTransferItemBearersSubjectToEarlyStatusTransferItemIEBinding binds BearersSubjectToEarlyStatusTransferItem to the Bearers-SubjectToEarlyStatusTransfer-ItemIEs object set of TS 36.413.
 type BearersSubjectToEarlyStatusTransferItemBearersSubjectToEarlyStatusTransferItemIEBinding struct {
 	info   s00.FieldInfo
 	codec  BearersSubjectToEarlyStatusTransferItemValueCodec
@@ -378,24 +378,24 @@ type BearersSubjectToEarlyStatusTransferItemValueCodec struct {
 // New validates a source value and returns its complete APER value.
 func (c BearersSubjectToEarlyStatusTransferItemValueCodec) New(value s14.BearersSubjectToEarlyStatusTransferItem,
 
-) (s14.BearersSubjectToEarlyStatusTransferItemAPERValue, error) {
+) (BearersSubjectToEarlyStatusTransferItemAPERValue, error) {
 	if c.encode == nil {
-		return s14.BearersSubjectToEarlyStatusTransferItemAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return BearersSubjectToEarlyStatusTransferItemAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return s14.BearersSubjectToEarlyStatusTransferItemAPERValue{}, aper.OperationError(err, "Value.New")
+		return BearersSubjectToEarlyStatusTransferItemAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return s14.BearersSubjectToEarlyStatusTransferItemAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return BearersSubjectToEarlyStatusTransferItemAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return s14.BearersSubjectToEarlyStatusTransferItemAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return BearersSubjectToEarlyStatusTransferItemAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c BearersSubjectToEarlyStatusTransferItemValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (s14.BearersSubjectToEarlyStatusTransferItemAPERValue, aper.DecodeReport, error) {
+func (c BearersSubjectToEarlyStatusTransferItemValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (BearersSubjectToEarlyStatusTransferItemAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return s14.BearersSubjectToEarlyStatusTransferItemAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return BearersSubjectToEarlyStatusTransferItemAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -403,22 +403,16 @@ func (c BearersSubjectToEarlyStatusTransferItemValueCodec) DecodeAPER(data []byt
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return s14.BearersSubjectToEarlyStatusTransferItemAPERValue{}, report, aper.OperationError(err, c.path)
+			return BearersSubjectToEarlyStatusTransferItemAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return func() s14.BearersSubjectToEarlyStatusTransferItemAPERValue {
-			sealed := s14.BearersSubjectToEarlyStatusTransferItemAPERValue{Value: value}
-			*s14.BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReceived(&sealed) = aper.OriginalWire(data)
-			*s14.BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReplay(&sealed) = replay
-			*s14.BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldContext(&sealed) = c.context
-			return sealed
-		}(), report, nil
+		return BearersSubjectToEarlyStatusTransferItemAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return s14.BearersSubjectToEarlyStatusTransferItemAPERValue{}, report, err
+	return BearersSubjectToEarlyStatusTransferItemAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c BearersSubjectToEarlyStatusTransferItemValueCodec) EncodeAPER(value s14.BearersSubjectToEarlyStatusTransferItemAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c BearersSubjectToEarlyStatusTransferItemValueCodec) EncodeAPER(value BearersSubjectToEarlyStatusTransferItemAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -426,15 +420,15 @@ func (c BearersSubjectToEarlyStatusTransferItemValueCodec) EncodeAPER(value s14.
 	if err != nil {
 		return nil, aper.OperationError(err, c.path)
 	}
-	fresh := *s14.BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldWithoutReplay(&value) || aper.EncodeWithoutReplay(options...)
-	if *s14.BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldContext(&value) == c.context && !fresh && (*s14.BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReplay(&value)).Present() {
-		plan, next := c.compare(value.Value, *s14.BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReplay(&value), budget)
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
 		budget = next
 		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
 			return nil, aper.OperationError(err, c.path)
 		}
-		if plan.Unchanged(*s14.BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReplay(&value)) {
-			out, err := aper.CopyReplay(*s14.BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReceived(&value), &budget)
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
 			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, fresh, budget, plan)
@@ -461,7 +455,7 @@ func (c BearersSubjectToEarlyStatusTransferItemValueCodec) encodeChanged(value s
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEField is the concrete ProtocolIEField[BearersSubjectToEarlyStatusTransferItemIEValue].
+// BearersSubjectToEarlyStatusTransferItemIEField is ProtocolIE-Field {{Bearers-SubjectToEarlyStatusTransfer-ItemIEs}} of TS 36.413: an information element field.
 type BearersSubjectToEarlyStatusTransferItemIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -875,7 +869,7 @@ func (c DLCPSecurityInformationValueCodec) encodeChanged(value DLCPSecurityInfor
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABAdmittedItemERABAdmittedItemIEBinding is the concrete IEBinding[ERABAdmittedItem, ERABAdmittedItemIEValue].
+// ERABAdmittedItemERABAdmittedItemIEBinding binds ERABAdmittedItem to the E-RABAdmittedItemIEs object set of TS 36.413.
 type ERABAdmittedItemERABAdmittedItemIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABAdmittedItemValueCodec
@@ -1028,7 +1022,7 @@ func (c ERABAdmittedItemValueCodec) encodeChanged(value ERABAdmittedItem,
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABAdmittedItemIEField is the concrete ProtocolIEField[ERABAdmittedItemIEValue].
+// ERABAdmittedItemIEField is ProtocolIE-Field {{E-RABAdmittedItemIEs}} of TS 36.413: an information element field.
 type ERABAdmittedItemIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1142,7 +1136,7 @@ func (v *ERABAdmittedItemIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// ERABDataForwardingItemERABDataForwardingItemIEBinding is the concrete IEBinding[ERABDataForwardingItem, ERABDataForwardingItemIEValue].
+// ERABDataForwardingItemERABDataForwardingItemIEBinding binds ERABDataForwardingItem to the E-RABDataForwardingItemIEs object set of TS 36.413.
 type ERABDataForwardingItemERABDataForwardingItemIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABDataForwardingItemValueCodec
@@ -1295,7 +1289,7 @@ func (c ERABDataForwardingItemValueCodec) encodeChanged(value ERABDataForwarding
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABDataForwardingItemIEField is the concrete ProtocolIEField[ERABDataForwardingItemIEValue].
+// ERABDataForwardingItemIEField is ProtocolIE-Field {{E-RABDataForwardingItemIEs}} of TS 36.413: an information element field.
 type ERABDataForwardingItemIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1409,7 +1403,7 @@ func (v *ERABDataForwardingItemIEField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	return nil
 }
 
-// ERABFailedToResumeItemResumeReqERABFailedToResumeItemResumeReqIEBinding is the concrete IEBinding[ERABFailedToResumeItemResumeReq, ERABFailedToResumeItemResumeReqIEValue].
+// ERABFailedToResumeItemResumeReqERABFailedToResumeItemResumeReqIEBinding binds ERABFailedToResumeItemResumeReq to the E-RABFailedToResumeItemResumeReqIEs object set of TS 36.413.
 type ERABFailedToResumeItemResumeReqERABFailedToResumeItemResumeReqIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABFailedToResumeItemResumeReqValueCodec
@@ -1564,7 +1558,7 @@ func (c ERABFailedToResumeItemResumeReqValueCodec) encodeChanged(value ERABFaile
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeReqIEField is the concrete ProtocolIEField[ERABFailedToResumeItemResumeReqIEValue].
+// ERABFailedToResumeItemResumeReqIEField is ProtocolIE-Field {{E-RABFailedToResumeItemResumeReqIEs}} of TS 36.413: an information element field.
 type ERABFailedToResumeItemResumeReqIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1678,7 +1672,7 @@ func (v *ERABFailedToResumeItemResumeReqIEField) unmarshalAPERFrom(bb *aper.BitB
 	return nil
 }
 
-// ERABFailedToResumeItemResumeResIEField is the concrete ProtocolIEField[ERABFailedToResumeItemResumeResIEValue].
+// ERABFailedToResumeItemResumeResIEField is ProtocolIE-Field {{E-RABFailedToResumeItemResumeResIEs}} of TS 36.413: an information element field.
 type ERABFailedToResumeItemResumeResIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2992,22 +2986,22 @@ func (c ENBX2ExtTLAValueCodec) encodeChanged(value ENBX2ExtTLA,
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToDLDiscardingItemIEContainer is the concrete ProtocolIEContainer[BearersSubjectToDLDiscardingItemIEValue].
+// BearersSubjectToDLDiscardingItemIEContainer is ProtocolIE-Container {{Bearers-SubjectToDLDiscarding-ItemIEs}} of TS 36.413: a list of BearersSubjectToDLDiscardingItemIEField values.
 type BearersSubjectToDLDiscardingItemIEContainer []BearersSubjectToDLDiscardingItemIEField
 
-// BearersSubjectToEarlyStatusTransferItemIEContainer is the concrete ProtocolIEContainer[BearersSubjectToEarlyStatusTransferItemIEValue].
+// BearersSubjectToEarlyStatusTransferItemIEContainer is ProtocolIE-Container {{Bearers-SubjectToEarlyStatusTransfer-ItemIEs}} of TS 36.413: a list of BearersSubjectToEarlyStatusTransferItemIEField values.
 type BearersSubjectToEarlyStatusTransferItemIEContainer []BearersSubjectToEarlyStatusTransferItemIEField
 
-// ERABAdmittedItemIEContainer is the concrete ProtocolIEContainer[ERABAdmittedItemIEValue].
+// ERABAdmittedItemIEContainer is ProtocolIE-Container {{E-RABAdmittedItemIEs}} of TS 36.413: a list of ERABAdmittedItemIEField values.
 type ERABAdmittedItemIEContainer []ERABAdmittedItemIEField
 
-// ERABFailedToResumeItemResumeReqIEContainer is the concrete ProtocolIEContainer[ERABFailedToResumeItemResumeReqIEValue].
+// ERABFailedToResumeItemResumeReqIEContainer is ProtocolIE-Container {{E-RABFailedToResumeItemResumeReqIEs}} of TS 36.413: a list of ERABFailedToResumeItemResumeReqIEField values.
 type ERABFailedToResumeItemResumeReqIEContainer []ERABFailedToResumeItemResumeReqIEField
 
-// ERABFailedToResumeItemResumeResIEContainer is the concrete ProtocolIEContainer[ERABFailedToResumeItemResumeResIEValue].
+// ERABFailedToResumeItemResumeResIEContainer is ProtocolIE-Container {{E-RABFailedToResumeItemResumeResIEs}} of TS 36.413: a list of ERABFailedToResumeItemResumeResIEField values.
 type ERABFailedToResumeItemResumeResIEContainer []ERABFailedToResumeItemResumeResIEField
 
-// ERABDataForwardingItemIEContainer is the concrete ProtocolIEContainer[ERABDataForwardingItemIEValue].
+// ERABDataForwardingItemIEContainer is ProtocolIE-Container {{E-RABDataForwardingItemIEs}} of TS 36.413: a list of ERABDataForwardingItemIEField values.
 type ERABDataForwardingItemIEContainer []ERABDataForwardingItemIEField
 
 // BearersSubjectToDLDiscardingItemAPERValue is the concrete APERValue[BearersSubjectToDLDiscardingItem].
@@ -3027,6 +3021,29 @@ func (v BearersSubjectToDLDiscardingItemAPERValue) ReceivedForm() aper.ReceivedF
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v BearersSubjectToDLDiscardingItemAPERValue) WithoutReplay() BearersSubjectToDLDiscardingItemAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// BearersSubjectToEarlyStatusTransferItemAPERValue is the concrete APERValue[BearersSubjectToEarlyStatusTransferItem].
+type BearersSubjectToEarlyStatusTransferItemAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s14.BearersSubjectToEarlyStatusTransferItem
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v BearersSubjectToEarlyStatusTransferItemAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v BearersSubjectToEarlyStatusTransferItemAPERValue) WithoutReplay() BearersSubjectToEarlyStatusTransferItemAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -3470,7 +3487,7 @@ func (v ENBX2ExtTLAAPERValue) WithoutReplay() ENBX2ExtTLAAPERValue {
 	return v
 }
 
-// BearersSubjectToDLDiscardingItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[BearersSubjectToDLDiscardingItemIEValueERABIEContainerList].
 type BearersSubjectToDLDiscardingItemIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3554,10 +3571,10 @@ func (c BearersSubjectToDLDiscardingItemIEValueERABIEContainerListValueCodec) en
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToDLDiscardingItemIEValueERABIEContainerList is the concrete ERABIEContainerList[BearersSubjectToDLDiscardingItemIEValue].
+// BearersSubjectToDLDiscardingItemIEValueERABIEContainerList is E-RAB-IE-ContainerList {{Bearers-SubjectToDLDiscarding-ItemIEs}} of TS 36.413: a list of information element fields.
 type BearersSubjectToDLDiscardingItemIEValueERABIEContainerList []BearersSubjectToDLDiscardingItemIEValueProtocolIESingleContainer
 
-// BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerList].
 type BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3641,10 +3658,10 @@ func (c BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerListValueCo
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerList is the concrete ERABIEContainerList[BearersSubjectToEarlyStatusTransferItemIEValue].
+// BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerList is E-RAB-IE-ContainerList {{Bearers-SubjectToEarlyStatusTransfer-ItemIEs}} of TS 36.413: a list of information element fields.
 type BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerList []BearersSubjectToEarlyStatusTransferItemIEValueProtocolIESingleContainer
 
-// ERABAdmittedItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABAdmittedItemIEValueERABIEContainerList].
 type ERABAdmittedItemIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3728,10 +3745,10 @@ func (c ERABAdmittedItemIEValueERABIEContainerListValueCodec) encodeChanged(valu
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABAdmittedItemIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABAdmittedItemIEValue].
+// ERABAdmittedItemIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABAdmittedItemIEs}} of TS 36.413: a list of information element fields.
 type ERABAdmittedItemIEValueERABIEContainerList []ERABAdmittedItemIEValueProtocolIESingleContainer
 
-// ERABDataForwardingItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABDataForwardingItemIEValueERABIEContainerList].
 type ERABDataForwardingItemIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3815,10 +3832,10 @@ func (c ERABDataForwardingItemIEValueERABIEContainerListValueCodec) encodeChange
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABDataForwardingItemIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABDataForwardingItemIEValue].
+// ERABDataForwardingItemIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABDataForwardingItemIEs}} of TS 36.413: a list of information element fields.
 type ERABDataForwardingItemIEValueERABIEContainerList []ERABDataForwardingItemIEValueProtocolIESingleContainer
 
-// ERABFailedToResumeItemResumeReqIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeReqIEValueERABIEContainerList].
 type ERABFailedToResumeItemResumeReqIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3902,10 +3919,10 @@ func (c ERABFailedToResumeItemResumeReqIEValueERABIEContainerListValueCodec) enc
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeReqIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABFailedToResumeItemResumeReqIEValue].
+// ERABFailedToResumeItemResumeReqIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABFailedToResumeItemResumeReqIEs}} of TS 36.413: a list of information element fields.
 type ERABFailedToResumeItemResumeReqIEValueERABIEContainerList []ERABFailedToResumeItemResumeReqIEValueProtocolIESingleContainer
 
-// BearersSubjectToDLDiscardingItemIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEFieldValueCodec is the concrete ValueCodec[BearersSubjectToDLDiscardingItemIEField].
 type BearersSubjectToDLDiscardingItemIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3989,7 +4006,7 @@ func (c BearersSubjectToDLDiscardingItemIEFieldValueCodec) encodeChanged(value B
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEFieldValueCodec is the concrete ValueCodec[BearersSubjectToEarlyStatusTransferItemIEField].
 type BearersSubjectToEarlyStatusTransferItemIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4073,7 +4090,7 @@ func (c BearersSubjectToEarlyStatusTransferItemIEFieldValueCodec) encodeChanged(
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABAdmittedItemIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEFieldValueCodec is the concrete ValueCodec[ERABAdmittedItemIEField].
 type ERABAdmittedItemIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4157,7 +4174,7 @@ func (c ERABAdmittedItemIEFieldValueCodec) encodeChanged(value ERABAdmittedItemI
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABDataForwardingItemIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEFieldValueCodec is the concrete ValueCodec[ERABDataForwardingItemIEField].
 type ERABDataForwardingItemIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4241,7 +4258,7 @@ func (c ERABDataForwardingItemIEFieldValueCodec) encodeChanged(value ERABDataFor
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeReqIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEFieldValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeReqIEField].
 type ERABFailedToResumeItemResumeReqIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4325,7 +4342,7 @@ func (c ERABFailedToResumeItemResumeReqIEFieldValueCodec) encodeChanged(value ER
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToDLDiscardingItemIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEContainerValueCodec is the concrete ValueCodec[BearersSubjectToDLDiscardingItemIEContainer].
 type BearersSubjectToDLDiscardingItemIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4409,7 +4426,7 @@ func (c BearersSubjectToDLDiscardingItemIEContainerValueCodec) encodeChanged(val
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEContainerValueCodec is the concrete ValueCodec[BearersSubjectToEarlyStatusTransferItemIEContainer].
 type BearersSubjectToEarlyStatusTransferItemIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4493,7 +4510,7 @@ func (c BearersSubjectToEarlyStatusTransferItemIEContainerValueCodec) encodeChan
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABAdmittedItemIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEContainerValueCodec is the concrete ValueCodec[ERABAdmittedItemIEContainer].
 type ERABAdmittedItemIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4577,7 +4594,7 @@ func (c ERABAdmittedItemIEContainerValueCodec) encodeChanged(value ERABAdmittedI
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABDataForwardingItemIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEContainerValueCodec is the concrete ValueCodec[ERABDataForwardingItemIEContainer].
 type ERABDataForwardingItemIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4661,7 +4678,7 @@ func (c ERABDataForwardingItemIEContainerValueCodec) encodeChanged(value ERABDat
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeReqIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEContainerValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeReqIEContainer].
 type ERABFailedToResumeItemResumeReqIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4745,91 +4762,7 @@ func (c ERABFailedToResumeItemResumeReqIEContainerValueCodec) encodeChanged(valu
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeResIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABFailedToResumeItemResumeResIEValue]].
-type ERABFailedToResumeItemResumeResIEContainerValueCodec struct {
-	path    aper.Path
-	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ERABFailedToResumeItemResumeResIEContainer, error)
-	encode  func(ERABFailedToResumeItemResumeResIEContainer, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ERABFailedToResumeItemResumeResIEContainer, aper.DecodeState) (ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot)
-	compare func(ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) New(value ERABFailedToResumeItemResumeResIEContainer) (ERABFailedToResumeItemResumeResIEContainerAPERValue, error) {
-	if c.encode == nil {
-		return ERABFailedToResumeItemResumeResIEContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ERABFailedToResumeItemResumeResIEContainerAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABFailedToResumeItemResumeResIEContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return ERABFailedToResumeItemResumeResIEContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABFailedToResumeItemResumeResIEContainerAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ERABFailedToResumeItemResumeResIEContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return ERABFailedToResumeItemResumeResIEContainerAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return ERABFailedToResumeItemResumeResIEContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ERABFailedToResumeItemResumeResIEContainerAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) EncodeAPER(value ERABFailedToResumeItemResumeResIEContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) encodeBudgetValue(value ERABFailedToResumeItemResumeResIEContainer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) encodeChanged(value ERABFailedToResumeItemResumeResIEContainer, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerList].
 type BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4913,10 +4846,10 @@ func (c BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerListValue
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[BearersSubjectToDLDiscardingItemIEValue].
+// BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{Bearers-SubjectToDLDiscarding-ItemIEs}} of TS 36.413: a list of information element fields.
 type BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerList []BearersSubjectToDLDiscardingItemIEValueProtocolIESingleContainer
 
-// BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerList].
 type BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5000,10 +4933,10 @@ func (c BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerLi
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[BearersSubjectToEarlyStatusTransferItemIEValue].
+// BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{Bearers-SubjectToEarlyStatusTransfer-ItemIEs}} of TS 36.413: a list of information element fields.
 type BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerList []BearersSubjectToEarlyStatusTransferItemIEValueProtocolIESingleContainer
 
-// ERABAdmittedItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABAdmittedItemIEValueProtocolErrorIEContainerList].
 type ERABAdmittedItemIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5087,10 +5020,10 @@ func (c ERABAdmittedItemIEValueProtocolErrorIEContainerListValueCodec) encodeCha
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABAdmittedItemIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABAdmittedItemIEValue].
+// ERABAdmittedItemIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABAdmittedItemIEs}} of TS 36.413: a list of information element fields.
 type ERABAdmittedItemIEValueProtocolErrorIEContainerList []ERABAdmittedItemIEValueProtocolIESingleContainer
 
-// ERABDataForwardingItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABDataForwardingItemIEValueProtocolErrorIEContainerList].
 type ERABDataForwardingItemIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5174,10 +5107,10 @@ func (c ERABDataForwardingItemIEValueProtocolErrorIEContainerListValueCodec) enc
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABDataForwardingItemIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABDataForwardingItemIEValue].
+// ERABDataForwardingItemIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABDataForwardingItemIEs}} of TS 36.413: a list of information element fields.
 type ERABDataForwardingItemIEValueProtocolErrorIEContainerList []ERABDataForwardingItemIEValueProtocolIESingleContainer
 
-// ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerList].
 type ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5261,10 +5194,10 @@ func (c ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListValueC
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABFailedToResumeItemResumeReqIEValue].
+// ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABFailedToResumeItemResumeReqIEs}} of TS 36.413: a list of information element fields.
 type ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerList []ERABFailedToResumeItemResumeReqIEValueProtocolIESingleContainer
 
-// BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerList].
 type BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5348,10 +5281,10 @@ func (c BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerListValueCodec
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[BearersSubjectToDLDiscardingItemIEValue].
+// BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {Bearers-SubjectToDLDiscarding-ItemIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerList []BearersSubjectToDLDiscardingItemIEValueProtocolIESingleContainer
 
-// BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerList].
 type BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5435,10 +5368,10 @@ func (c BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerListVal
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[BearersSubjectToEarlyStatusTransferItemIEValue].
+// BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {Bearers-SubjectToEarlyStatusTransfer-ItemIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerList []BearersSubjectToEarlyStatusTransferItemIEValueProtocolIESingleContainer
 
-// ERABAdmittedItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABAdmittedItemIEValueProtocolIEContainerList].
 type ERABAdmittedItemIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5522,10 +5455,10 @@ func (c ERABAdmittedItemIEValueProtocolIEContainerListValueCodec) encodeChanged(
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABAdmittedItemIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABAdmittedItemIEValue].
+// ERABAdmittedItemIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABAdmittedItemIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABAdmittedItemIEValueProtocolIEContainerList []ERABAdmittedItemIEValueProtocolIESingleContainer
 
-// ERABDataForwardingItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABDataForwardingItemIEValueProtocolIEContainerList].
 type ERABDataForwardingItemIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5609,10 +5542,10 @@ func (c ERABDataForwardingItemIEValueProtocolIEContainerListValueCodec) encodeCh
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABDataForwardingItemIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABDataForwardingItemIEValue].
+// ERABDataForwardingItemIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABDataForwardingItemIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABDataForwardingItemIEValueProtocolIEContainerList []ERABDataForwardingItemIEValueProtocolIESingleContainer
 
-// ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerList].
 type ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5696,10 +5629,10 @@ func (c ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListValueCodec)
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABFailedToResumeItemResumeReqIEValue].
+// ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABFailedToResumeItemResumeReqIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerList []ERABFailedToResumeItemResumeReqIEValueProtocolIESingleContainer
 
-// BearersSubjectToDLDiscardingItemIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEValueERABIEContainerListAPERValue is the concrete APERValue[BearersSubjectToDLDiscardingItemIEValueERABIEContainerList].
 type BearersSubjectToDLDiscardingItemIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToDLDiscardingItemIEValueERABIEContainerList
@@ -5721,7 +5654,7 @@ func (v BearersSubjectToDLDiscardingItemIEValueERABIEContainerListAPERValue) Wit
 	return v
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerListAPERValue is the concrete APERValue[BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerList].
 type BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerList
@@ -5743,7 +5676,7 @@ func (v BearersSubjectToEarlyStatusTransferItemIEValueERABIEContainerListAPERVal
 	return v
 }
 
-// ERABAdmittedItemIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABAdmittedItemIEValueERABIEContainerList].
 type ERABAdmittedItemIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABAdmittedItemIEValueERABIEContainerList
@@ -5765,7 +5698,7 @@ func (v ERABAdmittedItemIEValueERABIEContainerListAPERValue) WithoutReplay() ERA
 	return v
 }
 
-// ERABDataForwardingItemIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABDataForwardingItemIEValueERABIEContainerList].
 type ERABDataForwardingItemIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABDataForwardingItemIEValueERABIEContainerList
@@ -5787,7 +5720,7 @@ func (v ERABDataForwardingItemIEValueERABIEContainerListAPERValue) WithoutReplay
 	return v
 }
 
-// ERABFailedToResumeItemResumeReqIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeReqIEValueERABIEContainerList].
 type ERABFailedToResumeItemResumeReqIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedToResumeItemResumeReqIEValueERABIEContainerList
@@ -5809,7 +5742,7 @@ func (v ERABFailedToResumeItemResumeReqIEValueERABIEContainerListAPERValue) With
 	return v
 }
 
-// BearersSubjectToDLDiscardingItemIEFieldAPERValue is the concrete APERValue[ProtocolIEField[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEFieldAPERValue is the concrete APERValue[BearersSubjectToDLDiscardingItemIEField].
 type BearersSubjectToDLDiscardingItemIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToDLDiscardingItemIEField
@@ -5831,7 +5764,7 @@ func (v BearersSubjectToDLDiscardingItemIEFieldAPERValue) WithoutReplay() Bearer
 	return v
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEFieldAPERValue is the concrete APERValue[ProtocolIEField[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEFieldAPERValue is the concrete APERValue[BearersSubjectToEarlyStatusTransferItemIEField].
 type BearersSubjectToEarlyStatusTransferItemIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToEarlyStatusTransferItemIEField
@@ -5853,7 +5786,7 @@ func (v BearersSubjectToEarlyStatusTransferItemIEFieldAPERValue) WithoutReplay()
 	return v
 }
 
-// ERABAdmittedItemIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEFieldAPERValue is the concrete APERValue[ERABAdmittedItemIEField].
 type ERABAdmittedItemIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABAdmittedItemIEField
@@ -5875,7 +5808,7 @@ func (v ERABAdmittedItemIEFieldAPERValue) WithoutReplay() ERABAdmittedItemIEFiel
 	return v
 }
 
-// ERABDataForwardingItemIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEFieldAPERValue is the concrete APERValue[ERABDataForwardingItemIEField].
 type ERABDataForwardingItemIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABDataForwardingItemIEField
@@ -5897,7 +5830,7 @@ func (v ERABDataForwardingItemIEFieldAPERValue) WithoutReplay() ERABDataForwardi
 	return v
 }
 
-// ERABFailedToResumeItemResumeReqIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEFieldAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeReqIEField].
 type ERABFailedToResumeItemResumeReqIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedToResumeItemResumeReqIEField
@@ -5919,7 +5852,7 @@ func (v ERABFailedToResumeItemResumeReqIEFieldAPERValue) WithoutReplay() ERABFai
 	return v
 }
 
-// BearersSubjectToDLDiscardingItemIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEContainerAPERValue is the concrete APERValue[BearersSubjectToDLDiscardingItemIEContainer].
 type BearersSubjectToDLDiscardingItemIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToDLDiscardingItemIEContainer
@@ -5941,7 +5874,7 @@ func (v BearersSubjectToDLDiscardingItemIEContainerAPERValue) WithoutReplay() Be
 	return v
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEContainerAPERValue is the concrete APERValue[BearersSubjectToEarlyStatusTransferItemIEContainer].
 type BearersSubjectToEarlyStatusTransferItemIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToEarlyStatusTransferItemIEContainer
@@ -5963,7 +5896,7 @@ func (v BearersSubjectToEarlyStatusTransferItemIEContainerAPERValue) WithoutRepl
 	return v
 }
 
-// ERABAdmittedItemIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEContainerAPERValue is the concrete APERValue[ERABAdmittedItemIEContainer].
 type ERABAdmittedItemIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABAdmittedItemIEContainer
@@ -5985,7 +5918,7 @@ func (v ERABAdmittedItemIEContainerAPERValue) WithoutReplay() ERABAdmittedItemIE
 	return v
 }
 
-// ERABDataForwardingItemIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEContainerAPERValue is the concrete APERValue[ERABDataForwardingItemIEContainer].
 type ERABDataForwardingItemIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABDataForwardingItemIEContainer
@@ -6007,7 +5940,7 @@ func (v ERABDataForwardingItemIEContainerAPERValue) WithoutReplay() ERABDataForw
 	return v
 }
 
-// ERABFailedToResumeItemResumeReqIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEContainerAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeReqIEContainer].
 type ERABFailedToResumeItemResumeReqIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedToResumeItemResumeReqIEContainer
@@ -6029,7 +5962,7 @@ func (v ERABFailedToResumeItemResumeReqIEContainerAPERValue) WithoutReplay() ERA
 	return v
 }
 
-// ERABFailedToResumeItemResumeResIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABFailedToResumeItemResumeResIEValue]].
+// ERABFailedToResumeItemResumeResIEContainerAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeResIEContainer].
 type ERABFailedToResumeItemResumeResIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedToResumeItemResumeResIEContainer
@@ -6051,7 +5984,7 @@ func (v ERABFailedToResumeItemResumeResIEContainerAPERValue) WithoutReplay() ERA
 	return v
 }
 
-// BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerList].
 type BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerList
@@ -6073,7 +6006,7 @@ func (v BearersSubjectToDLDiscardingItemIEValueProtocolErrorIEContainerListAPERV
 	return v
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerList].
 type BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerList
@@ -6095,7 +6028,7 @@ func (v BearersSubjectToEarlyStatusTransferItemIEValueProtocolErrorIEContainerLi
 	return v
 }
 
-// ERABAdmittedItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABAdmittedItemIEValueProtocolErrorIEContainerList].
 type ERABAdmittedItemIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABAdmittedItemIEValueProtocolErrorIEContainerList
@@ -6117,7 +6050,7 @@ func (v ERABAdmittedItemIEValueProtocolErrorIEContainerListAPERValue) WithoutRep
 	return v
 }
 
-// ERABDataForwardingItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABDataForwardingItemIEValueProtocolErrorIEContainerList].
 type ERABDataForwardingItemIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABDataForwardingItemIEValueProtocolErrorIEContainerList
@@ -6139,7 +6072,7 @@ func (v ERABDataForwardingItemIEValueProtocolErrorIEContainerListAPERValue) With
 	return v
 }
 
-// ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerList].
 type ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerList
@@ -6161,7 +6094,7 @@ func (v ERABFailedToResumeItemResumeReqIEValueProtocolErrorIEContainerListAPERVa
 	return v
 }
 
-// BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[BearersSubjectToDLDiscardingItemIEValue]].
+// BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerList].
 type BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerList
@@ -6183,7 +6116,7 @@ func (v BearersSubjectToDLDiscardingItemIEValueProtocolIEContainerListAPERValue)
 	return v
 }
 
-// BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[BearersSubjectToEarlyStatusTransferItemIEValue]].
+// BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerList].
 type BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerList
@@ -6205,7 +6138,7 @@ func (v BearersSubjectToEarlyStatusTransferItemIEValueProtocolIEContainerListAPE
 	return v
 }
 
-// ERABAdmittedItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABAdmittedItemIEValue]].
+// ERABAdmittedItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABAdmittedItemIEValueProtocolIEContainerList].
 type ERABAdmittedItemIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABAdmittedItemIEValueProtocolIEContainerList
@@ -6227,7 +6160,7 @@ func (v ERABAdmittedItemIEValueProtocolIEContainerListAPERValue) WithoutReplay()
 	return v
 }
 
-// ERABDataForwardingItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABDataForwardingItemIEValue]].
+// ERABDataForwardingItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABDataForwardingItemIEValueProtocolIEContainerList].
 type ERABDataForwardingItemIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABDataForwardingItemIEValueProtocolIEContainerList
@@ -6249,7 +6182,7 @@ func (v ERABDataForwardingItemIEValueProtocolIEContainerListAPERValue) WithoutRe
 	return v
 }
 
-// ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABFailedToResumeItemResumeReqIEValue]].
+// ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerList].
 type ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedToResumeItemResumeReqIEValueProtocolIEContainerList
@@ -18570,7 +18503,7 @@ func (t BearersSubjectToDLDiscardingItemIETable) BearersSubjectToDLDiscardingIte
 			decoded, err := zero.decode(s00.ProtocolIEID(351), raw)
 			if err != nil {
 				var empty BearersSubjectToDLDiscardingItem
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "BearersSubjectToDLDiscardingItem")
 			}
 			value, ok := decoded.AsBearersSubjectToDLDiscardingItem()
 			if !ok {
@@ -18678,7 +18611,7 @@ func (t BearersSubjectToEarlyStatusTransferItemIETable) BearersSubjectToEarlySta
 			decoded, err := zero.decode(s00.ProtocolIEID(322), raw)
 			if err != nil {
 				var empty s14.BearersSubjectToEarlyStatusTransferItem
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "BearersSubjectToEarlyStatusTransferItem")
 			}
 			value, ok := decoded.AsBearersSubjectToEarlyStatusTransferItem()
 			if !ok {
@@ -18784,7 +18717,7 @@ func (t ERABAdmittedItemIETable) ERABAdmittedItem() ERABAdmittedItemERABAdmitted
 			decoded, err := zero.decode(s00.ProtocolIEID(20), raw)
 			if err != nil {
 				var empty ERABAdmittedItem
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABAdmittedItem")
 			}
 			value, ok := decoded.AsERABAdmittedItem()
 			if !ok {
@@ -18887,7 +18820,7 @@ func (t ERABDataForwardingItemIETable) ERABDataForwardingItem() ERABDataForwardi
 			decoded, err := zero.decode(s00.ProtocolIEID(14), raw)
 			if err != nil {
 				var empty ERABDataForwardingItem
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABDataForwardingItem")
 			}
 			value, ok := decoded.AsERABDataForwardingItem()
 			if !ok {
@@ -18994,7 +18927,7 @@ func (t ERABFailedToResumeItemResumeReqIETable) ERABFailedToResumeItemResumeReq(
 			decoded, err := zero.decode(s00.ProtocolIEID(236), raw)
 			if err != nil {
 				var empty ERABFailedToResumeItemResumeReq
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABFailedToResumeItemResumeReq")
 			}
 			value, ok := decoded.AsERABFailedToResumeItemResumeReq()
 			if !ok {
@@ -19750,6 +19683,18 @@ func BridgeBearersSubjectToDLDiscardingListValueCodecMethodEncodeBudgetValue(v B
 }
 func BridgeBearersSubjectToDLDiscardingListValueCodecMethodEncodeChanged(v BearersSubjectToDLDiscardingListValueCodec, a0 BearersSubjectToDLDiscardingList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldContext(v *BearersSubjectToEarlyStatusTransferItemAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReceived(v *BearersSubjectToEarlyStatusTransferItemAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReplay(v *BearersSubjectToEarlyStatusTransferItemAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldWithoutReplay(v *BearersSubjectToEarlyStatusTransferItemAPERValue) *bool {
+	return &v.withoutReplay
 }
 func BridgeBearersSubjectToEarlyStatusTransferItemBearersSubjectToEarlyStatusTransferItemIEBindingFieldCodec(v *BearersSubjectToEarlyStatusTransferItemBearersSubjectToEarlyStatusTransferItemIEBinding) *BearersSubjectToEarlyStatusTransferItemValueCodec {
 	return &v.codec
@@ -22318,30 +22263,6 @@ func BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldReplay(v *ERA
 func BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldWithoutReplay(v *ERABFailedToResumeItemResumeResIEContainerAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldCapture(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *func(ERABFailedToResumeItemResumeResIEContainer, aper.DecodeState) (ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldCompare(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *func(ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldContext(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *func([]byte, aper.DecodeState) (ERABFailedToResumeItemResumeResIEContainer, error) {
-	return &v.decode
-}
-func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *func(ERABFailedToResumeItemResumeResIEContainer, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldPath(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeItemResumeResIEContainerValueCodec, a0 ERABFailedToResumeItemResumeResIEContainer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecMethodEncodeChanged(v ERABFailedToResumeItemResumeResIEContainerValueCodec, a0 ERABFailedToResumeItemResumeResIEContainer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeERABFailedToResumeItemResumeResIEFieldFieldReceived(v *ERABFailedToResumeItemResumeResIEField) *aper.CompletePadding {
 	return &v.received
 }
@@ -22434,4 +22355,88 @@ func BridgeERABFailedToResumeItemResumeResMethodUnmarshalAPERLegacy(v *ERABFaile
 }
 func BridgeERABFailedToResumeItemResumeResMethodUnmarshalAPERWithOptions(v *ERABFailedToResumeItemResumeRes, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *BearersSubjectToDLDiscardingItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 351:
+		if value, ok := v.AsBearersSubjectToDLDiscardingItem(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *BearersSubjectToEarlyStatusTransferItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 322:
+		if value, ok := v.AsBearersSubjectToEarlyStatusTransferItem(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABAdmittedItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 20:
+		if value, ok := v.AsERABAdmittedItem(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABDataForwardingItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 14:
+		if value, ok := v.AsERABDataForwardingItem(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABFailedToResumeItemResumeReqIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 236:
+		if value, ok := v.AsERABFailedToResumeItemResumeReq(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABFailedToResumeItemResumeResIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 238:
+		if value, ok := v.AsERABFailedToResumeItemResumeRes(); ok {
+			return value, true
+		}
+	}
+	return nil, false
 }

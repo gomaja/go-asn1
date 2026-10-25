@@ -6,7 +6,7 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 )
 
-func expectedActivityPeriodAPERValueapiMust(v s00.ExpectedActivityPeriodAPERValue, err error) s00.ExpectedActivityPeriodAPERValue {
+func cellCapacityClassValueAPERValueapiMust(v s00.CellCapacityClassValueAPERValue, err error) s00.CellCapacityClassValueAPERValue {
 	if err != nil {
 		panic(err)
 	}

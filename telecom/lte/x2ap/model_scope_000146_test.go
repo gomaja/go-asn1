@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
 )
 
-func privateIEIDapiMust(v s00.PrivateIEID, err error) s00.PrivateIEID {
+func traceActivationExtIEsExtFieldapiMust(v s16.TraceActivationExtIEsExtField, err error) s16.TraceActivationExtIEsExtField {
 	if err != nil {
 		panic(err)
 	}

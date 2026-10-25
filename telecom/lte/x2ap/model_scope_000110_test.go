@@ -201,7 +201,7 @@ func TestWithoutReplayEverySourceType(t *testing.T) {
 		{"ERABsAdmittedToBeAddedItem", "0000000000000000", &s10.ERABsAdmittedToBeAddedItem{}},
 		{"ERABsAdmittedToBeAddedItemSCGBearer", "0000000000000000", &s10.ERABsAdmittedToBeAddedItemSCGBearer{}},
 		{"ERABsAdmittedToBeAddedItemSplitBearer", "0000000000000000", &s10.ERABsAdmittedToBeAddedItemSplitBearer{}},
-		{"ERABsAdmittedToBeAddedListComplete", "00007940080000000000000000", &s15.ERABsAdmittedToBeAddedListComplete{}},
+		{"ERABsAdmittedToBeAddedListComplete", "00007940080000000000000000", &s14.ERABsAdmittedToBeAddedListComplete{}},
 		{"ERABsAdmittedToBeAddedModAckItem", "0000000000000000", &s10.ERABsAdmittedToBeAddedModAckItem{}},
 		{"ERABsAdmittedToBeAddedModAckItemSCGBearer", "0000000000000000", &s10.ERABsAdmittedToBeAddedModAckItemSCGBearer{}},
 		{"ERABsAdmittedToBeAddedModAckItemSplitBearer", "0000000000000000", &s10.ERABsAdmittedToBeAddedModAckItemSplitBearer{}},

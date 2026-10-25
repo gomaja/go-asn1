@@ -12,7 +12,7 @@ import (
 	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
 	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
 	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
-	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
+	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
 )
@@ -49,12 +49,12 @@ func TestValidationSkipsInactiveAggregateChoiceArm(t *testing.T) {
 	inactive := s33.TargetRNCID{IEExtensions: s11.TargetRNCIDExtIEsExtContainer{field}}
 	value := s34.TargetID{Choice: s00.TargetIDChoiceCGI, CGI: &s14.CGI{}, TargetRNCID: &inactive}
 	report := s21.ValidationReport{Complete: true}
-	s49.BridgeWalkValidationTargetID(&value, &report, "TargetID", false)
+	s50.BridgeWalkValidationTargetID(&value, &report, "TargetID", false)
 	if len(report.Issues) != 0 || len(report.Unchecked) != 0 || !report.Complete {
 		t.Fatalf("inactive arm was validated: %+v", report)
 	}
 	control := s21.ValidationReport{Complete: true}
-	s49.BridgeWalkValidationTargetRNCID(&inactive, &control, "TargetRNCID", false)
+	s50.BridgeWalkValidationTargetRNCID(&inactive, &control, "TargetRNCID", false)
 	if len(control.Issues) == 0 {
 		t.Fatal("negative control did not detect the stale arm's invalid table")
 	}

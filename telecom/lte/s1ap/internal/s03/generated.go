@@ -28316,3 +28316,113 @@ func BridgeERABSecurityResultItemExtIEsValueMethodReason(v ERABSecurityResultIte
 func BridgeERABSecurityResultItemExtIEsValueMethodRule(v ERABSecurityResultItemExtIEsValue) aper.SourceRule {
 	return v.rule()
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CancelledCellinTAIItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *Cdma2000OneXSRVCCInfoExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellBasedMDTExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellBasedQMCExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellIDBroadcastItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellIDCancelledItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellIdentifierAndCELevelForCECapableUEsExtIEsValue) Selected() (any, bool) {
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CellTypeExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CompletedCellinEAIItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CompletedCellinTAIItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ConnectedengNBItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ContextatSourceExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CriticalityDiagnosticsExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *CriticalityDiagnosticsIEItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *DAPSRequestInfoExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *DAPSResponseInfoExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *DAPSResponseInfoItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *DLCPSecurityInformationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENBStatusTransferTransparentContainerExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENBX2ExtTLAExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCSONConfigurationTransferExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCSONeNBIdentificationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCSONengNBIdentificationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCTransferTypeReplyExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCTransferTypeRequestExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABAdmittedItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABDataForwardingItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABFailedToResumeItemResumeReqExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABFailedToResumeItemResumeResExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABFailedToSetupItemHOReqAckExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABModifyItemBearerModConfExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABModifyItemBearerModResExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABNotToBeModifiedItemBearerModIndExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABReleaseItemBearerRelCompExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABSecurityResultItemExtIEsValue) Selected() (any, bool) { return nil, false }

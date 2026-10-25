@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 392d8389c3316a3f1418204c4621225f5964a4678a1812a54c336fce6bc5f950.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 67dd820694052ab3176102c18a52a6f5fc18d9576be0c0f095e339cb2437ed0b.
 package aper
 
 import (
@@ -211,6 +211,8 @@ func NewDecodeBuffer(data []byte, budget *DecodeBudget) *BitBuffer {
 // NewNestedDecodeBuffer inherits the shared budget and receiver options while
 // constructing a child. Low-level callers may keep the reader and supplied
 // budget on the stack; sealed complete codecs use NewOwnedNestedDecodeBuffer.
+// A copy carries no input origin unless the caller maps it with
+// MapOriginalLocation. Without a mapping, padding reports omit wire spans.
 func NewNestedDecodeBuffer(data []byte, parent *BitBuffer) *BitBuffer {
 	invalid := len(data) > math.MaxInt/8
 	length := 0

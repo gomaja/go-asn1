@@ -6,7 +6,7 @@ import (
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func initiatingMessagefreshMust(value s20.InitiatingMessage, err error) s20.InitiatingMessage {
+func handoverRequestfreshMust(value s20.HandoverRequest, err error) s20.HandoverRequest {
 	if err != nil {
 		panic(err)
 	}

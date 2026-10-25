@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
 )
 
-func unsuccessfulOutcomeapiMust(v s14.UnsuccessfulOutcome, err error) s14.UnsuccessfulOutcome {
+func successfulOutcomeapiMust(v s19.SuccessfulOutcome, err error) s19.SuccessfulOutcome {
 	if err != nil {
 		panic(err)
 	}

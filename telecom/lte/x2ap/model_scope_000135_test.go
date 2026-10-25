@@ -3,25 +3,41 @@
 package x2ap
 
 import (
-	s12 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s12"
-	s16 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s16"
+	bytes "bytes"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	reflect "reflect"
 	testing "testing"
 )
 
-// X.691 (02/2021) §30.5.3 assigns VisibleString codes 32 through 126;
-// §30.5.4(a) retains those codes in the aligned octet.
-func TestURIVisibleAlphabetIsStrict(t *testing.T) {
-	for _, code := range []byte{0, 31, 127, 128, 255} {
-		if _, _, err := s16.URIAddressCodec().DecodeAPER([]byte{1, code}); err == nil {
-			t.Fatalf("VisibleString accepted code %d", code)
+// X.691 (02/2021) §§23.8 and 11.2.1 delimit a source-known extension.
+func TestRecordedTerminalPaddingChoiceENBIDShortMacroENBID(t *testing.T) {
+	wire := []byte{0x80, 0x03, 0x00, 0x00, 0x3f}
+	for _, receiver := range []bool{false, true} {
+		options := []aper.DecodeOption{}
+		if receiver {
+			options = append(options, aper.WithReceiverMode())
 		}
-		if _, err := s16.URIAddressCodec().New(s12.URIAddress(string([]byte{code}))); err == nil {
-			t.Fatalf("VisibleString encoded code %d", code)
+		var strict s00.ENBID
+		if _, err := strict.UnmarshalAPER(wire, options...); err == nil {
+			t.Fatal("accepted nonzero padding without option")
 		}
-	}
-	for _, code := range []byte{32, 126} {
-		if _, _, err := s16.URIAddressCodec().DecodeAPER([]byte{1, code}); err != nil {
+		options = append(options, aper.WithNonzeroTerminalPadding())
+		var value s00.ENBID
+		report, err := value.UnmarshalAPER(wire, options...)
+		if err != nil {
 			t.Fatal(err)
+		}
+		want := aper.DecodeReport{Observations: []aper.Observation{{Kind: aper.NonzeroTerminalPadding, PaddingBits: 63, PaddingCount: 6, Rule: aper.SourceRule{Document: "ITU-T X.691", Edition: "02/2021", Clause: "§11.2.1"}, Location: aper.Location{Path: "ENBID.ShortMacroENBID", Spans: []aper.BitSpan{{Start: 34, End: 40}}, HasWireLocation: true}}}}
+		if !reflect.DeepEqual(report, want) {
+			t.Fatalf("report=%+v want=%+v", report, want)
+		}
+		if value.Choice != s00.ENBIDChoiceShortMacroENBID {
+			t.Fatalf("lost selected alternative: %+v", value)
+		}
+		replay, err := value.MarshalAPER()
+		if err != nil || !bytes.Equal(replay, wire) {
+			t.Fatalf("replay=%x err=%v", replay, err)
 		}
 	}
 }

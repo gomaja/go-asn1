@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s14 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s14"
+	s02 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s02"
 )
 
-func x2SetupFailureapiMust(v s14.X2SetupFailure, err error) s14.X2SetupFailure {
+func criticalityDiagnosticsExtIEsExtFieldapiMust(v s02.CriticalityDiagnosticsExtIEsExtField, err error) s02.CriticalityDiagnosticsExtIEsExtField {
 	if err != nil {
 		panic(err)
 	}

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 )
 
-func x2SetupRequestIEFieldapiMust(v s17.X2SetupRequestIEField, err error) s17.X2SetupRequestIEField {
+func eNBIDapiMust(v s00.ENBID, err error) s00.ENBID {
 	if err != nil {
 		panic(err)
 	}

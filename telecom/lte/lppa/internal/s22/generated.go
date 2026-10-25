@@ -19,10 +19,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// ECIDMeasurementInitiationResponseIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseIEContainer is ProtocolIE-Container {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455: a list of ECIDMeasurementInitiationResponseIEField values.
 type ECIDMeasurementInitiationResponseIEContainer []ECIDMeasurementInitiationResponseIEField
 
-// ECIDMeasurementInitiationResponseIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseIEField is ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementInitiationResponseIEValue.
 type ECIDMeasurementInitiationResponseIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -205,7 +205,7 @@ func BridgeWLANMeasurementResultItemExtIEsValueCompareLPPaProtocolExtensionConta
 	}
 }
 
-// ECIDMeasurementInitiationResponseMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseMeasurementIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.MeasurementIDValueCodec
@@ -258,7 +258,7 @@ func (b ECIDMeasurementInitiationResponseMeasurementIDIEBinding) Get(field *ECID
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding is the concrete IEBinding[ECIDMeasurementResult, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding binds ECIDMeasurementResult to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding struct {
 	info   s00.FieldInfo
 	codec  s13.ECIDMeasurementResultValueCodec
@@ -313,7 +313,7 @@ func (b ECIDMeasurementInitiationResponseECIDMeasurementResultIEBinding) Get(fie
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding struct {
 	info   s00.FieldInfo
 	codec  s09.CriticalityDiagnosticsValueCodec
@@ -368,7 +368,7 @@ func (b ECIDMeasurementInitiationResponseCriticalityDiagnosticsIEBinding) Get(fi
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationResponseCellPortionIDIEBinding is the concrete IEBinding[CellPortionID, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseCellPortionIDIEBinding binds CellPortionID to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseCellPortionIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.CellPortionIDValueCodec
@@ -421,7 +421,7 @@ func (b ECIDMeasurementInitiationResponseCellPortionIDIEBinding) Get(field *ECID
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding is the concrete IEBinding[InterRATMeasurementResult, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding binds InterRATMeasurementResult to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding struct {
 	info   s00.FieldInfo
 	codec  s20.InterRATMeasurementResultValueCodec
@@ -476,7 +476,7 @@ func (b ECIDMeasurementInitiationResponseInterRATMeasurementResultIEBinding) Get
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding is the concrete IEBinding[WLANMeasurementResult, ECIDMeasurementInitiationResponseIEValue].
+// ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding binds WLANMeasurementResult to ProtocolIE-Field {{E-CIDMeasurementInitiationResponse-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationResponseWLANMeasurementResultIEBinding struct {
 	info   s00.FieldInfo
 	codec  WLANMeasurementResultValueCodec
@@ -1277,10 +1277,9 @@ func BridgeUnmarshalAPERWLANMeasurementResultFrom(bb *aper.BitBuffer) (WLANMeasu
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERWLANMeasurementResultInto(v *BridgeAsn1cAPERWLANMeasurementResultListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(WLANMeasurementResult, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1288,7 +1287,7 @@ func BridgeUnmarshalAPERWLANMeasurementResultInto(v *BridgeAsn1cAPERWLANMeasurem
 			var elem WLANMeasurementResultItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := elem.unmarshalAPERFrom(bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1300,9 +1299,8 @@ func BridgeUnmarshalAPERWLANMeasurementResultInto(v *BridgeAsn1cAPERWLANMeasurem
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1626,7 +1624,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		toleranceMark_wlanchannellist := bb.EnterComponent("WLANChannelList")
 		tmp_wlanchannellist := make(s00.WLANChannelList, 0)
 		_, errCollection_wlanchannellist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_wlanchannellist, fragmentLength_wlanchannellist int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1136
+			// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1144
 			if fragmentOffset_wlanchannellist < 0 || fragmentLength_wlanchannellist < 0 || fragmentLength_wlanchannellist > int64(^uint(0)>>1) || fragmentOffset_wlanchannellist > int64(^uint(0)>>1)-fragmentLength_wlanchannellist {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1664,7 +1662,7 @@ func (v *WLANMeasurementResultItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.WLANMeasurementResultItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2237,7 +2235,7 @@ func (v *ECIDMeasurementInitiationResponse) unmarshalAPERFrom(bb *aper.BitBuffer
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(ECIDMeasurementInitiationResponseIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3998,7 +3996,7 @@ func (t ECIDMeasurementInitiationResponseIETable) ESMLCUEMeasurementID() ECIDMea
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
 				var empty s00.MeasurementID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementID")
 			}
 			value, ok := decoded.AsESMLCUEMeasurementID()
 			if !ok {
@@ -4063,7 +4061,7 @@ func (t ECIDMeasurementInitiationResponseIETable) ENBUEMeasurementID() ECIDMeasu
 			decoded, err := zero.decode(s00.ProtocolIEID(6), raw)
 			if err != nil {
 				var empty s00.MeasurementID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementID")
 			}
 			value, ok := decoded.AsENBUEMeasurementID()
 			if !ok {
@@ -4128,7 +4126,7 @@ func (t ECIDMeasurementInitiationResponseIETable) ECIDMeasurementResult() ECIDMe
 			decoded, err := zero.decode(s00.ProtocolIEID(7), raw)
 			if err != nil {
 				var empty s13.ECIDMeasurementResult
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ECIDMeasurementResult")
 			}
 			value, ok := decoded.AsECIDMeasurementResult()
 			if !ok {
@@ -4195,7 +4193,7 @@ func (t ECIDMeasurementInitiationResponseIETable) CriticalityDiagnostics() ECIDM
 			decoded, err := zero.decode(s00.ProtocolIEID(1), raw)
 			if err != nil {
 				var empty s09.CriticalityDiagnostics
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "CriticalityDiagnostics")
 			}
 			value, ok := decoded.AsCriticalityDiagnostics()
 			if !ok {
@@ -4262,7 +4260,7 @@ func (t ECIDMeasurementInitiationResponseIETable) CellPortionID() ECIDMeasuremen
 			decoded, err := zero.decode(s00.ProtocolIEID(14), raw)
 			if err != nil {
 				var empty s00.CellPortionID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "CellPortionID")
 			}
 			value, ok := decoded.AsCellPortionID()
 			if !ok {
@@ -4327,7 +4325,7 @@ func (t ECIDMeasurementInitiationResponseIETable) InterRATMeasurementResult() EC
 			decoded, err := zero.decode(s00.ProtocolIEID(17), raw)
 			if err != nil {
 				var empty s20.InterRATMeasurementResult
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "InterRATMeasurementResult")
 			}
 			value, ok := decoded.AsInterRATMeasurementResult()
 			if !ok {
@@ -4391,7 +4389,7 @@ func (t ECIDMeasurementInitiationResponseIETable) WLANMeasurementResult() ECIDMe
 			decoded, err := zero.decode(s00.ProtocolIEID(21), raw)
 			if err != nil {
 				var empty WLANMeasurementResult
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "WLANMeasurementResult")
 			}
 			value, ok := decoded.AsWLANMeasurementResult()
 			if !ok {
@@ -4521,6 +4519,68 @@ func WLANMeasurementResultItemCodec() WLANMeasurementResultItemValueCodec {
 	}(),
 	}
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// The field's Id distinguishes alternatives that share a Go type.
+func (v *ECIDMeasurementInitiationResponseIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 2:
+		if v.rowESMLCUEMeasurementID != nil {
+			return v.rowESMLCUEMeasurementID, true
+		}
+	case 6:
+		if v.rowENBUEMeasurementID != nil {
+			return v.rowENBUEMeasurementID, true
+		}
+	case 7:
+		if v.rowECIDMeasurementResult != nil {
+			return v.rowECIDMeasurementResult, true
+		}
+	case 1:
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case 14:
+		if v.rowCellPortionID != nil {
+			return v.rowCellPortionID, true
+		}
+	case 17:
+		if v.rowInterRATMeasurementResult != nil {
+			return v.rowInterRATMeasurementResult, true
+		}
+	case 21:
+		if v.rowWLANMeasurementResult != nil {
+			return v.rowWLANMeasurementResult, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SuccessfulValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.code {
+	case 2:
+		if v.bodyECIDMeasurementInitiationResponse != nil {
+			return v.bodyECIDMeasurementInitiationResponse, true
+		}
+	case 6:
+		if v.bodyOTDOAInformationResponse != nil {
+			return v.bodyOTDOAInformationResponse, true
+		}
+	case 7:
+		if v.bodyUTDOAInformationResponse != nil {
+			return v.bodyUTDOAInformationResponse, true
+		}
+	}
+	return nil, false
+}
+
 func BridgeECIDMeasurementInitiationResponseAPERValueFieldContext(v *ECIDMeasurementInitiationResponseAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }

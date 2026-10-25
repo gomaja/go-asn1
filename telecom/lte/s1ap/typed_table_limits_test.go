@@ -12,6 +12,7 @@ import (
 	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
 	s36 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s36"
 	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
+	s44 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s44"
 	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
@@ -45,7 +46,7 @@ func TestTableSelectedOpenTypeDepth(t *testing.T) {
 	enb := eNBIDFreshMust(s25.NewENBIDShortMacroENBID(runtime.BitString{Bytes: make([]byte, 3), BitLength: 18}))
 	global := s18.GlobalENBID{PLMNidentity: make([]byte, 3), ENBID: enb}
 	field := s1SetupRequestIEFieldFreshMust(s43.S1SetupRequestIEs().GlobalENBID().New(global))
-	request := s43.S1SetupRequest{ProtocolIEs: s43.S1SetupRequestIEContainer{field}}
+	request := s44.S1SetupRequest{ProtocolIEs: s43.S1SetupRequestIEContainer{field}}
 	outer := s52.S1APPDU{Choice: s00.S1APPDUChoiceInitiatingMessage, InitiatingMessage: &s51.InitiatingMessage{ProcedureCode: s00.IdS1Setup, Criticality: s00.CriticalityReject, Value: func() s51.InitiatingValue {
 		sealed := s51.InitiatingValue{}
 		*s51.BridgeInitiatingValueFieldCode(&sealed) = s00.IdS1Setup

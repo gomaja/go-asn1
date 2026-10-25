@@ -1,0 +1,19 @@
+{
+  "change": "Generic aliases whose type constraints no root type satisfies are no longer exported from the root; their internal definitions remain.",
+  "issue": "gomaja/go-asn1#221",
+  "removed": [
+    "ExtensionBinding",
+    "IEBinding",
+    "PrivateIEContainer",
+    "PrivateIEField",
+    "ProtocolExtensionContainer",
+    "ProtocolExtensionField",
+    "ProtocolIEContainer",
+    "ProtocolIEContainerList",
+    "ProtocolIEContainerPair",
+    "ProtocolIEContainerPairList",
+    "ProtocolIEField",
+    "ProtocolIEFieldPair",
+    "ProtocolIESingleContainer"
+  ]
+}

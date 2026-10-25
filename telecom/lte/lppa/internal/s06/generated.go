@@ -14,10 +14,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// ECIDMeasurementFailureIndicationIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementFailureIndicationIEValue].
+// ECIDMeasurementFailureIndicationIEContainer is ProtocolIE-Container {{E-CIDMeasurementFailureIndication-IEs}} of TS 36.455: a list of ECIDMeasurementFailureIndicationIEField values.
 type ECIDMeasurementFailureIndicationIEContainer []ECIDMeasurementFailureIndicationIEField
 
-// ECIDMeasurementFailureIndicationIEField is the concrete ProtocolIEField[ECIDMeasurementFailureIndicationIEValue].
+// ECIDMeasurementFailureIndicationIEField is ProtocolIE-Field {{E-CIDMeasurementFailureIndication-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementFailureIndicationIEValue.
 type ECIDMeasurementFailureIndicationIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -132,13 +132,13 @@ func (v *ECIDMeasurementFailureIndicationIEField) unmarshalAPERFrom(bb *aper.Bit
 	return nil
 }
 
-// InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[InterRATMeasurementQuantitiesItemIEValue].
+// InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{InterRATMeasurementQuantities-ItemIEs}} of TS 36.455: a single field carrying a value of InterRATMeasurementQuantitiesItemIEValue.
 type InterRATMeasurementQuantitiesItemIEValueProtocolIESingleContainer = InterRATMeasurementQuantitiesItemIEField
 
-// MeasurementQuantitiesItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[MeasurementQuantitiesItemIEValue].
+// MeasurementQuantitiesItemIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{MeasurementQuantities-ItemIEs}} of TS 36.455: a single field carrying a value of MeasurementQuantitiesItemIEValue.
 type MeasurementQuantitiesItemIEValueProtocolIESingleContainer = MeasurementQuantitiesItemIEField
 
-// InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding is the concrete IEBinding[InterRATMeasurementQuantitiesItem, InterRATMeasurementQuantitiesItemIEValue].
+// InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding binds InterRATMeasurementQuantitiesItem to ProtocolIE-Field {{InterRATMeasurementQuantities-ItemIEs}} of TS 36.455.
 type InterRATMeasurementQuantitiesItemInterRATMeasurementQuantitiesItemIEBinding struct {
 	info   s00.FieldInfo
 	codec  InterRATMeasurementQuantitiesItemValueCodec
@@ -293,7 +293,7 @@ func (c InterRATMeasurementQuantitiesItemValueCodec) encodeChanged(value InterRA
 	return out, aper.OperationError(err, c.path)
 }
 
-// InterRATMeasurementQuantitiesItemIEField is the concrete ProtocolIEField[InterRATMeasurementQuantitiesItemIEValue].
+// InterRATMeasurementQuantitiesItemIEField is ProtocolIE-Field {{InterRATMeasurementQuantities-ItemIEs}} of TS 36.455: a field carrying a value of InterRATMeasurementQuantitiesItemIEValue.
 type InterRATMeasurementQuantitiesItemIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -408,7 +408,7 @@ func (v *InterRATMeasurementQuantitiesItemIEField) unmarshalAPERFrom(bb *aper.Bi
 	return nil
 }
 
-// MeasurementQuantitiesItemIEField is the concrete ProtocolIEField[MeasurementQuantitiesItemIEValue].
+// MeasurementQuantitiesItemIEField is ProtocolIE-Field {{MeasurementQuantities-ItemIEs}} of TS 36.455: a field carrying a value of MeasurementQuantitiesItemIEValue.
 type MeasurementQuantitiesItemIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -523,7 +523,7 @@ func (v *MeasurementQuantitiesItemIEField) unmarshalAPERFrom(bb *aper.BitBuffer)
 	return nil
 }
 
-// ECIDMeasurementFailureIndicationMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementFailureIndicationIEValue].
+// ECIDMeasurementFailureIndicationMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementFailureIndication-IEs}} of TS 36.455.
 type ECIDMeasurementFailureIndicationMeasurementIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.MeasurementIDValueCodec
@@ -576,7 +576,7 @@ func (b ECIDMeasurementFailureIndicationMeasurementIDIEBinding) Get(field *ECIDM
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementFailureIndicationCauseIEBinding is the concrete IEBinding[Cause, ECIDMeasurementFailureIndicationIEValue].
+// ECIDMeasurementFailureIndicationCauseIEBinding binds Cause to ProtocolIE-Field {{E-CIDMeasurementFailureIndication-IEs}} of TS 36.455.
 type ECIDMeasurementFailureIndicationCauseIEBinding struct {
 	info   s00.FieldInfo
 	codec  s05.CauseValueCodec
@@ -1133,10 +1133,10 @@ func (c EUTRANAccessPointPositionValueCodec) encodeChanged(value EUTRANAccessPoi
 	return out, aper.OperationError(err, c.path)
 }
 
-// InterRATMeasurementQuantitiesItemIEContainer is the concrete ProtocolIEContainer[InterRATMeasurementQuantitiesItemIEValue].
+// InterRATMeasurementQuantitiesItemIEContainer is ProtocolIE-Container {{InterRATMeasurementQuantities-ItemIEs}} of TS 36.455: a list of InterRATMeasurementQuantitiesItemIEField values.
 type InterRATMeasurementQuantitiesItemIEContainer []InterRATMeasurementQuantitiesItemIEField
 
-// MeasurementQuantitiesItemIEContainer is the concrete ProtocolIEContainer[MeasurementQuantitiesItemIEValue].
+// MeasurementQuantitiesItemIEContainer is ProtocolIE-Container {{MeasurementQuantities-ItemIEs}} of TS 36.455: a list of MeasurementQuantitiesItemIEField values.
 type MeasurementQuantitiesItemIEContainer []MeasurementQuantitiesItemIEField
 
 // InterRATMeasurementQuantitiesItemAPERValue is the concrete APERValue[InterRATMeasurementQuantitiesItem].
@@ -1787,7 +1787,7 @@ func (v *InterRATMeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.InterRATMeasurementQuantitiesValueExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2043,7 +2043,7 @@ func (v *MeasurementQuantitiesItem) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.MeasurementQuantitiesValueExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2817,7 +2817,7 @@ func (v *ECIDMeasurementTerminationCommand) unmarshalAPERFrom(bb *aper.BitBuffer
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s03.ECIDMeasurementTerminationCommandIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4173,7 +4173,7 @@ func (t InterRATMeasurementQuantitiesItemIETable) InterRATMeasurementQuantitiesI
 			decoded, err := zero.decode(s00.ProtocolIEID(16), raw)
 			if err != nil {
 				var empty InterRATMeasurementQuantitiesItem
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "InterRATMeasurementQuantitiesItem")
 			}
 			value, ok := decoded.AsInterRATMeasurementQuantitiesItem()
 			if !ok {
@@ -4276,7 +4276,7 @@ func (t ECIDMeasurementFailureIndicationIETable) ESMLCUEMeasurementID() ECIDMeas
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
 				var empty s00.MeasurementID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementID")
 			}
 			value, ok := decoded.AsESMLCUEMeasurementID()
 			if !ok {
@@ -4341,7 +4341,7 @@ func (t ECIDMeasurementFailureIndicationIETable) ENBUEMeasurementID() ECIDMeasur
 			decoded, err := zero.decode(s00.ProtocolIEID(6), raw)
 			if err != nil {
 				var empty s00.MeasurementID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementID")
 			}
 			value, ok := decoded.AsENBUEMeasurementID()
 			if !ok {
@@ -4406,7 +4406,7 @@ func (t ECIDMeasurementFailureIndicationIETable) Cause() ECIDMeasurementFailureI
 			decoded, err := zero.decode(s00.ProtocolIEID(0), raw)
 			if err != nil {
 				var empty s05.Cause
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "Cause")
 			}
 			value, ok := decoded.AsCause()
 			if !ok {
@@ -4560,6 +4560,58 @@ func InterRATMeasurementQuantitiesItemCodec() InterRATMeasurementQuantitiesItemV
 func MeasurementIDCodec() s00.MeasurementIDValueCodec {
 	return ECIDMeasurementFailureIndicationIEs().ESMLCUEMeasurementID().Codec()
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// The field's Id distinguishes alternatives that share a Go type.
+func (v *ECIDMeasurementFailureIndicationIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 2:
+		if v.rowESMLCUEMeasurementID != nil {
+			return v.rowESMLCUEMeasurementID, true
+		}
+	case 6:
+		if v.rowENBUEMeasurementID != nil {
+			return v.rowENBUEMeasurementID, true
+		}
+	case 0:
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *InterRATMeasurementQuantitiesItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 16:
+		if v.rowInterRATMeasurementQuantitiesItem != nil {
+			return v.rowInterRATMeasurementQuantitiesItem, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *MeasurementQuantitiesItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 11:
+		if v.rowMeasurementQuantitiesItem != nil {
+			return v.rowMeasurementQuantitiesItem, true
+		}
+	}
+	return nil, false
+}
+
 func BridgeECGIValueCodecFieldCapture(v *ECGIValueCodec) *func(s05.ECGI, aper.DecodeState) (s05.ECGI, aper.Snapshot) {
 	return &v.capture
 }

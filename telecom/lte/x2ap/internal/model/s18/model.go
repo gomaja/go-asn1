@@ -24,10 +24,10 @@ import (
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// HandoverRequestIEContainer is the concrete ProtocolIEContainer[HandoverRequestIEValue].
+// HandoverRequestIEContainer is ProtocolIE-Container {{HandoverRequest-IEs}} of TS 36.423 §9.3.8: a list of HandoverRequestIEField values.
 type HandoverRequestIEContainer []HandoverRequestIEField
 
-// HandoverRequestIEField is the concrete ProtocolIEField[HandoverRequestIEValue].
+// HandoverRequestIEField is ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
 type HandoverRequestIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -145,10 +145,10 @@ func X2apInternalHandoverRequestIEFieldUnmarshalAPERFrom(v *HandoverRequestIEFie
 	return nil
 }
 
-// SgNBAdditionRequestIEContainer is the concrete ProtocolIEContainer[SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestIEContainer is ProtocolIE-Container {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8: a list of SgNBAdditionRequestIEField values.
 type SgNBAdditionRequestIEContainer []SgNBAdditionRequestIEField
 
-// SgNBAdditionRequestIEField is the concrete ProtocolIEField[SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestIEField is ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
 type SgNBAdditionRequestIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -266,10 +266,10 @@ func X2apInternalSgNBAdditionRequestIEFieldUnmarshalAPERFrom(v *SgNBAdditionRequ
 	return nil
 }
 
-// ENDCX2SetupRequestIEContainer is the concrete ProtocolIEContainer[ENDCX2SetupRequestIEValue].
+// ENDCX2SetupRequestIEContainer is ProtocolIE-Container {{ENDCX2SetupRequest-IEs}} of TS 36.423 §9.3.8: a list of ENDCX2SetupRequestIEField values.
 type ENDCX2SetupRequestIEContainer []ENDCX2SetupRequestIEField
 
-// ENDCX2SetupRequestIEField is the concrete ProtocolIEField[ENDCX2SetupRequestIEValue].
+// ENDCX2SetupRequestIEField is ProtocolIE-Field {{ENDCX2SetupRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCX2SetupRequestIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -387,10 +387,10 @@ func X2apInternalENDCX2SetupRequestIEFieldUnmarshalAPERFrom(v *ENDCX2SetupReques
 	return nil
 }
 
-// ENDCX2SetupResponseIEContainer is the concrete ProtocolIEContainer[ENDCX2SetupResponseIEValue].
+// ENDCX2SetupResponseIEContainer is ProtocolIE-Container {{ENDCX2SetupResponse-IEs}} of TS 36.423 §9.3.8: a list of ENDCX2SetupResponseIEField values.
 type ENDCX2SetupResponseIEContainer []ENDCX2SetupResponseIEField
 
-// ENDCX2SetupResponseIEField is the concrete ProtocolIEField[ENDCX2SetupResponseIEValue].
+// ENDCX2SetupResponseIEField is ProtocolIE-Field {{ENDCX2SetupResponse-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCX2SetupResponseIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -508,10 +508,10 @@ func X2apInternalENDCX2SetupResponseIEFieldUnmarshalAPERFrom(v *ENDCX2SetupRespo
 	return nil
 }
 
-// ENDCConfigurationUpdateIEContainer is the concrete ProtocolIEContainer[ENDCConfigurationUpdateIEValue].
+// ENDCConfigurationUpdateIEContainer is ProtocolIE-Container {{ENDCConfigurationUpdate-IEs}} of TS 36.423 §9.3.8: a list of ENDCConfigurationUpdateIEField values.
 type ENDCConfigurationUpdateIEContainer []ENDCConfigurationUpdateIEField
 
-// ENDCConfigurationUpdateIEField is the concrete ProtocolIEField[ENDCConfigurationUpdateIEValue].
+// ENDCConfigurationUpdateIEField is ProtocolIE-Field {{ENDCConfigurationUpdate-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCConfigurationUpdateIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -629,10 +629,10 @@ func X2apInternalENDCConfigurationUpdateIEFieldUnmarshalAPERFrom(v *ENDCConfigur
 	return nil
 }
 
-// ENDCConfigurationUpdateAcknowledgeIEContainer is the concrete ProtocolIEContainer[ENDCConfigurationUpdateAcknowledgeIEValue].
+// ENDCConfigurationUpdateAcknowledgeIEContainer is ProtocolIE-Container {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8: a list of ENDCConfigurationUpdateAcknowledgeIEField values.
 type ENDCConfigurationUpdateAcknowledgeIEContainer []ENDCConfigurationUpdateAcknowledgeIEField
 
-// ENDCConfigurationUpdateAcknowledgeIEField is the concrete ProtocolIEField[ENDCConfigurationUpdateAcknowledgeIEValue].
+// ENDCConfigurationUpdateAcknowledgeIEField is ProtocolIE-Field {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCConfigurationUpdateAcknowledgeIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -750,10 +750,10 @@ func X2apInternalENDCConfigurationUpdateAcknowledgeIEFieldUnmarshalAPERFrom(v *E
 	return nil
 }
 
-// ENDCCellActivationRequestIEContainer is the concrete ProtocolIEContainer[ENDCCellActivationRequestIEValue].
+// ENDCCellActivationRequestIEContainer is ProtocolIE-Container {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8: a list of ENDCCellActivationRequestIEField values.
 type ENDCCellActivationRequestIEContainer []ENDCCellActivationRequestIEField
 
-// ENDCCellActivationRequestIEField is the concrete ProtocolIEField[ENDCCellActivationRequestIEValue].
+// ENDCCellActivationRequestIEField is ProtocolIE-Field {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCCellActivationRequestIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -871,10 +871,10 @@ func X2apInternalENDCCellActivationRequestIEFieldUnmarshalAPERFrom(v *ENDCCellAc
 	return nil
 }
 
-// ENDCPartialResetRequiredIEContainer is the concrete ProtocolIEContainer[ENDCPartialResetRequiredIEValue].
+// ENDCPartialResetRequiredIEContainer is ProtocolIE-Container {{ENDCPartialResetRequired-IEs}} of TS 36.423 §9.3.8: a list of ENDCPartialResetRequiredIEField values.
 type ENDCPartialResetRequiredIEContainer []ENDCPartialResetRequiredIEField
 
-// ENDCPartialResetRequiredIEField is the concrete ProtocolIEField[ENDCPartialResetRequiredIEValue].
+// ENDCPartialResetRequiredIEField is ProtocolIE-Field {{ENDCPartialResetRequired-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCPartialResetRequiredIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -992,10 +992,10 @@ func X2apInternalENDCPartialResetRequiredIEFieldUnmarshalAPERFrom(v *ENDCPartial
 	return nil
 }
 
-// ENDCPartialResetConfirmIEContainer is the concrete ProtocolIEContainer[ENDCPartialResetConfirmIEValue].
+// ENDCPartialResetConfirmIEContainer is ProtocolIE-Container {{ENDCPartialResetConfirm-IEs}} of TS 36.423 §9.3.8: a list of ENDCPartialResetConfirmIEField values.
 type ENDCPartialResetConfirmIEContainer []ENDCPartialResetConfirmIEField
 
-// ENDCPartialResetConfirmIEField is the concrete ProtocolIEField[ENDCPartialResetConfirmIEValue].
+// ENDCPartialResetConfirmIEField is ProtocolIE-Field {{ENDCPartialResetConfirm-IEs}} of TS 36.423 §9.3.8: an information element field.
 type ENDCPartialResetConfirmIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -1617,7 +1617,7 @@ func X2apInternalSgNBAdditionRequestIEValuecompareX2APProtocolIEContainer(v *SgN
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// ENDCCellActivationRequestServedNRCellsToActivateIEBinding is the concrete IEBinding[ServedNRCellsToActivate, ENDCCellActivationRequestIEValue].
+// ENDCCellActivationRequestServedNRCellsToActivateIEBinding binds ServedNRCellsToActivate to ProtocolIE-Field {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationRequestServedNRCellsToActivateIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.ServedNRCellsToActivateValueCodec
@@ -1661,7 +1661,7 @@ func (b ENDCCellActivationRequestServedNRCellsToActivateIEBinding) Get(field *EN
 	return b.get(&field.Value)
 }
 
-// ENDCCellActivationRequestActivationIDIEBinding is the concrete IEBinding[ActivationID, ENDCCellActivationRequestIEValue].
+// ENDCCellActivationRequestActivationIDIEBinding binds ActivationID to ProtocolIE-Field {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationRequestActivationIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.ActivationIDValueCodec
@@ -1703,7 +1703,7 @@ func (b ENDCCellActivationRequestActivationIDIEBinding) Get(field *ENDCCellActiv
 	return b.get(&field.Value)
 }
 
-// ENDCCellActivationRequestInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCCellActivationRequestIEValue].
+// ENDCCellActivationRequestInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCCellActivationRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCCellActivationRequestInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -1747,7 +1747,7 @@ func (b ENDCCellActivationRequestInterfaceInstanceIndicationIEBinding) Get(field
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateInitiatingNodeTypeEndcConfigUpdateIEBinding is the concrete IEBinding[InitiatingNodeTypeEndcConfigUpdate, ENDCConfigurationUpdateIEValue].
+// ENDCConfigurationUpdateInitiatingNodeTypeEndcConfigUpdateIEBinding binds InitiatingNodeTypeEndcConfigUpdate to ProtocolIE-Field {{ENDCConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateInitiatingNodeTypeEndcConfigUpdateIEBinding struct {
 	info   s06.FieldInfo
 	codec  InitiatingNodeTypeEndcConfigUpdateValueCodec
@@ -1879,7 +1879,7 @@ func X2apInternalInitiatingNodeTypeEndcConfigUpdateValueCodecEncodeChanged(c Ini
 	return out, aper.OperationError(err, c.path)
 }
 
-// ENDCConfigurationUpdateInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCConfigurationUpdateIEValue].
+// ENDCConfigurationUpdateInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -1923,7 +1923,7 @@ func (b ENDCConfigurationUpdateInterfaceInstanceIndicationIEBinding) Get(field *
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateTNLConfigurationInfoIEBinding is the concrete IEBinding[TNLConfigurationInfo, ENDCConfigurationUpdateIEValue].
+// ENDCConfigurationUpdateTNLConfigurationInfoIEBinding binds TNLConfigurationInfo to ProtocolIE-Field {{ENDCConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateTNLConfigurationInfoIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.TNLConfigurationInfoValueCodec
@@ -1965,7 +1965,7 @@ func (b ENDCConfigurationUpdateTNLConfigurationInfoIEBinding) Get(field *ENDCCon
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateTNLAToAddListIEBinding is the concrete IEBinding[TNLAToAddList, ENDCConfigurationUpdateIEValue].
+// ENDCConfigurationUpdateTNLAToAddListIEBinding binds TNLAToAddList to ProtocolIE-Field {{ENDCConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateTNLAToAddListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.TNLAToAddListValueCodec
@@ -2007,7 +2007,7 @@ func (b ENDCConfigurationUpdateTNLAToAddListIEBinding) Get(field *ENDCConfigurat
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateTNLAToUpdateListIEBinding is the concrete IEBinding[TNLAToUpdateList, ENDCConfigurationUpdateIEValue].
+// ENDCConfigurationUpdateTNLAToUpdateListIEBinding binds TNLAToUpdateList to ProtocolIE-Field {{ENDCConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateTNLAToUpdateListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.TNLAToUpdateListValueCodec
@@ -2049,7 +2049,7 @@ func (b ENDCConfigurationUpdateTNLAToUpdateListIEBinding) Get(field *ENDCConfigu
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateTNLAToRemoveListIEBinding is the concrete IEBinding[TNLAToRemoveList, ENDCConfigurationUpdateIEValue].
+// ENDCConfigurationUpdateTNLAToRemoveListIEBinding binds TNLAToRemoveList to ProtocolIE-Field {{ENDCConfigurationUpdate-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateTNLAToRemoveListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.TNLAToRemoveListValueCodec
@@ -2091,7 +2091,7 @@ func (b ENDCConfigurationUpdateTNLAToRemoveListIEBinding) Get(field *ENDCConfigu
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateAcknowledgeRespondingNodeTypeEndcConfigUpdateIEBinding is the concrete IEBinding[RespondingNodeTypeEndcConfigUpdate, ENDCConfigurationUpdateAcknowledgeIEValue].
+// ENDCConfigurationUpdateAcknowledgeRespondingNodeTypeEndcConfigUpdateIEBinding binds RespondingNodeTypeEndcConfigUpdate to ProtocolIE-Field {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateAcknowledgeRespondingNodeTypeEndcConfigUpdateIEBinding struct {
 	info   s06.FieldInfo
 	codec  RespondingNodeTypeEndcConfigUpdateValueCodec
@@ -2223,7 +2223,7 @@ func X2apInternalRespondingNodeTypeEndcConfigUpdateValueCodecEncodeChanged(c Res
 	return out, aper.OperationError(err, c.path)
 }
 
-// ENDCConfigurationUpdateAcknowledgeInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCConfigurationUpdateAcknowledgeIEValue].
+// ENDCConfigurationUpdateAcknowledgeInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateAcknowledgeInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -2267,7 +2267,7 @@ func (b ENDCConfigurationUpdateAcknowledgeInterfaceInstanceIndicationIEBinding) 
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ENDCConfigurationUpdateAcknowledgeIEValue].
+// ENDCConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.CriticalityDiagnosticsValueCodec
@@ -2311,7 +2311,7 @@ func (b ENDCConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding) Get(f
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateAcknowledgeTNLConfigurationInfoIEBinding is the concrete IEBinding[TNLConfigurationInfo, ENDCConfigurationUpdateAcknowledgeIEValue].
+// ENDCConfigurationUpdateAcknowledgeTNLConfigurationInfoIEBinding binds TNLConfigurationInfo to ProtocolIE-Field {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateAcknowledgeTNLConfigurationInfoIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.TNLConfigurationInfoValueCodec
@@ -2355,7 +2355,7 @@ func (b ENDCConfigurationUpdateAcknowledgeTNLConfigurationInfoIEBinding) Get(fie
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateAcknowledgeTNLASetupListIEBinding is the concrete IEBinding[TNLASetupList, ENDCConfigurationUpdateAcknowledgeIEValue].
+// ENDCConfigurationUpdateAcknowledgeTNLASetupListIEBinding binds TNLASetupList to ProtocolIE-Field {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateAcknowledgeTNLASetupListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.TNLASetupListValueCodec
@@ -2397,7 +2397,7 @@ func (b ENDCConfigurationUpdateAcknowledgeTNLASetupListIEBinding) Get(field *END
 	return b.get(&field.Value)
 }
 
-// ENDCConfigurationUpdateAcknowledgeTNLAFailedToSetupListIEBinding is the concrete IEBinding[TNLAFailedToSetupList, ENDCConfigurationUpdateAcknowledgeIEValue].
+// ENDCConfigurationUpdateAcknowledgeTNLAFailedToSetupListIEBinding binds TNLAFailedToSetupList to ProtocolIE-Field {{ENDCConfigurationUpdateAcknowledge-IEs}} of TS 36.423 §9.3.8.
 type ENDCConfigurationUpdateAcknowledgeTNLAFailedToSetupListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.TNLAFailedToSetupListValueCodec
@@ -2441,7 +2441,7 @@ func (b ENDCConfigurationUpdateAcknowledgeTNLAFailedToSetupListIEBinding) Get(fi
 	return b.get(&field.Value)
 }
 
-// ENDCPartialResetConfirmUEsToBeResetListIEBinding is the concrete IEBinding[UEsToBeResetList, ENDCPartialResetConfirmIEValue].
+// ENDCPartialResetConfirmUEsToBeResetListIEBinding binds UEsToBeResetList to ProtocolIE-Field {{ENDCPartialResetConfirm-IEs}} of TS 36.423 §9.3.8.
 type ENDCPartialResetConfirmUEsToBeResetListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s12.UEsToBeResetListValueCodec
@@ -2483,7 +2483,7 @@ func (b ENDCPartialResetConfirmUEsToBeResetListIEBinding) Get(field *ENDCPartial
 	return b.get(&field.Value)
 }
 
-// ENDCPartialResetConfirmInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCPartialResetConfirmIEValue].
+// ENDCPartialResetConfirmInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCPartialResetConfirm-IEs}} of TS 36.423 §9.3.8.
 type ENDCPartialResetConfirmInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -2527,7 +2527,7 @@ func (b ENDCPartialResetConfirmInterfaceInstanceIndicationIEBinding) Get(field *
 	return b.get(&field.Value)
 }
 
-// ENDCPartialResetRequiredUEsToBeResetListIEBinding is the concrete IEBinding[UEsToBeResetList, ENDCPartialResetRequiredIEValue].
+// ENDCPartialResetRequiredUEsToBeResetListIEBinding binds UEsToBeResetList to ProtocolIE-Field {{ENDCPartialResetRequired-IEs}} of TS 36.423 §9.3.8.
 type ENDCPartialResetRequiredUEsToBeResetListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s12.UEsToBeResetListValueCodec
@@ -2569,7 +2569,7 @@ func (b ENDCPartialResetRequiredUEsToBeResetListIEBinding) Get(field *ENDCPartia
 	return b.get(&field.Value)
 }
 
-// ENDCPartialResetRequiredCauseIEBinding is the concrete IEBinding[Cause, ENDCPartialResetRequiredIEValue].
+// ENDCPartialResetRequiredCauseIEBinding binds Cause to ProtocolIE-Field {{ENDCPartialResetRequired-IEs}} of TS 36.423 §9.3.8.
 type ENDCPartialResetRequiredCauseIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.CauseValueCodec
@@ -2609,7 +2609,7 @@ func (b ENDCPartialResetRequiredCauseIEBinding) Get(field *ENDCPartialResetRequi
 	return b.get(&field.Value)
 }
 
-// ENDCPartialResetRequiredInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCPartialResetRequiredIEValue].
+// ENDCPartialResetRequiredInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCPartialResetRequired-IEs}} of TS 36.423 §9.3.8.
 type ENDCPartialResetRequiredInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -2653,7 +2653,7 @@ func (b ENDCPartialResetRequiredInterfaceInstanceIndicationIEBinding) Get(field 
 	return b.get(&field.Value)
 }
 
-// ENDCX2SetupRequestInitiatingNodeTypeEndcX2SetupIEBinding is the concrete IEBinding[InitiatingNodeTypeEndcX2Setup, ENDCX2SetupRequestIEValue].
+// ENDCX2SetupRequestInitiatingNodeTypeEndcX2SetupIEBinding binds InitiatingNodeTypeEndcX2Setup to ProtocolIE-Field {{ENDCX2SetupRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupRequestInitiatingNodeTypeEndcX2SetupIEBinding struct {
 	info   s06.FieldInfo
 	codec  InitiatingNodeTypeEndcX2SetupValueCodec
@@ -2783,7 +2783,7 @@ func X2apInternalInitiatingNodeTypeEndcX2SetupValueCodecEncodeChanged(c Initiati
 	return out, aper.OperationError(err, c.path)
 }
 
-// ENDCX2SetupRequestInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCX2SetupRequestIEValue].
+// ENDCX2SetupRequestInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCX2SetupRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupRequestInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -2825,7 +2825,7 @@ func (b ENDCX2SetupRequestInterfaceInstanceIndicationIEBinding) Get(field *ENDCX
 	return b.get(&field.Value)
 }
 
-// ENDCX2SetupRequestTNLConfigurationInfoIEBinding is the concrete IEBinding[TNLConfigurationInfo, ENDCX2SetupRequestIEValue].
+// ENDCX2SetupRequestTNLConfigurationInfoIEBinding binds TNLConfigurationInfo to ProtocolIE-Field {{ENDCX2SetupRequest-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupRequestTNLConfigurationInfoIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.TNLConfigurationInfoValueCodec
@@ -2867,7 +2867,7 @@ func (b ENDCX2SetupRequestTNLConfigurationInfoIEBinding) Get(field *ENDCX2SetupR
 	return b.get(&field.Value)
 }
 
-// ENDCX2SetupResponseRespondingNodeTypeEndcX2SetupIEBinding is the concrete IEBinding[RespondingNodeTypeEndcX2Setup, ENDCX2SetupResponseIEValue].
+// ENDCX2SetupResponseRespondingNodeTypeEndcX2SetupIEBinding binds RespondingNodeTypeEndcX2Setup to ProtocolIE-Field {{ENDCX2SetupResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupResponseRespondingNodeTypeEndcX2SetupIEBinding struct {
 	info   s06.FieldInfo
 	codec  RespondingNodeTypeEndcX2SetupValueCodec
@@ -2999,7 +2999,7 @@ func X2apInternalRespondingNodeTypeEndcX2SetupValueCodecEncodeChanged(c Respondi
 	return out, aper.OperationError(err, c.path)
 }
 
-// ENDCX2SetupResponseInterfaceInstanceIndicationIEBinding is the concrete IEBinding[InterfaceInstanceIndication, ENDCX2SetupResponseIEValue].
+// ENDCX2SetupResponseInterfaceInstanceIndicationIEBinding binds InterfaceInstanceIndication to ProtocolIE-Field {{ENDCX2SetupResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupResponseInterfaceInstanceIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.InterfaceInstanceIndicationValueCodec
@@ -3041,7 +3041,7 @@ func (b ENDCX2SetupResponseInterfaceInstanceIndicationIEBinding) Get(field *ENDC
 	return b.get(&field.Value)
 }
 
-// ENDCX2SetupResponseTNLConfigurationInfoIEBinding is the concrete IEBinding[TNLConfigurationInfo, ENDCX2SetupResponseIEValue].
+// ENDCX2SetupResponseTNLConfigurationInfoIEBinding binds TNLConfigurationInfo to ProtocolIE-Field {{ENDCX2SetupResponse-IEs}} of TS 36.423 §9.3.8.
 type ENDCX2SetupResponseTNLConfigurationInfoIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.TNLConfigurationInfoValueCodec
@@ -3083,7 +3083,7 @@ func (b ENDCX2SetupResponseTNLConfigurationInfoIEBinding) Get(field *ENDCX2Setup
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCConfigUpdateAckServedNRcellsENDCX2ManagementListIEBinding is the concrete IEBinding[ServedNRcellsENDCX2ManagementList, EnGNBENDCConfigUpdateAckIEValue].
+// EnGNBENDCConfigUpdateAckServedNRcellsENDCX2ManagementListIEBinding binds ServedNRcellsENDCX2ManagementList to ProtocolIE-Field {{En-gNB-ENDCConfigUpdateAckIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCConfigUpdateAckServedNRcellsENDCX2ManagementListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s17.ServedNRcellsENDCX2ManagementListValueCodec
@@ -3127,7 +3127,7 @@ func (b EnGNBENDCConfigUpdateAckServedNRcellsENDCX2ManagementListIEBinding) Get(
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCConfigUpdateAckIEField is the concrete ProtocolIEField[EnGNBENDCConfigUpdateAckIEValue].
+// EnGNBENDCConfigUpdateAckIEField is ProtocolIE-Field {{En-gNB-ENDCConfigUpdateAckIEs}} of TS 36.423 §9.3.8: an information element field.
 type EnGNBENDCConfigUpdateAckIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -3245,7 +3245,7 @@ func X2apInternalEnGNBENDCConfigUpdateAckIEFieldUnmarshalAPERFrom(v *EnGNBENDCCo
 	return nil
 }
 
-// EnGNBENDCConfigUpdateServedNRcellsENDCX2ManagementListIEBinding is the concrete IEBinding[ServedNRcellsENDCX2ManagementList, EnGNBENDCConfigUpdateIEValue].
+// EnGNBENDCConfigUpdateServedNRcellsENDCX2ManagementListIEBinding binds ServedNRcellsENDCX2ManagementList to ProtocolIE-Field {{En-gNB-ENDCConfigUpdateIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCConfigUpdateServedNRcellsENDCX2ManagementListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s17.ServedNRcellsENDCX2ManagementListValueCodec
@@ -3289,7 +3289,7 @@ func (b EnGNBENDCConfigUpdateServedNRcellsENDCX2ManagementListIEBinding) Get(fie
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCConfigUpdateServedNRcellsToModifyENDCConfUpdListIEBinding is the concrete IEBinding[ServedNRcellsToModifyENDCConfUpdList, EnGNBENDCConfigUpdateIEValue].
+// EnGNBENDCConfigUpdateServedNRcellsToModifyENDCConfUpdListIEBinding binds ServedNRcellsToModifyENDCConfUpdList to ProtocolIE-Field {{En-gNB-ENDCConfigUpdateIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCConfigUpdateServedNRcellsToModifyENDCConfUpdListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s16.ServedNRcellsToModifyENDCConfUpdListValueCodec
@@ -3333,7 +3333,7 @@ func (b EnGNBENDCConfigUpdateServedNRcellsToModifyENDCConfUpdListIEBinding) Get(
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCConfigUpdateServedNRcellsToDeleteENDCConfUpdListIEBinding is the concrete IEBinding[ServedNRcellsToDeleteENDCConfUpdList, EnGNBENDCConfigUpdateIEValue].
+// EnGNBENDCConfigUpdateServedNRcellsToDeleteENDCConfUpdListIEBinding binds ServedNRcellsToDeleteENDCConfUpdList to ProtocolIE-Field {{En-gNB-ENDCConfigUpdateIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCConfigUpdateServedNRcellsToDeleteENDCConfUpdListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.ServedNRcellsToDeleteENDCConfUpdListValueCodec
@@ -3377,7 +3377,7 @@ func (b EnGNBENDCConfigUpdateServedNRcellsToDeleteENDCConfUpdListIEBinding) Get(
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCConfigUpdateIEField is the concrete ProtocolIEField[EnGNBENDCConfigUpdateIEValue].
+// EnGNBENDCConfigUpdateIEField is ProtocolIE-Field {{En-gNB-ENDCConfigUpdateIEs}} of TS 36.423 §9.3.8: an information element field.
 type EnGNBENDCConfigUpdateIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -3495,7 +3495,7 @@ func X2apInternalEnGNBENDCConfigUpdateIEFieldUnmarshalAPERFrom(v *EnGNBENDCConfi
 	return nil
 }
 
-// EnGNBENDCX2SetupReqAckGlobalGNBIDIEBinding is the concrete IEBinding[GlobalGNBID, EnGNBENDCX2SetupReqAckIEValue].
+// EnGNBENDCX2SetupReqAckGlobalGNBIDIEBinding binds GlobalGNBID to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCX2SetupReqAckGlobalGNBIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.GlobalGNBIDValueCodec
@@ -3535,7 +3535,7 @@ func (b EnGNBENDCX2SetupReqAckGlobalGNBIDIEBinding) Get(field *EnGNBENDCX2SetupR
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCX2SetupReqAckServedNRcellsENDCX2ManagementListIEBinding is the concrete IEBinding[ServedNRcellsENDCX2ManagementList, EnGNBENDCX2SetupReqAckIEValue].
+// EnGNBENDCX2SetupReqAckServedNRcellsENDCX2ManagementListIEBinding binds ServedNRcellsENDCX2ManagementList to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCX2SetupReqAckServedNRcellsENDCX2ManagementListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s17.ServedNRcellsENDCX2ManagementListValueCodec
@@ -3579,7 +3579,7 @@ func (b EnGNBENDCX2SetupReqAckServedNRcellsENDCX2ManagementListIEBinding) Get(fi
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCX2SetupReqAckPartialListIndicatorIEBinding is the concrete IEBinding[PartialListIndicator, EnGNBENDCX2SetupReqAckIEValue].
+// EnGNBENDCX2SetupReqAckPartialListIndicatorIEBinding binds PartialListIndicator to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCX2SetupReqAckPartialListIndicatorIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.PartialListIndicatorValueCodec
@@ -3621,7 +3621,7 @@ func (b EnGNBENDCX2SetupReqAckPartialListIndicatorIEBinding) Get(field *EnGNBEND
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCX2SetupReqAckIEField is the concrete ProtocolIEField[EnGNBENDCX2SetupReqAckIEValue].
+// EnGNBENDCX2SetupReqAckIEField is ProtocolIE-Field {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8: an information element field.
 type EnGNBENDCX2SetupReqAckIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -3739,7 +3739,7 @@ func X2apInternalEnGNBENDCX2SetupReqAckIEFieldUnmarshalAPERFrom(v *EnGNBENDCX2Se
 	return nil
 }
 
-// EnGNBENDCX2SetupReqGlobalGNBIDIEBinding is the concrete IEBinding[GlobalGNBID, EnGNBENDCX2SetupReqIEValue].
+// EnGNBENDCX2SetupReqGlobalGNBIDIEBinding binds GlobalGNBID to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCX2SetupReqGlobalGNBIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.GlobalGNBIDValueCodec
@@ -3779,7 +3779,7 @@ func (b EnGNBENDCX2SetupReqGlobalGNBIDIEBinding) Get(field *EnGNBENDCX2SetupReqI
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCX2SetupReqServedNRcellsENDCX2ManagementListIEBinding is the concrete IEBinding[ServedNRcellsENDCX2ManagementList, EnGNBENDCX2SetupReqIEValue].
+// EnGNBENDCX2SetupReqServedNRcellsENDCX2ManagementListIEBinding binds ServedNRcellsENDCX2ManagementList to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCX2SetupReqServedNRcellsENDCX2ManagementListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s17.ServedNRcellsENDCX2ManagementListValueCodec
@@ -3823,7 +3823,7 @@ func (b EnGNBENDCX2SetupReqServedNRcellsENDCX2ManagementListIEBinding) Get(field
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCX2SetupReqPartialListIndicatorIEBinding is the concrete IEBinding[PartialListIndicator, EnGNBENDCX2SetupReqIEValue].
+// EnGNBENDCX2SetupReqPartialListIndicatorIEBinding binds PartialListIndicator to ProtocolIE-Field {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8.
 type EnGNBENDCX2SetupReqPartialListIndicatorIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.PartialListIndicatorValueCodec
@@ -3865,7 +3865,7 @@ func (b EnGNBENDCX2SetupReqPartialListIndicatorIEBinding) Get(field *EnGNBENDCX2
 	return b.get(&field.Value)
 }
 
-// EnGNBENDCX2SetupReqIEField is the concrete ProtocolIEField[EnGNBENDCX2SetupReqIEValue].
+// EnGNBENDCX2SetupReqIEField is ProtocolIE-Field {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8: an information element field.
 type EnGNBENDCX2SetupReqIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -3983,7 +3983,7 @@ func X2apInternalEnGNBENDCX2SetupReqIEFieldUnmarshalAPERFrom(v *EnGNBENDCX2Setup
 	return nil
 }
 
-// HandoverRequestUEX2APIDIEBinding is the concrete IEBinding[UEX2APID, HandoverRequestIEValue].
+// HandoverRequestUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestUEX2APIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDValueCodec
@@ -4023,7 +4023,7 @@ func (b HandoverRequestUEX2APIDIEBinding) Get(field *HandoverRequestIEField) (*s
 	return b.get(&field.Value)
 }
 
-// HandoverRequestCauseIEBinding is the concrete IEBinding[Cause, HandoverRequestIEValue].
+// HandoverRequestCauseIEBinding binds Cause to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestCauseIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.CauseValueCodec
@@ -4063,7 +4063,7 @@ func (b HandoverRequestCauseIEBinding) Get(field *HandoverRequestIEField) (*s00.
 	return b.get(&field.Value)
 }
 
-// HandoverRequestECGIIEBinding is the concrete IEBinding[ECGI, HandoverRequestIEValue].
+// HandoverRequestECGIIEBinding binds ECGI to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestECGIIEBinding struct {
 	info   s06.FieldInfo
 	codec  s04.ECGIValueCodec
@@ -4103,7 +4103,7 @@ func (b HandoverRequestECGIIEBinding) Get(field *HandoverRequestIEField) (*s04.E
 	return b.get(&field.Value)
 }
 
-// HandoverRequestGUMMEIIEBinding is the concrete IEBinding[GUMMEI, HandoverRequestIEValue].
+// HandoverRequestGUMMEIIEBinding binds GUMMEI to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestGUMMEIIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.GUMMEIValueCodec
@@ -4143,7 +4143,7 @@ func (b HandoverRequestGUMMEIIEBinding) Get(field *HandoverRequestIEField) (*s05
 	return b.get(&field.Value)
 }
 
-// HandoverRequestUEContextInformationIEBinding is the concrete IEBinding[UEContextInformation, HandoverRequestIEValue].
+// HandoverRequestUEContextInformationIEBinding binds UEContextInformation to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestUEContextInformationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s17.UEContextInformationValueCodec
@@ -4185,7 +4185,7 @@ func (b HandoverRequestUEContextInformationIEBinding) Get(field *HandoverRequest
 	return b.get(&field.Value)
 }
 
-// HandoverRequestUEHistoryInformationIEBinding is the concrete IEBinding[UEHistoryInformation, HandoverRequestIEValue].
+// HandoverRequestUEHistoryInformationIEBinding binds UEHistoryInformation to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestUEHistoryInformationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s16.UEHistoryInformationValueCodec
@@ -4227,7 +4227,7 @@ func (b HandoverRequestUEHistoryInformationIEBinding) Get(field *HandoverRequest
 	return b.get(&field.Value)
 }
 
-// HandoverRequestTraceActivationIEBinding is the concrete IEBinding[TraceActivation, HandoverRequestIEValue].
+// HandoverRequestTraceActivationIEBinding binds TraceActivation to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestTraceActivationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s16.TraceActivationValueCodec
@@ -4269,7 +4269,7 @@ func (b HandoverRequestTraceActivationIEBinding) Get(field *HandoverRequestIEFie
 	return b.get(&field.Value)
 }
 
-// HandoverRequestSRVCCOperationPossibleIEBinding is the concrete IEBinding[SRVCCOperationPossible, HandoverRequestIEValue].
+// HandoverRequestSRVCCOperationPossibleIEBinding binds SRVCCOperationPossible to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestSRVCCOperationPossibleIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.SRVCCOperationPossibleValueCodec
@@ -4311,7 +4311,7 @@ func (b HandoverRequestSRVCCOperationPossibleIEBinding) Get(field *HandoverReque
 	return b.get(&field.Value)
 }
 
-// HandoverRequestCSGMembershipStatusIEBinding is the concrete IEBinding[CSGMembershipStatus, HandoverRequestIEValue].
+// HandoverRequestCSGMembershipStatusIEBinding binds CSGMembershipStatus to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestCSGMembershipStatusIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.CSGMembershipStatusValueCodec
@@ -4353,7 +4353,7 @@ func (b HandoverRequestCSGMembershipStatusIEBinding) Get(field *HandoverRequestI
 	return b.get(&field.Value)
 }
 
-// HandoverRequestMobilityInformationIEBinding is the concrete IEBinding[MobilityInformation, HandoverRequestIEValue].
+// HandoverRequestMobilityInformationIEBinding binds MobilityInformation to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestMobilityInformationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.MobilityInformationValueCodec
@@ -4395,7 +4395,7 @@ func (b HandoverRequestMobilityInformationIEBinding) Get(field *HandoverRequestI
 	return b.get(&field.Value)
 }
 
-// HandoverRequestMaskedIMEISVIEBinding is the concrete IEBinding[MaskedIMEISV, HandoverRequestIEValue].
+// HandoverRequestMaskedIMEISVIEBinding binds MaskedIMEISV to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestMaskedIMEISVIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.MaskedIMEISVValueCodec
@@ -4435,7 +4435,7 @@ func (b HandoverRequestMaskedIMEISVIEBinding) Get(field *HandoverRequestIEField)
 	return b.get(&field.Value)
 }
 
-// HandoverRequestUEHistoryInformationFromTheUEIEBinding is the concrete IEBinding[UEHistoryInformationFromTheUE, HandoverRequestIEValue].
+// HandoverRequestUEHistoryInformationFromTheUEIEBinding binds UEHistoryInformationFromTheUE to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestUEHistoryInformationFromTheUEIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEHistoryInformationFromTheUEValueCodec
@@ -4477,7 +4477,7 @@ func (b HandoverRequestUEHistoryInformationFromTheUEIEBinding) Get(field *Handov
 	return b.get(&field.Value)
 }
 
-// HandoverRequestExpectedUEBehaviourIEBinding is the concrete IEBinding[ExpectedUEBehaviour, HandoverRequestIEValue].
+// HandoverRequestExpectedUEBehaviourIEBinding binds ExpectedUEBehaviour to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestExpectedUEBehaviourIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.ExpectedUEBehaviourValueCodec
@@ -4519,7 +4519,7 @@ func (b HandoverRequestExpectedUEBehaviourIEBinding) Get(field *HandoverRequestI
 	return b.get(&field.Value)
 }
 
-// HandoverRequestProSeAuthorizedIEBinding is the concrete IEBinding[ProSeAuthorized, HandoverRequestIEValue].
+// HandoverRequestProSeAuthorizedIEBinding binds ProSeAuthorized to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestProSeAuthorizedIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.ProSeAuthorizedValueCodec
@@ -4561,7 +4561,7 @@ func (b HandoverRequestProSeAuthorizedIEBinding) Get(field *HandoverRequestIEFie
 	return b.get(&field.Value)
 }
 
-// HandoverRequestUEContextReferenceAtSeNBIEBinding is the concrete IEBinding[UEContextReferenceAtSeNB, HandoverRequestIEValue].
+// HandoverRequestUEContextReferenceAtSeNBIEBinding binds UEContextReferenceAtSeNB to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestUEContextReferenceAtSeNBIEBinding struct {
 	info   s06.FieldInfo
 	codec  s12.UEContextReferenceAtSeNBValueCodec
@@ -4603,7 +4603,7 @@ func (b HandoverRequestUEContextReferenceAtSeNBIEBinding) Get(field *HandoverReq
 	return b.get(&field.Value)
 }
 
-// HandoverRequestUEX2APIDExtensionIEBinding is the concrete IEBinding[UEX2APIDExtension, HandoverRequestIEValue].
+// HandoverRequestUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestUEX2APIDExtensionIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDExtensionValueCodec
@@ -4645,7 +4645,7 @@ func (b HandoverRequestUEX2APIDExtensionIEBinding) Get(field *HandoverRequestIEF
 	return b.get(&field.Value)
 }
 
-// HandoverRequestV2XServicesAuthorizedIEBinding is the concrete IEBinding[V2XServicesAuthorized, HandoverRequestIEValue].
+// HandoverRequestV2XServicesAuthorizedIEBinding binds V2XServicesAuthorized to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestV2XServicesAuthorizedIEBinding struct {
 	info   s06.FieldInfo
 	codec  s06.V2XServicesAuthorizedValueCodec
@@ -4687,7 +4687,7 @@ func (b HandoverRequestV2XServicesAuthorizedIEBinding) Get(field *HandoverReques
 	return b.get(&field.Value)
 }
 
-// HandoverRequestUEContextReferenceAtWTIEBinding is the concrete IEBinding[UEContextReferenceAtWT, HandoverRequestIEValue].
+// HandoverRequestUEContextReferenceAtWTIEBinding binds UEContextReferenceAtWT to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestUEContextReferenceAtWTIEBinding struct {
 	info   s06.FieldInfo
 	codec  s13.UEContextReferenceAtWTValueCodec
@@ -4729,7 +4729,7 @@ func (b HandoverRequestUEContextReferenceAtWTIEBinding) Get(field *HandoverReque
 	return b.get(&field.Value)
 }
 
-// HandoverRequestNRUESecurityCapabilitiesIEBinding is the concrete IEBinding[NRUESecurityCapabilities, HandoverRequestIEValue].
+// HandoverRequestNRUESecurityCapabilitiesIEBinding binds NRUESecurityCapabilities to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestNRUESecurityCapabilitiesIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.NRUESecurityCapabilitiesValueCodec
@@ -4771,7 +4771,7 @@ func (b HandoverRequestNRUESecurityCapabilitiesIEBinding) Get(field *HandoverReq
 	return b.get(&field.Value)
 }
 
-// HandoverRequestUEContextReferenceAtSgNBIEBinding is the concrete IEBinding[UEContextReferenceAtSgNB, HandoverRequestIEValue].
+// HandoverRequestUEContextReferenceAtSgNBIEBinding binds UEContextReferenceAtSgNB to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestUEContextReferenceAtSgNBIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.UEContextReferenceAtSgNBValueCodec
@@ -4813,7 +4813,7 @@ func (b HandoverRequestUEContextReferenceAtSgNBIEBinding) Get(field *HandoverReq
 	return b.get(&field.Value)
 }
 
-// HandoverRequestAerialUEsubscriptionInformationIEBinding is the concrete IEBinding[AerialUEsubscriptionInformation, HandoverRequestIEValue].
+// HandoverRequestAerialUEsubscriptionInformationIEBinding binds AerialUEsubscriptionInformation to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestAerialUEsubscriptionInformationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.AerialUEsubscriptionInformationValueCodec
@@ -4855,7 +4855,7 @@ func (b HandoverRequestAerialUEsubscriptionInformationIEBinding) Get(field *Hand
 	return b.get(&field.Value)
 }
 
-// HandoverRequestSubscriptionBasedUEDifferentiationInfoIEBinding is the concrete IEBinding[SubscriptionBasedUEDifferentiationInfo, HandoverRequestIEValue].
+// HandoverRequestSubscriptionBasedUEDifferentiationInfoIEBinding binds SubscriptionBasedUEDifferentiationInfo to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestSubscriptionBasedUEDifferentiationInfoIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.SubscriptionBasedUEDifferentiationInfoValueCodec
@@ -4899,7 +4899,7 @@ func (b HandoverRequestSubscriptionBasedUEDifferentiationInfoIEBinding) Get(fiel
 	return b.get(&field.Value)
 }
 
-// HandoverRequestCHOinformationREQIEBinding is the concrete IEBinding[CHOinformationREQ, HandoverRequestIEValue].
+// HandoverRequestCHOinformationREQIEBinding binds CHOinformationREQ to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestCHOinformationREQIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.CHOinformationREQValueCodec
@@ -4941,7 +4941,7 @@ func (b HandoverRequestCHOinformationREQIEBinding) Get(field *HandoverRequestIEF
 	return b.get(&field.Value)
 }
 
-// HandoverRequestNRV2XServicesAuthorizedIEBinding is the concrete IEBinding[NRV2XServicesAuthorized, HandoverRequestIEValue].
+// HandoverRequestNRV2XServicesAuthorizedIEBinding binds NRV2XServicesAuthorized to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestNRV2XServicesAuthorizedIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.NRV2XServicesAuthorizedValueCodec
@@ -4983,7 +4983,7 @@ func (b HandoverRequestNRV2XServicesAuthorizedIEBinding) Get(field *HandoverRequ
 	return b.get(&field.Value)
 }
 
-// HandoverRequestPC5QoSParametersIEBinding is the concrete IEBinding[PC5QoSParameters, HandoverRequestIEValue].
+// HandoverRequestPC5QoSParametersIEBinding binds PC5QoSParameters to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestPC5QoSParametersIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.PC5QoSParametersValueCodec
@@ -5025,7 +5025,7 @@ func (b HandoverRequestPC5QoSParametersIEBinding) Get(field *HandoverRequestIEFi
 	return b.get(&field.Value)
 }
 
-// HandoverRequestIABNodeIndicationIEBinding is the concrete IEBinding[IABNodeIndication, HandoverRequestIEValue].
+// HandoverRequestIABNodeIndicationIEBinding binds IABNodeIndication to ProtocolIE-Field {{HandoverRequest-IEs}} of TS 36.423 §9.3.8.
 type HandoverRequestIABNodeIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.IABNodeIndicationValueCodec
@@ -5067,7 +5067,7 @@ func (b HandoverRequestIABNodeIndicationIEBinding) Get(field *HandoverRequestIEF
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestUEX2APIDIEBinding is the concrete IEBinding[UEX2APID, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestUEX2APIDIEBinding binds UEX2APID to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestUEX2APIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDValueCodec
@@ -5107,7 +5107,7 @@ func (b SgNBAdditionRequestUEX2APIDIEBinding) Get(field *SgNBAdditionRequestIEFi
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestNRUESecurityCapabilitiesIEBinding is the concrete IEBinding[NRUESecurityCapabilities, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestNRUESecurityCapabilitiesIEBinding binds NRUESecurityCapabilities to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestNRUESecurityCapabilitiesIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.NRUESecurityCapabilitiesValueCodec
@@ -5149,7 +5149,7 @@ func (b SgNBAdditionRequestNRUESecurityCapabilitiesIEBinding) Get(field *SgNBAdd
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestSgNBSecurityKeyIEBinding is the concrete IEBinding[SgNBSecurityKey, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestSgNBSecurityKeyIEBinding binds SgNBSecurityKey to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestSgNBSecurityKeyIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.SgNBSecurityKeyValueCodec
@@ -5191,7 +5191,7 @@ func (b SgNBAdditionRequestSgNBSecurityKeyIEBinding) Get(field *SgNBAdditionRequ
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestUEAggregateMaximumBitRateIEBinding is the concrete IEBinding[UEAggregateMaximumBitRate, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestUEAggregateMaximumBitRateIEBinding binds UEAggregateMaximumBitRate to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestUEAggregateMaximumBitRateIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.UEAggregateMaximumBitRateValueCodec
@@ -5233,7 +5233,7 @@ func (b SgNBAdditionRequestUEAggregateMaximumBitRateIEBinding) Get(field *SgNBAd
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestPLMNIdentityIEBinding is the concrete IEBinding[PLMNIdentity, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestPLMNIdentityIEBinding binds PLMNIdentity to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestPLMNIdentityIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.PLMNIdentityValueCodec
@@ -5273,7 +5273,7 @@ func (b SgNBAdditionRequestPLMNIdentityIEBinding) Get(field *SgNBAdditionRequest
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestHandoverRestrictionListIEBinding is the concrete IEBinding[HandoverRestrictionList, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestHandoverRestrictionListIEBinding binds HandoverRestrictionList to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestHandoverRestrictionListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s16.HandoverRestrictionListValueCodec
@@ -5315,7 +5315,7 @@ func (b SgNBAdditionRequestHandoverRestrictionListIEBinding) Get(field *SgNBAddi
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestERABsToBeAddedSgNBAddReqListIEBinding is the concrete IEBinding[ERABsToBeAddedSgNBAddReqList, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestERABsToBeAddedSgNBAddReqListIEBinding binds ERABsToBeAddedSgNBAddReqList to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestERABsToBeAddedSgNBAddReqListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.ERABsToBeAddedSgNBAddReqListValueCodec
@@ -5357,7 +5357,7 @@ func (b SgNBAdditionRequestERABsToBeAddedSgNBAddReqListIEBinding) Get(field *SgN
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestMeNBtoSgNBContainerIEBinding is the concrete IEBinding[MeNBtoSgNBContainer, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestMeNBtoSgNBContainerIEBinding binds MeNBtoSgNBContainer to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestMeNBtoSgNBContainerIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.MeNBtoSgNBContainerValueCodec
@@ -5399,7 +5399,7 @@ func (b SgNBAdditionRequestMeNBtoSgNBContainerIEBinding) Get(field *SgNBAddition
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestSgNBUEX2APIDIEBinding is the concrete IEBinding[SgNBUEX2APID, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestSgNBUEX2APIDIEBinding binds SgNBUEX2APID to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestSgNBUEX2APIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.SgNBUEX2APIDValueCodec
@@ -5439,7 +5439,7 @@ func (b SgNBAdditionRequestSgNBUEX2APIDIEBinding) Get(field *SgNBAdditionRequest
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestExpectedUEBehaviourIEBinding is the concrete IEBinding[ExpectedUEBehaviour, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestExpectedUEBehaviourIEBinding binds ExpectedUEBehaviour to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestExpectedUEBehaviourIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.ExpectedUEBehaviourValueCodec
@@ -5481,7 +5481,7 @@ func (b SgNBAdditionRequestExpectedUEBehaviourIEBinding) Get(field *SgNBAddition
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestUEX2APIDExtensionIEBinding is the concrete IEBinding[UEX2APIDExtension, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestUEX2APIDExtensionIEBinding binds UEX2APIDExtension to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestUEX2APIDExtensionIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEX2APIDExtensionValueCodec
@@ -5523,7 +5523,7 @@ func (b SgNBAdditionRequestUEX2APIDExtensionIEBinding) Get(field *SgNBAdditionRe
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestSplitSRBsIEBinding is the concrete IEBinding[SplitSRBs, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestSplitSRBsIEBinding binds SplitSRBs to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestSplitSRBsIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.SplitSRBsValueCodec
@@ -5563,7 +5563,7 @@ func (b SgNBAdditionRequestSplitSRBsIEBinding) Get(field *SgNBAdditionRequestIEF
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestMeNBResourceCoordinationInformationIEBinding is the concrete IEBinding[MeNBResourceCoordinationInformation, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestMeNBResourceCoordinationInformationIEBinding binds MeNBResourceCoordinationInformation to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestMeNBResourceCoordinationInformationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.MeNBResourceCoordinationInformationValueCodec
@@ -5607,7 +5607,7 @@ func (b SgNBAdditionRequestMeNBResourceCoordinationInformationIEBinding) Get(fie
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestSGNBAdditionTriggerIndIEBinding is the concrete IEBinding[SGNBAdditionTriggerInd, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestSGNBAdditionTriggerIndIEBinding binds SGNBAdditionTriggerInd to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestSGNBAdditionTriggerIndIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.SGNBAdditionTriggerIndValueCodec
@@ -5649,7 +5649,7 @@ func (b SgNBAdditionRequestSGNBAdditionTriggerIndIEBinding) Get(field *SgNBAddit
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestSubscriberProfileIDforRFPIEBinding is the concrete IEBinding[SubscriberProfileIDforRFP, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestSubscriberProfileIDforRFPIEBinding binds SubscriberProfileIDforRFP to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestSubscriberProfileIDforRFPIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.SubscriberProfileIDforRFPValueCodec
@@ -5691,7 +5691,7 @@ func (b SgNBAdditionRequestSubscriberProfileIDforRFPIEBinding) Get(field *SgNBAd
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestECGIIEBinding is the concrete IEBinding[ECGI, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestECGIIEBinding binds ECGI to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestECGIIEBinding struct {
 	info   s06.FieldInfo
 	codec  s04.ECGIValueCodec
@@ -5731,7 +5731,7 @@ func (b SgNBAdditionRequestECGIIEBinding) Get(field *SgNBAdditionRequestIEField)
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestDesiredActNotificationLevelIEBinding is the concrete IEBinding[DesiredActNotificationLevel, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestDesiredActNotificationLevelIEBinding binds DesiredActNotificationLevel to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestDesiredActNotificationLevelIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.DesiredActNotificationLevelValueCodec
@@ -5773,7 +5773,7 @@ func (b SgNBAdditionRequestDesiredActNotificationLevelIEBinding) Get(field *SgNB
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestTraceActivationIEBinding is the concrete IEBinding[TraceActivation, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestTraceActivationIEBinding binds TraceActivation to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestTraceActivationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s16.TraceActivationValueCodec
@@ -5815,7 +5815,7 @@ func (b SgNBAdditionRequestTraceActivationIEBinding) Get(field *SgNBAdditionRequ
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestLocationInformationSgNBReportingIEBinding is the concrete IEBinding[LocationInformationSgNBReporting, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestLocationInformationSgNBReportingIEBinding binds LocationInformationSgNBReporting to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestLocationInformationSgNBReportingIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.LocationInformationSgNBReportingValueCodec
@@ -5859,7 +5859,7 @@ func (b SgNBAdditionRequestLocationInformationSgNBReportingIEBinding) Get(field 
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestMaskedIMEISVIEBinding is the concrete IEBinding[MaskedIMEISV, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestMaskedIMEISVIEBinding binds MaskedIMEISV to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestMaskedIMEISVIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.MaskedIMEISVValueCodec
@@ -5899,7 +5899,7 @@ func (b SgNBAdditionRequestMaskedIMEISVIEBinding) Get(field *SgNBAdditionRequest
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestAdditionalRRMPriorityIndexIEBinding is the concrete IEBinding[AdditionalRRMPriorityIndex, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestAdditionalRRMPriorityIndexIEBinding binds AdditionalRRMPriorityIndex to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestAdditionalRRMPriorityIndexIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.AdditionalRRMPriorityIndexValueCodec
@@ -5941,7 +5941,7 @@ func (b SgNBAdditionRequestAdditionalRRMPriorityIndexIEBinding) Get(field *SgNBA
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestRequestedFastMCGRecoveryViaSRB3IEBinding is the concrete IEBinding[RequestedFastMCGRecoveryViaSRB3, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestRequestedFastMCGRecoveryViaSRB3IEBinding binds RequestedFastMCGRecoveryViaSRB3 to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestRequestedFastMCGRecoveryViaSRB3IEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.RequestedFastMCGRecoveryViaSRB3ValueCodec
@@ -5985,7 +5985,7 @@ func (b SgNBAdditionRequestRequestedFastMCGRecoveryViaSRB3IEBinding) Get(field *
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestRANUENGAPIDIEBinding is the concrete IEBinding[RANUENGAPID, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestRANUENGAPIDIEBinding binds RANUENGAPID to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestRANUENGAPIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s08.RANUENGAPIDValueCodec
@@ -6025,7 +6025,7 @@ func (b SgNBAdditionRequestRANUENGAPIDIEBinding) Get(field *SgNBAdditionRequestI
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestManagementBasedMDTallowedIEBinding is the concrete IEBinding[ManagementBasedMDTallowed, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestManagementBasedMDTallowedIEBinding binds ManagementBasedMDTallowed to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestManagementBasedMDTallowedIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.ManagementBasedMDTallowedValueCodec
@@ -6067,7 +6067,7 @@ func (b SgNBAdditionRequestManagementBasedMDTallowedIEBinding) Get(field *SgNBAd
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestMDTPLMNListIEBinding is the concrete IEBinding[MDTPLMNList, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestMDTPLMNListIEBinding binds MDTPLMNList to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestMDTPLMNListIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.MDTPLMNListValueCodec
@@ -6107,7 +6107,7 @@ func (b SgNBAdditionRequestMDTPLMNListIEBinding) Get(field *SgNBAdditionRequestI
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestUERadioCapabilityIDIEBinding is the concrete IEBinding[UERadioCapabilityID, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestUERadioCapabilityIDIEBinding binds UERadioCapabilityID to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestUERadioCapabilityIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UERadioCapabilityIDValueCodec
@@ -6149,7 +6149,7 @@ func (b SgNBAdditionRequestUERadioCapabilityIDIEBinding) Get(field *SgNBAddition
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestIABNodeIndicationIEBinding is the concrete IEBinding[IABNodeIndication, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestIABNodeIndicationIEBinding binds IABNodeIndication to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestIABNodeIndicationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.IABNodeIndicationValueCodec
@@ -6191,7 +6191,7 @@ func (b SgNBAdditionRequestIABNodeIndicationIEBinding) Get(field *SgNBAdditionRe
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestGlobalRANNODEIDIEBinding is the concrete IEBinding[GlobalRANNODEID, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestGlobalRANNODEIDIEBinding binds GlobalRANNODEID to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestGlobalRANNODEIDIEBinding struct {
 	info   s06.FieldInfo
 	codec  s05.GlobalRANNODEIDValueCodec
@@ -6233,7 +6233,7 @@ func (b SgNBAdditionRequestGlobalRANNODEIDIEBinding) Get(field *SgNBAdditionRequ
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestUEHistoryInformationIEBinding is the concrete IEBinding[UEHistoryInformation, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestUEHistoryInformationIEBinding binds UEHistoryInformation to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestUEHistoryInformationIEBinding struct {
 	info   s06.FieldInfo
 	codec  s16.UEHistoryInformationValueCodec
@@ -6275,7 +6275,7 @@ func (b SgNBAdditionRequestUEHistoryInformationIEBinding) Get(field *SgNBAdditio
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestUEHistoryInformationFromTheUEIEBinding is the concrete IEBinding[UEHistoryInformationFromTheUE, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestUEHistoryInformationFromTheUEIEBinding binds UEHistoryInformationFromTheUE to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestUEHistoryInformationFromTheUEIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.UEHistoryInformationFromTheUEValueCodec
@@ -6319,7 +6319,7 @@ func (b SgNBAdditionRequestUEHistoryInformationFromTheUEIEBinding) Get(field *Sg
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestPSCellChangeHistoryIEBinding is the concrete IEBinding[PSCellChangeHistory, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestPSCellChangeHistoryIEBinding binds PSCellChangeHistory to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestPSCellChangeHistoryIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.PSCellChangeHistoryValueCodec
@@ -6361,7 +6361,7 @@ func (b SgNBAdditionRequestPSCellChangeHistoryIEBinding) Get(field *SgNBAddition
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestCHOinformationAddReqIEBinding is the concrete IEBinding[CHOinformationAddReq, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestCHOinformationAddReqIEBinding binds CHOinformationAddReq to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestCHOinformationAddReqIEBinding struct {
 	info   s06.FieldInfo
 	codec  s11.CHOinformationAddReqValueCodec
@@ -6403,7 +6403,7 @@ func (b SgNBAdditionRequestCHOinformationAddReqIEBinding) Get(field *SgNBAdditio
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestSCGActivationRequestIEBinding is the concrete IEBinding[SCGActivationRequest, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestSCGActivationRequestIEBinding binds SCGActivationRequest to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestSCGActivationRequestIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.SCGActivationRequestValueCodec
@@ -6445,7 +6445,7 @@ func (b SgNBAdditionRequestSCGActivationRequestIEBinding) Get(field *SgNBAdditio
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestCPAinformationREQIEBinding is the concrete IEBinding[CPAinformationREQ, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestCPAinformationREQIEBinding binds CPAinformationREQ to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestCPAinformationREQIEBinding struct {
 	info   s06.FieldInfo
 	codec  s01.CPAinformationREQValueCodec
@@ -6487,7 +6487,7 @@ func (b SgNBAdditionRequestCPAinformationREQIEBinding) Get(field *SgNBAdditionRe
 	return b.get(&field.Value)
 }
 
-// SgNBAdditionRequestIABAuthorizedIEBinding is the concrete IEBinding[IABAuthorized, SgNBAdditionRequestIEValue].
+// SgNBAdditionRequestIABAuthorizedIEBinding binds IABAuthorized to ProtocolIE-Field {{SgNBAdditionRequest-IEs}} of TS 36.423 §9.3.8.
 type SgNBAdditionRequestIABAuthorizedIEBinding struct {
 	info   s06.FieldInfo
 	codec  s00.IABAuthorizedValueCodec
@@ -7376,16 +7376,16 @@ func X2apInternalEnGNBENDCX2SetupReqAckIEValuevalidateX2APIEContainer(fields EnG
 	return report
 }
 
-// EnGNBENDCX2SetupReqIEContainer is the concrete ProtocolIEContainer[EnGNBENDCX2SetupReqIEValue].
+// EnGNBENDCX2SetupReqIEContainer is ProtocolIE-Container {{En-gNB-ENDCX2SetupReqIEs}} of TS 36.423 §9.3.8: a list of EnGNBENDCX2SetupReqIEField values.
 type EnGNBENDCX2SetupReqIEContainer []EnGNBENDCX2SetupReqIEField
 
-// EnGNBENDCX2SetupReqAckIEContainer is the concrete ProtocolIEContainer[EnGNBENDCX2SetupReqAckIEValue].
+// EnGNBENDCX2SetupReqAckIEContainer is ProtocolIE-Container {{En-gNB-ENDCX2SetupReqAckIEs}} of TS 36.423 §9.3.8: a list of EnGNBENDCX2SetupReqAckIEField values.
 type EnGNBENDCX2SetupReqAckIEContainer []EnGNBENDCX2SetupReqAckIEField
 
-// EnGNBENDCConfigUpdateIEContainer is the concrete ProtocolIEContainer[EnGNBENDCConfigUpdateIEValue].
+// EnGNBENDCConfigUpdateIEContainer is ProtocolIE-Container {{En-gNB-ENDCConfigUpdateIEs}} of TS 36.423 §9.3.8: a list of EnGNBENDCConfigUpdateIEField values.
 type EnGNBENDCConfigUpdateIEContainer []EnGNBENDCConfigUpdateIEField
 
-// EnGNBENDCConfigUpdateAckIEContainer is the concrete ProtocolIEContainer[EnGNBENDCConfigUpdateAckIEValue].
+// EnGNBENDCConfigUpdateAckIEContainer is ProtocolIE-Container {{En-gNB-ENDCConfigUpdateAckIEs}} of TS 36.423 §9.3.8: a list of EnGNBENDCConfigUpdateAckIEField values.
 type EnGNBENDCConfigUpdateAckIEContainer []EnGNBENDCConfigUpdateAckIEField
 
 // handoverRequestIEValueprotocolOpenValue is the concrete protocolOpenValue[HandoverRequestIEValue].
@@ -33825,10 +33825,9 @@ func X2apInternalUnmarshalAPERSubbandCQIListFrom(bb *aper.BitBuffer) (s08.Subban
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERSubbandCQIListInto(v *X2apInternalAsn1cAPERSubbandCQIListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.SubbandCQIList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 14, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -33850,7 +33849,6 @@ func X2apInternalUnmarshalAPERSubbandCQIListInto(v *X2apInternalAsn1cAPERSubband
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -33957,10 +33955,9 @@ func X2apInternalUnmarshalAPERTAIListforMDTFrom(bb *aper.BitBuffer) (s09.TAIList
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTAIListforMDTInto(v *X2apInternalAsn1cAPERTAIListforMDTListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s09.TAIListforMDT, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -33982,7 +33979,6 @@ func X2apInternalUnmarshalAPERTAIListforMDTInto(v *X2apInternalAsn1cAPERTAIListf
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -34089,10 +34085,9 @@ func X2apInternalUnmarshalAPERTAListforMDTFrom(bb *aper.BitBuffer) (s09.TAListfo
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTAListforMDTInto(v *X2apInternalAsn1cAPERTAListforMDTListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s09.TAListforMDT, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -34112,7 +34107,6 @@ func X2apInternalUnmarshalAPERTAListforMDTInto(v *X2apInternalAsn1cAPERTAListfor
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -34219,10 +34213,9 @@ func X2apInternalUnmarshalAPERTAListforQMCFrom(bb *aper.BitBuffer) (s09.TAListfo
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTAListforQMCInto(v *X2apInternalAsn1cAPERTAListforQMCListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s09.TAListforQMC, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1169
+		// arithmetic pattern APER_FRAGMENT_LOOP_5: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1173
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -34242,7 +34235,6 @@ func X2apInternalUnmarshalAPERTAListforQMCInto(v *X2apInternalAsn1cAPERTAListfor
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -34349,10 +34341,9 @@ func X2apInternalUnmarshalAPERTAIListforQMCFrom(bb *aper.BitBuffer) (s09.TAIList
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTAIListforQMCInto(v *X2apInternalAsn1cAPERTAIListforQMCListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s09.TAIListforQMC, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -34374,7 +34365,6 @@ func X2apInternalUnmarshalAPERTAIListforQMCInto(v *X2apInternalAsn1cAPERTAIListf
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -34481,10 +34471,9 @@ func X2apInternalUnmarshalAPERTNLAToAddListFrom(bb *aper.BitBuffer) (s11.TNLAToA
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTNLAToAddListInto(v *X2apInternalAsn1cAPERTNLAToAddListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.TNLAToAddList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -34506,7 +34495,6 @@ func X2apInternalUnmarshalAPERTNLAToAddListInto(v *X2apInternalAsn1cAPERTNLAToAd
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -34613,10 +34601,9 @@ func X2apInternalUnmarshalAPERTNLAToUpdateListFrom(bb *aper.BitBuffer) (s11.TNLA
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTNLAToUpdateListInto(v *X2apInternalAsn1cAPERTNLAToUpdateListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.TNLAToUpdateList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -34638,7 +34625,6 @@ func X2apInternalUnmarshalAPERTNLAToUpdateListInto(v *X2apInternalAsn1cAPERTNLAT
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -34745,10 +34731,9 @@ func X2apInternalUnmarshalAPERTNLAToRemoveListFrom(bb *aper.BitBuffer) (s11.TNLA
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTNLAToRemoveListInto(v *X2apInternalAsn1cAPERTNLAToRemoveListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.TNLAToRemoveList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -34770,7 +34755,6 @@ func X2apInternalUnmarshalAPERTNLAToRemoveListInto(v *X2apInternalAsn1cAPERTNLAT
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -34877,10 +34861,9 @@ func X2apInternalUnmarshalAPERTNLASetupListFrom(bb *aper.BitBuffer) (s11.TNLASet
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTNLASetupListInto(v *X2apInternalAsn1cAPERTNLASetupListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.TNLASetupList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -34902,7 +34885,6 @@ func X2apInternalUnmarshalAPERTNLASetupListInto(v *X2apInternalAsn1cAPERTNLASetu
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -35009,10 +34991,9 @@ func X2apInternalUnmarshalAPERTNLAFailedToSetupListFrom(bb *aper.BitBuffer) (s11
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTNLAFailedToSetupListInto(v *X2apInternalAsn1cAPERTNLAFailedToSetupListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.TNLAFailedToSetupList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -35034,7 +35015,6 @@ func X2apInternalUnmarshalAPERTNLAFailedToSetupListInto(v *X2apInternalAsn1cAPER
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -35143,10 +35123,9 @@ func X2apInternalUnmarshalAPERTransportUPLayerAddressesInfoToAddListFrom(bb *ape
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTransportUPLayerAddressesInfoToAddListInto(v *X2apInternalAsn1cAPERTransportUPLayerAddressesInfoToAddListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.TransportUPLayerAddressesInfoToAddList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -35168,7 +35147,6 @@ func X2apInternalUnmarshalAPERTransportUPLayerAddressesInfoToAddListInto(v *X2ap
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -35277,10 +35255,9 @@ func X2apInternalUnmarshalAPERTransportUPLayerAddressesInfoToRemoveListFrom(bb *
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERTransportUPLayerAddressesInfoToRemoveListInto(v *X2apInternalAsn1cAPERTransportUPLayerAddressesInfoToRemoveListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s11.TransportUPLayerAddressesInfoToRemoveList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -35302,7 +35279,6 @@ func X2apInternalUnmarshalAPERTransportUPLayerAddressesInfoToRemoveListInto(v *X
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -35409,10 +35385,9 @@ func X2apInternalUnmarshalAPERUEHistoryInformationFrom(bb *aper.BitBuffer) (s16.
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERUEHistoryInformationInto(v *X2apInternalAsn1cAPERUEHistoryInformationListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s16.UEHistoryInformation, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -35434,7 +35409,6 @@ func X2apInternalUnmarshalAPERUEHistoryInformationInto(v *X2apInternalAsn1cAPERU
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -35527,10 +35501,9 @@ func X2apInternalUnmarshalAPERUEsToBeResetListFrom(bb *aper.BitBuffer) (s12.UEsT
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERUEsToBeResetListInto(v *X2apInternalAsn1cAPERUEsToBeResetListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s12.UEsToBeResetList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8192, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -35552,7 +35525,6 @@ func X2apInternalUnmarshalAPERUEsToBeResetListInto(v *X2apInternalAsn1cAPERUEsTo
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -37967,7 +37939,7 @@ func X2apInternalInitiatingNodeTypeEndcX2SetupUnmarshalAPERFrom(v *InitiatingNod
 		toleranceMark_initenb := bb.EnterComponent("InitENB")
 		tmp_initenb := make(s17.ENBENDCX2SetupReqIEContainer, 0)
 		_, errCollection_initenb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initenb, fragmentLength_initenb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_initenb < 0 || fragmentLength_initenb < 0 || fragmentLength_initenb > int64(^uint(0)>>1) || fragmentOffset_initenb > int64(^uint(0)>>1)-fragmentLength_initenb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -37995,7 +37967,7 @@ func X2apInternalInitiatingNodeTypeEndcX2SetupUnmarshalAPERFrom(v *InitiatingNod
 		toleranceMark_initengnb := bb.EnterComponent("InitEnGNB")
 		tmp_initengnb := make(EnGNBENDCX2SetupReqIEContainer, 0)
 		_, errCollection_initengnb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initengnb, fragmentLength_initengnb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_initengnb < 0 || fragmentLength_initengnb < 0 || fragmentLength_initengnb > int64(^uint(0)>>1) || fragmentOffset_initengnb > int64(^uint(0)>>1)-fragmentLength_initengnb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38130,10 +38102,9 @@ func X2apInternalUnmarshalAPERServedNRcellsENDCX2ManagementListFrom(bb *aper.Bit
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERServedNRcellsENDCX2ManagementListInto(v *X2apInternalAsn1cAPERServedNRcellsENDCX2ManagementListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s17.ServedNRcellsENDCX2ManagementList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38155,7 +38126,6 @@ func X2apInternalUnmarshalAPERServedNRcellsENDCX2ManagementListInto(v *X2apInter
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -38324,7 +38294,7 @@ func X2apInternalRespondingNodeTypeEndcX2SetupUnmarshalAPERFrom(v *RespondingNod
 		toleranceMark_respondenb := bb.EnterComponent("RespondENB")
 		tmp_respondenb := make(s17.ENBENDCX2SetupReqAckIEContainer, 0)
 		_, errCollection_respondenb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_respondenb < 0 || fragmentLength_respondenb < 0 || fragmentLength_respondenb > int64(^uint(0)>>1) || fragmentOffset_respondenb > int64(^uint(0)>>1)-fragmentLength_respondenb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38352,7 +38322,7 @@ func X2apInternalRespondingNodeTypeEndcX2SetupUnmarshalAPERFrom(v *RespondingNod
 		toleranceMark_respondengnb := bb.EnterComponent("RespondEnGNB")
 		tmp_respondengnb := make(EnGNBENDCX2SetupReqAckIEContainer, 0)
 		_, errCollection_respondengnb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_respondengnb < 0 || fragmentLength_respondengnb < 0 || fragmentLength_respondengnb > int64(^uint(0)>>1) || fragmentOffset_respondengnb > int64(^uint(0)>>1)-fragmentLength_respondengnb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38547,7 +38517,7 @@ func X2apInternalInitiatingNodeTypeEndcConfigUpdateUnmarshalAPERFrom(v *Initiati
 		toleranceMark_initenb := bb.EnterComponent("InitENB")
 		tmp_initenb := make(s17.ENBENDCConfigUpdateIEContainer, 0)
 		_, errCollection_initenb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initenb, fragmentLength_initenb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_initenb < 0 || fragmentLength_initenb < 0 || fragmentLength_initenb > int64(^uint(0)>>1) || fragmentOffset_initenb > int64(^uint(0)>>1)-fragmentLength_initenb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38575,7 +38545,7 @@ func X2apInternalInitiatingNodeTypeEndcConfigUpdateUnmarshalAPERFrom(v *Initiati
 		toleranceMark_initengnb := bb.EnterComponent("InitEnGNB")
 		tmp_initengnb := make(EnGNBENDCConfigUpdateIEContainer, 0)
 		_, errCollection_initengnb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_initengnb, fragmentLength_initengnb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_initengnb < 0 || fragmentLength_initengnb < 0 || fragmentLength_initengnb > int64(^uint(0)>>1) || fragmentOffset_initengnb > int64(^uint(0)>>1)-fragmentLength_initengnb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -38710,10 +38680,9 @@ func X2apInternalUnmarshalAPERServedNRcellsToModifyENDCConfUpdListFrom(bb *aper.
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERServedNRcellsToModifyENDCConfUpdListInto(v *X2apInternalAsn1cAPERServedNRcellsToModifyENDCConfUpdListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s16.ServedNRcellsToModifyENDCConfUpdList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38735,7 +38704,6 @@ func X2apInternalUnmarshalAPERServedNRcellsToModifyENDCConfUpdListInto(v *X2apIn
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -38844,10 +38812,9 @@ func X2apInternalUnmarshalAPERServedNRcellsToDeleteENDCConfUpdListFrom(bb *aper.
 	return v.Value, nil
 }
 func X2apInternalUnmarshalAPERServedNRcellsToDeleteENDCConfUpdListInto(v *X2apInternalAsn1cAPERServedNRcellsToDeleteENDCConfUpdListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.ServedNRcellsToDeleteENDCConfUpdList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 16384, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -38869,7 +38836,6 @@ func X2apInternalUnmarshalAPERServedNRcellsToDeleteENDCConfUpdListInto(v *X2apIn
 	if errCollection_value != nil {
 		return runtime.WrapDecodePath(errCollection_value, "Value")
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -39038,7 +39004,7 @@ func X2apInternalRespondingNodeTypeEndcConfigUpdateUnmarshalAPERFrom(v *Respondi
 		toleranceMark_respondenb := bb.EnterComponent("RespondENB")
 		tmp_respondenb := make(s02.ENBENDCConfigUpdateAckIEContainer, 0)
 		_, errCollection_respondenb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondenb, fragmentLength_respondenb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_respondenb < 0 || fragmentLength_respondenb < 0 || fragmentLength_respondenb > int64(^uint(0)>>1) || fragmentOffset_respondenb > int64(^uint(0)>>1)-fragmentLength_respondenb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -39066,7 +39032,7 @@ func X2apInternalRespondingNodeTypeEndcConfigUpdateUnmarshalAPERFrom(v *Respondi
 		toleranceMark_respondengnb := bb.EnterComponent("RespondEnGNB")
 		tmp_respondengnb := make(EnGNBENDCConfigUpdateAckIEContainer, 0)
 		_, errCollection_respondengnb := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_respondengnb, fragmentLength_respondengnb int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_respondengnb < 0 || fragmentLength_respondengnb < 0 || fragmentLength_respondengnb > int64(^uint(0)>>1) || fragmentOffset_respondengnb > int64(^uint(0)>>1)-fragmentLength_respondengnb {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -40495,4 +40461,524 @@ func X2apInternalENDCPartialResetRequiredIEFieldFieldReplay(v *ENDCPartialResetR
 }
 func X2apInternalENDCPartialResetRequiredIEFieldFieldWithoutReplay(v *ENDCPartialResetRequiredIEField) *bool {
 	return &v.withoutReplay
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCCellActivationRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(256):
+		if v.rowActivationID != nil {
+			return v.rowActivationID, true
+		}
+	case s00.ProtocolIEID(267):
+		if v.rowServedNRCellsToActivate != nil {
+			return v.rowServedNRCellsToActivate, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCConfigurationUpdateAcknowledgeIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(17):
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	case s00.ProtocolIEID(247):
+		if v.rowRespondingNodeTypeEndcConfigUpdate != nil {
+			return v.rowRespondingNodeTypeEndcConfigUpdate, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(352):
+		if v.rowTNLConfigurationInfo != nil {
+			return v.rowTNLConfigurationInfo, true
+		}
+	case s00.ProtocolIEID(356):
+		if v.rowTNLASetupList != nil {
+			return v.rowTNLASetupList, true
+		}
+	case s00.ProtocolIEID(357):
+		if v.rowTNLAFailedToSetupList != nil {
+			return v.rowTNLAFailedToSetupList, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCConfigurationUpdateIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(245):
+		if v.rowInitiatingNodeTypeEndcConfigUpdate != nil {
+			return v.rowInitiatingNodeTypeEndcConfigUpdate, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(352):
+		if v.rowTNLConfigurationInfo != nil {
+			return v.rowTNLConfigurationInfo, true
+		}
+	case s00.ProtocolIEID(353):
+		if v.rowTNLAToAddList != nil {
+			return v.rowTNLAToAddList, true
+		}
+	case s00.ProtocolIEID(354):
+		if v.rowTNLAToUpdateList != nil {
+			return v.rowTNLAToUpdateList, true
+		}
+	case s00.ProtocolIEID(355):
+		if v.rowTNLAToRemoveList != nil {
+			return v.rowTNLAToRemoveList, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCPartialResetConfirmIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(271):
+		if v.rowUEsAdmittedToBeReset != nil {
+			return v.rowUEsAdmittedToBeReset, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCPartialResetRequiredIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(270):
+		if v.rowUEsToBeReset != nil {
+			return v.rowUEsToBeReset, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCX2SetupRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(244):
+		if v.rowInitiatingNodeTypeEndcX2Setup != nil {
+			return v.rowInitiatingNodeTypeEndcX2Setup, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(352):
+		if v.rowTNLConfigurationInfo != nil {
+			return v.rowTNLConfigurationInfo, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENDCX2SetupResponseIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(246):
+		if v.rowRespondingNodeTypeEndcX2Setup != nil {
+			return v.rowRespondingNodeTypeEndcX2Setup, true
+		}
+	case s00.ProtocolIEID(335):
+		if v.rowInterfaceInstanceIndication != nil {
+			return v.rowInterfaceInstanceIndication, true
+		}
+	case s00.ProtocolIEID(352):
+		if v.rowTNLConfigurationInfo != nil {
+			return v.rowTNLConfigurationInfo, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *EnGNBENDCConfigUpdateAckIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(253):
+		if v.rowServedNRcellsENDCX2ManagementList != nil {
+			return v.rowServedNRcellsENDCX2ManagementList, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *EnGNBENDCConfigUpdateIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(253):
+		if v.rowServedNRcellsENDCX2ManagementList != nil {
+			return v.rowServedNRcellsENDCX2ManagementList, true
+		}
+	case s00.ProtocolIEID(261):
+		if v.rowServedNRcellsToModifyListENDCConfUpd != nil {
+			return v.rowServedNRcellsToModifyListENDCConfUpd, true
+		}
+	case s00.ProtocolIEID(262):
+		if v.rowServedNRcellsToDeleteListENDCConfUpd != nil {
+			return v.rowServedNRcellsToDeleteListENDCConfUpd, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *EnGNBENDCX2SetupReqAckIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(252):
+		if v.rowGlobalenGNBID != nil {
+			return v.rowGlobalenGNBID, true
+		}
+	case s00.ProtocolIEID(253):
+		if v.rowServedNRcellsENDCX2ManagementList != nil {
+			return v.rowServedNRcellsENDCX2ManagementList, true
+		}
+	case s00.ProtocolIEID(348):
+		if v.rowPartialListIndicator != nil {
+			return v.rowPartialListIndicator, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *EnGNBENDCX2SetupReqIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(252):
+		if v.rowGlobalenGNBID != nil {
+			return v.rowGlobalenGNBID, true
+		}
+	case s00.ProtocolIEID(253):
+		if v.rowServedNRcellsENDCX2ManagementList != nil {
+			return v.rowServedNRcellsENDCX2ManagementList, true
+		}
+	case s00.ProtocolIEID(348):
+		if v.rowPartialListIndicator != nil {
+			return v.rowPartialListIndicator, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *HandoverRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(10):
+		if v.rowOldENBUEX2APID != nil {
+			return v.rowOldENBUEX2APID, true
+		}
+	case s00.ProtocolIEID(103):
+		if v.rowProSeAuthorized != nil {
+			return v.rowProSeAuthorized, true
+		}
+	case s00.ProtocolIEID(104):
+		if v.rowExpectedUEBehaviour != nil {
+			return v.rowExpectedUEBehaviour, true
+		}
+	case s00.ProtocolIEID(105):
+		if v.rowUEHistoryInformationFromTheUE != nil {
+			return v.rowUEHistoryInformationFromTheUE, true
+		}
+	case s00.ProtocolIEID(11):
+		if v.rowTargetCellID != nil {
+			return v.rowTargetCellID, true
+		}
+	case s00.ProtocolIEID(13):
+		if v.rowTraceActivation != nil {
+			return v.rowTraceActivation, true
+		}
+	case s00.ProtocolIEID(14):
+		if v.rowUEContextInformation != nil {
+			return v.rowUEContextInformation, true
+		}
+	case s00.ProtocolIEID(15):
+		if v.rowUEHistoryInformation != nil {
+			return v.rowUEHistoryInformation, true
+		}
+	case s00.ProtocolIEID(153):
+		if v.rowUEContextReferenceAtSeNB != nil {
+			return v.rowUEContextReferenceAtSeNB, true
+		}
+	case s00.ProtocolIEID(156):
+		if v.rowOldENBUEX2APIDExtension != nil {
+			return v.rowOldENBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(176):
+		if v.rowV2XServicesAuthorized != nil {
+			return v.rowV2XServicesAuthorized, true
+		}
+	case s00.ProtocolIEID(182):
+		if v.rowUEContextReferenceAtWT != nil {
+			return v.rowUEContextReferenceAtWT, true
+		}
+	case s00.ProtocolIEID(23):
+		if v.rowGUMMEIID != nil {
+			return v.rowGUMMEIID, true
+		}
+	case s00.ProtocolIEID(248):
+		if v.rowNRUESecurityCapabilities != nil {
+			return v.rowNRUESecurityCapabilities, true
+		}
+	case s00.ProtocolIEID(254):
+		if v.rowUEContextReferenceAtSgNB != nil {
+			return v.rowUEContextReferenceAtSgNB, true
+		}
+	case s00.ProtocolIEID(277):
+		if v.rowAerialUEsubscriptionInformation != nil {
+			return v.rowAerialUEsubscriptionInformation, true
+		}
+	case s00.ProtocolIEID(309):
+		if v.rowSubscriptionBasedUEDifferentiationInfo != nil {
+			return v.rowSubscriptionBasedUEDifferentiationInfo, true
+		}
+	case s00.ProtocolIEID(36):
+		if v.rowSRVCCOperationPossible != nil {
+			return v.rowSRVCCOperationPossible, true
+		}
+	case s00.ProtocolIEID(361):
+		if v.rowCHOinformationREQ != nil {
+			return v.rowCHOinformationREQ, true
+		}
+	case s00.ProtocolIEID(370):
+		if v.rowNRV2XServicesAuthorized != nil {
+			return v.rowNRV2XServicesAuthorized, true
+		}
+	case s00.ProtocolIEID(372):
+		if v.rowPC5QoSParameters != nil {
+			return v.rowPC5QoSParameters, true
+		}
+	case s00.ProtocolIEID(395):
+		if v.rowIABNodeIndication != nil {
+			return v.rowIABNodeIndication, true
+		}
+	case s00.ProtocolIEID(5):
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	case s00.ProtocolIEID(71):
+		if v.rowCSGMembershipStatus != nil {
+			return v.rowCSGMembershipStatus, true
+		}
+	case s00.ProtocolIEID(82):
+		if v.rowMobilityInformation != nil {
+			return v.rowMobilityInformation, true
+		}
+	case s00.ProtocolIEID(98):
+		if v.rowMaskedIMEISV != nil {
+			return v.rowMaskedIMEISV, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// Alternatives with the same Go type are distinguished by the field's Id.
+func (v *SgNBAdditionRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case s00.ProtocolIEID(104):
+		if v.rowExpectedUEBehaviour != nil {
+			return v.rowExpectedUEBehaviour, true
+		}
+	case s00.ProtocolIEID(105):
+		if v.rowUEHistoryInformationFromTheUE != nil {
+			return v.rowUEHistoryInformationFromTheUE, true
+		}
+	case s00.ProtocolIEID(111):
+		if v.rowMeNBUEX2APID != nil {
+			return v.rowMeNBUEX2APID, true
+		}
+	case s00.ProtocolIEID(13):
+		if v.rowTraceActivation != nil {
+			return v.rowTraceActivation, true
+		}
+	case s00.ProtocolIEID(15):
+		if v.rowUEHistoryInformation != nil {
+			return v.rowUEHistoryInformation, true
+		}
+	case s00.ProtocolIEID(157):
+		if v.rowMeNBUEX2APIDExtension != nil {
+			return v.rowMeNBUEX2APIDExtension, true
+		}
+	case s00.ProtocolIEID(203):
+		if v.rowSgNBSecurityKey != nil {
+			return v.rowSgNBSecurityKey, true
+		}
+	case s00.ProtocolIEID(204):
+		if v.rowSgNBUEAggregateMaximumBitRate != nil {
+			return v.rowSgNBUEAggregateMaximumBitRate, true
+		}
+	case s00.ProtocolIEID(205):
+		if v.rowERABsToBeAddedSgNBAddReqList != nil {
+			return v.rowERABsToBeAddedSgNBAddReqList, true
+		}
+	case s00.ProtocolIEID(206):
+		if v.rowMeNBtoSgNBContainer != nil {
+			return v.rowMeNBtoSgNBContainer, true
+		}
+	case s00.ProtocolIEID(207):
+		if v.rowSgNBUEX2APID != nil {
+			return v.rowSgNBUEX2APID, true
+		}
+	case s00.ProtocolIEID(208):
+		if v.rowRequestedSplitSRBs != nil {
+			return v.rowRequestedSplitSRBs, true
+		}
+	case s00.ProtocolIEID(240):
+		if v.rowHandoverRestrictionList != nil {
+			return v.rowHandoverRestrictionList, true
+		}
+	case s00.ProtocolIEID(248):
+		if v.rowNRUESecurityCapabilities != nil {
+			return v.rowNRUESecurityCapabilities, true
+		}
+	case s00.ProtocolIEID(257):
+		if v.rowMeNBResourceCoordinationInformation != nil {
+			return v.rowMeNBResourceCoordinationInformation, true
+		}
+	case s00.ProtocolIEID(269):
+		if v.rowSelectedPLMN != nil {
+			return v.rowSelectedPLMN, true
+		}
+	case s00.ProtocolIEID(275):
+		if v.rowSubscriberProfileIDforRFP != nil {
+			return v.rowSubscriberProfileIDforRFP, true
+		}
+	case s00.ProtocolIEID(278):
+		if v.rowSGNBAdditionTriggerInd != nil {
+			return v.rowSGNBAdditionTriggerInd, true
+		}
+	case s00.ProtocolIEID(279):
+		if v.rowMeNBCellID != nil {
+			return v.rowMeNBCellID, true
+		}
+	case s00.ProtocolIEID(329):
+		if v.rowDesiredActNotificationLevel != nil {
+			return v.rowDesiredActNotificationLevel, true
+		}
+	case s00.ProtocolIEID(330):
+		if v.rowLocationInformationSgNBReporting != nil {
+			return v.rowLocationInformationSgNBReporting, true
+		}
+	case s00.ProtocolIEID(340):
+		if v.rowAdditionalRRMPriorityIndex != nil {
+			return v.rowAdditionalRRMPriorityIndex, true
+		}
+	case s00.ProtocolIEID(343):
+		if v.rowRequestedFastMCGRecoveryViaSRB3 != nil {
+			return v.rowRequestedFastMCGRecoveryViaSRB3, true
+		}
+	case s00.ProtocolIEID(359):
+		if v.rowUEContextReferenceatSourceNGRAN != nil {
+			return v.rowUEContextReferenceatSourceNGRAN, true
+		}
+	case s00.ProtocolIEID(378):
+		if v.rowUERadioCapabilityID != nil {
+			return v.rowUERadioCapabilityID, true
+		}
+	case s00.ProtocolIEID(395):
+		if v.rowIABNodeIndication != nil {
+			return v.rowIABNodeIndication, true
+		}
+	case s00.ProtocolIEID(411):
+		if v.rowSourceNGRANNodeId != nil {
+			return v.rowSourceNGRANNodeId, true
+		}
+	case s00.ProtocolIEID(419):
+		if v.rowPSCellChangeHistory != nil {
+			return v.rowPSCellChangeHistory, true
+		}
+	case s00.ProtocolIEID(420):
+		if v.rowCHOinformationAddReq != nil {
+			return v.rowCHOinformationAddReq, true
+		}
+	case s00.ProtocolIEID(423):
+		if v.rowSCGActivationRequest != nil {
+			return v.rowSCGActivationRequest, true
+		}
+	case s00.ProtocolIEID(424):
+		if v.rowCPAinformationREQ != nil {
+			return v.rowCPAinformationREQ, true
+		}
+	case s00.ProtocolIEID(449):
+		if v.rowIABAuthorized != nil {
+			return v.rowIABAuthorized, true
+		}
+	case s00.ProtocolIEID(74):
+		if v.rowManagementBasedMDTallowed != nil {
+			return v.rowManagementBasedMDTallowed, true
+		}
+	case s00.ProtocolIEID(89):
+		if v.rowManagementBasedMDTPLMNList != nil {
+			return v.rowManagementBasedMDTPLMNList, true
+		}
+	case s00.ProtocolIEID(98):
+		if v.rowMaskedIMEISV != nil {
+			return v.rowMaskedIMEISV, true
+		}
+	}
+	return nil, false
 }

@@ -6,7 +6,7 @@ import (
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func errorIndicationfreshMust(value s20.ErrorIndication, err error) s20.ErrorIndication {
+func handoverReportfreshMust(value s20.HandoverReport, err error) s20.HandoverReport {
 	if err != nil {
 		panic(err)
 	}

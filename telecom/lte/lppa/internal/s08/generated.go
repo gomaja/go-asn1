@@ -16,10 +16,10 @@ import (
 	"math/big"
 )
 
-// PrivateMessageIEsValuePrivateIEContainer is the concrete PrivateIEContainer[PrivateMessageIEsValue].
+// PrivateMessageIEsValuePrivateIEContainer is PrivateIE-Container {{PrivateMessage-IEs}} of TS 36.455: a list of PrivateMessageIEsValuePrivateIEField values.
 type PrivateMessageIEsValuePrivateIEContainer []PrivateMessageIEsValuePrivateIEField
 
-// PrivateMessageIEsValuePrivateIEField is the concrete PrivateIEField[PrivateMessageIEsValue].
+// PrivateMessageIEsValuePrivateIEField is PrivateIE-Field {{PrivateMessage-IEs}} of TS 36.455: a field carrying a value of PrivateMessageIEsValue.
 type PrivateMessageIEsValuePrivateIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2014,7 +2014,7 @@ func (v *PRSFrequencyHoppingConfiguration) unmarshalAPERFrom(bb *aper.BitBuffer)
 	toleranceMark_bandpositions := bb.EnterComponent("BandPositions")
 	v.BandPositions = make(s00.PRSFrequencyHoppingConfigurationBandPositions, 0)
 	_, errCollection_bandpositions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, true, func(fragmentOffset_bandpositions, fragmentLength_bandpositions int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1136
+		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1144
 		if fragmentOffset_bandpositions < 0 || fragmentLength_bandpositions < 0 || fragmentLength_bandpositions > int64(^uint(0)>>1) || fragmentOffset_bandpositions > int64(^uint(0)>>1)-fragmentLength_bandpositions {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2039,7 +2039,7 @@ func (v *PRSFrequencyHoppingConfiguration) unmarshalAPERFrom(bb *aper.BitBuffer)
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.PRSFrequencyHoppingConfigurationItemIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2505,7 +2505,7 @@ func (v *PosSIBSegmentsElem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.PosSIBSegmentsExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -4259,6 +4259,10 @@ func ResultUTRANItemPhysCellIDUTRANCodec() ResultUTRANItemPhysCellIDUTRANValueCo
 	}(),
 	}
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *PrivateMessageIEsValue) Selected() (any, bool) { return nil, false }
+
 func BridgeOTDOAInformationTypeValueCodecFieldCapture(v *OTDOAInformationTypeValueCodec) *func(s07.OTDOAInformationType, aper.DecodeState) (s07.OTDOAInformationType, aper.Snapshot) {
 	return &v.capture
 }

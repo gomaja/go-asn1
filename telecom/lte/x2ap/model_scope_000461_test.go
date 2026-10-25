@@ -3,17 +3,16 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
-	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s06"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// ErrorIndicationIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ErrorIndicationIEValue]].
-type ErrorIndicationIEFieldValueCodec struct {
-	context s00.X2apInternalCodecContext
-	capture func(s11.ErrorIndicationIEField, aper.DecodeState) (s11.ErrorIndicationIEField, aper.Snapshot)
-	compare func(s11.ErrorIndicationIEField, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
-	path    aper.Path
-	decode  func([]byte, aper.DecodeState) (s11.ErrorIndicationIEField, error)
-	encode  func(s11.ErrorIndicationIEField, bool, *aper.DecodeBudget) ([]byte, error)
+func (c ERABsAdmittedItemExtIEsExtFieldValueCodec) encodeChanged(value s06.ERABsAdmittedItemExtIEsExtField, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	budget := plan.EncodingBudget()
+	aper.NewBudgetBuffer(&budget).SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(uint64(len(out))); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
 }

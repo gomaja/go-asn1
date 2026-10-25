@@ -108,7 +108,7 @@ func TestEnvelopeProcedureCodeMustMatchValue(t *testing.T) {
 			opaque := tc.pdu
 			switch opaque.Choice {
 			case s00.S1APPDUChoiceInitiatingMessage:
-				v := initiatingMessageEnvelopeMust(s51.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0x81}))
+				v := initiatingMessageEnvelopeMust(s52.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0x81}))
 				opaque.InitiatingMessage = &v
 			case s00.S1APPDUChoiceSuccessfulOutcome:
 				v := successfulOutcomeEnvelopeMust(s50.NewOpaqueSuccessfulOutcome(250, s00.CriticalityIgnore, []byte{0x81}))
@@ -209,7 +209,7 @@ func TestEnvelopeProcedureCodeMustMatchValue(t *testing.T) {
 	}
 }
 func TestPrivateIEIDMustMatchOpaqueValue(t *testing.T) {
-	id := privateIEIDEnvelopeMust(s25.NewPrivateIEIDLocal(1))
+	id := privateIEIDEnvelopeMust(s26.NewPrivateIEIDLocal(1))
 	field := privateMessageIEsValuePrivateIEFieldEnvelopeMust(s25.PrivateMessageIEs().NewOpaque(id, s00.CriticalityIgnore, []byte{0x80}))
 	valid := s26.PrivateMessage{PrivateIEs: s25.PrivateMessageIEsValuePrivateIEContainer{field}}
 	wire := sliceByteEnvelopeMust(valid.MarshalAPER())
@@ -225,7 +225,7 @@ func TestPrivateIEIDMustMatchOpaqueValue(t *testing.T) {
 			if origin == "literal" {
 				fields[0] = s25.PrivateMessageIEsValuePrivateIEField{Id: id, Criticality: s00.CriticalityIgnore, Value: field.Value}
 			}
-			fields[0].Id = privateIEIDEnvelopeMust(s25.NewPrivateIEIDLocal(2))
+			fields[0].Id = privateIEIDEnvelopeMust(s26.NewPrivateIEIDLocal(2))
 			body.PrivateIEs = fields
 			report, err := s47.ValidatePrivateMessage(&body)
 			if err != nil {
@@ -273,7 +273,7 @@ func TestPrivateIEIDMustMatchOpaqueValue(t *testing.T) {
 	}
 }
 func TestPrivateSelectorComparisonUsesSemanticID(t *testing.T) {
-	id := privateIEIDEnvelopeMust(s25.NewPrivateIEIDGlobal(objectIdentifierEnvelopeMust(runtime.ParseObjectIdentifier("1.2.840.113549"))))
+	id := privateIEIDEnvelopeMust(s26.NewPrivateIEIDGlobal(objectIdentifierEnvelopeMust(runtime.ParseObjectIdentifier("1.2.840.113549"))))
 	field := privateMessageIEsValuePrivateIEFieldEnvelopeMust(s25.PrivateMessageIEs().NewOpaque(id, s00.CriticalityIgnore, []byte{0x80}))
 	body := s26.PrivateMessage{PrivateIEs: s25.PrivateMessageIEsValuePrivateIEContainer{field}}
 	wire := sliceByteEnvelopeMust(body.MarshalAPER())
@@ -282,7 +282,7 @@ func TestPrivateSelectorComparisonUsesSemanticID(t *testing.T) {
 		t.Fatal(err)
 	}
 	// Replacing the ID by an independently constructed equal ID is allowed.
-	decoded.PrivateIEs[0].Id = privateIEIDEnvelopeMust(s25.NewPrivateIEIDGlobal(objectIdentifierEnvelopeMust(runtime.ParseObjectIdentifier("1.2.840.113549"))))
+	decoded.PrivateIEs[0].Id = privateIEIDEnvelopeMust(s26.NewPrivateIEIDGlobal(objectIdentifierEnvelopeMust(runtime.ParseObjectIdentifier("1.2.840.113549"))))
 	if replay := sliceByteEnvelopeMust(decoded.MarshalAPER()); !bytes.Equal(replay, wire) {
 		t.Fatal("equal semantic private ID changed encoding")
 	}

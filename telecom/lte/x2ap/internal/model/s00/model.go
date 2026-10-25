@@ -13,10 +13,10 @@ import (
 
 type X2apInternalCodecContext struct{ source string }
 
-// PrivateMessageIEsValuePrivateIEContainer is the concrete PrivateIEContainer[PrivateMessageIEsValue].
+// PrivateMessageIEsValuePrivateIEContainer is PrivateIE-Container {{PrivateMessage-IEs}} of TS 36.423 §9.3.8: a list of PrivateMessageIEsValuePrivateIEField values.
 type PrivateMessageIEsValuePrivateIEContainer []PrivateMessageIEsValuePrivateIEField
 
-// PrivateMessageIEsValuePrivateIEField is the concrete PrivateIEField[PrivateMessageIEsValue].
+// PrivateMessageIEsValuePrivateIEField is PrivateIE-Field {{PrivateMessage-IEs}} of TS 36.423 §9.3.8: a private information element field.
 type PrivateMessageIEsValuePrivateIEField struct {
 	Id            PrivateIEID
 	Criticality   Criticality
@@ -339,7 +339,7 @@ func X2apInternalPrivateMessageIEsValuecompareX2APPrivateIEContainer(v *PrivateM
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// ABSStatusExtIEsExtField is the concrete ProtocolExtensionField[ABSStatusExtIEsValue].
+// ABSStatusExtIEsExtField is ProtocolExtensionField {{ABS-Status-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ABSStatusExtIEsExtField struct {
 	Id             ProtocolIEID
 	Criticality    Criticality
@@ -457,7 +457,7 @@ func X2apInternalABSStatusExtIEsExtFieldUnmarshalAPERFrom(v *ABSStatusExtIEsExtF
 	return nil
 }
 
-// ABSInformationFDDExtIEsExtField is the concrete ProtocolExtensionField[ABSInformationFDDExtIEsValue].
+// ABSInformationFDDExtIEsExtField is ProtocolExtensionField {{ABSInformationFDD-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ABSInformationFDDExtIEsExtField struct {
 	Id             ProtocolIEID
 	Criticality    Criticality
@@ -575,7 +575,7 @@ func X2apInternalABSInformationFDDExtIEsExtFieldUnmarshalAPERFrom(v *ABSInformat
 	return nil
 }
 
-// ABSInformationTDDExtIEsExtField is the concrete ProtocolExtensionField[ABSInformationTDDExtIEsValue].
+// ABSInformationTDDExtIEsExtField is ProtocolExtensionField {{ABSInformationTDD-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ABSInformationTDDExtIEsExtField struct {
 	Id             ProtocolIEID
 	Criticality    Criticality
@@ -693,7 +693,7 @@ func X2apInternalABSInformationTDDExtIEsExtFieldUnmarshalAPERFrom(v *ABSInformat
 	return nil
 }
 
-// ASSecurityInformationExtIEsExtField is the concrete ProtocolExtensionField[ASSecurityInformationExtIEsValue].
+// ASSecurityInformationExtIEsExtField is ProtocolExtensionField {{AS-SecurityInformation-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ASSecurityInformationExtIEsExtField struct {
 	Id             ProtocolIEID
 	Criticality    Criticality
@@ -23779,16 +23779,16 @@ func X2apInternalWidebandCQICodeword1ValueCodecEncodeChanged(c WidebandCQICodewo
 	return out, aper.OperationError(err, c.path)
 }
 
-// ABSInformationFDDExtIEsExtContainer is the concrete ProtocolExtensionContainer[ABSInformationFDDExtIEsValue].
+// ABSInformationFDDExtIEsExtContainer is ProtocolExtensionContainer {{ABSInformationFDD-ExtIEs}} of TS 36.423 §9.3.8: a list of ABSInformationFDDExtIEsExtField values.
 type ABSInformationFDDExtIEsExtContainer []ABSInformationFDDExtIEsExtField
 
-// ABSInformationTDDExtIEsExtContainer is the concrete ProtocolExtensionContainer[ABSInformationTDDExtIEsValue].
+// ABSInformationTDDExtIEsExtContainer is ProtocolExtensionContainer {{ABSInformationTDD-ExtIEs}} of TS 36.423 §9.3.8: a list of ABSInformationTDDExtIEsExtField values.
 type ABSInformationTDDExtIEsExtContainer []ABSInformationTDDExtIEsExtField
 
-// ABSStatusExtIEsExtContainer is the concrete ProtocolExtensionContainer[ABSStatusExtIEsValue].
+// ABSStatusExtIEsExtContainer is ProtocolExtensionContainer {{ABS-Status-ExtIEs}} of TS 36.423 §9.3.8: a list of ABSStatusExtIEsExtField values.
 type ABSStatusExtIEsExtContainer []ABSStatusExtIEsExtField
 
-// ASSecurityInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[ASSecurityInformationExtIEsValue].
+// ASSecurityInformationExtIEsExtContainer is ProtocolExtensionContainer {{AS-SecurityInformation-ExtIEs}} of TS 36.423 §9.3.8: a list of ASSecurityInformationExtIEsExtField values.
 type ASSecurityInformationExtIEsExtContainer []ASSecurityInformationExtIEsExtField
 
 // privateMessageIEsValueprotocolPrivateValue is the concrete protocolPrivateValue[PrivateMessageIEsValue].
@@ -29716,7 +29716,7 @@ func (v WidebandCQICodeword1APERValue) WithoutReplay() WidebandCQICodeword1APERV
 	return v
 }
 
-// ABSInformationFDDExtIEsIEField is the concrete ProtocolIEField[ABSInformationFDDExtIEsValue].
+// ABSInformationFDDExtIEsIEField uses the ProtocolIE-Field shape for object set ABSInformationFDD-ExtIEs of TS 36.423.
 type ABSInformationFDDExtIEsIEField struct {
 	Id            ProtocolIEID
 	Criticality   Criticality
@@ -29834,10 +29834,10 @@ func X2apInternalABSInformationFDDExtIEsIEFieldUnmarshalAPERFrom(v *ABSInformati
 	return nil
 }
 
-// ABSInformationFDDExtIEsIEContainer is the concrete ProtocolIEContainer[ABSInformationFDDExtIEsValue].
+// ABSInformationFDDExtIEsIEContainer uses the ProtocolIE-Container shape for object set ABSInformationFDD-ExtIEs of TS 36.423: a list of ABSInformationFDDExtIEsIEField values.
 type ABSInformationFDDExtIEsIEContainer []ABSInformationFDDExtIEsIEField
 
-// ABSInformationTDDExtIEsIEField is the concrete ProtocolIEField[ABSInformationTDDExtIEsValue].
+// ABSInformationTDDExtIEsIEField uses the ProtocolIE-Field shape for object set ABSInformationTDD-ExtIEs of TS 36.423.
 type ABSInformationTDDExtIEsIEField struct {
 	Id            ProtocolIEID
 	Criticality   Criticality
@@ -29955,10 +29955,10 @@ func X2apInternalABSInformationTDDExtIEsIEFieldUnmarshalAPERFrom(v *ABSInformati
 	return nil
 }
 
-// ABSInformationTDDExtIEsIEContainer is the concrete ProtocolIEContainer[ABSInformationTDDExtIEsValue].
+// ABSInformationTDDExtIEsIEContainer uses the ProtocolIE-Container shape for object set ABSInformationTDD-ExtIEs of TS 36.423: a list of ABSInformationTDDExtIEsIEField values.
 type ABSInformationTDDExtIEsIEContainer []ABSInformationTDDExtIEsIEField
 
-// ABSStatusExtIEsIEField is the concrete ProtocolIEField[ABSStatusExtIEsValue].
+// ABSStatusExtIEsIEField uses the ProtocolIE-Field shape for object set ABS-Status-ExtIEs of TS 36.423.
 type ABSStatusExtIEsIEField struct {
 	Id            ProtocolIEID
 	Criticality   Criticality
@@ -30076,10 +30076,10 @@ func X2apInternalABSStatusExtIEsIEFieldUnmarshalAPERFrom(v *ABSStatusExtIEsIEFie
 	return nil
 }
 
-// ABSStatusExtIEsIEContainer is the concrete ProtocolIEContainer[ABSStatusExtIEsValue].
+// ABSStatusExtIEsIEContainer uses the ProtocolIE-Container shape for object set ABS-Status-ExtIEs of TS 36.423: a list of ABSStatusExtIEsIEField values.
 type ABSStatusExtIEsIEContainer []ABSStatusExtIEsIEField
 
-// ASSecurityInformationExtIEsIEField is the concrete ProtocolIEField[ASSecurityInformationExtIEsValue].
+// ASSecurityInformationExtIEsIEField uses the ProtocolIE-Field shape for object set AS-SecurityInformation-ExtIEs of TS 36.423.
 type ASSecurityInformationExtIEsIEField struct {
 	Id            ProtocolIEID
 	Criticality   Criticality
@@ -30197,7 +30197,7 @@ func X2apInternalASSecurityInformationExtIEsIEFieldUnmarshalAPERFrom(v *ASSecuri
 	return nil
 }
 
-// ASSecurityInformationExtIEsIEContainer is the concrete ProtocolIEContainer[ASSecurityInformationExtIEsValue].
+// ASSecurityInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set AS-SecurityInformation-ExtIEs of TS 36.423: a list of ASSecurityInformationExtIEsIEField values.
 type ASSecurityInformationExtIEsIEContainer []ASSecurityInformationExtIEsIEField
 
 // PayloadLimits bound a single call across a foreign byte boundary.
@@ -52596,7 +52596,7 @@ func X2apInternalABSInformationFDDUnmarshalAPERFrom(v *ABSInformationFDD, bb *ap
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(ABSInformationFDDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -52856,7 +52856,7 @@ func X2apInternalABSInformationTDDUnmarshalAPERFrom(v *ABSInformationTDD, bb *ap
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(ABSInformationTDDExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -59264,3 +59264,18 @@ func X2apInternalConstructT6TypeIDF6source(v0 aper.SourceAssignment) TypeID {
 func X2apInternalConstructT7TableIDF6source(v0 aper.SourceAssignment) TableID {
 	return TableID{source: v0}
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ABSInformationFDDExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ABSInformationTDDExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ABSStatusExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ASSecurityInformationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *PrivateMessageIEsValue) Selected() (any, bool) { return nil, false }

@@ -12,10 +12,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// ECIDMeasurementTerminationCommandIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementTerminationCommandIEValue].
+// ECIDMeasurementTerminationCommandIEContainer is ProtocolIE-Container {{E-CIDMeasurementTerminationCommand-IEs}} of TS 36.455: a list of ECIDMeasurementTerminationCommandIEField values.
 type ECIDMeasurementTerminationCommandIEContainer []ECIDMeasurementTerminationCommandIEField
 
-// ECIDMeasurementTerminationCommandIEField is the concrete ProtocolIEField[ECIDMeasurementTerminationCommandIEValue].
+// ECIDMeasurementTerminationCommandIEField is ProtocolIE-Field {{E-CIDMeasurementTerminationCommand-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementTerminationCommandIEValue.
 type ECIDMeasurementTerminationCommandIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -130,31 +130,31 @@ func (v *ECIDMeasurementTerminationCommandIEField) unmarshalAPERFrom(bb *aper.Bi
 	return nil
 }
 
-// AssistanceInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[AssistanceInformationExtIEsValue].
+// AssistanceInformationExtIEsExtContainer is ProtocolExtensionContainer {{Assistance-Information-ExtIEs}} of TS 36.455: a list of AssistanceInformationExtIEsExtField values.
 type AssistanceInformationExtIEsExtContainer []AssistanceInformationExtIEsExtField
 
-// AssistanceInformationMetaDataExtIEsExtContainer is the concrete ProtocolExtensionContainer[AssistanceInformationMetaDataExtIEsValue].
+// AssistanceInformationMetaDataExtIEsExtContainer is ProtocolExtensionContainer {{AssistanceInformationMetaData-ExtIEs}} of TS 36.455: a list of AssistanceInformationMetaDataExtIEsExtField values.
 type AssistanceInformationMetaDataExtIEsExtContainer []AssistanceInformationMetaDataExtIEsExtField
 
-// CriticalityDiagnosticsExtIEsExtContainer is the concrete ProtocolExtensionContainer[CriticalityDiagnosticsExtIEsValue].
+// CriticalityDiagnosticsExtIEsExtContainer is ProtocolExtensionContainer {{CriticalityDiagnostics-ExtIEs}} of TS 36.455: a list of CriticalityDiagnosticsExtIEsExtField values.
 type CriticalityDiagnosticsExtIEsExtContainer []CriticalityDiagnosticsExtIEsExtField
 
-// ECGIExtIEsExtContainer is the concrete ProtocolExtensionContainer[ECGIExtIEsValue].
+// ECGIExtIEsExtContainer is ProtocolExtensionContainer {{ECGI-ExtIEs}} of TS 36.455: a list of ECGIExtIEsExtField values.
 type ECGIExtIEsExtContainer []ECGIExtIEsExtField
 
-// InterRATMeasurementQuantitiesValueExtIEsExtContainer is the concrete ProtocolExtensionContainer[InterRATMeasurementQuantitiesValueExtIEsValue].
+// InterRATMeasurementQuantitiesValueExtIEsExtContainer is ProtocolExtensionContainer {{InterRATMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a list of InterRATMeasurementQuantitiesValueExtIEsExtField values.
 type InterRATMeasurementQuantitiesValueExtIEsExtContainer []InterRATMeasurementQuantitiesValueExtIEsExtField
 
-// AddOTDOACellsExtIEsExtContainer is the concrete ProtocolExtensionContainer[AddOTDOACellsExtIEsValue].
+// AddOTDOACellsExtIEsExtContainer is ProtocolExtensionContainer {{Add-OTDOACells-ExtIEs}} of TS 36.455: a list of AddOTDOACellsExtIEsExtField values.
 type AddOTDOACellsExtIEsExtContainer []AddOTDOACellsExtIEsExtField
 
-// AssistanceInformationFailureListExtIEsExtContainer is the concrete ProtocolExtensionContainer[AssistanceInformationFailureListExtIEsValue].
+// AssistanceInformationFailureListExtIEsExtContainer is ProtocolExtensionContainer {{AssistanceInformationFailureList-ExtIEs}} of TS 36.455: a list of AssistanceInformationFailureListExtIEsExtField values.
 type AssistanceInformationFailureListExtIEsExtContainer []AssistanceInformationFailureListExtIEsExtField
 
-// CriticalityDiagnosticsIEListExtIEsExtContainer is the concrete ProtocolExtensionContainer[CriticalityDiagnosticsIEListExtIEsValue].
+// CriticalityDiagnosticsIEListExtIEsExtContainer is ProtocolExtensionContainer {{CriticalityDiagnostics-IE-List-ExtIEs}} of TS 36.455: a list of CriticalityDiagnosticsIEListExtIEsExtField values.
 type CriticalityDiagnosticsIEListExtIEsExtContainer []CriticalityDiagnosticsIEListExtIEsExtField
 
-// AssistanceInformationExtIEsExtField is the concrete ProtocolExtensionField[AssistanceInformationExtIEsValue].
+// AssistanceInformationExtIEsExtField is ProtocolExtensionField {{Assistance-Information-ExtIEs}} of TS 36.455: a field carrying a value of AssistanceInformationExtIEsValue.
 type AssistanceInformationExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -269,7 +269,7 @@ func (v *AssistanceInformationExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuff
 	return nil
 }
 
-// AssistanceInformationMetaDataExtIEsExtField is the concrete ProtocolExtensionField[AssistanceInformationMetaDataExtIEsValue].
+// AssistanceInformationMetaDataExtIEsExtField is ProtocolExtensionField {{AssistanceInformationMetaData-ExtIEs}} of TS 36.455: a field carrying a value of AssistanceInformationMetaDataExtIEsValue.
 type AssistanceInformationMetaDataExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -384,7 +384,7 @@ func (v *AssistanceInformationMetaDataExtIEsExtField) unmarshalAPERFrom(bb *aper
 	return nil
 }
 
-// CriticalityDiagnosticsExtIEsExtField is the concrete ProtocolExtensionField[CriticalityDiagnosticsExtIEsValue].
+// CriticalityDiagnosticsExtIEsExtField is ProtocolExtensionField {{CriticalityDiagnostics-ExtIEs}} of TS 36.455: a field carrying a value of CriticalityDiagnosticsExtIEsValue.
 type CriticalityDiagnosticsExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -499,7 +499,7 @@ func (v *CriticalityDiagnosticsExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuf
 	return nil
 }
 
-// ECGIExtIEsExtField is the concrete ProtocolExtensionField[ECGIExtIEsValue].
+// ECGIExtIEsExtField is ProtocolExtensionField {{ECGI-ExtIEs}} of TS 36.455: a field carrying a value of ECGIExtIEsValue.
 type ECGIExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -614,7 +614,7 @@ func (v *ECGIExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// InterRATMeasurementQuantitiesValueExtIEsExtField is the concrete ProtocolExtensionField[InterRATMeasurementQuantitiesValueExtIEsValue].
+// InterRATMeasurementQuantitiesValueExtIEsExtField is ProtocolExtensionField {{InterRATMeasurementQuantitiesValue-ExtIEs}} of TS 36.455: a field carrying a value of InterRATMeasurementQuantitiesValueExtIEsValue.
 type InterRATMeasurementQuantitiesValueExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -729,7 +729,7 @@ func (v *InterRATMeasurementQuantitiesValueExtIEsExtField) unmarshalAPERFrom(bb 
 	return nil
 }
 
-// AddOTDOACellsExtIEsExtField is the concrete ProtocolExtensionField[AddOTDOACellsExtIEsValue].
+// AddOTDOACellsExtIEsExtField is ProtocolExtensionField {{Add-OTDOACells-ExtIEs}} of TS 36.455: a field carrying a value of AddOTDOACellsExtIEsValue.
 type AddOTDOACellsExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -844,7 +844,7 @@ func (v *AddOTDOACellsExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 	return nil
 }
 
-// AssistanceInformationFailureListExtIEsExtField is the concrete ProtocolExtensionField[AssistanceInformationFailureListExtIEsValue].
+// AssistanceInformationFailureListExtIEsExtField is ProtocolExtensionField {{AssistanceInformationFailureList-ExtIEs}} of TS 36.455: a field carrying a value of AssistanceInformationFailureListExtIEsValue.
 type AssistanceInformationFailureListExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -959,7 +959,7 @@ func (v *AssistanceInformationFailureListExtIEsExtField) unmarshalAPERFrom(bb *a
 	return nil
 }
 
-// CriticalityDiagnosticsIEListExtIEsExtField is the concrete ProtocolExtensionField[CriticalityDiagnosticsIEListExtIEsValue].
+// CriticalityDiagnosticsIEListExtIEsExtField is ProtocolExtensionField {{CriticalityDiagnostics-IE-List-ExtIEs}} of TS 36.455: a field carrying a value of CriticalityDiagnosticsIEListExtIEsValue.
 type CriticalityDiagnosticsIEListExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1074,7 +1074,7 @@ func (v *CriticalityDiagnosticsIEListExtIEsExtField) unmarshalAPERFrom(bb *aper.
 	return nil
 }
 
-// ECIDMeasurementTerminationCommandMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementTerminationCommandIEValue].
+// ECIDMeasurementTerminationCommandMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementTerminationCommand-IEs}} of TS 36.455.
 type ECIDMeasurementTerminationCommandMeasurementIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.MeasurementIDValueCodec
@@ -1263,7 +1263,7 @@ type ECIDMeasurementTerminationCommandIEValueProtocolOpenValueConstraint interfa
 	rule() aper.SourceRule
 }
 
-// AddOTDOACellsExtIEsIEField is the concrete ProtocolIEField[AddOTDOACellsExtIEsValue].
+// AddOTDOACellsExtIEsIEField uses the ProtocolIE-Field shape for object set Add-OTDOACells-ExtIEs of TS 36.455.
 type AddOTDOACellsExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1378,10 +1378,10 @@ func (v *AddOTDOACellsExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error
 	return nil
 }
 
-// AddOTDOACellsExtIEsIEContainer is the concrete ProtocolIEContainer[AddOTDOACellsExtIEsValue].
+// AddOTDOACellsExtIEsIEContainer uses the ProtocolIE-Container shape for object set Add-OTDOACells-ExtIEs of TS 36.455: a list of AddOTDOACellsExtIEsIEField values.
 type AddOTDOACellsExtIEsIEContainer []AddOTDOACellsExtIEsIEField
 
-// AssistanceInformationExtIEsIEField is the concrete ProtocolIEField[AssistanceInformationExtIEsValue].
+// AssistanceInformationExtIEsIEField uses the ProtocolIE-Field shape for object set Assistance-Information-ExtIEs of TS 36.455.
 type AssistanceInformationExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1496,10 +1496,10 @@ func (v *AssistanceInformationExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffe
 	return nil
 }
 
-// AssistanceInformationExtIEsIEContainer is the concrete ProtocolIEContainer[AssistanceInformationExtIEsValue].
+// AssistanceInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set Assistance-Information-ExtIEs of TS 36.455: a list of AssistanceInformationExtIEsIEField values.
 type AssistanceInformationExtIEsIEContainer []AssistanceInformationExtIEsIEField
 
-// AssistanceInformationFailureListExtIEsIEField is the concrete ProtocolIEField[AssistanceInformationFailureListExtIEsValue].
+// AssistanceInformationFailureListExtIEsIEField uses the ProtocolIE-Field shape for object set AssistanceInformationFailureList-ExtIEs of TS 36.455.
 type AssistanceInformationFailureListExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1614,10 +1614,10 @@ func (v *AssistanceInformationFailureListExtIEsIEField) unmarshalAPERFrom(bb *ap
 	return nil
 }
 
-// AssistanceInformationFailureListExtIEsIEContainer is the concrete ProtocolIEContainer[AssistanceInformationFailureListExtIEsValue].
+// AssistanceInformationFailureListExtIEsIEContainer uses the ProtocolIE-Container shape for object set AssistanceInformationFailureList-ExtIEs of TS 36.455: a list of AssistanceInformationFailureListExtIEsIEField values.
 type AssistanceInformationFailureListExtIEsIEContainer []AssistanceInformationFailureListExtIEsIEField
 
-// AssistanceInformationMetaDataExtIEsIEField is the concrete ProtocolIEField[AssistanceInformationMetaDataExtIEsValue].
+// AssistanceInformationMetaDataExtIEsIEField uses the ProtocolIE-Field shape for object set AssistanceInformationMetaData-ExtIEs of TS 36.455.
 type AssistanceInformationMetaDataExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1732,10 +1732,10 @@ func (v *AssistanceInformationMetaDataExtIEsIEField) unmarshalAPERFrom(bb *aper.
 	return nil
 }
 
-// AssistanceInformationMetaDataExtIEsIEContainer is the concrete ProtocolIEContainer[AssistanceInformationMetaDataExtIEsValue].
+// AssistanceInformationMetaDataExtIEsIEContainer uses the ProtocolIE-Container shape for object set AssistanceInformationMetaData-ExtIEs of TS 36.455: a list of AssistanceInformationMetaDataExtIEsIEField values.
 type AssistanceInformationMetaDataExtIEsIEContainer []AssistanceInformationMetaDataExtIEsIEField
 
-// CriticalityDiagnosticsExtIEsIEField is the concrete ProtocolIEField[CriticalityDiagnosticsExtIEsValue].
+// CriticalityDiagnosticsExtIEsIEField uses the ProtocolIE-Field shape for object set CriticalityDiagnostics-ExtIEs of TS 36.455.
 type CriticalityDiagnosticsExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1850,10 +1850,10 @@ func (v *CriticalityDiagnosticsExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuff
 	return nil
 }
 
-// CriticalityDiagnosticsExtIEsIEContainer is the concrete ProtocolIEContainer[CriticalityDiagnosticsExtIEsValue].
+// CriticalityDiagnosticsExtIEsIEContainer uses the ProtocolIE-Container shape for object set CriticalityDiagnostics-ExtIEs of TS 36.455: a list of CriticalityDiagnosticsExtIEsIEField values.
 type CriticalityDiagnosticsExtIEsIEContainer []CriticalityDiagnosticsExtIEsIEField
 
-// CriticalityDiagnosticsIEListExtIEsIEField is the concrete ProtocolIEField[CriticalityDiagnosticsIEListExtIEsValue].
+// CriticalityDiagnosticsIEListExtIEsIEField uses the ProtocolIE-Field shape for object set CriticalityDiagnostics-IE-List-ExtIEs of TS 36.455.
 type CriticalityDiagnosticsIEListExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1968,10 +1968,10 @@ func (v *CriticalityDiagnosticsIEListExtIEsIEField) unmarshalAPERFrom(bb *aper.B
 	return nil
 }
 
-// CriticalityDiagnosticsIEListExtIEsIEContainer is the concrete ProtocolIEContainer[CriticalityDiagnosticsIEListExtIEsValue].
+// CriticalityDiagnosticsIEListExtIEsIEContainer uses the ProtocolIE-Container shape for object set CriticalityDiagnostics-IE-List-ExtIEs of TS 36.455: a list of CriticalityDiagnosticsIEListExtIEsIEField values.
 type CriticalityDiagnosticsIEListExtIEsIEContainer []CriticalityDiagnosticsIEListExtIEsIEField
 
-// ECGIExtIEsIEField is the concrete ProtocolIEField[ECGIExtIEsValue].
+// ECGIExtIEsIEField uses the ProtocolIE-Field shape for object set ECGI-ExtIEs of TS 36.455.
 type ECGIExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2086,7 +2086,7 @@ func (v *ECGIExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// ECGIExtIEsIEContainer is the concrete ProtocolIEContainer[ECGIExtIEsValue].
+// ECGIExtIEsIEContainer uses the ProtocolIE-Container shape for object set ECGI-ExtIEs of TS 36.455: a list of ECGIExtIEsIEField values.
 type ECGIExtIEsIEContainer []ECGIExtIEsIEField
 
 func BridgeEffectivePayloadLimits(l s00.PayloadLimits) s00.PayloadLimits {
@@ -4647,7 +4647,7 @@ func (t ECIDMeasurementTerminationCommandIETable) ESMLCUEMeasurementID() ECIDMea
 			decoded, err := s02.BridgeECIDMeasurementTerminationCommandIEValueMethodDecode(zero, s00.ProtocolIEID(2), raw)
 			if err != nil {
 				var empty s00.MeasurementID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementID")
 			}
 			value, ok := decoded.AsESMLCUEMeasurementID()
 			if !ok {
@@ -4722,7 +4722,7 @@ func (t ECIDMeasurementTerminationCommandIETable) ENBUEMeasurementID() ECIDMeasu
 			decoded, err := s02.BridgeECIDMeasurementTerminationCommandIEValueMethodDecode(zero, s00.ProtocolIEID(6), raw)
 			if err != nil {
 				var empty s00.MeasurementID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementID")
 			}
 			value, ok := decoded.AsENBUEMeasurementID()
 			if !ok {
@@ -5786,6 +5786,37 @@ func WLANRSSICodec() s02.WLANRSSIValueCodec {
 	}()
 
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *PosSIBsExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ResultGERANItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ResultRSRPItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ResultRSRQItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ResultUTRANItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ResultsPerSSBIndexItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SystemInformationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TDDConfigurationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *WLANMeasurementQuantitiesValueExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *WLANMeasurementResultItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
 func BridgeAddOTDOACellsExtIEsExtFieldFieldReceived(v *AddOTDOACellsExtIEsExtField) *aper.CompletePadding {
 	return &v.received
 }

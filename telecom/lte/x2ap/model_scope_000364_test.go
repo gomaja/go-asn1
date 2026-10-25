@@ -6,7 +6,7 @@ import (
 	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func eNDCConfigurationTransferfreshMust(value s20.ENDCConfigurationTransfer, err error) s20.ENDCConfigurationTransfer {
+func gNBStatusIndicationfreshMust(value s20.GNBStatusIndication, err error) s20.GNBStatusIndication {
 	if err != nil {
 		panic(err)
 	}

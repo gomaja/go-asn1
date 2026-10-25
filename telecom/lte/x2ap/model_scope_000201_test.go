@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s07 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s07"
 )
 
-func resetRequestfreshMust(value s20.ResetRequest, err error) s20.ResetRequest {
+func resetRequestIEFieldfreshMust(value s07.ResetRequestIEField, err error) s07.ResetRequestIEField {
 	if err != nil {
 		panic(err)
 	}

@@ -20,6 +20,25 @@ import (
 	bits "math/bits"
 )
 
+func BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionContainer(v *s10.PC5QoSParametersExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+	s.End(f, nil, false)
+}
 func BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionContainer(v *s10.PC5QoSParametersExtIEsExtContainer, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
@@ -33,7 +52,7 @@ func BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionContainer(v *s
 			if s.Err() != nil {
 				break
 			}
-			s13.BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
+			BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
 		}
 		s.End(f, aper.Snapshot{}, false)
 	}
@@ -344,13 +363,13 @@ func BridgeRLFReportInformationExtIEsValueCompareS1APProtocolExtensionContainer(
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// BearersSubjectToStatusTransferItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[BearersSubjectToStatusTransferItemExtIEsValue].
+// BearersSubjectToStatusTransferItemExtIEsExtContainer is ProtocolExtensionContainer {{Bearers-SubjectToStatusTransfer-ItemExtIEs}} of TS 36.413: a list of BearersSubjectToStatusTransferItemExtIEsExtField values.
 type BearersSubjectToStatusTransferItemExtIEsExtContainer []BearersSubjectToStatusTransferItemExtIEsExtField
 
-// DAPSResponseInfoListIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[DAPSResponseInfoListIEValue].
+// DAPSResponseInfoListIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{DAPSResponseInfoListIEs}} of TS 36.413: a single information element field.
 type DAPSResponseInfoListIEValueProtocolIESingleContainer = DAPSResponseInfoListIEField
 
-// BearersSubjectToStatusTransferItemExtIEsExtField is the concrete ProtocolExtensionField[BearersSubjectToStatusTransferItemExtIEsValue].
+// BearersSubjectToStatusTransferItemExtIEsExtField is ProtocolExtensionField {{Bearers-SubjectToStatusTransfer-ItemExtIEs}} of TS 36.413: an extension field.
 type BearersSubjectToStatusTransferItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -464,7 +483,7 @@ func (v *BearersSubjectToStatusTransferItemExtIEsExtField) unmarshalAPERFrom(bb 
 	return nil
 }
 
-// BearersSubjectToStatusTransferItemExtIEsCOUNTValueExtendedExtBinding is the concrete ExtensionBinding[COUNTValueExtended, BearersSubjectToStatusTransferItemExtIEsValue].
+// BearersSubjectToStatusTransferItemExtIEsCOUNTValueExtendedExtBinding binds COUNTValueExtended to the Bearers-SubjectToStatusTransfer-ItemExtIEs object set of TS 36.413.
 type BearersSubjectToStatusTransferItemExtIEsCOUNTValueExtendedExtBinding struct {
 	info   s00.ExtensionInfo
 	codec  COUNTValueExtendedValueCodec
@@ -619,7 +638,7 @@ func (c COUNTValueExtendedValueCodec) encodeChanged(value COUNTValueExtended,
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsExtendedExtBinding is the concrete ExtensionBinding[ReceiveStatusOfULPDCPSDUsExtended, BearersSubjectToStatusTransferItemExtIEsValue].
+// BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsExtendedExtBinding binds ReceiveStatusOfULPDCPSDUsExtended to the Bearers-SubjectToStatusTransfer-ItemExtIEs object set of TS 36.413.
 type BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsExtendedExtBinding struct {
 	info   s00.ExtensionInfo
 	codec  s01.ReceiveStatusOfULPDCPSDUsExtendedValueCodec
@@ -674,7 +693,7 @@ func (b BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsExtende
 	return b.get(&field.ExtensionValue)
 }
 
-// BearersSubjectToStatusTransferItemExtIEsCOUNTvaluePDCPSNlength18ExtBinding is the concrete ExtensionBinding[COUNTvaluePDCPSNlength18, BearersSubjectToStatusTransferItemExtIEsValue].
+// BearersSubjectToStatusTransferItemExtIEsCOUNTvaluePDCPSNlength18ExtBinding binds COUNTvaluePDCPSNlength18 to the Bearers-SubjectToStatusTransfer-ItemExtIEs object set of TS 36.413.
 type BearersSubjectToStatusTransferItemExtIEsCOUNTvaluePDCPSNlength18ExtBinding struct {
 	info   s00.ExtensionInfo
 	codec  COUNTvaluePDCPSNlength18ValueCodec
@@ -829,7 +848,7 @@ func (c COUNTvaluePDCPSNlength18ValueCodec) encodeChanged(value COUNTvaluePDCPSN
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsPDCPSNlength18ExtBinding is the concrete ExtensionBinding[ReceiveStatusOfULPDCPSDUsPDCPSNlength18, BearersSubjectToStatusTransferItemExtIEsValue].
+// BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsPDCPSNlength18ExtBinding binds ReceiveStatusOfULPDCPSDUsPDCPSNlength18 to the Bearers-SubjectToStatusTransfer-ItemExtIEs object set of TS 36.413.
 type BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsPDCPSNlength18ExtBinding struct {
 	info   s00.ExtensionInfo
 	codec  s01.ReceiveStatusOfULPDCPSDUsPDCPSNlength18ValueCodec
@@ -884,7 +903,7 @@ func (b BearersSubjectToStatusTransferItemExtIEsReceiveStatusOfULPDCPSDUsPDCPSNl
 	return b.get(&field.ExtensionValue)
 }
 
-// DAPSResponseInfoListDAPSResponseInfoItemIEBinding is the concrete IEBinding[DAPSResponseInfoItem, DAPSResponseInfoListIEValue].
+// DAPSResponseInfoListDAPSResponseInfoItemIEBinding binds DAPSResponseInfoItem to the DAPSResponseInfoListIEs object set of TS 36.413.
 type DAPSResponseInfoListDAPSResponseInfoItemIEBinding struct {
 	info   s00.FieldInfo
 	codec  DAPSResponseInfoItemValueCodec
@@ -1037,7 +1056,7 @@ func (c DAPSResponseInfoItemValueCodec) encodeChanged(value DAPSResponseInfoItem
 	return out, aper.OperationError(err, c.path)
 }
 
-// DAPSResponseInfoListIEField is the concrete ProtocolIEField[DAPSResponseInfoListIEValue].
+// DAPSResponseInfoListIEField is ProtocolIE-Field {{DAPSResponseInfoListIEs}} of TS 36.413: an information element field.
 type DAPSResponseInfoListIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3451,9 +3470,69 @@ func (c DAPSResponseInfoValueCodec) encodeChanged(value DAPSResponseInfo,
 	return out, aper.OperationError(err, c.path)
 }
 
-// DAPSResponseInfoListIEContainer is the concrete ProtocolIEContainer[DAPSResponseInfoListIEValue].
+// DAPSResponseInfoListIEContainer is ProtocolIE-Container {{DAPSResponseInfoListIEs}} of TS 36.413: a list of DAPSResponseInfoListIEField values.
 type DAPSResponseInfoListIEContainer []DAPSResponseInfoListIEField
 
+// PC5QoSParametersExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{PC5QoSParameters-ExtIEs}} codec of TS 36.413.
+func PC5QoSParametersExtIEsValueExtensionFieldTableCodec(table s00.PC5QoSParametersExtIEsValueExtensionTable) s10.PC5QoSParametersExtIEsExtFieldValueCodec {
+	if !*s00.BridgePC5QoSParametersExtIEsValueExtensionTableFieldBound(&table) {
+		return s10.PC5QoSParametersExtIEsExtFieldValueCodec{}
+	}
+	return func() s10.PC5QoSParametersExtIEsExtFieldValueCodec {
+		sealed := s10.PC5QoSParametersExtIEsExtFieldValueCodec{}
+		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PC5QoSParametersExtIEsExtField, error) {
+			var field s10.PC5QoSParametersExtIEsExtField
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return field, err
+			}
+			if err := s10.BridgePC5QoSParametersExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+				return field, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
+				return field, err
+			}
+			return field, nil
+		}
+		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s10.PC5QoSParametersExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			if err := s10.BridgePC5QoSParametersExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		}
+		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s10.PC5QoSParametersExtIEsExtField, options aper.DecodeState) (s10.PC5QoSParametersExtIEsExtField, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root,
+				false)
+			return v, root
+		}
+		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s10.PC5QoSParametersExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
+			s.End(f, root,
+
+				false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s10.BridgePC5QoSParametersExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}()
+		return sealed
+	}()
+
+}
+
+// PLMNAreaBasedQMCExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{PLMNAreaBasedQMC-ExtIEs}} codec of TS 36.413.
 func PLMNAreaBasedQMCExtIEsValueExtensionFieldTableCodec(table s00.PLMNAreaBasedQMCExtIEsValueExtensionTable) s10.PLMNAreaBasedQMCExtIEsExtFieldValueCodec {
 	if !*s00.BridgePLMNAreaBasedQMCExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PLMNAreaBasedQMCExtIEsExtFieldValueCodec{}
@@ -3511,6 +3590,8 @@ func PLMNAreaBasedQMCExtIEsValueExtensionFieldTableCodec(table s00.PLMNAreaBased
 	}()
 
 }
+
+// PSCellInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{PSCellInformation-ExtIEs}} codec of TS 36.413.
 func PSCellInformationExtIEsValueExtensionFieldTableCodec(table s00.PSCellInformationExtIEsValueExtensionTable) s10.PSCellInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgePSCellInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PSCellInformationExtIEsExtFieldValueCodec{}
@@ -3568,6 +3649,8 @@ func PSCellInformationExtIEsValueExtensionFieldTableCodec(table s00.PSCellInform
 	}()
 
 }
+
+// PagingAttemptInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{PagingAttemptInformation-ExtIEs}} codec of TS 36.413.
 func PagingAttemptInformationExtIEsValueExtensionFieldTableCodec(table s00.PagingAttemptInformationExtIEsValueExtensionTable) s10.PagingAttemptInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgePagingAttemptInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PagingAttemptInformationExtIEsExtFieldValueCodec{}
@@ -3625,6 +3708,8 @@ func PagingAttemptInformationExtIEsValueExtensionFieldTableCodec(table s00.Pagin
 	}()
 
 }
+
+// PagingEDRXInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{Paging-eDRXInformation-ExtIEs}} codec of TS 36.413.
 func PagingEDRXInformationExtIEsValueExtensionFieldTableCodec(table s00.PagingEDRXInformationExtIEsValueExtensionTable) s10.PagingEDRXInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgePagingEDRXInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PagingEDRXInformationExtIEsExtFieldValueCodec{}
@@ -3682,6 +3767,8 @@ func PagingEDRXInformationExtIEsValueExtensionFieldTableCodec(table s00.PagingED
 	}()
 
 }
+
+// ProSeAuthorizedExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{ProSeAuthorized-ExtIEs}} codec of TS 36.413.
 func ProSeAuthorizedExtIEsValueExtensionFieldTableCodec(table s00.ProSeAuthorizedExtIEsValueExtensionTable) s10.ProSeAuthorizedExtIEsExtFieldValueCodec {
 	if !*s00.BridgeProSeAuthorizedExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.ProSeAuthorizedExtIEsExtFieldValueCodec{}
@@ -3739,6 +3826,8 @@ func ProSeAuthorizedExtIEsValueExtensionFieldTableCodec(table s00.ProSeAuthorize
 	}()
 
 }
+
+// RATRestrictionsItemExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{RAT-RestrictionsItem-ExtIEs}} codec of TS 36.413.
 func RATRestrictionsItemExtIEsValueExtensionFieldTableCodec(table s00.RATRestrictionsItemExtIEsValueExtensionTable) s10.RATRestrictionsItemExtIEsExtFieldValueCodec {
 	if !*s00.BridgeRATRestrictionsItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.RATRestrictionsItemExtIEsExtFieldValueCodec{}
@@ -3796,6 +3885,8 @@ func RATRestrictionsItemExtIEsValueExtensionFieldTableCodec(table s00.RATRestric
 	}()
 
 }
+
+// RIMTransferExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{RIMTransfer-ExtIEs}} codec of TS 36.413.
 func RIMTransferExtIEsValueExtensionFieldTableCodec(table s00.RIMTransferExtIEsValueExtensionTable) s10.RIMTransferExtIEsExtFieldValueCodec {
 	if !*s00.BridgeRIMTransferExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.RIMTransferExtIEsExtFieldValueCodec{}
@@ -3853,6 +3944,8 @@ func RIMTransferExtIEsValueExtensionFieldTableCodec(table s00.RIMTransferExtIEsV
 	}()
 
 }
+
+// RLFReportInformationExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{RLFReportInformation-ExtIEs}} codec of TS 36.413.
 func RLFReportInformationExtIEsValueExtensionFieldTableCodec(table s00.RLFReportInformationExtIEsValueExtensionTable) s10.RLFReportInformationExtIEsExtFieldValueCodec {
 	if !*s00.BridgeRLFReportInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.RLFReportInformationExtIEsExtFieldValueCodec{}
@@ -3910,6 +4003,93 @@ func RLFReportInformationExtIEsValueExtensionFieldTableCodec(table s00.RLFReport
 	}()
 
 }
+
+// PC5QoSFlowItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{PC5QoSFlowItem-ExtIEs}} codec of TS 36.413.
+func PC5QoSFlowItemExtIEsValueExtensionTableCodec(table s00.PC5QoSFlowItemExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PC5QoSFlowItemExtIEsExtContainerValueCodec {
+	if !*s00.BridgePC5QoSFlowItemExtIEsValueExtensionTableFieldBound(&table) {
+		return s10.PC5QoSFlowItemExtIEsExtContainerValueCodec{}
+	}
+	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
+	return func() s10.PC5QoSFlowItemExtIEsExtContainerValueCodec {
+		sealed := s10.PC5QoSFlowItemExtIEsExtContainerValueCodec{}
+		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s10.PC5QoSFlowItemExtIEsExtContainer, error) {
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return nil, err
+			}
+			var fields s10.PC5QoSFlowItemExtIEsExtContainer
+			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
+				for i := int64(0); i < length; i++ {
+					var field s10.PC5QoSFlowItemExtIEsExtField
+					if err := s10.BridgePC5QoSFlowItemExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+						return err
+					}
+					if next, err := aper.AppendValues(bb, fields, field); err != nil {
+						return err
+					} else {
+						fields = next
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return nil, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
+				return nil, err
+			}
+			return fields, nil
+		}
+		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s10.PC5QoSFlowItemExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
+				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
+					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
+				}
+				for _, field := range fields[offset:][:length] {
+					if err := s10.BridgePC5QoSFlowItemExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+						return err
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		}
+		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s10.PC5QoSFlowItemExtIEsExtContainer, options aper.DecodeState) (s10.PC5QoSFlowItemExtIEsExtContainer, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			s13.BridgePC5QoSFlowItemExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
+			var root aper.Snapshot
+
+			s.End(f, &root, false)
+			return v, root
+		}
+		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s10.PC5QoSFlowItemExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.
+				Begin()
+			s13.BridgePC5QoSFlowItemExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+			s.End(f, root, false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s10.BridgePC5QoSFlowItemExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
+			return sealed
+		}()
+		return sealed
+	}()
+
+}
+
+// PC5QoSParametersExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{PC5QoSParameters-ExtIEs}} codec of TS 36.413.
 func PC5QoSParametersExtIEsValueExtensionTableCodec(table s00.PC5QoSParametersExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PC5QoSParametersExtIEsExtContainerValueCodec {
 	if !*s00.BridgePC5QoSParametersExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PC5QoSParametersExtIEsExtContainerValueCodec{}
@@ -3967,7 +4147,7 @@ func PC5QoSParametersExtIEsValueExtensionTableCodec(table s00.PC5QoSParametersEx
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s13.BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
+			BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
 
 			s.End(f, &root, false)
@@ -3993,6 +4173,8 @@ func PC5QoSParametersExtIEsValueExtensionTableCodec(table s00.PC5QoSParametersEx
 	}()
 
 }
+
+// PLMNAreaBasedQMCExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{PLMNAreaBasedQMC-ExtIEs}} codec of TS 36.413.
 func PLMNAreaBasedQMCExtIEsValueExtensionTableCodec(table s00.PLMNAreaBasedQMCExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PLMNAreaBasedQMCExtIEsExtContainerValueCodec {
 	if !*s00.BridgePLMNAreaBasedQMCExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PLMNAreaBasedQMCExtIEsExtContainerValueCodec{}
@@ -4076,6 +4258,8 @@ func PLMNAreaBasedQMCExtIEsValueExtensionTableCodec(table s00.PLMNAreaBasedQMCEx
 	}()
 
 }
+
+// PSCellInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{PSCellInformation-ExtIEs}} codec of TS 36.413.
 func PSCellInformationExtIEsValueExtensionTableCodec(table s00.PSCellInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PSCellInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgePSCellInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PSCellInformationExtIEsExtContainerValueCodec{}
@@ -4159,6 +4343,8 @@ func PSCellInformationExtIEsValueExtensionTableCodec(table s00.PSCellInformation
 	}()
 
 }
+
+// PagingAttemptInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{PagingAttemptInformation-ExtIEs}} codec of TS 36.413.
 func PagingAttemptInformationExtIEsValueExtensionTableCodec(table s00.PagingAttemptInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PagingAttemptInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgePagingAttemptInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PagingAttemptInformationExtIEsExtContainerValueCodec{}
@@ -4242,6 +4428,8 @@ func PagingAttemptInformationExtIEsValueExtensionTableCodec(table s00.PagingAtte
 	}()
 
 }
+
+// PagingEDRXInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{Paging-eDRXInformation-ExtIEs}} codec of TS 36.413.
 func PagingEDRXInformationExtIEsValueExtensionTableCodec(table s00.PagingEDRXInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.PagingEDRXInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgePagingEDRXInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.PagingEDRXInformationExtIEsExtContainerValueCodec{}
@@ -4325,6 +4513,8 @@ func PagingEDRXInformationExtIEsValueExtensionTableCodec(table s00.PagingEDRXInf
 	}()
 
 }
+
+// ProSeAuthorizedExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{ProSeAuthorized-ExtIEs}} codec of TS 36.413.
 func ProSeAuthorizedExtIEsValueExtensionTableCodec(table s00.ProSeAuthorizedExtIEsValueExtensionTable, bounds aper.ListBounds) s10.ProSeAuthorizedExtIEsExtContainerValueCodec {
 	if !*s00.BridgeProSeAuthorizedExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.ProSeAuthorizedExtIEsExtContainerValueCodec{}
@@ -4408,6 +4598,8 @@ func ProSeAuthorizedExtIEsValueExtensionTableCodec(table s00.ProSeAuthorizedExtI
 	}()
 
 }
+
+// RATRestrictionsItemExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{RAT-RestrictionsItem-ExtIEs}} codec of TS 36.413.
 func RATRestrictionsItemExtIEsValueExtensionTableCodec(table s00.RATRestrictionsItemExtIEsValueExtensionTable, bounds aper.ListBounds) s10.RATRestrictionsItemExtIEsExtContainerValueCodec {
 	if !*s00.BridgeRATRestrictionsItemExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.RATRestrictionsItemExtIEsExtContainerValueCodec{}
@@ -4491,6 +4683,8 @@ func RATRestrictionsItemExtIEsValueExtensionTableCodec(table s00.RATRestrictions
 	}()
 
 }
+
+// RIMTransferExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{RIMTransfer-ExtIEs}} codec of TS 36.413.
 func RIMTransferExtIEsValueExtensionTableCodec(table s00.RIMTransferExtIEsValueExtensionTable, bounds aper.ListBounds) s10.RIMTransferExtIEsExtContainerValueCodec {
 	if !*s00.BridgeRIMTransferExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.RIMTransferExtIEsExtContainerValueCodec{}
@@ -4574,6 +4768,8 @@ func RIMTransferExtIEsValueExtensionTableCodec(table s00.RIMTransferExtIEsValueE
 	}()
 
 }
+
+// RLFReportInformationExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{RLFReportInformation-ExtIEs}} codec of TS 36.413.
 func RLFReportInformationExtIEsValueExtensionTableCodec(table s00.RLFReportInformationExtIEsValueExtensionTable, bounds aper.ListBounds) s10.RLFReportInformationExtIEsExtContainerValueCodec {
 	if !*s00.BridgeRLFReportInformationExtIEsValueExtensionTableFieldBound(&table) {
 		return s10.RLFReportInformationExtIEsExtContainerValueCodec{}
@@ -4658,6 +4854,21 @@ func RLFReportInformationExtIEsValueExtensionTableCodec(table s00.RLFReportInfor
 
 }
 
+// pC5QoSFlowItemExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[PC5QoSFlowItemExtIEsValue].
+type PC5QoSFlowItemExtIEsValueProtocolOpenValueConstraint interface {
+	captureSemantics(aper.SemanticCapture) s05.PC5QoSFlowItemExtIEsValue
+
+	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s05.PC5QoSFlowItemExtIEsValue,
+
+		error)
+	encode() ([]byte, error)
+	encodeFresh(bool, *aper.DecodeBudget) ([]byte, error)
+	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
+	reason(s00.ProtocolIEID) aper.OpaqueReason
+	rule() aper.SourceRule
+}
+
 // pC5QoSParametersExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[PC5QoSParametersExtIEsValue].
 type PC5QoSParametersExtIEsValueProtocolOpenValueConstraint interface {
 	captureSemantics(aper.SemanticCapture) s05.PC5QoSParametersExtIEsValue
@@ -4671,6 +4882,27 @@ type PC5QoSParametersExtIEsValueProtocolOpenValueConstraint interface {
 	matchesID(s00.ProtocolIEID, ...*aper.DecodeBudget) bool
 	reason(s00.ProtocolIEID) aper.OpaqueReason
 	rule() aper.SourceRule
+}
+
+func BridgePC5QoSParametersExtIEsValueCaptureS1APProtocolExtensionField(v *s10.PC5QoSParametersExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
+	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
+	v.ExtensionValue = s05.BridgePC5QoSParametersExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.End(f, s10.BridgePC5QoSParametersExtIEsExtFieldFieldReplay(v), *s10.BridgePC5QoSParametersExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgePC5QoSParametersExtIEsValueCompareS1APProtocolExtensionField(v *s10.PC5QoSParametersExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
+	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
+	*s = s05.BridgePC5QoSParametersExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s10.BridgePC5QoSParametersExtIEsExtFieldFieldReplay(v), *s10.BridgePC5QoSParametersExtIEsExtFieldFieldWithoutReplay(v))
 }
 
 // pLMNAreaBasedQMCExtIEsValueProtocolOpenValue is the concrete protocolOpenValue[PLMNAreaBasedQMCExtIEsValue].
@@ -4959,29 +5191,6 @@ func BridgeRLFReportInformationExtIEsValueCompareS1APProtocolExtensionField(v *s
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
 	*s = s05.BridgeRLFReportInformationExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
 	s.End(f, *s10.BridgeRLFReportInformationExtIEsExtFieldFieldReplay(v), *s10.BridgeRLFReportInformationExtIEsExtFieldFieldWithoutReplay(v))
-}
-
-// BearersSubjectToEarlyStatusTransferItemAPERValue is the concrete APERValue[BearersSubjectToEarlyStatusTransferItem].
-type BearersSubjectToEarlyStatusTransferItemAPERValue struct {
-	context s00.BridgeCodecContext
-	Value   BearersSubjectToEarlyStatusTransferItem
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v BearersSubjectToEarlyStatusTransferItemAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v BearersSubjectToEarlyStatusTransferItemAPERValue) WithoutReplay() BearersSubjectToEarlyStatusTransferItemAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
 }
 
 // COUNTValueExtendedAPERValue is the concrete APERValue[COUNTValueExtended].
@@ -5582,7 +5791,7 @@ func (v DAPSResponseInfoAPERValue) WithoutReplay() DAPSResponseInfoAPERValue {
 	return v
 }
 
-// BearersSubjectToStatusTransferItemExtIEsIEField is the concrete ProtocolIEField[BearersSubjectToStatusTransferItemExtIEsValue].
+// BearersSubjectToStatusTransferItemExtIEsIEField uses the ProtocolIE-Field shape for object set Bearers-SubjectToStatusTransfer-ItemExtIEs of TS 36.413.
 type BearersSubjectToStatusTransferItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -5696,10 +5905,10 @@ func (v *BearersSubjectToStatusTransferItemExtIEsIEField) unmarshalAPERFrom(bb *
 	return nil
 }
 
-// BearersSubjectToStatusTransferItemExtIEsIEContainer is the concrete ProtocolIEContainer[BearersSubjectToStatusTransferItemExtIEsValue].
+// BearersSubjectToStatusTransferItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set Bearers-SubjectToStatusTransfer-ItemExtIEs of TS 36.413: a list of BearersSubjectToStatusTransferItemExtIEsIEField values.
 type BearersSubjectToStatusTransferItemExtIEsIEContainer []BearersSubjectToStatusTransferItemExtIEsIEField
 
-// DAPSResponseInfoListIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEValueERABIEContainerListValueCodec is the concrete ValueCodec[DAPSResponseInfoListIEValueERABIEContainerList].
 type DAPSResponseInfoListIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5783,10 +5992,10 @@ func (c DAPSResponseInfoListIEValueERABIEContainerListValueCodec) encodeChanged(
 	return out, aper.OperationError(err, c.path)
 }
 
-// DAPSResponseInfoListIEValueERABIEContainerList is the concrete ERABIEContainerList[DAPSResponseInfoListIEValue].
+// DAPSResponseInfoListIEValueERABIEContainerList is E-RAB-IE-ContainerList {{DAPSResponseInfoListIEs}} of TS 36.413: a list of information element fields.
 type DAPSResponseInfoListIEValueERABIEContainerList []DAPSResponseInfoListIEValueProtocolIESingleContainer
 
-// BearersSubjectToStatusTransferItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[BearersSubjectToStatusTransferItemExtIEsValue]].
+// BearersSubjectToStatusTransferItemExtIEsExtFieldValueCodec is the concrete ValueCodec[BearersSubjectToStatusTransferItemExtIEsExtField].
 type BearersSubjectToStatusTransferItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5870,7 +6079,7 @@ func (c BearersSubjectToStatusTransferItemExtIEsExtFieldValueCodec) encodeChange
 	return out, aper.OperationError(err, c.path)
 }
 
-// BearersSubjectToStatusTransferItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[BearersSubjectToStatusTransferItemExtIEsValue]].
+// BearersSubjectToStatusTransferItemExtIEsExtContainerValueCodec is the concrete ValueCodec[BearersSubjectToStatusTransferItemExtIEsExtContainer].
 type BearersSubjectToStatusTransferItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5954,7 +6163,7 @@ func (c BearersSubjectToStatusTransferItemExtIEsExtContainerValueCodec) encodeCh
 	return out, aper.OperationError(err, c.path)
 }
 
-// DAPSResponseInfoListIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEFieldValueCodec is the concrete ValueCodec[DAPSResponseInfoListIEField].
 type DAPSResponseInfoListIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6038,7 +6247,7 @@ func (c DAPSResponseInfoListIEFieldValueCodec) encodeChanged(value DAPSResponseI
 	return out, aper.OperationError(err, c.path)
 }
 
-// DAPSResponseInfoListIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEContainerValueCodec is the concrete ValueCodec[DAPSResponseInfoListIEContainer].
 type DAPSResponseInfoListIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6122,7 +6331,7 @@ func (c DAPSResponseInfoListIEContainerValueCodec) encodeChanged(value DAPSRespo
 	return out, aper.OperationError(err, c.path)
 }
 
-// DAPSResponseInfoListIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[DAPSResponseInfoListIEValueProtocolErrorIEContainerList].
 type DAPSResponseInfoListIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6206,10 +6415,10 @@ func (c DAPSResponseInfoListIEValueProtocolErrorIEContainerListValueCodec) encod
 	return out, aper.OperationError(err, c.path)
 }
 
-// DAPSResponseInfoListIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[DAPSResponseInfoListIEValue].
+// DAPSResponseInfoListIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{DAPSResponseInfoListIEs}} of TS 36.413: a list of information element fields.
 type DAPSResponseInfoListIEValueProtocolErrorIEContainerList []DAPSResponseInfoListIEValueProtocolIESingleContainer
 
-// DAPSResponseInfoListIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[DAPSResponseInfoListIEValueProtocolIEContainerList].
 type DAPSResponseInfoListIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6293,10 +6502,10 @@ func (c DAPSResponseInfoListIEValueProtocolIEContainerListValueCodec) encodeChan
 	return out, aper.OperationError(err, c.path)
 }
 
-// DAPSResponseInfoListIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[DAPSResponseInfoListIEValue].
+// DAPSResponseInfoListIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {DAPSResponseInfoListIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type DAPSResponseInfoListIEValueProtocolIEContainerList []DAPSResponseInfoListIEValueProtocolIESingleContainer
 
-// DAPSResponseInfoListIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEValueERABIEContainerListAPERValue is the concrete APERValue[DAPSResponseInfoListIEValueERABIEContainerList].
 type DAPSResponseInfoListIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         DAPSResponseInfoListIEValueERABIEContainerList
@@ -6318,7 +6527,7 @@ func (v DAPSResponseInfoListIEValueERABIEContainerListAPERValue) WithoutReplay()
 	return v
 }
 
-// BearersSubjectToStatusTransferItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[BearersSubjectToStatusTransferItemExtIEsValue]].
+// BearersSubjectToStatusTransferItemExtIEsExtFieldAPERValue is the concrete APERValue[BearersSubjectToStatusTransferItemExtIEsExtField].
 type BearersSubjectToStatusTransferItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToStatusTransferItemExtIEsExtField
@@ -6340,7 +6549,7 @@ func (v BearersSubjectToStatusTransferItemExtIEsExtFieldAPERValue) WithoutReplay
 	return v
 }
 
-// BearersSubjectToStatusTransferItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[BearersSubjectToStatusTransferItemExtIEsValue]].
+// BearersSubjectToStatusTransferItemExtIEsExtContainerAPERValue is the concrete APERValue[BearersSubjectToStatusTransferItemExtIEsExtContainer].
 type BearersSubjectToStatusTransferItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         BearersSubjectToStatusTransferItemExtIEsExtContainer
@@ -6362,7 +6571,7 @@ func (v BearersSubjectToStatusTransferItemExtIEsExtContainerAPERValue) WithoutRe
 	return v
 }
 
-// DAPSResponseInfoListIEFieldAPERValue is the concrete APERValue[ProtocolIEField[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEFieldAPERValue is the concrete APERValue[DAPSResponseInfoListIEField].
 type DAPSResponseInfoListIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         DAPSResponseInfoListIEField
@@ -6384,7 +6593,7 @@ func (v DAPSResponseInfoListIEFieldAPERValue) WithoutReplay() DAPSResponseInfoLi
 	return v
 }
 
-// DAPSResponseInfoListIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEContainerAPERValue is the concrete APERValue[DAPSResponseInfoListIEContainer].
 type DAPSResponseInfoListIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         DAPSResponseInfoListIEContainer
@@ -6406,7 +6615,7 @@ func (v DAPSResponseInfoListIEContainerAPERValue) WithoutReplay() DAPSResponseIn
 	return v
 }
 
-// DAPSResponseInfoListIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[DAPSResponseInfoListIEValueProtocolErrorIEContainerList].
 type DAPSResponseInfoListIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         DAPSResponseInfoListIEValueProtocolErrorIEContainerList
@@ -6428,7 +6637,7 @@ func (v DAPSResponseInfoListIEValueProtocolErrorIEContainerListAPERValue) Withou
 	return v
 }
 
-// DAPSResponseInfoListIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[DAPSResponseInfoListIEValue]].
+// DAPSResponseInfoListIEValueProtocolIEContainerListAPERValue is the concrete APERValue[DAPSResponseInfoListIEValueProtocolIEContainerList].
 type DAPSResponseInfoListIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         DAPSResponseInfoListIEValueProtocolIEContainerList
@@ -18624,7 +18833,7 @@ func (t BearersSubjectToStatusTransferItemExtIETable) ULCOUNTValueExtended() Bea
 			decoded, err := zero.decode(s00.ProtocolIEID(179), raw)
 			if err != nil {
 				var empty COUNTValueExtended
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "COUNTValueExtended")
 			}
 			value, ok := decoded.AsULCOUNTValueExtended()
 			if !ok {
@@ -18685,7 +18894,7 @@ func (t BearersSubjectToStatusTransferItemExtIETable) DLCOUNTValueExtended() Bea
 			decoded, err := zero.decode(s00.ProtocolIEID(180), raw)
 			if err != nil {
 				var empty COUNTValueExtended
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "COUNTValueExtended")
 			}
 			value, ok := decoded.AsDLCOUNTValueExtended()
 			if !ok {
@@ -18748,7 +18957,7 @@ func (t BearersSubjectToStatusTransferItemExtIETable) ReceiveStatusOfULPDCPSDUsE
 			decoded, err := zero.decode(s00.ProtocolIEID(181), raw)
 			if err != nil {
 				var empty s00.ReceiveStatusOfULPDCPSDUsExtended
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ReceiveStatusOfULPDCPSDUsExtended")
 			}
 			value, ok := decoded.AsReceiveStatusOfULPDCPSDUsExtended()
 			if !ok {
@@ -18817,7 +19026,7 @@ func (t BearersSubjectToStatusTransferItemExtIETable) ULCOUNTValuePDCPSNlength18
 			decoded, err := zero.decode(s00.ProtocolIEID(217), raw)
 			if err != nil {
 				var empty COUNTvaluePDCPSNlength18
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18")
 			}
 			value, ok := decoded.AsULCOUNTValuePDCPSNlength18()
 			if !ok {
@@ -18882,7 +19091,7 @@ func (t BearersSubjectToStatusTransferItemExtIETable) DLCOUNTValuePDCPSNlength18
 			decoded, err := zero.decode(s00.ProtocolIEID(218), raw)
 			if err != nil {
 				var empty COUNTvaluePDCPSNlength18
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "COUNTvaluePDCPSNlength18")
 			}
 			value, ok := decoded.AsDLCOUNTValuePDCPSNlength18()
 			if !ok {
@@ -18949,7 +19158,7 @@ func (t BearersSubjectToStatusTransferItemExtIETable) ReceiveStatusOfULPDCPSDUsP
 			decoded, err := zero.decode(s00.ProtocolIEID(219), raw)
 			if err != nil {
 				var empty s00.ReceiveStatusOfULPDCPSDUsPDCPSNlength18
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ReceiveStatusOfULPDCPSDUsPDCPSNlength18")
 			}
 			value, ok := decoded.AsReceiveStatusOfULPDCPSDUsPDCPSNlength18()
 			if !ok {
@@ -19070,7 +19279,7 @@ func (t DAPSResponseInfoListIETable) DAPSResponseInfoItem() DAPSResponseInfoList
 			decoded, err := zero.decode(s00.ProtocolIEID(319), raw)
 			if err != nil {
 				var empty DAPSResponseInfoItem
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "DAPSResponseInfoItem")
 			}
 			value, ok := decoded.AsDAPSResponseInfoItem()
 			if !ok {
@@ -19820,18 +20029,6 @@ func BridgeAllocationAndRetentionPriorityValueCodecMethodEncodeBudgetValue(v All
 }
 func BridgeAllocationAndRetentionPriorityValueCodecMethodEncodeChanged(v AllocationAndRetentionPriorityValueCodec, a0 AllocationAndRetentionPriority, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldContext(v *BearersSubjectToEarlyStatusTransferItemAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReceived(v *BearersSubjectToEarlyStatusTransferItemAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldReplay(v *BearersSubjectToEarlyStatusTransferItemAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeBearersSubjectToEarlyStatusTransferItemAPERValueFieldWithoutReplay(v *BearersSubjectToEarlyStatusTransferItemAPERValue) *bool {
-	return &v.withoutReplay
 }
 func BridgeBearersSubjectToEarlyStatusTransferItemFieldExtCount(v *BearersSubjectToEarlyStatusTransferItem) *int64 {
 	return &v.extCount
@@ -22279,4 +22476,53 @@ func BridgeDLCOUNTPDCPSNlengthMethodUnmarshalAPERLegacy(v *DLCOUNTPDCPSNlength, 
 }
 func BridgeDLCOUNTPDCPSNlengthMethodUnmarshalAPERWithOptions(v *DLCOUNTPDCPSNlength, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// The field's Id distinguishes alternatives with the same Go type.
+func (v *BearersSubjectToStatusTransferItemExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 179:
+		if value, ok := v.AsULCOUNTValueExtended(); ok {
+			return value, true
+		}
+	case 180:
+		if value, ok := v.AsDLCOUNTValueExtended(); ok {
+			return value, true
+		}
+	case 181:
+		if value, ok := v.AsReceiveStatusOfULPDCPSDUsExtended(); ok {
+			return value, true
+		}
+	case 217:
+		if value, ok := v.AsULCOUNTValuePDCPSNlength18(); ok {
+			return value, true
+		}
+	case 218:
+		if value, ok := v.AsDLCOUNTValuePDCPSNlength18(); ok {
+			return value, true
+		}
+	case 219:
+		if value, ok := v.AsReceiveStatusOfULPDCPSDUsPDCPSNlength18(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *DAPSResponseInfoListIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 319:
+		if value, ok := v.AsDAPSResponseInfoItem(); ok {
+			return value, true
+		}
+	}
+	return nil, false
 }

@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s09 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s09"
 )
 
-func cellCapacityClassValueAPERValueapiMust(v s00.CellCapacityClassValueAPERValue, err error) s00.CellCapacityClassValueAPERValue {
+func transportLayerAddressAPERValueapiMust(v s09.TransportLayerAddressAPERValue, err error) s09.TransportLayerAddressAPERValue {
 	if err != nil {
 		panic(err)
 	}

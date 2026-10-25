@@ -17,7 +17,7 @@ import (
 	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
 	s41 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s41"
 	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
-	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
+	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 	testing "testing"
 )
@@ -150,7 +150,7 @@ func TestEveryKnownChoiceExtensionHasNoUnknownObservation(t *testing.T) {
 			t.Fatal(err)
 		}
 		for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-			var value s50.SONInformation
+			var value s51.SONInformation
 			report, err := value.UnmarshalAPER(wire, options...)
 			if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 || value.Choice != s00.SONInformationChoiceSONInformationExtension {
 				t.Fatalf("choice=%d report=%+v err=%v", value.Choice, report, err)

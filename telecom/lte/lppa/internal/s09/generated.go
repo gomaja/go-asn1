@@ -44,10 +44,10 @@ func BridgeBuildBlockingIssues(report ValidationReport) []ValidationIssue {
 	return blocking
 }
 
-// ECIDMeasurementInitiationFailureIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementInitiationFailureIEValue].
+// ECIDMeasurementInitiationFailureIEContainer is ProtocolIE-Container {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455: a list of ECIDMeasurementInitiationFailureIEField values.
 type ECIDMeasurementInitiationFailureIEContainer []ECIDMeasurementInitiationFailureIEField
 
-// ECIDMeasurementInitiationFailureIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationFailureIEValue].
+// ECIDMeasurementInitiationFailureIEField is ProtocolIE-Field {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementInitiationFailureIEValue.
 type ECIDMeasurementInitiationFailureIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -162,10 +162,10 @@ func (v *ECIDMeasurementInitiationFailureIEField) unmarshalAPERFrom(bb *aper.Bit
 	return nil
 }
 
-// UTDOAInformationRequestIEContainer is the concrete ProtocolIEContainer[UTDOAInformationRequestIEValue].
+// UTDOAInformationRequestIEContainer is ProtocolIE-Container {{UTDOAInformationRequest-IEs}} of TS 36.455: a list of UTDOAInformationRequestIEField values.
 type UTDOAInformationRequestIEContainer []UTDOAInformationRequestIEField
 
-// UTDOAInformationRequestIEField is the concrete ProtocolIEField[UTDOAInformationRequestIEValue].
+// UTDOAInformationRequestIEField is ProtocolIE-Field {{UTDOAInformationRequest-IEs}} of TS 36.455: a field carrying a value of UTDOAInformationRequestIEValue.
 type UTDOAInformationRequestIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -380,7 +380,7 @@ func (c CriticalityDiagnosticsValueCodec) encodeChanged(value CriticalityDiagnos
 	return out, aper.OperationError(err, c.path)
 }
 
-// ECIDMeasurementInitiationFailureCauseIEBinding is the concrete IEBinding[Cause, ECIDMeasurementInitiationFailureIEValue].
+// ECIDMeasurementInitiationFailureCauseIEBinding binds Cause to ProtocolIE-Field {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationFailureCauseIEBinding struct {
 	info   s00.FieldInfo
 	codec  s05.CauseValueCodec
@@ -431,7 +431,7 @@ func (b ECIDMeasurementInitiationFailureCauseIEBinding) Get(field *ECIDMeasureme
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding is the concrete IEBinding[CriticalityDiagnostics, ECIDMeasurementInitiationFailureIEValue].
+// ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding binds CriticalityDiagnostics to ProtocolIE-Field {{E-CIDMeasurementInitiationFailure-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding struct {
 	info   s00.FieldInfo
 	codec  CriticalityDiagnosticsValueCodec
@@ -486,7 +486,7 @@ func (b ECIDMeasurementInitiationFailureCriticalityDiagnosticsIEBinding) Get(fie
 	return b.get(&field.Value)
 }
 
-// UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding is the concrete IEBinding[RequestedSRSTransmissionCharacteristics, UTDOAInformationRequestIEValue].
+// UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding binds RequestedSRSTransmissionCharacteristics to ProtocolIE-Field {{UTDOAInformationRequest-IEs}} of TS 36.455.
 type UTDOAInformationRequestRequestedSRSTransmissionCharacteristicsIEBinding struct {
 	info   s00.FieldInfo
 	codec  s08.RequestedSRSTransmissionCharacteristicsValueCodec
@@ -1928,7 +1928,7 @@ func (v *CriticalityDiagnostics) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_iescriticalitydiagnostics := bb.EnterComponent("IEsCriticalityDiagnostics")
 		tmp_iescriticalitydiagnostics := make(s05.CriticalityDiagnosticsIEList, 0)
 		_, errCollection_iescriticalitydiagnostics := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 256, HasUpper: true}, true, func(fragmentOffset_iescriticalitydiagnostics, fragmentLength_iescriticalitydiagnostics int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_iescriticalitydiagnostics < 0 || fragmentLength_iescriticalitydiagnostics < 0 || fragmentLength_iescriticalitydiagnostics > int64(^uint(0)>>1) || fragmentOffset_iescriticalitydiagnostics > int64(^uint(0)>>1)-fragmentLength_iescriticalitydiagnostics {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1957,7 +1957,7 @@ func (v *CriticalityDiagnostics) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s03.CriticalityDiagnosticsExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -4362,7 +4362,7 @@ func (t UTDOAInformationRequestIETable) RequestedSRSTransmissionCharacteristics(
 			decoded, err := zero.decode(s00.ProtocolIEID(12), raw)
 			if err != nil {
 				var empty s08.RequestedSRSTransmissionCharacteristics
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "RequestedSRSTransmissionCharacteristics")
 			}
 			value, ok := decoded.AsRequestedSRSTransmissionCharacteristics()
 			if !ok {
@@ -4598,6 +4598,42 @@ type ValidationReport struct {
 	Deferred  []s00.DeferredCondition
 	Unchecked []aper.Location
 	Complete  bool
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ECIDMeasurementInitiationFailureIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 2:
+		if v.rowESMLCUEMeasurementID != nil {
+			return v.rowESMLCUEMeasurementID, true
+		}
+	case 0:
+		if v.rowCause != nil {
+			return v.rowCause, true
+		}
+	case 1:
+		if v.rowCriticalityDiagnostics != nil {
+			return v.rowCriticalityDiagnostics, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UTDOAInformationRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 12:
+		if v.rowRequestedSRSTransmissionCharacteristics != nil {
+			return v.rowRequestedSRSTransmissionCharacteristics, true
+		}
+	}
+	return nil, false
 }
 
 func BridgeCriticalityDiagnosticsAPERValueFieldContext(v *CriticalityDiagnosticsAPERValue) *s00.BridgeCodecContext {

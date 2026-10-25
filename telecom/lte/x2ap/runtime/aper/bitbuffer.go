@@ -1,6 +1,6 @@
 // Code generated from X2AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/bitbuffer.go; SHA-256 c3e09d9fcd37b7bd59383e91c310339beafe3fadb1e8766870ae38c736d6fd30.
+// Runtime source: runtime/aper/bitbuffer.go; SHA-256 04ecc706bce1440fe811ad8ba893d808d8be87d926f3003974f4f91d79989576.
 package aper
 
 import (
@@ -199,6 +199,8 @@ func NewDecodeBuffer(data []byte, budget *DecodeBudget) *BitBuffer {
 // NewNestedDecodeBuffer inherits the shared budget and receiver options while
 // constructing a child. Low-level callers may keep the reader and supplied
 // budget on the stack; sealed complete codecs use NewOwnedNestedDecodeBuffer.
+// A copy carries no input origin unless the caller maps it with
+// MapOriginalLocation. Without a mapping, padding reports omit wire spans.
 func NewNestedDecodeBuffer(data []byte, parent *BitBuffer) *BitBuffer {
 	invalid := len(data) > math.MaxInt/8
 	length := 0

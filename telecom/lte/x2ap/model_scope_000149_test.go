@@ -2,7 +2,11 @@
 
 package x2ap
 
-func listBytePayloadCodecapiMust(v ListBytePayloadCodec, err error) ListBytePayloadCodec {
+import (
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+)
+
+func errorIndicationapiMust(v s20.ErrorIndication, err error) s20.ErrorIndication {
 	if err != nil {
 		panic(err)
 	}

@@ -17,34 +17,31 @@ import (
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
-// ERABItemIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABItemIEValue].
+// ERABItemIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABItemIEs}} of TS 36.413: a single information element field.
 type ERABItemIEValueProtocolIESingleContainer = ERABItemIEField
 
-// ERABFailedtoSetupItemHOReqAckIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABFailedtoSetupItemHOReqAckIEValue].
+// ERABFailedtoSetupItemHOReqAckIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABFailedtoSetupItemHOReqAckIEs}} of TS 36.413: a single information element field.
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolIESingleContainer = ERABFailedtoSetupItemHOReqAckIEField
 
-// ERABSetupItemBearerSUResIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABSetupItemBearerSUResIEValue].
+// ERABSetupItemBearerSUResIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABSetupItemBearerSUResIEs}} of TS 36.413: a single information element field.
 type ERABSetupItemBearerSUResIEValueProtocolIESingleContainer = ERABSetupItemBearerSUResIEField
 
-// ERABModifyItemBearerModResIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABModifyItemBearerModResIEValue].
+// ERABModifyItemBearerModResIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABModifyItemBearerModResIEs}} of TS 36.413: a single information element field.
 type ERABModifyItemBearerModResIEValueProtocolIESingleContainer = ERABModifyItemBearerModResIEField
 
-// ERABReleaseItemBearerRelCompIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABReleaseItemBearerRelCompIEValue].
+// ERABReleaseItemBearerRelCompIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABReleaseItemBearerRelCompIEs}} of TS 36.413: a single information element field.
 type ERABReleaseItemBearerRelCompIEValueProtocolIESingleContainer = ERABReleaseItemBearerRelCompIEField
 
-// ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABSetupItemCtxtSUResIEValue].
-type ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer = ERABSetupItemCtxtSUResIEField
-
-// ERABNotToBeModifiedItemBearerModIndIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABNotToBeModifiedItemBearerModIndIEValue].
+// ERABNotToBeModifiedItemBearerModIndIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABNotToBeModifiedItemBearerModIndIEs}} of TS 36.413: a single information element field.
 type ERABNotToBeModifiedItemBearerModIndIEValueProtocolIESingleContainer = ERABNotToBeModifiedItemBearerModIndIEField
 
-// ERABModifyItemBearerModConfIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABModifyItemBearerModConfIEValue].
+// ERABModifyItemBearerModConfIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABModifyItemBearerModConfIEs}} of TS 36.413: a single information element field.
 type ERABModifyItemBearerModConfIEValueProtocolIESingleContainer = ERABModifyItemBearerModConfIEField
 
-// ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[ERABFailedToResumeItemResumeResIEValue].
+// ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{E-RABFailedToResumeItemResumeResIEs}} of TS 36.413: a single information element field.
 type ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer = s15.ERABFailedToResumeItemResumeResIEField
 
-// ERABItemERABItemIEBinding is the concrete IEBinding[ERABItem, ERABItemIEValue].
+// ERABItemERABItemIEBinding binds ERABItem to the E-RABItemIEs object set of TS 36.413.
 type ERABItemERABItemIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABItemValueCodec
@@ -195,7 +192,7 @@ func (c ERABItemValueCodec) encodeChanged(value ERABItem,
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABItemIEField is the concrete ProtocolIEField[ERABItemIEValue].
+// ERABItemIEField is ProtocolIE-Field {{E-RABItemIEs}} of TS 36.413: an information element field.
 type ERABItemIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -309,7 +306,7 @@ func (v *ERABItemIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding is the concrete IEBinding[ERABFailedToResumeItemResumeRes, ERABFailedToResumeItemResumeResIEValue].
+// ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding binds ERABFailedToResumeItemResumeRes to the E-RABFailedToResumeItemResumeResIEs object set of TS 36.413.
 type ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABFailedToResumeItemResumeResValueCodec
@@ -470,7 +467,7 @@ func (c ERABFailedToResumeItemResumeResValueCodec) encodeChanged(value s15.ERABF
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedtoSetupItemHOReqAckERABFailedToSetupItemHOReqAckIEBinding is the concrete IEBinding[ERABFailedToSetupItemHOReqAck, ERABFailedtoSetupItemHOReqAckIEValue].
+// ERABFailedtoSetupItemHOReqAckERABFailedToSetupItemHOReqAckIEBinding binds ERABFailedToSetupItemHOReqAck to the E-RABFailedtoSetupItemHOReqAckIEs object set of TS 36.413.
 type ERABFailedtoSetupItemHOReqAckERABFailedToSetupItemHOReqAckIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABFailedToSetupItemHOReqAckValueCodec
@@ -625,7 +622,7 @@ func (c ERABFailedToSetupItemHOReqAckValueCodec) encodeChanged(value ERABFailedT
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedtoSetupItemHOReqAckIEField is the concrete ProtocolIEField[ERABFailedtoSetupItemHOReqAckIEValue].
+// ERABFailedtoSetupItemHOReqAckIEField is ProtocolIE-Field {{E-RABFailedtoSetupItemHOReqAckIEs}} of TS 36.413: an information element field.
 type ERABFailedtoSetupItemHOReqAckIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1039,7 +1036,7 @@ func (c ERABNotToBeModifiedListBearerModIndValueCodec) encodeChanged(value ERABN
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModConfERABModifyItemBearerModConfIEBinding is the concrete IEBinding[ERABModifyItemBearerModConf, ERABModifyItemBearerModConfIEValue].
+// ERABModifyItemBearerModConfERABModifyItemBearerModConfIEBinding binds ERABModifyItemBearerModConf to the E-RABModifyItemBearerModConfIEs object set of TS 36.413.
 type ERABModifyItemBearerModConfERABModifyItemBearerModConfIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABModifyItemBearerModConfValueCodec
@@ -1194,7 +1191,7 @@ func (c ERABModifyItemBearerModConfValueCodec) encodeChanged(value ERABModifyIte
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModConfIEField is the concrete ProtocolIEField[ERABModifyItemBearerModConfIEValue].
+// ERABModifyItemBearerModConfIEField is ProtocolIE-Field {{E-RABModifyItemBearerModConfIEs}} of TS 36.413: an information element field.
 type ERABModifyItemBearerModConfIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1308,7 +1305,7 @@ func (v *ERABModifyItemBearerModConfIEField) unmarshalAPERFrom(bb *aper.BitBuffe
 	return nil
 }
 
-// ERABModifyItemBearerModResERABModifyItemBearerModResIEBinding is the concrete IEBinding[ERABModifyItemBearerModRes, ERABModifyItemBearerModResIEValue].
+// ERABModifyItemBearerModResERABModifyItemBearerModResIEBinding binds ERABModifyItemBearerModRes to the E-RABModifyItemBearerModResIEs object set of TS 36.413.
 type ERABModifyItemBearerModResERABModifyItemBearerModResIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABModifyItemBearerModResValueCodec
@@ -1463,7 +1460,7 @@ func (c ERABModifyItemBearerModResValueCodec) encodeChanged(value ERABModifyItem
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModResIEField is the concrete ProtocolIEField[ERABModifyItemBearerModResIEValue].
+// ERABModifyItemBearerModResIEField is ProtocolIE-Field {{E-RABModifyItemBearerModResIEs}} of TS 36.413: an information element field.
 type ERABModifyItemBearerModResIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1677,7 +1674,7 @@ func (c ERABModifyListBearerModResValueCodec) encodeChanged(value ERABModifyList
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABNotToBeModifiedItemBearerModIndERABNotToBeModifiedItemBearerModIndIEBinding is the concrete IEBinding[ERABNotToBeModifiedItemBearerModInd, ERABNotToBeModifiedItemBearerModIndIEValue].
+// ERABNotToBeModifiedItemBearerModIndERABNotToBeModifiedItemBearerModIndIEBinding binds ERABNotToBeModifiedItemBearerModInd to the E-RABNotToBeModifiedItemBearerModIndIEs object set of TS 36.413.
 type ERABNotToBeModifiedItemBearerModIndERABNotToBeModifiedItemBearerModIndIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABNotToBeModifiedItemBearerModIndValueCodec
@@ -1832,7 +1829,7 @@ func (c ERABNotToBeModifiedItemBearerModIndValueCodec) encodeChanged(value ERABN
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEField is the concrete ProtocolIEField[ERABNotToBeModifiedItemBearerModIndIEValue].
+// ERABNotToBeModifiedItemBearerModIndIEField is ProtocolIE-Field {{E-RABNotToBeModifiedItemBearerModIndIEs}} of TS 36.413: an information element field.
 type ERABNotToBeModifiedItemBearerModIndIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1946,7 +1943,7 @@ func (v *ERABNotToBeModifiedItemBearerModIndIEField) unmarshalAPERFrom(bb *aper.
 	return nil
 }
 
-// ERABReleaseItemBearerRelCompERABReleaseItemBearerRelCompIEBinding is the concrete IEBinding[ERABReleaseItemBearerRelComp, ERABReleaseItemBearerRelCompIEValue].
+// ERABReleaseItemBearerRelCompERABReleaseItemBearerRelCompIEBinding binds ERABReleaseItemBearerRelComp to the E-RABReleaseItemBearerRelCompIEs object set of TS 36.413.
 type ERABReleaseItemBearerRelCompERABReleaseItemBearerRelCompIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABReleaseItemBearerRelCompValueCodec
@@ -2101,7 +2098,7 @@ func (c ERABReleaseItemBearerRelCompValueCodec) encodeChanged(value ERABReleaseI
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABReleaseItemBearerRelCompIEField is the concrete ProtocolIEField[ERABReleaseItemBearerRelCompIEValue].
+// ERABReleaseItemBearerRelCompIEField is ProtocolIE-Field {{E-RABReleaseItemBearerRelCompIEs}} of TS 36.413: an information element field.
 type ERABReleaseItemBearerRelCompIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2315,7 +2312,7 @@ func (c ERABReleaseListBearerRelCompValueCodec) encodeChanged(value ERABReleaseL
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemBearerSUResERABSetupItemBearerSUResIEBinding is the concrete IEBinding[ERABSetupItemBearerSURes, ERABSetupItemBearerSUResIEValue].
+// ERABSetupItemBearerSUResERABSetupItemBearerSUResIEBinding binds ERABSetupItemBearerSURes to the E-RABSetupItemBearerSUResIEs object set of TS 36.413.
 type ERABSetupItemBearerSUResERABSetupItemBearerSUResIEBinding struct {
 	info   s00.FieldInfo
 	codec  ERABSetupItemBearerSUResValueCodec
@@ -2470,7 +2467,7 @@ func (c ERABSetupItemBearerSUResValueCodec) encodeChanged(value ERABSetupItemBea
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemBearerSUResIEField is the concrete ProtocolIEField[ERABSetupItemBearerSUResIEValue].
+// ERABSetupItemBearerSUResIEField is ProtocolIE-Field {{E-RABSetupItemBearerSUResIEs}} of TS 36.413: an information element field.
 type ERABSetupItemBearerSUResIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2584,7 +2581,7 @@ func (v *ERABSetupItemBearerSUResIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 	return nil
 }
 
-// ERABSetupItemCtxtSUResIEField is the concrete ProtocolIEField[ERABSetupItemCtxtSUResIEValue].
+// ERABSetupItemCtxtSUResIEField is ProtocolIE-Field {{E-RABSetupItemCtxtSUResIEs}} of TS 36.413: an information element field.
 type ERABSetupItemCtxtSUResIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -2998,28 +2995,28 @@ func (c ERABFailedToResumeListResumeResValueCodec) encodeChanged(value ERABFaile
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedtoSetupItemHOReqAckIEContainer is the concrete ProtocolIEContainer[ERABFailedtoSetupItemHOReqAckIEValue].
+// ERABFailedtoSetupItemHOReqAckIEContainer is ProtocolIE-Container {{E-RABFailedtoSetupItemHOReqAckIEs}} of TS 36.413: a list of ERABFailedtoSetupItemHOReqAckIEField values.
 type ERABFailedtoSetupItemHOReqAckIEContainer []ERABFailedtoSetupItemHOReqAckIEField
 
-// ERABItemIEContainer is the concrete ProtocolIEContainer[ERABItemIEValue].
+// ERABItemIEContainer is ProtocolIE-Container {{E-RABItemIEs}} of TS 36.413: a list of ERABItemIEField values.
 type ERABItemIEContainer []ERABItemIEField
 
-// ERABModifyItemBearerModConfIEContainer is the concrete ProtocolIEContainer[ERABModifyItemBearerModConfIEValue].
+// ERABModifyItemBearerModConfIEContainer is ProtocolIE-Container {{E-RABModifyItemBearerModConfIEs}} of TS 36.413: a list of ERABModifyItemBearerModConfIEField values.
 type ERABModifyItemBearerModConfIEContainer []ERABModifyItemBearerModConfIEField
 
-// ERABModifyItemBearerModResIEContainer is the concrete ProtocolIEContainer[ERABModifyItemBearerModResIEValue].
+// ERABModifyItemBearerModResIEContainer is ProtocolIE-Container {{E-RABModifyItemBearerModResIEs}} of TS 36.413: a list of ERABModifyItemBearerModResIEField values.
 type ERABModifyItemBearerModResIEContainer []ERABModifyItemBearerModResIEField
 
-// ERABNotToBeModifiedItemBearerModIndIEContainer is the concrete ProtocolIEContainer[ERABNotToBeModifiedItemBearerModIndIEValue].
+// ERABNotToBeModifiedItemBearerModIndIEContainer is ProtocolIE-Container {{E-RABNotToBeModifiedItemBearerModIndIEs}} of TS 36.413: a list of ERABNotToBeModifiedItemBearerModIndIEField values.
 type ERABNotToBeModifiedItemBearerModIndIEContainer []ERABNotToBeModifiedItemBearerModIndIEField
 
-// ERABReleaseItemBearerRelCompIEContainer is the concrete ProtocolIEContainer[ERABReleaseItemBearerRelCompIEValue].
+// ERABReleaseItemBearerRelCompIEContainer is ProtocolIE-Container {{E-RABReleaseItemBearerRelCompIEs}} of TS 36.413: a list of ERABReleaseItemBearerRelCompIEField values.
 type ERABReleaseItemBearerRelCompIEContainer []ERABReleaseItemBearerRelCompIEField
 
-// ERABSetupItemBearerSUResIEContainer is the concrete ProtocolIEContainer[ERABSetupItemBearerSUResIEValue].
+// ERABSetupItemBearerSUResIEContainer is ProtocolIE-Container {{E-RABSetupItemBearerSUResIEs}} of TS 36.413: a list of ERABSetupItemBearerSUResIEField values.
 type ERABSetupItemBearerSUResIEContainer []ERABSetupItemBearerSUResIEField
 
-// ERABSetupItemCtxtSUResIEContainer is the concrete ProtocolIEContainer[ERABSetupItemCtxtSUResIEValue].
+// ERABSetupItemCtxtSUResIEContainer is ProtocolIE-Container {{E-RABSetupItemCtxtSUResIEs}} of TS 36.413: a list of ERABSetupItemCtxtSUResIEField values.
 type ERABSetupItemCtxtSUResIEContainer []ERABSetupItemCtxtSUResIEField
 
 // ERABItemAPERValue is the concrete APERValue[ERABItem].
@@ -3390,7 +3387,7 @@ func (v ERABFailedToResumeListResumeResAPERValue) WithoutReplay() ERABFailedToRe
 	return v
 }
 
-// ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+// ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeResIEValueERABIEContainerList].
 type ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3474,10 +3471,10 @@ func (c ERABFailedToResumeItemResumeResIEValueERABIEContainerListValueCodec) enc
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeResIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABFailedToResumeItemResumeResIEValue].
+// ERABFailedToResumeItemResumeResIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABFailedToResumeItemResumeResIEs}} of TS 36.413: a list of information element fields.
 type ERABFailedToResumeItemResumeResIEValueERABIEContainerList []ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer
 
-// ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerList].
 type ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3561,10 +3558,10 @@ func (c ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListValueCodec) encod
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue].
+// ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABFailedtoSetupItemHOReqAckIEs}} of TS 36.413: a list of information element fields.
 type ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerList []ERABFailedtoSetupItemHOReqAckIEValueProtocolIESingleContainer
 
-// ERABItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABItemIEValue]].
+// ERABItemIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABItemIEValueERABIEContainerList].
 type ERABItemIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3648,10 +3645,10 @@ func (c ERABItemIEValueERABIEContainerListValueCodec) encodeChanged(value ERABIt
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABItemIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABItemIEValue].
+// ERABItemIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABItemIEs}} of TS 36.413: a list of information element fields.
 type ERABItemIEValueERABIEContainerList []ERABItemIEValueProtocolIESingleContainer
 
-// ERABModifyItemBearerModConfIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABModifyItemBearerModConfIEValueERABIEContainerList].
 type ERABModifyItemBearerModConfIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3735,10 +3732,10 @@ func (c ERABModifyItemBearerModConfIEValueERABIEContainerListValueCodec) encodeC
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModConfIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABModifyItemBearerModConfIEValue].
+// ERABModifyItemBearerModConfIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABModifyItemBearerModConfIEs}} of TS 36.413: a list of information element fields.
 type ERABModifyItemBearerModConfIEValueERABIEContainerList []ERABModifyItemBearerModConfIEValueProtocolIESingleContainer
 
-// ERABModifyItemBearerModResIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABModifyItemBearerModResIEValueERABIEContainerList].
 type ERABModifyItemBearerModResIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3822,10 +3819,10 @@ func (c ERABModifyItemBearerModResIEValueERABIEContainerListValueCodec) encodeCh
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModResIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABModifyItemBearerModResIEValue].
+// ERABModifyItemBearerModResIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABModifyItemBearerModResIEs}} of TS 36.413: a list of information element fields.
 type ERABModifyItemBearerModResIEValueERABIEContainerList []ERABModifyItemBearerModResIEValueProtocolIESingleContainer
 
-// ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerList].
 type ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3909,10 +3906,10 @@ func (c ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListValueCodec)
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABNotToBeModifiedItemBearerModIndIEValue].
+// ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABNotToBeModifiedItemBearerModIndIEs}} of TS 36.413: a list of information element fields.
 type ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerList []ERABNotToBeModifiedItemBearerModIndIEValueProtocolIESingleContainer
 
-// ERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABReleaseItemBearerRelCompIEValueERABIEContainerList].
 type ERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -3996,10 +3993,10 @@ func (c ERABReleaseItemBearerRelCompIEValueERABIEContainerListValueCodec) encode
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABReleaseItemBearerRelCompIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABReleaseItemBearerRelCompIEValue].
+// ERABReleaseItemBearerRelCompIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABReleaseItemBearerRelCompIEs}} of TS 36.413: a list of information element fields.
 type ERABReleaseItemBearerRelCompIEValueERABIEContainerList []ERABReleaseItemBearerRelCompIEValueProtocolIESingleContainer
 
-// ERABSetupItemBearerSUResIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABSetupItemBearerSUResIEValueERABIEContainerList].
 type ERABSetupItemBearerSUResIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4083,13 +4080,10 @@ func (c ERABSetupItemBearerSUResIEValueERABIEContainerListValueCodec) encodeChan
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemBearerSUResIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABSetupItemBearerSUResIEValue].
+// ERABSetupItemBearerSUResIEValueERABIEContainerList is E-RAB-IE-ContainerList {{E-RABSetupItemBearerSUResIEs}} of TS 36.413: a list of information element fields.
 type ERABSetupItemBearerSUResIEValueERABIEContainerList []ERABSetupItemBearerSUResIEValueProtocolIESingleContainer
 
-// ERABSetupItemCtxtSUResIEValueERABIEContainerList is the concrete ERABIEContainerList[ERABSetupItemCtxtSUResIEValue].
-type ERABSetupItemCtxtSUResIEValueERABIEContainerList []ERABSetupItemCtxtSUResIEValueProtocolIESingleContainer
-
-// ERABFailedToResumeItemResumeResIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABFailedToResumeItemResumeResIEValue]].
+// ERABFailedToResumeItemResumeResIEFieldValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeResIEField].
 type ERABFailedToResumeItemResumeResIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4173,7 +4167,7 @@ func (c ERABFailedToResumeItemResumeResIEFieldValueCodec) encodeChanged(value s1
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedtoSetupItemHOReqAckIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEFieldValueCodec is the concrete ValueCodec[ERABFailedtoSetupItemHOReqAckIEField].
 type ERABFailedtoSetupItemHOReqAckIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4257,7 +4251,7 @@ func (c ERABFailedtoSetupItemHOReqAckIEFieldValueCodec) encodeChanged(value ERAB
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABItemIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABItemIEValue]].
+// ERABItemIEFieldValueCodec is the concrete ValueCodec[ERABItemIEField].
 type ERABItemIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4341,7 +4335,7 @@ func (c ERABItemIEFieldValueCodec) encodeChanged(value ERABItemIEField, fresh bo
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModConfIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEFieldValueCodec is the concrete ValueCodec[ERABModifyItemBearerModConfIEField].
 type ERABModifyItemBearerModConfIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4425,7 +4419,7 @@ func (c ERABModifyItemBearerModConfIEFieldValueCodec) encodeChanged(value ERABMo
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModResIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEFieldValueCodec is the concrete ValueCodec[ERABModifyItemBearerModResIEField].
 type ERABModifyItemBearerModResIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4509,7 +4503,7 @@ func (c ERABModifyItemBearerModResIEFieldValueCodec) encodeChanged(value ERABMod
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEFieldValueCodec is the concrete ValueCodec[ERABNotToBeModifiedItemBearerModIndIEField].
 type ERABNotToBeModifiedItemBearerModIndIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4593,7 +4587,7 @@ func (c ERABNotToBeModifiedItemBearerModIndIEFieldValueCodec) encodeChanged(valu
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABReleaseItemBearerRelCompIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEFieldValueCodec is the concrete ValueCodec[ERABReleaseItemBearerRelCompIEField].
 type ERABReleaseItemBearerRelCompIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4677,7 +4671,7 @@ func (c ERABReleaseItemBearerRelCompIEFieldValueCodec) encodeChanged(value ERABR
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemBearerSUResIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEFieldValueCodec is the concrete ValueCodec[ERABSetupItemBearerSUResIEField].
 type ERABSetupItemBearerSUResIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4761,35 +4755,35 @@ func (c ERABSetupItemBearerSUResIEFieldValueCodec) encodeChanged(value ERABSetup
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemCtxtSUResIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[ERABSetupItemCtxtSUResIEValue]].
-type ERABSetupItemCtxtSUResIEFieldValueCodec struct {
+// ERABFailedToResumeItemResumeResIEContainerValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeResIEContainer].
+type ERABFailedToResumeItemResumeResIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (ERABSetupItemCtxtSUResIEField, error)
-	encode  func(ERABSetupItemCtxtSUResIEField, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(ERABSetupItemCtxtSUResIEField, aper.DecodeState) (ERABSetupItemCtxtSUResIEField, aper.Snapshot)
-	compare func(ERABSetupItemCtxtSUResIEField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+	decode  func([]byte, aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEContainer, error)
+	encode  func(s15.ERABFailedToResumeItemResumeResIEContainer, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s15.ERABFailedToResumeItemResumeResIEContainer, aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot)
+	compare func(s15.ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c ERABSetupItemCtxtSUResIEFieldValueCodec) New(value ERABSetupItemCtxtSUResIEField) (ERABSetupItemCtxtSUResIEFieldAPERValue, error) {
+func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) New(value s15.ERABFailedToResumeItemResumeResIEContainer) (s15.ERABFailedToResumeItemResumeResIEContainerAPERValue, error) {
 	if c.encode == nil {
-		return ERABSetupItemCtxtSUResIEFieldAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+		return s15.ERABFailedToResumeItemResumeResIEContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return ERABSetupItemCtxtSUResIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
+		return s15.ERABFailedToResumeItemResumeResIEContainerAPERValue{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := c.encode(value, false, budget); err != nil {
-		return ERABSetupItemCtxtSUResIEFieldAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+		return s15.ERABFailedToResumeItemResumeResIEContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
 	}
-	return ERABSetupItemCtxtSUResIEFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+	return s15.ERABFailedToResumeItemResumeResIEContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
 }
 
 // DecodeAPER decodes a complete value and retains its received form.
-func (c ERABSetupItemCtxtSUResIEFieldValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ERABSetupItemCtxtSUResIEFieldAPERValue, aper.DecodeReport, error) {
+func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (s15.ERABFailedToResumeItemResumeResIEContainerAPERValue, aper.DecodeReport, error) {
 	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return ERABSetupItemCtxtSUResIEFieldAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+		return s15.ERABFailedToResumeItemResumeResIEContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
 	data, state := aper.StartDecode(data, options...)
 	value, err := c.decode(data, state)
@@ -4797,16 +4791,22 @@ func (c ERABSetupItemCtxtSUResIEFieldValueCodec) DecodeAPER(data []byte, options
 		value, replay := c.capture(value, state)
 		report, err := aper.FinishDecode(state, nil)
 		if err != nil {
-			return ERABSetupItemCtxtSUResIEFieldAPERValue{}, report, aper.OperationError(err, c.path)
+			return s15.ERABFailedToResumeItemResumeResIEContainerAPERValue{}, report, aper.OperationError(err, c.path)
 		}
-		return ERABSetupItemCtxtSUResIEFieldAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+		return func() s15.ERABFailedToResumeItemResumeResIEContainerAPERValue {
+			sealed := s15.ERABFailedToResumeItemResumeResIEContainerAPERValue{Value: value}
+			*s15.BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldReceived(&sealed) = aper.OriginalWire(data)
+			*s15.BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldReplay(&sealed) = replay
+			*s15.BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldContext(&sealed) = c.context
+			return sealed
+		}(), report, nil
 	}
 	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return ERABSetupItemCtxtSUResIEFieldAPERValue{}, report, err
+	return s15.ERABFailedToResumeItemResumeResIEContainerAPERValue{}, report, err
 }
 
 // EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c ERABSetupItemCtxtSUResIEFieldValueCodec) EncodeAPER(value ERABSetupItemCtxtSUResIEFieldAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) EncodeAPER(value s15.ERABFailedToResumeItemResumeResIEContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
 	if c.encode == nil {
 		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
 	}
@@ -4814,29 +4814,29 @@ func (c ERABSetupItemCtxtSUResIEFieldValueCodec) EncodeAPER(value ERABSetupItemC
 	if err != nil {
 		return nil, aper.OperationError(err, c.path)
 	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
+	fresh := *s15.BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldWithoutReplay(&value) || aper.EncodeWithoutReplay(options...)
+	if *s15.BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldContext(&value) == c.context && !fresh && (*s15.BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldReplay(&value)).Present() {
+		plan, next := c.compare(value.Value, *s15.BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldReplay(&value), budget)
 		budget = next
 		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
 			return nil, aper.OperationError(err, c.path)
 		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
+		if plan.Unchanged(*s15.BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldReplay(&value)) {
+			out, err := aper.CopyReplay(*s15.BridgeERABFailedToResumeItemResumeResIEContainerAPERValueFieldReceived(&value), &budget)
 			return out, aper.OperationError(err, c.path)
 		}
 		return c.encodeChanged(value.Value, fresh, budget, plan)
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c ERABSetupItemCtxtSUResIEFieldValueCodec) encodeBudgetValue(value ERABSetupItemCtxtSUResIEField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) encodeBudgetValue(value s15.ERABFailedToResumeItemResumeResIEContainer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
 		err = failure
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c ERABSetupItemCtxtSUResIEFieldValueCodec) encodeChanged(value ERABSetupItemCtxtSUResIEField, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+func (c ERABFailedToResumeItemResumeResIEContainerValueCodec) encodeChanged(value s15.ERABFailedToResumeItemResumeResIEContainer, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
@@ -4845,7 +4845,7 @@ func (c ERABSetupItemCtxtSUResIEFieldValueCodec) encodeChanged(value ERABSetupIt
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedtoSetupItemHOReqAckIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEContainerValueCodec is the concrete ValueCodec[ERABFailedtoSetupItemHOReqAckIEContainer].
 type ERABFailedtoSetupItemHOReqAckIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -4929,7 +4929,7 @@ func (c ERABFailedtoSetupItemHOReqAckIEContainerValueCodec) encodeChanged(value 
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABItemIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABItemIEValue]].
+// ERABItemIEContainerValueCodec is the concrete ValueCodec[ERABItemIEContainer].
 type ERABItemIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5013,7 +5013,7 @@ func (c ERABItemIEContainerValueCodec) encodeChanged(value ERABItemIEContainer, 
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModConfIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEContainerValueCodec is the concrete ValueCodec[ERABModifyItemBearerModConfIEContainer].
 type ERABModifyItemBearerModConfIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5097,7 +5097,7 @@ func (c ERABModifyItemBearerModConfIEContainerValueCodec) encodeChanged(value ER
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModResIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEContainerValueCodec is the concrete ValueCodec[ERABModifyItemBearerModResIEContainer].
 type ERABModifyItemBearerModResIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5181,7 +5181,7 @@ func (c ERABModifyItemBearerModResIEContainerValueCodec) encodeChanged(value ERA
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEContainerValueCodec is the concrete ValueCodec[ERABNotToBeModifiedItemBearerModIndIEContainer].
 type ERABNotToBeModifiedItemBearerModIndIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5265,7 +5265,7 @@ func (c ERABNotToBeModifiedItemBearerModIndIEContainerValueCodec) encodeChanged(
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABReleaseItemBearerRelCompIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEContainerValueCodec is the concrete ValueCodec[ERABReleaseItemBearerRelCompIEContainer].
 type ERABReleaseItemBearerRelCompIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5349,7 +5349,7 @@ func (c ERABReleaseItemBearerRelCompIEContainerValueCodec) encodeChanged(value E
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemBearerSUResIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEContainerValueCodec is the concrete ValueCodec[ERABSetupItemBearerSUResIEContainer].
 type ERABSetupItemBearerSUResIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5433,7 +5433,7 @@ func (c ERABSetupItemBearerSUResIEContainerValueCodec) encodeChanged(value ERABS
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemCtxtSUResIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[ERABSetupItemCtxtSUResIEValue]].
+// ERABSetupItemCtxtSUResIEContainerValueCodec is the concrete ValueCodec[ERABSetupItemCtxtSUResIEContainer].
 type ERABSetupItemCtxtSUResIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5517,7 +5517,7 @@ func (c ERABSetupItemCtxtSUResIEContainerValueCodec) encodeChanged(value ERABSet
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList].
 type ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5601,10 +5601,10 @@ func (c ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListValueC
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABFailedToResumeItemResumeResIEValue].
+// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABFailedToResumeItemResumeResIEs}} of TS 36.413: a list of information element fields.
 type ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList []ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer
 
-// ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerList].
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5688,10 +5688,10 @@ func (c ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListValueCod
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue].
+// ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABFailedtoSetupItemHOReqAckIEs}} of TS 36.413: a list of information element fields.
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerList []ERABFailedtoSetupItemHOReqAckIEValueProtocolIESingleContainer
 
-// ERABItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABItemIEValue]].
+// ERABItemIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABItemIEValueProtocolErrorIEContainerList].
 type ERABItemIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5775,10 +5775,10 @@ func (c ERABItemIEValueProtocolErrorIEContainerListValueCodec) encodeChanged(val
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABItemIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABItemIEValue].
+// ERABItemIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABItemIEs}} of TS 36.413: a list of information element fields.
 type ERABItemIEValueProtocolErrorIEContainerList []ERABItemIEValueProtocolIESingleContainer
 
-// ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerList].
 type ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5862,10 +5862,10 @@ func (c ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListValueCodec
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABModifyItemBearerModConfIEValue].
+// ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABModifyItemBearerModConfIEs}} of TS 36.413: a list of information element fields.
 type ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerList []ERABModifyItemBearerModConfIEValueProtocolIESingleContainer
 
-// ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABModifyItemBearerModResIEValueProtocolErrorIEContainerList].
 type ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -5949,10 +5949,10 @@ func (c ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListValueCodec)
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModResIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABModifyItemBearerModResIEValue].
+// ERABModifyItemBearerModResIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABModifyItemBearerModResIEs}} of TS 36.413: a list of information element fields.
 type ERABModifyItemBearerModResIEValueProtocolErrorIEContainerList []ERABModifyItemBearerModResIEValueProtocolIESingleContainer
 
-// ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerList].
 type ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6036,10 +6036,10 @@ func (c ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListVa
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABNotToBeModifiedItemBearerModIndIEValue].
+// ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABNotToBeModifiedItemBearerModIndIEs}} of TS 36.413: a list of information element fields.
 type ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerList []ERABNotToBeModifiedItemBearerModIndIEValueProtocolIESingleContainer
 
-// ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList].
 type ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6123,10 +6123,10 @@ func (c ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListValueCode
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABReleaseItemBearerRelCompIEValue].
+// ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABReleaseItemBearerRelCompIEs}} of TS 36.413: a list of information element fields.
 type ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList []ERABReleaseItemBearerRelCompIEValueProtocolIESingleContainer
 
-// ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList].
 type ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6210,10 +6210,10 @@ func (c ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListValueCodec) e
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[ERABSetupItemBearerSUResIEValue].
+// ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{E-RABSetupItemBearerSUResIEs}} of TS 36.413: a list of information element fields.
 type ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList []ERABSetupItemBearerSUResIEValueProtocolIESingleContainer
 
-// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList].
 type ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6297,10 +6297,10 @@ func (c ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListValueCodec)
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABFailedToResumeItemResumeResIEValue].
+// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABFailedToResumeItemResumeResIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList []ERABFailedToResumeItemResumeResIEValueProtocolIESingleContainer
 
-// ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerList].
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6384,10 +6384,10 @@ func (c ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListValueCodec) e
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue].
+// ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABFailedtoSetupItemHOReqAckIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerList []ERABFailedtoSetupItemHOReqAckIEValueProtocolIESingleContainer
 
-// ERABItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABItemIEValue]].
+// ERABItemIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABItemIEValueProtocolIEContainerList].
 type ERABItemIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6471,10 +6471,10 @@ func (c ERABItemIEValueProtocolIEContainerListValueCodec) encodeChanged(value ER
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABItemIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABItemIEValue].
+// ERABItemIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABItemIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABItemIEValueProtocolIEContainerList []ERABItemIEValueProtocolIESingleContainer
 
-// ERABModifyItemBearerModConfIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABModifyItemBearerModConfIEValueProtocolIEContainerList].
 type ERABModifyItemBearerModConfIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6558,10 +6558,10 @@ func (c ERABModifyItemBearerModConfIEValueProtocolIEContainerListValueCodec) enc
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModConfIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABModifyItemBearerModConfIEValue].
+// ERABModifyItemBearerModConfIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABModifyItemBearerModConfIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABModifyItemBearerModConfIEValueProtocolIEContainerList []ERABModifyItemBearerModConfIEValueProtocolIESingleContainer
 
-// ERABModifyItemBearerModResIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABModifyItemBearerModResIEValueProtocolIEContainerList].
 type ERABModifyItemBearerModResIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6645,10 +6645,10 @@ func (c ERABModifyItemBearerModResIEValueProtocolIEContainerListValueCodec) enco
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABModifyItemBearerModResIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABModifyItemBearerModResIEValue].
+// ERABModifyItemBearerModResIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABModifyItemBearerModResIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABModifyItemBearerModResIEValueProtocolIEContainerList []ERABModifyItemBearerModResIEValueProtocolIESingleContainer
 
-// ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList].
 type ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6732,10 +6732,10 @@ func (c ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListValueCo
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABNotToBeModifiedItemBearerModIndIEValue].
+// ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABNotToBeModifiedItemBearerModIndIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList []ERABNotToBeModifiedItemBearerModIndIEValueProtocolIESingleContainer
 
-// ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList].
 type ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6819,10 +6819,10 @@ func (c ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListValueCodec) en
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABReleaseItemBearerRelCompIEValue].
+// ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABReleaseItemBearerRelCompIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList []ERABReleaseItemBearerRelCompIEValueProtocolIESingleContainer
 
-// ERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ERABSetupItemBearerSUResIEValueProtocolIEContainerList].
 type ERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -6906,10 +6906,10 @@ func (c ERABSetupItemBearerSUResIEValueProtocolIEContainerListValueCodec) encode
 	return out, aper.OperationError(err, c.path)
 }
 
-// ERABSetupItemBearerSUResIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[ERABSetupItemBearerSUResIEValue].
+// ERABSetupItemBearerSUResIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {E-RABSetupItemBearerSUResIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type ERABSetupItemBearerSUResIEValueProtocolIEContainerList []ERABSetupItemBearerSUResIEValueProtocolIESingleContainer
 
-// ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+// ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeResIEValueERABIEContainerList].
 type ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedToResumeItemResumeResIEValueERABIEContainerList
@@ -6931,7 +6931,7 @@ func (v ERABFailedToResumeItemResumeResIEValueERABIEContainerListAPERValue) With
 	return v
 }
 
-// ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerList].
 type ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerList
@@ -6953,7 +6953,7 @@ func (v ERABFailedtoSetupItemHOReqAckIEValueERABIEContainerListAPERValue) Withou
 	return v
 }
 
-// ERABItemIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABItemIEValue]].
+// ERABItemIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABItemIEValueERABIEContainerList].
 type ERABItemIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABItemIEValueERABIEContainerList
@@ -6975,7 +6975,7 @@ func (v ERABItemIEValueERABIEContainerListAPERValue) WithoutReplay() ERABItemIEV
 	return v
 }
 
-// ERABModifyItemBearerModConfIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABModifyItemBearerModConfIEValueERABIEContainerList].
 type ERABModifyItemBearerModConfIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModConfIEValueERABIEContainerList
@@ -6997,7 +6997,7 @@ func (v ERABModifyItemBearerModConfIEValueERABIEContainerListAPERValue) WithoutR
 	return v
 }
 
-// ERABModifyItemBearerModResIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABModifyItemBearerModResIEValueERABIEContainerList].
 type ERABModifyItemBearerModResIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModResIEValueERABIEContainerList
@@ -7019,7 +7019,7 @@ func (v ERABModifyItemBearerModResIEValueERABIEContainerListAPERValue) WithoutRe
 	return v
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerList].
 type ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerList
@@ -7041,7 +7041,7 @@ func (v ERABNotToBeModifiedItemBearerModIndIEValueERABIEContainerListAPERValue) 
 	return v
 }
 
-// ERABReleaseItemBearerRelCompIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABReleaseItemBearerRelCompIEValueERABIEContainerList].
 type ERABReleaseItemBearerRelCompIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABReleaseItemBearerRelCompIEValueERABIEContainerList
@@ -7063,7 +7063,7 @@ func (v ERABReleaseItemBearerRelCompIEValueERABIEContainerListAPERValue) Without
 	return v
 }
 
-// ERABSetupItemBearerSUResIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABSetupItemBearerSUResIEValueERABIEContainerList].
 type ERABSetupItemBearerSUResIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABSetupItemBearerSUResIEValueERABIEContainerList
@@ -7085,29 +7085,7 @@ func (v ERABSetupItemBearerSUResIEValueERABIEContainerListAPERValue) WithoutRepl
 	return v
 }
 
-// ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[ERABSetupItemCtxtSUResIEValue]].
-type ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue struct {
-	context       s00.BridgeCodecContext
-	Value         ERABSetupItemCtxtSUResIEValueERABIEContainerList
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) WithoutReplay() ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// ERABFailedToResumeItemResumeResIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABFailedToResumeItemResumeResIEValue]].
+// ERABFailedToResumeItemResumeResIEFieldAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeResIEField].
 type ERABFailedToResumeItemResumeResIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         s15.ERABFailedToResumeItemResumeResIEField
@@ -7129,7 +7107,7 @@ func (v ERABFailedToResumeItemResumeResIEFieldAPERValue) WithoutReplay() ERABFai
 	return v
 }
 
-// ERABFailedtoSetupItemHOReqAckIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEFieldAPERValue is the concrete APERValue[ERABFailedtoSetupItemHOReqAckIEField].
 type ERABFailedtoSetupItemHOReqAckIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedtoSetupItemHOReqAckIEField
@@ -7151,7 +7129,7 @@ func (v ERABFailedtoSetupItemHOReqAckIEFieldAPERValue) WithoutReplay() ERABFaile
 	return v
 }
 
-// ERABItemIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABItemIEValue]].
+// ERABItemIEFieldAPERValue is the concrete APERValue[ERABItemIEField].
 type ERABItemIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABItemIEField
@@ -7173,7 +7151,7 @@ func (v ERABItemIEFieldAPERValue) WithoutReplay() ERABItemIEFieldAPERValue {
 	return v
 }
 
-// ERABModifyItemBearerModConfIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEFieldAPERValue is the concrete APERValue[ERABModifyItemBearerModConfIEField].
 type ERABModifyItemBearerModConfIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModConfIEField
@@ -7195,7 +7173,7 @@ func (v ERABModifyItemBearerModConfIEFieldAPERValue) WithoutReplay() ERABModifyI
 	return v
 }
 
-// ERABModifyItemBearerModResIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEFieldAPERValue is the concrete APERValue[ERABModifyItemBearerModResIEField].
 type ERABModifyItemBearerModResIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModResIEField
@@ -7217,7 +7195,7 @@ func (v ERABModifyItemBearerModResIEFieldAPERValue) WithoutReplay() ERABModifyIt
 	return v
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEFieldAPERValue is the concrete APERValue[ERABNotToBeModifiedItemBearerModIndIEField].
 type ERABNotToBeModifiedItemBearerModIndIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABNotToBeModifiedItemBearerModIndIEField
@@ -7239,7 +7217,7 @@ func (v ERABNotToBeModifiedItemBearerModIndIEFieldAPERValue) WithoutReplay() ERA
 	return v
 }
 
-// ERABReleaseItemBearerRelCompIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEFieldAPERValue is the concrete APERValue[ERABReleaseItemBearerRelCompIEField].
 type ERABReleaseItemBearerRelCompIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABReleaseItemBearerRelCompIEField
@@ -7261,7 +7239,7 @@ func (v ERABReleaseItemBearerRelCompIEFieldAPERValue) WithoutReplay() ERABReleas
 	return v
 }
 
-// ERABSetupItemBearerSUResIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEFieldAPERValue is the concrete APERValue[ERABSetupItemBearerSUResIEField].
 type ERABSetupItemBearerSUResIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABSetupItemBearerSUResIEField
@@ -7283,7 +7261,7 @@ func (v ERABSetupItemBearerSUResIEFieldAPERValue) WithoutReplay() ERABSetupItemB
 	return v
 }
 
-// ERABSetupItemCtxtSUResIEFieldAPERValue is the concrete APERValue[ProtocolIEField[ERABSetupItemCtxtSUResIEValue]].
+// ERABSetupItemCtxtSUResIEFieldAPERValue is the concrete APERValue[ERABSetupItemCtxtSUResIEField].
 type ERABSetupItemCtxtSUResIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABSetupItemCtxtSUResIEField
@@ -7305,7 +7283,7 @@ func (v ERABSetupItemCtxtSUResIEFieldAPERValue) WithoutReplay() ERABSetupItemCtx
 	return v
 }
 
-// ERABFailedtoSetupItemHOReqAckIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEContainerAPERValue is the concrete APERValue[ERABFailedtoSetupItemHOReqAckIEContainer].
 type ERABFailedtoSetupItemHOReqAckIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedtoSetupItemHOReqAckIEContainer
@@ -7327,7 +7305,7 @@ func (v ERABFailedtoSetupItemHOReqAckIEContainerAPERValue) WithoutReplay() ERABF
 	return v
 }
 
-// ERABItemIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABItemIEValue]].
+// ERABItemIEContainerAPERValue is the concrete APERValue[ERABItemIEContainer].
 type ERABItemIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABItemIEContainer
@@ -7349,7 +7327,7 @@ func (v ERABItemIEContainerAPERValue) WithoutReplay() ERABItemIEContainerAPERVal
 	return v
 }
 
-// ERABModifyItemBearerModConfIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEContainerAPERValue is the concrete APERValue[ERABModifyItemBearerModConfIEContainer].
 type ERABModifyItemBearerModConfIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModConfIEContainer
@@ -7371,7 +7349,7 @@ func (v ERABModifyItemBearerModConfIEContainerAPERValue) WithoutReplay() ERABMod
 	return v
 }
 
-// ERABModifyItemBearerModResIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEContainerAPERValue is the concrete APERValue[ERABModifyItemBearerModResIEContainer].
 type ERABModifyItemBearerModResIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModResIEContainer
@@ -7393,7 +7371,7 @@ func (v ERABModifyItemBearerModResIEContainerAPERValue) WithoutReplay() ERABModi
 	return v
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEContainerAPERValue is the concrete APERValue[ERABNotToBeModifiedItemBearerModIndIEContainer].
 type ERABNotToBeModifiedItemBearerModIndIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABNotToBeModifiedItemBearerModIndIEContainer
@@ -7415,7 +7393,7 @@ func (v ERABNotToBeModifiedItemBearerModIndIEContainerAPERValue) WithoutReplay()
 	return v
 }
 
-// ERABReleaseItemBearerRelCompIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEContainerAPERValue is the concrete APERValue[ERABReleaseItemBearerRelCompIEContainer].
 type ERABReleaseItemBearerRelCompIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABReleaseItemBearerRelCompIEContainer
@@ -7437,7 +7415,7 @@ func (v ERABReleaseItemBearerRelCompIEContainerAPERValue) WithoutReplay() ERABRe
 	return v
 }
 
-// ERABSetupItemBearerSUResIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEContainerAPERValue is the concrete APERValue[ERABSetupItemBearerSUResIEContainer].
 type ERABSetupItemBearerSUResIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABSetupItemBearerSUResIEContainer
@@ -7459,7 +7437,7 @@ func (v ERABSetupItemBearerSUResIEContainerAPERValue) WithoutReplay() ERABSetupI
 	return v
 }
 
-// ERABSetupItemCtxtSUResIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[ERABSetupItemCtxtSUResIEValue]].
+// ERABSetupItemCtxtSUResIEContainerAPERValue is the concrete APERValue[ERABSetupItemCtxtSUResIEContainer].
 type ERABSetupItemCtxtSUResIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABSetupItemCtxtSUResIEContainer
@@ -7481,7 +7459,7 @@ func (v ERABSetupItemCtxtSUResIEContainerAPERValue) WithoutReplay() ERABSetupIte
 	return v
 }
 
-// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+// ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList].
 type ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerList
@@ -7503,7 +7481,7 @@ func (v ERABFailedToResumeItemResumeResIEValueProtocolErrorIEContainerListAPERVa
 	return v
 }
 
-// ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerList].
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerList
@@ -7525,7 +7503,7 @@ func (v ERABFailedtoSetupItemHOReqAckIEValueProtocolErrorIEContainerListAPERValu
 	return v
 }
 
-// ERABItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABItemIEValue]].
+// ERABItemIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABItemIEValueProtocolErrorIEContainerList].
 type ERABItemIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABItemIEValueProtocolErrorIEContainerList
@@ -7547,7 +7525,7 @@ func (v ERABItemIEValueProtocolErrorIEContainerListAPERValue) WithoutReplay() ER
 	return v
 }
 
-// ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerList].
 type ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerList
@@ -7569,7 +7547,7 @@ func (v ERABModifyItemBearerModConfIEValueProtocolErrorIEContainerListAPERValue)
 	return v
 }
 
-// ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABModifyItemBearerModResIEValueProtocolErrorIEContainerList].
 type ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModResIEValueProtocolErrorIEContainerList
@@ -7591,7 +7569,7 @@ func (v ERABModifyItemBearerModResIEValueProtocolErrorIEContainerListAPERValue) 
 	return v
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerList].
 type ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerList
@@ -7613,7 +7591,7 @@ func (v ERABNotToBeModifiedItemBearerModIndIEValueProtocolErrorIEContainerListAP
 	return v
 }
 
-// ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList].
 type ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerList
@@ -7635,7 +7613,7 @@ func (v ERABReleaseItemBearerRelCompIEValueProtocolErrorIEContainerListAPERValue
 	return v
 }
 
-// ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList].
 type ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerList
@@ -7657,7 +7635,7 @@ func (v ERABSetupItemBearerSUResIEValueProtocolErrorIEContainerListAPERValue) Wi
 	return v
 }
 
-// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABFailedToResumeItemResumeResIEValue]].
+// ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList].
 type ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedToResumeItemResumeResIEValueProtocolIEContainerList
@@ -7679,7 +7657,7 @@ func (v ERABFailedToResumeItemResumeResIEValueProtocolIEContainerListAPERValue) 
 	return v
 }
 
-// ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABFailedtoSetupItemHOReqAckIEValue]].
+// ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerList].
 type ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerList
@@ -7701,7 +7679,7 @@ func (v ERABFailedtoSetupItemHOReqAckIEValueProtocolIEContainerListAPERValue) Wi
 	return v
 }
 
-// ERABItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABItemIEValue]].
+// ERABItemIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABItemIEValueProtocolIEContainerList].
 type ERABItemIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABItemIEValueProtocolIEContainerList
@@ -7723,7 +7701,7 @@ func (v ERABItemIEValueProtocolIEContainerListAPERValue) WithoutReplay() ERABIte
 	return v
 }
 
-// ERABModifyItemBearerModConfIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABModifyItemBearerModConfIEValue]].
+// ERABModifyItemBearerModConfIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABModifyItemBearerModConfIEValueProtocolIEContainerList].
 type ERABModifyItemBearerModConfIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModConfIEValueProtocolIEContainerList
@@ -7745,7 +7723,7 @@ func (v ERABModifyItemBearerModConfIEValueProtocolIEContainerListAPERValue) With
 	return v
 }
 
-// ERABModifyItemBearerModResIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABModifyItemBearerModResIEValue]].
+// ERABModifyItemBearerModResIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABModifyItemBearerModResIEValueProtocolIEContainerList].
 type ERABModifyItemBearerModResIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABModifyItemBearerModResIEValueProtocolIEContainerList
@@ -7767,7 +7745,7 @@ func (v ERABModifyItemBearerModResIEValueProtocolIEContainerListAPERValue) Witho
 	return v
 }
 
-// ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABNotToBeModifiedItemBearerModIndIEValue]].
+// ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList].
 type ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerList
@@ -7789,7 +7767,7 @@ func (v ERABNotToBeModifiedItemBearerModIndIEValueProtocolIEContainerListAPERVal
 	return v
 }
 
-// ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABReleaseItemBearerRelCompIEValue]].
+// ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList].
 type ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABReleaseItemBearerRelCompIEValueProtocolIEContainerList
@@ -7811,7 +7789,7 @@ func (v ERABReleaseItemBearerRelCompIEValueProtocolIEContainerListAPERValue) Wit
 	return v
 }
 
-// ERABSetupItemBearerSUResIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[ERABSetupItemBearerSUResIEValue]].
+// ERABSetupItemBearerSUResIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ERABSetupItemBearerSUResIEValueProtocolIEContainerList].
 type ERABSetupItemBearerSUResIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ERABSetupItemBearerSUResIEValueProtocolIEContainerList
@@ -18352,7 +18330,7 @@ func (t ERABItemIETable) ERABItem() ERABItemERABItemIEBinding {
 			decoded, err := zero.decode(s00.ProtocolIEID(35), raw)
 			if err != nil {
 				var empty ERABItem
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABItem")
 			}
 			value, ok := decoded.AsERABItem()
 			if !ok {
@@ -18455,7 +18433,7 @@ func (t ERABFailedToResumeItemResumeResIETable) ERABFailedToResumeItemResumeRes(
 			decoded, err := s15.BridgeERABFailedToResumeItemResumeResIEValueMethodDecode(zero, s00.ProtocolIEID(238), raw)
 			if err != nil {
 				var empty s15.ERABFailedToResumeItemResumeRes
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABFailedToResumeItemResumeRes")
 			}
 			value, ok := decoded.AsERABFailedToResumeItemResumeRes()
 			if !ok {
@@ -18578,7 +18556,7 @@ func (t ERABFailedtoSetupItemHOReqAckIETable) ERABFailedtoSetupItemHOReqAck() ER
 			decoded, err := zero.decode(s00.ProtocolIEID(21), raw)
 			if err != nil {
 				var empty ERABFailedToSetupItemHOReqAck
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABFailedToSetupItemHOReqAck")
 			}
 			value, ok := decoded.AsERABFailedtoSetupItemHOReqAck()
 			if !ok {
@@ -18687,7 +18665,7 @@ func (t ERABModifyItemBearerModConfIETable) ERABModifyItemBearerModConf() ERABMo
 			decoded, err := zero.decode(s00.ProtocolIEID(204), raw)
 			if err != nil {
 				var empty ERABModifyItemBearerModConf
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABModifyItemBearerModConf")
 			}
 			value, ok := decoded.AsERABModifyItemBearerModConf()
 			if !ok {
@@ -18795,7 +18773,7 @@ func (t ERABModifyItemBearerModResIETable) ERABModifyItemBearerModRes() ERABModi
 			decoded, err := zero.decode(s00.ProtocolIEID(37), raw)
 			if err != nil {
 				var empty ERABModifyItemBearerModRes
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABModifyItemBearerModRes")
 			}
 			value, ok := decoded.AsERABModifyItemBearerModRes()
 			if !ok {
@@ -18904,7 +18882,7 @@ func (t ERABNotToBeModifiedItemBearerModIndIETable) ERABNotToBeModifiedItemBeare
 			decoded, err := zero.decode(s00.ProtocolIEID(202), raw)
 			if err != nil {
 				var empty ERABNotToBeModifiedItemBearerModInd
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABNotToBeModifiedItemBearerModInd")
 			}
 			value, ok := decoded.AsERABNotToBeModifiedItemBearerModInd()
 			if !ok {
@@ -19011,7 +18989,7 @@ func (t ERABReleaseItemBearerRelCompIETable) ERABReleaseItemBearerRelComp() ERAB
 			decoded, err := zero.decode(s00.ProtocolIEID(15), raw)
 			if err != nil {
 				var empty ERABReleaseItemBearerRelComp
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABReleaseItemBearerRelComp")
 			}
 			value, ok := decoded.AsERABReleaseItemBearerRelComp()
 			if !ok {
@@ -19119,7 +19097,7 @@ func (t ERABSetupItemBearerSUResIETable) ERABSetupItemBearerSURes() ERABSetupIte
 			decoded, err := zero.decode(s00.ProtocolIEID(39), raw)
 			if err != nil {
 				var empty ERABSetupItemBearerSURes
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ERABSetupItemBearerSURes")
 			}
 			value, ok := decoded.AsERABSetupItemBearerSURes()
 			if !ok {
@@ -19232,6 +19210,30 @@ func BridgeERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBindi
 }
 func BridgeERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBindingFieldInject(v *ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding) *func(s15.ERABFailedToResumeItemResumeRes) s15.ERABFailedToResumeItemResumeResIEValue {
 	return &v.inject
+}
+func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldCapture(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *func(s15.ERABFailedToResumeItemResumeResIEContainer, aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldCompare(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *func(s15.ERABFailedToResumeItemResumeResIEContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldContext(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldDecode(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *func([]byte, aper.DecodeState) (s15.ERABFailedToResumeItemResumeResIEContainer, error) {
+	return &v.decode
+}
+func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldEncode(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *func(s15.ERABFailedToResumeItemResumeResIEContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecFieldPath(v *ERABFailedToResumeItemResumeResIEContainerValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecMethodEncodeBudgetValue(v ERABFailedToResumeItemResumeResIEContainerValueCodec, a0 s15.ERABFailedToResumeItemResumeResIEContainer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeERABFailedToResumeItemResumeResIEContainerValueCodecMethodEncodeChanged(v ERABFailedToResumeItemResumeResIEContainerValueCodec, a0 s15.ERABFailedToResumeItemResumeResIEContainer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeERABFailedToResumeItemResumeResIEFieldAPERValueFieldContext(v *ERABFailedToResumeItemResumeResIEFieldAPERValue) *s00.BridgeCodecContext {
 	return &v.context
@@ -22320,42 +22322,6 @@ func BridgeERABSetupItemCtxtSUResIEFieldMethodMarshalAPERTo(v *ERABSetupItemCtxt
 func BridgeERABSetupItemCtxtSUResIEFieldMethodUnmarshalAPERFrom(v *ERABSetupItemCtxtSUResIEField, a0 *aper.BitBuffer) error {
 	return v.unmarshalAPERFrom(a0)
 }
-func BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldCapture(v *ERABSetupItemCtxtSUResIEFieldValueCodec) *func(ERABSetupItemCtxtSUResIEField, aper.DecodeState) (ERABSetupItemCtxtSUResIEField, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldCompare(v *ERABSetupItemCtxtSUResIEFieldValueCodec) *func(ERABSetupItemCtxtSUResIEField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldContext(v *ERABSetupItemCtxtSUResIEFieldValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldDecode(v *ERABSetupItemCtxtSUResIEFieldValueCodec) *func([]byte, aper.DecodeState) (ERABSetupItemCtxtSUResIEField, error) {
-	return &v.decode
-}
-func BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldEncode(v *ERABSetupItemCtxtSUResIEFieldValueCodec) *func(ERABSetupItemCtxtSUResIEField, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeERABSetupItemCtxtSUResIEFieldValueCodecFieldPath(v *ERABSetupItemCtxtSUResIEFieldValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeERABSetupItemCtxtSUResIEFieldValueCodecMethodEncodeBudgetValue(v ERABSetupItemCtxtSUResIEFieldValueCodec, a0 ERABSetupItemCtxtSUResIEField, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeERABSetupItemCtxtSUResIEFieldValueCodecMethodEncodeChanged(v ERABSetupItemCtxtSUResIEFieldValueCodec, a0 ERABSetupItemCtxtSUResIEField, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValueFieldContext(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValueFieldReceived(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValueFieldReplay(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValueFieldWithoutReplay(v *ERABSetupItemCtxtSUResIEValueERABIEContainerListAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeERABSetupItemCtxtSUResIEValueFieldId(v *ERABSetupItemCtxtSUResIEValue) *s00.ProtocolIEID {
 	return &v.id
 }
@@ -22430,4 +22396,116 @@ func BridgeERABSetupItemCtxtSUResMethodUnmarshalAPERLegacy(v *ERABSetupItemCtxtS
 }
 func BridgeERABSetupItemCtxtSUResMethodUnmarshalAPERWithOptions(v *ERABSetupItemCtxtSURes, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABFailedtoSetupItemHOReqAckIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 21:
+		if value, ok := v.AsERABFailedtoSetupItemHOReqAck(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABItemIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 35:
+		if value, ok := v.AsERABItem(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABModifyItemBearerModConfIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 204:
+		if value, ok := v.AsERABModifyItemBearerModConf(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABModifyItemBearerModResIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 37:
+		if value, ok := v.AsERABModifyItemBearerModRes(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABNotToBeModifiedItemBearerModIndIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 202:
+		if value, ok := v.AsERABNotToBeModifiedItemBearerModInd(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABReleaseItemBearerRelCompIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 15:
+		if value, ok := v.AsERABReleaseItemBearerRelComp(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABSetupItemBearerSUResIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 39:
+		if value, ok := v.AsERABSetupItemBearerSURes(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ERABSetupItemCtxtSUResIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 50:
+		if value, ok := v.AsERABSetupItemCtxtSURes(); ok {
+			return value, true
+		}
+	}
+	return nil, false
 }

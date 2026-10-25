@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
+	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
 )
 
-func rachIndicationfreshMust(value s20.RachIndication, err error) s20.RachIndication {
+func rachIndicationIEFieldfreshMust(value s17.RachIndicationIEField, err error) s17.RachIndicationIEField {
 	if err != nil {
 		panic(err)
 	}

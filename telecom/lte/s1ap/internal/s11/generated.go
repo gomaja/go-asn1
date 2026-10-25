@@ -12,111 +12,113 @@ import (
 	s06 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s06"
 	s07 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s07"
 	s08 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s08"
-	s10 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s10"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
 	aper "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime/aper"
 )
 
-// ServedDCNsItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ServedDCNsItemExtIEsValue].
+// ServedDCNsItemExtIEsExtContainer is ProtocolExtensionContainer {{ServedDCNsItem-ExtIEs}} of TS 36.413: a list of ServedDCNsItemExtIEsExtField values.
 type ServedDCNsItemExtIEsExtContainer []ServedDCNsItemExtIEsExtField
 
-// RecommendedCellsForPagingItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[RecommendedCellsForPagingItemExtIEsValue].
+// RecommendedCellsForPagingExtIEsExtContainer is ProtocolExtensionContainer {{RecommendedCellsForPaging-ExtIEs}} of TS 36.413: a list of RecommendedCellsForPagingExtIEsExtField values.
+type RecommendedCellsForPagingExtIEsExtContainer []RecommendedCellsForPagingExtIEsExtField
+
+// RecommendedCellsForPagingItemExtIEsExtContainer is ProtocolExtensionContainer {{RecommendedCellsForPagingItem-ExtIEs}} of TS 36.413: a list of RecommendedCellsForPagingItemExtIEsExtField values.
 type RecommendedCellsForPagingItemExtIEsExtContainer []RecommendedCellsForPagingItemExtIEsExtField
 
-// RecommendedENBsForPagingExtIEsExtContainer is the concrete ProtocolExtensionContainer[RecommendedENBsForPagingExtIEsValue].
+// RecommendedENBsForPagingExtIEsExtContainer is ProtocolExtensionContainer {{RecommendedENBsForPaging-ExtIEs}} of TS 36.413: a list of RecommendedENBsForPagingExtIEsExtField values.
 type RecommendedENBsForPagingExtIEsExtContainer []RecommendedENBsForPagingExtIEsExtField
 
-// RecommendedENBItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[RecommendedENBItemExtIEsValue].
+// RecommendedENBItemExtIEsExtContainer is ProtocolExtensionContainer {{RecommendedENBItem-ExtIEs}} of TS 36.413: a list of RecommendedENBItemExtIEsExtField values.
 type RecommendedENBItemExtIEsExtContainer []RecommendedENBItemExtIEsExtField
 
-// RequestedTNLInfoExtIEsExtContainer is the concrete ProtocolExtensionContainer[RequestedTNLInfoExtIEsValue].
+// RequestedTNLInfoExtIEsExtContainer is ProtocolExtensionContainer {{RequestedTNLInfo-ExtIEs}} of TS 36.413: a list of RequestedTNLInfoExtIEsExtField values.
 type RequestedTNLInfoExtIEsExtContainer []RequestedTNLInfoExtIEsExtField
 
-// RequestTypeExtIEsExtContainer is the concrete ProtocolExtensionContainer[RequestTypeExtIEsValue].
+// RequestTypeExtIEsExtContainer is ProtocolExtensionContainer {{RequestType-ExtIEs}} of TS 36.413: a list of RequestTypeExtIEsExtField values.
 type RequestTypeExtIEsExtContainer []RequestTypeExtIEsExtField
 
-// SecurityContextExtIEsExtContainer is the concrete ProtocolExtensionContainer[SecurityContextExtIEsValue].
+// SecurityContextExtIEsExtContainer is ProtocolExtensionContainer {{SecurityContext-ExtIEs}} of TS 36.413: a list of SecurityContextExtIEsExtField values.
 type SecurityContextExtIEsExtContainer []SecurityContextExtIEsExtField
 
-// SecondaryRATDataUsageReportItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[SecondaryRATDataUsageReportItemExtIEsValue].
+// SecondaryRATDataUsageReportItemExtIEsExtContainer is ProtocolExtensionContainer {{SecondaryRATDataUsageReportItem-ExtIEs}} of TS 36.413: a list of SecondaryRATDataUsageReportItemExtIEsExtField values.
 type SecondaryRATDataUsageReportItemExtIEsExtContainer []SecondaryRATDataUsageReportItemExtIEsExtField
 
-// SecurityIndicationExtIEsExtContainer is the concrete ProtocolExtensionContainer[SecurityIndicationExtIEsValue].
+// SecurityIndicationExtIEsExtContainer is ProtocolExtensionContainer {{SecurityIndication-ExtIEs}} of TS 36.413: a list of SecurityIndicationExtIEsExtField values.
 type SecurityIndicationExtIEsExtContainer []SecurityIndicationExtIEsExtField
 
-// SecurityResultExtIEsExtContainer is the concrete ProtocolExtensionContainer[SecurityResultExtIEsValue].
+// SecurityResultExtIEsExtContainer is ProtocolExtensionContainer {{SecurityResult-ExtIEs}} of TS 36.413: a list of SecurityResultExtIEsExtField values.
 type SecurityResultExtIEsExtContainer []SecurityResultExtIEsExtField
 
-// SensorMeasConfigNameItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[SensorMeasConfigNameItemExtIEsValue].
+// SensorMeasConfigNameItemExtIEsExtContainer is ProtocolExtensionContainer {{SensorMeasConfigNameItem-ExtIEs}} of TS 36.413: a list of SensorMeasConfigNameItemExtIEsExtField values.
 type SensorMeasConfigNameItemExtIEsExtContainer []SensorMeasConfigNameItemExtIEsExtField
 
-// SensorMeasurementConfigurationExtIEsExtContainer is the concrete ProtocolExtensionContainer[SensorMeasurementConfigurationExtIEsValue].
+// SensorMeasurementConfigurationExtIEsExtContainer is ProtocolExtensionContainer {{SensorMeasurementConfiguration-ExtIEs}} of TS 36.413: a list of SensorMeasurementConfigurationExtIEsExtField values.
 type SensorMeasurementConfigurationExtIEsExtContainer []SensorMeasurementConfigurationExtIEsExtField
 
-// SensorNameConfigExtIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{SensorNameConfig-ExtIEs}} of TS 36.413: a single information element field.
 type SensorNameConfigExtIEValueProtocolIESingleContainer = SensorNameConfigExtIEField
 
-// SynchronisationInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[SynchronisationInformationExtIEsValue].
+// SynchronisationInformationExtIEsExtContainer is ProtocolExtensionContainer {{SynchronisationInformation-ExtIEs}} of TS 36.413: a list of SynchronisationInformationExtIEsExtField values.
 type SynchronisationInformationExtIEsExtContainer []SynchronisationInformationExtIEsExtField
 
-// SourceeNBIDExtIEsExtContainer is the concrete ProtocolExtensionContainer[SourceeNBIDExtIEsValue].
+// SourceeNBIDExtIEsExtContainer is ProtocolExtensionContainer {{SourceeNB-ID-ExtIEs}} of TS 36.413: a list of SourceeNBIDExtIEsExtField values.
 type SourceeNBIDExtIEsExtContainer []SourceeNBIDExtIEsExtField
 
-// SourceNgRanNodeIDExtIEsExtContainer is the concrete ProtocolExtensionContainer[SourceNgRanNodeIDExtIEsValue].
+// SourceNgRanNodeIDExtIEsExtContainer is ProtocolExtensionContainer {{SourceNgRanNode-ID-ExtIEs}} of TS 36.413: a list of SourceNgRanNodeIDExtIEsExtField values.
 type SourceNgRanNodeIDExtIEsExtContainer []SourceNgRanNodeIDExtIEsExtField
 
-// ServedGUMMEIsItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ServedGUMMEIsItemExtIEsValue].
+// ServedGUMMEIsItemExtIEsExtContainer is ProtocolExtensionContainer {{ServedGUMMEIsItem-ExtIEs}} of TS 36.413: a list of ServedGUMMEIsItemExtIEsExtField values.
 type ServedGUMMEIsItemExtIEsExtContainer []ServedGUMMEIsItemExtIEsExtField
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer is the concrete ProtocolExtensionContainer[SubscriptionBasedUEDifferentiationInfoExtIEsValue].
+// SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer is ProtocolExtensionContainer {{Subscription-Based-UE-DifferentiationInfo-ExtIEs}} of TS 36.413: a list of SubscriptionBasedUEDifferentiationInfoExtIEsExtField values.
 type SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer []SubscriptionBasedUEDifferentiationInfoExtIEsExtField
 
-// ScheduledCommunicationTimeExtIEsExtContainer is the concrete ProtocolExtensionContainer[ScheduledCommunicationTimeExtIEsValue].
+// ScheduledCommunicationTimeExtIEsExtContainer is ProtocolExtensionContainer {{ScheduledCommunicationTime-ExtIEs}} of TS 36.413: a list of ScheduledCommunicationTimeExtIEsExtField values.
 type ScheduledCommunicationTimeExtIEsExtContainer []ScheduledCommunicationTimeExtIEsExtField
 
-// SupportedTAsItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[SupportedTAsItemExtIEsValue].
+// SupportedTAsItemExtIEsExtContainer is ProtocolExtensionContainer {{SupportedTAs-Item-ExtIEs}} of TS 36.413: a list of SupportedTAsItemExtIEsExtField values.
 type SupportedTAsItemExtIEsExtContainer []SupportedTAsItemExtIEsExtField
 
-// TimeSynchronisationInfoExtIEsExtContainer is the concrete ProtocolExtensionContainer[TimeSynchronisationInfoExtIEsValue].
+// TimeSynchronisationInfoExtIEsExtContainer is ProtocolExtensionContainer {{TimeSynchronisationInfo-ExtIEs}} of TS 36.413: a list of TimeSynchronisationInfoExtIEsExtField values.
 type TimeSynchronisationInfoExtIEsExtContainer []TimeSynchronisationInfoExtIEsExtField
 
-// STMSIExtIEsExtContainer is the concrete ProtocolExtensionContainer[STMSIExtIEsValue].
+// STMSIExtIEsExtContainer is ProtocolExtensionContainer {{S-TMSI-ExtIEs}} of TS 36.413: a list of STMSIExtIEsExtField values.
 type STMSIExtIEsExtContainer []STMSIExtIEsExtField
 
-// TAIBasedMDTExtIEsExtContainer is the concrete ProtocolExtensionContainer[TAIBasedMDTExtIEsValue].
+// TAIBasedMDTExtIEsExtContainer is ProtocolExtensionContainer {{TAIBasedMDT-ExtIEs}} of TS 36.413: a list of TAIBasedMDTExtIEsExtField values.
 type TAIBasedMDTExtIEsExtContainer []TAIBasedMDTExtIEsExtField
 
-// TAIExtIEsExtContainer is the concrete ProtocolExtensionContainer[TAIExtIEsValue].
+// TAIExtIEsExtContainer is ProtocolExtensionContainer {{TAI-ExtIEs}} of TS 36.413: a list of TAIExtIEsExtField values.
 type TAIExtIEsExtContainer []TAIExtIEsExtField
 
-// TAIBroadcastItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TAIBroadcastItemExtIEsValue].
+// TAIBroadcastItemExtIEsExtContainer is ProtocolExtensionContainer {{TAI-Broadcast-Item-ExtIEs}} of TS 36.413: a list of TAIBroadcastItemExtIEsExtField values.
 type TAIBroadcastItemExtIEsExtContainer []TAIBroadcastItemExtIEsExtField
 
-// TAICancelledItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TAICancelledItemExtIEsValue].
+// TAICancelledItemExtIEsExtContainer is ProtocolExtensionContainer {{TAI-Cancelled-Item-ExtIEs}} of TS 36.413: a list of TAICancelledItemExtIEsExtField values.
 type TAICancelledItemExtIEsExtContainer []TAICancelledItemExtIEsExtField
 
-// TABasedMDTExtIEsExtContainer is the concrete ProtocolExtensionContainer[TABasedMDTExtIEsValue].
+// TABasedMDTExtIEsExtContainer is ProtocolExtensionContainer {{TABasedMDT-ExtIEs}} of TS 36.413: a list of TABasedMDTExtIEsExtField values.
 type TABasedMDTExtIEsExtContainer []TABasedMDTExtIEsExtField
 
-// TABasedQMCExtIEsExtContainer is the concrete ProtocolExtensionContainer[TABasedQMCExtIEsValue].
+// TABasedQMCExtIEsExtContainer is ProtocolExtensionContainer {{TABasedQMC-ExtIEs}} of TS 36.413: a list of TABasedQMCExtIEsExtField values.
 type TABasedQMCExtIEsExtContainer []TABasedQMCExtIEsExtField
 
-// TAIBasedQMCExtIEsExtContainer is the concrete ProtocolExtensionContainer[TAIBasedQMCExtIEsValue].
+// TAIBasedQMCExtIEsExtContainer is ProtocolExtensionContainer {{TAIBasedQMC-ExtIEs}} of TS 36.413: a list of TAIBasedQMCExtIEsExtField values.
 type TAIBasedQMCExtIEsExtContainer []TAIBasedQMCExtIEsExtField
 
-// TargeteNBIDExtIEsExtContainer is the concrete ProtocolExtensionContainer[TargeteNBIDExtIEsValue].
+// TargeteNBIDExtIEsExtContainer is ProtocolExtensionContainer {{TargeteNB-ID-ExtIEs}} of TS 36.413: a list of TargeteNBIDExtIEsExtField values.
 type TargeteNBIDExtIEsExtContainer []TargeteNBIDExtIEsExtField
 
-// TargetRNCIDExtIEsExtContainer is the concrete ProtocolExtensionContainer[TargetRNCIDExtIEsValue].
+// TargetRNCIDExtIEsExtContainer is ProtocolExtensionContainer {{TargetRNC-ID-ExtIEs}} of TS 36.413: a list of TargetRNCIDExtIEsExtField values.
 type TargetRNCIDExtIEsExtContainer []TargetRNCIDExtIEsExtField
 
-// TargetNgRanNodeIDExtIEsExtContainer is the concrete ProtocolExtensionContainer[TargetNgRanNodeIDExtIEsValue].
+// TargetNgRanNodeIDExtIEsExtContainer is ProtocolExtensionContainer {{TargetNgRanNode-ID-ExtIEs}} of TS 36.413: a list of TargetNgRanNodeIDExtIEsExtField values.
 type TargetNgRanNodeIDExtIEsExtContainer []TargetNgRanNodeIDExtIEsExtField
 
-// TimeBasedHandoverInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[TimeBasedHandoverInformationExtIEsValue].
+// TimeBasedHandoverInformationExtIEsExtContainer is ProtocolExtensionContainer {{TimeBasedHandoverInformation-ExtIEs}} of TS 36.413: a list of TimeBasedHandoverInformationExtIEsExtField values.
 type TimeBasedHandoverInformationExtIEsExtContainer []TimeBasedHandoverInformationExtIEsExtField
 
-// ServedDCNsItemExtIEsExtField is the concrete ProtocolExtensionField[ServedDCNsItemExtIEsValue].
+// ServedDCNsItemExtIEsExtField is ProtocolExtensionField {{ServedDCNsItem-ExtIEs}} of TS 36.413: an extension field.
 type ServedDCNsItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -230,7 +232,121 @@ func (v *ServedDCNsItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	return nil
 }
 
-// RecommendedCellsForPagingItemExtIEsExtField is the concrete ProtocolExtensionField[RecommendedCellsForPagingItemExtIEsValue].
+// RecommendedCellsForPagingExtIEsExtField is ProtocolExtensionField {{RecommendedCellsForPaging-ExtIEs}} of TS 36.413: an extension field.
+type RecommendedCellsForPagingExtIEsExtField struct {
+	withoutReplay  bool
+	replay         aper.Snapshot
+	stream         aper.WireSpan
+	Id             s00.ProtocolExtensionID
+	Criticality    s00.Criticality
+	ExtensionValue s05.RecommendedCellsForPagingExtIEsValue
+
+	received aper.CompletePadding
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v RecommendedCellsForPagingExtIEsExtField) WithoutReplay() RecommendedCellsForPagingExtIEsExtField {
+	v.withoutReplay = true
+	v.stream = aper.WireSpan{}
+	return v
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v *RecommendedCellsForPagingExtIEsExtField) ReceivedForm() aper.ReceivedForm {
+	if v == nil || v.withoutReplay {
+		return aper.ReceivedForm{}
+	}
+	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
+}
+
+// MarshalAPERTo appends the field encoding to the supplied APER buffer.
+func (v *RecommendedCellsForPagingExtIEsExtField) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
+	if v != nil && v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.RestoreReplayPlan(previous)
+	}
+	if v !=
+		nil && bb.
+		ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err !=
+			nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolExtensionField")
+	}
+	// TS 36.413 V19.2.0 §9.3.7 binds the table-selected value to @id.
+	if !s05.BridgeRecommendedCellsForPagingExtIEsValueMethodMatchesID(v.ExtensionValue, v.Id, bb.Budget()) {
+		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolExtensionField.Id")
+	}
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), s07.BridgeInt64Ptr(0), s07.BridgeInt64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	data, err := s05.BridgeRecommendedCellsForPagingExtIEsValueMethodEncodeFresh(v.ExtensionValue, len(fresh) != 0 && fresh[0], bb.Budget())
+	if err != nil {
+		return fmt.Errorf("encoding extensionValue: %w", err)
+	}
+	if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+		return fmt.Errorf("encoding extensionValue: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERFrom decodes the field from the supplied APER buffer.
+func (v *RecommendedCellsForPagingExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolExtensionField")
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = RecommendedCellsForPagingExtIEsExtField{}
+	id, err := aper.DecodeIntegerAligned(bb, s07.BridgeInt64Ptr(0), s07.BridgeInt64Ptr(65535), false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Id")
+	}
+	v.Id = s00.ProtocolIEID(id)
+	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Criticality")
+	}
+	v.Criticality = s00.Criticality(criticality)
+	var zero s05.RecommendedCellsForPagingExtIEsValue
+
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, s05.BridgeRecommendedCellsForPagingExtIEsValueMethodReason(zero, v.Id), s05.BridgeRecommendedCellsForPagingExtIEsValueMethodRule(zero))
+	if err != nil {
+		return runtime.WrapDecodePath(fmt.Errorf("extension %d: %w", v.Id, err), "ExtensionValue")
+	}
+	raw = raw.WithPath("ProtocolExtensionField.ExtensionValue")
+	paddingMark := bb.EnterComponent("ExtensionValue")
+	value, err := s05.BridgeRecommendedCellsForPagingExtIEsValueMethodDecode(zero, v.Id, raw)
+	bb.LeaveComponent(paddingMark)
+	if err != nil {
+		return runtime.WrapDecodePath(fmt.Errorf("extension %d: %w", v.Id, err), "ExtensionValue")
+	}
+	v.ExtensionValue = value
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// RecommendedCellsForPagingItemExtIEsExtField is ProtocolExtensionField {{RecommendedCellsForPagingItem-ExtIEs}} of TS 36.413: an extension field.
 type RecommendedCellsForPagingItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -344,7 +460,7 @@ func (v *RecommendedCellsForPagingItemExtIEsExtField) unmarshalAPERFrom(bb *aper
 	return nil
 }
 
-// RecommendedENBsForPagingExtIEsExtField is the concrete ProtocolExtensionField[RecommendedENBsForPagingExtIEsValue].
+// RecommendedENBsForPagingExtIEsExtField is ProtocolExtensionField {{RecommendedENBsForPaging-ExtIEs}} of TS 36.413: an extension field.
 type RecommendedENBsForPagingExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -458,7 +574,7 @@ func (v *RecommendedENBsForPagingExtIEsExtField) unmarshalAPERFrom(bb *aper.BitB
 	return nil
 }
 
-// RecommendedENBItemExtIEsExtField is the concrete ProtocolExtensionField[RecommendedENBItemExtIEsValue].
+// RecommendedENBItemExtIEsExtField is ProtocolExtensionField {{RecommendedENBItem-ExtIEs}} of TS 36.413: an extension field.
 type RecommendedENBItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -572,7 +688,7 @@ func (v *RecommendedENBItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer)
 	return nil
 }
 
-// RequestedTNLInfoExtIEsExtField is the concrete ProtocolExtensionField[RequestedTNLInfoExtIEsValue].
+// RequestedTNLInfoExtIEsExtField is ProtocolExtensionField {{RequestedTNLInfo-ExtIEs}} of TS 36.413: an extension field.
 type RequestedTNLInfoExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -686,7 +802,7 @@ func (v *RequestedTNLInfoExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// RequestTypeExtIEsExtField is the concrete ProtocolExtensionField[RequestTypeExtIEsValue].
+// RequestTypeExtIEsExtField is ProtocolExtensionField {{RequestType-ExtIEs}} of TS 36.413: an extension field.
 type RequestTypeExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -800,7 +916,7 @@ func (v *RequestTypeExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	return nil
 }
 
-// SecurityContextExtIEsExtField is the concrete ProtocolExtensionField[SecurityContextExtIEsValue].
+// SecurityContextExtIEsExtField is ProtocolExtensionField {{SecurityContext-ExtIEs}} of TS 36.413: an extension field.
 type SecurityContextExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -914,7 +1030,7 @@ func (v *SecurityContextExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	return nil
 }
 
-// SecondaryRATDataUsageReportItemExtIEsExtField is the concrete ProtocolExtensionField[SecondaryRATDataUsageReportItemExtIEsValue].
+// SecondaryRATDataUsageReportItemExtIEsExtField is ProtocolExtensionField {{SecondaryRATDataUsageReportItem-ExtIEs}} of TS 36.413: an extension field.
 type SecondaryRATDataUsageReportItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1028,7 +1144,7 @@ func (v *SecondaryRATDataUsageReportItemExtIEsExtField) unmarshalAPERFrom(bb *ap
 	return nil
 }
 
-// SecurityIndicationExtIEsExtField is the concrete ProtocolExtensionField[SecurityIndicationExtIEsValue].
+// SecurityIndicationExtIEsExtField is ProtocolExtensionField {{SecurityIndication-ExtIEs}} of TS 36.413: an extension field.
 type SecurityIndicationExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1142,7 +1258,7 @@ func (v *SecurityIndicationExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer)
 	return nil
 }
 
-// SecurityResultExtIEsExtField is the concrete ProtocolExtensionField[SecurityResultExtIEsValue].
+// SecurityResultExtIEsExtField is ProtocolExtensionField {{SecurityResult-ExtIEs}} of TS 36.413: an extension field.
 type SecurityResultExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1256,7 +1372,7 @@ func (v *SecurityResultExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	return nil
 }
 
-// SensorMeasConfigNameItemExtIEsExtField is the concrete ProtocolExtensionField[SensorMeasConfigNameItemExtIEsValue].
+// SensorMeasConfigNameItemExtIEsExtField is ProtocolExtensionField {{SensorMeasConfigNameItem-ExtIEs}} of TS 36.413: an extension field.
 type SensorMeasConfigNameItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1370,7 +1486,7 @@ func (v *SensorMeasConfigNameItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitB
 	return nil
 }
 
-// SensorMeasurementConfigurationExtIEsExtField is the concrete ProtocolExtensionField[SensorMeasurementConfigurationExtIEsValue].
+// SensorMeasurementConfigurationExtIEsExtField is ProtocolExtensionField {{SensorMeasurementConfiguration-ExtIEs}} of TS 36.413: an extension field.
 type SensorMeasurementConfigurationExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1484,7 +1600,7 @@ func (v *SensorMeasurementConfigurationExtIEsExtField) unmarshalAPERFrom(bb *ape
 	return nil
 }
 
-// SynchronisationInformationExtIEsExtField is the concrete ProtocolExtensionField[SynchronisationInformationExtIEsValue].
+// SynchronisationInformationExtIEsExtField is ProtocolExtensionField {{SynchronisationInformation-ExtIEs}} of TS 36.413: an extension field.
 type SynchronisationInformationExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1598,7 +1714,7 @@ func (v *SynchronisationInformationExtIEsExtField) unmarshalAPERFrom(bb *aper.Bi
 	return nil
 }
 
-// SourceeNBIDExtIEsExtField is the concrete ProtocolExtensionField[SourceeNBIDExtIEsValue].
+// SourceeNBIDExtIEsExtField is ProtocolExtensionField {{SourceeNB-ID-ExtIEs}} of TS 36.413: an extension field.
 type SourceeNBIDExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1712,7 +1828,7 @@ func (v *SourceeNBIDExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	return nil
 }
 
-// SourceNgRanNodeIDExtIEsExtField is the concrete ProtocolExtensionField[SourceNgRanNodeIDExtIEsValue].
+// SourceNgRanNodeIDExtIEsExtField is ProtocolExtensionField {{SourceNgRanNode-ID-ExtIEs}} of TS 36.413: an extension field.
 type SourceNgRanNodeIDExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1826,7 +1942,7 @@ func (v *SourceNgRanNodeIDExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 	return nil
 }
 
-// ServedGUMMEIsItemExtIEsExtField is the concrete ProtocolExtensionField[ServedGUMMEIsItemExtIEsValue].
+// ServedGUMMEIsItemExtIEsExtField is ProtocolExtensionField {{ServedGUMMEIsItem-ExtIEs}} of TS 36.413: an extension field.
 type ServedGUMMEIsItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -1940,7 +2056,7 @@ func (v *ServedGUMMEIsItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 	return nil
 }
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsExtField is the concrete ProtocolExtensionField[SubscriptionBasedUEDifferentiationInfoExtIEsValue].
+// SubscriptionBasedUEDifferentiationInfoExtIEsExtField is ProtocolExtensionField {{Subscription-Based-UE-DifferentiationInfo-ExtIEs}} of TS 36.413: an extension field.
 type SubscriptionBasedUEDifferentiationInfoExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2054,7 +2170,7 @@ func (v *SubscriptionBasedUEDifferentiationInfoExtIEsExtField) unmarshalAPERFrom
 	return nil
 }
 
-// ScheduledCommunicationTimeExtIEsExtField is the concrete ProtocolExtensionField[ScheduledCommunicationTimeExtIEsValue].
+// ScheduledCommunicationTimeExtIEsExtField is ProtocolExtensionField {{ScheduledCommunicationTime-ExtIEs}} of TS 36.413: an extension field.
 type ScheduledCommunicationTimeExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2168,7 +2284,7 @@ func (v *ScheduledCommunicationTimeExtIEsExtField) unmarshalAPERFrom(bb *aper.Bi
 	return nil
 }
 
-// SupportedTAsItemExtIEsExtField is the concrete ProtocolExtensionField[SupportedTAsItemExtIEsValue].
+// SupportedTAsItemExtIEsExtField is ProtocolExtensionField {{SupportedTAs-Item-ExtIEs}} of TS 36.413: an extension field.
 type SupportedTAsItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2282,7 +2398,7 @@ func (v *SupportedTAsItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// TimeSynchronisationInfoExtIEsExtField is the concrete ProtocolExtensionField[TimeSynchronisationInfoExtIEsValue].
+// TimeSynchronisationInfoExtIEsExtField is ProtocolExtensionField {{TimeSynchronisationInfo-ExtIEs}} of TS 36.413: an extension field.
 type TimeSynchronisationInfoExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2396,7 +2512,7 @@ func (v *TimeSynchronisationInfoExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBu
 	return nil
 }
 
-// STMSIExtIEsExtField is the concrete ProtocolExtensionField[STMSIExtIEsValue].
+// STMSIExtIEsExtField is ProtocolExtensionField {{S-TMSI-ExtIEs}} of TS 36.413: an extension field.
 type STMSIExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2510,7 +2626,7 @@ func (v *STMSIExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TAIBasedMDTExtIEsExtField is the concrete ProtocolExtensionField[TAIBasedMDTExtIEsValue].
+// TAIBasedMDTExtIEsExtField is ProtocolExtensionField {{TAIBasedMDT-ExtIEs}} of TS 36.413: an extension field.
 type TAIBasedMDTExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2624,7 +2740,7 @@ func (v *TAIBasedMDTExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	return nil
 }
 
-// TAIExtIEsExtField is the concrete ProtocolExtensionField[TAIExtIEsValue].
+// TAIExtIEsExtField is ProtocolExtensionField {{TAI-ExtIEs}} of TS 36.413: an extension field.
 type TAIExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2738,7 +2854,7 @@ func (v *TAIExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TAIBroadcastItemExtIEsExtField is the concrete ProtocolExtensionField[TAIBroadcastItemExtIEsValue].
+// TAIBroadcastItemExtIEsExtField is ProtocolExtensionField {{TAI-Broadcast-Item-ExtIEs}} of TS 36.413: an extension field.
 type TAIBroadcastItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2852,7 +2968,7 @@ func (v *TAIBroadcastItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// TAICancelledItemExtIEsExtField is the concrete ProtocolExtensionField[TAICancelledItemExtIEsValue].
+// TAICancelledItemExtIEsExtField is ProtocolExtensionField {{TAI-Cancelled-Item-ExtIEs}} of TS 36.413: an extension field.
 type TAICancelledItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -2966,7 +3082,7 @@ func (v *TAICancelledItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// TABasedMDTExtIEsExtField is the concrete ProtocolExtensionField[TABasedMDTExtIEsValue].
+// TABasedMDTExtIEsExtField is ProtocolExtensionField {{TABasedMDT-ExtIEs}} of TS 36.413: an extension field.
 type TABasedMDTExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -3080,7 +3196,7 @@ func (v *TABasedMDTExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TABasedQMCExtIEsExtField is the concrete ProtocolExtensionField[TABasedQMCExtIEsValue].
+// TABasedQMCExtIEsExtField is ProtocolExtensionField {{TABasedQMC-ExtIEs}} of TS 36.413: an extension field.
 type TABasedQMCExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -3194,7 +3310,7 @@ func (v *TABasedQMCExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TAIBasedQMCExtIEsExtField is the concrete ProtocolExtensionField[TAIBasedQMCExtIEsValue].
+// TAIBasedQMCExtIEsExtField is ProtocolExtensionField {{TAIBasedQMC-ExtIEs}} of TS 36.413: an extension field.
 type TAIBasedQMCExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -3308,7 +3424,7 @@ func (v *TAIBasedQMCExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	return nil
 }
 
-// TargeteNBIDExtIEsExtField is the concrete ProtocolExtensionField[TargeteNBIDExtIEsValue].
+// TargeteNBIDExtIEsExtField is ProtocolExtensionField {{TargeteNB-ID-ExtIEs}} of TS 36.413: an extension field.
 type TargeteNBIDExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -3422,7 +3538,7 @@ func (v *TargeteNBIDExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	return nil
 }
 
-// TargetRNCIDExtIEsExtField is the concrete ProtocolExtensionField[TargetRNCIDExtIEsValue].
+// TargetRNCIDExtIEsExtField is ProtocolExtensionField {{TargetRNC-ID-ExtIEs}} of TS 36.413: an extension field.
 type TargetRNCIDExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -3536,7 +3652,7 @@ func (v *TargetRNCIDExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	return nil
 }
 
-// TargetNgRanNodeIDExtIEsExtField is the concrete ProtocolExtensionField[TargetNgRanNodeIDExtIEsValue].
+// TargetNgRanNodeIDExtIEsExtField is ProtocolExtensionField {{TargetNgRanNode-ID-ExtIEs}} of TS 36.413: an extension field.
 type TargetNgRanNodeIDExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -3650,7 +3766,7 @@ func (v *TargetNgRanNodeIDExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 	return nil
 }
 
-// TimeBasedHandoverInformationExtIEsExtField is the concrete ProtocolExtensionField[TimeBasedHandoverInformationExtIEsValue].
+// TimeBasedHandoverInformationExtIEsExtField is ProtocolExtensionField {{TimeBasedHandoverInformation-ExtIEs}} of TS 36.413: an extension field.
 type TimeBasedHandoverInformationExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -3764,10 +3880,10 @@ func (v *TimeBasedHandoverInformationExtIEsExtField) unmarshalAPERFrom(bb *aper.
 	return nil
 }
 
-// TAIItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TAIItemExtIEsValue].
+// TAIItemExtIEsExtContainer is ProtocolExtensionContainer {{TAIItemExtIEs}} of TS 36.413: a list of TAIItemExtIEsExtField values.
 type TAIItemExtIEsExtContainer []TAIItemExtIEsExtField
 
-// TAIItemExtIEsExtField is the concrete ProtocolExtensionField[TAIItemExtIEsValue].
+// TAIItemExtIEsExtField is ProtocolExtensionField {{TAIItemExtIEs}} of TS 36.413: an extension field.
 type TAIItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -3881,7 +3997,7 @@ func (v *TAIItemExtIEsExtField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// RequestTypeExtIEsRequestTypeAdditionalInfoExtBinding is the concrete ExtensionBinding[RequestTypeAdditionalInfo, RequestTypeExtIEsValue].
+// RequestTypeExtIEsRequestTypeAdditionalInfoExtBinding binds RequestTypeAdditionalInfo to the RequestType-ExtIEs object set of TS 36.413.
 type RequestTypeExtIEsRequestTypeAdditionalInfoExtBinding struct {
 	info   s00.ExtensionInfo
 	codec  s01.RequestTypeAdditionalInfoValueCodec
@@ -3936,7 +4052,7 @@ func (b RequestTypeExtIEsRequestTypeAdditionalInfoExtBinding) Get(field *Request
 	return b.get(&field.ExtensionValue)
 }
 
-// SensorNameConfigExtIEField is the concrete ProtocolIEField[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEField is ProtocolIE-Field {{SensorNameConfig-ExtIEs}} of TS 36.413: an information element field.
 type SensorNameConfigExtIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4050,7 +4166,7 @@ func (v *SensorNameConfigExtIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error
 	return nil
 }
 
-// ServedGUMMEIsItemExtIEsGUMMEITypeExtBinding is the concrete ExtensionBinding[GUMMEIType, ServedGUMMEIsItemExtIEsValue].
+// ServedGUMMEIsItemExtIEsGUMMEITypeExtBinding binds GUMMEIType to the ServedGUMMEIsItem-ExtIEs object set of TS 36.413.
 type ServedGUMMEIsItemExtIEsGUMMEITypeExtBinding struct {
 	info   s00.ExtensionInfo
 	codec  s00.GUMMEITypeValueCodec
@@ -4103,7 +4219,7 @@ func (b ServedGUMMEIsItemExtIEsGUMMEITypeExtBinding) Get(field *ServedGUMMEIsIte
 	return b.get(&field.ExtensionValue)
 }
 
-// SourceNodeIDExtensionIEIEField is the concrete ProtocolIEField[SourceNodeIDExtensionIEIEValue].
+// SourceNodeIDExtensionIEIEField is ProtocolIE-Field {{SourceNodeID-ExtensionIE}} of TS 36.413: an information element field.
 type SourceNodeIDExtensionIEIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4217,7 +4333,7 @@ func (v *SourceNodeIDExtensionIEIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// SupportedTAsItemExtIEsRATTypeExtBinding is the concrete ExtensionBinding[RATType, SupportedTAsItemExtIEsValue].
+// SupportedTAsItemExtIEsRATTypeExtBinding binds RATType to the SupportedTAs-Item-ExtIEs object set of TS 36.413.
 type SupportedTAsItemExtIEsRATTypeExtBinding struct {
 	info   s00.ExtensionInfo
 	codec  s01.RATTypeValueCodec
@@ -4268,7 +4384,7 @@ func (b SupportedTAsItemExtIEsRATTypeExtBinding) Get(field *SupportedTAsItemExtI
 	return b.get(&field.ExtensionValue)
 }
 
-// RecommendedCellsForPagingItemExtIEsIEField is the concrete ProtocolIEField[RecommendedCellsForPagingItemExtIEsValue].
+// RecommendedCellsForPagingItemExtIEsIEField uses the ProtocolIE-Field shape for object set RecommendedCellsForPagingItem-ExtIEs of TS 36.413.
 type RecommendedCellsForPagingItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4382,10 +4498,10 @@ func (v *RecommendedCellsForPagingItemExtIEsIEField) unmarshalAPERFrom(bb *aper.
 	return nil
 }
 
-// RecommendedCellsForPagingItemExtIEsIEContainer is the concrete ProtocolIEContainer[RecommendedCellsForPagingItemExtIEsValue].
+// RecommendedCellsForPagingItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set RecommendedCellsForPagingItem-ExtIEs of TS 36.413: a list of RecommendedCellsForPagingItemExtIEsIEField values.
 type RecommendedCellsForPagingItemExtIEsIEContainer []RecommendedCellsForPagingItemExtIEsIEField
 
-// RecommendedCellsForPagingExtIEsIEField is the concrete ProtocolIEField[RecommendedCellsForPagingExtIEsValue].
+// RecommendedCellsForPagingExtIEsIEField uses the ProtocolIE-Field shape for object set RecommendedCellsForPaging-ExtIEs of TS 36.413.
 type RecommendedCellsForPagingExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4499,10 +4615,10 @@ func (v *RecommendedCellsForPagingExtIEsIEField) unmarshalAPERFrom(bb *aper.BitB
 	return nil
 }
 
-// RecommendedCellsForPagingExtIEsIEContainer is the concrete ProtocolIEContainer[RecommendedCellsForPagingExtIEsValue].
+// RecommendedCellsForPagingExtIEsIEContainer uses the ProtocolIE-Container shape for object set RecommendedCellsForPaging-ExtIEs of TS 36.413: a list of RecommendedCellsForPagingExtIEsIEField values.
 type RecommendedCellsForPagingExtIEsIEContainer []RecommendedCellsForPagingExtIEsIEField
 
-// RecommendedENBItemExtIEsIEField is the concrete ProtocolIEField[RecommendedENBItemExtIEsValue].
+// RecommendedENBItemExtIEsIEField uses the ProtocolIE-Field shape for object set RecommendedENBItem-ExtIEs of TS 36.413.
 type RecommendedENBItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4616,10 +4732,10 @@ func (v *RecommendedENBItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 	return nil
 }
 
-// RecommendedENBItemExtIEsIEContainer is the concrete ProtocolIEContainer[RecommendedENBItemExtIEsValue].
+// RecommendedENBItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set RecommendedENBItem-ExtIEs of TS 36.413: a list of RecommendedENBItemExtIEsIEField values.
 type RecommendedENBItemExtIEsIEContainer []RecommendedENBItemExtIEsIEField
 
-// RecommendedENBsForPagingExtIEsIEField is the concrete ProtocolIEField[RecommendedENBsForPagingExtIEsValue].
+// RecommendedENBsForPagingExtIEsIEField uses the ProtocolIE-Field shape for object set RecommendedENBsForPaging-ExtIEs of TS 36.413.
 type RecommendedENBsForPagingExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4733,10 +4849,10 @@ func (v *RecommendedENBsForPagingExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBu
 	return nil
 }
 
-// RecommendedENBsForPagingExtIEsIEContainer is the concrete ProtocolIEContainer[RecommendedENBsForPagingExtIEsValue].
+// RecommendedENBsForPagingExtIEsIEContainer uses the ProtocolIE-Container shape for object set RecommendedENBsForPaging-ExtIEs of TS 36.413: a list of RecommendedENBsForPagingExtIEsIEField values.
 type RecommendedENBsForPagingExtIEsIEContainer []RecommendedENBsForPagingExtIEsIEField
 
-// RequestTypeExtIEsIEField is the concrete ProtocolIEField[RequestTypeExtIEsValue].
+// RequestTypeExtIEsIEField uses the ProtocolIE-Field shape for object set RequestType-ExtIEs of TS 36.413.
 type RequestTypeExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4850,10 +4966,10 @@ func (v *RequestTypeExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// RequestTypeExtIEsIEContainer is the concrete ProtocolIEContainer[RequestTypeExtIEsValue].
+// RequestTypeExtIEsIEContainer uses the ProtocolIE-Container shape for object set RequestType-ExtIEs of TS 36.413: a list of RequestTypeExtIEsIEField values.
 type RequestTypeExtIEsIEContainer []RequestTypeExtIEsIEField
 
-// RequestedTNLInfoExtIEsIEField is the concrete ProtocolIEField[RequestedTNLInfoExtIEsValue].
+// RequestedTNLInfoExtIEsIEField uses the ProtocolIE-Field shape for object set RequestedTNLInfo-ExtIEs of TS 36.413.
 type RequestedTNLInfoExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -4967,10 +5083,10 @@ func (v *RequestedTNLInfoExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	return nil
 }
 
-// RequestedTNLInfoExtIEsIEContainer is the concrete ProtocolIEContainer[RequestedTNLInfoExtIEsValue].
+// RequestedTNLInfoExtIEsIEContainer uses the ProtocolIE-Container shape for object set RequestedTNLInfo-ExtIEs of TS 36.413: a list of RequestedTNLInfoExtIEsIEField values.
 type RequestedTNLInfoExtIEsIEContainer []RequestedTNLInfoExtIEsIEField
 
-// STMSIExtIEsIEField is the concrete ProtocolIEField[STMSIExtIEsValue].
+// STMSIExtIEsIEField uses the ProtocolIE-Field shape for object set S-TMSI-ExtIEs of TS 36.413.
 type STMSIExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -5084,10 +5200,10 @@ func (v *STMSIExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// STMSIExtIEsIEContainer is the concrete ProtocolIEContainer[STMSIExtIEsValue].
+// STMSIExtIEsIEContainer uses the ProtocolIE-Container shape for object set S-TMSI-ExtIEs of TS 36.413: a list of STMSIExtIEsIEField values.
 type STMSIExtIEsIEContainer []STMSIExtIEsIEField
 
-// ScheduledCommunicationTimeExtIEsIEField is the concrete ProtocolIEField[ScheduledCommunicationTimeExtIEsValue].
+// ScheduledCommunicationTimeExtIEsIEField uses the ProtocolIE-Field shape for object set ScheduledCommunicationTime-ExtIEs of TS 36.413.
 type ScheduledCommunicationTimeExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -5201,10 +5317,10 @@ func (v *ScheduledCommunicationTimeExtIEsIEField) unmarshalAPERFrom(bb *aper.Bit
 	return nil
 }
 
-// ScheduledCommunicationTimeExtIEsIEContainer is the concrete ProtocolIEContainer[ScheduledCommunicationTimeExtIEsValue].
+// ScheduledCommunicationTimeExtIEsIEContainer uses the ProtocolIE-Container shape for object set ScheduledCommunicationTime-ExtIEs of TS 36.413: a list of ScheduledCommunicationTimeExtIEsIEField values.
 type ScheduledCommunicationTimeExtIEsIEContainer []ScheduledCommunicationTimeExtIEsIEField
 
-// SecondaryRATDataUsageReportItemExtIEsIEField is the concrete ProtocolIEField[SecondaryRATDataUsageReportItemExtIEsValue].
+// SecondaryRATDataUsageReportItemExtIEsIEField uses the ProtocolIE-Field shape for object set SecondaryRATDataUsageReportItem-ExtIEs of TS 36.413.
 type SecondaryRATDataUsageReportItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -5318,10 +5434,10 @@ func (v *SecondaryRATDataUsageReportItemExtIEsIEField) unmarshalAPERFrom(bb *ape
 	return nil
 }
 
-// SecondaryRATDataUsageReportItemExtIEsIEContainer is the concrete ProtocolIEContainer[SecondaryRATDataUsageReportItemExtIEsValue].
+// SecondaryRATDataUsageReportItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set SecondaryRATDataUsageReportItem-ExtIEs of TS 36.413: a list of SecondaryRATDataUsageReportItemExtIEsIEField values.
 type SecondaryRATDataUsageReportItemExtIEsIEContainer []SecondaryRATDataUsageReportItemExtIEsIEField
 
-// SecurityContextExtIEsIEField is the concrete ProtocolIEField[SecurityContextExtIEsValue].
+// SecurityContextExtIEsIEField uses the ProtocolIE-Field shape for object set SecurityContext-ExtIEs of TS 36.413.
 type SecurityContextExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -5435,10 +5551,10 @@ func (v *SecurityContextExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) err
 	return nil
 }
 
-// SecurityContextExtIEsIEContainer is the concrete ProtocolIEContainer[SecurityContextExtIEsValue].
+// SecurityContextExtIEsIEContainer uses the ProtocolIE-Container shape for object set SecurityContext-ExtIEs of TS 36.413: a list of SecurityContextExtIEsIEField values.
 type SecurityContextExtIEsIEContainer []SecurityContextExtIEsIEField
 
-// SecurityIndicationExtIEsIEField is the concrete ProtocolIEField[SecurityIndicationExtIEsValue].
+// SecurityIndicationExtIEsIEField uses the ProtocolIE-Field shape for object set SecurityIndication-ExtIEs of TS 36.413.
 type SecurityIndicationExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -5552,10 +5668,10 @@ func (v *SecurityIndicationExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 	return nil
 }
 
-// SecurityIndicationExtIEsIEContainer is the concrete ProtocolIEContainer[SecurityIndicationExtIEsValue].
+// SecurityIndicationExtIEsIEContainer uses the ProtocolIE-Container shape for object set SecurityIndication-ExtIEs of TS 36.413: a list of SecurityIndicationExtIEsIEField values.
 type SecurityIndicationExtIEsIEContainer []SecurityIndicationExtIEsIEField
 
-// SecurityResultExtIEsIEField is the concrete ProtocolIEField[SecurityResultExtIEsValue].
+// SecurityResultExtIEsIEField uses the ProtocolIE-Field shape for object set SecurityResult-ExtIEs of TS 36.413.
 type SecurityResultExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -5669,10 +5785,10 @@ func (v *SecurityResultExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 	return nil
 }
 
-// SecurityResultExtIEsIEContainer is the concrete ProtocolIEContainer[SecurityResultExtIEsValue].
+// SecurityResultExtIEsIEContainer uses the ProtocolIE-Container shape for object set SecurityResult-ExtIEs of TS 36.413: a list of SecurityResultExtIEsIEField values.
 type SecurityResultExtIEsIEContainer []SecurityResultExtIEsIEField
 
-// SensorMeasConfigNameItemExtIEsIEField is the concrete ProtocolIEField[SensorMeasConfigNameItemExtIEsValue].
+// SensorMeasConfigNameItemExtIEsIEField uses the ProtocolIE-Field shape for object set SensorMeasConfigNameItem-ExtIEs of TS 36.413.
 type SensorMeasConfigNameItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -5786,10 +5902,10 @@ func (v *SensorMeasConfigNameItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBu
 	return nil
 }
 
-// SensorMeasConfigNameItemExtIEsIEContainer is the concrete ProtocolIEContainer[SensorMeasConfigNameItemExtIEsValue].
+// SensorMeasConfigNameItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set SensorMeasConfigNameItem-ExtIEs of TS 36.413: a list of SensorMeasConfigNameItemExtIEsIEField values.
 type SensorMeasConfigNameItemExtIEsIEContainer []SensorMeasConfigNameItemExtIEsIEField
 
-// SensorMeasurementConfigurationExtIEsIEField is the concrete ProtocolIEField[SensorMeasurementConfigurationExtIEsValue].
+// SensorMeasurementConfigurationExtIEsIEField uses the ProtocolIE-Field shape for object set SensorMeasurementConfiguration-ExtIEs of TS 36.413.
 type SensorMeasurementConfigurationExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -5903,10 +6019,10 @@ func (v *SensorMeasurementConfigurationExtIEsIEField) unmarshalAPERFrom(bb *aper
 	return nil
 }
 
-// SensorMeasurementConfigurationExtIEsIEContainer is the concrete ProtocolIEContainer[SensorMeasurementConfigurationExtIEsValue].
+// SensorMeasurementConfigurationExtIEsIEContainer uses the ProtocolIE-Container shape for object set SensorMeasurementConfiguration-ExtIEs of TS 36.413: a list of SensorMeasurementConfigurationExtIEsIEField values.
 type SensorMeasurementConfigurationExtIEsIEContainer []SensorMeasurementConfigurationExtIEsIEField
 
-// ServedDCNsItemExtIEsIEField is the concrete ProtocolIEField[ServedDCNsItemExtIEsValue].
+// ServedDCNsItemExtIEsIEField uses the ProtocolIE-Field shape for object set ServedDCNsItem-ExtIEs of TS 36.413.
 type ServedDCNsItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -6020,10 +6136,10 @@ func (v *ServedDCNsItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) erro
 	return nil
 }
 
-// ServedDCNsItemExtIEsIEContainer is the concrete ProtocolIEContainer[ServedDCNsItemExtIEsValue].
+// ServedDCNsItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ServedDCNsItem-ExtIEs of TS 36.413: a list of ServedDCNsItemExtIEsIEField values.
 type ServedDCNsItemExtIEsIEContainer []ServedDCNsItemExtIEsIEField
 
-// ServedGUMMEIsItemExtIEsIEField is the concrete ProtocolIEField[ServedGUMMEIsItemExtIEsValue].
+// ServedGUMMEIsItemExtIEsIEField uses the ProtocolIE-Field shape for object set ServedGUMMEIsItem-ExtIEs of TS 36.413.
 type ServedGUMMEIsItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -6137,10 +6253,10 @@ func (v *ServedGUMMEIsItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// ServedGUMMEIsItemExtIEsIEContainer is the concrete ProtocolIEContainer[ServedGUMMEIsItemExtIEsValue].
+// ServedGUMMEIsItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ServedGUMMEIsItem-ExtIEs of TS 36.413: a list of ServedGUMMEIsItemExtIEsIEField values.
 type ServedGUMMEIsItemExtIEsIEContainer []ServedGUMMEIsItemExtIEsIEField
 
-// SourceNgRanNodeIDExtIEsIEField is the concrete ProtocolIEField[SourceNgRanNodeIDExtIEsValue].
+// SourceNgRanNodeIDExtIEsIEField uses the ProtocolIE-Field shape for object set SourceNgRanNode-ID-ExtIEs of TS 36.413.
 type SourceNgRanNodeIDExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -6254,10 +6370,10 @@ func (v *SourceNgRanNodeIDExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// SourceNgRanNodeIDExtIEsIEContainer is the concrete ProtocolIEContainer[SourceNgRanNodeIDExtIEsValue].
+// SourceNgRanNodeIDExtIEsIEContainer uses the ProtocolIE-Container shape for object set SourceNgRanNode-ID-ExtIEs of TS 36.413: a list of SourceNgRanNodeIDExtIEsIEField values.
 type SourceNgRanNodeIDExtIEsIEContainer []SourceNgRanNodeIDExtIEsIEField
 
-// SourceeNBIDExtIEsIEField is the concrete ProtocolIEField[SourceeNBIDExtIEsValue].
+// SourceeNBIDExtIEsIEField uses the ProtocolIE-Field shape for object set SourceeNB-ID-ExtIEs of TS 36.413.
 type SourceeNBIDExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -6371,10 +6487,10 @@ func (v *SourceeNBIDExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// SourceeNBIDExtIEsIEContainer is the concrete ProtocolIEContainer[SourceeNBIDExtIEsValue].
+// SourceeNBIDExtIEsIEContainer uses the ProtocolIE-Container shape for object set SourceeNB-ID-ExtIEs of TS 36.413: a list of SourceeNBIDExtIEsIEField values.
 type SourceeNBIDExtIEsIEContainer []SourceeNBIDExtIEsIEField
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsIEField is the concrete ProtocolIEField[SubscriptionBasedUEDifferentiationInfoExtIEsValue].
+// SubscriptionBasedUEDifferentiationInfoExtIEsIEField uses the ProtocolIE-Field shape for object set Subscription-Based-UE-DifferentiationInfo-ExtIEs of TS 36.413.
 type SubscriptionBasedUEDifferentiationInfoExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -6488,10 +6604,10 @@ func (v *SubscriptionBasedUEDifferentiationInfoExtIEsIEField) unmarshalAPERFrom(
 	return nil
 }
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsIEContainer is the concrete ProtocolIEContainer[SubscriptionBasedUEDifferentiationInfoExtIEsValue].
+// SubscriptionBasedUEDifferentiationInfoExtIEsIEContainer uses the ProtocolIE-Container shape for object set Subscription-Based-UE-DifferentiationInfo-ExtIEs of TS 36.413: a list of SubscriptionBasedUEDifferentiationInfoExtIEsIEField values.
 type SubscriptionBasedUEDifferentiationInfoExtIEsIEContainer []SubscriptionBasedUEDifferentiationInfoExtIEsIEField
 
-// SupportedTAsItemExtIEsIEField is the concrete ProtocolIEField[SupportedTAsItemExtIEsValue].
+// SupportedTAsItemExtIEsIEField uses the ProtocolIE-Field shape for object set SupportedTAs-Item-ExtIEs of TS 36.413.
 type SupportedTAsItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -6605,10 +6721,10 @@ func (v *SupportedTAsItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	return nil
 }
 
-// SupportedTAsItemExtIEsIEContainer is the concrete ProtocolIEContainer[SupportedTAsItemExtIEsValue].
+// SupportedTAsItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set SupportedTAs-Item-ExtIEs of TS 36.413: a list of SupportedTAsItemExtIEsIEField values.
 type SupportedTAsItemExtIEsIEContainer []SupportedTAsItemExtIEsIEField
 
-// SynchronisationInformationExtIEsIEField is the concrete ProtocolIEField[SynchronisationInformationExtIEsValue].
+// SynchronisationInformationExtIEsIEField uses the ProtocolIE-Field shape for object set SynchronisationInformation-ExtIEs of TS 36.413.
 type SynchronisationInformationExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -6722,10 +6838,10 @@ func (v *SynchronisationInformationExtIEsIEField) unmarshalAPERFrom(bb *aper.Bit
 	return nil
 }
 
-// SynchronisationInformationExtIEsIEContainer is the concrete ProtocolIEContainer[SynchronisationInformationExtIEsValue].
+// SynchronisationInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set SynchronisationInformation-ExtIEs of TS 36.413: a list of SynchronisationInformationExtIEsIEField values.
 type SynchronisationInformationExtIEsIEContainer []SynchronisationInformationExtIEsIEField
 
-// TABasedMDTExtIEsIEField is the concrete ProtocolIEField[TABasedMDTExtIEsValue].
+// TABasedMDTExtIEsIEField uses the ProtocolIE-Field shape for object set TABasedMDT-ExtIEs of TS 36.413.
 type TABasedMDTExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -6839,10 +6955,10 @@ func (v *TABasedMDTExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TABasedMDTExtIEsIEContainer is the concrete ProtocolIEContainer[TABasedMDTExtIEsValue].
+// TABasedMDTExtIEsIEContainer uses the ProtocolIE-Container shape for object set TABasedMDT-ExtIEs of TS 36.413: a list of TABasedMDTExtIEsIEField values.
 type TABasedMDTExtIEsIEContainer []TABasedMDTExtIEsIEField
 
-// TABasedQMCExtIEsIEField is the concrete ProtocolIEField[TABasedQMCExtIEsValue].
+// TABasedQMCExtIEsIEField uses the ProtocolIE-Field shape for object set TABasedQMC-ExtIEs of TS 36.413.
 type TABasedQMCExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -6956,10 +7072,10 @@ func (v *TABasedQMCExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TABasedQMCExtIEsIEContainer is the concrete ProtocolIEContainer[TABasedQMCExtIEsValue].
+// TABasedQMCExtIEsIEContainer uses the ProtocolIE-Container shape for object set TABasedQMC-ExtIEs of TS 36.413: a list of TABasedQMCExtIEsIEField values.
 type TABasedQMCExtIEsIEContainer []TABasedQMCExtIEsIEField
 
-// TAIExtIEsIEField is the concrete ProtocolIEField[TAIExtIEsValue].
+// TAIExtIEsIEField uses the ProtocolIE-Field shape for object set TAI-ExtIEs of TS 36.413.
 type TAIExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -7073,10 +7189,10 @@ func (v *TAIExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TAIExtIEsIEContainer is the concrete ProtocolIEContainer[TAIExtIEsValue].
+// TAIExtIEsIEContainer uses the ProtocolIE-Container shape for object set TAI-ExtIEs of TS 36.413: a list of TAIExtIEsIEField values.
 type TAIExtIEsIEContainer []TAIExtIEsIEField
 
-// TAIBasedMDTExtIEsIEField is the concrete ProtocolIEField[TAIBasedMDTExtIEsValue].
+// TAIBasedMDTExtIEsIEField uses the ProtocolIE-Field shape for object set TAIBasedMDT-ExtIEs of TS 36.413.
 type TAIBasedMDTExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -7190,10 +7306,10 @@ func (v *TAIBasedMDTExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TAIBasedMDTExtIEsIEContainer is the concrete ProtocolIEContainer[TAIBasedMDTExtIEsValue].
+// TAIBasedMDTExtIEsIEContainer uses the ProtocolIE-Container shape for object set TAIBasedMDT-ExtIEs of TS 36.413: a list of TAIBasedMDTExtIEsIEField values.
 type TAIBasedMDTExtIEsIEContainer []TAIBasedMDTExtIEsIEField
 
-// TAIBasedQMCExtIEsIEField is the concrete ProtocolIEField[TAIBasedQMCExtIEsValue].
+// TAIBasedQMCExtIEsIEField uses the ProtocolIE-Field shape for object set TAIBasedQMC-ExtIEs of TS 36.413.
 type TAIBasedQMCExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -7307,10 +7423,10 @@ func (v *TAIBasedQMCExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TAIBasedQMCExtIEsIEContainer is the concrete ProtocolIEContainer[TAIBasedQMCExtIEsValue].
+// TAIBasedQMCExtIEsIEContainer uses the ProtocolIE-Container shape for object set TAIBasedQMC-ExtIEs of TS 36.413: a list of TAIBasedQMCExtIEsIEField values.
 type TAIBasedQMCExtIEsIEContainer []TAIBasedQMCExtIEsIEField
 
-// TAIBroadcastItemExtIEsIEField is the concrete ProtocolIEField[TAIBroadcastItemExtIEsValue].
+// TAIBroadcastItemExtIEsIEField uses the ProtocolIE-Field shape for object set TAI-Broadcast-Item-ExtIEs of TS 36.413.
 type TAIBroadcastItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -7424,10 +7540,10 @@ func (v *TAIBroadcastItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	return nil
 }
 
-// TAIBroadcastItemExtIEsIEContainer is the concrete ProtocolIEContainer[TAIBroadcastItemExtIEsValue].
+// TAIBroadcastItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set TAI-Broadcast-Item-ExtIEs of TS 36.413: a list of TAIBroadcastItemExtIEsIEField values.
 type TAIBroadcastItemExtIEsIEContainer []TAIBroadcastItemExtIEsIEField
 
-// TAICancelledItemExtIEsIEField is the concrete ProtocolIEField[TAICancelledItemExtIEsValue].
+// TAICancelledItemExtIEsIEField uses the ProtocolIE-Field shape for object set TAI-Cancelled-Item-ExtIEs of TS 36.413.
 type TAICancelledItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -7541,10 +7657,10 @@ func (v *TAICancelledItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) er
 	return nil
 }
 
-// TAICancelledItemExtIEsIEContainer is the concrete ProtocolIEContainer[TAICancelledItemExtIEsValue].
+// TAICancelledItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set TAI-Cancelled-Item-ExtIEs of TS 36.413: a list of TAICancelledItemExtIEsIEField values.
 type TAICancelledItemExtIEsIEContainer []TAICancelledItemExtIEsIEField
 
-// TAIItemExtIEsIEField is the concrete ProtocolIEField[TAIItemExtIEsValue].
+// TAIItemExtIEsIEField uses the ProtocolIE-Field shape for object set TAIItemExtIEs of TS 36.413.
 type TAIItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -7658,10 +7774,10 @@ func (v *TAIItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TAIItemExtIEsIEContainer is the concrete ProtocolIEContainer[TAIItemExtIEsValue].
+// TAIItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set TAIItemExtIEs of TS 36.413: a list of TAIItemExtIEsIEField values.
 type TAIItemExtIEsIEContainer []TAIItemExtIEsIEField
 
-// TargetNgRanNodeIDExtIEsIEField is the concrete ProtocolIEField[TargetNgRanNodeIDExtIEsValue].
+// TargetNgRanNodeIDExtIEsIEField uses the ProtocolIE-Field shape for object set TargetNgRanNode-ID-ExtIEs of TS 36.413.
 type TargetNgRanNodeIDExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -7775,10 +7891,10 @@ func (v *TargetNgRanNodeIDExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) e
 	return nil
 }
 
-// TargetNgRanNodeIDExtIEsIEContainer is the concrete ProtocolIEContainer[TargetNgRanNodeIDExtIEsValue].
+// TargetNgRanNodeIDExtIEsIEContainer uses the ProtocolIE-Container shape for object set TargetNgRanNode-ID-ExtIEs of TS 36.413: a list of TargetNgRanNodeIDExtIEsIEField values.
 type TargetNgRanNodeIDExtIEsIEContainer []TargetNgRanNodeIDExtIEsIEField
 
-// TargetRNCIDExtIEsIEField is the concrete ProtocolIEField[TargetRNCIDExtIEsValue].
+// TargetRNCIDExtIEsIEField uses the ProtocolIE-Field shape for object set TargetRNC-ID-ExtIEs of TS 36.413.
 type TargetRNCIDExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -7892,10 +8008,10 @@ func (v *TargetRNCIDExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TargetRNCIDExtIEsIEContainer is the concrete ProtocolIEContainer[TargetRNCIDExtIEsValue].
+// TargetRNCIDExtIEsIEContainer uses the ProtocolIE-Container shape for object set TargetRNC-ID-ExtIEs of TS 36.413: a list of TargetRNCIDExtIEsIEField values.
 type TargetRNCIDExtIEsIEContainer []TargetRNCIDExtIEsIEField
 
-// TargeteNBIDExtIEsIEField is the concrete ProtocolIEField[TargeteNBIDExtIEsValue].
+// TargeteNBIDExtIEsIEField uses the ProtocolIE-Field shape for object set TargeteNB-ID-ExtIEs of TS 36.413.
 type TargeteNBIDExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -8009,10 +8125,10 @@ func (v *TargeteNBIDExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	return nil
 }
 
-// TargeteNBIDExtIEsIEContainer is the concrete ProtocolIEContainer[TargeteNBIDExtIEsValue].
+// TargeteNBIDExtIEsIEContainer uses the ProtocolIE-Container shape for object set TargeteNB-ID-ExtIEs of TS 36.413: a list of TargeteNBIDExtIEsIEField values.
 type TargeteNBIDExtIEsIEContainer []TargeteNBIDExtIEsIEField
 
-// TimeBasedHandoverInformationExtIEsIEField is the concrete ProtocolIEField[TimeBasedHandoverInformationExtIEsValue].
+// TimeBasedHandoverInformationExtIEsIEField uses the ProtocolIE-Field shape for object set TimeBasedHandoverInformation-ExtIEs of TS 36.413.
 type TimeBasedHandoverInformationExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -8126,10 +8242,10 @@ func (v *TimeBasedHandoverInformationExtIEsIEField) unmarshalAPERFrom(bb *aper.B
 	return nil
 }
 
-// TimeBasedHandoverInformationExtIEsIEContainer is the concrete ProtocolIEContainer[TimeBasedHandoverInformationExtIEsValue].
+// TimeBasedHandoverInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set TimeBasedHandoverInformation-ExtIEs of TS 36.413: a list of TimeBasedHandoverInformationExtIEsIEField values.
 type TimeBasedHandoverInformationExtIEsIEContainer []TimeBasedHandoverInformationExtIEsIEField
 
-// SensorNameConfigExtIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEValueERABIEContainerListValueCodec is the concrete ValueCodec[SensorNameConfigExtIEValueERABIEContainerList].
 type SensorNameConfigExtIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8213,13 +8329,13 @@ func (c SensorNameConfigExtIEValueERABIEContainerListValueCodec) encodeChanged(v
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorNameConfigExtIEValueERABIEContainerList is the concrete ERABIEContainerList[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEValueERABIEContainerList is E-RAB-IE-ContainerList {{SensorNameConfig-ExtIEs}} of TS 36.413: a list of information element fields.
 type SensorNameConfigExtIEValueERABIEContainerList []SensorNameConfigExtIEValueProtocolIESingleContainer
 
-// SensorNameConfigExtIEContainer is the concrete ProtocolIEContainer[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEContainer is ProtocolIE-Container {{SensorNameConfig-ExtIEs}} of TS 36.413: a list of SensorNameConfigExtIEField values.
 type SensorNameConfigExtIEContainer []SensorNameConfigExtIEField
 
-// SourceNodeIDExtensionIEIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEValueERABIEContainerListValueCodec is the concrete ValueCodec[SourceNodeIDExtensionIEIEValueERABIEContainerList].
 type SourceNodeIDExtensionIEIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8303,24 +8419,24 @@ func (c SourceNodeIDExtensionIEIEValueERABIEContainerListValueCodec) encodeChang
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceNodeIDExtensionIEIEValueERABIEContainerList is the concrete ERABIEContainerList[SourceNodeIDExtensionIEIEValue].
+// SourceNodeIDExtensionIEIEValueERABIEContainerList is E-RAB-IE-ContainerList {{SourceNodeID-ExtensionIE}} of TS 36.413: a list of information element fields.
 type SourceNodeIDExtensionIEIEValueERABIEContainerList []SourceNodeIDExtensionIEIEValueProtocolIESingleContainer
 
-// SourceNodeIDExtensionIEIEContainer is the concrete ProtocolIEContainer[SourceNodeIDExtensionIEIEValue].
+// SourceNodeIDExtensionIEIEContainer is ProtocolIE-Container {{SourceNodeID-ExtensionIE}} of TS 36.413: a list of SourceNodeIDExtensionIEIEField values.
 type SourceNodeIDExtensionIEIEContainer []SourceNodeIDExtensionIEIEField
 
-// RecommendedCellsForPagingExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[RecommendedCellsForPagingExtIEsValue]].
+// RecommendedCellsForPagingExtIEsExtFieldValueCodec is the concrete ValueCodec[RecommendedCellsForPagingExtIEsExtField].
 type RecommendedCellsForPagingExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtField, error)
-	encode  func(s10.RecommendedCellsForPagingExtIEsExtField, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(s10.RecommendedCellsForPagingExtIEsExtField, aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtField, aper.Snapshot)
-	compare func(s10.RecommendedCellsForPagingExtIEsExtField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+	decode  func([]byte, aper.DecodeState) (RecommendedCellsForPagingExtIEsExtField, error)
+	encode  func(RecommendedCellsForPagingExtIEsExtField, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(RecommendedCellsForPagingExtIEsExtField, aper.DecodeState) (RecommendedCellsForPagingExtIEsExtField, aper.Snapshot)
+	compare func(RecommendedCellsForPagingExtIEsExtField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c RecommendedCellsForPagingExtIEsExtFieldValueCodec) New(value s10.RecommendedCellsForPagingExtIEsExtField) (RecommendedCellsForPagingExtIEsExtFieldAPERValue, error) {
+func (c RecommendedCellsForPagingExtIEsExtFieldValueCodec) New(value RecommendedCellsForPagingExtIEsExtField) (RecommendedCellsForPagingExtIEsExtFieldAPERValue, error) {
 	if c.encode == nil {
 		return RecommendedCellsForPagingExtIEsExtFieldAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
@@ -8377,14 +8493,14 @@ func (c RecommendedCellsForPagingExtIEsExtFieldValueCodec) EncodeAPER(value Reco
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c RecommendedCellsForPagingExtIEsExtFieldValueCodec) encodeBudgetValue(value s10.RecommendedCellsForPagingExtIEsExtField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+func (c RecommendedCellsForPagingExtIEsExtFieldValueCodec) encodeBudgetValue(value RecommendedCellsForPagingExtIEsExtField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
 		err = failure
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c RecommendedCellsForPagingExtIEsExtFieldValueCodec) encodeChanged(value s10.RecommendedCellsForPagingExtIEsExtField, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+func (c RecommendedCellsForPagingExtIEsExtFieldValueCodec) encodeChanged(value RecommendedCellsForPagingExtIEsExtField, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
@@ -8393,7 +8509,7 @@ func (c RecommendedCellsForPagingExtIEsExtFieldValueCodec) encodeChanged(value s
 	return out, aper.OperationError(err, c.path)
 }
 
-// RecommendedCellsForPagingItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[RecommendedCellsForPagingItemExtIEsValue]].
+// RecommendedCellsForPagingItemExtIEsExtFieldValueCodec is the concrete ValueCodec[RecommendedCellsForPagingItemExtIEsExtField].
 type RecommendedCellsForPagingItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8477,7 +8593,7 @@ func (c RecommendedCellsForPagingItemExtIEsExtFieldValueCodec) encodeChanged(val
 	return out, aper.OperationError(err, c.path)
 }
 
-// RecommendedENBItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[RecommendedENBItemExtIEsValue]].
+// RecommendedENBItemExtIEsExtFieldValueCodec is the concrete ValueCodec[RecommendedENBItemExtIEsExtField].
 type RecommendedENBItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8561,7 +8677,7 @@ func (c RecommendedENBItemExtIEsExtFieldValueCodec) encodeChanged(value Recommen
 	return out, aper.OperationError(err, c.path)
 }
 
-// RecommendedENBsForPagingExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[RecommendedENBsForPagingExtIEsValue]].
+// RecommendedENBsForPagingExtIEsExtFieldValueCodec is the concrete ValueCodec[RecommendedENBsForPagingExtIEsExtField].
 type RecommendedENBsForPagingExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8645,7 +8761,7 @@ func (c RecommendedENBsForPagingExtIEsExtFieldValueCodec) encodeChanged(value Re
 	return out, aper.OperationError(err, c.path)
 }
 
-// RequestTypeExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[RequestTypeExtIEsValue]].
+// RequestTypeExtIEsExtFieldValueCodec is the concrete ValueCodec[RequestTypeExtIEsExtField].
 type RequestTypeExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8729,7 +8845,7 @@ func (c RequestTypeExtIEsExtFieldValueCodec) encodeChanged(value RequestTypeExtI
 	return out, aper.OperationError(err, c.path)
 }
 
-// RequestedTNLInfoExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[RequestedTNLInfoExtIEsValue]].
+// RequestedTNLInfoExtIEsExtFieldValueCodec is the concrete ValueCodec[RequestedTNLInfoExtIEsExtField].
 type RequestedTNLInfoExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8813,7 +8929,7 @@ func (c RequestedTNLInfoExtIEsExtFieldValueCodec) encodeChanged(value RequestedT
 	return out, aper.OperationError(err, c.path)
 }
 
-// STMSIExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[STMSIExtIEsValue]].
+// STMSIExtIEsExtFieldValueCodec is the concrete ValueCodec[STMSIExtIEsExtField].
 type STMSIExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8897,7 +9013,7 @@ func (c STMSIExtIEsExtFieldValueCodec) encodeChanged(value STMSIExtIEsExtField, 
 	return out, aper.OperationError(err, c.path)
 }
 
-// ScheduledCommunicationTimeExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[ScheduledCommunicationTimeExtIEsValue]].
+// ScheduledCommunicationTimeExtIEsExtFieldValueCodec is the concrete ValueCodec[ScheduledCommunicationTimeExtIEsExtField].
 type ScheduledCommunicationTimeExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8981,7 +9097,7 @@ func (c ScheduledCommunicationTimeExtIEsExtFieldValueCodec) encodeChanged(value 
 	return out, aper.OperationError(err, c.path)
 }
 
-// SecondaryRATDataUsageReportItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SecondaryRATDataUsageReportItemExtIEsValue]].
+// SecondaryRATDataUsageReportItemExtIEsExtFieldValueCodec is the concrete ValueCodec[SecondaryRATDataUsageReportItemExtIEsExtField].
 type SecondaryRATDataUsageReportItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9065,7 +9181,7 @@ func (c SecondaryRATDataUsageReportItemExtIEsExtFieldValueCodec) encodeChanged(v
 	return out, aper.OperationError(err, c.path)
 }
 
-// SecurityContextExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SecurityContextExtIEsValue]].
+// SecurityContextExtIEsExtFieldValueCodec is the concrete ValueCodec[SecurityContextExtIEsExtField].
 type SecurityContextExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9149,7 +9265,7 @@ func (c SecurityContextExtIEsExtFieldValueCodec) encodeChanged(value SecurityCon
 	return out, aper.OperationError(err, c.path)
 }
 
-// SecurityIndicationExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SecurityIndicationExtIEsValue]].
+// SecurityIndicationExtIEsExtFieldValueCodec is the concrete ValueCodec[SecurityIndicationExtIEsExtField].
 type SecurityIndicationExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9233,7 +9349,7 @@ func (c SecurityIndicationExtIEsExtFieldValueCodec) encodeChanged(value Security
 	return out, aper.OperationError(err, c.path)
 }
 
-// SecurityResultExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SecurityResultExtIEsValue]].
+// SecurityResultExtIEsExtFieldValueCodec is the concrete ValueCodec[SecurityResultExtIEsExtField].
 type SecurityResultExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9317,7 +9433,7 @@ func (c SecurityResultExtIEsExtFieldValueCodec) encodeChanged(value SecurityResu
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorMeasConfigNameItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SensorMeasConfigNameItemExtIEsValue]].
+// SensorMeasConfigNameItemExtIEsExtFieldValueCodec is the concrete ValueCodec[SensorMeasConfigNameItemExtIEsExtField].
 type SensorMeasConfigNameItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9401,7 +9517,7 @@ func (c SensorMeasConfigNameItemExtIEsExtFieldValueCodec) encodeChanged(value Se
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorMeasurementConfigurationExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SensorMeasurementConfigurationExtIEsValue]].
+// SensorMeasurementConfigurationExtIEsExtFieldValueCodec is the concrete ValueCodec[SensorMeasurementConfigurationExtIEsExtField].
 type SensorMeasurementConfigurationExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9485,7 +9601,7 @@ func (c SensorMeasurementConfigurationExtIEsExtFieldValueCodec) encodeChanged(va
 	return out, aper.OperationError(err, c.path)
 }
 
-// ServedDCNsItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[ServedDCNsItemExtIEsValue]].
+// ServedDCNsItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ServedDCNsItemExtIEsExtField].
 type ServedDCNsItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9569,7 +9685,7 @@ func (c ServedDCNsItemExtIEsExtFieldValueCodec) encodeChanged(value ServedDCNsIt
 	return out, aper.OperationError(err, c.path)
 }
 
-// ServedGUMMEIsItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[ServedGUMMEIsItemExtIEsValue]].
+// ServedGUMMEIsItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ServedGUMMEIsItemExtIEsExtField].
 type ServedGUMMEIsItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9653,7 +9769,7 @@ func (c ServedGUMMEIsItemExtIEsExtFieldValueCodec) encodeChanged(value ServedGUM
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceNgRanNodeIDExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SourceNgRanNodeIDExtIEsValue]].
+// SourceNgRanNodeIDExtIEsExtFieldValueCodec is the concrete ValueCodec[SourceNgRanNodeIDExtIEsExtField].
 type SourceNgRanNodeIDExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9737,7 +9853,7 @@ func (c SourceNgRanNodeIDExtIEsExtFieldValueCodec) encodeChanged(value SourceNgR
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceeNBIDExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SourceeNBIDExtIEsValue]].
+// SourceeNBIDExtIEsExtFieldValueCodec is the concrete ValueCodec[SourceeNBIDExtIEsExtField].
 type SourceeNBIDExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9821,7 +9937,7 @@ func (c SourceeNBIDExtIEsExtFieldValueCodec) encodeChanged(value SourceeNBIDExtI
 	return out, aper.OperationError(err, c.path)
 }
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SubscriptionBasedUEDifferentiationInfoExtIEsValue]].
+// SubscriptionBasedUEDifferentiationInfoExtIEsExtFieldValueCodec is the concrete ValueCodec[SubscriptionBasedUEDifferentiationInfoExtIEsExtField].
 type SubscriptionBasedUEDifferentiationInfoExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9905,7 +10021,7 @@ func (c SubscriptionBasedUEDifferentiationInfoExtIEsExtFieldValueCodec) encodeCh
 	return out, aper.OperationError(err, c.path)
 }
 
-// SupportedTAsItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SupportedTAsItemExtIEsValue]].
+// SupportedTAsItemExtIEsExtFieldValueCodec is the concrete ValueCodec[SupportedTAsItemExtIEsExtField].
 type SupportedTAsItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -9989,7 +10105,7 @@ func (c SupportedTAsItemExtIEsExtFieldValueCodec) encodeChanged(value SupportedT
 	return out, aper.OperationError(err, c.path)
 }
 
-// SynchronisationInformationExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[SynchronisationInformationExtIEsValue]].
+// SynchronisationInformationExtIEsExtFieldValueCodec is the concrete ValueCodec[SynchronisationInformationExtIEsExtField].
 type SynchronisationInformationExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10073,7 +10189,7 @@ func (c SynchronisationInformationExtIEsExtFieldValueCodec) encodeChanged(value 
 	return out, aper.OperationError(err, c.path)
 }
 
-// TABasedMDTExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TABasedMDTExtIEsValue]].
+// TABasedMDTExtIEsExtFieldValueCodec is the concrete ValueCodec[TABasedMDTExtIEsExtField].
 type TABasedMDTExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10157,7 +10273,7 @@ func (c TABasedMDTExtIEsExtFieldValueCodec) encodeChanged(value TABasedMDTExtIEs
 	return out, aper.OperationError(err, c.path)
 }
 
-// TABasedQMCExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TABasedQMCExtIEsValue]].
+// TABasedQMCExtIEsExtFieldValueCodec is the concrete ValueCodec[TABasedQMCExtIEsExtField].
 type TABasedQMCExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10241,7 +10357,7 @@ func (c TABasedQMCExtIEsExtFieldValueCodec) encodeChanged(value TABasedQMCExtIEs
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIBasedMDTExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TAIBasedMDTExtIEsValue]].
+// TAIBasedMDTExtIEsExtFieldValueCodec is the concrete ValueCodec[TAIBasedMDTExtIEsExtField].
 type TAIBasedMDTExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10325,7 +10441,7 @@ func (c TAIBasedMDTExtIEsExtFieldValueCodec) encodeChanged(value TAIBasedMDTExtI
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIBasedQMCExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TAIBasedQMCExtIEsValue]].
+// TAIBasedQMCExtIEsExtFieldValueCodec is the concrete ValueCodec[TAIBasedQMCExtIEsExtField].
 type TAIBasedQMCExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10409,7 +10525,7 @@ func (c TAIBasedQMCExtIEsExtFieldValueCodec) encodeChanged(value TAIBasedQMCExtI
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIBroadcastItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TAIBroadcastItemExtIEsValue]].
+// TAIBroadcastItemExtIEsExtFieldValueCodec is the concrete ValueCodec[TAIBroadcastItemExtIEsExtField].
 type TAIBroadcastItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10493,7 +10609,7 @@ func (c TAIBroadcastItemExtIEsExtFieldValueCodec) encodeChanged(value TAIBroadca
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAICancelledItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TAICancelledItemExtIEsValue]].
+// TAICancelledItemExtIEsExtFieldValueCodec is the concrete ValueCodec[TAICancelledItemExtIEsExtField].
 type TAICancelledItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10577,7 +10693,7 @@ func (c TAICancelledItemExtIEsExtFieldValueCodec) encodeChanged(value TAICancell
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TAIExtIEsValue]].
+// TAIExtIEsExtFieldValueCodec is the concrete ValueCodec[TAIExtIEsExtField].
 type TAIExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10661,7 +10777,7 @@ func (c TAIExtIEsExtFieldValueCodec) encodeChanged(value TAIExtIEsExtField, fres
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIItemExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TAIItemExtIEsValue]].
+// TAIItemExtIEsExtFieldValueCodec is the concrete ValueCodec[TAIItemExtIEsExtField].
 type TAIItemExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10745,7 +10861,7 @@ func (c TAIItemExtIEsExtFieldValueCodec) encodeChanged(value TAIItemExtIEsExtFie
 	return out, aper.OperationError(err, c.path)
 }
 
-// TargetNgRanNodeIDExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TargetNgRanNodeIDExtIEsValue]].
+// TargetNgRanNodeIDExtIEsExtFieldValueCodec is the concrete ValueCodec[TargetNgRanNodeIDExtIEsExtField].
 type TargetNgRanNodeIDExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10829,7 +10945,7 @@ func (c TargetNgRanNodeIDExtIEsExtFieldValueCodec) encodeChanged(value TargetNgR
 	return out, aper.OperationError(err, c.path)
 }
 
-// TargetRNCIDExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TargetRNCIDExtIEsValue]].
+// TargetRNCIDExtIEsExtFieldValueCodec is the concrete ValueCodec[TargetRNCIDExtIEsExtField].
 type TargetRNCIDExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10913,7 +11029,7 @@ func (c TargetRNCIDExtIEsExtFieldValueCodec) encodeChanged(value TargetRNCIDExtI
 	return out, aper.OperationError(err, c.path)
 }
 
-// TargeteNBIDExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TargeteNBIDExtIEsValue]].
+// TargeteNBIDExtIEsExtFieldValueCodec is the concrete ValueCodec[TargeteNBIDExtIEsExtField].
 type TargeteNBIDExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -10997,7 +11113,7 @@ func (c TargeteNBIDExtIEsExtFieldValueCodec) encodeChanged(value TargeteNBIDExtI
 	return out, aper.OperationError(err, c.path)
 }
 
-// TimeBasedHandoverInformationExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TimeBasedHandoverInformationExtIEsValue]].
+// TimeBasedHandoverInformationExtIEsExtFieldValueCodec is the concrete ValueCodec[TimeBasedHandoverInformationExtIEsExtField].
 type TimeBasedHandoverInformationExtIEsExtFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -11081,102 +11197,18 @@ func (c TimeBasedHandoverInformationExtIEsExtFieldValueCodec) encodeChanged(valu
 	return out, aper.OperationError(err, c.path)
 }
 
-// TimeSynchronisationInfoExtIEsExtFieldValueCodec is the concrete ValueCodec[ProtocolExtensionField[TimeSynchronisationInfoExtIEsValue]].
-type TimeSynchronisationInfoExtIEsExtFieldValueCodec struct {
-	path    aper.Path
-	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (TimeSynchronisationInfoExtIEsExtField, error)
-	encode  func(TimeSynchronisationInfoExtIEsExtField, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(TimeSynchronisationInfoExtIEsExtField, aper.DecodeState) (TimeSynchronisationInfoExtIEsExtField, aper.Snapshot)
-	compare func(TimeSynchronisationInfoExtIEsExtField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c TimeSynchronisationInfoExtIEsExtFieldValueCodec) New(value TimeSynchronisationInfoExtIEsExtField) (TimeSynchronisationInfoExtIEsExtFieldAPERValue, error) {
-	if c.encode == nil {
-		return TimeSynchronisationInfoExtIEsExtFieldAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return TimeSynchronisationInfoExtIEsExtFieldAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return TimeSynchronisationInfoExtIEsExtFieldAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return TimeSynchronisationInfoExtIEsExtFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c TimeSynchronisationInfoExtIEsExtFieldValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (TimeSynchronisationInfoExtIEsExtFieldAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return TimeSynchronisationInfoExtIEsExtFieldAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return TimeSynchronisationInfoExtIEsExtFieldAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return TimeSynchronisationInfoExtIEsExtFieldAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return TimeSynchronisationInfoExtIEsExtFieldAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c TimeSynchronisationInfoExtIEsExtFieldValueCodec) EncodeAPER(value TimeSynchronisationInfoExtIEsExtFieldAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c TimeSynchronisationInfoExtIEsExtFieldValueCodec) encodeBudgetValue(value TimeSynchronisationInfoExtIEsExtField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c TimeSynchronisationInfoExtIEsExtFieldValueCodec) encodeChanged(value TimeSynchronisationInfoExtIEsExtField, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
-// RecommendedCellsForPagingExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[RecommendedCellsForPagingExtIEsValue]].
+// RecommendedCellsForPagingExtIEsExtContainerValueCodec is the concrete ValueCodec[RecommendedCellsForPagingExtIEsExtContainer].
 type RecommendedCellsForPagingExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtContainer, error)
-	encode  func(s10.RecommendedCellsForPagingExtIEsExtContainer, bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(s10.RecommendedCellsForPagingExtIEsExtContainer, aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot)
-	compare func(s10.RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+	decode  func([]byte, aper.DecodeState) (RecommendedCellsForPagingExtIEsExtContainer, error)
+	encode  func(RecommendedCellsForPagingExtIEsExtContainer, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(RecommendedCellsForPagingExtIEsExtContainer, aper.DecodeState) (RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot)
+	compare func(RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c RecommendedCellsForPagingExtIEsExtContainerValueCodec) New(value s10.RecommendedCellsForPagingExtIEsExtContainer) (RecommendedCellsForPagingExtIEsExtContainerAPERValue, error) {
+func (c RecommendedCellsForPagingExtIEsExtContainerValueCodec) New(value RecommendedCellsForPagingExtIEsExtContainer) (RecommendedCellsForPagingExtIEsExtContainerAPERValue, error) {
 	if c.encode == nil {
 		return RecommendedCellsForPagingExtIEsExtContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
 	}
@@ -11233,14 +11265,14 @@ func (c RecommendedCellsForPagingExtIEsExtContainerValueCodec) EncodeAPER(value 
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c RecommendedCellsForPagingExtIEsExtContainerValueCodec) encodeBudgetValue(value s10.RecommendedCellsForPagingExtIEsExtContainer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+func (c RecommendedCellsForPagingExtIEsExtContainerValueCodec) encodeBudgetValue(value RecommendedCellsForPagingExtIEsExtContainer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
 		err = failure
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c RecommendedCellsForPagingExtIEsExtContainerValueCodec) encodeChanged(value s10.RecommendedCellsForPagingExtIEsExtContainer, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+func (c RecommendedCellsForPagingExtIEsExtContainerValueCodec) encodeChanged(value RecommendedCellsForPagingExtIEsExtContainer, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
 	out, err := c.encode(value, fresh, &budget)
 	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
@@ -11249,7 +11281,7 @@ func (c RecommendedCellsForPagingExtIEsExtContainerValueCodec) encodeChanged(val
 	return out, aper.OperationError(err, c.path)
 }
 
-// RecommendedCellsForPagingItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[RecommendedCellsForPagingItemExtIEsValue]].
+// RecommendedCellsForPagingItemExtIEsExtContainerValueCodec is the concrete ValueCodec[RecommendedCellsForPagingItemExtIEsExtContainer].
 type RecommendedCellsForPagingItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -11333,7 +11365,7 @@ func (c RecommendedCellsForPagingItemExtIEsExtContainerValueCodec) encodeChanged
 	return out, aper.OperationError(err, c.path)
 }
 
-// RecommendedENBItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[RecommendedENBItemExtIEsValue]].
+// RecommendedENBItemExtIEsExtContainerValueCodec is the concrete ValueCodec[RecommendedENBItemExtIEsExtContainer].
 type RecommendedENBItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -11417,7 +11449,7 @@ func (c RecommendedENBItemExtIEsExtContainerValueCodec) encodeChanged(value Reco
 	return out, aper.OperationError(err, c.path)
 }
 
-// RecommendedENBsForPagingExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[RecommendedENBsForPagingExtIEsValue]].
+// RecommendedENBsForPagingExtIEsExtContainerValueCodec is the concrete ValueCodec[RecommendedENBsForPagingExtIEsExtContainer].
 type RecommendedENBsForPagingExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -11501,7 +11533,7 @@ func (c RecommendedENBsForPagingExtIEsExtContainerValueCodec) encodeChanged(valu
 	return out, aper.OperationError(err, c.path)
 }
 
-// RequestTypeExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[RequestTypeExtIEsValue]].
+// RequestTypeExtIEsExtContainerValueCodec is the concrete ValueCodec[RequestTypeExtIEsExtContainer].
 type RequestTypeExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -11585,7 +11617,7 @@ func (c RequestTypeExtIEsExtContainerValueCodec) encodeChanged(value RequestType
 	return out, aper.OperationError(err, c.path)
 }
 
-// RequestedTNLInfoExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[RequestedTNLInfoExtIEsValue]].
+// RequestedTNLInfoExtIEsExtContainerValueCodec is the concrete ValueCodec[RequestedTNLInfoExtIEsExtContainer].
 type RequestedTNLInfoExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -11669,7 +11701,7 @@ func (c RequestedTNLInfoExtIEsExtContainerValueCodec) encodeChanged(value Reques
 	return out, aper.OperationError(err, c.path)
 }
 
-// STMSIExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[STMSIExtIEsValue]].
+// STMSIExtIEsExtContainerValueCodec is the concrete ValueCodec[STMSIExtIEsExtContainer].
 type STMSIExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -11753,7 +11785,7 @@ func (c STMSIExtIEsExtContainerValueCodec) encodeChanged(value STMSIExtIEsExtCon
 	return out, aper.OperationError(err, c.path)
 }
 
-// ScheduledCommunicationTimeExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[ScheduledCommunicationTimeExtIEsValue]].
+// ScheduledCommunicationTimeExtIEsExtContainerValueCodec is the concrete ValueCodec[ScheduledCommunicationTimeExtIEsExtContainer].
 type ScheduledCommunicationTimeExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -11837,7 +11869,7 @@ func (c ScheduledCommunicationTimeExtIEsExtContainerValueCodec) encodeChanged(va
 	return out, aper.OperationError(err, c.path)
 }
 
-// SecondaryRATDataUsageReportItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SecondaryRATDataUsageReportItemExtIEsValue]].
+// SecondaryRATDataUsageReportItemExtIEsExtContainerValueCodec is the concrete ValueCodec[SecondaryRATDataUsageReportItemExtIEsExtContainer].
 type SecondaryRATDataUsageReportItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -11921,7 +11953,7 @@ func (c SecondaryRATDataUsageReportItemExtIEsExtContainerValueCodec) encodeChang
 	return out, aper.OperationError(err, c.path)
 }
 
-// SecurityContextExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SecurityContextExtIEsValue]].
+// SecurityContextExtIEsExtContainerValueCodec is the concrete ValueCodec[SecurityContextExtIEsExtContainer].
 type SecurityContextExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12005,7 +12037,7 @@ func (c SecurityContextExtIEsExtContainerValueCodec) encodeChanged(value Securit
 	return out, aper.OperationError(err, c.path)
 }
 
-// SecurityIndicationExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SecurityIndicationExtIEsValue]].
+// SecurityIndicationExtIEsExtContainerValueCodec is the concrete ValueCodec[SecurityIndicationExtIEsExtContainer].
 type SecurityIndicationExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12089,7 +12121,7 @@ func (c SecurityIndicationExtIEsExtContainerValueCodec) encodeChanged(value Secu
 	return out, aper.OperationError(err, c.path)
 }
 
-// SecurityResultExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SecurityResultExtIEsValue]].
+// SecurityResultExtIEsExtContainerValueCodec is the concrete ValueCodec[SecurityResultExtIEsExtContainer].
 type SecurityResultExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12173,7 +12205,7 @@ func (c SecurityResultExtIEsExtContainerValueCodec) encodeChanged(value Security
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorMeasConfigNameItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SensorMeasConfigNameItemExtIEsValue]].
+// SensorMeasConfigNameItemExtIEsExtContainerValueCodec is the concrete ValueCodec[SensorMeasConfigNameItemExtIEsExtContainer].
 type SensorMeasConfigNameItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12257,7 +12289,7 @@ func (c SensorMeasConfigNameItemExtIEsExtContainerValueCodec) encodeChanged(valu
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorMeasurementConfigurationExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SensorMeasurementConfigurationExtIEsValue]].
+// SensorMeasurementConfigurationExtIEsExtContainerValueCodec is the concrete ValueCodec[SensorMeasurementConfigurationExtIEsExtContainer].
 type SensorMeasurementConfigurationExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12341,7 +12373,7 @@ func (c SensorMeasurementConfigurationExtIEsExtContainerValueCodec) encodeChange
 	return out, aper.OperationError(err, c.path)
 }
 
-// ServedDCNsItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[ServedDCNsItemExtIEsValue]].
+// ServedDCNsItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ServedDCNsItemExtIEsExtContainer].
 type ServedDCNsItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12425,7 +12457,7 @@ func (c ServedDCNsItemExtIEsExtContainerValueCodec) encodeChanged(value ServedDC
 	return out, aper.OperationError(err, c.path)
 }
 
-// ServedGUMMEIsItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[ServedGUMMEIsItemExtIEsValue]].
+// ServedGUMMEIsItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ServedGUMMEIsItemExtIEsExtContainer].
 type ServedGUMMEIsItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12509,7 +12541,7 @@ func (c ServedGUMMEIsItemExtIEsExtContainerValueCodec) encodeChanged(value Serve
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceNgRanNodeIDExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SourceNgRanNodeIDExtIEsValue]].
+// SourceNgRanNodeIDExtIEsExtContainerValueCodec is the concrete ValueCodec[SourceNgRanNodeIDExtIEsExtContainer].
 type SourceNgRanNodeIDExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12593,7 +12625,7 @@ func (c SourceNgRanNodeIDExtIEsExtContainerValueCodec) encodeChanged(value Sourc
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceeNBIDExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SourceeNBIDExtIEsValue]].
+// SourceeNBIDExtIEsExtContainerValueCodec is the concrete ValueCodec[SourceeNBIDExtIEsExtContainer].
 type SourceeNBIDExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12677,7 +12709,7 @@ func (c SourceeNBIDExtIEsExtContainerValueCodec) encodeChanged(value SourceeNBID
 	return out, aper.OperationError(err, c.path)
 }
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SubscriptionBasedUEDifferentiationInfoExtIEsValue]].
+// SubscriptionBasedUEDifferentiationInfoExtIEsExtContainerValueCodec is the concrete ValueCodec[SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer].
 type SubscriptionBasedUEDifferentiationInfoExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12761,7 +12793,7 @@ func (c SubscriptionBasedUEDifferentiationInfoExtIEsExtContainerValueCodec) enco
 	return out, aper.OperationError(err, c.path)
 }
 
-// SupportedTAsItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SupportedTAsItemExtIEsValue]].
+// SupportedTAsItemExtIEsExtContainerValueCodec is the concrete ValueCodec[SupportedTAsItemExtIEsExtContainer].
 type SupportedTAsItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12845,7 +12877,7 @@ func (c SupportedTAsItemExtIEsExtContainerValueCodec) encodeChanged(value Suppor
 	return out, aper.OperationError(err, c.path)
 }
 
-// SynchronisationInformationExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[SynchronisationInformationExtIEsValue]].
+// SynchronisationInformationExtIEsExtContainerValueCodec is the concrete ValueCodec[SynchronisationInformationExtIEsExtContainer].
 type SynchronisationInformationExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -12929,7 +12961,7 @@ func (c SynchronisationInformationExtIEsExtContainerValueCodec) encodeChanged(va
 	return out, aper.OperationError(err, c.path)
 }
 
-// TABasedMDTExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TABasedMDTExtIEsValue]].
+// TABasedMDTExtIEsExtContainerValueCodec is the concrete ValueCodec[TABasedMDTExtIEsExtContainer].
 type TABasedMDTExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13013,7 +13045,7 @@ func (c TABasedMDTExtIEsExtContainerValueCodec) encodeChanged(value TABasedMDTEx
 	return out, aper.OperationError(err, c.path)
 }
 
-// TABasedQMCExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TABasedQMCExtIEsValue]].
+// TABasedQMCExtIEsExtContainerValueCodec is the concrete ValueCodec[TABasedQMCExtIEsExtContainer].
 type TABasedQMCExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13097,7 +13129,7 @@ func (c TABasedQMCExtIEsExtContainerValueCodec) encodeChanged(value TABasedQMCEx
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIBasedMDTExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TAIBasedMDTExtIEsValue]].
+// TAIBasedMDTExtIEsExtContainerValueCodec is the concrete ValueCodec[TAIBasedMDTExtIEsExtContainer].
 type TAIBasedMDTExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13181,7 +13213,7 @@ func (c TAIBasedMDTExtIEsExtContainerValueCodec) encodeChanged(value TAIBasedMDT
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIBasedQMCExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TAIBasedQMCExtIEsValue]].
+// TAIBasedQMCExtIEsExtContainerValueCodec is the concrete ValueCodec[TAIBasedQMCExtIEsExtContainer].
 type TAIBasedQMCExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13265,7 +13297,7 @@ func (c TAIBasedQMCExtIEsExtContainerValueCodec) encodeChanged(value TAIBasedQMC
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIBroadcastItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TAIBroadcastItemExtIEsValue]].
+// TAIBroadcastItemExtIEsExtContainerValueCodec is the concrete ValueCodec[TAIBroadcastItemExtIEsExtContainer].
 type TAIBroadcastItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13349,7 +13381,7 @@ func (c TAIBroadcastItemExtIEsExtContainerValueCodec) encodeChanged(value TAIBro
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAICancelledItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TAICancelledItemExtIEsValue]].
+// TAICancelledItemExtIEsExtContainerValueCodec is the concrete ValueCodec[TAICancelledItemExtIEsExtContainer].
 type TAICancelledItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13433,7 +13465,7 @@ func (c TAICancelledItemExtIEsExtContainerValueCodec) encodeChanged(value TAICan
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TAIExtIEsValue]].
+// TAIExtIEsExtContainerValueCodec is the concrete ValueCodec[TAIExtIEsExtContainer].
 type TAIExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13517,7 +13549,7 @@ func (c TAIExtIEsExtContainerValueCodec) encodeChanged(value TAIExtIEsExtContain
 	return out, aper.OperationError(err, c.path)
 }
 
-// TAIItemExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TAIItemExtIEsValue]].
+// TAIItemExtIEsExtContainerValueCodec is the concrete ValueCodec[TAIItemExtIEsExtContainer].
 type TAIItemExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13601,7 +13633,7 @@ func (c TAIItemExtIEsExtContainerValueCodec) encodeChanged(value TAIItemExtIEsEx
 	return out, aper.OperationError(err, c.path)
 }
 
-// TargetNgRanNodeIDExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TargetNgRanNodeIDExtIEsValue]].
+// TargetNgRanNodeIDExtIEsExtContainerValueCodec is the concrete ValueCodec[TargetNgRanNodeIDExtIEsExtContainer].
 type TargetNgRanNodeIDExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13685,7 +13717,7 @@ func (c TargetNgRanNodeIDExtIEsExtContainerValueCodec) encodeChanged(value Targe
 	return out, aper.OperationError(err, c.path)
 }
 
-// TargetRNCIDExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TargetRNCIDExtIEsValue]].
+// TargetRNCIDExtIEsExtContainerValueCodec is the concrete ValueCodec[TargetRNCIDExtIEsExtContainer].
 type TargetRNCIDExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13769,7 +13801,7 @@ func (c TargetRNCIDExtIEsExtContainerValueCodec) encodeChanged(value TargetRNCID
 	return out, aper.OperationError(err, c.path)
 }
 
-// TargeteNBIDExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TargeteNBIDExtIEsValue]].
+// TargeteNBIDExtIEsExtContainerValueCodec is the concrete ValueCodec[TargeteNBIDExtIEsExtContainer].
 type TargeteNBIDExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13853,7 +13885,7 @@ func (c TargeteNBIDExtIEsExtContainerValueCodec) encodeChanged(value TargeteNBID
 	return out, aper.OperationError(err, c.path)
 }
 
-// TimeBasedHandoverInformationExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TimeBasedHandoverInformationExtIEsValue]].
+// TimeBasedHandoverInformationExtIEsExtContainerValueCodec is the concrete ValueCodec[TimeBasedHandoverInformationExtIEsExtContainer].
 type TimeBasedHandoverInformationExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -13937,7 +13969,7 @@ func (c TimeBasedHandoverInformationExtIEsExtContainerValueCodec) encodeChanged(
 	return out, aper.OperationError(err, c.path)
 }
 
-// TimeSynchronisationInfoExtIEsExtContainerValueCodec is the concrete ValueCodec[ProtocolExtensionContainer[TimeSynchronisationInfoExtIEsValue]].
+// TimeSynchronisationInfoExtIEsExtContainerValueCodec is the concrete ValueCodec[TimeSynchronisationInfoExtIEsExtContainer].
 type TimeSynchronisationInfoExtIEsExtContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -14021,7 +14053,7 @@ func (c TimeSynchronisationInfoExtIEsExtContainerValueCodec) encodeChanged(value
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorNameConfigExtIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEFieldValueCodec is the concrete ValueCodec[SensorNameConfigExtIEField].
 type SensorNameConfigExtIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -14105,7 +14137,7 @@ func (c SensorNameConfigExtIEFieldValueCodec) encodeChanged(value SensorNameConf
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceNodeIDExtensionIEIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEFieldValueCodec is the concrete ValueCodec[SourceNodeIDExtensionIEIEField].
 type SourceNodeIDExtensionIEIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -14189,7 +14221,7 @@ func (c SourceNodeIDExtensionIEIEFieldValueCodec) encodeChanged(value SourceNode
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorNameConfigExtIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEContainerValueCodec is the concrete ValueCodec[SensorNameConfigExtIEContainer].
 type SensorNameConfigExtIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -14273,7 +14305,7 @@ func (c SensorNameConfigExtIEContainerValueCodec) encodeChanged(value SensorName
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceNodeIDExtensionIEIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEContainerValueCodec is the concrete ValueCodec[SourceNodeIDExtensionIEIEContainer].
 type SourceNodeIDExtensionIEIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -14357,7 +14389,7 @@ func (c SourceNodeIDExtensionIEIEContainerValueCodec) encodeChanged(value Source
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorNameConfigExtIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[SensorNameConfigExtIEValueProtocolErrorIEContainerList].
 type SensorNameConfigExtIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -14441,10 +14473,10 @@ func (c SensorNameConfigExtIEValueProtocolErrorIEContainerListValueCodec) encode
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorNameConfigExtIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{SensorNameConfig-ExtIEs}} of TS 36.413: a list of information element fields.
 type SensorNameConfigExtIEValueProtocolErrorIEContainerList []SensorNameConfigExtIEValueProtocolIESingleContainer
 
-// SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerList].
 type SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -14528,10 +14560,10 @@ func (c SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerListValueCodec) en
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[SourceNodeIDExtensionIEIEValue].
+// SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{SourceNodeID-ExtensionIE}} of TS 36.413: a list of information element fields.
 type SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerList []SourceNodeIDExtensionIEIEValueProtocolIESingleContainer
 
-// SensorNameConfigExtIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[SensorNameConfigExtIEValueProtocolIEContainerList].
 type SensorNameConfigExtIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -14615,10 +14647,10 @@ func (c SensorNameConfigExtIEValueProtocolIEContainerListValueCodec) encodeChang
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorNameConfigExtIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {SensorNameConfig-ExtIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type SensorNameConfigExtIEValueProtocolIEContainerList []SensorNameConfigExtIEValueProtocolIESingleContainer
 
-// SourceNodeIDExtensionIEIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[SourceNodeIDExtensionIEIEValueProtocolIEContainerList].
 type SourceNodeIDExtensionIEIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -14702,10 +14734,10 @@ func (c SourceNodeIDExtensionIEIEValueProtocolIEContainerListValueCodec) encodeC
 	return out, aper.OperationError(err, c.path)
 }
 
-// SourceNodeIDExtensionIEIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[SourceNodeIDExtensionIEIEValue].
+// SourceNodeIDExtensionIEIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {SourceNodeID-ExtensionIE} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type SourceNodeIDExtensionIEIEValueProtocolIEContainerList []SourceNodeIDExtensionIEIEValueProtocolIESingleContainer
 
-// SensorNameConfigExtIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEValueERABIEContainerListAPERValue is the concrete APERValue[SensorNameConfigExtIEValueERABIEContainerList].
 type SensorNameConfigExtIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SensorNameConfigExtIEValueERABIEContainerList
@@ -14727,7 +14759,7 @@ func (v SensorNameConfigExtIEValueERABIEContainerListAPERValue) WithoutReplay() 
 	return v
 }
 
-// SourceNodeIDExtensionIEIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEValueERABIEContainerListAPERValue is the concrete APERValue[SourceNodeIDExtensionIEIEValueERABIEContainerList].
 type SourceNodeIDExtensionIEIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SourceNodeIDExtensionIEIEValueERABIEContainerList
@@ -14749,13 +14781,13 @@ func (v SourceNodeIDExtensionIEIEValueERABIEContainerListAPERValue) WithoutRepla
 	return v
 }
 
-// SourceNodeIDExtensionIEIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[SourceNodeIDExtensionIEIEValue].
+// SourceNodeIDExtensionIEIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{SourceNodeID-ExtensionIE}} of TS 36.413: a single information element field.
 type SourceNodeIDExtensionIEIEValueProtocolIESingleContainer = SourceNodeIDExtensionIEIEField
 
-// RecommendedCellsForPagingExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[RecommendedCellsForPagingExtIEsValue]].
+// RecommendedCellsForPagingExtIEsExtFieldAPERValue is the concrete APERValue[RecommendedCellsForPagingExtIEsExtField].
 type RecommendedCellsForPagingExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
-	Value         s10.RecommendedCellsForPagingExtIEsExtField
+	Value         RecommendedCellsForPagingExtIEsExtField
 	received      aper.WireSpan
 	replay        aper.Snapshot
 	withoutReplay bool
@@ -14774,7 +14806,7 @@ func (v RecommendedCellsForPagingExtIEsExtFieldAPERValue) WithoutReplay() Recomm
 	return v
 }
 
-// RecommendedCellsForPagingItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[RecommendedCellsForPagingItemExtIEsValue]].
+// RecommendedCellsForPagingItemExtIEsExtFieldAPERValue is the concrete APERValue[RecommendedCellsForPagingItemExtIEsExtField].
 type RecommendedCellsForPagingItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RecommendedCellsForPagingItemExtIEsExtField
@@ -14796,7 +14828,7 @@ func (v RecommendedCellsForPagingItemExtIEsExtFieldAPERValue) WithoutReplay() Re
 	return v
 }
 
-// RecommendedENBItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[RecommendedENBItemExtIEsValue]].
+// RecommendedENBItemExtIEsExtFieldAPERValue is the concrete APERValue[RecommendedENBItemExtIEsExtField].
 type RecommendedENBItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RecommendedENBItemExtIEsExtField
@@ -14818,7 +14850,7 @@ func (v RecommendedENBItemExtIEsExtFieldAPERValue) WithoutReplay() RecommendedEN
 	return v
 }
 
-// RecommendedENBsForPagingExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[RecommendedENBsForPagingExtIEsValue]].
+// RecommendedENBsForPagingExtIEsExtFieldAPERValue is the concrete APERValue[RecommendedENBsForPagingExtIEsExtField].
 type RecommendedENBsForPagingExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RecommendedENBsForPagingExtIEsExtField
@@ -14840,7 +14872,7 @@ func (v RecommendedENBsForPagingExtIEsExtFieldAPERValue) WithoutReplay() Recomme
 	return v
 }
 
-// RequestTypeExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[RequestTypeExtIEsValue]].
+// RequestTypeExtIEsExtFieldAPERValue is the concrete APERValue[RequestTypeExtIEsExtField].
 type RequestTypeExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RequestTypeExtIEsExtField
@@ -14862,7 +14894,7 @@ func (v RequestTypeExtIEsExtFieldAPERValue) WithoutReplay() RequestTypeExtIEsExt
 	return v
 }
 
-// RequestedTNLInfoExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[RequestedTNLInfoExtIEsValue]].
+// RequestedTNLInfoExtIEsExtFieldAPERValue is the concrete APERValue[RequestedTNLInfoExtIEsExtField].
 type RequestedTNLInfoExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RequestedTNLInfoExtIEsExtField
@@ -14884,7 +14916,7 @@ func (v RequestedTNLInfoExtIEsExtFieldAPERValue) WithoutReplay() RequestedTNLInf
 	return v
 }
 
-// STMSIExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[STMSIExtIEsValue]].
+// STMSIExtIEsExtFieldAPERValue is the concrete APERValue[STMSIExtIEsExtField].
 type STMSIExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         STMSIExtIEsExtField
@@ -14906,7 +14938,7 @@ func (v STMSIExtIEsExtFieldAPERValue) WithoutReplay() STMSIExtIEsExtFieldAPERVal
 	return v
 }
 
-// ScheduledCommunicationTimeExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[ScheduledCommunicationTimeExtIEsValue]].
+// ScheduledCommunicationTimeExtIEsExtFieldAPERValue is the concrete APERValue[ScheduledCommunicationTimeExtIEsExtField].
 type ScheduledCommunicationTimeExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ScheduledCommunicationTimeExtIEsExtField
@@ -14928,7 +14960,7 @@ func (v ScheduledCommunicationTimeExtIEsExtFieldAPERValue) WithoutReplay() Sched
 	return v
 }
 
-// SecondaryRATDataUsageReportItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SecondaryRATDataUsageReportItemExtIEsValue]].
+// SecondaryRATDataUsageReportItemExtIEsExtFieldAPERValue is the concrete APERValue[SecondaryRATDataUsageReportItemExtIEsExtField].
 type SecondaryRATDataUsageReportItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SecondaryRATDataUsageReportItemExtIEsExtField
@@ -14950,7 +14982,7 @@ func (v SecondaryRATDataUsageReportItemExtIEsExtFieldAPERValue) WithoutReplay() 
 	return v
 }
 
-// SecurityContextExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SecurityContextExtIEsValue]].
+// SecurityContextExtIEsExtFieldAPERValue is the concrete APERValue[SecurityContextExtIEsExtField].
 type SecurityContextExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SecurityContextExtIEsExtField
@@ -14972,7 +15004,7 @@ func (v SecurityContextExtIEsExtFieldAPERValue) WithoutReplay() SecurityContextE
 	return v
 }
 
-// SecurityIndicationExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SecurityIndicationExtIEsValue]].
+// SecurityIndicationExtIEsExtFieldAPERValue is the concrete APERValue[SecurityIndicationExtIEsExtField].
 type SecurityIndicationExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SecurityIndicationExtIEsExtField
@@ -14994,7 +15026,7 @@ func (v SecurityIndicationExtIEsExtFieldAPERValue) WithoutReplay() SecurityIndic
 	return v
 }
 
-// SecurityResultExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SecurityResultExtIEsValue]].
+// SecurityResultExtIEsExtFieldAPERValue is the concrete APERValue[SecurityResultExtIEsExtField].
 type SecurityResultExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SecurityResultExtIEsExtField
@@ -15016,7 +15048,7 @@ func (v SecurityResultExtIEsExtFieldAPERValue) WithoutReplay() SecurityResultExt
 	return v
 }
 
-// SensorMeasConfigNameItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SensorMeasConfigNameItemExtIEsValue]].
+// SensorMeasConfigNameItemExtIEsExtFieldAPERValue is the concrete APERValue[SensorMeasConfigNameItemExtIEsExtField].
 type SensorMeasConfigNameItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SensorMeasConfigNameItemExtIEsExtField
@@ -15038,7 +15070,7 @@ func (v SensorMeasConfigNameItemExtIEsExtFieldAPERValue) WithoutReplay() SensorM
 	return v
 }
 
-// SensorMeasurementConfigurationExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SensorMeasurementConfigurationExtIEsValue]].
+// SensorMeasurementConfigurationExtIEsExtFieldAPERValue is the concrete APERValue[SensorMeasurementConfigurationExtIEsExtField].
 type SensorMeasurementConfigurationExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SensorMeasurementConfigurationExtIEsExtField
@@ -15060,7 +15092,7 @@ func (v SensorMeasurementConfigurationExtIEsExtFieldAPERValue) WithoutReplay() S
 	return v
 }
 
-// ServedDCNsItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[ServedDCNsItemExtIEsValue]].
+// ServedDCNsItemExtIEsExtFieldAPERValue is the concrete APERValue[ServedDCNsItemExtIEsExtField].
 type ServedDCNsItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ServedDCNsItemExtIEsExtField
@@ -15082,7 +15114,7 @@ func (v ServedDCNsItemExtIEsExtFieldAPERValue) WithoutReplay() ServedDCNsItemExt
 	return v
 }
 
-// ServedGUMMEIsItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[ServedGUMMEIsItemExtIEsValue]].
+// ServedGUMMEIsItemExtIEsExtFieldAPERValue is the concrete APERValue[ServedGUMMEIsItemExtIEsExtField].
 type ServedGUMMEIsItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ServedGUMMEIsItemExtIEsExtField
@@ -15104,7 +15136,7 @@ func (v ServedGUMMEIsItemExtIEsExtFieldAPERValue) WithoutReplay() ServedGUMMEIsI
 	return v
 }
 
-// SourceNgRanNodeIDExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SourceNgRanNodeIDExtIEsValue]].
+// SourceNgRanNodeIDExtIEsExtFieldAPERValue is the concrete APERValue[SourceNgRanNodeIDExtIEsExtField].
 type SourceNgRanNodeIDExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SourceNgRanNodeIDExtIEsExtField
@@ -15126,7 +15158,7 @@ func (v SourceNgRanNodeIDExtIEsExtFieldAPERValue) WithoutReplay() SourceNgRanNod
 	return v
 }
 
-// SourceeNBIDExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SourceeNBIDExtIEsValue]].
+// SourceeNBIDExtIEsExtFieldAPERValue is the concrete APERValue[SourceeNBIDExtIEsExtField].
 type SourceeNBIDExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SourceeNBIDExtIEsExtField
@@ -15148,7 +15180,7 @@ func (v SourceeNBIDExtIEsExtFieldAPERValue) WithoutReplay() SourceeNBIDExtIEsExt
 	return v
 }
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SubscriptionBasedUEDifferentiationInfoExtIEsValue]].
+// SubscriptionBasedUEDifferentiationInfoExtIEsExtFieldAPERValue is the concrete APERValue[SubscriptionBasedUEDifferentiationInfoExtIEsExtField].
 type SubscriptionBasedUEDifferentiationInfoExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SubscriptionBasedUEDifferentiationInfoExtIEsExtField
@@ -15170,7 +15202,7 @@ func (v SubscriptionBasedUEDifferentiationInfoExtIEsExtFieldAPERValue) WithoutRe
 	return v
 }
 
-// SupportedTAsItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SupportedTAsItemExtIEsValue]].
+// SupportedTAsItemExtIEsExtFieldAPERValue is the concrete APERValue[SupportedTAsItemExtIEsExtField].
 type SupportedTAsItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SupportedTAsItemExtIEsExtField
@@ -15192,7 +15224,7 @@ func (v SupportedTAsItemExtIEsExtFieldAPERValue) WithoutReplay() SupportedTAsIte
 	return v
 }
 
-// SynchronisationInformationExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[SynchronisationInformationExtIEsValue]].
+// SynchronisationInformationExtIEsExtFieldAPERValue is the concrete APERValue[SynchronisationInformationExtIEsExtField].
 type SynchronisationInformationExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SynchronisationInformationExtIEsExtField
@@ -15214,7 +15246,7 @@ func (v SynchronisationInformationExtIEsExtFieldAPERValue) WithoutReplay() Synch
 	return v
 }
 
-// TABasedMDTExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TABasedMDTExtIEsValue]].
+// TABasedMDTExtIEsExtFieldAPERValue is the concrete APERValue[TABasedMDTExtIEsExtField].
 type TABasedMDTExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TABasedMDTExtIEsExtField
@@ -15236,7 +15268,7 @@ func (v TABasedMDTExtIEsExtFieldAPERValue) WithoutReplay() TABasedMDTExtIEsExtFi
 	return v
 }
 
-// TABasedQMCExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TABasedQMCExtIEsValue]].
+// TABasedQMCExtIEsExtFieldAPERValue is the concrete APERValue[TABasedQMCExtIEsExtField].
 type TABasedQMCExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TABasedQMCExtIEsExtField
@@ -15258,7 +15290,7 @@ func (v TABasedQMCExtIEsExtFieldAPERValue) WithoutReplay() TABasedQMCExtIEsExtFi
 	return v
 }
 
-// TAIBasedMDTExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TAIBasedMDTExtIEsValue]].
+// TAIBasedMDTExtIEsExtFieldAPERValue is the concrete APERValue[TAIBasedMDTExtIEsExtField].
 type TAIBasedMDTExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIBasedMDTExtIEsExtField
@@ -15280,7 +15312,7 @@ func (v TAIBasedMDTExtIEsExtFieldAPERValue) WithoutReplay() TAIBasedMDTExtIEsExt
 	return v
 }
 
-// TAIBasedQMCExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TAIBasedQMCExtIEsValue]].
+// TAIBasedQMCExtIEsExtFieldAPERValue is the concrete APERValue[TAIBasedQMCExtIEsExtField].
 type TAIBasedQMCExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIBasedQMCExtIEsExtField
@@ -15302,7 +15334,7 @@ func (v TAIBasedQMCExtIEsExtFieldAPERValue) WithoutReplay() TAIBasedQMCExtIEsExt
 	return v
 }
 
-// TAIBroadcastItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TAIBroadcastItemExtIEsValue]].
+// TAIBroadcastItemExtIEsExtFieldAPERValue is the concrete APERValue[TAIBroadcastItemExtIEsExtField].
 type TAIBroadcastItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIBroadcastItemExtIEsExtField
@@ -15324,7 +15356,7 @@ func (v TAIBroadcastItemExtIEsExtFieldAPERValue) WithoutReplay() TAIBroadcastIte
 	return v
 }
 
-// TAICancelledItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TAICancelledItemExtIEsValue]].
+// TAICancelledItemExtIEsExtFieldAPERValue is the concrete APERValue[TAICancelledItemExtIEsExtField].
 type TAICancelledItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAICancelledItemExtIEsExtField
@@ -15346,7 +15378,7 @@ func (v TAICancelledItemExtIEsExtFieldAPERValue) WithoutReplay() TAICancelledIte
 	return v
 }
 
-// TAIExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TAIExtIEsValue]].
+// TAIExtIEsExtFieldAPERValue is the concrete APERValue[TAIExtIEsExtField].
 type TAIExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIExtIEsExtField
@@ -15368,7 +15400,7 @@ func (v TAIExtIEsExtFieldAPERValue) WithoutReplay() TAIExtIEsExtFieldAPERValue {
 	return v
 }
 
-// TAIItemExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TAIItemExtIEsValue]].
+// TAIItemExtIEsExtFieldAPERValue is the concrete APERValue[TAIItemExtIEsExtField].
 type TAIItemExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIItemExtIEsExtField
@@ -15390,7 +15422,7 @@ func (v TAIItemExtIEsExtFieldAPERValue) WithoutReplay() TAIItemExtIEsExtFieldAPE
 	return v
 }
 
-// TargetNgRanNodeIDExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TargetNgRanNodeIDExtIEsValue]].
+// TargetNgRanNodeIDExtIEsExtFieldAPERValue is the concrete APERValue[TargetNgRanNodeIDExtIEsExtField].
 type TargetNgRanNodeIDExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TargetNgRanNodeIDExtIEsExtField
@@ -15412,7 +15444,7 @@ func (v TargetNgRanNodeIDExtIEsExtFieldAPERValue) WithoutReplay() TargetNgRanNod
 	return v
 }
 
-// TargetRNCIDExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TargetRNCIDExtIEsValue]].
+// TargetRNCIDExtIEsExtFieldAPERValue is the concrete APERValue[TargetRNCIDExtIEsExtField].
 type TargetRNCIDExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TargetRNCIDExtIEsExtField
@@ -15434,7 +15466,7 @@ func (v TargetRNCIDExtIEsExtFieldAPERValue) WithoutReplay() TargetRNCIDExtIEsExt
 	return v
 }
 
-// TargeteNBIDExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TargeteNBIDExtIEsValue]].
+// TargeteNBIDExtIEsExtFieldAPERValue is the concrete APERValue[TargeteNBIDExtIEsExtField].
 type TargeteNBIDExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TargeteNBIDExtIEsExtField
@@ -15456,7 +15488,7 @@ func (v TargeteNBIDExtIEsExtFieldAPERValue) WithoutReplay() TargeteNBIDExtIEsExt
 	return v
 }
 
-// TimeBasedHandoverInformationExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TimeBasedHandoverInformationExtIEsValue]].
+// TimeBasedHandoverInformationExtIEsExtFieldAPERValue is the concrete APERValue[TimeBasedHandoverInformationExtIEsExtField].
 type TimeBasedHandoverInformationExtIEsExtFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TimeBasedHandoverInformationExtIEsExtField
@@ -15478,32 +15510,10 @@ func (v TimeBasedHandoverInformationExtIEsExtFieldAPERValue) WithoutReplay() Tim
 	return v
 }
 
-// TimeSynchronisationInfoExtIEsExtFieldAPERValue is the concrete APERValue[ProtocolExtensionField[TimeSynchronisationInfoExtIEsValue]].
-type TimeSynchronisationInfoExtIEsExtFieldAPERValue struct {
-	context       s00.BridgeCodecContext
-	Value         TimeSynchronisationInfoExtIEsExtField
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v TimeSynchronisationInfoExtIEsExtFieldAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v TimeSynchronisationInfoExtIEsExtFieldAPERValue) WithoutReplay() TimeSynchronisationInfoExtIEsExtFieldAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
-// RecommendedCellsForPagingExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[RecommendedCellsForPagingExtIEsValue]].
+// RecommendedCellsForPagingExtIEsExtContainerAPERValue is the concrete APERValue[RecommendedCellsForPagingExtIEsExtContainer].
 type RecommendedCellsForPagingExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
-	Value         s10.RecommendedCellsForPagingExtIEsExtContainer
+	Value         RecommendedCellsForPagingExtIEsExtContainer
 	received      aper.WireSpan
 	replay        aper.Snapshot
 	withoutReplay bool
@@ -15522,7 +15532,7 @@ func (v RecommendedCellsForPagingExtIEsExtContainerAPERValue) WithoutReplay() Re
 	return v
 }
 
-// RecommendedCellsForPagingItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[RecommendedCellsForPagingItemExtIEsValue]].
+// RecommendedCellsForPagingItemExtIEsExtContainerAPERValue is the concrete APERValue[RecommendedCellsForPagingItemExtIEsExtContainer].
 type RecommendedCellsForPagingItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RecommendedCellsForPagingItemExtIEsExtContainer
@@ -15544,7 +15554,7 @@ func (v RecommendedCellsForPagingItemExtIEsExtContainerAPERValue) WithoutReplay(
 	return v
 }
 
-// RecommendedENBItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[RecommendedENBItemExtIEsValue]].
+// RecommendedENBItemExtIEsExtContainerAPERValue is the concrete APERValue[RecommendedENBItemExtIEsExtContainer].
 type RecommendedENBItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RecommendedENBItemExtIEsExtContainer
@@ -15566,7 +15576,7 @@ func (v RecommendedENBItemExtIEsExtContainerAPERValue) WithoutReplay() Recommend
 	return v
 }
 
-// RecommendedENBsForPagingExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[RecommendedENBsForPagingExtIEsValue]].
+// RecommendedENBsForPagingExtIEsExtContainerAPERValue is the concrete APERValue[RecommendedENBsForPagingExtIEsExtContainer].
 type RecommendedENBsForPagingExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RecommendedENBsForPagingExtIEsExtContainer
@@ -15588,7 +15598,7 @@ func (v RecommendedENBsForPagingExtIEsExtContainerAPERValue) WithoutReplay() Rec
 	return v
 }
 
-// RequestTypeExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[RequestTypeExtIEsValue]].
+// RequestTypeExtIEsExtContainerAPERValue is the concrete APERValue[RequestTypeExtIEsExtContainer].
 type RequestTypeExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RequestTypeExtIEsExtContainer
@@ -15610,7 +15620,7 @@ func (v RequestTypeExtIEsExtContainerAPERValue) WithoutReplay() RequestTypeExtIE
 	return v
 }
 
-// RequestedTNLInfoExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[RequestedTNLInfoExtIEsValue]].
+// RequestedTNLInfoExtIEsExtContainerAPERValue is the concrete APERValue[RequestedTNLInfoExtIEsExtContainer].
 type RequestedTNLInfoExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         RequestedTNLInfoExtIEsExtContainer
@@ -15632,7 +15642,7 @@ func (v RequestedTNLInfoExtIEsExtContainerAPERValue) WithoutReplay() RequestedTN
 	return v
 }
 
-// STMSIExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[STMSIExtIEsValue]].
+// STMSIExtIEsExtContainerAPERValue is the concrete APERValue[STMSIExtIEsExtContainer].
 type STMSIExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         STMSIExtIEsExtContainer
@@ -15654,7 +15664,7 @@ func (v STMSIExtIEsExtContainerAPERValue) WithoutReplay() STMSIExtIEsExtContaine
 	return v
 }
 
-// ScheduledCommunicationTimeExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[ScheduledCommunicationTimeExtIEsValue]].
+// ScheduledCommunicationTimeExtIEsExtContainerAPERValue is the concrete APERValue[ScheduledCommunicationTimeExtIEsExtContainer].
 type ScheduledCommunicationTimeExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ScheduledCommunicationTimeExtIEsExtContainer
@@ -15676,7 +15686,7 @@ func (v ScheduledCommunicationTimeExtIEsExtContainerAPERValue) WithoutReplay() S
 	return v
 }
 
-// SecondaryRATDataUsageReportItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SecondaryRATDataUsageReportItemExtIEsValue]].
+// SecondaryRATDataUsageReportItemExtIEsExtContainerAPERValue is the concrete APERValue[SecondaryRATDataUsageReportItemExtIEsExtContainer].
 type SecondaryRATDataUsageReportItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SecondaryRATDataUsageReportItemExtIEsExtContainer
@@ -15698,7 +15708,7 @@ func (v SecondaryRATDataUsageReportItemExtIEsExtContainerAPERValue) WithoutRepla
 	return v
 }
 
-// SecurityContextExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SecurityContextExtIEsValue]].
+// SecurityContextExtIEsExtContainerAPERValue is the concrete APERValue[SecurityContextExtIEsExtContainer].
 type SecurityContextExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SecurityContextExtIEsExtContainer
@@ -15720,7 +15730,7 @@ func (v SecurityContextExtIEsExtContainerAPERValue) WithoutReplay() SecurityCont
 	return v
 }
 
-// SecurityIndicationExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SecurityIndicationExtIEsValue]].
+// SecurityIndicationExtIEsExtContainerAPERValue is the concrete APERValue[SecurityIndicationExtIEsExtContainer].
 type SecurityIndicationExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SecurityIndicationExtIEsExtContainer
@@ -15742,7 +15752,7 @@ func (v SecurityIndicationExtIEsExtContainerAPERValue) WithoutReplay() SecurityI
 	return v
 }
 
-// SecurityResultExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SecurityResultExtIEsValue]].
+// SecurityResultExtIEsExtContainerAPERValue is the concrete APERValue[SecurityResultExtIEsExtContainer].
 type SecurityResultExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SecurityResultExtIEsExtContainer
@@ -15764,7 +15774,7 @@ func (v SecurityResultExtIEsExtContainerAPERValue) WithoutReplay() SecurityResul
 	return v
 }
 
-// SensorMeasConfigNameItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SensorMeasConfigNameItemExtIEsValue]].
+// SensorMeasConfigNameItemExtIEsExtContainerAPERValue is the concrete APERValue[SensorMeasConfigNameItemExtIEsExtContainer].
 type SensorMeasConfigNameItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SensorMeasConfigNameItemExtIEsExtContainer
@@ -15786,7 +15796,7 @@ func (v SensorMeasConfigNameItemExtIEsExtContainerAPERValue) WithoutReplay() Sen
 	return v
 }
 
-// SensorMeasurementConfigurationExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SensorMeasurementConfigurationExtIEsValue]].
+// SensorMeasurementConfigurationExtIEsExtContainerAPERValue is the concrete APERValue[SensorMeasurementConfigurationExtIEsExtContainer].
 type SensorMeasurementConfigurationExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SensorMeasurementConfigurationExtIEsExtContainer
@@ -15808,7 +15818,7 @@ func (v SensorMeasurementConfigurationExtIEsExtContainerAPERValue) WithoutReplay
 	return v
 }
 
-// ServedDCNsItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[ServedDCNsItemExtIEsValue]].
+// ServedDCNsItemExtIEsExtContainerAPERValue is the concrete APERValue[ServedDCNsItemExtIEsExtContainer].
 type ServedDCNsItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ServedDCNsItemExtIEsExtContainer
@@ -15830,7 +15840,7 @@ func (v ServedDCNsItemExtIEsExtContainerAPERValue) WithoutReplay() ServedDCNsIte
 	return v
 }
 
-// ServedGUMMEIsItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[ServedGUMMEIsItemExtIEsValue]].
+// ServedGUMMEIsItemExtIEsExtContainerAPERValue is the concrete APERValue[ServedGUMMEIsItemExtIEsExtContainer].
 type ServedGUMMEIsItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         ServedGUMMEIsItemExtIEsExtContainer
@@ -15852,7 +15862,7 @@ func (v ServedGUMMEIsItemExtIEsExtContainerAPERValue) WithoutReplay() ServedGUMM
 	return v
 }
 
-// SourceNgRanNodeIDExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SourceNgRanNodeIDExtIEsValue]].
+// SourceNgRanNodeIDExtIEsExtContainerAPERValue is the concrete APERValue[SourceNgRanNodeIDExtIEsExtContainer].
 type SourceNgRanNodeIDExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SourceNgRanNodeIDExtIEsExtContainer
@@ -15874,7 +15884,7 @@ func (v SourceNgRanNodeIDExtIEsExtContainerAPERValue) WithoutReplay() SourceNgRa
 	return v
 }
 
-// SourceeNBIDExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SourceeNBIDExtIEsValue]].
+// SourceeNBIDExtIEsExtContainerAPERValue is the concrete APERValue[SourceeNBIDExtIEsExtContainer].
 type SourceeNBIDExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SourceeNBIDExtIEsExtContainer
@@ -15896,7 +15906,7 @@ func (v SourceeNBIDExtIEsExtContainerAPERValue) WithoutReplay() SourceeNBIDExtIE
 	return v
 }
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SubscriptionBasedUEDifferentiationInfoExtIEsValue]].
+// SubscriptionBasedUEDifferentiationInfoExtIEsExtContainerAPERValue is the concrete APERValue[SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer].
 type SubscriptionBasedUEDifferentiationInfoExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer
@@ -15918,7 +15928,7 @@ func (v SubscriptionBasedUEDifferentiationInfoExtIEsExtContainerAPERValue) Witho
 	return v
 }
 
-// SupportedTAsItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SupportedTAsItemExtIEsValue]].
+// SupportedTAsItemExtIEsExtContainerAPERValue is the concrete APERValue[SupportedTAsItemExtIEsExtContainer].
 type SupportedTAsItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SupportedTAsItemExtIEsExtContainer
@@ -15940,7 +15950,7 @@ func (v SupportedTAsItemExtIEsExtContainerAPERValue) WithoutReplay() SupportedTA
 	return v
 }
 
-// SynchronisationInformationExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[SynchronisationInformationExtIEsValue]].
+// SynchronisationInformationExtIEsExtContainerAPERValue is the concrete APERValue[SynchronisationInformationExtIEsExtContainer].
 type SynchronisationInformationExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SynchronisationInformationExtIEsExtContainer
@@ -15962,7 +15972,7 @@ func (v SynchronisationInformationExtIEsExtContainerAPERValue) WithoutReplay() S
 	return v
 }
 
-// TABasedMDTExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TABasedMDTExtIEsValue]].
+// TABasedMDTExtIEsExtContainerAPERValue is the concrete APERValue[TABasedMDTExtIEsExtContainer].
 type TABasedMDTExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TABasedMDTExtIEsExtContainer
@@ -15984,7 +15994,7 @@ func (v TABasedMDTExtIEsExtContainerAPERValue) WithoutReplay() TABasedMDTExtIEsE
 	return v
 }
 
-// TABasedQMCExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TABasedQMCExtIEsValue]].
+// TABasedQMCExtIEsExtContainerAPERValue is the concrete APERValue[TABasedQMCExtIEsExtContainer].
 type TABasedQMCExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TABasedQMCExtIEsExtContainer
@@ -16006,7 +16016,7 @@ func (v TABasedQMCExtIEsExtContainerAPERValue) WithoutReplay() TABasedQMCExtIEsE
 	return v
 }
 
-// TAIBasedMDTExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TAIBasedMDTExtIEsValue]].
+// TAIBasedMDTExtIEsExtContainerAPERValue is the concrete APERValue[TAIBasedMDTExtIEsExtContainer].
 type TAIBasedMDTExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIBasedMDTExtIEsExtContainer
@@ -16028,7 +16038,7 @@ func (v TAIBasedMDTExtIEsExtContainerAPERValue) WithoutReplay() TAIBasedMDTExtIE
 	return v
 }
 
-// TAIBasedQMCExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TAIBasedQMCExtIEsValue]].
+// TAIBasedQMCExtIEsExtContainerAPERValue is the concrete APERValue[TAIBasedQMCExtIEsExtContainer].
 type TAIBasedQMCExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIBasedQMCExtIEsExtContainer
@@ -16050,7 +16060,7 @@ func (v TAIBasedQMCExtIEsExtContainerAPERValue) WithoutReplay() TAIBasedQMCExtIE
 	return v
 }
 
-// TAIBroadcastItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TAIBroadcastItemExtIEsValue]].
+// TAIBroadcastItemExtIEsExtContainerAPERValue is the concrete APERValue[TAIBroadcastItemExtIEsExtContainer].
 type TAIBroadcastItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIBroadcastItemExtIEsExtContainer
@@ -16072,7 +16082,7 @@ func (v TAIBroadcastItemExtIEsExtContainerAPERValue) WithoutReplay() TAIBroadcas
 	return v
 }
 
-// TAICancelledItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TAICancelledItemExtIEsValue]].
+// TAICancelledItemExtIEsExtContainerAPERValue is the concrete APERValue[TAICancelledItemExtIEsExtContainer].
 type TAICancelledItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAICancelledItemExtIEsExtContainer
@@ -16094,7 +16104,7 @@ func (v TAICancelledItemExtIEsExtContainerAPERValue) WithoutReplay() TAICancelle
 	return v
 }
 
-// TAIExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TAIExtIEsValue]].
+// TAIExtIEsExtContainerAPERValue is the concrete APERValue[TAIExtIEsExtContainer].
 type TAIExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIExtIEsExtContainer
@@ -16116,7 +16126,7 @@ func (v TAIExtIEsExtContainerAPERValue) WithoutReplay() TAIExtIEsExtContainerAPE
 	return v
 }
 
-// TAIItemExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TAIItemExtIEsValue]].
+// TAIItemExtIEsExtContainerAPERValue is the concrete APERValue[TAIItemExtIEsExtContainer].
 type TAIItemExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TAIItemExtIEsExtContainer
@@ -16138,7 +16148,7 @@ func (v TAIItemExtIEsExtContainerAPERValue) WithoutReplay() TAIItemExtIEsExtCont
 	return v
 }
 
-// TargetNgRanNodeIDExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TargetNgRanNodeIDExtIEsValue]].
+// TargetNgRanNodeIDExtIEsExtContainerAPERValue is the concrete APERValue[TargetNgRanNodeIDExtIEsExtContainer].
 type TargetNgRanNodeIDExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TargetNgRanNodeIDExtIEsExtContainer
@@ -16160,7 +16170,7 @@ func (v TargetNgRanNodeIDExtIEsExtContainerAPERValue) WithoutReplay() TargetNgRa
 	return v
 }
 
-// TargetRNCIDExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TargetRNCIDExtIEsValue]].
+// TargetRNCIDExtIEsExtContainerAPERValue is the concrete APERValue[TargetRNCIDExtIEsExtContainer].
 type TargetRNCIDExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TargetRNCIDExtIEsExtContainer
@@ -16182,7 +16192,7 @@ func (v TargetRNCIDExtIEsExtContainerAPERValue) WithoutReplay() TargetRNCIDExtIE
 	return v
 }
 
-// TargeteNBIDExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TargeteNBIDExtIEsValue]].
+// TargeteNBIDExtIEsExtContainerAPERValue is the concrete APERValue[TargeteNBIDExtIEsExtContainer].
 type TargeteNBIDExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TargeteNBIDExtIEsExtContainer
@@ -16204,7 +16214,7 @@ func (v TargeteNBIDExtIEsExtContainerAPERValue) WithoutReplay() TargeteNBIDExtIE
 	return v
 }
 
-// TimeBasedHandoverInformationExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TimeBasedHandoverInformationExtIEsValue]].
+// TimeBasedHandoverInformationExtIEsExtContainerAPERValue is the concrete APERValue[TimeBasedHandoverInformationExtIEsExtContainer].
 type TimeBasedHandoverInformationExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TimeBasedHandoverInformationExtIEsExtContainer
@@ -16226,7 +16236,7 @@ func (v TimeBasedHandoverInformationExtIEsExtContainerAPERValue) WithoutReplay()
 	return v
 }
 
-// TimeSynchronisationInfoExtIEsExtContainerAPERValue is the concrete APERValue[ProtocolExtensionContainer[TimeSynchronisationInfoExtIEsValue]].
+// TimeSynchronisationInfoExtIEsExtContainerAPERValue is the concrete APERValue[TimeSynchronisationInfoExtIEsExtContainer].
 type TimeSynchronisationInfoExtIEsExtContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         TimeSynchronisationInfoExtIEsExtContainer
@@ -16248,7 +16258,7 @@ func (v TimeSynchronisationInfoExtIEsExtContainerAPERValue) WithoutReplay() Time
 	return v
 }
 
-// SensorNameConfigExtIEFieldAPERValue is the concrete APERValue[ProtocolIEField[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEFieldAPERValue is the concrete APERValue[SensorNameConfigExtIEField].
 type SensorNameConfigExtIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SensorNameConfigExtIEField
@@ -16270,7 +16280,7 @@ func (v SensorNameConfigExtIEFieldAPERValue) WithoutReplay() SensorNameConfigExt
 	return v
 }
 
-// SourceNodeIDExtensionIEIEFieldAPERValue is the concrete APERValue[ProtocolIEField[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEFieldAPERValue is the concrete APERValue[SourceNodeIDExtensionIEIEField].
 type SourceNodeIDExtensionIEIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SourceNodeIDExtensionIEIEField
@@ -16292,7 +16302,7 @@ func (v SourceNodeIDExtensionIEIEFieldAPERValue) WithoutReplay() SourceNodeIDExt
 	return v
 }
 
-// SensorNameConfigExtIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEContainerAPERValue is the concrete APERValue[SensorNameConfigExtIEContainer].
 type SensorNameConfigExtIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SensorNameConfigExtIEContainer
@@ -16314,7 +16324,7 @@ func (v SensorNameConfigExtIEContainerAPERValue) WithoutReplay() SensorNameConfi
 	return v
 }
 
-// SourceNodeIDExtensionIEIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEContainerAPERValue is the concrete APERValue[SourceNodeIDExtensionIEIEContainer].
 type SourceNodeIDExtensionIEIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SourceNodeIDExtensionIEIEContainer
@@ -16336,7 +16346,7 @@ func (v SourceNodeIDExtensionIEIEContainerAPERValue) WithoutReplay() SourceNodeI
 	return v
 }
 
-// SensorNameConfigExtIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[SensorNameConfigExtIEValueProtocolErrorIEContainerList].
 type SensorNameConfigExtIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SensorNameConfigExtIEValueProtocolErrorIEContainerList
@@ -16358,7 +16368,7 @@ func (v SensorNameConfigExtIEValueProtocolErrorIEContainerListAPERValue) Without
 	return v
 }
 
-// SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerList].
 type SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerList
@@ -16380,7 +16390,7 @@ func (v SourceNodeIDExtensionIEIEValueProtocolErrorIEContainerListAPERValue) Wit
 	return v
 }
 
-// SensorNameConfigExtIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[SensorNameConfigExtIEValue]].
+// SensorNameConfigExtIEValueProtocolIEContainerListAPERValue is the concrete APERValue[SensorNameConfigExtIEValueProtocolIEContainerList].
 type SensorNameConfigExtIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SensorNameConfigExtIEValueProtocolIEContainerList
@@ -16402,7 +16412,7 @@ func (v SensorNameConfigExtIEValueProtocolIEContainerListAPERValue) WithoutRepla
 	return v
 }
 
-// SourceNodeIDExtensionIEIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[SourceNodeIDExtensionIEIEValue]].
+// SourceNodeIDExtensionIEIEValueProtocolIEContainerListAPERValue is the concrete APERValue[SourceNodeIDExtensionIEIEValueProtocolIEContainerList].
 type SourceNodeIDExtensionIEIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         SourceNodeIDExtensionIEIEValueProtocolIEContainerList
@@ -16422,6 +16432,55 @@ func (v SourceNodeIDExtensionIEIEValueProtocolIEContainerListAPERValue) WithoutR
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
 	return v
+}
+
+type RecommendedCellsForPagingExtIETable struct{}
+
+func RecommendedCellsForPagingExtIEs() RecommendedCellsForPagingExtIETable {
+	return RecommendedCellsForPagingExtIETable{}
+}
+
+// ID returns the ASN.1 object-set identity of RecommendedCellsForPagingExtIETable.
+func (RecommendedCellsForPagingExtIETable) ID() s00.TableID {
+	return func() s00.TableID {
+		sealed := s00.TableID{}
+		*s00.BridgeTableIDFieldSource(&sealed) = aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "RecommendedCellsForPaging-ExtIEs"}
+		return sealed
+	}()
+}
+
+// Table returns the ASN.1 object-set table described by RecommendedCellsForPagingExtIETable.
+func (RecommendedCellsForPagingExtIETable) Table() s00.RecommendedCellsForPagingExtIEsValueExtensionTable {
+	return func() s00.RecommendedCellsForPagingExtIEsValueExtensionTable {
+		sealed := s00.RecommendedCellsForPagingExtIEsValueExtensionTable{}
+		*s00.BridgeRecommendedCellsForPagingExtIEsValueExtensionTableFieldBound(&sealed) = true
+		return sealed
+	}()
+}
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in RecommendedCellsForPagingExtIETable.
+func (t RecommendedCellsForPagingExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (RecommendedCellsForPagingExtIEsExtField, error) {
+	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
+		return RecommendedCellsForPagingExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
+	}
+	switch id {
+	default:
+		budget, err := aper.BuildBudget()
+		if err != nil {
+			return RecommendedCellsForPagingExtIEsExtField{}, aper.OperationError(err, "Opaque")
+		}
+		opaque, err := aper.BuildOpaqueOpenType(data, budget)
+		if err != nil {
+			return RecommendedCellsForPagingExtIEsExtField{}, aper.OperationError(err, "Opaque")
+		}
+		return RecommendedCellsForPagingExtIEsExtField{Id: id, Criticality: criticality, ExtensionValue: func() s05.RecommendedCellsForPagingExtIEsValue {
+			sealed := s05.RecommendedCellsForPagingExtIEsValue{}
+			*s05.BridgeRecommendedCellsForPagingExtIEsValueFieldId(&sealed) = id
+			*s05.BridgeRecommendedCellsForPagingExtIEsValueFieldOpaque(&sealed) = opaque
+			*s05.BridgeRecommendedCellsForPagingExtIEsValueFieldIsOpaque(&sealed) = true
+			return sealed
+		}()}, aper.OperationError(nil, "Opaque")
+	}
 }
 
 type RecommendedCellsForPagingItemExtIETable struct{}
@@ -16614,7 +16673,7 @@ func (t RequestTypeExtIETable) RequestTypeAdditionalInfo() RequestTypeExtIEsRequ
 			decoded, err := s06.BridgeRequestTypeExtIEsValueMethodDecode(zero, s00.ProtocolIEID(298), raw)
 			if err != nil {
 				var empty s00.RequestTypeAdditionalInfo
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "RequestTypeAdditionalInfo")
 			}
 			value, ok := decoded.AsRequestTypeAdditionalInfo()
 			if !ok {
@@ -17269,7 +17328,7 @@ func (t ServedGUMMEIsItemExtIETable) GUMMEIType() ServedGUMMEIsItemExtIEsGUMMEIT
 			decoded, err := s06.BridgeServedGUMMEIsItemExtIEsValueMethodDecode(zero, s00.ProtocolIEID(170), raw)
 			if err != nil {
 				var empty s00.GUMMEIType
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "GUMMEIType")
 			}
 			value, ok := decoded.AsGUMMEIType()
 			if !ok {
@@ -17584,7 +17643,7 @@ func (t SupportedTAsItemExtIETable) RATType() SupportedTAsItemExtIEsRATTypeExtBi
 			decoded, err := s06.BridgeSupportedTAsItemExtIEsValueMethodDecode(zero, s00.ProtocolIEID(232), raw)
 			if err != nil {
 				var empty s00.RATType
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "RATType")
 			}
 			value, ok := decoded.AsRATType()
 			if !ok {
@@ -18460,28 +18519,28 @@ func BridgeRecommendedCellsForPagingExtIEsExtContainerAPERValueFieldReplay(v *Re
 func BridgeRecommendedCellsForPagingExtIEsExtContainerAPERValueFieldWithoutReplay(v *RecommendedCellsForPagingExtIEsExtContainerAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldCapture(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *func(s10.RecommendedCellsForPagingExtIEsExtContainer, aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot) {
+func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldCapture(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *func(RecommendedCellsForPagingExtIEsExtContainer, aper.DecodeState) (RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldCompare(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *func(s10.RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldCompare(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *func(RecommendedCellsForPagingExtIEsExtContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 	return &v.compare
 }
 func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldContext(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldDecode(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *func([]byte, aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtContainer, error) {
+func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldDecode(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *func([]byte, aper.DecodeState) (RecommendedCellsForPagingExtIEsExtContainer, error) {
 	return &v.decode
 }
-func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldEncode(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *func(s10.RecommendedCellsForPagingExtIEsExtContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldEncode(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *func(RecommendedCellsForPagingExtIEsExtContainer, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
 func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecFieldPath(v *RecommendedCellsForPagingExtIEsExtContainerValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecMethodEncodeBudgetValue(v RecommendedCellsForPagingExtIEsExtContainerValueCodec, a0 s10.RecommendedCellsForPagingExtIEsExtContainer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecMethodEncodeBudgetValue(v RecommendedCellsForPagingExtIEsExtContainerValueCodec, a0 RecommendedCellsForPagingExtIEsExtContainer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudgetValue(a0, a1, a2)
 }
-func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecMethodEncodeChanged(v RecommendedCellsForPagingExtIEsExtContainerValueCodec, a0 s10.RecommendedCellsForPagingExtIEsExtContainer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+func BridgeRecommendedCellsForPagingExtIEsExtContainerValueCodecMethodEncodeChanged(v RecommendedCellsForPagingExtIEsExtContainerValueCodec, a0 RecommendedCellsForPagingExtIEsExtContainer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeRecommendedCellsForPagingExtIEsExtFieldAPERValueFieldContext(v *RecommendedCellsForPagingExtIEsExtFieldAPERValue) *s00.BridgeCodecContext {
@@ -18496,28 +18555,46 @@ func BridgeRecommendedCellsForPagingExtIEsExtFieldAPERValueFieldReplay(v *Recomm
 func BridgeRecommendedCellsForPagingExtIEsExtFieldAPERValueFieldWithoutReplay(v *RecommendedCellsForPagingExtIEsExtFieldAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldCapture(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *func(s10.RecommendedCellsForPagingExtIEsExtField, aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtField, aper.Snapshot) {
+func BridgeRecommendedCellsForPagingExtIEsExtFieldFieldReceived(v *RecommendedCellsForPagingExtIEsExtField) *aper.CompletePadding {
+	return &v.received
+}
+func BridgeRecommendedCellsForPagingExtIEsExtFieldFieldReplay(v *RecommendedCellsForPagingExtIEsExtField) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeRecommendedCellsForPagingExtIEsExtFieldFieldStream(v *RecommendedCellsForPagingExtIEsExtField) *aper.WireSpan {
+	return &v.stream
+}
+func BridgeRecommendedCellsForPagingExtIEsExtFieldFieldWithoutReplay(v *RecommendedCellsForPagingExtIEsExtField) *bool {
+	return &v.withoutReplay
+}
+func BridgeRecommendedCellsForPagingExtIEsExtFieldMethodMarshalAPERTo(v *RecommendedCellsForPagingExtIEsExtField, a0 *aper.BitBuffer, a1 ...bool) error {
+	return v.marshalAPERTo(a0, a1...)
+}
+func BridgeRecommendedCellsForPagingExtIEsExtFieldMethodUnmarshalAPERFrom(v *RecommendedCellsForPagingExtIEsExtField, a0 *aper.BitBuffer) error {
+	return v.unmarshalAPERFrom(a0)
+}
+func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldCapture(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *func(RecommendedCellsForPagingExtIEsExtField, aper.DecodeState) (RecommendedCellsForPagingExtIEsExtField, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldCompare(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *func(s10.RecommendedCellsForPagingExtIEsExtField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldCompare(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *func(RecommendedCellsForPagingExtIEsExtField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 	return &v.compare
 }
 func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldContext(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldDecode(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *func([]byte, aper.DecodeState) (s10.RecommendedCellsForPagingExtIEsExtField, error) {
+func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldDecode(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *func([]byte, aper.DecodeState) (RecommendedCellsForPagingExtIEsExtField, error) {
 	return &v.decode
 }
-func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldEncode(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *func(s10.RecommendedCellsForPagingExtIEsExtField, bool, *aper.DecodeBudget) ([]byte, error) {
+func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldEncode(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *func(RecommendedCellsForPagingExtIEsExtField, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
 func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecFieldPath(v *RecommendedCellsForPagingExtIEsExtFieldValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecMethodEncodeBudgetValue(v RecommendedCellsForPagingExtIEsExtFieldValueCodec, a0 s10.RecommendedCellsForPagingExtIEsExtField, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecMethodEncodeBudgetValue(v RecommendedCellsForPagingExtIEsExtFieldValueCodec, a0 RecommendedCellsForPagingExtIEsExtField, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudgetValue(a0, a1, a2)
 }
-func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecMethodEncodeChanged(v RecommendedCellsForPagingExtIEsExtFieldValueCodec, a0 s10.RecommendedCellsForPagingExtIEsExtField, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+func BridgeRecommendedCellsForPagingExtIEsExtFieldValueCodecMethodEncodeChanged(v RecommendedCellsForPagingExtIEsExtFieldValueCodec, a0 RecommendedCellsForPagingExtIEsExtField, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeRecommendedCellsForPagingExtIEsIEFieldFieldReceived(v *RecommendedCellsForPagingExtIEsIEField) *aper.CompletePadding {
@@ -22445,18 +22522,6 @@ func BridgeTimeSynchronisationInfoExtIEsExtContainerValueCodecMethodEncodeBudget
 func BridgeTimeSynchronisationInfoExtIEsExtContainerValueCodecMethodEncodeChanged(v TimeSynchronisationInfoExtIEsExtContainerValueCodec, a0 TimeSynchronisationInfoExtIEsExtContainer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeTimeSynchronisationInfoExtIEsExtFieldAPERValueFieldContext(v *TimeSynchronisationInfoExtIEsExtFieldAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldAPERValueFieldReceived(v *TimeSynchronisationInfoExtIEsExtFieldAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldAPERValueFieldReplay(v *TimeSynchronisationInfoExtIEsExtFieldAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldAPERValueFieldWithoutReplay(v *TimeSynchronisationInfoExtIEsExtFieldAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeTimeSynchronisationInfoExtIEsExtFieldFieldReceived(v *TimeSynchronisationInfoExtIEsExtField) *aper.CompletePadding {
 	return &v.received
 }
@@ -22474,28 +22539,4 @@ func BridgeTimeSynchronisationInfoExtIEsExtFieldMethodMarshalAPERTo(v *TimeSynch
 }
 func BridgeTimeSynchronisationInfoExtIEsExtFieldMethodUnmarshalAPERFrom(v *TimeSynchronisationInfoExtIEsExtField, a0 *aper.BitBuffer) error {
 	return v.unmarshalAPERFrom(a0)
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldValueCodecFieldCapture(v *TimeSynchronisationInfoExtIEsExtFieldValueCodec) *func(TimeSynchronisationInfoExtIEsExtField, aper.DecodeState) (TimeSynchronisationInfoExtIEsExtField, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldValueCodecFieldCompare(v *TimeSynchronisationInfoExtIEsExtFieldValueCodec) *func(TimeSynchronisationInfoExtIEsExtField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldValueCodecFieldContext(v *TimeSynchronisationInfoExtIEsExtFieldValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldValueCodecFieldDecode(v *TimeSynchronisationInfoExtIEsExtFieldValueCodec) *func([]byte, aper.DecodeState) (TimeSynchronisationInfoExtIEsExtField, error) {
-	return &v.decode
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldValueCodecFieldEncode(v *TimeSynchronisationInfoExtIEsExtFieldValueCodec) *func(TimeSynchronisationInfoExtIEsExtField, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldValueCodecFieldPath(v *TimeSynchronisationInfoExtIEsExtFieldValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldValueCodecMethodEncodeBudgetValue(v TimeSynchronisationInfoExtIEsExtFieldValueCodec, a0 TimeSynchronisationInfoExtIEsExtField, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeTimeSynchronisationInfoExtIEsExtFieldValueCodecMethodEncodeChanged(v TimeSynchronisationInfoExtIEsExtFieldValueCodec, a0 TimeSynchronisationInfoExtIEsExtField, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
 }

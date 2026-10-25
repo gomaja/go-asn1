@@ -18,15 +18,14 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s12"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s13"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s14"
-	"github.com/gomaja/go-asn1/telecom/lte/lppa/internal/s18"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime"
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// ResultNRItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsExtContainer is ProtocolExtensionContainer {{ResultNR-Item-ExtIEs}} of TS 36.455: a list of ResultNRItemExtIEsExtField values.
 type ResultNRItemExtIEsExtContainer []ResultNRItemExtIEsExtField
 
-// ResultNRItemExtIEsExtField is the concrete ProtocolExtensionField[ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsExtField is ProtocolExtensionField {{ResultNR-Item-ExtIEs}} of TS 36.455: a field carrying a value of ResultNRItemExtIEsValue.
 type ResultNRItemExtIEsExtField struct {
 	withoutReplay  bool
 	replay         aper.Snapshot
@@ -175,7 +174,7 @@ func BridgeResultNRItemExtIEsValueCompareLPPaProtocolExtensionContainer(v *Resul
 	}
 }
 
-// ResultNRItemExtIEsResultsPerSSBIndexListExtBinding is the concrete ExtensionBinding[ResultsPerSSBIndexList, ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsResultsPerSSBIndexListExtBinding binds ResultsPerSSBIndexList to ProtocolExtensionField {{ResultNR-Item-ExtIEs}} of TS 36.455.
 type ResultNRItemExtIEsResultsPerSSBIndexListExtBinding struct {
 	info   s00.FieldInfo
 	codec  s14.ResultsPerSSBIndexListValueCodec
@@ -228,7 +227,7 @@ func (b ResultNRItemExtIEsResultsPerSSBIndexListExtBinding) Get(field *ResultNRI
 	return b.get(&field.ExtensionValue)
 }
 
-// ResultNRItemExtIEsNRCGIExtBinding is the concrete ExtensionBinding[NRCGI, ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsNRCGIExtBinding binds NRCGI to ProtocolExtensionField {{ResultNR-Item-ExtIEs}} of TS 36.455.
 type ResultNRItemExtIEsNRCGIExtBinding struct {
 	info   s00.FieldInfo
 	codec  s07.NRCGIValueCodec
@@ -551,7 +550,7 @@ func (v ResultNRItemAPERValue) WithoutReplay() ResultNRItemAPERValue {
 	return v
 }
 
-// ResultNRItemExtIEsIEField is the concrete ProtocolIEField[ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsIEField uses the ProtocolIE-Field shape for object set ResultNR-Item-ExtIEs of TS 36.455.
 type ResultNRItemExtIEsIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -666,7 +665,7 @@ func (v *ResultNRItemExtIEsIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error 
 	return nil
 }
 
-// ResultNRItemExtIEsIEContainer is the concrete ProtocolIEContainer[ResultNRItemExtIEsValue].
+// ResultNRItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ResultNR-Item-ExtIEs of TS 36.455: a list of ResultNRItemExtIEsIEField values.
 type ResultNRItemExtIEsIEContainer []ResultNRItemExtIEsIEField
 type ResultNR = []ResultNRItem
 
@@ -764,10 +763,9 @@ func BridgeUnmarshalAPERPosSIBsFrom(bb *aper.BitBuffer) (s10.PosSIBs, error) {
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERPosSIBsInto(v *s10.BridgeAsn1cAPERPosSIBsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s10.PosSIBs, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 32, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -775,7 +773,7 @@ func BridgeUnmarshalAPERPosSIBsInto(v *s10.BridgeAsn1cAPERPosSIBsListValue, bb *
 			var elem s10.PosSIBsElem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s10.BridgePosSIBsElemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -787,9 +785,8 @@ func BridgeUnmarshalAPERPosSIBsInto(v *s10.BridgeAsn1cAPERPosSIBsListValue, bb *
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -867,10 +864,9 @@ func BridgeUnmarshalAPERPosSIBSegmentsFrom(bb *aper.BitBuffer) (s08.PosSIBSegmen
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERPosSIBSegmentsInto(v *s09.BridgeAsn1cAPERPosSIBSegmentsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s08.PosSIBSegments, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -878,7 +874,7 @@ func BridgeUnmarshalAPERPosSIBSegmentsInto(v *s09.BridgeAsn1cAPERPosSIBSegmentsL
 			var elem s08.PosSIBSegmentsElem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s08.BridgePosSIBSegmentsElemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -890,9 +886,8 @@ func BridgeUnmarshalAPERPosSIBSegmentsInto(v *s09.BridgeAsn1cAPERPosSIBSegmentsL
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -970,10 +965,9 @@ func BridgeUnmarshalAPERResultRSRPFrom(bb *aper.BitBuffer) (s12.ResultRSRP, erro
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERResultRSRPInto(v *s12.BridgeAsn1cAPERResultRSRPListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s12.ResultRSRP, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -981,7 +975,7 @@ func BridgeUnmarshalAPERResultRSRPInto(v *s12.BridgeAsn1cAPERResultRSRPListValue
 			var elem s12.ResultRSRPItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s12.BridgeResultRSRPItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -993,9 +987,8 @@ func BridgeUnmarshalAPERResultRSRPInto(v *s12.BridgeAsn1cAPERResultRSRPListValue
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1073,10 +1066,9 @@ func BridgeUnmarshalAPERResultRSRQFrom(bb *aper.BitBuffer) (s13.ResultRSRQ, erro
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERResultRSRQInto(v *s13.BridgeAsn1cAPERResultRSRQListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s13.ResultRSRQ, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1084,7 +1076,7 @@ func BridgeUnmarshalAPERResultRSRQInto(v *s13.BridgeAsn1cAPERResultRSRQListValue
 			var elem s13.ResultRSRQItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s13.BridgeResultRSRQItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1096,9 +1088,8 @@ func BridgeUnmarshalAPERResultRSRQInto(v *s13.BridgeAsn1cAPERResultRSRQListValue
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1176,10 +1167,9 @@ func BridgeUnmarshalAPERResultGERANFrom(bb *aper.BitBuffer) (s12.ResultGERAN, er
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERResultGERANInto(v *s12.BridgeAsn1cAPERResultGERANListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s12.ResultGERAN, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1187,7 +1177,7 @@ func BridgeUnmarshalAPERResultGERANInto(v *s12.BridgeAsn1cAPERResultGERANListVal
 			var elem s12.ResultGERANItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s12.BridgeResultGERANItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1199,9 +1189,8 @@ func BridgeUnmarshalAPERResultGERANInto(v *s12.BridgeAsn1cAPERResultGERANListVal
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1279,10 +1268,9 @@ func BridgeUnmarshalAPERResultUTRANFrom(bb *aper.BitBuffer) (s14.ResultUTRAN, er
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERResultUTRANInto(v *s14.BridgeAsn1cAPERResultUTRANListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s14.ResultUTRAN, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 8, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1290,7 +1278,7 @@ func BridgeUnmarshalAPERResultUTRANInto(v *s14.BridgeAsn1cAPERResultUTRANListVal
 			var elem s14.ResultUTRANItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s14.BridgeResultUTRANItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1302,9 +1290,8 @@ func BridgeUnmarshalAPERResultUTRANInto(v *s14.BridgeAsn1cAPERResultUTRANListVal
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1534,7 +1521,7 @@ func (v *ResultNRItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(ResultNRItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -1685,10 +1672,9 @@ func BridgeUnmarshalAPERResultsPerSSBIndexListFrom(bb *aper.BitBuffer) (s14.Resu
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERResultsPerSSBIndexListInto(v *s14.BridgeAsn1cAPERResultsPerSSBIndexListListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s14.ResultsPerSSBIndexList, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 64, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -1696,7 +1682,7 @@ func BridgeUnmarshalAPERResultsPerSSBIndexListInto(v *s14.BridgeAsn1cAPERResults
 			var elem s14.ResultsPerSSBIndexItem
 			elementMark := bb.EnterIndex(fragmentOffset_value + i)
 			if err := s14.BridgeResultsPerSSBIndexItemMethodUnmarshalAPERFrom(&elem, bb); err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			bb.LeaveComponent(elementMark)
 			if next, err := aper.AppendValues(bb, v.Value, elem); err != nil {
@@ -1708,9 +1694,8 @@ func BridgeUnmarshalAPERResultsPerSSBIndexListInto(v *s14.BridgeAsn1cAPERResults
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -1788,17 +1773,16 @@ func BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsFrom(bb *ap
 	return v.Value, nil
 }
 func BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsInto(v *s00.BridgeAsn1cAPERPRSFrequencyHoppingConfigurationBandPositionsListValue, bb *aper.BitBuffer) error {
-	toleranceMark_value := bb.EnterComponent("Value")
 	v.Value = make(s00.PRSFrequencyHoppingConfigurationBandPositions, 0)
 	_, errCollection_value := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 7, HasUpper: true}, true, func(fragmentOffset_value, fragmentLength_value int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1136
+		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1144
 		if fragmentOffset_value < 0 || fragmentLength_value < 0 || fragmentLength_value > int64(^uint(0)>>1) || fragmentOffset_value > int64(^uint(0)>>1)-fragmentLength_value {
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_value; i++ {
 			val, err := aper.DecodeIntegerBigBoundsAligned(bb, s00.BridgeAsn1IntegerBound1, s00.BridgeAsn1IntegerBound7, true)
 			if err != nil {
-				return runtime.WrapDecodePath(err, fmt.Sprintf("Value[%d]", fragmentOffset_value+i))
+				return runtime.WrapDecodePath(err, fmt.Sprintf("[%d]", fragmentOffset_value+i))
 			}
 			if next, err := aper.AppendValues(bb, v.Value, val); err != nil {
 				return err
@@ -1809,9 +1793,8 @@ func BridgeUnmarshalAPERPRSFrequencyHoppingConfigurationBandPositionsInto(v *s00
 		return nil
 	})
 	if errCollection_value != nil {
-		return runtime.WrapDecodePath(errCollection_value, "Value")
+		return errCollection_value
 	}
-	bb.LeaveComponent(toleranceMark_value)
 	return nil
 }
 
@@ -3147,15 +3130,6 @@ func UnmarshalAPERPRSFrequencyHoppingConfigurationBandPositions(data []byte, opt
 	report, err := v.UnmarshalAPER(data, options...)
 	return v, report, err
 }
-
-// UnmarshalAPEROTDOAInformationType decodes a OTDOAInformationType list from APER.
-func BridgeUnmarshalAPEROTDOAInformationType(data []byte) (s18.OTDOAInformationTypeComplete, error) {
-	var value s18.OTDOAInformationTypeComplete
-	if err := s18.BridgeOTDOAInformationTypeCompleteMethodUnmarshalAPERLegacy(&value, data); err != nil {
-		return value, err
-	}
-	return value, nil
-}
 func BridgeCaptureLPPaPRSFrequencyHoppingConfigurationBandPositionsComplete(v *PRSFrequencyHoppingConfigurationBandPositionsComplete, s *aper.SemanticCapture) {
 	if s.Failed() {
 		return
@@ -3768,7 +3742,7 @@ func (t ResultNRItemExtIETable) ResultsPerSSBIndexList() ResultNRItemExtIEsResul
 			decoded, err := zero.decode(s00.ProtocolIEID(25), raw)
 			if err != nil {
 				var empty s14.ResultsPerSSBIndexList
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ResultsPerSSBIndexList")
 			}
 			value, ok := decoded.AsResultsPerSSBIndexList()
 			if !ok {
@@ -3835,7 +3809,7 @@ func (t ResultNRItemExtIETable) NRCGI() ResultNRItemExtIEsNRCGIExtBinding {
 			decoded, err := zero.decode(s00.ProtocolIEID(27), raw)
 			if err != nil {
 				var empty s07.NRCGI
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "NRCGI")
 			}
 			value, ok := decoded.AsNRCGI()
 			if !ok {
@@ -4263,6 +4237,25 @@ func ResultUTRANCodec() s14.ResultUTRANValueCodec {
 func ResultsPerSSBIndexListCodec() s14.ResultsPerSSBIndexListValueCodec {
 	return ResultNRItemExtIEs().ResultsPerSSBIndexList().Codec()
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ResultNRItemExtIEsValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 25:
+		if v.rowResultsPerSSBIndexList != nil {
+			return v.rowResultsPerSSBIndexList, true
+		}
+	case 27:
+		if v.rowNRCGI != nil {
+			return v.rowNRCGI, true
+		}
+	}
+	return nil, false
+}
+
 func BridgePRSFrequencyHoppingConfigurationBandPositionsCompleteFieldPerPadding(v *PRSFrequencyHoppingConfigurationBandPositionsComplete) *aper.CompletePadding {
 	return &v.perPadding
 }

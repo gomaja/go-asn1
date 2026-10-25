@@ -1744,7 +1744,7 @@ func X2apInternalERABUsageReportItemValueCodecEncodeChanged(c ERABUsageReportIte
 	return out, aper.OperationError(err, c.path)
 }
 
-// SecurityIndicationExtIEsExtField is the concrete ProtocolExtensionField[SecurityIndicationExtIEsValue].
+// SecurityIndicationExtIEsExtField is ProtocolExtensionField {{SecurityIndication-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SecurityIndicationExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -1862,7 +1862,7 @@ func X2apInternalSecurityIndicationExtIEsExtFieldUnmarshalAPERFrom(v *SecurityIn
 	return nil
 }
 
-// SecurityResultExtIEsExtField is the concrete ProtocolExtensionField[SecurityResultExtIEsValue].
+// SecurityResultExtIEsExtField is ProtocolExtensionField {{SecurityResult-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SecurityResultExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -1980,7 +1980,7 @@ func X2apInternalSecurityResultExtIEsExtFieldUnmarshalAPERFrom(v *SecurityResult
 	return nil
 }
 
-// SensorMeasConfigNameItemExtIEsExtField is the concrete ProtocolExtensionField[SensorMeasConfigNameItemExtIEsValue].
+// SensorMeasConfigNameItemExtIEsExtField is ProtocolExtensionField {{SensorMeasConfigNameItem-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SensorMeasConfigNameItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -2098,7 +2098,7 @@ func X2apInternalSensorMeasConfigNameItemExtIEsExtFieldUnmarshalAPERFrom(v *Sens
 	return nil
 }
 
-// SensorMeasurementConfigurationExtIEsExtField is the concrete ProtocolExtensionField[SensorMeasurementConfigurationExtIEsValue].
+// SensorMeasurementConfigurationExtIEsExtField is ProtocolExtensionField {{SensorMeasurementConfiguration-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SensorMeasurementConfigurationExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -2216,7 +2216,7 @@ func X2apInternalSensorMeasurementConfigurationExtIEsExtFieldUnmarshalAPERFrom(v
 	return nil
 }
 
-// SensorNameConfigExtIEField is the concrete ProtocolIEField[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEField is ProtocolIE-Field {{SensorNameConfig-ExtIEs}} of TS 36.423 §9.3.8: an information element field.
 type SensorNameConfigExtIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -2334,7 +2334,7 @@ func X2apInternalSensorNameConfigExtIEFieldUnmarshalAPERFrom(v *SensorNameConfig
 	return nil
 }
 
-// ServedCellSpecificInfoReqNRItemExtIEsExtField is the concrete ProtocolExtensionField[ServedCellSpecificInfoReqNRItemExtIEsValue].
+// ServedCellSpecificInfoReqNRItemExtIEsExtField is ProtocolExtensionField {{ServedCellSpecificInfoReq-NR-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ServedCellSpecificInfoReqNRItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -2540,7 +2540,7 @@ func X2apInternalECGIValueCodecEncodeChanged(c ECGIValueCodec, value ECGI, fresh
 	return out, aper.OperationError(err, c.path)
 }
 
-// SpecialSubframeInfoExtIEsExtField is the concrete ProtocolExtensionField[SpecialSubframeInfoExtIEsValue].
+// SpecialSubframeInfoExtIEsExtField is ProtocolExtensionField {{SpecialSubframe-Info-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SpecialSubframeInfoExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -2658,7 +2658,7 @@ func X2apInternalSpecialSubframeInfoExtIEsExtFieldUnmarshalAPERFrom(v *SpecialSu
 	return nil
 }
 
-// SplitSRBExtIEsExtField is the concrete ProtocolExtensionField[SplitSRBExtIEsValue].
+// SplitSRBExtIEsExtField is ProtocolExtensionField {{SplitSRB-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SplitSRBExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -2776,7 +2776,7 @@ func X2apInternalSplitSRBExtIEsExtFieldUnmarshalAPERFrom(v *SplitSRBExtIEsExtFie
 	return nil
 }
 
-// SubbandCQIExtIEsExtField is the concrete ProtocolExtensionField[SubbandCQIExtIEsValue].
+// SubbandCQIExtIEsExtField is ProtocolExtensionField {{SubbandCQI-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SubbandCQIExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -2894,7 +2894,7 @@ func X2apInternalSubbandCQIExtIEsExtFieldUnmarshalAPERFrom(v *SubbandCQIExtIEsEx
 	return nil
 }
 
-// SubbandCQIItemExtIEsExtField is the concrete ProtocolExtensionField[SubbandCQIItemExtIEsValue].
+// SubbandCQIItemExtIEsExtField is ProtocolExtensionField {{SubbandCQIItem-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SubbandCQIItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3012,7 +3012,7 @@ func X2apInternalSubbandCQIItemExtIEsExtFieldUnmarshalAPERFrom(v *SubbandCQIItem
 	return nil
 }
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsExtField is the concrete ProtocolExtensionField[SubscriptionBasedUEDifferentiationInfoExtIEsValue].
+// SubscriptionBasedUEDifferentiationInfoExtIEsExtField is ProtocolExtensionField {{Subscription-Based-UE-DifferentiationInfo-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SubscriptionBasedUEDifferentiationInfoExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3130,7 +3130,7 @@ func X2apInternalSubscriptionBasedUEDifferentiationInfoExtIEsExtFieldUnmarshalAP
 	return nil
 }
 
-// SupportedSULFreqBandItemExtIEsExtField is the concrete ProtocolExtensionField[SupportedSULFreqBandItemExtIEsValue].
+// SupportedSULFreqBandItemExtIEsExtField is ProtocolExtensionField {{SupportedSULFreqBandItem-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type SupportedSULFreqBandItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3248,7 +3248,7 @@ func X2apInternalSupportedSULFreqBandItemExtIEsExtFieldUnmarshalAPERFrom(v *Supp
 	return nil
 }
 
-// TABasedMDTExtIEsExtField is the concrete ProtocolExtensionField[TABasedMDTExtIEsValue].
+// TABasedMDTExtIEsExtField is ProtocolExtensionField {{TABasedMDT-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TABasedMDTExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3366,7 +3366,7 @@ func X2apInternalTABasedMDTExtIEsExtFieldUnmarshalAPERFrom(v *TABasedMDTExtIEsEx
 	return nil
 }
 
-// TABasedQMCExtIEsExtField is the concrete ProtocolExtensionField[TABasedQMCExtIEsValue].
+// TABasedQMCExtIEsExtField is ProtocolExtensionField {{TABasedQMC-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TABasedQMCExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3484,7 +3484,7 @@ func X2apInternalTABasedQMCExtIEsExtFieldUnmarshalAPERFrom(v *TABasedQMCExtIEsEx
 	return nil
 }
 
-// TAIItemExtIEsExtField is the concrete ProtocolExtensionField[TAIItemExtIEsValue].
+// TAIItemExtIEsExtField is ProtocolExtensionField {{TAI-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TAIItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3602,7 +3602,7 @@ func X2apInternalTAIItemExtIEsExtFieldUnmarshalAPERFrom(v *TAIItemExtIEsExtField
 	return nil
 }
 
-// TAIBasedMDTExtIEsExtField is the concrete ProtocolExtensionField[TAIBasedMDTExtIEsValue].
+// TAIBasedMDTExtIEsExtField is ProtocolExtensionField {{TAIBasedMDT-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TAIBasedMDTExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3720,7 +3720,7 @@ func X2apInternalTAIBasedMDTExtIEsExtFieldUnmarshalAPERFrom(v *TAIBasedMDTExtIEs
 	return nil
 }
 
-// TAIBasedQMCExtIEsExtField is the concrete ProtocolExtensionField[TAIBasedQMCExtIEsValue].
+// TAIBasedQMCExtIEsExtField is ProtocolExtensionField {{TAIBasedQMC-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TAIBasedQMCExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3838,7 +3838,7 @@ func X2apInternalTAIBasedQMCExtIEsExtFieldUnmarshalAPERFrom(v *TAIBasedQMCExtIEs
 	return nil
 }
 
-// TNLAFailedToSetupItemExtIEsExtField is the concrete ProtocolExtensionField[TNLAFailedToSetupItemExtIEsValue].
+// TNLAFailedToSetupItemExtIEsExtField is ProtocolExtensionField {{TNLA-Failed-To-Setup-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TNLAFailedToSetupItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -3956,7 +3956,7 @@ func X2apInternalTNLAFailedToSetupItemExtIEsExtFieldUnmarshalAPERFrom(v *TNLAFai
 	return nil
 }
 
-// TNLASetupItemExtIEsExtField is the concrete ProtocolExtensionField[TNLASetupItemExtIEsValue].
+// TNLASetupItemExtIEsExtField is ProtocolExtensionField {{TNLA-Setup-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TNLASetupItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4074,7 +4074,7 @@ func X2apInternalTNLASetupItemExtIEsExtFieldUnmarshalAPERFrom(v *TNLASetupItemEx
 	return nil
 }
 
-// TNLAToAddItemExtIEsExtField is the concrete ProtocolExtensionField[TNLAToAddItemExtIEsValue].
+// TNLAToAddItemExtIEsExtField is ProtocolExtensionField {{TNLA-To-Add-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TNLAToAddItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4192,7 +4192,7 @@ func X2apInternalTNLAToAddItemExtIEsExtFieldUnmarshalAPERFrom(v *TNLAToAddItemEx
 	return nil
 }
 
-// TNLAToRemoveItemExtIEsExtField is the concrete ProtocolExtensionField[TNLAToRemoveItemExtIEsValue].
+// TNLAToRemoveItemExtIEsExtField is ProtocolExtensionField {{TNLA-To-Remove-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TNLAToRemoveItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4310,7 +4310,7 @@ func X2apInternalTNLAToRemoveItemExtIEsExtFieldUnmarshalAPERFrom(v *TNLAToRemove
 	return nil
 }
 
-// TNLAToUpdateItemExtIEsExtField is the concrete ProtocolExtensionField[TNLAToUpdateItemExtIEsValue].
+// TNLAToUpdateItemExtIEsExtField is ProtocolExtensionField {{TNLA-To-Update-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TNLAToUpdateItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4428,7 +4428,7 @@ func X2apInternalTNLAToUpdateItemExtIEsExtFieldUnmarshalAPERFrom(v *TNLAToUpdate
 	return nil
 }
 
-// TNLCapacityIndicatorExtIEsExtField is the concrete ProtocolExtensionField[TNLCapacityIndicatorExtIEsValue].
+// TNLCapacityIndicatorExtIEsExtField is ProtocolExtensionField {{TNLCapacityIndicator-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TNLCapacityIndicatorExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4546,7 +4546,7 @@ func X2apInternalTNLCapacityIndicatorExtIEsExtFieldUnmarshalAPERFrom(v *TNLCapac
 	return nil
 }
 
-// TNLConfigurationInfoExtIEsExtField is the concrete ProtocolExtensionField[TNLConfigurationInfoExtIEsValue].
+// TNLConfigurationInfoExtIEsExtField is ProtocolExtensionField {{TNLConfigurationInfo-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TNLConfigurationInfoExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4664,7 +4664,7 @@ func X2apInternalTNLConfigurationInfoExtIEsExtFieldUnmarshalAPERFrom(v *TNLConfi
 	return nil
 }
 
-// TransportUPLayerAddressesInfoToAddItemExtIEsExtField is the concrete ProtocolExtensionField[TransportUPLayerAddressesInfoToAddItemExtIEsValue].
+// TransportUPLayerAddressesInfoToAddItemExtIEsExtField is ProtocolExtensionField {{Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TransportUPLayerAddressesInfoToAddItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4782,7 +4782,7 @@ func X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsExtFieldUnmarshalAP
 	return nil
 }
 
-// TransportUPLayerAddressesInfoToRemoveItemExtIEsExtField is the concrete ProtocolExtensionField[TransportUPLayerAddressesInfoToRemoveItemExtIEsValue].
+// TransportUPLayerAddressesInfoToRemoveItemExtIEsExtField is ProtocolExtensionField {{Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TransportUPLayerAddressesInfoToRemoveItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -4900,7 +4900,7 @@ func X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsExtFieldUnmarsha
 	return nil
 }
 
-// TunnelInformationExtIEsExtField is the concrete ProtocolExtensionField[TunnelInformationExtIEsValue].
+// TunnelInformationExtIEsExtField is ProtocolExtensionField {{Tunnel-Information-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type TunnelInformationExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5018,7 +5018,7 @@ func X2apInternalTunnelInformationExtIEsExtFieldUnmarshalAPERFrom(v *TunnelInfor
 	return nil
 }
 
-// UESidelinkAggregateMaximumBitRateExtIEsExtField is the concrete ProtocolExtensionField[UESidelinkAggregateMaximumBitRateExtIEsValue].
+// UESidelinkAggregateMaximumBitRateExtIEsExtField is ProtocolExtensionField {{UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type UESidelinkAggregateMaximumBitRateExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5136,7 +5136,7 @@ func X2apInternalUESidelinkAggregateMaximumBitRateExtIEsExtFieldUnmarshalAPERFro
 	return nil
 }
 
-// UESecurityCapabilitiesExtIEsExtField is the concrete ProtocolExtensionField[UESecurityCapabilitiesExtIEsValue].
+// UESecurityCapabilitiesExtIEsExtField is ProtocolExtensionField {{UESecurityCapabilities-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type UESecurityCapabilitiesExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5254,7 +5254,7 @@ func X2apInternalUESecurityCapabilitiesExtIEsExtFieldUnmarshalAPERFrom(v *UESecu
 	return nil
 }
 
-// UEsToBeResetListItemExtIEsExtField is the concrete ProtocolExtensionField[UEsToBeResetListItemExtIEsValue].
+// UEsToBeResetListItemExtIEsExtField is ProtocolExtensionField {{UEsToBeResetList-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type UEsToBeResetListItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5372,7 +5372,7 @@ func X2apInternalUEsToBeResetListItemExtIEsExtFieldUnmarshalAPERFrom(v *UEsToBeR
 	return nil
 }
 
-// ULHighInterferenceIndicationInfoItemExtIEsExtField is the concrete ProtocolExtensionField[ULHighInterferenceIndicationInfoItemExtIEsValue].
+// ULHighInterferenceIndicationInfoItemExtIEsExtField is ProtocolExtensionField {{UL-HighInterferenceIndicationInfo-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ULHighInterferenceIndicationInfoItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5490,7 +5490,7 @@ func X2apInternalULHighInterferenceIndicationInfoItemExtIEsExtFieldUnmarshalAPER
 	return nil
 }
 
-// ULConfigurationExtIEsExtField is the concrete ProtocolExtensionField[ULConfigurationExtIEsValue].
+// ULConfigurationExtIEsExtField is ProtocolExtensionField {{ULConfiguration-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ULConfigurationExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5608,7 +5608,7 @@ func X2apInternalULConfigurationExtIEsExtFieldUnmarshalAPERFrom(v *ULConfigurati
 	return nil
 }
 
-// ULOnlySharingExtIEsExtField is the concrete ProtocolExtensionField[ULOnlySharingExtIEsValue].
+// ULOnlySharingExtIEsExtField is ProtocolExtensionField {{ULOnlySharing-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ULOnlySharingExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5726,7 +5726,7 @@ func X2apInternalULOnlySharingExtIEsExtFieldUnmarshalAPERFrom(v *ULOnlySharingEx
 	return nil
 }
 
-// ULandDLSharingExtIEsExtField is the concrete ProtocolExtensionField[ULandDLSharingExtIEsValue].
+// ULandDLSharingExtIEsExtField is ProtocolExtensionField {{ULandDLSharing-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ULandDLSharingExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5844,7 +5844,7 @@ func X2apInternalULandDLSharingExtIEsExtFieldUnmarshalAPERFrom(v *ULandDLSharing
 	return nil
 }
 
-// UsableABSInformationFDDExtIEsExtField is the concrete ProtocolExtensionField[UsableABSInformationFDDExtIEsValue].
+// UsableABSInformationFDDExtIEsExtField is ProtocolExtensionField {{UsableABSInformationFDD-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type UsableABSInformationFDDExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -5962,7 +5962,7 @@ func X2apInternalUsableABSInformationFDDExtIEsExtFieldUnmarshalAPERFrom(v *Usabl
 	return nil
 }
 
-// UsableABSInformationTDDExtIEsExtField is the concrete ProtocolExtensionField[UsableABSInformationTDDExtIEsValue].
+// UsableABSInformationTDDExtIEsExtField is ProtocolExtensionField {{UsableABSInformationTDD-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type UsableABSInformationTDDExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -6080,7 +6080,7 @@ func X2apInternalUsableABSInformationTDDExtIEsExtFieldUnmarshalAPERFrom(v *Usabl
 	return nil
 }
 
-// V2XServicesAuthorizedExtIEsExtField is the concrete ProtocolExtensionField[V2XServicesAuthorizedExtIEsValue].
+// V2XServicesAuthorizedExtIEsExtField is ProtocolExtensionField {{V2XServicesAuthorized-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type V2XServicesAuthorizedExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -6198,7 +6198,7 @@ func X2apInternalV2XServicesAuthorizedExtIEsExtFieldUnmarshalAPERFrom(v *V2XServ
 	return nil
 }
 
-// WLANMeasurementConfigurationExtIEsExtField is the concrete ProtocolExtensionField[WLANMeasurementConfigurationExtIEsValue].
+// WLANMeasurementConfigurationExtIEsExtField is ProtocolExtensionField {{WLANMeasurementConfiguration-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type WLANMeasurementConfigurationExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -6316,7 +6316,7 @@ func X2apInternalWLANMeasurementConfigurationExtIEsExtFieldUnmarshalAPERFrom(v *
 	return nil
 }
 
-// WidebandCQIExtIEsExtField is the concrete ProtocolExtensionField[WidebandCQIExtIEsValue].
+// WidebandCQIExtIEsExtField is ProtocolExtensionField {{WidebandCQI-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type WidebandCQIExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -7050,7 +7050,7 @@ func X2apInternalCHOinformationACKValueCodecEncodeChanged(c CHOinformationACKVal
 	return out, aper.OperationError(err, c.path)
 }
 
-// ServedCellsToActivateItemExtIEsExtField is the concrete ProtocolExtensionField[ServedCellsToActivateItemExtIEsValue].
+// ServedCellsToActivateItemExtIEsExtField is ProtocolExtensionField {{ServedCellsToActivate-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ServedCellsToActivateItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -7168,7 +7168,7 @@ func X2apInternalServedCellsToActivateItemExtIEsExtFieldUnmarshalAPERFrom(v *Ser
 	return nil
 }
 
-// ServedEUTRAcellsENDCX2ManagementExtIEsExtField is the concrete ProtocolExtensionField[ServedEUTRAcellsENDCX2ManagementExtIEsValue].
+// ServedEUTRAcellsENDCX2ManagementExtIEsExtField is ProtocolExtensionField {{ServedEUTRAcellsENDCX2Management-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ServedEUTRAcellsENDCX2ManagementExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -7286,7 +7286,7 @@ func X2apInternalServedEUTRAcellsENDCX2ManagementExtIEsExtFieldUnmarshalAPERFrom
 	return nil
 }
 
-// ServedEUTRAcellsToModifyListENDCConfUpdExtIEsExtField is the concrete ProtocolExtensionField[ServedEUTRAcellsToModifyListENDCConfUpdExtIEsValue].
+// ServedEUTRAcellsToModifyListENDCConfUpdExtIEsExtField is ProtocolExtensionField {{ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ServedEUTRAcellsToModifyListENDCConfUpdExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -7404,7 +7404,7 @@ func X2apInternalServedEUTRAcellsToModifyListENDCConfUpdExtIEsExtFieldUnmarshalA
 	return nil
 }
 
-// ServedNRCellsToActivateItemExtIEsExtField is the concrete ProtocolExtensionField[ServedNRCellsToActivateItemExtIEsValue].
+// ServedNRCellsToActivateItemExtIEsExtField is ProtocolExtensionField {{ServedNRCellsToActivate-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ServedNRCellsToActivateItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -7522,7 +7522,7 @@ func X2apInternalServedNRCellsToActivateItemExtIEsExtFieldUnmarshalAPERFrom(v *S
 	return nil
 }
 
-// ServedNRCellsToModifyItemExtIEsExtField is the concrete ProtocolExtensionField[ServedNRCellsToModifyItemExtIEsValue].
+// ServedNRCellsToModifyItemExtIEsExtField is ProtocolExtensionField {{ServedNRCellsToModify-Item-ExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type ServedNRCellsToModifyItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -7640,7 +7640,7 @@ func X2apInternalServedNRCellsToModifyItemExtIEsExtFieldUnmarshalAPERFrom(v *Ser
 	return nil
 }
 
-// UEContextInformationSeNBModReqExtIEsExtField is the concrete ProtocolExtensionField[UEContextInformationSeNBModReqExtIEsValue].
+// UEContextInformationSeNBModReqExtIEsExtField is ProtocolExtensionField {{UE-ContextInformationSeNBModReqExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type UEContextInformationSeNBModReqExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -7758,7 +7758,7 @@ func X2apInternalUEContextInformationSeNBModReqExtIEsExtFieldUnmarshalAPERFrom(v
 	return nil
 }
 
-// UEContextReferenceAtSeNBItemExtIEsExtField is the concrete ProtocolExtensionField[UEContextReferenceAtSeNBItemExtIEsValue].
+// UEContextReferenceAtSeNBItemExtIEsExtField is ProtocolExtensionField {{UE-ContextReferenceAtSeNB-ItemExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type UEContextReferenceAtSeNBItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -7876,7 +7876,7 @@ func X2apInternalUEContextReferenceAtSeNBItemExtIEsExtFieldUnmarshalAPERFrom(v *
 	return nil
 }
 
-// UEContextReferenceAtSgNBItemExtIEsExtField is the concrete ProtocolExtensionField[UEContextReferenceAtSgNBItemExtIEsValue].
+// UEContextReferenceAtSgNBItemExtIEsExtField is ProtocolExtensionField {{UE-ContextReferenceAtSgNB-ItemExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type UEContextReferenceAtSgNBItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -7994,7 +7994,7 @@ func X2apInternalUEContextReferenceAtSgNBItemExtIEsExtFieldUnmarshalAPERFrom(v *
 	return nil
 }
 
-// UEContextReferenceAtWTItemExtIEsExtField is the concrete ProtocolExtensionField[UEContextReferenceAtWTItemExtIEsValue].
+// UEContextReferenceAtWTItemExtIEsExtField is ProtocolExtensionField {{UE-ContextReferenceAtWT-ItemExtIEs}} of TS 36.423 §9.3.8: an extension field.
 type UEContextReferenceAtWTItemExtIEsExtField struct {
 	Id             s00.ProtocolIEID
 	Criticality    s00.Criticality
@@ -9168,151 +9168,151 @@ func X2apInternalReplacingCellsListItemValueCodecEncodeChanged(c ReplacingCellsL
 	return out, aper.OperationError(err, c.path)
 }
 
-// SensorNameConfigExtIEContainer is the concrete ProtocolIEContainer[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEContainer is ProtocolIE-Container {{SensorNameConfig-ExtIEs}} of TS 36.423 §9.3.8: a list of SensorNameConfigExtIEField values.
 type SensorNameConfigExtIEContainer []SensorNameConfigExtIEField
 
-// SplitSRBExtIEsExtContainer is the concrete ProtocolExtensionContainer[SplitSRBExtIEsValue].
+// SplitSRBExtIEsExtContainer is ProtocolExtensionContainer {{SplitSRB-ExtIEs}} of TS 36.423 §9.3.8: a list of SplitSRBExtIEsExtField values.
 type SplitSRBExtIEsExtContainer []SplitSRBExtIEsExtField
 
-// SecurityIndicationExtIEsExtContainer is the concrete ProtocolExtensionContainer[SecurityIndicationExtIEsValue].
+// SecurityIndicationExtIEsExtContainer is ProtocolExtensionContainer {{SecurityIndication-ExtIEs}} of TS 36.423 §9.3.8: a list of SecurityIndicationExtIEsExtField values.
 type SecurityIndicationExtIEsExtContainer []SecurityIndicationExtIEsExtField
 
-// SecurityResultExtIEsExtContainer is the concrete ProtocolExtensionContainer[SecurityResultExtIEsValue].
+// SecurityResultExtIEsExtContainer is ProtocolExtensionContainer {{SecurityResult-ExtIEs}} of TS 36.423 §9.3.8: a list of SecurityResultExtIEsExtField values.
 type SecurityResultExtIEsExtContainer []SecurityResultExtIEsExtField
 
-// SensorMeasurementConfigurationExtIEsExtContainer is the concrete ProtocolExtensionContainer[SensorMeasurementConfigurationExtIEsValue].
+// SensorMeasurementConfigurationExtIEsExtContainer is ProtocolExtensionContainer {{SensorMeasurementConfiguration-ExtIEs}} of TS 36.423 §9.3.8: a list of SensorMeasurementConfigurationExtIEsExtField values.
 type SensorMeasurementConfigurationExtIEsExtContainer []SensorMeasurementConfigurationExtIEsExtField
 
-// SensorMeasConfigNameItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[SensorMeasConfigNameItemExtIEsValue].
+// SensorMeasConfigNameItemExtIEsExtContainer is ProtocolExtensionContainer {{SensorMeasConfigNameItem-ExtIEs}} of TS 36.423 §9.3.8: a list of SensorMeasConfigNameItemExtIEsExtField values.
 type SensorMeasConfigNameItemExtIEsExtContainer []SensorMeasConfigNameItemExtIEsExtField
 
-// SensorNameConfigExtIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[SensorNameConfigExtIEValue].
+// SensorNameConfigExtIEValueProtocolIESingleContainer is ProtocolIE-Single-Container {{SensorNameConfig-ExtIEs}} of TS 36.423 §9.3.8: one information element field.
 type SensorNameConfigExtIEValueProtocolIESingleContainer = SensorNameConfigExtIEField
 
-// ServedCellSpecificInfoReqNRItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ServedCellSpecificInfoReqNRItemExtIEsValue].
+// ServedCellSpecificInfoReqNRItemExtIEsExtContainer is ProtocolExtensionContainer {{ServedCellSpecificInfoReq-NR-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of ServedCellSpecificInfoReqNRItemExtIEsExtField values.
 type ServedCellSpecificInfoReqNRItemExtIEsExtContainer []ServedCellSpecificInfoReqNRItemExtIEsExtField
 
-// SpecialSubframeInfoExtIEsExtContainer is the concrete ProtocolExtensionContainer[SpecialSubframeInfoExtIEsValue].
+// SpecialSubframeInfoExtIEsExtContainer is ProtocolExtensionContainer {{SpecialSubframe-Info-ExtIEs}} of TS 36.423 §9.3.8: a list of SpecialSubframeInfoExtIEsExtField values.
 type SpecialSubframeInfoExtIEsExtContainer []SpecialSubframeInfoExtIEsExtField
 
-// SubbandCQIExtIEsExtContainer is the concrete ProtocolExtensionContainer[SubbandCQIExtIEsValue].
+// SubbandCQIExtIEsExtContainer is ProtocolExtensionContainer {{SubbandCQI-ExtIEs}} of TS 36.423 §9.3.8: a list of SubbandCQIExtIEsExtField values.
 type SubbandCQIExtIEsExtContainer []SubbandCQIExtIEsExtField
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer is the concrete ProtocolExtensionContainer[SubscriptionBasedUEDifferentiationInfoExtIEsValue].
+// SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer is ProtocolExtensionContainer {{Subscription-Based-UE-DifferentiationInfo-ExtIEs}} of TS 36.423 §9.3.8: a list of SubscriptionBasedUEDifferentiationInfoExtIEsExtField values.
 type SubscriptionBasedUEDifferentiationInfoExtIEsExtContainer []SubscriptionBasedUEDifferentiationInfoExtIEsExtField
 
-// SubbandCQIItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[SubbandCQIItemExtIEsValue].
+// SubbandCQIItemExtIEsExtContainer is ProtocolExtensionContainer {{SubbandCQIItem-ExtIEs}} of TS 36.423 §9.3.8: a list of SubbandCQIItemExtIEsExtField values.
 type SubbandCQIItemExtIEsExtContainer []SubbandCQIItemExtIEsExtField
 
-// SupportedSULFreqBandItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[SupportedSULFreqBandItemExtIEsValue].
+// SupportedSULFreqBandItemExtIEsExtContainer is ProtocolExtensionContainer {{SupportedSULFreqBandItem-ExtIEs}} of TS 36.423 §9.3.8: a list of SupportedSULFreqBandItemExtIEsExtField values.
 type SupportedSULFreqBandItemExtIEsExtContainer []SupportedSULFreqBandItemExtIEsExtField
 
-// TABasedMDTExtIEsExtContainer is the concrete ProtocolExtensionContainer[TABasedMDTExtIEsValue].
+// TABasedMDTExtIEsExtContainer is ProtocolExtensionContainer {{TABasedMDT-ExtIEs}} of TS 36.423 §9.3.8: a list of TABasedMDTExtIEsExtField values.
 type TABasedMDTExtIEsExtContainer []TABasedMDTExtIEsExtField
 
-// TAIBasedMDTExtIEsExtContainer is the concrete ProtocolExtensionContainer[TAIBasedMDTExtIEsValue].
+// TAIBasedMDTExtIEsExtContainer is ProtocolExtensionContainer {{TAIBasedMDT-ExtIEs}} of TS 36.423 §9.3.8: a list of TAIBasedMDTExtIEsExtField values.
 type TAIBasedMDTExtIEsExtContainer []TAIBasedMDTExtIEsExtField
 
-// TAIItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TAIItemExtIEsValue].
+// TAIItemExtIEsExtContainer is ProtocolExtensionContainer {{TAI-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of TAIItemExtIEsExtField values.
 type TAIItemExtIEsExtContainer []TAIItemExtIEsExtField
 
-// TABasedQMCExtIEsExtContainer is the concrete ProtocolExtensionContainer[TABasedQMCExtIEsValue].
+// TABasedQMCExtIEsExtContainer is ProtocolExtensionContainer {{TABasedQMC-ExtIEs}} of TS 36.423 §9.3.8: a list of TABasedQMCExtIEsExtField values.
 type TABasedQMCExtIEsExtContainer []TABasedQMCExtIEsExtField
 
-// TAIBasedQMCExtIEsExtContainer is the concrete ProtocolExtensionContainer[TAIBasedQMCExtIEsValue].
+// TAIBasedQMCExtIEsExtContainer is ProtocolExtensionContainer {{TAIBasedQMC-ExtIEs}} of TS 36.423 §9.3.8: a list of TAIBasedQMCExtIEsExtField values.
 type TAIBasedQMCExtIEsExtContainer []TAIBasedQMCExtIEsExtField
 
-// TNLAToAddItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TNLAToAddItemExtIEsValue].
+// TNLAToAddItemExtIEsExtContainer is ProtocolExtensionContainer {{TNLA-To-Add-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of TNLAToAddItemExtIEsExtField values.
 type TNLAToAddItemExtIEsExtContainer []TNLAToAddItemExtIEsExtField
 
-// TNLAToUpdateItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TNLAToUpdateItemExtIEsValue].
+// TNLAToUpdateItemExtIEsExtContainer is ProtocolExtensionContainer {{TNLA-To-Update-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of TNLAToUpdateItemExtIEsExtField values.
 type TNLAToUpdateItemExtIEsExtContainer []TNLAToUpdateItemExtIEsExtField
 
-// TNLAToRemoveItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TNLAToRemoveItemExtIEsValue].
+// TNLAToRemoveItemExtIEsExtContainer is ProtocolExtensionContainer {{TNLA-To-Remove-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of TNLAToRemoveItemExtIEsExtField values.
 type TNLAToRemoveItemExtIEsExtContainer []TNLAToRemoveItemExtIEsExtField
 
-// TNLASetupItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TNLASetupItemExtIEsValue].
+// TNLASetupItemExtIEsExtContainer is ProtocolExtensionContainer {{TNLA-Setup-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of TNLASetupItemExtIEsExtField values.
 type TNLASetupItemExtIEsExtContainer []TNLASetupItemExtIEsExtField
 
-// TNLAFailedToSetupItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TNLAFailedToSetupItemExtIEsValue].
+// TNLAFailedToSetupItemExtIEsExtContainer is ProtocolExtensionContainer {{TNLA-Failed-To-Setup-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of TNLAFailedToSetupItemExtIEsExtField values.
 type TNLAFailedToSetupItemExtIEsExtContainer []TNLAFailedToSetupItemExtIEsExtField
 
-// TNLCapacityIndicatorExtIEsExtContainer is the concrete ProtocolExtensionContainer[TNLCapacityIndicatorExtIEsValue].
+// TNLCapacityIndicatorExtIEsExtContainer is ProtocolExtensionContainer {{TNLCapacityIndicator-ExtIEs}} of TS 36.423 §9.3.8: a list of TNLCapacityIndicatorExtIEsExtField values.
 type TNLCapacityIndicatorExtIEsExtContainer []TNLCapacityIndicatorExtIEsExtField
 
-// TransportUPLayerAddressesInfoToAddItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TransportUPLayerAddressesInfoToAddItemExtIEsValue].
+// TransportUPLayerAddressesInfoToAddItemExtIEsExtContainer is ProtocolExtensionContainer {{Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs}} of TS 36.423 §9.3.8: a list of TransportUPLayerAddressesInfoToAddItemExtIEsExtField values.
 type TransportUPLayerAddressesInfoToAddItemExtIEsExtContainer []TransportUPLayerAddressesInfoToAddItemExtIEsExtField
 
-// TransportUPLayerAddressesInfoToRemoveItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[TransportUPLayerAddressesInfoToRemoveItemExtIEsValue].
+// TransportUPLayerAddressesInfoToRemoveItemExtIEsExtContainer is ProtocolExtensionContainer {{Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs}} of TS 36.423 §9.3.8: a list of TransportUPLayerAddressesInfoToRemoveItemExtIEsExtField values.
 type TransportUPLayerAddressesInfoToRemoveItemExtIEsExtContainer []TransportUPLayerAddressesInfoToRemoveItemExtIEsExtField
 
-// TNLConfigurationInfoExtIEsExtContainer is the concrete ProtocolExtensionContainer[TNLConfigurationInfoExtIEsValue].
+// TNLConfigurationInfoExtIEsExtContainer is ProtocolExtensionContainer {{TNLConfigurationInfo-ExtIEs}} of TS 36.423 §9.3.8: a list of TNLConfigurationInfoExtIEsExtField values.
 type TNLConfigurationInfoExtIEsExtContainer []TNLConfigurationInfoExtIEsExtField
 
-// TunnelInformationExtIEsExtContainer is the concrete ProtocolExtensionContainer[TunnelInformationExtIEsValue].
+// TunnelInformationExtIEsExtContainer is ProtocolExtensionContainer {{Tunnel-Information-ExtIEs}} of TS 36.423 §9.3.8: a list of TunnelInformationExtIEsExtField values.
 type TunnelInformationExtIEsExtContainer []TunnelInformationExtIEsExtField
 
-// UESecurityCapabilitiesExtIEsExtContainer is the concrete ProtocolExtensionContainer[UESecurityCapabilitiesExtIEsValue].
+// UESecurityCapabilitiesExtIEsExtContainer is ProtocolExtensionContainer {{UESecurityCapabilities-ExtIEs}} of TS 36.423 §9.3.8: a list of UESecurityCapabilitiesExtIEsExtField values.
 type UESecurityCapabilitiesExtIEsExtContainer []UESecurityCapabilitiesExtIEsExtField
 
-// UESidelinkAggregateMaximumBitRateExtIEsExtContainer is the concrete ProtocolExtensionContainer[UESidelinkAggregateMaximumBitRateExtIEsValue].
+// UESidelinkAggregateMaximumBitRateExtIEsExtContainer is ProtocolExtensionContainer {{UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs}} of TS 36.423 §9.3.8: a list of UESidelinkAggregateMaximumBitRateExtIEsExtField values.
 type UESidelinkAggregateMaximumBitRateExtIEsExtContainer []UESidelinkAggregateMaximumBitRateExtIEsExtField
 
-// UEsToBeResetListItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[UEsToBeResetListItemExtIEsValue].
+// UEsToBeResetListItemExtIEsExtContainer is ProtocolExtensionContainer {{UEsToBeResetList-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of UEsToBeResetListItemExtIEsExtField values.
 type UEsToBeResetListItemExtIEsExtContainer []UEsToBeResetListItemExtIEsExtField
 
-// ULandDLSharingExtIEsExtContainer is the concrete ProtocolExtensionContainer[ULandDLSharingExtIEsValue].
+// ULandDLSharingExtIEsExtContainer is ProtocolExtensionContainer {{ULandDLSharing-ExtIEs}} of TS 36.423 §9.3.8: a list of ULandDLSharingExtIEsExtField values.
 type ULandDLSharingExtIEsExtContainer []ULandDLSharingExtIEsExtField
 
-// ULConfigurationExtIEsExtContainer is the concrete ProtocolExtensionContainer[ULConfigurationExtIEsValue].
+// ULConfigurationExtIEsExtContainer is ProtocolExtensionContainer {{ULConfiguration-ExtIEs}} of TS 36.423 §9.3.8: a list of ULConfigurationExtIEsExtField values.
 type ULConfigurationExtIEsExtContainer []ULConfigurationExtIEsExtField
 
-// ULHighInterferenceIndicationInfoItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ULHighInterferenceIndicationInfoItemExtIEsValue].
+// ULHighInterferenceIndicationInfoItemExtIEsExtContainer is ProtocolExtensionContainer {{UL-HighInterferenceIndicationInfo-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of ULHighInterferenceIndicationInfoItemExtIEsExtField values.
 type ULHighInterferenceIndicationInfoItemExtIEsExtContainer []ULHighInterferenceIndicationInfoItemExtIEsExtField
 
-// ULOnlySharingExtIEsExtContainer is the concrete ProtocolExtensionContainer[ULOnlySharingExtIEsValue].
+// ULOnlySharingExtIEsExtContainer is ProtocolExtensionContainer {{ULOnlySharing-ExtIEs}} of TS 36.423 §9.3.8: a list of ULOnlySharingExtIEsExtField values.
 type ULOnlySharingExtIEsExtContainer []ULOnlySharingExtIEsExtField
 
-// UsableABSInformationFDDExtIEsExtContainer is the concrete ProtocolExtensionContainer[UsableABSInformationFDDExtIEsValue].
+// UsableABSInformationFDDExtIEsExtContainer is ProtocolExtensionContainer {{UsableABSInformationFDD-ExtIEs}} of TS 36.423 §9.3.8: a list of UsableABSInformationFDDExtIEsExtField values.
 type UsableABSInformationFDDExtIEsExtContainer []UsableABSInformationFDDExtIEsExtField
 
-// UsableABSInformationTDDExtIEsExtContainer is the concrete ProtocolExtensionContainer[UsableABSInformationTDDExtIEsValue].
+// UsableABSInformationTDDExtIEsExtContainer is ProtocolExtensionContainer {{UsableABSInformationTDD-ExtIEs}} of TS 36.423 §9.3.8: a list of UsableABSInformationTDDExtIEsExtField values.
 type UsableABSInformationTDDExtIEsExtContainer []UsableABSInformationTDDExtIEsExtField
 
-// V2XServicesAuthorizedExtIEsExtContainer is the concrete ProtocolExtensionContainer[V2XServicesAuthorizedExtIEsValue].
+// V2XServicesAuthorizedExtIEsExtContainer is ProtocolExtensionContainer {{V2XServicesAuthorized-ExtIEs}} of TS 36.423 §9.3.8: a list of V2XServicesAuthorizedExtIEsExtField values.
 type V2XServicesAuthorizedExtIEsExtContainer []V2XServicesAuthorizedExtIEsExtField
 
-// WidebandCQIExtIEsExtContainer is the concrete ProtocolExtensionContainer[WidebandCQIExtIEsValue].
+// WidebandCQIExtIEsExtContainer is ProtocolExtensionContainer {{WidebandCQI-ExtIEs}} of TS 36.423 §9.3.8: a list of WidebandCQIExtIEsExtField values.
 type WidebandCQIExtIEsExtContainer []WidebandCQIExtIEsExtField
 
-// WLANMeasurementConfigurationExtIEsExtContainer is the concrete ProtocolExtensionContainer[WLANMeasurementConfigurationExtIEsValue].
+// WLANMeasurementConfigurationExtIEsExtContainer is ProtocolExtensionContainer {{WLANMeasurementConfiguration-ExtIEs}} of TS 36.423 §9.3.8: a list of WLANMeasurementConfigurationExtIEsExtField values.
 type WLANMeasurementConfigurationExtIEsExtContainer []WLANMeasurementConfigurationExtIEsExtField
 
-// UEContextReferenceAtSeNBItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[UEContextReferenceAtSeNBItemExtIEsValue].
+// UEContextReferenceAtSeNBItemExtIEsExtContainer is ProtocolExtensionContainer {{UE-ContextReferenceAtSeNB-ItemExtIEs}} of TS 36.423 §9.3.8: a list of UEContextReferenceAtSeNBItemExtIEsExtField values.
 type UEContextReferenceAtSeNBItemExtIEsExtContainer []UEContextReferenceAtSeNBItemExtIEsExtField
 
-// UEContextReferenceAtWTItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[UEContextReferenceAtWTItemExtIEsValue].
+// UEContextReferenceAtWTItemExtIEsExtContainer is ProtocolExtensionContainer {{UE-ContextReferenceAtWT-ItemExtIEs}} of TS 36.423 §9.3.8: a list of UEContextReferenceAtWTItemExtIEsExtField values.
 type UEContextReferenceAtWTItemExtIEsExtContainer []UEContextReferenceAtWTItemExtIEsExtField
 
-// UEContextReferenceAtSgNBItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[UEContextReferenceAtSgNBItemExtIEsValue].
+// UEContextReferenceAtSgNBItemExtIEsExtContainer is ProtocolExtensionContainer {{UE-ContextReferenceAtSgNB-ItemExtIEs}} of TS 36.423 §9.3.8: a list of UEContextReferenceAtSgNBItemExtIEsExtField values.
 type UEContextReferenceAtSgNBItemExtIEsExtContainer []UEContextReferenceAtSgNBItemExtIEsExtField
 
-// ServedCellsToActivateItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ServedCellsToActivateItemExtIEsValue].
+// ServedCellsToActivateItemExtIEsExtContainer is ProtocolExtensionContainer {{ServedCellsToActivate-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of ServedCellsToActivateItemExtIEsExtField values.
 type ServedCellsToActivateItemExtIEsExtContainer []ServedCellsToActivateItemExtIEsExtField
 
-// UEContextInformationSeNBModReqExtIEsExtContainer is the concrete ProtocolExtensionContainer[UEContextInformationSeNBModReqExtIEsValue].
+// UEContextInformationSeNBModReqExtIEsExtContainer is ProtocolExtensionContainer {{UE-ContextInformationSeNBModReqExtIEs}} of TS 36.423 §9.3.8: a list of UEContextInformationSeNBModReqExtIEsExtField values.
 type UEContextInformationSeNBModReqExtIEsExtContainer []UEContextInformationSeNBModReqExtIEsExtField
 
-// ServedNRCellsToModifyItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ServedNRCellsToModifyItemExtIEsValue].
+// ServedNRCellsToModifyItemExtIEsExtContainer is ProtocolExtensionContainer {{ServedNRCellsToModify-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of ServedNRCellsToModifyItemExtIEsExtField values.
 type ServedNRCellsToModifyItemExtIEsExtContainer []ServedNRCellsToModifyItemExtIEsExtField
 
-// ServedNRCellsToActivateItemExtIEsExtContainer is the concrete ProtocolExtensionContainer[ServedNRCellsToActivateItemExtIEsValue].
+// ServedNRCellsToActivateItemExtIEsExtContainer is ProtocolExtensionContainer {{ServedNRCellsToActivate-Item-ExtIEs}} of TS 36.423 §9.3.8: a list of ServedNRCellsToActivateItemExtIEsExtField values.
 type ServedNRCellsToActivateItemExtIEsExtContainer []ServedNRCellsToActivateItemExtIEsExtField
 
-// ServedEUTRAcellsENDCX2ManagementExtIEsExtContainer is the concrete ProtocolExtensionContainer[ServedEUTRAcellsENDCX2ManagementExtIEsValue].
+// ServedEUTRAcellsENDCX2ManagementExtIEsExtContainer is ProtocolExtensionContainer {{ServedEUTRAcellsENDCX2Management-ExtIEs}} of TS 36.423 §9.3.8: a list of ServedEUTRAcellsENDCX2ManagementExtIEsExtField values.
 type ServedEUTRAcellsENDCX2ManagementExtIEsExtContainer []ServedEUTRAcellsENDCX2ManagementExtIEsExtField
 
-// ServedEUTRAcellsToModifyListENDCConfUpdExtIEsExtContainer is the concrete ProtocolExtensionContainer[ServedEUTRAcellsToModifyListENDCConfUpdExtIEsValue].
+// ServedEUTRAcellsToModifyListENDCConfUpdExtIEsExtContainer is ProtocolExtensionContainer {{ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs}} of TS 36.423 §9.3.8: a list of ServedEUTRAcellsToModifyListENDCConfUpdExtIEsExtField values.
 type ServedEUTRAcellsToModifyListENDCConfUpdExtIEsExtContainer []ServedEUTRAcellsToModifyListENDCConfUpdExtIEsExtField
 
 func X2apInternalCellBasedMDTExtIEsValuecaptureX2APProtocolExtensionField(v *s01.CellBasedMDTExtIEsExtField, s *aper.SemanticCapture) {
@@ -11264,7 +11264,7 @@ func (v ReplacingCellsListItemAPERValue) WithoutReplay() ReplacingCellsListItemA
 	return v
 }
 
-// SecurityIndicationExtIEsIEField is the concrete ProtocolIEField[SecurityIndicationExtIEsValue].
+// SecurityIndicationExtIEsIEField uses the ProtocolIE-Field shape for object set SecurityIndication-ExtIEs of TS 36.423.
 type SecurityIndicationExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -11382,10 +11382,10 @@ func X2apInternalSecurityIndicationExtIEsIEFieldUnmarshalAPERFrom(v *SecurityInd
 	return nil
 }
 
-// SecurityIndicationExtIEsIEContainer is the concrete ProtocolIEContainer[SecurityIndicationExtIEsValue].
+// SecurityIndicationExtIEsIEContainer uses the ProtocolIE-Container shape for object set SecurityIndication-ExtIEs of TS 36.423: a list of SecurityIndicationExtIEsIEField values.
 type SecurityIndicationExtIEsIEContainer []SecurityIndicationExtIEsIEField
 
-// SecurityResultExtIEsIEField is the concrete ProtocolIEField[SecurityResultExtIEsValue].
+// SecurityResultExtIEsIEField uses the ProtocolIE-Field shape for object set SecurityResult-ExtIEs of TS 36.423.
 type SecurityResultExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -11503,10 +11503,10 @@ func X2apInternalSecurityResultExtIEsIEFieldUnmarshalAPERFrom(v *SecurityResultE
 	return nil
 }
 
-// SecurityResultExtIEsIEContainer is the concrete ProtocolIEContainer[SecurityResultExtIEsValue].
+// SecurityResultExtIEsIEContainer uses the ProtocolIE-Container shape for object set SecurityResult-ExtIEs of TS 36.423: a list of SecurityResultExtIEsIEField values.
 type SecurityResultExtIEsIEContainer []SecurityResultExtIEsIEField
 
-// SensorMeasConfigNameItemExtIEsIEField is the concrete ProtocolIEField[SensorMeasConfigNameItemExtIEsValue].
+// SensorMeasConfigNameItemExtIEsIEField uses the ProtocolIE-Field shape for object set SensorMeasConfigNameItem-ExtIEs of TS 36.423.
 type SensorMeasConfigNameItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -11624,10 +11624,10 @@ func X2apInternalSensorMeasConfigNameItemExtIEsIEFieldUnmarshalAPERFrom(v *Senso
 	return nil
 }
 
-// SensorMeasConfigNameItemExtIEsIEContainer is the concrete ProtocolIEContainer[SensorMeasConfigNameItemExtIEsValue].
+// SensorMeasConfigNameItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set SensorMeasConfigNameItem-ExtIEs of TS 36.423: a list of SensorMeasConfigNameItemExtIEsIEField values.
 type SensorMeasConfigNameItemExtIEsIEContainer []SensorMeasConfigNameItemExtIEsIEField
 
-// SensorMeasurementConfigurationExtIEsIEField is the concrete ProtocolIEField[SensorMeasurementConfigurationExtIEsValue].
+// SensorMeasurementConfigurationExtIEsIEField uses the ProtocolIE-Field shape for object set SensorMeasurementConfiguration-ExtIEs of TS 36.423.
 type SensorMeasurementConfigurationExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -11745,10 +11745,10 @@ func X2apInternalSensorMeasurementConfigurationExtIEsIEFieldUnmarshalAPERFrom(v 
 	return nil
 }
 
-// SensorMeasurementConfigurationExtIEsIEContainer is the concrete ProtocolIEContainer[SensorMeasurementConfigurationExtIEsValue].
+// SensorMeasurementConfigurationExtIEsIEContainer uses the ProtocolIE-Container shape for object set SensorMeasurementConfiguration-ExtIEs of TS 36.423: a list of SensorMeasurementConfigurationExtIEsIEField values.
 type SensorMeasurementConfigurationExtIEsIEContainer []SensorMeasurementConfigurationExtIEsIEField
 
-// ServedCellSpecificInfoReqNRItemExtIEsIEField is the concrete ProtocolIEField[ServedCellSpecificInfoReqNRItemExtIEsValue].
+// ServedCellSpecificInfoReqNRItemExtIEsIEField uses the ProtocolIE-Field shape for object set ServedCellSpecificInfoReq-NR-Item-ExtIEs of TS 36.423.
 type ServedCellSpecificInfoReqNRItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -11866,10 +11866,10 @@ func X2apInternalServedCellSpecificInfoReqNRItemExtIEsIEFieldUnmarshalAPERFrom(v
 	return nil
 }
 
-// ServedCellSpecificInfoReqNRItemExtIEsIEContainer is the concrete ProtocolIEContainer[ServedCellSpecificInfoReqNRItemExtIEsValue].
+// ServedCellSpecificInfoReqNRItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ServedCellSpecificInfoReq-NR-Item-ExtIEs of TS 36.423: a list of ServedCellSpecificInfoReqNRItemExtIEsIEField values.
 type ServedCellSpecificInfoReqNRItemExtIEsIEContainer []ServedCellSpecificInfoReqNRItemExtIEsIEField
 
-// ServedCellsToActivateItemExtIEsIEField is the concrete ProtocolIEField[ServedCellsToActivateItemExtIEsValue].
+// ServedCellsToActivateItemExtIEsIEField uses the ProtocolIE-Field shape for object set ServedCellsToActivate-Item-ExtIEs of TS 36.423.
 type ServedCellsToActivateItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -11987,10 +11987,10 @@ func X2apInternalServedCellsToActivateItemExtIEsIEFieldUnmarshalAPERFrom(v *Serv
 	return nil
 }
 
-// ServedCellsToActivateItemExtIEsIEContainer is the concrete ProtocolIEContainer[ServedCellsToActivateItemExtIEsValue].
+// ServedCellsToActivateItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ServedCellsToActivate-Item-ExtIEs of TS 36.423: a list of ServedCellsToActivateItemExtIEsIEField values.
 type ServedCellsToActivateItemExtIEsIEContainer []ServedCellsToActivateItemExtIEsIEField
 
-// ServedEUTRAcellsENDCX2ManagementExtIEsIEField is the concrete ProtocolIEField[ServedEUTRAcellsENDCX2ManagementExtIEsValue].
+// ServedEUTRAcellsENDCX2ManagementExtIEsIEField uses the ProtocolIE-Field shape for object set ServedEUTRAcellsENDCX2Management-ExtIEs of TS 36.423.
 type ServedEUTRAcellsENDCX2ManagementExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12108,10 +12108,10 @@ func X2apInternalServedEUTRAcellsENDCX2ManagementExtIEsIEFieldUnmarshalAPERFrom(
 	return nil
 }
 
-// ServedEUTRAcellsENDCX2ManagementExtIEsIEContainer is the concrete ProtocolIEContainer[ServedEUTRAcellsENDCX2ManagementExtIEsValue].
+// ServedEUTRAcellsENDCX2ManagementExtIEsIEContainer uses the ProtocolIE-Container shape for object set ServedEUTRAcellsENDCX2Management-ExtIEs of TS 36.423: a list of ServedEUTRAcellsENDCX2ManagementExtIEsIEField values.
 type ServedEUTRAcellsENDCX2ManagementExtIEsIEContainer []ServedEUTRAcellsENDCX2ManagementExtIEsIEField
 
-// ServedEUTRAcellsToModifyListENDCConfUpdExtIEsIEField is the concrete ProtocolIEField[ServedEUTRAcellsToModifyListENDCConfUpdExtIEsValue].
+// ServedEUTRAcellsToModifyListENDCConfUpdExtIEsIEField uses the ProtocolIE-Field shape for object set ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs of TS 36.423.
 type ServedEUTRAcellsToModifyListENDCConfUpdExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12229,10 +12229,10 @@ func X2apInternalServedEUTRAcellsToModifyListENDCConfUpdExtIEsIEFieldUnmarshalAP
 	return nil
 }
 
-// ServedEUTRAcellsToModifyListENDCConfUpdExtIEsIEContainer is the concrete ProtocolIEContainer[ServedEUTRAcellsToModifyListENDCConfUpdExtIEsValue].
+// ServedEUTRAcellsToModifyListENDCConfUpdExtIEsIEContainer uses the ProtocolIE-Container shape for object set ServedEUTRAcellsToModifyListENDCConfUpd-ExtIEs of TS 36.423: a list of ServedEUTRAcellsToModifyListENDCConfUpdExtIEsIEField values.
 type ServedEUTRAcellsToModifyListENDCConfUpdExtIEsIEContainer []ServedEUTRAcellsToModifyListENDCConfUpdExtIEsIEField
 
-// ServedNRCellsToActivateItemExtIEsIEField is the concrete ProtocolIEField[ServedNRCellsToActivateItemExtIEsValue].
+// ServedNRCellsToActivateItemExtIEsIEField uses the ProtocolIE-Field shape for object set ServedNRCellsToActivate-Item-ExtIEs of TS 36.423.
 type ServedNRCellsToActivateItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12350,10 +12350,10 @@ func X2apInternalServedNRCellsToActivateItemExtIEsIEFieldUnmarshalAPERFrom(v *Se
 	return nil
 }
 
-// ServedNRCellsToActivateItemExtIEsIEContainer is the concrete ProtocolIEContainer[ServedNRCellsToActivateItemExtIEsValue].
+// ServedNRCellsToActivateItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ServedNRCellsToActivate-Item-ExtIEs of TS 36.423: a list of ServedNRCellsToActivateItemExtIEsIEField values.
 type ServedNRCellsToActivateItemExtIEsIEContainer []ServedNRCellsToActivateItemExtIEsIEField
 
-// ServedNRCellsToModifyItemExtIEsIEField is the concrete ProtocolIEField[ServedNRCellsToModifyItemExtIEsValue].
+// ServedNRCellsToModifyItemExtIEsIEField uses the ProtocolIE-Field shape for object set ServedNRCellsToModify-Item-ExtIEs of TS 36.423.
 type ServedNRCellsToModifyItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12471,10 +12471,10 @@ func X2apInternalServedNRCellsToModifyItemExtIEsIEFieldUnmarshalAPERFrom(v *Serv
 	return nil
 }
 
-// ServedNRCellsToModifyItemExtIEsIEContainer is the concrete ProtocolIEContainer[ServedNRCellsToModifyItemExtIEsValue].
+// ServedNRCellsToModifyItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set ServedNRCellsToModify-Item-ExtIEs of TS 36.423: a list of ServedNRCellsToModifyItemExtIEsIEField values.
 type ServedNRCellsToModifyItemExtIEsIEContainer []ServedNRCellsToModifyItemExtIEsIEField
 
-// SpecialSubframeInfoExtIEsIEField is the concrete ProtocolIEField[SpecialSubframeInfoExtIEsValue].
+// SpecialSubframeInfoExtIEsIEField uses the ProtocolIE-Field shape for object set SpecialSubframe-Info-ExtIEs of TS 36.423.
 type SpecialSubframeInfoExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12592,10 +12592,10 @@ func X2apInternalSpecialSubframeInfoExtIEsIEFieldUnmarshalAPERFrom(v *SpecialSub
 	return nil
 }
 
-// SpecialSubframeInfoExtIEsIEContainer is the concrete ProtocolIEContainer[SpecialSubframeInfoExtIEsValue].
+// SpecialSubframeInfoExtIEsIEContainer uses the ProtocolIE-Container shape for object set SpecialSubframe-Info-ExtIEs of TS 36.423: a list of SpecialSubframeInfoExtIEsIEField values.
 type SpecialSubframeInfoExtIEsIEContainer []SpecialSubframeInfoExtIEsIEField
 
-// SplitSRBExtIEsIEField is the concrete ProtocolIEField[SplitSRBExtIEsValue].
+// SplitSRBExtIEsIEField uses the ProtocolIE-Field shape for object set SplitSRB-ExtIEs of TS 36.423.
 type SplitSRBExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12713,10 +12713,10 @@ func X2apInternalSplitSRBExtIEsIEFieldUnmarshalAPERFrom(v *SplitSRBExtIEsIEField
 	return nil
 }
 
-// SplitSRBExtIEsIEContainer is the concrete ProtocolIEContainer[SplitSRBExtIEsValue].
+// SplitSRBExtIEsIEContainer uses the ProtocolIE-Container shape for object set SplitSRB-ExtIEs of TS 36.423: a list of SplitSRBExtIEsIEField values.
 type SplitSRBExtIEsIEContainer []SplitSRBExtIEsIEField
 
-// SubbandCQIExtIEsIEField is the concrete ProtocolIEField[SubbandCQIExtIEsValue].
+// SubbandCQIExtIEsIEField uses the ProtocolIE-Field shape for object set SubbandCQI-ExtIEs of TS 36.423.
 type SubbandCQIExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12834,10 +12834,10 @@ func X2apInternalSubbandCQIExtIEsIEFieldUnmarshalAPERFrom(v *SubbandCQIExtIEsIEF
 	return nil
 }
 
-// SubbandCQIExtIEsIEContainer is the concrete ProtocolIEContainer[SubbandCQIExtIEsValue].
+// SubbandCQIExtIEsIEContainer uses the ProtocolIE-Container shape for object set SubbandCQI-ExtIEs of TS 36.423: a list of SubbandCQIExtIEsIEField values.
 type SubbandCQIExtIEsIEContainer []SubbandCQIExtIEsIEField
 
-// SubbandCQIItemExtIEsIEField is the concrete ProtocolIEField[SubbandCQIItemExtIEsValue].
+// SubbandCQIItemExtIEsIEField uses the ProtocolIE-Field shape for object set SubbandCQIItem-ExtIEs of TS 36.423.
 type SubbandCQIItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -12955,10 +12955,10 @@ func X2apInternalSubbandCQIItemExtIEsIEFieldUnmarshalAPERFrom(v *SubbandCQIItemE
 	return nil
 }
 
-// SubbandCQIItemExtIEsIEContainer is the concrete ProtocolIEContainer[SubbandCQIItemExtIEsValue].
+// SubbandCQIItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set SubbandCQIItem-ExtIEs of TS 36.423: a list of SubbandCQIItemExtIEsIEField values.
 type SubbandCQIItemExtIEsIEContainer []SubbandCQIItemExtIEsIEField
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsIEField is the concrete ProtocolIEField[SubscriptionBasedUEDifferentiationInfoExtIEsValue].
+// SubscriptionBasedUEDifferentiationInfoExtIEsIEField uses the ProtocolIE-Field shape for object set Subscription-Based-UE-DifferentiationInfo-ExtIEs of TS 36.423.
 type SubscriptionBasedUEDifferentiationInfoExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13076,10 +13076,10 @@ func X2apInternalSubscriptionBasedUEDifferentiationInfoExtIEsIEFieldUnmarshalAPE
 	return nil
 }
 
-// SubscriptionBasedUEDifferentiationInfoExtIEsIEContainer is the concrete ProtocolIEContainer[SubscriptionBasedUEDifferentiationInfoExtIEsValue].
+// SubscriptionBasedUEDifferentiationInfoExtIEsIEContainer uses the ProtocolIE-Container shape for object set Subscription-Based-UE-DifferentiationInfo-ExtIEs of TS 36.423: a list of SubscriptionBasedUEDifferentiationInfoExtIEsIEField values.
 type SubscriptionBasedUEDifferentiationInfoExtIEsIEContainer []SubscriptionBasedUEDifferentiationInfoExtIEsIEField
 
-// SupportedSULFreqBandItemExtIEsIEField is the concrete ProtocolIEField[SupportedSULFreqBandItemExtIEsValue].
+// SupportedSULFreqBandItemExtIEsIEField uses the ProtocolIE-Field shape for object set SupportedSULFreqBandItem-ExtIEs of TS 36.423.
 type SupportedSULFreqBandItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13197,10 +13197,10 @@ func X2apInternalSupportedSULFreqBandItemExtIEsIEFieldUnmarshalAPERFrom(v *Suppo
 	return nil
 }
 
-// SupportedSULFreqBandItemExtIEsIEContainer is the concrete ProtocolIEContainer[SupportedSULFreqBandItemExtIEsValue].
+// SupportedSULFreqBandItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set SupportedSULFreqBandItem-ExtIEs of TS 36.423: a list of SupportedSULFreqBandItemExtIEsIEField values.
 type SupportedSULFreqBandItemExtIEsIEContainer []SupportedSULFreqBandItemExtIEsIEField
 
-// TABasedMDTExtIEsIEField is the concrete ProtocolIEField[TABasedMDTExtIEsValue].
+// TABasedMDTExtIEsIEField uses the ProtocolIE-Field shape for object set TABasedMDT-ExtIEs of TS 36.423.
 type TABasedMDTExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13318,10 +13318,10 @@ func X2apInternalTABasedMDTExtIEsIEFieldUnmarshalAPERFrom(v *TABasedMDTExtIEsIEF
 	return nil
 }
 
-// TABasedMDTExtIEsIEContainer is the concrete ProtocolIEContainer[TABasedMDTExtIEsValue].
+// TABasedMDTExtIEsIEContainer uses the ProtocolIE-Container shape for object set TABasedMDT-ExtIEs of TS 36.423: a list of TABasedMDTExtIEsIEField values.
 type TABasedMDTExtIEsIEContainer []TABasedMDTExtIEsIEField
 
-// TABasedQMCExtIEsIEField is the concrete ProtocolIEField[TABasedQMCExtIEsValue].
+// TABasedQMCExtIEsIEField uses the ProtocolIE-Field shape for object set TABasedQMC-ExtIEs of TS 36.423.
 type TABasedQMCExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13439,10 +13439,10 @@ func X2apInternalTABasedQMCExtIEsIEFieldUnmarshalAPERFrom(v *TABasedQMCExtIEsIEF
 	return nil
 }
 
-// TABasedQMCExtIEsIEContainer is the concrete ProtocolIEContainer[TABasedQMCExtIEsValue].
+// TABasedQMCExtIEsIEContainer uses the ProtocolIE-Container shape for object set TABasedQMC-ExtIEs of TS 36.423: a list of TABasedQMCExtIEsIEField values.
 type TABasedQMCExtIEsIEContainer []TABasedQMCExtIEsIEField
 
-// TAIBasedMDTExtIEsIEField is the concrete ProtocolIEField[TAIBasedMDTExtIEsValue].
+// TAIBasedMDTExtIEsIEField uses the ProtocolIE-Field shape for object set TAIBasedMDT-ExtIEs of TS 36.423.
 type TAIBasedMDTExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13560,10 +13560,10 @@ func X2apInternalTAIBasedMDTExtIEsIEFieldUnmarshalAPERFrom(v *TAIBasedMDTExtIEsI
 	return nil
 }
 
-// TAIBasedMDTExtIEsIEContainer is the concrete ProtocolIEContainer[TAIBasedMDTExtIEsValue].
+// TAIBasedMDTExtIEsIEContainer uses the ProtocolIE-Container shape for object set TAIBasedMDT-ExtIEs of TS 36.423: a list of TAIBasedMDTExtIEsIEField values.
 type TAIBasedMDTExtIEsIEContainer []TAIBasedMDTExtIEsIEField
 
-// TAIBasedQMCExtIEsIEField is the concrete ProtocolIEField[TAIBasedQMCExtIEsValue].
+// TAIBasedQMCExtIEsIEField uses the ProtocolIE-Field shape for object set TAIBasedQMC-ExtIEs of TS 36.423.
 type TAIBasedQMCExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13681,10 +13681,10 @@ func X2apInternalTAIBasedQMCExtIEsIEFieldUnmarshalAPERFrom(v *TAIBasedQMCExtIEsI
 	return nil
 }
 
-// TAIBasedQMCExtIEsIEContainer is the concrete ProtocolIEContainer[TAIBasedQMCExtIEsValue].
+// TAIBasedQMCExtIEsIEContainer uses the ProtocolIE-Container shape for object set TAIBasedQMC-ExtIEs of TS 36.423: a list of TAIBasedQMCExtIEsIEField values.
 type TAIBasedQMCExtIEsIEContainer []TAIBasedQMCExtIEsIEField
 
-// TAIItemExtIEsIEField is the concrete ProtocolIEField[TAIItemExtIEsValue].
+// TAIItemExtIEsIEField uses the ProtocolIE-Field shape for object set TAI-Item-ExtIEs of TS 36.423.
 type TAIItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13802,10 +13802,10 @@ func X2apInternalTAIItemExtIEsIEFieldUnmarshalAPERFrom(v *TAIItemExtIEsIEField, 
 	return nil
 }
 
-// TAIItemExtIEsIEContainer is the concrete ProtocolIEContainer[TAIItemExtIEsValue].
+// TAIItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set TAI-Item-ExtIEs of TS 36.423: a list of TAIItemExtIEsIEField values.
 type TAIItemExtIEsIEContainer []TAIItemExtIEsIEField
 
-// TNLAFailedToSetupItemExtIEsIEField is the concrete ProtocolIEField[TNLAFailedToSetupItemExtIEsValue].
+// TNLAFailedToSetupItemExtIEsIEField uses the ProtocolIE-Field shape for object set TNLA-Failed-To-Setup-Item-ExtIEs of TS 36.423.
 type TNLAFailedToSetupItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -13923,10 +13923,10 @@ func X2apInternalTNLAFailedToSetupItemExtIEsIEFieldUnmarshalAPERFrom(v *TNLAFail
 	return nil
 }
 
-// TNLAFailedToSetupItemExtIEsIEContainer is the concrete ProtocolIEContainer[TNLAFailedToSetupItemExtIEsValue].
+// TNLAFailedToSetupItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set TNLA-Failed-To-Setup-Item-ExtIEs of TS 36.423: a list of TNLAFailedToSetupItemExtIEsIEField values.
 type TNLAFailedToSetupItemExtIEsIEContainer []TNLAFailedToSetupItemExtIEsIEField
 
-// TNLASetupItemExtIEsIEField is the concrete ProtocolIEField[TNLASetupItemExtIEsValue].
+// TNLASetupItemExtIEsIEField uses the ProtocolIE-Field shape for object set TNLA-Setup-Item-ExtIEs of TS 36.423.
 type TNLASetupItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -14044,10 +14044,10 @@ func X2apInternalTNLASetupItemExtIEsIEFieldUnmarshalAPERFrom(v *TNLASetupItemExt
 	return nil
 }
 
-// TNLASetupItemExtIEsIEContainer is the concrete ProtocolIEContainer[TNLASetupItemExtIEsValue].
+// TNLASetupItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set TNLA-Setup-Item-ExtIEs of TS 36.423: a list of TNLASetupItemExtIEsIEField values.
 type TNLASetupItemExtIEsIEContainer []TNLASetupItemExtIEsIEField
 
-// TNLAToAddItemExtIEsIEField is the concrete ProtocolIEField[TNLAToAddItemExtIEsValue].
+// TNLAToAddItemExtIEsIEField uses the ProtocolIE-Field shape for object set TNLA-To-Add-Item-ExtIEs of TS 36.423.
 type TNLAToAddItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -14165,10 +14165,10 @@ func X2apInternalTNLAToAddItemExtIEsIEFieldUnmarshalAPERFrom(v *TNLAToAddItemExt
 	return nil
 }
 
-// TNLAToAddItemExtIEsIEContainer is the concrete ProtocolIEContainer[TNLAToAddItemExtIEsValue].
+// TNLAToAddItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set TNLA-To-Add-Item-ExtIEs of TS 36.423: a list of TNLAToAddItemExtIEsIEField values.
 type TNLAToAddItemExtIEsIEContainer []TNLAToAddItemExtIEsIEField
 
-// TNLAToRemoveItemExtIEsIEField is the concrete ProtocolIEField[TNLAToRemoveItemExtIEsValue].
+// TNLAToRemoveItemExtIEsIEField uses the ProtocolIE-Field shape for object set TNLA-To-Remove-Item-ExtIEs of TS 36.423.
 type TNLAToRemoveItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -14286,10 +14286,10 @@ func X2apInternalTNLAToRemoveItemExtIEsIEFieldUnmarshalAPERFrom(v *TNLAToRemoveI
 	return nil
 }
 
-// TNLAToRemoveItemExtIEsIEContainer is the concrete ProtocolIEContainer[TNLAToRemoveItemExtIEsValue].
+// TNLAToRemoveItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set TNLA-To-Remove-Item-ExtIEs of TS 36.423: a list of TNLAToRemoveItemExtIEsIEField values.
 type TNLAToRemoveItemExtIEsIEContainer []TNLAToRemoveItemExtIEsIEField
 
-// TNLAToUpdateItemExtIEsIEField is the concrete ProtocolIEField[TNLAToUpdateItemExtIEsValue].
+// TNLAToUpdateItemExtIEsIEField uses the ProtocolIE-Field shape for object set TNLA-To-Update-Item-ExtIEs of TS 36.423.
 type TNLAToUpdateItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -14407,10 +14407,10 @@ func X2apInternalTNLAToUpdateItemExtIEsIEFieldUnmarshalAPERFrom(v *TNLAToUpdateI
 	return nil
 }
 
-// TNLAToUpdateItemExtIEsIEContainer is the concrete ProtocolIEContainer[TNLAToUpdateItemExtIEsValue].
+// TNLAToUpdateItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set TNLA-To-Update-Item-ExtIEs of TS 36.423: a list of TNLAToUpdateItemExtIEsIEField values.
 type TNLAToUpdateItemExtIEsIEContainer []TNLAToUpdateItemExtIEsIEField
 
-// TNLCapacityIndicatorExtIEsIEField is the concrete ProtocolIEField[TNLCapacityIndicatorExtIEsValue].
+// TNLCapacityIndicatorExtIEsIEField uses the ProtocolIE-Field shape for object set TNLCapacityIndicator-ExtIEs of TS 36.423.
 type TNLCapacityIndicatorExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -14528,10 +14528,10 @@ func X2apInternalTNLCapacityIndicatorExtIEsIEFieldUnmarshalAPERFrom(v *TNLCapaci
 	return nil
 }
 
-// TNLCapacityIndicatorExtIEsIEContainer is the concrete ProtocolIEContainer[TNLCapacityIndicatorExtIEsValue].
+// TNLCapacityIndicatorExtIEsIEContainer uses the ProtocolIE-Container shape for object set TNLCapacityIndicator-ExtIEs of TS 36.423: a list of TNLCapacityIndicatorExtIEsIEField values.
 type TNLCapacityIndicatorExtIEsIEContainer []TNLCapacityIndicatorExtIEsIEField
 
-// TNLConfigurationInfoExtIEsIEField is the concrete ProtocolIEField[TNLConfigurationInfoExtIEsValue].
+// TNLConfigurationInfoExtIEsIEField uses the ProtocolIE-Field shape for object set TNLConfigurationInfo-ExtIEs of TS 36.423.
 type TNLConfigurationInfoExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -14649,10 +14649,10 @@ func X2apInternalTNLConfigurationInfoExtIEsIEFieldUnmarshalAPERFrom(v *TNLConfig
 	return nil
 }
 
-// TNLConfigurationInfoExtIEsIEContainer is the concrete ProtocolIEContainer[TNLConfigurationInfoExtIEsValue].
+// TNLConfigurationInfoExtIEsIEContainer uses the ProtocolIE-Container shape for object set TNLConfigurationInfo-ExtIEs of TS 36.423: a list of TNLConfigurationInfoExtIEsIEField values.
 type TNLConfigurationInfoExtIEsIEContainer []TNLConfigurationInfoExtIEsIEField
 
-// TransportUPLayerAddressesInfoToAddItemExtIEsIEField is the concrete ProtocolIEField[TransportUPLayerAddressesInfoToAddItemExtIEsValue].
+// TransportUPLayerAddressesInfoToAddItemExtIEsIEField uses the ProtocolIE-Field shape for object set Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs of TS 36.423.
 type TransportUPLayerAddressesInfoToAddItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -14770,10 +14770,10 @@ func X2apInternalTransportUPLayerAddressesInfoToAddItemExtIEsIEFieldUnmarshalAPE
 	return nil
 }
 
-// TransportUPLayerAddressesInfoToAddItemExtIEsIEContainer is the concrete ProtocolIEContainer[TransportUPLayerAddressesInfoToAddItemExtIEsValue].
+// TransportUPLayerAddressesInfoToAddItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set Transport-UP-Layer-Addresses-Info-To-Add-ItemExtIEs of TS 36.423: a list of TransportUPLayerAddressesInfoToAddItemExtIEsIEField values.
 type TransportUPLayerAddressesInfoToAddItemExtIEsIEContainer []TransportUPLayerAddressesInfoToAddItemExtIEsIEField
 
-// TransportUPLayerAddressesInfoToRemoveItemExtIEsIEField is the concrete ProtocolIEField[TransportUPLayerAddressesInfoToRemoveItemExtIEsValue].
+// TransportUPLayerAddressesInfoToRemoveItemExtIEsIEField uses the ProtocolIE-Field shape for object set Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs of TS 36.423.
 type TransportUPLayerAddressesInfoToRemoveItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -14891,10 +14891,10 @@ func X2apInternalTransportUPLayerAddressesInfoToRemoveItemExtIEsIEFieldUnmarshal
 	return nil
 }
 
-// TransportUPLayerAddressesInfoToRemoveItemExtIEsIEContainer is the concrete ProtocolIEContainer[TransportUPLayerAddressesInfoToRemoveItemExtIEsValue].
+// TransportUPLayerAddressesInfoToRemoveItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set Transport-UP-Layer-Addresses-Info-To-Remove-ItemExtIEs of TS 36.423: a list of TransportUPLayerAddressesInfoToRemoveItemExtIEsIEField values.
 type TransportUPLayerAddressesInfoToRemoveItemExtIEsIEContainer []TransportUPLayerAddressesInfoToRemoveItemExtIEsIEField
 
-// TunnelInformationExtIEsIEField is the concrete ProtocolIEField[TunnelInformationExtIEsValue].
+// TunnelInformationExtIEsIEField uses the ProtocolIE-Field shape for object set Tunnel-Information-ExtIEs of TS 36.423.
 type TunnelInformationExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -15012,10 +15012,10 @@ func X2apInternalTunnelInformationExtIEsIEFieldUnmarshalAPERFrom(v *TunnelInform
 	return nil
 }
 
-// TunnelInformationExtIEsIEContainer is the concrete ProtocolIEContainer[TunnelInformationExtIEsValue].
+// TunnelInformationExtIEsIEContainer uses the ProtocolIE-Container shape for object set Tunnel-Information-ExtIEs of TS 36.423: a list of TunnelInformationExtIEsIEField values.
 type TunnelInformationExtIEsIEContainer []TunnelInformationExtIEsIEField
 
-// UEContextInformationSeNBModReqExtIEsIEField is the concrete ProtocolIEField[UEContextInformationSeNBModReqExtIEsValue].
+// UEContextInformationSeNBModReqExtIEsIEField uses the ProtocolIE-Field shape for object set UE-ContextInformationSeNBModReqExtIEs of TS 36.423.
 type UEContextInformationSeNBModReqExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -15133,10 +15133,10 @@ func X2apInternalUEContextInformationSeNBModReqExtIEsIEFieldUnmarshalAPERFrom(v 
 	return nil
 }
 
-// UEContextInformationSeNBModReqExtIEsIEContainer is the concrete ProtocolIEContainer[UEContextInformationSeNBModReqExtIEsValue].
+// UEContextInformationSeNBModReqExtIEsIEContainer uses the ProtocolIE-Container shape for object set UE-ContextInformationSeNBModReqExtIEs of TS 36.423: a list of UEContextInformationSeNBModReqExtIEsIEField values.
 type UEContextInformationSeNBModReqExtIEsIEContainer []UEContextInformationSeNBModReqExtIEsIEField
 
-// UEContextReferenceAtSeNBItemExtIEsIEField is the concrete ProtocolIEField[UEContextReferenceAtSeNBItemExtIEsValue].
+// UEContextReferenceAtSeNBItemExtIEsIEField uses the ProtocolIE-Field shape for object set UE-ContextReferenceAtSeNB-ItemExtIEs of TS 36.423.
 type UEContextReferenceAtSeNBItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -15254,10 +15254,10 @@ func X2apInternalUEContextReferenceAtSeNBItemExtIEsIEFieldUnmarshalAPERFrom(v *U
 	return nil
 }
 
-// UEContextReferenceAtSeNBItemExtIEsIEContainer is the concrete ProtocolIEContainer[UEContextReferenceAtSeNBItemExtIEsValue].
+// UEContextReferenceAtSeNBItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set UE-ContextReferenceAtSeNB-ItemExtIEs of TS 36.423: a list of UEContextReferenceAtSeNBItemExtIEsIEField values.
 type UEContextReferenceAtSeNBItemExtIEsIEContainer []UEContextReferenceAtSeNBItemExtIEsIEField
 
-// UEContextReferenceAtSgNBItemExtIEsIEField is the concrete ProtocolIEField[UEContextReferenceAtSgNBItemExtIEsValue].
+// UEContextReferenceAtSgNBItemExtIEsIEField uses the ProtocolIE-Field shape for object set UE-ContextReferenceAtSgNB-ItemExtIEs of TS 36.423.
 type UEContextReferenceAtSgNBItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -15375,10 +15375,10 @@ func X2apInternalUEContextReferenceAtSgNBItemExtIEsIEFieldUnmarshalAPERFrom(v *U
 	return nil
 }
 
-// UEContextReferenceAtSgNBItemExtIEsIEContainer is the concrete ProtocolIEContainer[UEContextReferenceAtSgNBItemExtIEsValue].
+// UEContextReferenceAtSgNBItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set UE-ContextReferenceAtSgNB-ItemExtIEs of TS 36.423: a list of UEContextReferenceAtSgNBItemExtIEsIEField values.
 type UEContextReferenceAtSgNBItemExtIEsIEContainer []UEContextReferenceAtSgNBItemExtIEsIEField
 
-// UEContextReferenceAtWTItemExtIEsIEField is the concrete ProtocolIEField[UEContextReferenceAtWTItemExtIEsValue].
+// UEContextReferenceAtWTItemExtIEsIEField uses the ProtocolIE-Field shape for object set UE-ContextReferenceAtWT-ItemExtIEs of TS 36.423.
 type UEContextReferenceAtWTItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -15496,10 +15496,10 @@ func X2apInternalUEContextReferenceAtWTItemExtIEsIEFieldUnmarshalAPERFrom(v *UEC
 	return nil
 }
 
-// UEContextReferenceAtWTItemExtIEsIEContainer is the concrete ProtocolIEContainer[UEContextReferenceAtWTItemExtIEsValue].
+// UEContextReferenceAtWTItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set UE-ContextReferenceAtWT-ItemExtIEs of TS 36.423: a list of UEContextReferenceAtWTItemExtIEsIEField values.
 type UEContextReferenceAtWTItemExtIEsIEContainer []UEContextReferenceAtWTItemExtIEsIEField
 
-// UESecurityCapabilitiesExtIEsIEField is the concrete ProtocolIEField[UESecurityCapabilitiesExtIEsValue].
+// UESecurityCapabilitiesExtIEsIEField uses the ProtocolIE-Field shape for object set UESecurityCapabilities-ExtIEs of TS 36.423.
 type UESecurityCapabilitiesExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -15617,10 +15617,10 @@ func X2apInternalUESecurityCapabilitiesExtIEsIEFieldUnmarshalAPERFrom(v *UESecur
 	return nil
 }
 
-// UESecurityCapabilitiesExtIEsIEContainer is the concrete ProtocolIEContainer[UESecurityCapabilitiesExtIEsValue].
+// UESecurityCapabilitiesExtIEsIEContainer uses the ProtocolIE-Container shape for object set UESecurityCapabilities-ExtIEs of TS 36.423: a list of UESecurityCapabilitiesExtIEsIEField values.
 type UESecurityCapabilitiesExtIEsIEContainer []UESecurityCapabilitiesExtIEsIEField
 
-// UESidelinkAggregateMaximumBitRateExtIEsIEField is the concrete ProtocolIEField[UESidelinkAggregateMaximumBitRateExtIEsValue].
+// UESidelinkAggregateMaximumBitRateExtIEsIEField uses the ProtocolIE-Field shape for object set UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs of TS 36.423.
 type UESidelinkAggregateMaximumBitRateExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -15738,10 +15738,10 @@ func X2apInternalUESidelinkAggregateMaximumBitRateExtIEsIEFieldUnmarshalAPERFrom
 	return nil
 }
 
-// UESidelinkAggregateMaximumBitRateExtIEsIEContainer is the concrete ProtocolIEContainer[UESidelinkAggregateMaximumBitRateExtIEsValue].
+// UESidelinkAggregateMaximumBitRateExtIEsIEContainer uses the ProtocolIE-Container shape for object set UE-Sidelink-Aggregate-MaximumBitRate-ExtIEs of TS 36.423: a list of UESidelinkAggregateMaximumBitRateExtIEsIEField values.
 type UESidelinkAggregateMaximumBitRateExtIEsIEContainer []UESidelinkAggregateMaximumBitRateExtIEsIEField
 
-// UEsToBeResetListItemExtIEsIEField is the concrete ProtocolIEField[UEsToBeResetListItemExtIEsValue].
+// UEsToBeResetListItemExtIEsIEField uses the ProtocolIE-Field shape for object set UEsToBeResetList-Item-ExtIEs of TS 36.423.
 type UEsToBeResetListItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -15859,10 +15859,10 @@ func X2apInternalUEsToBeResetListItemExtIEsIEFieldUnmarshalAPERFrom(v *UEsToBeRe
 	return nil
 }
 
-// UEsToBeResetListItemExtIEsIEContainer is the concrete ProtocolIEContainer[UEsToBeResetListItemExtIEsValue].
+// UEsToBeResetListItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set UEsToBeResetList-Item-ExtIEs of TS 36.423: a list of UEsToBeResetListItemExtIEsIEField values.
 type UEsToBeResetListItemExtIEsIEContainer []UEsToBeResetListItemExtIEsIEField
 
-// ULConfigurationExtIEsIEField is the concrete ProtocolIEField[ULConfigurationExtIEsValue].
+// ULConfigurationExtIEsIEField uses the ProtocolIE-Field shape for object set ULConfiguration-ExtIEs of TS 36.423.
 type ULConfigurationExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -15980,10 +15980,10 @@ func X2apInternalULConfigurationExtIEsIEFieldUnmarshalAPERFrom(v *ULConfiguratio
 	return nil
 }
 
-// ULConfigurationExtIEsIEContainer is the concrete ProtocolIEContainer[ULConfigurationExtIEsValue].
+// ULConfigurationExtIEsIEContainer uses the ProtocolIE-Container shape for object set ULConfiguration-ExtIEs of TS 36.423: a list of ULConfigurationExtIEsIEField values.
 type ULConfigurationExtIEsIEContainer []ULConfigurationExtIEsIEField
 
-// ULHighInterferenceIndicationInfoItemExtIEsIEField is the concrete ProtocolIEField[ULHighInterferenceIndicationInfoItemExtIEsValue].
+// ULHighInterferenceIndicationInfoItemExtIEsIEField uses the ProtocolIE-Field shape for object set UL-HighInterferenceIndicationInfo-Item-ExtIEs of TS 36.423.
 type ULHighInterferenceIndicationInfoItemExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -16101,10 +16101,10 @@ func X2apInternalULHighInterferenceIndicationInfoItemExtIEsIEFieldUnmarshalAPERF
 	return nil
 }
 
-// ULHighInterferenceIndicationInfoItemExtIEsIEContainer is the concrete ProtocolIEContainer[ULHighInterferenceIndicationInfoItemExtIEsValue].
+// ULHighInterferenceIndicationInfoItemExtIEsIEContainer uses the ProtocolIE-Container shape for object set UL-HighInterferenceIndicationInfo-Item-ExtIEs of TS 36.423: a list of ULHighInterferenceIndicationInfoItemExtIEsIEField values.
 type ULHighInterferenceIndicationInfoItemExtIEsIEContainer []ULHighInterferenceIndicationInfoItemExtIEsIEField
 
-// ULOnlySharingExtIEsIEField is the concrete ProtocolIEField[ULOnlySharingExtIEsValue].
+// ULOnlySharingExtIEsIEField uses the ProtocolIE-Field shape for object set ULOnlySharing-ExtIEs of TS 36.423.
 type ULOnlySharingExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -16222,10 +16222,10 @@ func X2apInternalULOnlySharingExtIEsIEFieldUnmarshalAPERFrom(v *ULOnlySharingExt
 	return nil
 }
 
-// ULOnlySharingExtIEsIEContainer is the concrete ProtocolIEContainer[ULOnlySharingExtIEsValue].
+// ULOnlySharingExtIEsIEContainer uses the ProtocolIE-Container shape for object set ULOnlySharing-ExtIEs of TS 36.423: a list of ULOnlySharingExtIEsIEField values.
 type ULOnlySharingExtIEsIEContainer []ULOnlySharingExtIEsIEField
 
-// ULandDLSharingExtIEsIEField is the concrete ProtocolIEField[ULandDLSharingExtIEsValue].
+// ULandDLSharingExtIEsIEField uses the ProtocolIE-Field shape for object set ULandDLSharing-ExtIEs of TS 36.423.
 type ULandDLSharingExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -16343,10 +16343,10 @@ func X2apInternalULandDLSharingExtIEsIEFieldUnmarshalAPERFrom(v *ULandDLSharingE
 	return nil
 }
 
-// ULandDLSharingExtIEsIEContainer is the concrete ProtocolIEContainer[ULandDLSharingExtIEsValue].
+// ULandDLSharingExtIEsIEContainer uses the ProtocolIE-Container shape for object set ULandDLSharing-ExtIEs of TS 36.423: a list of ULandDLSharingExtIEsIEField values.
 type ULandDLSharingExtIEsIEContainer []ULandDLSharingExtIEsIEField
 
-// UsableABSInformationFDDExtIEsIEField is the concrete ProtocolIEField[UsableABSInformationFDDExtIEsValue].
+// UsableABSInformationFDDExtIEsIEField uses the ProtocolIE-Field shape for object set UsableABSInformationFDD-ExtIEs of TS 36.423.
 type UsableABSInformationFDDExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -16464,10 +16464,10 @@ func X2apInternalUsableABSInformationFDDExtIEsIEFieldUnmarshalAPERFrom(v *Usable
 	return nil
 }
 
-// UsableABSInformationFDDExtIEsIEContainer is the concrete ProtocolIEContainer[UsableABSInformationFDDExtIEsValue].
+// UsableABSInformationFDDExtIEsIEContainer uses the ProtocolIE-Container shape for object set UsableABSInformationFDD-ExtIEs of TS 36.423: a list of UsableABSInformationFDDExtIEsIEField values.
 type UsableABSInformationFDDExtIEsIEContainer []UsableABSInformationFDDExtIEsIEField
 
-// UsableABSInformationTDDExtIEsIEField is the concrete ProtocolIEField[UsableABSInformationTDDExtIEsValue].
+// UsableABSInformationTDDExtIEsIEField uses the ProtocolIE-Field shape for object set UsableABSInformationTDD-ExtIEs of TS 36.423.
 type UsableABSInformationTDDExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -16585,10 +16585,10 @@ func X2apInternalUsableABSInformationTDDExtIEsIEFieldUnmarshalAPERFrom(v *Usable
 	return nil
 }
 
-// UsableABSInformationTDDExtIEsIEContainer is the concrete ProtocolIEContainer[UsableABSInformationTDDExtIEsValue].
+// UsableABSInformationTDDExtIEsIEContainer uses the ProtocolIE-Container shape for object set UsableABSInformationTDD-ExtIEs of TS 36.423: a list of UsableABSInformationTDDExtIEsIEField values.
 type UsableABSInformationTDDExtIEsIEContainer []UsableABSInformationTDDExtIEsIEField
 
-// V2XServicesAuthorizedExtIEsIEField is the concrete ProtocolIEField[V2XServicesAuthorizedExtIEsValue].
+// V2XServicesAuthorizedExtIEsIEField uses the ProtocolIE-Field shape for object set V2XServicesAuthorized-ExtIEs of TS 36.423.
 type V2XServicesAuthorizedExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -16706,10 +16706,10 @@ func X2apInternalV2XServicesAuthorizedExtIEsIEFieldUnmarshalAPERFrom(v *V2XServi
 	return nil
 }
 
-// V2XServicesAuthorizedExtIEsIEContainer is the concrete ProtocolIEContainer[V2XServicesAuthorizedExtIEsValue].
+// V2XServicesAuthorizedExtIEsIEContainer uses the ProtocolIE-Container shape for object set V2XServicesAuthorized-ExtIEs of TS 36.423: a list of V2XServicesAuthorizedExtIEsIEField values.
 type V2XServicesAuthorizedExtIEsIEContainer []V2XServicesAuthorizedExtIEsIEField
 
-// WLANMeasurementConfigurationExtIEsIEField is the concrete ProtocolIEField[WLANMeasurementConfigurationExtIEsValue].
+// WLANMeasurementConfigurationExtIEsIEField uses the ProtocolIE-Field shape for object set WLANMeasurementConfiguration-ExtIEs of TS 36.423.
 type WLANMeasurementConfigurationExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -16827,10 +16827,10 @@ func X2apInternalWLANMeasurementConfigurationExtIEsIEFieldUnmarshalAPERFrom(v *W
 	return nil
 }
 
-// WLANMeasurementConfigurationExtIEsIEContainer is the concrete ProtocolIEContainer[WLANMeasurementConfigurationExtIEsValue].
+// WLANMeasurementConfigurationExtIEsIEContainer uses the ProtocolIE-Container shape for object set WLANMeasurementConfiguration-ExtIEs of TS 36.423: a list of WLANMeasurementConfigurationExtIEsIEField values.
 type WLANMeasurementConfigurationExtIEsIEContainer []WLANMeasurementConfigurationExtIEsIEField
 
-// WidebandCQIExtIEsIEField is the concrete ProtocolIEField[WidebandCQIExtIEsValue].
+// WidebandCQIExtIEsIEField uses the ProtocolIE-Field shape for object set WidebandCQI-ExtIEs of TS 36.423.
 type WidebandCQIExtIEsIEField struct {
 	Id            s00.ProtocolIEID
 	Criticality   s00.Criticality
@@ -16948,7 +16948,7 @@ func X2apInternalWidebandCQIExtIEsIEFieldUnmarshalAPERFrom(v *WidebandCQIExtIEsI
 	return nil
 }
 
-// WidebandCQIExtIEsIEContainer is the concrete ProtocolIEContainer[WidebandCQIExtIEsValue].
+// WidebandCQIExtIEsIEContainer uses the ProtocolIE-Container shape for object set WidebandCQI-ExtIEs of TS 36.423: a list of WidebandCQIExtIEsIEField values.
 type WidebandCQIExtIEsIEContainer []WidebandCQIExtIEsIEField
 
 func X2apInternalCaptureX2APActivatedCellListItem(v *ActivatedCellListItem, s *aper.SemanticCapture) {
@@ -65572,7 +65572,7 @@ func X2apInternalCellTypeUnmarshalAPERFrom(v *CellType, bb *aper.BitBuffer) erro
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CellTypeExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -65824,7 +65824,7 @@ func X2apInternalCoMPHypothesisSetItemUnmarshalAPERFrom(v *CoMPHypothesisSetItem
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CoMPHypothesisSetItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -66087,7 +66087,7 @@ func X2apInternalCompositeAvailableCapacityUnmarshalAPERFrom(v *CompositeAvailab
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.CompositeAvailableCapacityExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -66339,7 +66339,7 @@ func X2apInternalCompositeAvailableCapacityGroupUnmarshalAPERFrom(v *CompositeAv
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.CompositeAvailableCapacityGroupExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -66602,7 +66602,7 @@ func X2apInternalCHOinformationACKUnmarshalAPERFrom(v *CHOinformationACK, bb *ap
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CHOinformationACKExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -66846,7 +66846,7 @@ func X2apInternalDAPSRequestInfoUnmarshalAPERFrom(v *DAPSRequestInfo, bb *aper.B
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.DAPSRequestInfoExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -67090,7 +67090,7 @@ func X2apInternalDAPSResponseInfoUnmarshalAPERFrom(v *DAPSResponseInfo, bb *aper
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.DAPSResponseInfoExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -67334,7 +67334,7 @@ func X2apInternalDeliveryStatusUnmarshalAPERFrom(v *DeliveryStatus, bb *aper.Bit
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.DeliveryStatusExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -67789,7 +67789,7 @@ func X2apInternalDynamicNAICSInformationUnmarshalAPERFrom(v *DynamicNAICSInforma
 	toleranceMark_palist := bb.EnterComponent("PAList")
 	v.PAList = make(s00.DynamicNAICSInformationPAList, 0)
 	_, errCollection_palist := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 3, HasUpper: true}, true, func(fragmentOffset_palist, fragmentLength_palist int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1136
+		// arithmetic pattern APER_FRAGMENT_LOOP_2: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1140
 		if fragmentOffset_palist < 0 || fragmentLength_palist < 0 || fragmentLength_palist > int64(^uint(0)>>1) || fragmentOffset_palist > int64(^uint(0)>>1)-fragmentLength_palist {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -67814,7 +67814,7 @@ func X2apInternalDynamicNAICSInformationUnmarshalAPERFrom(v *DynamicNAICSInforma
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.DynamicNAICSInformationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -68066,7 +68066,7 @@ func X2apInternalECGIUnmarshalAPERFrom(v *ECGI, bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ECGIExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -68326,7 +68326,7 @@ func X2apInternalENDCResourceConfigurationUnmarshalAPERFrom(v *ENDCResourceConfi
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ENDCResourceConfigurationExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -68578,7 +68578,7 @@ func X2apInternalERABActivityNotifyItemUnmarshalAPERFrom(v *ERABActivityNotifyIt
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABActivityNotifyItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -68830,7 +68830,7 @@ func X2apInternalERABItemUnmarshalAPERFrom(v *ERABItem, bb *aper.BitBuffer) erro
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -69098,7 +69098,7 @@ func X2apInternalERABUsageReportItemUnmarshalAPERFrom(v *ERABUsageReportItem, bb
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABUsageReportItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -69540,7 +69540,7 @@ func X2apInternalCoMPInformationStartTimeElemUnmarshalAPERFrom(v *CoMPInformatio
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.CoMPInformationStartTimeExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -69800,7 +69800,7 @@ func X2apInternalCriticalityDiagnosticsIEListElemUnmarshalAPERFrom(v *Criticalit
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.CriticalityDiagnosticsIEListExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73324,7 +73324,7 @@ func X2apInternalCellToReportItemUnmarshalAPERFrom(v *CellToReportItem, bb *aper
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CellToReportItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73566,7 +73566,7 @@ func X2apInternalActivatedCellListItemUnmarshalAPERFrom(v *ActivatedCellListItem
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.ActivatedCellListItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -73800,7 +73800,7 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentUnmarsha
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s02.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -74042,7 +74042,7 @@ func X2apInternalCellToReportEUTRAENDCItemUnmarshalAPERFrom(v *CellToReportEUTRA
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s01.CellToReportEUTRAENDCItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1112
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -75463,3 +75463,151 @@ func X2apInternalConstructT50ServedEUTRAcellsToModifyListENDCConfUpdExtIEsValueF
 func X2apInternalConstructT52TransportUPLayerAddressesInfoToRemoveItemExtIEsValueF2idF6opaqueF8isOpaque(v0 s00.ProtocolIEID, v1 aper.OpaqueOpenType, v2 bool) TransportUPLayerAddressesInfoToRemoveItemExtIEsValue {
 	return TransportUPLayerAddressesInfoToRemoveItemExtIEsValue{id: v0, opaque: v1, isOpaque: v2}
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SecurityIndicationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SecurityResultExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SensorMeasConfigNameItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SensorMeasurementConfigurationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SensorNameConfigExtIEValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ServedCellSpecificInfoReqNRItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ServedCellsToActivateItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ServedEUTRAcellsENDCX2ManagementExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ServedEUTRAcellsToModifyListENDCConfUpdExtIEsValue) Selected() (any, bool) {
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ServedNRCellsToActivateItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ServedNRCellsToModifyItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SpecialSubframeInfoExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SplitSRBExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SubbandCQIExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SubbandCQIItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SubscriptionBasedUEDifferentiationInfoExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *SupportedSULFreqBandItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TABasedMDTExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TABasedQMCExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TAIBasedMDTExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TAIBasedQMCExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TAIItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TNLAFailedToSetupItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TNLASetupItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TNLAToAddItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TNLAToRemoveItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TNLAToUpdateItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TNLCapacityIndicatorExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TNLConfigurationInfoExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TransportUPLayerAddressesInfoToAddItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TransportUPLayerAddressesInfoToRemoveItemExtIEsValue) Selected() (any, bool) {
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *TunnelInformationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UEContextInformationSeNBModReqExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UEContextReferenceAtSeNBItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UEContextReferenceAtSgNBItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UEContextReferenceAtWTItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UESecurityCapabilitiesExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UESidelinkAggregateMaximumBitRateExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UEsToBeResetListItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ULConfigurationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ULHighInterferenceIndicationInfoItemExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ULOnlySharingExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ULandDLSharingExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UsableABSInformationFDDExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UsableABSInformationTDDExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *V2XServicesAuthorizedExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *WLANMeasurementConfigurationExtIEsValue) Selected() (any, bool) { return nil, false }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *WidebandCQIExtIEsValue) Selected() (any, bool) { return nil, false }

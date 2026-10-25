@@ -97,7 +97,7 @@ func TestBoundTemplateCodecsKeepTablesAndNumericBounds(t *testing.T) {
 	if _, _, err := extCodec.DecodeAPER(sliceByteFreshMust(extCodec.EncodeAPER(extOwned))); err != nil {
 		t.Fatal(err)
 	}
-	id := privateIEIDFreshMust(s25.NewPrivateIEIDLocal(1))
+	id := privateIEIDFreshMust(s26.NewPrivateIEIDLocal(1))
 	private := privateMessageIEsValuePrivateIEFieldFreshMust(s25.PrivateMessageIEs().NewOpaque(id, s00.CriticalityIgnore, []byte{0x80}))
 	privateCodec := s26.PrivateMessageIEsValuePrivateTableCodec(s25.PrivateMessageIEs().Table(), aper.ListBounds{Lower: 1, Upper: 65535})
 	privateOwned := privateMessageIEsValuePrivateIEContainerAPERValueFreshMust(privateCodec.New(s25.PrivateMessageIEsValuePrivateIEContainer{private}))

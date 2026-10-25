@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s03 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s03"
+	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
 )
 
-func sSBPositionsInBurstExtIEFieldapiMust(v s03.SSBPositionsInBurstExtIEField, err error) s03.SSBPositionsInBurstExtIEField {
+func sensorNameConfigExtIEFieldapiMust(v s04.SensorNameConfigExtIEField, err error) s04.SensorNameConfigExtIEField {
 	if err != nil {
 		panic(err)
 	}

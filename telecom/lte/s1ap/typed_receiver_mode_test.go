@@ -15,7 +15,8 @@ import (
 	s25 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s25"
 	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
 	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
-	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
+	s44 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s44"
+	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
 	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	s51 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s51"
@@ -123,7 +124,7 @@ func TestValidationHandlingProvenance(t *testing.T) {
 }
 func TestReceiverReportsOnlyUnknownBoundaries(t *testing.T) {
 	for _, options := range [][]aper.DecodeOption{nil, {aper.WithReceiverMode()}} {
-		opaque, err := s51.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0})
+		opaque, err := s52.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0})
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -452,7 +453,7 @@ func TestZeroUnionMatchesNoRow(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if s47.BridgeHandoverRequestIEValueMethodMatchesID((s47.HandoverRequestIEValue{}), 0, budget) {
+	if s48.BridgeHandoverRequestIEValueMethodMatchesID((s48.HandoverRequestIEValue{}), 0, budget) {
 		t.Fatal("a zero union matched id zero without an arm")
 	}
 }
@@ -601,7 +602,7 @@ func TestEveryObservationNamesItsMember(t *testing.T) {
 		if report.Observations[0].Location.Path != decoded.Extensions()[0].Origin().Location.Path {
 			t.Fatal("sequence view and observation disagree")
 		}
-		opaque, err := s51.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0})
+		opaque, err := s52.NewOpaqueInitiatingMessage(250, s00.CriticalityIgnore, []byte{0})
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -698,12 +699,12 @@ func TestKnownChoiceAdditionsDoNotConsumeReports(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	body := s43.S1SetupRequest{ProtocolIEs: s43.S1SetupRequestIEContainer{field, field}}
+	body := s44.S1SetupRequest{ProtocolIEs: s43.S1SetupRequestIEContainer{field, field}}
 	wire, err := body.MarshalAPER()
 	if err != nil {
 		t.Fatal(err)
 	}
-	var value s43.S1SetupRequest
+	var value s44.S1SetupRequest
 	report, err := value.UnmarshalAPER(wire, aper.WithLimits(aper.Limits{MaxReports: 1}))
 	if err != nil || len(report.Observations) != 0 || len(report.Deviations) != 0 {
 		t.Fatalf("known choice exhausted reports: %+v %v", report, err)

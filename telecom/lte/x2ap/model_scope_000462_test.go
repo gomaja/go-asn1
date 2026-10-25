@@ -3,22 +3,17 @@
 package x2ap
 
 import (
-	fmt "fmt"
+	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
 	s11 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s11"
 	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
 )
 
-// New validates the source value and constructs a value without received replay state.
-func (c ErrorIndicationIEFieldValueCodec) New(value s11.ErrorIndicationIEField) (ErrorIndicationIEFieldAPERValue, error) {
-	if c.encode == nil {
-		return ErrorIndicationIEFieldAPERValue{}, aper.OperationError(fmt.Errorf("%w: unbound value codec", aper.ErrInvalidValue), "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return ErrorIndicationIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return ErrorIndicationIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	return ErrorIndicationIEFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+// ErrorIndicationIEFieldValueCodec is the concrete ValueCodec[ErrorIndicationIEField].
+type ErrorIndicationIEFieldValueCodec struct {
+	context s00.X2apInternalCodecContext
+	capture func(s11.ErrorIndicationIEField, aper.DecodeState) (s11.ErrorIndicationIEField, aper.Snapshot)
+	compare func(s11.ErrorIndicationIEField, aper.Snapshot, aper.DecodeBudget) aper.ReplayPlan
+	path    aper.Path
+	decode  func([]byte, aper.DecodeState) (s11.ErrorIndicationIEField, error)
+	encode  func(s11.ErrorIndicationIEField, bool, *aper.DecodeBudget) ([]byte, error)
 }

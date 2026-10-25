@@ -68,10 +68,10 @@ func (PrivateMessageDescriptor) Initiating() PrivateMessageInitiatingBinding {
 	}
 }
 
-// ECIDMeasurementInitiationRequestIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestIEContainer is ProtocolIE-Container {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455: a list of ECIDMeasurementInitiationRequestIEField values.
 type ECIDMeasurementInitiationRequestIEContainer []ECIDMeasurementInitiationRequestIEField
 
-// ECIDMeasurementInitiationRequestIEField is the concrete ProtocolIEField[ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestIEField is ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementInitiationRequestIEValue.
 type ECIDMeasurementInitiationRequestIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -1113,7 +1113,7 @@ func BridgeECIDMeasurementInitiationRequestIEValueCompareLPPaProtocolIEContainer
 	}
 }
 
-// ECIDMeasurementInitiationRequestMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestMeasurementIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.MeasurementIDValueCodec
@@ -1166,7 +1166,7 @@ func (b ECIDMeasurementInitiationRequestMeasurementIDIEBinding) Get(field *ECIDM
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding is the concrete IEBinding[ReportCharacteristics, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding binds ReportCharacteristics to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding struct {
 	info   s00.FieldInfo
 	codec  s01.ReportCharacteristicsValueCodec
@@ -1221,7 +1221,7 @@ func (b ECIDMeasurementInitiationRequestReportCharacteristicsIEBinding) Get(fiel
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding is the concrete IEBinding[MeasurementPeriodicity, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding binds MeasurementPeriodicity to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.MeasurementPeriodicityValueCodec
@@ -1276,7 +1276,7 @@ func (b ECIDMeasurementInitiationRequestMeasurementPeriodicityIEBinding) Get(fie
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding is the concrete IEBinding[MeasurementQuantities, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding binds MeasurementQuantities to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding struct {
 	info   s00.FieldInfo
 	codec  s06.MeasurementQuantitiesConcreteValueCodec
@@ -1331,7 +1331,7 @@ func (b ECIDMeasurementInitiationRequestMeasurementQuantitiesIEBinding) Get(fiel
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding is the concrete IEBinding[InterRATMeasurementQuantities, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding binds InterRATMeasurementQuantities to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding struct {
 	info   s00.FieldInfo
 	codec  s06.InterRATMeasurementQuantitiesConcreteValueCodec
@@ -1386,7 +1386,7 @@ func (b ECIDMeasurementInitiationRequestInterRATMeasurementQuantitiesIEBinding) 
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding is the concrete IEBinding[WLANMeasurementQuantities, ECIDMeasurementInitiationRequestIEValue].
+// ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding binds WLANMeasurementQuantities to ProtocolIE-Field {{E-CIDMeasurementInitiationRequest-IEs}} of TS 36.455.
 type ECIDMeasurementInitiationRequestWLANMeasurementQuantitiesIEBinding struct {
 	info   s00.FieldInfo
 	codec  s20.WLANMeasurementQuantitiesConcreteValueCodec
@@ -2030,7 +2030,7 @@ func (v *ECIDMeasurementInitiationRequest) unmarshalAPERFrom(bb *aper.BitBuffer)
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(ECIDMeasurementInitiationRequestIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4066,7 +4066,7 @@ func (t ECIDMeasurementInitiationRequestIETable) ESMLCUEMeasurementID() ECIDMeas
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
 				var empty s00.MeasurementID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementID")
 			}
 			value, ok := decoded.AsESMLCUEMeasurementID()
 			if !ok {
@@ -4131,7 +4131,7 @@ func (t ECIDMeasurementInitiationRequestIETable) ReportCharacteristics() ECIDMea
 			decoded, err := zero.decode(s00.ProtocolIEID(3), raw)
 			if err != nil {
 				var empty s00.ReportCharacteristics
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ReportCharacteristics")
 			}
 			value, ok := decoded.AsReportCharacteristics()
 			if !ok {
@@ -4198,7 +4198,7 @@ func (t ECIDMeasurementInitiationRequestIETable) MeasurementPeriodicity() ECIDMe
 			decoded, err := zero.decode(s00.ProtocolIEID(4), raw)
 			if err != nil {
 				var empty s00.MeasurementPeriodicity
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementPeriodicity")
 			}
 			value, ok := decoded.AsMeasurementPeriodicity()
 			if !ok {
@@ -4265,7 +4265,7 @@ func (t ECIDMeasurementInitiationRequestIETable) MeasurementQuantities() ECIDMea
 			decoded, err := zero.decode(s00.ProtocolIEID(5), raw)
 			if err != nil {
 				var empty s06.MeasurementQuantities
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementQuantities")
 			}
 			value, ok := decoded.AsMeasurementQuantities()
 			if !ok {
@@ -4332,7 +4332,7 @@ func (t ECIDMeasurementInitiationRequestIETable) InterRATMeasurementQuantities()
 			decoded, err := zero.decode(s00.ProtocolIEID(15), raw)
 			if err != nil {
 				var empty s06.InterRATMeasurementQuantities
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "InterRATMeasurementQuantities")
 			}
 			value, ok := decoded.AsInterRATMeasurementQuantities()
 			if !ok {
@@ -4403,7 +4403,7 @@ func (t ECIDMeasurementInitiationRequestIETable) WLANMeasurementQuantities() ECI
 			decoded, err := zero.decode(s00.ProtocolIEID(19), raw)
 			if err != nil {
 				var empty s20.WLANMeasurementQuantities
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "WLANMeasurementQuantities")
 			}
 			value, ok := decoded.AsWLANMeasurementQuantities()
 			if !ok {
@@ -4546,6 +4546,95 @@ func ReportCharacteristicsCodec() s01.ReportCharacteristicsValueCodec {
 func WLANMeasurementQuantitiesCodec() s20.WLANMeasurementQuantitiesConcreteValueCodec {
 	return ECIDMeasurementInitiationRequestIEs().WLANMeasurementQuantities().Codec()
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ECIDMeasurementInitiationRequestIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 2:
+		if v.rowESMLCUEMeasurementID != nil {
+			return v.rowESMLCUEMeasurementID, true
+		}
+	case 3:
+		if v.rowReportCharacteristics != nil {
+			return v.rowReportCharacteristics, true
+		}
+	case 4:
+		if v.rowMeasurementPeriodicity != nil {
+			return v.rowMeasurementPeriodicity, true
+		}
+	case 5:
+		if v.rowMeasurementQuantities != nil {
+			return v.rowMeasurementQuantities, true
+		}
+	case 15:
+		if v.rowInterRATMeasurementQuantities != nil {
+			return v.rowInterRATMeasurementQuantities, true
+		}
+	case 19:
+		if v.rowWLANMeasurementQuantities != nil {
+			return v.rowWLANMeasurementQuantities, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *InitiatingValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.code {
+	case 0:
+		if v.bodyErrorIndication != nil {
+			return v.bodyErrorIndication, true
+		}
+	case 1:
+		if v.bodyPrivateMessage != nil {
+			return v.bodyPrivateMessage, true
+		}
+	case 2:
+		if v.bodyECIDMeasurementInitiationRequest != nil {
+			return v.bodyECIDMeasurementInitiationRequest, true
+		}
+	case 3:
+		if v.bodyECIDMeasurementFailureIndication != nil {
+			return v.bodyECIDMeasurementFailureIndication, true
+		}
+	case 4:
+		if v.bodyECIDMeasurementReport != nil {
+			return v.bodyECIDMeasurementReport, true
+		}
+	case 5:
+		if v.bodyECIDMeasurementTerminationCommand != nil {
+			return v.bodyECIDMeasurementTerminationCommand, true
+		}
+	case 6:
+		if v.bodyOTDOAInformationRequest != nil {
+			return v.bodyOTDOAInformationRequest, true
+		}
+	case 7:
+		if v.bodyUTDOAInformationRequest != nil {
+			return v.bodyUTDOAInformationRequest, true
+		}
+	case 8:
+		if v.bodyUTDOAInformationUpdate != nil {
+			return v.bodyUTDOAInformationUpdate, true
+		}
+	case 9:
+		if v.bodyAssistanceInformationControl != nil {
+			return v.bodyAssistanceInformationControl, true
+		}
+	case 10:
+		if v.bodyAssistanceInformationFeedback != nil {
+			return v.bodyAssistanceInformationFeedback, true
+		}
+	}
+	return nil, false
+}
+
 func BridgeAssistanceInformationControlInitiatingBindingFieldCapture(v *AssistanceInformationControlInitiatingBinding) *func(s15.AssistanceInformationControl, aper.DecodeState) (s15.AssistanceInformationControl, aper.Snapshot) {
 	return &v.capture
 }

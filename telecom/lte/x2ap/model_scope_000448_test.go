@@ -3,15 +3,12 @@
 package x2ap
 
 import (
-	s00 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s00"
+	s04 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s04"
 )
 
-// ListBytePayloadCodec is the concrete PayloadCodec[[]byte].
-type ListBytePayloadCodec struct {
-	decode func([]byte, s00.PayloadLimits) ([]byte, s00.PayloadReport,
-
-		error)
-	encode func([]byte, s00.PayloadLimits,
-
-	) ([]byte, error)
+func eRABUsageReportItemAPERValueapiMust(v s04.ERABUsageReportItemAPERValue, err error) s04.ERABUsageReportItemAPERValue {
+	if err != nil {
+		panic(err)
+	}
+	return v
 }

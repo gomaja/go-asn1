@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s13 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s13"
+	s20 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s20"
 )
 
-func x2APMessageTransferIEFieldapiMust(v s13.X2APMessageTransferIEField, err error) s13.X2APMessageTransferIEField {
+func x2APMessageTransferapiMust(v s20.X2APMessageTransfer, err error) s20.X2APMessageTransfer {
 	if err != nil {
 		panic(err)
 	}

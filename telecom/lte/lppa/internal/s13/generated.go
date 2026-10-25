@@ -17,10 +17,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// ECIDMeasurementReportIEContainer is the concrete ProtocolIEContainer[ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportIEContainer is ProtocolIE-Container {{E-CIDMeasurementReport-IEs}} of TS 36.455: a list of ECIDMeasurementReportIEField values.
 type ECIDMeasurementReportIEContainer []ECIDMeasurementReportIEField
 
-// ECIDMeasurementReportIEField is the concrete ProtocolIEField[ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportIEField is ProtocolIE-Field {{E-CIDMeasurementReport-IEs}} of TS 36.455: a field carrying a value of ECIDMeasurementReportIEValue.
 type ECIDMeasurementReportIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -303,7 +303,7 @@ func (c ECIDMeasurementResultValueCodec) encodeChanged(value ECIDMeasurementResu
 	return out, aper.OperationError(err, c.path)
 }
 
-// ECIDMeasurementReportMeasurementIDIEBinding is the concrete IEBinding[MeasurementID, ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportMeasurementIDIEBinding binds MeasurementID to ProtocolIE-Field {{E-CIDMeasurementReport-IEs}} of TS 36.455.
 type ECIDMeasurementReportMeasurementIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.MeasurementIDValueCodec
@@ -356,7 +356,7 @@ func (b ECIDMeasurementReportMeasurementIDIEBinding) Get(field *ECIDMeasurementR
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementReportECIDMeasurementResultIEBinding is the concrete IEBinding[ECIDMeasurementResult, ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportECIDMeasurementResultIEBinding binds ECIDMeasurementResult to ProtocolIE-Field {{E-CIDMeasurementReport-IEs}} of TS 36.455.
 type ECIDMeasurementReportECIDMeasurementResultIEBinding struct {
 	info   s00.FieldInfo
 	codec  ECIDMeasurementResultValueCodec
@@ -409,7 +409,7 @@ func (b ECIDMeasurementReportECIDMeasurementResultIEBinding) Get(field *ECIDMeas
 	return b.get(&field.Value)
 }
 
-// ECIDMeasurementReportCellPortionIDIEBinding is the concrete IEBinding[CellPortionID, ECIDMeasurementReportIEValue].
+// ECIDMeasurementReportCellPortionIDIEBinding binds CellPortionID to ProtocolIE-Field {{E-CIDMeasurementReport-IEs}} of TS 36.455.
 type ECIDMeasurementReportCellPortionIDIEBinding struct {
 	info   s00.FieldInfo
 	codec  s00.CellPortionIDValueCodec
@@ -1806,7 +1806,7 @@ func (v *ECIDMeasurementResult) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_measuredresults := bb.EnterComponent("MeasuredResults")
 		tmp_measuredresults := make(MeasuredResults, 0)
 		_, errCollection_measuredresults := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 63, HasUpper: true}, true, func(fragmentOffset_measuredresults, fragmentLength_measuredresults int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_measuredresults < 0 || fragmentLength_measuredresults < 0 || fragmentLength_measuredresults > int64(^uint(0)>>1) || fragmentOffset_measuredresults > int64(^uint(0)>>1)-fragmentLength_measuredresults {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2140,7 +2140,7 @@ func (v *MeasuredResultsValue) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_resultrsrp := bb.EnterComponent("ResultRSRP")
 		tmp_resultrsrp := make(s12.ResultRSRP, 0)
 		_, errCollection_resultrsrp := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_resultrsrp, fragmentLength_resultrsrp int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_resultrsrp < 0 || fragmentLength_resultrsrp < 0 || fragmentLength_resultrsrp > int64(^uint(0)>>1) || fragmentOffset_resultrsrp > int64(^uint(0)>>1)-fragmentLength_resultrsrp {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2168,7 +2168,7 @@ func (v *MeasuredResultsValue) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_resultrsrq := bb.EnterComponent("ResultRSRQ")
 		tmp_resultrsrq := make(ResultRSRQ, 0)
 		_, errCollection_resultrsrq := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 9, HasUpper: true}, true, func(fragmentOffset_resultrsrq, fragmentLength_resultrsrq int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_resultrsrq < 0 || fragmentLength_resultrsrq < 0 || fragmentLength_resultrsrq > int64(^uint(0)>>1) || fragmentOffset_resultrsrq > int64(^uint(0)>>1)-fragmentLength_resultrsrq {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -2439,7 +2439,7 @@ func (v *ResultRSRQItem) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
 		tmp_ieextensions := make(s04.ResultRSRQItemExtIEsExtContainer, 0)
 		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
-			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
 				return fmt.Errorf("collection fragment count out of range")
 			}
@@ -3255,7 +3255,7 @@ func (v *ECIDMeasurementReport) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(ECIDMeasurementReportIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4302,7 +4302,7 @@ func (t ECIDMeasurementReportIETable) ESMLCUEMeasurementID() ECIDMeasurementRepo
 			decoded, err := zero.decode(s00.ProtocolIEID(2), raw)
 			if err != nil {
 				var empty s00.MeasurementID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementID")
 			}
 			value, ok := decoded.AsESMLCUEMeasurementID()
 			if !ok {
@@ -4367,7 +4367,7 @@ func (t ECIDMeasurementReportIETable) ENBUEMeasurementID() ECIDMeasurementReport
 			decoded, err := zero.decode(s00.ProtocolIEID(6), raw)
 			if err != nil {
 				var empty s00.MeasurementID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "MeasurementID")
 			}
 			value, ok := decoded.AsENBUEMeasurementID()
 			if !ok {
@@ -4430,7 +4430,7 @@ func (t ECIDMeasurementReportIETable) ECIDMeasurementResult() ECIDMeasurementRep
 			decoded, err := zero.decode(s00.ProtocolIEID(7), raw)
 			if err != nil {
 				var empty ECIDMeasurementResult
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ECIDMeasurementResult")
 			}
 			value, ok := decoded.AsECIDMeasurementResult()
 			if !ok {
@@ -4492,7 +4492,7 @@ func (t ECIDMeasurementReportIETable) CellPortionID() ECIDMeasurementReportCellP
 			decoded, err := zero.decode(s00.ProtocolIEID(14), raw)
 			if err != nil {
 				var empty s00.CellPortionID
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "CellPortionID")
 			}
 			value, ok := decoded.AsCellPortionID()
 			if !ok {
@@ -4632,6 +4632,34 @@ func ResultRSRQItemCodec() ResultRSRQItemValueCodec {
 	}(),
 	}
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+// The field's Id distinguishes alternatives that share a Go type.
+func (v *ECIDMeasurementReportIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 2:
+		if v.rowESMLCUEMeasurementID != nil {
+			return v.rowESMLCUEMeasurementID, true
+		}
+	case 6:
+		if v.rowENBUEMeasurementID != nil {
+			return v.rowENBUEMeasurementID, true
+		}
+	case 7:
+		if v.rowECIDMeasurementResult != nil {
+			return v.rowECIDMeasurementResult, true
+		}
+	case 14:
+		if v.rowCellPortionID != nil {
+			return v.rowCellPortionID, true
+		}
+	}
+	return nil, false
+}
+
 func BridgeECIDMeasurementReportAPERValueFieldContext(v *ECIDMeasurementReportAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }

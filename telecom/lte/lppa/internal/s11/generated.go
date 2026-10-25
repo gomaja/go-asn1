@@ -19,10 +19,10 @@ import (
 	"github.com/gomaja/go-asn1/telecom/lte/lppa/runtime/aper"
 )
 
-// UTDOAInformationUpdateIEContainer is the concrete ProtocolIEContainer[UTDOAInformationUpdateIEValue].
+// UTDOAInformationUpdateIEContainer is ProtocolIE-Container {{UTDOAInformationUpdate-IEs}} of TS 36.455: a list of UTDOAInformationUpdateIEField values.
 type UTDOAInformationUpdateIEContainer []UTDOAInformationUpdateIEField
 
-// UTDOAInformationUpdateIEField is the concrete ProtocolIEField[UTDOAInformationUpdateIEValue].
+// UTDOAInformationUpdateIEField is ProtocolIE-Field {{UTDOAInformationUpdate-IEs}} of TS 36.455: a field carrying a value of UTDOAInformationUpdateIEValue.
 type UTDOAInformationUpdateIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -263,7 +263,7 @@ func BridgeMeasurementQuantitiesItemIEValueCompareLPPaProtocolIESingleContainer(
 	BridgeMeasurementQuantitiesItemIEValueCompareLPPaProtocolIEField(v, s)
 }
 
-// UTDOAInformationUpdateULConfigurationIEBinding is the concrete IEBinding[ULConfiguration, UTDOAInformationUpdateIEValue].
+// UTDOAInformationUpdateULConfigurationIEBinding binds ULConfiguration to ProtocolIE-Field {{UTDOAInformationUpdate-IEs}} of TS 36.455.
 type UTDOAInformationUpdateULConfigurationIEBinding struct {
 	info   s00.FieldInfo
 	codec  s10.ULConfigurationValueCodec
@@ -2714,7 +2714,7 @@ func (v *ECIDMeasurementInitiationFailure) unmarshalAPERFrom(bb *aper.BitBuffer)
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s09.ECIDMeasurementInitiationFailureIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -2949,7 +2949,7 @@ func (v *ECIDMeasurementFailureIndication) unmarshalAPERFrom(bb *aper.BitBuffer)
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s06.ECIDMeasurementFailureIndicationIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -3209,7 +3209,7 @@ func (v *ErrorIndication) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
 	v.ProtocolIEs = make(s10.ErrorIndicationIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
-		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1108
+		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1116
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
@@ -4269,7 +4269,7 @@ func (t UTDOAInformationUpdateIETable) ULConfiguration() UTDOAInformationUpdateU
 			decoded, err := zero.decode(s00.ProtocolIEID(13), raw)
 			if err != nil {
 				var empty s10.ULConfiguration
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "ULConfiguration")
 			}
 			value, ok := decoded.AsULConfiguration()
 			if !ok {
@@ -4364,6 +4364,21 @@ func BridgeMergeNestedValidation(dst *s09.ValidationReport, src s09.ValidationRe
 		dst.Complete = false
 	}
 }
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *UTDOAInformationUpdateIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 13:
+		if v.rowULConfiguration != nil {
+			return v.rowULConfiguration, true
+		}
+	}
+	return nil, false
+}
+
 func BridgeECIDMeasurementFailureIndicationAPERValueFieldContext(v *ECIDMeasurementFailureIndicationAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }

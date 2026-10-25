@@ -8,7 +8,9 @@ import (
 	s00 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s00"
 	s01 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s01"
 	s02 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s02"
+	s06 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s06"
 	s07 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s07"
+	s08 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s08"
 	s13 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s13"
 	s14 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s14"
 	s15 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s15"
@@ -21,6 +23,7 @@ import (
 	s26 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s26"
 	s28 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s28"
 	s31 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s31"
+	s32 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s32"
 	s33 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s33"
 	s34 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s34"
 	s35 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s35"
@@ -33,10 +36,8 @@ import (
 	s42 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s42"
 	s43 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s43"
 	s44 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s44"
-	s45 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s45"
 	s46 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s46"
 	s47 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s47"
-	s48 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s48"
 	s49 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s49"
 	s50 "github.com/gomaja/go-asn1/telecom/lte/s1ap/internal/s50"
 	runtime "github.com/gomaja/go-asn1/telecom/lte/s1ap/runtime"
@@ -205,644 +206,10 @@ func (b UnsuccessfulBinding[T]) Build(body T, options ...aper.BuildOption) (s36.
 	return s36.UnsuccessfulOutcome{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
-// Initiating returns the typed binding for the initiating message of HandoverPreparationDescriptor.
-func (HandoverPreparationDescriptor) Initiating() HandoverRequiredInitiatingBinding {
-	return HandoverRequiredInitiatingBinding{info: HandoverPreparationProcedure().Info(), validate: func(v *s34.HandoverRequired, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateHandoverRequiredBudget(v, budget)
-	}, encode: func(v *s34.HandoverRequired, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s34.BridgeHandoverRequiredMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s34.HandoverRequired, error) {
-		var v s34.HandoverRequired
-		err := s34.BridgeHandoverRequiredMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s34.HandoverRequired{}, err
-		}
-		*s34.BridgeHandoverRequiredFieldReceived(&v) = true
-		*s34.BridgeHandoverRequiredFieldReceivedAbsolute(&v) = true
-		*s34.BridgeHandoverRequiredFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s34.HandoverRequired) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(0), bodyHandoverRequired: &v}
-	}, capture: func(v s34.HandoverRequired, options aper.DecodeState) (s34.HandoverRequired, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s34.BridgeCaptureS1APHandoverRequired(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s34.HandoverRequired, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s34.BridgeCompareS1APHandoverRequired(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(),
-			s.
-				BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverRequired"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Successful returns the typed binding for the successful outcome of HandoverPreparationDescriptor.
-func (HandoverPreparationDescriptor) Successful() s50.HandoverCommandSuccessfulBinding {
-	return func() s50.HandoverCommandSuccessfulBinding {
-		sealed := s50.HandoverCommandSuccessfulBinding{}
-		*s50.BridgeHandoverCommandSuccessfulBindingFieldInfo(&sealed) = HandoverPreparationProcedure().Info()
-		*s50.BridgeHandoverCommandSuccessfulBindingFieldValidate(&sealed) = func(v *s40.HandoverCommand, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateHandoverCommandBudget(v, budget)
-		}
-		*s50.BridgeHandoverCommandSuccessfulBindingFieldEncode(&sealed) = func(v *s40.HandoverCommand, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s40.BridgeHandoverCommandMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s50.BridgeHandoverCommandSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s40.HandoverCommand, error) {
-			var v s40.HandoverCommand
-			err := s40.BridgeHandoverCommandMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s40.HandoverCommand{}, err
-			}
-			*s40.BridgeHandoverCommandFieldReceived(&v) = true
-			*s40.BridgeHandoverCommandFieldReceivedAbsolute(&v) = true
-			*s40.BridgeHandoverCommandFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s50.BridgeHandoverCommandSuccessfulBindingFieldInject(&sealed) = func(v s40.HandoverCommand) s50.SuccessfulValue {
-			return func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(0)
-				*s50.BridgeSuccessfulValueFieldBodyHandoverCommand(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s50.BridgeHandoverCommandSuccessfulBindingFieldCapture(&sealed) = func(v s40.HandoverCommand, options aper.DecodeState) (s40.HandoverCommand, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f :=
-				s.Begin()
-			s40.BridgeCaptureS1APHandoverCommand(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s50.BridgeHandoverCommandSuccessfulBindingFieldCompare(&sealed) = func(v s40.HandoverCommand, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s40.BridgeCompareS1APHandoverCommand(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.
-				BudgetValue()
-		}
-		*s50.BridgeHandoverCommandSuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverCommand"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Unsuccessful returns the typed binding for the unsuccessful outcome of HandoverPreparationDescriptor.
-func (HandoverPreparationDescriptor) Unsuccessful() s36.HandoverPreparationFailureUnsuccessfulBinding {
-	return func() s36.HandoverPreparationFailureUnsuccessfulBinding {
-		sealed := s36.HandoverPreparationFailureUnsuccessfulBinding{}
-		*s36.BridgeHandoverPreparationFailureUnsuccessfulBindingFieldInfo(&sealed) = HandoverPreparationProcedure().Info()
-		*s36.BridgeHandoverPreparationFailureUnsuccessfulBindingFieldValidate(&sealed) = func(v *s25.HandoverPreparationFailure, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateHandoverPreparationFailureBudget(v, budget)
-		}
-		*s36.BridgeHandoverPreparationFailureUnsuccessfulBindingFieldEncode(&sealed) = func(v *s25.HandoverPreparationFailure, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s25.BridgeHandoverPreparationFailureMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s36.BridgeHandoverPreparationFailureUnsuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s25.HandoverPreparationFailure, error) {
-			var v s25.HandoverPreparationFailure
-			err := s25.BridgeHandoverPreparationFailureMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s25.HandoverPreparationFailure{}, err
-			}
-			*s25.BridgeHandoverPreparationFailureFieldReceived(&v) = true
-			*s25.BridgeHandoverPreparationFailureFieldReceivedAbsolute(&v) = true
-			*s25.BridgeHandoverPreparationFailureFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s36.BridgeHandoverPreparationFailureUnsuccessfulBindingFieldInject(&sealed) = func(v s25.HandoverPreparationFailure) s36.UnsuccessfulValue {
-			return func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(0)
-				*s36.BridgeUnsuccessfulValueFieldBodyHandoverPreparationFailure(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s36.BridgeHandoverPreparationFailureUnsuccessfulBindingFieldCapture(&sealed) = func(v s25.HandoverPreparationFailure, options aper.DecodeState) (s25.HandoverPreparationFailure, aper.Snapshot,
-
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s25.BridgeCaptureS1APHandoverPreparationFailure(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root,
-
-				false)
-			return v, root
-		}
-		*s36.BridgeHandoverPreparationFailureUnsuccessfulBindingFieldCompare(&sealed) = func(v s25.HandoverPreparationFailure, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s25.BridgeCompareS1APHandoverPreparationFailure(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s36.BridgeHandoverPreparationFailureUnsuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverPreparationFailure"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Initiating returns the typed binding for the initiating message of HandoverResourceAllocationDescriptor.
-func (HandoverResourceAllocationDescriptor) Initiating() HandoverRequestInitiatingBinding {
-	return HandoverRequestInitiatingBinding{info: HandoverResourceAllocationProcedure().Info(), validate: func(v *s48.HandoverRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s50.BridgeValidateHandoverRequestBudget(v, budget)
-	}, encode: func(v *s48.HandoverRequest, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s48.BridgeHandoverRequestMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s48.HandoverRequest, error) {
-		var v s48.HandoverRequest
-		err := s48.BridgeHandoverRequestMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s48.HandoverRequest{}, err
-		}
-		*s48.BridgeHandoverRequestFieldReceived(&v) = true
-		*s48.BridgeHandoverRequestFieldReceivedAbsolute(&v) = true
-		*s48.BridgeHandoverRequestFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s48.HandoverRequest) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(1), bodyHandoverRequest: &v}
-	}, capture: func(v s48.HandoverRequest, options aper.DecodeState) (s48.HandoverRequest, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f :=
-			s.Begin()
-		s48.BridgeCaptureS1APHandoverRequest(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s48.HandoverRequest, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s48.BridgeCompareS1APHandoverRequest(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.
-			BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverRequest"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Successful returns the typed binding for the successful outcome of HandoverResourceAllocationDescriptor.
-func (HandoverResourceAllocationDescriptor) Successful() s50.HandoverRequestAcknowledgeSuccessfulBinding {
-	return func() s50.HandoverRequestAcknowledgeSuccessfulBinding {
-		sealed := s50.HandoverRequestAcknowledgeSuccessfulBinding{}
-		*s50.BridgeHandoverRequestAcknowledgeSuccessfulBindingFieldInfo(&sealed) = HandoverResourceAllocationProcedure().Info()
-		*s50.BridgeHandoverRequestAcknowledgeSuccessfulBindingFieldValidate(&sealed) = func(v *s39.HandoverRequestAcknowledge, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateHandoverRequestAcknowledgeBudget(v, budget)
-		}
-		*s50.BridgeHandoverRequestAcknowledgeSuccessfulBindingFieldEncode(&sealed) = func(v *s39.HandoverRequestAcknowledge, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s39.BridgeHandoverRequestAcknowledgeMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s50.BridgeHandoverRequestAcknowledgeSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s39.HandoverRequestAcknowledge, error) {
-			var v s39.HandoverRequestAcknowledge
-			err := s39.BridgeHandoverRequestAcknowledgeMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s39.HandoverRequestAcknowledge{}, err
-			}
-			*s39.BridgeHandoverRequestAcknowledgeFieldReceived(&v) = true
-			*s39.BridgeHandoverRequestAcknowledgeFieldReceivedAbsolute(&v) = true
-			*s39.BridgeHandoverRequestAcknowledgeFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s50.BridgeHandoverRequestAcknowledgeSuccessfulBindingFieldInject(&sealed) = func(v s39.HandoverRequestAcknowledge) s50.SuccessfulValue {
-			return func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(1)
-				*s50.BridgeSuccessfulValueFieldBodyHandoverRequestAcknowledge(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s50.BridgeHandoverRequestAcknowledgeSuccessfulBindingFieldCapture(&sealed) = func(v s39.HandoverRequestAcknowledge, options aper.DecodeState) (s39.HandoverRequestAcknowledge, aper.Snapshot,
-
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s39.BridgeCaptureS1APHandoverRequestAcknowledge(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root,
-
-				false)
-			return v, root
-		}
-		*s50.BridgeHandoverRequestAcknowledgeSuccessfulBindingFieldCompare(&sealed) = func(v s39.HandoverRequestAcknowledge, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s39.BridgeCompareS1APHandoverRequestAcknowledge(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgeHandoverRequestAcknowledgeSuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverRequestAcknowledge"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Unsuccessful returns the typed binding for the unsuccessful outcome of HandoverResourceAllocationDescriptor.
-func (HandoverResourceAllocationDescriptor) Unsuccessful() s36.HandoverFailureUnsuccessfulBinding {
-	return func() s36.HandoverFailureUnsuccessfulBinding {
-		sealed := s36.HandoverFailureUnsuccessfulBinding{}
-		*s36.BridgeHandoverFailureUnsuccessfulBindingFieldInfo(&sealed) = HandoverResourceAllocationProcedure().Info()
-		*s36.BridgeHandoverFailureUnsuccessfulBindingFieldValidate(&sealed) = func(v *s25.HandoverFailure, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateHandoverFailureBudget(v, budget)
-		}
-		*s36.BridgeHandoverFailureUnsuccessfulBindingFieldEncode(&sealed) = func(v *s25.HandoverFailure, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s25.BridgeHandoverFailureMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s36.BridgeHandoverFailureUnsuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s25.HandoverFailure, error) {
-			var v s25.HandoverFailure
-			err := s25.BridgeHandoverFailureMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s25.HandoverFailure{}, err
-			}
-			*s25.BridgeHandoverFailureFieldReceived(&v) = true
-			*s25.BridgeHandoverFailureFieldReceivedAbsolute(&v) = true
-			*s25.BridgeHandoverFailureFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s36.BridgeHandoverFailureUnsuccessfulBindingFieldInject(&sealed) = func(v s25.HandoverFailure) s36.UnsuccessfulValue {
-			return func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(1)
-				*s36.BridgeUnsuccessfulValueFieldBodyHandoverFailure(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s36.BridgeHandoverFailureUnsuccessfulBindingFieldCapture(&sealed) = func(v s25.HandoverFailure, options aper.DecodeState) (s25.HandoverFailure, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f :=
-				s.Begin()
-			s25.BridgeCaptureS1APHandoverFailure(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s36.BridgeHandoverFailureUnsuccessfulBindingFieldCompare(&sealed) = func(v s25.HandoverFailure, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s25.BridgeCompareS1APHandoverFailure(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.
-				BudgetValue()
-		}
-		*s36.BridgeHandoverFailureUnsuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverFailure"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Initiating returns the typed binding for the initiating message of HandoverNotificationDescriptor.
-func (HandoverNotificationDescriptor) Initiating() HandoverNotifyInitiatingBinding {
-	return HandoverNotifyInitiatingBinding{info: HandoverNotificationProcedure().Info(), validate: func(v *s35.HandoverNotify, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateHandoverNotifyBudget(v, budget)
-	}, encode: func(v *s35.HandoverNotify, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s35.BridgeHandoverNotifyMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s35.HandoverNotify, error) {
-		var v s35.HandoverNotify
-		err := s35.BridgeHandoverNotifyMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s35.HandoverNotify{}, err
-		}
-		*s35.BridgeHandoverNotifyFieldReceived(&v) = true
-		*s35.BridgeHandoverNotifyFieldReceivedAbsolute(&v) = true
-		*s35.BridgeHandoverNotifyFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s35.HandoverNotify) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(2), bodyHandoverNotify: &v}
-	}, capture: func(v s35.HandoverNotify, options aper.DecodeState) (s35.HandoverNotify, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.
-			Begin()
-		s35.BridgeCaptureS1APHandoverNotify(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s35.HandoverNotify, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s35.BridgeCompareS1APHandoverNotify(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverNotify"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of PathSwitchRequestDescriptor.
-func (PathSwitchRequestDescriptor) Initiating() PathSwitchRequestInitiatingBinding {
-	return PathSwitchRequestInitiatingBinding{info: PathSwitchRequestProcedure().Info(), validate: func(v *s41.PathSwitchRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s50.BridgeValidatePathSwitchRequestBudget(v, budget)
-	}, encode: func(v *s41.PathSwitchRequest, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s41.BridgePathSwitchRequestMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s41.PathSwitchRequest, error) {
-		var v s41.PathSwitchRequest
-		err := s41.BridgePathSwitchRequestMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s41.PathSwitchRequest{}, err
-		}
-		*s41.BridgePathSwitchRequestFieldReceived(&v) = true
-		*s41.BridgePathSwitchRequestFieldReceivedAbsolute(&v) = true
-		*s41.BridgePathSwitchRequestFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s41.PathSwitchRequest) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(3), bodyPathSwitchRequest: &v}
-	}, capture: func(v s41.PathSwitchRequest, options aper.DecodeState) (s41.PathSwitchRequest, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(
-			options,
-		)
-		f := s.Begin()
-		s41.BridgeCaptureS1APPathSwitchRequest(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s41.PathSwitchRequest, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s41.BridgeCompareS1APPathSwitchRequest(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(),
-			s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:PathSwitchRequest"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Successful returns the typed binding for the successful outcome of PathSwitchRequestDescriptor.
-func (PathSwitchRequestDescriptor) Successful() s50.PathSwitchRequestAcknowledgeSuccessfulBinding {
-	return func() s50.PathSwitchRequestAcknowledgeSuccessfulBinding {
-		sealed := s50.PathSwitchRequestAcknowledgeSuccessfulBinding{}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldInfo(&sealed) = PathSwitchRequestProcedure().Info()
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldValidate(&sealed) = func(v *s47.PathSwitchRequestAcknowledge, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s50.BridgeValidatePathSwitchRequestAcknowledgeBudget(v, budget)
-		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldEncode(&sealed) = func(v *s47.PathSwitchRequestAcknowledge, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s47.BridgePathSwitchRequestAcknowledgeMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s47.PathSwitchRequestAcknowledge, error) {
-			var v s47.PathSwitchRequestAcknowledge
-			err := s47.BridgePathSwitchRequestAcknowledgeMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s47.PathSwitchRequestAcknowledge{}, err
-			}
-			*s47.BridgePathSwitchRequestAcknowledgeFieldReceived(&v) = true
-			*s47.BridgePathSwitchRequestAcknowledgeFieldReceivedAbsolute(&v) = true
-			*s47.BridgePathSwitchRequestAcknowledgeFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldInject(&sealed) = func(v s47.PathSwitchRequestAcknowledge) s50.SuccessfulValue {
-			return func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(3)
-				*s50.BridgeSuccessfulValueFieldBodyPathSwitchRequestAcknowledge(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldCapture(&sealed) = func(v s47.PathSwitchRequestAcknowledge, options aper.DecodeState) (s47.PathSwitchRequestAcknowledge, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s47.BridgeCaptureS1APPathSwitchRequestAcknowledge(&v, &s)
-			var root aper.Snapshot
-			s.End(
-				f,
-				&root, false)
-			return v, root
-		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldCompare(&sealed) = func(v s47.PathSwitchRequestAcknowledge, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s47.BridgeCompareS1APPathSwitchRequestAcknowledge(&v, &s)
-			s.End(f, root,
-
-				false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgePathSwitchRequestAcknowledgeSuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:PathSwitchRequestAcknowledge"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Unsuccessful returns the typed binding for the unsuccessful outcome of PathSwitchRequestDescriptor.
-func (PathSwitchRequestDescriptor) Unsuccessful() s36.PathSwitchRequestFailureUnsuccessfulBinding {
-	return func() s36.PathSwitchRequestFailureUnsuccessfulBinding {
-		sealed := s36.PathSwitchRequestFailureUnsuccessfulBinding{}
-		*s36.BridgePathSwitchRequestFailureUnsuccessfulBindingFieldInfo(&sealed) = PathSwitchRequestProcedure().Info()
-		*s36.BridgePathSwitchRequestFailureUnsuccessfulBindingFieldValidate(&sealed) = func(v *s26.PathSwitchRequestFailure, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidatePathSwitchRequestFailureBudget(v, budget)
-		}
-		*s36.BridgePathSwitchRequestFailureUnsuccessfulBindingFieldEncode(&sealed) = func(v *s26.PathSwitchRequestFailure, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s26.BridgePathSwitchRequestFailureMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s36.BridgePathSwitchRequestFailureUnsuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s26.PathSwitchRequestFailure, error) {
-			var v s26.PathSwitchRequestFailure
-			err := s26.BridgePathSwitchRequestFailureMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s26.PathSwitchRequestFailure{}, err
-			}
-			*s26.BridgePathSwitchRequestFailureFieldReceived(&v) = true
-			*s26.BridgePathSwitchRequestFailureFieldReceivedAbsolute(&v) = true
-			*s26.BridgePathSwitchRequestFailureFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s36.BridgePathSwitchRequestFailureUnsuccessfulBindingFieldInject(&sealed) = func(v s26.PathSwitchRequestFailure) s36.UnsuccessfulValue {
-			return func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(3)
-				*s36.BridgeUnsuccessfulValueFieldBodyPathSwitchRequestFailure(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s36.BridgePathSwitchRequestFailureUnsuccessfulBindingFieldCapture(&sealed) = func(v s26.PathSwitchRequestFailure, options aper.DecodeState) (s26.PathSwitchRequestFailure, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s26.BridgeCaptureS1APPathSwitchRequestFailure(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s36.BridgePathSwitchRequestFailureUnsuccessfulBindingFieldCompare(&sealed) = func(v s26.PathSwitchRequestFailure, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s26.BridgeCompareS1APPathSwitchRequestFailure(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s36.BridgePathSwitchRequestFailureUnsuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:PathSwitchRequestFailure"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Initiating returns the typed binding for the initiating message of HandoverCancelDescriptor.
-func (HandoverCancelDescriptor) Initiating() HandoverCancelInitiatingBinding {
-	return HandoverCancelInitiatingBinding{info: HandoverCancelProcedure().Info(), validate: func(v *s25.HandoverCancel, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateHandoverCancelBudget(v, budget)
-	}, encode: func(v *s25.HandoverCancel, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s25.BridgeHandoverCancelMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s25.HandoverCancel, error) {
-		var v s25.HandoverCancel
-		err := s25.BridgeHandoverCancelMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s25.HandoverCancel{}, err
-		}
-		*s25.BridgeHandoverCancelFieldReceived(&v) = true
-		*s25.BridgeHandoverCancelFieldReceivedAbsolute(&v) = true
-		*s25.BridgeHandoverCancelFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s25.HandoverCancel) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(4), bodyHandoverCancel: &v}
-	}, capture: func(v s25.HandoverCancel, options aper.DecodeState) (s25.HandoverCancel, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.
-			Begin()
-		s25.BridgeCaptureS1APHandoverCancel(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s25.HandoverCancel, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s25.BridgeCompareS1APHandoverCancel(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverCancel"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Successful returns the typed binding for the successful outcome of HandoverCancelDescriptor.
-func (HandoverCancelDescriptor) Successful() s50.HandoverCancelAcknowledgeSuccessfulBinding {
-	return func() s50.HandoverCancelAcknowledgeSuccessfulBinding {
-		sealed := s50.HandoverCancelAcknowledgeSuccessfulBinding{}
-		*s50.BridgeHandoverCancelAcknowledgeSuccessfulBindingFieldInfo(&sealed) = HandoverCancelProcedure().Info()
-		*s50.BridgeHandoverCancelAcknowledgeSuccessfulBindingFieldValidate(&sealed) = func(v *s25.HandoverCancelAcknowledge, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateHandoverCancelAcknowledgeBudget(v, budget)
-		}
-		*s50.BridgeHandoverCancelAcknowledgeSuccessfulBindingFieldEncode(&sealed) = func(v *s25.HandoverCancelAcknowledge, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s25.BridgeHandoverCancelAcknowledgeMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s50.BridgeHandoverCancelAcknowledgeSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s25.HandoverCancelAcknowledge, error) {
-			var v s25.HandoverCancelAcknowledge
-			err := s25.BridgeHandoverCancelAcknowledgeMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s25.HandoverCancelAcknowledge{}, err
-			}
-			*s25.BridgeHandoverCancelAcknowledgeFieldReceived(&v) = true
-			*s25.BridgeHandoverCancelAcknowledgeFieldReceivedAbsolute(&v) = true
-			*s25.BridgeHandoverCancelAcknowledgeFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s50.BridgeHandoverCancelAcknowledgeSuccessfulBindingFieldInject(&sealed) = func(v s25.HandoverCancelAcknowledge) s50.SuccessfulValue {
-			return func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(4)
-				*s50.BridgeSuccessfulValueFieldBodyHandoverCancelAcknowledge(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s50.BridgeHandoverCancelAcknowledgeSuccessfulBindingFieldCapture(&sealed) = func(v s25.HandoverCancelAcknowledge, options aper.DecodeState) (s25.HandoverCancelAcknowledge, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s25.BridgeCaptureS1APHandoverCancelAcknowledge(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s50.BridgeHandoverCancelAcknowledgeSuccessfulBindingFieldCompare(&sealed) = func(v s25.HandoverCancelAcknowledge, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s25.BridgeCompareS1APHandoverCancelAcknowledge(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgeHandoverCancelAcknowledgeSuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverCancelAcknowledge"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
 // Initiating returns the typed binding for the initiating message of ERABSetupDescriptor.
 func (ERABSetupDescriptor) Initiating() ERABSetupRequestInitiatingBinding {
 	return ERABSetupRequestInitiatingBinding{info: ERABSetupProcedure().Info(), validate: func(v *s40.ERABSetupRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateERABSetupRequestBudget(v, budget)
+		return s50.BridgeValidateERABSetupRequestBudget(v, budget)
 	}, encode: func(v *s40.ERABSetupRequest, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return s40.BridgeERABSetupRequestMethodMarshalAPERBudget(v, budget, fresh)
 	}, decode: func(data []byte, options aper.DecodeState) (s40.ERABSetupRequest, error) {
@@ -947,7 +314,7 @@ func (ERABSetupDescriptor) Successful() s50.ERABSetupResponseSuccessfulBinding {
 // Initiating returns the typed binding for the initiating message of ERABModifyDescriptor.
 func (ERABModifyDescriptor) Initiating() ERABModifyRequestInitiatingBinding {
 	return ERABModifyRequestInitiatingBinding{info: ERABModifyProcedure().Info(), validate: func(v *s40.ERABModifyRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateERABModifyRequestBudget(v, budget)
+		return s50.BridgeValidateERABModifyRequestBudget(v, budget)
 	}, encode: func(v *s40.ERABModifyRequest, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return s40.BridgeERABModifyRequestMethodMarshalAPERBudget(v, budget, fresh)
 	}, decode: func(data []byte, options aper.DecodeState) (s40.ERABModifyRequest, error) {
@@ -994,24 +361,24 @@ func (ERABModifyDescriptor) Successful() s50.ERABModifyResponseSuccessfulBinding
 	return func() s50.ERABModifyResponseSuccessfulBinding {
 		sealed := s50.ERABModifyResponseSuccessfulBinding{}
 		*s50.BridgeERABModifyResponseSuccessfulBindingFieldInfo(&sealed) = ERABModifyProcedure().Info()
-		*s50.BridgeERABModifyResponseSuccessfulBindingFieldValidate(&sealed) = func(v *s45.ERABModifyResponse, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
+		*s50.BridgeERABModifyResponseSuccessfulBindingFieldValidate(&sealed) = func(v *s46.ERABModifyResponse, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 			return s50.BridgeValidateERABModifyResponseBudget(v, budget)
 		}
-		*s50.BridgeERABModifyResponseSuccessfulBindingFieldEncode(&sealed) = func(v *s45.ERABModifyResponse, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s45.BridgeERABModifyResponseMethodMarshalAPERBudget(v, budget, fresh)
+		*s50.BridgeERABModifyResponseSuccessfulBindingFieldEncode(&sealed) = func(v *s46.ERABModifyResponse, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s46.BridgeERABModifyResponseMethodMarshalAPERBudget(v, budget, fresh)
 		}
-		*s50.BridgeERABModifyResponseSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s45.ERABModifyResponse, error) {
-			var v s45.ERABModifyResponse
-			err := s45.BridgeERABModifyResponseMethodUnmarshalAPERWithOptions(&v, data, options)
+		*s50.BridgeERABModifyResponseSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s46.ERABModifyResponse, error) {
+			var v s46.ERABModifyResponse
+			err := s46.BridgeERABModifyResponseMethodUnmarshalAPERWithOptions(&v, data, options)
 			if err != nil {
-				return s45.ERABModifyResponse{}, err
+				return s46.ERABModifyResponse{}, err
 			}
-			*s45.BridgeERABModifyResponseFieldReceived(&v) = true
-			*s45.BridgeERABModifyResponseFieldReceivedAbsolute(&v) = true
-			*s45.BridgeERABModifyResponseFieldReceivedBytes(&v) = aper.OriginalWire(data)
+			*s46.BridgeERABModifyResponseFieldReceived(&v) = true
+			*s46.BridgeERABModifyResponseFieldReceivedAbsolute(&v) = true
+			*s46.BridgeERABModifyResponseFieldReceivedBytes(&v) = aper.OriginalWire(data)
 			return v, nil
 		}
-		*s50.BridgeERABModifyResponseSuccessfulBindingFieldInject(&sealed) = func(v s45.ERABModifyResponse) s50.SuccessfulValue {
+		*s50.BridgeERABModifyResponseSuccessfulBindingFieldInject(&sealed) = func(v s46.ERABModifyResponse) s50.SuccessfulValue {
 			return func() s50.SuccessfulValue {
 				sealed := s50.SuccessfulValue{}
 				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(6)
@@ -1019,20 +386,20 @@ func (ERABModifyDescriptor) Successful() s50.ERABModifyResponseSuccessfulBinding
 				return sealed
 			}()
 		}
-		*s50.BridgeERABModifyResponseSuccessfulBindingFieldCapture(&sealed) = func(v s45.ERABModifyResponse, options aper.DecodeState) (s45.ERABModifyResponse, aper.Snapshot) {
+		*s50.BridgeERABModifyResponseSuccessfulBindingFieldCapture(&sealed) = func(v s46.ERABModifyResponse, options aper.DecodeState) (s46.ERABModifyResponse, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s45.BridgeCaptureS1APERABModifyResponse(&v, &s)
+			s46.BridgeCaptureS1APERABModifyResponse(&v, &s)
 			var root aper.Snapshot
 			s.End(f, &root, false)
 			return v, root
 		}
-		*s50.BridgeERABModifyResponseSuccessfulBindingFieldCompare(&sealed) = func(v s45.ERABModifyResponse, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s50.BridgeERABModifyResponseSuccessfulBindingFieldCompare(&sealed) = func(v s46.ERABModifyResponse, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			s45.BridgeCompareS1APERABModifyResponse(&v, &s)
+			s46.BridgeCompareS1APERABModifyResponse(&v, &s)
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -1050,7 +417,7 @@ func (ERABModifyDescriptor) Successful() s50.ERABModifyResponseSuccessfulBinding
 // Initiating returns the typed binding for the initiating message of ERABReleaseDescriptor.
 func (ERABReleaseDescriptor) Initiating() ERABReleaseCommandInitiatingBinding {
 	return ERABReleaseCommandInitiatingBinding{info: ERABReleaseProcedure().Info(), validate: func(v *s39.ERABReleaseCommand, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateERABReleaseCommandBudget(v, budget)
+		return s50.BridgeValidateERABReleaseCommandBudget(v, budget)
 	}, encode: func(v *s39.ERABReleaseCommand, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return s39.BridgeERABReleaseCommandMethodMarshalAPERBudget(v, budget, fresh)
 	}, decode: func(data []byte, options aper.DecodeState) (s39.ERABReleaseCommand, error) {
@@ -1150,35 +517,35 @@ func (ERABReleaseDescriptor) Successful() s50.ERABReleaseResponseSuccessfulBindi
 
 // Initiating returns the typed binding for the initiating message of ERABReleaseIndicationDescriptor.
 func (ERABReleaseIndicationDescriptor) Initiating() ERABReleaseIndicationInitiatingBinding {
-	return ERABReleaseIndicationInitiatingBinding{info: ERABReleaseIndicationProcedure().Info(), validate: func(v *s45.ERABReleaseIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
+	return ERABReleaseIndicationInitiatingBinding{info: ERABReleaseIndicationProcedure().Info(), validate: func(v *s46.ERABReleaseIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateERABReleaseIndicationBudget(v, budget)
-	}, encode: func(v *s45.ERABReleaseIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s45.BridgeERABReleaseIndicationMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s45.ERABReleaseIndication, error) {
-		var v s45.ERABReleaseIndication
-		err := s45.BridgeERABReleaseIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
+	}, encode: func(v *s46.ERABReleaseIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return s46.BridgeERABReleaseIndicationMethodMarshalAPERBudget(v, budget, fresh)
+	}, decode: func(data []byte, options aper.DecodeState) (s46.ERABReleaseIndication, error) {
+		var v s46.ERABReleaseIndication
+		err := s46.BridgeERABReleaseIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
 		if err != nil {
-			return s45.ERABReleaseIndication{}, err
+			return s46.ERABReleaseIndication{}, err
 		}
-		*s45.BridgeERABReleaseIndicationFieldReceived(&v) = true
-		*s45.BridgeERABReleaseIndicationFieldReceivedAbsolute(&v) = true
-		*s45.BridgeERABReleaseIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
+		*s46.BridgeERABReleaseIndicationFieldReceived(&v) = true
+		*s46.BridgeERABReleaseIndicationFieldReceivedAbsolute(&v) = true
+		*s46.BridgeERABReleaseIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
 		return v, nil
-	}, inject: func(v s45.ERABReleaseIndication) InitiatingValue {
+	}, inject: func(v s46.ERABReleaseIndication) InitiatingValue {
 		return InitiatingValue{code: s00.ProcedureCode(8), bodyERABReleaseIndication: &v}
-	}, capture: func(v s45.ERABReleaseIndication, options aper.DecodeState) (s45.ERABReleaseIndication, aper.Snapshot) {
+	}, capture: func(v s46.ERABReleaseIndication, options aper.DecodeState) (s46.ERABReleaseIndication, aper.Snapshot) {
 		s := aper.SemanticCaptureFor(options)
 		f := s.Begin()
-		s45.BridgeCaptureS1APERABReleaseIndication(&v,
+		s46.BridgeCaptureS1APERABReleaseIndication(&v,
 			&s,
 		)
 		var root aper.Snapshot
 		s.End(f, &root, false)
 		return v, root
-	}, compare: func(v s45.ERABReleaseIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	}, compare: func(v s46.ERABReleaseIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 		s := aper.NewSemanticComparison(root, budget)
 		f := s.Begin()
-		s45.BridgeCompareS1APERABReleaseIndication(&v, &s)
+		s46.BridgeCompareS1APERABReleaseIndication(&v, &s)
 		s.End(f, root, false)
 		return s.Plan(), s.BudgetValue()
 	}, context: func() s00.BridgeCodecContext {
@@ -1190,216 +557,10 @@ func (ERABReleaseIndicationDescriptor) Initiating() ERABReleaseIndicationInitiat
 	}
 }
 
-// Initiating returns the typed binding for the initiating message of InitialContextSetupDescriptor.
-func (InitialContextSetupDescriptor) Initiating() InitialContextSetupRequestInitiatingBinding {
-	return InitialContextSetupRequestInitiatingBinding{info: InitialContextSetupProcedure().Info(), validate: func(v *s48.InitialContextSetupRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s50.BridgeValidateInitialContextSetupRequestBudget(v, budget)
-	}, encode: func(v *s48.InitialContextSetupRequest, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s48.BridgeInitialContextSetupRequestMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s48.InitialContextSetupRequest, error) {
-		var v s48.InitialContextSetupRequest
-		err := s48.BridgeInitialContextSetupRequestMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s48.InitialContextSetupRequest{}, err
-		}
-		*s48.BridgeInitialContextSetupRequestFieldReceived(&v) = true
-		*s48.BridgeInitialContextSetupRequestFieldReceivedAbsolute(&v) = true
-		*s48.BridgeInitialContextSetupRequestFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s48.InitialContextSetupRequest) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(9), bodyInitialContextSetupRequest: &v}
-	}, capture: func(v s48.InitialContextSetupRequest, options aper.DecodeState) (s48.InitialContextSetupRequest, aper.Snapshot,
-
-	) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s48.BridgeCaptureS1APInitialContextSetupRequest(&v, &s)
-		var root aper.Snapshot
-		s.End(f, &root,
-
-			false)
-		return v, root
-	}, compare: func(v s48.InitialContextSetupRequest, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s48.BridgeCompareS1APInitialContextSetupRequest(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:InitialContextSetupRequest"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Successful returns the typed binding for the successful outcome of InitialContextSetupDescriptor.
-func (InitialContextSetupDescriptor) Successful() s50.InitialContextSetupResponseSuccessfulBinding {
-	return func() s50.InitialContextSetupResponseSuccessfulBinding {
-		sealed := s50.InitialContextSetupResponseSuccessfulBinding{}
-		*s50.BridgeInitialContextSetupResponseSuccessfulBindingFieldInfo(&sealed) = InitialContextSetupProcedure().Info()
-		*s50.BridgeInitialContextSetupResponseSuccessfulBindingFieldValidate(&sealed) = func(v *s39.InitialContextSetupResponse, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateInitialContextSetupResponseBudget(v, budget)
-		}
-		*s50.BridgeInitialContextSetupResponseSuccessfulBindingFieldEncode(&sealed) = func(v *s39.InitialContextSetupResponse, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s39.BridgeInitialContextSetupResponseMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s50.BridgeInitialContextSetupResponseSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s39.InitialContextSetupResponse, error) {
-			var v s39.InitialContextSetupResponse
-			err := s39.BridgeInitialContextSetupResponseMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s39.InitialContextSetupResponse{}, err
-			}
-			*s39.BridgeInitialContextSetupResponseFieldReceived(&v) = true
-			*s39.BridgeInitialContextSetupResponseFieldReceivedAbsolute(&v) = true
-			*s39.BridgeInitialContextSetupResponseFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s50.BridgeInitialContextSetupResponseSuccessfulBindingFieldInject(&sealed) = func(v s39.InitialContextSetupResponse) s50.SuccessfulValue {
-			return func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(9)
-				*s50.BridgeSuccessfulValueFieldBodyInitialContextSetupResponse(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s50.BridgeInitialContextSetupResponseSuccessfulBindingFieldCapture(&sealed) = func(v s39.InitialContextSetupResponse, options aper.DecodeState) (s39.InitialContextSetupResponse, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s39.BridgeCaptureS1APInitialContextSetupResponse(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root,
-				false)
-			return v, root
-		}
-		*s50.BridgeInitialContextSetupResponseSuccessfulBindingFieldCompare(&sealed) = func(v s39.InitialContextSetupResponse, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s39.BridgeCompareS1APInitialContextSetupResponse(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgeInitialContextSetupResponseSuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:InitialContextSetupResponse"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Unsuccessful returns the typed binding for the unsuccessful outcome of InitialContextSetupDescriptor.
-func (InitialContextSetupDescriptor) Unsuccessful() s36.InitialContextSetupFailureUnsuccessfulBinding {
-	return func() s36.InitialContextSetupFailureUnsuccessfulBinding {
-		sealed := s36.InitialContextSetupFailureUnsuccessfulBinding{}
-		*s36.BridgeInitialContextSetupFailureUnsuccessfulBindingFieldInfo(&sealed) = InitialContextSetupProcedure().Info()
-		*s36.BridgeInitialContextSetupFailureUnsuccessfulBindingFieldValidate(&sealed) = func(v *s25.InitialContextSetupFailure, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateInitialContextSetupFailureBudget(v, budget)
-		}
-		*s36.BridgeInitialContextSetupFailureUnsuccessfulBindingFieldEncode(&sealed) = func(v *s25.InitialContextSetupFailure, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s25.BridgeInitialContextSetupFailureMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s36.BridgeInitialContextSetupFailureUnsuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s25.InitialContextSetupFailure, error) {
-			var v s25.InitialContextSetupFailure
-			err := s25.BridgeInitialContextSetupFailureMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s25.InitialContextSetupFailure{}, err
-			}
-			*s25.BridgeInitialContextSetupFailureFieldReceived(&v) = true
-			*s25.BridgeInitialContextSetupFailureFieldReceivedAbsolute(&v) = true
-			*s25.BridgeInitialContextSetupFailureFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s36.BridgeInitialContextSetupFailureUnsuccessfulBindingFieldInject(&sealed) = func(v s25.InitialContextSetupFailure) s36.UnsuccessfulValue {
-			return func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(9)
-				*s36.BridgeUnsuccessfulValueFieldBodyInitialContextSetupFailure(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s36.BridgeInitialContextSetupFailureUnsuccessfulBindingFieldCapture(&sealed) = func(v s25.InitialContextSetupFailure, options aper.DecodeState) (s25.InitialContextSetupFailure, aper.Snapshot,
-
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s25.BridgeCaptureS1APInitialContextSetupFailure(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root,
-
-				false)
-			return v, root
-		}
-		*s36.BridgeInitialContextSetupFailureUnsuccessfulBindingFieldCompare(&sealed) = func(v s25.InitialContextSetupFailure, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s25.BridgeCompareS1APInitialContextSetupFailure(&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s36.BridgeInitialContextSetupFailureUnsuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:InitialContextSetupFailure"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Initiating returns the typed binding for the initiating message of PagingDescriptor.
-func (PagingDescriptor) Initiating() PagingInitiatingBinding {
-	return PagingInitiatingBinding{info: PagingProcedure().Info(), validate: func(v *s49.Paging, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s50.BridgeValidatePagingBudget(v, budget)
-	}, encode: func(v *s49.Paging, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s49.BridgePagingMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s49.Paging, error) {
-		var v s49.Paging
-		err := s49.BridgePagingMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s49.Paging{}, err
-		}
-		*s49.BridgePagingFieldReceived(&v) = true
-		*s49.BridgePagingFieldReceivedAbsolute(&v) = true
-		*s49.BridgePagingFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s49.Paging) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(10), bodyPaging: &v}
-	}, capture: func(v s49.Paging, options aper.DecodeState) (s49.Paging, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f :=
-			s.
-				Begin()
-		s49.BridgeCaptureS1APPaging(&v, &s)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-
-		return v, root
-	}, compare: func(v s49.Paging, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s49.BridgeCompareS1APPaging(&v, &s)
-		s.
-			End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:Paging"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
 // Initiating returns the typed binding for the initiating message of DownlinkNASTransportDescriptor.
 func (DownlinkNASTransportDescriptor) Initiating() DownlinkNASTransportInitiatingBinding {
 	return DownlinkNASTransportInitiatingBinding{info: DownlinkNASTransportProcedure().Info(), validate: func(v *s42.DownlinkNASTransport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateDownlinkNASTransportBudget(v, budget)
+		return s50.BridgeValidateDownlinkNASTransportBudget(v, budget)
 	}, encode: func(v *s42.DownlinkNASTransport, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return s42.BridgeDownlinkNASTransportMethodMarshalAPERBudget(v, budget, fresh)
 	}, decode: func(data []byte, options aper.DecodeState) (s42.DownlinkNASTransport, error) {
@@ -1432,50 +593,6 @@ func (DownlinkNASTransportDescriptor) Initiating() DownlinkNASTransportInitiatin
 	}, context: func() s00.BridgeCodecContext {
 		sealed := s00.BridgeCodecContext{}
 		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:DownlinkNASTransport"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of InitialUEMessageDescriptor.
-func (InitialUEMessageDescriptor) Initiating() InitialUEMessageInitiatingBinding {
-	return InitialUEMessageInitiatingBinding{info: InitialUEMessageProcedure().Info(), validate: func(v *s35.InitialUEMessage, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateInitialUEMessageBudget(v, budget)
-	}, encode: func(v *s35.InitialUEMessage, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s35.BridgeInitialUEMessageMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s35.InitialUEMessage, error) {
-		var v s35.InitialUEMessage
-		err := s35.BridgeInitialUEMessageMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s35.InitialUEMessage{}, err
-		}
-		*s35.BridgeInitialUEMessageFieldReceived(&v) = true
-		*s35.BridgeInitialUEMessageFieldReceivedAbsolute(&v) = true
-		*s35.BridgeInitialUEMessageFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s35.InitialUEMessage) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(12), bodyInitialUEMessage: &v}
-	}, capture: func(v s35.InitialUEMessage, options aper.DecodeState) (s35.InitialUEMessage, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s35.BridgeCaptureS1APInitialUEMessage(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s35.InitialUEMessage, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s35.BridgeCompareS1APInitialUEMessage(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(),
-			s.
-				BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:InitialUEMessage"
 		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 		return sealed
 	}(),
@@ -1520,47 +637,6 @@ func (ErrorIndicationDescriptor) Initiating() ErrorIndicationInitiatingBinding {
 	}, context: func() s00.BridgeCodecContext {
 		sealed := s00.BridgeCodecContext{}
 		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ErrorIndication"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of NASNonDeliveryIndicationDescriptor.
-func (NASNonDeliveryIndicationDescriptor) Initiating() NASNonDeliveryIndicationInitiatingBinding {
-	return NASNonDeliveryIndicationInitiatingBinding{info: NASNonDeliveryIndicationProcedure().Info(), validate: func(v *s25.NASNonDeliveryIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateNASNonDeliveryIndicationBudget(v, budget)
-	}, encode: func(v *s25.NASNonDeliveryIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s25.BridgeNASNonDeliveryIndicationMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s25.NASNonDeliveryIndication, error) {
-		var v s25.NASNonDeliveryIndication
-		err := s25.BridgeNASNonDeliveryIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s25.NASNonDeliveryIndication{}, err
-		}
-		*s25.BridgeNASNonDeliveryIndicationFieldReceived(&v) = true
-		*s25.BridgeNASNonDeliveryIndicationFieldReceivedAbsolute(&v) = true
-		*s25.BridgeNASNonDeliveryIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s25.NASNonDeliveryIndication) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(16), bodyNASNonDeliveryIndication: &v}
-	}, capture: func(v s25.NASNonDeliveryIndication, options aper.DecodeState) (s25.NASNonDeliveryIndication, aper.Snapshot,
-	) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s25.BridgeCaptureS1APNASNonDeliveryIndication(&v, &s)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s25.NASNonDeliveryIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s25.BridgeCompareS1APNASNonDeliveryIndication(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:NASNonDeliveryIndication"
 		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 		return sealed
 	}(),
@@ -1657,51 +733,6 @@ func (ENBStatusTransferDescriptor) Initiating() ENBStatusTransferInitiatingBindi
 	}
 }
 
-// Initiating returns the typed binding for the initiating message of MMEStatusTransferDescriptor.
-func (MMEStatusTransferDescriptor) Initiating() MMEStatusTransferInitiatingBinding {
-	return MMEStatusTransferInitiatingBinding{info: MMEStatusTransferProcedure().Info(), validate: func(v *s25.MMEStatusTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateMMEStatusTransferBudget(v, budget)
-	}, encode: func(v *s25.MMEStatusTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s25.BridgeMMEStatusTransferMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s25.MMEStatusTransfer, error) {
-		var v s25.MMEStatusTransfer
-		err := s25.BridgeMMEStatusTransferMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s25.MMEStatusTransfer{}, err
-		}
-		*s25.BridgeMMEStatusTransferFieldReceived(&v) = true
-		*s25.BridgeMMEStatusTransferFieldReceivedAbsolute(&v) = true
-		*s25.BridgeMMEStatusTransferFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s25.MMEStatusTransfer) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(25), bodyMMEStatusTransfer: &v}
-	}, capture: func(v s25.MMEStatusTransfer, options aper.DecodeState) (s25.MMEStatusTransfer, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(
-			options,
-		)
-		f := s.Begin()
-		s25.BridgeCaptureS1APMMEStatusTransfer(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s25.MMEStatusTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s25.BridgeCompareS1APMMEStatusTransfer(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(),
-			s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:MMEStatusTransfer"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
 // Initiating returns the typed binding for the initiating message of DeactivateTraceDescriptor.
 func (DeactivateTraceDescriptor) Initiating() DeactivateTraceInitiatingBinding {
 	return DeactivateTraceInitiatingBinding{info: DeactivateTraceProcedure().Info(), validate: func(v *s15.DeactivateTrace, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
@@ -1749,7 +780,7 @@ func (DeactivateTraceDescriptor) Initiating() DeactivateTraceInitiatingBinding {
 // Initiating returns the typed binding for the initiating message of ENBConfigurationUpdateDescriptor.
 func (ENBConfigurationUpdateDescriptor) Initiating() ENBConfigurationUpdateInitiatingBinding {
 	return ENBConfigurationUpdateInitiatingBinding{info: ENBConfigurationUpdateProcedure().Info(), validate: func(v *s43.ENBConfigurationUpdate, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateENBConfigurationUpdateBudget(v, budget)
+		return s50.BridgeValidateENBConfigurationUpdateBudget(v, budget)
 	}, encode: func(v *s43.ENBConfigurationUpdate, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return s43.BridgeENBConfigurationUpdateMethodMarshalAPERBudget(v, budget, fresh)
 	}, decode: func(data []byte, options aper.DecodeState) (s43.ENBConfigurationUpdate, error) {
@@ -1911,389 +942,10 @@ func (ENBConfigurationUpdateDescriptor) Unsuccessful() s36.ENBConfigurationUpdat
 
 }
 
-// Initiating returns the typed binding for the initiating message of MMEConfigurationUpdateDescriptor.
-func (MMEConfigurationUpdateDescriptor) Initiating() MMEConfigurationUpdateInitiatingBinding {
-	return MMEConfigurationUpdateInitiatingBinding{info: MMEConfigurationUpdateProcedure().Info(), validate: func(v *s43.MMEConfigurationUpdate, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateMMEConfigurationUpdateBudget(v, budget)
-	}, encode: func(v *s43.MMEConfigurationUpdate, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s43.BridgeMMEConfigurationUpdateMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s43.MMEConfigurationUpdate, error) {
-		var v s43.MMEConfigurationUpdate
-		err := s43.BridgeMMEConfigurationUpdateMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s43.MMEConfigurationUpdate{}, err
-		}
-		*s43.BridgeMMEConfigurationUpdateFieldReceived(&v) = true
-		*s43.BridgeMMEConfigurationUpdateFieldReceivedAbsolute(&v) = true
-		*s43.BridgeMMEConfigurationUpdateFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s43.MMEConfigurationUpdate) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(30), bodyMMEConfigurationUpdate: &v}
-	}, capture: func(v s43.MMEConfigurationUpdate, options aper.DecodeState) (s43.MMEConfigurationUpdate, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s43.BridgeCaptureS1APMMEConfigurationUpdate(
-			&v,
-
-			&s)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s43.MMEConfigurationUpdate, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s43.BridgeCompareS1APMMEConfigurationUpdate(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:MMEConfigurationUpdate"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Successful returns the typed binding for the successful outcome of MMEConfigurationUpdateDescriptor.
-func (MMEConfigurationUpdateDescriptor) Successful() s50.MMEConfigurationUpdateAcknowledgeSuccessfulBinding {
-	return func() s50.MMEConfigurationUpdateAcknowledgeSuccessfulBinding {
-		sealed := s50.MMEConfigurationUpdateAcknowledgeSuccessfulBinding{}
-		*s50.BridgeMMEConfigurationUpdateAcknowledgeSuccessfulBindingFieldInfo(&sealed) = MMEConfigurationUpdateProcedure().Info()
-		*s50.BridgeMMEConfigurationUpdateAcknowledgeSuccessfulBindingFieldValidate(&sealed) = func(v *s25.MMEConfigurationUpdateAcknowledge, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateMMEConfigurationUpdateAcknowledgeBudget(v, budget)
-		}
-		*s50.BridgeMMEConfigurationUpdateAcknowledgeSuccessfulBindingFieldEncode(&sealed) = func(v *s25.MMEConfigurationUpdateAcknowledge, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s25.BridgeMMEConfigurationUpdateAcknowledgeMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s50.BridgeMMEConfigurationUpdateAcknowledgeSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s25.MMEConfigurationUpdateAcknowledge, error) {
-			var v s25.MMEConfigurationUpdateAcknowledge
-			err := s25.BridgeMMEConfigurationUpdateAcknowledgeMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s25.MMEConfigurationUpdateAcknowledge{}, err
-			}
-			*s25.BridgeMMEConfigurationUpdateAcknowledgeFieldReceived(&v) = true
-			*s25.BridgeMMEConfigurationUpdateAcknowledgeFieldReceivedAbsolute(&v) = true
-			*s25.BridgeMMEConfigurationUpdateAcknowledgeFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s50.BridgeMMEConfigurationUpdateAcknowledgeSuccessfulBindingFieldInject(&sealed) = func(v s25.MMEConfigurationUpdateAcknowledge) s50.SuccessfulValue {
-			return func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(30)
-				*s50.BridgeSuccessfulValueFieldBodyMMEConfigurationUpdateAcknowledge(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s50.BridgeMMEConfigurationUpdateAcknowledgeSuccessfulBindingFieldCapture(&sealed) = func(v s25.MMEConfigurationUpdateAcknowledge, options aper.DecodeState) (s25.MMEConfigurationUpdateAcknowledge, aper.Snapshot,
-
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s25.BridgeCaptureS1APMMEConfigurationUpdateAcknowledge(&v, &s)
-			var root aper.Snapshot
-
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s50.BridgeMMEConfigurationUpdateAcknowledgeSuccessfulBindingFieldCompare(&sealed) = func(v s25.MMEConfigurationUpdateAcknowledge, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s25.BridgeCompareS1APMMEConfigurationUpdateAcknowledge(&v, &s)
-			s.
-				End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgeMMEConfigurationUpdateAcknowledgeSuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:MMEConfigurationUpdateAcknowledge"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Unsuccessful returns the typed binding for the unsuccessful outcome of MMEConfigurationUpdateDescriptor.
-func (MMEConfigurationUpdateDescriptor) Unsuccessful() s36.MMEConfigurationUpdateFailureUnsuccessfulBinding {
-	return func() s36.MMEConfigurationUpdateFailureUnsuccessfulBinding {
-		sealed := s36.MMEConfigurationUpdateFailureUnsuccessfulBinding{}
-		*s36.BridgeMMEConfigurationUpdateFailureUnsuccessfulBindingFieldInfo(&sealed) = MMEConfigurationUpdateProcedure().Info()
-		*s36.BridgeMMEConfigurationUpdateFailureUnsuccessfulBindingFieldValidate(&sealed) = func(v *s25.MMEConfigurationUpdateFailure, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateMMEConfigurationUpdateFailureBudget(v, budget)
-		}
-		*s36.BridgeMMEConfigurationUpdateFailureUnsuccessfulBindingFieldEncode(&sealed) = func(v *s25.MMEConfigurationUpdateFailure, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s25.BridgeMMEConfigurationUpdateFailureMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s36.BridgeMMEConfigurationUpdateFailureUnsuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s25.MMEConfigurationUpdateFailure, error) {
-			var v s25.MMEConfigurationUpdateFailure
-			err := s25.BridgeMMEConfigurationUpdateFailureMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s25.MMEConfigurationUpdateFailure{}, err
-			}
-			*s25.BridgeMMEConfigurationUpdateFailureFieldReceived(&v) = true
-			*s25.BridgeMMEConfigurationUpdateFailureFieldReceivedAbsolute(&v) = true
-			*s25.BridgeMMEConfigurationUpdateFailureFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s36.BridgeMMEConfigurationUpdateFailureUnsuccessfulBindingFieldInject(&sealed) = func(v s25.MMEConfigurationUpdateFailure) s36.UnsuccessfulValue {
-			return func() s36.UnsuccessfulValue {
-				sealed := s36.UnsuccessfulValue{}
-				*s36.BridgeUnsuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(30)
-				*s36.BridgeUnsuccessfulValueFieldBodyMMEConfigurationUpdateFailure(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s36.BridgeMMEConfigurationUpdateFailureUnsuccessfulBindingFieldCapture(&sealed) = func(v s25.MMEConfigurationUpdateFailure, options aper.DecodeState) (s25.MMEConfigurationUpdateFailure, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			s25.BridgeCaptureS1APMMEConfigurationUpdateFailure(&v, &s)
-			var root aper.Snapshot
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s36.BridgeMMEConfigurationUpdateFailureUnsuccessfulBindingFieldCompare(&sealed) = func(v s25.MMEConfigurationUpdateFailure, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s25.BridgeCompareS1APMMEConfigurationUpdateFailure(&v, &s)
-			s.End(f, root,
-
-				false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s36.BridgeMMEConfigurationUpdateFailureUnsuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:MMEConfigurationUpdateFailure"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
-}
-
-// Initiating returns the typed binding for the initiating message of LocationReportingControlDescriptor.
-func (LocationReportingControlDescriptor) Initiating() LocationReportingControlInitiatingBinding {
-	return LocationReportingControlInitiatingBinding{info: LocationReportingControlProcedure().Info(), validate: func(v *s26.LocationReportingControl, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateLocationReportingControlBudget(v, budget)
-	}, encode: func(v *s26.LocationReportingControl, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s26.BridgeLocationReportingControlMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s26.LocationReportingControl, error) {
-		var v s26.LocationReportingControl
-		err := s26.BridgeLocationReportingControlMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s26.LocationReportingControl{}, err
-		}
-		*s26.BridgeLocationReportingControlFieldReceived(&v) = true
-		*s26.BridgeLocationReportingControlFieldReceivedAbsolute(&v) = true
-		*s26.BridgeLocationReportingControlFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s26.LocationReportingControl) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(31), bodyLocationReportingControl: &v}
-	}, capture: func(v s26.LocationReportingControl, options aper.DecodeState) (s26.LocationReportingControl, aper.Snapshot,
-	) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s26.BridgeCaptureS1APLocationReportingControl(&v, &s)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s26.LocationReportingControl, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s26.BridgeCompareS1APLocationReportingControl(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:LocationReportingControl"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of LocationReportingFailureIndicationDescriptor.
-func (LocationReportingFailureIndicationDescriptor) Initiating() LocationReportingFailureIndicationInitiatingBinding {
-	return LocationReportingFailureIndicationInitiatingBinding{info: LocationReportingFailureIndicationProcedure().Info(), validate: func(v *s25.LocationReportingFailureIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateLocationReportingFailureIndicationBudget(v, budget)
-	}, encode: func(v *s25.LocationReportingFailureIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s25.BridgeLocationReportingFailureIndicationMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s25.LocationReportingFailureIndication, error) {
-		var v s25.LocationReportingFailureIndication
-		err := s25.BridgeLocationReportingFailureIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s25.LocationReportingFailureIndication{}, err
-		}
-		*s25.BridgeLocationReportingFailureIndicationFieldReceived(&v) = true
-		*s25.BridgeLocationReportingFailureIndicationFieldReceivedAbsolute(&v) = true
-		*s25.BridgeLocationReportingFailureIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s25.LocationReportingFailureIndication) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(32), bodyLocationReportingFailureIndication: &v}
-	}, capture: func(v s25.LocationReportingFailureIndication, options aper.DecodeState) (s25.LocationReportingFailureIndication, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s25.BridgeCaptureS1APLocationReportingFailureIndication(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s25.LocationReportingFailureIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s25.BridgeCompareS1APLocationReportingFailureIndication(&v, &s)
-		s.
-			End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:LocationReportingFailureIndication"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of LocationReportDescriptor.
-func (LocationReportDescriptor) Initiating() LocationReportInitiatingBinding {
-	return LocationReportInitiatingBinding{info: LocationReportProcedure().Info(), validate: func(v *s33.LocationReport, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateLocationReportBudget(v, budget)
-	}, encode: func(v *s33.LocationReport, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s33.BridgeLocationReportMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s33.LocationReport, error) {
-		var v s33.LocationReport
-		err := s33.BridgeLocationReportMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s33.LocationReport{}, err
-		}
-		*s33.BridgeLocationReportFieldReceived(&v) = true
-		*s33.BridgeLocationReportFieldReceivedAbsolute(&v) = true
-		*s33.BridgeLocationReportFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s33.LocationReport) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(33), bodyLocationReport: &v}
-	}, capture: func(v s33.LocationReport, options aper.DecodeState) (s33.LocationReport, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.
-			Begin()
-		s33.BridgeCaptureS1APLocationReport(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s33.LocationReport, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s33.BridgeCompareS1APLocationReport(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:LocationReport"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of OverloadStartDescriptor.
-func (OverloadStartDescriptor) Initiating() OverloadStartInitiatingBinding {
-	return OverloadStartInitiatingBinding{info: OverloadStartProcedure().Info(), validate: func(v *s41.OverloadStart, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateOverloadStartBudget(v, budget)
-	}, encode: func(v *s41.OverloadStart, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s41.BridgeOverloadStartMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s41.OverloadStart, error) {
-		var v s41.OverloadStart
-		err := s41.BridgeOverloadStartMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s41.OverloadStart{}, err
-		}
-		*s41.BridgeOverloadStartFieldReceived(&v) = true
-		*s41.BridgeOverloadStartFieldReceivedAbsolute(&v) = true
-		*s41.BridgeOverloadStartFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s41.OverloadStart) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(34), bodyOverloadStart: &v}
-	}, capture: func(v s41.OverloadStart, options aper.DecodeState) (s41.OverloadStart, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s41.BridgeCaptureS1APOverloadStart(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s41.OverloadStart, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s41.BridgeCompareS1APOverloadStart(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:OverloadStart"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of OverloadStopDescriptor.
-func (OverloadStopDescriptor) Initiating() OverloadStopInitiatingBinding {
-	return OverloadStopInitiatingBinding{info: OverloadStopProcedure().Info(), validate: func(v *s41.OverloadStop, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateOverloadStopBudget(v, budget)
-	}, encode: func(v *s41.OverloadStop, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s41.BridgeOverloadStopMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s41.OverloadStop, error) {
-		var v s41.OverloadStop
-		err := s41.BridgeOverloadStopMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s41.OverloadStop{}, err
-		}
-		*s41.BridgeOverloadStopFieldReceived(&v) = true
-		*s41.BridgeOverloadStopFieldReceivedAbsolute(&v) = true
-		*s41.BridgeOverloadStopFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s41.OverloadStop) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(35), bodyOverloadStop: &v}
-	}, capture: func(v s41.OverloadStop, options aper.DecodeState) (s41.OverloadStop, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(
-			options,
-		)
-		f := s.Begin()
-		s41.BridgeCaptureS1APOverloadStop(&v, &s)
-		var root aper.Snapshot
-		s.
-			End(f, &root, false)
-		return v, root
-	}, compare: func(v s41.OverloadStop, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s41.BridgeCompareS1APOverloadStop(
-			&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:OverloadStop"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
 // Initiating returns the typed binding for the initiating message of ENBDirectInformationTransferDescriptor.
 func (ENBDirectInformationTransferDescriptor) Initiating() ENBDirectInformationTransferInitiatingBinding {
 	return ENBDirectInformationTransferInitiatingBinding{info: ENBDirectInformationTransferProcedure().Info(), validate: func(v *s34.ENBDirectInformationTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateENBDirectInformationTransferBudget(v, budget)
+		return s50.BridgeValidateENBDirectInformationTransferBudget(v, budget)
 	}, encode: func(v *s34.ENBDirectInformationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return s34.BridgeENBDirectInformationTransferMethodMarshalAPERBudget(v, budget, fresh)
 	}, decode: func(data []byte, options aper.DecodeState) (s34.ENBDirectInformationTransfer, error) {
@@ -2329,51 +981,6 @@ func (ENBDirectInformationTransferDescriptor) Initiating() ENBDirectInformationT
 	}, context: func() s00.BridgeCodecContext {
 		sealed := s00.BridgeCodecContext{}
 		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ENBDirectInformationTransfer"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of MMEDirectInformationTransferDescriptor.
-func (MMEDirectInformationTransferDescriptor) Initiating() MMEDirectInformationTransferInitiatingBinding {
-	return MMEDirectInformationTransferInitiatingBinding{info: MMEDirectInformationTransferProcedure().Info(), validate: func(v *s34.MMEDirectInformationTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateMMEDirectInformationTransferBudget(v, budget)
-	}, encode: func(v *s34.MMEDirectInformationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s34.BridgeMMEDirectInformationTransferMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s34.MMEDirectInformationTransfer, error) {
-		var v s34.MMEDirectInformationTransfer
-		err := s34.BridgeMMEDirectInformationTransferMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s34.MMEDirectInformationTransfer{}, err
-		}
-		*s34.BridgeMMEDirectInformationTransferFieldReceived(&v) = true
-		*s34.BridgeMMEDirectInformationTransferFieldReceivedAbsolute(&v) = true
-		*s34.BridgeMMEDirectInformationTransferFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s34.MMEDirectInformationTransfer) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(38), bodyMMEDirectInformationTransfer: &v}
-	}, capture: func(v s34.MMEDirectInformationTransfer, options aper.DecodeState) (s34.MMEDirectInformationTransfer, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s34.BridgeCaptureS1APMMEDirectInformationTransfer(&v, &s)
-		var root aper.Snapshot
-		s.End(
-			f,
-			&root, false)
-		return v, root
-	}, compare: func(v s34.MMEDirectInformationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s34.BridgeCompareS1APMMEDirectInformationTransfer(&v, &s)
-		s.End(f, root,
-
-			false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:MMEDirectInformationTransfer"
 		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 		return sealed
 	}(),
@@ -2422,109 +1029,6 @@ func (CellTrafficTraceDescriptor) Initiating() CellTrafficTraceInitiatingBinding
 		return sealed
 	}(),
 	}
-}
-
-// Initiating returns the typed binding for the initiating message of KillDescriptor.
-func (KillDescriptor) Initiating() KillRequestInitiatingBinding {
-	return KillRequestInitiatingBinding{info: KillProcedure().Info(), validate: func(v *s33.KillRequest, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s50.BridgeValidateKillRequestBudget(v, budget)
-	}, encode: func(v *s33.KillRequest, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s33.BridgeKillRequestMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s33.KillRequest, error) {
-		var v s33.KillRequest
-		err := s33.BridgeKillRequestMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s33.KillRequest{}, err
-		}
-		*s33.BridgeKillRequestFieldReceived(&v) = true
-		*s33.BridgeKillRequestFieldReceivedAbsolute(&v) = true
-		*s33.BridgeKillRequestFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s33.KillRequest) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(43), bodyKillRequest: &v}
-	}, capture: func(v s33.KillRequest, options aper.DecodeState) (s33.KillRequest, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f :=
-			s.Begin()
-		s33.BridgeCaptureS1APKillRequest(&v, &s)
-		var root aper.Snapshot
-		s.End(
-			f, &root, false)
-		return v, root
-	}, compare: func(v s33.KillRequest, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s33.BridgeCompareS1APKillRequest(&v,
-			&s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:KillRequest"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Successful returns the typed binding for the successful outcome of KillDescriptor.
-func (KillDescriptor) Successful() s50.KillResponseSuccessfulBinding {
-	return func() s50.KillResponseSuccessfulBinding {
-		sealed := s50.KillResponseSuccessfulBinding{}
-		*s50.BridgeKillResponseSuccessfulBindingFieldInfo(&sealed) = KillProcedure().Info()
-		*s50.BridgeKillResponseSuccessfulBindingFieldValidate(&sealed) = func(v *s33.KillResponse, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-			return s49.BridgeValidateKillResponseBudget(v, budget)
-		}
-		*s50.BridgeKillResponseSuccessfulBindingFieldEncode(&sealed) = func(v *s33.KillResponse, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s33.BridgeKillResponseMethodMarshalAPERBudget(v, budget, fresh)
-		}
-		*s50.BridgeKillResponseSuccessfulBindingFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s33.KillResponse, error) {
-			var v s33.KillResponse
-			err := s33.BridgeKillResponseMethodUnmarshalAPERWithOptions(&v, data, options)
-			if err != nil {
-				return s33.KillResponse{}, err
-			}
-			*s33.BridgeKillResponseFieldReceived(&v) = true
-			*s33.BridgeKillResponseFieldReceivedAbsolute(&v) = true
-			*s33.BridgeKillResponseFieldReceivedBytes(&v) = aper.OriginalWire(data)
-			return v, nil
-		}
-		*s50.BridgeKillResponseSuccessfulBindingFieldInject(&sealed) = func(v s33.KillResponse) s50.SuccessfulValue {
-			return func() s50.SuccessfulValue {
-				sealed := s50.SuccessfulValue{}
-				*s50.BridgeSuccessfulValueFieldCode(&sealed) = s00.ProcedureCode(43)
-				*s50.BridgeSuccessfulValueFieldBodyKillResponse(&sealed) = &v
-				return sealed
-			}()
-		}
-		*s50.BridgeKillResponseSuccessfulBindingFieldCapture(&sealed) = func(v s33.KillResponse, options aper.DecodeState) (s33.KillResponse, aper.Snapshot) {
-			s := aper.SemanticCaptureFor(
-				options,
-			)
-			f := s.Begin()
-			s33.BridgeCaptureS1APKillResponse(&v, &s)
-			var root aper.Snapshot
-			s.
-				End(f, &root, false)
-			return v, root
-		}
-		*s50.BridgeKillResponseSuccessfulBindingFieldCompare(&sealed) = func(v s33.KillResponse, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			s33.BridgeCompareS1APKillResponse(
-				&v, &s)
-			s.End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgeKillResponseSuccessfulBindingFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:KillResponse"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
-		return sealed
-	}()
-
 }
 
 // Initiating returns the typed binding for the initiating message of DownlinkUEAssociatedLPPaTransportDescriptor.
@@ -2615,81 +1119,39 @@ func (DownlinkNonUEAssociatedLPPaTransportDescriptor) Initiating() DownlinkNonUE
 	}
 }
 
-// Initiating returns the typed binding for the initiating message of PWSRestartIndicationDescriptor.
-func (PWSRestartIndicationDescriptor) Initiating() PWSRestartIndicationInitiatingBinding {
-	return PWSRestartIndicationInitiatingBinding{info: PWSRestartIndicationProcedure().Info(), validate: func(v *s44.PWSRestartIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidatePWSRestartIndicationBudget(v, budget)
-	}, encode: func(v *s44.PWSRestartIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s44.BridgePWSRestartIndicationMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s44.PWSRestartIndication, error) {
-		var v s44.PWSRestartIndication
-		err := s44.BridgePWSRestartIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s44.PWSRestartIndication{}, err
-		}
-		*s44.BridgePWSRestartIndicationFieldReceived(&v) = true
-		*s44.BridgePWSRestartIndicationFieldReceivedAbsolute(&v) = true
-		*s44.BridgePWSRestartIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s44.PWSRestartIndication) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(49), bodyPWSRestartIndication: &v}
-	}, capture: func(v s44.PWSRestartIndication, options aper.DecodeState) (s44.PWSRestartIndication, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s44.BridgeCaptureS1APPWSRestartIndication(&v, &s)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-		return v,
-			root
-	}, compare: func(v s44.PWSRestartIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s44.BridgeCompareS1APPWSRestartIndication(&v, &s)
-		s.End(f, root, false)
-		return s.
-			Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:PWSRestartIndication"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
 // Initiating returns the typed binding for the initiating message of ERABModificationIndicationDescriptor.
 func (ERABModificationIndicationDescriptor) Initiating() ERABModificationIndicationInitiatingBinding {
-	return ERABModificationIndicationInitiatingBinding{info: ERABModificationIndicationProcedure().Info(), validate: func(v *s45.ERABModificationIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
+	return ERABModificationIndicationInitiatingBinding{info: ERABModificationIndicationProcedure().Info(), validate: func(v *s46.ERABModificationIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s50.BridgeValidateERABModificationIndicationBudget(v, budget)
-	}, encode: func(v *s45.ERABModificationIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s45.BridgeERABModificationIndicationMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s45.ERABModificationIndication, error) {
-		var v s45.ERABModificationIndication
-		err := s45.BridgeERABModificationIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
+	}, encode: func(v *s46.ERABModificationIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return s46.BridgeERABModificationIndicationMethodMarshalAPERBudget(v, budget, fresh)
+	}, decode: func(data []byte, options aper.DecodeState) (s46.ERABModificationIndication, error) {
+		var v s46.ERABModificationIndication
+		err := s46.BridgeERABModificationIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
 		if err != nil {
-			return s45.ERABModificationIndication{}, err
+			return s46.ERABModificationIndication{}, err
 		}
-		*s45.BridgeERABModificationIndicationFieldReceived(&v) = true
-		*s45.BridgeERABModificationIndicationFieldReceivedAbsolute(&v) = true
-		*s45.BridgeERABModificationIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
+		*s46.BridgeERABModificationIndicationFieldReceived(&v) = true
+		*s46.BridgeERABModificationIndicationFieldReceivedAbsolute(&v) = true
+		*s46.BridgeERABModificationIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
 		return v, nil
-	}, inject: func(v s45.ERABModificationIndication) InitiatingValue {
+	}, inject: func(v s46.ERABModificationIndication) InitiatingValue {
 		return InitiatingValue{code: s00.ProcedureCode(50), bodyERABModificationIndication: &v}
-	}, capture: func(v s45.ERABModificationIndication, options aper.DecodeState) (s45.ERABModificationIndication, aper.Snapshot,
+	}, capture: func(v s46.ERABModificationIndication, options aper.DecodeState) (s46.ERABModificationIndication, aper.Snapshot,
 
 	) {
 		s := aper.SemanticCaptureFor(options)
 		f := s.Begin()
-		s45.BridgeCaptureS1APERABModificationIndication(&v, &s)
+		s46.BridgeCaptureS1APERABModificationIndication(&v, &s)
 		var root aper.Snapshot
 		s.End(f, &root,
 
 			false)
 		return v, root
-	}, compare: func(v s45.ERABModificationIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	}, compare: func(v s46.ERABModificationIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 		s := aper.NewSemanticComparison(root, budget)
 		f := s.Begin()
-		s45.BridgeCompareS1APERABModificationIndication(&v, &s)
+		s46.BridgeCompareS1APERABModificationIndication(&v, &s)
 		s.End(f, root, false)
 		return s.Plan(), s.BudgetValue()
 	}, context: func() s00.BridgeCodecContext {
@@ -2758,52 +1220,10 @@ func (ERABModificationIndicationDescriptor) Successful() s50.ERABModificationCon
 
 }
 
-// Initiating returns the typed binding for the initiating message of PWSFailureIndicationDescriptor.
-func (PWSFailureIndicationDescriptor) Initiating() PWSFailureIndicationInitiatingBinding {
-	return PWSFailureIndicationInitiatingBinding{info: PWSFailureIndicationProcedure().Info(), validate: func(v *s42.PWSFailureIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidatePWSFailureIndicationBudget(v, budget)
-	}, encode: func(v *s42.PWSFailureIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s42.BridgePWSFailureIndicationMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s42.PWSFailureIndication, error) {
-		var v s42.PWSFailureIndication
-		err := s42.BridgePWSFailureIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s42.PWSFailureIndication{}, err
-		}
-		*s42.BridgePWSFailureIndicationFieldReceived(&v) = true
-		*s42.BridgePWSFailureIndicationFieldReceivedAbsolute(&v) = true
-		*s42.BridgePWSFailureIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s42.PWSFailureIndication) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(51), bodyPWSFailureIndication: &v}
-	}, capture: func(v s42.PWSFailureIndication, options aper.DecodeState) (s42.PWSFailureIndication, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s42.BridgeCaptureS1APPWSFailureIndication(&v, &s)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-		return v,
-			root
-	}, compare: func(v s42.PWSFailureIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s42.BridgeCompareS1APPWSFailureIndication(&v, &s)
-		s.End(f, root, false)
-		return s.
-			Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:PWSFailureIndication"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
 // Initiating returns the typed binding for the initiating message of ConnectionEstablishmentIndicationDescriptor.
 func (ConnectionEstablishmentIndicationDescriptor) Initiating() ConnectionEstablishmentIndicationInitiatingBinding {
 	return ConnectionEstablishmentIndicationInitiatingBinding{info: ConnectionEstablishmentIndicationProcedure().Info(), validate: func(v *s31.ConnectionEstablishmentIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateConnectionEstablishmentIndicationBudget(v, budget)
+		return s50.BridgeValidateConnectionEstablishmentIndicationBudget(v, budget)
 	}, encode: func(v *s31.ConnectionEstablishmentIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return s31.BridgeConnectionEstablishmentIndicationMethodMarshalAPERBudget(v, budget, fresh)
 	}, decode: func(data []byte, options aper.DecodeState) (s31.ConnectionEstablishmentIndication, error) {
@@ -2840,48 +1260,6 @@ func (ConnectionEstablishmentIndicationDescriptor) Initiating() ConnectionEstabl
 	}, context: func() s00.BridgeCodecContext {
 		sealed := s00.BridgeCodecContext{}
 		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ConnectionEstablishmentIndication"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of NASDeliveryIndicationDescriptor.
-func (NASDeliveryIndicationDescriptor) Initiating() NASDeliveryIndicationInitiatingBinding {
-	return NASDeliveryIndicationInitiatingBinding{info: NASDeliveryIndicationProcedure().Info(), validate: func(v *s19.NASDeliveryIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateNASDeliveryIndicationBudget(v, budget)
-	}, encode: func(v *s19.NASDeliveryIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s19.BridgeNASDeliveryIndicationMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s19.NASDeliveryIndication, error) {
-		var v s19.NASDeliveryIndication
-		err := s19.BridgeNASDeliveryIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s19.NASDeliveryIndication{}, err
-		}
-		*s19.BridgeNASDeliveryIndicationFieldReceived(&v) = true
-		*s19.BridgeNASDeliveryIndicationFieldReceivedAbsolute(&v) = true
-		*s19.BridgeNASDeliveryIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s19.NASDeliveryIndication) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(57), bodyNASDeliveryIndication: &v}
-	}, capture: func(v s19.NASDeliveryIndication, options aper.DecodeState) (s19.NASDeliveryIndication, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s19.BridgeCaptureS1APNASDeliveryIndication(&v,
-			&s,
-		)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s19.NASDeliveryIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s19.BridgeCompareS1APNASDeliveryIndication(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:NASDeliveryIndication"
 		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 		return sealed
 	}(),
@@ -2929,123 +1307,38 @@ func (ENBCPRelocationIndicationDescriptor) Initiating() ENBCPRelocationIndicatio
 	}
 }
 
-// Initiating returns the typed binding for the initiating message of MMECPRelocationIndicationDescriptor.
-func (MMECPRelocationIndicationDescriptor) Initiating() MMECPRelocationIndicationInitiatingBinding {
-	return MMECPRelocationIndicationInitiatingBinding{info: MMECPRelocationIndicationProcedure().Info(), validate: func(v *s19.MMECPRelocationIndication, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateMMECPRelocationIndicationBudget(v, budget)
-	}, encode: func(v *s19.MMECPRelocationIndication, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s19.BridgeMMECPRelocationIndicationMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s19.MMECPRelocationIndication, error) {
-		var v s19.MMECPRelocationIndication
-		err := s19.BridgeMMECPRelocationIndicationMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s19.MMECPRelocationIndication{}, err
-		}
-		*s19.BridgeMMECPRelocationIndicationFieldReceived(&v) = true
-		*s19.BridgeMMECPRelocationIndicationFieldReceivedAbsolute(&v) = true
-		*s19.BridgeMMECPRelocationIndicationFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s19.MMECPRelocationIndication) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(61), bodyMMECPRelocationIndication: &v}
-	}, capture: func(v s19.MMECPRelocationIndication, options aper.DecodeState) (s19.MMECPRelocationIndication, aper.Snapshot,
-	) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s19.BridgeCaptureS1APMMECPRelocationIndication(&v, &s)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s19.MMECPRelocationIndication, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s19.BridgeCompareS1APMMECPRelocationIndication(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:MMECPRelocationIndication"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
-// Initiating returns the typed binding for the initiating message of HandoverSuccessDescriptor.
-func (HandoverSuccessDescriptor) Initiating() HandoverSuccessInitiatingBinding {
-	return HandoverSuccessInitiatingBinding{info: HandoverSuccessProcedure().Info(), validate: func(v *s18.HandoverSuccess, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateHandoverSuccessBudget(v, budget)
-	}, encode: func(v *s18.HandoverSuccess, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s18.BridgeHandoverSuccessMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s18.HandoverSuccess, error) {
-		var v s18.HandoverSuccess
-		err := s18.BridgeHandoverSuccessMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s18.HandoverSuccess{}, err
-		}
-		*s18.BridgeHandoverSuccessFieldReceived(&v) = true
-		*s18.BridgeHandoverSuccessFieldReceivedAbsolute(&v) = true
-		*s18.BridgeHandoverSuccessFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s18.HandoverSuccess) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(64), bodyHandoverSuccess: &v}
-	}, capture: func(v s18.HandoverSuccess, options aper.DecodeState) (s18.HandoverSuccess, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f :=
-			s.Begin()
-		s18.BridgeCaptureS1APHandoverSuccess(&v, &s)
-		var root aper.Snapshot
-
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s18.HandoverSuccess, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-	) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s18.BridgeCompareS1APHandoverSuccess(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.
-			BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:HandoverSuccess"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
-}
-
 // Initiating returns the typed binding for the initiating message of ENBEarlyStatusTransferDescriptor.
 func (ENBEarlyStatusTransferDescriptor) Initiating() ENBEarlyStatusTransferInitiatingBinding {
-	return ENBEarlyStatusTransferInitiatingBinding{info: ENBEarlyStatusTransferProcedure().Info(), validate: func(v *s37.ENBEarlyStatusTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
+	return ENBEarlyStatusTransferInitiatingBinding{info: ENBEarlyStatusTransferProcedure().Info(), validate: func(v *s38.ENBEarlyStatusTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
 		return s49.BridgeValidateENBEarlyStatusTransferBudget(v, budget)
-	}, encode: func(v *s37.ENBEarlyStatusTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s37.BridgeENBEarlyStatusTransferMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s37.ENBEarlyStatusTransfer, error) {
-		var v s37.ENBEarlyStatusTransfer
-		err := s37.BridgeENBEarlyStatusTransferMethodUnmarshalAPERWithOptions(&v, data, options)
+	}, encode: func(v *s38.ENBEarlyStatusTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return s38.BridgeENBEarlyStatusTransferMethodMarshalAPERBudget(v, budget, fresh)
+	}, decode: func(data []byte, options aper.DecodeState) (s38.ENBEarlyStatusTransfer, error) {
+		var v s38.ENBEarlyStatusTransfer
+		err := s38.BridgeENBEarlyStatusTransferMethodUnmarshalAPERWithOptions(&v, data, options)
 		if err != nil {
-			return s37.ENBEarlyStatusTransfer{}, err
+			return s38.ENBEarlyStatusTransfer{}, err
 		}
-		*s37.BridgeENBEarlyStatusTransferFieldReceived(&v) = true
-		*s37.BridgeENBEarlyStatusTransferFieldReceivedAbsolute(&v) = true
-		*s37.BridgeENBEarlyStatusTransferFieldReceivedBytes(&v) = aper.OriginalWire(data)
+		*s38.BridgeENBEarlyStatusTransferFieldReceived(&v) = true
+		*s38.BridgeENBEarlyStatusTransferFieldReceivedAbsolute(&v) = true
+		*s38.BridgeENBEarlyStatusTransferFieldReceivedBytes(&v) = aper.OriginalWire(data)
 		return v, nil
-	}, inject: func(v s37.ENBEarlyStatusTransfer) InitiatingValue {
+	}, inject: func(v s38.ENBEarlyStatusTransfer) InitiatingValue {
 		return InitiatingValue{code: s00.ProcedureCode(65), bodyENBEarlyStatusTransfer: &v}
-	}, capture: func(v s37.ENBEarlyStatusTransfer, options aper.DecodeState) (s37.ENBEarlyStatusTransfer, aper.Snapshot) {
+	}, capture: func(v s38.ENBEarlyStatusTransfer, options aper.DecodeState) (s38.ENBEarlyStatusTransfer, aper.Snapshot) {
 		s := aper.SemanticCaptureFor(options)
 		f := s.Begin()
-		s37.BridgeCaptureS1APENBEarlyStatusTransfer(
+		s38.BridgeCaptureS1APENBEarlyStatusTransfer(
 			&v,
 
 			&s)
 		var root aper.Snapshot
 		s.End(f, &root, false)
 		return v, root
-	}, compare: func(v s37.ENBEarlyStatusTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	}, compare: func(v s38.ENBEarlyStatusTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 		s := aper.NewSemanticComparison(root, budget)
 		f := s.Begin()
-		s37.BridgeCompareS1APENBEarlyStatusTransfer(&v, &s)
+		s38.BridgeCompareS1APENBEarlyStatusTransfer(&v, &s)
 		s.End(f, root, false)
 		return s.Plan(), s.BudgetValue()
 	}, context: func() s00.BridgeCodecContext {
@@ -3057,53 +1350,127 @@ func (ENBEarlyStatusTransferDescriptor) Initiating() ENBEarlyStatusTransferIniti
 	}
 }
 
-// Initiating returns the typed binding for the initiating message of MMEEarlyStatusTransferDescriptor.
-func (MMEEarlyStatusTransferDescriptor) Initiating() MMEEarlyStatusTransferInitiatingBinding {
-	return MMEEarlyStatusTransferInitiatingBinding{info: MMEEarlyStatusTransferProcedure().Info(), validate: func(v *s37.MMEEarlyStatusTransfer, budget *aper.DecodeBudget) (s21.ValidationReport, error) {
-		return s49.BridgeValidateMMEEarlyStatusTransferBudget(v, budget)
-	}, encode: func(v *s37.MMEEarlyStatusTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return s37.BridgeMMEEarlyStatusTransferMethodMarshalAPERBudget(v, budget, fresh)
-	}, decode: func(data []byte, options aper.DecodeState) (s37.MMEEarlyStatusTransfer, error) {
-		var v s37.MMEEarlyStatusTransfer
-		err := s37.BridgeMMEEarlyStatusTransferMethodUnmarshalAPERWithOptions(&v, data, options)
-		if err != nil {
-			return s37.MMEEarlyStatusTransfer{}, err
-		}
-		*s37.BridgeMMEEarlyStatusTransferFieldReceived(&v) = true
-		*s37.BridgeMMEEarlyStatusTransferFieldReceivedAbsolute(&v) = true
-		*s37.BridgeMMEEarlyStatusTransferFieldReceivedBytes(&v) = aper.OriginalWire(data)
-		return v, nil
-	}, inject: func(v s37.MMEEarlyStatusTransfer) InitiatingValue {
-		return InitiatingValue{code: s00.ProcedureCode(66), bodyMMEEarlyStatusTransfer: &v}
-	}, capture: func(v s37.MMEEarlyStatusTransfer, options aper.DecodeState) (s37.MMEEarlyStatusTransfer, aper.Snapshot) {
-		s := aper.SemanticCaptureFor(options)
-		f := s.Begin()
-		s37.BridgeCaptureS1APMMEEarlyStatusTransfer(
-			&v,
+// ENBConfigurationTransferIEContainer is ProtocolIE-Container {{ENBConfigurationTransferIEs}} of TS 36.413: a list of ENBConfigurationTransferIEField values.
+type ENBConfigurationTransferIEContainer []ENBConfigurationTransferIEField
 
-			&s)
-		var root aper.Snapshot
-		s.End(f, &root, false)
-		return v, root
-	}, compare: func(v s37.MMEEarlyStatusTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-		s := aper.NewSemanticComparison(root, budget)
-		f := s.Begin()
-		s37.BridgeCompareS1APMMEEarlyStatusTransfer(&v, &s)
-		s.End(f, root, false)
-		return s.Plan(), s.BudgetValue()
-	}, context: func() s00.BridgeCodecContext {
-		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:MMEEarlyStatusTransfer"
-		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-		return sealed
-	}(),
-	}
+// ENBConfigurationTransferIEField is ProtocolIE-Field {{ENBConfigurationTransferIEs}} of TS 36.413: an information element field.
+type ENBConfigurationTransferIEField struct {
+	withoutReplay bool
+	replay        aper.Snapshot
+	stream        aper.WireSpan
+	Id            s00.ProtocolIEID
+	Criticality   s00.Criticality
+	Value         ENBConfigurationTransferIEValue
+
+	received aper.CompletePadding
 }
 
-// MMEConfigurationTransferIEContainer is the concrete ProtocolIEContainer[MMEConfigurationTransferIEValue].
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ENBConfigurationTransferIEField) WithoutReplay() ENBConfigurationTransferIEField {
+	v.withoutReplay = true
+	v.stream = aper.WireSpan{}
+	return v
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v *ENBConfigurationTransferIEField) ReceivedForm() aper.ReceivedForm {
+	if v == nil || v.withoutReplay {
+		return aper.ReceivedForm{}
+	}
+	return aper.NewReceivedSpanForm(v.stream.Present(), v.stream, v.stream.ContentLocation(), nil)
+}
+
+// MarshalAPERTo appends the field encoding to the supplied APER buffer.
+func (v *ENBConfigurationTransferIEField) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
+	if v != nil && v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.RestoreReplayPlan(previous)
+	}
+	if v !=
+		nil && bb.
+		ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.ReplayTo(bb); ok || err !=
+			nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolIEField")
+	}
+	// TS 36.413 V19.2.0 §9.3.7 binds the table-selected value to @id.
+	if !v.Value.matchesID(v.Id, bb.Budget()) {
+		return runtime.WrapDecodePath(fmt.Errorf("%w: field id %d does not match its value selector", aper.ErrInvalidValue, v.Id), "ProtocolIEField.Id")
+	}
+	if err := aper.EncodeIntegerAligned(bb, int64(v.Id), s07.BridgeInt64Ptr(0), s07.BridgeInt64Ptr(65535), false); err != nil {
+		return fmt.Errorf("encoding id: %w", err)
+	}
+	if err := aper.EncodeEnumeratedAligned(bb, int64(v.Criticality), 3, false); err != nil {
+		return fmt.Errorf("encoding criticality: %w", err)
+	}
+	data, err := v.Value.encodeFresh(len(fresh) != 0 && fresh[0], bb.Budget())
+	if err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+		return fmt.Errorf("encoding value: %w", err)
+	}
+	return nil
+}
+
+// UnmarshalAPERFrom decodes the field from the supplied APER buffer.
+func (v *ENBConfigurationTransferIEField) unmarshalAPERFrom(bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if v == nil {
+		return fmt.Errorf("nil ProtocolIEField")
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = ENBConfigurationTransferIEField{}
+	id, err := aper.DecodeIntegerAligned(bb, s07.BridgeInt64Ptr(0), s07.BridgeInt64Ptr(65535), false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Id")
+	}
+	v.Id = s00.ProtocolIEID(id)
+	criticality, err := aper.DecodeEnumeratedAligned(bb, 3, false)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Criticality")
+	}
+	v.Criticality = s00.Criticality(criticality)
+	var zero ENBConfigurationTransferIEValue
+
+	raw, err := aper.DecodeOpaqueOpenTypeAligned(bb, zero.reason(v.Id), zero.rule())
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Value")
+	}
+	raw = raw.WithPath("ProtocolIEField.Value")
+	paddingMark := bb.EnterComponent("Value")
+	value, err := zero.decode(v.Id, raw)
+	bb.LeaveComponent(paddingMark)
+	if err != nil {
+		return runtime.WrapDecodePath(err, "Value")
+	}
+	v.Value = value
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// MMEConfigurationTransferIEContainer is ProtocolIE-Container {{MMEConfigurationTransferIEs}} of TS 36.413: a list of MMEConfigurationTransferIEField values.
 type MMEConfigurationTransferIEContainer []MMEConfigurationTransferIEField
 
-// MMEConfigurationTransferIEField is the concrete ProtocolIEField[MMEConfigurationTransferIEValue].
+// MMEConfigurationTransferIEField is ProtocolIE-Field {{MMEConfigurationTransferIEs}} of TS 36.413: an information element field.
 type MMEConfigurationTransferIEField struct {
 	withoutReplay bool
 	replay        aper.Snapshot
@@ -3215,334 +1582,6 @@ func (v *MMEConfigurationTransferIEField) unmarshalAPERFrom(bb *aper.BitBuffer) 
 	v.stream = bb.CaptureWireSpan(replayStart)
 
 	return nil
-}
-
-// HandoverRequiredInitiatingBinding is the concrete InitiatingBinding[HandoverRequired].
-type HandoverRequiredInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s34.HandoverRequired, aper.DecodeState,
-
-	) (s34.HandoverRequired, aper.Snapshot,
-
-	)
-	compare func(s34.HandoverRequired, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s34.HandoverRequired,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s34.HandoverRequired,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s34.HandoverRequired,
-
-		error)
-	inject func(s34.HandoverRequired,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b HandoverRequiredInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b HandoverRequiredInitiatingBinding) Codec() s34.HandoverRequiredValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s34.HandoverRequiredValueCodec{}
-	}
-	return func() s34.HandoverRequiredValueCodec {
-		sealed := s34.HandoverRequiredValueCodec{}
-		*s34.BridgeHandoverRequiredValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s34.BridgeHandoverRequiredValueCodecFieldDecode(&sealed) = b.decode
-		*s34.BridgeHandoverRequiredValueCodecFieldEncode(&sealed) = func(value s34.HandoverRequired,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s34.BridgeHandoverRequiredValueCodecFieldCapture(&sealed) = b.capture
-		*s34.BridgeHandoverRequiredValueCodecFieldCompare(&sealed) = b.compare
-		*s34.BridgeHandoverRequiredValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b HandoverRequiredInitiatingBinding) Build(body s34.HandoverRequired,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// HandoverRequestInitiatingBinding is the concrete InitiatingBinding[HandoverRequest].
-type HandoverRequestInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s48.HandoverRequest, aper.DecodeState,
-
-	) (s48.HandoverRequest, aper.Snapshot,
-
-	)
-	compare func(s48.HandoverRequest, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s48.HandoverRequest,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s48.HandoverRequest,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s48.HandoverRequest,
-
-		error)
-	inject func(s48.HandoverRequest,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b HandoverRequestInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b HandoverRequestInitiatingBinding) Codec() s48.HandoverRequestValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s48.HandoverRequestValueCodec{}
-	}
-	return func() s48.HandoverRequestValueCodec {
-		sealed := s48.HandoverRequestValueCodec{}
-		*s48.BridgeHandoverRequestValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s48.BridgeHandoverRequestValueCodecFieldDecode(&sealed) = b.decode
-		*s48.BridgeHandoverRequestValueCodecFieldEncode(&sealed) = func(value s48.HandoverRequest,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s48.BridgeHandoverRequestValueCodecFieldCapture(&sealed) = b.capture
-		*s48.BridgeHandoverRequestValueCodecFieldCompare(&sealed) = b.compare
-		*s48.BridgeHandoverRequestValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b HandoverRequestInitiatingBinding) Build(body s48.HandoverRequest,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// HandoverNotifyInitiatingBinding is the concrete InitiatingBinding[HandoverNotify].
-type HandoverNotifyInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s35.HandoverNotify, aper.DecodeState,
-
-	) (s35.HandoverNotify, aper.Snapshot,
-
-	)
-	compare func(s35.HandoverNotify, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s35.HandoverNotify,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s35.HandoverNotify,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s35.HandoverNotify,
-
-		error)
-	inject func(s35.HandoverNotify,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b HandoverNotifyInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b HandoverNotifyInitiatingBinding) Codec() s35.HandoverNotifyValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s35.HandoverNotifyValueCodec{}
-	}
-	return func() s35.HandoverNotifyValueCodec {
-		sealed := s35.HandoverNotifyValueCodec{}
-		*s35.BridgeHandoverNotifyValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s35.BridgeHandoverNotifyValueCodecFieldDecode(&sealed) = b.decode
-		*s35.BridgeHandoverNotifyValueCodecFieldEncode(&sealed) = func(value s35.HandoverNotify,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s35.BridgeHandoverNotifyValueCodecFieldCapture(&sealed) = b.capture
-		*s35.BridgeHandoverNotifyValueCodecFieldCompare(&sealed) = b.compare
-		*s35.BridgeHandoverNotifyValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b HandoverNotifyInitiatingBinding) Build(body s35.HandoverNotify,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// PathSwitchRequestInitiatingBinding is the concrete InitiatingBinding[PathSwitchRequest].
-type PathSwitchRequestInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s41.PathSwitchRequest, aper.DecodeState,
-
-	) (s41.PathSwitchRequest, aper.Snapshot,
-
-	)
-	compare func(s41.PathSwitchRequest, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s41.PathSwitchRequest,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s41.PathSwitchRequest,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s41.PathSwitchRequest,
-
-		error)
-	inject func(s41.PathSwitchRequest,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b PathSwitchRequestInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b PathSwitchRequestInitiatingBinding) Codec() s41.PathSwitchRequestValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s41.PathSwitchRequestValueCodec{}
-	}
-	return func() s41.PathSwitchRequestValueCodec {
-		sealed := s41.PathSwitchRequestValueCodec{}
-		*s41.BridgePathSwitchRequestValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s41.BridgePathSwitchRequestValueCodecFieldDecode(&sealed) = b.decode
-		*s41.BridgePathSwitchRequestValueCodecFieldEncode(&sealed) = func(value s41.PathSwitchRequest,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s41.BridgePathSwitchRequestValueCodecFieldCapture(&sealed) = b.capture
-		*s41.BridgePathSwitchRequestValueCodecFieldCompare(&sealed) = b.compare
-		*s41.BridgePathSwitchRequestValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b PathSwitchRequestInitiatingBinding) Build(body s41.PathSwitchRequest,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
 // HandoverCancelInitiatingBinding is the concrete InitiatingBinding[HandoverCancel].
@@ -3876,25 +1915,25 @@ func (b ERABReleaseCommandInitiatingBinding) Build(body s39.ERABReleaseCommand,
 // ERABReleaseIndicationInitiatingBinding is the concrete InitiatingBinding[ERABReleaseIndication].
 type ERABReleaseIndicationInitiatingBinding struct {
 	context s00.BridgeCodecContext
-	capture func(s45.ERABReleaseIndication, aper.DecodeState,
+	capture func(s46.ERABReleaseIndication, aper.DecodeState,
 
-	) (s45.ERABReleaseIndication, aper.Snapshot,
+	) (s46.ERABReleaseIndication, aper.Snapshot,
 
 	)
-	compare func(s45.ERABReleaseIndication, aper.Snapshot, aper.DecodeBudget,
+	compare func(s46.ERABReleaseIndication, aper.Snapshot, aper.DecodeBudget,
 
 	) (aper.ReplayPlan, aper.DecodeBudget)
 	info     s00.ProcedureInfo
-	validate func(*s45.ERABReleaseIndication,
+	validate func(*s46.ERABReleaseIndication,
 
 		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s45.ERABReleaseIndication,
+	encode func(*s46.ERABReleaseIndication,
 
 		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s45.ERABReleaseIndication,
+	decode func([]byte, aper.DecodeState) (s46.ERABReleaseIndication,
 
 		error)
-	inject func(s45.ERABReleaseIndication,
+	inject func(s46.ERABReleaseIndication,
 
 	) InitiatingValue
 }
@@ -3903,193 +1942,29 @@ type ERABReleaseIndicationInitiatingBinding struct {
 func (b ERABReleaseIndicationInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
 
 // Codec returns the complete value codec for this binding.
-func (b ERABReleaseIndicationInitiatingBinding) Codec() s45.ERABReleaseIndicationValueCodec {
+func (b ERABReleaseIndicationInitiatingBinding) Codec() s46.ERABReleaseIndicationValueCodec {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s45.ERABReleaseIndicationValueCodec{}
+		return s46.ERABReleaseIndicationValueCodec{}
 	}
-	return func() s45.ERABReleaseIndicationValueCodec {
-		sealed := s45.ERABReleaseIndicationValueCodec{}
-		*s45.BridgeERABReleaseIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s45.BridgeERABReleaseIndicationValueCodecFieldDecode(&sealed) = b.decode
-		*s45.BridgeERABReleaseIndicationValueCodecFieldEncode(&sealed) = func(value s45.ERABReleaseIndication,
+	return func() s46.ERABReleaseIndicationValueCodec {
+		sealed := s46.ERABReleaseIndicationValueCodec{}
+		*s46.BridgeERABReleaseIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
+		*s46.BridgeERABReleaseIndicationValueCodecFieldDecode(&sealed) = b.decode
+		*s46.BridgeERABReleaseIndicationValueCodecFieldEncode(&sealed) = func(value s46.ERABReleaseIndication,
 
 			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return b.encode(&value, fresh, budget)
 		}
-		*s45.BridgeERABReleaseIndicationValueCodecFieldCapture(&sealed) = b.capture
-		*s45.BridgeERABReleaseIndicationValueCodecFieldCompare(&sealed) = b.compare
-		*s45.BridgeERABReleaseIndicationValueCodecFieldContext(&sealed) = b.context
+		*s46.BridgeERABReleaseIndicationValueCodecFieldCapture(&sealed) = b.capture
+		*s46.BridgeERABReleaseIndicationValueCodecFieldCompare(&sealed) = b.compare
+		*s46.BridgeERABReleaseIndicationValueCodecFieldContext(&sealed) = b.context
 		return sealed
 	}()
 
 }
 
 // Build validates a body and constructs its bound procedure message.
-func (b ERABReleaseIndicationInitiatingBinding) Build(body s45.ERABReleaseIndication,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// InitialContextSetupRequestInitiatingBinding is the concrete InitiatingBinding[InitialContextSetupRequest].
-type InitialContextSetupRequestInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s48.InitialContextSetupRequest, aper.DecodeState,
-
-	) (s48.InitialContextSetupRequest, aper.Snapshot,
-
-	)
-	compare func(s48.InitialContextSetupRequest, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s48.InitialContextSetupRequest,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s48.InitialContextSetupRequest,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s48.InitialContextSetupRequest,
-
-		error)
-	inject func(s48.InitialContextSetupRequest,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b InitialContextSetupRequestInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b InitialContextSetupRequestInitiatingBinding) Codec() s48.InitialContextSetupRequestValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s48.InitialContextSetupRequestValueCodec{}
-	}
-	return func() s48.InitialContextSetupRequestValueCodec {
-		sealed := s48.InitialContextSetupRequestValueCodec{}
-		*s48.BridgeInitialContextSetupRequestValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s48.BridgeInitialContextSetupRequestValueCodecFieldDecode(&sealed) = b.decode
-		*s48.BridgeInitialContextSetupRequestValueCodecFieldEncode(&sealed) = func(value s48.InitialContextSetupRequest,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s48.BridgeInitialContextSetupRequestValueCodecFieldCapture(&sealed) = b.capture
-		*s48.BridgeInitialContextSetupRequestValueCodecFieldCompare(&sealed) = b.compare
-		*s48.BridgeInitialContextSetupRequestValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b InitialContextSetupRequestInitiatingBinding) Build(body s48.InitialContextSetupRequest,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// PagingInitiatingBinding is the concrete InitiatingBinding[Paging].
-type PagingInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s49.Paging, aper.DecodeState,
-
-	) (s49.Paging, aper.Snapshot,
-
-	)
-	compare func(s49.Paging, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s49.Paging,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s49.Paging,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s49.Paging,
-
-		error)
-	inject func(s49.Paging,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b PagingInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b PagingInitiatingBinding) Codec() s49.PagingValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s49.PagingValueCodec{}
-	}
-	return func() s49.PagingValueCodec {
-		sealed := s49.PagingValueCodec{}
-		*s49.BridgePagingValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s49.BridgePagingValueCodecFieldDecode(&sealed) = b.decode
-		*s49.BridgePagingValueCodecFieldEncode(&sealed) = func(value s49.Paging,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s49.BridgePagingValueCodecFieldCapture(&sealed) = b.capture
-		*s49.BridgePagingValueCodecFieldCompare(&sealed) = b.compare
-		*s49.BridgePagingValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b PagingInitiatingBinding) Build(body s49.Paging,
+func (b ERABReleaseIndicationInitiatingBinding) Build(body s46.ERABReleaseIndication,
 
 	options ...aper.BuildOption) (InitiatingMessage, error) {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
@@ -4201,88 +2076,6 @@ func (b DownlinkNASTransportInitiatingBinding) Build(body s42.DownlinkNASTranspo
 	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
-// InitialUEMessageInitiatingBinding is the concrete InitiatingBinding[InitialUEMessage].
-type InitialUEMessageInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s35.InitialUEMessage, aper.DecodeState,
-
-	) (s35.InitialUEMessage, aper.Snapshot,
-
-	)
-	compare func(s35.InitialUEMessage, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s35.InitialUEMessage,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s35.InitialUEMessage,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s35.InitialUEMessage,
-
-		error)
-	inject func(s35.InitialUEMessage,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b InitialUEMessageInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b InitialUEMessageInitiatingBinding) Codec() s35.InitialUEMessageValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s35.InitialUEMessageValueCodec{}
-	}
-	return func() s35.InitialUEMessageValueCodec {
-		sealed := s35.InitialUEMessageValueCodec{}
-		*s35.BridgeInitialUEMessageValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s35.BridgeInitialUEMessageValueCodecFieldDecode(&sealed) = b.decode
-		*s35.BridgeInitialUEMessageValueCodecFieldEncode(&sealed) = func(value s35.InitialUEMessage,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s35.BridgeInitialUEMessageValueCodecFieldCapture(&sealed) = b.capture
-		*s35.BridgeInitialUEMessageValueCodecFieldCompare(&sealed) = b.compare
-		*s35.BridgeInitialUEMessageValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b InitialUEMessageInitiatingBinding) Build(body s35.InitialUEMessage,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
 // ErrorIndicationInitiatingBinding is the concrete InitiatingBinding[ErrorIndication].
 type ErrorIndicationInitiatingBinding struct {
 	context s00.BridgeCodecContext
@@ -4336,88 +2129,6 @@ func (b ErrorIndicationInitiatingBinding) Codec() s28.ErrorIndicationValueCodec 
 
 // Build validates a body and constructs its bound procedure message.
 func (b ErrorIndicationInitiatingBinding) Build(body s28.ErrorIndication,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// NASNonDeliveryIndicationInitiatingBinding is the concrete InitiatingBinding[NASNonDeliveryIndication].
-type NASNonDeliveryIndicationInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s25.NASNonDeliveryIndication, aper.DecodeState,
-
-	) (s25.NASNonDeliveryIndication, aper.Snapshot,
-
-	)
-	compare func(s25.NASNonDeliveryIndication, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s25.NASNonDeliveryIndication,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s25.NASNonDeliveryIndication,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s25.NASNonDeliveryIndication,
-
-		error)
-	inject func(s25.NASNonDeliveryIndication,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b NASNonDeliveryIndicationInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b NASNonDeliveryIndicationInitiatingBinding) Codec() s25.NASNonDeliveryIndicationValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s25.NASNonDeliveryIndicationValueCodec{}
-	}
-	return func() s25.NASNonDeliveryIndicationValueCodec {
-		sealed := s25.NASNonDeliveryIndicationValueCodec{}
-		*s25.BridgeNASNonDeliveryIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s25.BridgeNASNonDeliveryIndicationValueCodecFieldDecode(&sealed) = b.decode
-		*s25.BridgeNASNonDeliveryIndicationValueCodecFieldEncode(&sealed) = func(value s25.NASNonDeliveryIndication,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s25.BridgeNASNonDeliveryIndicationValueCodecFieldCapture(&sealed) = b.capture
-		*s25.BridgeNASNonDeliveryIndicationValueCodecFieldCompare(&sealed) = b.compare
-		*s25.BridgeNASNonDeliveryIndicationValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b NASNonDeliveryIndicationInitiatingBinding) Build(body s25.NASNonDeliveryIndication,
 
 	options ...aper.BuildOption) (InitiatingMessage, error) {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
@@ -4611,88 +2322,6 @@ func (b ENBStatusTransferInitiatingBinding) Build(body s24.ENBStatusTransfer,
 	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
-// MMEStatusTransferInitiatingBinding is the concrete InitiatingBinding[MMEStatusTransfer].
-type MMEStatusTransferInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s25.MMEStatusTransfer, aper.DecodeState,
-
-	) (s25.MMEStatusTransfer, aper.Snapshot,
-
-	)
-	compare func(s25.MMEStatusTransfer, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s25.MMEStatusTransfer,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s25.MMEStatusTransfer,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s25.MMEStatusTransfer,
-
-		error)
-	inject func(s25.MMEStatusTransfer,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b MMEStatusTransferInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b MMEStatusTransferInitiatingBinding) Codec() s25.MMEStatusTransferValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s25.MMEStatusTransferValueCodec{}
-	}
-	return func() s25.MMEStatusTransferValueCodec {
-		sealed := s25.MMEStatusTransferValueCodec{}
-		*s25.BridgeMMEStatusTransferValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s25.BridgeMMEStatusTransferValueCodecFieldDecode(&sealed) = b.decode
-		*s25.BridgeMMEStatusTransferValueCodecFieldEncode(&sealed) = func(value s25.MMEStatusTransfer,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s25.BridgeMMEStatusTransferValueCodecFieldCapture(&sealed) = b.capture
-		*s25.BridgeMMEStatusTransferValueCodecFieldCompare(&sealed) = b.compare
-		*s25.BridgeMMEStatusTransferValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b MMEStatusTransferInitiatingBinding) Build(body s25.MMEStatusTransfer,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
 // DeactivateTraceInitiatingBinding is the concrete InitiatingBinding[DeactivateTrace].
 type DeactivateTraceInitiatingBinding struct {
 	context s00.BridgeCodecContext
@@ -4857,498 +2486,6 @@ func (b ENBConfigurationUpdateInitiatingBinding) Build(body s43.ENBConfiguration
 	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
-// MMEConfigurationUpdateInitiatingBinding is the concrete InitiatingBinding[MMEConfigurationUpdate].
-type MMEConfigurationUpdateInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s43.MMEConfigurationUpdate, aper.DecodeState,
-
-	) (s43.MMEConfigurationUpdate, aper.Snapshot,
-
-	)
-	compare func(s43.MMEConfigurationUpdate, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s43.MMEConfigurationUpdate,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s43.MMEConfigurationUpdate,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s43.MMEConfigurationUpdate,
-
-		error)
-	inject func(s43.MMEConfigurationUpdate,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b MMEConfigurationUpdateInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b MMEConfigurationUpdateInitiatingBinding) Codec() s43.MMEConfigurationUpdateValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s43.MMEConfigurationUpdateValueCodec{}
-	}
-	return func() s43.MMEConfigurationUpdateValueCodec {
-		sealed := s43.MMEConfigurationUpdateValueCodec{}
-		*s43.BridgeMMEConfigurationUpdateValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s43.BridgeMMEConfigurationUpdateValueCodecFieldDecode(&sealed) = b.decode
-		*s43.BridgeMMEConfigurationUpdateValueCodecFieldEncode(&sealed) = func(value s43.MMEConfigurationUpdate,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s43.BridgeMMEConfigurationUpdateValueCodecFieldCapture(&sealed) = b.capture
-		*s43.BridgeMMEConfigurationUpdateValueCodecFieldCompare(&sealed) = b.compare
-		*s43.BridgeMMEConfigurationUpdateValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b MMEConfigurationUpdateInitiatingBinding) Build(body s43.MMEConfigurationUpdate,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// LocationReportingControlInitiatingBinding is the concrete InitiatingBinding[LocationReportingControl].
-type LocationReportingControlInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s26.LocationReportingControl, aper.DecodeState,
-
-	) (s26.LocationReportingControl, aper.Snapshot,
-
-	)
-	compare func(s26.LocationReportingControl, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s26.LocationReportingControl,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s26.LocationReportingControl,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s26.LocationReportingControl,
-
-		error)
-	inject func(s26.LocationReportingControl,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b LocationReportingControlInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b LocationReportingControlInitiatingBinding) Codec() s26.LocationReportingControlValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s26.LocationReportingControlValueCodec{}
-	}
-	return func() s26.LocationReportingControlValueCodec {
-		sealed := s26.LocationReportingControlValueCodec{}
-		*s26.BridgeLocationReportingControlValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s26.BridgeLocationReportingControlValueCodecFieldDecode(&sealed) = b.decode
-		*s26.BridgeLocationReportingControlValueCodecFieldEncode(&sealed) = func(value s26.LocationReportingControl,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s26.BridgeLocationReportingControlValueCodecFieldCapture(&sealed) = b.capture
-		*s26.BridgeLocationReportingControlValueCodecFieldCompare(&sealed) = b.compare
-		*s26.BridgeLocationReportingControlValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b LocationReportingControlInitiatingBinding) Build(body s26.LocationReportingControl,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// LocationReportingFailureIndicationInitiatingBinding is the concrete InitiatingBinding[LocationReportingFailureIndication].
-type LocationReportingFailureIndicationInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s25.LocationReportingFailureIndication, aper.DecodeState,
-
-	) (s25.LocationReportingFailureIndication, aper.Snapshot,
-
-	)
-	compare func(s25.LocationReportingFailureIndication, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s25.LocationReportingFailureIndication,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s25.LocationReportingFailureIndication,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s25.LocationReportingFailureIndication,
-
-		error)
-	inject func(s25.LocationReportingFailureIndication,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b LocationReportingFailureIndicationInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b LocationReportingFailureIndicationInitiatingBinding) Codec() s25.LocationReportingFailureIndicationValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s25.LocationReportingFailureIndicationValueCodec{}
-	}
-	return func() s25.LocationReportingFailureIndicationValueCodec {
-		sealed := s25.LocationReportingFailureIndicationValueCodec{}
-		*s25.BridgeLocationReportingFailureIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s25.BridgeLocationReportingFailureIndicationValueCodecFieldDecode(&sealed) = b.decode
-		*s25.BridgeLocationReportingFailureIndicationValueCodecFieldEncode(&sealed) = func(value s25.LocationReportingFailureIndication,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s25.BridgeLocationReportingFailureIndicationValueCodecFieldCapture(&sealed) = b.capture
-		*s25.BridgeLocationReportingFailureIndicationValueCodecFieldCompare(&sealed) = b.compare
-		*s25.BridgeLocationReportingFailureIndicationValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b LocationReportingFailureIndicationInitiatingBinding) Build(body s25.LocationReportingFailureIndication,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// LocationReportInitiatingBinding is the concrete InitiatingBinding[LocationReport].
-type LocationReportInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s33.LocationReport, aper.DecodeState,
-
-	) (s33.LocationReport, aper.Snapshot,
-
-	)
-	compare func(s33.LocationReport, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s33.LocationReport,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s33.LocationReport,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s33.LocationReport,
-
-		error)
-	inject func(s33.LocationReport,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b LocationReportInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b LocationReportInitiatingBinding) Codec() s33.LocationReportValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s33.LocationReportValueCodec{}
-	}
-	return func() s33.LocationReportValueCodec {
-		sealed := s33.LocationReportValueCodec{}
-		*s33.BridgeLocationReportValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s33.BridgeLocationReportValueCodecFieldDecode(&sealed) = b.decode
-		*s33.BridgeLocationReportValueCodecFieldEncode(&sealed) = func(value s33.LocationReport,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s33.BridgeLocationReportValueCodecFieldCapture(&sealed) = b.capture
-		*s33.BridgeLocationReportValueCodecFieldCompare(&sealed) = b.compare
-		*s33.BridgeLocationReportValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b LocationReportInitiatingBinding) Build(body s33.LocationReport,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// OverloadStartInitiatingBinding is the concrete InitiatingBinding[OverloadStart].
-type OverloadStartInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s41.OverloadStart, aper.DecodeState,
-
-	) (s41.OverloadStart, aper.Snapshot,
-
-	)
-	compare func(s41.OverloadStart, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s41.OverloadStart,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s41.OverloadStart,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s41.OverloadStart,
-
-		error)
-	inject func(s41.OverloadStart,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b OverloadStartInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b OverloadStartInitiatingBinding) Codec() s41.OverloadStartValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s41.OverloadStartValueCodec{}
-	}
-	return func() s41.OverloadStartValueCodec {
-		sealed := s41.OverloadStartValueCodec{}
-		*s41.BridgeOverloadStartValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s41.BridgeOverloadStartValueCodecFieldDecode(&sealed) = b.decode
-		*s41.BridgeOverloadStartValueCodecFieldEncode(&sealed) = func(value s41.OverloadStart,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s41.BridgeOverloadStartValueCodecFieldCapture(&sealed) = b.capture
-		*s41.BridgeOverloadStartValueCodecFieldCompare(&sealed) = b.compare
-		*s41.BridgeOverloadStartValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b OverloadStartInitiatingBinding) Build(body s41.OverloadStart,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// OverloadStopInitiatingBinding is the concrete InitiatingBinding[OverloadStop].
-type OverloadStopInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s41.OverloadStop, aper.DecodeState,
-
-	) (s41.OverloadStop, aper.Snapshot,
-
-	)
-	compare func(s41.OverloadStop, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s41.OverloadStop,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s41.OverloadStop,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s41.OverloadStop,
-
-		error)
-	inject func(s41.OverloadStop,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b OverloadStopInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b OverloadStopInitiatingBinding) Codec() s41.OverloadStopValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s41.OverloadStopValueCodec{}
-	}
-	return func() s41.OverloadStopValueCodec {
-		sealed := s41.OverloadStopValueCodec{}
-		*s41.BridgeOverloadStopValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s41.BridgeOverloadStopValueCodecFieldDecode(&sealed) = b.decode
-		*s41.BridgeOverloadStopValueCodecFieldEncode(&sealed) = func(value s41.OverloadStop,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s41.BridgeOverloadStopValueCodecFieldCapture(&sealed) = b.capture
-		*s41.BridgeOverloadStopValueCodecFieldCompare(&sealed) = b.compare
-		*s41.BridgeOverloadStopValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b OverloadStopInitiatingBinding) Build(body s41.OverloadStop,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
 // ENBDirectInformationTransferInitiatingBinding is the concrete InitiatingBinding[ENBDirectInformationTransfer].
 type ENBDirectInformationTransferInitiatingBinding struct {
 	context s00.BridgeCodecContext
@@ -5402,88 +2539,6 @@ func (b ENBDirectInformationTransferInitiatingBinding) Codec() s34.ENBDirectInfo
 
 // Build validates a body and constructs its bound procedure message.
 func (b ENBDirectInformationTransferInitiatingBinding) Build(body s34.ENBDirectInformationTransfer,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// MMEDirectInformationTransferInitiatingBinding is the concrete InitiatingBinding[MMEDirectInformationTransfer].
-type MMEDirectInformationTransferInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s34.MMEDirectInformationTransfer, aper.DecodeState,
-
-	) (s34.MMEDirectInformationTransfer, aper.Snapshot,
-
-	)
-	compare func(s34.MMEDirectInformationTransfer, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s34.MMEDirectInformationTransfer,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s34.MMEDirectInformationTransfer,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s34.MMEDirectInformationTransfer,
-
-		error)
-	inject func(s34.MMEDirectInformationTransfer,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b MMEDirectInformationTransferInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b MMEDirectInformationTransferInitiatingBinding) Codec() s34.MMEDirectInformationTransferValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s34.MMEDirectInformationTransferValueCodec{}
-	}
-	return func() s34.MMEDirectInformationTransferValueCodec {
-		sealed := s34.MMEDirectInformationTransferValueCodec{}
-		*s34.BridgeMMEDirectInformationTransferValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s34.BridgeMMEDirectInformationTransferValueCodecFieldDecode(&sealed) = b.decode
-		*s34.BridgeMMEDirectInformationTransferValueCodecFieldEncode(&sealed) = func(value s34.MMEDirectInformationTransfer,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s34.BridgeMMEDirectInformationTransferValueCodecFieldCapture(&sealed) = b.capture
-		*s34.BridgeMMEDirectInformationTransferValueCodecFieldCompare(&sealed) = b.compare
-		*s34.BridgeMMEDirectInformationTransferValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b MMEDirectInformationTransferInitiatingBinding) Build(body s34.MMEDirectInformationTransfer,
 
 	options ...aper.BuildOption) (InitiatingMessage, error) {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
@@ -5586,79 +2641,6 @@ func (b ENBConfigurationTransferInitiatingBinding) Build(body ENBConfigurationTr
 	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
-// MMEConfigurationTransferInitiatingBinding is the concrete InitiatingBinding[MMEConfigurationTransfer].
-type MMEConfigurationTransferInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(MMEConfigurationTransfer, aper.DecodeState,
-
-	) (MMEConfigurationTransfer, aper.Snapshot,
-
-	)
-	compare func(MMEConfigurationTransfer, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*MMEConfigurationTransfer,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*MMEConfigurationTransfer,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (MMEConfigurationTransfer,
-
-		error)
-	inject func(MMEConfigurationTransfer,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b MMEConfigurationTransferInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b MMEConfigurationTransferInitiatingBinding) Codec() MMEConfigurationTransferValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return MMEConfigurationTransferValueCodec{}
-	}
-	return MMEConfigurationTransferValueCodec{path: aper.Path(b.info.Rule.Assignment.Assignment), decode: b.decode, encode: func(value MMEConfigurationTransfer,
-
-		fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-		return b.encode(&value, fresh, budget)
-	}, capture: b.capture, compare: b.compare, context: b.context,
-	}
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b MMEConfigurationTransferInitiatingBinding) Build(body MMEConfigurationTransfer,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
 // CellTrafficTraceInitiatingBinding is the concrete InitiatingBinding[CellTrafficTrace].
 type CellTrafficTraceInitiatingBinding struct {
 	context s00.BridgeCodecContext
@@ -5712,88 +2694,6 @@ func (b CellTrafficTraceInitiatingBinding) Codec() s21.CellTrafficTraceValueCode
 
 // Build validates a body and constructs its bound procedure message.
 func (b CellTrafficTraceInitiatingBinding) Build(body s21.CellTrafficTrace,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// KillRequestInitiatingBinding is the concrete InitiatingBinding[KillRequest].
-type KillRequestInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s33.KillRequest, aper.DecodeState,
-
-	) (s33.KillRequest, aper.Snapshot,
-
-	)
-	compare func(s33.KillRequest, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s33.KillRequest,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s33.KillRequest,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s33.KillRequest,
-
-		error)
-	inject func(s33.KillRequest,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b KillRequestInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b KillRequestInitiatingBinding) Codec() s33.KillRequestValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s33.KillRequestValueCodec{}
-	}
-	return func() s33.KillRequestValueCodec {
-		sealed := s33.KillRequestValueCodec{}
-		*s33.BridgeKillRequestValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s33.BridgeKillRequestValueCodecFieldDecode(&sealed) = b.decode
-		*s33.BridgeKillRequestValueCodecFieldEncode(&sealed) = func(value s33.KillRequest,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s33.BridgeKillRequestValueCodecFieldCapture(&sealed) = b.capture
-		*s33.BridgeKillRequestValueCodecFieldCompare(&sealed) = b.compare
-		*s33.BridgeKillRequestValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b KillRequestInitiatingBinding) Build(body s33.KillRequest,
 
 	options ...aper.BuildOption) (InitiatingMessage, error) {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
@@ -5989,110 +2889,28 @@ func (b DownlinkNonUEAssociatedLPPaTransportInitiatingBinding) Build(body s15.Do
 	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
-// PWSRestartIndicationInitiatingBinding is the concrete InitiatingBinding[PWSRestartIndication].
-type PWSRestartIndicationInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s44.PWSRestartIndication, aper.DecodeState,
-
-	) (s44.PWSRestartIndication, aper.Snapshot,
-
-	)
-	compare func(s44.PWSRestartIndication, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s44.PWSRestartIndication,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s44.PWSRestartIndication,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s44.PWSRestartIndication,
-
-		error)
-	inject func(s44.PWSRestartIndication,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b PWSRestartIndicationInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b PWSRestartIndicationInitiatingBinding) Codec() s44.PWSRestartIndicationValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s44.PWSRestartIndicationValueCodec{}
-	}
-	return func() s44.PWSRestartIndicationValueCodec {
-		sealed := s44.PWSRestartIndicationValueCodec{}
-		*s44.BridgePWSRestartIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s44.BridgePWSRestartIndicationValueCodecFieldDecode(&sealed) = b.decode
-		*s44.BridgePWSRestartIndicationValueCodecFieldEncode(&sealed) = func(value s44.PWSRestartIndication,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s44.BridgePWSRestartIndicationValueCodecFieldCapture(&sealed) = b.capture
-		*s44.BridgePWSRestartIndicationValueCodecFieldCompare(&sealed) = b.compare
-		*s44.BridgePWSRestartIndicationValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b PWSRestartIndicationInitiatingBinding) Build(body s44.PWSRestartIndication,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
 // ERABModificationIndicationInitiatingBinding is the concrete InitiatingBinding[ERABModificationIndication].
 type ERABModificationIndicationInitiatingBinding struct {
 	context s00.BridgeCodecContext
-	capture func(s45.ERABModificationIndication, aper.DecodeState,
+	capture func(s46.ERABModificationIndication, aper.DecodeState,
 
-	) (s45.ERABModificationIndication, aper.Snapshot,
+	) (s46.ERABModificationIndication, aper.Snapshot,
 
 	)
-	compare func(s45.ERABModificationIndication, aper.Snapshot, aper.DecodeBudget,
+	compare func(s46.ERABModificationIndication, aper.Snapshot, aper.DecodeBudget,
 
 	) (aper.ReplayPlan, aper.DecodeBudget)
 	info     s00.ProcedureInfo
-	validate func(*s45.ERABModificationIndication,
+	validate func(*s46.ERABModificationIndication,
 
 		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s45.ERABModificationIndication,
+	encode func(*s46.ERABModificationIndication,
 
 		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s45.ERABModificationIndication,
+	decode func([]byte, aper.DecodeState) (s46.ERABModificationIndication,
 
 		error)
-	inject func(s45.ERABModificationIndication,
+	inject func(s46.ERABModificationIndication,
 
 	) InitiatingValue
 }
@@ -6101,111 +2919,29 @@ type ERABModificationIndicationInitiatingBinding struct {
 func (b ERABModificationIndicationInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
 
 // Codec returns the complete value codec for this binding.
-func (b ERABModificationIndicationInitiatingBinding) Codec() s45.ERABModificationIndicationValueCodec {
+func (b ERABModificationIndicationInitiatingBinding) Codec() s46.ERABModificationIndicationValueCodec {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s45.ERABModificationIndicationValueCodec{}
+		return s46.ERABModificationIndicationValueCodec{}
 	}
-	return func() s45.ERABModificationIndicationValueCodec {
-		sealed := s45.ERABModificationIndicationValueCodec{}
-		*s45.BridgeERABModificationIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s45.BridgeERABModificationIndicationValueCodecFieldDecode(&sealed) = b.decode
-		*s45.BridgeERABModificationIndicationValueCodecFieldEncode(&sealed) = func(value s45.ERABModificationIndication,
+	return func() s46.ERABModificationIndicationValueCodec {
+		sealed := s46.ERABModificationIndicationValueCodec{}
+		*s46.BridgeERABModificationIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
+		*s46.BridgeERABModificationIndicationValueCodecFieldDecode(&sealed) = b.decode
+		*s46.BridgeERABModificationIndicationValueCodecFieldEncode(&sealed) = func(value s46.ERABModificationIndication,
 
 			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return b.encode(&value, fresh, budget)
 		}
-		*s45.BridgeERABModificationIndicationValueCodecFieldCapture(&sealed) = b.capture
-		*s45.BridgeERABModificationIndicationValueCodecFieldCompare(&sealed) = b.compare
-		*s45.BridgeERABModificationIndicationValueCodecFieldContext(&sealed) = b.context
+		*s46.BridgeERABModificationIndicationValueCodecFieldCapture(&sealed) = b.capture
+		*s46.BridgeERABModificationIndicationValueCodecFieldCompare(&sealed) = b.compare
+		*s46.BridgeERABModificationIndicationValueCodecFieldContext(&sealed) = b.context
 		return sealed
 	}()
 
 }
 
 // Build validates a body and constructs its bound procedure message.
-func (b ERABModificationIndicationInitiatingBinding) Build(body s45.ERABModificationIndication,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// PWSFailureIndicationInitiatingBinding is the concrete InitiatingBinding[PWSFailureIndication].
-type PWSFailureIndicationInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s42.PWSFailureIndication, aper.DecodeState,
-
-	) (s42.PWSFailureIndication, aper.Snapshot,
-
-	)
-	compare func(s42.PWSFailureIndication, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s42.PWSFailureIndication,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s42.PWSFailureIndication,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s42.PWSFailureIndication,
-
-		error)
-	inject func(s42.PWSFailureIndication,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b PWSFailureIndicationInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b PWSFailureIndicationInitiatingBinding) Codec() s42.PWSFailureIndicationValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s42.PWSFailureIndicationValueCodec{}
-	}
-	return func() s42.PWSFailureIndicationValueCodec {
-		sealed := s42.PWSFailureIndicationValueCodec{}
-		*s42.BridgePWSFailureIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s42.BridgePWSFailureIndicationValueCodecFieldDecode(&sealed) = b.decode
-		*s42.BridgePWSFailureIndicationValueCodecFieldEncode(&sealed) = func(value s42.PWSFailureIndication,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s42.BridgePWSFailureIndicationValueCodecFieldCapture(&sealed) = b.capture
-		*s42.BridgePWSFailureIndicationValueCodecFieldCompare(&sealed) = b.compare
-		*s42.BridgePWSFailureIndicationValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b PWSFailureIndicationInitiatingBinding) Build(body s42.PWSFailureIndication,
+func (b ERABModificationIndicationInitiatingBinding) Build(body s46.ERABModificationIndication,
 
 	options ...aper.BuildOption) (InitiatingMessage, error) {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
@@ -6317,88 +3053,6 @@ func (b ConnectionEstablishmentIndicationInitiatingBinding) Build(body s31.Conne
 	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
-// NASDeliveryIndicationInitiatingBinding is the concrete InitiatingBinding[NASDeliveryIndication].
-type NASDeliveryIndicationInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s19.NASDeliveryIndication, aper.DecodeState,
-
-	) (s19.NASDeliveryIndication, aper.Snapshot,
-
-	)
-	compare func(s19.NASDeliveryIndication, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s19.NASDeliveryIndication,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s19.NASDeliveryIndication,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s19.NASDeliveryIndication,
-
-		error)
-	inject func(s19.NASDeliveryIndication,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b NASDeliveryIndicationInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b NASDeliveryIndicationInitiatingBinding) Codec() s19.NASDeliveryIndicationValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s19.NASDeliveryIndicationValueCodec{}
-	}
-	return func() s19.NASDeliveryIndicationValueCodec {
-		sealed := s19.NASDeliveryIndicationValueCodec{}
-		*s19.BridgeNASDeliveryIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s19.BridgeNASDeliveryIndicationValueCodecFieldDecode(&sealed) = b.decode
-		*s19.BridgeNASDeliveryIndicationValueCodecFieldEncode(&sealed) = func(value s19.NASDeliveryIndication,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s19.BridgeNASDeliveryIndicationValueCodecFieldCapture(&sealed) = b.capture
-		*s19.BridgeNASDeliveryIndicationValueCodecFieldCompare(&sealed) = b.compare
-		*s19.BridgeNASDeliveryIndicationValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b NASDeliveryIndicationInitiatingBinding) Build(body s19.NASDeliveryIndication,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
 // ENBCPRelocationIndicationInitiatingBinding is the concrete InitiatingBinding[ENBCPRelocationIndication].
 type ENBCPRelocationIndicationInitiatingBinding struct {
 	context s00.BridgeCodecContext
@@ -6481,192 +3135,28 @@ func (b ENBCPRelocationIndicationInitiatingBinding) Build(body s37.ENBCPRelocati
 	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
 
-// MMECPRelocationIndicationInitiatingBinding is the concrete InitiatingBinding[MMECPRelocationIndication].
-type MMECPRelocationIndicationInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s19.MMECPRelocationIndication, aper.DecodeState,
-
-	) (s19.MMECPRelocationIndication, aper.Snapshot,
-
-	)
-	compare func(s19.MMECPRelocationIndication, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s19.MMECPRelocationIndication,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s19.MMECPRelocationIndication,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s19.MMECPRelocationIndication,
-
-		error)
-	inject func(s19.MMECPRelocationIndication,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b MMECPRelocationIndicationInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b MMECPRelocationIndicationInitiatingBinding) Codec() s19.MMECPRelocationIndicationValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s19.MMECPRelocationIndicationValueCodec{}
-	}
-	return func() s19.MMECPRelocationIndicationValueCodec {
-		sealed := s19.MMECPRelocationIndicationValueCodec{}
-		*s19.BridgeMMECPRelocationIndicationValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s19.BridgeMMECPRelocationIndicationValueCodecFieldDecode(&sealed) = b.decode
-		*s19.BridgeMMECPRelocationIndicationValueCodecFieldEncode(&sealed) = func(value s19.MMECPRelocationIndication,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s19.BridgeMMECPRelocationIndicationValueCodecFieldCapture(&sealed) = b.capture
-		*s19.BridgeMMECPRelocationIndicationValueCodecFieldCompare(&sealed) = b.compare
-		*s19.BridgeMMECPRelocationIndicationValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b MMECPRelocationIndicationInitiatingBinding) Build(body s19.MMECPRelocationIndication,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
-// HandoverSuccessInitiatingBinding is the concrete InitiatingBinding[HandoverSuccess].
-type HandoverSuccessInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s18.HandoverSuccess, aper.DecodeState,
-
-	) (s18.HandoverSuccess, aper.Snapshot,
-
-	)
-	compare func(s18.HandoverSuccess, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s18.HandoverSuccess,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s18.HandoverSuccess,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s18.HandoverSuccess,
-
-		error)
-	inject func(s18.HandoverSuccess,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b HandoverSuccessInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b HandoverSuccessInitiatingBinding) Codec() s18.HandoverSuccessValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s18.HandoverSuccessValueCodec{}
-	}
-	return func() s18.HandoverSuccessValueCodec {
-		sealed := s18.HandoverSuccessValueCodec{}
-		*s18.BridgeHandoverSuccessValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s18.BridgeHandoverSuccessValueCodecFieldDecode(&sealed) = b.decode
-		*s18.BridgeHandoverSuccessValueCodecFieldEncode(&sealed) = func(value s18.HandoverSuccess,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s18.BridgeHandoverSuccessValueCodecFieldCapture(&sealed) = b.capture
-		*s18.BridgeHandoverSuccessValueCodecFieldCompare(&sealed) = b.compare
-		*s18.BridgeHandoverSuccessValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b HandoverSuccessInitiatingBinding) Build(body s18.HandoverSuccess,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-
 // ENBEarlyStatusTransferInitiatingBinding is the concrete InitiatingBinding[ENBEarlyStatusTransfer].
 type ENBEarlyStatusTransferInitiatingBinding struct {
 	context s00.BridgeCodecContext
-	capture func(s37.ENBEarlyStatusTransfer, aper.DecodeState,
+	capture func(s38.ENBEarlyStatusTransfer, aper.DecodeState,
 
-	) (s37.ENBEarlyStatusTransfer, aper.Snapshot,
+	) (s38.ENBEarlyStatusTransfer, aper.Snapshot,
 
 	)
-	compare func(s37.ENBEarlyStatusTransfer, aper.Snapshot, aper.DecodeBudget,
+	compare func(s38.ENBEarlyStatusTransfer, aper.Snapshot, aper.DecodeBudget,
 
 	) (aper.ReplayPlan, aper.DecodeBudget)
 	info     s00.ProcedureInfo
-	validate func(*s37.ENBEarlyStatusTransfer,
+	validate func(*s38.ENBEarlyStatusTransfer,
 
 		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s37.ENBEarlyStatusTransfer,
+	encode func(*s38.ENBEarlyStatusTransfer,
 
 		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s37.ENBEarlyStatusTransfer,
+	decode func([]byte, aper.DecodeState) (s38.ENBEarlyStatusTransfer,
 
 		error)
-	inject func(s37.ENBEarlyStatusTransfer,
+	inject func(s38.ENBEarlyStatusTransfer,
 
 	) InitiatingValue
 }
@@ -6675,29 +3165,29 @@ type ENBEarlyStatusTransferInitiatingBinding struct {
 func (b ENBEarlyStatusTransferInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
 
 // Codec returns the complete value codec for this binding.
-func (b ENBEarlyStatusTransferInitiatingBinding) Codec() s37.ENBEarlyStatusTransferValueCodec {
+func (b ENBEarlyStatusTransferInitiatingBinding) Codec() s38.ENBEarlyStatusTransferValueCodec {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s37.ENBEarlyStatusTransferValueCodec{}
+		return s38.ENBEarlyStatusTransferValueCodec{}
 	}
-	return func() s37.ENBEarlyStatusTransferValueCodec {
-		sealed := s37.ENBEarlyStatusTransferValueCodec{}
-		*s37.BridgeENBEarlyStatusTransferValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s37.BridgeENBEarlyStatusTransferValueCodecFieldDecode(&sealed) = b.decode
-		*s37.BridgeENBEarlyStatusTransferValueCodecFieldEncode(&sealed) = func(value s37.ENBEarlyStatusTransfer,
+	return func() s38.ENBEarlyStatusTransferValueCodec {
+		sealed := s38.ENBEarlyStatusTransferValueCodec{}
+		*s38.BridgeENBEarlyStatusTransferValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
+		*s38.BridgeENBEarlyStatusTransferValueCodecFieldDecode(&sealed) = b.decode
+		*s38.BridgeENBEarlyStatusTransferValueCodecFieldEncode(&sealed) = func(value s38.ENBEarlyStatusTransfer,
 
 			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return b.encode(&value, fresh, budget)
 		}
-		*s37.BridgeENBEarlyStatusTransferValueCodecFieldCapture(&sealed) = b.capture
-		*s37.BridgeENBEarlyStatusTransferValueCodecFieldCompare(&sealed) = b.compare
-		*s37.BridgeENBEarlyStatusTransferValueCodecFieldContext(&sealed) = b.context
+		*s38.BridgeENBEarlyStatusTransferValueCodecFieldCapture(&sealed) = b.capture
+		*s38.BridgeENBEarlyStatusTransferValueCodecFieldCompare(&sealed) = b.compare
+		*s38.BridgeENBEarlyStatusTransferValueCodecFieldContext(&sealed) = b.context
 		return sealed
 	}()
 
 }
 
 // Build validates a body and constructs its bound procedure message.
-func (b ENBEarlyStatusTransferInitiatingBinding) Build(body s37.ENBEarlyStatusTransfer,
+func (b ENBEarlyStatusTransferInitiatingBinding) Build(body s38.ENBEarlyStatusTransfer,
 
 	options ...aper.BuildOption) (InitiatingMessage, error) {
 	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
@@ -6726,89 +3216,7 @@ func (b ENBEarlyStatusTransferInitiatingBinding) Build(body s37.ENBEarlyStatusTr
 	}
 	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
 }
-
-// MMEEarlyStatusTransferInitiatingBinding is the concrete InitiatingBinding[MMEEarlyStatusTransfer].
-type MMEEarlyStatusTransferInitiatingBinding struct {
-	context s00.BridgeCodecContext
-	capture func(s37.MMEEarlyStatusTransfer, aper.DecodeState,
-
-	) (s37.MMEEarlyStatusTransfer, aper.Snapshot,
-
-	)
-	compare func(s37.MMEEarlyStatusTransfer, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-	info     s00.ProcedureInfo
-	validate func(*s37.MMEEarlyStatusTransfer,
-
-		*aper.DecodeBudget) (s21.ValidationReport, error)
-	encode func(*s37.MMEEarlyStatusTransfer,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	decode func([]byte, aper.DecodeState) (s37.MMEEarlyStatusTransfer,
-
-		error)
-	inject func(s37.MMEEarlyStatusTransfer,
-
-	) InitiatingValue
-}
-
-// Info returns the source descriptor for this binding.
-func (b MMEEarlyStatusTransferInitiatingBinding) Info() s00.ProcedureInfo { return b.info }
-
-// Codec returns the complete value codec for this binding.
-func (b MMEEarlyStatusTransferInitiatingBinding) Codec() s37.MMEEarlyStatusTransferValueCodec {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return s37.MMEEarlyStatusTransferValueCodec{}
-	}
-	return func() s37.MMEEarlyStatusTransferValueCodec {
-		sealed := s37.MMEEarlyStatusTransferValueCodec{}
-		*s37.BridgeMMEEarlyStatusTransferValueCodecFieldPath(&sealed) = aper.Path(b.info.Rule.Assignment.Assignment)
-		*s37.BridgeMMEEarlyStatusTransferValueCodecFieldDecode(&sealed) = b.decode
-		*s37.BridgeMMEEarlyStatusTransferValueCodecFieldEncode(&sealed) = func(value s37.MMEEarlyStatusTransfer,
-
-			fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return b.encode(&value, fresh, budget)
-		}
-		*s37.BridgeMMEEarlyStatusTransferValueCodecFieldCapture(&sealed) = b.capture
-		*s37.BridgeMMEEarlyStatusTransferValueCodecFieldCompare(&sealed) = b.compare
-		*s37.BridgeMMEEarlyStatusTransferValueCodecFieldContext(&sealed) = b.context
-		return sealed
-	}()
-
-}
-
-// Build validates a body and constructs its bound procedure message.
-func (b MMEEarlyStatusTransferInitiatingBinding) Build(body s37.MMEEarlyStatusTransfer,
-
-	options ...aper.BuildOption) (InitiatingMessage, error) {
-	if b.validate == nil || b.encode == nil || b.decode == nil || b.inject == nil {
-		return InitiatingMessage{}, aper.OperationError(aper.ErrInvalidValue, "Build")
-	}
-	budget, err := aper.BuildBudget(options...)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	report, err := b.validate(&body, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	if *s21.BridgeValidationReportFieldErr(&report) != nil {
-		return InitiatingMessage{}, aper.OperationError(*s21.BridgeValidationReportFieldErr(&report), "Build")
-	}
-	if issues := s21.BridgeBuildBlockingIssues(report); len(issues) != 0 {
-		return InitiatingMessage{}, aper.OperationError(&s21.BuildError{Issues: issues}, "Build")
-	}
-	_, err = b.encode(&body, false, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("initiatingMessage.value: %w", err), "Build")
-	}
-	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), body); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "Build")
-	}
-	return InitiatingMessage{ProcedureCode: b.info.Code, Criticality: b.info.Criticality, Value: b.inject(body)}, aper.OperationError(nil, "Build")
-}
-func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEContainer(v *s50.ENBConfigurationTransferIEContainer, s *aper.SemanticCapture) {
+func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEContainer(v *ENBConfigurationTransferIEContainer, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -6827,7 +3235,7 @@ func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEContainer(v *s50.
 	}
 	s.End(f, nil, false)
 }
-func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEContainer(v *s50.ENBConfigurationTransferIEContainer, s *aper.SemanticComparison) {
+func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEContainer(v *ENBConfigurationTransferIEContainer, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -6884,18 +3292,211 @@ func BridgeMMEConfigurationTransferIEValueCompareS1APProtocolIEContainer(v *MMEC
 	}
 	s.End(f, aper.Snapshot{}, false)
 }
+func BridgeSONConfigurationTransferExtIEsValueCaptureS1APProtocolExtensionContainer(v *s50.SONConfigurationTransferExtIEsExtContainer, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeSONConfigurationTransferExtIEsValueCaptureS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, nil, false)
+	}
+	s.End(f, nil, false)
+}
+func BridgeSONConfigurationTransferExtIEsValueCompareS1APProtocolExtensionContainer(v *s50.SONConfigurationTransferExtIEsExtContainer, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	{
+		f := s.Begin()
+		s.Elements(len((*v)))
+		s.Uint(uint64(len((*v))))
+		for i := range *v {
+			if s.Err() != nil {
+				break
+			}
+			BridgeSONConfigurationTransferExtIEsValueCompareS1APProtocolExtensionField(&(*v)[i], s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.End(f, aper.Snapshot{}, false)
+}
 
-// ENBConfigurationTransferSONConfigurationTransferIEBinding is the concrete IEBinding[SONConfigurationTransfer, ENBConfigurationTransferIEValue].
+// SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding binds X2TNLConfigurationInfo to the SONConfigurationTransfer-ExtIEs object set of TS 36.413.
+type SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding struct {
+	info   s00.ExtensionInfo
+	codec  X2TNLConfigurationInfoValueCodec
+	inject func(s50.X2TNLConfigurationInfo,
+
+	) s50.SONConfigurationTransferExtIEsValue
+
+	get func(*s50.SONConfigurationTransferExtIEsValue,
+
+	) (*s50.X2TNLConfigurationInfo,
+
+		bool)
+}
+
+// Info returns the source descriptor for this binding.
+func (b SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding) Info() s00.ExtensionInfo {
+	return b.info
+}
+
+// Codec returns the complete value codec for this binding.
+func (b SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding) Codec() X2TNLConfigurationInfoValueCodec {
+	return b.codec
+}
+
+// New validates a source value and constructs its bound field.
+func (b SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding) New(value s50.X2TNLConfigurationInfo,
+
+) (s50.SONConfigurationTransferExtIEsExtField, error) {
+	if b.inject == nil {
+		return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(fmt.Errorf("unbound extension binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := b.codec.encode(value, false, budget); err != nil {
+		return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(fmt.Errorf("extension %d: %w", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(err, "Value.New")
+	}
+	return s50.SONConfigurationTransferExtIEsExtField{Id: b.info.ID, Criticality: b.info.Criticality, ExtensionValue: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected typed value when the field matches this binding.
+func (b SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding) Get(field *s50.SONConfigurationTransferExtIEsExtField) (*s50.X2TNLConfigurationInfo,
+
+	bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.ExtensionValue)
+}
+
+// X2TNLConfigurationInfoValueCodec is the concrete ValueCodec[X2TNLConfigurationInfo].
+type X2TNLConfigurationInfoValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s50.X2TNLConfigurationInfo,
+
+		error)
+	encode func(s50.X2TNLConfigurationInfo,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s50.X2TNLConfigurationInfo, aper.DecodeState,
+
+	) (s50.X2TNLConfigurationInfo, aper.Snapshot,
+
+	)
+	compare func(s50.X2TNLConfigurationInfo, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c X2TNLConfigurationInfoValueCodec) New(value s50.X2TNLConfigurationInfo,
+
+) (X2TNLConfigurationInfoAPERValue, error) {
+	if c.encode == nil {
+		return X2TNLConfigurationInfoAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return X2TNLConfigurationInfoAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return X2TNLConfigurationInfoAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return X2TNLConfigurationInfoAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c X2TNLConfigurationInfoValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (X2TNLConfigurationInfoAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return X2TNLConfigurationInfoAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return X2TNLConfigurationInfoAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return X2TNLConfigurationInfoAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return X2TNLConfigurationInfoAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c X2TNLConfigurationInfoValueCodec) EncodeAPER(value X2TNLConfigurationInfoAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c X2TNLConfigurationInfoValueCodec) encodeBudgetValue(value s50.X2TNLConfigurationInfo,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c X2TNLConfigurationInfoValueCodec) encodeChanged(value s50.X2TNLConfigurationInfo,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ENBConfigurationTransferSONConfigurationTransferIEBinding binds SONConfigurationTransfer to the ENBConfigurationTransferIEs object set of TS 36.413.
 type ENBConfigurationTransferSONConfigurationTransferIEBinding struct {
 	info   s00.FieldInfo
 	codec  SONConfigurationTransferValueCodec
-	inject func(s50.SONConfigurationTransfer,
+	inject func(SONConfigurationTransfer,
 
-	) s50.ENBConfigurationTransferIEValue
+	) ENBConfigurationTransferIEValue
 
-	get func(*s50.ENBConfigurationTransferIEValue,
+	get func(*ENBConfigurationTransferIEValue,
 
-	) (*s50.SONConfigurationTransfer,
+	) (*SONConfigurationTransfer,
 
 		bool)
 }
@@ -6911,27 +3512,27 @@ func (b ENBConfigurationTransferSONConfigurationTransferIEBinding) Codec() SONCo
 }
 
 // New validates a source value and constructs its bound field.
-func (b ENBConfigurationTransferSONConfigurationTransferIEBinding) New(value s50.SONConfigurationTransfer,
+func (b ENBConfigurationTransferSONConfigurationTransferIEBinding) New(value SONConfigurationTransfer,
 
-) (s50.ENBConfigurationTransferIEField, error) {
+) (ENBConfigurationTransferIEField, error) {
 	if b.inject == nil {
-		return s50.ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
 	}
 	budget, err := aper.BuildBudget()
 	if err != nil {
-		return s50.ENBConfigurationTransferIEField{}, aper.OperationError(err, "Value.New")
+		return ENBConfigurationTransferIEField{}, aper.OperationError(err, "Value.New")
 	}
 	if _, err := b.codec.encode(value, false, budget); err != nil {
-		return s50.ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
 	}
 	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
-		return s50.ENBConfigurationTransferIEField{}, aper.OperationError(err, "Value.New")
+		return ENBConfigurationTransferIEField{}, aper.OperationError(err, "Value.New")
 	}
-	return s50.ENBConfigurationTransferIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
+	return ENBConfigurationTransferIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
 }
 
 // Get returns the selected typed value when the field matches this binding.
-func (b ENBConfigurationTransferSONConfigurationTransferIEBinding) Get(field *s50.ENBConfigurationTransferIEField) (*s50.SONConfigurationTransfer,
+func (b ENBConfigurationTransferSONConfigurationTransferIEBinding) Get(field *ENBConfigurationTransferIEField) (*SONConfigurationTransfer,
 
 	bool) {
 	if field == nil || field.Id != b.info.ID || b.get == nil {
@@ -6944,24 +3545,24 @@ func (b ENBConfigurationTransferSONConfigurationTransferIEBinding) Get(field *s5
 type SONConfigurationTransferValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (s50.SONConfigurationTransfer,
+	decode  func([]byte, aper.DecodeState) (SONConfigurationTransfer,
 
 		error)
-	encode func(s50.SONConfigurationTransfer,
+	encode func(SONConfigurationTransfer,
 
 		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(s50.SONConfigurationTransfer, aper.DecodeState,
+	capture func(SONConfigurationTransfer, aper.DecodeState,
 
-	) (s50.SONConfigurationTransfer, aper.Snapshot,
+	) (SONConfigurationTransfer, aper.Snapshot,
 
 	)
-	compare func(s50.SONConfigurationTransfer, aper.Snapshot, aper.DecodeBudget,
+	compare func(SONConfigurationTransfer, aper.Snapshot, aper.DecodeBudget,
 
 	) (aper.ReplayPlan, aper.DecodeBudget)
 }
 
 // New validates a source value and returns its complete APER value.
-func (c SONConfigurationTransferValueCodec) New(value s50.SONConfigurationTransfer,
+func (c SONConfigurationTransferValueCodec) New(value SONConfigurationTransfer,
 
 ) (SONConfigurationTransferAPERValue, error) {
 	if c.encode == nil {
@@ -7020,7 +3621,7 @@ func (c SONConfigurationTransferValueCodec) EncodeAPER(value SONConfigurationTra
 	}
 	return c.encodeBudgetValue(value.Value, fresh, budget)
 }
-func (c SONConfigurationTransferValueCodec) encodeBudgetValue(value s50.SONConfigurationTransfer,
+func (c SONConfigurationTransferValueCodec) encodeBudgetValue(value SONConfigurationTransfer,
 
 	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
 	out, err := c.encode(value, fresh, &budget)
@@ -7029,7 +3630,7 @@ func (c SONConfigurationTransferValueCodec) encodeBudgetValue(value s50.SONConfi
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func (c SONConfigurationTransferValueCodec) encodeChanged(value s50.SONConfigurationTransfer,
+func (c SONConfigurationTransferValueCodec) encodeChanged(value SONConfigurationTransfer,
 
 	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
 	budget.SetReplayPlan(&plan)
@@ -7040,17 +3641,227 @@ func (c SONConfigurationTransferValueCodec) encodeChanged(value s50.SONConfigura
 	return out, aper.OperationError(err, c.path)
 }
 
-// MMEConfigurationTransferSONConfigurationTransferIEBinding is the concrete IEBinding[SONConfigurationTransfer, MMEConfigurationTransferIEValue].
+// ENBConfigurationTransferENDCSONConfigurationTransferIEBinding binds ENDCSONConfigurationTransfer to the ENBConfigurationTransferIEs object set of TS 36.413.
+type ENBConfigurationTransferENDCSONConfigurationTransferIEBinding struct {
+	info   s00.FieldInfo
+	codec  ENDCSONConfigurationTransferValueCodec
+	inject func(ENDCSONConfigurationTransfer,
+
+	) ENBConfigurationTransferIEValue
+
+	get func(*ENBConfigurationTransferIEValue,
+
+	) (*ENDCSONConfigurationTransfer,
+
+		bool)
+}
+
+// Info returns the source descriptor for this binding.
+func (b ENBConfigurationTransferENDCSONConfigurationTransferIEBinding) Info() s00.FieldInfo {
+	return b.info
+}
+
+// Codec returns the complete value codec for this binding.
+func (b ENBConfigurationTransferENDCSONConfigurationTransferIEBinding) Codec() ENDCSONConfigurationTransferValueCodec {
+	return b.codec
+}
+
+// New validates a source value and constructs its bound field.
+func (b ENBConfigurationTransferENDCSONConfigurationTransferIEBinding) New(value ENDCSONConfigurationTransfer,
+
+) (ENBConfigurationTransferIEField, error) {
+	if b.inject == nil {
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ENBConfigurationTransferIEField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := b.codec.encode(value, false, budget); err != nil {
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return ENBConfigurationTransferIEField{}, aper.OperationError(err, "Value.New")
+	}
+	return ENBConfigurationTransferIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected typed value when the field matches this binding.
+func (b ENBConfigurationTransferENDCSONConfigurationTransferIEBinding) Get(field *ENBConfigurationTransferIEField) (*ENDCSONConfigurationTransfer,
+
+	bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.Value)
+}
+
+// ENDCSONConfigurationTransferValueCodec is the concrete ValueCodec[ENDCSONConfigurationTransfer].
+type ENDCSONConfigurationTransferValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (ENDCSONConfigurationTransfer,
+
+		error)
+	encode func(ENDCSONConfigurationTransfer,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(ENDCSONConfigurationTransfer, aper.DecodeState,
+
+	) (ENDCSONConfigurationTransfer, aper.Snapshot,
+
+	)
+	compare func(ENDCSONConfigurationTransfer, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ENDCSONConfigurationTransferValueCodec) New(value ENDCSONConfigurationTransfer,
+
+) (ENDCSONConfigurationTransferAPERValue, error) {
+	if c.encode == nil {
+		return ENDCSONConfigurationTransferAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ENDCSONConfigurationTransferAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ENDCSONConfigurationTransferAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ENDCSONConfigurationTransferAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ENDCSONConfigurationTransferValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ENDCSONConfigurationTransferAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ENDCSONConfigurationTransferAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ENDCSONConfigurationTransferAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ENDCSONConfigurationTransferAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ENDCSONConfigurationTransferAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ENDCSONConfigurationTransferValueCodec) EncodeAPER(value ENDCSONConfigurationTransferAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ENDCSONConfigurationTransferValueCodec) encodeBudgetValue(value ENDCSONConfigurationTransfer,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ENDCSONConfigurationTransferValueCodec) encodeChanged(value ENDCSONConfigurationTransfer,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding binds IntersystemSONConfigurationTransfer to the ENBConfigurationTransferIEs object set of TS 36.413.
+type ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding struct {
+	info   s00.FieldInfo
+	codec  s01.IntersystemSONConfigurationTransferValueCodec
+	inject func(s00.IntersystemSONConfigurationTransfer,
+
+	) ENBConfigurationTransferIEValue
+
+	get func(*ENBConfigurationTransferIEValue,
+
+	) (*s00.IntersystemSONConfigurationTransfer,
+
+		bool)
+}
+
+// Info returns the source descriptor for this binding.
+func (b ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding) Info() s00.FieldInfo {
+	return b.info
+}
+
+// Codec returns the complete value codec for this binding.
+func (b ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding) Codec() s01.IntersystemSONConfigurationTransferValueCodec {
+	return b.codec
+}
+
+// New validates a source value and constructs its bound field.
+func (b ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding) New(value s00.IntersystemSONConfigurationTransfer,
+
+) (ENBConfigurationTransferIEField, error) {
+	if b.inject == nil {
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("unbound IE binding"), "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ENBConfigurationTransferIEField{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := (*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
+		return ENBConfigurationTransferIEField{}, aper.OperationError(err, "Value.New")
+	}
+	return ENBConfigurationTransferIEField{Id: b.info.ID, Criticality: b.info.Criticality, Value: b.inject(value)}, aper.OperationError(nil, "Value.New")
+}
+
+// Get returns the selected typed value when the field matches this binding.
+func (b ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding) Get(field *ENBConfigurationTransferIEField) (*s00.IntersystemSONConfigurationTransfer,
+
+	bool) {
+	if field == nil || field.Id != b.info.ID || b.get == nil {
+		return nil, false
+	}
+	return b.get(&field.Value)
+}
+
+// MMEConfigurationTransferSONConfigurationTransferIEBinding binds SONConfigurationTransfer to the MMEConfigurationTransferIEs object set of TS 36.413.
 type MMEConfigurationTransferSONConfigurationTransferIEBinding struct {
 	info   s00.FieldInfo
 	codec  SONConfigurationTransferValueCodec
-	inject func(s50.SONConfigurationTransfer,
+	inject func(SONConfigurationTransfer,
 
 	) MMEConfigurationTransferIEValue
 
 	get func(*MMEConfigurationTransferIEValue,
 
-	) (*s50.SONConfigurationTransfer,
+	) (*SONConfigurationTransfer,
 
 		bool)
 }
@@ -7066,7 +3877,7 @@ func (b MMEConfigurationTransferSONConfigurationTransferIEBinding) Codec() SONCo
 }
 
 // New validates a source value and constructs its bound field.
-func (b MMEConfigurationTransferSONConfigurationTransferIEBinding) New(value s50.SONConfigurationTransfer,
+func (b MMEConfigurationTransferSONConfigurationTransferIEBinding) New(value SONConfigurationTransfer,
 
 ) (MMEConfigurationTransferIEField, error) {
 	if b.inject == nil {
@@ -7086,7 +3897,7 @@ func (b MMEConfigurationTransferSONConfigurationTransferIEBinding) New(value s50
 }
 
 // Get returns the selected typed value when the field matches this binding.
-func (b MMEConfigurationTransferSONConfigurationTransferIEBinding) Get(field *MMEConfigurationTransferIEField) (*s50.SONConfigurationTransfer,
+func (b MMEConfigurationTransferSONConfigurationTransferIEBinding) Get(field *MMEConfigurationTransferIEField) (*SONConfigurationTransfer,
 
 	bool) {
 	if field == nil || field.Id != b.info.ID || b.get == nil {
@@ -7095,17 +3906,17 @@ func (b MMEConfigurationTransferSONConfigurationTransferIEBinding) Get(field *MM
 	return b.get(&field.Value)
 }
 
-// MMEConfigurationTransferENDCSONConfigurationTransferIEBinding is the concrete IEBinding[ENDCSONConfigurationTransfer, MMEConfigurationTransferIEValue].
+// MMEConfigurationTransferENDCSONConfigurationTransferIEBinding binds ENDCSONConfigurationTransfer to the MMEConfigurationTransferIEs object set of TS 36.413.
 type MMEConfigurationTransferENDCSONConfigurationTransferIEBinding struct {
 	info   s00.FieldInfo
-	codec  s50.ENDCSONConfigurationTransferValueCodec
-	inject func(s50.ENDCSONConfigurationTransfer,
+	codec  ENDCSONConfigurationTransferValueCodec
+	inject func(ENDCSONConfigurationTransfer,
 
 	) MMEConfigurationTransferIEValue
 
 	get func(*MMEConfigurationTransferIEValue,
 
-	) (*s50.ENDCSONConfigurationTransfer,
+	) (*ENDCSONConfigurationTransfer,
 
 		bool)
 }
@@ -7116,12 +3927,12 @@ func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) Info() s0
 }
 
 // Codec returns the complete value codec for this binding.
-func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) Codec() s50.ENDCSONConfigurationTransferValueCodec {
+func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) Codec() ENDCSONConfigurationTransferValueCodec {
 	return b.codec
 }
 
 // New validates a source value and constructs its bound field.
-func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) New(value s50.ENDCSONConfigurationTransfer,
+func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) New(value ENDCSONConfigurationTransfer,
 
 ) (MMEConfigurationTransferIEField, error) {
 	if b.inject == nil {
@@ -7131,7 +3942,7 @@ func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) New(value
 	if err != nil {
 		return MMEConfigurationTransferIEField{}, aper.OperationError(err, "Value.New")
 	}
-	if _, err := (*s50.BridgeENDCSONConfigurationTransferValueCodecFieldEncode(&b.codec))(value, false, budget); err != nil {
+	if _, err := b.codec.encode(value, false, budget); err != nil {
 		return MMEConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("%s %d: %w", "IE", b.info.ID, err), "Value.New")
 	}
 	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), value); err != nil {
@@ -7141,7 +3952,7 @@ func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) New(value
 }
 
 // Get returns the selected typed value when the field matches this binding.
-func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) Get(field *MMEConfigurationTransferIEField) (*s50.ENDCSONConfigurationTransfer,
+func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) Get(field *MMEConfigurationTransferIEField) (*ENDCSONConfigurationTransfer,
 
 	bool) {
 	if field == nil || field.Id != b.info.ID || b.get == nil {
@@ -7150,7 +3961,7 @@ func (b MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) Get(field
 	return b.get(&field.Value)
 }
 
-// MMEConfigurationTransferIntersystemSONConfigurationTransferIEBinding is the concrete IEBinding[IntersystemSONConfigurationTransfer, MMEConfigurationTransferIEValue].
+// MMEConfigurationTransferIntersystemSONConfigurationTransferIEBinding binds IntersystemSONConfigurationTransfer to the MMEConfigurationTransferIEs object set of TS 36.413.
 type MMEConfigurationTransferIntersystemSONConfigurationTransferIEBinding struct {
 	info   s00.FieldInfo
 	codec  s01.IntersystemSONConfigurationTransferValueCodec
@@ -7305,106 +4116,6 @@ func (c ENBConfigurationTransferValueCodec) encodeChanged(value ENBConfiguration
 	return out, aper.OperationError(err, c.path)
 }
 
-// InitiatingMessageValueCodec is the concrete ValueCodec[InitiatingMessage].
-type InitiatingMessageValueCodec struct {
-	path    aper.Path
-	context s00.BridgeCodecContext
-	decode  func([]byte, aper.DecodeState) (InitiatingMessage,
-
-		error)
-	encode func(InitiatingMessage,
-
-		bool, *aper.DecodeBudget) ([]byte, error)
-	capture func(InitiatingMessage, aper.DecodeState,
-
-	) (InitiatingMessage, aper.Snapshot,
-
-	)
-	compare func(InitiatingMessage, aper.Snapshot, aper.DecodeBudget,
-
-	) (aper.ReplayPlan, aper.DecodeBudget)
-}
-
-// New validates a source value and returns its complete APER value.
-func (c InitiatingMessageValueCodec) New(value InitiatingMessage,
-
-) (InitiatingMessageAPERValue, error) {
-	if c.encode == nil {
-		return InitiatingMessageAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return InitiatingMessageAPERValue{}, aper.OperationError(err, "Value.New")
-	}
-	if _, err := c.encode(value, false, budget); err != nil {
-		return InitiatingMessageAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
-	}
-	return InitiatingMessageAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
-}
-
-// DecodeAPER decodes a complete value and retains its received form.
-func (c InitiatingMessageValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (InitiatingMessageAPERValue, aper.DecodeReport, error) {
-	if c.decode == nil || c.encode == nil || c.capture == nil {
-		return InitiatingMessageAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	data, state := aper.StartDecode(data, options...)
-	value, err := c.decode(data, state)
-	if err == nil {
-		value, replay := c.capture(value, state)
-		report, err := aper.FinishDecode(state, nil)
-		if err != nil {
-			return InitiatingMessageAPERValue{}, report, aper.OperationError(err, c.path)
-		}
-		return InitiatingMessageAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
-	}
-	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
-	return InitiatingMessageAPERValue{}, report, err
-}
-
-// EncodeAPER encodes a complete value, replaying unchanged received forms.
-func (c InitiatingMessageValueCodec) EncodeAPER(value InitiatingMessageAPERValue, options ...aper.EncodeOption) ([]byte, error) {
-	if c.encode == nil {
-		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
-	}
-	budget, err := aper.EncodeBudgetValue(options...)
-	if err != nil {
-		return nil, aper.OperationError(err, c.path)
-	}
-	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
-	if value.context == c.context && !fresh && value.replay.Present() {
-		plan, next := c.compare(value.Value, value.replay, budget)
-		budget = next
-		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
-			return nil, aper.OperationError(err, c.path)
-		}
-		if plan.Unchanged(value.replay) {
-			out, err := aper.CopyReplay(value.received, &budget)
-			return out, aper.OperationError(err, c.path)
-		}
-		return c.encodeChanged(value.Value, fresh, budget, plan)
-	}
-	return c.encodeBudgetValue(value.Value, fresh, budget)
-}
-func (c InitiatingMessageValueCodec) encodeBudgetValue(value InitiatingMessage,
-
-	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-func (c InitiatingMessageValueCodec) encodeChanged(value InitiatingMessage,
-
-	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
-	budget.SetReplayPlan(&plan)
-	out, err := c.encode(value, fresh, &budget)
-	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
-		err = failure
-	}
-	return out, aper.OperationError(err, c.path)
-}
-
 // MMEConfigurationTransferValueCodec is the concrete ValueCodec[MMEConfigurationTransfer].
 type MMEConfigurationTransferValueCodec struct {
 	path    aper.Path
@@ -7505,10 +4216,210 @@ func (c MMEConfigurationTransferValueCodec) encodeChanged(value MMEConfiguration
 	return out, aper.OperationError(err, c.path)
 }
 
+// SONInformationValueCodec is the concrete ValueCodec[SONInformation].
+type SONInformationValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (SONInformation,
+
+		error)
+	encode func(SONInformation,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(SONInformation, aper.DecodeState,
+
+	) (SONInformation, aper.Snapshot,
+
+	)
+	compare func(SONInformation, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SONInformationValueCodec) New(value SONInformation,
+
+) (SONInformationAPERValue, error) {
+	if c.encode == nil {
+		return SONInformationAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SONInformationAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SONInformationAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SONInformationAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SONInformationValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SONInformationAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SONInformationAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SONInformationAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SONInformationAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SONInformationAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SONInformationValueCodec) EncodeAPER(value SONInformationAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SONInformationValueCodec) encodeBudgetValue(value SONInformation,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SONInformationValueCodec) encodeChanged(value SONInformation,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// SONInformationReplyValueCodec is the concrete ValueCodec[SONInformationReply].
+type SONInformationReplyValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (s50.SONInformationReply,
+
+		error)
+	encode func(s50.SONInformationReply,
+
+		bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(s50.SONInformationReply, aper.DecodeState,
+
+	) (s50.SONInformationReply, aper.Snapshot,
+
+	)
+	compare func(s50.SONInformationReply, aper.Snapshot, aper.DecodeBudget,
+
+	) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c SONInformationReplyValueCodec) New(value s50.SONInformationReply,
+
+) (SONInformationReplyAPERValue, error) {
+	if c.encode == nil {
+		return SONInformationReplyAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return SONInformationReplyAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return SONInformationReplyAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return SONInformationReplyAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c SONInformationReplyValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (SONInformationReplyAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return SONInformationReplyAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return SONInformationReplyAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return SONInformationReplyAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return SONInformationReplyAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c SONInformationReplyValueCodec) EncodeAPER(value SONInformationReplyAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c SONInformationReplyValueCodec) encodeBudgetValue(value s50.SONInformationReply,
+
+	fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c SONInformationReplyValueCodec) encodeChanged(value s50.SONInformationReply,
+
+	fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
 // TS 36.413 V19.2.0 §§9.3.3–9.3.4 supply the selected object-set order and
 // presence. §§10.3.1–10.3.6 define abstract-syntax diagnostics. Unknown IEs do
 // not determine the order of known rows.
-func BridgeENBConfigurationTransferIEValueValidateS1APIEContainer(fields s50.ENBConfigurationTransferIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
+func BridgeENBConfigurationTransferIEValueValidateS1APIEContainer(fields ENBConfigurationTransferIEContainer, rows []s00.FieldInfo, path string, budget *aper.DecodeBudget,
 
 ) s21.ValidationReport {
 	report := func() s21.ValidationReport {
@@ -7537,8 +4448,8 @@ func BridgeENBConfigurationTransferIEValueValidateS1APIEContainer(fields s50.ENB
 		}
 		location := aper.Location{Path: aper.Path(fmt.Sprintf("%s[%d]{id=%d}", path, i, field.Id))}
 		// TS 36.413 V19.2.0 §9.3.7 binds the selected value to @id.
-		if !s50.BridgeENBConfigurationTransferIEValueMethodMatchesID(field.Value, field.Id, budget) {
-			rule := s50.BridgeENBConfigurationTransferIEValueMethodRule(field.Value)
+		if !field.Value.matchesID(field.Id, budget) {
+			rule := field.Value.rule()
 			s21.BridgeValidationReportMethodAddIssue(&report, s21.ValidationIssue{Code: s00.ValueIDMismatch, Severity: s00.ValidationSeverityError, Location: aper.Location{Path: aper.Path(fmt.Sprintf("%s.id", location.Path))}, Table: func() s00.TableID {
 				sealed := s00.TableID{}
 				*s00.BridgeTableIDFieldSource(&sealed) = rule.Assignment
@@ -7548,7 +4459,7 @@ func BridgeENBConfigurationTransferIEValueValidateS1APIEContainer(fields s50.ENB
 		rank, allowed := byID[field.Id]
 		table := func() s00.TableID {
 			sealed := s00.TableID{}
-			*s00.BridgeTableIDFieldSource(&sealed) = s50.BridgeENBConfigurationTransferIEValueMethodRule(field.Value).Assignment
+			*s00.BridgeTableIDFieldSource(&sealed) = field.Value.rule().Assignment
 			return sealed
 		}()
 		var sourceRules []aper.SourceRule
@@ -7593,39 +4504,92 @@ func BridgeENBConfigurationTransferIEValueValidateS1APIEContainer(fields s50.ENB
 	}
 	return report
 }
-func ENBConfigurationTransferIEValueERABIEContainerListCodec(table s00.ENBConfigurationTransferIEValueIETable) s50.ENBConfigurationTransferIEValueERABIEContainerListValueCodec {
+
+// ENBConfigurationTransferIEValueERABIEContainerListCodec constructs the E-RAB-IE-ContainerList {{ENBConfigurationTransferIEs}} codec of TS 36.413.
+func ENBConfigurationTransferIEValueERABIEContainerListCodec(table s00.ENBConfigurationTransferIEValueIETable) ENBConfigurationTransferIEValueERABIEContainerListValueCodec {
 	codec := ENBConfigurationTransferIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s50.ENBConfigurationTransferIEValueERABIEContainerListValueCodec{}
+	if codec.decode == nil {
+		return ENBConfigurationTransferIEValueERABIEContainerListValueCodec{}
 	}
-	return func() s50.ENBConfigurationTransferIEValueERABIEContainerListValueCodec {
-		sealed := s50.ENBConfigurationTransferIEValueERABIEContainerListValueCodec{}
-		*s50.BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s50.ENBConfigurationTransferIEValueERABIEContainerList, error) {
-			value, err := (*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s50.ENBConfigurationTransferIEValueERABIEContainerList(value), err
+	return ENBConfigurationTransferIEValueERABIEContainerListValueCodec{decode: func(data []byte, options aper.DecodeState) (ENBConfigurationTransferIEValueERABIEContainerList, error) {
+		value, err := codec.decode(data, options)
+		return ENBConfigurationTransferIEValueERABIEContainerList(value), err
+	}, encode: func(value ENBConfigurationTransferIEValueERABIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return codec.encode(ENBConfigurationTransferIEContainer(value), fresh, budget)
+	}, capture: func(v ENBConfigurationTransferIEValueERABIEContainerList, options aper.DecodeState) (ENBConfigurationTransferIEValueERABIEContainerList, aper.Snapshot) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		BridgeENBConfigurationTransferIEValueCaptureS1APERABIEContainerList(&v, &s)
+		var root aper.Snapshot
+		s.End(f, &root, false)
+		return v, root
+	}, compare: func(v ENBConfigurationTransferIEValueERABIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+	) {
+		s := aper.NewSemanticComparison(root, budget)
+		f := s.Begin()
+		BridgeENBConfigurationTransferIEValueCompareS1APERABIEContainerList(&v, &s)
+		s.End(f, root, false)
+		return s.Plan(), s.BudgetValue()
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABIEContainerList[V]"
+		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+		return sealed
+	}(),
+	}
+}
+
+// SONConfigurationTransferExtIEsValueExtensionFieldTableCodec constructs the ProtocolExtensionField {{SONConfigurationTransfer-ExtIEs}} codec of TS 36.413.
+func SONConfigurationTransferExtIEsValueExtensionFieldTableCodec(table s00.SONConfigurationTransferExtIEsValueExtensionTable) s50.SONConfigurationTransferExtIEsExtFieldValueCodec {
+	if !*s00.BridgeSONConfigurationTransferExtIEsValueExtensionTableFieldBound(&table) {
+		return s50.SONConfigurationTransferExtIEsExtFieldValueCodec{}
+	}
+	return func() s50.SONConfigurationTransferExtIEsExtFieldValueCodec {
+		sealed := s50.SONConfigurationTransferExtIEsExtFieldValueCodec{}
+		*s50.BridgeSONConfigurationTransferExtIEsExtFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s50.SONConfigurationTransferExtIEsExtField, error) {
+			var field s50.SONConfigurationTransferExtIEsExtField
+			bb := aper.NewCompleteDecodeBuffer(data, options)
+			if err := bb.SetDecodeOptionsAligned(options); err != nil {
+				return field, err
+			}
+			if err := s50.BridgeSONConfigurationTransferExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+				return field, err
+			}
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionField"); err != nil {
+				return field, err
+			}
+			return field, nil
 		}
-		*s50.BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldEncode(&sealed) = func(value s50.ENBConfigurationTransferIEValueERABIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldEncode(&codec))(s50.ENBConfigurationTransferIEContainer(value), fresh, budget)
+		*s50.BridgeSONConfigurationTransferExtIEsExtFieldValueCodecFieldEncode(&sealed) = func(field s50.SONConfigurationTransferExtIEsExtField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			if err := s50.BridgeSONConfigurationTransferExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
 		}
-		*s50.BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldCapture(&sealed) = func(v s50.ENBConfigurationTransferIEValueERABIEContainerList, options aper.DecodeState) (s50.ENBConfigurationTransferIEValueERABIEContainerList, aper.Snapshot) {
+		*s50.BridgeSONConfigurationTransferExtIEsExtFieldValueCodecFieldCapture(&sealed) = func(v s50.SONConfigurationTransferExtIEsExtField, options aper.DecodeState) (s50.SONConfigurationTransferExtIEsExtField, aper.Snapshot,
+		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			BridgeENBConfigurationTransferIEValueCaptureS1APERABIEContainerList(&v, &s)
+			BridgeSONConfigurationTransferExtIEsValueCaptureS1APProtocolExtensionField(&v, &s)
 			var root aper.Snapshot
-			s.End(f, &root, false)
+			s.End(f, &root,
+				false)
 			return v, root
 		}
-		*s50.BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldCompare(&sealed) = func(v s50.ENBConfigurationTransferIEValueERABIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s50.BridgeSONConfigurationTransferExtIEsExtFieldValueCodecFieldCompare(&sealed) = func(v s50.SONConfigurationTransferExtIEsExtField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			BridgeENBConfigurationTransferIEValueCompareS1APERABIEContainerList(&v, &s)
-			s.End(f, root, false)
+			BridgeSONConfigurationTransferExtIEsValueCompareS1APProtocolExtensionField(&v, &s)
+			s.End(f, root,
+
+				false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s50.BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s50.BridgeSONConfigurationTransferExtIEsExtFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ERABIEContainerList[V]"
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionField[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 			return sealed
 		}()
@@ -7633,6 +4597,8 @@ func ENBConfigurationTransferIEValueERABIEContainerListCodec(table s00.ENBConfig
 	}()
 
 }
+
+// SONConfigurationTransferExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{SONConfigurationTransfer-ExtIEs}} codec of TS 36.413.
 func SONConfigurationTransferExtIEsValueExtensionTableCodec(table s00.SONConfigurationTransferExtIEsValueExtensionTable, bounds aper.ListBounds) s50.SONConfigurationTransferExtIEsExtContainerValueCodec {
 	if !*s00.BridgeSONConfigurationTransferExtIEsValueExtensionTableFieldBound(&table) {
 		return s50.SONConfigurationTransferExtIEsExtContainerValueCodec{}
@@ -7690,7 +4656,7 @@ func SONConfigurationTransferExtIEsValueExtensionTableCodec(table s00.SONConfigu
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s50.BridgeSONConfigurationTransferExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
+			BridgeSONConfigurationTransferExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
 
 			s.End(f, &root, false)
@@ -7702,7 +4668,7 @@ func SONConfigurationTransferExtIEsValueExtensionTableCodec(table s00.SONConfigu
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.
 				Begin()
-			s50.BridgeSONConfigurationTransferExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
+			BridgeSONConfigurationTransferExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
@@ -7716,63 +4682,144 @@ func SONConfigurationTransferExtIEsValueExtensionTableCodec(table s00.SONConfigu
 	}()
 
 }
-func ENBConfigurationTransferIEValueIEFieldTableCodec(table s00.ENBConfigurationTransferIEValueIETable) s50.ENBConfigurationTransferIEFieldValueCodec {
-	if !*s00.BridgeENBConfigurationTransferIEValueIETableFieldBound(&table) {
-		return s50.ENBConfigurationTransferIEFieldValueCodec{}
+
+// X2TNLConfigurationInfoExtIEsValueExtensionTableCodec constructs the ProtocolExtensionContainer {{X2TNLConfigurationInfo-ExtIEs}} codec of TS 36.413.
+func X2TNLConfigurationInfoExtIEsValueExtensionTableCodec(table s00.X2TNLConfigurationInfoExtIEsValueExtensionTable, bounds aper.ListBounds) s38.X2TNLConfigurationInfoExtIEsExtContainerValueCodec {
+	if !*s00.BridgeX2TNLConfigurationInfoExtIEsValueExtensionTableFieldBound(&table) {
+		return s38.X2TNLConfigurationInfoExtIEsExtContainerValueCodec{}
 	}
-	return func() s50.ENBConfigurationTransferIEFieldValueCodec {
-		sealed := s50.ENBConfigurationTransferIEFieldValueCodec{}
-		*s50.BridgeENBConfigurationTransferIEFieldValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s50.ENBConfigurationTransferIEField, error) {
-			var field s50.ENBConfigurationTransferIEField
+	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
+	return func() s38.X2TNLConfigurationInfoExtIEsExtContainerValueCodec {
+		sealed := s38.X2TNLConfigurationInfoExtIEsExtContainerValueCodec{}
+		*s38.BridgeX2TNLConfigurationInfoExtIEsExtContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s38.X2TNLConfigurationInfoExtIEsExtContainer, error) {
 			bb := aper.NewCompleteDecodeBuffer(data, options)
 			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return field, err
+				return nil, err
 			}
-			if err := s50.BridgeENBConfigurationTransferIEFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-				return field, err
+			var fields s38.X2TNLConfigurationInfoExtIEsExtContainer
+			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
+				for i := int64(0); i < length; i++ {
+					var field s38.X2TNLConfigurationInfoExtIEsExtField
+					if err := s38.BridgeX2TNLConfigurationInfoExtIEsExtFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
+						return err
+					}
+					if next, err := aper.AppendValues(bb, fields, field); err != nil {
+						return err
+					} else {
+						fields = next
+					}
+				}
+				return nil
+			})
+			if err != nil {
+				return nil, err
 			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolIEField"); err != nil {
-				return field, err
+			if _, err := aper.CaptureFinalBits(bb, "ProtocolExtensionContainer"); err != nil {
+				return nil, err
 			}
-			return field, nil
+			return fields, nil
 		}
-		*s50.BridgeENBConfigurationTransferIEFieldValueCodecFieldEncode(&sealed) = func(field s50.ENBConfigurationTransferIEField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		*s38.BridgeX2TNLConfigurationInfoExtIEsExtContainerValueCodecFieldEncode(&sealed) = func(fields s38.X2TNLConfigurationInfoExtIEsExtContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
-			if err := s50.BridgeENBConfigurationTransferIEFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
+				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
+					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
+				}
+				for _, field := range fields[offset:][:length] {
+					if err := s38.BridgeX2TNLConfigurationInfoExtIEsExtFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+						return err
+					}
+				}
+				return nil
+			})
+			if err != nil {
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
 		}
-		*s50.BridgeENBConfigurationTransferIEFieldValueCodecFieldCapture(&sealed) = func(v s50.ENBConfigurationTransferIEField, options aper.DecodeState) (s50.ENBConfigurationTransferIEField, aper.Snapshot,
+		*s38.BridgeX2TNLConfigurationInfoExtIEsExtContainerValueCodecFieldCapture(&sealed) = func(v s38.X2TNLConfigurationInfoExtIEsExtContainer, options aper.DecodeState) (s38.X2TNLConfigurationInfoExtIEsExtContainer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEField(&v,
-				&s)
+			s50.BridgeX2TNLConfigurationInfoExtIEsValueCaptureS1APProtocolExtensionContainer(&v, &s)
 			var root aper.Snapshot
+
 			s.End(f, &root, false)
-			return v,
-				root
+			return v, root
 		}
-		*s50.BridgeENBConfigurationTransferIEFieldValueCodecFieldCompare(&sealed) = func(v s50.ENBConfigurationTransferIEField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		*s38.BridgeX2TNLConfigurationInfoExtIEsExtContainerValueCodecFieldCompare(&sealed) = func(v s38.X2TNLConfigurationInfoExtIEsExtContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEField(&v, &s)
+			f := s.
+				Begin()
+			s50.BridgeX2TNLConfigurationInfoExtIEsValueCompareS1APProtocolExtensionContainer(&v, &s)
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
 		}
-		*s50.BridgeENBConfigurationTransferIEFieldValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		*s38.BridgeX2TNLConfigurationInfoExtIEsExtContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEField[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolExtensionContainer[V]"
+			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
 			return sealed
 		}()
 		return sealed
 	}()
 
 }
+
+// ENBConfigurationTransferIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{ENBConfigurationTransferIEs}} codec of TS 36.413.
+func ENBConfigurationTransferIEValueIEFieldTableCodec(table s00.ENBConfigurationTransferIEValueIETable) ENBConfigurationTransferIEFieldValueCodec {
+	if !*s00.BridgeENBConfigurationTransferIEValueIETableFieldBound(&table) {
+		return ENBConfigurationTransferIEFieldValueCodec{}
+	}
+	return ENBConfigurationTransferIEFieldValueCodec{decode: func(data []byte, options aper.DecodeState) (ENBConfigurationTransferIEField, error) {
+		var field ENBConfigurationTransferIEField
+		bb := aper.NewCompleteDecodeBuffer(data, options)
+		if err := bb.SetDecodeOptionsAligned(options); err != nil {
+			return field, err
+		}
+		if err := field.unmarshalAPERFrom(bb); err != nil {
+			return field, err
+		}
+		if _, err := aper.CaptureFinalBits(bb, "ProtocolIEField"); err != nil {
+			return field, err
+		}
+		return field, nil
+	}, encode: func(field ENBConfigurationTransferIEField, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		bb := aper.NewBudgetBuffer(budget)
+		if err := field.marshalAPERTo(bb, fresh); err != nil {
+			return nil, err
+		}
+		return bb.CompleteBytes(), nil
+	}, capture: func(v ENBConfigurationTransferIEField, options aper.DecodeState) (ENBConfigurationTransferIEField, aper.Snapshot,
+	) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEField(&v,
+			&s)
+		var root aper.Snapshot
+		s.End(f, &root, false)
+		return v,
+			root
+	}, compare: func(v ENBConfigurationTransferIEField, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+
+	) {
+		s := aper.NewSemanticComparison(root, budget)
+		f := s.Begin()
+		BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEField(&v, &s)
+		s.End(f, root, false)
+		return s.Plan(), s.BudgetValue()
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEField[V]"
+		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+		return sealed
+	}(),
+	}
+}
+
+// MMEConfigurationTransferIEValueIEFieldTableCodec constructs the ProtocolIE-Field {{MMEConfigurationTransferIEs}} codec of TS 36.413.
 func MMEConfigurationTransferIEValueIEFieldTableCodec(table s00.MMEConfigurationTransferIEValueIETable) MMEConfigurationTransferIEFieldValueCodec {
 	if !*s00.BridgeMMEConfigurationTransferIEValueIETableFieldBound(&table) {
 		return MMEConfigurationTransferIEFieldValueCodec{}
@@ -7822,49 +4869,49 @@ func MMEConfigurationTransferIEValueIEFieldTableCodec(table s00.MMEConfiguration
 	}(),
 	}
 }
-func ENBConfigurationTransferIEValueIETableCodec(table s00.ENBConfigurationTransferIEValueIETable, bounds aper.ListBounds) s50.ENBConfigurationTransferIEContainerValueCodec {
+
+// ENBConfigurationTransferIEValueIETableCodec constructs the ProtocolIE-Container {{ENBConfigurationTransferIEs}} codec of TS 36.413.
+func ENBConfigurationTransferIEValueIETableCodec(table s00.ENBConfigurationTransferIEValueIETable, bounds aper.ListBounds) ENBConfigurationTransferIEContainerValueCodec {
 	if !*s00.BridgeENBConfigurationTransferIEValueIETableFieldBound(&table) {
-		return s50.ENBConfigurationTransferIEContainerValueCodec{}
+		return ENBConfigurationTransferIEContainerValueCodec{}
 	}
 	size := aper.SizeConstraint{Lower: bounds.Lower, Upper: bounds.Upper, HasLower: true, HasUpper: true}
-	return func() s50.ENBConfigurationTransferIEContainerValueCodec {
-		sealed := s50.ENBConfigurationTransferIEContainerValueCodec{}
-		*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s50.ENBConfigurationTransferIEContainer, error) {
-			bb := aper.NewCompleteDecodeBuffer(data, options)
-			if err := bb.SetDecodeOptionsAligned(options); err != nil {
-				return nil, err
-			}
-			var fields s50.ENBConfigurationTransferIEContainer
-			_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
-				for i := int64(0); i < length; i++ {
-					var field s50.ENBConfigurationTransferIEField
-					if err := s50.BridgeENBConfigurationTransferIEFieldMethodUnmarshalAPERFrom(&field, bb); err != nil {
-						return err
-					}
-					if next, err := aper.AppendValues(bb, fields, field); err != nil {
-						return err
-					} else {
-						fields = next
-					}
-				}
-				return nil
-			})
-			if err != nil {
-				return nil, err
-			}
-			if _, err := aper.CaptureFinalBits(bb, "ProtocolIEContainer"); err != nil {
-				return nil, err
-			}
-			return fields, nil
+	return ENBConfigurationTransferIEContainerValueCodec{decode: func(data []byte, options aper.DecodeState) (ENBConfigurationTransferIEContainer, error) {
+		bb := aper.NewCompleteDecodeBuffer(data, options)
+		if err := bb.SetDecodeOptionsAligned(options); err != nil {
+			return nil, err
 		}
-		*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldEncode(&sealed) = func(fields s50.ENBConfigurationTransferIEContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		var fields ENBConfigurationTransferIEContainer
+		_, err := aper.DecodeCollection(bb, size, true, func(_ int64, length int64) error {
+			for i := int64(0); i < length; i++ {
+				var field ENBConfigurationTransferIEField
+				if err := field.unmarshalAPERFrom(bb); err != nil {
+					return err
+				}
+				if next, err := aper.AppendValues(bb, fields, field); err != nil {
+					return err
+				} else {
+					fields = next
+				}
+			}
+			return nil
+		})
+		if err != nil {
+			return nil, err
+		}
+		if _, err := aper.CaptureFinalBits(bb, "ProtocolIEContainer"); err != nil {
+			return nil, err
+		}
+		return fields, nil
+	},
+		encode: func(fields ENBConfigurationTransferIEContainer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			bb := aper.NewBudgetBuffer(budget)
 			err := aper.EncodeCollection(bb, int64(len(fields)), size, true, func(offset, length int64) error {
 				if offset < 0 || length < 0 || offset > int64(len(fields)) || length > int64(len(fields[offset:])) {
 					return fmt.Errorf("%w: invalid table fragment", aper.ErrInvalidValue)
 				}
 				for _, field := range fields[offset:][:length] {
-					if err := s50.BridgeENBConfigurationTransferIEFieldMethodMarshalAPERTo(&field, bb, fresh); err != nil {
+					if err := field.marshalAPERTo(bb, fresh); err != nil {
 						return err
 					}
 				}
@@ -7874,33 +4921,30 @@ func ENBConfigurationTransferIEValueIETableCodec(table s00.ENBConfigurationTrans
 				return nil, err
 			}
 			return bb.CompleteBytes(), nil
-		}
-		*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldCapture(&sealed) = func(v s50.ENBConfigurationTransferIEContainer, options aper.DecodeState) (s50.ENBConfigurationTransferIEContainer, aper.Snapshot) {
+		}, capture: func(v ENBConfigurationTransferIEContainer, options aper.DecodeState) (ENBConfigurationTransferIEContainer, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
 			BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEContainer(&v, &s)
 			var root aper.Snapshot
 			s.End(f, &root, false)
 			return v, root
-		}
-		*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldCompare(&sealed) = func(v s50.ENBConfigurationTransferIEContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		}, compare: func(v ENBConfigurationTransferIEContainer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
 			BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEContainer(&v, &s)
 			s.End(f, root, false)
 			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		}, context: func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainer[V]"
 			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
 			return sealed
-		}()
-		return sealed
-	}()
-
+		}(),
+	}
 }
+
+// MMEConfigurationTransferIEValueIETableCodec constructs the ProtocolIE-Container {{MMEConfigurationTransferIEs}} codec of TS 36.413.
 func MMEConfigurationTransferIEValueIETableCodec(table s00.MMEConfigurationTransferIEValueIETable, bounds aper.ListBounds) MMEConfigurationTransferIEContainerValueCodec {
 	if !*s00.BridgeMMEConfigurationTransferIEValueIETableFieldBound(&table) {
 		return MMEConfigurationTransferIEContainerValueCodec{}
@@ -7973,104 +5017,92 @@ func MMEConfigurationTransferIEValueIETableCodec(table s00.MMEConfigurationTrans
 		}(),
 	}
 }
-func ENBConfigurationTransferIEValueProtocolErrorIEContainerListCodec(table s00.ENBConfigurationTransferIEValueIETable) s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec {
+
+// ENBConfigurationTransferIEValueProtocolErrorIEContainerListCodec constructs the ProtocolError-IE-ContainerList {{ENBConfigurationTransferIEs}} codec of TS 36.413.
+func ENBConfigurationTransferIEValueProtocolErrorIEContainerListCodec(table s00.ENBConfigurationTransferIEValueIETable) ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec {
 	codec := ENBConfigurationTransferIEValueIETableCodec(table, aper.ListBounds{Lower: 1, Upper: 256})
-	if *s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec{}
+	if codec.decode == nil {
+		return ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec{}
 	}
-	return func() s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec {
-		sealed := s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec{}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerList, error) {
-			value, err := (*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerList(value), err
-		}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldEncode(&sealed) = func(value s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldEncode(&codec))(s50.ENBConfigurationTransferIEContainer(value), fresh, budget)
-		}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldCapture(&sealed) = func(v s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerList, options aper.DecodeState) (s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerList, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeENBConfigurationTransferIEValueCaptureS1APProtocolErrorIEContainerList(&v, &s)
-			var root aper.Snapshot
+	return ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec{decode: func(data []byte, options aper.DecodeState) (ENBConfigurationTransferIEValueProtocolErrorIEContainerList, error) {
+		value, err := codec.decode(data, options)
+		return ENBConfigurationTransferIEValueProtocolErrorIEContainerList(value), err
+	}, encode: func(value ENBConfigurationTransferIEValueProtocolErrorIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return codec.encode(ENBConfigurationTransferIEContainer(value), fresh, budget)
+	}, capture: func(v ENBConfigurationTransferIEValueProtocolErrorIEContainerList, options aper.DecodeState) (ENBConfigurationTransferIEValueProtocolErrorIEContainerList, aper.Snapshot,
+	) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		BridgeENBConfigurationTransferIEValueCaptureS1APProtocolErrorIEContainerList(&v, &s)
+		var root aper.Snapshot
 
-			s.End(f, &root, false)
-			return v, root
-		}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldCompare(&sealed) = func(v s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		s.End(f, &root, false)
+		return v, root
+	}, compare: func(v ENBConfigurationTransferIEValueProtocolErrorIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f :=
-				s.
-					Begin()
-			BridgeENBConfigurationTransferIEValueCompareS1APProtocolErrorIEContainerList(&v, &s)
+	) {
+		s := aper.NewSemanticComparison(root, budget)
+		f :=
 			s.
-				End(f, root, false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolErrorIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-			return sealed
-		}()
+				Begin()
+		BridgeENBConfigurationTransferIEValueCompareS1APProtocolErrorIEContainerList(&v, &s)
+		s.
+			End(f, root, false)
+		return s.Plan(), s.BudgetValue()
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolErrorIEContainerList[V]"
+		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 		return sealed
-	}()
-
-}
-func ENBConfigurationTransferIEValueProtocolIEContainerListCodec(table s00.ENBConfigurationTransferIEValueIETable, bounds aper.ListBounds) s50.ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec {
-	codec := ENBConfigurationTransferIEValueIETableCodec(table, bounds)
-	if *s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldDecode(&codec) == nil {
-		return s50.ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec{}
+	}(),
 	}
-	return func() s50.ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec {
-		sealed := s50.ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec{}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s50.ENBConfigurationTransferIEValueProtocolIEContainerList, error) {
-			value, err := (*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldDecode(&codec))(data, options)
-			return s50.ENBConfigurationTransferIEValueProtocolIEContainerList(value), err
-		}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldEncode(&sealed) = func(value s50.ENBConfigurationTransferIEValueProtocolIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return (*s50.BridgeENBConfigurationTransferIEContainerValueCodecFieldEncode(&codec))(s50.ENBConfigurationTransferIEContainer(value), fresh, budget)
-		}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldCapture(&sealed) = func(v s50.ENBConfigurationTransferIEValueProtocolIEContainerList, options aper.DecodeState) (s50.ENBConfigurationTransferIEValueProtocolIEContainerList, aper.Snapshot,
-		) {
-			s := aper.SemanticCaptureFor(options)
-			f := s.Begin()
-			BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEContainerList(&v, &s)
-			var root aper.Snapshot
-			s.End(
-				f,
-				&root, false)
-			return v, root
-		}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldCompare(&sealed) = func(v s50.ENBConfigurationTransferIEValueProtocolIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-		) {
-			s := aper.NewSemanticComparison(root, budget)
-			f := s.Begin()
-			BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEContainerList(&v, &s)
-			s.End(f, root,
+}
 
-				false)
-			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-			sealed := s00.BridgeCodecContext{}
-			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainerList[V]"
-			*s00.BridgecodecContextFieldBounds(&sealed) = bounds
-			return sealed
-		}()
+// ENBConfigurationTransferIEValueProtocolIEContainerListCodec constructs a codec for ProtocolIE-ContainerList with IEsSetParam = {ENBConfigurationTransferIEs} of TS 36.413, with lowerBound and upperBound supplied by its arguments.
+func ENBConfigurationTransferIEValueProtocolIEContainerListCodec(table s00.ENBConfigurationTransferIEValueIETable, bounds aper.ListBounds) ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec {
+	codec := ENBConfigurationTransferIEValueIETableCodec(table, bounds)
+	if codec.decode == nil {
+		return ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec{}
+	}
+	return ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec{decode: func(data []byte, options aper.DecodeState) (ENBConfigurationTransferIEValueProtocolIEContainerList, error) {
+		value, err := codec.decode(data, options)
+		return ENBConfigurationTransferIEValueProtocolIEContainerList(value), err
+	}, encode: func(value ENBConfigurationTransferIEValueProtocolIEContainerList, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return codec.encode(ENBConfigurationTransferIEContainer(value), fresh, budget)
+	}, capture: func(v ENBConfigurationTransferIEValueProtocolIEContainerList, options aper.DecodeState) (ENBConfigurationTransferIEValueProtocolIEContainerList, aper.Snapshot,
+	) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEContainerList(&v, &s)
+		var root aper.Snapshot
+		s.End(
+			f,
+			&root, false)
+		return v, root
+	}, compare: func(v ENBConfigurationTransferIEValueProtocolIEContainerList, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+	) {
+		s := aper.NewSemanticComparison(root, budget)
+		f := s.Begin()
+		BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEContainerList(&v, &s)
+		s.End(f, root,
+
+			false)
+		return s.Plan(), s.BudgetValue()
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ProtocolIEContainerList[V]"
+		*s00.BridgecodecContextFieldBounds(&sealed) = bounds
 		return sealed
-	}()
-
+	}(),
+	}
 }
 
 // eNBConfigurationTransferIEValueProtocolOpenValue is the concrete protocolOpenValue[ENBConfigurationTransferIEValue].
 type ENBConfigurationTransferIEValueProtocolOpenValueConstraint interface {
-	captureSemantics(aper.SemanticCapture) s50.ENBConfigurationTransferIEValue
+	captureSemantics(aper.SemanticCapture) ENBConfigurationTransferIEValue
 
 	compareSemantics(aper.SemanticComparison) aper.SemanticComparison
-	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (s50.ENBConfigurationTransferIEValue,
+	decode(s00.ProtocolIEID, aper.OpaqueOpenType) (ENBConfigurationTransferIEValue,
 
 		error)
 	encode() ([]byte, error)
@@ -8080,25 +5112,25 @@ type ENBConfigurationTransferIEValueProtocolOpenValueConstraint interface {
 	rule() aper.SourceRule
 }
 
-func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEField(v *s50.ENBConfigurationTransferIEField, s *aper.SemanticCapture) {
+func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEField(v *ENBConfigurationTransferIEField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
 	f := s.Begin()
 	s00.BridgeCaptureS1APProtocolIEID(&v.Id, s)
 	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
-	v.Value = s50.BridgeENBConfigurationTransferIEValueMethodCaptureSemantics(v.Value, *s)
-	s.End(f, s50.BridgeENBConfigurationTransferIEFieldFieldReplay(v), *s50.BridgeENBConfigurationTransferIEFieldFieldWithoutReplay(v))
+	v.Value = v.Value.captureSemantics(*s)
+	s.End(f, &v.replay, v.withoutReplay)
 }
-func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEField(v *s50.ENBConfigurationTransferIEField, s *aper.SemanticComparison) {
+func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEField(v *ENBConfigurationTransferIEField, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
 	f := s.Begin()
 	s02.BridgeCompareS1APProtocolIEID(&v.Id, s)
 	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
-	*s = s50.BridgeENBConfigurationTransferIEValueMethodCompareSemantics(v.Value, *s)
-	s.End(f, *s50.BridgeENBConfigurationTransferIEFieldFieldReplay(v), *s50.BridgeENBConfigurationTransferIEFieldFieldWithoutReplay(v))
+	*s = v.Value.compareSemantics(*s)
+	s.End(f, v.replay, v.withoutReplay)
 }
 func BridgeMMEConfigurationTransferIEValueCaptureS1APProtocolIEField(v *MMEConfigurationTransferIEField, s *aper.SemanticCapture) {
 	if s.Err() != nil {
@@ -8120,11 +5152,54 @@ func BridgeMMEConfigurationTransferIEValueCompareS1APProtocolIEField(v *MMEConfi
 	*s = v.Value.compareSemantics(*s)
 	s.End(f, v.replay, v.withoutReplay)
 }
+func BridgeSONConfigurationTransferExtIEsValueCaptureS1APProtocolExtensionField(v *s50.SONConfigurationTransferExtIEsExtField, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s00.BridgeCaptureS1APProtocolExtensionID(&v.Id, s)
+	s00.BridgeCaptureS1APCriticality(&v.Criticality, s)
+	v.ExtensionValue = s50.BridgeSONConfigurationTransferExtIEsValueMethodCaptureSemantics(v.ExtensionValue, *s)
+	s.End(f, s50.BridgeSONConfigurationTransferExtIEsExtFieldFieldReplay(v), *s50.BridgeSONConfigurationTransferExtIEsExtFieldFieldWithoutReplay(v))
+}
+func BridgeSONConfigurationTransferExtIEsValueCompareS1APProtocolExtensionField(v *s50.SONConfigurationTransferExtIEsExtField, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareS1APProtocolExtensionID(&v.Id, s)
+	s02.BridgeCompareS1APCriticality(&v.Criticality, s)
+	*s = s50.BridgeSONConfigurationTransferExtIEsValueMethodCompareSemantics(v.ExtensionValue, *s)
+	s.End(f, *s50.BridgeSONConfigurationTransferExtIEsExtFieldFieldReplay(v), *s50.BridgeSONConfigurationTransferExtIEsExtFieldFieldWithoutReplay(v))
+}
+
+// X2TNLConfigurationInfoAPERValue is the concrete APERValue[X2TNLConfigurationInfo].
+type X2TNLConfigurationInfoAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s50.X2TNLConfigurationInfo
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v X2TNLConfigurationInfoAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v X2TNLConfigurationInfoAPERValue) WithoutReplay() X2TNLConfigurationInfoAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
 
 // SONConfigurationTransferAPERValue is the concrete APERValue[SONConfigurationTransfer].
 type SONConfigurationTransferAPERValue struct {
 	context s00.BridgeCodecContext
-	Value   s50.SONConfigurationTransfer
+	Value   SONConfigurationTransfer
 
 	received      aper.WireSpan
 	replay        aper.Snapshot
@@ -8138,6 +5213,29 @@ func (v SONConfigurationTransferAPERValue) ReceivedForm() aper.ReceivedForm {
 
 // WithoutReplay returns a copy that uses fresh encoding without changing the original.
 func (v SONConfigurationTransferAPERValue) WithoutReplay() SONConfigurationTransferAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ENDCSONConfigurationTransferAPERValue is the concrete APERValue[ENDCSONConfigurationTransfer].
+type ENDCSONConfigurationTransferAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   ENDCSONConfigurationTransfer
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ENDCSONConfigurationTransferAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ENDCSONConfigurationTransferAPERValue) WithoutReplay() ENDCSONConfigurationTransferAPERValue {
 	v.received = aper.WireSpan{}
 	v.replay = aper.Snapshot{}
 	v.withoutReplay = true
@@ -8167,29 +5265,6 @@ func (v ENBConfigurationTransferAPERValue) WithoutReplay() ENBConfigurationTrans
 	return v
 }
 
-// InitiatingMessageAPERValue is the concrete APERValue[InitiatingMessage].
-type InitiatingMessageAPERValue struct {
-	context s00.BridgeCodecContext
-	Value   InitiatingMessage
-
-	received      aper.WireSpan
-	replay        aper.Snapshot
-	withoutReplay bool
-}
-
-// ReceivedForm returns the retained wire form, if one is available.
-func (v InitiatingMessageAPERValue) ReceivedForm() aper.ReceivedForm {
-	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
-}
-
-// WithoutReplay returns a copy that uses fresh encoding without changing the original.
-func (v InitiatingMessageAPERValue) WithoutReplay() InitiatingMessageAPERValue {
-	v.received = aper.WireSpan{}
-	v.replay = aper.Snapshot{}
-	v.withoutReplay = true
-	return v
-}
-
 // MMEConfigurationTransferAPERValue is the concrete APERValue[MMEConfigurationTransfer].
 type MMEConfigurationTransferAPERValue struct {
 	context s00.BridgeCodecContext
@@ -8212,7 +5287,141 @@ func (v MMEConfigurationTransferAPERValue) WithoutReplay() MMEConfigurationTrans
 	v.withoutReplay = true
 	return v
 }
-func BridgeENBConfigurationTransferIEValueCaptureS1APERABIEContainerList(v *s50.ENBConfigurationTransferIEValueERABIEContainerList, s *aper.SemanticCapture) {
+
+// SONInformationAPERValue is the concrete APERValue[SONInformation].
+type SONInformationAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   SONInformation
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SONInformationAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SONInformationAPERValue) WithoutReplay() SONInformationAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// SONInformationReplyAPERValue is the concrete APERValue[SONInformationReply].
+type SONInformationReplyAPERValue struct {
+	context s00.BridgeCodecContext
+	Value   s50.SONInformationReply
+
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v SONInformationReplyAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v SONInformationReplyAPERValue) WithoutReplay() SONInformationReplyAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ENBConfigurationTransferIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ENBConfigurationTransferIEValueERABIEContainerList].
+type ENBConfigurationTransferIEValueERABIEContainerListValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (ENBConfigurationTransferIEValueERABIEContainerList, error)
+	encode  func(ENBConfigurationTransferIEValueERABIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(ENBConfigurationTransferIEValueERABIEContainerList, aper.DecodeState) (ENBConfigurationTransferIEValueERABIEContainerList, aper.Snapshot)
+	compare func(ENBConfigurationTransferIEValueERABIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ENBConfigurationTransferIEValueERABIEContainerListValueCodec) New(value ENBConfigurationTransferIEValueERABIEContainerList) (ENBConfigurationTransferIEValueERABIEContainerListAPERValue, error) {
+	if c.encode == nil {
+		return ENBConfigurationTransferIEValueERABIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ENBConfigurationTransferIEValueERABIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ENBConfigurationTransferIEValueERABIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ENBConfigurationTransferIEValueERABIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ENBConfigurationTransferIEValueERABIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ENBConfigurationTransferIEValueERABIEContainerListAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ENBConfigurationTransferIEValueERABIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ENBConfigurationTransferIEValueERABIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ENBConfigurationTransferIEValueERABIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ENBConfigurationTransferIEValueERABIEContainerListAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ENBConfigurationTransferIEValueERABIEContainerListValueCodec) EncodeAPER(value ENBConfigurationTransferIEValueERABIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ENBConfigurationTransferIEValueERABIEContainerListValueCodec) encodeBudgetValue(value ENBConfigurationTransferIEValueERABIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ENBConfigurationTransferIEValueERABIEContainerListValueCodec) encodeChanged(value ENBConfigurationTransferIEValueERABIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ENBConfigurationTransferIEValueERABIEContainerList is E-RAB-IE-ContainerList {{ENBConfigurationTransferIEs}} of TS 36.413: a list of information element fields.
+type ENBConfigurationTransferIEValueERABIEContainerList []ENBConfigurationTransferIEValueProtocolIESingleContainer
+
+func BridgeENBConfigurationTransferIEValueCaptureS1APERABIEContainerList(v *ENBConfigurationTransferIEValueERABIEContainerList, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -8231,7 +5440,7 @@ func BridgeENBConfigurationTransferIEValueCaptureS1APERABIEContainerList(v *s50.
 	}
 	s.End(f, nil, false)
 }
-func BridgeENBConfigurationTransferIEValueCompareS1APERABIEContainerList(v *s50.ENBConfigurationTransferIEValueERABIEContainerList, s *aper.SemanticComparison) {
+func BridgeENBConfigurationTransferIEValueCompareS1APERABIEContainerList(v *ENBConfigurationTransferIEValueERABIEContainerList, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -8251,7 +5460,7 @@ func BridgeENBConfigurationTransferIEValueCompareS1APERABIEContainerList(v *s50.
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// MMEConfigurationTransferIEValueERABIEContainerListValueCodec is the concrete ValueCodec[ERABIEContainerList[MMEConfigurationTransferIEValue]].
+// MMEConfigurationTransferIEValueERABIEContainerListValueCodec is the concrete ValueCodec[MMEConfigurationTransferIEValueERABIEContainerList].
 type MMEConfigurationTransferIEValueERABIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8335,7 +5544,7 @@ func (c MMEConfigurationTransferIEValueERABIEContainerListValueCodec) encodeChan
 	return out, aper.OperationError(err, c.path)
 }
 
-// MMEConfigurationTransferIEValueERABIEContainerList is the concrete ERABIEContainerList[MMEConfigurationTransferIEValue].
+// MMEConfigurationTransferIEValueERABIEContainerList is E-RAB-IE-ContainerList {{MMEConfigurationTransferIEs}} of TS 36.413: a list of information element fields.
 type MMEConfigurationTransferIEValueERABIEContainerList []MMEConfigurationTransferIEValueProtocolIESingleContainer
 
 func BridgeMMEConfigurationTransferIEValueCaptureS1APERABIEContainerList(v *MMEConfigurationTransferIEValueERABIEContainerList, s *aper.SemanticCapture) {
@@ -8358,7 +5567,91 @@ func BridgeMMEConfigurationTransferIEValueCaptureS1APERABIEContainerList(v *MMEC
 	s.End(f, nil, false)
 }
 
-// MMEConfigurationTransferIEFieldValueCodec is the concrete ValueCodec[ProtocolIEField[MMEConfigurationTransferIEValue]].
+// ENBConfigurationTransferIEFieldValueCodec is the concrete ValueCodec[ENBConfigurationTransferIEField].
+type ENBConfigurationTransferIEFieldValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (ENBConfigurationTransferIEField, error)
+	encode  func(ENBConfigurationTransferIEField, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(ENBConfigurationTransferIEField, aper.DecodeState) (ENBConfigurationTransferIEField, aper.Snapshot)
+	compare func(ENBConfigurationTransferIEField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ENBConfigurationTransferIEFieldValueCodec) New(value ENBConfigurationTransferIEField) (ENBConfigurationTransferIEFieldAPERValue, error) {
+	if c.encode == nil {
+		return ENBConfigurationTransferIEFieldAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ENBConfigurationTransferIEFieldAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ENBConfigurationTransferIEFieldAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ENBConfigurationTransferIEFieldAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ENBConfigurationTransferIEFieldValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ENBConfigurationTransferIEFieldAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ENBConfigurationTransferIEFieldAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ENBConfigurationTransferIEFieldAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ENBConfigurationTransferIEFieldAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ENBConfigurationTransferIEFieldAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ENBConfigurationTransferIEFieldValueCodec) EncodeAPER(value ENBConfigurationTransferIEFieldAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ENBConfigurationTransferIEFieldValueCodec) encodeBudgetValue(value ENBConfigurationTransferIEField, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ENBConfigurationTransferIEFieldValueCodec) encodeChanged(value ENBConfigurationTransferIEField, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// MMEConfigurationTransferIEFieldValueCodec is the concrete ValueCodec[MMEConfigurationTransferIEField].
 type MMEConfigurationTransferIEFieldValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8442,7 +5735,91 @@ func (c MMEConfigurationTransferIEFieldValueCodec) encodeChanged(value MMEConfig
 	return out, aper.OperationError(err, c.path)
 }
 
-// MMEConfigurationTransferIEContainerValueCodec is the concrete ValueCodec[ProtocolIEContainer[MMEConfigurationTransferIEValue]].
+// ENBConfigurationTransferIEContainerValueCodec is the concrete ValueCodec[ENBConfigurationTransferIEContainer].
+type ENBConfigurationTransferIEContainerValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (ENBConfigurationTransferIEContainer, error)
+	encode  func(ENBConfigurationTransferIEContainer, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(ENBConfigurationTransferIEContainer, aper.DecodeState) (ENBConfigurationTransferIEContainer, aper.Snapshot)
+	compare func(ENBConfigurationTransferIEContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ENBConfigurationTransferIEContainerValueCodec) New(value ENBConfigurationTransferIEContainer) (ENBConfigurationTransferIEContainerAPERValue, error) {
+	if c.encode == nil {
+		return ENBConfigurationTransferIEContainerAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ENBConfigurationTransferIEContainerAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ENBConfigurationTransferIEContainerAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ENBConfigurationTransferIEContainerAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ENBConfigurationTransferIEContainerValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ENBConfigurationTransferIEContainerAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ENBConfigurationTransferIEContainerAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ENBConfigurationTransferIEContainerAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ENBConfigurationTransferIEContainerAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ENBConfigurationTransferIEContainerAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ENBConfigurationTransferIEContainerValueCodec) EncodeAPER(value ENBConfigurationTransferIEContainerAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ENBConfigurationTransferIEContainerValueCodec) encodeBudgetValue(value ENBConfigurationTransferIEContainer, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ENBConfigurationTransferIEContainerValueCodec) encodeChanged(value ENBConfigurationTransferIEContainer, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// MMEConfigurationTransferIEContainerValueCodec is the concrete ValueCodec[MMEConfigurationTransferIEContainer].
 type MMEConfigurationTransferIEContainerValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8525,7 +5902,95 @@ func (c MMEConfigurationTransferIEContainerValueCodec) encodeChanged(value MMECo
 	}
 	return out, aper.OperationError(err, c.path)
 }
-func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolErrorIEContainerList(v *s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerList, s *aper.SemanticCapture) {
+
+// ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ENBConfigurationTransferIEValueProtocolErrorIEContainerList].
+type ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (ENBConfigurationTransferIEValueProtocolErrorIEContainerList, error)
+	encode  func(ENBConfigurationTransferIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(ENBConfigurationTransferIEValueProtocolErrorIEContainerList, aper.DecodeState) (ENBConfigurationTransferIEValueProtocolErrorIEContainerList, aper.Snapshot)
+	compare func(ENBConfigurationTransferIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) New(value ENBConfigurationTransferIEValueProtocolErrorIEContainerList) (ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue, error) {
+	if c.encode == nil {
+		return ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) EncodeAPER(value ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) encodeBudgetValue(value ENBConfigurationTransferIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) encodeChanged(value ENBConfigurationTransferIEValueProtocolErrorIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ENBConfigurationTransferIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{ENBConfigurationTransferIEs}} of TS 36.413: a list of information element fields.
+type ENBConfigurationTransferIEValueProtocolErrorIEContainerList []ENBConfigurationTransferIEValueProtocolIESingleContainer
+
+func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolErrorIEContainerList(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerList, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -8544,7 +6009,7 @@ func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolErrorIEContainerLis
 	}
 	s.End(f, nil, false)
 }
-func BridgeENBConfigurationTransferIEValueCompareS1APProtocolErrorIEContainerList(v *s50.ENBConfigurationTransferIEValueProtocolErrorIEContainerList, s *aper.SemanticComparison) {
+func BridgeENBConfigurationTransferIEValueCompareS1APProtocolErrorIEContainerList(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerList, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -8564,7 +6029,7 @@ func BridgeENBConfigurationTransferIEValueCompareS1APProtocolErrorIEContainerLis
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// MMEConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[ProtocolErrorIEContainerList[MMEConfigurationTransferIEValue]].
+// MMEConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec is the concrete ValueCodec[MMEConfigurationTransferIEValueProtocolErrorIEContainerList].
 type MMEConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8648,7 +6113,7 @@ func (c MMEConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) e
 	return out, aper.OperationError(err, c.path)
 }
 
-// MMEConfigurationTransferIEValueProtocolErrorIEContainerList is the concrete ProtocolErrorIEContainerList[MMEConfigurationTransferIEValue].
+// MMEConfigurationTransferIEValueProtocolErrorIEContainerList is ProtocolError-IE-ContainerList {{MMEConfigurationTransferIEs}} of TS 36.413: a list of information element fields.
 type MMEConfigurationTransferIEValueProtocolErrorIEContainerList []MMEConfigurationTransferIEValueProtocolIESingleContainer
 
 func BridgeMMEConfigurationTransferIEValueCaptureS1APProtocolErrorIEContainerList(v *MMEConfigurationTransferIEValueProtocolErrorIEContainerList, s *aper.SemanticCapture) {
@@ -8670,7 +6135,95 @@ func BridgeMMEConfigurationTransferIEValueCaptureS1APProtocolErrorIEContainerLis
 	}
 	s.End(f, nil, false)
 }
-func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEContainerList(v *s50.ENBConfigurationTransferIEValueProtocolIEContainerList, s *aper.SemanticCapture) {
+
+// ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ENBConfigurationTransferIEValueProtocolIEContainerList].
+type ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec struct {
+	path    aper.Path
+	context s00.BridgeCodecContext
+	decode  func([]byte, aper.DecodeState) (ENBConfigurationTransferIEValueProtocolIEContainerList, error)
+	encode  func(ENBConfigurationTransferIEValueProtocolIEContainerList, bool, *aper.DecodeBudget) ([]byte, error)
+	capture func(ENBConfigurationTransferIEValueProtocolIEContainerList, aper.DecodeState) (ENBConfigurationTransferIEValueProtocolIEContainerList, aper.Snapshot)
+	compare func(ENBConfigurationTransferIEValueProtocolIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget)
+}
+
+// New validates a source value and returns its complete APER value.
+func (c ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) New(value ENBConfigurationTransferIEValueProtocolIEContainerList) (ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue, error) {
+	if c.encode == nil {
+		return ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(aper.ErrInvalidValue, "Value.New")
+	}
+	budget, err := aper.BuildBudget()
+	if err != nil {
+		return ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(err, "Value.New")
+	}
+	if _, err := c.encode(value, false, budget); err != nil {
+		return ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue{}, aper.OperationError(aper.OperationError(err, c.path), "Value.New")
+	}
+	return ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue{Value: value}, aper.OperationError(nil, "Value.New")
+}
+
+// DecodeAPER decodes a complete value and retains its received form.
+func (c ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) DecodeAPER(data []byte, options ...aper.DecodeOption) (ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue, aper.DecodeReport, error) {
+	if c.decode == nil || c.encode == nil || c.capture == nil {
+		return ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue{}, aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	data, state := aper.StartDecode(data, options...)
+	value, err := c.decode(data, state)
+	if err == nil {
+		value, replay := c.capture(value, state)
+		report, err := aper.FinishDecode(state, nil)
+		if err != nil {
+			return ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue{}, report, aper.OperationError(err, c.path)
+		}
+		return ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue{Value: value, received: aper.OriginalWire(data), replay: replay, context: c.context}, report, nil
+	}
+	report, err := aper.FinishDecode(state, aper.OperationError(err, c.path))
+	return ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue{}, report, err
+}
+
+// EncodeAPER encodes a complete value, replaying unchanged received forms.
+func (c ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) EncodeAPER(value ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue, options ...aper.EncodeOption) ([]byte, error) {
+	if c.encode == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, c.path)
+	}
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, c.path)
+	}
+	fresh := value.withoutReplay || aper.EncodeWithoutReplay(options...)
+	if value.context == c.context && !fresh && value.replay.Present() {
+		plan, next := c.compare(value.Value, value.replay, budget)
+		budget = next
+		if err := aper.NewBudgetBuffer(&budget).CheckOutput(0); err != nil {
+			return nil, aper.OperationError(err, c.path)
+		}
+		if plan.Unchanged(value.replay) {
+			out, err := aper.CopyReplay(value.received, &budget)
+			return out, aper.OperationError(err, c.path)
+		}
+		return c.encodeChanged(value.Value, fresh, budget, plan)
+	}
+	return c.encodeBudgetValue(value.Value, fresh, budget)
+}
+func (c ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) encodeBudgetValue(value ENBConfigurationTransferIEValueProtocolIEContainerList, fresh bool, budget aper.DecodeBudget) ([]byte, error) {
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+func (c ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) encodeChanged(value ENBConfigurationTransferIEValueProtocolIEContainerList, fresh bool, budget aper.DecodeBudget, plan aper.ReplayPlan) ([]byte, error) {
+	budget.SetReplayPlan(&plan)
+	out, err := c.encode(value, fresh, &budget)
+	if failure := aper.NewBudgetBuffer(&budget).CheckOutput(0); failure != nil {
+		err = failure
+	}
+	return out, aper.OperationError(err, c.path)
+}
+
+// ENBConfigurationTransferIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {ENBConfigurationTransferIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
+type ENBConfigurationTransferIEValueProtocolIEContainerList []ENBConfigurationTransferIEValueProtocolIESingleContainer
+
+func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEContainerList(v *ENBConfigurationTransferIEValueProtocolIEContainerList, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -8689,7 +6242,7 @@ func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEContainerList(v *
 	}
 	s.End(f, nil, false)
 }
-func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEContainerList(v *s50.ENBConfigurationTransferIEValueProtocolIEContainerList, s *aper.SemanticComparison) {
+func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEContainerList(v *ENBConfigurationTransferIEValueProtocolIEContainerList, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -8709,7 +6262,7 @@ func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEContainerList(v *
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// MMEConfigurationTransferIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[ProtocolIEContainerList[MMEConfigurationTransferIEValue]].
+// MMEConfigurationTransferIEValueProtocolIEContainerListValueCodec is the concrete ValueCodec[MMEConfigurationTransferIEValueProtocolIEContainerList].
 type MMEConfigurationTransferIEValueProtocolIEContainerListValueCodec struct {
 	path    aper.Path
 	context s00.BridgeCodecContext
@@ -8793,7 +6346,7 @@ func (c MMEConfigurationTransferIEValueProtocolIEContainerListValueCodec) encode
 	return out, aper.OperationError(err, c.path)
 }
 
-// MMEConfigurationTransferIEValueProtocolIEContainerList is the concrete ProtocolIEContainerList[MMEConfigurationTransferIEValue].
+// MMEConfigurationTransferIEValueProtocolIEContainerList is ProtocolIE-ContainerList with IEsSetParam = {MMEConfigurationTransferIEs} of TS 36.413: a list of information element fields with lowerBound and upperBound supplied by its concrete factory.
 type MMEConfigurationTransferIEValueProtocolIEContainerList []MMEConfigurationTransferIEValueProtocolIESingleContainer
 
 func BridgeMMEConfigurationTransferIEValueCaptureS1APProtocolIEContainerList(v *MMEConfigurationTransferIEValueProtocolIEContainerList, s *aper.SemanticCapture) {
@@ -8815,7 +6368,33 @@ func BridgeMMEConfigurationTransferIEValueCaptureS1APProtocolIEContainerList(v *
 	}
 	s.End(f, nil, false)
 }
-func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIESingleContainer(v *s50.ENBConfigurationTransferIEValueProtocolIESingleContainer, s *aper.SemanticCapture) {
+
+// ENBConfigurationTransferIEValueERABIEContainerListAPERValue is the concrete APERValue[ENBConfigurationTransferIEValueERABIEContainerList].
+type ENBConfigurationTransferIEValueERABIEContainerListAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         ENBConfigurationTransferIEValueERABIEContainerList
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ENBConfigurationTransferIEValueERABIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ENBConfigurationTransferIEValueERABIEContainerListAPERValue) WithoutReplay() ENBConfigurationTransferIEValueERABIEContainerListAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// ENBConfigurationTransferIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{ENBConfigurationTransferIEs}} of TS 36.413: a single information element field.
+type ENBConfigurationTransferIEValueProtocolIESingleContainer = ENBConfigurationTransferIEField
+
+func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIESingleContainer(v *ENBConfigurationTransferIEValueProtocolIESingleContainer, s *aper.SemanticCapture) {
 	if s.Err() != nil {
 		return
 	}
@@ -8823,7 +6402,7 @@ func BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIESingleContainer(v
 	BridgeENBConfigurationTransferIEValueCaptureS1APProtocolIEField(v, s)
 	s.End(f, nil, false)
 }
-func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIESingleContainer(v *s50.ENBConfigurationTransferIEValueProtocolIESingleContainer, s *aper.SemanticComparison) {
+func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIESingleContainer(v *ENBConfigurationTransferIEValueProtocolIESingleContainer, s *aper.SemanticComparison) {
 	if s.Err() != nil {
 		return
 	}
@@ -8832,7 +6411,7 @@ func BridgeENBConfigurationTransferIEValueCompareS1APProtocolIESingleContainer(v
 	s.End(f, aper.Snapshot{}, false)
 }
 
-// MMEConfigurationTransferIEValueERABIEContainerListAPERValue is the concrete APERValue[ERABIEContainerList[MMEConfigurationTransferIEValue]].
+// MMEConfigurationTransferIEValueERABIEContainerListAPERValue is the concrete APERValue[MMEConfigurationTransferIEValueERABIEContainerList].
 type MMEConfigurationTransferIEValueERABIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MMEConfigurationTransferIEValueERABIEContainerList
@@ -8854,7 +6433,7 @@ func (v MMEConfigurationTransferIEValueERABIEContainerListAPERValue) WithoutRepl
 	return v
 }
 
-// MMEConfigurationTransferIEValueProtocolIESingleContainer is the concrete ProtocolIESingleContainer[MMEConfigurationTransferIEValue].
+// MMEConfigurationTransferIEValueProtocolIESingleContainer is ProtocolIE-SingleContainer {{MMEConfigurationTransferIEs}} of TS 36.413: a single information element field.
 type MMEConfigurationTransferIEValueProtocolIESingleContainer = MMEConfigurationTransferIEField
 
 func BridgeMMEConfigurationTransferIEValueCaptureS1APProtocolIESingleContainer(v *MMEConfigurationTransferIEValueProtocolIESingleContainer, s *aper.SemanticCapture) {
@@ -8866,7 +6445,29 @@ func BridgeMMEConfigurationTransferIEValueCaptureS1APProtocolIESingleContainer(v
 	s.End(f, nil, false)
 }
 
-// MMEConfigurationTransferIEFieldAPERValue is the concrete APERValue[ProtocolIEField[MMEConfigurationTransferIEValue]].
+// ENBConfigurationTransferIEFieldAPERValue is the concrete APERValue[ENBConfigurationTransferIEField].
+type ENBConfigurationTransferIEFieldAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         ENBConfigurationTransferIEField
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ENBConfigurationTransferIEFieldAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ENBConfigurationTransferIEFieldAPERValue) WithoutReplay() ENBConfigurationTransferIEFieldAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// MMEConfigurationTransferIEFieldAPERValue is the concrete APERValue[MMEConfigurationTransferIEField].
 type MMEConfigurationTransferIEFieldAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MMEConfigurationTransferIEField
@@ -8888,7 +6489,29 @@ func (v MMEConfigurationTransferIEFieldAPERValue) WithoutReplay() MMEConfigurati
 	return v
 }
 
-// MMEConfigurationTransferIEContainerAPERValue is the concrete APERValue[ProtocolIEContainer[MMEConfigurationTransferIEValue]].
+// ENBConfigurationTransferIEContainerAPERValue is the concrete APERValue[ENBConfigurationTransferIEContainer].
+type ENBConfigurationTransferIEContainerAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         ENBConfigurationTransferIEContainer
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ENBConfigurationTransferIEContainerAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ENBConfigurationTransferIEContainerAPERValue) WithoutReplay() ENBConfigurationTransferIEContainerAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// MMEConfigurationTransferIEContainerAPERValue is the concrete APERValue[MMEConfigurationTransferIEContainer].
 type MMEConfigurationTransferIEContainerAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MMEConfigurationTransferIEContainer
@@ -8910,7 +6533,29 @@ func (v MMEConfigurationTransferIEContainerAPERValue) WithoutReplay() MMEConfigu
 	return v
 }
 
-// MMEConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ProtocolErrorIEContainerList[MMEConfigurationTransferIEValue]].
+// ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[ENBConfigurationTransferIEValueProtocolErrorIEContainerList].
+type ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         ENBConfigurationTransferIEValueProtocolErrorIEContainerList
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue) WithoutReplay() ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// MMEConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue is the concrete APERValue[MMEConfigurationTransferIEValueProtocolErrorIEContainerList].
 type MMEConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MMEConfigurationTransferIEValueProtocolErrorIEContainerList
@@ -8932,7 +6577,29 @@ func (v MMEConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue) Wi
 	return v
 }
 
-// MMEConfigurationTransferIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ProtocolIEContainerList[MMEConfigurationTransferIEValue]].
+// ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue is the concrete APERValue[ENBConfigurationTransferIEValueProtocolIEContainerList].
+type ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue struct {
+	context       s00.BridgeCodecContext
+	Value         ENBConfigurationTransferIEValueProtocolIEContainerList
+	received      aper.WireSpan
+	replay        aper.Snapshot
+	withoutReplay bool
+}
+
+// ReceivedForm returns the retained wire form, if one is available.
+func (v ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue) ReceivedForm() aper.ReceivedForm {
+	return aper.NewReceivedSpanForm(v.received.Present(), v.received, aper.Location{}, nil)
+}
+
+// WithoutReplay returns a copy that uses fresh encoding without changing the original.
+func (v ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue) WithoutReplay() ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue {
+	v.received = aper.WireSpan{}
+	v.replay = aper.Snapshot{}
+	v.withoutReplay = true
+	return v
+}
+
+// MMEConfigurationTransferIEValueProtocolIEContainerListAPERValue is the concrete APERValue[MMEConfigurationTransferIEValueProtocolIEContainerList].
 type MMEConfigurationTransferIEValueProtocolIEContainerListAPERValue struct {
 	context       s00.BridgeCodecContext
 	Value         MMEConfigurationTransferIEValueProtocolIEContainerList
@@ -9217,15 +6884,15 @@ type InitiatingValue struct {
 	opaque                                   aper.OpaqueOpenType
 	isOpaque                                 bool
 	bodyHandoverRequired                     *s34.HandoverRequired
-	bodyHandoverRequest                      *s48.HandoverRequest
+	bodyHandoverRequest                      *s49.HandoverRequest
 	bodyHandoverNotify                       *s35.HandoverNotify
 	bodyPathSwitchRequest                    *s41.PathSwitchRequest
 	bodyHandoverCancel                       *s25.HandoverCancel
 	bodyERABSetupRequest                     *s40.ERABSetupRequest
 	bodyERABModifyRequest                    *s40.ERABModifyRequest
 	bodyERABReleaseCommand                   *s39.ERABReleaseCommand
-	bodyERABReleaseIndication                *s45.ERABReleaseIndication
-	bodyInitialContextSetupRequest           *s48.InitialContextSetupRequest
+	bodyERABReleaseIndication                *s46.ERABReleaseIndication
+	bodyInitialContextSetupRequest           *s49.InitialContextSetupRequest
 	bodyPaging                               *s49.Paging
 	bodyDownlinkNASTransport                 *s42.DownlinkNASTransport
 	bodyInitialUEMessage                     *s35.InitialUEMessage
@@ -9233,8 +6900,8 @@ type InitiatingValue struct {
 	bodyReset                                *s36.Reset
 	bodyErrorIndication                      *s28.ErrorIndication
 	bodyNASNonDeliveryIndication             *s25.NASNonDeliveryIndication
-	bodyS1SetupRequest                       *s43.S1SetupRequest
-	bodyUEContextReleaseRequest              *s42.UEContextReleaseRequest
+	bodyS1SetupRequest                       *s44.S1SetupRequest
+	bodyUEContextReleaseRequest              *s43.UEContextReleaseRequest
 	bodyDownlinkS1cdma2000tunnelling         *s40.DownlinkS1cdma2000tunnelling
 	bodyUplinkS1cdma2000tunnelling           *s44.UplinkS1cdma2000tunnelling
 	bodyUEContextModificationRequest         *s47.UEContextModificationRequest
@@ -9243,8 +6910,8 @@ type InitiatingValue struct {
 	bodyENBStatusTransfer                    *s24.ENBStatusTransfer
 	bodyMMEStatusTransfer                    *s25.MMEStatusTransfer
 	bodyDeactivateTrace                      *s15.DeactivateTrace
-	bodyTraceStart                           *s48.TraceStart
-	bodyTraceFailureIndication               *s34.TraceFailureIndication
+	bodyTraceStart                           *s49.TraceStart
+	bodyTraceFailureIndication               *s35.TraceFailureIndication
 	bodyENBConfigurationUpdate               *s43.ENBConfigurationUpdate
 	bodyMMEConfigurationUpdate               *s43.MMEConfigurationUpdate
 	bodyLocationReportingControl             *s26.LocationReportingControl
@@ -9266,7 +6933,7 @@ type InitiatingValue struct {
 	bodyUplinkNonUEAssociatedLPPaTransport   *s44.UplinkNonUEAssociatedLPPaTransport
 	bodyUERadioCapabilityMatchRequest        *s36.UERadioCapabilityMatchRequest
 	bodyPWSRestartIndication                 *s44.PWSRestartIndication
-	bodyERABModificationIndication           *s45.ERABModificationIndication
+	bodyERABModificationIndication           *s46.ERABModificationIndication
 	bodyPWSFailureIndication                 *s42.PWSFailureIndication
 	bodyRerouteNASRequest                    *s26.RerouteNASRequest
 	bodyUEContextModificationIndication      *s36.UEContextModificationIndication
@@ -9281,8 +6948,8 @@ type InitiatingValue struct {
 	bodySecondaryRATDataUsageReport          *s46.SecondaryRATDataUsageReport
 	bodyUERadioCapabilityIDMappingRequest    *s36.UERadioCapabilityIDMappingRequest
 	bodyHandoverSuccess                      *s18.HandoverSuccess
-	bodyENBEarlyStatusTransfer               *s37.ENBEarlyStatusTransfer
-	bodyMMEEarlyStatusTransfer               *s37.MMEEarlyStatusTransfer
+	bodyENBEarlyStatusTransfer               *s38.ENBEarlyStatusTransfer
+	bodyMMEEarlyStatusTransfer               *s38.MMEEarlyStatusTransfer
 	bodyS1RemovalRequest                     *s26.S1RemovalRequest
 }
 
@@ -9303,7 +6970,7 @@ func (v *InitiatingValue) AsHandoverRequired() (*s34.HandoverRequired, bool) {
 }
 
 // AsHandoverRequest returns the selected HandoverRequest value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsHandoverRequest() (*s48.HandoverRequest, bool) {
+func (v *InitiatingValue) AsHandoverRequest() (*s49.HandoverRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(1) || v.bodyHandoverRequest == nil {
 		return nil, false
 	}
@@ -9359,7 +7026,7 @@ func (v *InitiatingValue) AsERABReleaseCommand() (*s39.ERABReleaseCommand, bool)
 }
 
 // AsERABReleaseIndication returns the selected ERABReleaseIndication value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsERABReleaseIndication() (*s45.ERABReleaseIndication, bool) {
+func (v *InitiatingValue) AsERABReleaseIndication() (*s46.ERABReleaseIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(8) || v.bodyERABReleaseIndication == nil {
 		return nil, false
 	}
@@ -9367,7 +7034,7 @@ func (v *InitiatingValue) AsERABReleaseIndication() (*s45.ERABReleaseIndication,
 }
 
 // AsInitialContextSetupRequest returns the selected InitialContextSetupRequest value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsInitialContextSetupRequest() (*s48.InitialContextSetupRequest, bool) {
+func (v *InitiatingValue) AsInitialContextSetupRequest() (*s49.InitialContextSetupRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(9) || v.bodyInitialContextSetupRequest == nil {
 		return nil, false
 	}
@@ -9431,7 +7098,7 @@ func (v *InitiatingValue) AsNASNonDeliveryIndication() (*s25.NASNonDeliveryIndic
 }
 
 // AsS1SetupRequest returns the selected S1SetupRequest value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsS1SetupRequest() (*s43.S1SetupRequest, bool) {
+func (v *InitiatingValue) AsS1SetupRequest() (*s44.S1SetupRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(17) || v.bodyS1SetupRequest == nil {
 		return nil, false
 	}
@@ -9439,7 +7106,7 @@ func (v *InitiatingValue) AsS1SetupRequest() (*s43.S1SetupRequest, bool) {
 }
 
 // AsUEContextReleaseRequest returns the selected UEContextReleaseRequest value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsUEContextReleaseRequest() (*s42.UEContextReleaseRequest, bool) {
+func (v *InitiatingValue) AsUEContextReleaseRequest() (*s43.UEContextReleaseRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(18) || v.bodyUEContextReleaseRequest == nil {
 		return nil, false
 	}
@@ -9511,7 +7178,7 @@ func (v *InitiatingValue) AsDeactivateTrace() (*s15.DeactivateTrace, bool) {
 }
 
 // AsTraceStart returns the selected TraceStart value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsTraceStart() (*s48.TraceStart, bool) {
+func (v *InitiatingValue) AsTraceStart() (*s49.TraceStart, bool) {
 	if v == nil || v.code != s00.ProcedureCode(27) || v.bodyTraceStart == nil {
 		return nil, false
 	}
@@ -9519,7 +7186,7 @@ func (v *InitiatingValue) AsTraceStart() (*s48.TraceStart, bool) {
 }
 
 // AsTraceFailureIndication returns the selected TraceFailureIndication value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsTraceFailureIndication() (*s34.TraceFailureIndication, bool) {
+func (v *InitiatingValue) AsTraceFailureIndication() (*s35.TraceFailureIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(28) || v.bodyTraceFailureIndication == nil {
 		return nil, false
 	}
@@ -9695,7 +7362,7 @@ func (v *InitiatingValue) AsPWSRestartIndication() (*s44.PWSRestartIndication, b
 }
 
 // AsERABModificationIndication returns the selected ERABModificationIndication value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsERABModificationIndication() (*s45.ERABModificationIndication, bool) {
+func (v *InitiatingValue) AsERABModificationIndication() (*s46.ERABModificationIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(50) || v.bodyERABModificationIndication == nil {
 		return nil, false
 	}
@@ -9815,7 +7482,7 @@ func (v *InitiatingValue) AsHandoverSuccess() (*s18.HandoverSuccess, bool) {
 }
 
 // AsENBEarlyStatusTransfer returns the selected ENBEarlyStatusTransfer value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsENBEarlyStatusTransfer() (*s37.ENBEarlyStatusTransfer, bool) {
+func (v *InitiatingValue) AsENBEarlyStatusTransfer() (*s38.ENBEarlyStatusTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(65) || v.bodyENBEarlyStatusTransfer == nil {
 		return nil, false
 	}
@@ -9823,7 +7490,7 @@ func (v *InitiatingValue) AsENBEarlyStatusTransfer() (*s37.ENBEarlyStatusTransfe
 }
 
 // AsMMEEarlyStatusTransfer returns the selected MMEEarlyStatusTransfer value of InitiatingValue and reports whether that alternative is active.
-func (v *InitiatingValue) AsMMEEarlyStatusTransfer() (*s37.MMEEarlyStatusTransfer, bool) {
+func (v *InitiatingValue) AsMMEEarlyStatusTransfer() (*s38.MMEEarlyStatusTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(66) || v.bodyMMEEarlyStatusTransfer == nil {
 		return nil, false
 	}
@@ -9861,23 +7528,23 @@ func BridgeDecodeInitiatingValue(code s00.ProcedureCode, raw aper.OpaqueOpenType
 		v.bodyHandoverRequired = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(1):
-		var body s48.HandoverRequest
+		var body s49.HandoverRequest
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s48.BridgeHandoverRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s49.BridgeHandoverRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.HandoverRequest:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "HandoverRequest")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s48.BridgeHandoverRequestFieldPerPadding(&body) = padding
-		*s48.BridgeHandoverRequestFieldReceived(&body) = true
-		raw.RetainContents(s48.BridgeHandoverRequestFieldReceivedBytes(&body))
-		*s48.BridgeHandoverRequestFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s49.BridgeHandoverRequestFieldPerPadding(&body) = padding
+		*s49.BridgeHandoverRequestFieldReceived(&body) = true
+		raw.RetainContents(s49.BridgeHandoverRequestFieldReceivedBytes(&body))
+		*s49.BridgeHandoverRequestFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyHandoverRequest = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(2):
@@ -10001,43 +7668,43 @@ func BridgeDecodeInitiatingValue(code s00.ProcedureCode, raw aper.OpaqueOpenType
 		v.bodyERABReleaseCommand = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(8):
-		var body s45.ERABReleaseIndication
+		var body s46.ERABReleaseIndication
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s45.BridgeERABReleaseIndicationMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s46.BridgeERABReleaseIndicationMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.ERABReleaseIndication:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "ERABReleaseIndication")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s45.BridgeERABReleaseIndicationFieldPerPadding(&body) = padding
-		*s45.BridgeERABReleaseIndicationFieldReceived(&body) = true
-		raw.RetainContents(s45.BridgeERABReleaseIndicationFieldReceivedBytes(&body))
-		*s45.BridgeERABReleaseIndicationFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s46.BridgeERABReleaseIndicationFieldPerPadding(&body) = padding
+		*s46.BridgeERABReleaseIndicationFieldReceived(&body) = true
+		raw.RetainContents(s46.BridgeERABReleaseIndicationFieldReceivedBytes(&body))
+		*s46.BridgeERABReleaseIndicationFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyERABReleaseIndication = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(9):
-		var body s48.InitialContextSetupRequest
+		var body s49.InitialContextSetupRequest
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s48.BridgeInitialContextSetupRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s49.BridgeInitialContextSetupRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.InitialContextSetupRequest:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "InitialContextSetupRequest")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s48.BridgeInitialContextSetupRequestFieldPerPadding(&body) = padding
-		*s48.BridgeInitialContextSetupRequestFieldReceived(&body) = true
-		raw.RetainContents(s48.BridgeInitialContextSetupRequestFieldReceivedBytes(&body))
-		*s48.BridgeInitialContextSetupRequestFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s49.BridgeInitialContextSetupRequestFieldPerPadding(&body) = padding
+		*s49.BridgeInitialContextSetupRequestFieldReceived(&body) = true
+		raw.RetainContents(s49.BridgeInitialContextSetupRequestFieldReceivedBytes(&body))
+		*s49.BridgeInitialContextSetupRequestFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyInitialContextSetupRequest = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(10):
@@ -10181,43 +7848,43 @@ func BridgeDecodeInitiatingValue(code s00.ProcedureCode, raw aper.OpaqueOpenType
 		v.bodyNASNonDeliveryIndication = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(17):
-		var body s43.S1SetupRequest
+		var body s44.S1SetupRequest
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s43.BridgeS1SetupRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s44.BridgeS1SetupRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.S1SetupRequest:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "S1SetupRequest")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s43.BridgeS1SetupRequestFieldPerPadding(&body) = padding
-		*s43.BridgeS1SetupRequestFieldReceived(&body) = true
-		raw.RetainContents(s43.BridgeS1SetupRequestFieldReceivedBytes(&body))
-		*s43.BridgeS1SetupRequestFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s44.BridgeS1SetupRequestFieldPerPadding(&body) = padding
+		*s44.BridgeS1SetupRequestFieldReceived(&body) = true
+		raw.RetainContents(s44.BridgeS1SetupRequestFieldReceivedBytes(&body))
+		*s44.BridgeS1SetupRequestFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyS1SetupRequest = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(18):
-		var body s42.UEContextReleaseRequest
+		var body s43.UEContextReleaseRequest
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s42.BridgeUEContextReleaseRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s43.BridgeUEContextReleaseRequestMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.UEContextReleaseRequest:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "UEContextReleaseRequest")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s42.BridgeUEContextReleaseRequestFieldPerPadding(&body) = padding
-		*s42.BridgeUEContextReleaseRequestFieldReceived(&body) = true
-		raw.RetainContents(s42.BridgeUEContextReleaseRequestFieldReceivedBytes(&body))
-		*s42.BridgeUEContextReleaseRequestFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s43.BridgeUEContextReleaseRequestFieldPerPadding(&body) = padding
+		*s43.BridgeUEContextReleaseRequestFieldReceived(&body) = true
+		raw.RetainContents(s43.BridgeUEContextReleaseRequestFieldReceivedBytes(&body))
+		*s43.BridgeUEContextReleaseRequestFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyUEContextReleaseRequest = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(19):
@@ -10381,43 +8048,43 @@ func BridgeDecodeInitiatingValue(code s00.ProcedureCode, raw aper.OpaqueOpenType
 		v.bodyDeactivateTrace = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(27):
-		var body s48.TraceStart
+		var body s49.TraceStart
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s48.BridgeTraceStartMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s49.BridgeTraceStartMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.TraceStart:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "TraceStart")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s48.BridgeTraceStartFieldPerPadding(&body) = padding
-		*s48.BridgeTraceStartFieldReceived(&body) = true
-		raw.RetainContents(s48.BridgeTraceStartFieldReceivedBytes(&body))
-		*s48.BridgeTraceStartFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s49.BridgeTraceStartFieldPerPadding(&body) = padding
+		*s49.BridgeTraceStartFieldReceived(&body) = true
+		raw.RetainContents(s49.BridgeTraceStartFieldReceivedBytes(&body))
+		*s49.BridgeTraceStartFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyTraceStart = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(28):
-		var body s34.TraceFailureIndication
+		var body s35.TraceFailureIndication
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s34.BridgeTraceFailureIndicationMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s35.BridgeTraceFailureIndicationMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.TraceFailureIndication:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "TraceFailureIndication")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s34.BridgeTraceFailureIndicationFieldPerPadding(&body) = padding
-		*s34.BridgeTraceFailureIndicationFieldReceived(&body) = true
-		raw.RetainContents(s34.BridgeTraceFailureIndicationFieldReceivedBytes(&body))
-		*s34.BridgeTraceFailureIndicationFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s35.BridgeTraceFailureIndicationFieldPerPadding(&body) = padding
+		*s35.BridgeTraceFailureIndicationFieldReceived(&body) = true
+		raw.RetainContents(s35.BridgeTraceFailureIndicationFieldReceivedBytes(&body))
+		*s35.BridgeTraceFailureIndicationFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyTraceFailureIndication = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(29):
@@ -10841,23 +8508,23 @@ func BridgeDecodeInitiatingValue(code s00.ProcedureCode, raw aper.OpaqueOpenType
 		v.bodyPWSRestartIndication = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(50):
-		var body s45.ERABModificationIndication
+		var body s46.ERABModificationIndication
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s45.BridgeERABModificationIndicationMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s46.BridgeERABModificationIndicationMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.ERABModificationIndication:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "ERABModificationIndication")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s45.BridgeERABModificationIndicationFieldPerPadding(&body) = padding
-		*s45.BridgeERABModificationIndicationFieldReceived(&body) = true
-		raw.RetainContents(s45.BridgeERABModificationIndicationFieldReceivedBytes(&body))
-		*s45.BridgeERABModificationIndicationFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s46.BridgeERABModificationIndicationFieldPerPadding(&body) = padding
+		*s46.BridgeERABModificationIndicationFieldReceived(&body) = true
+		raw.RetainContents(s46.BridgeERABModificationIndicationFieldReceivedBytes(&body))
+		*s46.BridgeERABModificationIndicationFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyERABModificationIndication = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(51):
@@ -11141,43 +8808,43 @@ func BridgeDecodeInitiatingValue(code s00.ProcedureCode, raw aper.OpaqueOpenType
 		v.bodyHandoverSuccess = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(65):
-		var body s37.ENBEarlyStatusTransfer
+		var body s38.ENBEarlyStatusTransfer
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s37.BridgeENBEarlyStatusTransferMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s38.BridgeENBEarlyStatusTransferMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.ENBEarlyStatusTransfer:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "ENBEarlyStatusTransfer")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s37.BridgeENBEarlyStatusTransferFieldPerPadding(&body) = padding
-		*s37.BridgeENBEarlyStatusTransferFieldReceived(&body) = true
-		raw.RetainContents(s37.BridgeENBEarlyStatusTransferFieldReceivedBytes(&body))
-		*s37.BridgeENBEarlyStatusTransferFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s38.BridgeENBEarlyStatusTransferFieldPerPadding(&body) = padding
+		*s38.BridgeENBEarlyStatusTransferFieldReceived(&body) = true
+		raw.RetainContents(s38.BridgeENBEarlyStatusTransferFieldReceivedBytes(&body))
+		*s38.BridgeENBEarlyStatusTransferFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyENBEarlyStatusTransfer = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(66):
-		var body s37.MMEEarlyStatusTransfer
+		var body s38.MMEEarlyStatusTransfer
 		child := raw.ChildDecodeBuffer()
 		if err := child.EnterOpenType(); err != nil {
 			return InitiatingValue{}, err
 		}
 		defer child.LeaveOpenType()
-		if err := s37.BridgeMMEEarlyStatusTransferMethodUnmarshalAPERFrom(&body, child); err != nil {
+		if err := s38.BridgeMMEEarlyStatusTransferMethodUnmarshalAPERFrom(&body, child); err != nil {
 			return InitiatingValue{}, fmt.Errorf("%s %w", "InitiatingMessage.value.MMEEarlyStatusTransfer:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "MMEEarlyStatusTransfer")
 		if err != nil {
 			return InitiatingValue{}, err
 		}
-		*s37.BridgeMMEEarlyStatusTransferFieldPerPadding(&body) = padding
-		*s37.BridgeMMEEarlyStatusTransferFieldReceived(&body) = true
-		raw.RetainContents(s37.BridgeMMEEarlyStatusTransferFieldReceivedBytes(&body))
-		*s37.BridgeMMEEarlyStatusTransferFieldReceivedLocation(&body) = raw.ContentLocation()
+		*s38.BridgeMMEEarlyStatusTransferFieldPerPadding(&body) = padding
+		*s38.BridgeMMEEarlyStatusTransferFieldReceived(&body) = true
+		raw.RetainContents(s38.BridgeMMEEarlyStatusTransferFieldReceivedBytes(&body))
+		*s38.BridgeMMEEarlyStatusTransferFieldReceivedLocation(&body) = raw.ContentLocation()
 		v.bodyMMEEarlyStatusTransfer = &body
 		raw.RetainContents(&v.received)
 	case s00.ProcedureCode(67):
@@ -11238,7 +8905,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s48.BridgeHandoverRequestMethodMarshalAPERBudget(v.bodyHandoverRequest, budget, fresh)
+		return s49.BridgeHandoverRequestMethodMarshalAPERBudget(v.bodyHandoverRequest, budget, fresh)
 	case s00.ProcedureCode(2):
 		if v.bodyHandoverNotify == nil {
 			return nil, fmt.Errorf("%s value: missing HandoverNotify", "Initiating")
@@ -11294,7 +8961,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s45.BridgeERABReleaseIndicationMethodMarshalAPERBudget(v.bodyERABReleaseIndication, budget, fresh)
+		return s46.BridgeERABReleaseIndicationMethodMarshalAPERBudget(v.bodyERABReleaseIndication, budget, fresh)
 	case s00.ProcedureCode(9):
 		if v.bodyInitialContextSetupRequest == nil {
 			return nil, fmt.Errorf("%s value: missing InitialContextSetupRequest", "Initiating")
@@ -11302,7 +8969,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s48.BridgeInitialContextSetupRequestMethodMarshalAPERBudget(v.bodyInitialContextSetupRequest, budget, fresh)
+		return s49.BridgeInitialContextSetupRequestMethodMarshalAPERBudget(v.bodyInitialContextSetupRequest, budget, fresh)
 	case s00.ProcedureCode(10):
 		if v.bodyPaging == nil {
 			return nil, fmt.Errorf("%s value: missing Paging", "Initiating")
@@ -11366,7 +9033,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s43.BridgeS1SetupRequestMethodMarshalAPERBudget(v.bodyS1SetupRequest, budget, fresh)
+		return s44.BridgeS1SetupRequestMethodMarshalAPERBudget(v.bodyS1SetupRequest, budget, fresh)
 	case s00.ProcedureCode(18):
 		if v.bodyUEContextReleaseRequest == nil {
 			return nil, fmt.Errorf("%s value: missing UEContextReleaseRequest", "Initiating")
@@ -11374,7 +9041,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s42.BridgeUEContextReleaseRequestMethodMarshalAPERBudget(v.bodyUEContextReleaseRequest, budget, fresh)
+		return s43.BridgeUEContextReleaseRequestMethodMarshalAPERBudget(v.bodyUEContextReleaseRequest, budget, fresh)
 	case s00.ProcedureCode(19):
 		if v.bodyDownlinkS1cdma2000tunnelling == nil {
 			return nil, fmt.Errorf("%s value: missing DownlinkS1cdma2000tunnelling", "Initiating")
@@ -11446,7 +9113,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s48.BridgeTraceStartMethodMarshalAPERBudget(v.bodyTraceStart, budget, fresh)
+		return s49.BridgeTraceStartMethodMarshalAPERBudget(v.bodyTraceStart, budget, fresh)
 	case s00.ProcedureCode(28):
 		if v.bodyTraceFailureIndication == nil {
 			return nil, fmt.Errorf("%s value: missing TraceFailureIndication", "Initiating")
@@ -11454,7 +9121,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s34.BridgeTraceFailureIndicationMethodMarshalAPERBudget(v.bodyTraceFailureIndication, budget, fresh)
+		return s35.BridgeTraceFailureIndicationMethodMarshalAPERBudget(v.bodyTraceFailureIndication, budget, fresh)
 	case s00.ProcedureCode(29):
 		if v.bodyENBConfigurationUpdate == nil {
 			return nil, fmt.Errorf("%s value: missing ENBConfigurationUpdate", "Initiating")
@@ -11630,7 +9297,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s45.BridgeERABModificationIndicationMethodMarshalAPERBudget(v.bodyERABModificationIndication, budget, fresh)
+		return s46.BridgeERABModificationIndicationMethodMarshalAPERBudget(v.bodyERABModificationIndication, budget, fresh)
 	case s00.ProcedureCode(51):
 		if v.bodyPWSFailureIndication == nil {
 			return nil, fmt.Errorf("%s value: missing PWSFailureIndication", "Initiating")
@@ -11750,7 +9417,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s37.BridgeENBEarlyStatusTransferMethodMarshalAPERBudget(v.bodyENBEarlyStatusTransfer, budget, fresh)
+		return s38.BridgeENBEarlyStatusTransferMethodMarshalAPERBudget(v.bodyENBEarlyStatusTransfer, budget, fresh)
 	case s00.ProcedureCode(66):
 		if v.bodyMMEEarlyStatusTransfer == nil {
 			return nil, fmt.Errorf("%s value: missing MMEEarlyStatusTransfer", "Initiating")
@@ -11758,7 +9425,7 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		return s37.BridgeMMEEarlyStatusTransferMethodMarshalAPERBudget(v.bodyMMEEarlyStatusTransfer, budget, fresh)
+		return s38.BridgeMMEEarlyStatusTransferMethodMarshalAPERBudget(v.bodyMMEEarlyStatusTransfer, budget, fresh)
 	case s00.ProcedureCode(67):
 		if v.bodyS1RemovalRequest == nil {
 			return nil, fmt.Errorf("%s value: missing S1RemovalRequest", "Initiating")
@@ -11770,159 +9437,6 @@ func (v InitiatingValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]b
 	default:
 		return nil, fmt.Errorf("%s value: unknown code %d without opaque content", "Initiating", v.code)
 	}
-}
-func NewOpaqueInitiatingMessage(code s00.ProcedureCode, criticality s00.Criticality, data []byte) (InitiatingMessage, error) {
-	switch code {
-	case s00.ProcedureCode(0):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-HandoverPreparation requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(1):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-HandoverResourceAllocation requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(2):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-HandoverNotification requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(3):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-PathSwitchRequest requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(4):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-HandoverCancel requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(5):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-E-RABSetup requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(6):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-E-RABModify requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(7):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-E-RABRelease requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(8):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-E-RABReleaseIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(9):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-InitialContextSetup requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(10):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-Paging requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(11):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-downlinkNASTransport requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(12):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-initialUEMessage requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(13):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-uplinkNASTransport requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(14):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-Reset requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(15):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-ErrorIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(16):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-NASNonDeliveryIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(17):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-S1Setup requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(18):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UEContextReleaseRequest requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(19):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-DownlinkS1cdma2000tunnelling requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(20):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UplinkS1cdma2000tunnelling requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(21):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UEContextModification requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(22):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UECapabilityInfoIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(23):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UEContextRelease requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(24):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-eNBStatusTransfer requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(25):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-MMEStatusTransfer requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(26):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-DeactivateTrace requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(27):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-TraceStart requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(28):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-TraceFailureIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(29):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-ENBConfigurationUpdate requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(30):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-MMEConfigurationUpdate requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(31):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-LocationReportingControl requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(32):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-LocationReportingFailureIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(33):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-LocationReport requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(34):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-OverloadStart requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(35):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-OverloadStop requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(36):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-WriteReplaceWarning requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(37):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-eNBDirectInformationTransfer requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(38):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-MMEDirectInformationTransfer requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(39):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-PrivateMessage requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(40):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-eNBConfigurationTransfer requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(41):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-MMEConfigurationTransfer requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(42):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-CellTrafficTrace requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(43):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-Kill requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(44):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-downlinkUEAssociatedLPPaTransport requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(45):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-uplinkUEAssociatedLPPaTransport requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(46):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-downlinkNonUEAssociatedLPPaTransport requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(47):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-uplinkNonUEAssociatedLPPaTransport requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(48):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UERadioCapabilityMatch requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(49):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-PWSRestartIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(50):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-E-RABModificationIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(51):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-PWSFailureIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(52):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-RerouteNASRequest requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(53):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UEContextModificationIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(54):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-ConnectionEstablishmentIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(55):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UEContextSuspend requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(56):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UEContextResume requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(57):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-NASDeliveryIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(58):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-RetrieveUEInformation requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(59):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UEInformationTransfer requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(60):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-eNBCPRelocationIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(61):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-MMECPRelocationIndication requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(62):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-SecondaryRATDataUsageReport requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(63):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-UERadioCapabilityIDMapping requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(64):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-HandoverSuccess requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(65):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-eNBEarlyStatusTransfer requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(66):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-MMEEarlyStatusTransfer requires its typed binding"), "OpaqueInitiatingMessage")
-	case s00.ProcedureCode(67):
-		return InitiatingMessage{}, aper.OperationError(fmt.Errorf("known Initiating procedure id-S1Removal requires its typed binding"), "OpaqueInitiatingMessage")
-	}
-	budget, err := aper.BuildBudget()
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "OpaqueInitiatingMessage")
-	}
-	opaque, err := aper.BuildOpaqueOpenType(data, budget)
-	if err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "OpaqueInitiatingMessage")
-	}
-	message := InitiatingMessage{ProcedureCode: code, Criticality: criticality, Value: InitiatingValue{code: code, opaque: opaque, isOpaque: true}}
-	if _, err := message.marshalAPERBudget(budget, false); err != nil {
-		return InitiatingMessage{}, aper.OperationError(err, "OpaqueInitiatingMessage")
-	}
-	return message, aper.OperationError(nil, "OpaqueInitiatingMessage")
 }
 func BridgeCaptureS1APENBConfigurationTransfer(v *ENBConfigurationTransfer, s *aper.SemanticCapture) {
 	if s.Err() != nil {
@@ -11939,6 +9453,142 @@ func BridgeCompareS1APENBConfigurationTransfer(v *ENBConfigurationTransfer, s *a
 	}
 	f := s.Begin()
 	BridgeENBConfigurationTransferIEValueCompareS1APProtocolIEContainer(&v.ProtocolIEs, s)
+	s.ExtensionData(v.extData, v.extWire, 0)
+	s.End(f, v.replay, v.withoutReplay)
+}
+func BridgeCaptureS1APENBConfigurationTransferIEValue(v *ENBConfigurationTransferIEValue, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s00.BridgeCaptureS1APProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		s.Opaque(v.opaque)
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(129):
+			{
+				f := s.Begin()
+				s.Bool(v.rowSONConfigurationTransferECT == nil)
+				if v.rowSONConfigurationTransferECT != nil {
+					BridgeCaptureS1APSONConfigurationTransfer(v.rowSONConfigurationTransferECT, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(294):
+			{
+				f := s.Begin()
+				s.Bool(v.rowENDCSONConfigurationTransferECT == nil)
+				if v.rowENDCSONConfigurationTransferECT != nil {
+					BridgeCaptureS1APENDCSONConfigurationTransfer(v.rowENDCSONConfigurationTransferECT, s)
+				}
+				s.End(f, nil, false)
+			}
+		case s00.ProtocolIEID(310):
+			{
+				f := s.Begin()
+				s.Bool(v.rowIntersystemSONConfigurationTransferECT == nil)
+				if v.rowIntersystemSONConfigurationTransferECT != nil {
+					s00.BridgeCaptureS1APIntersystemSONConfigurationTransfer(v.rowIntersystemSONConfigurationTransferECT, s)
+				}
+				s.End(f, nil, false)
+			}
+		}
+	}
+	s.End(f, &v.replay, false)
+	s.CheckReceived(v.replay, v.received)
+}
+func (v ENBConfigurationTransferIEValue) captureSemantics(s aper.SemanticCapture) ENBConfigurationTransferIEValue {
+	BridgeCaptureS1APENBConfigurationTransferIEValue(&v, &s)
+	return v
+}
+func BridgeCompareS1APENBConfigurationTransferIEValue(v *ENBConfigurationTransferIEValue, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s02.BridgeCompareS1APProtocolIEID(&v.id, s)
+	if v.isOpaque {
+		s.Opaque(v.opaque)
+	}
+	s.Bool(v.isOpaque)
+	if !(v.isOpaque) {
+		switch v.id {
+		case s00.ProtocolIEID(129):
+			{
+				f := s.Begin()
+				s.Bool(v.rowSONConfigurationTransferECT == nil)
+				if v.rowSONConfigurationTransferECT != nil {
+					BridgeCompareS1APSONConfigurationTransfer(v.rowSONConfigurationTransferECT, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(294):
+			{
+				f := s.Begin()
+				s.Bool(v.rowENDCSONConfigurationTransferECT == nil)
+				if v.rowENDCSONConfigurationTransferECT != nil {
+					BridgeCompareS1APENDCSONConfigurationTransfer(v.rowENDCSONConfigurationTransferECT, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		case s00.ProtocolIEID(310):
+			{
+				f := s.Begin()
+				s.Bool(v.rowIntersystemSONConfigurationTransferECT == nil)
+				if v.rowIntersystemSONConfigurationTransferECT != nil {
+					s02.BridgeCompareS1APIntersystemSONConfigurationTransfer(v.rowIntersystemSONConfigurationTransferECT, s)
+				}
+				s.End(f, aper.Snapshot{}, false)
+			}
+		}
+	}
+	s.End(f, v.replay, false)
+	s.CheckReceived(v.replay, v.received)
+}
+func (v ENBConfigurationTransferIEValue) compareSemantics(s aper.SemanticComparison) aper.SemanticComparison {
+	BridgeCompareS1APENBConfigurationTransferIEValue(&v, &s)
+	return s
+}
+func BridgeCaptureS1APENDCSONConfigurationTransfer(v *ENDCSONConfigurationTransfer, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s31.BridgeCaptureS1APENDCSONTransferType(&v.Transfertype, s)
+	BridgeCaptureS1APSONInformation(&v.SONInformation, s)
+	{
+		f := s.Begin()
+		s.Bool(v.X2TNLConfigInfo == nil)
+		if v.X2TNLConfigInfo != nil {
+			s50.BridgeCaptureS1APX2TNLConfigurationInfo(v.X2TNLConfigInfo, s)
+		}
+		s.End(f, nil, false)
+	}
+	s.Bool(v.IEExtensions == nil)
+	s13.BridgeENDCSONConfigurationTransferExtIEsValueCaptureS1APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire, 0)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func BridgeCompareS1APENDCSONConfigurationTransfer(v *ENDCSONConfigurationTransfer, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s31.BridgeCompareS1APENDCSONTransferType(&v.Transfertype, s)
+	BridgeCompareS1APSONInformation(&v.SONInformation, s)
+	{
+		f := s.Begin()
+		s.Bool(v.X2TNLConfigInfo == nil)
+		if v.X2TNLConfigInfo != nil {
+			s50.BridgeCompareS1APX2TNLConfigurationInfo(v.X2TNLConfigInfo, s)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	s.Bool(v.IEExtensions == nil)
+	s13.BridgeENDCSONConfigurationTransferExtIEsValueCompareS1APProtocolExtensionContainer(&v.IEExtensions, s)
 	s.ExtensionData(v.extData, v.extWire, 0)
 	s.End(f, v.replay, v.withoutReplay)
 }
@@ -12026,7 +9676,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyHandoverRequest == nil)
 				if v.bodyHandoverRequest != nil {
-					s48.BridgeCaptureS1APHandoverRequest(v.bodyHandoverRequest, s)
+					s49.BridgeCaptureS1APHandoverRequest(v.bodyHandoverRequest, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12089,7 +9739,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyERABReleaseIndication == nil)
 				if v.bodyERABReleaseIndication != nil {
-					s45.BridgeCaptureS1APERABReleaseIndication(v.bodyERABReleaseIndication, s)
+					s46.BridgeCaptureS1APERABReleaseIndication(v.bodyERABReleaseIndication, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12098,7 +9748,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyInitialContextSetupRequest == nil)
 				if v.bodyInitialContextSetupRequest != nil {
-					s48.BridgeCaptureS1APInitialContextSetupRequest(v.bodyInitialContextSetupRequest, s)
+					s49.BridgeCaptureS1APInitialContextSetupRequest(v.bodyInitialContextSetupRequest, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12170,7 +9820,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyS1SetupRequest == nil)
 				if v.bodyS1SetupRequest != nil {
-					s43.BridgeCaptureS1APS1SetupRequest(v.bodyS1SetupRequest, s)
+					s44.BridgeCaptureS1APS1SetupRequest(v.bodyS1SetupRequest, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12179,7 +9829,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyUEContextReleaseRequest == nil)
 				if v.bodyUEContextReleaseRequest != nil {
-					s42.BridgeCaptureS1APUEContextReleaseRequest(v.bodyUEContextReleaseRequest, s)
+					s43.BridgeCaptureS1APUEContextReleaseRequest(v.bodyUEContextReleaseRequest, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12260,7 +9910,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyTraceStart == nil)
 				if v.bodyTraceStart != nil {
-					s48.BridgeCaptureS1APTraceStart(v.bodyTraceStart, s)
+					s49.BridgeCaptureS1APTraceStart(v.bodyTraceStart, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12269,7 +9919,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyTraceFailureIndication == nil)
 				if v.bodyTraceFailureIndication != nil {
-					s34.BridgeCaptureS1APTraceFailureIndication(v.bodyTraceFailureIndication, s)
+					s35.BridgeCaptureS1APTraceFailureIndication(v.bodyTraceFailureIndication, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12467,7 +10117,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyERABModificationIndication == nil)
 				if v.bodyERABModificationIndication != nil {
-					s45.BridgeCaptureS1APERABModificationIndication(v.bodyERABModificationIndication, s)
+					s46.BridgeCaptureS1APERABModificationIndication(v.bodyERABModificationIndication, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12602,7 +10252,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyENBEarlyStatusTransfer == nil)
 				if v.bodyENBEarlyStatusTransfer != nil {
-					s37.BridgeCaptureS1APENBEarlyStatusTransfer(v.bodyENBEarlyStatusTransfer, s)
+					s38.BridgeCaptureS1APENBEarlyStatusTransfer(v.bodyENBEarlyStatusTransfer, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12611,7 +10261,7 @@ func BridgeCaptureS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCaptur
 				f := s.Begin()
 				s.Bool(v.bodyMMEEarlyStatusTransfer == nil)
 				if v.bodyMMEEarlyStatusTransfer != nil {
-					s37.BridgeCaptureS1APMMEEarlyStatusTransfer(v.bodyMMEEarlyStatusTransfer, s)
+					s38.BridgeCaptureS1APMMEEarlyStatusTransfer(v.bodyMMEEarlyStatusTransfer, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -12659,7 +10309,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyHandoverRequest == nil)
 				if v.bodyHandoverRequest != nil {
-					s48.BridgeCompareS1APHandoverRequest(v.bodyHandoverRequest, s)
+					s49.BridgeCompareS1APHandoverRequest(v.bodyHandoverRequest, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -12722,7 +10372,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyERABReleaseIndication == nil)
 				if v.bodyERABReleaseIndication != nil {
-					s45.BridgeCompareS1APERABReleaseIndication(v.bodyERABReleaseIndication, s)
+					s46.BridgeCompareS1APERABReleaseIndication(v.bodyERABReleaseIndication, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -12731,7 +10381,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyInitialContextSetupRequest == nil)
 				if v.bodyInitialContextSetupRequest != nil {
-					s48.BridgeCompareS1APInitialContextSetupRequest(v.bodyInitialContextSetupRequest, s)
+					s49.BridgeCompareS1APInitialContextSetupRequest(v.bodyInitialContextSetupRequest, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -12803,7 +10453,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyS1SetupRequest == nil)
 				if v.bodyS1SetupRequest != nil {
-					s43.BridgeCompareS1APS1SetupRequest(v.bodyS1SetupRequest, s)
+					s44.BridgeCompareS1APS1SetupRequest(v.bodyS1SetupRequest, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -12812,7 +10462,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyUEContextReleaseRequest == nil)
 				if v.bodyUEContextReleaseRequest != nil {
-					s42.BridgeCompareS1APUEContextReleaseRequest(v.bodyUEContextReleaseRequest, s)
+					s43.BridgeCompareS1APUEContextReleaseRequest(v.bodyUEContextReleaseRequest, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -12893,7 +10543,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyTraceStart == nil)
 				if v.bodyTraceStart != nil {
-					s48.BridgeCompareS1APTraceStart(v.bodyTraceStart, s)
+					s49.BridgeCompareS1APTraceStart(v.bodyTraceStart, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -12902,7 +10552,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyTraceFailureIndication == nil)
 				if v.bodyTraceFailureIndication != nil {
-					s34.BridgeCompareS1APTraceFailureIndication(v.bodyTraceFailureIndication, s)
+					s35.BridgeCompareS1APTraceFailureIndication(v.bodyTraceFailureIndication, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -13100,7 +10750,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyERABModificationIndication == nil)
 				if v.bodyERABModificationIndication != nil {
-					s45.BridgeCompareS1APERABModificationIndication(v.bodyERABModificationIndication, s)
+					s46.BridgeCompareS1APERABModificationIndication(v.bodyERABModificationIndication, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -13235,7 +10885,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyENBEarlyStatusTransfer == nil)
 				if v.bodyENBEarlyStatusTransfer != nil {
-					s37.BridgeCompareS1APENBEarlyStatusTransfer(v.bodyENBEarlyStatusTransfer, s)
+					s38.BridgeCompareS1APENBEarlyStatusTransfer(v.bodyENBEarlyStatusTransfer, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -13244,7 +10894,7 @@ func BridgeCompareS1APInitiatingValue(v *InitiatingValue, s *aper.SemanticCompar
 				f := s.Begin()
 				s.Bool(v.bodyMMEEarlyStatusTransfer == nil)
 				if v.bodyMMEEarlyStatusTransfer != nil {
-					s37.BridgeCompareS1APMMEEarlyStatusTransfer(v.bodyMMEEarlyStatusTransfer, s)
+					s38.BridgeCompareS1APMMEEarlyStatusTransfer(v.bodyMMEEarlyStatusTransfer, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -13301,7 +10951,7 @@ func BridgeCaptureS1APMMEConfigurationTransferIEValue(v *MMEConfigurationTransfe
 				f := s.Begin()
 				s.Bool(v.rowSONConfigurationTransferMCT == nil)
 				if v.rowSONConfigurationTransferMCT != nil {
-					s50.BridgeCaptureS1APSONConfigurationTransfer(v.rowSONConfigurationTransferMCT, s)
+					BridgeCaptureS1APSONConfigurationTransfer(v.rowSONConfigurationTransferMCT, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -13310,7 +10960,7 @@ func BridgeCaptureS1APMMEConfigurationTransferIEValue(v *MMEConfigurationTransfe
 				f := s.Begin()
 				s.Bool(v.rowENDCSONConfigurationTransferMCT == nil)
 				if v.rowENDCSONConfigurationTransferMCT != nil {
-					s50.BridgeCaptureS1APENDCSONConfigurationTransfer(v.rowENDCSONConfigurationTransferMCT, s)
+					BridgeCaptureS1APENDCSONConfigurationTransfer(v.rowENDCSONConfigurationTransferMCT, s)
 				}
 				s.End(f, nil, false)
 			}
@@ -13349,7 +10999,7 @@ func BridgeCompareS1APMMEConfigurationTransferIEValue(v *MMEConfigurationTransfe
 				f := s.Begin()
 				s.Bool(v.rowSONConfigurationTransferMCT == nil)
 				if v.rowSONConfigurationTransferMCT != nil {
-					s50.BridgeCompareS1APSONConfigurationTransfer(v.rowSONConfigurationTransferMCT, s)
+					BridgeCompareS1APSONConfigurationTransfer(v.rowSONConfigurationTransferMCT, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -13358,7 +11008,7 @@ func BridgeCompareS1APMMEConfigurationTransferIEValue(v *MMEConfigurationTransfe
 				f := s.Begin()
 				s.Bool(v.rowENDCSONConfigurationTransferMCT == nil)
 				if v.rowENDCSONConfigurationTransferMCT != nil {
-					s50.BridgeCompareS1APENDCSONConfigurationTransfer(v.rowENDCSONConfigurationTransferMCT, s)
+					BridgeCompareS1APENDCSONConfigurationTransfer(v.rowENDCSONConfigurationTransferMCT, s)
 				}
 				s.End(f, aper.Snapshot{}, false)
 			}
@@ -13646,6 +11296,1558 @@ func BridgeCompareS1APProtocolIESingleContainer[V ProtocolOpenValueConstraint[V]
 	BridgeCompareS1APProtocolIEField[V](v, s)
 	s.End(f, aper.Snapshot{}, false)
 }
+func BridgeCaptureS1APSONConfigurationTransfer(v *SONConfigurationTransfer, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s34.BridgeCaptureS1APTargeteNBID(&v.TargeteNBID, s)
+	s32.BridgeCaptureS1APSourceeNBID(&v.SourceeNBID, s)
+	BridgeCaptureS1APSONInformation(&v.SONInformation, s)
+	s.Bool(v.IEExtensions == nil)
+	BridgeSONConfigurationTransferExtIEsValueCaptureS1APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire, 0)
+	s.End(f, &v.replay, v.withoutReplay)
+}
+func BridgeCompareS1APSONConfigurationTransfer(v *SONConfigurationTransfer, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s34.BridgeCompareS1APTargeteNBID(&v.TargeteNBID, s)
+	s32.BridgeCompareS1APSourceeNBID(&v.SourceeNBID, s)
+	BridgeCompareS1APSONInformation(&v.SONInformation, s)
+	s.Bool(v.IEExtensions == nil)
+	BridgeSONConfigurationTransferExtIEsValueCompareS1APProtocolExtensionContainer(&v.IEExtensions, s)
+	s.ExtensionData(v.extData, v.extWire, 0)
+	s.End(f, v.replay, v.withoutReplay)
+}
+func BridgeCaptureS1APSONInformation(v *SONInformation, s *aper.SemanticCapture) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s.Int(int64(v.Choice))
+	{
+		f := s.Begin()
+		s.Bool(v.UnknownExtension == nil)
+		if v.UnknownExtension != nil {
+			s.ChoiceExtension(v.UnknownExtension)
+		}
+		s.End(f, nil, false)
+	}
+	switch v.Choice {
+	case s00.SONInformationChoiceSONInformationRequest:
+		{
+			f := s.Begin()
+			s.Bool(v.SONInformationRequest == nil)
+			if v.SONInformationRequest != nil {
+				s00.BridgeCaptureS1APSONInformationRequest(v.SONInformationRequest, s)
+			}
+			s.End(f, nil, false)
+		}
+	case s00.SONInformationChoiceSONInformationReply:
+		{
+			f := s.Begin()
+			s.Bool(v.SONInformationReply == nil)
+			if v.SONInformationReply != nil {
+				s50.BridgeCaptureS1APSONInformationReply(v.SONInformationReply, s)
+			}
+			s.End(f, nil, false)
+		}
+	case s00.SONInformationChoiceSONInformationExtension:
+		{
+			f := s.Begin()
+			s.Bool(v.SONInformationExtension == nil)
+			if v.SONInformationExtension != nil {
+				s20.BridgeCaptureS1APSONInformationExtension(v.SONInformationExtension, s)
+			}
+			s.End(f, nil, false)
+		}
+	}
+	s.End(f, &v.replay, v.withoutReplay)
+	if v.UnknownExtension == nil && v.Choice > 2 {
+		s.CheckChoice(v.replay, v.stream)
+	}
+}
+func BridgeCompareS1APSONInformation(v *SONInformation, s *aper.SemanticComparison) {
+	if s.Err() != nil {
+		return
+	}
+	f := s.Begin()
+	s.Int(int64(v.Choice))
+	{
+		f := s.Begin()
+		s.Bool(v.UnknownExtension == nil)
+		if v.UnknownExtension != nil {
+			s.ChoiceExtension(v.UnknownExtension)
+		}
+		s.End(f, aper.Snapshot{}, false)
+	}
+	switch v.Choice {
+	case s00.SONInformationChoiceSONInformationRequest:
+		{
+			f := s.Begin()
+			s.Bool(v.SONInformationRequest == nil)
+			if v.SONInformationRequest != nil {
+				s06.BridgeCompareS1APSONInformationRequest(v.SONInformationRequest, s)
+			}
+			s.End(f, aper.Snapshot{}, false)
+		}
+	case s00.SONInformationChoiceSONInformationReply:
+		{
+			f := s.Begin()
+			s.Bool(v.SONInformationReply == nil)
+			if v.SONInformationReply != nil {
+				s50.BridgeCompareS1APSONInformationReply(v.SONInformationReply, s)
+			}
+			s.End(f, aper.Snapshot{}, false)
+		}
+	case s00.SONInformationChoiceSONInformationExtension:
+		{
+			f := s.Begin()
+			s.Bool(v.SONInformationExtension == nil)
+			if v.SONInformationExtension != nil {
+				s20.BridgeCompareS1APSONInformationExtension(v.SONInformationExtension, s)
+			}
+			s.End(f, aper.Snapshot{}, false)
+		}
+	}
+	s.End(f, v.replay, v.withoutReplay)
+	if v.UnknownExtension == nil && v.Choice > 2 {
+		s.CheckChoice(v.replay, v.stream)
+	}
+}
+
+// ENDCSONConfigurationTransfer represents the ASN.1 type EN-DCSONConfigurationTransfer (SEQUENCE).
+type ENDCSONConfigurationTransfer struct {
+	replay            aper.Snapshot
+	stream            aper.WireSpan
+	received          bool
+	withoutReplay     bool
+	receivedAbsolute  bool
+	receivedBytes     aper.WireSpan
+	receivedLocation  aper.Location
+	Transfertype      s31.ENDCSONTransferType                            `asn1:"tag:0,context,explicit"`
+	SONInformation    SONInformation                                     `asn1:"tag:1,context,explicit"`
+	X2TNLConfigInfo   *s50.X2TNLConfigurationInfo                        `asn1:"tag:2,context,implicit,optional" json:"X2TNLConfigInfo,omitempty"`
+	IEExtensions      s08.ENDCSONConfigurationTransferExtIEsExtContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitzero"`
+	iEExtensionsIndef bool                                               `asn1:"-" json:"-"`
+	extCount          int64                                              `asn1:"-" json:"-"`
+	extPresent        []bool                                             `asn1:"-" json:"-"`
+	extData           [][]byte                                           `asn1:"-" json:"-"`
+	perPadding        aper.FinalPadding                                  `asn1:"-" json:"-"`
+	perExtPadding     []aper.CompletePadding                             `asn1:"-" json:"-"`
+	extOrigin         []aper.OpaqueOrigin
+	extWire           []aper.WireSpan
+}
+
+// SONInformation represents the ASN.1 CHOICE type SONInformation.
+type SONInformation struct {
+	replay                  aper.Snapshot
+	stream                  aper.WireSpan
+	received                bool
+	withoutReplay           bool
+	receivedAbsolute        bool
+	receivedBytes           aper.WireSpan
+	receivedLocation        aper.Location
+	Choice                  int
+	perPadding              aper.CompletePadding         `json:"-"`
+	perOpenTypePadding      aper.CompletePadding         `json:"-"`
+	UnknownExtension        *aper.ChoiceExtension        `json:"UnknownExtension,omitempty"`
+	SONInformationRequest   *s00.SONInformationRequest   `json:"SONInformationRequest,omitempty"`
+	SONInformationReply     *s50.SONInformationReply     `json:"SONInformationReply,omitempty"`
+	SONInformationExtension *s20.SONInformationExtension `json:"SONInformationExtension,omitempty"`
+}
+
+// NewSONInformationSONInformationRequest creates a SONInformation with the sONInformationRequest alternative.
+func BridgeNewSONInformationSONInformationRequestLegacy(v s00.SONInformationRequest) SONInformation {
+	return SONInformation{
+		Choice:                s00.SONInformationChoiceSONInformationRequest,
+		SONInformationRequest: &v,
+	}
+}
+
+// NewSONInformationSONInformationReply creates a SONInformation with the sONInformationReply alternative.
+func BridgeNewSONInformationSONInformationReplyLegacy(v s50.SONInformationReply) SONInformation {
+	return SONInformation{
+		Choice:              s00.SONInformationChoiceSONInformationReply,
+		SONInformationReply: &v,
+	}
+}
+
+// NewSONInformationSONInformationExtension creates a SONInformation with the sONInformation-Extension alternative.
+func BridgeNewSONInformationSONInformationExtensionLegacy(v s20.SONInformationExtension) SONInformation {
+	return SONInformation{
+		Choice:                  s00.SONInformationChoiceSONInformationExtension,
+		SONInformationExtension: &v,
+	}
+}
+
+// SONConfigurationTransfer represents the ASN.1 type SONConfigurationTransfer (SEQUENCE).
+type SONConfigurationTransfer struct {
+	replay            aper.Snapshot
+	stream            aper.WireSpan
+	received          bool
+	withoutReplay     bool
+	receivedAbsolute  bool
+	receivedBytes     aper.WireSpan
+	receivedLocation  aper.Location
+	TargeteNBID       s34.TargeteNBID                                `asn1:"tag:0,context,implicit"`
+	SourceeNBID       s32.SourceeNBID                                `asn1:"tag:1,context,implicit"`
+	SONInformation    SONInformation                                 `asn1:"tag:2,context,explicit"`
+	IEExtensions      s50.SONConfigurationTransferExtIEsExtContainer `asn1:"tag:3,context,implicit,optional" json:"IEExtensions,omitzero"`
+	iEExtensionsIndef bool                                           `asn1:"-" json:"-"`
+	extCount          int64                                          `asn1:"-" json:"-"`
+	extPresent        []bool                                         `asn1:"-" json:"-"`
+	extData           [][]byte                                       `asn1:"-" json:"-"`
+	perPadding        aper.FinalPadding                              `asn1:"-" json:"-"`
+	perExtPadding     []aper.CompletePadding                         `asn1:"-" json:"-"`
+	extOrigin         []aper.OpaqueOrigin
+	extWire           []aper.WireSpan
+}
+
+// MarshalAPER encodes ENDCSONConfigurationTransfer to APER format.
+func (v *ENDCSONConfigurationTransfer) marshalAPERLegacy() ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := v.marshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithFinalPadding(v.perPadding)
+}
+func (v *ENDCSONConfigurationTransfer) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(
+				previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.
+			ReplayTo(bb); ok || err != nil {
+			return err
+		}
+	}
+	extensionEncodingData, extensionCopyErr := aper.CopyExtensionContents(v.extData,
+		v.extWire,
+
+		bb.Budget())
+	if extensionCopyErr != nil {
+		return extensionCopyErr
+	}
+
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+
+	extensionCount := v.extCount
+	if len(fresh) != 0 && fresh[0] {
+		extensionCount, _ = s14.BridgePreferredSequenceTail(v.extPresent, extensionEncodingData)
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	recoveryStart := bb.BitsWritten()
+	hasExtensions := false
+	for i, present := range v.extPresent {
+		if i >= 0 {
+			hasExtensions = hasExtensions || present
+		}
+	}
+	for i, data := range extensionEncodingData {
+		if i >= 0 {
+			hasExtensions = hasExtensions || data != nil
+		}
+	}
+	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := aper.EncodeBoolean(bb, v.X2TNLConfigInfo != nil); err != nil {
+		return err
+	}
+	if err := aper.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := s31.BridgeENDCSONTransferTypeMethodMarshalAPERTo(&v.Transfertype, bb, len(fresh) != 0 && fresh[0]); err != nil {
+		return fmt.Errorf("encoding transfertype: %w", err)
+	}
+	if err := v.SONInformation.marshalAPERTo(bb, len(fresh) != 0 && fresh[0]); err != nil {
+		return fmt.Errorf("encoding sONInformation: %w", err)
+	}
+	if v.X2TNLConfigInfo != nil {
+		if err := s50.BridgeX2TNLConfigurationInfoMethodMarshalAPERTo(v.X2TNLConfigInfo, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			return fmt.Errorf("encoding x2TNLConfigInfo: %w", err)
+		}
+	}
+	if v.IEExtensions != nil {
+		if err := aper.EncodeCollection(bb, int64(len(v.IEExtensions)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := s08.BridgeENDCSONConfigurationTransferExtIEsExtFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount := extensionCount
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:437
+		if extCount < 0 || extCount >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+		}
+		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
+			return err
+		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:441
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil)
+			if err := aper.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:448
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil) {
+				var data []byte
+				if i < int64(len(extensionEncodingData)) {
+					data = extensionEncodingData[i]
+				}
+				if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
+	aper.AppendTruncatedExtension(bb, v.perPadding)
+	return nil
+}
+
+// UnmarshalAPER decodes ENDCSONConfigurationTransfer from APER format.
+func (v *ENDCSONConfigurationTransfer) unmarshalAPERLegacy(data []byte) error {
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
+}
+
+// UnmarshalAPERWithOptions decodes ENDCSONConfigurationTransfer with explicit receiver options:
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *ENDCSONConfigurationTransfer) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "ENDCSONConfigurationTransfer")
+	}
+	bb.EnterComponent("ENDCSONConfigurationTransfer")
+	if err := v.unmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "ENDCSONConfigurationTransfer")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "ENDCSONConfigurationTransfer")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "ENDCSONConfigurationTransfer")
+	}
+	v.perPadding = padding.WithRecords(v.perPadding)
+	return nil
+}
+func (v *ENDCSONConfigurationTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = ENDCSONConfigurationTransfer{}
+	extAdditions := aper.BeginExtensionAdditions(bb)
+	hasExtensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_x2tnlconfiginfo, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	opt_ieextensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	toleranceMark_transfertype := bb.EnterComponent("Transfertype")
+	if err := s31.BridgeENDCSONTransferTypeMethodUnmarshalAPERFrom(&v.Transfertype, bb); err != nil {
+		return runtime.WrapDecodePath(err, "Transfertype")
+	}
+	bb.LeaveComponent(toleranceMark_transfertype)
+	toleranceMark_soninformation := bb.EnterComponent("SONInformation")
+	if err := v.SONInformation.unmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SONInformation")
+	}
+	bb.LeaveComponent(toleranceMark_soninformation)
+	if opt_x2tnlconfiginfo {
+		toleranceMark_x2tnlconfiginfo := bb.EnterComponent("X2TNLConfigInfo")
+		var dec_x2tnlconfiginfo s50.X2TNLConfigurationInfo
+		if err := s50.BridgeX2TNLConfigurationInfoMethodUnmarshalAPERFrom(&dec_x2tnlconfiginfo, bb); err != nil {
+			return runtime.WrapDecodePath(err, "X2TNLConfigInfo")
+		}
+		if err := aper.ChargeValue(bb, dec_x2tnlconfiginfo); err != nil {
+			return err
+		}
+		v.X2TNLConfigInfo = &dec_x2tnlconfiginfo
+		bb.LeaveComponent(toleranceMark_x2tnlconfiginfo)
+	}
+	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
+		tmp_ieextensions := make(s08.ENDCSONConfigurationTransferExtIEsExtContainer, 0)
+		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem s08.ENDCSONConfigurationTransferExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
+				if err := s08.BridgeENDCSONConfigurationTransferExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
+					return err
+				} else {
+					tmp_ieextensions = next
+				}
+			}
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
+		}
+		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
+	}
+	if hasExtensions {
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "ExtData_")
+		}
+		v.extCount = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:625
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
+			return err
+		}
+		v.extData = make([][]byte, len(extPresent))
+		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
+		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extWire = make([]aper.WireSpan, len(v.extData))
+		v.extPresent = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:628
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] && extAdditions.Received(bb, i) {
+				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4"})
+				if err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
+				}
+				opaque = opaque.WithPath("Extensions")
+				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
+					return err
+				}
+				var retained aper.WireSpan
+				opaque.RetainContents(&retained)
+				v.extWire[i] = retained
+				v.extOrigin[i] = opaque.WithPath("Extensions").Origin()
+			}
+		}
+		if extAdditions.Emptied() {
+			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
+			v.extOrigin = nil
+			v.extWire = nil
+		}
+	}
+
+	{
+		v.perPadding = extAdditions.Record(v.perPadding)
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// MarshalAPER encodes SONInformation to APER format.
+func (v *SONInformation) marshalAPERLegacy() ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := v.marshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithPadding(v.perPadding)
+}
+func (v *SONInformation) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(
+				previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.
+			ReplayTo(bb); ok || err != nil {
+			return err
+		}
+	}
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	if v.UnknownExtension != nil {
+		if v.Choice != 0 {
+			return fmt.Errorf("%s known choice %d and unknown extension are both selected", "SONInformation:", v.Choice)
+		}
+		if v.UnknownExtension.Index() < 0 {
+			return fmt.Errorf("%s extension index %d must be non-negative", "SONInformation:", v.UnknownExtension.Index())
+		}
+		if v.UnknownExtension.Index() < 1 {
+			return fmt.Errorf("%s extension index %d is known to this schema", "SONInformation:", v.UnknownExtension.Index())
+		}
+		if err := aper.EncodeBoolean(bb, true); err != nil {
+			return err
+		}
+		if err := aper.EncodeNormallySmallNonNegativeAligned(bb, v.UnknownExtension.Index()); err != nil {
+			return err
+		}
+		return v.UnknownExtension.EncodeTo(bb)
+	}
+	if v.Choice < 1 {
+		return fmt.Errorf("%s choice %d must be positive", "SONInformation:", v.Choice)
+	}
+	isExtension := v.Choice > 2
+	if err := aper.EncodeBoolean(bb, isExtension); err != nil {
+		return err
+	}
+	if isExtension {
+		// arithmetic pattern APER_CHOICE_EXT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:117
+		if v.Choice <= 2 {
+			return fmt.Errorf("extension choice index outside root")
+		}
+		if err := aper.EncodeNormallySmallNonNegativeAligned(bb, int64(v.Choice-2-1)); err != nil {
+			return err
+		}
+		inner := aper.NewBudgetBuffer(bb.Budget())
+		switch v.Choice {
+		case s00.SONInformationChoiceSONInformationExtension:
+			if v.SONInformationExtension == nil {
+				return fmt.Errorf("choice alternative sONInformation-Extension is nil")
+			}
+			if err := s20.BridgeSONInformationExtensionMethodMarshalAPERTo(v.SONInformationExtension, inner, len(fresh) != 0 && fresh[0]); err != nil {
+				return fmt.Errorf("encoding sONInformation-Extension: %w", err)
+			}
+		default:
+			return fmt.Errorf("unknown SONInformation extension choice %d", v.Choice)
+		}
+		openBytes, err := inner.CompleteBytesWithPadding(s07.BridgeFreshCompletePadding(v.perOpenTypePadding, fresh...))
+		if err != nil {
+			return err
+		}
+		if err := aper.EncodeOpenTypeAligned(bb, openBytes); err != nil {
+			return err
+		}
+		return nil
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_ENCODE: choice index fits the emitted representation; gen/codegen_aper.go:149
+	if v.Choice < 1 {
+		return fmt.Errorf("choice index outside root")
+	}
+	if err := aper.EncodeConstrainedWholeNumberAligned(bb, int64(v.Choice-1), 0, 1); err != nil {
+		return err
+	}
+	switch v.Choice {
+	case s00.SONInformationChoiceSONInformationRequest:
+		if v.SONInformationRequest == nil {
+			return fmt.Errorf("choice alternative sONInformationRequest is nil")
+		}
+		if err := aper.EncodeEnumeratedAligned(bb, int64(*v.SONInformationRequest), 1, true); err != nil {
+			return fmt.Errorf("encoding sONInformationRequest: %w", err)
+		}
+	case s00.SONInformationChoiceSONInformationReply:
+		if v.SONInformationReply == nil {
+			return fmt.Errorf("choice alternative sONInformationReply is nil")
+		}
+		if err := s50.BridgeSONInformationReplyMethodMarshalAPERTo(v.SONInformationReply, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			return fmt.Errorf("encoding sONInformationReply: %w", err)
+		}
+	default:
+		return fmt.Errorf("unknown SONInformation choice %d", v.Choice)
+	}
+	return nil
+}
+
+// UnmarshalAPER decodes SONInformation from APER format.
+func (v *SONInformation) unmarshalAPERLegacy(data []byte) error {
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
+}
+
+// UnmarshalAPERWithOptions decodes SONInformation with explicit receiver options:
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *SONInformation) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "SONInformation")
+	}
+	bb.EnterComponent("SONInformation")
+	if err := v.unmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SONInformation")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "SONInformation")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SONInformation")
+	}
+	v.perPadding = padding.Padding()
+	return nil
+}
+func (v *SONInformation) unmarshalAPERFrom(bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = SONInformation{}
+	isExtension, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	if isExtension {
+		extIdx, err := aper.DecodeNormallySmallNonNegativeAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "UnknownExtension")
+		}
+		openExtension, err := aper.DecodeChoiceExtensionAligned(bb, extIdx)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "UnknownExtension")
+		}
+		if extIdx >= 1 {
+			if err := openExtension.ObserveUnknown(bb); err != nil {
+				return err
+			}
+			v.UnknownExtension = &openExtension
+			v.stream = bb.CaptureWireSpan(replayStart)
+
+			return nil
+		}
+		inner := openExtension.ChildDecodeBuffer(bb)
+		if err := inner.EnterOpenType(); err != nil {
+			return err
+		}
+		defer inner.LeaveOpenType()
+		// arithmetic pattern APER_CHOICE_EXT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:206
+		if extIdx < 0 || extIdx >= int64(^uint(0)>>1)-int64(2) {
+			return fmt.Errorf("extension choice index exceeds host int")
+		}
+		v.Choice = int(extIdx) + 2 + 1
+		extensionPath := "UnknownExtension"
+		switch v.Choice {
+		case s00.SONInformationChoiceSONInformationExtension:
+			extensionPath = "SONInformationExtension"
+			toleranceMark_soninformationextension := inner.EnterComponent("SONInformationExtension")
+			var dec_soninformationextension s20.SONInformationExtension
+			if err := s20.BridgeSONInformationExtensionMethodUnmarshalAPERFrom(&dec_soninformationextension, inner); err != nil {
+				return runtime.WrapDecodePath(err, "SONInformationExtension")
+			}
+			if err := aper.ChargeValue(inner, dec_soninformationextension); err != nil {
+				return err
+			}
+			v.SONInformationExtension = &dec_soninformationextension
+			inner.LeaveComponent(toleranceMark_soninformationextension)
+		}
+		paddingMark := inner.EnterComponent(extensionPath)
+		padding, err := aper.CaptureOpenTypePadding(inner)
+		inner.LeaveComponent(paddingMark)
+		if err != nil {
+			return runtime.WrapDecodePath(err, extensionPath)
+		}
+		v.perOpenTypePadding = padding
+		v.stream = bb.CaptureWireSpan(replayStart)
+
+		return nil
+	}
+	idx, err := aper.DecodeConstrainedWholeNumberAligned(bb, 0, 1)
+	if err != nil {
+		return err
+	}
+	// arithmetic pattern APER_CHOICE_ROOT_DECODE: choice index fits the emitted representation; gen/codegen_aper.go:236
+	if idx < 0 || idx >= int64(^uint(0)>>1) {
+		return fmt.Errorf("choice index exceeds host int")
+	}
+	v.Choice = int(idx) + 1
+	switch v.Choice {
+	case s00.SONInformationChoiceSONInformationRequest:
+		val_soninformationrequest, err := aper.DecodeEnumeratedAligned(bb, 1, true, aper.EnumerationSource{KnownExtensions: 3, Path: "SONInformationRequest"})
+		if err != nil {
+			return runtime.WrapDecodePath(err, "SONInformationRequest")
+		}
+		tmp_soninformationrequest := s00.SONInformationRequest(val_soninformationrequest)
+		if err := aper.ChargeValue(bb, tmp_soninformationrequest); err != nil {
+			return err
+		}
+		v.SONInformationRequest = (*s00.SONInformationRequest)(bb.OwnInt64(int64(tmp_soninformationrequest)))
+
+	case s00.SONInformationChoiceSONInformationReply:
+		toleranceMark_soninformationreply := bb.EnterComponent("SONInformationReply")
+		var dec_soninformationreply s50.SONInformationReply
+		if err := s50.BridgeSONInformationReplyMethodUnmarshalAPERFrom(&dec_soninformationreply, bb); err != nil {
+			return runtime.WrapDecodePath(err, "SONInformationReply")
+		}
+		if err := aper.ChargeValue(bb, dec_soninformationreply); err != nil {
+			return err
+		}
+		v.SONInformationReply = &dec_soninformationreply
+		bb.LeaveComponent(toleranceMark_soninformationreply)
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// MarshalAPER encodes SONConfigurationTransfer to APER format.
+func (v *SONConfigurationTransfer) marshalAPERLegacy() ([]byte, error) {
+	bb := aper.NewBitBuffer()
+	if err := v.marshalAPERTo(bb); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithFinalPadding(v.perPadding)
+}
+func (v *SONConfigurationTransfer) marshalAPERTo(bb *aper.BitBuffer, fresh ...bool) error {
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+	if len(fresh) > 0 && fresh[0] {
+		previous := bb.SuspendReplayPlan()
+		defer bb.
+			RestoreReplayPlan(
+				previous)
+	}
+	if v != nil && bb.ReplayPlan() != nil && bb.ReplayPlan().Unchanged(v.replay) && !v.withoutReplay {
+		if ok, err := v.stream.
+			ReplayTo(bb); ok || err != nil {
+			return err
+		}
+	}
+	extensionEncodingData, extensionCopyErr := aper.CopyExtensionContents(v.extData,
+		v.extWire,
+
+		bb.Budget())
+	if extensionCopyErr != nil {
+		return extensionCopyErr
+	}
+
+	if v.withoutReplay {
+		fresh = []bool{true}
+	}
+
+	extensionCount := v.extCount
+	if len(fresh) != 0 && fresh[0] {
+		extensionCount, _ = s14.BridgePreferredSequenceTail(v.extPresent, extensionEncodingData)
+	}
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+
+	recoveryStart := bb.BitsWritten()
+	hasExtensions := false
+	for i, present := range v.extPresent {
+		if i >= 0 {
+			hasExtensions = hasExtensions || present
+		}
+	}
+	for i, data := range extensionEncodingData {
+		if i >= 0 {
+			hasExtensions = hasExtensions || data != nil
+		}
+	}
+	if err := aper.EncodeBoolean(bb, hasExtensions); err != nil {
+		return err
+	}
+	// Preamble bitmap for optional root fields
+	if err := aper.EncodeBoolean(bb, v.IEExtensions != nil); err != nil {
+		return err
+	}
+	if err := s34.BridgeTargeteNBIDMethodMarshalAPERTo(&v.TargeteNBID, bb, len(fresh) != 0 && fresh[0]); err != nil {
+		return fmt.Errorf("encoding targeteNB-ID: %w", err)
+	}
+	if err := s32.BridgeSourceeNBIDMethodMarshalAPERTo(&v.SourceeNBID, bb, len(fresh) != 0 && fresh[0]); err != nil {
+		return fmt.Errorf("encoding sourceeNB-ID: %w", err)
+	}
+	if err := v.SONInformation.marshalAPERTo(bb, len(fresh) != 0 && fresh[0]); err != nil {
+		return fmt.Errorf("encoding sONInformation: %w", err)
+	}
+	if v.IEExtensions != nil {
+		if err := aper.EncodeCollection(bb, int64(len(v.IEExtensions)), aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern PER_FRAGMENT_SLICE: fragment window lies inside the collection; gen/codegen_per_collection.go:56
+			if fragmentOffset_ieextensions < 0 || fragmentOffset_ieextensions > int64(len(v.IEExtensions)) || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(len(v.IEExtensions[fragmentOffset_ieextensions:])) {
+				return fmt.Errorf("collection fragment outside value")
+			}
+			for _, elem := range v.IEExtensions[fragmentOffset_ieextensions : fragmentOffset_ieextensions+fragmentLength_ieextensions] {
+				if err := s50.BridgeSONConfigurationTransferExtIEsExtFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+					return fmt.Errorf("encoding iE-Extensions element: %w", err)
+				}
+			}
+			return nil
+		}); err != nil {
+			return fmt.Errorf("encoding iE-Extensions: %w", err)
+		}
+	}
+	if hasExtensions {
+		extCount := extensionCount
+		// ITU-T X.691 (02/2021) 19.8 and 11.9.3.4: bitmap length is extCount+1.
+		// arithmetic pattern APER_EXT_BITMAP_LENGTH: 0 <= extCount < 16383; gen/codegen_aper.go:437
+		if extCount < 0 || extCount >= 16383 {
+			return fmt.Errorf("%w: extension bitmap index %d", aper.ErrUnsupportedFragmentedNormallySmallLength, extCount)
+		}
+		if err := aper.EncodeNormallySmallLengthAligned(bb, extCount+1); err != nil {
+			return err
+		}
+		// arithmetic pattern APER_EXT_VALUE_1: 0 <= extCount < max int; gen/codegen_aper.go:441
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			p := (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil)
+			if err := aper.EncodeBoolean(bb, p); err != nil {
+				return err
+			}
+		}
+		// arithmetic pattern APER_EXT_VALUE_2: 0 <= extCount < max int; gen/codegen_aper.go:448
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if (i < int64(len(v.extPresent)) && v.extPresent[i]) || (i < int64(len(extensionEncodingData)) && extensionEncodingData[i] != nil) {
+				var data []byte
+				if i < int64(len(extensionEncodingData)) {
+					data = extensionEncodingData[i]
+				}
+				if err := aper.EncodeOpenTypeAligned(bb, data); err != nil {
+					return err
+				}
+			}
+		}
+	}
+	aper.AppendExtensionRecovery(bb, v.perPadding, recoveryStart)
+	aper.AppendTruncatedExtension(bb, v.perPadding)
+	return nil
+}
+
+// UnmarshalAPER decodes SONConfigurationTransfer from APER format.
+func (v *SONConfigurationTransfer) unmarshalAPERLegacy(data []byte) error {
+	return v.unmarshalAPERWithOptions(data, aper.DecodeState{})
+}
+
+// UnmarshalAPERWithOptions decodes SONConfigurationTransfer with explicit receiver options:
+// TruncatedExtensionTolerance, ExtensionRecoveryTolerance and
+// MaxZeroWidthCharacters (see
+// aper.BitBuffer.SetDecodeOptionsAligned).
+func (v *SONConfigurationTransfer) unmarshalAPERWithOptions(data []byte, options aper.DecodeState) error {
+	bb := aper.NewCompleteDecodeBuffer(data, options)
+	if err := bb.SetDecodeOptionsAligned(options); err != nil {
+		return runtime.WrapDecodePath(err, "SONConfigurationTransfer")
+	}
+	bb.EnterComponent("SONConfigurationTransfer")
+	if err := v.unmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SONConfigurationTransfer")
+	}
+	padding, err := aper.CaptureFinalBits(bb, "SONConfigurationTransfer")
+	if err != nil {
+		return runtime.WrapDecodePath(err, "SONConfigurationTransfer")
+	}
+	v.perPadding = padding.WithRecords(v.perPadding)
+	return nil
+}
+func (v *SONConfigurationTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
+	replayStart := bb.BitPos()
+
+	if err := bb.EnterDecodeValue(); err != nil {
+		return err
+	}
+	defer bb.LeaveDecodeValue()
+	*v = SONConfigurationTransfer{}
+	extAdditions := aper.BeginExtensionAdditions(bb)
+	hasExtensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	// Read preamble bitmap for optional root fields
+	opt_ieextensions, err := aper.DecodeBoolean(bb)
+	if err != nil {
+		return err
+	}
+	toleranceMark_targetenbid := bb.EnterComponent("TargeteNBID")
+	if err := s34.BridgeTargeteNBIDMethodUnmarshalAPERFrom(&v.TargeteNBID, bb); err != nil {
+		return runtime.WrapDecodePath(err, "TargeteNBID")
+	}
+	bb.LeaveComponent(toleranceMark_targetenbid)
+	toleranceMark_sourceenbid := bb.EnterComponent("SourceeNBID")
+	if err := s32.BridgeSourceeNBIDMethodUnmarshalAPERFrom(&v.SourceeNBID, bb); err != nil {
+		return runtime.WrapDecodePath(err, "SourceeNBID")
+	}
+	bb.LeaveComponent(toleranceMark_sourceenbid)
+	toleranceMark_soninformation := bb.EnterComponent("SONInformation")
+	if err := v.SONInformation.unmarshalAPERFrom(bb); err != nil {
+		return runtime.WrapDecodePath(err, "SONInformation")
+	}
+	bb.LeaveComponent(toleranceMark_soninformation)
+	if opt_ieextensions {
+		toleranceMark_ieextensions := bb.EnterComponent("IEExtensions")
+		tmp_ieextensions := make(s50.SONConfigurationTransferExtIEsExtContainer, 0)
+		_, errCollection_ieextensions := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 1, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_ieextensions, fragmentLength_ieextensions int64) error {
+			// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
+			if fragmentOffset_ieextensions < 0 || fragmentLength_ieextensions < 0 || fragmentLength_ieextensions > int64(^uint(0)>>1) || fragmentOffset_ieextensions > int64(^uint(0)>>1)-fragmentLength_ieextensions {
+				return fmt.Errorf("collection fragment count out of range")
+			}
+			for i := int64(0); i < fragmentLength_ieextensions; i++ {
+				var elem s50.SONConfigurationTransferExtIEsExtField
+				elementMark := bb.EnterIndex(fragmentOffset_ieextensions + i)
+				if err := s50.BridgeSONConfigurationTransferExtIEsExtFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("IEExtensions[%d]", fragmentOffset_ieextensions+i))
+				}
+				bb.LeaveComponent(elementMark)
+				if next, err := aper.AppendValues(bb, tmp_ieextensions, elem); err != nil {
+					return err
+				} else {
+					tmp_ieextensions = next
+				}
+			}
+			return nil
+		})
+		if errCollection_ieextensions != nil {
+			return runtime.WrapDecodePath(errCollection_ieextensions, "IEExtensions")
+		}
+		v.IEExtensions = tmp_ieextensions
+		bb.LeaveComponent(toleranceMark_ieextensions)
+	}
+	if hasExtensions {
+		extCount, extPresent, err := extAdditions.DecodeBitmapAligned(bb)
+		if err != nil {
+			return runtime.WrapDecodePath(err, "ExtData_")
+		}
+		v.extCount = extCount
+		// arithmetic pattern APER_EXT_COUNT_ALLOC_3: 0 <= extCount < max int; gen/codegen_aper.go:625
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		if err := aper.ChargeSlice[[]byte](bb, uint64(len(extPresent))); err != nil {
+			return err
+		}
+		v.extData = make([][]byte, len(extPresent))
+		if err := aper.ChargeSlice[aper.OpaqueOrigin](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extOrigin = make([]aper.OpaqueOrigin, len(v.extData))
+		if err := aper.ChargeSlice[aper.WireSpan](bb, uint64(len(v.extData))); err != nil {
+			return err
+		}
+		v.extWire = make([]aper.WireSpan, len(v.extData))
+		v.extPresent = extPresent
+		// arithmetic pattern APER_EXT_COUNT_LOOP_2: 0 <= extCount < max int; gen/codegen_aper.go:628
+		if extCount < 0 || extCount >= int64(^uint(0)>>1) {
+			return fmt.Errorf("extension count out of range")
+		}
+		for i := int64(0); i <= extCount; i++ {
+			if extPresent[i] && extAdditions.Received(bb, i) {
+				opaque, err := aper.DecodeOpaqueOpenTypeAligned(bb, aper.UnknownSelector, aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4"})
+				if err != nil {
+					return runtime.WrapDecodePath(err, fmt.Sprintf("ExtData_[%d]", i))
+				}
+				opaque = opaque.WithPath("Extensions")
+				if err := opaque.ObserveIndexed(aper.UnknownExtension, i); err != nil {
+					return err
+				}
+				var retained aper.WireSpan
+				opaque.RetainContents(&retained)
+				v.extWire[i] = retained
+				v.extOrigin[i] = opaque.WithPath("Extensions").Origin()
+			}
+		}
+		if extAdditions.Emptied() {
+			v.extCount, v.extPresent, v.extData, v.perExtPadding = 0, nil, nil, nil
+			v.extOrigin = nil
+			v.extWire = nil
+		}
+	}
+
+	{
+		v.perPadding = extAdditions.Record(v.perPadding)
+	}
+	v.stream = bb.CaptureWireSpan(replayStart)
+
+	return nil
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *ENDCSONConfigurationTransfer) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s14.BridgeReceivedFormAt(v.received, v.receivedBytes, "ENDCSONConfigurationTransfer", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "ENDCSONConfigurationTransfer", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v ENDCSONConfigurationTransfer) WithoutReplay() ENDCSONConfigurationTransfer {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero ENDCSONConfigurationTransfer
+	v.perPadding = zero.perPadding
+	v.perExtPadding = nil
+	return v
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *SONConfigurationTransfer) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s14.BridgeReceivedFormAt(v.received, v.receivedBytes, "SONConfigurationTransfer", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "SONConfigurationTransfer", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v SONConfigurationTransfer) WithoutReplay() SONConfigurationTransfer {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero SONConfigurationTransfer
+	v.perPadding = zero.perPadding
+	v.perExtPadding = nil
+	return v
+}
+
+// ReceivedForm returns an owned view of the complete value's original bytes.
+func (v *SONInformation) ReceivedForm() aper.ReceivedForm {
+	if v == nil {
+		return aper.ReceivedForm{}
+	}
+	if v.receivedLocation.HasWireLocation {
+		return s14.BridgeReceivedFormAt(v.received, v.receivedBytes, "SONInformation", v.receivedLocation, v.perPadding)
+	}
+	return aper.NewCompleteReceivedSpanForm(v.received, v.receivedBytes, "SONInformation", v.receivedAbsolute, v.perPadding)
+}
+
+// WithoutReplay clears private received framing for a fresh complete encoding.
+func (v SONInformation) WithoutReplay() SONInformation {
+	v.withoutReplay = true
+	v.received = false
+	v.receivedAbsolute = false
+	v.receivedBytes = aper.WireSpan{}
+	v.receivedLocation = aper.Location{}
+	var zero SONInformation
+	v.perPadding = zero.perPadding
+	return v
+}
+
+// Extensions returns owned unknown sequence additions.
+func (v *ENDCSONConfigurationTransfer) Extensions() []aper.SequenceExtension {
+	if v == nil {
+		return nil
+	}
+	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
+	return views
+}
+
+// SetExtension stores an owned unknown sequence addition.
+func (v *ENDCSONConfigurationTransfer) SetExtension(index uint64, contents []byte) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ENDCSONConfigurationTransfer.Extensions[%d]", index))
+	}
+	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ENDCSONConfigurationTransfer.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// RemoveExtension removes one unknown sequence addition.
+func (v *ENDCSONConfigurationTransfer) RemoveExtension(index uint64) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("ENDCSONConfigurationTransfer.Extensions[%d]", index))
+	}
+	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("ENDCSONConfigurationTransfer.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// Extensions returns owned unknown sequence additions.
+func (v *SONConfigurationTransfer) Extensions() []aper.SequenceExtension {
+	if v == nil {
+		return nil
+	}
+	views := aper.SequenceExtensionViews(v.extPresent, aper.ExtensionContents(v.extData, v.extWire), v.extOrigin)
+	return views
+}
+
+// SetExtension stores an owned unknown sequence addition.
+func (v *SONConfigurationTransfer) SetExtension(index uint64, contents []byte) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("SONConfigurationTransfer.Extensions[%d]", index))
+	}
+	if err := aper.SetSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index, contents); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("SONConfigurationTransfer.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// RemoveExtension removes one unknown sequence addition.
+func (v *SONConfigurationTransfer) RemoveExtension(index uint64) error {
+	if v == nil {
+		return runtime.WrapDecodePath(aper.ErrInvalidValue, fmt.Sprintf("SONConfigurationTransfer.Extensions[%d]", index))
+	}
+	if err := aper.RemoveSequenceExtension(&v.extCount, &v.extPresent, &v.extData, &v.extOrigin, index); err != nil {
+		return runtime.WrapDecodePath(err, fmt.Sprintf("SONConfigurationTransfer.Extensions[%d]", index))
+	}
+	if index < uint64(len(v.extWire)) {
+		v.extWire[index] = aper.WireSpan{}
+	}
+	v.perExtPadding = nil
+	return nil
+}
+
+// MarshalAPER encodes a complete value using one per-call change plan.
+func (v *ENDCSONConfigurationTransfer) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "ENDCSONConfigurationTransfer")
+	}
+	return v.marshalAPERBudgetValue(budget, aper.EncodeWithoutReplay(options...))
+}
+func (v *ENDCSONConfigurationTransfer) marshalAPERBudgetValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "ENDCSONConfigurationTransfer")
+	}
+	fresh = fresh || v.withoutReplay
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		BridgeCompareS1APENDCSONConfigurationTransfer(v, &s)
+		budget = s.BudgetValue()
+		decisions := s.Plan()
+		if s.Err() != nil {
+			return nil, aper.OperationError(s.Err(), "ENDCSONConfigurationTransfer")
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			out, err := aper.CopyReplay(v.receivedBytes, &budget)
+			return out, aper.OperationError(err, "ENDCSONConfigurationTransfer")
+		}
+		return v.marshalAPERChangedValue(budget, fresh, decisions)
+	}
+	return v.marshalAPERNewValue(budget, fresh)
+}
+func (v *ENDCSONConfigurationTransfer) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	out, err := v.marshalAPERPlanned(&budget, fresh, &plan)
+	return out, aper.OperationError(err, "ENDCSONConfigurationTransfer")
+}
+func (v *ENDCSONConfigurationTransfer) marshalAPERNewValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	out, err := v.marshalAPERPlanned(&budget, fresh, nil)
+	return out, aper.OperationError(err, "ENDCSONConfigurationTransfer")
+}
+func (v *ENDCSONConfigurationTransfer) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		BridgeCompareS1APENDCSONConfigurationTransfer(v, &s)
+		decisions := s.Plan()
+		*budget = s.BudgetValue()
+		if s.Err() != nil {
+			return nil, s.Err()
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return aper.CopyReplay(v.receivedBytes, budget)
+		}
+		return v.marshalAPERChanged(budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return aper.CopyReplay(v.receivedBytes, budget)
+	}
+	return v.marshalAPERPlanned(budget, fresh, plan)
+}
+func (v *ENDCSONConfigurationTransfer) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERPlanned(budget, fresh, &plan)
+}
+func (v *ENDCSONConfigurationTransfer) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool, plan *aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
+	budget.SetReplayPlan(plan)
+	defer budget.SetReplayPlan(previous)
+	if fresh {
+		budget.SetReplayPlan(nil)
+	}
+	bb := aper.NewBudgetBuffer(budget)
+	if fresh {
+		copy := v.WithoutReplay()
+		v = &copy
+	}
+	if err := v.marshalAPERTo(bb, fresh); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithFinalPadding(v.perPadding)
+}
+
+// MarshalAPER encodes a complete value using one per-call change plan.
+func (v *SONConfigurationTransfer) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "SONConfigurationTransfer")
+	}
+	return v.marshalAPERBudgetValue(budget, aper.EncodeWithoutReplay(options...))
+}
+func (v *SONConfigurationTransfer) marshalAPERBudgetValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "SONConfigurationTransfer")
+	}
+	fresh = fresh || v.withoutReplay
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		BridgeCompareS1APSONConfigurationTransfer(v, &s)
+		budget = s.BudgetValue()
+		decisions := s.Plan()
+		if s.Err() != nil {
+			return nil, aper.OperationError(s.Err(), "SONConfigurationTransfer")
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			out, err := aper.CopyReplay(v.receivedBytes, &budget)
+			return out, aper.OperationError(err, "SONConfigurationTransfer")
+		}
+		return v.marshalAPERChangedValue(budget, fresh, decisions)
+	}
+	return v.marshalAPERNewValue(budget, fresh)
+}
+func (v *SONConfigurationTransfer) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	out, err := v.marshalAPERPlanned(&budget, fresh, &plan)
+	return out, aper.OperationError(err, "SONConfigurationTransfer")
+}
+func (v *SONConfigurationTransfer) marshalAPERNewValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	out, err := v.marshalAPERPlanned(&budget, fresh, nil)
+	return out, aper.OperationError(err, "SONConfigurationTransfer")
+}
+func (v *SONConfigurationTransfer) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		BridgeCompareS1APSONConfigurationTransfer(v, &s)
+		decisions := s.Plan()
+		*budget = s.BudgetValue()
+		if s.Err() != nil {
+			return nil, s.Err()
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return aper.CopyReplay(v.receivedBytes, budget)
+		}
+		return v.marshalAPERChanged(budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return aper.CopyReplay(v.receivedBytes, budget)
+	}
+	return v.marshalAPERPlanned(budget, fresh, plan)
+}
+func (v *SONConfigurationTransfer) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERPlanned(budget, fresh, &plan)
+}
+func (v *SONConfigurationTransfer) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool, plan *aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
+	budget.SetReplayPlan(plan)
+	defer budget.SetReplayPlan(previous)
+	if fresh {
+		budget.SetReplayPlan(nil)
+	}
+	bb := aper.NewBudgetBuffer(budget)
+	if fresh {
+		copy := v.WithoutReplay()
+		v = &copy
+	}
+	if err := v.marshalAPERTo(bb, fresh); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithFinalPadding(v.perPadding)
+}
+
+// MarshalAPER encodes a complete value using one per-call change plan.
+func (v *SONInformation) MarshalAPER(options ...aper.EncodeOption) ([]byte, error) {
+	budget, err := aper.EncodeBudgetValue(options...)
+	if err != nil {
+		return nil, aper.OperationError(err, "SONInformation")
+	}
+	return v.marshalAPERBudgetValue(budget, aper.EncodeWithoutReplay(options...))
+}
+func (v *SONInformation) marshalAPERBudgetValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.OperationError(aper.ErrInvalidValue, "SONInformation")
+	}
+	fresh = fresh || v.withoutReplay
+	if !fresh && v.replay.Present() {
+		s := aper.NewSemanticComparison(v.replay, budget)
+		BridgeCompareS1APSONInformation(v, &s)
+		budget = s.BudgetValue()
+		decisions := s.Plan()
+		if s.Err() != nil {
+			return nil, aper.OperationError(s.Err(), "SONInformation")
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			out, err := aper.CopyReplay(v.receivedBytes, &budget)
+			return out, aper.OperationError(err, "SONInformation")
+		}
+		return v.marshalAPERChangedValue(budget, fresh, decisions)
+	}
+	return v.marshalAPERNewValue(budget, fresh)
+}
+func (v *SONInformation) marshalAPERChangedValue(budget aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	out, err := v.marshalAPERPlanned(&budget, fresh, &plan)
+	return out, aper.OperationError(err, "SONInformation")
+}
+func (v *SONInformation) marshalAPERNewValue(budget aper.DecodeBudget, fresh bool) ([]byte, error) {
+	out, err := v.marshalAPERPlanned(&budget, fresh, nil)
+	return out, aper.OperationError(err, "SONInformation")
+}
+func (v *SONInformation) marshalAPERBudget(budget *aper.DecodeBudget, fresh bool) ([]byte, error) {
+	if v == nil {
+		return nil, aper.ErrInvalidValue
+	}
+	fresh = fresh || v.withoutReplay
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if !fresh && v.replay.Present() && plan == nil {
+		s := aper.NewSemanticComparison(v.replay, *budget)
+		BridgeCompareS1APSONInformation(v, &s)
+		decisions := s.Plan()
+		*budget = s.BudgetValue()
+		if s.Err() != nil {
+			return nil, s.Err()
+		}
+		if decisions.Unchanged(v.replay) && v.received {
+			return aper.CopyReplay(v.receivedBytes, budget)
+		}
+		return v.marshalAPERChanged(budget, fresh, decisions)
+	}
+	if !fresh && plan != nil && plan.Unchanged(v.replay) && v.received {
+		return aper.CopyReplay(v.receivedBytes, budget)
+	}
+	return v.marshalAPERPlanned(budget, fresh, plan)
+}
+func (v *SONInformation) marshalAPERChanged(budget *aper.DecodeBudget, fresh bool, plan aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERPlanned(budget, fresh, &plan)
+}
+func (v *SONInformation) marshalAPERPlanned(budget *aper.DecodeBudget, fresh bool, plan *aper.ReplayPlan) ([]byte, error) {
+	previous := aper.NewBudgetBuffer(budget).ReplayPlan()
+	budget.SetReplayPlan(plan)
+	defer budget.SetReplayPlan(previous)
+	if fresh {
+		budget.SetReplayPlan(nil)
+	}
+	bb := aper.NewBudgetBuffer(budget)
+	if fresh {
+		copy := v.WithoutReplay()
+		v = &copy
+	}
+	if err := v.marshalAPERTo(bb, fresh); err != nil {
+		return nil, err
+	}
+	return bb.CompleteBytesWithPadding(v.perPadding)
+}
+
+// UnmarshalAPER decodes one complete value and returns its report.
+func (v *ENDCSONConfigurationTransfer) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "ENDCSONConfigurationTransfer")
+	}
+	data, state := aper.StartDecode(data, options...)
+	var decoded ENDCSONConfigurationTransfer
+	err := decoded.unmarshalAPERWithOptions(data, state)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(state)
+		BridgeCaptureS1APENDCSONConfigurationTransfer(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(state, err)
+	if err != nil {
+		*v = ENDCSONConfigurationTransfer{}
+		return report, aper.OperationError(err, "ENDCSONConfigurationTransfer")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "ENDCSONConfigurationTransfer")
+}
+
+// UnmarshalAPER decodes one complete value and returns its report.
+func (v *SONConfigurationTransfer) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "SONConfigurationTransfer")
+	}
+	data, state := aper.StartDecode(data, options...)
+	var decoded SONConfigurationTransfer
+	err := decoded.unmarshalAPERWithOptions(data, state)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(state)
+		BridgeCaptureS1APSONConfigurationTransfer(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(state, err)
+	if err != nil {
+		*v = SONConfigurationTransfer{}
+		return report, aper.OperationError(err, "SONConfigurationTransfer")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "SONConfigurationTransfer")
+}
+
+// UnmarshalAPER decodes one complete value and returns its report.
+func (v *SONInformation) UnmarshalAPER(data []byte, options ...aper.DecodeOption) (aper.DecodeReport, error) {
+	if v == nil {
+		return aper.DecodeReport{}, aper.OperationError(aper.ErrInvalidValue, "SONInformation")
+	}
+	data, state := aper.StartDecode(data, options...)
+	var decoded SONInformation
+	err := decoded.unmarshalAPERWithOptions(data, state)
+	if err == nil {
+		decoded.received = true
+		decoded.receivedAbsolute = true
+		decoded.receivedBytes = aper.OriginalWire(data)
+		s := aper.SemanticCaptureFor(state)
+		BridgeCaptureS1APSONInformation(&decoded, &s)
+	}
+	report, err := aper.FinishDecode(state, err)
+	if err != nil {
+		*v = SONInformation{}
+		return report, aper.OperationError(err, "SONInformation")
+	}
+	*v = decoded
+	return report, aper.OperationError(nil, "SONInformation")
+}
+
+// NewSONInformationSONInformationRequest constructs a checked complete value.
+func NewSONInformationSONInformationRequest(v s00.SONInformationRequest, options ...aper.BuildOption) (SONInformation, error) {
+	budget, err := aper.BuildBudget(options...)
+	if err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationSONInformationRequest")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), v); err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationSONInformationRequest")
+	}
+	value := BridgeNewSONInformationSONInformationRequestLegacy(v)
+	if _, err := (&value).marshalAPERBudget(budget, false); err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationSONInformationRequest")
+	}
+	return value, aper.OperationError(nil, "SONInformationSONInformationRequest")
+}
+
+// NewSONInformationSONInformationReply constructs a checked complete value.
+func NewSONInformationSONInformationReply(v s50.SONInformationReply, options ...aper.BuildOption) (SONInformation, error) {
+	budget, err := aper.BuildBudget(options...)
+	if err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationSONInformationReply")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), v); err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationSONInformationReply")
+	}
+	value := BridgeNewSONInformationSONInformationReplyLegacy(v)
+	if _, err := (&value).marshalAPERBudget(budget, false); err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationSONInformationReply")
+	}
+	return value, aper.OperationError(nil, "SONInformationSONInformationReply")
+}
+
+// NewSONInformationSONInformationExtension constructs a checked complete value.
+func NewSONInformationSONInformationExtension(v s20.SONInformationExtension, options ...aper.BuildOption) (SONInformation, error) {
+	budget, err := aper.BuildBudget(options...)
+	if err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationSONInformationExtension")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), v); err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationSONInformationExtension")
+	}
+	value := BridgeNewSONInformationSONInformationExtensionLegacy(v)
+	if _, err := (&value).marshalAPERBudget(budget, false); err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationSONInformationExtension")
+	}
+	return value, aper.OperationError(nil, "SONInformationSONInformationExtension")
+}
+
+// NewSONInformationUnknownExtension builds a checked, owned unknown CHOICE alternative.
+func NewSONInformationUnknownExtension(index uint64, contents []byte, options ...aper.BuildOption) (SONInformation, error) {
+	budget, err := aper.BuildBudget(options...)
+	if err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationUnknownExtension")
+	}
+	if err := aper.ChargeValue(aper.NewBudgetBuffer(budget), aper.ChoiceExtension{}); err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationUnknownExtension")
+	}
+	extension, err := aper.BuildChoiceExtension(index, contents, budget)
+	if err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationUnknownExtension")
+	}
+	value := SONInformation{UnknownExtension: &extension}
+	if _, err := value.marshalAPERBudget(budget, false); err != nil {
+		return SONInformation{}, aper.OperationError(err, "SONInformationUnknownExtension")
+	}
+	return value, aper.OperationError(nil, "SONInformationUnknownExtension")
+}
 
 // ENBConfigurationTransfer represents the ASN.1 type ENBConfigurationTransfer (SEQUENCE).
 type ENBConfigurationTransfer struct {
@@ -13656,13 +12858,13 @@ type ENBConfigurationTransfer struct {
 	receivedAbsolute bool
 	receivedBytes    aper.WireSpan
 	receivedLocation aper.Location
-	ProtocolIEs      s50.ENBConfigurationTransferIEContainer `asn1:"tag:0,context,implicit"`
-	protocolIEsIndef bool                                    `asn1:"-" json:"-"`
-	extCount         int64                                   `asn1:"-" json:"-"`
-	extPresent       []bool                                  `asn1:"-" json:"-"`
-	extData          [][]byte                                `asn1:"-" json:"-"`
-	perPadding       aper.FinalPadding                       `asn1:"-" json:"-"`
-	perExtPadding    []aper.CompletePadding                  `asn1:"-" json:"-"`
+	ProtocolIEs      ENBConfigurationTransferIEContainer `asn1:"tag:0,context,implicit"`
+	protocolIEsIndef bool                                `asn1:"-" json:"-"`
+	extCount         int64                               `asn1:"-" json:"-"`
+	extPresent       []bool                              `asn1:"-" json:"-"`
+	extData          [][]byte                            `asn1:"-" json:"-"`
+	perPadding       aper.FinalPadding                   `asn1:"-" json:"-"`
+	perExtPadding    []aper.CompletePadding              `asn1:"-" json:"-"`
 	extOrigin        []aper.OpaqueOrigin
 	extWire          []aper.WireSpan
 }
@@ -13753,7 +12955,7 @@ func (v *ENBConfigurationTransfer) marshalAPERTo(bb *aper.BitBuffer, fresh ...bo
 			return fmt.Errorf("collection fragment outside value")
 		}
 		for _, elem := range v.ProtocolIEs[fragmentOffset_protocolies : fragmentOffset_protocolies+fragmentLength_protocolies] {
-			if err := s50.BridgeENBConfigurationTransferIEFieldMethodMarshalAPERTo(&elem, bb, len(fresh) != 0 && fresh[0]); err != nil {
+			if err := elem.marshalAPERTo(bb, len(fresh) != 0 && fresh[0]); err != nil {
 				return fmt.Errorf("encoding protocolIEs element: %w", err)
 			}
 		}
@@ -13841,16 +13043,16 @@ func (v *ENBConfigurationTransfer) unmarshalAPERFrom(bb *aper.BitBuffer) error {
 		return err
 	}
 	toleranceMark_protocolies := bb.EnterComponent("ProtocolIEs")
-	v.ProtocolIEs = make(s50.ENBConfigurationTransferIEContainer, 0)
+	v.ProtocolIEs = make(ENBConfigurationTransferIEContainer, 0)
 	_, errCollection_protocolies := aper.DecodeCollection(bb, aper.SizeConstraint{Lower: 0, HasLower: true, Upper: 65535, HasUpper: true}, true, func(fragmentOffset_protocolies, fragmentLength_protocolies int64) error {
 		// arithmetic pattern APER_FRAGMENT_LOOP_1: nonnegative fragment offset and length fit host int; gen/codegen_aper.go:1128
 		if fragmentOffset_protocolies < 0 || fragmentLength_protocolies < 0 || fragmentLength_protocolies > int64(^uint(0)>>1) || fragmentOffset_protocolies > int64(^uint(0)>>1)-fragmentLength_protocolies {
 			return fmt.Errorf("collection fragment count out of range")
 		}
 		for i := int64(0); i < fragmentLength_protocolies; i++ {
-			var elem s50.ENBConfigurationTransferIEField
+			var elem ENBConfigurationTransferIEField
 			elementMark := bb.EnterIndex(fragmentOffset_protocolies + i)
-			if err := s50.BridgeENBConfigurationTransferIEFieldMethodUnmarshalAPERFrom(&elem, bb); err != nil {
+			if err := elem.unmarshalAPERFrom(bb); err != nil {
 				return runtime.WrapDecodePath(err, fmt.Sprintf("ProtocolIEs[%d]", fragmentOffset_protocolies+i))
 			}
 			bb.LeaveComponent(elementMark)
@@ -17408,14 +16610,891 @@ func (ProtocolErrorIEContainerListCodec[V]) Call(table IETable[V]) ValueCodec[Pr
 	}
 }
 
+type ENBConfigurationTransferIEValue struct {
+	id                                        s00.ProtocolIEID
+	received                                  aper.WireSpan
+	replay                                    aper.Snapshot
+	opaque                                    aper.OpaqueOpenType
+	isOpaque                                  bool
+	rowSONConfigurationTransferECT            *SONConfigurationTransfer
+	rowENDCSONConfigurationTransferECT        *ENDCSONConfigurationTransfer
+	rowIntersystemSONConfigurationTransferECT *s00.IntersystemSONConfigurationTransfer
+}
+
+func (v ENBConfigurationTransferIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bool {
+	if v.id != id {
+		return false
+	}
+	if v.isOpaque {
+		return true
+	}
+	switch id {
+	case s00.ProtocolIEID(129):
+		return v.rowSONConfigurationTransferECT != nil
+	case s00.ProtocolIEID(294):
+		return v.rowENDCSONConfigurationTransferECT != nil
+	case s00.ProtocolIEID(310):
+		return v.rowIntersystemSONConfigurationTransferECT != nil
+	}
+	return false
+}
+
+// Opaque returns the retained opaque open value of ENBConfigurationTransferIEValue and reports whether the opaque alternative is selected.
+func (v *ENBConfigurationTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
+	if v == nil || !v.isOpaque {
+		return aper.OpaqueOpenType{}, false
+	}
+	return v.opaque, true
+}
+func (ENBConfigurationTransferIEValue) rule() aper.SourceRule {
+	return aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBConfigurationTransferIEs"}}
+}
+func (ENBConfigurationTransferIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
+	switch id {
+	case s00.ProtocolIEID(129):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(294):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(310):
+		return aper.UnknownSelector
+	case s00.ProtocolIEID(0):
+		return aper.NotInTable
+	case s00.ProtocolIEID(1):
+		return aper.NotInTable
+	case s00.ProtocolIEID(2):
+		return aper.NotInTable
+	case s00.ProtocolIEID(4):
+		return aper.NotInTable
+	case s00.ProtocolIEID(8):
+		return aper.NotInTable
+	case s00.ProtocolIEID(12):
+		return aper.NotInTable
+	case s00.ProtocolIEID(13):
+		return aper.NotInTable
+	case s00.ProtocolIEID(14):
+		return aper.NotInTable
+	case s00.ProtocolIEID(15):
+		return aper.NotInTable
+	case s00.ProtocolIEID(16):
+		return aper.NotInTable
+	case s00.ProtocolIEID(17):
+		return aper.NotInTable
+	case s00.ProtocolIEID(18):
+		return aper.NotInTable
+	case s00.ProtocolIEID(19):
+		return aper.NotInTable
+	case s00.ProtocolIEID(20):
+		return aper.NotInTable
+	case s00.ProtocolIEID(21):
+		return aper.NotInTable
+	case s00.ProtocolIEID(22):
+		return aper.NotInTable
+	case s00.ProtocolIEID(23):
+		return aper.NotInTable
+	case s00.ProtocolIEID(24):
+		return aper.NotInTable
+	case s00.ProtocolIEID(25):
+		return aper.NotInTable
+	case s00.ProtocolIEID(26):
+		return aper.NotInTable
+	case s00.ProtocolIEID(27):
+		return aper.NotInTable
+	case s00.ProtocolIEID(28):
+		return aper.NotInTable
+	case s00.ProtocolIEID(29):
+		return aper.NotInTable
+	case s00.ProtocolIEID(30):
+		return aper.NotInTable
+	case s00.ProtocolIEID(31):
+		return aper.NotInTable
+	case s00.ProtocolIEID(32):
+		return aper.NotInTable
+	case s00.ProtocolIEID(33):
+		return aper.NotInTable
+	case s00.ProtocolIEID(34):
+		return aper.NotInTable
+	case s00.ProtocolIEID(35):
+		return aper.NotInTable
+	case s00.ProtocolIEID(36):
+		return aper.NotInTable
+	case s00.ProtocolIEID(37):
+		return aper.NotInTable
+	case s00.ProtocolIEID(39):
+		return aper.NotInTable
+	case s00.ProtocolIEID(40):
+		return aper.NotInTable
+	case s00.ProtocolIEID(41):
+		return aper.NotInTable
+	case s00.ProtocolIEID(43):
+		return aper.NotInTable
+	case s00.ProtocolIEID(44):
+		return aper.NotInTable
+	case s00.ProtocolIEID(46):
+		return aper.NotInTable
+	case s00.ProtocolIEID(47):
+		return aper.NotInTable
+	case s00.ProtocolIEID(48):
+		return aper.NotInTable
+	case s00.ProtocolIEID(50):
+		return aper.NotInTable
+	case s00.ProtocolIEID(51):
+		return aper.NotInTable
+	case s00.ProtocolIEID(52):
+		return aper.NotInTable
+	case s00.ProtocolIEID(53):
+		return aper.NotInTable
+	case s00.ProtocolIEID(58):
+		return aper.NotInTable
+	case s00.ProtocolIEID(59):
+		return aper.NotInTable
+	case s00.ProtocolIEID(60):
+		return aper.NotInTable
+	case s00.ProtocolIEID(61):
+		return aper.NotInTable
+	case s00.ProtocolIEID(64):
+		return aper.NotInTable
+	case s00.ProtocolIEID(65):
+		return aper.NotInTable
+	case s00.ProtocolIEID(66):
+		return aper.NotInTable
+	case s00.ProtocolIEID(67):
+		return aper.NotInTable
+	case s00.ProtocolIEID(69):
+		return aper.NotInTable
+	case s00.ProtocolIEID(70):
+		return aper.NotInTable
+	case s00.ProtocolIEID(71):
+		return aper.NotInTable
+	case s00.ProtocolIEID(72):
+		return aper.NotInTable
+	case s00.ProtocolIEID(73):
+		return aper.NotInTable
+	case s00.ProtocolIEID(74):
+		return aper.NotInTable
+	case s00.ProtocolIEID(75):
+		return aper.NotInTable
+	case s00.ProtocolIEID(78):
+		return aper.NotInTable
+	case s00.ProtocolIEID(79):
+		return aper.NotInTable
+	case s00.ProtocolIEID(80):
+		return aper.NotInTable
+	case s00.ProtocolIEID(83):
+		return aper.NotInTable
+	case s00.ProtocolIEID(84):
+		return aper.NotInTable
+	case s00.ProtocolIEID(86):
+		return aper.NotInTable
+	case s00.ProtocolIEID(87):
+		return aper.NotInTable
+	case s00.ProtocolIEID(88):
+		return aper.NotInTable
+	case s00.ProtocolIEID(89):
+		return aper.NotInTable
+	case s00.ProtocolIEID(90):
+		return aper.NotInTable
+	case s00.ProtocolIEID(91):
+		return aper.NotInTable
+	case s00.ProtocolIEID(92):
+		return aper.NotInTable
+	case s00.ProtocolIEID(93):
+		return aper.NotInTable
+	case s00.ProtocolIEID(94):
+		return aper.NotInTable
+	case s00.ProtocolIEID(95):
+		return aper.NotInTable
+	case s00.ProtocolIEID(96):
+		return aper.NotInTable
+	case s00.ProtocolIEID(97):
+		return aper.NotInTable
+	case s00.ProtocolIEID(98):
+		return aper.NotInTable
+	case s00.ProtocolIEID(99):
+		return aper.NotInTable
+	case s00.ProtocolIEID(100):
+		return aper.NotInTable
+	case s00.ProtocolIEID(101):
+		return aper.NotInTable
+	case s00.ProtocolIEID(102):
+		return aper.NotInTable
+	case s00.ProtocolIEID(104):
+		return aper.NotInTable
+	case s00.ProtocolIEID(105):
+		return aper.NotInTable
+	case s00.ProtocolIEID(106):
+		return aper.NotInTable
+	case s00.ProtocolIEID(107):
+		return aper.NotInTable
+	case s00.ProtocolIEID(108):
+		return aper.NotInTable
+	case s00.ProtocolIEID(109):
+		return aper.NotInTable
+	case s00.ProtocolIEID(110):
+		return aper.NotInTable
+	case s00.ProtocolIEID(111):
+		return aper.NotInTable
+	case s00.ProtocolIEID(112):
+		return aper.NotInTable
+	case s00.ProtocolIEID(113):
+		return aper.NotInTable
+	case s00.ProtocolIEID(114):
+		return aper.NotInTable
+	case s00.ProtocolIEID(115):
+		return aper.NotInTable
+	case s00.ProtocolIEID(116):
+		return aper.NotInTable
+	case s00.ProtocolIEID(117):
+		return aper.NotInTable
+	case s00.ProtocolIEID(118):
+		return aper.NotInTable
+	case s00.ProtocolIEID(119):
+		return aper.NotInTable
+	case s00.ProtocolIEID(120):
+		return aper.NotInTable
+	case s00.ProtocolIEID(121):
+		return aper.NotInTable
+	case s00.ProtocolIEID(122):
+		return aper.NotInTable
+	case s00.ProtocolIEID(123):
+		return aper.NotInTable
+	case s00.ProtocolIEID(124):
+		return aper.NotInTable
+	case s00.ProtocolIEID(125):
+		return aper.NotInTable
+	case s00.ProtocolIEID(127):
+		return aper.NotInTable
+	case s00.ProtocolIEID(128):
+		return aper.NotInTable
+	case s00.ProtocolIEID(130):
+		return aper.NotInTable
+	case s00.ProtocolIEID(131):
+		return aper.NotInTable
+	case s00.ProtocolIEID(132):
+		return aper.NotInTable
+	case s00.ProtocolIEID(133):
+		return aper.NotInTable
+	case s00.ProtocolIEID(134):
+		return aper.NotInTable
+	case s00.ProtocolIEID(135):
+		return aper.NotInTable
+	case s00.ProtocolIEID(136):
+		return aper.NotInTable
+	case s00.ProtocolIEID(137):
+		return aper.NotInTable
+	case s00.ProtocolIEID(138):
+		return aper.NotInTable
+	case s00.ProtocolIEID(139):
+		return aper.NotInTable
+	case s00.ProtocolIEID(140):
+		return aper.NotInTable
+	case s00.ProtocolIEID(141):
+		return aper.NotInTable
+	case s00.ProtocolIEID(142):
+		return aper.NotInTable
+	case s00.ProtocolIEID(143):
+		return aper.NotInTable
+	case s00.ProtocolIEID(144):
+		return aper.NotInTable
+	case s00.ProtocolIEID(145):
+		return aper.NotInTable
+	case s00.ProtocolIEID(146):
+		return aper.NotInTable
+	case s00.ProtocolIEID(147):
+		return aper.NotInTable
+	case s00.ProtocolIEID(148):
+		return aper.NotInTable
+	case s00.ProtocolIEID(149):
+		return aper.NotInTable
+	case s00.ProtocolIEID(150):
+		return aper.NotInTable
+	case s00.ProtocolIEID(151):
+		return aper.NotInTable
+	case s00.ProtocolIEID(152):
+		return aper.NotInTable
+	case s00.ProtocolIEID(153):
+		return aper.NotInTable
+	case s00.ProtocolIEID(154):
+		return aper.NotInTable
+	case s00.ProtocolIEID(155):
+		return aper.NotInTable
+	case s00.ProtocolIEID(156):
+		return aper.NotInTable
+	case s00.ProtocolIEID(157):
+		return aper.NotInTable
+	case s00.ProtocolIEID(158):
+		return aper.NotInTable
+	case s00.ProtocolIEID(159):
+		return aper.NotInTable
+	case s00.ProtocolIEID(160):
+		return aper.NotInTable
+	case s00.ProtocolIEID(161):
+		return aper.NotInTable
+	case s00.ProtocolIEID(162):
+		return aper.NotInTable
+	case s00.ProtocolIEID(163):
+		return aper.NotInTable
+	case s00.ProtocolIEID(164):
+		return aper.NotInTable
+	case s00.ProtocolIEID(165):
+		return aper.NotInTable
+	case s00.ProtocolIEID(166):
+		return aper.NotInTable
+	case s00.ProtocolIEID(167):
+		return aper.NotInTable
+	case s00.ProtocolIEID(168):
+		return aper.NotInTable
+	case s00.ProtocolIEID(169):
+		return aper.NotInTable
+	case s00.ProtocolIEID(170):
+		return aper.NotInTable
+	case s00.ProtocolIEID(171):
+		return aper.NotInTable
+	case s00.ProtocolIEID(172):
+		return aper.NotInTable
+	case s00.ProtocolIEID(173):
+		return aper.NotInTable
+	case s00.ProtocolIEID(174):
+		return aper.NotInTable
+	case s00.ProtocolIEID(175):
+		return aper.NotInTable
+	case s00.ProtocolIEID(176):
+		return aper.NotInTable
+	case s00.ProtocolIEID(177):
+		return aper.NotInTable
+	case s00.ProtocolIEID(178):
+		return aper.NotInTable
+	case s00.ProtocolIEID(179):
+		return aper.NotInTable
+	case s00.ProtocolIEID(180):
+		return aper.NotInTable
+	case s00.ProtocolIEID(181):
+		return aper.NotInTable
+	case s00.ProtocolIEID(182):
+		return aper.NotInTable
+	case s00.ProtocolIEID(183):
+		return aper.NotInTable
+	case s00.ProtocolIEID(184):
+		return aper.NotInTable
+	case s00.ProtocolIEID(185):
+		return aper.NotInTable
+	case s00.ProtocolIEID(186):
+		return aper.NotInTable
+	case s00.ProtocolIEID(187):
+		return aper.NotInTable
+	case s00.ProtocolIEID(188):
+		return aper.NotInTable
+	case s00.ProtocolIEID(189):
+		return aper.NotInTable
+	case s00.ProtocolIEID(190):
+		return aper.NotInTable
+	case s00.ProtocolIEID(191):
+		return aper.NotInTable
+	case s00.ProtocolIEID(192):
+		return aper.NotInTable
+	case s00.ProtocolIEID(193):
+		return aper.NotInTable
+	case s00.ProtocolIEID(194):
+		return aper.NotInTable
+	case s00.ProtocolIEID(195):
+		return aper.NotInTable
+	case s00.ProtocolIEID(196):
+		return aper.NotInTable
+	case s00.ProtocolIEID(197):
+		return aper.NotInTable
+	case s00.ProtocolIEID(198):
+		return aper.NotInTable
+	case s00.ProtocolIEID(199):
+		return aper.NotInTable
+	case s00.ProtocolIEID(200):
+		return aper.NotInTable
+	case s00.ProtocolIEID(201):
+		return aper.NotInTable
+	case s00.ProtocolIEID(202):
+		return aper.NotInTable
+	case s00.ProtocolIEID(203):
+		return aper.NotInTable
+	case s00.ProtocolIEID(204):
+		return aper.NotInTable
+	case s00.ProtocolIEID(205):
+		return aper.NotInTable
+	case s00.ProtocolIEID(206):
+		return aper.NotInTable
+	case s00.ProtocolIEID(207):
+		return aper.NotInTable
+	case s00.ProtocolIEID(208):
+		return aper.NotInTable
+	case s00.ProtocolIEID(209):
+		return aper.NotInTable
+	case s00.ProtocolIEID(210):
+		return aper.NotInTable
+	case s00.ProtocolIEID(211):
+		return aper.NotInTable
+	case s00.ProtocolIEID(212):
+		return aper.NotInTable
+	case s00.ProtocolIEID(213):
+		return aper.NotInTable
+	case s00.ProtocolIEID(214):
+		return aper.NotInTable
+	case s00.ProtocolIEID(215):
+		return aper.NotInTable
+	case s00.ProtocolIEID(216):
+		return aper.NotInTable
+	case s00.ProtocolIEID(217):
+		return aper.NotInTable
+	case s00.ProtocolIEID(218):
+		return aper.NotInTable
+	case s00.ProtocolIEID(219):
+		return aper.NotInTable
+	case s00.ProtocolIEID(220):
+		return aper.NotInTable
+	case s00.ProtocolIEID(221):
+		return aper.NotInTable
+	case s00.ProtocolIEID(222):
+		return aper.NotInTable
+	case s00.ProtocolIEID(223):
+		return aper.NotInTable
+	case s00.ProtocolIEID(224):
+		return aper.NotInTable
+	case s00.ProtocolIEID(225):
+		return aper.NotInTable
+	case s00.ProtocolIEID(226):
+		return aper.NotInTable
+	case s00.ProtocolIEID(227):
+		return aper.NotInTable
+	case s00.ProtocolIEID(228):
+		return aper.NotInTable
+	case s00.ProtocolIEID(230):
+		return aper.NotInTable
+	case s00.ProtocolIEID(231):
+		return aper.NotInTable
+	case s00.ProtocolIEID(232):
+		return aper.NotInTable
+	case s00.ProtocolIEID(233):
+		return aper.NotInTable
+	case s00.ProtocolIEID(234):
+		return aper.NotInTable
+	case s00.ProtocolIEID(235):
+		return aper.NotInTable
+	case s00.ProtocolIEID(236):
+		return aper.NotInTable
+	case s00.ProtocolIEID(237):
+		return aper.NotInTable
+	case s00.ProtocolIEID(238):
+		return aper.NotInTable
+	case s00.ProtocolIEID(239):
+		return aper.NotInTable
+	case s00.ProtocolIEID(240):
+		return aper.NotInTable
+	case s00.ProtocolIEID(241):
+		return aper.NotInTable
+	case s00.ProtocolIEID(242):
+		return aper.NotInTable
+	case s00.ProtocolIEID(243):
+		return aper.NotInTable
+	case s00.ProtocolIEID(244):
+		return aper.NotInTable
+	case s00.ProtocolIEID(245):
+		return aper.NotInTable
+	case s00.ProtocolIEID(246):
+		return aper.NotInTable
+	case s00.ProtocolIEID(247):
+		return aper.NotInTable
+	case s00.ProtocolIEID(248):
+		return aper.NotInTable
+	case s00.ProtocolIEID(249):
+		return aper.NotInTable
+	case s00.ProtocolIEID(250):
+		return aper.NotInTable
+	case s00.ProtocolIEID(251):
+		return aper.NotInTable
+	case s00.ProtocolIEID(252):
+		return aper.NotInTable
+	case s00.ProtocolIEID(253):
+		return aper.NotInTable
+	case s00.ProtocolIEID(254):
+		return aper.NotInTable
+	case s00.ProtocolIEID(255):
+		return aper.NotInTable
+	case s00.ProtocolIEID(256):
+		return aper.NotInTable
+	case s00.ProtocolIEID(257):
+		return aper.NotInTable
+	case s00.ProtocolIEID(258):
+		return aper.NotInTable
+	case s00.ProtocolIEID(259):
+		return aper.NotInTable
+	case s00.ProtocolIEID(260):
+		return aper.NotInTable
+	case s00.ProtocolIEID(261):
+		return aper.NotInTable
+	case s00.ProtocolIEID(262):
+		return aper.NotInTable
+	case s00.ProtocolIEID(263):
+		return aper.NotInTable
+	case s00.ProtocolIEID(264):
+		return aper.NotInTable
+	case s00.ProtocolIEID(265):
+		return aper.NotInTable
+	case s00.ProtocolIEID(266):
+		return aper.NotInTable
+	case s00.ProtocolIEID(267):
+		return aper.NotInTable
+	case s00.ProtocolIEID(268):
+		return aper.NotInTable
+	case s00.ProtocolIEID(269):
+		return aper.NotInTable
+	case s00.ProtocolIEID(270):
+		return aper.NotInTable
+	case s00.ProtocolIEID(271):
+		return aper.NotInTable
+	case s00.ProtocolIEID(272):
+		return aper.NotInTable
+	case s00.ProtocolIEID(273):
+		return aper.NotInTable
+	case s00.ProtocolIEID(274):
+		return aper.NotInTable
+	case s00.ProtocolIEID(275):
+		return aper.NotInTable
+	case s00.ProtocolIEID(276):
+		return aper.NotInTable
+	case s00.ProtocolIEID(277):
+		return aper.NotInTable
+	case s00.ProtocolIEID(278):
+		return aper.NotInTable
+	case s00.ProtocolIEID(280):
+		return aper.NotInTable
+	case s00.ProtocolIEID(281):
+		return aper.NotInTable
+	case s00.ProtocolIEID(282):
+		return aper.NotInTable
+	case s00.ProtocolIEID(283):
+		return aper.NotInTable
+	case s00.ProtocolIEID(284):
+		return aper.NotInTable
+	case s00.ProtocolIEID(285):
+		return aper.NotInTable
+	case s00.ProtocolIEID(286):
+		return aper.NotInTable
+	case s00.ProtocolIEID(287):
+		return aper.NotInTable
+	case s00.ProtocolIEID(288):
+		return aper.NotInTable
+	case s00.ProtocolIEID(290):
+		return aper.NotInTable
+	case s00.ProtocolIEID(291):
+		return aper.NotInTable
+	case s00.ProtocolIEID(292):
+		return aper.NotInTable
+	case s00.ProtocolIEID(293):
+		return aper.NotInTable
+	case s00.ProtocolIEID(295):
+		return aper.NotInTable
+	case s00.ProtocolIEID(296):
+		return aper.NotInTable
+	case s00.ProtocolIEID(297):
+		return aper.NotInTable
+	case s00.ProtocolIEID(298):
+		return aper.NotInTable
+	case s00.ProtocolIEID(299):
+		return aper.NotInTable
+	case s00.ProtocolIEID(300):
+		return aper.NotInTable
+	case s00.ProtocolIEID(301):
+		return aper.NotInTable
+	case s00.ProtocolIEID(302):
+		return aper.NotInTable
+	case s00.ProtocolIEID(303):
+		return aper.NotInTable
+	case s00.ProtocolIEID(304):
+		return aper.NotInTable
+	case s00.ProtocolIEID(305):
+		return aper.NotInTable
+	case s00.ProtocolIEID(306):
+		return aper.NotInTable
+	case s00.ProtocolIEID(307):
+		return aper.NotInTable
+	case s00.ProtocolIEID(308):
+		return aper.NotInTable
+	case s00.ProtocolIEID(309):
+		return aper.NotInTable
+	case s00.ProtocolIEID(311):
+		return aper.NotInTable
+	case s00.ProtocolIEID(312):
+		return aper.NotInTable
+	case s00.ProtocolIEID(313):
+		return aper.NotInTable
+	case s00.ProtocolIEID(314):
+		return aper.NotInTable
+	case s00.ProtocolIEID(315):
+		return aper.NotInTable
+	case s00.ProtocolIEID(316):
+		return aper.NotInTable
+	case s00.ProtocolIEID(317):
+		return aper.NotInTable
+	case s00.ProtocolIEID(318):
+		return aper.NotInTable
+	case s00.ProtocolIEID(319):
+		return aper.NotInTable
+	case s00.ProtocolIEID(320):
+		return aper.NotInTable
+	case s00.ProtocolIEID(321):
+		return aper.NotInTable
+	case s00.ProtocolIEID(322):
+		return aper.NotInTable
+	case s00.ProtocolIEID(323):
+		return aper.NotInTable
+	case s00.ProtocolIEID(324):
+		return aper.NotInTable
+	case s00.ProtocolIEID(325):
+		return aper.NotInTable
+	case s00.ProtocolIEID(326):
+		return aper.NotInTable
+	case s00.ProtocolIEID(327):
+		return aper.NotInTable
+	case s00.ProtocolIEID(328):
+		return aper.NotInTable
+	case s00.ProtocolIEID(329):
+		return aper.NotInTable
+	case s00.ProtocolIEID(330):
+		return aper.NotInTable
+	case s00.ProtocolIEID(331):
+		return aper.NotInTable
+	case s00.ProtocolIEID(332):
+		return aper.NotInTable
+	case s00.ProtocolIEID(334):
+		return aper.NotInTable
+	case s00.ProtocolIEID(335):
+		return aper.NotInTable
+	case s00.ProtocolIEID(336):
+		return aper.NotInTable
+	case s00.ProtocolIEID(337):
+		return aper.NotInTable
+	case s00.ProtocolIEID(339):
+		return aper.NotInTable
+	case s00.ProtocolIEID(340):
+		return aper.NotInTable
+	case s00.ProtocolIEID(341):
+		return aper.NotInTable
+	case s00.ProtocolIEID(342):
+		return aper.NotInTable
+	case s00.ProtocolIEID(343):
+		return aper.NotInTable
+	case s00.ProtocolIEID(344):
+		return aper.NotInTable
+	case s00.ProtocolIEID(345):
+		return aper.NotInTable
+	case s00.ProtocolIEID(346):
+		return aper.NotInTable
+	case s00.ProtocolIEID(347):
+		return aper.NotInTable
+	case s00.ProtocolIEID(348):
+		return aper.NotInTable
+	case s00.ProtocolIEID(349):
+		return aper.NotInTable
+	case s00.ProtocolIEID(350):
+		return aper.NotInTable
+	case s00.ProtocolIEID(351):
+		return aper.NotInTable
+	case s00.ProtocolIEID(352):
+		return aper.NotInTable
+	case s00.ProtocolIEID(353):
+		return aper.NotInTable
+	case s00.ProtocolIEID(354):
+		return aper.NotInTable
+	case s00.ProtocolIEID(355):
+		return aper.NotInTable
+	case s00.ProtocolIEID(356):
+		return aper.NotInTable
+	default:
+		return aper.UnknownSelector
+	}
+}
+
+// AsSONConfigurationTransferECT returns the selected SONConfigurationTransferECT value of ENBConfigurationTransferIEValue and reports whether that alternative is active.
+func (v *ENBConfigurationTransferIEValue) AsSONConfigurationTransferECT() (*SONConfigurationTransfer, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(129) || v.rowSONConfigurationTransferECT == nil {
+		return nil, false
+	}
+	return v.rowSONConfigurationTransferECT, true
+}
+
+// AsENDCSONConfigurationTransferECT returns the selected ENDCSONConfigurationTransferECT value of ENBConfigurationTransferIEValue and reports whether that alternative is active.
+func (v *ENBConfigurationTransferIEValue) AsENDCSONConfigurationTransferECT() (*ENDCSONConfigurationTransfer, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(294) || v.rowENDCSONConfigurationTransferECT == nil {
+		return nil, false
+	}
+	return v.rowENDCSONConfigurationTransferECT, true
+}
+
+// AsIntersystemSONConfigurationTransferECT returns the selected IntersystemSONConfigurationTransferECT value of ENBConfigurationTransferIEValue and reports whether that alternative is active.
+func (v *ENBConfigurationTransferIEValue) AsIntersystemSONConfigurationTransferECT() (*s00.IntersystemSONConfigurationTransfer, bool) {
+	if v == nil || v.id != s00.ProtocolIEID(310) || v.rowIntersystemSONConfigurationTransferECT == nil {
+		return nil, false
+	}
+	return v.rowIntersystemSONConfigurationTransferECT, true
+}
+func (v ENBConfigurationTransferIEValue) decode(id s00.ProtocolIEID, raw aper.OpaqueOpenType) (ENBConfigurationTransferIEValue, error) {
+	out := ENBConfigurationTransferIEValue{id: id}
+	switch id {
+	case s00.ProtocolIEID(129):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		var value SONConfigurationTransfer
+		child := scope
+		if err := value.unmarshalAPERFrom(child); err != nil {
+			return out, fmt.Errorf("%s %w", "SONConfigurationTransferECT:", err)
+		}
+		padding, err := aper.CaptureFinalBits(child, "SONConfigurationTransfer")
+		if err != nil {
+			return out, err
+		}
+		value.perPadding = padding
+		value.received = true
+		raw.RetainContents(&value.receivedBytes)
+		value.receivedLocation = raw.ContentLocation()
+		out.rowSONConfigurationTransferECT = &value
+		raw.RetainContents(&out.received)
+	case s00.ProtocolIEID(294):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		var value ENDCSONConfigurationTransfer
+		child := scope
+		if err := value.unmarshalAPERFrom(child); err != nil {
+			return out, fmt.Errorf("%s %w", "ENDCSONConfigurationTransferECT:", err)
+		}
+		padding, err := aper.CaptureFinalBits(child, "ENDCSONConfigurationTransfer")
+		if err != nil {
+			return out, err
+		}
+		value.perPadding = padding
+		value.received = true
+		raw.RetainContents(&value.receivedBytes)
+		value.receivedLocation = raw.ContentLocation()
+		out.rowENDCSONConfigurationTransferECT = &value
+		raw.RetainContents(&out.received)
+	case s00.ProtocolIEID(310):
+		scope := raw.ChildDecodeBuffer()
+		if err := scope.EnterOpenType(); err != nil {
+			return out, err
+		}
+		defer scope.LeaveOpenType()
+		child := scope
+		value, err := (func(bb *aper.BitBuffer) (s00.IntersystemSONConfigurationTransfer, error) {
+			var v struct {
+				Value s00.IntersystemSONConfigurationTransfer
+			}
+			err := func() error {
+				val_value, err := aper.DecodeOctetStringAligned(bb, 0, 0, false)
+				if err != nil {
+					return runtime.WrapDecodePath(err, "Value")
+				}
+				v.Value = s00.IntersystemSONConfigurationTransfer(val_value)
+				return nil
+			}()
+			return v.Value, err
+		})(child)
+		if err != nil {
+			return out, err
+		}
+		if _, err := aper.CompleteOpenTypeValue(child, value); err != nil {
+			return out, err
+		}
+		out.rowIntersystemSONConfigurationTransferECT = &value
+		raw.RetainContents(&out.received)
+	default:
+		if err := raw.Observe(aper.UnknownIE); err != nil {
+			return out, err
+		}
+		out.opaque = raw.Detached()
+		out.isOpaque = true
+	}
+	return out, nil
+}
+func (v ENBConfigurationTransferIEValue) encode() ([]byte, error) { return v.encodeFresh(false, nil) }
+func (v ENBConfigurationTransferIEValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+	if budget == nil {
+		var err error
+		budget, err = aper.EncodeBudget()
+		if err != nil {
+			return nil, err
+		}
+	}
+	plan := aper.NewBudgetBuffer(budget).ReplayPlan()
+	if v.isOpaque {
+		return aper.CopyOpaque(v.opaque, budget)
+	}
+	switch v.id {
+	case s00.ProtocolIEID(129):
+		if v.rowSONConfigurationTransferECT == nil {
+			return nil, fmt.Errorf("%s missing value", "ENBConfigurationTransferIEs.id-SONConfigurationTransferECT:")
+		}
+		if !fresh && plan != nil && plan.Unchanged(v.replay) {
+			return aper.CopyReplay(v.received, budget)
+		}
+		candidate, err := v.rowSONConfigurationTransferECT.marshalAPERBudget(budget, fresh)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	case s00.ProtocolIEID(294):
+		if v.rowENDCSONConfigurationTransferECT == nil {
+			return nil, fmt.Errorf("%s missing value", "ENBConfigurationTransferIEs.id-EN-DCSONConfigurationTransfer-ECT:")
+		}
+		if !fresh && plan != nil && plan.Unchanged(v.replay) {
+			return aper.CopyReplay(v.received, budget)
+		}
+		candidate, err := v.rowENDCSONConfigurationTransferECT.marshalAPERBudget(budget, fresh)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	case s00.ProtocolIEID(310):
+		if v.rowIntersystemSONConfigurationTransferECT == nil {
+			return nil, fmt.Errorf("%s missing value", "ENBConfigurationTransferIEs.id-IntersystemSONConfigurationTransferECT:")
+		}
+		if !fresh && plan != nil && plan.Unchanged(v.replay) {
+			return aper.CopyReplay(v.received, budget)
+		}
+		candidate, err := (func(value s00.IntersystemSONConfigurationTransfer, budget *aper.DecodeBudget) ([]byte, error) {
+			bb := aper.NewBudgetBuffer(budget)
+			v := struct {
+				Value s00.IntersystemSONConfigurationTransfer
+			}{Value: value}
+			_ = v
+			err := func() error {
+				if err := aper.EncodeOctetStringAligned(bb, []byte(v.Value), 0, 0, false); err != nil {
+					return fmt.Errorf("encoding value: %w", err)
+				}
+				return nil
+			}()
+			if err != nil {
+				return nil, err
+			}
+			return bb.CompleteBytes(), nil
+		})(*v.rowIntersystemSONConfigurationTransferECT, budget)
+		if err != nil {
+			return nil, err
+		}
+		return candidate, nil
+	default:
+		return nil, fmt.Errorf("%s id %d has no value", "ENBConfigurationTransferIEValue:", v.id)
+	}
+}
+
 type MMEConfigurationTransferIEValue struct {
 	id                                        s00.ProtocolIEID
 	received                                  aper.WireSpan
 	replay                                    aper.Snapshot
 	opaque                                    aper.OpaqueOpenType
 	isOpaque                                  bool
-	rowSONConfigurationTransferMCT            *s50.SONConfigurationTransfer
-	rowENDCSONConfigurationTransferMCT        *s50.ENDCSONConfigurationTransfer
+	rowSONConfigurationTransferMCT            *SONConfigurationTransfer
+	rowENDCSONConfigurationTransferMCT        *ENDCSONConfigurationTransfer
 	rowIntersystemSONConfigurationTransferMCT *s00.IntersystemSONConfigurationTransfer
 }
 
@@ -18109,7 +18188,7 @@ func (MMEConfigurationTransferIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRe
 }
 
 // AsSONConfigurationTransferMCT returns the selected SONConfigurationTransferMCT value of MMEConfigurationTransferIEValue and reports whether that alternative is active.
-func (v *MMEConfigurationTransferIEValue) AsSONConfigurationTransferMCT() (*s50.SONConfigurationTransfer, bool) {
+func (v *MMEConfigurationTransferIEValue) AsSONConfigurationTransferMCT() (*SONConfigurationTransfer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(130) || v.rowSONConfigurationTransferMCT == nil {
 		return nil, false
 	}
@@ -18117,7 +18196,7 @@ func (v *MMEConfigurationTransferIEValue) AsSONConfigurationTransferMCT() (*s50.
 }
 
 // AsENDCSONConfigurationTransferMCT returns the selected ENDCSONConfigurationTransferMCT value of MMEConfigurationTransferIEValue and reports whether that alternative is active.
-func (v *MMEConfigurationTransferIEValue) AsENDCSONConfigurationTransferMCT() (*s50.ENDCSONConfigurationTransfer, bool) {
+func (v *MMEConfigurationTransferIEValue) AsENDCSONConfigurationTransferMCT() (*ENDCSONConfigurationTransfer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(295) || v.rowENDCSONConfigurationTransferMCT == nil {
 		return nil, false
 	}
@@ -18140,19 +18219,19 @@ func (v MMEConfigurationTransferIEValue) decode(id s00.ProtocolIEID, raw aper.Op
 			return out, err
 		}
 		defer scope.LeaveOpenType()
-		var value s50.SONConfigurationTransfer
+		var value SONConfigurationTransfer
 		child := scope
-		if err := s50.BridgeSONConfigurationTransferMethodUnmarshalAPERFrom(&value, child); err != nil {
+		if err := value.unmarshalAPERFrom(child); err != nil {
 			return out, fmt.Errorf("%s %w", "SONConfigurationTransferMCT:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "SONConfigurationTransfer")
 		if err != nil {
 			return out, err
 		}
-		*s50.BridgeSONConfigurationTransferFieldPerPadding(&value) = padding
-		*s50.BridgeSONConfigurationTransferFieldReceived(&value) = true
-		raw.RetainContents(s50.BridgeSONConfigurationTransferFieldReceivedBytes(&value))
-		*s50.BridgeSONConfigurationTransferFieldReceivedLocation(&value) = raw.ContentLocation()
+		value.perPadding = padding
+		value.received = true
+		raw.RetainContents(&value.receivedBytes)
+		value.receivedLocation = raw.ContentLocation()
 		out.rowSONConfigurationTransferMCT = &value
 		raw.RetainContents(&out.received)
 	case s00.ProtocolIEID(295):
@@ -18161,19 +18240,19 @@ func (v MMEConfigurationTransferIEValue) decode(id s00.ProtocolIEID, raw aper.Op
 			return out, err
 		}
 		defer scope.LeaveOpenType()
-		var value s50.ENDCSONConfigurationTransfer
+		var value ENDCSONConfigurationTransfer
 		child := scope
-		if err := s50.BridgeENDCSONConfigurationTransferMethodUnmarshalAPERFrom(&value, child); err != nil {
+		if err := value.unmarshalAPERFrom(child); err != nil {
 			return out, fmt.Errorf("%s %w", "ENDCSONConfigurationTransferMCT:", err)
 		}
 		padding, err := aper.CaptureFinalBits(child, "ENDCSONConfigurationTransfer")
 		if err != nil {
 			return out, err
 		}
-		*s50.BridgeENDCSONConfigurationTransferFieldPerPadding(&value) = padding
-		*s50.BridgeENDCSONConfigurationTransferFieldReceived(&value) = true
-		raw.RetainContents(s50.BridgeENDCSONConfigurationTransferFieldReceivedBytes(&value))
-		*s50.BridgeENDCSONConfigurationTransferFieldReceivedLocation(&value) = raw.ContentLocation()
+		value.perPadding = padding
+		value.received = true
+		raw.RetainContents(&value.receivedBytes)
+		value.receivedLocation = raw.ContentLocation()
 		out.rowENDCSONConfigurationTransferMCT = &value
 		raw.RetainContents(&out.received)
 	case s00.ProtocolIEID(309):
@@ -18235,7 +18314,7 @@ func (v MMEConfigurationTransferIEValue) encodeFresh(fresh bool, budget *aper.De
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		candidate, err := s50.BridgeSONConfigurationTransferMethodMarshalAPERBudget(v.rowSONConfigurationTransferMCT, budget, fresh)
+		candidate, err := v.rowSONConfigurationTransferMCT.marshalAPERBudget(budget, fresh)
 		if err != nil {
 			return nil, err
 		}
@@ -18247,7 +18326,7 @@ func (v MMEConfigurationTransferIEValue) encodeFresh(fresh bool, budget *aper.De
 		if !fresh && plan != nil && plan.Unchanged(v.replay) {
 			return aper.CopyReplay(v.received, budget)
 		}
-		candidate, err := s50.BridgeENDCSONConfigurationTransferMethodMarshalAPERBudget(v.rowENDCSONConfigurationTransferMCT, budget, fresh)
+		candidate, err := v.rowENDCSONConfigurationTransferMCT.marshalAPERBudget(budget, fresh)
 		if err != nil {
 			return nil, err
 		}
@@ -18649,57 +18728,6 @@ type ProtocolIEFieldPair[A ProtocolOpenValueConstraint[A], B ProtocolOpenValueCo
 type ProtocolIEContainerPair[A ProtocolOpenValueConstraint[A], B ProtocolOpenValueConstraint[B]] []ProtocolIEFieldPair[A, B]
 type ProtocolIEContainerPairList[A ProtocolOpenValueConstraint[A], B ProtocolOpenValueConstraint[B]] []ProtocolIEContainerPair[A, B]
 type ProtocolIESingleContainer[V ProtocolOpenValueConstraint[V]] = ProtocolIEField[V]
-type HandoverPreparationDescriptor struct{}
-
-func HandoverPreparationProcedure() HandoverPreparationDescriptor {
-	return HandoverPreparationDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for HandoverPreparationDescriptor.
-func (HandoverPreparationDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(0), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverPreparation"}}}
-}
-
-type HandoverResourceAllocationDescriptor struct{}
-
-func HandoverResourceAllocationProcedure() HandoverResourceAllocationDescriptor {
-	return HandoverResourceAllocationDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for HandoverResourceAllocationDescriptor.
-func (HandoverResourceAllocationDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(1), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverResourceAllocation"}}}
-}
-
-type HandoverNotificationDescriptor struct{}
-
-func HandoverNotificationProcedure() HandoverNotificationDescriptor {
-	return HandoverNotificationDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for HandoverNotificationDescriptor.
-func (HandoverNotificationDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(2), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverNotification"}}}
-}
-
-type PathSwitchRequestDescriptor struct{}
-
-func PathSwitchRequestProcedure() PathSwitchRequestDescriptor { return PathSwitchRequestDescriptor{} }
-
-// Info returns the source-derived procedure metadata for PathSwitchRequestDescriptor.
-func (PathSwitchRequestDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(3), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-PathSwitchRequest"}}}
-}
-
-type HandoverCancelDescriptor struct{}
-
-func HandoverCancelProcedure() HandoverCancelDescriptor { return HandoverCancelDescriptor{} }
-
-// Info returns the source-derived procedure metadata for HandoverCancelDescriptor.
-func (HandoverCancelDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(4), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverCancel"}}}
-}
-
 type ERABSetupDescriptor struct{}
 
 func ERABSetupProcedure() ERABSetupDescriptor { return ERABSetupDescriptor{} }
@@ -18738,26 +18766,6 @@ func (ERABReleaseIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(8), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-E-RABReleaseIndication"}}}
 }
 
-type InitialContextSetupDescriptor struct{}
-
-func InitialContextSetupProcedure() InitialContextSetupDescriptor {
-	return InitialContextSetupDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for InitialContextSetupDescriptor.
-func (InitialContextSetupDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(9), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-InitialContextSetup"}}}
-}
-
-type PagingDescriptor struct{}
-
-func PagingProcedure() PagingDescriptor { return PagingDescriptor{} }
-
-// Info returns the source-derived procedure metadata for PagingDescriptor.
-func (PagingDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(10), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-Paging"}}}
-}
-
 type DownlinkNASTransportDescriptor struct{}
 
 func DownlinkNASTransportProcedure() DownlinkNASTransportDescriptor {
@@ -18769,15 +18777,6 @@ func (DownlinkNASTransportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(11), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-downlinkNASTransport"}}}
 }
 
-type InitialUEMessageDescriptor struct{}
-
-func InitialUEMessageProcedure() InitialUEMessageDescriptor { return InitialUEMessageDescriptor{} }
-
-// Info returns the source-derived procedure metadata for InitialUEMessageDescriptor.
-func (InitialUEMessageDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(12), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-initialUEMessage"}}}
-}
-
 type ErrorIndicationDescriptor struct{}
 
 func ErrorIndicationProcedure() ErrorIndicationDescriptor { return ErrorIndicationDescriptor{} }
@@ -18785,17 +18784,6 @@ func ErrorIndicationProcedure() ErrorIndicationDescriptor { return ErrorIndicati
 // Info returns the source-derived procedure metadata for ErrorIndicationDescriptor.
 func (ErrorIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(15), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-ErrorIndication"}}}
-}
-
-type NASNonDeliveryIndicationDescriptor struct{}
-
-func NASNonDeliveryIndicationProcedure() NASNonDeliveryIndicationDescriptor {
-	return NASNonDeliveryIndicationDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for NASNonDeliveryIndicationDescriptor.
-func (NASNonDeliveryIndicationDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(16), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-NASNonDeliveryIndication"}}}
 }
 
 type DownlinkS1cdma2000tunnellingDescriptor struct{}
@@ -18818,15 +18806,6 @@ func (ENBStatusTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(24), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-eNBStatusTransfer"}}}
 }
 
-type MMEStatusTransferDescriptor struct{}
-
-func MMEStatusTransferProcedure() MMEStatusTransferDescriptor { return MMEStatusTransferDescriptor{} }
-
-// Info returns the source-derived procedure metadata for MMEStatusTransferDescriptor.
-func (MMEStatusTransferDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(25), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMEStatusTransfer"}}}
-}
-
 type DeactivateTraceDescriptor struct{}
 
 func DeactivateTraceProcedure() DeactivateTraceDescriptor { return DeactivateTraceDescriptor{} }
@@ -18847,66 +18826,6 @@ func (ENBConfigurationUpdateDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(29), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-ENBConfigurationUpdate"}}}
 }
 
-type MMEConfigurationUpdateDescriptor struct{}
-
-func MMEConfigurationUpdateProcedure() MMEConfigurationUpdateDescriptor {
-	return MMEConfigurationUpdateDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for MMEConfigurationUpdateDescriptor.
-func (MMEConfigurationUpdateDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(30), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMEConfigurationUpdate"}}}
-}
-
-type LocationReportingControlDescriptor struct{}
-
-func LocationReportingControlProcedure() LocationReportingControlDescriptor {
-	return LocationReportingControlDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for LocationReportingControlDescriptor.
-func (LocationReportingControlDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(31), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-LocationReportingControl"}}}
-}
-
-type LocationReportingFailureIndicationDescriptor struct{}
-
-func LocationReportingFailureIndicationProcedure() LocationReportingFailureIndicationDescriptor {
-	return LocationReportingFailureIndicationDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for LocationReportingFailureIndicationDescriptor.
-func (LocationReportingFailureIndicationDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(32), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-LocationReportingFailureIndication"}}}
-}
-
-type LocationReportDescriptor struct{}
-
-func LocationReportProcedure() LocationReportDescriptor { return LocationReportDescriptor{} }
-
-// Info returns the source-derived procedure metadata for LocationReportDescriptor.
-func (LocationReportDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(33), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-LocationReport"}}}
-}
-
-type OverloadStartDescriptor struct{}
-
-func OverloadStartProcedure() OverloadStartDescriptor { return OverloadStartDescriptor{} }
-
-// Info returns the source-derived procedure metadata for OverloadStartDescriptor.
-func (OverloadStartDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(34), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-OverloadStart"}}}
-}
-
-type OverloadStopDescriptor struct{}
-
-func OverloadStopProcedure() OverloadStopDescriptor { return OverloadStopDescriptor{} }
-
-// Info returns the source-derived procedure metadata for OverloadStopDescriptor.
-func (OverloadStopDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(35), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-OverloadStop"}}}
-}
-
 type ENBDirectInformationTransferDescriptor struct{}
 
 func ENBDirectInformationTransferProcedure() ENBDirectInformationTransferDescriptor {
@@ -18918,17 +18837,6 @@ func (ENBDirectInformationTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(37), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-eNBDirectInformationTransfer"}}}
 }
 
-type MMEDirectInformationTransferDescriptor struct{}
-
-func MMEDirectInformationTransferProcedure() MMEDirectInformationTransferDescriptor {
-	return MMEDirectInformationTransferDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for MMEDirectInformationTransferDescriptor.
-func (MMEDirectInformationTransferDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(38), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMEDirectInformationTransfer"}}}
-}
-
 type CellTrafficTraceDescriptor struct{}
 
 func CellTrafficTraceProcedure() CellTrafficTraceDescriptor { return CellTrafficTraceDescriptor{} }
@@ -18936,15 +18844,6 @@ func CellTrafficTraceProcedure() CellTrafficTraceDescriptor { return CellTraffic
 // Info returns the source-derived procedure metadata for CellTrafficTraceDescriptor.
 func (CellTrafficTraceDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(42), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-CellTrafficTrace"}}}
-}
-
-type KillDescriptor struct{}
-
-func KillProcedure() KillDescriptor { return KillDescriptor{} }
-
-// Info returns the source-derived procedure metadata for KillDescriptor.
-func (KillDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(43), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-Kill"}}}
 }
 
 type DownlinkUEAssociatedLPPaTransportDescriptor struct{}
@@ -18969,17 +18868,6 @@ func (DownlinkNonUEAssociatedLPPaTransportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(46), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-downlinkNonUEAssociatedLPPaTransport"}}}
 }
 
-type PWSRestartIndicationDescriptor struct{}
-
-func PWSRestartIndicationProcedure() PWSRestartIndicationDescriptor {
-	return PWSRestartIndicationDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for PWSRestartIndicationDescriptor.
-func (PWSRestartIndicationDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(49), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-PWSRestartIndication"}}}
-}
-
 type ERABModificationIndicationDescriptor struct{}
 
 func ERABModificationIndicationProcedure() ERABModificationIndicationDescriptor {
@@ -18989,17 +18877,6 @@ func ERABModificationIndicationProcedure() ERABModificationIndicationDescriptor 
 // Info returns the source-derived procedure metadata for ERABModificationIndicationDescriptor.
 func (ERABModificationIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(50), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-E-RABModificationIndication"}}}
-}
-
-type PWSFailureIndicationDescriptor struct{}
-
-func PWSFailureIndicationProcedure() PWSFailureIndicationDescriptor {
-	return PWSFailureIndicationDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for PWSFailureIndicationDescriptor.
-func (PWSFailureIndicationDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(51), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-PWSFailureIndication"}}}
 }
 
 type ConnectionEstablishmentIndicationDescriptor struct{}
@@ -19013,17 +18890,6 @@ func (ConnectionEstablishmentIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(54), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-ConnectionEstablishmentIndication"}}}
 }
 
-type NASDeliveryIndicationDescriptor struct{}
-
-func NASDeliveryIndicationProcedure() NASDeliveryIndicationDescriptor {
-	return NASDeliveryIndicationDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for NASDeliveryIndicationDescriptor.
-func (NASDeliveryIndicationDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(57), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-NASDeliveryIndication"}}}
-}
-
 type ENBCPRelocationIndicationDescriptor struct{}
 
 func ENBCPRelocationIndicationProcedure() ENBCPRelocationIndicationDescriptor {
@@ -19033,26 +18899,6 @@ func ENBCPRelocationIndicationProcedure() ENBCPRelocationIndicationDescriptor {
 // Info returns the source-derived procedure metadata for ENBCPRelocationIndicationDescriptor.
 func (ENBCPRelocationIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(60), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-eNBCPRelocationIndication"}}}
-}
-
-type MMECPRelocationIndicationDescriptor struct{}
-
-func MMECPRelocationIndicationProcedure() MMECPRelocationIndicationDescriptor {
-	return MMECPRelocationIndicationDescriptor{}
-}
-
-// Info returns the source-derived procedure metadata for MMECPRelocationIndicationDescriptor.
-func (MMECPRelocationIndicationDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(61), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMECPRelocationIndication"}}}
-}
-
-type HandoverSuccessDescriptor struct{}
-
-func HandoverSuccessProcedure() HandoverSuccessDescriptor { return HandoverSuccessDescriptor{} }
-
-// Info returns the source-derived procedure metadata for HandoverSuccessDescriptor.
-func (HandoverSuccessDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(64), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-HandoverSuccess"}}}
 }
 
 type ENBEarlyStatusTransferDescriptor struct{}
@@ -19066,15 +18912,301 @@ func (ENBEarlyStatusTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(65), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-eNBEarlyStatusTransfer"}}}
 }
 
-type MMEEarlyStatusTransferDescriptor struct{}
+type SONConfigurationTransferExtIETable struct{}
 
-func MMEEarlyStatusTransferProcedure() MMEEarlyStatusTransferDescriptor {
-	return MMEEarlyStatusTransferDescriptor{}
+func SONConfigurationTransferExtIEs() SONConfigurationTransferExtIETable {
+	return SONConfigurationTransferExtIETable{}
 }
 
-// Info returns the source-derived procedure metadata for MMEEarlyStatusTransferDescriptor.
-func (MMEEarlyStatusTransferDescriptor) Info() s00.ProcedureInfo {
-	return s00.ProcedureInfo{Code: s00.ProcedureCode(66), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.2", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Descriptions", Assignment: "id-MMEEarlyStatusTransfer"}}}
+// ID returns the ASN.1 object-set identity of SONConfigurationTransferExtIETable.
+func (SONConfigurationTransferExtIETable) ID() s00.TableID {
+	return func() s00.TableID {
+		sealed := s00.TableID{}
+		*s00.BridgeTableIDFieldSource(&sealed) = aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONConfigurationTransfer-ExtIEs"}
+		return sealed
+	}()
+}
+
+// Table returns the ASN.1 object-set table described by SONConfigurationTransferExtIETable.
+func (SONConfigurationTransferExtIETable) Table() s00.SONConfigurationTransferExtIEsValueExtensionTable {
+	return func() s00.SONConfigurationTransferExtIEsValueExtensionTable {
+		sealed := s00.SONConfigurationTransferExtIEsValueExtensionTable{}
+		*s00.BridgeSONConfigurationTransferExtIEsValueExtensionTableFieldBound(&sealed) = true
+		return sealed
+	}()
+}
+func (SONConfigurationTransferExtIETable) infoX2TNLConfigurationInfo() s00.ExtensionInfo {
+	return s00.ExtensionInfo{Table: SONConfigurationTransferExtIEs().ID(), ID: s00.ProtocolExtensionID(152), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceConditional, ValueType: func() s00.TypeID {
+		sealed := s00.TypeID{}
+		*s00.BridgeTypeIDFieldSource(&sealed) = aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "X2TNLConfigurationInfo"}
+		return sealed
+	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONConfigurationTransfer-ExtIEs", Row: "id-x2TNLConfigurationInfo"}}}
+}
+
+// X2TNLConfigurationInfo returns the typed binding for the X2TNLConfigurationInfo row of SONConfigurationTransferExtIETable.
+func (t SONConfigurationTransferExtIETable) X2TNLConfigurationInfo() SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding {
+	return SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding{info: t.infoX2TNLConfigurationInfo(), codec: X2TNLConfigurationInfoValueCodec{path: "X2TNLConfigurationInfo",
+		decode: func(data []byte, options aper.DecodeState) (s50.X2TNLConfigurationInfo, error) {
+			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
+			if err != nil {
+				var empty s50.X2TNLConfigurationInfo
+				return empty, err
+			}
+			raw.BudgetBuffer().EnterComponent("X2TNLConfigurationInfo")
+			var zero s50.SONConfigurationTransferExtIEsValue
+			decoded, err := s50.BridgeSONConfigurationTransferExtIEsValueMethodDecode(zero, s00.ProtocolIEID(152), raw)
+			if err != nil {
+				var empty s50.X2TNLConfigurationInfo
+				return empty, runtime.WrapDecodePath(err, "X2TNLConfigurationInfo")
+			}
+			value, ok := decoded.AsX2TNLConfigurationInfo()
+			if !ok {
+				var empty s50.X2TNLConfigurationInfo
+				return empty, fmt.Errorf("binding SONConfigurationTransfer-ExtIEs.id-x2TNLConfigurationInfo: no selected value")
+			}
+			return *value, nil
+		},
+		encode: func(value s50.X2TNLConfigurationInfo, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return s50.BridgeSONConfigurationTransferExtIEsValueMethodEncodeFresh((func() s50.SONConfigurationTransferExtIEsValue {
+				sealed := s50.SONConfigurationTransferExtIEsValue{}
+				*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(152)
+				*s50.BridgeSONConfigurationTransferExtIEsValueFieldRowX2TNLConfigurationInfo(&sealed) = &value
+				return sealed
+			}()), fresh, budget)
+		}, capture: func(v s50.X2TNLConfigurationInfo, options aper.DecodeState) (s50.X2TNLConfigurationInfo, aper.Snapshot,
+
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			s50.BridgeCaptureS1APX2TNLConfigurationInfo(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root, false)
+			return v, root
+		}, compare: func(v s50.X2TNLConfigurationInfo, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			s50.BridgeCompareS1APX2TNLConfigurationInfo(&v, &s)
+			s.End(f, root, false)
+			return s.Plan(), s.BudgetValue()
+		}, context: func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:X2TNLConfigurationInfo"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+			return sealed
+		}(),
+	}, inject: func(value s50.X2TNLConfigurationInfo) s50.SONConfigurationTransferExtIEsValue {
+		return func() s50.SONConfigurationTransferExtIEsValue {
+			sealed := s50.SONConfigurationTransferExtIEsValue{}
+			*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(152)
+			*s50.BridgeSONConfigurationTransferExtIEsValueFieldRowX2TNLConfigurationInfo(&sealed) = &value
+			return sealed
+		}()
+	}, get: func(value *s50.SONConfigurationTransferExtIEsValue) (*s50.X2TNLConfigurationInfo, bool) {
+		return value.AsX2TNLConfigurationInfo()
+	}}
+}
+func (SONConfigurationTransferExtIETable) infoSynchronisationInformation() s00.ExtensionInfo {
+	return s00.ExtensionInfo{Table: SONConfigurationTransferExtIEs().ID(), ID: s00.ProtocolExtensionID(209), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceConditional, ValueType: func() s00.TypeID {
+		sealed := s00.TypeID{}
+		*s00.BridgeTypeIDFieldSource(&sealed) = aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SynchronisationInformation"}
+		return sealed
+	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONConfigurationTransfer-ExtIEs", Row: "id-Synchronisation-Information"}}}
+}
+
+// SynchronisationInformation returns the typed binding for the SynchronisationInformation row of SONConfigurationTransferExtIETable.
+func (t SONConfigurationTransferExtIETable) SynchronisationInformation() s50.SONConfigurationTransferExtIEsSynchronisationInformationExtBinding {
+	return func() s50.SONConfigurationTransferExtIEsSynchronisationInformationExtBinding {
+		sealed := s50.SONConfigurationTransferExtIEsSynchronisationInformationExtBinding{}
+		*s50.BridgeSONConfigurationTransferExtIEsSynchronisationInformationExtBindingFieldInfo(&sealed) = t.infoSynchronisationInformation()
+		*s50.BridgeSONConfigurationTransferExtIEsSynchronisationInformationExtBindingFieldCodec(&sealed) = func() s31.SynchronisationInformationValueCodec {
+			sealed := s31.SynchronisationInformationValueCodec{}
+			*s31.BridgeSynchronisationInformationValueCodecFieldPath(&sealed) = "SynchronisationInformation"
+			*s31.BridgeSynchronisationInformationValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s31.SynchronisationInformation, error) {
+				raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
+				if err != nil {
+					var empty s31.SynchronisationInformation
+					return empty, err
+				}
+				raw.BudgetBuffer().EnterComponent("SynchronisationInformation")
+				var zero s50.SONConfigurationTransferExtIEsValue
+				decoded, err := s50.BridgeSONConfigurationTransferExtIEsValueMethodDecode(zero, s00.ProtocolIEID(209), raw)
+				if err != nil {
+					var empty s31.SynchronisationInformation
+					return empty, runtime.WrapDecodePath(err, "SynchronisationInformation")
+				}
+				value, ok := decoded.AsSynchronisationInformation()
+				if !ok {
+					var empty s31.SynchronisationInformation
+					return empty, fmt.Errorf("binding SONConfigurationTransfer-ExtIEs.id-Synchronisation-Information: no selected value")
+				}
+				return *value, nil
+			}
+			*s31.BridgeSynchronisationInformationValueCodecFieldEncode(&sealed) = func(value s31.SynchronisationInformation, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+				return s50.BridgeSONConfigurationTransferExtIEsValueMethodEncodeFresh((func() s50.SONConfigurationTransferExtIEsValue {
+					sealed := s50.SONConfigurationTransferExtIEsValue{}
+					*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(209)
+					*s50.BridgeSONConfigurationTransferExtIEsValueFieldRowSynchronisationInformation(&sealed) = &value
+					return sealed
+				}()), fresh, budget)
+			}
+			*s31.BridgeSynchronisationInformationValueCodecFieldCapture(&sealed) = func(v s31.SynchronisationInformation, options aper.DecodeState) (s31.SynchronisationInformation, aper.Snapshot,
+			) {
+				s := aper.SemanticCaptureFor(options)
+				f := s.Begin()
+				s31.BridgeCaptureS1APSynchronisationInformation(&v, &s)
+				var root aper.Snapshot
+				s.End(
+					f, &root, false)
+				return v, root
+			}
+			*s31.BridgeSynchronisationInformationValueCodecFieldCompare(&sealed) = func(v s31.SynchronisationInformation, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+			) {
+				s := aper.NewSemanticComparison(root, budget)
+				f := s.Begin()
+				s31.BridgeCompareS1APSynchronisationInformation(&v, &s)
+				s.End(f,
+					root,
+
+					false)
+				return s.Plan(), s.BudgetValue()
+			}
+			*s31.BridgeSynchronisationInformationValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+				sealed := s00.BridgeCodecContext{}
+				*s00.BridgecodecContextFieldSource(&sealed) = "source-value:SynchronisationInformation"
+				*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+				return sealed
+			}()
+			return sealed
+		}()
+		*s50.BridgeSONConfigurationTransferExtIEsSynchronisationInformationExtBindingFieldInject(&sealed) = func(value s31.SynchronisationInformation) s50.SONConfigurationTransferExtIEsValue {
+			return func() s50.SONConfigurationTransferExtIEsValue {
+				sealed := s50.SONConfigurationTransferExtIEsValue{}
+				*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(209)
+				*s50.BridgeSONConfigurationTransferExtIEsValueFieldRowSynchronisationInformation(&sealed) = &value
+				return sealed
+			}()
+		}
+		*s50.BridgeSONConfigurationTransferExtIEsSynchronisationInformationExtBindingFieldGet(&sealed) = func(value *s50.SONConfigurationTransferExtIEsValue) (*s31.SynchronisationInformation, bool) {
+			return value.AsSynchronisationInformation()
+		}
+		return sealed
+	}()
+}
+func (SONConfigurationTransferExtIETable) infoRequestedTNLInfo() s00.ExtensionInfo {
+	return s00.ExtensionInfo{Table: SONConfigurationTransferExtIEs().ID(), ID: s00.ProtocolExtensionID(356), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: func() s00.TypeID {
+		sealed := s00.TypeID{}
+		*s00.BridgeTypeIDFieldSource(&sealed) = aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "RequestedTNLInfo"}
+		return sealed
+	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONConfigurationTransfer-ExtIEs", Row: "id-RequestedTNLInfo"}}}
+}
+
+// RequestedTNLInfo returns the typed binding for the RequestedTNLInfo row of SONConfigurationTransferExtIETable.
+func (t SONConfigurationTransferExtIETable) RequestedTNLInfo() s50.SONConfigurationTransferExtIEsRequestedTNLInfoExtBinding {
+	return func() s50.SONConfigurationTransferExtIEsRequestedTNLInfoExtBinding {
+		sealed := s50.SONConfigurationTransferExtIEsRequestedTNLInfoExtBinding{}
+		*s50.BridgeSONConfigurationTransferExtIEsRequestedTNLInfoExtBindingFieldInfo(&sealed) = t.infoRequestedTNLInfo()
+		*s50.BridgeSONConfigurationTransferExtIEsRequestedTNLInfoExtBindingFieldCodec(&sealed) = func() s26.RequestedTNLInfoValueCodec {
+			sealed := s26.RequestedTNLInfoValueCodec{}
+			*s26.BridgeRequestedTNLInfoValueCodecFieldPath(&sealed) = "RequestedTNLInfo"
+			*s26.BridgeRequestedTNLInfoValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s26.RequestedTNLInfo, error) {
+				raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
+				if err != nil {
+					var empty s26.RequestedTNLInfo
+					return empty, err
+				}
+				raw.BudgetBuffer().EnterComponent("RequestedTNLInfo")
+				var zero s50.SONConfigurationTransferExtIEsValue
+				decoded, err := s50.BridgeSONConfigurationTransferExtIEsValueMethodDecode(zero, s00.ProtocolIEID(356), raw)
+				if err != nil {
+					var empty s26.RequestedTNLInfo
+					return empty, runtime.WrapDecodePath(err, "RequestedTNLInfo")
+				}
+				value, ok := decoded.AsRequestedTNLInfo()
+				if !ok {
+					var empty s26.RequestedTNLInfo
+					return empty, fmt.Errorf("binding SONConfigurationTransfer-ExtIEs.id-RequestedTNLInfo: no selected value")
+				}
+				return *value, nil
+			}
+			*s26.BridgeRequestedTNLInfoValueCodecFieldEncode(&sealed) = func(value s26.RequestedTNLInfo, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+				return s50.BridgeSONConfigurationTransferExtIEsValueMethodEncodeFresh((func() s50.SONConfigurationTransferExtIEsValue {
+					sealed := s50.SONConfigurationTransferExtIEsValue{}
+					*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(356)
+					*s50.BridgeSONConfigurationTransferExtIEsValueFieldRowRequestedTNLInfo(&sealed) = &value
+					return sealed
+				}()), fresh, budget)
+			}
+			*s26.BridgeRequestedTNLInfoValueCodecFieldCapture(&sealed) = func(v s26.RequestedTNLInfo, options aper.DecodeState) (s26.RequestedTNLInfo, aper.Snapshot) {
+				s := aper.SemanticCaptureFor(
+					options)
+				f := s.Begin()
+				s26.BridgeCaptureS1APRequestedTNLInfo(&v, &s)
+				var root aper.Snapshot
+				s.End(f, &root, false)
+				return v, root
+			}
+			*s26.BridgeRequestedTNLInfoValueCodecFieldCompare(&sealed) = func(v s26.RequestedTNLInfo, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+				s := aper.NewSemanticComparison(root, budget)
+				f := s.Begin()
+				s26.BridgeCompareS1APRequestedTNLInfo(&v, &s)
+				s.End(f, root, false)
+				return s.
+					Plan(), s.BudgetValue()
+			}
+			*s26.BridgeRequestedTNLInfoValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+				sealed := s00.BridgeCodecContext{}
+				*s00.BridgecodecContextFieldSource(&sealed) = "source-value:RequestedTNLInfo"
+				*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+				return sealed
+			}()
+			return sealed
+		}()
+		*s50.BridgeSONConfigurationTransferExtIEsRequestedTNLInfoExtBindingFieldInject(&sealed) = func(value s26.RequestedTNLInfo) s50.SONConfigurationTransferExtIEsValue {
+			return func() s50.SONConfigurationTransferExtIEsValue {
+				sealed := s50.SONConfigurationTransferExtIEsValue{}
+				*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = s00.ProtocolIEID(356)
+				*s50.BridgeSONConfigurationTransferExtIEsValueFieldRowRequestedTNLInfo(&sealed) = &value
+				return sealed
+			}()
+		}
+		*s50.BridgeSONConfigurationTransferExtIEsRequestedTNLInfoExtBindingFieldGet(&sealed) = func(value *s50.SONConfigurationTransferExtIEsValue) (*s26.RequestedTNLInfo, bool) {
+			return value.AsRequestedTNLInfo()
+		}
+		return sealed
+	}()
+}
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SONConfigurationTransferExtIETable.
+func (t SONConfigurationTransferExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (s50.SONConfigurationTransferExtIEsExtField, error) {
+	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
+		return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
+	}
+	switch id {
+	case s00.ProtocolIEID(152):
+		return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(fmt.Errorf("known extension id-x2TNLConfigurationInfo requires its typed binding"), "Opaque")
+	case s00.ProtocolIEID(209):
+		return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(fmt.Errorf("known extension id-Synchronisation-Information requires its typed binding"), "Opaque")
+	case s00.ProtocolIEID(356):
+		return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(fmt.Errorf("known extension id-RequestedTNLInfo requires its typed binding"), "Opaque")
+	default:
+		budget, err := aper.BuildBudget()
+		if err != nil {
+			return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(err, "Opaque")
+		}
+		opaque, err := aper.BuildOpaqueOpenType(data, budget)
+		if err != nil {
+			return s50.SONConfigurationTransferExtIEsExtField{}, aper.OperationError(err, "Opaque")
+		}
+		return s50.SONConfigurationTransferExtIEsExtField{Id: id, Criticality: criticality, ExtensionValue: func() s50.SONConfigurationTransferExtIEsValue {
+			sealed := s50.SONConfigurationTransferExtIEsValue{}
+			*s50.BridgeSONConfigurationTransferExtIEsValueFieldId(&sealed) = id
+			*s50.BridgeSONConfigurationTransferExtIEsValueFieldOpaque(&sealed) = opaque
+			*s50.BridgeSONConfigurationTransferExtIEsValueFieldIsOpaque(&sealed) = true
+			return sealed
+		}()}, aper.OperationError(nil, "Opaque")
+	}
 }
 
 type ENBConfigurationTransferIETable struct{}
@@ -19111,48 +19243,43 @@ func (ENBConfigurationTransferIETable) infoSONConfigurationTransferECT() s00.Fie
 // SONConfigurationTransferECT returns the typed binding for the SONConfigurationTransferECT row of ENBConfigurationTransferIETable.
 func (t ENBConfigurationTransferIETable) SONConfigurationTransferECT() ENBConfigurationTransferSONConfigurationTransferIEBinding {
 	return ENBConfigurationTransferSONConfigurationTransferIEBinding{info: t.infoSONConfigurationTransferECT(), codec: SONConfigurationTransferValueCodec{path: "SONConfigurationTransfer",
-		decode: func(data []byte, options aper.DecodeState) (s50.SONConfigurationTransfer, error) {
+		decode: func(data []byte, options aper.DecodeState) (SONConfigurationTransfer, error) {
 			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
 			if err != nil {
-				var empty s50.SONConfigurationTransfer
+				var empty SONConfigurationTransfer
 				return empty, err
 			}
 			raw.BudgetBuffer().EnterComponent("SONConfigurationTransfer")
-			var zero s50.ENBConfigurationTransferIEValue
-			decoded, err := s50.BridgeENBConfigurationTransferIEValueMethodDecode(zero, s00.ProtocolIEID(129), raw)
+			var zero ENBConfigurationTransferIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(129), raw)
 			if err != nil {
-				var empty s50.SONConfigurationTransfer
-				return empty, err
+				var empty SONConfigurationTransfer
+				return empty, runtime.WrapDecodePath(err, "SONConfigurationTransfer")
 			}
 			value, ok := decoded.AsSONConfigurationTransferECT()
 			if !ok {
-				var empty s50.SONConfigurationTransfer
+				var empty SONConfigurationTransfer
 				return empty, fmt.Errorf("binding ENBConfigurationTransferIEs.id-SONConfigurationTransferECT: no selected value")
 			}
 			return *value, nil
 		},
-		encode: func(value s50.SONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-			return s50.BridgeENBConfigurationTransferIEValueMethodEncodeFresh((func() s50.ENBConfigurationTransferIEValue {
-				sealed := s50.ENBConfigurationTransferIEValue{}
-				*s50.BridgeENBConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(129)
-				*s50.BridgeENBConfigurationTransferIEValueFieldRowSONConfigurationTransferECT(&sealed) = &value
-				return sealed
-			}()), fresh, budget)
-		}, capture: func(v s50.SONConfigurationTransfer, options aper.DecodeState) (s50.SONConfigurationTransfer, aper.Snapshot) {
+		encode: func(value SONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return (ENBConfigurationTransferIEValue{id: s00.ProtocolIEID(129), rowSONConfigurationTransferECT: &value}).encodeFresh(fresh, budget)
+		}, capture: func(v SONConfigurationTransfer, options aper.DecodeState) (SONConfigurationTransfer, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s50.BridgeCaptureS1APSONConfigurationTransfer(&v, &s)
+			BridgeCaptureS1APSONConfigurationTransfer(&v, &s)
 			var root aper.Snapshot
 			s.End(f, &root,
 
 				false)
 			return v, root
-		}, compare: func(v s50.SONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		}, compare: func(v SONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			s50.BridgeCompareS1APSONConfigurationTransfer(&v, &s)
+			BridgeCompareS1APSONConfigurationTransfer(&v, &s)
 			s.End(f, root,
 
 				false,
@@ -19164,14 +19291,9 @@ func (t ENBConfigurationTransferIETable) SONConfigurationTransferECT() ENBConfig
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 			return sealed
 		}(),
-	}, inject: func(value s50.SONConfigurationTransfer) s50.ENBConfigurationTransferIEValue {
-		return func() s50.ENBConfigurationTransferIEValue {
-			sealed := s50.ENBConfigurationTransferIEValue{}
-			*s50.BridgeENBConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(129)
-			*s50.BridgeENBConfigurationTransferIEValueFieldRowSONConfigurationTransferECT(&sealed) = &value
-			return sealed
-		}()
-	}, get: func(value *s50.ENBConfigurationTransferIEValue) (*s50.SONConfigurationTransfer, bool) {
+	}, inject: func(value SONConfigurationTransfer) ENBConfigurationTransferIEValue {
+		return ENBConfigurationTransferIEValue{id: s00.ProtocolIEID(129), rowSONConfigurationTransferECT: &value}
+	}, get: func(value *ENBConfigurationTransferIEValue) (*SONConfigurationTransfer, bool) {
 		return value.AsSONConfigurationTransferECT()
 	}}
 }
@@ -19184,82 +19306,59 @@ func (ENBConfigurationTransferIETable) infoENDCSONConfigurationTransferECT() s00
 }
 
 // ENDCSONConfigurationTransferECT returns the typed binding for the ENDCSONConfigurationTransferECT row of ENBConfigurationTransferIETable.
-func (t ENBConfigurationTransferIETable) ENDCSONConfigurationTransferECT() s50.ENBConfigurationTransferENDCSONConfigurationTransferIEBinding {
-	return func() s50.ENBConfigurationTransferENDCSONConfigurationTransferIEBinding {
-		sealed := s50.ENBConfigurationTransferENDCSONConfigurationTransferIEBinding{}
-		*s50.BridgeENBConfigurationTransferENDCSONConfigurationTransferIEBindingFieldInfo(&sealed) = t.infoENDCSONConfigurationTransferECT()
-		*s50.BridgeENBConfigurationTransferENDCSONConfigurationTransferIEBindingFieldCodec(&sealed) = func() s50.ENDCSONConfigurationTransferValueCodec {
-			sealed := s50.ENDCSONConfigurationTransferValueCodec{}
-			*s50.BridgeENDCSONConfigurationTransferValueCodecFieldPath(&sealed) = "ENDCSONConfigurationTransfer"
-			*s50.BridgeENDCSONConfigurationTransferValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s50.ENDCSONConfigurationTransfer, error) {
-				raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
-				if err != nil {
-					var empty s50.ENDCSONConfigurationTransfer
-					return empty, err
-				}
-				raw.BudgetBuffer().EnterComponent("ENDCSONConfigurationTransfer")
-				var zero s50.ENBConfigurationTransferIEValue
-				decoded, err := s50.BridgeENBConfigurationTransferIEValueMethodDecode(zero, s00.ProtocolIEID(294), raw)
-				if err != nil {
-					var empty s50.ENDCSONConfigurationTransfer
-					return empty, err
-				}
-				value, ok := decoded.AsENDCSONConfigurationTransferECT()
-				if !ok {
-					var empty s50.ENDCSONConfigurationTransfer
-					return empty, fmt.Errorf("binding ENBConfigurationTransferIEs.id-EN-DCSONConfigurationTransfer-ECT: no selected value")
-				}
-				return *value, nil
+func (t ENBConfigurationTransferIETable) ENDCSONConfigurationTransferECT() ENBConfigurationTransferENDCSONConfigurationTransferIEBinding {
+	return ENBConfigurationTransferENDCSONConfigurationTransferIEBinding{info: t.infoENDCSONConfigurationTransferECT(), codec: ENDCSONConfigurationTransferValueCodec{path: "ENDCSONConfigurationTransfer",
+		decode: func(data []byte, options aper.DecodeState) (ENDCSONConfigurationTransfer, error) {
+			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
+			if err != nil {
+				var empty ENDCSONConfigurationTransfer
+				return empty, err
 			}
-			*s50.BridgeENDCSONConfigurationTransferValueCodecFieldEncode(&sealed) = func(value s50.ENDCSONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-				return s50.BridgeENBConfigurationTransferIEValueMethodEncodeFresh((func() s50.ENBConfigurationTransferIEValue {
-					sealed := s50.ENBConfigurationTransferIEValue{}
-					*s50.BridgeENBConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(294)
-					*s50.BridgeENBConfigurationTransferIEValueFieldRowENDCSONConfigurationTransferECT(&sealed) = &value
-					return sealed
-				}()), fresh, budget)
+			raw.BudgetBuffer().EnterComponent("ENDCSONConfigurationTransfer")
+			var zero ENBConfigurationTransferIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(294), raw)
+			if err != nil {
+				var empty ENDCSONConfigurationTransfer
+				return empty, runtime.WrapDecodePath(err, "ENDCSONConfigurationTransfer")
 			}
-			*s50.BridgeENDCSONConfigurationTransferValueCodecFieldCapture(&sealed) = func(v s50.ENDCSONConfigurationTransfer, options aper.DecodeState) (s50.ENDCSONConfigurationTransfer, aper.Snapshot,
-			) {
-				s := aper.SemanticCaptureFor(options)
-				f := s.Begin()
-				s50.BridgeCaptureS1APENDCSONConfigurationTransfer(&v, &s)
-				var root aper.Snapshot
+			value, ok := decoded.AsENDCSONConfigurationTransferECT()
+			if !ok {
+				var empty ENDCSONConfigurationTransfer
+				return empty, fmt.Errorf("binding ENBConfigurationTransferIEs.id-EN-DCSONConfigurationTransfer-ECT: no selected value")
+			}
+			return *value, nil
+		},
+		encode: func(value ENDCSONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return (ENBConfigurationTransferIEValue{id: s00.ProtocolIEID(294), rowENDCSONConfigurationTransferECT: &value}).encodeFresh(fresh, budget)
+		}, capture: func(v ENDCSONConfigurationTransfer, options aper.DecodeState) (ENDCSONConfigurationTransfer, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			BridgeCaptureS1APENDCSONConfigurationTransfer(&v, &s)
+			var root aper.Snapshot
 
-				s.End(f, &root, false)
-				return v, root
-			}
-			*s50.BridgeENDCSONConfigurationTransferValueCodecFieldCompare(&sealed) = func(v s50.ENDCSONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
-			) {
-				s := aper.NewSemanticComparison(root, budget)
-				f := s.
-					Begin()
-				s50.BridgeCompareS1APENDCSONConfigurationTransfer(&v, &s)
-				s.End(
-					f, root, false)
-				return s.Plan(), s.BudgetValue()
-			}
-			*s50.BridgeENDCSONConfigurationTransferValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-				sealed := s00.BridgeCodecContext{}
-				*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ENDCSONConfigurationTransfer"
-				*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-				return sealed
-			}()
+			s.End(f, &root, false)
+			return v, root
+		}, compare: func(v ENDCSONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.
+				Begin()
+			BridgeCompareS1APENDCSONConfigurationTransfer(&v, &s)
+			s.End(
+				f, root, false)
+			return s.Plan(), s.BudgetValue()
+		}, context: func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ENDCSONConfigurationTransfer"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 			return sealed
-		}()
-		*s50.BridgeENBConfigurationTransferENDCSONConfigurationTransferIEBindingFieldInject(&sealed) = func(value s50.ENDCSONConfigurationTransfer) s50.ENBConfigurationTransferIEValue {
-			return func() s50.ENBConfigurationTransferIEValue {
-				sealed := s50.ENBConfigurationTransferIEValue{}
-				*s50.BridgeENBConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(294)
-				*s50.BridgeENBConfigurationTransferIEValueFieldRowENDCSONConfigurationTransferECT(&sealed) = &value
-				return sealed
-			}()
-		}
-		*s50.BridgeENBConfigurationTransferENDCSONConfigurationTransferIEBindingFieldGet(&sealed) = func(value *s50.ENBConfigurationTransferIEValue) (*s50.ENDCSONConfigurationTransfer, bool) {
-			return value.AsENDCSONConfigurationTransferECT()
-		}
-		return sealed
-	}()
+		}(),
+	}, inject: func(value ENDCSONConfigurationTransfer) ENBConfigurationTransferIEValue {
+		return ENBConfigurationTransferIEValue{id: s00.ProtocolIEID(294), rowENDCSONConfigurationTransferECT: &value}
+	}, get: func(value *ENBConfigurationTransferIEValue) (*ENDCSONConfigurationTransfer, bool) {
+		return value.AsENDCSONConfigurationTransferECT()
+	}}
 }
 func (ENBConfigurationTransferIETable) infoIntersystemSONConfigurationTransferECT() s00.FieldInfo {
 	return s00.FieldInfo{Table: ENBConfigurationTransferIEs().ID(), ID: s00.ProtocolIEID(310), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: func() s00.TypeID {
@@ -19270,111 +19369,89 @@ func (ENBConfigurationTransferIETable) infoIntersystemSONConfigurationTransferEC
 }
 
 // IntersystemSONConfigurationTransferECT returns the typed binding for the IntersystemSONConfigurationTransferECT row of ENBConfigurationTransferIETable.
-func (t ENBConfigurationTransferIETable) IntersystemSONConfigurationTransferECT() s50.ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding {
-	return func() s50.ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding {
-		sealed := s50.ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding{}
-		*s50.BridgeENBConfigurationTransferIntersystemSONConfigurationTransferIEBindingFieldInfo(&sealed) = t.infoIntersystemSONConfigurationTransferECT()
-		*s50.BridgeENBConfigurationTransferIntersystemSONConfigurationTransferIEBindingFieldCodec(&sealed) = func() s01.IntersystemSONConfigurationTransferValueCodec {
-			sealed := s01.IntersystemSONConfigurationTransferValueCodec{}
-			*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldPath(&sealed) = "IntersystemSONConfigurationTransfer"
-			*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.IntersystemSONConfigurationTransfer, error) {
-				raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
-				if err != nil {
-					var empty s00.IntersystemSONConfigurationTransfer
-					return empty, err
-				}
-				raw.BudgetBuffer().EnterComponent("IntersystemSONConfigurationTransfer")
-				var zero s50.ENBConfigurationTransferIEValue
-				decoded, err := s50.BridgeENBConfigurationTransferIEValueMethodDecode(zero, s00.ProtocolIEID(310), raw)
-				if err != nil {
-					var empty s00.IntersystemSONConfigurationTransfer
-					return empty, err
-				}
-				value, ok := decoded.AsIntersystemSONConfigurationTransferECT()
-				if !ok {
-					var empty s00.IntersystemSONConfigurationTransfer
-					return empty, fmt.Errorf("binding ENBConfigurationTransferIEs.id-IntersystemSONConfigurationTransferECT: no selected value")
-				}
-				return *value, nil
+func (t ENBConfigurationTransferIETable) IntersystemSONConfigurationTransferECT() ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding {
+	return ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding{info: t.infoIntersystemSONConfigurationTransferECT(), codec: func() s01.IntersystemSONConfigurationTransferValueCodec {
+		sealed := s01.IntersystemSONConfigurationTransferValueCodec{}
+		*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldPath(&sealed) = "IntersystemSONConfigurationTransfer"
+		*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s00.IntersystemSONConfigurationTransfer, error) {
+			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
+			if err != nil {
+				var empty s00.IntersystemSONConfigurationTransfer
+				return empty, err
 			}
-			*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldEncode(&sealed) = func(value s00.IntersystemSONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
-				return s50.BridgeENBConfigurationTransferIEValueMethodEncodeFresh((func() s50.ENBConfigurationTransferIEValue {
-					sealed := s50.ENBConfigurationTransferIEValue{}
-					*s50.BridgeENBConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(310)
-					*s50.BridgeENBConfigurationTransferIEValueFieldRowIntersystemSONConfigurationTransferECT(&sealed) = &value
-					return sealed
-				}()), fresh, budget)
+			raw.BudgetBuffer().EnterComponent("IntersystemSONConfigurationTransfer")
+			var zero ENBConfigurationTransferIEValue
+			decoded, err := zero.decode(s00.ProtocolIEID(310), raw)
+			if err != nil {
+				var empty s00.IntersystemSONConfigurationTransfer
+				return empty, runtime.WrapDecodePath(err, "IntersystemSONConfigurationTransfer")
 			}
-			*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldCapture(&sealed) = func(v s00.IntersystemSONConfigurationTransfer, options aper.DecodeState) (s00.IntersystemSONConfigurationTransfer, aper.Snapshot,
-			) {
-				s := aper.SemanticCaptureFor(options)
-				f := s.Begin()
-				s00.BridgeCaptureS1APIntersystemSONConfigurationTransfer(&v, &s)
-				var root aper.Snapshot
-				s.End(f, &root, false)
-				return v, root
+			value, ok := decoded.AsIntersystemSONConfigurationTransferECT()
+			if !ok {
+				var empty s00.IntersystemSONConfigurationTransfer
+				return empty, fmt.Errorf("binding ENBConfigurationTransferIEs.id-IntersystemSONConfigurationTransferECT: no selected value")
+			}
+			return *value, nil
+		}
+		*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldEncode(&sealed) = func(value s00.IntersystemSONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+			return (ENBConfigurationTransferIEValue{id: s00.ProtocolIEID(310), rowIntersystemSONConfigurationTransferECT: &value}).encodeFresh(fresh, budget)
+		}
+		*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldCapture(&sealed) = func(v s00.IntersystemSONConfigurationTransfer, options aper.DecodeState) (s00.IntersystemSONConfigurationTransfer, aper.Snapshot,
+		) {
+			s := aper.SemanticCaptureFor(options)
+			f := s.Begin()
+			s00.BridgeCaptureS1APIntersystemSONConfigurationTransfer(&v, &s)
+			var root aper.Snapshot
+			s.End(f, &root, false)
+			return v, root
 
-			}
-			*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldCompare(&sealed) = func(v s00.IntersystemSONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		}
+		*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldCompare(&sealed) = func(v s00.IntersystemSONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
-			) {
-				s := aper.NewSemanticComparison(root, budget)
-				f := s.Begin()
-				s02.BridgeCompareS1APIntersystemSONConfigurationTransfer(&v, &s)
-				s.End(f, root, false)
-				return s.Plan(), s.BudgetValue()
-			}
-			*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
-				sealed := s00.BridgeCodecContext{}
-				*s00.BridgecodecContextFieldSource(&sealed) = "source-value:IntersystemSONConfigurationTransfer"
-				*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
-				return sealed
-			}()
+		) {
+			s := aper.NewSemanticComparison(root, budget)
+			f := s.Begin()
+			s02.BridgeCompareS1APIntersystemSONConfigurationTransfer(&v, &s)
+			s.End(f, root, false)
+			return s.Plan(), s.BudgetValue()
+		}
+		*s01.BridgeIntersystemSONConfigurationTransferValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+			sealed := s00.BridgeCodecContext{}
+			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:IntersystemSONConfigurationTransfer"
+			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 			return sealed
 		}()
-		*s50.BridgeENBConfigurationTransferIntersystemSONConfigurationTransferIEBindingFieldInject(&sealed) = func(value s00.IntersystemSONConfigurationTransfer) s50.ENBConfigurationTransferIEValue {
-			return func() s50.ENBConfigurationTransferIEValue {
-				sealed := s50.ENBConfigurationTransferIEValue{}
-				*s50.BridgeENBConfigurationTransferIEValueFieldId(&sealed) = s00.ProtocolIEID(310)
-				*s50.BridgeENBConfigurationTransferIEValueFieldRowIntersystemSONConfigurationTransferECT(&sealed) = &value
-				return sealed
-			}()
-		}
-		*s50.BridgeENBConfigurationTransferIntersystemSONConfigurationTransferIEBindingFieldGet(&sealed) = func(value *s50.ENBConfigurationTransferIEValue) (*s00.IntersystemSONConfigurationTransfer, bool) {
-			return value.AsIntersystemSONConfigurationTransferECT()
-		}
 		return sealed
-	}()
+	}(),
+		inject: func(value s00.IntersystemSONConfigurationTransfer) ENBConfigurationTransferIEValue {
+			return ENBConfigurationTransferIEValue{id: s00.ProtocolIEID(310), rowIntersystemSONConfigurationTransferECT: &value}
+		}, get: func(value *ENBConfigurationTransferIEValue) (*s00.IntersystemSONConfigurationTransfer, bool) {
+			return value.AsIntersystemSONConfigurationTransferECT()
+		}}
 }
 
 // NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBConfigurationTransferIETable.
-func (t ENBConfigurationTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s50.ENBConfigurationTransferIEField, error) {
+func (t ENBConfigurationTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBConfigurationTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
-		return s50.ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
 	}
 	switch id {
 	case s00.ProtocolIEID(129):
-		return s50.ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("known IE id-SONConfigurationTransferECT requires its typed binding"), "Opaque")
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("known IE id-SONConfigurationTransferECT requires its typed binding"), "Opaque")
 	case s00.ProtocolIEID(294):
-		return s50.ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("known IE id-EN-DCSONConfigurationTransfer-ECT requires its typed binding"), "Opaque")
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("known IE id-EN-DCSONConfigurationTransfer-ECT requires its typed binding"), "Opaque")
 	case s00.ProtocolIEID(310):
-		return s50.ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("known IE id-IntersystemSONConfigurationTransferECT requires its typed binding"), "Opaque")
+		return ENBConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("known IE id-IntersystemSONConfigurationTransferECT requires its typed binding"), "Opaque")
 	default:
 		budget, err := aper.BuildBudget()
 		if err != nil {
-			return s50.ENBConfigurationTransferIEField{}, aper.OperationError(err, "Opaque")
+			return ENBConfigurationTransferIEField{}, aper.OperationError(err, "Opaque")
 		}
 		opaque, err := aper.BuildOpaqueOpenType(data, budget)
 		if err != nil {
-			return s50.ENBConfigurationTransferIEField{}, aper.OperationError(err, "Opaque")
+			return ENBConfigurationTransferIEField{}, aper.OperationError(err, "Opaque")
 		}
-		return s50.ENBConfigurationTransferIEField{Id: id, Criticality: criticality, Value: func() s50.ENBConfigurationTransferIEValue {
-			sealed := s50.ENBConfigurationTransferIEValue{}
-			*s50.BridgeENBConfigurationTransferIEValueFieldId(&sealed) = id
-			*s50.BridgeENBConfigurationTransferIEValueFieldOpaque(&sealed) = opaque
-			*s50.BridgeENBConfigurationTransferIEValueFieldIsOpaque(&sealed) = true
-			return sealed
-		}()}, aper.OperationError(nil, "Opaque")
+		return ENBConfigurationTransferIEField{Id: id, Criticality: criticality, Value: ENBConfigurationTransferIEValue{id: id, opaque: opaque, isOpaque: true}}, aper.OperationError(nil, "Opaque")
 	}
 }
 
@@ -19412,43 +19489,43 @@ func (MMEConfigurationTransferIETable) infoSONConfigurationTransferMCT() s00.Fie
 // SONConfigurationTransferMCT returns the typed binding for the SONConfigurationTransferMCT row of MMEConfigurationTransferIETable.
 func (t MMEConfigurationTransferIETable) SONConfigurationTransferMCT() MMEConfigurationTransferSONConfigurationTransferIEBinding {
 	return MMEConfigurationTransferSONConfigurationTransferIEBinding{info: t.infoSONConfigurationTransferMCT(), codec: SONConfigurationTransferValueCodec{path: "SONConfigurationTransfer",
-		decode: func(data []byte, options aper.DecodeState) (s50.SONConfigurationTransfer, error) {
+		decode: func(data []byte, options aper.DecodeState) (SONConfigurationTransfer, error) {
 			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
 			if err != nil {
-				var empty s50.SONConfigurationTransfer
+				var empty SONConfigurationTransfer
 				return empty, err
 			}
 			raw.BudgetBuffer().EnterComponent("SONConfigurationTransfer")
 			var zero MMEConfigurationTransferIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(130), raw)
 			if err != nil {
-				var empty s50.SONConfigurationTransfer
-				return empty, err
+				var empty SONConfigurationTransfer
+				return empty, runtime.WrapDecodePath(err, "SONConfigurationTransfer")
 			}
 			value, ok := decoded.AsSONConfigurationTransferMCT()
 			if !ok {
-				var empty s50.SONConfigurationTransfer
+				var empty SONConfigurationTransfer
 				return empty, fmt.Errorf("binding MMEConfigurationTransferIEs.id-SONConfigurationTransferMCT: no selected value")
 			}
 			return *value, nil
 		},
-		encode: func(value s50.SONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		encode: func(value SONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (MMEConfigurationTransferIEValue{id: s00.ProtocolIEID(130), rowSONConfigurationTransferMCT: &value}).encodeFresh(fresh, budget)
-		}, capture: func(v s50.SONConfigurationTransfer, options aper.DecodeState) (s50.SONConfigurationTransfer, aper.Snapshot) {
+		}, capture: func(v SONConfigurationTransfer, options aper.DecodeState) (SONConfigurationTransfer, aper.Snapshot) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s50.BridgeCaptureS1APSONConfigurationTransfer(&v, &s)
+			BridgeCaptureS1APSONConfigurationTransfer(&v, &s)
 			var root aper.Snapshot
 			s.End(f, &root,
 
 				false)
 			return v, root
-		}, compare: func(v s50.SONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		}, compare: func(v SONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.Begin()
-			s50.BridgeCompareS1APSONConfigurationTransfer(&v, &s)
+			BridgeCompareS1APSONConfigurationTransfer(&v, &s)
 			s.End(f, root,
 
 				false,
@@ -19460,9 +19537,9 @@ func (t MMEConfigurationTransferIETable) SONConfigurationTransferMCT() MMEConfig
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 			return sealed
 		}(),
-	}, inject: func(value s50.SONConfigurationTransfer) MMEConfigurationTransferIEValue {
+	}, inject: func(value SONConfigurationTransfer) MMEConfigurationTransferIEValue {
 		return MMEConfigurationTransferIEValue{id: s00.ProtocolIEID(130), rowSONConfigurationTransferMCT: &value}
-	}, get: func(value *MMEConfigurationTransferIEValue) (*s50.SONConfigurationTransfer, bool) {
+	}, get: func(value *MMEConfigurationTransferIEValue) (*SONConfigurationTransfer, bool) {
 		return value.AsSONConfigurationTransferMCT()
 	}}
 }
@@ -19476,65 +19553,58 @@ func (MMEConfigurationTransferIETable) infoENDCSONConfigurationTransferMCT() s00
 
 // ENDCSONConfigurationTransferMCT returns the typed binding for the ENDCSONConfigurationTransferMCT row of MMEConfigurationTransferIETable.
 func (t MMEConfigurationTransferIETable) ENDCSONConfigurationTransferMCT() MMEConfigurationTransferENDCSONConfigurationTransferIEBinding {
-	return MMEConfigurationTransferENDCSONConfigurationTransferIEBinding{info: t.infoENDCSONConfigurationTransferMCT(), codec: func() s50.ENDCSONConfigurationTransferValueCodec {
-		sealed := s50.ENDCSONConfigurationTransferValueCodec{}
-		*s50.BridgeENDCSONConfigurationTransferValueCodecFieldPath(&sealed) = "ENDCSONConfigurationTransfer"
-		*s50.BridgeENDCSONConfigurationTransferValueCodecFieldDecode(&sealed) = func(data []byte, options aper.DecodeState) (s50.ENDCSONConfigurationTransfer, error) {
+	return MMEConfigurationTransferENDCSONConfigurationTransferIEBinding{info: t.infoENDCSONConfigurationTransferMCT(), codec: ENDCSONConfigurationTransferValueCodec{path: "ENDCSONConfigurationTransfer",
+		decode: func(data []byte, options aper.DecodeState) (ENDCSONConfigurationTransfer, error) {
 			raw, err := aper.NewOpaqueOpenTypeWithState(data, options)
 			if err != nil {
-				var empty s50.ENDCSONConfigurationTransfer
+				var empty ENDCSONConfigurationTransfer
 				return empty, err
 			}
 			raw.BudgetBuffer().EnterComponent("ENDCSONConfigurationTransfer")
 			var zero MMEConfigurationTransferIEValue
 			decoded, err := zero.decode(s00.ProtocolIEID(295), raw)
 			if err != nil {
-				var empty s50.ENDCSONConfigurationTransfer
-				return empty, err
+				var empty ENDCSONConfigurationTransfer
+				return empty, runtime.WrapDecodePath(err, "ENDCSONConfigurationTransfer")
 			}
 			value, ok := decoded.AsENDCSONConfigurationTransferMCT()
 			if !ok {
-				var empty s50.ENDCSONConfigurationTransfer
+				var empty ENDCSONConfigurationTransfer
 				return empty, fmt.Errorf("binding MMEConfigurationTransferIEs.id-EN-DCSONConfigurationTransfer-MCT: no selected value")
 			}
 			return *value, nil
-		}
-		*s50.BridgeENDCSONConfigurationTransferValueCodecFieldEncode(&sealed) = func(value s50.ENDCSONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		},
+		encode: func(value ENDCSONConfigurationTransfer, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 			return (MMEConfigurationTransferIEValue{id: s00.ProtocolIEID(295), rowENDCSONConfigurationTransferMCT: &value}).encodeFresh(fresh, budget)
-		}
-		*s50.BridgeENDCSONConfigurationTransferValueCodecFieldCapture(&sealed) = func(v s50.ENDCSONConfigurationTransfer, options aper.DecodeState) (s50.ENDCSONConfigurationTransfer, aper.Snapshot,
+		}, capture: func(v ENDCSONConfigurationTransfer, options aper.DecodeState) (ENDCSONConfigurationTransfer, aper.Snapshot,
 		) {
 			s := aper.SemanticCaptureFor(options)
 			f := s.Begin()
-			s50.BridgeCaptureS1APENDCSONConfigurationTransfer(&v, &s)
+			BridgeCaptureS1APENDCSONConfigurationTransfer(&v, &s)
 			var root aper.Snapshot
 
 			s.End(f, &root, false)
 			return v, root
-		}
-		*s50.BridgeENDCSONConfigurationTransferValueCodecFieldCompare(&sealed) = func(v s50.ENDCSONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+		}, compare: func(v ENDCSONConfigurationTransfer, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
 		) {
 			s := aper.NewSemanticComparison(root, budget)
 			f := s.
 				Begin()
-			s50.BridgeCompareS1APENDCSONConfigurationTransfer(&v, &s)
+			BridgeCompareS1APENDCSONConfigurationTransfer(&v, &s)
 			s.End(
 				f, root, false)
 			return s.Plan(), s.BudgetValue()
-		}
-		*s50.BridgeENDCSONConfigurationTransferValueCodecFieldContext(&sealed) = func() s00.BridgeCodecContext {
+		}, context: func() s00.BridgeCodecContext {
 			sealed := s00.BridgeCodecContext{}
 			*s00.BridgecodecContextFieldSource(&sealed) = "source-value:ENDCSONConfigurationTransfer"
 			*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 			return sealed
-		}()
-		return sealed
-	}(),
-		inject: func(value s50.ENDCSONConfigurationTransfer) MMEConfigurationTransferIEValue {
-			return MMEConfigurationTransferIEValue{id: s00.ProtocolIEID(295), rowENDCSONConfigurationTransferMCT: &value}
-		}, get: func(value *MMEConfigurationTransferIEValue) (*s50.ENDCSONConfigurationTransfer, bool) {
-			return value.AsENDCSONConfigurationTransferMCT()
-		}}
+		}(),
+	}, inject: func(value ENDCSONConfigurationTransfer) MMEConfigurationTransferIEValue {
+		return MMEConfigurationTransferIEValue{id: s00.ProtocolIEID(295), rowENDCSONConfigurationTransferMCT: &value}
+	}, get: func(value *MMEConfigurationTransferIEValue) (*ENDCSONConfigurationTransfer, bool) {
+		return value.AsENDCSONConfigurationTransferMCT()
+	}}
 }
 func (MMEConfigurationTransferIETable) infoIntersystemSONConfigurationTransferMCT() s00.FieldInfo {
 	return s00.FieldInfo{Table: MMEConfigurationTransferIEs().ID(), ID: s00.ProtocolIEID(309), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: func() s00.TypeID {
@@ -19560,7 +19630,7 @@ func (t MMEConfigurationTransferIETable) IntersystemSONConfigurationTransferMCT(
 			decoded, err := zero.decode(s00.ProtocolIEID(309), raw)
 			if err != nil {
 				var empty s00.IntersystemSONConfigurationTransfer
-				return empty, err
+				return empty, runtime.WrapDecodePath(err, "IntersystemSONConfigurationTransfer")
 			}
 			value, ok := decoded.AsIntersystemSONConfigurationTransferMCT()
 			if !ok {
@@ -19692,7 +19762,7 @@ func ENBDirectInformationTransferCodec() s34.ENBDirectInformationTransferValueCo
 }
 
 // ENBEarlyStatusTransferCodec binds the complete APER value type.
-func ENBEarlyStatusTransferCodec() s37.ENBEarlyStatusTransferValueCodec {
+func ENBEarlyStatusTransferCodec() s38.ENBEarlyStatusTransferValueCodec {
 	return ENBEarlyStatusTransferProcedure().Initiating().Codec()
 }
 
@@ -19702,7 +19772,7 @@ func ENBStatusTransferCodec() s24.ENBStatusTransferValueCodec {
 }
 
 // ENDCSONConfigurationTransferCodec binds the complete APER value type.
-func ENDCSONConfigurationTransferCodec() s50.ENDCSONConfigurationTransferValueCodec {
+func ENDCSONConfigurationTransferCodec() ENDCSONConfigurationTransferValueCodec {
 	return ENBConfigurationTransferIEs().ENDCSONConfigurationTransferECT().Codec()
 }
 
@@ -19712,7 +19782,7 @@ func ERABModificationConfirmCodec() s39.ERABModificationConfirmValueCodec {
 }
 
 // ERABModificationIndicationCodec binds the complete APER value type.
-func ERABModificationIndicationCodec() s45.ERABModificationIndicationValueCodec {
+func ERABModificationIndicationCodec() s46.ERABModificationIndicationValueCodec {
 	return ERABModificationIndicationProcedure().Initiating().Codec()
 }
 
@@ -19722,7 +19792,7 @@ func ERABModifyRequestCodec() s40.ERABModifyRequestValueCodec {
 }
 
 // ERABModifyResponseCodec binds the complete APER value type.
-func ERABModifyResponseCodec() s45.ERABModifyResponseValueCodec {
+func ERABModifyResponseCodec() s46.ERABModifyResponseValueCodec {
 	return ERABModifyProcedure().Successful().Codec()
 }
 
@@ -19732,7 +19802,7 @@ func ERABReleaseCommandCodec() s39.ERABReleaseCommandValueCodec {
 }
 
 // ERABReleaseIndicationCodec binds the complete APER value type.
-func ERABReleaseIndicationCodec() s45.ERABReleaseIndicationValueCodec {
+func ERABReleaseIndicationCodec() s46.ERABReleaseIndicationValueCodec {
 	return ERABReleaseIndicationProcedure().Initiating().Codec()
 }
 
@@ -19756,226 +19826,101 @@ func ErrorIndicationCodec() s28.ErrorIndicationValueCodec {
 	return ErrorIndicationProcedure().Initiating().Codec()
 }
 
-// HandoverCancelAcknowledgeCodec binds the complete APER value type.
-func HandoverCancelAcknowledgeCodec() s25.HandoverCancelAcknowledgeValueCodec {
-	return HandoverCancelProcedure().Successful().Codec()
+// IntersystemSONConfigurationTransferCodec binds the complete APER value type.
+func IntersystemSONConfigurationTransferCodec() s01.IntersystemSONConfigurationTransferValueCodec {
+	return ENBConfigurationTransferIEs().IntersystemSONConfigurationTransferECT().Codec()
 }
 
-// HandoverCancelCodec binds the complete APER value type.
-func HandoverCancelCodec() s25.HandoverCancelValueCodec {
-	return HandoverCancelProcedure().Initiating().Codec()
+// RequestedTNLInfoCodec binds the complete APER value type.
+func RequestedTNLInfoCodec() s26.RequestedTNLInfoValueCodec {
+	return SONConfigurationTransferExtIEs().RequestedTNLInfo().Codec()
 }
 
-// HandoverCommandCodec binds the complete APER value type.
-func HandoverCommandCodec() s40.HandoverCommandValueCodec {
-	return HandoverPreparationProcedure().Successful().Codec()
+// SONConfigurationTransferCodec binds the complete APER value type.
+func SONConfigurationTransferCodec() SONConfigurationTransferValueCodec {
+	return ENBConfigurationTransferIEs().SONConfigurationTransferECT().Codec()
 }
 
-// HandoverFailureCodec binds the complete APER value type.
-func HandoverFailureCodec() s25.HandoverFailureValueCodec {
-	return HandoverResourceAllocationProcedure().Unsuccessful().Codec()
-}
-
-// HandoverNotifyCodec binds the complete APER value type.
-func HandoverNotifyCodec() s35.HandoverNotifyValueCodec {
-	return HandoverNotificationProcedure().Initiating().Codec()
-}
-
-// HandoverPreparationFailureCodec binds the complete APER value type.
-func HandoverPreparationFailureCodec() s25.HandoverPreparationFailureValueCodec {
-	return HandoverPreparationProcedure().Unsuccessful().Codec()
-}
-
-// HandoverRequestAcknowledgeCodec binds the complete APER value type.
-func HandoverRequestAcknowledgeCodec() s39.HandoverRequestAcknowledgeValueCodec {
-	return HandoverResourceAllocationProcedure().Successful().Codec()
-}
-
-// HandoverRequestCodec binds the complete APER value type.
-func HandoverRequestCodec() s48.HandoverRequestValueCodec {
-	return HandoverResourceAllocationProcedure().Initiating().Codec()
-}
-
-// HandoverRequiredCodec binds the complete APER value type.
-func HandoverRequiredCodec() s34.HandoverRequiredValueCodec {
-	return HandoverPreparationProcedure().Initiating().Codec()
-}
-
-// HandoverSuccessCodec binds the complete APER value type.
-func HandoverSuccessCodec() s18.HandoverSuccessValueCodec {
-	return HandoverSuccessProcedure().Initiating().Codec()
-}
-
-// InitialContextSetupFailureCodec binds the complete APER value type.
-func InitialContextSetupFailureCodec() s25.InitialContextSetupFailureValueCodec {
-	return InitialContextSetupProcedure().Unsuccessful().Codec()
-}
-
-// InitialContextSetupRequestCodec binds the complete APER value type.
-func InitialContextSetupRequestCodec() s48.InitialContextSetupRequestValueCodec {
-	return InitialContextSetupProcedure().Initiating().Codec()
-}
-
-// InitialContextSetupResponseCodec binds the complete APER value type.
-func InitialContextSetupResponseCodec() s39.InitialContextSetupResponseValueCodec {
-	return InitialContextSetupProcedure().Successful().Codec()
-}
-
-// InitialUEMessageCodec binds the complete APER value type.
-func InitialUEMessageCodec() s35.InitialUEMessageValueCodec {
-	return InitialUEMessageProcedure().Initiating().Codec()
-}
-
-// InitiatingMessageCodec binds the complete source value type.
-func InitiatingMessageCodec() InitiatingMessageValueCodec {
-	return InitiatingMessageValueCodec{path: "InitiatingMessage", decode: func(data []byte, options aper.DecodeState) (InitiatingMessage, error) {
-		var value InitiatingMessage
+// SONInformationCodec binds the complete source value type.
+func SONInformationCodec() SONInformationValueCodec {
+	return SONInformationValueCodec{path: "SONInformation", decode: func(data []byte, options aper.DecodeState) (SONInformation, error) {
+		var value SONInformation
 		if err := value.unmarshalAPERWithOptions(data, options); err != nil {
-			return InitiatingMessage{}, err
+			return SONInformation{}, err
 		}
 		value.received = true
 		value.receivedAbsolute = true
 		value.receivedBytes = aper.OriginalWire(data)
 		return value, nil
-	}, encode: func(value InitiatingMessage, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+	}, encode: func(value SONInformation, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
 		return (&value).marshalAPERBudget(budget, fresh)
-	}, capture: func(v InitiatingMessage, options aper.DecodeState) (InitiatingMessage, aper.Snapshot) {
+	}, capture: func(v SONInformation, options aper.DecodeState) (SONInformation, aper.Snapshot) {
 		s := aper.SemanticCaptureFor(options)
 		f := s.Begin()
-		BridgeCaptureS1APInitiatingMessage(&v, &s)
+		BridgeCaptureS1APSONInformation(&v, &s)
 		var root aper.Snapshot
 		s.End(f, &root, false)
-		return v,
-			root
-
-	}, compare: func(v InitiatingMessage, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+		return v, root
+	}, compare: func(v SONInformation, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 		s := aper.NewSemanticComparison(root, budget)
 		f := s.Begin()
-		BridgeCompareS1APInitiatingMessage(&v, &s)
+		BridgeCompareS1APSONInformation(&v, &s)
 		s.End(f, root, false)
-		return s.
-			Plan(), s.BudgetValue()
+		return s.Plan(), s.BudgetValue()
 	}, context: func() s00.BridgeCodecContext {
 		sealed := s00.BridgeCodecContext{}
-		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:InitiatingMessage"
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:SONInformation"
 		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
 		return sealed
 	}(),
 	}
 }
 
-// IntersystemSONConfigurationTransferCodec binds the complete APER value type.
-func IntersystemSONConfigurationTransferCodec() s01.IntersystemSONConfigurationTransferValueCodec {
-	return ENBConfigurationTransferIEs().IntersystemSONConfigurationTransferECT().Codec()
+// SONInformationReplyCodec binds the complete source value type.
+func SONInformationReplyCodec() SONInformationReplyValueCodec {
+	return SONInformationReplyValueCodec{path: "SONInformationReply", decode: func(data []byte, options aper.DecodeState) (s50.SONInformationReply, error) {
+		var value s50.SONInformationReply
+		if err := s50.BridgeSONInformationReplyMethodUnmarshalAPERWithOptions(&value, data, options); err != nil {
+			return s50.SONInformationReply{}, err
+		}
+		*s50.BridgeSONInformationReplyFieldReceived(&value) = true
+		*s50.BridgeSONInformationReplyFieldReceivedAbsolute(&value) = true
+		*s50.BridgeSONInformationReplyFieldReceivedBytes(&value) = aper.OriginalWire(data)
+		return value, nil
+	}, encode: func(value s50.SONInformationReply, fresh bool, budget *aper.DecodeBudget) ([]byte, error) {
+		return s50.BridgeSONInformationReplyMethodMarshalAPERBudget((&value), budget, fresh)
+	}, capture: func(v s50.SONInformationReply, options aper.DecodeState) (s50.SONInformationReply, aper.Snapshot,
+	) {
+		s := aper.SemanticCaptureFor(options)
+		f := s.Begin()
+		s50.BridgeCaptureS1APSONInformationReply(&v, &s)
+		var root aper.Snapshot
+		s.End(f, &root, false)
+		return v, root
+	}, compare: func(v s50.SONInformationReply, root aper.Snapshot, budget aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget,
+	) {
+		s := aper.NewSemanticComparison(root, budget)
+		f := s.Begin()
+		s50.BridgeCompareS1APSONInformationReply(&v, &s)
+		s.End(f, root, false)
+		return s.Plan(), s.BudgetValue()
+	}, context: func() s00.BridgeCodecContext {
+		sealed := s00.BridgeCodecContext{}
+		*s00.BridgecodecContextFieldSource(&sealed) = "source-value:SONInformationReply"
+		*s00.BridgecodecContextFieldBounds(&sealed) = aper.ListBounds{}
+		return sealed
+	}(),
+	}
 }
 
-// KillRequestCodec binds the complete APER value type.
-func KillRequestCodec() s33.KillRequestValueCodec { return KillProcedure().Initiating().Codec() }
-
-// KillResponseCodec binds the complete APER value type.
-func KillResponseCodec() s33.KillResponseValueCodec { return KillProcedure().Successful().Codec() }
-
-// LocationReportCodec binds the complete APER value type.
-func LocationReportCodec() s33.LocationReportValueCodec {
-	return LocationReportProcedure().Initiating().Codec()
+// SynchronisationInformationCodec binds the complete APER value type.
+func SynchronisationInformationCodec() s31.SynchronisationInformationValueCodec {
+	return SONConfigurationTransferExtIEs().SynchronisationInformation().Codec()
 }
 
-// LocationReportingControlCodec binds the complete APER value type.
-func LocationReportingControlCodec() s26.LocationReportingControlValueCodec {
-	return LocationReportingControlProcedure().Initiating().Codec()
-}
-
-// LocationReportingFailureIndicationCodec binds the complete APER value type.
-func LocationReportingFailureIndicationCodec() s25.LocationReportingFailureIndicationValueCodec {
-	return LocationReportingFailureIndicationProcedure().Initiating().Codec()
-}
-
-// MMECPRelocationIndicationCodec binds the complete APER value type.
-func MMECPRelocationIndicationCodec() s19.MMECPRelocationIndicationValueCodec {
-	return MMECPRelocationIndicationProcedure().Initiating().Codec()
-}
-
-// MMEConfigurationUpdateAcknowledgeCodec binds the complete APER value type.
-func MMEConfigurationUpdateAcknowledgeCodec() s25.MMEConfigurationUpdateAcknowledgeValueCodec {
-	return MMEConfigurationUpdateProcedure().Successful().Codec()
-}
-
-// MMEConfigurationUpdateCodec binds the complete APER value type.
-func MMEConfigurationUpdateCodec() s43.MMEConfigurationUpdateValueCodec {
-	return MMEConfigurationUpdateProcedure().Initiating().Codec()
-}
-
-// MMEConfigurationUpdateFailureCodec binds the complete APER value type.
-func MMEConfigurationUpdateFailureCodec() s25.MMEConfigurationUpdateFailureValueCodec {
-	return MMEConfigurationUpdateProcedure().Unsuccessful().Codec()
-}
-
-// MMEDirectInformationTransferCodec binds the complete APER value type.
-func MMEDirectInformationTransferCodec() s34.MMEDirectInformationTransferValueCodec {
-	return MMEDirectInformationTransferProcedure().Initiating().Codec()
-}
-
-// MMEEarlyStatusTransferCodec binds the complete APER value type.
-func MMEEarlyStatusTransferCodec() s37.MMEEarlyStatusTransferValueCodec {
-	return MMEEarlyStatusTransferProcedure().Initiating().Codec()
-}
-
-// MMEStatusTransferCodec binds the complete APER value type.
-func MMEStatusTransferCodec() s25.MMEStatusTransferValueCodec {
-	return MMEStatusTransferProcedure().Initiating().Codec()
-}
-
-// NASDeliveryIndicationCodec binds the complete APER value type.
-func NASDeliveryIndicationCodec() s19.NASDeliveryIndicationValueCodec {
-	return NASDeliveryIndicationProcedure().Initiating().Codec()
-}
-
-// NASNonDeliveryIndicationCodec binds the complete APER value type.
-func NASNonDeliveryIndicationCodec() s25.NASNonDeliveryIndicationValueCodec {
-	return NASNonDeliveryIndicationProcedure().Initiating().Codec()
-}
-
-// OverloadStartCodec binds the complete APER value type.
-func OverloadStartCodec() s41.OverloadStartValueCodec {
-	return OverloadStartProcedure().Initiating().Codec()
-}
-
-// OverloadStopCodec binds the complete APER value type.
-func OverloadStopCodec() s41.OverloadStopValueCodec {
-	return OverloadStopProcedure().Initiating().Codec()
-}
-
-// PWSFailureIndicationCodec binds the complete APER value type.
-func PWSFailureIndicationCodec() s42.PWSFailureIndicationValueCodec {
-	return PWSFailureIndicationProcedure().Initiating().Codec()
-}
-
-// PWSRestartIndicationCodec binds the complete APER value type.
-func PWSRestartIndicationCodec() s44.PWSRestartIndicationValueCodec {
-	return PWSRestartIndicationProcedure().Initiating().Codec()
-}
-
-// PagingCodec binds the complete APER value type.
-func PagingCodec() s49.PagingValueCodec { return PagingProcedure().Initiating().Codec() }
-
-// PathSwitchRequestAcknowledgeCodec binds the complete APER value type.
-func PathSwitchRequestAcknowledgeCodec() s47.PathSwitchRequestAcknowledgeValueCodec {
-	return PathSwitchRequestProcedure().Successful().Codec()
-}
-
-// PathSwitchRequestCodec binds the complete APER value type.
-func PathSwitchRequestCodec() s41.PathSwitchRequestValueCodec {
-	return PathSwitchRequestProcedure().Initiating().Codec()
-}
-
-// PathSwitchRequestFailureCodec binds the complete APER value type.
-func PathSwitchRequestFailureCodec() s26.PathSwitchRequestFailureValueCodec {
-	return PathSwitchRequestProcedure().Unsuccessful().Codec()
-}
-
-// SONConfigurationTransferCodec binds the complete APER value type.
-func SONConfigurationTransferCodec() SONConfigurationTransferValueCodec {
-	return ENBConfigurationTransferIEs().SONConfigurationTransferECT().Codec()
+// X2TNLConfigurationInfoCodec binds the complete APER value type.
+func X2TNLConfigurationInfoCodec() X2TNLConfigurationInfoValueCodec {
+	return SONConfigurationTransferExtIEs().X2TNLConfigurationInfo().Codec()
 }
 
 // TS 36.413 V19.2.0 §§9.3.3–9.3.4 supply the selected object-set order and
@@ -20288,6 +20233,18 @@ func BridgeENBConfigurationTransferAPERValueFieldReplay(v *ENBConfigurationTrans
 func BridgeENBConfigurationTransferAPERValueFieldWithoutReplay(v *ENBConfigurationTransferAPERValue) *bool {
 	return &v.withoutReplay
 }
+func BridgeENBConfigurationTransferENDCSONConfigurationTransferIEBindingFieldCodec(v *ENBConfigurationTransferENDCSONConfigurationTransferIEBinding) *ENDCSONConfigurationTransferValueCodec {
+	return &v.codec
+}
+func BridgeENBConfigurationTransferENDCSONConfigurationTransferIEBindingFieldGet(v *ENBConfigurationTransferENDCSONConfigurationTransferIEBinding) *func(*ENBConfigurationTransferIEValue) (*ENDCSONConfigurationTransfer, bool) {
+	return &v.get
+}
+func BridgeENBConfigurationTransferENDCSONConfigurationTransferIEBindingFieldInfo(v *ENBConfigurationTransferENDCSONConfigurationTransferIEBinding) *s00.FieldInfo {
+	return &v.info
+}
+func BridgeENBConfigurationTransferENDCSONConfigurationTransferIEBindingFieldInject(v *ENBConfigurationTransferENDCSONConfigurationTransferIEBinding) *func(ENDCSONConfigurationTransfer) ENBConfigurationTransferIEValue {
+	return &v.inject
+}
 func BridgeENBConfigurationTransferFieldExtCount(v *ENBConfigurationTransfer) *int64 {
 	return &v.extCount
 }
@@ -20333,6 +20290,96 @@ func BridgeENBConfigurationTransferFieldStream(v *ENBConfigurationTransfer) *ape
 func BridgeENBConfigurationTransferFieldWithoutReplay(v *ENBConfigurationTransfer) *bool {
 	return &v.withoutReplay
 }
+func BridgeENBConfigurationTransferIEContainerAPERValueFieldContext(v *ENBConfigurationTransferIEContainerAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEContainerAPERValueFieldReceived(v *ENBConfigurationTransferIEContainerAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeENBConfigurationTransferIEContainerAPERValueFieldReplay(v *ENBConfigurationTransferIEContainerAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeENBConfigurationTransferIEContainerAPERValueFieldWithoutReplay(v *ENBConfigurationTransferIEContainerAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeENBConfigurationTransferIEContainerValueCodecFieldCapture(v *ENBConfigurationTransferIEContainerValueCodec) *func(ENBConfigurationTransferIEContainer, aper.DecodeState) (ENBConfigurationTransferIEContainer, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeENBConfigurationTransferIEContainerValueCodecFieldCompare(v *ENBConfigurationTransferIEContainerValueCodec) *func(ENBConfigurationTransferIEContainer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeENBConfigurationTransferIEContainerValueCodecFieldContext(v *ENBConfigurationTransferIEContainerValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEContainerValueCodecFieldDecode(v *ENBConfigurationTransferIEContainerValueCodec) *func([]byte, aper.DecodeState) (ENBConfigurationTransferIEContainer, error) {
+	return &v.decode
+}
+func BridgeENBConfigurationTransferIEContainerValueCodecFieldEncode(v *ENBConfigurationTransferIEContainerValueCodec) *func(ENBConfigurationTransferIEContainer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeENBConfigurationTransferIEContainerValueCodecFieldPath(v *ENBConfigurationTransferIEContainerValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeENBConfigurationTransferIEContainerValueCodecMethodEncodeBudgetValue(v ENBConfigurationTransferIEContainerValueCodec, a0 ENBConfigurationTransferIEContainer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeENBConfigurationTransferIEContainerValueCodecMethodEncodeChanged(v ENBConfigurationTransferIEContainerValueCodec, a0 ENBConfigurationTransferIEContainer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeENBConfigurationTransferIEFieldAPERValueFieldContext(v *ENBConfigurationTransferIEFieldAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEFieldAPERValueFieldReceived(v *ENBConfigurationTransferIEFieldAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeENBConfigurationTransferIEFieldAPERValueFieldReplay(v *ENBConfigurationTransferIEFieldAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeENBConfigurationTransferIEFieldAPERValueFieldWithoutReplay(v *ENBConfigurationTransferIEFieldAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeENBConfigurationTransferIEFieldFieldReceived(v *ENBConfigurationTransferIEField) *aper.CompletePadding {
+	return &v.received
+}
+func BridgeENBConfigurationTransferIEFieldFieldReplay(v *ENBConfigurationTransferIEField) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeENBConfigurationTransferIEFieldFieldStream(v *ENBConfigurationTransferIEField) *aper.WireSpan {
+	return &v.stream
+}
+func BridgeENBConfigurationTransferIEFieldFieldWithoutReplay(v *ENBConfigurationTransferIEField) *bool {
+	return &v.withoutReplay
+}
+func BridgeENBConfigurationTransferIEFieldMethodMarshalAPERTo(v *ENBConfigurationTransferIEField, a0 *aper.BitBuffer, a1 ...bool) error {
+	return v.marshalAPERTo(a0, a1...)
+}
+func BridgeENBConfigurationTransferIEFieldMethodUnmarshalAPERFrom(v *ENBConfigurationTransferIEField, a0 *aper.BitBuffer) error {
+	return v.unmarshalAPERFrom(a0)
+}
+func BridgeENBConfigurationTransferIEFieldValueCodecFieldCapture(v *ENBConfigurationTransferIEFieldValueCodec) *func(ENBConfigurationTransferIEField, aper.DecodeState) (ENBConfigurationTransferIEField, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeENBConfigurationTransferIEFieldValueCodecFieldCompare(v *ENBConfigurationTransferIEFieldValueCodec) *func(ENBConfigurationTransferIEField, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeENBConfigurationTransferIEFieldValueCodecFieldContext(v *ENBConfigurationTransferIEFieldValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEFieldValueCodecFieldDecode(v *ENBConfigurationTransferIEFieldValueCodec) *func([]byte, aper.DecodeState) (ENBConfigurationTransferIEField, error) {
+	return &v.decode
+}
+func BridgeENBConfigurationTransferIEFieldValueCodecFieldEncode(v *ENBConfigurationTransferIEFieldValueCodec) *func(ENBConfigurationTransferIEField, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeENBConfigurationTransferIEFieldValueCodecFieldPath(v *ENBConfigurationTransferIEFieldValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeENBConfigurationTransferIEFieldValueCodecMethodEncodeBudgetValue(v ENBConfigurationTransferIEFieldValueCodec, a0 ENBConfigurationTransferIEField, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeENBConfigurationTransferIEFieldValueCodecMethodEncodeChanged(v ENBConfigurationTransferIEFieldValueCodec, a0 ENBConfigurationTransferIEField, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
 func BridgeENBConfigurationTransferIETableMethodInfoENDCSONConfigurationTransferECT(v ENBConfigurationTransferIETable) s00.FieldInfo {
 	return v.infoENDCSONConfigurationTransferECT()
 }
@@ -20341,6 +20388,162 @@ func BridgeENBConfigurationTransferIETableMethodInfoIntersystemSONConfigurationT
 }
 func BridgeENBConfigurationTransferIETableMethodInfoSONConfigurationTransferECT(v ENBConfigurationTransferIETable) s00.FieldInfo {
 	return v.infoSONConfigurationTransferECT()
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListAPERValueFieldContext(v *ENBConfigurationTransferIEValueERABIEContainerListAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListAPERValueFieldReceived(v *ENBConfigurationTransferIEValueERABIEContainerListAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListAPERValueFieldReplay(v *ENBConfigurationTransferIEValueERABIEContainerListAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListAPERValueFieldWithoutReplay(v *ENBConfigurationTransferIEValueERABIEContainerListAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldCapture(v *ENBConfigurationTransferIEValueERABIEContainerListValueCodec) *func(ENBConfigurationTransferIEValueERABIEContainerList, aper.DecodeState) (ENBConfigurationTransferIEValueERABIEContainerList, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldCompare(v *ENBConfigurationTransferIEValueERABIEContainerListValueCodec) *func(ENBConfigurationTransferIEValueERABIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldContext(v *ENBConfigurationTransferIEValueERABIEContainerListValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldDecode(v *ENBConfigurationTransferIEValueERABIEContainerListValueCodec) *func([]byte, aper.DecodeState) (ENBConfigurationTransferIEValueERABIEContainerList, error) {
+	return &v.decode
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldEncode(v *ENBConfigurationTransferIEValueERABIEContainerListValueCodec) *func(ENBConfigurationTransferIEValueERABIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecFieldPath(v *ENBConfigurationTransferIEValueERABIEContainerListValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecMethodEncodeBudgetValue(v ENBConfigurationTransferIEValueERABIEContainerListValueCodec, a0 ENBConfigurationTransferIEValueERABIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeENBConfigurationTransferIEValueERABIEContainerListValueCodecMethodEncodeChanged(v ENBConfigurationTransferIEValueERABIEContainerListValueCodec, a0 ENBConfigurationTransferIEValueERABIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeENBConfigurationTransferIEValueFieldId(v *ENBConfigurationTransferIEValue) *s00.ProtocolIEID {
+	return &v.id
+}
+func BridgeENBConfigurationTransferIEValueFieldIsOpaque(v *ENBConfigurationTransferIEValue) *bool {
+	return &v.isOpaque
+}
+func BridgeENBConfigurationTransferIEValueFieldOpaque(v *ENBConfigurationTransferIEValue) *aper.OpaqueOpenType {
+	return &v.opaque
+}
+func BridgeENBConfigurationTransferIEValueFieldReceived(v *ENBConfigurationTransferIEValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeENBConfigurationTransferIEValueFieldReplay(v *ENBConfigurationTransferIEValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeENBConfigurationTransferIEValueFieldRowENDCSONConfigurationTransferECT(v *ENBConfigurationTransferIEValue) **ENDCSONConfigurationTransfer {
+	return &v.rowENDCSONConfigurationTransferECT
+}
+func BridgeENBConfigurationTransferIEValueFieldRowIntersystemSONConfigurationTransferECT(v *ENBConfigurationTransferIEValue) **s00.IntersystemSONConfigurationTransfer {
+	return &v.rowIntersystemSONConfigurationTransferECT
+}
+func BridgeENBConfigurationTransferIEValueFieldRowSONConfigurationTransferECT(v *ENBConfigurationTransferIEValue) **SONConfigurationTransfer {
+	return &v.rowSONConfigurationTransferECT
+}
+func BridgeENBConfigurationTransferIEValueMethodCaptureSemantics(v ENBConfigurationTransferIEValue, a0 aper.SemanticCapture) ENBConfigurationTransferIEValue {
+	return v.captureSemantics(a0)
+}
+func BridgeENBConfigurationTransferIEValueMethodCompareSemantics(v ENBConfigurationTransferIEValue, a0 aper.SemanticComparison) aper.SemanticComparison {
+	return v.compareSemantics(a0)
+}
+func BridgeENBConfigurationTransferIEValueMethodDecode(v ENBConfigurationTransferIEValue, a0 s00.ProtocolIEID, a1 aper.OpaqueOpenType) (ENBConfigurationTransferIEValue, error) {
+	return v.decode(a0, a1)
+}
+func BridgeENBConfigurationTransferIEValueMethodEncode(v ENBConfigurationTransferIEValue) ([]byte, error) {
+	return v.encode()
+}
+func BridgeENBConfigurationTransferIEValueMethodEncodeFresh(v ENBConfigurationTransferIEValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
+	return v.encodeFresh(a0, a1)
+}
+func BridgeENBConfigurationTransferIEValueMethodMatchesID(v ENBConfigurationTransferIEValue, a0 s00.ProtocolIEID, a1 ...*aper.DecodeBudget) bool {
+	return v.matchesID(a0, a1...)
+}
+func BridgeENBConfigurationTransferIEValueMethodReason(v ENBConfigurationTransferIEValue, a0 s00.ProtocolIEID) aper.OpaqueReason {
+	return v.reason(a0)
+}
+func BridgeENBConfigurationTransferIEValueMethodRule(v ENBConfigurationTransferIEValue) aper.SourceRule {
+	return v.rule()
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValueFieldContext(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValueFieldReceived(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValueFieldReplay(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValueFieldWithoutReplay(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldCapture(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) *func(ENBConfigurationTransferIEValueProtocolErrorIEContainerList, aper.DecodeState) (ENBConfigurationTransferIEValueProtocolErrorIEContainerList, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldCompare(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) *func(ENBConfigurationTransferIEValueProtocolErrorIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldContext(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldDecode(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) *func([]byte, aper.DecodeState) (ENBConfigurationTransferIEValueProtocolErrorIEContainerList, error) {
+	return &v.decode
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldEncode(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) *func(ENBConfigurationTransferIEValueProtocolErrorIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecFieldPath(v *ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecMethodEncodeBudgetValue(v ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec, a0 ENBConfigurationTransferIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodecMethodEncodeChanged(v ENBConfigurationTransferIEValueProtocolErrorIEContainerListValueCodec, a0 ENBConfigurationTransferIEValueProtocolErrorIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListAPERValueFieldContext(v *ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListAPERValueFieldReceived(v *ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListAPERValueFieldReplay(v *ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListAPERValueFieldWithoutReplay(v *ENBConfigurationTransferIEValueProtocolIEContainerListAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldCapture(v *ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) *func(ENBConfigurationTransferIEValueProtocolIEContainerList, aper.DecodeState) (ENBConfigurationTransferIEValueProtocolIEContainerList, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldCompare(v *ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) *func(ENBConfigurationTransferIEValueProtocolIEContainerList, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldContext(v *ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldDecode(v *ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) *func([]byte, aper.DecodeState) (ENBConfigurationTransferIEValueProtocolIEContainerList, error) {
+	return &v.decode
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldEncode(v *ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) *func(ENBConfigurationTransferIEValueProtocolIEContainerList, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecFieldPath(v *ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecMethodEncodeBudgetValue(v ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec, a0 ENBConfigurationTransferIEValueProtocolIEContainerList, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeENBConfigurationTransferIEValueProtocolIEContainerListValueCodecMethodEncodeChanged(v ENBConfigurationTransferIEValueProtocolIEContainerListValueCodec, a0 ENBConfigurationTransferIEValueProtocolIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
 }
 func BridgeENBConfigurationTransferInitiatingBindingFieldCapture(v *ENBConfigurationTransferInitiatingBinding) *func(ENBConfigurationTransfer, aper.DecodeState) (ENBConfigurationTransfer, aper.Snapshot) {
 	return &v.capture
@@ -20365,6 +20568,18 @@ func BridgeENBConfigurationTransferInitiatingBindingFieldInject(v *ENBConfigurat
 }
 func BridgeENBConfigurationTransferInitiatingBindingFieldValidate(v *ENBConfigurationTransferInitiatingBinding) *func(*ENBConfigurationTransfer, *aper.DecodeBudget) (s21.ValidationReport, error) {
 	return &v.validate
+}
+func BridgeENBConfigurationTransferIntersystemSONConfigurationTransferIEBindingFieldCodec(v *ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding) *s01.IntersystemSONConfigurationTransferValueCodec {
+	return &v.codec
+}
+func BridgeENBConfigurationTransferIntersystemSONConfigurationTransferIEBindingFieldGet(v *ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding) *func(*ENBConfigurationTransferIEValue) (*s00.IntersystemSONConfigurationTransfer, bool) {
+	return &v.get
+}
+func BridgeENBConfigurationTransferIntersystemSONConfigurationTransferIEBindingFieldInfo(v *ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding) *s00.FieldInfo {
+	return &v.info
+}
+func BridgeENBConfigurationTransferIntersystemSONConfigurationTransferIEBindingFieldInject(v *ENBConfigurationTransferIntersystemSONConfigurationTransferIEBinding) *func(s00.IntersystemSONConfigurationTransfer) ENBConfigurationTransferIEValue {
+	return &v.inject
 }
 func BridgeENBConfigurationTransferMethodMarshalAPERBudget(v *ENBConfigurationTransfer, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
 	return v.marshalAPERBudget(a0, a1)
@@ -20402,13 +20617,13 @@ func BridgeENBConfigurationTransferMethodUnmarshalAPERWithOptions(v *ENBConfigur
 func BridgeENBConfigurationTransferSONConfigurationTransferIEBindingFieldCodec(v *ENBConfigurationTransferSONConfigurationTransferIEBinding) *SONConfigurationTransferValueCodec {
 	return &v.codec
 }
-func BridgeENBConfigurationTransferSONConfigurationTransferIEBindingFieldGet(v *ENBConfigurationTransferSONConfigurationTransferIEBinding) *func(*s50.ENBConfigurationTransferIEValue) (*s50.SONConfigurationTransfer, bool) {
+func BridgeENBConfigurationTransferSONConfigurationTransferIEBindingFieldGet(v *ENBConfigurationTransferSONConfigurationTransferIEBinding) *func(*ENBConfigurationTransferIEValue) (*SONConfigurationTransfer, bool) {
 	return &v.get
 }
 func BridgeENBConfigurationTransferSONConfigurationTransferIEBindingFieldInfo(v *ENBConfigurationTransferSONConfigurationTransferIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeENBConfigurationTransferSONConfigurationTransferIEBindingFieldInject(v *ENBConfigurationTransferSONConfigurationTransferIEBinding) *func(s50.SONConfigurationTransfer) s50.ENBConfigurationTransferIEValue {
+func BridgeENBConfigurationTransferSONConfigurationTransferIEBindingFieldInject(v *ENBConfigurationTransferSONConfigurationTransferIEBinding) *func(SONConfigurationTransfer) ENBConfigurationTransferIEValue {
 	return &v.inject
 }
 func BridgeENBConfigurationTransferValueCodecFieldCapture(v *ENBConfigurationTransferValueCodec) *func(ENBConfigurationTransfer, aper.DecodeState) (ENBConfigurationTransfer, aper.Snapshot) {
@@ -20483,28 +20698,28 @@ func BridgeENBDirectInformationTransferInitiatingBindingFieldInject(v *ENBDirect
 func BridgeENBDirectInformationTransferInitiatingBindingFieldValidate(v *ENBDirectInformationTransferInitiatingBinding) *func(*s34.ENBDirectInformationTransfer, *aper.DecodeBudget) (s21.ValidationReport, error) {
 	return &v.validate
 }
-func BridgeENBEarlyStatusTransferInitiatingBindingFieldCapture(v *ENBEarlyStatusTransferInitiatingBinding) *func(s37.ENBEarlyStatusTransfer, aper.DecodeState) (s37.ENBEarlyStatusTransfer, aper.Snapshot) {
+func BridgeENBEarlyStatusTransferInitiatingBindingFieldCapture(v *ENBEarlyStatusTransferInitiatingBinding) *func(s38.ENBEarlyStatusTransfer, aper.DecodeState) (s38.ENBEarlyStatusTransfer, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeENBEarlyStatusTransferInitiatingBindingFieldCompare(v *ENBEarlyStatusTransferInitiatingBinding) *func(s37.ENBEarlyStatusTransfer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+func BridgeENBEarlyStatusTransferInitiatingBindingFieldCompare(v *ENBEarlyStatusTransferInitiatingBinding) *func(s38.ENBEarlyStatusTransfer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 	return &v.compare
 }
 func BridgeENBEarlyStatusTransferInitiatingBindingFieldContext(v *ENBEarlyStatusTransferInitiatingBinding) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeENBEarlyStatusTransferInitiatingBindingFieldDecode(v *ENBEarlyStatusTransferInitiatingBinding) *func([]byte, aper.DecodeState) (s37.ENBEarlyStatusTransfer, error) {
+func BridgeENBEarlyStatusTransferInitiatingBindingFieldDecode(v *ENBEarlyStatusTransferInitiatingBinding) *func([]byte, aper.DecodeState) (s38.ENBEarlyStatusTransfer, error) {
 	return &v.decode
 }
-func BridgeENBEarlyStatusTransferInitiatingBindingFieldEncode(v *ENBEarlyStatusTransferInitiatingBinding) *func(*s37.ENBEarlyStatusTransfer, bool, *aper.DecodeBudget) ([]byte, error) {
+func BridgeENBEarlyStatusTransferInitiatingBindingFieldEncode(v *ENBEarlyStatusTransferInitiatingBinding) *func(*s38.ENBEarlyStatusTransfer, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
 func BridgeENBEarlyStatusTransferInitiatingBindingFieldInfo(v *ENBEarlyStatusTransferInitiatingBinding) *s00.ProcedureInfo {
 	return &v.info
 }
-func BridgeENBEarlyStatusTransferInitiatingBindingFieldInject(v *ENBEarlyStatusTransferInitiatingBinding) *func(s37.ENBEarlyStatusTransfer) InitiatingValue {
+func BridgeENBEarlyStatusTransferInitiatingBindingFieldInject(v *ENBEarlyStatusTransferInitiatingBinding) *func(s38.ENBEarlyStatusTransfer) InitiatingValue {
 	return &v.inject
 }
-func BridgeENBEarlyStatusTransferInitiatingBindingFieldValidate(v *ENBEarlyStatusTransferInitiatingBinding) *func(*s37.ENBEarlyStatusTransfer, *aper.DecodeBudget) (s21.ValidationReport, error) {
+func BridgeENBEarlyStatusTransferInitiatingBindingFieldValidate(v *ENBEarlyStatusTransferInitiatingBinding) *func(*s38.ENBEarlyStatusTransfer, *aper.DecodeBudget) (s21.ValidationReport, error) {
 	return &v.validate
 }
 func BridgeENBStatusTransferInitiatingBindingFieldCapture(v *ENBStatusTransferInitiatingBinding) *func(s24.ENBStatusTransfer, aper.DecodeState) (s24.ENBStatusTransfer, aper.Snapshot) {
@@ -20531,28 +20746,142 @@ func BridgeENBStatusTransferInitiatingBindingFieldInject(v *ENBStatusTransferIni
 func BridgeENBStatusTransferInitiatingBindingFieldValidate(v *ENBStatusTransferInitiatingBinding) *func(*s24.ENBStatusTransfer, *aper.DecodeBudget) (s21.ValidationReport, error) {
 	return &v.validate
 }
-func BridgeERABModificationIndicationInitiatingBindingFieldCapture(v *ERABModificationIndicationInitiatingBinding) *func(s45.ERABModificationIndication, aper.DecodeState) (s45.ERABModificationIndication, aper.Snapshot) {
+func BridgeENDCSONConfigurationTransferAPERValueFieldContext(v *ENDCSONConfigurationTransferAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENDCSONConfigurationTransferAPERValueFieldReceived(v *ENDCSONConfigurationTransferAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeENDCSONConfigurationTransferAPERValueFieldReplay(v *ENDCSONConfigurationTransferAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeENDCSONConfigurationTransferAPERValueFieldWithoutReplay(v *ENDCSONConfigurationTransferAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeENDCSONConfigurationTransferFieldExtCount(v *ENDCSONConfigurationTransfer) *int64 {
+	return &v.extCount
+}
+func BridgeENDCSONConfigurationTransferFieldExtData(v *ENDCSONConfigurationTransfer) *[][]byte {
+	return &v.extData
+}
+func BridgeENDCSONConfigurationTransferFieldExtOrigin(v *ENDCSONConfigurationTransfer) *[]aper.OpaqueOrigin {
+	return &v.extOrigin
+}
+func BridgeENDCSONConfigurationTransferFieldExtPresent(v *ENDCSONConfigurationTransfer) *[]bool {
+	return &v.extPresent
+}
+func BridgeENDCSONConfigurationTransferFieldExtWire(v *ENDCSONConfigurationTransfer) *[]aper.WireSpan {
+	return &v.extWire
+}
+func BridgeENDCSONConfigurationTransferFieldIEExtensionsIndef(v *ENDCSONConfigurationTransfer) *bool {
+	return &v.iEExtensionsIndef
+}
+func BridgeENDCSONConfigurationTransferFieldPerExtPadding(v *ENDCSONConfigurationTransfer) *[]aper.CompletePadding {
+	return &v.perExtPadding
+}
+func BridgeENDCSONConfigurationTransferFieldPerPadding(v *ENDCSONConfigurationTransfer) *aper.FinalPadding {
+	return &v.perPadding
+}
+func BridgeENDCSONConfigurationTransferFieldReceived(v *ENDCSONConfigurationTransfer) *bool {
+	return &v.received
+}
+func BridgeENDCSONConfigurationTransferFieldReceivedAbsolute(v *ENDCSONConfigurationTransfer) *bool {
+	return &v.receivedAbsolute
+}
+func BridgeENDCSONConfigurationTransferFieldReceivedBytes(v *ENDCSONConfigurationTransfer) *aper.WireSpan {
+	return &v.receivedBytes
+}
+func BridgeENDCSONConfigurationTransferFieldReceivedLocation(v *ENDCSONConfigurationTransfer) *aper.Location {
+	return &v.receivedLocation
+}
+func BridgeENDCSONConfigurationTransferFieldReplay(v *ENDCSONConfigurationTransfer) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeENDCSONConfigurationTransferFieldStream(v *ENDCSONConfigurationTransfer) *aper.WireSpan {
+	return &v.stream
+}
+func BridgeENDCSONConfigurationTransferFieldWithoutReplay(v *ENDCSONConfigurationTransfer) *bool {
+	return &v.withoutReplay
+}
+func BridgeENDCSONConfigurationTransferMethodMarshalAPERBudget(v *ENDCSONConfigurationTransfer, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudget(a0, a1)
+}
+func BridgeENDCSONConfigurationTransferMethodMarshalAPERBudgetValue(v *ENDCSONConfigurationTransfer, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudgetValue(a0, a1)
+}
+func BridgeENDCSONConfigurationTransferMethodMarshalAPERChanged(v *ENDCSONConfigurationTransfer, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChanged(a0, a1, a2)
+}
+func BridgeENDCSONConfigurationTransferMethodMarshalAPERChangedValue(v *ENDCSONConfigurationTransfer, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChangedValue(a0, a1, a2)
+}
+func BridgeENDCSONConfigurationTransferMethodMarshalAPERLegacy(v *ENDCSONConfigurationTransfer) ([]byte, error) {
+	return v.marshalAPERLegacy()
+}
+func BridgeENDCSONConfigurationTransferMethodMarshalAPERNewValue(v *ENDCSONConfigurationTransfer, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERNewValue(a0, a1)
+}
+func BridgeENDCSONConfigurationTransferMethodMarshalAPERPlanned(v *ENDCSONConfigurationTransfer, a0 *aper.DecodeBudget, a1 bool, a2 *aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERPlanned(a0, a1, a2)
+}
+func BridgeENDCSONConfigurationTransferMethodMarshalAPERTo(v *ENDCSONConfigurationTransfer, a0 *aper.BitBuffer, a1 ...bool) error {
+	return v.marshalAPERTo(a0, a1...)
+}
+func BridgeENDCSONConfigurationTransferMethodUnmarshalAPERFrom(v *ENDCSONConfigurationTransfer, a0 *aper.BitBuffer) error {
+	return v.unmarshalAPERFrom(a0)
+}
+func BridgeENDCSONConfigurationTransferMethodUnmarshalAPERLegacy(v *ENDCSONConfigurationTransfer, a0 []byte) error {
+	return v.unmarshalAPERLegacy(a0)
+}
+func BridgeENDCSONConfigurationTransferMethodUnmarshalAPERWithOptions(v *ENDCSONConfigurationTransfer, a0 []byte, a1 aper.DecodeState) error {
+	return v.unmarshalAPERWithOptions(a0, a1)
+}
+func BridgeENDCSONConfigurationTransferValueCodecFieldCapture(v *ENDCSONConfigurationTransferValueCodec) *func(ENDCSONConfigurationTransfer, aper.DecodeState) (ENDCSONConfigurationTransfer, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeERABModificationIndicationInitiatingBindingFieldCompare(v *ERABModificationIndicationInitiatingBinding) *func(s45.ERABModificationIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+func BridgeENDCSONConfigurationTransferValueCodecFieldCompare(v *ENDCSONConfigurationTransferValueCodec) *func(ENDCSONConfigurationTransfer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeENDCSONConfigurationTransferValueCodecFieldContext(v *ENDCSONConfigurationTransferValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeENDCSONConfigurationTransferValueCodecFieldDecode(v *ENDCSONConfigurationTransferValueCodec) *func([]byte, aper.DecodeState) (ENDCSONConfigurationTransfer, error) {
+	return &v.decode
+}
+func BridgeENDCSONConfigurationTransferValueCodecFieldEncode(v *ENDCSONConfigurationTransferValueCodec) *func(ENDCSONConfigurationTransfer, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeENDCSONConfigurationTransferValueCodecFieldPath(v *ENDCSONConfigurationTransferValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeENDCSONConfigurationTransferValueCodecMethodEncodeBudgetValue(v ENDCSONConfigurationTransferValueCodec, a0 ENDCSONConfigurationTransfer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeENDCSONConfigurationTransferValueCodecMethodEncodeChanged(v ENDCSONConfigurationTransferValueCodec, a0 ENDCSONConfigurationTransfer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeERABModificationIndicationInitiatingBindingFieldCapture(v *ERABModificationIndicationInitiatingBinding) *func(s46.ERABModificationIndication, aper.DecodeState) (s46.ERABModificationIndication, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeERABModificationIndicationInitiatingBindingFieldCompare(v *ERABModificationIndicationInitiatingBinding) *func(s46.ERABModificationIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 	return &v.compare
 }
 func BridgeERABModificationIndicationInitiatingBindingFieldContext(v *ERABModificationIndicationInitiatingBinding) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeERABModificationIndicationInitiatingBindingFieldDecode(v *ERABModificationIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s45.ERABModificationIndication, error) {
+func BridgeERABModificationIndicationInitiatingBindingFieldDecode(v *ERABModificationIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s46.ERABModificationIndication, error) {
 	return &v.decode
 }
-func BridgeERABModificationIndicationInitiatingBindingFieldEncode(v *ERABModificationIndicationInitiatingBinding) *func(*s45.ERABModificationIndication, bool, *aper.DecodeBudget) ([]byte, error) {
+func BridgeERABModificationIndicationInitiatingBindingFieldEncode(v *ERABModificationIndicationInitiatingBinding) *func(*s46.ERABModificationIndication, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
 func BridgeERABModificationIndicationInitiatingBindingFieldInfo(v *ERABModificationIndicationInitiatingBinding) *s00.ProcedureInfo {
 	return &v.info
 }
-func BridgeERABModificationIndicationInitiatingBindingFieldInject(v *ERABModificationIndicationInitiatingBinding) *func(s45.ERABModificationIndication) InitiatingValue {
+func BridgeERABModificationIndicationInitiatingBindingFieldInject(v *ERABModificationIndicationInitiatingBinding) *func(s46.ERABModificationIndication) InitiatingValue {
 	return &v.inject
 }
-func BridgeERABModificationIndicationInitiatingBindingFieldValidate(v *ERABModificationIndicationInitiatingBinding) *func(*s45.ERABModificationIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
+func BridgeERABModificationIndicationInitiatingBindingFieldValidate(v *ERABModificationIndicationInitiatingBinding) *func(*s46.ERABModificationIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
 	return &v.validate
 }
 func BridgeERABModifyRequestInitiatingBindingFieldCapture(v *ERABModifyRequestInitiatingBinding) *func(s40.ERABModifyRequest, aper.DecodeState) (s40.ERABModifyRequest, aper.Snapshot) {
@@ -20603,28 +20932,28 @@ func BridgeERABReleaseCommandInitiatingBindingFieldInject(v *ERABReleaseCommandI
 func BridgeERABReleaseCommandInitiatingBindingFieldValidate(v *ERABReleaseCommandInitiatingBinding) *func(*s39.ERABReleaseCommand, *aper.DecodeBudget) (s21.ValidationReport, error) {
 	return &v.validate
 }
-func BridgeERABReleaseIndicationInitiatingBindingFieldCapture(v *ERABReleaseIndicationInitiatingBinding) *func(s45.ERABReleaseIndication, aper.DecodeState) (s45.ERABReleaseIndication, aper.Snapshot) {
+func BridgeERABReleaseIndicationInitiatingBindingFieldCapture(v *ERABReleaseIndicationInitiatingBinding) *func(s46.ERABReleaseIndication, aper.DecodeState) (s46.ERABReleaseIndication, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeERABReleaseIndicationInitiatingBindingFieldCompare(v *ERABReleaseIndicationInitiatingBinding) *func(s45.ERABReleaseIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+func BridgeERABReleaseIndicationInitiatingBindingFieldCompare(v *ERABReleaseIndicationInitiatingBinding) *func(s46.ERABReleaseIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 	return &v.compare
 }
 func BridgeERABReleaseIndicationInitiatingBindingFieldContext(v *ERABReleaseIndicationInitiatingBinding) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeERABReleaseIndicationInitiatingBindingFieldDecode(v *ERABReleaseIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s45.ERABReleaseIndication, error) {
+func BridgeERABReleaseIndicationInitiatingBindingFieldDecode(v *ERABReleaseIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s46.ERABReleaseIndication, error) {
 	return &v.decode
 }
-func BridgeERABReleaseIndicationInitiatingBindingFieldEncode(v *ERABReleaseIndicationInitiatingBinding) *func(*s45.ERABReleaseIndication, bool, *aper.DecodeBudget) ([]byte, error) {
+func BridgeERABReleaseIndicationInitiatingBindingFieldEncode(v *ERABReleaseIndicationInitiatingBinding) *func(*s46.ERABReleaseIndication, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
 func BridgeERABReleaseIndicationInitiatingBindingFieldInfo(v *ERABReleaseIndicationInitiatingBinding) *s00.ProcedureInfo {
 	return &v.info
 }
-func BridgeERABReleaseIndicationInitiatingBindingFieldInject(v *ERABReleaseIndicationInitiatingBinding) *func(s45.ERABReleaseIndication) InitiatingValue {
+func BridgeERABReleaseIndicationInitiatingBindingFieldInject(v *ERABReleaseIndicationInitiatingBinding) *func(s46.ERABReleaseIndication) InitiatingValue {
 	return &v.inject
 }
-func BridgeERABReleaseIndicationInitiatingBindingFieldValidate(v *ERABReleaseIndicationInitiatingBinding) *func(*s45.ERABReleaseIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
+func BridgeERABReleaseIndicationInitiatingBindingFieldValidate(v *ERABReleaseIndicationInitiatingBinding) *func(*s46.ERABReleaseIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
 	return &v.validate
 }
 func BridgeERABSetupRequestInitiatingBindingFieldCapture(v *ERABSetupRequestInitiatingBinding) *func(s40.ERABSetupRequest, aper.DecodeState) (s40.ERABSetupRequest, aper.Snapshot) {
@@ -20699,162 +21028,6 @@ func BridgeHandoverCancelInitiatingBindingFieldInject(v *HandoverCancelInitiatin
 func BridgeHandoverCancelInitiatingBindingFieldValidate(v *HandoverCancelInitiatingBinding) *func(*s25.HandoverCancel, *aper.DecodeBudget) (s21.ValidationReport, error) {
 	return &v.validate
 }
-func BridgeHandoverNotifyInitiatingBindingFieldCapture(v *HandoverNotifyInitiatingBinding) *func(s35.HandoverNotify, aper.DecodeState) (s35.HandoverNotify, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHandoverNotifyInitiatingBindingFieldCompare(v *HandoverNotifyInitiatingBinding) *func(s35.HandoverNotify, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHandoverNotifyInitiatingBindingFieldContext(v *HandoverNotifyInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverNotifyInitiatingBindingFieldDecode(v *HandoverNotifyInitiatingBinding) *func([]byte, aper.DecodeState) (s35.HandoverNotify, error) {
-	return &v.decode
-}
-func BridgeHandoverNotifyInitiatingBindingFieldEncode(v *HandoverNotifyInitiatingBinding) *func(*s35.HandoverNotify, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHandoverNotifyInitiatingBindingFieldInfo(v *HandoverNotifyInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeHandoverNotifyInitiatingBindingFieldInject(v *HandoverNotifyInitiatingBinding) *func(s35.HandoverNotify) InitiatingValue {
-	return &v.inject
-}
-func BridgeHandoverNotifyInitiatingBindingFieldValidate(v *HandoverNotifyInitiatingBinding) *func(*s35.HandoverNotify, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeHandoverRequestInitiatingBindingFieldCapture(v *HandoverRequestInitiatingBinding) *func(s48.HandoverRequest, aper.DecodeState) (s48.HandoverRequest, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHandoverRequestInitiatingBindingFieldCompare(v *HandoverRequestInitiatingBinding) *func(s48.HandoverRequest, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHandoverRequestInitiatingBindingFieldContext(v *HandoverRequestInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverRequestInitiatingBindingFieldDecode(v *HandoverRequestInitiatingBinding) *func([]byte, aper.DecodeState) (s48.HandoverRequest, error) {
-	return &v.decode
-}
-func BridgeHandoverRequestInitiatingBindingFieldEncode(v *HandoverRequestInitiatingBinding) *func(*s48.HandoverRequest, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHandoverRequestInitiatingBindingFieldInfo(v *HandoverRequestInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeHandoverRequestInitiatingBindingFieldInject(v *HandoverRequestInitiatingBinding) *func(s48.HandoverRequest) InitiatingValue {
-	return &v.inject
-}
-func BridgeHandoverRequestInitiatingBindingFieldValidate(v *HandoverRequestInitiatingBinding) *func(*s48.HandoverRequest, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeHandoverRequiredInitiatingBindingFieldCapture(v *HandoverRequiredInitiatingBinding) *func(s34.HandoverRequired, aper.DecodeState) (s34.HandoverRequired, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHandoverRequiredInitiatingBindingFieldCompare(v *HandoverRequiredInitiatingBinding) *func(s34.HandoverRequired, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHandoverRequiredInitiatingBindingFieldContext(v *HandoverRequiredInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverRequiredInitiatingBindingFieldDecode(v *HandoverRequiredInitiatingBinding) *func([]byte, aper.DecodeState) (s34.HandoverRequired, error) {
-	return &v.decode
-}
-func BridgeHandoverRequiredInitiatingBindingFieldEncode(v *HandoverRequiredInitiatingBinding) *func(*s34.HandoverRequired, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHandoverRequiredInitiatingBindingFieldInfo(v *HandoverRequiredInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeHandoverRequiredInitiatingBindingFieldInject(v *HandoverRequiredInitiatingBinding) *func(s34.HandoverRequired) InitiatingValue {
-	return &v.inject
-}
-func BridgeHandoverRequiredInitiatingBindingFieldValidate(v *HandoverRequiredInitiatingBinding) *func(*s34.HandoverRequired, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeHandoverSuccessInitiatingBindingFieldCapture(v *HandoverSuccessInitiatingBinding) *func(s18.HandoverSuccess, aper.DecodeState) (s18.HandoverSuccess, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeHandoverSuccessInitiatingBindingFieldCompare(v *HandoverSuccessInitiatingBinding) *func(s18.HandoverSuccess, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeHandoverSuccessInitiatingBindingFieldContext(v *HandoverSuccessInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeHandoverSuccessInitiatingBindingFieldDecode(v *HandoverSuccessInitiatingBinding) *func([]byte, aper.DecodeState) (s18.HandoverSuccess, error) {
-	return &v.decode
-}
-func BridgeHandoverSuccessInitiatingBindingFieldEncode(v *HandoverSuccessInitiatingBinding) *func(*s18.HandoverSuccess, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeHandoverSuccessInitiatingBindingFieldInfo(v *HandoverSuccessInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeHandoverSuccessInitiatingBindingFieldInject(v *HandoverSuccessInitiatingBinding) *func(s18.HandoverSuccess) InitiatingValue {
-	return &v.inject
-}
-func BridgeHandoverSuccessInitiatingBindingFieldValidate(v *HandoverSuccessInitiatingBinding) *func(*s18.HandoverSuccess, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeInitialContextSetupRequestInitiatingBindingFieldCapture(v *InitialContextSetupRequestInitiatingBinding) *func(s48.InitialContextSetupRequest, aper.DecodeState) (s48.InitialContextSetupRequest, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeInitialContextSetupRequestInitiatingBindingFieldCompare(v *InitialContextSetupRequestInitiatingBinding) *func(s48.InitialContextSetupRequest, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeInitialContextSetupRequestInitiatingBindingFieldContext(v *InitialContextSetupRequestInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeInitialContextSetupRequestInitiatingBindingFieldDecode(v *InitialContextSetupRequestInitiatingBinding) *func([]byte, aper.DecodeState) (s48.InitialContextSetupRequest, error) {
-	return &v.decode
-}
-func BridgeInitialContextSetupRequestInitiatingBindingFieldEncode(v *InitialContextSetupRequestInitiatingBinding) *func(*s48.InitialContextSetupRequest, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeInitialContextSetupRequestInitiatingBindingFieldInfo(v *InitialContextSetupRequestInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeInitialContextSetupRequestInitiatingBindingFieldInject(v *InitialContextSetupRequestInitiatingBinding) *func(s48.InitialContextSetupRequest) InitiatingValue {
-	return &v.inject
-}
-func BridgeInitialContextSetupRequestInitiatingBindingFieldValidate(v *InitialContextSetupRequestInitiatingBinding) *func(*s48.InitialContextSetupRequest, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeInitialUEMessageInitiatingBindingFieldCapture(v *InitialUEMessageInitiatingBinding) *func(s35.InitialUEMessage, aper.DecodeState) (s35.InitialUEMessage, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeInitialUEMessageInitiatingBindingFieldCompare(v *InitialUEMessageInitiatingBinding) *func(s35.InitialUEMessage, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeInitialUEMessageInitiatingBindingFieldContext(v *InitialUEMessageInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeInitialUEMessageInitiatingBindingFieldDecode(v *InitialUEMessageInitiatingBinding) *func([]byte, aper.DecodeState) (s35.InitialUEMessage, error) {
-	return &v.decode
-}
-func BridgeInitialUEMessageInitiatingBindingFieldEncode(v *InitialUEMessageInitiatingBinding) *func(*s35.InitialUEMessage, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeInitialUEMessageInitiatingBindingFieldInfo(v *InitialUEMessageInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeInitialUEMessageInitiatingBindingFieldInject(v *InitialUEMessageInitiatingBinding) *func(s35.InitialUEMessage) InitiatingValue {
-	return &v.inject
-}
-func BridgeInitialUEMessageInitiatingBindingFieldValidate(v *InitialUEMessageInitiatingBinding) *func(*s35.InitialUEMessage, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeInitiatingMessageAPERValueFieldContext(v *InitiatingMessageAPERValue) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeInitiatingMessageAPERValueFieldReceived(v *InitiatingMessageAPERValue) *aper.WireSpan {
-	return &v.received
-}
-func BridgeInitiatingMessageAPERValueFieldReplay(v *InitiatingMessageAPERValue) *aper.Snapshot {
-	return &v.replay
-}
-func BridgeInitiatingMessageAPERValueFieldWithoutReplay(v *InitiatingMessageAPERValue) *bool {
-	return &v.withoutReplay
-}
 func BridgeInitiatingMessageFieldPerPadding(v *InitiatingMessage) *aper.CompletePadding {
 	return &v.perPadding
 }
@@ -20904,30 +21077,6 @@ func BridgeInitiatingMessageMethodUnmarshalAPERLegacy(v *InitiatingMessage, a0 [
 func BridgeInitiatingMessageMethodUnmarshalAPERWithOptions(v *InitiatingMessage, a0 []byte, a1 aper.DecodeState) error {
 	return v.unmarshalAPERWithOptions(a0, a1)
 }
-func BridgeInitiatingMessageValueCodecFieldCapture(v *InitiatingMessageValueCodec) *func(InitiatingMessage, aper.DecodeState) (InitiatingMessage, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeInitiatingMessageValueCodecFieldCompare(v *InitiatingMessageValueCodec) *func(InitiatingMessage, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeInitiatingMessageValueCodecFieldContext(v *InitiatingMessageValueCodec) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeInitiatingMessageValueCodecFieldDecode(v *InitiatingMessageValueCodec) *func([]byte, aper.DecodeState) (InitiatingMessage, error) {
-	return &v.decode
-}
-func BridgeInitiatingMessageValueCodecFieldEncode(v *InitiatingMessageValueCodec) *func(InitiatingMessage, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeInitiatingMessageValueCodecFieldPath(v *InitiatingMessageValueCodec) *aper.Path {
-	return &v.path
-}
-func BridgeInitiatingMessageValueCodecMethodEncodeBudgetValue(v InitiatingMessageValueCodec, a0 InitiatingMessage, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
-	return v.encodeBudgetValue(a0, a1, a2)
-}
-func BridgeInitiatingMessageValueCodecMethodEncodeChanged(v InitiatingMessageValueCodec, a0 InitiatingMessage, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
-	return v.encodeChanged(a0, a1, a2, a3)
-}
 func BridgeInitiatingValueFieldBodyCellTrafficTrace(v *InitiatingValue) **s21.CellTrafficTrace {
 	return &v.bodyCellTrafficTrace
 }
@@ -20961,13 +21110,13 @@ func BridgeInitiatingValueFieldBodyENBConfigurationUpdate(v *InitiatingValue) **
 func BridgeInitiatingValueFieldBodyENBDirectInformationTransfer(v *InitiatingValue) **s34.ENBDirectInformationTransfer {
 	return &v.bodyENBDirectInformationTransfer
 }
-func BridgeInitiatingValueFieldBodyENBEarlyStatusTransfer(v *InitiatingValue) **s37.ENBEarlyStatusTransfer {
+func BridgeInitiatingValueFieldBodyENBEarlyStatusTransfer(v *InitiatingValue) **s38.ENBEarlyStatusTransfer {
 	return &v.bodyENBEarlyStatusTransfer
 }
 func BridgeInitiatingValueFieldBodyENBStatusTransfer(v *InitiatingValue) **s24.ENBStatusTransfer {
 	return &v.bodyENBStatusTransfer
 }
-func BridgeInitiatingValueFieldBodyERABModificationIndication(v *InitiatingValue) **s45.ERABModificationIndication {
+func BridgeInitiatingValueFieldBodyERABModificationIndication(v *InitiatingValue) **s46.ERABModificationIndication {
 	return &v.bodyERABModificationIndication
 }
 func BridgeInitiatingValueFieldBodyERABModifyRequest(v *InitiatingValue) **s40.ERABModifyRequest {
@@ -20976,7 +21125,7 @@ func BridgeInitiatingValueFieldBodyERABModifyRequest(v *InitiatingValue) **s40.E
 func BridgeInitiatingValueFieldBodyERABReleaseCommand(v *InitiatingValue) **s39.ERABReleaseCommand {
 	return &v.bodyERABReleaseCommand
 }
-func BridgeInitiatingValueFieldBodyERABReleaseIndication(v *InitiatingValue) **s45.ERABReleaseIndication {
+func BridgeInitiatingValueFieldBodyERABReleaseIndication(v *InitiatingValue) **s46.ERABReleaseIndication {
 	return &v.bodyERABReleaseIndication
 }
 func BridgeInitiatingValueFieldBodyERABSetupRequest(v *InitiatingValue) **s40.ERABSetupRequest {
@@ -20991,7 +21140,7 @@ func BridgeInitiatingValueFieldBodyHandoverCancel(v *InitiatingValue) **s25.Hand
 func BridgeInitiatingValueFieldBodyHandoverNotify(v *InitiatingValue) **s35.HandoverNotify {
 	return &v.bodyHandoverNotify
 }
-func BridgeInitiatingValueFieldBodyHandoverRequest(v *InitiatingValue) **s48.HandoverRequest {
+func BridgeInitiatingValueFieldBodyHandoverRequest(v *InitiatingValue) **s49.HandoverRequest {
 	return &v.bodyHandoverRequest
 }
 func BridgeInitiatingValueFieldBodyHandoverRequired(v *InitiatingValue) **s34.HandoverRequired {
@@ -21000,7 +21149,7 @@ func BridgeInitiatingValueFieldBodyHandoverRequired(v *InitiatingValue) **s34.Ha
 func BridgeInitiatingValueFieldBodyHandoverSuccess(v *InitiatingValue) **s18.HandoverSuccess {
 	return &v.bodyHandoverSuccess
 }
-func BridgeInitiatingValueFieldBodyInitialContextSetupRequest(v *InitiatingValue) **s48.InitialContextSetupRequest {
+func BridgeInitiatingValueFieldBodyInitialContextSetupRequest(v *InitiatingValue) **s49.InitialContextSetupRequest {
 	return &v.bodyInitialContextSetupRequest
 }
 func BridgeInitiatingValueFieldBodyInitialUEMessage(v *InitiatingValue) **s35.InitialUEMessage {
@@ -21030,7 +21179,7 @@ func BridgeInitiatingValueFieldBodyMMEConfigurationUpdate(v *InitiatingValue) **
 func BridgeInitiatingValueFieldBodyMMEDirectInformationTransfer(v *InitiatingValue) **s34.MMEDirectInformationTransfer {
 	return &v.bodyMMEDirectInformationTransfer
 }
-func BridgeInitiatingValueFieldBodyMMEEarlyStatusTransfer(v *InitiatingValue) **s37.MMEEarlyStatusTransfer {
+func BridgeInitiatingValueFieldBodyMMEEarlyStatusTransfer(v *InitiatingValue) **s38.MMEEarlyStatusTransfer {
 	return &v.bodyMMEEarlyStatusTransfer
 }
 func BridgeInitiatingValueFieldBodyMMEStatusTransfer(v *InitiatingValue) **s25.MMEStatusTransfer {
@@ -21071,16 +21220,16 @@ func BridgeInitiatingValueFieldBodyRetrieveUEInformation(v *InitiatingValue) **s
 func BridgeInitiatingValueFieldBodyS1RemovalRequest(v *InitiatingValue) **s26.S1RemovalRequest {
 	return &v.bodyS1RemovalRequest
 }
-func BridgeInitiatingValueFieldBodyS1SetupRequest(v *InitiatingValue) **s43.S1SetupRequest {
+func BridgeInitiatingValueFieldBodyS1SetupRequest(v *InitiatingValue) **s44.S1SetupRequest {
 	return &v.bodyS1SetupRequest
 }
 func BridgeInitiatingValueFieldBodySecondaryRATDataUsageReport(v *InitiatingValue) **s46.SecondaryRATDataUsageReport {
 	return &v.bodySecondaryRATDataUsageReport
 }
-func BridgeInitiatingValueFieldBodyTraceFailureIndication(v *InitiatingValue) **s34.TraceFailureIndication {
+func BridgeInitiatingValueFieldBodyTraceFailureIndication(v *InitiatingValue) **s35.TraceFailureIndication {
 	return &v.bodyTraceFailureIndication
 }
-func BridgeInitiatingValueFieldBodyTraceStart(v *InitiatingValue) **s48.TraceStart {
+func BridgeInitiatingValueFieldBodyTraceStart(v *InitiatingValue) **s49.TraceStart {
 	return &v.bodyTraceStart
 }
 func BridgeInitiatingValueFieldBodyUECapabilityInfoIndication(v *InitiatingValue) **s36.UECapabilityInfoIndication {
@@ -21095,7 +21244,7 @@ func BridgeInitiatingValueFieldBodyUEContextModificationRequest(v *InitiatingVal
 func BridgeInitiatingValueFieldBodyUEContextReleaseCommand(v *InitiatingValue) **s37.UEContextReleaseCommand {
 	return &v.bodyUEContextReleaseCommand
 }
-func BridgeInitiatingValueFieldBodyUEContextReleaseRequest(v *InitiatingValue) **s42.UEContextReleaseRequest {
+func BridgeInitiatingValueFieldBodyUEContextReleaseRequest(v *InitiatingValue) **s43.UEContextReleaseRequest {
 	return &v.bodyUEContextReleaseRequest
 }
 func BridgeInitiatingValueFieldBodyUEContextResumeRequest(v *InitiatingValue) **s38.UEContextResumeRequest {
@@ -21143,126 +21292,6 @@ func BridgeInitiatingValueMethodEncode(v InitiatingValue) ([]byte, error) { retu
 func BridgeInitiatingValueMethodEncodeFresh(v InitiatingValue, a0 bool, a1 *aper.DecodeBudget) ([]byte, error) {
 	return v.encodeFresh(a0, a1)
 }
-func BridgeKillRequestInitiatingBindingFieldCapture(v *KillRequestInitiatingBinding) *func(s33.KillRequest, aper.DecodeState) (s33.KillRequest, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeKillRequestInitiatingBindingFieldCompare(v *KillRequestInitiatingBinding) *func(s33.KillRequest, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeKillRequestInitiatingBindingFieldContext(v *KillRequestInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeKillRequestInitiatingBindingFieldDecode(v *KillRequestInitiatingBinding) *func([]byte, aper.DecodeState) (s33.KillRequest, error) {
-	return &v.decode
-}
-func BridgeKillRequestInitiatingBindingFieldEncode(v *KillRequestInitiatingBinding) *func(*s33.KillRequest, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeKillRequestInitiatingBindingFieldInfo(v *KillRequestInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeKillRequestInitiatingBindingFieldInject(v *KillRequestInitiatingBinding) *func(s33.KillRequest) InitiatingValue {
-	return &v.inject
-}
-func BridgeKillRequestInitiatingBindingFieldValidate(v *KillRequestInitiatingBinding) *func(*s33.KillRequest, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeLocationReportInitiatingBindingFieldCapture(v *LocationReportInitiatingBinding) *func(s33.LocationReport, aper.DecodeState) (s33.LocationReport, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeLocationReportInitiatingBindingFieldCompare(v *LocationReportInitiatingBinding) *func(s33.LocationReport, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeLocationReportInitiatingBindingFieldContext(v *LocationReportInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeLocationReportInitiatingBindingFieldDecode(v *LocationReportInitiatingBinding) *func([]byte, aper.DecodeState) (s33.LocationReport, error) {
-	return &v.decode
-}
-func BridgeLocationReportInitiatingBindingFieldEncode(v *LocationReportInitiatingBinding) *func(*s33.LocationReport, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeLocationReportInitiatingBindingFieldInfo(v *LocationReportInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeLocationReportInitiatingBindingFieldInject(v *LocationReportInitiatingBinding) *func(s33.LocationReport) InitiatingValue {
-	return &v.inject
-}
-func BridgeLocationReportInitiatingBindingFieldValidate(v *LocationReportInitiatingBinding) *func(*s33.LocationReport, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeLocationReportingControlInitiatingBindingFieldCapture(v *LocationReportingControlInitiatingBinding) *func(s26.LocationReportingControl, aper.DecodeState) (s26.LocationReportingControl, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeLocationReportingControlInitiatingBindingFieldCompare(v *LocationReportingControlInitiatingBinding) *func(s26.LocationReportingControl, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeLocationReportingControlInitiatingBindingFieldContext(v *LocationReportingControlInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeLocationReportingControlInitiatingBindingFieldDecode(v *LocationReportingControlInitiatingBinding) *func([]byte, aper.DecodeState) (s26.LocationReportingControl, error) {
-	return &v.decode
-}
-func BridgeLocationReportingControlInitiatingBindingFieldEncode(v *LocationReportingControlInitiatingBinding) *func(*s26.LocationReportingControl, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeLocationReportingControlInitiatingBindingFieldInfo(v *LocationReportingControlInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeLocationReportingControlInitiatingBindingFieldInject(v *LocationReportingControlInitiatingBinding) *func(s26.LocationReportingControl) InitiatingValue {
-	return &v.inject
-}
-func BridgeLocationReportingControlInitiatingBindingFieldValidate(v *LocationReportingControlInitiatingBinding) *func(*s26.LocationReportingControl, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeLocationReportingFailureIndicationInitiatingBindingFieldCapture(v *LocationReportingFailureIndicationInitiatingBinding) *func(s25.LocationReportingFailureIndication, aper.DecodeState) (s25.LocationReportingFailureIndication, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeLocationReportingFailureIndicationInitiatingBindingFieldCompare(v *LocationReportingFailureIndicationInitiatingBinding) *func(s25.LocationReportingFailureIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeLocationReportingFailureIndicationInitiatingBindingFieldContext(v *LocationReportingFailureIndicationInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeLocationReportingFailureIndicationInitiatingBindingFieldDecode(v *LocationReportingFailureIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s25.LocationReportingFailureIndication, error) {
-	return &v.decode
-}
-func BridgeLocationReportingFailureIndicationInitiatingBindingFieldEncode(v *LocationReportingFailureIndicationInitiatingBinding) *func(*s25.LocationReportingFailureIndication, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeLocationReportingFailureIndicationInitiatingBindingFieldInfo(v *LocationReportingFailureIndicationInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeLocationReportingFailureIndicationInitiatingBindingFieldInject(v *LocationReportingFailureIndicationInitiatingBinding) *func(s25.LocationReportingFailureIndication) InitiatingValue {
-	return &v.inject
-}
-func BridgeLocationReportingFailureIndicationInitiatingBindingFieldValidate(v *LocationReportingFailureIndicationInitiatingBinding) *func(*s25.LocationReportingFailureIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeMMECPRelocationIndicationInitiatingBindingFieldCapture(v *MMECPRelocationIndicationInitiatingBinding) *func(s19.MMECPRelocationIndication, aper.DecodeState) (s19.MMECPRelocationIndication, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeMMECPRelocationIndicationInitiatingBindingFieldCompare(v *MMECPRelocationIndicationInitiatingBinding) *func(s19.MMECPRelocationIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeMMECPRelocationIndicationInitiatingBindingFieldContext(v *MMECPRelocationIndicationInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeMMECPRelocationIndicationInitiatingBindingFieldDecode(v *MMECPRelocationIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s19.MMECPRelocationIndication, error) {
-	return &v.decode
-}
-func BridgeMMECPRelocationIndicationInitiatingBindingFieldEncode(v *MMECPRelocationIndicationInitiatingBinding) *func(*s19.MMECPRelocationIndication, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeMMECPRelocationIndicationInitiatingBindingFieldInfo(v *MMECPRelocationIndicationInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeMMECPRelocationIndicationInitiatingBindingFieldInject(v *MMECPRelocationIndicationInitiatingBinding) *func(s19.MMECPRelocationIndication) InitiatingValue {
-	return &v.inject
-}
-func BridgeMMECPRelocationIndicationInitiatingBindingFieldValidate(v *MMECPRelocationIndicationInitiatingBinding) *func(*s19.MMECPRelocationIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
 func BridgeMMEConfigurationTransferAPERValueFieldContext(v *MMEConfigurationTransferAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
@@ -21275,16 +21304,16 @@ func BridgeMMEConfigurationTransferAPERValueFieldReplay(v *MMEConfigurationTrans
 func BridgeMMEConfigurationTransferAPERValueFieldWithoutReplay(v *MMEConfigurationTransferAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeMMEConfigurationTransferENDCSONConfigurationTransferIEBindingFieldCodec(v *MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) *s50.ENDCSONConfigurationTransferValueCodec {
+func BridgeMMEConfigurationTransferENDCSONConfigurationTransferIEBindingFieldCodec(v *MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) *ENDCSONConfigurationTransferValueCodec {
 	return &v.codec
 }
-func BridgeMMEConfigurationTransferENDCSONConfigurationTransferIEBindingFieldGet(v *MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) *func(*MMEConfigurationTransferIEValue) (*s50.ENDCSONConfigurationTransfer, bool) {
+func BridgeMMEConfigurationTransferENDCSONConfigurationTransferIEBindingFieldGet(v *MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) *func(*MMEConfigurationTransferIEValue) (*ENDCSONConfigurationTransfer, bool) {
 	return &v.get
 }
 func BridgeMMEConfigurationTransferENDCSONConfigurationTransferIEBindingFieldInfo(v *MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeMMEConfigurationTransferENDCSONConfigurationTransferIEBindingFieldInject(v *MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) *func(s50.ENDCSONConfigurationTransfer) MMEConfigurationTransferIEValue {
+func BridgeMMEConfigurationTransferENDCSONConfigurationTransferIEBindingFieldInject(v *MMEConfigurationTransferENDCSONConfigurationTransferIEBinding) *func(ENDCSONConfigurationTransfer) MMEConfigurationTransferIEValue {
 	return &v.inject
 }
 func BridgeMMEConfigurationTransferFieldExtCount(v *MMEConfigurationTransfer) *int64 {
@@ -21482,13 +21511,13 @@ func BridgeMMEConfigurationTransferIEValueFieldReceived(v *MMEConfigurationTrans
 func BridgeMMEConfigurationTransferIEValueFieldReplay(v *MMEConfigurationTransferIEValue) *aper.Snapshot {
 	return &v.replay
 }
-func BridgeMMEConfigurationTransferIEValueFieldRowENDCSONConfigurationTransferMCT(v *MMEConfigurationTransferIEValue) **s50.ENDCSONConfigurationTransfer {
+func BridgeMMEConfigurationTransferIEValueFieldRowENDCSONConfigurationTransferMCT(v *MMEConfigurationTransferIEValue) **ENDCSONConfigurationTransfer {
 	return &v.rowENDCSONConfigurationTransferMCT
 }
 func BridgeMMEConfigurationTransferIEValueFieldRowIntersystemSONConfigurationTransferMCT(v *MMEConfigurationTransferIEValue) **s00.IntersystemSONConfigurationTransfer {
 	return &v.rowIntersystemSONConfigurationTransferMCT
 }
-func BridgeMMEConfigurationTransferIEValueFieldRowSONConfigurationTransferMCT(v *MMEConfigurationTransferIEValue) **s50.SONConfigurationTransfer {
+func BridgeMMEConfigurationTransferIEValueFieldRowSONConfigurationTransferMCT(v *MMEConfigurationTransferIEValue) **SONConfigurationTransfer {
 	return &v.rowSONConfigurationTransferMCT
 }
 func BridgeMMEConfigurationTransferIEValueMethodCaptureSemantics(v MMEConfigurationTransferIEValue, a0 aper.SemanticCapture) MMEConfigurationTransferIEValue {
@@ -21587,30 +21616,6 @@ func BridgeMMEConfigurationTransferIEValueProtocolIEContainerListValueCodecMetho
 func BridgeMMEConfigurationTransferIEValueProtocolIEContainerListValueCodecMethodEncodeChanged(v MMEConfigurationTransferIEValueProtocolIEContainerListValueCodec, a0 MMEConfigurationTransferIEValueProtocolIEContainerList, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeMMEConfigurationTransferInitiatingBindingFieldCapture(v *MMEConfigurationTransferInitiatingBinding) *func(MMEConfigurationTransfer, aper.DecodeState) (MMEConfigurationTransfer, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeMMEConfigurationTransferInitiatingBindingFieldCompare(v *MMEConfigurationTransferInitiatingBinding) *func(MMEConfigurationTransfer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeMMEConfigurationTransferInitiatingBindingFieldContext(v *MMEConfigurationTransferInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeMMEConfigurationTransferInitiatingBindingFieldDecode(v *MMEConfigurationTransferInitiatingBinding) *func([]byte, aper.DecodeState) (MMEConfigurationTransfer, error) {
-	return &v.decode
-}
-func BridgeMMEConfigurationTransferInitiatingBindingFieldEncode(v *MMEConfigurationTransferInitiatingBinding) *func(*MMEConfigurationTransfer, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeMMEConfigurationTransferInitiatingBindingFieldInfo(v *MMEConfigurationTransferInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeMMEConfigurationTransferInitiatingBindingFieldInject(v *MMEConfigurationTransferInitiatingBinding) *func(MMEConfigurationTransfer) InitiatingValue {
-	return &v.inject
-}
-func BridgeMMEConfigurationTransferInitiatingBindingFieldValidate(v *MMEConfigurationTransferInitiatingBinding) *func(*MMEConfigurationTransfer, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
 func BridgeMMEConfigurationTransferIntersystemSONConfigurationTransferIEBindingFieldCodec(v *MMEConfigurationTransferIntersystemSONConfigurationTransferIEBinding) *s01.IntersystemSONConfigurationTransferValueCodec {
 	return &v.codec
 }
@@ -21659,13 +21664,13 @@ func BridgeMMEConfigurationTransferMethodUnmarshalAPERWithOptions(v *MMEConfigur
 func BridgeMMEConfigurationTransferSONConfigurationTransferIEBindingFieldCodec(v *MMEConfigurationTransferSONConfigurationTransferIEBinding) *SONConfigurationTransferValueCodec {
 	return &v.codec
 }
-func BridgeMMEConfigurationTransferSONConfigurationTransferIEBindingFieldGet(v *MMEConfigurationTransferSONConfigurationTransferIEBinding) *func(*MMEConfigurationTransferIEValue) (*s50.SONConfigurationTransfer, bool) {
+func BridgeMMEConfigurationTransferSONConfigurationTransferIEBindingFieldGet(v *MMEConfigurationTransferSONConfigurationTransferIEBinding) *func(*MMEConfigurationTransferIEValue) (*SONConfigurationTransfer, bool) {
 	return &v.get
 }
 func BridgeMMEConfigurationTransferSONConfigurationTransferIEBindingFieldInfo(v *MMEConfigurationTransferSONConfigurationTransferIEBinding) *s00.FieldInfo {
 	return &v.info
 }
-func BridgeMMEConfigurationTransferSONConfigurationTransferIEBindingFieldInject(v *MMEConfigurationTransferSONConfigurationTransferIEBinding) *func(s50.SONConfigurationTransfer) MMEConfigurationTransferIEValue {
+func BridgeMMEConfigurationTransferSONConfigurationTransferIEBindingFieldInject(v *MMEConfigurationTransferSONConfigurationTransferIEBinding) *func(SONConfigurationTransfer) MMEConfigurationTransferIEValue {
 	return &v.inject
 }
 func BridgeMMEConfigurationTransferValueCodecFieldCapture(v *MMEConfigurationTransferValueCodec) *func(MMEConfigurationTransfer, aper.DecodeState) (MMEConfigurationTransfer, aper.Snapshot) {
@@ -21692,294 +21697,6 @@ func BridgeMMEConfigurationTransferValueCodecMethodEncodeBudgetValue(v MMEConfig
 func BridgeMMEConfigurationTransferValueCodecMethodEncodeChanged(v MMEConfigurationTransferValueCodec, a0 MMEConfigurationTransfer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
 }
-func BridgeMMEConfigurationUpdateInitiatingBindingFieldCapture(v *MMEConfigurationUpdateInitiatingBinding) *func(s43.MMEConfigurationUpdate, aper.DecodeState) (s43.MMEConfigurationUpdate, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeMMEConfigurationUpdateInitiatingBindingFieldCompare(v *MMEConfigurationUpdateInitiatingBinding) *func(s43.MMEConfigurationUpdate, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeMMEConfigurationUpdateInitiatingBindingFieldContext(v *MMEConfigurationUpdateInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeMMEConfigurationUpdateInitiatingBindingFieldDecode(v *MMEConfigurationUpdateInitiatingBinding) *func([]byte, aper.DecodeState) (s43.MMEConfigurationUpdate, error) {
-	return &v.decode
-}
-func BridgeMMEConfigurationUpdateInitiatingBindingFieldEncode(v *MMEConfigurationUpdateInitiatingBinding) *func(*s43.MMEConfigurationUpdate, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeMMEConfigurationUpdateInitiatingBindingFieldInfo(v *MMEConfigurationUpdateInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeMMEConfigurationUpdateInitiatingBindingFieldInject(v *MMEConfigurationUpdateInitiatingBinding) *func(s43.MMEConfigurationUpdate) InitiatingValue {
-	return &v.inject
-}
-func BridgeMMEConfigurationUpdateInitiatingBindingFieldValidate(v *MMEConfigurationUpdateInitiatingBinding) *func(*s43.MMEConfigurationUpdate, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeMMEDirectInformationTransferInitiatingBindingFieldCapture(v *MMEDirectInformationTransferInitiatingBinding) *func(s34.MMEDirectInformationTransfer, aper.DecodeState) (s34.MMEDirectInformationTransfer, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeMMEDirectInformationTransferInitiatingBindingFieldCompare(v *MMEDirectInformationTransferInitiatingBinding) *func(s34.MMEDirectInformationTransfer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeMMEDirectInformationTransferInitiatingBindingFieldContext(v *MMEDirectInformationTransferInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeMMEDirectInformationTransferInitiatingBindingFieldDecode(v *MMEDirectInformationTransferInitiatingBinding) *func([]byte, aper.DecodeState) (s34.MMEDirectInformationTransfer, error) {
-	return &v.decode
-}
-func BridgeMMEDirectInformationTransferInitiatingBindingFieldEncode(v *MMEDirectInformationTransferInitiatingBinding) *func(*s34.MMEDirectInformationTransfer, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeMMEDirectInformationTransferInitiatingBindingFieldInfo(v *MMEDirectInformationTransferInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeMMEDirectInformationTransferInitiatingBindingFieldInject(v *MMEDirectInformationTransferInitiatingBinding) *func(s34.MMEDirectInformationTransfer) InitiatingValue {
-	return &v.inject
-}
-func BridgeMMEDirectInformationTransferInitiatingBindingFieldValidate(v *MMEDirectInformationTransferInitiatingBinding) *func(*s34.MMEDirectInformationTransfer, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeMMEEarlyStatusTransferInitiatingBindingFieldCapture(v *MMEEarlyStatusTransferInitiatingBinding) *func(s37.MMEEarlyStatusTransfer, aper.DecodeState) (s37.MMEEarlyStatusTransfer, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeMMEEarlyStatusTransferInitiatingBindingFieldCompare(v *MMEEarlyStatusTransferInitiatingBinding) *func(s37.MMEEarlyStatusTransfer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeMMEEarlyStatusTransferInitiatingBindingFieldContext(v *MMEEarlyStatusTransferInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeMMEEarlyStatusTransferInitiatingBindingFieldDecode(v *MMEEarlyStatusTransferInitiatingBinding) *func([]byte, aper.DecodeState) (s37.MMEEarlyStatusTransfer, error) {
-	return &v.decode
-}
-func BridgeMMEEarlyStatusTransferInitiatingBindingFieldEncode(v *MMEEarlyStatusTransferInitiatingBinding) *func(*s37.MMEEarlyStatusTransfer, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeMMEEarlyStatusTransferInitiatingBindingFieldInfo(v *MMEEarlyStatusTransferInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeMMEEarlyStatusTransferInitiatingBindingFieldInject(v *MMEEarlyStatusTransferInitiatingBinding) *func(s37.MMEEarlyStatusTransfer) InitiatingValue {
-	return &v.inject
-}
-func BridgeMMEEarlyStatusTransferInitiatingBindingFieldValidate(v *MMEEarlyStatusTransferInitiatingBinding) *func(*s37.MMEEarlyStatusTransfer, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeMMEStatusTransferInitiatingBindingFieldCapture(v *MMEStatusTransferInitiatingBinding) *func(s25.MMEStatusTransfer, aper.DecodeState) (s25.MMEStatusTransfer, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeMMEStatusTransferInitiatingBindingFieldCompare(v *MMEStatusTransferInitiatingBinding) *func(s25.MMEStatusTransfer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeMMEStatusTransferInitiatingBindingFieldContext(v *MMEStatusTransferInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeMMEStatusTransferInitiatingBindingFieldDecode(v *MMEStatusTransferInitiatingBinding) *func([]byte, aper.DecodeState) (s25.MMEStatusTransfer, error) {
-	return &v.decode
-}
-func BridgeMMEStatusTransferInitiatingBindingFieldEncode(v *MMEStatusTransferInitiatingBinding) *func(*s25.MMEStatusTransfer, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeMMEStatusTransferInitiatingBindingFieldInfo(v *MMEStatusTransferInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeMMEStatusTransferInitiatingBindingFieldInject(v *MMEStatusTransferInitiatingBinding) *func(s25.MMEStatusTransfer) InitiatingValue {
-	return &v.inject
-}
-func BridgeMMEStatusTransferInitiatingBindingFieldValidate(v *MMEStatusTransferInitiatingBinding) *func(*s25.MMEStatusTransfer, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeNASDeliveryIndicationInitiatingBindingFieldCapture(v *NASDeliveryIndicationInitiatingBinding) *func(s19.NASDeliveryIndication, aper.DecodeState) (s19.NASDeliveryIndication, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeNASDeliveryIndicationInitiatingBindingFieldCompare(v *NASDeliveryIndicationInitiatingBinding) *func(s19.NASDeliveryIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeNASDeliveryIndicationInitiatingBindingFieldContext(v *NASDeliveryIndicationInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeNASDeliveryIndicationInitiatingBindingFieldDecode(v *NASDeliveryIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s19.NASDeliveryIndication, error) {
-	return &v.decode
-}
-func BridgeNASDeliveryIndicationInitiatingBindingFieldEncode(v *NASDeliveryIndicationInitiatingBinding) *func(*s19.NASDeliveryIndication, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeNASDeliveryIndicationInitiatingBindingFieldInfo(v *NASDeliveryIndicationInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeNASDeliveryIndicationInitiatingBindingFieldInject(v *NASDeliveryIndicationInitiatingBinding) *func(s19.NASDeliveryIndication) InitiatingValue {
-	return &v.inject
-}
-func BridgeNASDeliveryIndicationInitiatingBindingFieldValidate(v *NASDeliveryIndicationInitiatingBinding) *func(*s19.NASDeliveryIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeNASNonDeliveryIndicationInitiatingBindingFieldCapture(v *NASNonDeliveryIndicationInitiatingBinding) *func(s25.NASNonDeliveryIndication, aper.DecodeState) (s25.NASNonDeliveryIndication, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeNASNonDeliveryIndicationInitiatingBindingFieldCompare(v *NASNonDeliveryIndicationInitiatingBinding) *func(s25.NASNonDeliveryIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeNASNonDeliveryIndicationInitiatingBindingFieldContext(v *NASNonDeliveryIndicationInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeNASNonDeliveryIndicationInitiatingBindingFieldDecode(v *NASNonDeliveryIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s25.NASNonDeliveryIndication, error) {
-	return &v.decode
-}
-func BridgeNASNonDeliveryIndicationInitiatingBindingFieldEncode(v *NASNonDeliveryIndicationInitiatingBinding) *func(*s25.NASNonDeliveryIndication, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeNASNonDeliveryIndicationInitiatingBindingFieldInfo(v *NASNonDeliveryIndicationInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeNASNonDeliveryIndicationInitiatingBindingFieldInject(v *NASNonDeliveryIndicationInitiatingBinding) *func(s25.NASNonDeliveryIndication) InitiatingValue {
-	return &v.inject
-}
-func BridgeNASNonDeliveryIndicationInitiatingBindingFieldValidate(v *NASNonDeliveryIndicationInitiatingBinding) *func(*s25.NASNonDeliveryIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeOverloadStartInitiatingBindingFieldCapture(v *OverloadStartInitiatingBinding) *func(s41.OverloadStart, aper.DecodeState) (s41.OverloadStart, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeOverloadStartInitiatingBindingFieldCompare(v *OverloadStartInitiatingBinding) *func(s41.OverloadStart, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeOverloadStartInitiatingBindingFieldContext(v *OverloadStartInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeOverloadStartInitiatingBindingFieldDecode(v *OverloadStartInitiatingBinding) *func([]byte, aper.DecodeState) (s41.OverloadStart, error) {
-	return &v.decode
-}
-func BridgeOverloadStartInitiatingBindingFieldEncode(v *OverloadStartInitiatingBinding) *func(*s41.OverloadStart, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeOverloadStartInitiatingBindingFieldInfo(v *OverloadStartInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeOverloadStartInitiatingBindingFieldInject(v *OverloadStartInitiatingBinding) *func(s41.OverloadStart) InitiatingValue {
-	return &v.inject
-}
-func BridgeOverloadStartInitiatingBindingFieldValidate(v *OverloadStartInitiatingBinding) *func(*s41.OverloadStart, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgeOverloadStopInitiatingBindingFieldCapture(v *OverloadStopInitiatingBinding) *func(s41.OverloadStop, aper.DecodeState) (s41.OverloadStop, aper.Snapshot) {
-	return &v.capture
-}
-func BridgeOverloadStopInitiatingBindingFieldCompare(v *OverloadStopInitiatingBinding) *func(s41.OverloadStop, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgeOverloadStopInitiatingBindingFieldContext(v *OverloadStopInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgeOverloadStopInitiatingBindingFieldDecode(v *OverloadStopInitiatingBinding) *func([]byte, aper.DecodeState) (s41.OverloadStop, error) {
-	return &v.decode
-}
-func BridgeOverloadStopInitiatingBindingFieldEncode(v *OverloadStopInitiatingBinding) *func(*s41.OverloadStop, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgeOverloadStopInitiatingBindingFieldInfo(v *OverloadStopInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgeOverloadStopInitiatingBindingFieldInject(v *OverloadStopInitiatingBinding) *func(s41.OverloadStop) InitiatingValue {
-	return &v.inject
-}
-func BridgeOverloadStopInitiatingBindingFieldValidate(v *OverloadStopInitiatingBinding) *func(*s41.OverloadStop, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgePWSFailureIndicationInitiatingBindingFieldCapture(v *PWSFailureIndicationInitiatingBinding) *func(s42.PWSFailureIndication, aper.DecodeState) (s42.PWSFailureIndication, aper.Snapshot) {
-	return &v.capture
-}
-func BridgePWSFailureIndicationInitiatingBindingFieldCompare(v *PWSFailureIndicationInitiatingBinding) *func(s42.PWSFailureIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgePWSFailureIndicationInitiatingBindingFieldContext(v *PWSFailureIndicationInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgePWSFailureIndicationInitiatingBindingFieldDecode(v *PWSFailureIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s42.PWSFailureIndication, error) {
-	return &v.decode
-}
-func BridgePWSFailureIndicationInitiatingBindingFieldEncode(v *PWSFailureIndicationInitiatingBinding) *func(*s42.PWSFailureIndication, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgePWSFailureIndicationInitiatingBindingFieldInfo(v *PWSFailureIndicationInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgePWSFailureIndicationInitiatingBindingFieldInject(v *PWSFailureIndicationInitiatingBinding) *func(s42.PWSFailureIndication) InitiatingValue {
-	return &v.inject
-}
-func BridgePWSFailureIndicationInitiatingBindingFieldValidate(v *PWSFailureIndicationInitiatingBinding) *func(*s42.PWSFailureIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgePWSRestartIndicationInitiatingBindingFieldCapture(v *PWSRestartIndicationInitiatingBinding) *func(s44.PWSRestartIndication, aper.DecodeState) (s44.PWSRestartIndication, aper.Snapshot) {
-	return &v.capture
-}
-func BridgePWSRestartIndicationInitiatingBindingFieldCompare(v *PWSRestartIndicationInitiatingBinding) *func(s44.PWSRestartIndication, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgePWSRestartIndicationInitiatingBindingFieldContext(v *PWSRestartIndicationInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgePWSRestartIndicationInitiatingBindingFieldDecode(v *PWSRestartIndicationInitiatingBinding) *func([]byte, aper.DecodeState) (s44.PWSRestartIndication, error) {
-	return &v.decode
-}
-func BridgePWSRestartIndicationInitiatingBindingFieldEncode(v *PWSRestartIndicationInitiatingBinding) *func(*s44.PWSRestartIndication, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgePWSRestartIndicationInitiatingBindingFieldInfo(v *PWSRestartIndicationInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgePWSRestartIndicationInitiatingBindingFieldInject(v *PWSRestartIndicationInitiatingBinding) *func(s44.PWSRestartIndication) InitiatingValue {
-	return &v.inject
-}
-func BridgePWSRestartIndicationInitiatingBindingFieldValidate(v *PWSRestartIndicationInitiatingBinding) *func(*s44.PWSRestartIndication, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgePagingInitiatingBindingFieldCapture(v *PagingInitiatingBinding) *func(s49.Paging, aper.DecodeState) (s49.Paging, aper.Snapshot) {
-	return &v.capture
-}
-func BridgePagingInitiatingBindingFieldCompare(v *PagingInitiatingBinding) *func(s49.Paging, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgePagingInitiatingBindingFieldContext(v *PagingInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgePagingInitiatingBindingFieldDecode(v *PagingInitiatingBinding) *func([]byte, aper.DecodeState) (s49.Paging, error) {
-	return &v.decode
-}
-func BridgePagingInitiatingBindingFieldEncode(v *PagingInitiatingBinding) *func(*s49.Paging, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgePagingInitiatingBindingFieldInfo(v *PagingInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgePagingInitiatingBindingFieldInject(v *PagingInitiatingBinding) *func(s49.Paging) InitiatingValue {
-	return &v.inject
-}
-func BridgePagingInitiatingBindingFieldValidate(v *PagingInitiatingBinding) *func(*s49.Paging, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
-func BridgePathSwitchRequestInitiatingBindingFieldCapture(v *PathSwitchRequestInitiatingBinding) *func(s41.PathSwitchRequest, aper.DecodeState) (s41.PathSwitchRequest, aper.Snapshot) {
-	return &v.capture
-}
-func BridgePathSwitchRequestInitiatingBindingFieldCompare(v *PathSwitchRequestInitiatingBinding) *func(s41.PathSwitchRequest, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
-	return &v.compare
-}
-func BridgePathSwitchRequestInitiatingBindingFieldContext(v *PathSwitchRequestInitiatingBinding) *s00.BridgeCodecContext {
-	return &v.context
-}
-func BridgePathSwitchRequestInitiatingBindingFieldDecode(v *PathSwitchRequestInitiatingBinding) *func([]byte, aper.DecodeState) (s41.PathSwitchRequest, error) {
-	return &v.decode
-}
-func BridgePathSwitchRequestInitiatingBindingFieldEncode(v *PathSwitchRequestInitiatingBinding) *func(*s41.PathSwitchRequest, bool, *aper.DecodeBudget) ([]byte, error) {
-	return &v.encode
-}
-func BridgePathSwitchRequestInitiatingBindingFieldInfo(v *PathSwitchRequestInitiatingBinding) *s00.ProcedureInfo {
-	return &v.info
-}
-func BridgePathSwitchRequestInitiatingBindingFieldInject(v *PathSwitchRequestInitiatingBinding) *func(s41.PathSwitchRequest) InitiatingValue {
-	return &v.inject
-}
-func BridgePathSwitchRequestInitiatingBindingFieldValidate(v *PathSwitchRequestInitiatingBinding) *func(*s41.PathSwitchRequest, *aper.DecodeBudget) (s21.ValidationReport, error) {
-	return &v.validate
-}
 func BridgeSONConfigurationTransferAPERValueFieldContext(v *SONConfigurationTransferAPERValue) *s00.BridgeCodecContext {
 	return &v.context
 }
@@ -21992,27 +21709,608 @@ func BridgeSONConfigurationTransferAPERValueFieldReplay(v *SONConfigurationTrans
 func BridgeSONConfigurationTransferAPERValueFieldWithoutReplay(v *SONConfigurationTransferAPERValue) *bool {
 	return &v.withoutReplay
 }
-func BridgeSONConfigurationTransferValueCodecFieldCapture(v *SONConfigurationTransferValueCodec) *func(s50.SONConfigurationTransfer, aper.DecodeState) (s50.SONConfigurationTransfer, aper.Snapshot) {
+func BridgeSONConfigurationTransferExtIETableMethodInfoRequestedTNLInfo(v SONConfigurationTransferExtIETable) s00.ExtensionInfo {
+	return v.infoRequestedTNLInfo()
+}
+func BridgeSONConfigurationTransferExtIETableMethodInfoSynchronisationInformation(v SONConfigurationTransferExtIETable) s00.ExtensionInfo {
+	return v.infoSynchronisationInformation()
+}
+func BridgeSONConfigurationTransferExtIETableMethodInfoX2TNLConfigurationInfo(v SONConfigurationTransferExtIETable) s00.ExtensionInfo {
+	return v.infoX2TNLConfigurationInfo()
+}
+func BridgeSONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBindingFieldCodec(v *SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding) *X2TNLConfigurationInfoValueCodec {
+	return &v.codec
+}
+func BridgeSONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBindingFieldGet(v *SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding) *func(*s50.SONConfigurationTransferExtIEsValue) (*s50.X2TNLConfigurationInfo, bool) {
+	return &v.get
+}
+func BridgeSONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBindingFieldInfo(v *SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding) *s00.ExtensionInfo {
+	return &v.info
+}
+func BridgeSONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBindingFieldInject(v *SONConfigurationTransferExtIEsX2TNLConfigurationInfoExtBinding) *func(s50.X2TNLConfigurationInfo) s50.SONConfigurationTransferExtIEsValue {
+	return &v.inject
+}
+func BridgeSONConfigurationTransferFieldExtCount(v *SONConfigurationTransfer) *int64 {
+	return &v.extCount
+}
+func BridgeSONConfigurationTransferFieldExtData(v *SONConfigurationTransfer) *[][]byte {
+	return &v.extData
+}
+func BridgeSONConfigurationTransferFieldExtOrigin(v *SONConfigurationTransfer) *[]aper.OpaqueOrigin {
+	return &v.extOrigin
+}
+func BridgeSONConfigurationTransferFieldExtPresent(v *SONConfigurationTransfer) *[]bool {
+	return &v.extPresent
+}
+func BridgeSONConfigurationTransferFieldExtWire(v *SONConfigurationTransfer) *[]aper.WireSpan {
+	return &v.extWire
+}
+func BridgeSONConfigurationTransferFieldIEExtensionsIndef(v *SONConfigurationTransfer) *bool {
+	return &v.iEExtensionsIndef
+}
+func BridgeSONConfigurationTransferFieldPerExtPadding(v *SONConfigurationTransfer) *[]aper.CompletePadding {
+	return &v.perExtPadding
+}
+func BridgeSONConfigurationTransferFieldPerPadding(v *SONConfigurationTransfer) *aper.FinalPadding {
+	return &v.perPadding
+}
+func BridgeSONConfigurationTransferFieldReceived(v *SONConfigurationTransfer) *bool {
+	return &v.received
+}
+func BridgeSONConfigurationTransferFieldReceivedAbsolute(v *SONConfigurationTransfer) *bool {
+	return &v.receivedAbsolute
+}
+func BridgeSONConfigurationTransferFieldReceivedBytes(v *SONConfigurationTransfer) *aper.WireSpan {
+	return &v.receivedBytes
+}
+func BridgeSONConfigurationTransferFieldReceivedLocation(v *SONConfigurationTransfer) *aper.Location {
+	return &v.receivedLocation
+}
+func BridgeSONConfigurationTransferFieldReplay(v *SONConfigurationTransfer) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeSONConfigurationTransferFieldStream(v *SONConfigurationTransfer) *aper.WireSpan {
+	return &v.stream
+}
+func BridgeSONConfigurationTransferFieldWithoutReplay(v *SONConfigurationTransfer) *bool {
+	return &v.withoutReplay
+}
+func BridgeSONConfigurationTransferMethodMarshalAPERBudget(v *SONConfigurationTransfer, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudget(a0, a1)
+}
+func BridgeSONConfigurationTransferMethodMarshalAPERBudgetValue(v *SONConfigurationTransfer, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudgetValue(a0, a1)
+}
+func BridgeSONConfigurationTransferMethodMarshalAPERChanged(v *SONConfigurationTransfer, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChanged(a0, a1, a2)
+}
+func BridgeSONConfigurationTransferMethodMarshalAPERChangedValue(v *SONConfigurationTransfer, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChangedValue(a0, a1, a2)
+}
+func BridgeSONConfigurationTransferMethodMarshalAPERLegacy(v *SONConfigurationTransfer) ([]byte, error) {
+	return v.marshalAPERLegacy()
+}
+func BridgeSONConfigurationTransferMethodMarshalAPERNewValue(v *SONConfigurationTransfer, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERNewValue(a0, a1)
+}
+func BridgeSONConfigurationTransferMethodMarshalAPERPlanned(v *SONConfigurationTransfer, a0 *aper.DecodeBudget, a1 bool, a2 *aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERPlanned(a0, a1, a2)
+}
+func BridgeSONConfigurationTransferMethodMarshalAPERTo(v *SONConfigurationTransfer, a0 *aper.BitBuffer, a1 ...bool) error {
+	return v.marshalAPERTo(a0, a1...)
+}
+func BridgeSONConfigurationTransferMethodUnmarshalAPERFrom(v *SONConfigurationTransfer, a0 *aper.BitBuffer) error {
+	return v.unmarshalAPERFrom(a0)
+}
+func BridgeSONConfigurationTransferMethodUnmarshalAPERLegacy(v *SONConfigurationTransfer, a0 []byte) error {
+	return v.unmarshalAPERLegacy(a0)
+}
+func BridgeSONConfigurationTransferMethodUnmarshalAPERWithOptions(v *SONConfigurationTransfer, a0 []byte, a1 aper.DecodeState) error {
+	return v.unmarshalAPERWithOptions(a0, a1)
+}
+func BridgeSONConfigurationTransferValueCodecFieldCapture(v *SONConfigurationTransferValueCodec) *func(SONConfigurationTransfer, aper.DecodeState) (SONConfigurationTransfer, aper.Snapshot) {
 	return &v.capture
 }
-func BridgeSONConfigurationTransferValueCodecFieldCompare(v *SONConfigurationTransferValueCodec) *func(s50.SONConfigurationTransfer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+func BridgeSONConfigurationTransferValueCodecFieldCompare(v *SONConfigurationTransferValueCodec) *func(SONConfigurationTransfer, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
 	return &v.compare
 }
 func BridgeSONConfigurationTransferValueCodecFieldContext(v *SONConfigurationTransferValueCodec) *s00.BridgeCodecContext {
 	return &v.context
 }
-func BridgeSONConfigurationTransferValueCodecFieldDecode(v *SONConfigurationTransferValueCodec) *func([]byte, aper.DecodeState) (s50.SONConfigurationTransfer, error) {
+func BridgeSONConfigurationTransferValueCodecFieldDecode(v *SONConfigurationTransferValueCodec) *func([]byte, aper.DecodeState) (SONConfigurationTransfer, error) {
 	return &v.decode
 }
-func BridgeSONConfigurationTransferValueCodecFieldEncode(v *SONConfigurationTransferValueCodec) *func(s50.SONConfigurationTransfer, bool, *aper.DecodeBudget) ([]byte, error) {
+func BridgeSONConfigurationTransferValueCodecFieldEncode(v *SONConfigurationTransferValueCodec) *func(SONConfigurationTransfer, bool, *aper.DecodeBudget) ([]byte, error) {
 	return &v.encode
 }
 func BridgeSONConfigurationTransferValueCodecFieldPath(v *SONConfigurationTransferValueCodec) *aper.Path {
 	return &v.path
 }
-func BridgeSONConfigurationTransferValueCodecMethodEncodeBudgetValue(v SONConfigurationTransferValueCodec, a0 s50.SONConfigurationTransfer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+func BridgeSONConfigurationTransferValueCodecMethodEncodeBudgetValue(v SONConfigurationTransferValueCodec, a0 SONConfigurationTransfer, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
 	return v.encodeBudgetValue(a0, a1, a2)
 }
-func BridgeSONConfigurationTransferValueCodecMethodEncodeChanged(v SONConfigurationTransferValueCodec, a0 s50.SONConfigurationTransfer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+func BridgeSONConfigurationTransferValueCodecMethodEncodeChanged(v SONConfigurationTransferValueCodec, a0 SONConfigurationTransfer, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
 	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeSONInformationAPERValueFieldContext(v *SONInformationAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeSONInformationAPERValueFieldReceived(v *SONInformationAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeSONInformationAPERValueFieldReplay(v *SONInformationAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeSONInformationAPERValueFieldWithoutReplay(v *SONInformationAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeSONInformationFieldPerOpenTypePadding(v *SONInformation) *aper.CompletePadding {
+	return &v.perOpenTypePadding
+}
+func BridgeSONInformationFieldPerPadding(v *SONInformation) *aper.CompletePadding {
+	return &v.perPadding
+}
+func BridgeSONInformationFieldReceived(v *SONInformation) *bool         { return &v.received }
+func BridgeSONInformationFieldReceivedAbsolute(v *SONInformation) *bool { return &v.receivedAbsolute }
+func BridgeSONInformationFieldReceivedBytes(v *SONInformation) *aper.WireSpan {
+	return &v.receivedBytes
+}
+func BridgeSONInformationFieldReceivedLocation(v *SONInformation) *aper.Location {
+	return &v.receivedLocation
+}
+func BridgeSONInformationFieldReplay(v *SONInformation) *aper.Snapshot { return &v.replay }
+func BridgeSONInformationFieldStream(v *SONInformation) *aper.WireSpan { return &v.stream }
+func BridgeSONInformationFieldWithoutReplay(v *SONInformation) *bool   { return &v.withoutReplay }
+func BridgeSONInformationMethodMarshalAPERBudget(v *SONInformation, a0 *aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudget(a0, a1)
+}
+func BridgeSONInformationMethodMarshalAPERBudgetValue(v *SONInformation, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERBudgetValue(a0, a1)
+}
+func BridgeSONInformationMethodMarshalAPERChanged(v *SONInformation, a0 *aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChanged(a0, a1, a2)
+}
+func BridgeSONInformationMethodMarshalAPERChangedValue(v *SONInformation, a0 aper.DecodeBudget, a1 bool, a2 aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERChangedValue(a0, a1, a2)
+}
+func BridgeSONInformationMethodMarshalAPERLegacy(v *SONInformation) ([]byte, error) {
+	return v.marshalAPERLegacy()
+}
+func BridgeSONInformationMethodMarshalAPERNewValue(v *SONInformation, a0 aper.DecodeBudget, a1 bool) ([]byte, error) {
+	return v.marshalAPERNewValue(a0, a1)
+}
+func BridgeSONInformationMethodMarshalAPERPlanned(v *SONInformation, a0 *aper.DecodeBudget, a1 bool, a2 *aper.ReplayPlan) ([]byte, error) {
+	return v.marshalAPERPlanned(a0, a1, a2)
+}
+func BridgeSONInformationMethodMarshalAPERTo(v *SONInformation, a0 *aper.BitBuffer, a1 ...bool) error {
+	return v.marshalAPERTo(a0, a1...)
+}
+func BridgeSONInformationMethodUnmarshalAPERFrom(v *SONInformation, a0 *aper.BitBuffer) error {
+	return v.unmarshalAPERFrom(a0)
+}
+func BridgeSONInformationMethodUnmarshalAPERLegacy(v *SONInformation, a0 []byte) error {
+	return v.unmarshalAPERLegacy(a0)
+}
+func BridgeSONInformationMethodUnmarshalAPERWithOptions(v *SONInformation, a0 []byte, a1 aper.DecodeState) error {
+	return v.unmarshalAPERWithOptions(a0, a1)
+}
+func BridgeSONInformationReplyAPERValueFieldContext(v *SONInformationReplyAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeSONInformationReplyAPERValueFieldReceived(v *SONInformationReplyAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeSONInformationReplyAPERValueFieldReplay(v *SONInformationReplyAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeSONInformationReplyAPERValueFieldWithoutReplay(v *SONInformationReplyAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeSONInformationReplyValueCodecFieldCapture(v *SONInformationReplyValueCodec) *func(s50.SONInformationReply, aper.DecodeState) (s50.SONInformationReply, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeSONInformationReplyValueCodecFieldCompare(v *SONInformationReplyValueCodec) *func(s50.SONInformationReply, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeSONInformationReplyValueCodecFieldContext(v *SONInformationReplyValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeSONInformationReplyValueCodecFieldDecode(v *SONInformationReplyValueCodec) *func([]byte, aper.DecodeState) (s50.SONInformationReply, error) {
+	return &v.decode
+}
+func BridgeSONInformationReplyValueCodecFieldEncode(v *SONInformationReplyValueCodec) *func(s50.SONInformationReply, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeSONInformationReplyValueCodecFieldPath(v *SONInformationReplyValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeSONInformationReplyValueCodecMethodEncodeBudgetValue(v SONInformationReplyValueCodec, a0 s50.SONInformationReply, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeSONInformationReplyValueCodecMethodEncodeChanged(v SONInformationReplyValueCodec, a0 s50.SONInformationReply, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeSONInformationValueCodecFieldCapture(v *SONInformationValueCodec) *func(SONInformation, aper.DecodeState) (SONInformation, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeSONInformationValueCodecFieldCompare(v *SONInformationValueCodec) *func(SONInformation, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeSONInformationValueCodecFieldContext(v *SONInformationValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeSONInformationValueCodecFieldDecode(v *SONInformationValueCodec) *func([]byte, aper.DecodeState) (SONInformation, error) {
+	return &v.decode
+}
+func BridgeSONInformationValueCodecFieldEncode(v *SONInformationValueCodec) *func(SONInformation, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeSONInformationValueCodecFieldPath(v *SONInformationValueCodec) *aper.Path { return &v.path }
+func BridgeSONInformationValueCodecMethodEncodeBudgetValue(v SONInformationValueCodec, a0 SONInformation, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeSONInformationValueCodecMethodEncodeChanged(v SONInformationValueCodec, a0 SONInformation, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+func BridgeX2TNLConfigurationInfoAPERValueFieldContext(v *X2TNLConfigurationInfoAPERValue) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeX2TNLConfigurationInfoAPERValueFieldReceived(v *X2TNLConfigurationInfoAPERValue) *aper.WireSpan {
+	return &v.received
+}
+func BridgeX2TNLConfigurationInfoAPERValueFieldReplay(v *X2TNLConfigurationInfoAPERValue) *aper.Snapshot {
+	return &v.replay
+}
+func BridgeX2TNLConfigurationInfoAPERValueFieldWithoutReplay(v *X2TNLConfigurationInfoAPERValue) *bool {
+	return &v.withoutReplay
+}
+func BridgeX2TNLConfigurationInfoValueCodecFieldCapture(v *X2TNLConfigurationInfoValueCodec) *func(s50.X2TNLConfigurationInfo, aper.DecodeState) (s50.X2TNLConfigurationInfo, aper.Snapshot) {
+	return &v.capture
+}
+func BridgeX2TNLConfigurationInfoValueCodecFieldCompare(v *X2TNLConfigurationInfoValueCodec) *func(s50.X2TNLConfigurationInfo, aper.Snapshot, aper.DecodeBudget) (aper.ReplayPlan, aper.DecodeBudget) {
+	return &v.compare
+}
+func BridgeX2TNLConfigurationInfoValueCodecFieldContext(v *X2TNLConfigurationInfoValueCodec) *s00.BridgeCodecContext {
+	return &v.context
+}
+func BridgeX2TNLConfigurationInfoValueCodecFieldDecode(v *X2TNLConfigurationInfoValueCodec) *func([]byte, aper.DecodeState) (s50.X2TNLConfigurationInfo, error) {
+	return &v.decode
+}
+func BridgeX2TNLConfigurationInfoValueCodecFieldEncode(v *X2TNLConfigurationInfoValueCodec) *func(s50.X2TNLConfigurationInfo, bool, *aper.DecodeBudget) ([]byte, error) {
+	return &v.encode
+}
+func BridgeX2TNLConfigurationInfoValueCodecFieldPath(v *X2TNLConfigurationInfoValueCodec) *aper.Path {
+	return &v.path
+}
+func BridgeX2TNLConfigurationInfoValueCodecMethodEncodeBudgetValue(v X2TNLConfigurationInfoValueCodec, a0 s50.X2TNLConfigurationInfo, a1 bool, a2 aper.DecodeBudget) ([]byte, error) {
+	return v.encodeBudgetValue(a0, a1, a2)
+}
+func BridgeX2TNLConfigurationInfoValueCodecMethodEncodeChanged(v X2TNLConfigurationInfoValueCodec, a0 s50.X2TNLConfigurationInfo, a1 bool, a2 aper.DecodeBudget, a3 aper.ReplayPlan) ([]byte, error) {
+	return v.encodeChanged(a0, a1, a2, a3)
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *ENBConfigurationTransferIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 129:
+		if value, ok := v.AsSONConfigurationTransferECT(); ok {
+			return value, true
+		}
+	case 294:
+		if value, ok := v.AsENDCSONConfigurationTransferECT(); ok {
+			return value, true
+		}
+	case 310:
+		if value, ok := v.AsIntersystemSONConfigurationTransferECT(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *InitiatingValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.code {
+	case 0:
+		if value, ok := v.AsHandoverRequired(); ok {
+			return value, true
+		}
+	case 1:
+		if value, ok := v.AsHandoverRequest(); ok {
+			return value, true
+		}
+	case 2:
+		if value, ok := v.AsHandoverNotify(); ok {
+			return value, true
+		}
+	case 3:
+		if value, ok := v.AsPathSwitchRequest(); ok {
+			return value, true
+		}
+	case 4:
+		if value, ok := v.AsHandoverCancel(); ok {
+			return value, true
+		}
+	case 5:
+		if value, ok := v.AsERABSetupRequest(); ok {
+			return value, true
+		}
+	case 6:
+		if value, ok := v.AsERABModifyRequest(); ok {
+			return value, true
+		}
+	case 7:
+		if value, ok := v.AsERABReleaseCommand(); ok {
+			return value, true
+		}
+	case 8:
+		if value, ok := v.AsERABReleaseIndication(); ok {
+			return value, true
+		}
+	case 9:
+		if value, ok := v.AsInitialContextSetupRequest(); ok {
+			return value, true
+		}
+	case 10:
+		if value, ok := v.AsPaging(); ok {
+			return value, true
+		}
+	case 11:
+		if value, ok := v.AsDownlinkNASTransport(); ok {
+			return value, true
+		}
+	case 12:
+		if value, ok := v.AsInitialUEMessage(); ok {
+			return value, true
+		}
+	case 13:
+		if value, ok := v.AsUplinkNASTransport(); ok {
+			return value, true
+		}
+	case 14:
+		if value, ok := v.AsReset(); ok {
+			return value, true
+		}
+	case 15:
+		if value, ok := v.AsErrorIndication(); ok {
+			return value, true
+		}
+	case 16:
+		if value, ok := v.AsNASNonDeliveryIndication(); ok {
+			return value, true
+		}
+	case 17:
+		if value, ok := v.AsS1SetupRequest(); ok {
+			return value, true
+		}
+	case 18:
+		if value, ok := v.AsUEContextReleaseRequest(); ok {
+			return value, true
+		}
+	case 19:
+		if value, ok := v.AsDownlinkS1cdma2000tunnelling(); ok {
+			return value, true
+		}
+	case 20:
+		if value, ok := v.AsUplinkS1cdma2000tunnelling(); ok {
+			return value, true
+		}
+	case 21:
+		if value, ok := v.AsUEContextModificationRequest(); ok {
+			return value, true
+		}
+	case 22:
+		if value, ok := v.AsUECapabilityInfoIndication(); ok {
+			return value, true
+		}
+	case 23:
+		if value, ok := v.AsUEContextReleaseCommand(); ok {
+			return value, true
+		}
+	case 24:
+		if value, ok := v.AsENBStatusTransfer(); ok {
+			return value, true
+		}
+	case 25:
+		if value, ok := v.AsMMEStatusTransfer(); ok {
+			return value, true
+		}
+	case 26:
+		if value, ok := v.AsDeactivateTrace(); ok {
+			return value, true
+		}
+	case 27:
+		if value, ok := v.AsTraceStart(); ok {
+			return value, true
+		}
+	case 28:
+		if value, ok := v.AsTraceFailureIndication(); ok {
+			return value, true
+		}
+	case 29:
+		if value, ok := v.AsENBConfigurationUpdate(); ok {
+			return value, true
+		}
+	case 30:
+		if value, ok := v.AsMMEConfigurationUpdate(); ok {
+			return value, true
+		}
+	case 31:
+		if value, ok := v.AsLocationReportingControl(); ok {
+			return value, true
+		}
+	case 32:
+		if value, ok := v.AsLocationReportingFailureIndication(); ok {
+			return value, true
+		}
+	case 33:
+		if value, ok := v.AsLocationReport(); ok {
+			return value, true
+		}
+	case 34:
+		if value, ok := v.AsOverloadStart(); ok {
+			return value, true
+		}
+	case 35:
+		if value, ok := v.AsOverloadStop(); ok {
+			return value, true
+		}
+	case 36:
+		if value, ok := v.AsWriteReplaceWarningRequest(); ok {
+			return value, true
+		}
+	case 37:
+		if value, ok := v.AsENBDirectInformationTransfer(); ok {
+			return value, true
+		}
+	case 38:
+		if value, ok := v.AsMMEDirectInformationTransfer(); ok {
+			return value, true
+		}
+	case 39:
+		if value, ok := v.AsPrivateMessage(); ok {
+			return value, true
+		}
+	case 40:
+		if value, ok := v.AsENBConfigurationTransfer(); ok {
+			return value, true
+		}
+	case 41:
+		if value, ok := v.AsMMEConfigurationTransfer(); ok {
+			return value, true
+		}
+	case 42:
+		if value, ok := v.AsCellTrafficTrace(); ok {
+			return value, true
+		}
+	case 43:
+		if value, ok := v.AsKillRequest(); ok {
+			return value, true
+		}
+	case 44:
+		if value, ok := v.AsDownlinkUEAssociatedLPPaTransport(); ok {
+			return value, true
+		}
+	case 45:
+		if value, ok := v.AsUplinkUEAssociatedLPPaTransport(); ok {
+			return value, true
+		}
+	case 46:
+		if value, ok := v.AsDownlinkNonUEAssociatedLPPaTransport(); ok {
+			return value, true
+		}
+	case 47:
+		if value, ok := v.AsUplinkNonUEAssociatedLPPaTransport(); ok {
+			return value, true
+		}
+	case 48:
+		if value, ok := v.AsUERadioCapabilityMatchRequest(); ok {
+			return value, true
+		}
+	case 49:
+		if value, ok := v.AsPWSRestartIndication(); ok {
+			return value, true
+		}
+	case 50:
+		if value, ok := v.AsERABModificationIndication(); ok {
+			return value, true
+		}
+	case 51:
+		if value, ok := v.AsPWSFailureIndication(); ok {
+			return value, true
+		}
+	case 52:
+		if value, ok := v.AsRerouteNASRequest(); ok {
+			return value, true
+		}
+	case 53:
+		if value, ok := v.AsUEContextModificationIndication(); ok {
+			return value, true
+		}
+	case 54:
+		if value, ok := v.AsConnectionEstablishmentIndication(); ok {
+			return value, true
+		}
+	case 55:
+		if value, ok := v.AsUEContextSuspendRequest(); ok {
+			return value, true
+		}
+	case 56:
+		if value, ok := v.AsUEContextResumeRequest(); ok {
+			return value, true
+		}
+	case 57:
+		if value, ok := v.AsNASDeliveryIndication(); ok {
+			return value, true
+		}
+	case 58:
+		if value, ok := v.AsRetrieveUEInformation(); ok {
+			return value, true
+		}
+	case 59:
+		if value, ok := v.AsUEInformationTransfer(); ok {
+			return value, true
+		}
+	case 60:
+		if value, ok := v.AsENBCPRelocationIndication(); ok {
+			return value, true
+		}
+	case 61:
+		if value, ok := v.AsMMECPRelocationIndication(); ok {
+			return value, true
+		}
+	case 62:
+		if value, ok := v.AsSecondaryRATDataUsageReport(); ok {
+			return value, true
+		}
+	case 63:
+		if value, ok := v.AsUERadioCapabilityIDMappingRequest(); ok {
+			return value, true
+		}
+	case 64:
+		if value, ok := v.AsHandoverSuccess(); ok {
+			return value, true
+		}
+	case 65:
+		if value, ok := v.AsENBEarlyStatusTransfer(); ok {
+			return value, true
+		}
+	case 66:
+		if value, ok := v.AsMMEEarlyStatusTransfer(); ok {
+			return value, true
+		}
+	case 67:
+		if value, ok := v.AsS1RemovalRequest(); ok {
+			return value, true
+		}
+	}
+	return nil, false
+}
+
+// Selected returns the decoded value of the active alternative, as the matching As method returns it, or false when the value is opaque or empty.
+func (v *MMEConfigurationTransferIEValue) Selected() (any, bool) {
+	if v == nil || v.isOpaque {
+		return nil, false
+	}
+	switch v.id {
+	case 130:
+		if value, ok := v.AsSONConfigurationTransferMCT(); ok {
+			return value, true
+		}
+	case 295:
+		if value, ok := v.AsENDCSONConfigurationTransferMCT(); ok {
+			return value, true
+		}
+	case 309:
+		if value, ok := v.AsIntersystemSONConfigurationTransferMCT(); ok {
+			return value, true
+		}
+	}
+	return nil, false
 }

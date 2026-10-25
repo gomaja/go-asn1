@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	s19 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s19"
+	s17 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s17"
 )
 
-func retrieveUEContextResponsefreshMust(value s19.RetrieveUEContextResponse, err error) s19.RetrieveUEContextResponse {
+func retrieveUEContextResponseIEFieldfreshMust(value s17.RetrieveUEContextResponseIEField, err error) s17.RetrieveUEContextResponseIEField {
 	if err != nil {
 		panic(err)
 	}

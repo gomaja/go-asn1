@@ -3,10 +3,10 @@
 package x2ap
 
 import (
-	aper "github.com/gomaja/go-asn1/telecom/lte/x2ap/runtime/aper"
+	s03 "github.com/gomaja/go-asn1/telecom/lte/x2ap/internal/model/s03"
 )
 
-func choiceExtensionapiMust(v aper.ChoiceExtension, err error) aper.ChoiceExtension {
+func sSBPositionsInBurstExtIEFieldapiMust(v s03.SSBPositionsInBurstExtIEField, err error) s03.SSBPositionsInBurstExtIEField {
 	if err != nil {
 		panic(err)
 	}
