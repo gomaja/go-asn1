@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/tolerance.go; SHA-256 94be6090fd8783e48534959a97d52fc8cf6be6d6a77d08f6b8935c351bba9248.
+// Runtime source: runtime/aper/tolerance.go; SHA-256 30a491d2c6235cd36d1bac750e9684786f9d7b7e0219520444c9e2fbc1b30a47.
 package aper
 
 import (
@@ -245,8 +245,9 @@ func qualifyPath(root, path string) string {
 	}
 }
 
-// CaptureFinalBits retains complete-value padding and publishes successful
-// extension-tolerance records with the top-level path.
+// CaptureFinalBits validates and consumes zero terminal padding, returning
+// zero padding state, and publishes extension-tolerance records with the
+// top-level path (X.691 (02/2021) §11.1.4).
 func CaptureFinalBits(bb *BitBuffer, root string) (FinalPadding, error) {
 	if err := bb.checkRecoveryBits(0); err != nil {
 		return FinalPadding{}, err
@@ -260,10 +261,10 @@ func CaptureFinalBits(bb *BitBuffer, root string) (FinalPadding, error) {
 	return final, nil
 }
 
-// FinalPadding retains observed complete-value padding and truncated or
-// recovered extension additions. Its zero value represents
-// zero padding. Nonzero padding is replayed while it still fills the final
-// octet exactly; extension provenance is replayed only for unchanged values.
+// FinalPadding carries complete-value padding state and extension provenance.
+// Successful APER decoding leaves the padding state zero (X.691 (02/2021)
+// §11.1.4). Only package-internal callers can supply non-zero padding state;
+// its stored bits are replayed while they still fill the final octet exactly.
 type FinalPadding struct{ bits *finalBits }
 
 type finalBits struct {
@@ -298,11 +299,11 @@ func finalPaddingOf(padding CompletePadding) FinalPadding {
 	return FinalPadding{bits: &paddingTable[first+padding.bits]}
 }
 
-// Bits returns the observed terminal padding right-aligned and its width.
-// It is zero when a tolerated suffix replaced the padding.
+// Bits returns the stored terminal padding right-aligned and its width.
+// Successful APER decoding returns (0, 0).
 func (f FinalPadding) Bits() (value, count uint8) { return f.Padding().Bits() }
 
-// Padding returns the observed terminal padding.
+// Padding returns the stored terminal padding, which is zero after APER decoding.
 func (f FinalPadding) Padding() CompletePadding {
 	if f.bits == nil {
 		return CompletePadding{}
@@ -314,13 +315,13 @@ func (f FinalPadding) Padding() CompletePadding {
 // tolerance; padding and extension provenance never carry such a suffix.
 func (f FinalPadding) Trailing() TrailingBits { return TrailingBits{} }
 
-// IsZero reports whether every observed padding bit is zero.
+// IsZero reports whether every stored padding bit is zero.
 func (f FinalPadding) IsZero() bool { return f.bits == nil || f.bits.padding.IsZero() }
 
-// CompleteBytesWithFinalPadding returns a complete encoding that reproduces
-// the observed final bits while they still fit it. A newly constructed value
-// has none, so it encodes with zero padding, as does an edited value whose
-// observed bits no longer fit (see FinalPadding).
+// CompleteBytesWithFinalPadding returns a complete encoding using the stored
+// padding state (see CompleteBytesWithPadding). APER decoders leave that state
+// zero, so their values encode with zero terminal padding (X.691 (02/2021)
+// §11.1.4).
 func (bb *BitBuffer) CompleteBytesWithFinalPadding(final FinalPadding) ([]byte, error) {
 	if final.bits == nil {
 		return bb.CompleteBytes(), nil

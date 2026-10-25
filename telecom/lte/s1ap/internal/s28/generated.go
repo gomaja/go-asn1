@@ -13031,6 +13031,8 @@ func (v ERABInformationListItemExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABInformationListItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABInformationListItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13700,24 +13702,32 @@ func (ERABInformationListItemExtIEsValue) reason(id s00.ProtocolIEID) aper.Opaqu
 		return aper.UnknownSelector
 	}
 }
+
+// AsDAPSRequestInfo returns the selected DAPSRequestInfo value of ERABInformationListItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABInformationListItemExtIEsValue) AsDAPSRequestInfo() (*s14.DAPSRequestInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(317) || v.rowDAPSRequestInfo == nil {
 		return nil, false
 	}
 	return v.rowDAPSRequestInfo, true
 }
+
+// AsSourceTransportLayerAddress returns the selected SourceTransportLayerAddress value of ERABInformationListItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABInformationListItemExtIEsValue) AsSourceTransportLayerAddress() (*s00.TransportLayerAddress, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(328) || v.rowSourceTransportLayerAddress == nil {
 		return nil, false
 	}
 	return v.rowSourceTransportLayerAddress, true
 }
+
+// AsSecurityIndication returns the selected SecurityIndication value of ERABInformationListItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABInformationListItemExtIEsValue) AsSecurityIndication() (*SecurityIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(332) || v.rowSecurityIndication == nil {
 		return nil, false
 	}
 	return v.rowSecurityIndication, true
 }
+
+// AsSourceNodeTransportLayerAddress returns the selected SourceNodeTransportLayerAddress value of ERABInformationListItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABInformationListItemExtIEsValue) AsSourceNodeTransportLayerAddress() (*s00.TransportLayerAddress, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(340) || v.rowSourceNodeTransportLayerAddress == nil {
 		return nil, false
@@ -13951,6 +13961,8 @@ func (v SecondaryRATDataUsageReportItemIEValue) matchesID(id s00.ProtocolIEID, _
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of SecondaryRATDataUsageReportItemIEValue and reports whether the opaque alternative is selected.
 func (v *SecondaryRATDataUsageReportItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14620,6 +14632,8 @@ func (SecondaryRATDataUsageReportItemIEValue) reason(id s00.ProtocolIEID) aper.O
 		return aper.UnknownSelector
 	}
 }
+
+// AsSecondaryRATDataUsageReportItem returns the selected SecondaryRATDataUsageReportItem value of SecondaryRATDataUsageReportItemIEValue and reports whether that alternative is active.
 func (v *SecondaryRATDataUsageReportItemIEValue) AsSecondaryRATDataUsageReportItem() (*SecondaryRATDataUsageReportItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(265) || v.rowSecondaryRATDataUsageReportItem == nil {
 		return nil, false
@@ -14726,6 +14740,8 @@ func (v ERABToBeSetupItemBearerSUReqExtIEsValue) matchesID(id s00.ProtocolIEID, 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABToBeSetupItemBearerSUReqExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABToBeSetupItemBearerSUReqExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15395,30 +15411,40 @@ func (ERABToBeSetupItemBearerSUReqExtIEsValue) reason(id s00.ProtocolIEID) aper.
 		return aper.UnknownSelector
 	}
 }
+
+// AsCorrelationID returns the selected CorrelationID value of ERABToBeSetupItemBearerSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemBearerSUReqExtIEsValue) AsCorrelationID() (*s00.CorrelationID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(156) || v.rowCorrelationID == nil {
 		return nil, false
 	}
 	return v.rowCorrelationID, true
 }
+
+// AsSIPTOCorrelationID returns the selected SIPTOCorrelationID value of ERABToBeSetupItemBearerSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemBearerSUReqExtIEsValue) AsSIPTOCorrelationID() (*s00.CorrelationID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(183) || v.rowSIPTOCorrelationID == nil {
 		return nil, false
 	}
 	return v.rowSIPTOCorrelationID, true
 }
+
+// AsBearerType returns the selected BearerType value of ERABToBeSetupItemBearerSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemBearerSUReqExtIEsValue) AsBearerType() (*s00.BearerType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(233) || v.rowBearerType == nil {
 		return nil, false
 	}
 	return v.rowBearerType, true
 }
+
+// AsEthernetType returns the selected EthernetType value of ERABToBeSetupItemBearerSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemBearerSUReqExtIEsValue) AsEthernetType() (*s00.EthernetType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(305) || v.rowEthernetType == nil {
 		return nil, false
 	}
 	return v.rowEthernetType, true
 }
+
+// AsSecurityIndication returns the selected SecurityIndication value of ERABToBeSetupItemBearerSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemBearerSUReqExtIEsValue) AsSecurityIndication() (*SecurityIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(332) || v.rowSecurityIndication == nil {
 		return nil, false
@@ -15691,6 +15717,8 @@ func (v ERABToBeSetupItemCtxtSUReqExtIEsValue) matchesID(id s00.ProtocolIEID, _ 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABToBeSetupItemCtxtSUReqExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABToBeSetupItemCtxtSUReqExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16360,30 +16388,40 @@ func (ERABToBeSetupItemCtxtSUReqExtIEsValue) reason(id s00.ProtocolIEID) aper.Op
 		return aper.UnknownSelector
 	}
 }
+
+// AsCorrelationID returns the selected CorrelationID value of ERABToBeSetupItemCtxtSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemCtxtSUReqExtIEsValue) AsCorrelationID() (*s00.CorrelationID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(156) || v.rowCorrelationID == nil {
 		return nil, false
 	}
 	return v.rowCorrelationID, true
 }
+
+// AsSIPTOCorrelationID returns the selected SIPTOCorrelationID value of ERABToBeSetupItemCtxtSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemCtxtSUReqExtIEsValue) AsSIPTOCorrelationID() (*s00.CorrelationID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(183) || v.rowSIPTOCorrelationID == nil {
 		return nil, false
 	}
 	return v.rowSIPTOCorrelationID, true
 }
+
+// AsBearerType returns the selected BearerType value of ERABToBeSetupItemCtxtSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemCtxtSUReqExtIEsValue) AsBearerType() (*s00.BearerType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(233) || v.rowBearerType == nil {
 		return nil, false
 	}
 	return v.rowBearerType, true
 }
+
+// AsEthernetType returns the selected EthernetType value of ERABToBeSetupItemCtxtSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemCtxtSUReqExtIEsValue) AsEthernetType() (*s00.EthernetType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(305) || v.rowEthernetType == nil {
 		return nil, false
 	}
 	return v.rowEthernetType, true
 }
+
+// AsSecurityIndication returns the selected SecurityIndication value of ERABToBeSetupItemCtxtSUReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeSetupItemCtxtSUReqExtIEsValue) AsSecurityIndication() (*SecurityIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(332) || v.rowSecurityIndication == nil {
 		return nil, false
@@ -16656,6 +16694,8 @@ func (v ErrorIndicationIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decode
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ErrorIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *ErrorIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17325,30 +17365,40 @@ func (ErrorIndicationIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of ErrorIndicationIEValue and reports whether that alternative is active.
 func (v *ErrorIndicationIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ErrorIndicationIEValue and reports whether that alternative is active.
 func (v *ErrorIndicationIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCause returns the selected Cause value of ErrorIndicationIEValue and reports whether that alternative is active.
 func (v *ErrorIndicationIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ErrorIndicationIEValue and reports whether that alternative is active.
 func (v *ErrorIndicationIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsSTMSI returns the selected STMSI value of ErrorIndicationIEValue and reports whether that alternative is active.
 func (v *ErrorIndicationIEValue) AsSTMSI() (*s27.STMSI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(96) || v.rowSTMSI == nil {
 		return nil, false
@@ -17567,6 +17617,8 @@ func (v RetrieveUEInformationIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of RetrieveUEInformationIEValue and reports whether the opaque alternative is selected.
 func (v *RetrieveUEInformationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18236,6 +18288,8 @@ func (RetrieveUEInformationIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReaso
 		return aper.UnknownSelector
 	}
 }
+
+// AsSTMSI returns the selected STMSI value of RetrieveUEInformationIEValue and reports whether that alternative is active.
 func (v *RetrieveUEInformationIEValue) AsSTMSI() (*s27.STMSI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(96) || v.rowSTMSI == nil {
 		return nil, false
@@ -18337,6 +18391,8 @@ func (v UEContextSuspendResponseIEValue) matchesID(id s00.ProtocolIEID, _ ...*ap
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextSuspendResponseIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextSuspendResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19006,24 +19062,32 @@ func (UEContextSuspendResponseIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextSuspendResponseIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendResponseIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextSuspendResponseIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendResponseIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of UEContextSuspendResponseIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendResponseIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsSecurityContext returns the selected SecurityContext value of UEContextSuspendResponseIEValue and reports whether that alternative is active.
 func (v *UEContextSuspendResponseIEValue) AsSecurityContext() (*SecurityContext, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(40) || v.rowSecurityContext == nil {
 		return nil, false
@@ -19192,6 +19256,8 @@ type SecondaryRATDataUsageReportItemIETable struct{}
 func SecondaryRATDataUsageReportItemIEs() SecondaryRATDataUsageReportItemIETable {
 	return SecondaryRATDataUsageReportItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SecondaryRATDataUsageReportItemIETable.
 func (SecondaryRATDataUsageReportItemIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19199,6 +19265,8 @@ func (SecondaryRATDataUsageReportItemIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SecondaryRATDataUsageReportItemIETable.
 func (SecondaryRATDataUsageReportItemIETable) Table() s00.SecondaryRATDataUsageReportItemIEValueIETable {
 	return func() s00.SecondaryRATDataUsageReportItemIEValueIETable {
 		sealed := s00.SecondaryRATDataUsageReportItemIEValueIETable{}
@@ -19213,6 +19281,8 @@ func (SecondaryRATDataUsageReportItemIETable) infoSecondaryRATDataUsageReportIte
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SecondaryRATDataUsageReportItemIEs", Row: "id-SecondaryRATDataUsageReportItem"}}}
 }
+
+// SecondaryRATDataUsageReportItem returns the typed binding for the SecondaryRATDataUsageReportItem row of SecondaryRATDataUsageReportItemIETable.
 func (t SecondaryRATDataUsageReportItemIETable) SecondaryRATDataUsageReportItem() SecondaryRATDataUsageReportItemSecondaryRATDataUsageReportItemIEBinding {
 	return SecondaryRATDataUsageReportItemSecondaryRATDataUsageReportItemIEBinding{info: t.infoSecondaryRATDataUsageReportItem(), codec: SecondaryRATDataUsageReportItemValueCodec{path: "SecondaryRATDataUsageReportItem",
 		decode: func(data []byte, options aper.DecodeState) (SecondaryRATDataUsageReportItem, error) {
@@ -19265,6 +19335,8 @@ func (t SecondaryRATDataUsageReportItemIETable) SecondaryRATDataUsageReportItem(
 		return value.AsSecondaryRATDataUsageReportItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SecondaryRATDataUsageReportItemIETable.
 func (t SecondaryRATDataUsageReportItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SecondaryRATDataUsageReportItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SecondaryRATDataUsageReportItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19288,6 +19360,8 @@ func (t SecondaryRATDataUsageReportItemIETable) NewOpaque(id s00.ProtocolIEID, c
 type ErrorIndicationIETable struct{}
 
 func ErrorIndicationIEs() ErrorIndicationIETable { return ErrorIndicationIETable{} }
+
+// ID returns the ASN.1 object-set identity of ErrorIndicationIETable.
 func (ErrorIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19295,6 +19369,8 @@ func (ErrorIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ErrorIndicationIETable.
 func (ErrorIndicationIETable) Table() s00.ErrorIndicationIEValueIETable {
 	return func() s00.ErrorIndicationIEValueIETable {
 		sealed := s00.ErrorIndicationIEValueIETable{}
@@ -19309,6 +19385,8 @@ func (ErrorIndicationIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ErrorIndicationIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of ErrorIndicationIETable.
 func (t ErrorIndicationIETable) MMEUES1APID() ErrorIndicationMMEUES1APIDIEBinding {
 	return ErrorIndicationMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -19371,6 +19449,8 @@ func (ErrorIndicationIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ErrorIndicationIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ErrorIndicationIETable.
 func (t ErrorIndicationIETable) ENBUES1APID() ErrorIndicationENBUES1APIDIEBinding {
 	return ErrorIndicationENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -19433,6 +19513,8 @@ func (ErrorIndicationIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ErrorIndicationIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of ErrorIndicationIETable.
 func (t ErrorIndicationIETable) Cause() ErrorIndicationCauseIEBinding {
 	return ErrorIndicationCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -19495,6 +19577,8 @@ func (ErrorIndicationIETable) infoCriticalityDiagnostics() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ErrorIndicationIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ErrorIndicationIETable.
 func (t ErrorIndicationIETable) CriticalityDiagnostics() ErrorIndicationCriticalityDiagnosticsIEBinding {
 	return ErrorIndicationCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -19561,6 +19645,8 @@ func (ErrorIndicationIETable) infoSTMSI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ErrorIndicationIEs", Row: "id-S-TMSI"}}}
 }
+
+// STMSI returns the typed binding for the STMSI row of ErrorIndicationIETable.
 func (t ErrorIndicationIETable) STMSI() ErrorIndicationSTMSIIEBinding {
 	return ErrorIndicationSTMSIIEBinding{info: t.infoSTMSI(), codec: STMSIValueCodec{path: "STMSI",
 		decode: func(data []byte, options aper.DecodeState) (s27.STMSI, error) {
@@ -19609,6 +19695,8 @@ func (t ErrorIndicationIETable) STMSI() ErrorIndicationSTMSIIEBinding {
 		return ErrorIndicationIEValue{id: s00.ProtocolIEID(96), rowSTMSI: &value}
 	}, get: func(value *ErrorIndicationIEValue) (*s27.STMSI, bool) { return value.AsSTMSI() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ErrorIndicationIETable.
 func (t ErrorIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ErrorIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ErrorIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19640,6 +19728,8 @@ func (t ErrorIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.C
 type RetrieveUEInformationIETable struct{}
 
 func RetrieveUEInformationIEs() RetrieveUEInformationIETable { return RetrieveUEInformationIETable{} }
+
+// ID returns the ASN.1 object-set identity of RetrieveUEInformationIETable.
 func (RetrieveUEInformationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19647,6 +19737,8 @@ func (RetrieveUEInformationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by RetrieveUEInformationIETable.
 func (RetrieveUEInformationIETable) Table() s00.RetrieveUEInformationIEValueIETable {
 	return func() s00.RetrieveUEInformationIEValueIETable {
 		sealed := s00.RetrieveUEInformationIEValueIETable{}
@@ -19661,6 +19753,8 @@ func (RetrieveUEInformationIETable) infoSTMSI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "RetrieveUEInformationIEs", Row: "id-S-TMSI"}}}
 }
+
+// STMSI returns the typed binding for the STMSI row of RetrieveUEInformationIETable.
 func (t RetrieveUEInformationIETable) STMSI() RetrieveUEInformationSTMSIIEBinding {
 	return RetrieveUEInformationSTMSIIEBinding{info: t.infoSTMSI(), codec: STMSIValueCodec{path: "STMSI",
 		decode: func(data []byte, options aper.DecodeState) (s27.STMSI, error) {
@@ -19709,6 +19803,8 @@ func (t RetrieveUEInformationIETable) STMSI() RetrieveUEInformationSTMSIIEBindin
 		return RetrieveUEInformationIEValue{id: s00.ProtocolIEID(96), rowSTMSI: &value}
 	}, get: func(value *RetrieveUEInformationIEValue) (*s27.STMSI, bool) { return value.AsSTMSI() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in RetrieveUEInformationIETable.
 func (t RetrieveUEInformationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (RetrieveUEInformationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return RetrieveUEInformationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19734,6 +19830,8 @@ type UEContextSuspendResponseIETable struct{}
 func UEContextSuspendResponseIEs() UEContextSuspendResponseIETable {
 	return UEContextSuspendResponseIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextSuspendResponseIETable.
 func (UEContextSuspendResponseIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19741,6 +19839,8 @@ func (UEContextSuspendResponseIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextSuspendResponseIETable.
 func (UEContextSuspendResponseIETable) Table() s00.UEContextSuspendResponseIEValueIETable {
 	return func() s00.UEContextSuspendResponseIEValueIETable {
 		sealed := s00.UEContextSuspendResponseIEValueIETable{}
@@ -19755,6 +19855,8 @@ func (UEContextSuspendResponseIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendResponseIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextSuspendResponseIETable.
 func (t UEContextSuspendResponseIETable) MMEUES1APID() UEContextSuspendResponseMMEUES1APIDIEBinding {
 	return UEContextSuspendResponseMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -19817,6 +19919,8 @@ func (UEContextSuspendResponseIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendResponseIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextSuspendResponseIETable.
 func (t UEContextSuspendResponseIETable) ENBUES1APID() UEContextSuspendResponseENBUES1APIDIEBinding {
 	return UEContextSuspendResponseENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -19879,6 +19983,8 @@ func (UEContextSuspendResponseIETable) infoCriticalityDiagnostics() s00.FieldInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendResponseIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of UEContextSuspendResponseIETable.
 func (t UEContextSuspendResponseIETable) CriticalityDiagnostics() UEContextSuspendResponseCriticalityDiagnosticsIEBinding {
 	return UEContextSuspendResponseCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -19945,6 +20051,8 @@ func (UEContextSuspendResponseIETable) infoSecurityContext() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextSuspendResponseIEs", Row: "id-SecurityContext"}}}
 }
+
+// SecurityContext returns the typed binding for the SecurityContext row of UEContextSuspendResponseIETable.
 func (t UEContextSuspendResponseIETable) SecurityContext() UEContextSuspendResponseSecurityContextIEBinding {
 	return UEContextSuspendResponseSecurityContextIEBinding{info: t.infoSecurityContext(), codec: SecurityContextValueCodec{path: "SecurityContext",
 		decode: func(data []byte, options aper.DecodeState) (SecurityContext, error) {
@@ -19994,6 +20102,8 @@ func (t UEContextSuspendResponseIETable) SecurityContext() UEContextSuspendRespo
 		return value.AsSecurityContext()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextSuspendResponseIETable.
 func (t UEContextSuspendResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextSuspendResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextSuspendResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

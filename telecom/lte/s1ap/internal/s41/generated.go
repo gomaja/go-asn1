@@ -13909,6 +13909,8 @@ func (v LastVisitedEUTRANCellInformationExtIEsValue) matchesID(id s00.ProtocolIE
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of LastVisitedEUTRANCellInformationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *LastVisitedEUTRANCellInformationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14578,18 +14580,24 @@ func (LastVisitedEUTRANCellInformationExtIEsValue) reason(id s00.ProtocolIEID) a
 		return aper.UnknownSelector
 	}
 }
+
+// AsTimeUEStayedInCellEnhancedGranularity returns the selected TimeUEStayedInCellEnhancedGranularity value of LastVisitedEUTRANCellInformationExtIEsValue and reports whether that alternative is active.
 func (v *LastVisitedEUTRANCellInformationExtIEsValue) AsTimeUEStayedInCellEnhancedGranularity() (*s00.TimeUEStayedInCellEnhancedGranularity, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(167) || v.rowTimeUEStayedInCellEnhancedGranularity == nil {
 		return nil, false
 	}
 	return v.rowTimeUEStayedInCellEnhancedGranularity, true
 }
+
+// AsHOCause returns the selected HOCause value of LastVisitedEUTRANCellInformationExtIEsValue and reports whether that alternative is active.
 func (v *LastVisitedEUTRANCellInformationExtIEsValue) AsHOCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(168) || v.rowHOCause == nil {
 		return nil, false
 	}
 	return v.rowHOCause, true
 }
+
+// AsLastVisitedPSCellList returns the selected LastVisitedPSCellList value of LastVisitedEUTRANCellInformationExtIEsValue and reports whether that alternative is active.
 func (v *LastVisitedEUTRANCellInformationExtIEsValue) AsLastVisitedPSCellList() (*s20.LastVisitedPSCellList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(329) || v.rowLastVisitedPSCellList == nil {
 		return nil, false
@@ -14746,6 +14754,8 @@ func (v MDTConfigurationExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.D
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of MDTConfigurationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *MDTConfigurationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15415,6 +15425,8 @@ func (MDTConfigurationExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason
 		return aper.UnknownSelector
 	}
 }
+
+// AsSignallingBasedMDTPLMNList returns the selected SignallingBasedMDTPLMNList value of MDTConfigurationExtIEsValue and reports whether that alternative is active.
 func (v *MDTConfigurationExtIEsValue) AsSignallingBasedMDTPLMNList() (*s00.MDTPLMNList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(178) || v.rowSignallingBasedMDTPLMNList == nil {
 		return nil, false
@@ -15512,6 +15524,8 @@ func (v OverloadStartIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBu
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of OverloadStartIEValue and reports whether the opaque alternative is selected.
 func (v *OverloadStartIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16181,18 +16195,24 @@ func (OverloadStartIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsOverloadResponse returns the selected OverloadResponse value of OverloadStartIEValue and reports whether that alternative is active.
 func (v *OverloadStartIEValue) AsOverloadResponse() (*s19.OverloadResponse, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(101) || v.rowOverloadResponse == nil {
 		return nil, false
 	}
 	return v.rowOverloadResponse, true
 }
+
+// AsGUMMEIList returns the selected GUMMEIList value of OverloadStartIEValue and reports whether that alternative is active.
 func (v *OverloadStartIEValue) AsGUMMEIList() (*s18.GUMMEIList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(154) || v.rowGUMMEIList == nil {
 		return nil, false
 	}
 	return v.rowGUMMEIList, true
 }
+
+// AsTrafficLoadReductionIndication returns the selected TrafficLoadReductionIndication value of OverloadStartIEValue and reports whether that alternative is active.
 func (v *OverloadStartIEValue) AsTrafficLoadReductionIndication() (*s00.TrafficLoadReductionIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(161) || v.rowTrafficLoadReductionIndication == nil {
 		return nil, false
@@ -16347,6 +16367,8 @@ func (v OverloadStopIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBud
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of OverloadStopIEValue and reports whether the opaque alternative is selected.
 func (v *OverloadStopIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17016,6 +17038,8 @@ func (OverloadStopIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsGUMMEIList returns the selected GUMMEIList value of OverloadStopIEValue and reports whether that alternative is active.
 func (v *OverloadStopIEValue) AsGUMMEIList() (*s18.GUMMEIList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(154) || v.rowGUMMEIList == nil {
 		return nil, false
@@ -17090,6 +17114,8 @@ type LastVisitedEUTRANCellInformationExtIETable struct{}
 func LastVisitedEUTRANCellInformationExtIEs() LastVisitedEUTRANCellInformationExtIETable {
 	return LastVisitedEUTRANCellInformationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of LastVisitedEUTRANCellInformationExtIETable.
 func (LastVisitedEUTRANCellInformationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17097,6 +17123,8 @@ func (LastVisitedEUTRANCellInformationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by LastVisitedEUTRANCellInformationExtIETable.
 func (LastVisitedEUTRANCellInformationExtIETable) Table() s00.LastVisitedEUTRANCellInformationExtIEsValueExtensionTable {
 	return func() s00.LastVisitedEUTRANCellInformationExtIEsValueExtensionTable {
 		sealed := s00.LastVisitedEUTRANCellInformationExtIEsValueExtensionTable{}
@@ -17111,6 +17139,8 @@ func (LastVisitedEUTRANCellInformationExtIETable) infoTimeUEStayedInCellEnhanced
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "LastVisitedEUTRANCellInformation-ExtIEs", Row: "id-Time-UE-StayedInCell-EnhancedGranularity"}}}
 }
+
+// TimeUEStayedInCellEnhancedGranularity returns the typed binding for the TimeUEStayedInCellEnhancedGranularity row of LastVisitedEUTRANCellInformationExtIETable.
 func (t LastVisitedEUTRANCellInformationExtIETable) TimeUEStayedInCellEnhancedGranularity() LastVisitedEUTRANCellInformationExtIEsTimeUEStayedInCellEnhancedGranularityExtBinding {
 	return LastVisitedEUTRANCellInformationExtIEsTimeUEStayedInCellEnhancedGranularityExtBinding{info: t.infoTimeUEStayedInCellEnhancedGranularity(), codec: func() s02.TimeUEStayedInCellEnhancedGranularityValueCodec {
 		sealed := s02.TimeUEStayedInCellEnhancedGranularityValueCodec{}
@@ -17181,6 +17211,8 @@ func (LastVisitedEUTRANCellInformationExtIETable) infoHOCause() s00.ExtensionInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "LastVisitedEUTRANCellInformation-ExtIEs", Row: "id-HO-Cause"}}}
 }
+
+// HOCause returns the typed binding for the HOCause row of LastVisitedEUTRANCellInformationExtIETable.
 func (t LastVisitedEUTRANCellInformationExtIETable) HOCause() LastVisitedEUTRANCellInformationExtIEsCauseExtBinding {
 	return LastVisitedEUTRANCellInformationExtIEsCauseExtBinding{info: t.infoHOCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -17243,6 +17275,8 @@ func (LastVisitedEUTRANCellInformationExtIETable) infoLastVisitedPSCellList() s0
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "LastVisitedEUTRANCellInformation-ExtIEs", Row: "id-lastVisitedPSCellList"}}}
 }
+
+// LastVisitedPSCellList returns the typed binding for the LastVisitedPSCellList row of LastVisitedEUTRANCellInformationExtIETable.
 func (t LastVisitedEUTRANCellInformationExtIETable) LastVisitedPSCellList() LastVisitedEUTRANCellInformationExtIEsLastVisitedPSCellListExtBinding {
 	return LastVisitedEUTRANCellInformationExtIEsLastVisitedPSCellListExtBinding{info: t.infoLastVisitedPSCellList(), codec: func() s20.LastVisitedPSCellListValueCodec {
 		sealed := s20.LastVisitedPSCellListValueCodec{}
@@ -17303,6 +17337,8 @@ func (t LastVisitedEUTRANCellInformationExtIETable) LastVisitedPSCellList() Last
 			return value.AsLastVisitedPSCellList()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in LastVisitedEUTRANCellInformationExtIETable.
 func (t LastVisitedEUTRANCellInformationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (LastVisitedEUTRANCellInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return LastVisitedEUTRANCellInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17330,6 +17366,8 @@ func (t LastVisitedEUTRANCellInformationExtIETable) NewOpaque(id s00.ProtocolExt
 type MDTConfigurationExtIETable struct{}
 
 func MDTConfigurationExtIEs() MDTConfigurationExtIETable { return MDTConfigurationExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of MDTConfigurationExtIETable.
 func (MDTConfigurationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17337,6 +17375,8 @@ func (MDTConfigurationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by MDTConfigurationExtIETable.
 func (MDTConfigurationExtIETable) Table() s00.MDTConfigurationExtIEsValueExtensionTable {
 	return func() s00.MDTConfigurationExtIEsValueExtensionTable {
 		sealed := s00.MDTConfigurationExtIEsValueExtensionTable{}
@@ -17351,6 +17391,8 @@ func (MDTConfigurationExtIETable) infoSignallingBasedMDTPLMNList() s00.Extension
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "MDT-Configuration-ExtIEs", Row: "id-SignallingBasedMDTPLMNList"}}}
 }
+
+// SignallingBasedMDTPLMNList returns the typed binding for the SignallingBasedMDTPLMNList row of MDTConfigurationExtIETable.
 func (t MDTConfigurationExtIETable) SignallingBasedMDTPLMNList() MDTConfigurationExtIEsMDTPLMNListExtBinding {
 	return MDTConfigurationExtIEsMDTPLMNListExtBinding{info: t.infoSignallingBasedMDTPLMNList(), codec: func() s01.MDTPLMNListValueCodec {
 		sealed := s01.MDTPLMNListValueCodec{}
@@ -17408,6 +17450,8 @@ func (t MDTConfigurationExtIETable) SignallingBasedMDTPLMNList() MDTConfiguratio
 			return value.AsSignallingBasedMDTPLMNList()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in MDTConfigurationExtIETable.
 func (t MDTConfigurationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (MDTConfigurationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return MDTConfigurationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17431,6 +17475,8 @@ func (t MDTConfigurationExtIETable) NewOpaque(id s00.ProtocolExtensionID, critic
 type OverloadStartIETable struct{}
 
 func OverloadStartIEs() OverloadStartIETable { return OverloadStartIETable{} }
+
+// ID returns the ASN.1 object-set identity of OverloadStartIETable.
 func (OverloadStartIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17438,6 +17484,8 @@ func (OverloadStartIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by OverloadStartIETable.
 func (OverloadStartIETable) Table() s00.OverloadStartIEValueIETable {
 	return func() s00.OverloadStartIEValueIETable {
 		sealed := s00.OverloadStartIEValueIETable{}
@@ -17452,6 +17500,8 @@ func (OverloadStartIETable) infoOverloadResponse() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "OverloadStartIEs", Row: "id-OverloadResponse"}}}
 }
+
+// OverloadResponse returns the typed binding for the OverloadResponse row of OverloadStartIETable.
 func (t OverloadStartIETable) OverloadResponse() OverloadStartOverloadResponseIEBinding {
 	return OverloadStartOverloadResponseIEBinding{info: t.infoOverloadResponse(), codec: func() s19.OverloadResponseValueCodec {
 		sealed := s19.OverloadResponseValueCodec{}
@@ -17514,6 +17564,8 @@ func (OverloadStartIETable) infoGUMMEIList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "OverloadStartIEs", Row: "id-GUMMEIList"}}}
 }
+
+// GUMMEIList returns the typed binding for the GUMMEIList row of OverloadStartIETable.
 func (t OverloadStartIETable) GUMMEIList() OverloadStartGUMMEIListIEBinding {
 	return OverloadStartGUMMEIListIEBinding{info: t.infoGUMMEIList(), codec: func() s18.GUMMEIListValueCodec {
 		sealed := s18.GUMMEIListValueCodec{}
@@ -17577,6 +17629,8 @@ func (OverloadStartIETable) infoTrafficLoadReductionIndication() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "OverloadStartIEs", Row: "id-TrafficLoadReductionIndication"}}}
 }
+
+// TrafficLoadReductionIndication returns the typed binding for the TrafficLoadReductionIndication row of OverloadStartIETable.
 func (t OverloadStartIETable) TrafficLoadReductionIndication() OverloadStartTrafficLoadReductionIndicationIEBinding {
 	return OverloadStartTrafficLoadReductionIndicationIEBinding{info: t.infoTrafficLoadReductionIndication(), codec: func() s02.TrafficLoadReductionIndicationValueCodec {
 		sealed := s02.TrafficLoadReductionIndicationValueCodec{}
@@ -17636,6 +17690,8 @@ func (t OverloadStartIETable) TrafficLoadReductionIndication() OverloadStartTraf
 			return value.AsTrafficLoadReductionIndication()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in OverloadStartIETable.
 func (t OverloadStartIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (OverloadStartIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return OverloadStartIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -17663,6 +17719,8 @@ func (t OverloadStartIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Cri
 type OverloadStopIETable struct{}
 
 func OverloadStopIEs() OverloadStopIETable { return OverloadStopIETable{} }
+
+// ID returns the ASN.1 object-set identity of OverloadStopIETable.
 func (OverloadStopIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17670,6 +17728,8 @@ func (OverloadStopIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by OverloadStopIETable.
 func (OverloadStopIETable) Table() s00.OverloadStopIEValueIETable {
 	return func() s00.OverloadStopIEValueIETable {
 		sealed := s00.OverloadStopIEValueIETable{}
@@ -17684,6 +17744,8 @@ func (OverloadStopIETable) infoGUMMEIList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "OverloadStopIEs", Row: "id-GUMMEIList"}}}
 }
+
+// GUMMEIList returns the typed binding for the GUMMEIList row of OverloadStopIETable.
 func (t OverloadStopIETable) GUMMEIList() OverloadStopGUMMEIListIEBinding {
 	return OverloadStopGUMMEIListIEBinding{info: t.infoGUMMEIList(), codec: func() s18.GUMMEIListValueCodec {
 		sealed := s18.GUMMEIListValueCodec{}
@@ -17740,6 +17802,8 @@ func (t OverloadStopIETable) GUMMEIList() OverloadStopGUMMEIListIEBinding {
 			return OverloadStopIEValue{id: s00.ProtocolIEID(154), rowGUMMEIList: &value}
 		}, get: func(value *OverloadStopIEValue) (*s18.GUMMEIList, bool) { return value.AsGUMMEIList() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in OverloadStopIETable.
 func (t OverloadStopIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (OverloadStopIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return OverloadStopIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -17763,6 +17827,8 @@ func (t OverloadStopIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Crit
 type PathSwitchRequestIETable struct{}
 
 func PathSwitchRequestIEs() PathSwitchRequestIETable { return PathSwitchRequestIETable{} }
+
+// ID returns the ASN.1 object-set identity of PathSwitchRequestIETable.
 func (PathSwitchRequestIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17770,6 +17836,8 @@ func (PathSwitchRequestIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by PathSwitchRequestIETable.
 func (PathSwitchRequestIETable) Table() s00.PathSwitchRequestIEValueIETable {
 	return func() s00.PathSwitchRequestIEValueIETable {
 		sealed := s00.PathSwitchRequestIEValueIETable{}
@@ -17784,6 +17852,8 @@ func (PathSwitchRequestIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) ENBUES1APID() s40.PathSwitchRequestENBUES1APIDIEBinding {
 	return func() s40.PathSwitchRequestENBUES1APIDIEBinding {
 		sealed := s40.PathSwitchRequestENBUES1APIDIEBinding{}
@@ -17862,6 +17932,8 @@ func (PathSwitchRequestIETable) infoERABToBeSwitchedDLList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-E-RABToBeSwitchedDLList"}}}
 }
+
+// ERABToBeSwitchedDLList returns the typed binding for the ERABToBeSwitchedDLList row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) ERABToBeSwitchedDLList() s40.PathSwitchRequestERABToBeSwitchedDLListIEBinding {
 	return func() s40.PathSwitchRequestERABToBeSwitchedDLListIEBinding {
 		sealed := s40.PathSwitchRequestERABToBeSwitchedDLListIEBinding{}
@@ -17944,6 +18016,8 @@ func (PathSwitchRequestIETable) infoSourceMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-SourceMME-UE-S1AP-ID"}}}
 }
+
+// SourceMMEUES1APID returns the typed binding for the SourceMMEUES1APID row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) SourceMMEUES1APID() s40.PathSwitchRequestMMEUES1APIDIEBinding {
 	return func() s40.PathSwitchRequestMMEUES1APIDIEBinding {
 		sealed := s40.PathSwitchRequestMMEUES1APIDIEBinding{}
@@ -18024,6 +18098,8 @@ func (PathSwitchRequestIETable) infoEUTRANCGI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-EUTRAN-CGI"}}}
 }
+
+// EUTRANCGI returns the typed binding for the EUTRANCGI row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) EUTRANCGI() s40.PathSwitchRequestEUTRANCGIIEBinding {
 	return func() s40.PathSwitchRequestEUTRANCGIIEBinding {
 		sealed := s40.PathSwitchRequestEUTRANCGIIEBinding{}
@@ -18103,6 +18179,8 @@ func (PathSwitchRequestIETable) infoTAI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-TAI"}}}
 }
+
+// TAI returns the typed binding for the TAI row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) TAI() s40.PathSwitchRequestTAIIEBinding {
 	return func() s40.PathSwitchRequestTAIIEBinding {
 		sealed := s40.PathSwitchRequestTAIIEBinding{}
@@ -18180,6 +18258,8 @@ func (PathSwitchRequestIETable) infoUESecurityCapabilities() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-UESecurityCapabilities"}}}
 }
+
+// UESecurityCapabilities returns the typed binding for the UESecurityCapabilities row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) UESecurityCapabilities() s40.PathSwitchRequestUESecurityCapabilitiesIEBinding {
 	return func() s40.PathSwitchRequestUESecurityCapabilitiesIEBinding {
 		sealed := s40.PathSwitchRequestUESecurityCapabilitiesIEBinding{}
@@ -18262,6 +18342,8 @@ func (PathSwitchRequestIETable) infoCSGId() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-CSG-Id"}}}
 }
+
+// CSGId returns the typed binding for the CSGId row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) CSGId() s40.PathSwitchRequestCSGIdIEBinding {
 	return func() s40.PathSwitchRequestCSGIdIEBinding {
 		sealed := s40.PathSwitchRequestCSGIdIEBinding{}
@@ -18340,6 +18422,8 @@ func (PathSwitchRequestIETable) infoCellAccessMode() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-CellAccessMode"}}}
 }
+
+// CellAccessMode returns the typed binding for the CellAccessMode row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) CellAccessMode() s40.PathSwitchRequestCellAccessModeIEBinding {
 	return func() s40.PathSwitchRequestCellAccessModeIEBinding {
 		sealed := s40.PathSwitchRequestCellAccessModeIEBinding{}
@@ -18418,6 +18502,8 @@ func (PathSwitchRequestIETable) infoSourceMMEGUMMEI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-SourceMME-GUMMEI"}}}
 }
+
+// SourceMMEGUMMEI returns the typed binding for the SourceMMEGUMMEI row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) SourceMMEGUMMEI() s40.PathSwitchRequestGUMMEIIEBinding {
 	return func() s40.PathSwitchRequestGUMMEIIEBinding {
 		sealed := s40.PathSwitchRequestGUMMEIIEBinding{}
@@ -18496,6 +18582,8 @@ func (PathSwitchRequestIETable) infoCSGMembershipStatus() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-CSGMembershipStatus"}}}
 }
+
+// CSGMembershipStatus returns the typed binding for the CSGMembershipStatus row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) CSGMembershipStatus() s40.PathSwitchRequestCSGMembershipStatusIEBinding {
 	return func() s40.PathSwitchRequestCSGMembershipStatusIEBinding {
 		sealed := s40.PathSwitchRequestCSGMembershipStatusIEBinding{}
@@ -18576,6 +18664,8 @@ func (PathSwitchRequestIETable) infoTunnelInformationForBBF() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-Tunnel-Information-for-BBF"}}}
 }
+
+// TunnelInformationForBBF returns the typed binding for the TunnelInformationForBBF row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) TunnelInformationForBBF() s40.PathSwitchRequestTunnelInformationIEBinding {
 	return func() s40.PathSwitchRequestTunnelInformationIEBinding {
 		sealed := s40.PathSwitchRequestTunnelInformationIEBinding{}
@@ -18657,6 +18747,8 @@ func (PathSwitchRequestIETable) infoLHNID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-LHN-ID"}}}
 }
+
+// LHNID returns the typed binding for the LHNID row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) LHNID() s40.PathSwitchRequestLHNIDIEBinding {
 	return func() s40.PathSwitchRequestLHNIDIEBinding {
 		sealed := s40.PathSwitchRequestLHNIDIEBinding{}
@@ -18735,6 +18827,8 @@ func (PathSwitchRequestIETable) infoRRCResumeCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-RRC-Resume-Cause"}}}
 }
+
+// RRCResumeCause returns the typed binding for the RRCResumeCause row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) RRCResumeCause() s40.PathSwitchRequestRRCEstablishmentCauseIEBinding {
 	return func() s40.PathSwitchRequestRRCEstablishmentCauseIEBinding {
 		sealed := s40.PathSwitchRequestRRCEstablishmentCauseIEBinding{}
@@ -18818,6 +18912,8 @@ func (PathSwitchRequestIETable) infoNRUESecurityCapabilities() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-NRUESecurityCapabilities"}}}
 }
+
+// NRUESecurityCapabilities returns the typed binding for the NRUESecurityCapabilities row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) NRUESecurityCapabilities() s40.PathSwitchRequestNRUESecurityCapabilitiesIEBinding {
 	return func() s40.PathSwitchRequestNRUESecurityCapabilitiesIEBinding {
 		sealed := s40.PathSwitchRequestNRUESecurityCapabilitiesIEBinding{}
@@ -18903,6 +18999,8 @@ func (PathSwitchRequestIETable) infoPSCellInformation() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-PSCellInformation"}}}
 }
+
+// PSCellInformation returns the typed binding for the PSCellInformation row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) PSCellInformation() s40.PathSwitchRequestPSCellInformationIEBinding {
 	return func() s40.PathSwitchRequestPSCellInformationIEBinding {
 		sealed := s40.PathSwitchRequestPSCellInformationIEBinding{}
@@ -18984,6 +19082,8 @@ func (PathSwitchRequestIETable) infoLTENTNTAIInformation() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestIEs", Row: "id-LTE-NTN-TAI-Information"}}}
 }
+
+// LTENTNTAIInformation returns the typed binding for the LTENTNTAIInformation row of PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) LTENTNTAIInformation() s40.PathSwitchRequestLTENTNTAIInformationIEBinding {
 	return func() s40.PathSwitchRequestLTENTNTAIInformationIEBinding {
 		sealed := s40.PathSwitchRequestLTENTNTAIInformationIEBinding{}
@@ -19058,6 +19158,8 @@ func (t PathSwitchRequestIETable) LTENTNTAIInformation() s40.PathSwitchRequestLT
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in PathSwitchRequestIETable.
 func (t PathSwitchRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s40.PathSwitchRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s40.PathSwitchRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

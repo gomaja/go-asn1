@@ -14601,6 +14601,8 @@ func (v ERABModificationIndicationIEValue) matchesID(id s00.ProtocolIEID, _ ...*
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABModificationIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *ERABModificationIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15270,48 +15272,64 @@ func (ERABModificationIndicationIEValue) reason(id s00.ProtocolIEID) aper.Opaque
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of ERABModificationIndicationIEValue and reports whether that alternative is active.
 func (v *ERABModificationIndicationIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ERABModificationIndicationIEValue and reports whether that alternative is active.
 func (v *ERABModificationIndicationIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsERABToBeModifiedListBearerModInd returns the selected ERABToBeModifiedListBearerModInd value of ERABModificationIndicationIEValue and reports whether that alternative is active.
 func (v *ERABModificationIndicationIEValue) AsERABToBeModifiedListBearerModInd() (*s17.ERABToBeModifiedListBearerModInd, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(199) || v.rowERABToBeModifiedListBearerModInd == nil {
 		return nil, false
 	}
 	return v.rowERABToBeModifiedListBearerModInd, true
 }
+
+// AsERABNotToBeModifiedListBearerModInd returns the selected ERABNotToBeModifiedListBearerModInd value of ERABModificationIndicationIEValue and reports whether that alternative is active.
 func (v *ERABModificationIndicationIEValue) AsERABNotToBeModifiedListBearerModInd() (*s16.ERABNotToBeModifiedListBearerModInd, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(201) || v.rowERABNotToBeModifiedListBearerModInd == nil {
 		return nil, false
 	}
 	return v.rowERABNotToBeModifiedListBearerModInd, true
 }
+
+// AsCSGMembershipInfo returns the selected CSGMembershipInfo value of ERABModificationIndicationIEValue and reports whether that alternative is active.
 func (v *ERABModificationIndicationIEValue) AsCSGMembershipInfo() (*s14.CSGMembershipInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(226) || v.rowCSGMembershipInfo == nil {
 		return nil, false
 	}
 	return v.rowCSGMembershipInfo, true
 }
+
+// AsTunnelInformationForBBF returns the selected TunnelInformationForBBF value of ERABModificationIndicationIEValue and reports whether that alternative is active.
 func (v *ERABModificationIndicationIEValue) AsTunnelInformationForBBF() (*s34.TunnelInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(176) || v.rowTunnelInformationForBBF == nil {
 		return nil, false
 	}
 	return v.rowTunnelInformationForBBF, true
 }
+
+// AsSecondaryRATDataUsageReportList returns the selected SecondaryRATDataUsageReportList value of ERABModificationIndicationIEValue and reports whether that alternative is active.
 func (v *ERABModificationIndicationIEValue) AsSecondaryRATDataUsageReportList() (*s28.SecondaryRATDataUsageReportList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(264) || v.rowSecondaryRATDataUsageReportList == nil {
 		return nil, false
 	}
 	return v.rowSecondaryRATDataUsageReportList, true
 }
+
+// AsUserLocationInformation returns the selected UserLocationInformation value of ERABModificationIndicationIEValue and reports whether that alternative is active.
 func (v *ERABModificationIndicationIEValue) AsUserLocationInformation() (*UserLocationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(189) || v.rowUserLocationInformation == nil {
 		return nil, false
@@ -15646,6 +15664,8 @@ func (v ERABModifyResponseIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Dec
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABModifyResponseIEValue and reports whether the opaque alternative is selected.
 func (v *ERABModifyResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16315,42 +16335,56 @@ func (ERABModifyResponseIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of ERABModifyResponseIEValue and reports whether that alternative is active.
 func (v *ERABModifyResponseIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ERABModifyResponseIEValue and reports whether that alternative is active.
 func (v *ERABModifyResponseIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsERABModifyListBearerModRes returns the selected ERABModifyListBearerModRes value of ERABModifyResponseIEValue and reports whether that alternative is active.
 func (v *ERABModifyResponseIEValue) AsERABModifyListBearerModRes() (*s16.ERABModifyListBearerModRes, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(31) || v.rowERABModifyListBearerModRes == nil {
 		return nil, false
 	}
 	return v.rowERABModifyListBearerModRes, true
 }
+
+// AsERABFailedToModifyList returns the selected ERABFailedToModifyList value of ERABModifyResponseIEValue and reports whether that alternative is active.
 func (v *ERABModifyResponseIEValue) AsERABFailedToModifyList() (*s16.ERABList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(32) || v.rowERABFailedToModifyList == nil {
 		return nil, false
 	}
 	return v.rowERABFailedToModifyList, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ERABModifyResponseIEValue and reports whether that alternative is active.
 func (v *ERABModifyResponseIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsSecondaryRATDataUsageReportList returns the selected SecondaryRATDataUsageReportList value of ERABModifyResponseIEValue and reports whether that alternative is active.
 func (v *ERABModifyResponseIEValue) AsSecondaryRATDataUsageReportList() (*s28.SecondaryRATDataUsageReportList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(264) || v.rowSecondaryRATDataUsageReportList == nil {
 		return nil, false
 	}
 	return v.rowSecondaryRATDataUsageReportList, true
 }
+
+// AsUserLocationInformation returns the selected UserLocationInformation value of ERABModifyResponseIEValue and reports whether that alternative is active.
 func (v *ERABModifyResponseIEValue) AsUserLocationInformation() (*UserLocationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(189) || v.rowUserLocationInformation == nil {
 		return nil, false
@@ -16644,6 +16678,8 @@ func (v ERABReleaseIndicationIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABReleaseIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *ERABReleaseIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17313,30 +17349,40 @@ func (ERABReleaseIndicationIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReaso
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of ERABReleaseIndicationIEValue and reports whether that alternative is active.
 func (v *ERABReleaseIndicationIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ERABReleaseIndicationIEValue and reports whether that alternative is active.
 func (v *ERABReleaseIndicationIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsERABReleasedList returns the selected ERABReleasedList value of ERABReleaseIndicationIEValue and reports whether that alternative is active.
 func (v *ERABReleaseIndicationIEValue) AsERABReleasedList() (*s16.ERABList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(110) || v.rowERABReleasedList == nil {
 		return nil, false
 	}
 	return v.rowERABReleasedList, true
 }
+
+// AsUserLocationInformation returns the selected UserLocationInformation value of ERABReleaseIndicationIEValue and reports whether that alternative is active.
 func (v *ERABReleaseIndicationIEValue) AsUserLocationInformation() (*UserLocationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(189) || v.rowUserLocationInformation == nil {
 		return nil, false
 	}
 	return v.rowUserLocationInformation, true
 }
+
+// AsSecondaryRATDataUsageReportList returns the selected SecondaryRATDataUsageReportList value of ERABReleaseIndicationIEValue and reports whether that alternative is active.
 func (v *ERABReleaseIndicationIEValue) AsSecondaryRATDataUsageReportList() (*s28.SecondaryRATDataUsageReportList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(264) || v.rowSecondaryRATDataUsageReportList == nil {
 		return nil, false
@@ -17571,6 +17617,8 @@ func (v ERABReleaseResponseIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.De
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABReleaseResponseIEValue and reports whether the opaque alternative is selected.
 func (v *ERABReleaseResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18240,42 +18288,56 @@ func (ERABReleaseResponseIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason 
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of ERABReleaseResponseIEValue and reports whether that alternative is active.
 func (v *ERABReleaseResponseIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ERABReleaseResponseIEValue and reports whether that alternative is active.
 func (v *ERABReleaseResponseIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsERABReleaseListBearerRelComp returns the selected ERABReleaseListBearerRelComp value of ERABReleaseResponseIEValue and reports whether that alternative is active.
 func (v *ERABReleaseResponseIEValue) AsERABReleaseListBearerRelComp() (*s16.ERABReleaseListBearerRelComp, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(69) || v.rowERABReleaseListBearerRelComp == nil {
 		return nil, false
 	}
 	return v.rowERABReleaseListBearerRelComp, true
 }
+
+// AsERABFailedToReleaseList returns the selected ERABFailedToReleaseList value of ERABReleaseResponseIEValue and reports whether that alternative is active.
 func (v *ERABReleaseResponseIEValue) AsERABFailedToReleaseList() (*s16.ERABList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(34) || v.rowERABFailedToReleaseList == nil {
 		return nil, false
 	}
 	return v.rowERABFailedToReleaseList, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ERABReleaseResponseIEValue and reports whether that alternative is active.
 func (v *ERABReleaseResponseIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsUserLocationInformation returns the selected UserLocationInformation value of ERABReleaseResponseIEValue and reports whether that alternative is active.
 func (v *ERABReleaseResponseIEValue) AsUserLocationInformation() (*UserLocationInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(189) || v.rowUserLocationInformation == nil {
 		return nil, false
 	}
 	return v.rowUserLocationInformation, true
 }
+
+// AsSecondaryRATDataUsageReportList returns the selected SecondaryRATDataUsageReportList value of ERABReleaseResponseIEValue and reports whether that alternative is active.
 func (v *ERABReleaseResponseIEValue) AsSecondaryRATDataUsageReportList() (*s28.SecondaryRATDataUsageReportList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(264) || v.rowSecondaryRATDataUsageReportList == nil {
 		return nil, false
@@ -18560,6 +18622,8 @@ func (v ResetAcknowledgeIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decod
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ResetAcknowledgeIEValue and reports whether the opaque alternative is selected.
 func (v *ResetAcknowledgeIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19229,12 +19293,16 @@ func (ResetAcknowledgeIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsUEAssociatedLogicalS1ConnectionListResAck returns the selected UEAssociatedLogicalS1ConnectionListResAck value of ResetAcknowledgeIEValue and reports whether that alternative is active.
 func (v *ResetAcknowledgeIEValue) AsUEAssociatedLogicalS1ConnectionListResAck() (*s35.UEAssociatedLogicalS1ConnectionListResAck, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(93) || v.rowUEAssociatedLogicalS1ConnectionListResAck == nil {
 		return nil, false
 	}
 	return v.rowUEAssociatedLogicalS1ConnectionListResAck, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ResetAcknowledgeIEValue and reports whether that alternative is active.
 func (v *ResetAcknowledgeIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -19340,6 +19408,8 @@ func (v ResetAcknowledgeIEValue) encodeFresh(fresh bool, budget *aper.DecodeBudg
 type ResetAcknowledgeIETable struct{}
 
 func ResetAcknowledgeIEs() ResetAcknowledgeIETable { return ResetAcknowledgeIETable{} }
+
+// ID returns the ASN.1 object-set identity of ResetAcknowledgeIETable.
 func (ResetAcknowledgeIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19347,6 +19417,8 @@ func (ResetAcknowledgeIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ResetAcknowledgeIETable.
 func (ResetAcknowledgeIETable) Table() s00.ResetAcknowledgeIEValueIETable {
 	return func() s00.ResetAcknowledgeIEValueIETable {
 		sealed := s00.ResetAcknowledgeIEValueIETable{}
@@ -19361,6 +19433,8 @@ func (ResetAcknowledgeIETable) infoUEAssociatedLogicalS1ConnectionListResAck() s
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ResetAcknowledgeIEs", Row: "id-UE-associatedLogicalS1-ConnectionListResAck"}}}
 }
+
+// UEAssociatedLogicalS1ConnectionListResAck returns the typed binding for the UEAssociatedLogicalS1ConnectionListResAck row of ResetAcknowledgeIETable.
 func (t ResetAcknowledgeIETable) UEAssociatedLogicalS1ConnectionListResAck() ResetAcknowledgeUEAssociatedLogicalS1ConnectionListResAckIEBinding {
 	return ResetAcknowledgeUEAssociatedLogicalS1ConnectionListResAckIEBinding{info: t.infoUEAssociatedLogicalS1ConnectionListResAck(), codec: func() s35.UEAssociatedLogicalS1ConnectionListResAckValueCodec {
 		sealed := s35.UEAssociatedLogicalS1ConnectionListResAckValueCodec{}
@@ -19427,6 +19501,8 @@ func (ResetAcknowledgeIETable) infoCriticalityDiagnostics() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ResetAcknowledgeIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ResetAcknowledgeIETable.
 func (t ResetAcknowledgeIETable) CriticalityDiagnostics() ResetAcknowledgeCriticalityDiagnosticsIEBinding {
 	return ResetAcknowledgeCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -19486,6 +19562,8 @@ func (t ResetAcknowledgeIETable) CriticalityDiagnostics() ResetAcknowledgeCritic
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ResetAcknowledgeIETable.
 func (t ResetAcknowledgeIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ResetAcknowledgeIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ResetAcknowledgeIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

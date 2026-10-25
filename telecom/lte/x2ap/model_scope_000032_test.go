@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorAdmittedItemUnknownExtensionField verifies 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.2.4 and 9.3.8; unknown ProtocolExtensionField values remain raw.
+// TestVectorAdmittedItemUnknownExtensionField verifies 3GPP TS 36.423 V19.1.0 (2025-12), section 9.3.8; unknown ProtocolExtensionField values remain raw.
 func TestVectorAdmittedItemUnknownExtensionField(t *testing.T) {
 	input := asn1VectorHex(t, "deadbeef")
 	field, err := s06.ERABsAdmittedItemExtIEs().NewOpaque(s00.ProtocolIEID(65532), s00.CriticalityIgnore, input)

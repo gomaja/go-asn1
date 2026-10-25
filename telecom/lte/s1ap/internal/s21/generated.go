@@ -25,7 +25,10 @@ import (
 
 type BuildError struct{ Issues []ValidationIssue }
 
+// Unwrap returns the invalid-value error associated with the failed S1AP build.
 func (e *BuildError) Unwrap() error { return aper.ErrInvalidValue }
+
+// Error describes the first reported S1AP message-structure issue, or a generic build failure when no issue is available.
 func (e *BuildError) Error() string {
 	if e == nil || len(e.Issues) == 0 {
 		return "S1AP build failed"
@@ -11695,6 +11698,8 @@ func (v BearersSubjectToStatusTransferItemIEValue) matchesID(id s00.ProtocolIEID
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of BearersSubjectToStatusTransferItemIEValue and reports whether the opaque alternative is selected.
 func (v *BearersSubjectToStatusTransferItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -12364,6 +12369,8 @@ func (BearersSubjectToStatusTransferItemIEValue) reason(id s00.ProtocolIEID) ape
 		return aper.UnknownSelector
 	}
 }
+
+// AsBearersSubjectToStatusTransferItem returns the selected BearersSubjectToStatusTransferItem value of BearersSubjectToStatusTransferItemIEValue and reports whether that alternative is active.
 func (v *BearersSubjectToStatusTransferItemIEValue) AsBearersSubjectToStatusTransferItem() (*BearersSubjectToStatusTransferItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(89) || v.rowBearersSubjectToStatusTransferItem == nil {
 		return nil, false
@@ -12461,6 +12468,8 @@ func (v UserLocationInformationExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UserLocationInformationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *UserLocationInformationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13130,12 +13139,16 @@ func (UserLocationInformationExtIEsValue) reason(id s00.ProtocolIEID) aper.Opaqu
 		return aper.UnknownSelector
 	}
 }
+
+// AsPSCellInformation returns the selected PSCellInformation value of UserLocationInformationExtIEsValue and reports whether that alternative is active.
 func (v *UserLocationInformationExtIEsValue) AsPSCellInformation() (*s20.PSCellInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(288) || v.rowPSCellInformation == nil {
 		return nil, false
 	}
 	return v.rowPSCellInformation, true
 }
+
+// AsLTENTNTAIInformation returns the selected LTENTNTAIInformation value of UserLocationInformationExtIEsValue and reports whether that alternative is active.
 func (v *UserLocationInformationExtIEsValue) AsLTENTNTAIInformation() (*s18.LTENTNTAIInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(339) || v.rowLTENTNTAIInformation == nil {
 		return nil, false
@@ -13263,6 +13276,8 @@ func (v ERABToBeModifyItemBearerModReqExtIEsValue) matchesID(id s00.ProtocolIEID
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABToBeModifyItemBearerModReqExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABToBeModifyItemBearerModReqExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13932,6 +13947,8 @@ func (ERABToBeModifyItemBearerModReqExtIEsValue) reason(id s00.ProtocolIEID) ape
 		return aper.UnknownSelector
 	}
 }
+
+// AsTransportInformation returns the selected TransportInformation value of ERABToBeModifyItemBearerModReqExtIEsValue and reports whether that alternative is active.
 func (v *ERABToBeModifyItemBearerModReqExtIEsValue) AsTransportInformation() (*s20.TransportInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(185) || v.rowTransportInformation == nil {
 		return nil, false
@@ -14032,6 +14049,8 @@ func (v ENBStatusTransferIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Deco
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ENBStatusTransferIEValue and reports whether the opaque alternative is selected.
 func (v *ENBStatusTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14701,18 +14720,24 @@ func (ENBStatusTransferIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of ENBStatusTransferIEValue and reports whether that alternative is active.
 func (v *ENBStatusTransferIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ENBStatusTransferIEValue and reports whether that alternative is active.
 func (v *ENBStatusTransferIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsENBStatusTransferTransparentContainer returns the selected ENBStatusTransferTransparentContainer value of ENBStatusTransferIEValue and reports whether that alternative is active.
 func (v *ENBStatusTransferIEValue) AsENBStatusTransferTransparentContainer() (*ENBStatusTransferTransparentContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(90) || v.rowENBStatusTransferTransparentContainer == nil {
 		return nil, false
@@ -14871,6 +14896,8 @@ func (v MMEStatusTransferIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Deco
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of MMEStatusTransferIEValue and reports whether the opaque alternative is selected.
 func (v *MMEStatusTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15540,18 +15567,24 @@ func (MMEStatusTransferIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of MMEStatusTransferIEValue and reports whether that alternative is active.
 func (v *MMEStatusTransferIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of MMEStatusTransferIEValue and reports whether that alternative is active.
 func (v *MMEStatusTransferIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsENBStatusTransferTransparentContainer returns the selected ENBStatusTransferTransparentContainer value of MMEStatusTransferIEValue and reports whether that alternative is active.
 func (v *MMEStatusTransferIEValue) AsENBStatusTransferTransparentContainer() (*ENBStatusTransferTransparentContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(90) || v.rowENBStatusTransferTransparentContainer == nil {
 		return nil, false
@@ -15710,6 +15743,8 @@ func (v UEContextModificationIndicationIEValue) matchesID(id s00.ProtocolIEID, _
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextModificationIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextModificationIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16379,18 +16414,24 @@ func (UEContextModificationIndicationIEValue) reason(id s00.ProtocolIEID) aper.O
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextModificationIndicationIEValue and reports whether that alternative is active.
 func (v *UEContextModificationIndicationIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextModificationIndicationIEValue and reports whether that alternative is active.
 func (v *UEContextModificationIndicationIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCSGMembershipInfo returns the selected CSGMembershipInfo value of UEContextModificationIndicationIEValue and reports whether that alternative is active.
 func (v *UEContextModificationIndicationIEValue) AsCSGMembershipInfo() (*s14.CSGMembershipInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(226) || v.rowCSGMembershipInfo == nil {
 		return nil, false
@@ -16569,6 +16610,8 @@ func (v UplinkS1cdma2000tunnellingIEValue) matchesID(id s00.ProtocolIEID, _ ...*
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UplinkS1cdma2000tunnellingIEValue and reports whether the opaque alternative is selected.
 func (v *UplinkS1cdma2000tunnellingIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17238,54 +17281,72 @@ func (UplinkS1cdma2000tunnellingIEValue) reason(id s00.ProtocolIEID) aper.Opaque
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UplinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
 func (v *UplinkS1cdma2000tunnellingIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UplinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
 func (v *UplinkS1cdma2000tunnellingIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCdma2000RATType returns the selected Cdma2000RATType value of UplinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
 func (v *UplinkS1cdma2000tunnellingIEValue) AsCdma2000RATType() (*s00.Cdma2000RATType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(71) || v.rowCdma2000RATType == nil {
 		return nil, false
 	}
 	return v.rowCdma2000RATType, true
 }
+
+// AsCdma2000SectorID returns the selected Cdma2000SectorID value of UplinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
 func (v *UplinkS1cdma2000tunnellingIEValue) AsCdma2000SectorID() (*s00.Cdma2000SectorID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(72) || v.rowCdma2000SectorID == nil {
 		return nil, false
 	}
 	return v.rowCdma2000SectorID, true
 }
+
+// AsCdma2000HORequiredIndication returns the selected Cdma2000HORequiredIndication value of UplinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
 func (v *UplinkS1cdma2000tunnellingIEValue) AsCdma2000HORequiredIndication() (*s00.Cdma2000HORequiredIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(84) || v.rowCdma2000HORequiredIndication == nil {
 		return nil, false
 	}
 	return v.rowCdma2000HORequiredIndication, true
 }
+
+// AsCdma2000OneXSRVCCInfo returns the selected Cdma2000OneXSRVCCInfo value of UplinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
 func (v *UplinkS1cdma2000tunnellingIEValue) AsCdma2000OneXSRVCCInfo() (*s14.Cdma2000OneXSRVCCInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(102) || v.rowCdma2000OneXSRVCCInfo == nil {
 		return nil, false
 	}
 	return v.rowCdma2000OneXSRVCCInfo, true
 }
+
+// AsCdma2000OneXRAND returns the selected Cdma2000OneXRAND value of UplinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
 func (v *UplinkS1cdma2000tunnellingIEValue) AsCdma2000OneXRAND() (*s00.Cdma2000OneXRAND, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(97) || v.rowCdma2000OneXRAND == nil {
 		return nil, false
 	}
 	return v.rowCdma2000OneXRAND, true
 }
+
+// AsCdma2000PDU returns the selected Cdma2000PDU value of UplinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
 func (v *UplinkS1cdma2000tunnellingIEValue) AsCdma2000PDU() (*s00.Cdma2000PDU, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(70) || v.rowCdma2000PDU == nil {
 		return nil, false
 	}
 	return v.rowCdma2000PDU, true
 }
+
+// AsEUTRANRoundTripDelayEstimationInfo returns the selected EUTRANRoundTripDelayEstimationInfo value of UplinkS1cdma2000tunnellingIEValue and reports whether that alternative is active.
 func (v *UplinkS1cdma2000tunnellingIEValue) AsEUTRANRoundTripDelayEstimationInfo() (*s00.EUTRANRoundTripDelayEstimationInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(140) || v.rowEUTRANRoundTripDelayEstimationInfo == nil {
 		return nil, false
@@ -17692,6 +17753,8 @@ type BearersSubjectToStatusTransferItemIETable struct{}
 func BearersSubjectToStatusTransferItemIEs() BearersSubjectToStatusTransferItemIETable {
 	return BearersSubjectToStatusTransferItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of BearersSubjectToStatusTransferItemIETable.
 func (BearersSubjectToStatusTransferItemIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17699,6 +17762,8 @@ func (BearersSubjectToStatusTransferItemIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by BearersSubjectToStatusTransferItemIETable.
 func (BearersSubjectToStatusTransferItemIETable) Table() s00.BearersSubjectToStatusTransferItemIEValueIETable {
 	return func() s00.BearersSubjectToStatusTransferItemIEValueIETable {
 		sealed := s00.BearersSubjectToStatusTransferItemIEValueIETable{}
@@ -17713,6 +17778,8 @@ func (BearersSubjectToStatusTransferItemIETable) infoBearersSubjectToStatusTrans
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToStatusTransfer-ItemIEs", Row: "id-Bearers-SubjectToStatusTransfer-Item"}}}
 }
+
+// BearersSubjectToStatusTransferItem returns the typed binding for the BearersSubjectToStatusTransferItem row of BearersSubjectToStatusTransferItemIETable.
 func (t BearersSubjectToStatusTransferItemIETable) BearersSubjectToStatusTransferItem() BearersSubjectToStatusTransferItemBearersSubjectToStatusTransferItemIEBinding {
 	return BearersSubjectToStatusTransferItemBearersSubjectToStatusTransferItemIEBinding{info: t.infoBearersSubjectToStatusTransferItem(), codec: BearersSubjectToStatusTransferItemValueCodec{path: "BearersSubjectToStatusTransferItem",
 		decode: func(data []byte, options aper.DecodeState) (BearersSubjectToStatusTransferItem, error) {
@@ -17763,6 +17830,8 @@ func (t BearersSubjectToStatusTransferItemIETable) BearersSubjectToStatusTransfe
 		return value.AsBearersSubjectToStatusTransferItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in BearersSubjectToStatusTransferItemIETable.
 func (t BearersSubjectToStatusTransferItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (BearersSubjectToStatusTransferItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return BearersSubjectToStatusTransferItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -17788,6 +17857,8 @@ type UserLocationInformationExtIETable struct{}
 func UserLocationInformationExtIEs() UserLocationInformationExtIETable {
 	return UserLocationInformationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UserLocationInformationExtIETable.
 func (UserLocationInformationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17795,6 +17866,8 @@ func (UserLocationInformationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UserLocationInformationExtIETable.
 func (UserLocationInformationExtIETable) Table() s00.UserLocationInformationExtIEsValueExtensionTable {
 	return func() s00.UserLocationInformationExtIEsValueExtensionTable {
 		sealed := s00.UserLocationInformationExtIEsValueExtensionTable{}
@@ -17809,6 +17882,8 @@ func (UserLocationInformationExtIETable) infoPSCellInformation() s00.ExtensionIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "UserLocationInformation-ExtIEs", Row: "id-PSCellInformation"}}}
 }
+
+// PSCellInformation returns the typed binding for the PSCellInformation row of UserLocationInformationExtIETable.
 func (t UserLocationInformationExtIETable) PSCellInformation() UserLocationInformationExtIEsPSCellInformationExtBinding {
 	return UserLocationInformationExtIEsPSCellInformationExtBinding{info: t.infoPSCellInformation(), codec: func() s20.PSCellInformationValueCodec {
 		sealed := s20.PSCellInformationValueCodec{}
@@ -17874,6 +17949,8 @@ func (UserLocationInformationExtIETable) infoLTENTNTAIInformation() s00.Extensio
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "UserLocationInformation-ExtIEs", Row: "id-LTE-NTN-TAI-Information"}}}
 }
+
+// LTENTNTAIInformation returns the typed binding for the LTENTNTAIInformation row of UserLocationInformationExtIETable.
 func (t UserLocationInformationExtIETable) LTENTNTAIInformation() UserLocationInformationExtIEsLTENTNTAIInformationExtBinding {
 	return UserLocationInformationExtIEsLTENTNTAIInformationExtBinding{info: t.infoLTENTNTAIInformation(), codec: func() s18.LTENTNTAIInformationValueCodec {
 		sealed := s18.LTENTNTAIInformationValueCodec{}
@@ -17932,6 +18009,8 @@ func (t UserLocationInformationExtIETable) LTENTNTAIInformation() UserLocationIn
 			return value.AsLTENTNTAIInformation()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UserLocationInformationExtIETable.
 func (t UserLocationInformationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (UserLocationInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UserLocationInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17959,6 +18038,8 @@ type ERABToBeModifyItemBearerModReqExtIETable struct{}
 func ERABToBeModifyItemBearerModReqExtIEs() ERABToBeModifyItemBearerModReqExtIETable {
 	return ERABToBeModifyItemBearerModReqExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABToBeModifyItemBearerModReqExtIETable.
 func (ERABToBeModifyItemBearerModReqExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17966,6 +18047,8 @@ func (ERABToBeModifyItemBearerModReqExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABToBeModifyItemBearerModReqExtIETable.
 func (ERABToBeModifyItemBearerModReqExtIETable) Table() s00.ERABToBeModifyItemBearerModReqExtIEsValueExtensionTable {
 	return func() s00.ERABToBeModifyItemBearerModReqExtIEsValueExtensionTable {
 		sealed := s00.ERABToBeModifyItemBearerModReqExtIEsValueExtensionTable{}
@@ -17980,6 +18063,8 @@ func (ERABToBeModifyItemBearerModReqExtIETable) infoTransportInformation() s00.E
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABToBeModifyItemBearerModReqExtIEs", Row: "id-TransportInformation"}}}
 }
+
+// TransportInformation returns the typed binding for the TransportInformation row of ERABToBeModifyItemBearerModReqExtIETable.
 func (t ERABToBeModifyItemBearerModReqExtIETable) TransportInformation() ERABToBeModifyItemBearerModReqExtIEsTransportInformationExtBinding {
 	return ERABToBeModifyItemBearerModReqExtIEsTransportInformationExtBinding{info: t.infoTransportInformation(), codec: TransportInformationValueCodec{path: "TransportInformation",
 		decode: func(data []byte, options aper.DecodeState) (s20.TransportInformation, error) {
@@ -18031,6 +18116,8 @@ func (t ERABToBeModifyItemBearerModReqExtIETable) TransportInformation() ERABToB
 		return value.AsTransportInformation()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABToBeModifyItemBearerModReqExtIETable.
 func (t ERABToBeModifyItemBearerModReqExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (ERABToBeModifyItemBearerModReqExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABToBeModifyItemBearerModReqExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -18054,6 +18141,8 @@ func (t ERABToBeModifyItemBearerModReqExtIETable) NewOpaque(id s00.ProtocolExten
 type ENBStatusTransferIETable struct{}
 
 func ENBStatusTransferIEs() ENBStatusTransferIETable { return ENBStatusTransferIETable{} }
+
+// ID returns the ASN.1 object-set identity of ENBStatusTransferIETable.
 func (ENBStatusTransferIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18061,6 +18150,8 @@ func (ENBStatusTransferIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ENBStatusTransferIETable.
 func (ENBStatusTransferIETable) Table() s00.ENBStatusTransferIEValueIETable {
 	return func() s00.ENBStatusTransferIEValueIETable {
 		sealed := s00.ENBStatusTransferIEValueIETable{}
@@ -18075,6 +18166,8 @@ func (ENBStatusTransferIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBStatusTransferIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of ENBStatusTransferIETable.
 func (t ENBStatusTransferIETable) MMEUES1APID() ENBStatusTransferMMEUES1APIDIEBinding {
 	return ENBStatusTransferMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18137,6 +18230,8 @@ func (ENBStatusTransferIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBStatusTransferIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ENBStatusTransferIETable.
 func (t ENBStatusTransferIETable) ENBUES1APID() ENBStatusTransferENBUES1APIDIEBinding {
 	return ENBStatusTransferENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18199,6 +18294,8 @@ func (ENBStatusTransferIETable) infoENBStatusTransferTransparentContainer() s00.
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBStatusTransferIEs", Row: "id-eNB-StatusTransfer-TransparentContainer"}}}
 }
+
+// ENBStatusTransferTransparentContainer returns the typed binding for the ENBStatusTransferTransparentContainer row of ENBStatusTransferIETable.
 func (t ENBStatusTransferIETable) ENBStatusTransferTransparentContainer() ENBStatusTransferENBStatusTransferTransparentContainerIEBinding {
 	return ENBStatusTransferENBStatusTransferTransparentContainerIEBinding{info: t.infoENBStatusTransferTransparentContainer(), codec: ENBStatusTransferTransparentContainerValueCodec{path: "ENBStatusTransferTransparentContainer",
 		decode: func(data []byte, options aper.DecodeState) (ENBStatusTransferTransparentContainer, error) {
@@ -18255,6 +18352,8 @@ func (t ENBStatusTransferIETable) ENBStatusTransferTransparentContainer() ENBSta
 		return value.AsENBStatusTransferTransparentContainer()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBStatusTransferIETable.
 func (t ENBStatusTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBStatusTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBStatusTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18282,6 +18381,8 @@ func (t ENBStatusTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00
 type MMEStatusTransferIETable struct{}
 
 func MMEStatusTransferIEs() MMEStatusTransferIETable { return MMEStatusTransferIETable{} }
+
+// ID returns the ASN.1 object-set identity of MMEStatusTransferIETable.
 func (MMEStatusTransferIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18289,6 +18390,8 @@ func (MMEStatusTransferIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by MMEStatusTransferIETable.
 func (MMEStatusTransferIETable) Table() s00.MMEStatusTransferIEValueIETable {
 	return func() s00.MMEStatusTransferIEValueIETable {
 		sealed := s00.MMEStatusTransferIEValueIETable{}
@@ -18303,6 +18406,8 @@ func (MMEStatusTransferIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEStatusTransferIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of MMEStatusTransferIETable.
 func (t MMEStatusTransferIETable) MMEUES1APID() MMEStatusTransferMMEUES1APIDIEBinding {
 	return MMEStatusTransferMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18365,6 +18470,8 @@ func (MMEStatusTransferIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEStatusTransferIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of MMEStatusTransferIETable.
 func (t MMEStatusTransferIETable) ENBUES1APID() MMEStatusTransferENBUES1APIDIEBinding {
 	return MMEStatusTransferENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18427,6 +18534,8 @@ func (MMEStatusTransferIETable) infoENBStatusTransferTransparentContainer() s00.
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEStatusTransferIEs", Row: "id-eNB-StatusTransfer-TransparentContainer"}}}
 }
+
+// ENBStatusTransferTransparentContainer returns the typed binding for the ENBStatusTransferTransparentContainer row of MMEStatusTransferIETable.
 func (t MMEStatusTransferIETable) ENBStatusTransferTransparentContainer() MMEStatusTransferENBStatusTransferTransparentContainerIEBinding {
 	return MMEStatusTransferENBStatusTransferTransparentContainerIEBinding{info: t.infoENBStatusTransferTransparentContainer(), codec: ENBStatusTransferTransparentContainerValueCodec{path: "ENBStatusTransferTransparentContainer",
 		decode: func(data []byte, options aper.DecodeState) (ENBStatusTransferTransparentContainer, error) {
@@ -18483,6 +18592,8 @@ func (t MMEStatusTransferIETable) ENBStatusTransferTransparentContainer() MMESta
 		return value.AsENBStatusTransferTransparentContainer()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in MMEStatusTransferIETable.
 func (t MMEStatusTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (MMEStatusTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return MMEStatusTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18512,6 +18623,8 @@ type UEContextModificationIndicationIETable struct{}
 func UEContextModificationIndicationIEs() UEContextModificationIndicationIETable {
 	return UEContextModificationIndicationIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextModificationIndicationIETable.
 func (UEContextModificationIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18519,6 +18632,8 @@ func (UEContextModificationIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextModificationIndicationIETable.
 func (UEContextModificationIndicationIETable) Table() s00.UEContextModificationIndicationIEValueIETable {
 	return func() s00.UEContextModificationIndicationIEValueIETable {
 		sealed := s00.UEContextModificationIndicationIEValueIETable{}
@@ -18533,6 +18648,8 @@ func (UEContextModificationIndicationIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationIndicationIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextModificationIndicationIETable.
 func (t UEContextModificationIndicationIETable) MMEUES1APID() UEContextModificationIndicationMMEUES1APIDIEBinding {
 	return UEContextModificationIndicationMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18597,6 +18714,8 @@ func (UEContextModificationIndicationIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationIndicationIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextModificationIndicationIETable.
 func (t UEContextModificationIndicationIETable) ENBUES1APID() UEContextModificationIndicationENBUES1APIDIEBinding {
 	return UEContextModificationIndicationENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18661,6 +18780,8 @@ func (UEContextModificationIndicationIETable) infoCSGMembershipInfo() s00.FieldI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationIndicationIEs", Row: "id-CSGMembershipInfo"}}}
 }
+
+// CSGMembershipInfo returns the typed binding for the CSGMembershipInfo row of UEContextModificationIndicationIETable.
 func (t UEContextModificationIndicationIETable) CSGMembershipInfo() UEContextModificationIndicationCSGMembershipInfoIEBinding {
 	return UEContextModificationIndicationCSGMembershipInfoIEBinding{info: t.infoCSGMembershipInfo(), codec: func() s14.CSGMembershipInfoValueCodec {
 		sealed := s14.CSGMembershipInfoValueCodec{}
@@ -18719,6 +18840,8 @@ func (t UEContextModificationIndicationIETable) CSGMembershipInfo() UEContextMod
 			return value.AsCSGMembershipInfo()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextModificationIndicationIETable.
 func (t UEContextModificationIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextModificationIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextModificationIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18748,6 +18871,8 @@ type UplinkS1cdma2000tunnellingIETable struct{}
 func UplinkS1cdma2000tunnellingIEs() UplinkS1cdma2000tunnellingIETable {
 	return UplinkS1cdma2000tunnellingIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UplinkS1cdma2000tunnellingIETable.
 func (UplinkS1cdma2000tunnellingIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18755,6 +18880,8 @@ func (UplinkS1cdma2000tunnellingIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UplinkS1cdma2000tunnellingIETable.
 func (UplinkS1cdma2000tunnellingIETable) Table() s00.UplinkS1cdma2000tunnellingIEValueIETable {
 	return func() s00.UplinkS1cdma2000tunnellingIEValueIETable {
 		sealed := s00.UplinkS1cdma2000tunnellingIEValueIETable{}
@@ -18769,6 +18896,8 @@ func (UplinkS1cdma2000tunnellingIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkS1cdma2000tunnellingIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) MMEUES1APID() UplinkS1cdma2000tunnellingMMEUES1APIDIEBinding {
 	return UplinkS1cdma2000tunnellingMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18831,6 +18960,8 @@ func (UplinkS1cdma2000tunnellingIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkS1cdma2000tunnellingIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) ENBUES1APID() UplinkS1cdma2000tunnellingENBUES1APIDIEBinding {
 	return UplinkS1cdma2000tunnellingENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18893,6 +19024,8 @@ func (UplinkS1cdma2000tunnellingIETable) infoCdma2000RATType() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkS1cdma2000tunnellingIEs", Row: "id-cdma2000RATType"}}}
 }
+
+// Cdma2000RATType returns the typed binding for the Cdma2000RATType row of UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) Cdma2000RATType() UplinkS1cdma2000tunnellingCdma2000RATTypeIEBinding {
 	return UplinkS1cdma2000tunnellingCdma2000RATTypeIEBinding{info: t.infoCdma2000RATType(), codec: func() s00.Cdma2000RATTypeValueCodec {
 		sealed := s00.Cdma2000RATTypeValueCodec{}
@@ -18956,6 +19089,8 @@ func (UplinkS1cdma2000tunnellingIETable) infoCdma2000SectorID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkS1cdma2000tunnellingIEs", Row: "id-cdma2000SectorID"}}}
 }
+
+// Cdma2000SectorID returns the typed binding for the Cdma2000SectorID row of UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) Cdma2000SectorID() UplinkS1cdma2000tunnellingCdma2000SectorIDIEBinding {
 	return UplinkS1cdma2000tunnellingCdma2000SectorIDIEBinding{info: t.infoCdma2000SectorID(), codec: func() s00.Cdma2000SectorIDValueCodec {
 		sealed := s00.Cdma2000SectorIDValueCodec{}
@@ -19020,6 +19155,8 @@ func (UplinkS1cdma2000tunnellingIETable) infoCdma2000HORequiredIndication() s00.
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkS1cdma2000tunnellingIEs", Row: "id-cdma2000HORequiredIndication"}}}
 }
+
+// Cdma2000HORequiredIndication returns the typed binding for the Cdma2000HORequiredIndication row of UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) Cdma2000HORequiredIndication() UplinkS1cdma2000tunnellingCdma2000HORequiredIndicationIEBinding {
 	return UplinkS1cdma2000tunnellingCdma2000HORequiredIndicationIEBinding{info: t.infoCdma2000HORequiredIndication(), codec: func() s00.Cdma2000HORequiredIndicationValueCodec {
 		sealed := s00.Cdma2000HORequiredIndicationValueCodec{}
@@ -19087,6 +19224,8 @@ func (UplinkS1cdma2000tunnellingIETable) infoCdma2000OneXSRVCCInfo() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkS1cdma2000tunnellingIEs", Row: "id-cdma2000OneXSRVCCInfo"}}}
 }
+
+// Cdma2000OneXSRVCCInfo returns the typed binding for the Cdma2000OneXSRVCCInfo row of UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) Cdma2000OneXSRVCCInfo() UplinkS1cdma2000tunnellingCdma2000OneXSRVCCInfoIEBinding {
 	return UplinkS1cdma2000tunnellingCdma2000OneXSRVCCInfoIEBinding{info: t.infoCdma2000OneXSRVCCInfo(), codec: func() s14.Cdma2000OneXSRVCCInfoValueCodec {
 		sealed := s14.Cdma2000OneXSRVCCInfoValueCodec{}
@@ -19154,6 +19293,8 @@ func (UplinkS1cdma2000tunnellingIETable) infoCdma2000OneXRAND() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkS1cdma2000tunnellingIEs", Row: "id-cdma2000OneXRAND"}}}
 }
+
+// Cdma2000OneXRAND returns the typed binding for the Cdma2000OneXRAND row of UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) Cdma2000OneXRAND() UplinkS1cdma2000tunnellingCdma2000OneXRANDIEBinding {
 	return UplinkS1cdma2000tunnellingCdma2000OneXRANDIEBinding{info: t.infoCdma2000OneXRAND(), codec: func() s00.Cdma2000OneXRANDValueCodec {
 		sealed := s00.Cdma2000OneXRANDValueCodec{}
@@ -19218,6 +19359,8 @@ func (UplinkS1cdma2000tunnellingIETable) infoCdma2000PDU() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkS1cdma2000tunnellingIEs", Row: "id-cdma2000PDU"}}}
 }
+
+// Cdma2000PDU returns the typed binding for the Cdma2000PDU row of UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) Cdma2000PDU() UplinkS1cdma2000tunnellingCdma2000PDUIEBinding {
 	return UplinkS1cdma2000tunnellingCdma2000PDUIEBinding{info: t.infoCdma2000PDU(), codec: func() s00.Cdma2000PDUValueCodec {
 		sealed := s00.Cdma2000PDUValueCodec{}
@@ -19280,6 +19423,8 @@ func (UplinkS1cdma2000tunnellingIETable) infoEUTRANRoundTripDelayEstimationInfo(
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkS1cdma2000tunnellingIEs", Row: "id-EUTRANRoundTripDelayEstimationInfo"}}}
 }
+
+// EUTRANRoundTripDelayEstimationInfo returns the typed binding for the EUTRANRoundTripDelayEstimationInfo row of UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) EUTRANRoundTripDelayEstimationInfo() UplinkS1cdma2000tunnellingEUTRANRoundTripDelayEstimationInfoIEBinding {
 	return UplinkS1cdma2000tunnellingEUTRANRoundTripDelayEstimationInfoIEBinding{info: t.infoEUTRANRoundTripDelayEstimationInfo(), codec: func() s00.EUTRANRoundTripDelayEstimationInfoValueCodec {
 		sealed := s00.EUTRANRoundTripDelayEstimationInfoValueCodec{}
@@ -19337,6 +19482,8 @@ func (t UplinkS1cdma2000tunnellingIETable) EUTRANRoundTripDelayEstimationInfo() 
 			return value.AsEUTRANRoundTripDelayEstimationInfo()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UplinkS1cdma2000tunnellingIETable.
 func (t UplinkS1cdma2000tunnellingIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UplinkS1cdma2000tunnellingIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UplinkS1cdma2000tunnellingIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

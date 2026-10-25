@@ -1945,6 +1945,8 @@ func NewSCGFailureTransfer(fields s11.SCGFailureTransferIEContainer, options ...
 	}
 	return v, aper.OperationError(nil, "SCGFailureTransfer")
 }
+
+// Initiating returns the typed binding for the initiating message of HandoverPreparationDescriptor.
 func (HandoverPreparationDescriptor) Initiating() HandoverRequestInitiatingBinding {
 	return HandoverRequestInitiatingBinding{info: HandoverPreparationProcedure().Info(), validate: func(v *HandoverRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateHandoverRequestBudget(v, budget)
@@ -1983,6 +1985,8 @@ func (HandoverPreparationDescriptor) Initiating() HandoverRequestInitiatingBindi
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:HandoverRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of HandoverPreparationDescriptor.
 func (HandoverPreparationDescriptor) Successful() s18.HandoverRequestAcknowledgeSuccessfulBinding {
 	return s18.X2apInternalConstructT43HandoverRequestAcknowledgeSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(HandoverPreparationProcedure().Info(), func(v *s18.HandoverRequestAcknowledge, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateHandoverRequestAcknowledgeBudget(v, budget)
@@ -2020,6 +2024,8 @@ func (HandoverPreparationDescriptor) Successful() s18.HandoverRequestAcknowledge
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:HandoverRequestAcknowledge"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of HandoverPreparationDescriptor.
 func (HandoverPreparationDescriptor) Unsuccessful() s14.HandoverPreparationFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT45HandoverPreparationFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(HandoverPreparationProcedure().Info(), func(v *s14.HandoverPreparationFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateHandoverPreparationFailureBudget(v, budget)
@@ -2057,6 +2063,8 @@ func (HandoverPreparationDescriptor) Unsuccessful() s14.HandoverPreparationFailu
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:HandoverPreparationFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of HandoverCancelDescriptor.
 func (HandoverCancelDescriptor) Initiating() HandoverCancelInitiatingBinding {
 	return HandoverCancelInitiatingBinding{info: HandoverCancelProcedure().Info(), validate: func(v *HandoverCancel, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateHandoverCancelBudget(v, budget)
@@ -2095,6 +2103,8 @@ func (HandoverCancelDescriptor) Initiating() HandoverCancelInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:HandoverCancel"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of LoadIndicationDescriptor.
 func (LoadIndicationDescriptor) Initiating() LoadInformationInitiatingBinding {
 	return LoadInformationInitiatingBinding{info: LoadIndicationProcedure().Info(), validate: func(v *LoadInformation, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateLoadInformationBudget(v, budget)
@@ -2133,6 +2143,8 @@ func (LoadIndicationDescriptor) Initiating() LoadInformationInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:LoadInformation"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ErrorIndicationDescriptor.
 func (ErrorIndicationDescriptor) Initiating() ErrorIndicationInitiatingBinding {
 	return ErrorIndicationInitiatingBinding{info: ErrorIndicationProcedure().Info(), validate: func(v *ErrorIndication, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateErrorIndicationBudget(v, budget)
@@ -2171,6 +2183,8 @@ func (ErrorIndicationDescriptor) Initiating() ErrorIndicationInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ErrorIndication"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of SnStatusTransferDescriptor.
 func (SnStatusTransferDescriptor) Initiating() SNStatusTransferInitiatingBinding {
 	return SNStatusTransferInitiatingBinding{info: SnStatusTransferProcedure().Info(), validate: func(v *SNStatusTransfer, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSNStatusTransferBudget(v, budget)
@@ -2207,6 +2221,8 @@ func (SnStatusTransferDescriptor) Initiating() SNStatusTransferInitiatingBinding
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SNStatusTransfer"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ResetDescriptor.
 func (ResetDescriptor) Initiating() ResetRequestInitiatingBinding {
 	return ResetRequestInitiatingBinding{info: ResetProcedure().Info(), validate: func(v *ResetRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateResetRequestBudget(v, budget)
@@ -2247,6 +2263,8 @@ func (ResetDescriptor) Initiating() ResetRequestInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ResetRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of ResetDescriptor.
 func (ResetDescriptor) Successful() s18.ResetResponseSuccessfulBinding {
 	return s18.X2apInternalConstructT30ResetResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(ResetProcedure().Info(), func(v *s18.ResetResponse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateResetResponseBudget(v, budget)
@@ -2286,6 +2304,8 @@ func (ResetDescriptor) Successful() s18.ResetResponseSuccessfulBinding {
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ResetResponse"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of ENBConfigurationUpdateDescriptor.
 func (ENBConfigurationUpdateDescriptor) Initiating() ENBConfigurationUpdateInitiatingBinding {
 	return ENBConfigurationUpdateInitiatingBinding{info: ENBConfigurationUpdateProcedure().Info(), validate: func(v *ENBConfigurationUpdate, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENBConfigurationUpdateBudget(v, budget)
@@ -2323,6 +2343,8 @@ func (ENBConfigurationUpdateDescriptor) Initiating() ENBConfigurationUpdateIniti
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ENBConfigurationUpdate"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of ENBConfigurationUpdateDescriptor.
 func (ENBConfigurationUpdateDescriptor) Successful() s18.ENBConfigurationUpdateAcknowledgeSuccessfulBinding {
 	return s18.X2apInternalConstructT50ENBConfigurationUpdateAcknowledgeSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(ENBConfigurationUpdateProcedure().Info(), func(v *s18.ENBConfigurationUpdateAcknowledge, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENBConfigurationUpdateAcknowledgeBudget(v, budget)
@@ -2359,6 +2381,8 @@ func (ENBConfigurationUpdateDescriptor) Successful() s18.ENBConfigurationUpdateA
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENBConfigurationUpdateAcknowledge"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of ENBConfigurationUpdateDescriptor.
 func (ENBConfigurationUpdateDescriptor) Unsuccessful() s14.ENBConfigurationUpdateFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT48ENBConfigurationUpdateFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(ENBConfigurationUpdateProcedure().Info(), func(v *s14.ENBConfigurationUpdateFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateENBConfigurationUpdateFailureBudget(v, budget)
@@ -2392,6 +2416,8 @@ func (ENBConfigurationUpdateDescriptor) Unsuccessful() s14.ENBConfigurationUpdat
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENBConfigurationUpdateFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of ResourceStatusReportingInitiationDescriptor.
 func (ResourceStatusReportingInitiationDescriptor) Initiating() ResourceStatusRequestInitiatingBinding {
 	return ResourceStatusRequestInitiatingBinding{info: ResourceStatusReportingInitiationProcedure().Info(), validate: func(v *ResourceStatusRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateResourceStatusRequestBudget(v, budget)
@@ -2428,6 +2454,8 @@ func (ResourceStatusReportingInitiationDescriptor) Initiating() ResourceStatusRe
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ResourceStatusRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of ResourceStatusReportingInitiationDescriptor.
 func (ResourceStatusReportingInitiationDescriptor) Successful() s18.ResourceStatusResponseSuccessfulBinding {
 	return s18.X2apInternalConstructT39ResourceStatusResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(ResourceStatusReportingInitiationProcedure().Info(), func(v *s18.ResourceStatusResponse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateResourceStatusResponseBudget(v, budget)
@@ -2465,6 +2493,8 @@ func (ResourceStatusReportingInitiationDescriptor) Successful() s18.ResourceStat
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ResourceStatusResponse"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of ResourceStatusReportingInitiationDescriptor.
 func (ResourceStatusReportingInitiationDescriptor) Unsuccessful() s14.ResourceStatusFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT40ResourceStatusFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(ResourceStatusReportingInitiationProcedure().Info(), func(v *s14.ResourceStatusFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateResourceStatusFailureBudget(v, budget)
@@ -2501,6 +2531,8 @@ func (ResourceStatusReportingInitiationDescriptor) Unsuccessful() s14.ResourceSt
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ResourceStatusFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of ResourceStatusReportingDescriptor.
 func (ResourceStatusReportingDescriptor) Initiating() ResourceStatusUpdateInitiatingBinding {
 	return ResourceStatusUpdateInitiatingBinding{info: ResourceStatusReportingProcedure().Info(), validate: func(v *ResourceStatusUpdate, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateResourceStatusUpdateBudget(v, budget)
@@ -2537,6 +2569,8 @@ func (ResourceStatusReportingDescriptor) Initiating() ResourceStatusUpdateInitia
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ResourceStatusUpdate"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of PrivateMessageDescriptor.
 func (PrivateMessageDescriptor) Initiating() PrivateMessageInitiatingBinding {
 	return PrivateMessageInitiatingBinding{info: PrivateMessageProcedure().Info(), validate: func(v *PrivateMessage, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidatePrivateMessageBudget(v, budget)
@@ -2575,6 +2609,8 @@ func (PrivateMessageDescriptor) Initiating() PrivateMessageInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:PrivateMessage"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of MobilitySettingsChangeDescriptor.
 func (MobilitySettingsChangeDescriptor) Initiating() MobilityChangeRequestInitiatingBinding {
 	return MobilityChangeRequestInitiatingBinding{info: MobilitySettingsChangeProcedure().Info(), validate: func(v *MobilityChangeRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateMobilityChangeRequestBudget(v, budget)
@@ -2611,6 +2647,8 @@ func (MobilitySettingsChangeDescriptor) Initiating() MobilityChangeRequestInitia
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:MobilityChangeRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of MobilitySettingsChangeDescriptor.
 func (MobilitySettingsChangeDescriptor) Successful() s18.MobilityChangeAcknowledgeSuccessfulBinding {
 	return s18.X2apInternalConstructT42MobilityChangeAcknowledgeSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(MobilitySettingsChangeProcedure().Info(), func(v *s18.MobilityChangeAcknowledge, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateMobilityChangeAcknowledgeBudget(v, budget)
@@ -2645,6 +2683,8 @@ func (MobilitySettingsChangeDescriptor) Successful() s18.MobilityChangeAcknowled
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:MobilityChangeAcknowledge"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of MobilitySettingsChangeDescriptor.
 func (MobilitySettingsChangeDescriptor) Unsuccessful() s14.MobilityChangeFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT40MobilityChangeFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(MobilitySettingsChangeProcedure().Info(), func(v *s14.MobilityChangeFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateMobilityChangeFailureBudget(v, budget)
@@ -2681,6 +2721,8 @@ func (MobilitySettingsChangeDescriptor) Unsuccessful() s14.MobilityChangeFailure
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:MobilityChangeFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of RLFIndicationDescriptor.
 func (RLFIndicationDescriptor) Initiating() RLFIndicationInitiatingBinding {
 	return RLFIndicationInitiatingBinding{info: RLFIndicationProcedure().Info(), validate: func(v *RLFIndication, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateRLFIndicationBudget(v, budget)
@@ -2720,6 +2762,8 @@ func (RLFIndicationDescriptor) Initiating() RLFIndicationInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:RLFIndication"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of HandoverReportDescriptor.
 func (HandoverReportDescriptor) Initiating() HandoverReportInitiatingBinding {
 	return HandoverReportInitiatingBinding{info: HandoverReportProcedure().Info(), validate: func(v *HandoverReport, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateHandoverReportBudget(v, budget)
@@ -2758,6 +2802,8 @@ func (HandoverReportDescriptor) Initiating() HandoverReportInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:HandoverReport"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of CellActivationDescriptor.
 func (CellActivationDescriptor) Initiating() CellActivationRequestInitiatingBinding {
 	return CellActivationRequestInitiatingBinding{info: CellActivationProcedure().Info(), validate: func(v *CellActivationRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateCellActivationRequestBudget(v, budget)
@@ -2794,6 +2840,8 @@ func (CellActivationDescriptor) Initiating() CellActivationRequestInitiatingBind
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:CellActivationRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of CellActivationDescriptor.
 func (CellActivationDescriptor) Successful() s18.CellActivationResponseSuccessfulBinding {
 	return s18.X2apInternalConstructT39CellActivationResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(CellActivationProcedure().Info(), func(v *s18.CellActivationResponse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateCellActivationResponseBudget(v, budget)
@@ -2831,6 +2879,8 @@ func (CellActivationDescriptor) Successful() s18.CellActivationResponseSuccessfu
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:CellActivationResponse"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of CellActivationDescriptor.
 func (CellActivationDescriptor) Unsuccessful() s14.CellActivationFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT40CellActivationFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(CellActivationProcedure().Info(), func(v *s14.CellActivationFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateCellActivationFailureBudget(v, budget)
@@ -2867,6 +2917,8 @@ func (CellActivationDescriptor) Unsuccessful() s14.CellActivationFailureUnsucces
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:CellActivationFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of SeNBAdditionPreparationDescriptor.
 func (SeNBAdditionPreparationDescriptor) Initiating() SeNBAdditionRequestInitiatingBinding {
 	return SeNBAdditionRequestInitiatingBinding{info: SeNBAdditionPreparationProcedure().Info(), validate: func(v *SeNBAdditionRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBAdditionRequestBudget(v, budget)
@@ -2904,6 +2956,8 @@ func (SeNBAdditionPreparationDescriptor) Initiating() SeNBAdditionRequestInitiat
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBAdditionRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of SeNBAdditionPreparationDescriptor.
 func (SeNBAdditionPreparationDescriptor) Successful() s18.SeNBAdditionRequestAcknowledgeSuccessfulBinding {
 	return s18.X2apInternalConstructT47SeNBAdditionRequestAcknowledgeSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(SeNBAdditionPreparationProcedure().Info(), func(v *s18.SeNBAdditionRequestAcknowledge, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBAdditionRequestAcknowledgeBudget(v, budget)
@@ -2939,6 +2993,8 @@ func (SeNBAdditionPreparationDescriptor) Successful() s18.SeNBAdditionRequestAck
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBAdditionRequestAcknowledge"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of SeNBAdditionPreparationDescriptor.
 func (SeNBAdditionPreparationDescriptor) Unsuccessful() s14.SeNBAdditionRequestRejectUnsuccessfulBinding {
 	return s14.X2apInternalConstructT44SeNBAdditionRequestRejectUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(SeNBAdditionPreparationProcedure().Info(), func(v *s14.SeNBAdditionRequestReject, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateSeNBAdditionRequestRejectBudget(v, budget)
@@ -2973,6 +3029,8 @@ func (SeNBAdditionPreparationDescriptor) Unsuccessful() s14.SeNBAdditionRequestR
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBAdditionRequestReject"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of SeNBReconfigurationCompletionDescriptor.
 func (SeNBReconfigurationCompletionDescriptor) Initiating() SeNBReconfigurationCompleteInitiatingBinding {
 	return SeNBReconfigurationCompleteInitiatingBinding{info: SeNBReconfigurationCompletionProcedure().Info(), validate: func(v *SeNBReconfigurationComplete, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBReconfigurationCompleteBudget(v, budget)
@@ -3007,6 +3065,8 @@ func (SeNBReconfigurationCompletionDescriptor) Initiating() SeNBReconfigurationC
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBReconfigurationComplete"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of MeNBinitiatedSeNBModificationPreparationDescriptor.
 func (MeNBinitiatedSeNBModificationPreparationDescriptor) Initiating() SeNBModificationRequestInitiatingBinding {
 	return SeNBModificationRequestInitiatingBinding{info: MeNBinitiatedSeNBModificationPreparationProcedure().Info(), validate: func(v *SeNBModificationRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBModificationRequestBudget(v, budget)
@@ -3041,6 +3101,8 @@ func (MeNBinitiatedSeNBModificationPreparationDescriptor) Initiating() SeNBModif
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBModificationRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of MeNBinitiatedSeNBModificationPreparationDescriptor.
 func (MeNBinitiatedSeNBModificationPreparationDescriptor) Successful() s18.SeNBModificationRequestAcknowledgeSuccessfulBinding {
 	return s18.X2apInternalConstructT51SeNBModificationRequestAcknowledgeSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(MeNBinitiatedSeNBModificationPreparationProcedure().Info(), func(v *s18.SeNBModificationRequestAcknowledge, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBModificationRequestAcknowledgeBudget(v, budget)
@@ -3075,6 +3137,8 @@ func (MeNBinitiatedSeNBModificationPreparationDescriptor) Successful() s18.SeNBM
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBModificationRequestAcknowledge"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of MeNBinitiatedSeNBModificationPreparationDescriptor.
 func (MeNBinitiatedSeNBModificationPreparationDescriptor) Unsuccessful() s14.SeNBModificationRequestRejectUnsuccessfulBinding {
 	return s14.X2apInternalConstructT48SeNBModificationRequestRejectUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(MeNBinitiatedSeNBModificationPreparationProcedure().Info(), func(v *s14.SeNBModificationRequestReject, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateSeNBModificationRequestRejectBudget(v, budget)
@@ -3108,6 +3172,8 @@ func (MeNBinitiatedSeNBModificationPreparationDescriptor) Unsuccessful() s14.SeN
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBModificationRequestReject"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of SeNBinitiatedSeNBModificationDescriptor.
 func (SeNBinitiatedSeNBModificationDescriptor) Initiating() SeNBModificationRequiredInitiatingBinding {
 	return SeNBModificationRequiredInitiatingBinding{info: SeNBinitiatedSeNBModificationProcedure().Info(), validate: func(v *SeNBModificationRequired, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBModificationRequiredBudget(v, budget)
@@ -3142,6 +3208,8 @@ func (SeNBinitiatedSeNBModificationDescriptor) Initiating() SeNBModificationRequ
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBModificationRequired"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of SeNBinitiatedSeNBModificationDescriptor.
 func (SeNBinitiatedSeNBModificationDescriptor) Successful() s18.SeNBModificationConfirmSuccessfulBinding {
 	return s18.X2apInternalConstructT40SeNBModificationConfirmSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(SeNBinitiatedSeNBModificationProcedure().Info(), func(v *s18.SeNBModificationConfirm, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBModificationConfirmBudget(v, budget)
@@ -3176,6 +3244,8 @@ func (SeNBinitiatedSeNBModificationDescriptor) Successful() s18.SeNBModification
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBModificationConfirm"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of SeNBinitiatedSeNBModificationDescriptor.
 func (SeNBinitiatedSeNBModificationDescriptor) Unsuccessful() s14.SeNBModificationRefuseUnsuccessfulBinding {
 	return s14.X2apInternalConstructT41SeNBModificationRefuseUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(SeNBinitiatedSeNBModificationProcedure().Info(), func(v *s14.SeNBModificationRefuse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateSeNBModificationRefuseBudget(v, budget)
@@ -3213,6 +3283,8 @@ func (SeNBinitiatedSeNBModificationDescriptor) Unsuccessful() s14.SeNBModificati
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBModificationRefuse"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of MeNBinitiatedSeNBReleaseDescriptor.
 func (MeNBinitiatedSeNBReleaseDescriptor) Initiating() SeNBReleaseRequestInitiatingBinding {
 	return SeNBReleaseRequestInitiatingBinding{info: MeNBinitiatedSeNBReleaseProcedure().Info(), validate: func(v *SeNBReleaseRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBReleaseRequestBudget(v, budget)
@@ -3248,6 +3320,8 @@ func (MeNBinitiatedSeNBReleaseDescriptor) Initiating() SeNBReleaseRequestInitiat
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBReleaseRequest"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of SeNBinitiatedSeNBReleaseDescriptor.
 func (SeNBinitiatedSeNBReleaseDescriptor) Initiating() SeNBReleaseRequiredInitiatingBinding {
 	return SeNBReleaseRequiredInitiatingBinding{info: SeNBinitiatedSeNBReleaseProcedure().Info(), validate: func(v *SeNBReleaseRequired, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBReleaseRequiredBudget(v, budget)
@@ -3285,6 +3359,8 @@ func (SeNBinitiatedSeNBReleaseDescriptor) Initiating() SeNBReleaseRequiredInitia
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBReleaseRequired"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of SeNBinitiatedSeNBReleaseDescriptor.
 func (SeNBinitiatedSeNBReleaseDescriptor) Successful() s18.SeNBReleaseConfirmSuccessfulBinding {
 	return s18.X2apInternalConstructT35SeNBReleaseConfirmSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(SeNBinitiatedSeNBReleaseProcedure().Info(), func(v *s18.SeNBReleaseConfirm, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBReleaseConfirmBudget(v, budget)
@@ -3320,6 +3396,8 @@ func (SeNBinitiatedSeNBReleaseDescriptor) Successful() s18.SeNBReleaseConfirmSuc
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBReleaseConfirm"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of SeNBCounterCheckDescriptor.
 func (SeNBCounterCheckDescriptor) Initiating() SeNBCounterCheckRequestInitiatingBinding {
 	return SeNBCounterCheckRequestInitiatingBinding{info: SeNBCounterCheckProcedure().Info(), validate: func(v *SeNBCounterCheckRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSeNBCounterCheckRequestBudget(v, budget)
@@ -3354,6 +3432,8 @@ func (SeNBCounterCheckDescriptor) Initiating() SeNBCounterCheckRequestInitiating
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SeNBCounterCheckRequest"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of RetrieveUEContextDescriptor.
 func (RetrieveUEContextDescriptor) Initiating() RetrieveUEContextRequestInitiatingBinding {
 	return RetrieveUEContextRequestInitiatingBinding{info: RetrieveUEContextProcedure().Info(), validate: func(v *RetrieveUEContextRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateRetrieveUEContextRequestBudget(v, budget)
@@ -3388,6 +3468,8 @@ func (RetrieveUEContextDescriptor) Initiating() RetrieveUEContextRequestInitiati
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:RetrieveUEContextRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of RetrieveUEContextDescriptor.
 func (RetrieveUEContextDescriptor) Successful() s18.RetrieveUEContextResponseSuccessfulBinding {
 	return s18.X2apInternalConstructT42RetrieveUEContextResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(RetrieveUEContextProcedure().Info(), func(v *s18.RetrieveUEContextResponse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateRetrieveUEContextResponseBudget(v, budget)
@@ -3422,6 +3504,8 @@ func (RetrieveUEContextDescriptor) Successful() s18.RetrieveUEContextResponseSuc
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:RetrieveUEContextResponse"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of RetrieveUEContextDescriptor.
 func (RetrieveUEContextDescriptor) Unsuccessful() s14.RetrieveUEContextFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT43RetrieveUEContextFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(RetrieveUEContextProcedure().Info(), func(v *s14.RetrieveUEContextFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateRetrieveUEContextFailureBudget(v, budget)
@@ -3456,6 +3540,8 @@ func (RetrieveUEContextDescriptor) Unsuccessful() s14.RetrieveUEContextFailureUn
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:RetrieveUEContextFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of SgNBAdditionPreparationDescriptor.
 func (SgNBAdditionPreparationDescriptor) Initiating() SgNBAdditionRequestInitiatingBinding {
 	return SgNBAdditionRequestInitiatingBinding{info: SgNBAdditionPreparationProcedure().Info(), validate: func(v *SgNBAdditionRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSgNBAdditionRequestBudget(v, budget)
@@ -3493,6 +3579,8 @@ func (SgNBAdditionPreparationDescriptor) Initiating() SgNBAdditionRequestInitiat
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBAdditionRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of SgNBAdditionPreparationDescriptor.
 func (SgNBAdditionPreparationDescriptor) Successful() s18.SgNBAdditionRequestAcknowledgeSuccessfulBinding {
 	return s18.X2apInternalConstructT47SgNBAdditionRequestAcknowledgeSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(SgNBAdditionPreparationProcedure().Info(), func(v *s18.SgNBAdditionRequestAcknowledge, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSgNBAdditionRequestAcknowledgeBudget(v, budget)
@@ -3528,6 +3616,8 @@ func (SgNBAdditionPreparationDescriptor) Successful() s18.SgNBAdditionRequestAck
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBAdditionRequestAcknowledge"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of SgNBAdditionPreparationDescriptor.
 func (SgNBAdditionPreparationDescriptor) Unsuccessful() s14.SgNBAdditionRequestRejectUnsuccessfulBinding {
 	return s14.X2apInternalConstructT44SgNBAdditionRequestRejectUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(SgNBAdditionPreparationProcedure().Info(), func(v *s14.SgNBAdditionRequestReject, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateSgNBAdditionRequestRejectBudget(v, budget)
@@ -3562,6 +3652,8 @@ func (SgNBAdditionPreparationDescriptor) Unsuccessful() s14.SgNBAdditionRequestR
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBAdditionRequestReject"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of MeNBinitiatedSgNBModificationPreparationDescriptor.
 func (MeNBinitiatedSgNBModificationPreparationDescriptor) Initiating() SgNBModificationRequestInitiatingBinding {
 	return SgNBModificationRequestInitiatingBinding{info: MeNBinitiatedSgNBModificationPreparationProcedure().Info(), validate: func(v *SgNBModificationRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSgNBModificationRequestBudget(v, budget)
@@ -3596,6 +3688,8 @@ func (MeNBinitiatedSgNBModificationPreparationDescriptor) Initiating() SgNBModif
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBModificationRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of MeNBinitiatedSgNBModificationPreparationDescriptor.
 func (MeNBinitiatedSgNBModificationPreparationDescriptor) Successful() s18.SgNBModificationRequestAcknowledgeSuccessfulBinding {
 	return s18.X2apInternalConstructT51SgNBModificationRequestAcknowledgeSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(MeNBinitiatedSgNBModificationPreparationProcedure().Info(), func(v *s18.SgNBModificationRequestAcknowledge, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSgNBModificationRequestAcknowledgeBudget(v, budget)
@@ -3630,6 +3724,8 @@ func (MeNBinitiatedSgNBModificationPreparationDescriptor) Successful() s18.SgNBM
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBModificationRequestAcknowledge"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of MeNBinitiatedSgNBModificationPreparationDescriptor.
 func (MeNBinitiatedSgNBModificationPreparationDescriptor) Unsuccessful() s14.SgNBModificationRequestRejectUnsuccessfulBinding {
 	return s14.X2apInternalConstructT48SgNBModificationRequestRejectUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(MeNBinitiatedSgNBModificationPreparationProcedure().Info(), func(v *s14.SgNBModificationRequestReject, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateSgNBModificationRequestRejectBudget(v, budget)
@@ -3663,6 +3759,8 @@ func (MeNBinitiatedSgNBModificationPreparationDescriptor) Unsuccessful() s14.SgN
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBModificationRequestReject"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of SgNBCounterCheckDescriptor.
 func (SgNBCounterCheckDescriptor) Initiating() SgNBCounterCheckRequestInitiatingBinding {
 	return SgNBCounterCheckRequestInitiatingBinding{info: SgNBCounterCheckProcedure().Info(), validate: func(v *SgNBCounterCheckRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSgNBCounterCheckRequestBudget(v, budget)
@@ -3697,6 +3795,8 @@ func (SgNBCounterCheckDescriptor) Initiating() SgNBCounterCheckRequestInitiating
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBCounterCheckRequest"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of SgNBChangeDescriptor.
 func (SgNBChangeDescriptor) Initiating() SgNBChangeRequiredInitiatingBinding {
 	return SgNBChangeRequiredInitiatingBinding{info: SgNBChangeProcedure().Info(), validate: func(v *SgNBChangeRequired, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSgNBChangeRequiredBudget(v, budget)
@@ -3732,6 +3832,8 @@ func (SgNBChangeDescriptor) Initiating() SgNBChangeRequiredInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBChangeRequired"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of SgNBChangeDescriptor.
 func (SgNBChangeDescriptor) Successful() s18.SgNBChangeConfirmSuccessfulBinding {
 	return s18.X2apInternalConstructT34SgNBChangeConfirmSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(SgNBChangeProcedure().Info(), func(v *s18.SgNBChangeConfirm, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSgNBChangeConfirmBudget(v, budget)
@@ -3770,6 +3872,8 @@ func (SgNBChangeDescriptor) Successful() s18.SgNBChangeConfirmSuccessfulBinding 
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBChangeConfirm"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of SgNBChangeDescriptor.
 func (SgNBChangeDescriptor) Unsuccessful() s14.SgNBChangeRefuseUnsuccessfulBinding {
 	return s14.X2apInternalConstructT35SgNBChangeRefuseUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(SgNBChangeProcedure().Info(), func(v *s14.SgNBChangeRefuse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateSgNBChangeRefuseBudget(v, budget)
@@ -3806,6 +3910,8 @@ func (SgNBChangeDescriptor) Unsuccessful() s14.SgNBChangeRefuseUnsuccessfulBindi
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBChangeRefuse"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of RRCTransferDescriptor.
 func (RRCTransferDescriptor) Initiating() RRCTransferInitiatingBinding {
 	return RRCTransferInitiatingBinding{info: RRCTransferProcedure().Info(), validate: func(v *RRCTransfer, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateRRCTransferBudget(v, budget)
@@ -3845,6 +3951,8 @@ func (RRCTransferDescriptor) Initiating() RRCTransferInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:RRCTransfer"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of EndcX2SetupDescriptor.
 func (EndcX2SetupDescriptor) Initiating() ENDCX2SetupRequestInitiatingBinding {
 	return ENDCX2SetupRequestInitiatingBinding{info: EndcX2SetupProcedure().Info(), validate: func(v *ENDCX2SetupRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCX2SetupRequestBudget(v, budget)
@@ -3880,6 +3988,8 @@ func (EndcX2SetupDescriptor) Initiating() ENDCX2SetupRequestInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCX2SetupRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of EndcX2SetupDescriptor.
 func (EndcX2SetupDescriptor) Successful() s18.ENDCX2SetupResponseSuccessfulBinding {
 	return s18.X2apInternalConstructT36ENDCX2SetupResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcX2SetupProcedure().Info(), func(v *s18.ENDCX2SetupResponse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCX2SetupResponseBudget(v, budget)
@@ -3917,6 +4027,8 @@ func (EndcX2SetupDescriptor) Successful() s18.ENDCX2SetupResponseSuccessfulBindi
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCX2SetupResponse"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of EndcX2SetupDescriptor.
 func (EndcX2SetupDescriptor) Unsuccessful() s14.ENDCX2SetupFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT37ENDCX2SetupFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcX2SetupProcedure().Info(), func(v *s14.ENDCX2SetupFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateENDCX2SetupFailureBudget(v, budget)
@@ -3952,6 +4064,8 @@ func (EndcX2SetupDescriptor) Unsuccessful() s14.ENDCX2SetupFailureUnsuccessfulBi
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCX2SetupFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of EndcConfigurationUpdateDescriptor.
 func (EndcConfigurationUpdateDescriptor) Initiating() ENDCConfigurationUpdateInitiatingBinding {
 	return ENDCConfigurationUpdateInitiatingBinding{info: EndcConfigurationUpdateProcedure().Info(), validate: func(v *ENDCConfigurationUpdate, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCConfigurationUpdateBudget(v, budget)
@@ -3986,6 +4100,8 @@ func (EndcConfigurationUpdateDescriptor) Initiating() ENDCConfigurationUpdateIni
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCConfigurationUpdate"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of EndcConfigurationUpdateDescriptor.
 func (EndcConfigurationUpdateDescriptor) Successful() s18.ENDCConfigurationUpdateAcknowledgeSuccessfulBinding {
 	return s18.X2apInternalConstructT51ENDCConfigurationUpdateAcknowledgeSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcConfigurationUpdateProcedure().Info(), func(v *s18.ENDCConfigurationUpdateAcknowledge, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCConfigurationUpdateAcknowledgeBudget(v, budget)
@@ -4020,6 +4136,8 @@ func (EndcConfigurationUpdateDescriptor) Successful() s18.ENDCConfigurationUpdat
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCConfigurationUpdateAcknowledge"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of EndcConfigurationUpdateDescriptor.
 func (EndcConfigurationUpdateDescriptor) Unsuccessful() s14.ENDCConfigurationUpdateFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT49ENDCConfigurationUpdateFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcConfigurationUpdateProcedure().Info(), func(v *s14.ENDCConfigurationUpdateFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateENDCConfigurationUpdateFailureBudget(v, budget)
@@ -4055,6 +4173,8 @@ func (EndcConfigurationUpdateDescriptor) Unsuccessful() s14.ENDCConfigurationUpd
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCConfigurationUpdateFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of SecondaryRATDataUsageReportDescriptor.
 func (SecondaryRATDataUsageReportDescriptor) Initiating() SecondaryRATDataUsageReportInitiatingBinding {
 	return SecondaryRATDataUsageReportInitiatingBinding{info: SecondaryRATDataUsageReportProcedure().Info(), validate: func(v *SecondaryRATDataUsageReport, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSecondaryRATDataUsageReportBudget(v, budget)
@@ -4089,6 +4209,8 @@ func (SecondaryRATDataUsageReportDescriptor) Initiating() SecondaryRATDataUsageR
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SecondaryRATDataUsageReport"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of EndcCellActivationDescriptor.
 func (EndcCellActivationDescriptor) Initiating() ENDCCellActivationRequestInitiatingBinding {
 	return ENDCCellActivationRequestInitiatingBinding{info: EndcCellActivationProcedure().Info(), validate: func(v *ENDCCellActivationRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCCellActivationRequestBudget(v, budget)
@@ -4123,6 +4245,8 @@ func (EndcCellActivationDescriptor) Initiating() ENDCCellActivationRequestInitia
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCCellActivationRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of EndcCellActivationDescriptor.
 func (EndcCellActivationDescriptor) Successful() s18.ENDCCellActivationResponseSuccessfulBinding {
 	return s18.X2apInternalConstructT43ENDCCellActivationResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcCellActivationProcedure().Info(), func(v *s18.ENDCCellActivationResponse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCCellActivationResponseBudget(v, budget)
@@ -4160,6 +4284,8 @@ func (EndcCellActivationDescriptor) Successful() s18.ENDCCellActivationResponseS
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCCellActivationResponse"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of EndcCellActivationDescriptor.
 func (EndcCellActivationDescriptor) Unsuccessful() s14.ENDCCellActivationFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT44ENDCCellActivationFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcCellActivationProcedure().Info(), func(v *s14.ENDCCellActivationFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateENDCCellActivationFailureBudget(v, budget)
@@ -4194,6 +4320,8 @@ func (EndcCellActivationDescriptor) Unsuccessful() s14.ENDCCellActivationFailure
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCCellActivationFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of EndcPartialResetDescriptor.
 func (EndcPartialResetDescriptor) Initiating() ENDCPartialResetRequiredInitiatingBinding {
 	return ENDCPartialResetRequiredInitiatingBinding{info: EndcPartialResetProcedure().Info(), validate: func(v *ENDCPartialResetRequired, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCPartialResetRequiredBudget(v, budget)
@@ -4228,6 +4356,8 @@ func (EndcPartialResetDescriptor) Initiating() ENDCPartialResetRequiredInitiatin
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCPartialResetRequired"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of EndcPartialResetDescriptor.
 func (EndcPartialResetDescriptor) Successful() s18.ENDCPartialResetConfirmSuccessfulBinding {
 	return s18.X2apInternalConstructT40ENDCPartialResetConfirmSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcPartialResetProcedure().Info(), func(v *s18.ENDCPartialResetConfirm, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCPartialResetConfirmBudget(v, budget)
@@ -4262,6 +4392,8 @@ func (EndcPartialResetDescriptor) Successful() s18.ENDCPartialResetConfirmSucces
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCPartialResetConfirm"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of EUTRANRCellResourceCoordinationDescriptor.
 func (EUTRANRCellResourceCoordinationDescriptor) Initiating() EUTRANRCellResourceCoordinationRequestInitiatingBinding {
 	return EUTRANRCellResourceCoordinationRequestInitiatingBinding{info: EUTRANRCellResourceCoordinationProcedure().Info(), validate: func(v *EUTRANRCellResourceCoordinationRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateEUTRANRCellResourceCoordinationRequestBudget(v, budget)
@@ -4300,6 +4432,8 @@ func (EUTRANRCellResourceCoordinationDescriptor) Initiating() EUTRANRCellResourc
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:EUTRANRCellResourceCoordinationRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of EUTRANRCellResourceCoordinationDescriptor.
 func (EUTRANRCellResourceCoordinationDescriptor) Successful() s18.EUTRANRCellResourceCoordinationResponseSuccessfulBinding {
 	return s18.X2apInternalConstructT56EUTRANRCellResourceCoordinationResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EUTRANRCellResourceCoordinationProcedure().Info(), func(v *s18.EUTRANRCellResourceCoordinationResponse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateEUTRANRCellResourceCoordinationResponseBudget(v, budget)
@@ -4337,6 +4471,8 @@ func (EUTRANRCellResourceCoordinationDescriptor) Successful() s18.EUTRANRCellRes
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:EUTRANRCellResourceCoordinationResponse"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of SgNBActivityNotificationDescriptor.
 func (SgNBActivityNotificationDescriptor) Initiating() SgNBActivityNotificationInitiatingBinding {
 	return SgNBActivityNotificationInitiatingBinding{info: SgNBActivityNotificationProcedure().Info(), validate: func(v *SgNBActivityNotification, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSgNBActivityNotificationBudget(v, budget)
@@ -4371,6 +4507,8 @@ func (SgNBActivityNotificationDescriptor) Initiating() SgNBActivityNotificationI
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SgNBActivityNotification"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of EndcX2RemovalDescriptor.
 func (EndcX2RemovalDescriptor) Initiating() ENDCX2RemovalRequestInitiatingBinding {
 	return ENDCX2RemovalRequestInitiatingBinding{info: EndcX2RemovalProcedure().Info(), validate: func(v *ENDCX2RemovalRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCX2RemovalRequestBudget(v, budget)
@@ -4407,6 +4545,8 @@ func (EndcX2RemovalDescriptor) Initiating() ENDCX2RemovalRequestInitiatingBindin
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCX2RemovalRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of EndcX2RemovalDescriptor.
 func (EndcX2RemovalDescriptor) Successful() s18.ENDCX2RemovalResponseSuccessfulBinding {
 	return s18.X2apInternalConstructT38ENDCX2RemovalResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcX2RemovalProcedure().Info(), func(v *s18.ENDCX2RemovalResponse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCX2RemovalResponseBudget(v, budget)
@@ -4443,6 +4583,8 @@ func (EndcX2RemovalDescriptor) Successful() s18.ENDCX2RemovalResponseSuccessfulB
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCX2RemovalResponse"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of EndcX2RemovalDescriptor.
 func (EndcX2RemovalDescriptor) Unsuccessful() s14.ENDCX2RemovalFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT39ENDCX2RemovalFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcX2RemovalProcedure().Info(), func(v *s14.ENDCX2RemovalFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateENDCX2RemovalFailureBudget(v, budget)
@@ -4479,6 +4621,8 @@ func (EndcX2RemovalDescriptor) Unsuccessful() s14.ENDCX2RemovalFailureUnsuccessf
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCX2RemovalFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of DataForwardingAddressIndicationDescriptor.
 func (DataForwardingAddressIndicationDescriptor) Initiating() DataForwardingAddressIndicationInitiatingBinding {
 	return DataForwardingAddressIndicationInitiatingBinding{info: DataForwardingAddressIndicationProcedure().Info(), validate: func(v *DataForwardingAddressIndication, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateDataForwardingAddressIndicationBudget(v, budget)
@@ -4514,6 +4658,8 @@ func (DataForwardingAddressIndicationDescriptor) Initiating() DataForwardingAddr
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:DataForwardingAddressIndication"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of GNBStatusIndicationDescriptor.
 func (GNBStatusIndicationDescriptor) Initiating() GNBStatusIndicationInitiatingBinding {
 	return GNBStatusIndicationInitiatingBinding{info: GNBStatusIndicationProcedure().Info(), validate: func(v *GNBStatusIndication, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateGNBStatusIndicationBudget(v, budget)
@@ -4551,6 +4697,8 @@ func (GNBStatusIndicationDescriptor) Initiating() GNBStatusIndicationInitiatingB
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:GNBStatusIndication"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of DeactivateTraceDescriptor.
 func (DeactivateTraceDescriptor) Initiating() DeactivateTraceInitiatingBinding {
 	return DeactivateTraceInitiatingBinding{info: DeactivateTraceProcedure().Info(), validate: func(v *DeactivateTrace, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateDeactivateTraceBudget(v, budget)
@@ -4589,6 +4737,8 @@ func (DeactivateTraceDescriptor) Initiating() DeactivateTraceInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:DeactivateTrace"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of EndcConfigurationTransferDescriptor.
 func (EndcConfigurationTransferDescriptor) Initiating() ENDCConfigurationTransferInitiatingBinding {
 	return ENDCConfigurationTransferInitiatingBinding{info: EndcConfigurationTransferProcedure().Info(), validate: func(v *ENDCConfigurationTransfer, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCConfigurationTransferBudget(v, budget)
@@ -4623,6 +4773,8 @@ func (EndcConfigurationTransferDescriptor) Initiating() ENDCConfigurationTransfe
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCConfigurationTransfer"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of HandoverSuccessDescriptor.
 func (HandoverSuccessDescriptor) Initiating() HandoverSuccessInitiatingBinding {
 	return HandoverSuccessInitiatingBinding{info: HandoverSuccessProcedure().Info(), validate: func(v *HandoverSuccess, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateHandoverSuccessBudget(v, budget)
@@ -4661,6 +4813,8 @@ func (HandoverSuccessDescriptor) Initiating() HandoverSuccessInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:HandoverSuccess"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ConditionalHandoverCancelDescriptor.
 func (ConditionalHandoverCancelDescriptor) Initiating() ConditionalHandoverCancelInitiatingBinding {
 	return ConditionalHandoverCancelInitiatingBinding{info: ConditionalHandoverCancelProcedure().Info(), validate: func(v *ConditionalHandoverCancel, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateConditionalHandoverCancelBudget(v, budget)
@@ -4695,6 +4849,8 @@ func (ConditionalHandoverCancelDescriptor) Initiating() ConditionalHandoverCance
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ConditionalHandoverCancel"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of EarlyStatusTransferDescriptor.
 func (EarlyStatusTransferDescriptor) Initiating() EarlyStatusTransferInitiatingBinding {
 	return EarlyStatusTransferInitiatingBinding{info: EarlyStatusTransferProcedure().Info(), validate: func(v *EarlyStatusTransfer, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateEarlyStatusTransferBudget(v, budget)
@@ -4732,6 +4888,8 @@ func (EarlyStatusTransferDescriptor) Initiating() EarlyStatusTransferInitiatingB
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:EarlyStatusTransfer"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of CellTrafficTraceDescriptor.
 func (CellTrafficTraceDescriptor) Initiating() CellTrafficTraceInitiatingBinding {
 	return CellTrafficTraceInitiatingBinding{info: CellTrafficTraceProcedure().Info(), validate: func(v *CellTrafficTrace, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateCellTrafficTraceBudget(v, budget)
@@ -4768,6 +4926,8 @@ func (CellTrafficTraceDescriptor) Initiating() CellTrafficTraceInitiatingBinding
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:CellTrafficTrace"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of EndcresourceStatusReportingDescriptor.
 func (EndcresourceStatusReportingDescriptor) Initiating() ENDCResourceStatusUpdateInitiatingBinding {
 	return ENDCResourceStatusUpdateInitiatingBinding{info: EndcresourceStatusReportingProcedure().Info(), validate: func(v *ENDCResourceStatusUpdate, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCResourceStatusUpdateBudget(v, budget)
@@ -4802,6 +4962,8 @@ func (EndcresourceStatusReportingDescriptor) Initiating() ENDCResourceStatusUpda
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCResourceStatusUpdate"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of EndcresourceStatusReportingInitiationDescriptor.
 func (EndcresourceStatusReportingInitiationDescriptor) Initiating() ENDCResourceStatusRequestInitiatingBinding {
 	return ENDCResourceStatusRequestInitiatingBinding{info: EndcresourceStatusReportingInitiationProcedure().Info(), validate: func(v *ENDCResourceStatusRequest, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCResourceStatusRequestBudget(v, budget)
@@ -4836,6 +4998,8 @@ func (EndcresourceStatusReportingInitiationDescriptor) Initiating() ENDCResource
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCResourceStatusRequest"),
 	}
 }
+
+// Successful returns the typed binding for the successful outcome of EndcresourceStatusReportingInitiationDescriptor.
 func (EndcresourceStatusReportingInitiationDescriptor) Successful() s18.ENDCResourceStatusResponseSuccessfulBinding {
 	return s18.X2apInternalConstructT43ENDCResourceStatusResponseSuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcresourceStatusReportingInitiationProcedure().Info(), func(v *s18.ENDCResourceStatusResponse, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateENDCResourceStatusResponseBudget(v, budget)
@@ -4873,6 +5037,8 @@ func (EndcresourceStatusReportingInitiationDescriptor) Successful() s18.ENDCReso
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCResourceStatusResponse"))
 
 }
+
+// Unsuccessful returns the typed binding for the unsuccessful outcome of EndcresourceStatusReportingInitiationDescriptor.
 func (EndcresourceStatusReportingInitiationDescriptor) Unsuccessful() s14.ENDCResourceStatusFailureUnsuccessfulBinding {
 	return s14.X2apInternalConstructT44ENDCResourceStatusFailureUnsuccessfulBindingF4infoF8validateF6encodeF6decodeF6injectF7captureF7compareF7context(EndcresourceStatusReportingInitiationProcedure().Info(), func(v *s14.ENDCResourceStatusFailure, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return s14.X2apInternalValidateENDCResourceStatusFailureBudget(v, budget)
@@ -4907,6 +5073,8 @@ func (EndcresourceStatusReportingInitiationDescriptor) Unsuccessful() s14.ENDCRe
 	}, s00.X2apInternalConstructT12codecContextF6source("source-value:ENDCResourceStatusFailure"))
 
 }
+
+// Initiating returns the typed binding for the initiating message of F1CTrafficTransferDescriptor.
 func (F1CTrafficTransferDescriptor) Initiating() F1CTrafficTransferInitiatingBinding {
 	return F1CTrafficTransferInitiatingBinding{info: F1CTrafficTransferProcedure().Info(), validate: func(v *F1CTrafficTransfer, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateF1CTrafficTransferBudget(v, budget)
@@ -4942,6 +5110,8 @@ func (F1CTrafficTransferDescriptor) Initiating() F1CTrafficTransferInitiatingBin
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:F1CTrafficTransfer"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of AccessAndMobilityIndicationDescriptor.
 func (AccessAndMobilityIndicationDescriptor) Initiating() AccessAndMobilityIndicationInitiatingBinding {
 	return AccessAndMobilityIndicationInitiatingBinding{info: AccessAndMobilityIndicationProcedure().Info(), validate: func(v *AccessAndMobilityIndication, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateAccessAndMobilityIndicationBudget(v, budget)
@@ -4976,6 +5146,8 @@ func (AccessAndMobilityIndicationDescriptor) Initiating() AccessAndMobilityIndic
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:AccessAndMobilityIndication"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of CPCCancelDescriptor.
 func (CPCCancelDescriptor) Initiating() CPCCancelInitiatingBinding {
 	return CPCCancelInitiatingBinding{info: CPCCancelProcedure().Info(), validate: func(v *CPCCancel, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateCPCCancelBudget(v, budget)
@@ -5013,6 +5185,8 @@ func (CPCCancelDescriptor) Initiating() CPCCancelInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:CPCCancel"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of RachIndicationDescriptor.
 func (RachIndicationDescriptor) Initiating() RachIndicationInitiatingBinding {
 	return RachIndicationInitiatingBinding{info: RachIndicationProcedure().Info(), validate: func(v *RachIndication, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateRachIndicationBudget(v, budget)
@@ -5051,6 +5225,8 @@ func (RachIndicationDescriptor) Initiating() RachIndicationInitiatingBinding {
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:RachIndication"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ScgFailureInformationReportDescriptor.
 func (ScgFailureInformationReportDescriptor) Initiating() SCGFailureInformationReportInitiatingBinding {
 	return SCGFailureInformationReportInitiatingBinding{info: ScgFailureInformationReportProcedure().Info(), validate: func(v *SCGFailureInformationReport, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSCGFailureInformationReportBudget(v, budget)
@@ -5085,6 +5261,8 @@ func (ScgFailureInformationReportDescriptor) Initiating() SCGFailureInformationR
 	}, context: s00.X2apInternalConstructT12codecContextF6source("source-value:SCGFailureInformationReport"),
 	}
 }
+
+// Initiating returns the typed binding for the initiating message of ScgFailureTransferDescriptor.
 func (ScgFailureTransferDescriptor) Initiating() SCGFailureTransferInitiatingBinding {
 	return SCGFailureTransferInitiatingBinding{info: ScgFailureTransferProcedure().Info(), validate: func(v *SCGFailureTransfer, budget *aper.DecodeBudget) (s12.ValidationReport, error) {
 		return X2apInternalValidateSCGFailureTransferBudget(v, budget)
@@ -15720,378 +15898,503 @@ type InitiatingValue struct {
 	bodySCGFailureTransfer                     *SCGFailureTransfer
 }
 
+// Opaque returns the retained opaque open value of InitiatingValue and reports whether the opaque alternative is selected.
 func (v *InitiatingValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
 	}
 	return v.opaque, true
 }
+
+// AsHandoverRequest returns the selected HandoverRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsHandoverRequest() (*HandoverRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(0) || v.bodyHandoverRequest == nil {
 		return nil, false
 	}
 	return v.bodyHandoverRequest, true
 }
+
+// AsHandoverCancel returns the selected HandoverCancel value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsHandoverCancel() (*HandoverCancel, bool) {
 	if v == nil || v.code != s00.ProcedureCode(1) || v.bodyHandoverCancel == nil {
 		return nil, false
 	}
 	return v.bodyHandoverCancel, true
 }
+
+// AsLoadInformation returns the selected LoadInformation value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsLoadInformation() (*LoadInformation, bool) {
 	if v == nil || v.code != s00.ProcedureCode(2) || v.bodyLoadInformation == nil {
 		return nil, false
 	}
 	return v.bodyLoadInformation, true
 }
+
+// AsErrorIndication returns the selected ErrorIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsErrorIndication() (*ErrorIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(3) || v.bodyErrorIndication == nil {
 		return nil, false
 	}
 	return v.bodyErrorIndication, true
 }
+
+// AsSNStatusTransfer returns the selected SNStatusTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSNStatusTransfer() (*SNStatusTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(4) || v.bodySNStatusTransfer == nil {
 		return nil, false
 	}
 	return v.bodySNStatusTransfer, true
 }
+
+// AsUEContextRelease returns the selected UEContextRelease value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUEContextRelease() (*UEContextRelease, bool) {
 	if v == nil || v.code != s00.ProcedureCode(5) || v.bodyUEContextRelease == nil {
 		return nil, false
 	}
 	return v.bodyUEContextRelease, true
 }
+
+// AsX2SetupRequest returns the selected X2SetupRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsX2SetupRequest() (*X2SetupRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(6) || v.bodyX2SetupRequest == nil {
 		return nil, false
 	}
 	return v.bodyX2SetupRequest, true
 }
+
+// AsResetRequest returns the selected ResetRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsResetRequest() (*ResetRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(7) || v.bodyResetRequest == nil {
 		return nil, false
 	}
 	return v.bodyResetRequest, true
 }
+
+// AsENBConfigurationUpdate returns the selected ENBConfigurationUpdate value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENBConfigurationUpdate() (*ENBConfigurationUpdate, bool) {
 	if v == nil || v.code != s00.ProcedureCode(8) || v.bodyENBConfigurationUpdate == nil {
 		return nil, false
 	}
 	return v.bodyENBConfigurationUpdate, true
 }
+
+// AsResourceStatusRequest returns the selected ResourceStatusRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsResourceStatusRequest() (*ResourceStatusRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(9) || v.bodyResourceStatusRequest == nil {
 		return nil, false
 	}
 	return v.bodyResourceStatusRequest, true
 }
+
+// AsResourceStatusUpdate returns the selected ResourceStatusUpdate value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsResourceStatusUpdate() (*ResourceStatusUpdate, bool) {
 	if v == nil || v.code != s00.ProcedureCode(10) || v.bodyResourceStatusUpdate == nil {
 		return nil, false
 	}
 	return v.bodyResourceStatusUpdate, true
 }
+
+// AsPrivateMessage returns the selected PrivateMessage value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsPrivateMessage() (*PrivateMessage, bool) {
 	if v == nil || v.code != s00.ProcedureCode(11) || v.bodyPrivateMessage == nil {
 		return nil, false
 	}
 	return v.bodyPrivateMessage, true
 }
+
+// AsMobilityChangeRequest returns the selected MobilityChangeRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsMobilityChangeRequest() (*MobilityChangeRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(12) || v.bodyMobilityChangeRequest == nil {
 		return nil, false
 	}
 	return v.bodyMobilityChangeRequest, true
 }
+
+// AsRLFIndication returns the selected RLFIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsRLFIndication() (*RLFIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(13) || v.bodyRLFIndication == nil {
 		return nil, false
 	}
 	return v.bodyRLFIndication, true
 }
+
+// AsHandoverReport returns the selected HandoverReport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsHandoverReport() (*HandoverReport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(14) || v.bodyHandoverReport == nil {
 		return nil, false
 	}
 	return v.bodyHandoverReport, true
 }
+
+// AsCellActivationRequest returns the selected CellActivationRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsCellActivationRequest() (*CellActivationRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(15) || v.bodyCellActivationRequest == nil {
 		return nil, false
 	}
 	return v.bodyCellActivationRequest, true
 }
+
+// AsX2Release returns the selected X2Release value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsX2Release() (*X2Release, bool) {
 	if v == nil || v.code != s00.ProcedureCode(16) || v.bodyX2Release == nil {
 		return nil, false
 	}
 	return v.bodyX2Release, true
 }
+
+// AsX2APMessageTransfer returns the selected X2APMessageTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsX2APMessageTransfer() (*X2APMessageTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(17) || v.bodyX2APMessageTransfer == nil {
 		return nil, false
 	}
 	return v.bodyX2APMessageTransfer, true
 }
+
+// AsX2RemovalRequest returns the selected X2RemovalRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsX2RemovalRequest() (*X2RemovalRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(18) || v.bodyX2RemovalRequest == nil {
 		return nil, false
 	}
 	return v.bodyX2RemovalRequest, true
 }
+
+// AsSeNBAdditionRequest returns the selected SeNBAdditionRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSeNBAdditionRequest() (*SeNBAdditionRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(19) || v.bodySeNBAdditionRequest == nil {
 		return nil, false
 	}
 	return v.bodySeNBAdditionRequest, true
 }
+
+// AsSeNBReconfigurationComplete returns the selected SeNBReconfigurationComplete value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSeNBReconfigurationComplete() (*SeNBReconfigurationComplete, bool) {
 	if v == nil || v.code != s00.ProcedureCode(20) || v.bodySeNBReconfigurationComplete == nil {
 		return nil, false
 	}
 	return v.bodySeNBReconfigurationComplete, true
 }
+
+// AsSeNBModificationRequest returns the selected SeNBModificationRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSeNBModificationRequest() (*SeNBModificationRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(21) || v.bodySeNBModificationRequest == nil {
 		return nil, false
 	}
 	return v.bodySeNBModificationRequest, true
 }
+
+// AsSeNBModificationRequired returns the selected SeNBModificationRequired value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSeNBModificationRequired() (*SeNBModificationRequired, bool) {
 	if v == nil || v.code != s00.ProcedureCode(22) || v.bodySeNBModificationRequired == nil {
 		return nil, false
 	}
 	return v.bodySeNBModificationRequired, true
 }
+
+// AsSeNBReleaseRequest returns the selected SeNBReleaseRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSeNBReleaseRequest() (*SeNBReleaseRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(23) || v.bodySeNBReleaseRequest == nil {
 		return nil, false
 	}
 	return v.bodySeNBReleaseRequest, true
 }
+
+// AsSeNBReleaseRequired returns the selected SeNBReleaseRequired value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSeNBReleaseRequired() (*SeNBReleaseRequired, bool) {
 	if v == nil || v.code != s00.ProcedureCode(24) || v.bodySeNBReleaseRequired == nil {
 		return nil, false
 	}
 	return v.bodySeNBReleaseRequired, true
 }
+
+// AsSeNBCounterCheckRequest returns the selected SeNBCounterCheckRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSeNBCounterCheckRequest() (*SeNBCounterCheckRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(25) || v.bodySeNBCounterCheckRequest == nil {
 		return nil, false
 	}
 	return v.bodySeNBCounterCheckRequest, true
 }
+
+// AsRetrieveUEContextRequest returns the selected RetrieveUEContextRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsRetrieveUEContextRequest() (*RetrieveUEContextRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(26) || v.bodyRetrieveUEContextRequest == nil {
 		return nil, false
 	}
 	return v.bodyRetrieveUEContextRequest, true
 }
+
+// AsSgNBAdditionRequest returns the selected SgNBAdditionRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSgNBAdditionRequest() (*SgNBAdditionRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(27) || v.bodySgNBAdditionRequest == nil {
 		return nil, false
 	}
 	return v.bodySgNBAdditionRequest, true
 }
+
+// AsSgNBReconfigurationComplete returns the selected SgNBReconfigurationComplete value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSgNBReconfigurationComplete() (*SgNBReconfigurationComplete, bool) {
 	if v == nil || v.code != s00.ProcedureCode(28) || v.bodySgNBReconfigurationComplete == nil {
 		return nil, false
 	}
 	return v.bodySgNBReconfigurationComplete, true
 }
+
+// AsSgNBModificationRequest returns the selected SgNBModificationRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSgNBModificationRequest() (*SgNBModificationRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(29) || v.bodySgNBModificationRequest == nil {
 		return nil, false
 	}
 	return v.bodySgNBModificationRequest, true
 }
+
+// AsSgNBModificationRequired returns the selected SgNBModificationRequired value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSgNBModificationRequired() (*SgNBModificationRequired, bool) {
 	if v == nil || v.code != s00.ProcedureCode(30) || v.bodySgNBModificationRequired == nil {
 		return nil, false
 	}
 	return v.bodySgNBModificationRequired, true
 }
+
+// AsSgNBReleaseRequest returns the selected SgNBReleaseRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSgNBReleaseRequest() (*SgNBReleaseRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(31) || v.bodySgNBReleaseRequest == nil {
 		return nil, false
 	}
 	return v.bodySgNBReleaseRequest, true
 }
+
+// AsSgNBReleaseRequired returns the selected SgNBReleaseRequired value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSgNBReleaseRequired() (*SgNBReleaseRequired, bool) {
 	if v == nil || v.code != s00.ProcedureCode(32) || v.bodySgNBReleaseRequired == nil {
 		return nil, false
 	}
 	return v.bodySgNBReleaseRequired, true
 }
+
+// AsSgNBCounterCheckRequest returns the selected SgNBCounterCheckRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSgNBCounterCheckRequest() (*SgNBCounterCheckRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(33) || v.bodySgNBCounterCheckRequest == nil {
 		return nil, false
 	}
 	return v.bodySgNBCounterCheckRequest, true
 }
+
+// AsSgNBChangeRequired returns the selected SgNBChangeRequired value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSgNBChangeRequired() (*SgNBChangeRequired, bool) {
 	if v == nil || v.code != s00.ProcedureCode(34) || v.bodySgNBChangeRequired == nil {
 		return nil, false
 	}
 	return v.bodySgNBChangeRequired, true
 }
+
+// AsRRCTransfer returns the selected RRCTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsRRCTransfer() (*RRCTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(35) || v.bodyRRCTransfer == nil {
 		return nil, false
 	}
 	return v.bodyRRCTransfer, true
 }
+
+// AsENDCX2SetupRequest returns the selected ENDCX2SetupRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENDCX2SetupRequest() (*ENDCX2SetupRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(36) || v.bodyENDCX2SetupRequest == nil {
 		return nil, false
 	}
 	return v.bodyENDCX2SetupRequest, true
 }
+
+// AsENDCConfigurationUpdate returns the selected ENDCConfigurationUpdate value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENDCConfigurationUpdate() (*ENDCConfigurationUpdate, bool) {
 	if v == nil || v.code != s00.ProcedureCode(37) || v.bodyENDCConfigurationUpdate == nil {
 		return nil, false
 	}
 	return v.bodyENDCConfigurationUpdate, true
 }
+
+// AsSecondaryRATDataUsageReport returns the selected SecondaryRATDataUsageReport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSecondaryRATDataUsageReport() (*SecondaryRATDataUsageReport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(38) || v.bodySecondaryRATDataUsageReport == nil {
 		return nil, false
 	}
 	return v.bodySecondaryRATDataUsageReport, true
 }
+
+// AsENDCCellActivationRequest returns the selected ENDCCellActivationRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENDCCellActivationRequest() (*ENDCCellActivationRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(39) || v.bodyENDCCellActivationRequest == nil {
 		return nil, false
 	}
 	return v.bodyENDCCellActivationRequest, true
 }
+
+// AsENDCPartialResetRequired returns the selected ENDCPartialResetRequired value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENDCPartialResetRequired() (*ENDCPartialResetRequired, bool) {
 	if v == nil || v.code != s00.ProcedureCode(40) || v.bodyENDCPartialResetRequired == nil {
 		return nil, false
 	}
 	return v.bodyENDCPartialResetRequired, true
 }
+
+// AsEUTRANRCellResourceCoordinationRequest returns the selected EUTRANRCellResourceCoordinationRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsEUTRANRCellResourceCoordinationRequest() (*EUTRANRCellResourceCoordinationRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(41) || v.bodyEUTRANRCellResourceCoordinationRequest == nil {
 		return nil, false
 	}
 	return v.bodyEUTRANRCellResourceCoordinationRequest, true
 }
+
+// AsSgNBActivityNotification returns the selected SgNBActivityNotification value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSgNBActivityNotification() (*SgNBActivityNotification, bool) {
 	if v == nil || v.code != s00.ProcedureCode(42) || v.bodySgNBActivityNotification == nil {
 		return nil, false
 	}
 	return v.bodySgNBActivityNotification, true
 }
+
+// AsENDCX2RemovalRequest returns the selected ENDCX2RemovalRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENDCX2RemovalRequest() (*ENDCX2RemovalRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(43) || v.bodyENDCX2RemovalRequest == nil {
 		return nil, false
 	}
 	return v.bodyENDCX2RemovalRequest, true
 }
+
+// AsDataForwardingAddressIndication returns the selected DataForwardingAddressIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsDataForwardingAddressIndication() (*DataForwardingAddressIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(44) || v.bodyDataForwardingAddressIndication == nil {
 		return nil, false
 	}
 	return v.bodyDataForwardingAddressIndication, true
 }
+
+// AsGNBStatusIndication returns the selected GNBStatusIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsGNBStatusIndication() (*GNBStatusIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(45) || v.bodyGNBStatusIndication == nil {
 		return nil, false
 	}
 	return v.bodyGNBStatusIndication, true
 }
+
+// AsDeactivateTrace returns the selected DeactivateTrace value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsDeactivateTrace() (*DeactivateTrace, bool) {
 	if v == nil || v.code != s00.ProcedureCode(46) || v.bodyDeactivateTrace == nil {
 		return nil, false
 	}
 	return v.bodyDeactivateTrace, true
 }
+
+// AsTraceStart returns the selected TraceStart value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsTraceStart() (*TraceStart, bool) {
 	if v == nil || v.code != s00.ProcedureCode(47) || v.bodyTraceStart == nil {
 		return nil, false
 	}
 	return v.bodyTraceStart, true
 }
+
+// AsENDCConfigurationTransfer returns the selected ENDCConfigurationTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENDCConfigurationTransfer() (*ENDCConfigurationTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(48) || v.bodyENDCConfigurationTransfer == nil {
 		return nil, false
 	}
 	return v.bodyENDCConfigurationTransfer, true
 }
+
+// AsHandoverSuccess returns the selected HandoverSuccess value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsHandoverSuccess() (*HandoverSuccess, bool) {
 	if v == nil || v.code != s00.ProcedureCode(49) || v.bodyHandoverSuccess == nil {
 		return nil, false
 	}
 	return v.bodyHandoverSuccess, true
 }
+
+// AsConditionalHandoverCancel returns the selected ConditionalHandoverCancel value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsConditionalHandoverCancel() (*ConditionalHandoverCancel, bool) {
 	if v == nil || v.code != s00.ProcedureCode(50) || v.bodyConditionalHandoverCancel == nil {
 		return nil, false
 	}
 	return v.bodyConditionalHandoverCancel, true
 }
+
+// AsEarlyStatusTransfer returns the selected EarlyStatusTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsEarlyStatusTransfer() (*EarlyStatusTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(51) || v.bodyEarlyStatusTransfer == nil {
 		return nil, false
 	}
 	return v.bodyEarlyStatusTransfer, true
 }
+
+// AsCellTrafficTrace returns the selected CellTrafficTrace value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsCellTrafficTrace() (*CellTrafficTrace, bool) {
 	if v == nil || v.code != s00.ProcedureCode(52) || v.bodyCellTrafficTrace == nil {
 		return nil, false
 	}
 	return v.bodyCellTrafficTrace, true
 }
+
+// AsENDCResourceStatusUpdate returns the selected ENDCResourceStatusUpdate value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENDCResourceStatusUpdate() (*ENDCResourceStatusUpdate, bool) {
 	if v == nil || v.code != s00.ProcedureCode(53) || v.bodyENDCResourceStatusUpdate == nil {
 		return nil, false
 	}
 	return v.bodyENDCResourceStatusUpdate, true
 }
+
+// AsENDCResourceStatusRequest returns the selected ENDCResourceStatusRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsENDCResourceStatusRequest() (*ENDCResourceStatusRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(54) || v.bodyENDCResourceStatusRequest == nil {
 		return nil, false
 	}
 	return v.bodyENDCResourceStatusRequest, true
 }
+
+// AsF1CTrafficTransfer returns the selected F1CTrafficTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsF1CTrafficTransfer() (*F1CTrafficTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(55) || v.bodyF1CTrafficTransfer == nil {
 		return nil, false
 	}
 	return v.bodyF1CTrafficTransfer, true
 }
+
+// AsUERadioCapabilityIDMappingRequest returns the selected UERadioCapabilityIDMappingRequest value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsUERadioCapabilityIDMappingRequest() (*UERadioCapabilityIDMappingRequest, bool) {
 	if v == nil || v.code != s00.ProcedureCode(56) || v.bodyUERadioCapabilityIDMappingRequest == nil {
 		return nil, false
 	}
 	return v.bodyUERadioCapabilityIDMappingRequest, true
 }
+
+// AsAccessAndMobilityIndication returns the selected AccessAndMobilityIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsAccessAndMobilityIndication() (*AccessAndMobilityIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(57) || v.bodyAccessAndMobilityIndication == nil {
 		return nil, false
 	}
 	return v.bodyAccessAndMobilityIndication, true
 }
+
+// AsCPCCancel returns the selected CPCCancel value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsCPCCancel() (*CPCCancel, bool) {
 	if v == nil || v.code != s00.ProcedureCode(59) || v.bodyCPCCancel == nil {
 		return nil, false
 	}
 	return v.bodyCPCCancel, true
 }
+
+// AsRachIndication returns the selected RachIndication value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsRachIndication() (*RachIndication, bool) {
 	if v == nil || v.code != s00.ProcedureCode(60) || v.bodyRachIndication == nil {
 		return nil, false
 	}
 	return v.bodyRachIndication, true
 }
+
+// AsSCGFailureInformationReport returns the selected SCGFailureInformationReport value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSCGFailureInformationReport() (*SCGFailureInformationReport, bool) {
 	if v == nil || v.code != s00.ProcedureCode(61) || v.bodySCGFailureInformationReport == nil {
 		return nil, false
 	}
 	return v.bodySCGFailureInformationReport, true
 }
+
+// AsSCGFailureTransfer returns the selected SCGFailureTransfer value of InitiatingValue and reports whether that alternative is active.
 func (v *InitiatingValue) AsSCGFailureTransfer() (*SCGFailureTransfer, bool) {
 	if v == nil || v.code != s00.ProcedureCode(62) || v.bodySCGFailureTransfer == nil {
 		return nil, false
@@ -21088,6 +21391,8 @@ type HandoverPreparationDescriptor struct{}
 func HandoverPreparationProcedure() HandoverPreparationDescriptor {
 	return HandoverPreparationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for HandoverPreparationDescriptor.
 func (HandoverPreparationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(0), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-handoverPreparation"}}}
 }
@@ -21095,6 +21400,8 @@ func (HandoverPreparationDescriptor) Info() s00.ProcedureInfo {
 type HandoverCancelDescriptor struct{}
 
 func HandoverCancelProcedure() HandoverCancelDescriptor { return HandoverCancelDescriptor{} }
+
+// Info returns the source-derived procedure metadata for HandoverCancelDescriptor.
 func (HandoverCancelDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(1), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-handoverCancel"}}}
 }
@@ -21102,6 +21409,8 @@ func (HandoverCancelDescriptor) Info() s00.ProcedureInfo {
 type LoadIndicationDescriptor struct{}
 
 func LoadIndicationProcedure() LoadIndicationDescriptor { return LoadIndicationDescriptor{} }
+
+// Info returns the source-derived procedure metadata for LoadIndicationDescriptor.
 func (LoadIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(2), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-loadIndication"}}}
 }
@@ -21109,6 +21418,8 @@ func (LoadIndicationDescriptor) Info() s00.ProcedureInfo {
 type ErrorIndicationDescriptor struct{}
 
 func ErrorIndicationProcedure() ErrorIndicationDescriptor { return ErrorIndicationDescriptor{} }
+
+// Info returns the source-derived procedure metadata for ErrorIndicationDescriptor.
 func (ErrorIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(3), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-errorIndication"}}}
 }
@@ -21116,6 +21427,8 @@ func (ErrorIndicationDescriptor) Info() s00.ProcedureInfo {
 type SnStatusTransferDescriptor struct{}
 
 func SnStatusTransferProcedure() SnStatusTransferDescriptor { return SnStatusTransferDescriptor{} }
+
+// Info returns the source-derived procedure metadata for SnStatusTransferDescriptor.
 func (SnStatusTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(4), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-snStatusTransfer"}}}
 }
@@ -21123,6 +21436,8 @@ func (SnStatusTransferDescriptor) Info() s00.ProcedureInfo {
 type ResetDescriptor struct{}
 
 func ResetProcedure() ResetDescriptor { return ResetDescriptor{} }
+
+// Info returns the source-derived procedure metadata for ResetDescriptor.
 func (ResetDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(7), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-reset"}}}
 }
@@ -21132,6 +21447,8 @@ type ENBConfigurationUpdateDescriptor struct{}
 func ENBConfigurationUpdateProcedure() ENBConfigurationUpdateDescriptor {
 	return ENBConfigurationUpdateDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ENBConfigurationUpdateDescriptor.
 func (ENBConfigurationUpdateDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(8), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-eNBConfigurationUpdate"}}}
 }
@@ -21141,6 +21458,8 @@ type ResourceStatusReportingInitiationDescriptor struct{}
 func ResourceStatusReportingInitiationProcedure() ResourceStatusReportingInitiationDescriptor {
 	return ResourceStatusReportingInitiationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ResourceStatusReportingInitiationDescriptor.
 func (ResourceStatusReportingInitiationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(9), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-resourceStatusReportingInitiation"}}}
 }
@@ -21150,6 +21469,8 @@ type ResourceStatusReportingDescriptor struct{}
 func ResourceStatusReportingProcedure() ResourceStatusReportingDescriptor {
 	return ResourceStatusReportingDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ResourceStatusReportingDescriptor.
 func (ResourceStatusReportingDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(10), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-resourceStatusReporting"}}}
 }
@@ -21157,6 +21478,8 @@ func (ResourceStatusReportingDescriptor) Info() s00.ProcedureInfo {
 type PrivateMessageDescriptor struct{}
 
 func PrivateMessageProcedure() PrivateMessageDescriptor { return PrivateMessageDescriptor{} }
+
+// Info returns the source-derived procedure metadata for PrivateMessageDescriptor.
 func (PrivateMessageDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(11), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-privateMessage"}}}
 }
@@ -21166,6 +21489,8 @@ type MobilitySettingsChangeDescriptor struct{}
 func MobilitySettingsChangeProcedure() MobilitySettingsChangeDescriptor {
 	return MobilitySettingsChangeDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for MobilitySettingsChangeDescriptor.
 func (MobilitySettingsChangeDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(12), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-mobilitySettingsChange"}}}
 }
@@ -21173,6 +21498,8 @@ func (MobilitySettingsChangeDescriptor) Info() s00.ProcedureInfo {
 type RLFIndicationDescriptor struct{}
 
 func RLFIndicationProcedure() RLFIndicationDescriptor { return RLFIndicationDescriptor{} }
+
+// Info returns the source-derived procedure metadata for RLFIndicationDescriptor.
 func (RLFIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(13), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-rLFIndication"}}}
 }
@@ -21180,6 +21507,8 @@ func (RLFIndicationDescriptor) Info() s00.ProcedureInfo {
 type HandoverReportDescriptor struct{}
 
 func HandoverReportProcedure() HandoverReportDescriptor { return HandoverReportDescriptor{} }
+
+// Info returns the source-derived procedure metadata for HandoverReportDescriptor.
 func (HandoverReportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(14), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-handoverReport"}}}
 }
@@ -21187,6 +21516,8 @@ func (HandoverReportDescriptor) Info() s00.ProcedureInfo {
 type CellActivationDescriptor struct{}
 
 func CellActivationProcedure() CellActivationDescriptor { return CellActivationDescriptor{} }
+
+// Info returns the source-derived procedure metadata for CellActivationDescriptor.
 func (CellActivationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(15), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-cellActivation"}}}
 }
@@ -21196,6 +21527,8 @@ type SeNBAdditionPreparationDescriptor struct{}
 func SeNBAdditionPreparationProcedure() SeNBAdditionPreparationDescriptor {
 	return SeNBAdditionPreparationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for SeNBAdditionPreparationDescriptor.
 func (SeNBAdditionPreparationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(19), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-seNBAdditionPreparation"}}}
 }
@@ -21205,6 +21538,8 @@ type SeNBReconfigurationCompletionDescriptor struct{}
 func SeNBReconfigurationCompletionProcedure() SeNBReconfigurationCompletionDescriptor {
 	return SeNBReconfigurationCompletionDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for SeNBReconfigurationCompletionDescriptor.
 func (SeNBReconfigurationCompletionDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(20), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-seNBReconfigurationCompletion"}}}
 }
@@ -21214,6 +21549,8 @@ type MeNBinitiatedSeNBModificationPreparationDescriptor struct{}
 func MeNBinitiatedSeNBModificationPreparationProcedure() MeNBinitiatedSeNBModificationPreparationDescriptor {
 	return MeNBinitiatedSeNBModificationPreparationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for MeNBinitiatedSeNBModificationPreparationDescriptor.
 func (MeNBinitiatedSeNBModificationPreparationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(21), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-meNBinitiatedSeNBModificationPreparation"}}}
 }
@@ -21223,6 +21560,8 @@ type SeNBinitiatedSeNBModificationDescriptor struct{}
 func SeNBinitiatedSeNBModificationProcedure() SeNBinitiatedSeNBModificationDescriptor {
 	return SeNBinitiatedSeNBModificationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for SeNBinitiatedSeNBModificationDescriptor.
 func (SeNBinitiatedSeNBModificationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(22), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-seNBinitiatedSeNBModification"}}}
 }
@@ -21232,6 +21571,8 @@ type MeNBinitiatedSeNBReleaseDescriptor struct{}
 func MeNBinitiatedSeNBReleaseProcedure() MeNBinitiatedSeNBReleaseDescriptor {
 	return MeNBinitiatedSeNBReleaseDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for MeNBinitiatedSeNBReleaseDescriptor.
 func (MeNBinitiatedSeNBReleaseDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(23), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-meNBinitiatedSeNBRelease"}}}
 }
@@ -21241,6 +21582,8 @@ type SeNBinitiatedSeNBReleaseDescriptor struct{}
 func SeNBinitiatedSeNBReleaseProcedure() SeNBinitiatedSeNBReleaseDescriptor {
 	return SeNBinitiatedSeNBReleaseDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for SeNBinitiatedSeNBReleaseDescriptor.
 func (SeNBinitiatedSeNBReleaseDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(24), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-seNBinitiatedSeNBRelease"}}}
 }
@@ -21248,6 +21591,8 @@ func (SeNBinitiatedSeNBReleaseDescriptor) Info() s00.ProcedureInfo {
 type SeNBCounterCheckDescriptor struct{}
 
 func SeNBCounterCheckProcedure() SeNBCounterCheckDescriptor { return SeNBCounterCheckDescriptor{} }
+
+// Info returns the source-derived procedure metadata for SeNBCounterCheckDescriptor.
 func (SeNBCounterCheckDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(25), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-seNBCounterCheck"}}}
 }
@@ -21255,6 +21600,8 @@ func (SeNBCounterCheckDescriptor) Info() s00.ProcedureInfo {
 type RetrieveUEContextDescriptor struct{}
 
 func RetrieveUEContextProcedure() RetrieveUEContextDescriptor { return RetrieveUEContextDescriptor{} }
+
+// Info returns the source-derived procedure metadata for RetrieveUEContextDescriptor.
 func (RetrieveUEContextDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(26), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-retrieveUEContext"}}}
 }
@@ -21264,6 +21611,8 @@ type SgNBAdditionPreparationDescriptor struct{}
 func SgNBAdditionPreparationProcedure() SgNBAdditionPreparationDescriptor {
 	return SgNBAdditionPreparationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for SgNBAdditionPreparationDescriptor.
 func (SgNBAdditionPreparationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(27), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-sgNBAdditionPreparation"}}}
 }
@@ -21273,6 +21622,8 @@ type MeNBinitiatedSgNBModificationPreparationDescriptor struct{}
 func MeNBinitiatedSgNBModificationPreparationProcedure() MeNBinitiatedSgNBModificationPreparationDescriptor {
 	return MeNBinitiatedSgNBModificationPreparationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for MeNBinitiatedSgNBModificationPreparationDescriptor.
 func (MeNBinitiatedSgNBModificationPreparationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(29), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-meNBinitiatedSgNBModificationPreparation"}}}
 }
@@ -21280,6 +21631,8 @@ func (MeNBinitiatedSgNBModificationPreparationDescriptor) Info() s00.ProcedureIn
 type SgNBCounterCheckDescriptor struct{}
 
 func SgNBCounterCheckProcedure() SgNBCounterCheckDescriptor { return SgNBCounterCheckDescriptor{} }
+
+// Info returns the source-derived procedure metadata for SgNBCounterCheckDescriptor.
 func (SgNBCounterCheckDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(33), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-sgNBCounterCheck"}}}
 }
@@ -21287,6 +21640,8 @@ func (SgNBCounterCheckDescriptor) Info() s00.ProcedureInfo {
 type SgNBChangeDescriptor struct{}
 
 func SgNBChangeProcedure() SgNBChangeDescriptor { return SgNBChangeDescriptor{} }
+
+// Info returns the source-derived procedure metadata for SgNBChangeDescriptor.
 func (SgNBChangeDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(34), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-sgNBChange"}}}
 }
@@ -21294,6 +21649,8 @@ func (SgNBChangeDescriptor) Info() s00.ProcedureInfo {
 type RRCTransferDescriptor struct{}
 
 func RRCTransferProcedure() RRCTransferDescriptor { return RRCTransferDescriptor{} }
+
+// Info returns the source-derived procedure metadata for RRCTransferDescriptor.
 func (RRCTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(35), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-rRCTransfer"}}}
 }
@@ -21301,6 +21658,8 @@ func (RRCTransferDescriptor) Info() s00.ProcedureInfo {
 type EndcX2SetupDescriptor struct{}
 
 func EndcX2SetupProcedure() EndcX2SetupDescriptor { return EndcX2SetupDescriptor{} }
+
+// Info returns the source-derived procedure metadata for EndcX2SetupDescriptor.
 func (EndcX2SetupDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(36), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-endcX2Setup"}}}
 }
@@ -21310,6 +21669,8 @@ type EndcConfigurationUpdateDescriptor struct{}
 func EndcConfigurationUpdateProcedure() EndcConfigurationUpdateDescriptor {
 	return EndcConfigurationUpdateDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for EndcConfigurationUpdateDescriptor.
 func (EndcConfigurationUpdateDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(37), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-endcConfigurationUpdate"}}}
 }
@@ -21319,6 +21680,8 @@ type SecondaryRATDataUsageReportDescriptor struct{}
 func SecondaryRATDataUsageReportProcedure() SecondaryRATDataUsageReportDescriptor {
 	return SecondaryRATDataUsageReportDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for SecondaryRATDataUsageReportDescriptor.
 func (SecondaryRATDataUsageReportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(38), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-secondaryRATDataUsageReport"}}}
 }
@@ -21328,6 +21691,8 @@ type EndcCellActivationDescriptor struct{}
 func EndcCellActivationProcedure() EndcCellActivationDescriptor {
 	return EndcCellActivationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for EndcCellActivationDescriptor.
 func (EndcCellActivationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(39), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-endcCellActivation"}}}
 }
@@ -21335,6 +21700,8 @@ func (EndcCellActivationDescriptor) Info() s00.ProcedureInfo {
 type EndcPartialResetDescriptor struct{}
 
 func EndcPartialResetProcedure() EndcPartialResetDescriptor { return EndcPartialResetDescriptor{} }
+
+// Info returns the source-derived procedure metadata for EndcPartialResetDescriptor.
 func (EndcPartialResetDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(40), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-endcPartialReset"}}}
 }
@@ -21344,6 +21711,8 @@ type EUTRANRCellResourceCoordinationDescriptor struct{}
 func EUTRANRCellResourceCoordinationProcedure() EUTRANRCellResourceCoordinationDescriptor {
 	return EUTRANRCellResourceCoordinationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for EUTRANRCellResourceCoordinationDescriptor.
 func (EUTRANRCellResourceCoordinationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(41), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-eUTRANRCellResourceCoordination"}}}
 }
@@ -21353,6 +21722,8 @@ type SgNBActivityNotificationDescriptor struct{}
 func SgNBActivityNotificationProcedure() SgNBActivityNotificationDescriptor {
 	return SgNBActivityNotificationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for SgNBActivityNotificationDescriptor.
 func (SgNBActivityNotificationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(42), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-SgNBActivityNotification"}}}
 }
@@ -21360,6 +21731,8 @@ func (SgNBActivityNotificationDescriptor) Info() s00.ProcedureInfo {
 type EndcX2RemovalDescriptor struct{}
 
 func EndcX2RemovalProcedure() EndcX2RemovalDescriptor { return EndcX2RemovalDescriptor{} }
+
+// Info returns the source-derived procedure metadata for EndcX2RemovalDescriptor.
 func (EndcX2RemovalDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(43), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-endcX2Removal"}}}
 }
@@ -21369,6 +21742,8 @@ type DataForwardingAddressIndicationDescriptor struct{}
 func DataForwardingAddressIndicationProcedure() DataForwardingAddressIndicationDescriptor {
 	return DataForwardingAddressIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for DataForwardingAddressIndicationDescriptor.
 func (DataForwardingAddressIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(44), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-dataForwardingAddressIndication"}}}
 }
@@ -21378,6 +21753,8 @@ type GNBStatusIndicationDescriptor struct{}
 func GNBStatusIndicationProcedure() GNBStatusIndicationDescriptor {
 	return GNBStatusIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for GNBStatusIndicationDescriptor.
 func (GNBStatusIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(45), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-gNBStatusIndication"}}}
 }
@@ -21385,6 +21762,8 @@ func (GNBStatusIndicationDescriptor) Info() s00.ProcedureInfo {
 type DeactivateTraceDescriptor struct{}
 
 func DeactivateTraceProcedure() DeactivateTraceDescriptor { return DeactivateTraceDescriptor{} }
+
+// Info returns the source-derived procedure metadata for DeactivateTraceDescriptor.
 func (DeactivateTraceDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(46), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-deactivateTrace"}}}
 }
@@ -21394,6 +21773,8 @@ type EndcConfigurationTransferDescriptor struct{}
 func EndcConfigurationTransferProcedure() EndcConfigurationTransferDescriptor {
 	return EndcConfigurationTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for EndcConfigurationTransferDescriptor.
 func (EndcConfigurationTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(48), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-endcConfigurationTransfer"}}}
 }
@@ -21401,6 +21782,8 @@ func (EndcConfigurationTransferDescriptor) Info() s00.ProcedureInfo {
 type HandoverSuccessDescriptor struct{}
 
 func HandoverSuccessProcedure() HandoverSuccessDescriptor { return HandoverSuccessDescriptor{} }
+
+// Info returns the source-derived procedure metadata for HandoverSuccessDescriptor.
 func (HandoverSuccessDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(49), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-handoverSuccess"}}}
 }
@@ -21410,6 +21793,8 @@ type ConditionalHandoverCancelDescriptor struct{}
 func ConditionalHandoverCancelProcedure() ConditionalHandoverCancelDescriptor {
 	return ConditionalHandoverCancelDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ConditionalHandoverCancelDescriptor.
 func (ConditionalHandoverCancelDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(50), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-conditionalHandoverCancel"}}}
 }
@@ -21419,6 +21804,8 @@ type EarlyStatusTransferDescriptor struct{}
 func EarlyStatusTransferProcedure() EarlyStatusTransferDescriptor {
 	return EarlyStatusTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for EarlyStatusTransferDescriptor.
 func (EarlyStatusTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(51), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-earlyStatusTransfer"}}}
 }
@@ -21426,6 +21813,8 @@ func (EarlyStatusTransferDescriptor) Info() s00.ProcedureInfo {
 type CellTrafficTraceDescriptor struct{}
 
 func CellTrafficTraceProcedure() CellTrafficTraceDescriptor { return CellTrafficTraceDescriptor{} }
+
+// Info returns the source-derived procedure metadata for CellTrafficTraceDescriptor.
 func (CellTrafficTraceDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(52), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-cellTrafficTrace"}}}
 }
@@ -21435,6 +21824,8 @@ type EndcresourceStatusReportingDescriptor struct{}
 func EndcresourceStatusReportingProcedure() EndcresourceStatusReportingDescriptor {
 	return EndcresourceStatusReportingDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for EndcresourceStatusReportingDescriptor.
 func (EndcresourceStatusReportingDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(53), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-endcresourceStatusReporting"}}}
 }
@@ -21444,6 +21835,8 @@ type EndcresourceStatusReportingInitiationDescriptor struct{}
 func EndcresourceStatusReportingInitiationProcedure() EndcresourceStatusReportingInitiationDescriptor {
 	return EndcresourceStatusReportingInitiationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for EndcresourceStatusReportingInitiationDescriptor.
 func (EndcresourceStatusReportingInitiationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(54), Criticality: s00.CriticalityReject, HasSuccessfulOutcome: true, HasUnsuccessfulOutcome: true, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-endcresourceStatusReportingInitiation"}}}
 }
@@ -21453,6 +21846,8 @@ type F1CTrafficTransferDescriptor struct{}
 func F1CTrafficTransferProcedure() F1CTrafficTransferDescriptor {
 	return F1CTrafficTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for F1CTrafficTransferDescriptor.
 func (F1CTrafficTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(55), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-f1CTrafficTransfer"}}}
 }
@@ -21462,6 +21857,8 @@ type AccessAndMobilityIndicationDescriptor struct{}
 func AccessAndMobilityIndicationProcedure() AccessAndMobilityIndicationDescriptor {
 	return AccessAndMobilityIndicationDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for AccessAndMobilityIndicationDescriptor.
 func (AccessAndMobilityIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(57), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-accessAndMobilityIndication"}}}
 }
@@ -21469,6 +21866,8 @@ func (AccessAndMobilityIndicationDescriptor) Info() s00.ProcedureInfo {
 type CPCCancelDescriptor struct{}
 
 func CPCCancelProcedure() CPCCancelDescriptor { return CPCCancelDescriptor{} }
+
+// Info returns the source-derived procedure metadata for CPCCancelDescriptor.
 func (CPCCancelDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(59), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-CPC-cancel"}}}
 }
@@ -21476,6 +21875,8 @@ func (CPCCancelDescriptor) Info() s00.ProcedureInfo {
 type RachIndicationDescriptor struct{}
 
 func RachIndicationProcedure() RachIndicationDescriptor { return RachIndicationDescriptor{} }
+
+// Info returns the source-derived procedure metadata for RachIndicationDescriptor.
 func (RachIndicationDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(60), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-rachIndication"}}}
 }
@@ -21485,6 +21886,8 @@ type ScgFailureInformationReportDescriptor struct{}
 func ScgFailureInformationReportProcedure() ScgFailureInformationReportDescriptor {
 	return ScgFailureInformationReportDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ScgFailureInformationReportDescriptor.
 func (ScgFailureInformationReportDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(61), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-scgFailureInformationReport"}}}
 }
@@ -21494,6 +21897,8 @@ type ScgFailureTransferDescriptor struct{}
 func ScgFailureTransferProcedure() ScgFailureTransferDescriptor {
 	return ScgFailureTransferDescriptor{}
 }
+
+// Info returns the source-derived procedure metadata for ScgFailureTransferDescriptor.
 func (ScgFailureTransferDescriptor) Info() s00.ProcedureInfo {
 	return s00.ProcedureInfo{Code: s00.ProcedureCode(62), Criticality: s00.CriticalityIgnore, HasSuccessfulOutcome: false, HasUnsuccessfulOutcome: false, Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Descriptions", Assignment: "id-scgFailureTransfer"}}}
 }

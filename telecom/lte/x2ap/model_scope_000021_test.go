@@ -9,7 +9,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorProtocolIeFieldHeader verifies 3GPP TS 36.423 V19.1.0 (2026-02), section 9.2.4; ProtocolIE-Field APER header and open-type payload.
+// TestVectorProtocolIeFieldHeader verifies 3GPP TS 36.423 V19.1.0 (2025-12), section 9.3.8; ProtocolIE-Field APER header and open-type payload.
 func TestVectorProtocolIeFieldHeader(t *testing.T) {
 	input := asn1VectorHex(t, "12344001aa")
 	var field s18.HandoverRequestIEField

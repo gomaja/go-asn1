@@ -1,6 +1,6 @@
 // Code generated from LPPa runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/location.go; SHA-256 3d07a0baa3f7d464e53183dc6883b6d71f5829f062fcd30fab65763d45c5870c.
+// Runtime source: runtime/aper/location.go; SHA-256 1a0dd84b889d03d0ad6a6f21d22f6d86b11e0586d15932a65421a27215784634.
 package aper
 
 import "math/bits"
@@ -23,7 +23,7 @@ type Location struct {
 }
 
 // PaddingSpan identifies observed terminal padding without exposing writable
-// codec state (X.691 (02/2021) §§11.1.3.1 and 11.2.1).
+// codec state (X.691 (02/2021) §§11.1.4 and 11.2.1).
 type PaddingSpan struct {
 	Span  BitSpan
 	Value uint8
@@ -46,7 +46,7 @@ func NewReceivedForm(present bool, original []byte, location Location, padding [
 }
 
 // NewCompleteReceivedForm records the framing of one complete APER value.
-// X.691 (02/2021) §11.1.3.1 defines its terminal padding.
+// X.691 (02/2021) §11.1.4 defines its terminal padding.
 func NewCompleteReceivedForm(present bool, original []byte, path Path, absolute bool, complete interface{ Bits() (uint8, uint8) }) ReceivedForm {
 	location := Location{Path: path}
 	var padding []PaddingSpan

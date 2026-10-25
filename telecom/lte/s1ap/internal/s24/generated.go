@@ -17641,6 +17641,8 @@ func (v MDTModeExtensionIEIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Dec
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of MDTModeExtensionIEIEValue and reports whether the opaque alternative is selected.
 func (v *MDTModeExtensionIEIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18310,6 +18312,8 @@ func (MDTModeExtensionIEIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsLoggedMBSFNMDT returns the selected LoggedMBSFNMDT value of MDTModeExtensionIEIEValue and reports whether that alternative is active.
 func (v *MDTModeExtensionIEIEValue) AsLoggedMBSFNMDT() (*LoggedMBSFNMDT, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(197) || v.rowLoggedMBSFNMDT == nil {
 		return nil, false
@@ -18411,6 +18415,8 @@ func (v UERadioCapabilityMatchResponseIEValue) matchesID(id s00.ProtocolIEID, _ 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UERadioCapabilityMatchResponseIEValue and reports whether the opaque alternative is selected.
 func (v *UERadioCapabilityMatchResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19080,24 +19086,32 @@ func (UERadioCapabilityMatchResponseIEValue) reason(id s00.ProtocolIEID) aper.Op
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UERadioCapabilityMatchResponseIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityMatchResponseIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UERadioCapabilityMatchResponseIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityMatchResponseIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsVoiceSupportMatchIndicator returns the selected VoiceSupportMatchIndicator value of UERadioCapabilityMatchResponseIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityMatchResponseIEValue) AsVoiceSupportMatchIndicator() (*s00.VoiceSupportMatchIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(169) || v.rowVoiceSupportMatchIndicator == nil {
 		return nil, false
 	}
 	return v.rowVoiceSupportMatchIndicator, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of UERadioCapabilityMatchResponseIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityMatchResponseIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -19263,6 +19277,8 @@ func (v UERadioCapabilityMatchResponseIEValue) encodeFresh(fresh bool, budget *a
 type MDTModeExtensionIETable struct{}
 
 func MDTModeExtensionIE() MDTModeExtensionIETable { return MDTModeExtensionIETable{} }
+
+// ID returns the ASN.1 object-set identity of MDTModeExtensionIETable.
 func (MDTModeExtensionIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19270,6 +19286,8 @@ func (MDTModeExtensionIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by MDTModeExtensionIETable.
 func (MDTModeExtensionIETable) Table() s00.MDTModeExtensionIEIEValueIETable {
 	return func() s00.MDTModeExtensionIEIEValueIETable {
 		sealed := s00.MDTModeExtensionIEIEValueIETable{}
@@ -19284,6 +19302,8 @@ func (MDTModeExtensionIETable) infoLoggedMBSFNMDT() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "MDTMode-ExtensionIE", Row: "id-LoggedMBSFNMDT"}}}
 }
+
+// LoggedMBSFNMDT returns the typed binding for the LoggedMBSFNMDT row of MDTModeExtensionIETable.
 func (t MDTModeExtensionIETable) LoggedMBSFNMDT() MDTModeExtensionIELoggedMBSFNMDTIEBinding {
 	return MDTModeExtensionIELoggedMBSFNMDTIEBinding{info: t.infoLoggedMBSFNMDT(), codec: LoggedMBSFNMDTValueCodec{path: "LoggedMBSFNMDT",
 		decode: func(data []byte, options aper.DecodeState) (LoggedMBSFNMDT, error) {
@@ -19330,6 +19350,8 @@ func (t MDTModeExtensionIETable) LoggedMBSFNMDT() MDTModeExtensionIELoggedMBSFNM
 		return MDTModeExtensionIEIEValue{id: s00.ProtocolIEID(197), rowLoggedMBSFNMDT: &value}
 	}, get: func(value *MDTModeExtensionIEIEValue) (*LoggedMBSFNMDT, bool) { return value.AsLoggedMBSFNMDT() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in MDTModeExtensionIETable.
 func (t MDTModeExtensionIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (MDTModeExtensionIEIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return MDTModeExtensionIEIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19355,6 +19377,8 @@ type UERadioCapabilityIDMappingResponseIETable struct{}
 func UERadioCapabilityIDMappingResponseIEs() UERadioCapabilityIDMappingResponseIETable {
 	return UERadioCapabilityIDMappingResponseIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UERadioCapabilityIDMappingResponseIETable.
 func (UERadioCapabilityIDMappingResponseIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19362,6 +19386,8 @@ func (UERadioCapabilityIDMappingResponseIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UERadioCapabilityIDMappingResponseIETable.
 func (UERadioCapabilityIDMappingResponseIETable) Table() s00.UERadioCapabilityIDMappingResponseIEValueIETable {
 	return func() s00.UERadioCapabilityIDMappingResponseIEValueIETable {
 		sealed := s00.UERadioCapabilityIDMappingResponseIEValueIETable{}
@@ -19376,6 +19402,8 @@ func (UERadioCapabilityIDMappingResponseIETable) infoUERadioCapabilityID() s00.F
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityIDMappingResponseIEs", Row: "id-UERadioCapabilityID"}}}
 }
+
+// UERadioCapabilityID returns the typed binding for the UERadioCapabilityID row of UERadioCapabilityIDMappingResponseIETable.
 func (t UERadioCapabilityIDMappingResponseIETable) UERadioCapabilityID() UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding {
 	return UERadioCapabilityIDMappingResponseUERadioCapabilityIDIEBinding{info: t.infoUERadioCapabilityID(), codec: func() s02.UERadioCapabilityIDValueCodec {
 		sealed := s02.UERadioCapabilityIDValueCodec{}
@@ -19450,6 +19478,8 @@ func (UERadioCapabilityIDMappingResponseIETable) infoUERadioCapability() s00.Fie
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityIDMappingResponseIEs", Row: "id-UERadioCapability"}}}
 }
+
+// UERadioCapability returns the typed binding for the UERadioCapability row of UERadioCapabilityIDMappingResponseIETable.
 func (t UERadioCapabilityIDMappingResponseIETable) UERadioCapability() UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding {
 	return UERadioCapabilityIDMappingResponseUERadioCapabilityIEBinding{info: t.infoUERadioCapability(), codec: func() s02.UERadioCapabilityValueCodec {
 		sealed := s02.UERadioCapabilityValueCodec{}
@@ -19525,6 +19555,8 @@ func (UERadioCapabilityIDMappingResponseIETable) infoCriticalityDiagnostics() s0
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityIDMappingResponseIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of UERadioCapabilityIDMappingResponseIETable.
 func (t UERadioCapabilityIDMappingResponseIETable) CriticalityDiagnostics() s23.UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding {
 	return func() s23.UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding {
 		sealed := s23.UERadioCapabilityIDMappingResponseCriticalityDiagnosticsIEBinding{}
@@ -19600,6 +19632,8 @@ func (t UERadioCapabilityIDMappingResponseIETable) CriticalityDiagnostics() s23.
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UERadioCapabilityIDMappingResponseIETable.
 func (t UERadioCapabilityIDMappingResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s23.UERadioCapabilityIDMappingResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s23.UERadioCapabilityIDMappingResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19635,6 +19669,8 @@ type UERadioCapabilityMatchResponseIETable struct{}
 func UERadioCapabilityMatchResponseIEs() UERadioCapabilityMatchResponseIETable {
 	return UERadioCapabilityMatchResponseIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UERadioCapabilityMatchResponseIETable.
 func (UERadioCapabilityMatchResponseIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19642,6 +19678,8 @@ func (UERadioCapabilityMatchResponseIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UERadioCapabilityMatchResponseIETable.
 func (UERadioCapabilityMatchResponseIETable) Table() s00.UERadioCapabilityMatchResponseIEValueIETable {
 	return func() s00.UERadioCapabilityMatchResponseIEValueIETable {
 		sealed := s00.UERadioCapabilityMatchResponseIEValueIETable{}
@@ -19656,6 +19694,8 @@ func (UERadioCapabilityMatchResponseIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityMatchResponseIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UERadioCapabilityMatchResponseIETable.
 func (t UERadioCapabilityMatchResponseIETable) MMEUES1APID() UERadioCapabilityMatchResponseMMEUES1APIDIEBinding {
 	return UERadioCapabilityMatchResponseMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -19720,6 +19760,8 @@ func (UERadioCapabilityMatchResponseIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityMatchResponseIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UERadioCapabilityMatchResponseIETable.
 func (t UERadioCapabilityMatchResponseIETable) ENBUES1APID() UERadioCapabilityMatchResponseENBUES1APIDIEBinding {
 	return UERadioCapabilityMatchResponseENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -19784,6 +19826,8 @@ func (UERadioCapabilityMatchResponseIETable) infoVoiceSupportMatchIndicator() s0
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityMatchResponseIEs", Row: "id-VoiceSupportMatchIndicator"}}}
 }
+
+// VoiceSupportMatchIndicator returns the typed binding for the VoiceSupportMatchIndicator row of UERadioCapabilityMatchResponseIETable.
 func (t UERadioCapabilityMatchResponseIETable) VoiceSupportMatchIndicator() UERadioCapabilityMatchResponseVoiceSupportMatchIndicatorIEBinding {
 	return UERadioCapabilityMatchResponseVoiceSupportMatchIndicatorIEBinding{info: t.infoVoiceSupportMatchIndicator(), codec: func() s02.VoiceSupportMatchIndicatorValueCodec {
 		sealed := s02.VoiceSupportMatchIndicatorValueCodec{}
@@ -19852,6 +19896,8 @@ func (UERadioCapabilityMatchResponseIETable) infoCriticalityDiagnostics() s00.Fi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityMatchResponseIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of UERadioCapabilityMatchResponseIETable.
 func (t UERadioCapabilityMatchResponseIETable) CriticalityDiagnostics() UERadioCapabilityMatchResponseCriticalityDiagnosticsIEBinding {
 	return UERadioCapabilityMatchResponseCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -19911,6 +19957,8 @@ func (t UERadioCapabilityMatchResponseIETable) CriticalityDiagnostics() UERadioC
 			return value.AsCriticalityDiagnostics()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UERadioCapabilityMatchResponseIETable.
 func (t UERadioCapabilityMatchResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UERadioCapabilityMatchResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UERadioCapabilityMatchResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

@@ -11210,6 +11210,8 @@ func (v ImmediateMDTExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decod
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ImmediateMDTExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ImmediateMDTExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -11879,54 +11881,72 @@ func (ImmediateMDTExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsM3Configuration returns the selected M3Configuration value of ImmediateMDTExtIEsValue and reports whether that alternative is active.
 func (v *ImmediateMDTExtIEsValue) AsM3Configuration() (*s19.M3Configuration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(171) || v.rowM3Configuration == nil {
 		return nil, false
 	}
 	return v.rowM3Configuration, true
 }
+
+// AsM4Configuration returns the selected M4Configuration value of ImmediateMDTExtIEsValue and reports whether that alternative is active.
 func (v *ImmediateMDTExtIEsValue) AsM4Configuration() (*s19.M4Configuration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(172) || v.rowM4Configuration == nil {
 		return nil, false
 	}
 	return v.rowM4Configuration, true
 }
+
+// AsM5Configuration returns the selected M5Configuration value of ImmediateMDTExtIEsValue and reports whether that alternative is active.
 func (v *ImmediateMDTExtIEsValue) AsM5Configuration() (*s19.M5Configuration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(173) || v.rowM5Configuration == nil {
 		return nil, false
 	}
 	return v.rowM5Configuration, true
 }
+
+// AsMDTLocationInfo returns the selected MDTLocationInfo value of ImmediateMDTExtIEsValue and reports whether that alternative is active.
 func (v *ImmediateMDTExtIEsValue) AsMDTLocationInfo() (*s00.MDTLocationInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(174) || v.rowMDTLocationInfo == nil {
 		return nil, false
 	}
 	return v.rowMDTLocationInfo, true
 }
+
+// AsM6Configuration returns the selected M6Configuration value of ImmediateMDTExtIEsValue and reports whether that alternative is active.
 func (v *ImmediateMDTExtIEsValue) AsM6Configuration() (*s19.M6Configuration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(220) || v.rowM6Configuration == nil {
 		return nil, false
 	}
 	return v.rowM6Configuration, true
 }
+
+// AsM7Configuration returns the selected M7Configuration value of ImmediateMDTExtIEsValue and reports whether that alternative is active.
 func (v *ImmediateMDTExtIEsValue) AsM7Configuration() (*s19.M7Configuration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(221) || v.rowM7Configuration == nil {
 		return nil, false
 	}
 	return v.rowM7Configuration, true
 }
+
+// AsBluetoothMeasurementConfiguration returns the selected BluetoothMeasurementConfiguration value of ImmediateMDTExtIEsValue and reports whether that alternative is active.
 func (v *ImmediateMDTExtIEsValue) AsBluetoothMeasurementConfiguration() (*s14.BluetoothMeasurementConfiguration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(284) || v.rowBluetoothMeasurementConfiguration == nil {
 		return nil, false
 	}
 	return v.rowBluetoothMeasurementConfiguration, true
 }
+
+// AsWLANMeasurementConfiguration returns the selected WLANMeasurementConfiguration value of ImmediateMDTExtIEsValue and reports whether that alternative is active.
 func (v *ImmediateMDTExtIEsValue) AsWLANMeasurementConfiguration() (*WLANMeasurementConfiguration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(285) || v.rowWLANMeasurementConfiguration == nil {
 		return nil, false
 	}
 	return v.rowWLANMeasurementConfiguration, true
 }
+
+// AsSensorMeasurementConfiguration returns the selected SensorMeasurementConfiguration value of ImmediateMDTExtIEsValue and reports whether that alternative is active.
 func (v *ImmediateMDTExtIEsValue) AsSensorMeasurementConfiguration() (*s30.SensorMeasurementConfiguration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(345) || v.rowSensorMeasurementConfiguration == nil {
 		return nil, false
@@ -12312,6 +12332,8 @@ func (v LoggedMDTExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBu
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of LoggedMDTExtIEsValue and reports whether the opaque alternative is selected.
 func (v *LoggedMDTExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -12981,24 +13003,32 @@ func (LoggedMDTExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsBluetoothMeasurementConfiguration returns the selected BluetoothMeasurementConfiguration value of LoggedMDTExtIEsValue and reports whether that alternative is active.
 func (v *LoggedMDTExtIEsValue) AsBluetoothMeasurementConfiguration() (*s14.BluetoothMeasurementConfiguration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(284) || v.rowBluetoothMeasurementConfiguration == nil {
 		return nil, false
 	}
 	return v.rowBluetoothMeasurementConfiguration, true
 }
+
+// AsWLANMeasurementConfiguration returns the selected WLANMeasurementConfiguration value of LoggedMDTExtIEsValue and reports whether that alternative is active.
 func (v *LoggedMDTExtIEsValue) AsWLANMeasurementConfiguration() (*WLANMeasurementConfiguration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(285) || v.rowWLANMeasurementConfiguration == nil {
 		return nil, false
 	}
 	return v.rowWLANMeasurementConfiguration, true
 }
+
+// AsLoggedMDTTrigger returns the selected LoggedMDTTrigger value of LoggedMDTExtIEsValue and reports whether that alternative is active.
 func (v *LoggedMDTExtIEsValue) AsLoggedMDTTrigger() (*s19.LoggedMDTTrigger, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(344) || v.rowLoggedMDTTrigger == nil {
 		return nil, false
 	}
 	return v.rowLoggedMDTTrigger, true
 }
+
+// AsSensorMeasurementConfiguration returns the selected SensorMeasurementConfiguration value of LoggedMDTExtIEsValue and reports whether that alternative is active.
 func (v *LoggedMDTExtIEsValue) AsSensorMeasurementConfiguration() (*s30.SensorMeasurementConfiguration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(345) || v.rowSensorMeasurementConfiguration == nil {
 		return nil, false
@@ -13199,6 +13229,8 @@ func (v TraceActivationExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...*aper.De
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of TraceActivationExtIEsValue and reports whether the opaque alternative is selected.
 func (v *TraceActivationExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13868,24 +13900,32 @@ func (TraceActivationExtIEsValue) reason(id s00.ProtocolIEID) aper.OpaqueReason 
 		return aper.UnknownSelector
 	}
 }
+
+// AsMDTConfiguration returns the selected MDTConfiguration value of TraceActivationExtIEsValue and reports whether that alternative is active.
 func (v *TraceActivationExtIEsValue) AsMDTConfiguration() (*MDTConfiguration, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(162) || v.rowMDTConfiguration == nil {
 		return nil, false
 	}
 	return v.rowMDTConfiguration, true
 }
+
+// AsUEAppLayerMeasConfig returns the selected UEAppLayerMeasConfig value of TraceActivationExtIEsValue and reports whether that alternative is active.
 func (v *TraceActivationExtIEsValue) AsUEAppLayerMeasConfig() (*s35.UEAppLayerMeasConfig, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(262) || v.rowUEAppLayerMeasConfig == nil {
 		return nil, false
 	}
 	return v.rowUEAppLayerMeasConfig, true
 }
+
+// AsMDTConfigurationNR returns the selected MDTConfigurationNR value of TraceActivationExtIEsValue and reports whether that alternative is active.
 func (v *TraceActivationExtIEsValue) AsMDTConfigurationNR() (*s00.MDTConfigurationNR, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(316) || v.rowMDTConfigurationNR == nil {
 		return nil, false
 	}
 	return v.rowMDTConfigurationNR, true
 }
+
+// AsTraceCollectionEntityURI returns the selected TraceCollectionEntityURI value of TraceActivationExtIEsValue and reports whether that alternative is active.
 func (v *TraceActivationExtIEsValue) AsTraceCollectionEntityURI() (*s00.URIAddress, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(325) || v.rowTraceCollectionEntityURI == nil {
 		return nil, false
@@ -14228,6 +14268,8 @@ func (v HandoverRequestIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decode
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of HandoverRequestIEValue and reports whether the opaque alternative is selected.
 func (v *HandoverRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14897,228 +14939,304 @@ func (HandoverRequestIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsHandoverType returns the selected HandoverType value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsHandoverType() (*s00.HandoverType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(1) || v.rowHandoverType == nil {
 		return nil, false
 	}
 	return v.rowHandoverType, true
 }
+
+// AsCause returns the selected Cause value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsUEaggregateMaximumBitrate returns the selected UEaggregateMaximumBitrate value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsUEaggregateMaximumBitrate() (*s35.UEAggregateMaximumBitrate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(66) || v.rowUEaggregateMaximumBitrate == nil {
 		return nil, false
 	}
 	return v.rowUEaggregateMaximumBitrate, true
 }
+
+// AsERABToBeSetupListHOReq returns the selected ERABToBeSetupListHOReq value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsERABToBeSetupListHOReq() (*s29.ERABToBeSetupListHOReq, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(53) || v.rowERABToBeSetupListHOReq == nil {
 		return nil, false
 	}
 	return v.rowERABToBeSetupListHOReq, true
 }
+
+// AsSourceToTargetTransparentContainer returns the selected SourceToTargetTransparentContainer value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsSourceToTargetTransparentContainer() (*s00.SourceToTargetTransparentContainer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(104) || v.rowSourceToTargetTransparentContainer == nil {
 		return nil, false
 	}
 	return v.rowSourceToTargetTransparentContainer, true
 }
+
+// AsUESecurityCapabilities returns the selected UESecurityCapabilities value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsUESecurityCapabilities() (*s37.UESecurityCapabilities, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(107) || v.rowUESecurityCapabilities == nil {
 		return nil, false
 	}
 	return v.rowUESecurityCapabilities, true
 }
+
+// AsHandoverRestrictionList returns the selected HandoverRestrictionList value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsHandoverRestrictionList() (*s42.HandoverRestrictionList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(41) || v.rowHandoverRestrictionList == nil {
 		return nil, false
 	}
 	return v.rowHandoverRestrictionList, true
 }
+
+// AsTraceActivation returns the selected TraceActivation value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsTraceActivation() (*TraceActivation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(25) || v.rowTraceActivation == nil {
 		return nil, false
 	}
 	return v.rowTraceActivation, true
 }
+
+// AsRequestType returns the selected RequestType value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsRequestType() (*s26.RequestType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(98) || v.rowRequestType == nil {
 		return nil, false
 	}
 	return v.rowRequestType, true
 }
+
+// AsSRVCCOperationPossible returns the selected SRVCCOperationPossible value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsSRVCCOperationPossible() (*s00.SRVCCOperationPossible, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(124) || v.rowSRVCCOperationPossible == nil {
 		return nil, false
 	}
 	return v.rowSRVCCOperationPossible, true
 }
+
+// AsSecurityContext returns the selected SecurityContext value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsSecurityContext() (*s28.SecurityContext, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(40) || v.rowSecurityContext == nil {
 		return nil, false
 	}
 	return v.rowSecurityContext, true
 }
+
+// AsNASSecurityParameterstoEUTRAN returns the selected NASSecurityParameterstoEUTRAN value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsNASSecurityParameterstoEUTRAN() (*s00.NASSecurityParameterstoEUTRAN, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(136) || v.rowNASSecurityParameterstoEUTRAN == nil {
 		return nil, false
 	}
 	return v.rowNASSecurityParameterstoEUTRAN, true
 }
+
+// AsCSGId returns the selected CSGId value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsCSGId() (*s00.CSGId, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(127) || v.rowCSGId == nil {
 		return nil, false
 	}
 	return v.rowCSGId, true
 }
+
+// AsCSGMembershipStatus returns the selected CSGMembershipStatus value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsCSGMembershipStatus() (*s00.CSGMembershipStatus, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(146) || v.rowCSGMembershipStatus == nil {
 		return nil, false
 	}
 	return v.rowCSGMembershipStatus, true
 }
+
+// AsGUMMEIID returns the selected GUMMEIID value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsGUMMEIID() (*s18.GUMMEI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(75) || v.rowGUMMEIID == nil {
 		return nil, false
 	}
 	return v.rowGUMMEIID, true
 }
+
+// AsMMEUES1APID2 returns the selected MMEUES1APID2 value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsMMEUES1APID2() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(158) || v.rowMMEUES1APID2 == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID2, true
 }
+
+// AsManagementBasedMDTAllowed returns the selected ManagementBasedMDTAllowed value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsManagementBasedMDTAllowed() (*s00.ManagementBasedMDTAllowed, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(165) || v.rowManagementBasedMDTAllowed == nil {
 		return nil, false
 	}
 	return v.rowManagementBasedMDTAllowed, true
 }
+
+// AsManagementBasedMDTPLMNList returns the selected ManagementBasedMDTPLMNList value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsManagementBasedMDTPLMNList() (*s00.MDTPLMNList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(177) || v.rowManagementBasedMDTPLMNList == nil {
 		return nil, false
 	}
 	return v.rowManagementBasedMDTPLMNList, true
 }
+
+// AsMaskedIMEISV returns the selected MaskedIMEISV value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsMaskedIMEISV() (*s00.MaskedIMEISV, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(192) || v.rowMaskedIMEISV == nil {
 		return nil, false
 	}
 	return v.rowMaskedIMEISV, true
 }
+
+// AsExpectedUEBehaviour returns the selected ExpectedUEBehaviour value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsExpectedUEBehaviour() (*s18.ExpectedUEBehaviour, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(196) || v.rowExpectedUEBehaviour == nil {
 		return nil, false
 	}
 	return v.rowExpectedUEBehaviour, true
 }
+
+// AsProSeAuthorized returns the selected ProSeAuthorized value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsProSeAuthorized() (*s20.ProSeAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(195) || v.rowProSeAuthorized == nil {
 		return nil, false
 	}
 	return v.rowProSeAuthorized, true
 }
+
+// AsUEUserPlaneCIoTSupportIndicator returns the selected UEUserPlaneCIoTSupportIndicator value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsUEUserPlaneCIoTSupportIndicator() (*s00.UEUserPlaneCIoTSupportIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(241) || v.rowUEUserPlaneCIoTSupportIndicator == nil {
 		return nil, false
 	}
 	return v.rowUEUserPlaneCIoTSupportIndicator, true
 }
+
+// AsV2XServicesAuthorized returns the selected V2XServicesAuthorized value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsV2XServicesAuthorized() (*s46.V2XServicesAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(240) || v.rowV2XServicesAuthorized == nil {
 		return nil, false
 	}
 	return v.rowV2XServicesAuthorized, true
 }
+
+// AsUESidelinkAggregateMaximumBitrate returns the selected UESidelinkAggregateMaximumBitrate value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsUESidelinkAggregateMaximumBitrate() (*s37.UESidelinkAggregateMaximumBitrate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(248) || v.rowUESidelinkAggregateMaximumBitrate == nil {
 		return nil, false
 	}
 	return v.rowUESidelinkAggregateMaximumBitrate, true
 }
+
+// AsEnhancedCoverageRestricted returns the selected EnhancedCoverageRestricted value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsEnhancedCoverageRestricted() (*s00.EnhancedCoverageRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(251) || v.rowEnhancedCoverageRestricted == nil {
 		return nil, false
 	}
 	return v.rowEnhancedCoverageRestricted, true
 }
+
+// AsNRUESecurityCapabilities returns the selected NRUESecurityCapabilities value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsNRUESecurityCapabilities() (*s19.NRUESecurityCapabilities, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(269) || v.rowNRUESecurityCapabilities == nil {
 		return nil, false
 	}
 	return v.rowNRUESecurityCapabilities, true
 }
+
+// AsCEModeBRestricted returns the selected CEModeBRestricted value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsCEModeBRestricted() (*s00.CEModeBRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(271) || v.rowCEModeBRestricted == nil {
 		return nil, false
 	}
 	return v.rowCEModeBRestricted, true
 }
+
+// AsAerialUEsubscriptionInformation returns the selected AerialUEsubscriptionInformation value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsAerialUEsubscriptionInformation() (*s00.AerialUEsubscriptionInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(277) || v.rowAerialUEsubscriptionInformation == nil {
 		return nil, false
 	}
 	return v.rowAerialUEsubscriptionInformation, true
 }
+
+// AsPendingDataIndication returns the selected PendingDataIndication value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsPendingDataIndication() (*s00.PendingDataIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(283) || v.rowPendingDataIndication == nil {
 		return nil, false
 	}
 	return v.rowPendingDataIndication, true
 }
+
+// AsSubscriptionBasedUEDifferentiationInfo returns the selected SubscriptionBasedUEDifferentiationInfo value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsSubscriptionBasedUEDifferentiationInfo() (*s30.SubscriptionBasedUEDifferentiationInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(278) || v.rowSubscriptionBasedUEDifferentiationInfo == nil {
 		return nil, false
 	}
 	return v.rowSubscriptionBasedUEDifferentiationInfo, true
 }
+
+// AsAdditionalRRMPriorityIndex returns the selected AdditionalRRMPriorityIndex value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsAdditionalRRMPriorityIndex() (*s00.AdditionalRRMPriorityIndex, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(299) || v.rowAdditionalRRMPriorityIndex == nil {
 		return nil, false
 	}
 	return v.rowAdditionalRRMPriorityIndex, true
 }
+
+// AsIABAuthorized returns the selected IABAuthorized value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsIABAuthorized() (*s00.IABAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(301) || v.rowIABAuthorized == nil {
 		return nil, false
 	}
 	return v.rowIABAuthorized, true
 }
+
+// AsNRV2XServicesAuthorized returns the selected NRV2XServicesAuthorized value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsNRV2XServicesAuthorized() (*s19.NRV2XServicesAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(306) || v.rowNRV2XServicesAuthorized == nil {
 		return nil, false
 	}
 	return v.rowNRV2XServicesAuthorized, true
 }
+
+// AsNRUESidelinkAggregateMaximumBitrate returns the selected NRUESidelinkAggregateMaximumBitrate value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsNRUESidelinkAggregateMaximumBitrate() (*s19.NRUESidelinkAggregateMaximumBitrate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(307) || v.rowNRUESidelinkAggregateMaximumBitrate == nil {
 		return nil, false
 	}
 	return v.rowNRUESidelinkAggregateMaximumBitrate, true
 }
+
+// AsPC5QoSParameters returns the selected PC5QoSParameters value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsPC5QoSParameters() (*s24.PC5QoSParameters, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(308) || v.rowPC5QoSParameters == nil {
 		return nil, false
 	}
 	return v.rowPC5QoSParameters, true
 }
+
+// AsUERadioCapabilityID returns the selected UERadioCapabilityID value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsUERadioCapabilityID() (*s00.UERadioCapabilityID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowUERadioCapabilityID == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapabilityID, true
 }
+
+// AsTimeRefDistribution returns the selected TimeRefDistribution value of HandoverRequestIEValue and reports whether that alternative is active.
 func (v *HandoverRequestIEValue) AsTimeRefDistribution() (*s00.TimeRefDistribution, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(355) || v.rowTimeRefDistribution == nil {
 		return nil, false
@@ -16504,6 +16622,8 @@ func (v HandoverRequestIEValue) encodeFresh(fresh bool, budget *aper.DecodeBudge
 type ImmediateMDTExtIETable struct{}
 
 func ImmediateMDTExtIEs() ImmediateMDTExtIETable { return ImmediateMDTExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of ImmediateMDTExtIETable.
 func (ImmediateMDTExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16511,6 +16631,8 @@ func (ImmediateMDTExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ImmediateMDTExtIETable.
 func (ImmediateMDTExtIETable) Table() s00.ImmediateMDTExtIEsValueExtensionTable {
 	return func() s00.ImmediateMDTExtIEsValueExtensionTable {
 		sealed := s00.ImmediateMDTExtIEsValueExtensionTable{}
@@ -16525,6 +16647,8 @@ func (ImmediateMDTExtIETable) infoM3Configuration() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ImmediateMDT-ExtIEs", Row: "id-M3Configuration"}}}
 }
+
+// M3Configuration returns the typed binding for the M3Configuration row of ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) M3Configuration() ImmediateMDTExtIEsM3ConfigurationExtBinding {
 	return ImmediateMDTExtIEsM3ConfigurationExtBinding{info: t.infoM3Configuration(), codec: func() s19.M3ConfigurationValueCodec {
 		sealed := s19.M3ConfigurationValueCodec{}
@@ -16586,6 +16710,8 @@ func (ImmediateMDTExtIETable) infoM4Configuration() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ImmediateMDT-ExtIEs", Row: "id-M4Configuration"}}}
 }
+
+// M4Configuration returns the typed binding for the M4Configuration row of ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) M4Configuration() ImmediateMDTExtIEsM4ConfigurationExtBinding {
 	return ImmediateMDTExtIEsM4ConfigurationExtBinding{info: t.infoM4Configuration(), codec: func() s19.M4ConfigurationValueCodec {
 		sealed := s19.M4ConfigurationValueCodec{}
@@ -16647,6 +16773,8 @@ func (ImmediateMDTExtIETable) infoM5Configuration() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ImmediateMDT-ExtIEs", Row: "id-M5Configuration"}}}
 }
+
+// M5Configuration returns the typed binding for the M5Configuration row of ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) M5Configuration() ImmediateMDTExtIEsM5ConfigurationExtBinding {
 	return ImmediateMDTExtIEsM5ConfigurationExtBinding{info: t.infoM5Configuration(), codec: func() s19.M5ConfigurationValueCodec {
 		sealed := s19.M5ConfigurationValueCodec{}
@@ -16708,6 +16836,8 @@ func (ImmediateMDTExtIETable) infoMDTLocationInfo() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ImmediateMDT-ExtIEs", Row: "id-MDT-Location-Info"}}}
 }
+
+// MDTLocationInfo returns the typed binding for the MDTLocationInfo row of ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) MDTLocationInfo() ImmediateMDTExtIEsMDTLocationInfoExtBinding {
 	return ImmediateMDTExtIEsMDTLocationInfoExtBinding{info: t.infoMDTLocationInfo(), codec: func() s01.MDTLocationInfoValueCodec {
 		sealed := s01.MDTLocationInfoValueCodec{}
@@ -16769,6 +16899,8 @@ func (ImmediateMDTExtIETable) infoM6Configuration() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ImmediateMDT-ExtIEs", Row: "id-M6Configuration"}}}
 }
+
+// M6Configuration returns the typed binding for the M6Configuration row of ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) M6Configuration() ImmediateMDTExtIEsM6ConfigurationExtBinding {
 	return ImmediateMDTExtIEsM6ConfigurationExtBinding{info: t.infoM6Configuration(), codec: func() s19.M6ConfigurationValueCodec {
 		sealed := s19.M6ConfigurationValueCodec{}
@@ -16830,6 +16962,8 @@ func (ImmediateMDTExtIETable) infoM7Configuration() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ImmediateMDT-ExtIEs", Row: "id-M7Configuration"}}}
 }
+
+// M7Configuration returns the typed binding for the M7Configuration row of ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) M7Configuration() ImmediateMDTExtIEsM7ConfigurationExtBinding {
 	return ImmediateMDTExtIEsM7ConfigurationExtBinding{info: t.infoM7Configuration(), codec: func() s19.M7ConfigurationValueCodec {
 		sealed := s19.M7ConfigurationValueCodec{}
@@ -16891,6 +17025,8 @@ func (ImmediateMDTExtIETable) infoBluetoothMeasurementConfiguration() s00.Extens
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ImmediateMDT-ExtIEs", Row: "id-BluetoothMeasurementConfiguration"}}}
 }
+
+// BluetoothMeasurementConfiguration returns the typed binding for the BluetoothMeasurementConfiguration row of ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) BluetoothMeasurementConfiguration() ImmediateMDTExtIEsBluetoothMeasurementConfigurationExtBinding {
 	return ImmediateMDTExtIEsBluetoothMeasurementConfigurationExtBinding{info: t.infoBluetoothMeasurementConfiguration(), codec: func() s14.BluetoothMeasurementConfigurationValueCodec {
 		sealed := s14.BluetoothMeasurementConfigurationValueCodec{}
@@ -16959,6 +17095,8 @@ func (ImmediateMDTExtIETable) infoWLANMeasurementConfiguration() s00.ExtensionIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ImmediateMDT-ExtIEs", Row: "id-WLANMeasurementConfiguration"}}}
 }
+
+// WLANMeasurementConfiguration returns the typed binding for the WLANMeasurementConfiguration row of ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) WLANMeasurementConfiguration() ImmediateMDTExtIEsWLANMeasurementConfigurationExtBinding {
 	return ImmediateMDTExtIEsWLANMeasurementConfigurationExtBinding{info: t.infoWLANMeasurementConfiguration(), codec: WLANMeasurementConfigurationValueCodec{path: "WLANMeasurementConfiguration",
 		decode: func(data []byte, options aper.DecodeState) (WLANMeasurementConfiguration, error) {
@@ -17019,6 +17157,8 @@ func (ImmediateMDTExtIETable) infoSensorMeasurementConfiguration() s00.Extension
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "ImmediateMDT-ExtIEs", Row: "id-SensorMeasurementConfiguration"}}}
 }
+
+// SensorMeasurementConfiguration returns the typed binding for the SensorMeasurementConfiguration row of ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) SensorMeasurementConfiguration() ImmediateMDTExtIEsSensorMeasurementConfigurationExtBinding {
 	return ImmediateMDTExtIEsSensorMeasurementConfigurationExtBinding{info: t.infoSensorMeasurementConfiguration(), codec: func() s30.SensorMeasurementConfigurationValueCodec {
 		sealed := s30.SensorMeasurementConfigurationValueCodec{}
@@ -17078,6 +17218,8 @@ func (t ImmediateMDTExtIETable) SensorMeasurementConfiguration() ImmediateMDTExt
 			return value.AsSensorMeasurementConfiguration()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ImmediateMDTExtIETable.
 func (t ImmediateMDTExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (ImmediateMDTExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ImmediateMDTExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17117,6 +17259,8 @@ func (t ImmediateMDTExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticalit
 type LoggedMDTExtIETable struct{}
 
 func LoggedMDTExtIEs() LoggedMDTExtIETable { return LoggedMDTExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of LoggedMDTExtIETable.
 func (LoggedMDTExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17124,6 +17268,8 @@ func (LoggedMDTExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by LoggedMDTExtIETable.
 func (LoggedMDTExtIETable) Table() s00.LoggedMDTExtIEsValueExtensionTable {
 	return func() s00.LoggedMDTExtIEsValueExtensionTable {
 		sealed := s00.LoggedMDTExtIEsValueExtensionTable{}
@@ -17138,6 +17284,8 @@ func (LoggedMDTExtIETable) infoBluetoothMeasurementConfiguration() s00.Extension
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "LoggedMDT-ExtIEs", Row: "id-BluetoothMeasurementConfiguration"}}}
 }
+
+// BluetoothMeasurementConfiguration returns the typed binding for the BluetoothMeasurementConfiguration row of LoggedMDTExtIETable.
 func (t LoggedMDTExtIETable) BluetoothMeasurementConfiguration() LoggedMDTExtIEsBluetoothMeasurementConfigurationExtBinding {
 	return LoggedMDTExtIEsBluetoothMeasurementConfigurationExtBinding{info: t.infoBluetoothMeasurementConfiguration(), codec: func() s14.BluetoothMeasurementConfigurationValueCodec {
 		sealed := s14.BluetoothMeasurementConfigurationValueCodec{}
@@ -17206,6 +17354,8 @@ func (LoggedMDTExtIETable) infoWLANMeasurementConfiguration() s00.ExtensionInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "LoggedMDT-ExtIEs", Row: "id-WLANMeasurementConfiguration"}}}
 }
+
+// WLANMeasurementConfiguration returns the typed binding for the WLANMeasurementConfiguration row of LoggedMDTExtIETable.
 func (t LoggedMDTExtIETable) WLANMeasurementConfiguration() LoggedMDTExtIEsWLANMeasurementConfigurationExtBinding {
 	return LoggedMDTExtIEsWLANMeasurementConfigurationExtBinding{info: t.infoWLANMeasurementConfiguration(), codec: WLANMeasurementConfigurationValueCodec{path: "WLANMeasurementConfiguration",
 		decode: func(data []byte, options aper.DecodeState) (WLANMeasurementConfiguration, error) {
@@ -17266,6 +17416,8 @@ func (LoggedMDTExtIETable) infoLoggedMDTTrigger() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "LoggedMDT-ExtIEs", Row: "id-LoggedMDTTrigger"}}}
 }
+
+// LoggedMDTTrigger returns the typed binding for the LoggedMDTTrigger row of LoggedMDTExtIETable.
 func (t LoggedMDTExtIETable) LoggedMDTTrigger() LoggedMDTExtIEsLoggedMDTTriggerExtBinding {
 	return LoggedMDTExtIEsLoggedMDTTriggerExtBinding{info: t.infoLoggedMDTTrigger(), codec: func() s19.LoggedMDTTriggerValueCodec {
 		sealed := s19.LoggedMDTTriggerValueCodec{}
@@ -17328,6 +17480,8 @@ func (LoggedMDTExtIETable) infoSensorMeasurementConfiguration() s00.ExtensionInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "LoggedMDT-ExtIEs", Row: "id-SensorMeasurementConfiguration"}}}
 }
+
+// SensorMeasurementConfiguration returns the typed binding for the SensorMeasurementConfiguration row of LoggedMDTExtIETable.
 func (t LoggedMDTExtIETable) SensorMeasurementConfiguration() LoggedMDTExtIEsSensorMeasurementConfigurationExtBinding {
 	return LoggedMDTExtIEsSensorMeasurementConfigurationExtBinding{info: t.infoSensorMeasurementConfiguration(), codec: func() s30.SensorMeasurementConfigurationValueCodec {
 		sealed := s30.SensorMeasurementConfigurationValueCodec{}
@@ -17387,6 +17541,8 @@ func (t LoggedMDTExtIETable) SensorMeasurementConfiguration() LoggedMDTExtIEsSen
 			return value.AsSensorMeasurementConfiguration()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in LoggedMDTExtIETable.
 func (t LoggedMDTExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (LoggedMDTExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return LoggedMDTExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17416,6 +17572,8 @@ func (t LoggedMDTExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s
 type TraceActivationExtIETable struct{}
 
 func TraceActivationExtIEs() TraceActivationExtIETable { return TraceActivationExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of TraceActivationExtIETable.
 func (TraceActivationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17423,6 +17581,8 @@ func (TraceActivationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TraceActivationExtIETable.
 func (TraceActivationExtIETable) Table() s00.TraceActivationExtIEsValueExtensionTable {
 	return func() s00.TraceActivationExtIEsValueExtensionTable {
 		sealed := s00.TraceActivationExtIEsValueExtensionTable{}
@@ -17437,6 +17597,8 @@ func (TraceActivationExtIETable) infoMDTConfiguration() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "TraceActivation-ExtIEs", Row: "id-MDTConfiguration"}}}
 }
+
+// MDTConfiguration returns the typed binding for the MDTConfiguration row of TraceActivationExtIETable.
 func (t TraceActivationExtIETable) MDTConfiguration() TraceActivationExtIEsMDTConfigurationExtBinding {
 	return TraceActivationExtIEsMDTConfigurationExtBinding{info: t.infoMDTConfiguration(), codec: MDTConfigurationValueCodec{path: "MDTConfiguration",
 		decode: func(data []byte, options aper.DecodeState) (MDTConfiguration, error) {
@@ -17492,6 +17654,8 @@ func (TraceActivationExtIETable) infoUEAppLayerMeasConfig() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "TraceActivation-ExtIEs", Row: "id-UEAppLayerMeasConfig"}}}
 }
+
+// UEAppLayerMeasConfig returns the typed binding for the UEAppLayerMeasConfig row of TraceActivationExtIETable.
 func (t TraceActivationExtIETable) UEAppLayerMeasConfig() TraceActivationExtIEsUEAppLayerMeasConfigExtBinding {
 	return TraceActivationExtIEsUEAppLayerMeasConfigExtBinding{info: t.infoUEAppLayerMeasConfig(), codec: func() s35.UEAppLayerMeasConfigValueCodec {
 		sealed := s35.UEAppLayerMeasConfigValueCodec{}
@@ -17557,6 +17721,8 @@ func (TraceActivationExtIETable) infoMDTConfigurationNR() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "TraceActivation-ExtIEs", Row: "id-MDTConfigurationNR"}}}
 }
+
+// MDTConfigurationNR returns the typed binding for the MDTConfigurationNR row of TraceActivationExtIETable.
 func (t TraceActivationExtIETable) MDTConfigurationNR() TraceActivationExtIEsMDTConfigurationNRExtBinding {
 	return TraceActivationExtIEsMDTConfigurationNRExtBinding{info: t.infoMDTConfigurationNR(), codec: func() s01.MDTConfigurationNRValueCodec {
 		sealed := s01.MDTConfigurationNRValueCodec{}
@@ -17622,6 +17788,8 @@ func (TraceActivationExtIETable) infoTraceCollectionEntityURI() s00.ExtensionInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "TraceActivation-ExtIEs", Row: "id-TraceCollectionEntityURI"}}}
 }
+
+// TraceCollectionEntityURI returns the typed binding for the TraceCollectionEntityURI row of TraceActivationExtIETable.
 func (t TraceActivationExtIETable) TraceCollectionEntityURI() TraceActivationExtIEsURIAddressExtBinding {
 	return TraceActivationExtIEsURIAddressExtBinding{info: t.infoTraceCollectionEntityURI(), codec: func() s02.URIAddressValueCodec {
 		sealed := s02.URIAddressValueCodec{}
@@ -17680,6 +17848,8 @@ func (t TraceActivationExtIETable) TraceCollectionEntityURI() TraceActivationExt
 			return value.AsTraceCollectionEntityURI()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TraceActivationExtIETable.
 func (t TraceActivationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (TraceActivationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TraceActivationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")

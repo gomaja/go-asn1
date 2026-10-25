@@ -1,9 +1,9 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/replay_records.go; SHA-256 4cf8cca062cbd6d22ecae94678fdee5756726baf7b38150cdb050636975018ae.
+// Runtime source: runtime/aper/replay_records.go; SHA-256 678dfe13d16c97c0b8d73aceeb6f6685df6750df0200ed8a8a22b148077c00f6.
 package aper
 
-// WithRecords combines observed final padding with the truncated or recovered
+// WithRecords combines stored padding state with the truncated or recovered
 // extension addition recorded in decoded. The shared padding entry is unchanged.
 func (f FinalPadding) WithRecords(decoded FinalPadding) FinalPadding {
 	if decoded.bits == nil || decoded.bits.truncated == nil {

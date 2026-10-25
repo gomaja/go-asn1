@@ -11306,66 +11306,87 @@ type UnsuccessfulValue struct {
 	bodyS1RemovalFailure              *s26.S1RemovalFailure
 }
 
+// Opaque returns the retained opaque open value of UnsuccessfulValue and reports whether the opaque alternative is selected.
 func (v *UnsuccessfulValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
 	}
 	return v.opaque, true
 }
+
+// AsHandoverPreparationFailure returns the selected HandoverPreparationFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsHandoverPreparationFailure() (*s25.HandoverPreparationFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(0) || v.bodyHandoverPreparationFailure == nil {
 		return nil, false
 	}
 	return v.bodyHandoverPreparationFailure, true
 }
+
+// AsHandoverFailure returns the selected HandoverFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsHandoverFailure() (*s25.HandoverFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(1) || v.bodyHandoverFailure == nil {
 		return nil, false
 	}
 	return v.bodyHandoverFailure, true
 }
+
+// AsPathSwitchRequestFailure returns the selected PathSwitchRequestFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsPathSwitchRequestFailure() (*s26.PathSwitchRequestFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(3) || v.bodyPathSwitchRequestFailure == nil {
 		return nil, false
 	}
 	return v.bodyPathSwitchRequestFailure, true
 }
+
+// AsInitialContextSetupFailure returns the selected InitialContextSetupFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsInitialContextSetupFailure() (*s25.InitialContextSetupFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(9) || v.bodyInitialContextSetupFailure == nil {
 		return nil, false
 	}
 	return v.bodyInitialContextSetupFailure, true
 }
+
+// AsS1SetupFailure returns the selected S1SetupFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsS1SetupFailure() (*s26.S1SetupFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(17) || v.bodyS1SetupFailure == nil {
 		return nil, false
 	}
 	return v.bodyS1SetupFailure, true
 }
+
+// AsUEContextModificationFailure returns the selected UEContextModificationFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsUEContextModificationFailure() (*UEContextModificationFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(21) || v.bodyUEContextModificationFailure == nil {
 		return nil, false
 	}
 	return v.bodyUEContextModificationFailure, true
 }
+
+// AsENBConfigurationUpdateFailure returns the selected ENBConfigurationUpdateFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsENBConfigurationUpdateFailure() (*s24.ENBConfigurationUpdateFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(29) || v.bodyENBConfigurationUpdateFailure == nil {
 		return nil, false
 	}
 	return v.bodyENBConfigurationUpdateFailure, true
 }
+
+// AsMMEConfigurationUpdateFailure returns the selected MMEConfigurationUpdateFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsMMEConfigurationUpdateFailure() (*s25.MMEConfigurationUpdateFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(30) || v.bodyMMEConfigurationUpdateFailure == nil {
 		return nil, false
 	}
 	return v.bodyMMEConfigurationUpdateFailure, true
 }
+
+// AsUEContextResumeFailure returns the selected UEContextResumeFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsUEContextResumeFailure() (*UEContextResumeFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(56) || v.bodyUEContextResumeFailure == nil {
 		return nil, false
 	}
 	return v.bodyUEContextResumeFailure, true
 }
+
+// AsS1RemovalFailure returns the selected S1RemovalFailure value of UnsuccessfulValue and reports whether that alternative is active.
 func (v *UnsuccessfulValue) AsS1RemovalFailure() (*s26.S1RemovalFailure, bool) {
 	if v == nil || v.code != s00.ProcedureCode(67) || v.bodyS1RemovalFailure == nil {
 		return nil, false
@@ -18547,6 +18568,8 @@ func (v ResetIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) bo
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ResetIEValue and reports whether the opaque alternative is selected.
 func (v *ResetIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19216,12 +19239,16 @@ func (ResetIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsCause returns the selected Cause value of ResetIEValue and reports whether that alternative is active.
 func (v *ResetIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsResetType returns the selected ResetType value of ResetIEValue and reports whether that alternative is active.
 func (v *ResetIEValue) AsResetType() (*s35.ResetType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(92) || v.rowResetType == nil {
 		return nil, false
@@ -19328,6 +19355,8 @@ func (v ResetIEValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byte
 type ResetIETable struct{}
 
 func ResetIEs() ResetIETable { return ResetIETable{} }
+
+// ID returns the ASN.1 object-set identity of ResetIETable.
 func (ResetIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19335,6 +19364,8 @@ func (ResetIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ResetIETable.
 func (ResetIETable) Table() s00.ResetIEValueIETable {
 	return func() s00.ResetIEValueIETable {
 		sealed := s00.ResetIEValueIETable{}
@@ -19349,6 +19380,8 @@ func (ResetIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ResetIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of ResetIETable.
 func (t ResetIETable) Cause() ResetCauseIEBinding {
 	return ResetCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -19409,6 +19442,8 @@ func (ResetIETable) infoResetType() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ResetIEs", Row: "id-ResetType"}}}
 }
+
+// ResetType returns the typed binding for the ResetType row of ResetIETable.
 func (t ResetIETable) ResetType() ResetResetTypeIEBinding {
 	return ResetResetTypeIEBinding{info: t.infoResetType(), codec: ResetTypeValueCodec{path: "ResetType",
 		decode: func(data []byte, options aper.DecodeState) (s35.ResetType, error) {
@@ -19458,6 +19493,8 @@ func (t ResetIETable) ResetType() ResetResetTypeIEBinding {
 		return ResetIEValue{id: s00.ProtocolIEID(92), rowResetType: &value}
 	}, get: func(value *ResetIEValue) (*s35.ResetType, bool) { return value.AsResetType() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ResetIETable.
 func (t ResetIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ResetIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ResetIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

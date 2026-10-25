@@ -1,6 +1,6 @@
 // Code generated from S1AP runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/aper/s1ap_closure_test.go; SHA-256 e9429d8e1e0bc4a5881cf9b3d0122e3c18fecaba72a731e07fff579a02b55ba7.
+// Runtime source: runtime/aper/s1ap_closure_test.go; SHA-256 0a4382319b9f385ae81ea3bd9da35d62c24051b27a962cd51674752b938daeb2.
 package aper
 
 import (
@@ -12,7 +12,7 @@ import (
 )
 
 func TestS1APKnownMultiplierAligned(t *testing.T) {
-	// TS 36.413 V19.2.0 §9.3.1: ENBname is PrintableString SIZE(1..150,...).
+	// TS 36.413 V19.2.0 §9.3.4: ENBname is PrintableString SIZE(1..150,...).
 	// X.691 (02/2021) §30.5.2 uses B2=8 for this aligned value.
 	want := []byte{0x00, 0x80, 'a', 'b'}
 	bb := NewBitBuffer()

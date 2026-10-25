@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorErabSetupDapsExtensionRecursive verifies 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.3.4, 9.3.5, and 9.3.7; id-DAPSRequestInfo 363.
+// TestVectorErabSetupDapsExtensionRecursive verifies 3GPP TS 36.423 V19.1.0 (2025-12), sections 9.3.4, 9.3.5, and 9.3.7; id-DAPSRequestInfo 363.
 func TestVectorErabSetupDapsExtensionRecursive(t *testing.T) {
 	input := asn1VectorHex(t, "2500093c03e00a000001deadbeef0000016b400100")
 	codec := s11.ERABsToBeSetupItemCodec()

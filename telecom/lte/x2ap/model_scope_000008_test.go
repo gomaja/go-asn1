@@ -11,7 +11,7 @@ import (
 	testing "testing"
 )
 
-// TestContractAdmittedAddedItemExtensionOwner verifies 3GPP TS 36.423 V19.1.0 (2026-02), section 9.2; published admitted-to-be-added item extension owner.
+// TestContractAdmittedAddedItemExtensionOwner verifies 3GPP TS 36.423 V19.1.0 (2025-12), section 9.2; published admitted-to-be-added item extension owner.
 func TestContractAdmittedAddedItemExtensionOwner(t *testing.T) {
 	input := asn1ContractHex(t, "deadbeef")
 	field, err := s06.ERABsToBeAddedSgNBAddReqAckItemExtIEs().NewOpaque(65532, s00.CriticalityIgnore, input)

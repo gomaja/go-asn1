@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorGlobalGnbIdRepeatedFieldErrorPath verifies 3GPP TS 36.423 V19.1.0 (2026-02), section 9.2; malformed GlobalGNB-ID diagnostics retain the containing field and selected GNB-ID alternative.
+// TestVectorGlobalGnbIdRepeatedFieldErrorPath verifies 3GPP TS 36.423 V19.1.0 (2025-12), section 9.2; malformed GlobalGNB-ID diagnostics retain the containing field and selected GNB-ID alternative.
 func TestVectorGlobalGnbIdRepeatedFieldErrorPath(t *testing.T) {
 	input := asn1VectorHex(t, "0001020300")
 	codec := s11.GlobalGNBIDCodec()

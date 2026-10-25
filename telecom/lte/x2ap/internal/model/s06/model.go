@@ -16440,6 +16440,8 @@ func X2apInternalCHOinformationREQExtIEsValueMatchesID(v CHOinformationREQExtIEs
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of CHOinformationREQExtIEsValue and reports whether the opaque alternative is selected.
 func (v *CHOinformationREQExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17329,6 +17331,8 @@ func X2apInternalCHOinformationREQExtIEsValueReason(internalReceiver CHOinformat
 		return aper.UnknownSelector
 	}
 }
+
+// AsCHOTimeBasedInformation returns the selected CHOTimeBasedInformation value of CHOinformationREQExtIEsValue and reports whether that alternative is active.
 func (v *CHOinformationREQExtIEsValue) AsCHOTimeBasedInformation() (*s01.CHOTimeBasedInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(446) || v.rowCHOTimeBasedInformation == nil {
 		return nil, false
@@ -17426,6 +17430,8 @@ func X2apInternalERABItemIEValueMatchesID(v ERABItemIEValue, id s00.ProtocolIEID
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18315,6 +18321,8 @@ func X2apInternalERABItemIEValueReason(internalReceiver ERABItemIEValue, id s00.
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABItem returns the selected ERABItem value of ERABItemIEValue and reports whether that alternative is active.
 func (v *ERABItemIEValue) AsERABItem() (*s04.ERABItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowERABItem == nil {
 		return nil, false
@@ -18415,6 +18423,8 @@ func X2apInternalERABLevelQoSParametersExtIEsValueMatchesID(v ERABLevelQoSParame
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABLevelQoSParametersExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABLevelQoSParametersExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19304,12 +19314,16 @@ func X2apInternalERABLevelQoSParametersExtIEsValueReason(internalReceiver ERABLe
 		return aper.UnknownSelector
 	}
 }
+
+// AsDownlinkPacketLossRate returns the selected DownlinkPacketLossRate value of ERABLevelQoSParametersExtIEsValue and reports whether that alternative is active.
 func (v *ERABLevelQoSParametersExtIEsValue) AsDownlinkPacketLossRate() (*s00.PacketLossRate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(273) || v.rowDownlinkPacketLossRate == nil {
 		return nil, false
 	}
 	return v.rowDownlinkPacketLossRate, true
 }
+
+// AsUplinkPacketLossRate returns the selected UplinkPacketLossRate value of ERABLevelQoSParametersExtIEsValue and reports whether that alternative is active.
 func (v *ERABLevelQoSParametersExtIEsValue) AsUplinkPacketLossRate() (*s00.PacketLossRate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(274) || v.rowUplinkPacketLossRate == nil {
 		return nil, false
@@ -19439,6 +19453,8 @@ func X2apInternalERABUsageReportItemIEValueMatchesID(v ERABUsageReportItemIEValu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABUsageReportItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABUsageReportItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -20328,6 +20344,8 @@ func X2apInternalERABUsageReportItemIEValueReason(internalReceiver ERABUsageRepo
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABUsageReportItem returns the selected ERABUsageReportItem value of ERABUsageReportItemIEValue and reports whether that alternative is active.
 func (v *ERABUsageReportItemIEValue) AsERABUsageReportItem() (*s04.ERABUsageReportItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(263) || v.rowERABUsageReportItem == nil {
 		return nil, false
@@ -20428,6 +20446,8 @@ func X2apInternalCellActivationFailureIEValueMatchesID(v CellActivationFailureIE
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of CellActivationFailureIEValue and reports whether the opaque alternative is selected.
 func (v *CellActivationFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -21317,12 +21337,16 @@ func X2apInternalCellActivationFailureIEValueReason(internalReceiver CellActivat
 		return aper.UnknownSelector
 	}
 }
+
+// AsCause returns the selected Cause value of CellActivationFailureIEValue and reports whether that alternative is active.
 func (v *CellActivationFailureIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of CellActivationFailureIEValue and reports whether that alternative is active.
 func (v *CellActivationFailureIEValue) AsCriticalityDiagnostics() (*CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -21458,6 +21482,8 @@ func X2apInternalCellToReportEUTRAENDCItemIEValueMatchesID(v CellToReportEUTRAEN
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of CellToReportEUTRAENDCItemIEValue and reports whether the opaque alternative is selected.
 func (v *CellToReportEUTRAENDCItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -22347,6 +22373,8 @@ func X2apInternalCellToReportEUTRAENDCItemIEValueReason(internalReceiver CellToR
 		return aper.UnknownSelector
 	}
 }
+
+// AsCellToReportEUTRAENDCItem returns the selected CellToReportEUTRAENDCItem value of CellToReportEUTRAENDCItemIEValue and reports whether that alternative is active.
 func (v *CellToReportEUTRAENDCItemIEValue) AsCellToReportEUTRAENDCItem() (*s04.CellToReportEUTRAENDCItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(404) || v.rowCellToReportEUTRAENDCItem == nil {
 		return nil, false
@@ -22444,6 +22472,8 @@ func X2apInternalCellToReportItemIEValueMatchesID(v CellToReportItemIEValue, id 
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of CellToReportItemIEValue and reports whether the opaque alternative is selected.
 func (v *CellToReportItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -23333,6 +23363,8 @@ func X2apInternalCellToReportItemIEValueReason(internalReceiver CellToReportItem
 		return aper.UnknownSelector
 	}
 }
+
+// AsCellToReportItem returns the selected CellToReportItem value of CellToReportItemIEValue and reports whether that alternative is active.
 func (v *CellToReportItemIEValue) AsCellToReportItem() (*s04.CellToReportItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(31) || v.rowCellToReportItem == nil {
 		return nil, false
@@ -23430,6 +23462,8 @@ func X2apInternalERABsAdmittedItemExtIEsValueMatchesID(v ERABsAdmittedItemExtIEs
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedItemExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedItemExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -24319,6 +24353,8 @@ func X2apInternalERABsAdmittedItemExtIEsValueReason(internalReceiver ERABsAdmitt
 		return aper.UnknownSelector
 	}
 }
+
+// AsDAPSResponseInfo returns the selected DAPSResponseInfo value of ERABsAdmittedItemExtIEsValue and reports whether that alternative is active.
 func (v *ERABsAdmittedItemExtIEsValue) AsDAPSResponseInfo() (*s04.DAPSResponseInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(366) || v.rowDAPSResponseInfo == nil {
 		return nil, false
@@ -24416,6 +24452,8 @@ func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -25305,6 +25343,8 @@ func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs
 		return aper.UnknownSelector
 	}
 }
+
+// AsLCID returns the selected LCID value of ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsValue) AsLCID() (*s00.LCID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowLCID == nil {
 		return nil, false
@@ -25399,6 +25439,8 @@ func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsVal
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -26288,6 +26330,8 @@ func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsVal
 		return aper.UnknownSelector
 	}
 }
+
+// AsLCID returns the selected LCID value of ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsValue) AsLCID() (*s00.LCID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowLCID == nil {
 		return nil, false
@@ -26385,6 +26429,8 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsVal
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -27274,12 +27320,16 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsVal
 		return aper.UnknownSelector
 	}
 }
+
+// AsULpDCPSnLength returns the selected ULpDCPSnLength value of ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue) AsULpDCPSnLength() (*s00.PDCPSnLength, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(302) || v.rowULpDCPSnLength == nil {
 		return nil, false
 	}
 	return v.rowULpDCPSnLength, true
 }
+
+// AsDLPDCPSnLength returns the selected DLPDCPSnLength value of ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsValue) AsDLPDCPSnLength() (*s00.PDCPSnLength, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(311) || v.rowDLPDCPSnLength == nil {
 		return nil, false
@@ -27409,6 +27459,8 @@ func X2apInternalERABsAdmittedToBeReleasedModAckItemIEValueMatchesID(v ERABsAdmi
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeReleasedModAckItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeReleasedModAckItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -28298,6 +28350,8 @@ func X2apInternalERABsAdmittedToBeReleasedModAckItemIEValueReason(internalReceiv
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsAdmittedToBeReleasedModAckItem returns the selected ERABsAdmittedToBeReleasedModAckItem value of ERABsAdmittedToBeReleasedModAckItemIEValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeReleasedModAckItemIEValue) AsERABsAdmittedToBeReleasedModAckItem() (*s05.ERABsAdmittedToReleasedModAckItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(133) || v.rowERABsAdmittedToBeReleasedModAckItem == nil {
 		return nil, false
@@ -28395,6 +28449,8 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIEValueMatchesID(v ERABs
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeReleasedSgNBModAckItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeReleasedSgNBModAckItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -29284,6 +29340,8 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIEValueReason(internalRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsAdmittedToBeReleasedSgNBModAckItem returns the selected ERABsAdmittedToBeReleasedSgNBModAckItem value of ERABsAdmittedToBeReleasedSgNBModAckItemIEValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeReleasedSgNBModAckItemIEValue) AsERABsAdmittedToBeReleasedSgNBModAckItem() (*s05.ERABsAdmittedToReleasedSgNBModAckItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(224) || v.rowERABsAdmittedToBeReleasedSgNBModAckItem == nil {
 		return nil, false
@@ -29381,6 +29439,8 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueMatchesID(v ER
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -30270,6 +30330,8 @@ func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValueReason(interna
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABsAdmittedToBeReleasedSgNBRelReqAckItem returns the selected ERABsAdmittedToBeReleasedSgNBRelReqAckItem value of ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEValue) AsERABsAdmittedToBeReleasedSgNBRelReqAckItem() (*s05.ERABsAdmittedToBeReleasedSgNBRelReqAckItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(319) || v.rowERABsAdmittedToBeReleasedSgNBRelReqAckItem == nil {
 		return nil, false
@@ -30370,6 +30432,8 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIE
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue and reports whether the opaque alternative is selected.
 func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -31259,12 +31323,16 @@ func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIE
 		return aper.UnknownSelector
 	}
 }
+
+// AsULpDCPSnLength returns the selected ULpDCPSnLength value of ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue) AsULpDCPSnLength() (*s00.PDCPSnLength, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(302) || v.rowULpDCPSnLength == nil {
 		return nil, false
 	}
 	return v.rowULpDCPSnLength, true
 }
+
+// AsDLPDCPSnLength returns the selected DLPDCPSnLength value of ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue and reports whether that alternative is active.
 func (v *ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsValue) AsDLPDCPSnLength() (*s00.PDCPSnLength, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(311) || v.rowDLPDCPSnLength == nil {
 		return nil, false
@@ -31394,6 +31462,8 @@ func X2apInternalENBENDCX2RemovalReqAckIEValueMatchesID(v ENBENDCX2RemovalReqAck
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENBENDCX2RemovalReqAckIEValue and reports whether the opaque alternative is selected.
 func (v *ENBENDCX2RemovalReqAckIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -32283,6 +32353,8 @@ func X2apInternalENBENDCX2RemovalReqAckIEValueReason(internalReceiver ENBENDCX2R
 		return aper.UnknownSelector
 	}
 }
+
+// AsGlobalENBID returns the selected GlobalENBID value of ENBENDCX2RemovalReqAckIEValue and reports whether that alternative is active.
 func (v *ENBENDCX2RemovalReqAckIEValue) AsGlobalENBID() (*s05.GlobalENBID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(21) || v.rowGlobalENBID == nil {
 		return nil, false
@@ -32380,6 +32452,8 @@ func X2apInternalENBENDCX2RemovalReqIEValueMatchesID(v ENBENDCX2RemovalReqIEValu
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENBENDCX2RemovalReqIEValue and reports whether the opaque alternative is selected.
 func (v *ENBENDCX2RemovalReqIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -33269,6 +33343,8 @@ func X2apInternalENBENDCX2RemovalReqIEValueReason(internalReceiver ENBENDCX2Remo
 		return aper.UnknownSelector
 	}
 }
+
+// AsGlobalENBID returns the selected GlobalENBID value of ENBENDCX2RemovalReqIEValue and reports whether that alternative is active.
 func (v *ENBENDCX2RemovalReqIEValue) AsGlobalENBID() (*s05.GlobalENBID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(21) || v.rowGlobalENBID == nil {
 		return nil, false
@@ -33366,6 +33442,8 @@ func X2apInternalENBConfigurationUpdateAcknowledgeIEValueMatchesID(v ENBConfigur
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENBConfigurationUpdateAcknowledgeIEValue and reports whether the opaque alternative is selected.
 func (v *ENBConfigurationUpdateAcknowledgeIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -34255,6 +34333,8 @@ func X2apInternalENBConfigurationUpdateAcknowledgeIEValueReason(internalReceiver
 		return aper.UnknownSelector
 	}
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ENBConfigurationUpdateAcknowledgeIEValue and reports whether that alternative is active.
 func (v *ENBConfigurationUpdateAcknowledgeIEValue) AsCriticalityDiagnostics() (*CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -34358,6 +34438,8 @@ func X2apInternalENBConfigurationUpdateFailureIEValueMatchesID(v ENBConfiguratio
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENBConfigurationUpdateFailureIEValue and reports whether the opaque alternative is selected.
 func (v *ENBConfigurationUpdateFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -35247,18 +35329,24 @@ func X2apInternalENBConfigurationUpdateFailureIEValueReason(internalReceiver ENB
 		return aper.UnknownSelector
 	}
 }
+
+// AsCause returns the selected Cause value of ENBConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *ENBConfigurationUpdateFailureIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsTimeToWait returns the selected TimeToWait value of ENBConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *ENBConfigurationUpdateFailureIEValue) AsTimeToWait() (*s00.TimeToWait, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(22) || v.rowTimeToWait == nil {
 		return nil, false
 	}
 	return v.rowTimeToWait, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ENBConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *ENBConfigurationUpdateFailureIEValue) AsCriticalityDiagnostics() (*CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
@@ -35438,6 +35526,8 @@ func X2apInternalENDCCellActivationFailureIEValueMatchesID(v ENDCCellActivationF
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENDCCellActivationFailureIEValue and reports whether the opaque alternative is selected.
 func (v *ENDCCellActivationFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -36327,24 +36417,32 @@ func X2apInternalENDCCellActivationFailureIEValueReason(internalReceiver ENDCCel
 		return aper.UnknownSelector
 	}
 }
+
+// AsActivationID returns the selected ActivationID value of ENDCCellActivationFailureIEValue and reports whether that alternative is active.
 func (v *ENDCCellActivationFailureIEValue) AsActivationID() (*s00.ActivationID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(256) || v.rowActivationID == nil {
 		return nil, false
 	}
 	return v.rowActivationID, true
 }
+
+// AsCause returns the selected Cause value of ENDCCellActivationFailureIEValue and reports whether that alternative is active.
 func (v *ENDCCellActivationFailureIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ENDCCellActivationFailureIEValue and reports whether that alternative is active.
 func (v *ENDCCellActivationFailureIEValue) AsCriticalityDiagnostics() (*CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsInterfaceInstanceIndication returns the selected InterfaceInstanceIndication value of ENDCCellActivationFailureIEValue and reports whether that alternative is active.
 func (v *ENDCCellActivationFailureIEValue) AsInterfaceInstanceIndication() (*s00.InterfaceInstanceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(335) || v.rowInterfaceInstanceIndication == nil {
 		return nil, false
@@ -36553,6 +36651,8 @@ func X2apInternalENDCConfigurationTransferIEValueMatchesID(v ENDCConfigurationTr
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENDCConfigurationTransferIEValue and reports whether the opaque alternative is selected.
 func (v *ENDCConfigurationTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -37442,12 +37542,16 @@ func X2apInternalENDCConfigurationTransferIEValueReason(internalReceiver ENDCCon
 		return aper.UnknownSelector
 	}
 }
+
+// AsEndcSONConfigurationTransfer returns the selected EndcSONConfigurationTransfer value of ENDCConfigurationTransferIEValue and reports whether that alternative is active.
 func (v *ENDCConfigurationTransferIEValue) AsEndcSONConfigurationTransfer() (*s00.EndcSONConfigurationTransfer, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(326) || v.rowEndcSONConfigurationTransfer == nil {
 		return nil, false
 	}
 	return v.rowEndcSONConfigurationTransfer, true
 }
+
+// AsInterfaceInstanceIndication returns the selected InterfaceInstanceIndication value of ENDCConfigurationTransferIEValue and reports whether that alternative is active.
 func (v *ENDCConfigurationTransferIEValue) AsInterfaceInstanceIndication() (*s00.InterfaceInstanceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(335) || v.rowInterfaceInstanceIndication == nil {
 		return nil, false
@@ -37586,6 +37690,8 @@ func X2apInternalENDCConfigurationUpdateFailureIEValueMatchesID(v ENDCConfigurat
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENDCConfigurationUpdateFailureIEValue and reports whether the opaque alternative is selected.
 func (v *ENDCConfigurationUpdateFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -38475,24 +38581,32 @@ func X2apInternalENDCConfigurationUpdateFailureIEValueReason(internalReceiver EN
 		return aper.UnknownSelector
 	}
 }
+
+// AsCause returns the selected Cause value of ENDCConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *ENDCConfigurationUpdateFailureIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ENDCConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *ENDCConfigurationUpdateFailureIEValue) AsCriticalityDiagnostics() (*CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsTimeToWait returns the selected TimeToWait value of ENDCConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *ENDCConfigurationUpdateFailureIEValue) AsTimeToWait() (*s00.TimeToWait, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(22) || v.rowTimeToWait == nil {
 		return nil, false
 	}
 	return v.rowTimeToWait, true
 }
+
+// AsInterfaceInstanceIndication returns the selected InterfaceInstanceIndication value of ENDCConfigurationUpdateFailureIEValue and reports whether that alternative is active.
 func (v *ENDCConfigurationUpdateFailureIEValue) AsInterfaceInstanceIndication() (*s00.InterfaceInstanceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(335) || v.rowInterfaceInstanceIndication == nil {
 		return nil, false
@@ -38710,6 +38824,8 @@ func X2apInternalENDCResourceStatusFailureIEValueMatchesID(v ENDCResourceStatusF
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENDCResourceStatusFailureIEValue and reports whether the opaque alternative is selected.
 func (v *ENDCResourceStatusFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -39599,30 +39715,40 @@ func X2apInternalENDCResourceStatusFailureIEValueReason(internalReceiver ENDCRes
 		return aper.UnknownSelector
 	}
 }
+
+// AsEUTRANNode1MeasurementID returns the selected EUTRANNode1MeasurementID value of ENDCResourceStatusFailureIEValue and reports whether that alternative is active.
 func (v *ENDCResourceStatusFailureIEValue) AsEUTRANNode1MeasurementID() (*s00.MeasurementIDENDC, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(383) || v.rowEUTRANNode1MeasurementID == nil {
 		return nil, false
 	}
 	return v.rowEUTRANNode1MeasurementID, true
 }
+
+// AsEUTRANNode2MeasurementID returns the selected EUTRANNode2MeasurementID value of ENDCResourceStatusFailureIEValue and reports whether that alternative is active.
 func (v *ENDCResourceStatusFailureIEValue) AsEUTRANNode2MeasurementID() (*s00.MeasurementIDENDC, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(384) || v.rowEUTRANNode2MeasurementID == nil {
 		return nil, false
 	}
 	return v.rowEUTRANNode2MeasurementID, true
 }
+
+// AsCause returns the selected Cause value of ENDCResourceStatusFailureIEValue and reports whether that alternative is active.
 func (v *ENDCResourceStatusFailureIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ENDCResourceStatusFailureIEValue and reports whether that alternative is active.
 func (v *ENDCResourceStatusFailureIEValue) AsCriticalityDiagnostics() (*CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsInterfaceInstanceIndication returns the selected InterfaceInstanceIndication value of ENDCResourceStatusFailureIEValue and reports whether that alternative is active.
 func (v *ENDCResourceStatusFailureIEValue) AsInterfaceInstanceIndication() (*s00.InterfaceInstanceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(335) || v.rowInterfaceInstanceIndication == nil {
 		return nil, false
@@ -39872,6 +39998,8 @@ func X2apInternalENDCResourceStatusResponseIEValueMatchesID(v ENDCResourceStatus
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENDCResourceStatusResponseIEValue and reports whether the opaque alternative is selected.
 func (v *ENDCResourceStatusResponseIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -40761,24 +40889,32 @@ func X2apInternalENDCResourceStatusResponseIEValueReason(internalReceiver ENDCRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsEUTRANNode1MeasurementID returns the selected EUTRANNode1MeasurementID value of ENDCResourceStatusResponseIEValue and reports whether that alternative is active.
 func (v *ENDCResourceStatusResponseIEValue) AsEUTRANNode1MeasurementID() (*s00.MeasurementIDENDC, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(383) || v.rowEUTRANNode1MeasurementID == nil {
 		return nil, false
 	}
 	return v.rowEUTRANNode1MeasurementID, true
 }
+
+// AsEUTRANNode2MeasurementID returns the selected EUTRANNode2MeasurementID value of ENDCResourceStatusResponseIEValue and reports whether that alternative is active.
 func (v *ENDCResourceStatusResponseIEValue) AsEUTRANNode2MeasurementID() (*s00.MeasurementIDENDC, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(384) || v.rowEUTRANNode2MeasurementID == nil {
 		return nil, false
 	}
 	return v.rowEUTRANNode2MeasurementID, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ENDCResourceStatusResponseIEValue and reports whether that alternative is active.
 func (v *ENDCResourceStatusResponseIEValue) AsCriticalityDiagnostics() (*CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsInterfaceInstanceIndication returns the selected InterfaceInstanceIndication value of ENDCResourceStatusResponseIEValue and reports whether that alternative is active.
 func (v *ENDCResourceStatusResponseIEValue) AsInterfaceInstanceIndication() (*s00.InterfaceInstanceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(335) || v.rowInterfaceInstanceIndication == nil {
 		return nil, false
@@ -40987,6 +41123,8 @@ func X2apInternalENDCX2RemovalFailureIEValueMatchesID(v ENDCX2RemovalFailureIEVa
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENDCX2RemovalFailureIEValue and reports whether the opaque alternative is selected.
 func (v *ENDCX2RemovalFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -41876,18 +42014,24 @@ func X2apInternalENDCX2RemovalFailureIEValueReason(internalReceiver ENDCX2Remova
 		return aper.UnknownSelector
 	}
 }
+
+// AsCause returns the selected Cause value of ENDCX2RemovalFailureIEValue and reports whether that alternative is active.
 func (v *ENDCX2RemovalFailureIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ENDCX2RemovalFailureIEValue and reports whether that alternative is active.
 func (v *ENDCX2RemovalFailureIEValue) AsCriticalityDiagnostics() (*CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsInterfaceInstanceIndication returns the selected InterfaceInstanceIndication value of ENDCX2RemovalFailureIEValue and reports whether that alternative is active.
 func (v *ENDCX2RemovalFailureIEValue) AsInterfaceInstanceIndication() (*s00.InterfaceInstanceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(335) || v.rowInterfaceInstanceIndication == nil {
 		return nil, false
@@ -42070,6 +42214,8 @@ func X2apInternalENDCX2SetupFailureIEValueMatchesID(v ENDCX2SetupFailureIEValue,
 		return false
 	}
 }
+
+// Opaque returns the retained opaque open value of ENDCX2SetupFailureIEValue and reports whether the opaque alternative is selected.
 func (v *ENDCX2SetupFailureIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -42959,30 +43105,40 @@ func X2apInternalENDCX2SetupFailureIEValueReason(internalReceiver ENDCX2SetupFai
 		return aper.UnknownSelector
 	}
 }
+
+// AsCause returns the selected Cause value of ENDCX2SetupFailureIEValue and reports whether that alternative is active.
 func (v *ENDCX2SetupFailureIEValue) AsCause() (*s00.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(5) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of ENDCX2SetupFailureIEValue and reports whether that alternative is active.
 func (v *ENDCX2SetupFailureIEValue) AsCriticalityDiagnostics() (*CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(17) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsTimeToWait returns the selected TimeToWait value of ENDCX2SetupFailureIEValue and reports whether that alternative is active.
 func (v *ENDCX2SetupFailureIEValue) AsTimeToWait() (*s00.TimeToWait, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(22) || v.rowTimeToWait == nil {
 		return nil, false
 	}
 	return v.rowTimeToWait, true
 }
+
+// AsInterfaceInstanceIndication returns the selected InterfaceInstanceIndication value of ENDCX2SetupFailureIEValue and reports whether that alternative is active.
 func (v *ENDCX2SetupFailureIEValue) AsInterfaceInstanceIndication() (*s00.InterfaceInstanceIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(335) || v.rowInterfaceInstanceIndication == nil {
 		return nil, false
 	}
 	return v.rowInterfaceInstanceIndication, true
 }
+
+// AsMessageOversizeNotification returns the selected MessageOversizeNotification value of ENDCX2SetupFailureIEValue and reports whether that alternative is active.
 func (v *ENDCX2SetupFailureIEValue) AsMessageOversizeNotification() (*s05.MessageOversizeNotification, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(350) || v.rowMessageOversizeNotification == nil {
 		return nil, false
@@ -43214,9 +43370,13 @@ type FieldInfo struct {
 type ABSStatusExtIETable struct{}
 
 func ABSStatusExtIEs() ABSStatusExtIETable { return ABSStatusExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of ABSStatusExtIETable.
 func (ABSStatusExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ABS-Status-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ABSStatusExtIETable.
 func (t ABSStatusExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s00.ABSStatusExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s00.ABSStatusExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43238,9 +43398,13 @@ func (t ABSStatusExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Crit
 type ABSInformationFDDExtIETable struct{}
 
 func ABSInformationFDDExtIEs() ABSInformationFDDExtIETable { return ABSInformationFDDExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of ABSInformationFDDExtIETable.
 func (ABSInformationFDDExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ABSInformationFDD-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ABSInformationFDDExtIETable.
 func (t ABSInformationFDDExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s00.ABSInformationFDDExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s00.ABSInformationFDDExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43262,9 +43426,13 @@ func (t ABSInformationFDDExtIETable) NewOpaque(id s00.ProtocolIEID, criticality 
 type ABSInformationTDDExtIETable struct{}
 
 func ABSInformationTDDExtIEs() ABSInformationTDDExtIETable { return ABSInformationTDDExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of ABSInformationTDDExtIETable.
 func (ABSInformationTDDExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ABSInformationTDD-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ABSInformationTDDExtIETable.
 func (t ABSInformationTDDExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s00.ABSInformationTDDExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s00.ABSInformationTDDExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43288,9 +43456,13 @@ type ASSecurityInformationExtIETable struct{}
 func ASSecurityInformationExtIEs() ASSecurityInformationExtIETable {
 	return ASSecurityInformationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ASSecurityInformationExtIETable.
 func (ASSecurityInformationExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "AS-SecurityInformation-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ASSecurityInformationExtIETable.
 func (t ASSecurityInformationExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s00.ASSecurityInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s00.ASSecurityInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43314,9 +43486,13 @@ type AdditionalMeasurementTimingConfigurationItemExtIETable struct{}
 func AdditionalMeasurementTimingConfigurationItemExtIEs() AdditionalMeasurementTimingConfigurationItemExtIETable {
 	return AdditionalMeasurementTimingConfigurationItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of AdditionalMeasurementTimingConfigurationItemExtIETable.
 func (AdditionalMeasurementTimingConfigurationItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Additional-Measurement-Timing-Configuration-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in AdditionalMeasurementTimingConfigurationItemExtIETable.
 func (t AdditionalMeasurementTimingConfigurationItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.AdditionalMeasurementTimingConfigurationItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.AdditionalMeasurementTimingConfigurationItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43340,9 +43516,13 @@ type AdditionalListofForwardingGTPTunnelEndpointItemExtIETable struct{}
 func AdditionalListofForwardingGTPTunnelEndpointItemExtIEs() AdditionalListofForwardingGTPTunnelEndpointItemExtIETable {
 	return AdditionalListofForwardingGTPTunnelEndpointItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of AdditionalListofForwardingGTPTunnelEndpointItemExtIETable.
 func (AdditionalListofForwardingGTPTunnelEndpointItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "AdditionalListofForwardingGTPTunnelEndpoint-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in AdditionalListofForwardingGTPTunnelEndpointItemExtIETable.
 func (t AdditionalListofForwardingGTPTunnelEndpointItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.AdditionalListofForwardingGTPTunnelEndpointItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.AdditionalListofForwardingGTPTunnelEndpointItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43366,9 +43546,13 @@ type AdditionalSpecialSubframeInfoExtIETable struct{}
 func AdditionalSpecialSubframeInfoExtIEs() AdditionalSpecialSubframeInfoExtIETable {
 	return AdditionalSpecialSubframeInfoExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of AdditionalSpecialSubframeInfoExtIETable.
 func (AdditionalSpecialSubframeInfoExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "AdditionalSpecialSubframe-Info-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in AdditionalSpecialSubframeInfoExtIETable.
 func (t AdditionalSpecialSubframeInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.AdditionalSpecialSubframeInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.AdditionalSpecialSubframeInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43392,9 +43576,13 @@ type AdditionalSpecialSubframeExtensionInfoExtIETable struct{}
 func AdditionalSpecialSubframeExtensionInfoExtIEs() AdditionalSpecialSubframeExtensionInfoExtIETable {
 	return AdditionalSpecialSubframeExtensionInfoExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of AdditionalSpecialSubframeExtensionInfoExtIETable.
 func (AdditionalSpecialSubframeExtensionInfoExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "AdditionalSpecialSubframeExtension-Info-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in AdditionalSpecialSubframeExtensionInfoExtIETable.
 func (t AdditionalSpecialSubframeExtensionInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.AdditionalSpecialSubframeExtensionInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.AdditionalSpecialSubframeExtensionInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43418,9 +43606,13 @@ type AllocationAndRetentionPriorityExtIETable struct{}
 func AllocationAndRetentionPriorityExtIEs() AllocationAndRetentionPriorityExtIETable {
 	return AllocationAndRetentionPriorityExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of AllocationAndRetentionPriorityExtIETable.
 func (AllocationAndRetentionPriorityExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "AllocationAndRetentionPriority-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in AllocationAndRetentionPriorityExtIETable.
 func (t AllocationAndRetentionPriorityExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.AllocationAndRetentionPriorityExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.AllocationAndRetentionPriorityExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43444,9 +43636,13 @@ type BPLMNIDInfoEUTRAItemExtIETable struct{}
 func BPLMNIDInfoEUTRAItemExtIEs() BPLMNIDInfoEUTRAItemExtIETable {
 	return BPLMNIDInfoEUTRAItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of BPLMNIDInfoEUTRAItemExtIETable.
 func (BPLMNIDInfoEUTRAItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "BPLMN-ID-Info-EUTRA-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in BPLMNIDInfoEUTRAItemExtIETable.
 func (t BPLMNIDInfoEUTRAItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.BPLMNIDInfoEUTRAItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.BPLMNIDInfoEUTRAItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43468,9 +43664,13 @@ func (t BPLMNIDInfoEUTRAItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticali
 type BPLMNIDInfoNRItemExtIETable struct{}
 
 func BPLMNIDInfoNRItemExtIEs() BPLMNIDInfoNRItemExtIETable { return BPLMNIDInfoNRItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of BPLMNIDInfoNRItemExtIETable.
 func (BPLMNIDInfoNRItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "BPLMN-ID-Info-NR-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in BPLMNIDInfoNRItemExtIETable.
 func (t BPLMNIDInfoNRItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.BPLMNIDInfoNRItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.BPLMNIDInfoNRItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43492,9 +43692,13 @@ func (t BPLMNIDInfoNRItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality 
 type BandInfoExtIETable struct{}
 
 func BandInfoExtIEs() BandInfoExtIETable { return BandInfoExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of BandInfoExtIETable.
 func (BandInfoExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "BandInfo-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in BandInfoExtIETable.
 func (t BandInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.BandInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.BandInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43518,9 +43722,13 @@ type BluetoothMeasurementConfigurationExtIETable struct{}
 func BluetoothMeasurementConfigurationExtIEs() BluetoothMeasurementConfigurationExtIETable {
 	return BluetoothMeasurementConfigurationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of BluetoothMeasurementConfigurationExtIETable.
 func (BluetoothMeasurementConfigurationExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "BluetoothMeasurementConfiguration-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in BluetoothMeasurementConfigurationExtIETable.
 func (t BluetoothMeasurementConfigurationExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.BluetoothMeasurementConfigurationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.BluetoothMeasurementConfigurationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43544,9 +43752,13 @@ type CHOTimeBasedInformationExtIETable struct{}
 func CHOTimeBasedInformationExtIEs() CHOTimeBasedInformationExtIETable {
 	return CHOTimeBasedInformationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CHOTimeBasedInformationExtIETable.
 func (CHOTimeBasedInformationExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CHOTimeBasedInformation-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CHOTimeBasedInformationExtIETable.
 func (t CHOTimeBasedInformationExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CHOTimeBasedInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CHOTimeBasedInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43568,9 +43780,13 @@ func (t CHOTimeBasedInformationExtIETable) NewOpaque(id s00.ProtocolIEID, critic
 type CHOinformationACKExtIETable struct{}
 
 func CHOinformationACKExtIEs() CHOinformationACKExtIETable { return CHOinformationACKExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CHOinformationACKExtIETable.
 func (CHOinformationACKExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CHOinformation-ACK-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CHOinformationACKExtIETable.
 func (t CHOinformationACKExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CHOinformationACKExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CHOinformationACKExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43594,9 +43810,13 @@ type CHOinformationAddReqExtIETable struct{}
 func CHOinformationAddReqExtIEs() CHOinformationAddReqExtIETable {
 	return CHOinformationAddReqExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CHOinformationAddReqExtIETable.
 func (CHOinformationAddReqExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CHOinformation-AddReq-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CHOinformationAddReqExtIETable.
 func (t CHOinformationAddReqExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CHOinformationAddReqExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CHOinformationAddReqExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43620,9 +43840,13 @@ type CHOinformationModReqExtIETable struct{}
 func CHOinformationModReqExtIEs() CHOinformationModReqExtIETable {
 	return CHOinformationModReqExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CHOinformationModReqExtIETable.
 func (CHOinformationModReqExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CHOinformation-ModReq-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CHOinformationModReqExtIETable.
 func (t CHOinformationModReqExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CHOinformationModReqExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CHOinformationModReqExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43644,12 +43868,16 @@ func (t CHOinformationModReqExtIETable) NewOpaque(id s00.ProtocolIEID, criticali
 type CHOinformationREQExtIETable struct{}
 
 func CHOinformationREQExtIEs() CHOinformationREQExtIETable { return CHOinformationREQExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CHOinformationREQExtIETable.
 func (CHOinformationREQExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CHOinformation-REQ-ExtIEs"})
 }
 func X2apInternalCHOinformationREQExtIETableInfoCHOTimeBasedInformation(internalReceiver CHOinformationREQExtIETable) FieldInfo {
 	return FieldInfo{Table: CHOinformationREQExtIEs().ID(), ID: s00.ProtocolIEID(446), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CHOTimeBasedInformation"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.5", Assignment: aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CHOinformation-REQ-ExtIEs", Row: "id-CHOTimeBasedInformation"}}}
 }
+
+// CHOTimeBasedInformation returns the typed binding for the CHOTimeBasedInformation row of CHOinformationREQExtIETable.
 func (t CHOinformationREQExtIETable) CHOTimeBasedInformation() CHOinformationREQExtIEsCHOTimeBasedInformationExtBinding {
 	return CHOinformationREQExtIEsCHOTimeBasedInformationExtBinding{info: X2apInternalCHOinformationREQExtIETableInfoCHOTimeBasedInformation(t), codec: s01.X2apInternalConstructT33CHOTimeBasedInformationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CHOTimeBasedInformation", func(data []byte, options aper.DecodeState) (s01.CHOTimeBasedInformation, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -43691,6 +43919,8 @@ func (t CHOinformationREQExtIETable) CHOTimeBasedInformation() CHOinformationREQ
 			return value.AsCHOTimeBasedInformation()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CHOinformationREQExtIETable.
 func (t CHOinformationREQExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (CHOinformationREQExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return CHOinformationREQExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43716,9 +43946,13 @@ type CNTypeRestrictionsItemExtIETable struct{}
 func CNTypeRestrictionsItemExtIEs() CNTypeRestrictionsItemExtIETable {
 	return CNTypeRestrictionsItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CNTypeRestrictionsItemExtIETable.
 func (CNTypeRestrictionsItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CNTypeRestrictionsItem-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CNTypeRestrictionsItemExtIETable.
 func (t CNTypeRestrictionsItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CNTypeRestrictionsItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CNTypeRestrictionsItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43740,9 +43974,13 @@ func (t CNTypeRestrictionsItemExtIETable) NewOpaque(id s00.ProtocolIEID, critica
 type COUNTValueExtendedExtIETable struct{}
 
 func COUNTValueExtendedExtIEs() COUNTValueExtendedExtIETable { return COUNTValueExtendedExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of COUNTValueExtendedExtIETable.
 func (COUNTValueExtendedExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "COUNTValueExtended-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in COUNTValueExtendedExtIETable.
 func (t COUNTValueExtendedExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.COUNTValueExtendedExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.COUNTValueExtendedExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43764,9 +44002,13 @@ func (t COUNTValueExtendedExtIETable) NewOpaque(id s00.ProtocolIEID, criticality
 type COUNTvalueExtIETable struct{}
 
 func COUNTvalueExtIEs() COUNTvalueExtIETable { return COUNTvalueExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of COUNTvalueExtIETable.
 func (COUNTvalueExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "COUNTvalue-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in COUNTvalueExtIETable.
 func (t COUNTvalueExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.COUNTvalueExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.COUNTvalueExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43790,9 +44032,13 @@ type COUNTvaluePDCPSNlength18ExtIETable struct{}
 func COUNTvaluePDCPSNlength18ExtIEs() COUNTvaluePDCPSNlength18ExtIETable {
 	return COUNTvaluePDCPSNlength18ExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of COUNTvaluePDCPSNlength18ExtIETable.
 func (COUNTvaluePDCPSNlength18ExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "COUNTvaluePDCP-SNlength18-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in COUNTvaluePDCPSNlength18ExtIETable.
 func (t COUNTvaluePDCPSNlength18ExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.COUNTvaluePDCPSNlength18ExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.COUNTvaluePDCPSNlength18ExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43816,9 +44062,13 @@ type CPACcandidatePSCellsItemExtIETable struct{}
 func CPACcandidatePSCellsItemExtIEs() CPACcandidatePSCellsItemExtIETable {
 	return CPACcandidatePSCellsItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CPACcandidatePSCellsItemExtIETable.
 func (CPACcandidatePSCellsItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPACcandidatePSCells-item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPACcandidatePSCellsItemExtIETable.
 func (t CPACcandidatePSCellsItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPACcandidatePSCellsItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPACcandidatePSCellsItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43842,9 +44092,13 @@ type CPACinformationREQDExtIETable struct{}
 func CPACinformationREQDExtIEs() CPACinformationREQDExtIETable {
 	return CPACinformationREQDExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CPACinformationREQDExtIETable.
 func (CPACinformationREQDExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPACinformation-REQD-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPACinformationREQDExtIETable.
 func (t CPACinformationREQDExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPACinformationREQDExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPACinformationREQDExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43868,9 +44122,13 @@ type CPAinformationMODACKExtIETable struct{}
 func CPAinformationMODACKExtIEs() CPAinformationMODACKExtIETable {
 	return CPAinformationMODACKExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CPAinformationMODACKExtIETable.
 func (CPAinformationMODACKExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPAinformation-MOD-ACK-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPAinformationMODACKExtIETable.
 func (t CPAinformationMODACKExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPAinformationMODACKExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPAinformationMODACKExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43892,9 +44150,13 @@ func (t CPAinformationMODACKExtIETable) NewOpaque(id s00.ProtocolIEID, criticali
 type CPAinformationMODExtIETable struct{}
 
 func CPAinformationMODExtIEs() CPAinformationMODExtIETable { return CPAinformationMODExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CPAinformationMODExtIETable.
 func (CPAinformationMODExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPAinformation-MOD-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPAinformationMODExtIETable.
 func (t CPAinformationMODExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPAinformationMODExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPAinformationMODExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43918,9 +44180,13 @@ type CPAinformationREQACKExtIETable struct{}
 func CPAinformationREQACKExtIEs() CPAinformationREQACKExtIETable {
 	return CPAinformationREQACKExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CPAinformationREQACKExtIETable.
 func (CPAinformationREQACKExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPAinformation-REQ-ACK-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPAinformationREQACKExtIETable.
 func (t CPAinformationREQACKExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPAinformationREQACKExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPAinformationREQACKExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43942,9 +44208,13 @@ func (t CPAinformationREQACKExtIETable) NewOpaque(id s00.ProtocolIEID, criticali
 type CPAinformationREQExtIETable struct{}
 
 func CPAinformationREQExtIEs() CPAinformationREQExtIETable { return CPAinformationREQExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CPAinformationREQExtIETable.
 func (CPAinformationREQExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPAinformation-REQ-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPAinformationREQExtIETable.
 func (t CPAinformationREQExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPAinformationREQExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPAinformationREQExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43968,9 +44238,13 @@ type CPCTargetSgNBConfItemExtIETable struct{}
 func CPCTargetSgNBConfItemExtIEs() CPCTargetSgNBConfItemExtIETable {
 	return CPCTargetSgNBConfItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CPCTargetSgNBConfItemExtIETable.
 func (CPCTargetSgNBConfItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPC-target-SgNB-conf-item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPCTargetSgNBConfItemExtIETable.
 func (t CPCTargetSgNBConfItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPCTargetSgNBConfItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPCTargetSgNBConfItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -43994,9 +44268,13 @@ type CPCTargetSgNBModItemExtIETable struct{}
 func CPCTargetSgNBModItemExtIEs() CPCTargetSgNBModItemExtIETable {
 	return CPCTargetSgNBModItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CPCTargetSgNBModItemExtIETable.
 func (CPCTargetSgNBModItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPC-target-SgNB-mod-item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPCTargetSgNBModItemExtIETable.
 func (t CPCTargetSgNBModItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPCTargetSgNBModItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPCTargetSgNBModItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44020,9 +44298,13 @@ type CPCTargetSgNBReqdItemExtIETable struct{}
 func CPCTargetSgNBReqdItemExtIEs() CPCTargetSgNBReqdItemExtIETable {
 	return CPCTargetSgNBReqdItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CPCTargetSgNBReqdItemExtIETable.
 func (CPCTargetSgNBReqdItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPC-target-SgNB-reqd-item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPCTargetSgNBReqdItemExtIETable.
 func (t CPCTargetSgNBReqdItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPCTargetSgNBReqdItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPCTargetSgNBReqdItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44044,9 +44326,13 @@ func (t CPCTargetSgNBReqdItemExtIETable) NewOpaque(id s00.ProtocolIEID, critical
 type CPCinformationCONFExtIETable struct{}
 
 func CPCinformationCONFExtIEs() CPCinformationCONFExtIETable { return CPCinformationCONFExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CPCinformationCONFExtIETable.
 func (CPCinformationCONFExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPCinformation-CONF-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPCinformationCONFExtIETable.
 func (t CPCinformationCONFExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPCinformationCONFExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPCinformationCONFExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44070,9 +44356,13 @@ type CPCinformationNOTIFYExtIETable struct{}
 func CPCinformationNOTIFYExtIEs() CPCinformationNOTIFYExtIETable {
 	return CPCinformationNOTIFYExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CPCinformationNOTIFYExtIETable.
 func (CPCinformationNOTIFYExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPCinformation-NOTIFY-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPCinformationNOTIFYExtIETable.
 func (t CPCinformationNOTIFYExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPCinformationNOTIFYExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPCinformationNOTIFYExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44094,9 +44384,13 @@ func (t CPCinformationNOTIFYExtIETable) NewOpaque(id s00.ProtocolIEID, criticali
 type CPCinformationREQDExtIETable struct{}
 
 func CPCinformationREQDExtIEs() CPCinformationREQDExtIETable { return CPCinformationREQDExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CPCinformationREQDExtIETable.
 func (CPCinformationREQDExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPCinformation-REQD-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPCinformationREQDExtIETable.
 func (t CPCinformationREQDExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPCinformationREQDExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPCinformationREQDExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44118,9 +44412,13 @@ func (t CPCinformationREQDExtIETable) NewOpaque(id s00.ProtocolIEID, criticality
 type CPCupdateMODExtIETable struct{}
 
 func CPCupdateMODExtIEs() CPCupdateMODExtIETable { return CPCupdateMODExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CPCupdateMODExtIETable.
 func (CPCupdateMODExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CPCupdate-MOD-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CPCupdateMODExtIETable.
 func (t CPCupdateMODExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CPCupdateMODExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CPCupdateMODExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44144,9 +44442,13 @@ type CSIRSMTCConfigurationItemExtIETable struct{}
 func CSIRSMTCConfigurationItemExtIEs() CSIRSMTCConfigurationItemExtIETable {
 	return CSIRSMTCConfigurationItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CSIRSMTCConfigurationItemExtIETable.
 func (CSIRSMTCConfigurationItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CSI-RS-MTC-Configuration-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CSIRSMTCConfigurationItemExtIETable.
 func (t CSIRSMTCConfigurationItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CSIRSMTCConfigurationItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CSIRSMTCConfigurationItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44170,9 +44472,13 @@ type CSIRSMTCNeighbourItemExtIETable struct{}
 func CSIRSMTCNeighbourItemExtIEs() CSIRSMTCNeighbourItemExtIETable {
 	return CSIRSMTCNeighbourItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CSIRSMTCNeighbourItemExtIETable.
 func (CSIRSMTCNeighbourItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CSI-RS-MTC-Neighbour-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CSIRSMTCNeighbourItemExtIETable.
 func (t CSIRSMTCNeighbourItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CSIRSMTCNeighbourItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CSIRSMTCNeighbourItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44194,9 +44500,13 @@ func (t CSIRSMTCNeighbourItemExtIETable) NewOpaque(id s00.ProtocolIEID, critical
 type CSIRSNeighbourItemExtIETable struct{}
 
 func CSIRSNeighbourItemExtIEs() CSIRSNeighbourItemExtIETable { return CSIRSNeighbourItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CSIRSNeighbourItemExtIETable.
 func (CSIRSNeighbourItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CSI-RS-Neighbour-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CSIRSNeighbourItemExtIETable.
 func (t CSIRSNeighbourItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CSIRSNeighbourItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CSIRSNeighbourItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44218,9 +44528,13 @@ func (t CSIRSNeighbourItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality
 type CSIReportListExtIETable struct{}
 
 func CSIReportListExtIEs() CSIReportListExtIETable { return CSIReportListExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CSIReportListExtIETable.
 func (CSIReportListExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CSIReportList-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CSIReportListExtIETable.
 func (t CSIReportListExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CSIReportListExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CSIReportListExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44244,9 +44558,13 @@ type CSIReportPerCSIProcessExtIETable struct{}
 func CSIReportPerCSIProcessExtIEs() CSIReportPerCSIProcessExtIETable {
 	return CSIReportPerCSIProcessExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CSIReportPerCSIProcessExtIETable.
 func (CSIReportPerCSIProcessExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CSIReportPerCSIProcess-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CSIReportPerCSIProcessExtIETable.
 func (t CSIReportPerCSIProcessExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CSIReportPerCSIProcessExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CSIReportPerCSIProcessExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44270,9 +44588,13 @@ type CSIReportPerCSIProcessItemExtIETable struct{}
 func CSIReportPerCSIProcessItemExtIEs() CSIReportPerCSIProcessItemExtIETable {
 	return CSIReportPerCSIProcessItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CSIReportPerCSIProcessItemExtIETable.
 func (CSIReportPerCSIProcessItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CSIReportPerCSIProcessItem-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CSIReportPerCSIProcessItemExtIETable.
 func (t CSIReportPerCSIProcessItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CSIReportPerCSIProcessItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CSIReportPerCSIProcessItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44294,9 +44616,13 @@ func (t CSIReportPerCSIProcessItemExtIETable) NewOpaque(id s00.ProtocolIEID, cri
 type CellBasedMDTExtIETable struct{}
 
 func CellBasedMDTExtIEs() CellBasedMDTExtIETable { return CellBasedMDTExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CellBasedMDTExtIETable.
 func (CellBasedMDTExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CellBasedMDT-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellBasedMDTExtIETable.
 func (t CellBasedMDTExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellBasedMDTExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellBasedMDTExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44318,9 +44644,13 @@ func (t CellBasedMDTExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.C
 type CellBasedQMCExtIETable struct{}
 
 func CellBasedQMCExtIEs() CellBasedQMCExtIETable { return CellBasedQMCExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CellBasedQMCExtIETable.
 func (CellBasedQMCExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CellBasedQMC-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellBasedQMCExtIETable.
 func (t CellBasedQMCExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellBasedQMCExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellBasedQMCExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44342,9 +44672,13 @@ func (t CellBasedQMCExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.C
 type CellReplacingInfoExtIETable struct{}
 
 func CellReplacingInfoExtIEs() CellReplacingInfoExtIETable { return CellReplacingInfoExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CellReplacingInfoExtIETable.
 func (CellReplacingInfoExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CellReplacingInfo-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellReplacingInfoExtIETable.
 func (t CellReplacingInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellReplacingInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellReplacingInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44366,9 +44700,13 @@ func (t CellReplacingInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality 
 type CellTypeExtIETable struct{}
 
 func CellTypeExtIEs() CellTypeExtIETable { return CellTypeExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CellTypeExtIETable.
 func (CellTypeExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CellType-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellTypeExtIETable.
 func (t CellTypeExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellTypeExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellTypeExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44392,9 +44730,13 @@ type CoMPHypothesisSetItemExtIETable struct{}
 func CoMPHypothesisSetItemExtIEs() CoMPHypothesisSetItemExtIETable {
 	return CoMPHypothesisSetItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CoMPHypothesisSetItemExtIETable.
 func (CoMPHypothesisSetItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CoMPHypothesisSetItem-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CoMPHypothesisSetItemExtIETable.
 func (t CoMPHypothesisSetItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CoMPHypothesisSetItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CoMPHypothesisSetItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44416,9 +44758,13 @@ func (t CoMPHypothesisSetItemExtIETable) NewOpaque(id s00.ProtocolIEID, critical
 type CoMPInformationExtIETable struct{}
 
 func CoMPInformationExtIEs() CoMPInformationExtIETable { return CoMPInformationExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CoMPInformationExtIETable.
 func (CoMPInformationExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CoMPInformation-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CoMPInformationExtIETable.
 func (t CoMPInformationExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CoMPInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CoMPInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44442,9 +44788,13 @@ type CoMPInformationItemExtIETable struct{}
 func CoMPInformationItemExtIEs() CoMPInformationItemExtIETable {
 	return CoMPInformationItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CoMPInformationItemExtIETable.
 func (CoMPInformationItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CoMPInformationItem-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CoMPInformationItemExtIETable.
 func (t CoMPInformationItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CoMPInformationItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CoMPInformationItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44468,9 +44818,13 @@ type CoMPInformationStartTimeExtIETable struct{}
 func CoMPInformationStartTimeExtIEs() CoMPInformationStartTimeExtIETable {
 	return CoMPInformationStartTimeExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CoMPInformationStartTimeExtIETable.
 func (CoMPInformationStartTimeExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CoMPInformationStartTime-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CoMPInformationStartTimeExtIETable.
 func (t CoMPInformationStartTimeExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.CoMPInformationStartTimeExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.CoMPInformationStartTimeExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44494,9 +44848,13 @@ type CompositeAvailableCapacityExtIETable struct{}
 func CompositeAvailableCapacityExtIEs() CompositeAvailableCapacityExtIETable {
 	return CompositeAvailableCapacityExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CompositeAvailableCapacityExtIETable.
 func (CompositeAvailableCapacityExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CompositeAvailableCapacity-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CompositeAvailableCapacityExtIETable.
 func (t CompositeAvailableCapacityExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.CompositeAvailableCapacityExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.CompositeAvailableCapacityExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44520,9 +44878,13 @@ type CompositeAvailableCapacityGroupExtIETable struct{}
 func CompositeAvailableCapacityGroupExtIEs() CompositeAvailableCapacityGroupExtIETable {
 	return CompositeAvailableCapacityGroupExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CompositeAvailableCapacityGroupExtIETable.
 func (CompositeAvailableCapacityGroupExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CompositeAvailableCapacityGroup-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CompositeAvailableCapacityGroupExtIETable.
 func (t CompositeAvailableCapacityGroupExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.CompositeAvailableCapacityGroupExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.CompositeAvailableCapacityGroupExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44546,9 +44908,13 @@ type CriticalityDiagnosticsExtIETable struct{}
 func CriticalityDiagnosticsExtIEs() CriticalityDiagnosticsExtIETable {
 	return CriticalityDiagnosticsExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CriticalityDiagnosticsExtIETable.
 func (CriticalityDiagnosticsExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CriticalityDiagnosticsExtIETable.
 func (t CriticalityDiagnosticsExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.CriticalityDiagnosticsExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.CriticalityDiagnosticsExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44572,9 +44938,13 @@ type CriticalityDiagnosticsIEListExtIETable struct{}
 func CriticalityDiagnosticsIEListExtIEs() CriticalityDiagnosticsIEListExtIETable {
 	return CriticalityDiagnosticsIEListExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CriticalityDiagnosticsIEListExtIETable.
 func (CriticalityDiagnosticsIEListExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics-IE-List-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CriticalityDiagnosticsIEListExtIETable.
 func (t CriticalityDiagnosticsIEListExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.CriticalityDiagnosticsIEListExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.CriticalityDiagnosticsIEListExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44596,9 +44966,13 @@ func (t CriticalityDiagnosticsIEListExtIETable) NewOpaque(id s00.ProtocolIEID, c
 type DAPSRequestInfoExtIETable struct{}
 
 func DAPSRequestInfoExtIEs() DAPSRequestInfoExtIETable { return DAPSRequestInfoExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of DAPSRequestInfoExtIETable.
 func (DAPSRequestInfoExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DAPSRequestInfo-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in DAPSRequestInfoExtIETable.
 func (t DAPSRequestInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.DAPSRequestInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.DAPSRequestInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44620,9 +44994,13 @@ func (t DAPSRequestInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s0
 type DAPSResponseInfoExtIETable struct{}
 
 func DAPSResponseInfoExtIEs() DAPSResponseInfoExtIETable { return DAPSResponseInfoExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of DAPSResponseInfoExtIETable.
 func (DAPSResponseInfoExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DAPSResponseInfo-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in DAPSResponseInfoExtIETable.
 func (t DAPSResponseInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.DAPSResponseInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.DAPSResponseInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44646,9 +45024,13 @@ type DataTrafficResourceIndicationExtIETable struct{}
 func DataTrafficResourceIndicationExtIEs() DataTrafficResourceIndicationExtIETable {
 	return DataTrafficResourceIndicationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of DataTrafficResourceIndicationExtIETable.
 func (DataTrafficResourceIndicationExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DataTrafficResourceIndication-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in DataTrafficResourceIndicationExtIETable.
 func (t DataTrafficResourceIndicationExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.DataTrafficResourceIndicationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.DataTrafficResourceIndicationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44670,9 +45052,13 @@ func (t DataTrafficResourceIndicationExtIETable) NewOpaque(id s00.ProtocolIEID, 
 type DeliveryStatusExtIETable struct{}
 
 func DeliveryStatusExtIEs() DeliveryStatusExtIETable { return DeliveryStatusExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of DeliveryStatusExtIETable.
 func (DeliveryStatusExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DeliveryStatus-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in DeliveryStatusExtIETable.
 func (t DeliveryStatusExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.DeliveryStatusExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.DeliveryStatusExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44696,9 +45082,13 @@ type DynamicNAICSInformationExtIETable struct{}
 func DynamicNAICSInformationExtIEs() DynamicNAICSInformationExtIETable {
 	return DynamicNAICSInformationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of DynamicNAICSInformationExtIETable.
 func (DynamicNAICSInformationExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DynamicNAICSInformation-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in DynamicNAICSInformationExtIETable.
 func (t DynamicNAICSInformationExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.DynamicNAICSInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.DynamicNAICSInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44720,9 +45110,13 @@ func (t DynamicNAICSInformationExtIETable) NewOpaque(id s00.ProtocolIEID, critic
 type ERABItemExtIETable struct{}
 
 func ERABItemExtIEs() ERABItemExtIETable { return ERABItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABItemExtIETable.
 func (ERABItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RAB-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABItemExtIETable.
 func (t ERABItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44744,12 +45138,16 @@ func (t ERABItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criti
 type ERABItemIETable struct{}
 
 func ERABItemIEs() ERABItemIETable { return ERABItemIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABItemIETable.
 func (ERABItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RAB-ItemIEs"})
 }
 func X2apInternalERABItemIETableInfoERABItem(internalReceiver ERABItemIETable) FieldInfo {
 	return FieldInfo{Table: ERABItemIEs().ID(), ID: s00.ProtocolIEID(2), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ERABItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.5", Assignment: aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RAB-ItemIEs", Row: "id-E-RAB-Item"}}}
 }
+
+// ERABItem returns the typed binding for the ERABItem row of ERABItemIETable.
 func (t ERABItemIETable) ERABItem() ERABItemERABItemIEBinding {
 	return ERABItemERABItemIEBinding{info: X2apInternalERABItemIETableInfoERABItem(t), codec: s04.X2apInternalConstructT18ERABItemValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABItem", func(data []byte, options aper.DecodeState) (s04.ERABItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44789,6 +45187,8 @@ func (t ERABItemIETable) ERABItem() ERABItemERABItemIEBinding {
 			return ERABItemIEValue{id: s00.ProtocolIEID(2), rowERABItem: &value}
 		}, get: func(value *ERABItemIEValue) (*s04.ERABItem, bool) { return value.AsERABItem() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABItemIETable.
 func (t ERABItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -44814,12 +45214,16 @@ type ERABLevelQoSParametersExtIETable struct{}
 func ERABLevelQoSParametersExtIEs() ERABLevelQoSParametersExtIETable {
 	return ERABLevelQoSParametersExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABLevelQoSParametersExtIETable.
 func (ERABLevelQoSParametersExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RAB-Level-QoS-Parameters-ExtIEs"})
 }
 func X2apInternalERABLevelQoSParametersExtIETableInfoDownlinkPacketLossRate(internalReceiver ERABLevelQoSParametersExtIETable) FieldInfo {
 	return FieldInfo{Table: ERABLevelQoSParametersExtIEs().ID(), ID: s00.ProtocolIEID(273), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "PacketLossRate"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.5", Assignment: aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RAB-Level-QoS-Parameters-ExtIEs", Row: "id-DownlinkPacketLossRate"}}}
 }
+
+// DownlinkPacketLossRate returns the typed binding for the DownlinkPacketLossRate row of ERABLevelQoSParametersExtIETable.
 func (t ERABLevelQoSParametersExtIETable) DownlinkPacketLossRate() ERABLevelQoSParametersExtIEsPacketLossRateExtBinding {
 	return ERABLevelQoSParametersExtIEsPacketLossRateExtBinding{info: X2apInternalERABLevelQoSParametersExtIETableInfoDownlinkPacketLossRate(t), codec: s00.X2apInternalConstructT24PacketLossRateValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("PacketLossRate", func(data []byte, options aper.DecodeState) (s00.PacketLossRate, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44871,6 +45275,8 @@ func (t ERABLevelQoSParametersExtIETable) DownlinkPacketLossRate() ERABLevelQoSP
 func X2apInternalERABLevelQoSParametersExtIETableInfoUplinkPacketLossRate(internalReceiver ERABLevelQoSParametersExtIETable) FieldInfo {
 	return FieldInfo{Table: ERABLevelQoSParametersExtIEs().ID(), ID: s00.ProtocolIEID(274), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "PacketLossRate"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.5", Assignment: aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RAB-Level-QoS-Parameters-ExtIEs", Row: "id-UplinkPacketLossRate"}}}
 }
+
+// UplinkPacketLossRate returns the typed binding for the UplinkPacketLossRate row of ERABLevelQoSParametersExtIETable.
 func (t ERABLevelQoSParametersExtIETable) UplinkPacketLossRate() ERABLevelQoSParametersExtIEsPacketLossRateExtBinding {
 	return ERABLevelQoSParametersExtIEsPacketLossRateExtBinding{info: X2apInternalERABLevelQoSParametersExtIETableInfoUplinkPacketLossRate(t), codec: s00.X2apInternalConstructT24PacketLossRateValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("PacketLossRate", func(data []byte, options aper.DecodeState) (s00.PacketLossRate, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -44919,6 +45325,8 @@ func (t ERABLevelQoSParametersExtIETable) UplinkPacketLossRate() ERABLevelQoSPar
 			return value.AsUplinkPacketLossRate()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABLevelQoSParametersExtIETable.
 func (t ERABLevelQoSParametersExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABLevelQoSParametersExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABLevelQoSParametersExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44946,9 +45354,13 @@ type ERABUsageReportItemExtIETable struct{}
 func ERABUsageReportItemExtIEs() ERABUsageReportItemExtIETable {
 	return ERABUsageReportItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABUsageReportItemExtIETable.
 func (ERABUsageReportItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RABUsageReport-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABUsageReportItemExtIETable.
 func (t ERABUsageReportItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABUsageReportItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABUsageReportItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -44970,12 +45382,16 @@ func (t ERABUsageReportItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticalit
 type ERABUsageReportItemIETable struct{}
 
 func ERABUsageReportItemIEs() ERABUsageReportItemIETable { return ERABUsageReportItemIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABUsageReportItemIETable.
 func (ERABUsageReportItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RABUsageReport-ItemIEs"})
 }
 func X2apInternalERABUsageReportItemIETableInfoERABUsageReportItem(internalReceiver ERABUsageReportItemIETable) FieldInfo {
 	return FieldInfo{Table: ERABUsageReportItemIEs().ID(), ID: s00.ProtocolIEID(263), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ERABUsageReportItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.5", Assignment: aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RABUsageReport-ItemIEs", Row: "id-E-RABUsageReport-Item"}}}
 }
+
+// ERABUsageReportItem returns the typed binding for the ERABUsageReportItem row of ERABUsageReportItemIETable.
 func (t ERABUsageReportItemIETable) ERABUsageReportItem() ERABUsageReportItemERABUsageReportItemIEBinding {
 	return ERABUsageReportItemERABUsageReportItemIEBinding{info: X2apInternalERABUsageReportItemIETableInfoERABUsageReportItem(t), codec: s04.X2apInternalConstructT29ERABUsageReportItemValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABUsageReportItem", func(data []byte, options aper.DecodeState) (s04.ERABUsageReportItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -45016,6 +45432,8 @@ func (t ERABUsageReportItemIETable) ERABUsageReportItem() ERABUsageReportItemERA
 			return value.AsERABUsageReportItem()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABUsageReportItemIETable.
 func (t ERABUsageReportItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABUsageReportItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABUsageReportItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -45041,9 +45459,13 @@ type ERABsSubjectToDLDiscardingItemExtIETable struct{}
 func ERABsSubjectToDLDiscardingItemExtIEs() ERABsSubjectToDLDiscardingItemExtIETable {
 	return ERABsSubjectToDLDiscardingItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsSubjectToDLDiscardingItemExtIETable.
 func (ERABsSubjectToDLDiscardingItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RABsSubjectToDLDiscarding-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsSubjectToDLDiscardingItemExtIETable.
 func (t ERABsSubjectToDLDiscardingItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsSubjectToDLDiscardingItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsSubjectToDLDiscardingItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45067,9 +45489,13 @@ type ERABsSubjectToEarlyStatusTransferItemExtIETable struct{}
 func ERABsSubjectToEarlyStatusTransferItemExtIEs() ERABsSubjectToEarlyStatusTransferItemExtIETable {
 	return ERABsSubjectToEarlyStatusTransferItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsSubjectToEarlyStatusTransferItemExtIETable.
 func (ERABsSubjectToEarlyStatusTransferItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "E-RABsSubjectToEarlyStatusTransfer-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsSubjectToEarlyStatusTransferItemExtIETable.
 func (t ERABsSubjectToEarlyStatusTransferItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsSubjectToEarlyStatusTransferItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsSubjectToEarlyStatusTransferItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45091,9 +45517,13 @@ func (t ERABsSubjectToEarlyStatusTransferItemExtIETable) NewOpaque(id s00.Protoc
 type ECGIExtIETable struct{}
 
 func ECGIExtIEs() ECGIExtIETable { return ECGIExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of ECGIExtIETable.
 func (ECGIExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ECGI-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ECGIExtIETable.
 func (t ECGIExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ECGIExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ECGIExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45117,9 +45547,13 @@ type ENDCResourceConfigurationExtIETable struct{}
 func ENDCResourceConfigurationExtIEs() ENDCResourceConfigurationExtIETable {
 	return ENDCResourceConfigurationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENDCResourceConfigurationExtIETable.
 func (ENDCResourceConfigurationExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "EN-DC-ResourceConfigurationExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENDCResourceConfigurationExtIETable.
 func (t ENDCResourceConfigurationExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ENDCResourceConfigurationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ENDCResourceConfigurationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45143,9 +45577,13 @@ type ERABActivityNotifyItemExtIETable struct{}
 func ERABActivityNotifyItemExtIEs() ERABActivityNotifyItemExtIETable {
 	return ERABActivityNotifyItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABActivityNotifyItemExtIETable.
 func (ERABActivityNotifyItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ERABActivityNotifyItem-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABActivityNotifyItemExtIETable.
 func (t ERABActivityNotifyItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABActivityNotifyItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABActivityNotifyItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45167,9 +45605,13 @@ func (t ERABActivityNotifyItemExtIETable) NewOpaque(id s00.ProtocolIEID, critica
 type EnhancedRNTPExtIETable struct{}
 
 func EnhancedRNTPExtIEs() EnhancedRNTPExtIETable { return EnhancedRNTPExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of EnhancedRNTPExtIETable.
 func (EnhancedRNTPExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "EnhancedRNTP-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in EnhancedRNTPExtIETable.
 func (t EnhancedRNTPExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.EnhancedRNTPExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.EnhancedRNTPExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45193,9 +45635,13 @@ type EnhancedRNTPStartTimeExtIETable struct{}
 func EnhancedRNTPStartTimeExtIEs() EnhancedRNTPStartTimeExtIETable {
 	return EnhancedRNTPStartTimeExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of EnhancedRNTPStartTimeExtIETable.
 func (EnhancedRNTPStartTimeExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "EnhancedRNTPStartTime-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in EnhancedRNTPStartTimeExtIETable.
 func (t EnhancedRNTPStartTimeExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.EnhancedRNTPStartTimeExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.EnhancedRNTPStartTimeExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45219,9 +45665,13 @@ type ExpectedUEActivityBehaviourExtIETable struct{}
 func ExpectedUEActivityBehaviourExtIEs() ExpectedUEActivityBehaviourExtIETable {
 	return ExpectedUEActivityBehaviourExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ExpectedUEActivityBehaviourExtIETable.
 func (ExpectedUEActivityBehaviourExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ExpectedUEActivityBehaviour-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ExpectedUEActivityBehaviourExtIETable.
 func (t ExpectedUEActivityBehaviourExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ExpectedUEActivityBehaviourExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ExpectedUEActivityBehaviourExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45245,9 +45695,13 @@ type ExpectedUEBehaviourExtIETable struct{}
 func ExpectedUEBehaviourExtIEs() ExpectedUEBehaviourExtIETable {
 	return ExpectedUEBehaviourExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ExpectedUEBehaviourExtIETable.
 func (ExpectedUEBehaviourExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ExpectedUEBehaviour-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ExpectedUEBehaviourExtIETable.
 func (t ExpectedUEBehaviourExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ExpectedUEBehaviourExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ExpectedUEBehaviourExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45271,9 +45725,13 @@ type ExtendedULInterferenceOverloadInfoExtIETable struct{}
 func ExtendedULInterferenceOverloadInfoExtIEs() ExtendedULInterferenceOverloadInfoExtIETable {
 	return ExtendedULInterferenceOverloadInfoExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ExtendedULInterferenceOverloadInfoExtIETable.
 func (ExtendedULInterferenceOverloadInfoExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ExtendedULInterferenceOverloadInfo-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ExtendedULInterferenceOverloadInfoExtIETable.
 func (t ExtendedULInterferenceOverloadInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s03.ExtendedULInterferenceOverloadInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s03.ExtendedULInterferenceOverloadInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45295,9 +45753,13 @@ func (t ExtendedULInterferenceOverloadInfoExtIETable) NewOpaque(id s00.ProtocolI
 type FastMCGRecoveryExtIETable struct{}
 
 func FastMCGRecoveryExtIEs() FastMCGRecoveryExtIETable { return FastMCGRecoveryExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of FastMCGRecoveryExtIETable.
 func (FastMCGRecoveryExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "FastMCGRecovery-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in FastMCGRecoveryExtIETable.
 func (t FastMCGRecoveryExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s03.FastMCGRecoveryExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s03.FastMCGRecoveryExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45321,9 +45783,13 @@ type ActivatedCellListItemExtIETable struct{}
 func ActivatedCellListItemExtIEs() ActivatedCellListItemExtIETable {
 	return ActivatedCellListItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ActivatedCellListItemExtIETable.
 func (ActivatedCellListItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ActivatedCellList-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ActivatedCellListItemExtIETable.
 func (t ActivatedCellListItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.ActivatedCellListItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.ActivatedCellListItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45347,9 +45813,13 @@ type ActivatedNRCellListItemExtIETable struct{}
 func ActivatedNRCellListItemExtIEs() ActivatedNRCellListItemExtIETable {
 	return ActivatedNRCellListItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ActivatedNRCellListItemExtIETable.
 func (ActivatedNRCellListItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ActivatedNRCellList-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ActivatedNRCellListItemExtIETable.
 func (t ActivatedNRCellListItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.ActivatedNRCellListItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.ActivatedNRCellListItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45371,12 +45841,16 @@ func (t ActivatedNRCellListItemExtIETable) NewOpaque(id s00.ProtocolIEID, critic
 type CellActivationFailureIETable struct{}
 
 func CellActivationFailureIEs() CellActivationFailureIETable { return CellActivationFailureIETable{} }
+
+// ID returns the ASN.1 object-set identity of CellActivationFailureIETable.
 func (CellActivationFailureIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellActivationFailure-IEs"})
 }
 func X2apInternalCellActivationFailureIETableInfoCause(internalReceiver CellActivationFailureIETable) FieldInfo {
 	return FieldInfo{Table: CellActivationFailureIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellActivationFailure-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of CellActivationFailureIETable.
 func (t CellActivationFailureIETable) Cause() CellActivationFailureCauseIEBinding {
 	return CellActivationFailureCauseIEBinding{info: X2apInternalCellActivationFailureIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -45418,6 +45892,8 @@ func (t CellActivationFailureIETable) Cause() CellActivationFailureCauseIEBindin
 func X2apInternalCellActivationFailureIETableInfoCriticalityDiagnostics(internalReceiver CellActivationFailureIETable) FieldInfo {
 	return FieldInfo{Table: CellActivationFailureIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellActivationFailure-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of CellActivationFailureIETable.
 func (t CellActivationFailureIETable) CriticalityDiagnostics() CellActivationFailureCriticalityDiagnosticsIEBinding {
 	return CellActivationFailureCriticalityDiagnosticsIEBinding{info: X2apInternalCellActivationFailureIETableInfoCriticalityDiagnostics(t), codec: CriticalityDiagnosticsValueCodec{path: "CriticalityDiagnostics", decode: func(data []byte, options aper.DecodeState) (CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -45458,6 +45934,8 @@ func (t CellActivationFailureIETable) CriticalityDiagnostics() CellActivationFai
 		return value.AsCriticalityDiagnostics()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellActivationFailureIETable.
 func (t CellActivationFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (CellActivationFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return CellActivationFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -45485,9 +45963,13 @@ type CellMeasurementResultEUTRAENDCItemExtIETable struct{}
 func CellMeasurementResultEUTRAENDCItemExtIEs() CellMeasurementResultEUTRAENDCItemExtIETable {
 	return CellMeasurementResultEUTRAENDCItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CellMeasurementResultEUTRAENDCItemExtIETable.
 func (CellMeasurementResultEUTRAENDCItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellMeasurementResult-E-UTRA-ENDC-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellMeasurementResultEUTRAENDCItemExtIETable.
 func (t CellMeasurementResultEUTRAENDCItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellMeasurementResultEUTRAENDCItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellMeasurementResultEUTRAENDCItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45511,9 +45993,13 @@ type CellMeasurementResultNRENDCItemExtIETable struct{}
 func CellMeasurementResultNRENDCItemExtIEs() CellMeasurementResultNRENDCItemExtIETable {
 	return CellMeasurementResultNRENDCItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CellMeasurementResultNRENDCItemExtIETable.
 func (CellMeasurementResultNRENDCItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellMeasurementResult-NR-ENDC-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellMeasurementResultNRENDCItemExtIETable.
 func (t CellMeasurementResultNRENDCItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellMeasurementResultNRENDCItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellMeasurementResultNRENDCItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45537,9 +46023,13 @@ type CellToReportEUTRAENDCItemExtIETable struct{}
 func CellToReportEUTRAENDCItemExtIEs() CellToReportEUTRAENDCItemExtIETable {
 	return CellToReportEUTRAENDCItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CellToReportEUTRAENDCItemExtIETable.
 func (CellToReportEUTRAENDCItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellToReport-E-UTRA-ENDC-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellToReportEUTRAENDCItemExtIETable.
 func (t CellToReportEUTRAENDCItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellToReportEUTRAENDCItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellToReportEUTRAENDCItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45563,12 +46053,16 @@ type CellToReportEUTRAENDCItemIETable struct{}
 func CellToReportEUTRAENDCItemIEs() CellToReportEUTRAENDCItemIETable {
 	return CellToReportEUTRAENDCItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CellToReportEUTRAENDCItemIETable.
 func (CellToReportEUTRAENDCItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellToReport-E-UTRA-ENDC-Item-IEs"})
 }
 func X2apInternalCellToReportEUTRAENDCItemIETableInfoCellToReportEUTRAENDCItem(internalReceiver CellToReportEUTRAENDCItemIETable) FieldInfo {
 	return FieldInfo{Table: CellToReportEUTRAENDCItemIEs().ID(), ID: s00.ProtocolIEID(404), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellToReportEUTRAENDCItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellToReport-E-UTRA-ENDC-Item-IEs", Row: "id-CellToReport-E-UTRA-ENDC-Item"}}}
 }
+
+// CellToReportEUTRAENDCItem returns the typed binding for the CellToReportEUTRAENDCItem row of CellToReportEUTRAENDCItemIETable.
 func (t CellToReportEUTRAENDCItemIETable) CellToReportEUTRAENDCItem() CellToReportEUTRAENDCItemCellToReportEUTRAENDCItemIEBinding {
 	return CellToReportEUTRAENDCItemCellToReportEUTRAENDCItemIEBinding{info: X2apInternalCellToReportEUTRAENDCItemIETableInfoCellToReportEUTRAENDCItem(t), codec: s04.X2apInternalConstructT35CellToReportEUTRAENDCItemValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CellToReportEUTRAENDCItem", func(data []byte, options aper.DecodeState) (s04.CellToReportEUTRAENDCItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -45610,6 +46104,8 @@ func (t CellToReportEUTRAENDCItemIETable) CellToReportEUTRAENDCItem() CellToRepo
 			return value.AsCellToReportEUTRAENDCItem()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellToReportEUTRAENDCItemIETable.
 func (t CellToReportEUTRAENDCItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (CellToReportEUTRAENDCItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return CellToReportEUTRAENDCItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -45633,9 +46129,13 @@ func (t CellToReportEUTRAENDCItemIETable) NewOpaque(id s00.ProtocolIEID, critica
 type CellToReportItemExtIETable struct{}
 
 func CellToReportItemExtIEs() CellToReportItemExtIETable { return CellToReportItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of CellToReportItemExtIETable.
 func (CellToReportItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellToReport-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellToReportItemExtIETable.
 func (t CellToReportItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellToReportItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellToReportItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45657,12 +46157,16 @@ func (t CellToReportItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s
 type CellToReportItemIETable struct{}
 
 func CellToReportItemIEs() CellToReportItemIETable { return CellToReportItemIETable{} }
+
+// ID returns the ASN.1 object-set identity of CellToReportItemIETable.
 func (CellToReportItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellToReport-ItemIEs"})
 }
 func X2apInternalCellToReportItemIETableInfoCellToReportItem(internalReceiver CellToReportItemIETable) FieldInfo {
 	return FieldInfo{Table: CellToReportItemIEs().ID(), ID: s00.ProtocolIEID(31), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellToReportItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellToReport-ItemIEs", Row: "id-CellToReport-Item"}}}
 }
+
+// CellToReportItem returns the typed binding for the CellToReportItem row of CellToReportItemIETable.
 func (t CellToReportItemIETable) CellToReportItem() CellToReportItemCellToReportItemIEBinding {
 	return CellToReportItemCellToReportItemIEBinding{info: X2apInternalCellToReportItemIETableInfoCellToReportItem(t), codec: s04.X2apInternalConstructT26CellToReportItemValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("CellToReportItem", func(data []byte, options aper.DecodeState) (s04.CellToReportItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -45701,6 +46205,8 @@ func (t CellToReportItemIETable) CellToReportItem() CellToReportItemCellToReport
 			return CellToReportItemIEValue{id: s00.ProtocolIEID(31), rowCellToReportItem: &value}
 		}, get: func(value *CellToReportItemIEValue) (*s04.CellToReportItem, bool) { return value.AsCellToReportItem() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellToReportItemIETable.
 func (t CellToReportItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (CellToReportItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return CellToReportItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -45726,9 +46232,13 @@ type CellToReportNRENDCItemExtIETable struct{}
 func CellToReportNRENDCItemExtIEs() CellToReportNRENDCItemExtIETable {
 	return CellToReportNRENDCItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CellToReportNRENDCItemExtIETable.
 func (CellToReportNRENDCItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellToReport-NR-ENDC-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellToReportNRENDCItemExtIETable.
 func (t CellToReportNRENDCItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellToReportNRENDCItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellToReportNRENDCItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45752,9 +46262,13 @@ type CellandCapacityAssistInfoExtIETable struct{}
 func CellandCapacityAssistInfoExtIEs() CellandCapacityAssistInfoExtIETable {
 	return CellandCapacityAssistInfoExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CellandCapacityAssistInfoExtIETable.
 func (CellandCapacityAssistInfoExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CellandCapacityAssistInfo-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CellandCapacityAssistInfoExtIETable.
 func (t CellandCapacityAssistInfoExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s01.CellandCapacityAssistInfoExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s01.CellandCapacityAssistInfoExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45778,9 +46292,13 @@ type CompleteFailureCauseInformationItemExtIETable struct{}
 func CompleteFailureCauseInformationItemExtIEs() CompleteFailureCauseInformationItemExtIETable {
 	return CompleteFailureCauseInformationItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of CompleteFailureCauseInformationItemExtIETable.
 func (CompleteFailureCauseInformationItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "CompleteFailureCauseInformation-Item-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in CompleteFailureCauseInformationItemExtIETable.
 func (t CompleteFailureCauseInformationItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.CompleteFailureCauseInformationItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.CompleteFailureCauseInformationItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45802,9 +46320,13 @@ func (t CompleteFailureCauseInformationItemExtIETable) NewOpaque(id s00.Protocol
 type DLDiscardingExtIETable struct{}
 
 func DLDiscardingExtIEs() DLDiscardingExtIETable { return DLDiscardingExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of DLDiscardingExtIETable.
 func (DLDiscardingExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "DLDiscarding-ExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in DLDiscardingExtIETable.
 func (t DLDiscardingExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.DLDiscardingExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.DLDiscardingExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45826,12 +46348,16 @@ func (t DLDiscardingExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.C
 type ERABsAdmittedItemExtIETable struct{}
 
 func ERABsAdmittedItemExtIEs() ERABsAdmittedItemExtIETable { return ERABsAdmittedItemExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedItemExtIETable.
 func (ERABsAdmittedItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-Item-ExtIEs"})
 }
 func X2apInternalERABsAdmittedItemExtIETableInfoDAPSResponseInfo(internalReceiver ERABsAdmittedItemExtIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedItemExtIEs().ID(), ID: s00.ProtocolIEID(366), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "DAPSResponseInfo"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-Item-ExtIEs", Row: "id-DAPSResponseInfo"}}}
 }
+
+// DAPSResponseInfo returns the typed binding for the DAPSResponseInfo row of ERABsAdmittedItemExtIETable.
 func (t ERABsAdmittedItemExtIETable) DAPSResponseInfo() ERABsAdmittedItemExtIEsDAPSResponseInfoExtBinding {
 	return ERABsAdmittedItemExtIEsDAPSResponseInfoExtBinding{info: X2apInternalERABsAdmittedItemExtIETableInfoDAPSResponseInfo(t), codec: s04.X2apInternalConstructT26DAPSResponseInfoValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("DAPSResponseInfo", func(data []byte, options aper.DecodeState) (s04.DAPSResponseInfo, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -45872,6 +46398,8 @@ func (t ERABsAdmittedItemExtIETable) DAPSResponseInfo() ERABsAdmittedItemExtIEsD
 			return value.AsDAPSResponseInfo()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedItemExtIETable.
 func (t ERABsAdmittedItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45897,12 +46425,16 @@ type ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable struct{
 func ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs() ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable {
 	return ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable.
 func (ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs"})
 }
 func X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETableInfoLCID(internalReceiver ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEs().ID(), ID: s00.ProtocolIEID(314), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "LCID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-SgNBAddReqAck-Item-SgNBPDCPnotpresentExtIEs", Row: "id-lCID"}}}
 }
+
+// LCID returns the typed binding for the LCID row of ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable) LCID() ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding {
 	return ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding{info: X2apInternalERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETableInfoLCID(t), codec: s00.X2apInternalConstructT14LCIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("LCID", func(data []byte, options aper.DecodeState) (s00.LCID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -45954,6 +46486,8 @@ func (t ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable) LCI
 			return value.AsLCID()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeAddedSgNBAddReqAckItemSgNBPDCPnotpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -45979,12 +46513,16 @@ type ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable struct{}
 func ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEs() ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable {
 	return ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable.
 func (ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"})
 }
 func X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETableInfoLCID(internalReceiver ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEs().ID(), ID: s00.ProtocolIEID(314), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "LCID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs", Row: "id-lCID"}}}
 }
+
+// LCID returns the typed binding for the LCID row of ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable) LCID() ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding {
 	return ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsLCIDExtBinding{info: X2apInternalERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETableInfoLCID(t), codec: s00.X2apInternalConstructT14LCIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("LCID", func(data []byte, options aper.DecodeState) (s00.LCID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -46036,6 +46574,8 @@ func (t ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable) LCID()
 			return value.AsLCID()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeAddedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46061,9 +46601,13 @@ type ERABsAdmittedToBeAddedSgNBModAckItemExtIETable struct{}
 func ERABsAdmittedToBeAddedSgNBModAckItemExtIEs() ERABsAdmittedToBeAddedSgNBModAckItemExtIETable {
 	return ERABsAdmittedToBeAddedSgNBModAckItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeAddedSgNBModAckItemExtIETable.
 func (ERABsAdmittedToBeAddedSgNBModAckItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeAdded-SgNBModAck-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeAddedSgNBModAckItemExtIETable.
 func (t ERABsAdmittedToBeAddedSgNBModAckItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeAddedSgNBModAckItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeAddedSgNBModAckItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46087,9 +46631,13 @@ type ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIETable struct{}
 func ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEs() ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIETable {
 	return ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIETable.
 func (ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeModified-ModAckItem-SCG-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIETable.
 func (t ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeModifiedModAckItemSCGBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46113,9 +46661,13 @@ type ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIETable struct{}
 func ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEs() ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIETable {
 	return ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIETable.
 func (ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeModified-ModAckItem-Split-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIETable.
 func (t ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeModifiedModAckItemSplitBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46139,12 +46691,16 @@ type ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable struct{}
 func ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEs() ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable {
 	return ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable.
 func (ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs"})
 }
 func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETableInfoULpDCPSnLength(internalReceiver ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEs().ID(), ID: s00.ProtocolIEID(302), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "PDCPSnLength"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs", Row: "id-uLpDCPSnLength"}}}
 }
+
+// ULpDCPSnLength returns the typed binding for the ULpDCPSnLength row of ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable) ULpDCPSnLength() ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsPDCPSnLengthExtBinding {
 	return ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsPDCPSnLengthExtBinding{info: X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETableInfoULpDCPSnLength(t), codec: s00.X2apInternalConstructT22PDCPSnLengthValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("PDCPSnLength", func(data []byte, options aper.DecodeState) (s00.PDCPSnLength, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -46197,6 +46753,8 @@ func (t ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable) ULpDCP
 func X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETableInfoDLPDCPSnLength(internalReceiver ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEs().ID(), ID: s00.ProtocolIEID(311), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "PDCPSnLength"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeModified-SgNBModAck-Item-SgNBPDCPpresentExtIEs", Row: "id-dLPDCPSnLength"}}}
 }
+
+// DLPDCPSnLength returns the typed binding for the DLPDCPSnLength row of ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable) DLPDCPSnLength() ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsPDCPSnLengthExtBinding {
 	return ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsPDCPSnLengthExtBinding{info: X2apInternalERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETableInfoDLPDCPSnLength(t), codec: s00.X2apInternalConstructT22PDCPSnLengthValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("PDCPSnLength", func(data []byte, options aper.DecodeState) (s00.PDCPSnLength, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -46246,6 +46804,8 @@ func (t ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable) DLPDCP
 			return value.AsDLPDCPSnLength()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeModifiedSgNBModAckItemSgNBPDCPpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46273,9 +46833,13 @@ type ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIETable struct{}
 func ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEs() ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIETable {
 	return ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIETable.
 func (ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-ModAckItem-SCG-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIETable.
 func (t ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeReleasedModAckItemSCGBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46299,9 +46863,13 @@ type ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIETable struct{}
 func ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEs() ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIETable {
 	return ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIETable.
 func (ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-ModAckItem-Split-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIETable.
 func (t ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeReleasedModAckItemSplitBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46325,12 +46893,16 @@ type ERABsAdmittedToBeReleasedModAckItemIETable struct{}
 func ERABsAdmittedToBeReleasedModAckItemIEs() ERABsAdmittedToBeReleasedModAckItemIETable {
 	return ERABsAdmittedToBeReleasedModAckItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeReleasedModAckItemIETable.
 func (ERABsAdmittedToBeReleasedModAckItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-ModAckItemIEs"})
 }
 func X2apInternalERABsAdmittedToBeReleasedModAckItemIETableInfoERABsAdmittedToBeReleasedModAckItem(internalReceiver ERABsAdmittedToBeReleasedModAckItemIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedToBeReleasedModAckItemIEs().ID(), ID: s00.ProtocolIEID(133), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToReleasedModAckItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-ModAckItemIEs", Row: "id-E-RABs-Admitted-ToBeReleased-ModAckItem"}}}
 }
+
+// ERABsAdmittedToBeReleasedModAckItem returns the typed binding for the ERABsAdmittedToBeReleasedModAckItem row of ERABsAdmittedToBeReleasedModAckItemIETable.
 func (t ERABsAdmittedToBeReleasedModAckItemIETable) ERABsAdmittedToBeReleasedModAckItem() ERABsAdmittedToBeReleasedModAckItemERABsAdmittedToReleasedModAckItemIEBinding {
 	return ERABsAdmittedToBeReleasedModAckItemERABsAdmittedToReleasedModAckItemIEBinding{info: X2apInternalERABsAdmittedToBeReleasedModAckItemIETableInfoERABsAdmittedToBeReleasedModAckItem(t), codec: s05.X2apInternalConstructT43ERABsAdmittedToReleasedModAckItemValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsAdmittedToReleasedModAckItem", func(data []byte, options aper.DecodeState) (s05.ERABsAdmittedToReleasedModAckItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -46372,6 +46944,8 @@ func (t ERABsAdmittedToBeReleasedModAckItemIETable) ERABsAdmittedToBeReleasedMod
 			return value.AsERABsAdmittedToBeReleasedModAckItem()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeReleasedModAckItemIETable.
 func (t ERABsAdmittedToBeReleasedModAckItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeReleasedModAckItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeReleasedModAckItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -46397,9 +46971,13 @@ type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIETable struct{
 func ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEs() ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIETable {
 	return ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIETable.
 func (ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPnotpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPnotpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46423,9 +47001,13 @@ type ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIETable struct{}
 func ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEs() ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIETable {
 	return ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIETable.
 func (ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-SgNBModAck-Item-SgNBPDCPpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIETable.
 func (t ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeReleasedSgNBModAckItemSgNBPDCPpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46449,12 +47031,16 @@ type ERABsAdmittedToBeReleasedSgNBModAckItemIETable struct{}
 func ERABsAdmittedToBeReleasedSgNBModAckItemIEs() ERABsAdmittedToBeReleasedSgNBModAckItemIETable {
 	return ERABsAdmittedToBeReleasedSgNBModAckItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeReleasedSgNBModAckItemIETable.
 func (ERABsAdmittedToBeReleasedSgNBModAckItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs"})
 }
 func X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIETableInfoERABsAdmittedToBeReleasedSgNBModAckItem(internalReceiver ERABsAdmittedToBeReleasedSgNBModAckItemIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedToBeReleasedSgNBModAckItemIEs().ID(), ID: s00.ProtocolIEID(224), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToReleasedSgNBModAckItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-SgNBModAck-ItemIEs", Row: "id-E-RABs-Admitted-ToBeReleased-SgNBModAck-Item"}}}
 }
+
+// ERABsAdmittedToBeReleasedSgNBModAckItem returns the typed binding for the ERABsAdmittedToBeReleasedSgNBModAckItem row of ERABsAdmittedToBeReleasedSgNBModAckItemIETable.
 func (t ERABsAdmittedToBeReleasedSgNBModAckItemIETable) ERABsAdmittedToBeReleasedSgNBModAckItem() ERABsAdmittedToBeReleasedSgNBModAckItemERABsAdmittedToReleasedSgNBModAckItemIEBinding {
 	return ERABsAdmittedToBeReleasedSgNBModAckItemERABsAdmittedToReleasedSgNBModAckItemIEBinding{info: X2apInternalERABsAdmittedToBeReleasedSgNBModAckItemIETableInfoERABsAdmittedToBeReleasedSgNBModAckItem(t), codec: s05.X2apInternalConstructT47ERABsAdmittedToReleasedSgNBModAckItemValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsAdmittedToReleasedSgNBModAckItem", func(data []byte, options aper.DecodeState) (s05.ERABsAdmittedToReleasedSgNBModAckItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -46502,6 +47088,8 @@ func (t ERABsAdmittedToBeReleasedSgNBModAckItemIETable) ERABsAdmittedToBeRelease
 			return value.AsERABsAdmittedToBeReleasedSgNBModAckItem()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeReleasedSgNBModAckItemIETable.
 func (t ERABsAdmittedToBeReleasedSgNBModAckItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeReleasedSgNBModAckItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeReleasedSgNBModAckItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -46527,9 +47115,13 @@ type ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable struct{}
 func ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEs() ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable {
 	return ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable.
 func (ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable.
 func (t ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeReleasedSgNBRelReqAckItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46553,12 +47145,16 @@ type ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable struct{}
 func ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEs() ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable {
 	return ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable.
 func (ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs"})
 }
 func X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIETableInfoERABsAdmittedToBeReleasedSgNBRelReqAckItem(internalReceiver ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEs().ID(), ID: s00.ProtocolIEID(319), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ERABsAdmittedToBeReleasedSgNBRelReqAckItem"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-ItemIEs", Row: "id-E-RABs-Admitted-ToBeReleased-SgNBRelReqAck-Item"}}}
 }
+
+// ERABsAdmittedToBeReleasedSgNBRelReqAckItem returns the typed binding for the ERABsAdmittedToBeReleasedSgNBRelReqAckItem row of ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable.
 func (t ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable) ERABsAdmittedToBeReleasedSgNBRelReqAckItem() ERABsAdmittedToBeReleasedSgNBRelReqAckItemERABsAdmittedToBeReleasedSgNBRelReqAckItemIEBinding {
 	return ERABsAdmittedToBeReleasedSgNBRelReqAckItemERABsAdmittedToBeReleasedSgNBRelReqAckItemIEBinding{info: X2apInternalERABsAdmittedToBeReleasedSgNBRelReqAckItemIETableInfoERABsAdmittedToBeReleasedSgNBRelReqAckItem(t), codec: s05.X2apInternalConstructT52ERABsAdmittedToBeReleasedSgNBRelReqAckItemValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ERABsAdmittedToBeReleasedSgNBRelReqAckItem", func(data []byte, options aper.DecodeState) (s05.ERABsAdmittedToBeReleasedSgNBRelReqAckItem, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -46602,6 +47198,8 @@ func (t ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable) ERABsAdmittedToBeRele
 			return value.AsERABsAdmittedToBeReleasedSgNBRelReqAckItem()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable.
 func (t ERABsAdmittedToBeReleasedSgNBRelReqAckItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeReleasedSgNBRelReqAckItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -46627,12 +47225,16 @@ type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable struct
 func ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEs() ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable {
 	return ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable.
 func (ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs"})
 }
 func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETableInfoULpDCPSnLength(internalReceiver ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEs().ID(), ID: s00.ProtocolIEID(302), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "PDCPSnLength"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs", Row: "id-uLpDCPSnLength"}}}
 }
+
+// ULpDCPSnLength returns the typed binding for the ULpDCPSnLength row of ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable) ULpDCPSnLength() ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsPDCPSnLengthExtBinding {
 	return ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsPDCPSnLengthExtBinding{info: X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETableInfoULpDCPSnLength(t), codec: s00.X2apInternalConstructT22PDCPSnLengthValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("PDCPSnLength", func(data []byte, options aper.DecodeState) (s00.PDCPSnLength, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -46685,6 +47287,8 @@ func (t ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable) UL
 func X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETableInfoDLPDCPSnLength(internalReceiver ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable) FieldInfo {
 	return FieldInfo{Table: ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEs().ID(), ID: s00.ProtocolIEID(311), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "PDCPSnLength"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPnotpresentExtIEs", Row: "id-dLPDCPSnLength"}}}
 }
+
+// DLPDCPSnLength returns the typed binding for the DLPDCPSnLength row of ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable) DLPDCPSnLength() ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsPDCPSnLengthExtBinding {
 	return ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsPDCPSnLengthExtBinding{info: X2apInternalERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETableInfoDLPDCPSnLength(t), codec: s00.X2apInternalConstructT22PDCPSnLengthValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("PDCPSnLength", func(data []byte, options aper.DecodeState) (s00.PDCPSnLength, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -46734,6 +47338,8 @@ func (t ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable) DL
 			return value.AsDLPDCPSnLength()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPnotpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46761,9 +47367,13 @@ type ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIETable struct{}
 func ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEs() ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIETable {
 	return ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIETable.
 func (ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-AdmittedToBeModified-SgNBModConf-Item-SgNBPDCPpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeModifiedSgNBModConfItemSgNBPDCPpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46787,9 +47397,13 @@ type ERABsAdmittedToBeModifiedSgNBModConfItemExtIETable struct{}
 func ERABsAdmittedToBeModifiedSgNBModConfItemExtIEs() ERABsAdmittedToBeModifiedSgNBModConfItemExtIETable {
 	return ERABsAdmittedToBeModifiedSgNBModConfItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsAdmittedToBeModifiedSgNBModConfItemExtIETable.
 func (ERABsAdmittedToBeModifiedSgNBModConfItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-AdmittedToBeModified-SgNBModConf-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsAdmittedToBeModifiedSgNBModConfItemExtIETable.
 func (t ERABsAdmittedToBeModifiedSgNBModConfItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsAdmittedToBeModifiedSgNBModConfItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsAdmittedToBeModifiedSgNBModConfItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46813,9 +47427,13 @@ type ERABsDataForwardingAddressItemExtIETable struct{}
 func ERABsDataForwardingAddressItemExtIEs() ERABsDataForwardingAddressItemExtIETable {
 	return ERABsDataForwardingAddressItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsDataForwardingAddressItemExtIETable.
 func (ERABsDataForwardingAddressItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-DataForwardingAddress-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsDataForwardingAddressItemExtIETable.
 func (t ERABsDataForwardingAddressItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsDataForwardingAddressItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsDataForwardingAddressItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46839,9 +47457,13 @@ type ERABsSubjectToCounterCheckItemExtIETable struct{}
 func ERABsSubjectToCounterCheckItemExtIEs() ERABsSubjectToCounterCheckItemExtIETable {
 	return ERABsSubjectToCounterCheckItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsSubjectToCounterCheckItemExtIETable.
 func (ERABsSubjectToCounterCheckItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-SubjectToCounterCheckItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsSubjectToCounterCheckItemExtIETable.
 func (t ERABsSubjectToCounterCheckItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsSubjectToCounterCheckItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsSubjectToCounterCheckItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46865,9 +47487,13 @@ type ERABsSubjectToSgNBCounterCheckItemExtIETable struct{}
 func ERABsSubjectToSgNBCounterCheckItemExtIEs() ERABsSubjectToSgNBCounterCheckItemExtIETable {
 	return ERABsSubjectToSgNBCounterCheckItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsSubjectToSgNBCounterCheckItemExtIETable.
 func (ERABsSubjectToSgNBCounterCheckItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-SubjectToSgNBCounterCheck-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsSubjectToSgNBCounterCheckItemExtIETable.
 func (t ERABsSubjectToSgNBCounterCheckItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsSubjectToSgNBCounterCheckItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsSubjectToSgNBCounterCheckItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46891,9 +47517,13 @@ type ERABsToBeAddedSgNBAddReqItemExtIETable struct{}
 func ERABsToBeAddedSgNBAddReqItemExtIEs() ERABsToBeAddedSgNBAddReqItemExtIETable {
 	return ERABsToBeAddedSgNBAddReqItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeAddedSgNBAddReqItemExtIETable.
 func (ERABsToBeAddedSgNBAddReqItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-SgNBAddReq-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeAddedSgNBAddReqItemExtIETable.
 func (t ERABsToBeAddedSgNBAddReqItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeAddedSgNBAddReqItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeAddedSgNBAddReqItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46917,9 +47547,13 @@ type ERABsToBeAddedSgNBAddReqAckItemExtIETable struct{}
 func ERABsToBeAddedSgNBAddReqAckItemExtIEs() ERABsToBeAddedSgNBAddReqAckItemExtIETable {
 	return ERABsToBeAddedSgNBAddReqAckItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeAddedSgNBAddReqAckItemExtIETable.
 func (ERABsToBeAddedSgNBAddReqAckItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-SgNBAddReqAck-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeAddedSgNBAddReqAckItemExtIETable.
 func (t ERABsToBeAddedSgNBAddReqAckItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeAddedSgNBAddReqAckItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeAddedSgNBAddReqAckItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46943,9 +47577,13 @@ type ERABsToBeAddedSgNBModAckItemExtIETable struct{}
 func ERABsToBeAddedSgNBModAckItemExtIEs() ERABsToBeAddedSgNBModAckItemExtIETable {
 	return ERABsToBeAddedSgNBModAckItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeAddedSgNBModAckItemExtIETable.
 func (ERABsToBeAddedSgNBModAckItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-SgNBModAck-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeAddedSgNBModAckItemExtIETable.
 func (t ERABsToBeAddedSgNBModAckItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeAddedSgNBModAckItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeAddedSgNBModAckItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46969,9 +47607,13 @@ type ERABsToBeAddedSgNBModReqItemExtIETable struct{}
 func ERABsToBeAddedSgNBModReqItemExtIEs() ERABsToBeAddedSgNBModReqItemExtIETable {
 	return ERABsToBeAddedSgNBModReqItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeAddedSgNBModReqItemExtIETable.
 func (ERABsToBeAddedSgNBModReqItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeAdded-SgNBModReq-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeAddedSgNBModReqItemExtIETable.
 func (t ERABsToBeAddedSgNBModReqItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeAddedSgNBModReqItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeAddedSgNBModReqItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -46995,9 +47637,13 @@ type ERABsToBeModifiedModReqItemSCGBearerExtIETable struct{}
 func ERABsToBeModifiedModReqItemSCGBearerExtIEs() ERABsToBeModifiedModReqItemSCGBearerExtIETable {
 	return ERABsToBeModifiedModReqItemSCGBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeModifiedModReqItemSCGBearerExtIETable.
 func (ERABsToBeModifiedModReqItemSCGBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeModified-ModReqItem-SCG-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeModifiedModReqItemSCGBearerExtIETable.
 func (t ERABsToBeModifiedModReqItemSCGBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeModifiedModReqItemSCGBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeModifiedModReqItemSCGBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47021,9 +47667,13 @@ type ERABsToBeModifiedModReqItemSplitBearerExtIETable struct{}
 func ERABsToBeModifiedModReqItemSplitBearerExtIEs() ERABsToBeModifiedModReqItemSplitBearerExtIETable {
 	return ERABsToBeModifiedModReqItemSplitBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeModifiedModReqItemSplitBearerExtIETable.
 func (ERABsToBeModifiedModReqItemSplitBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeModified-ModReqItem-Split-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeModifiedModReqItemSplitBearerExtIETable.
 func (t ERABsToBeModifiedModReqItemSplitBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeModifiedModReqItemSplitBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeModifiedModReqItemSplitBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47047,9 +47697,13 @@ type ERABsToBeModifiedSgNBModReqItemExtIETable struct{}
 func ERABsToBeModifiedSgNBModReqItemExtIEs() ERABsToBeModifiedSgNBModReqItemExtIETable {
 	return ERABsToBeModifiedSgNBModReqItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeModifiedSgNBModReqItemExtIETable.
 func (ERABsToBeModifiedSgNBModReqItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeModified-SgNBModReq-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeModifiedSgNBModReqItemExtIETable.
 func (t ERABsToBeModifiedSgNBModReqItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeModifiedSgNBModReqItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeModifiedSgNBModReqItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47073,9 +47727,13 @@ type ERABsToBeModifiedSgNBModReqdItemExtIETable struct{}
 func ERABsToBeModifiedSgNBModReqdItemExtIEs() ERABsToBeModifiedSgNBModReqdItemExtIETable {
 	return ERABsToBeModifiedSgNBModReqdItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeModifiedSgNBModReqdItemExtIETable.
 func (ERABsToBeModifiedSgNBModReqdItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeModified-SgNBModReqd-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeModifiedSgNBModReqdItemExtIETable.
 func (t ERABsToBeModifiedSgNBModReqdItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeModifiedSgNBModReqdItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeModifiedSgNBModReqdItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47099,9 +47757,13 @@ type ERABsToBeReleasedModReqItemSCGBearerExtIETable struct{}
 func ERABsToBeReleasedModReqItemSCGBearerExtIEs() ERABsToBeReleasedModReqItemSCGBearerExtIETable {
 	return ERABsToBeReleasedModReqItemSCGBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedModReqItemSCGBearerExtIETable.
 func (ERABsToBeReleasedModReqItemSCGBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-ModReqItem-SCG-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedModReqItemSCGBearerExtIETable.
 func (t ERABsToBeReleasedModReqItemSCGBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedModReqItemSCGBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedModReqItemSCGBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47125,9 +47787,13 @@ type ERABsToBeReleasedModReqItemSplitBearerExtIETable struct{}
 func ERABsToBeReleasedModReqItemSplitBearerExtIEs() ERABsToBeReleasedModReqItemSplitBearerExtIETable {
 	return ERABsToBeReleasedModReqItemSplitBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedModReqItemSplitBearerExtIETable.
 func (ERABsToBeReleasedModReqItemSplitBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-ModReqItem-Split-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedModReqItemSplitBearerExtIETable.
 func (t ERABsToBeReleasedModReqItemSplitBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedModReqItemSplitBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedModReqItemSplitBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47151,9 +47817,13 @@ type ERABsToBeReleasedModReqdItemExtIETable struct{}
 func ERABsToBeReleasedModReqdItemExtIEs() ERABsToBeReleasedModReqdItemExtIETable {
 	return ERABsToBeReleasedModReqdItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedModReqdItemExtIETable.
 func (ERABsToBeReleasedModReqdItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-ModReqdItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedModReqdItemExtIETable.
 func (t ERABsToBeReleasedModReqdItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedModReqdItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedModReqdItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47177,9 +47847,13 @@ type ERABsToBeReleasedRelConfItemSCGBearerExtIETable struct{}
 func ERABsToBeReleasedRelConfItemSCGBearerExtIEs() ERABsToBeReleasedRelConfItemSCGBearerExtIETable {
 	return ERABsToBeReleasedRelConfItemSCGBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedRelConfItemSCGBearerExtIETable.
 func (ERABsToBeReleasedRelConfItemSCGBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-RelConfItem-SCG-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedRelConfItemSCGBearerExtIETable.
 func (t ERABsToBeReleasedRelConfItemSCGBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedRelConfItemSCGBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedRelConfItemSCGBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47203,9 +47877,13 @@ type ERABsToBeReleasedRelConfItemSplitBearerExtIETable struct{}
 func ERABsToBeReleasedRelConfItemSplitBearerExtIEs() ERABsToBeReleasedRelConfItemSplitBearerExtIETable {
 	return ERABsToBeReleasedRelConfItemSplitBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedRelConfItemSplitBearerExtIETable.
 func (ERABsToBeReleasedRelConfItemSplitBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-RelConfItem-Split-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedRelConfItemSplitBearerExtIETable.
 func (t ERABsToBeReleasedRelConfItemSplitBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedRelConfItemSplitBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedRelConfItemSplitBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47229,9 +47907,13 @@ type ERABsToBeReleasedRelReqItemSCGBearerExtIETable struct{}
 func ERABsToBeReleasedRelReqItemSCGBearerExtIEs() ERABsToBeReleasedRelReqItemSCGBearerExtIETable {
 	return ERABsToBeReleasedRelReqItemSCGBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedRelReqItemSCGBearerExtIETable.
 func (ERABsToBeReleasedRelReqItemSCGBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-RelReqItem-SCG-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedRelReqItemSCGBearerExtIETable.
 func (t ERABsToBeReleasedRelReqItemSCGBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedRelReqItemSCGBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedRelReqItemSCGBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47255,9 +47937,13 @@ type ERABsToBeReleasedRelReqItemSplitBearerExtIETable struct{}
 func ERABsToBeReleasedRelReqItemSplitBearerExtIEs() ERABsToBeReleasedRelReqItemSplitBearerExtIETable {
 	return ERABsToBeReleasedRelReqItemSplitBearerExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedRelReqItemSplitBearerExtIETable.
 func (ERABsToBeReleasedRelReqItemSplitBearerExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-RelReqItem-Split-BearerExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedRelReqItemSplitBearerExtIETable.
 func (t ERABsToBeReleasedRelReqItemSplitBearerExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedRelReqItemSplitBearerExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedRelReqItemSplitBearerExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47281,9 +47967,13 @@ type ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIETable struct{}
 func ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEs() ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIETable {
 	return ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIETable.
 func (ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBChaConf-Item-SgNBPDCPnotpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBChaConfItemSgNBPDCPnotpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47307,9 +47997,13 @@ type ERABsToBeReleasedSgNBChaConfItemExtIETable struct{}
 func ERABsToBeReleasedSgNBChaConfItemExtIEs() ERABsToBeReleasedSgNBChaConfItemExtIETable {
 	return ERABsToBeReleasedSgNBChaConfItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBChaConfItemExtIETable.
 func (ERABsToBeReleasedSgNBChaConfItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBChaConf-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBChaConfItemExtIETable.
 func (t ERABsToBeReleasedSgNBChaConfItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBChaConfItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBChaConfItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47333,9 +48027,13 @@ type ERABsToBeReleasedSgNBModAckItemExtIETable struct{}
 func ERABsToBeReleasedSgNBModAckItemExtIEs() ERABsToBeReleasedSgNBModAckItemExtIETable {
 	return ERABsToBeReleasedSgNBModAckItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBModAckItemExtIETable.
 func (ERABsToBeReleasedSgNBModAckItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBModAck-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBModAckItemExtIETable.
 func (t ERABsToBeReleasedSgNBModAckItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBModAckItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBModAckItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47359,9 +48057,13 @@ type ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIETable struct{}
 func ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEs() ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIETable {
 	return ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIETable.
 func (ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPnotpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBModReqItemSgNBPDCPnotpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47385,9 +48087,13 @@ type ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIETable struct{}
 func ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIEs() ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIETable {
 	return ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIETable.
 func (ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBModReq-Item-SgNBPDCPpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIETable.
 func (t ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBModReqItemSgNBPDCPpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47411,9 +48117,13 @@ type ERABsToBeReleasedSgNBModReqItemExtIETable struct{}
 func ERABsToBeReleasedSgNBModReqItemExtIEs() ERABsToBeReleasedSgNBModReqItemExtIETable {
 	return ERABsToBeReleasedSgNBModReqItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBModReqItemExtIETable.
 func (ERABsToBeReleasedSgNBModReqItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBModReq-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBModReqItemExtIETable.
 func (t ERABsToBeReleasedSgNBModReqItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBModReqItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBModReqItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47437,9 +48147,13 @@ type ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIETable struct{}
 func ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEs() ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIETable {
 	return ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIETable.
 func (ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPnotpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBRelConfItemSgNBPDCPnotpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47463,9 +48177,13 @@ type ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIETable struct{}
 func ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIEs() ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIETable {
 	return ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIETable.
 func (ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelConf-Item-SgNBPDCPpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIETable.
 func (t ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBRelConfItemSgNBPDCPpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47489,9 +48207,13 @@ type ERABsToBeReleasedSgNBRelConfItemExtIETable struct{}
 func ERABsToBeReleasedSgNBRelConfItemExtIEs() ERABsToBeReleasedSgNBRelConfItemExtIETable {
 	return ERABsToBeReleasedSgNBRelConfItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBRelConfItemExtIETable.
 func (ERABsToBeReleasedSgNBRelConfItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelConf-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBRelConfItemExtIETable.
 func (t ERABsToBeReleasedSgNBRelConfItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBRelConfItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBRelConfItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47515,9 +48237,13 @@ type ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIETable struct{}
 func ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEs() ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIETable {
 	return ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIETable.
 func (ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPnotpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIETable.
 func (t ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBRelReqItemSgNBPDCPnotpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47541,9 +48267,13 @@ type ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIETable struct{}
 func ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIEs() ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIETable {
 	return ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIETable.
 func (ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelReq-Item-SgNBPDCPpresentExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIETable.
 func (t ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBRelReqItemSgNBPDCPpresentExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47567,9 +48297,13 @@ type ERABsToBeReleasedSgNBRelReqItemExtIETable struct{}
 func ERABsToBeReleasedSgNBRelReqItemExtIEs() ERABsToBeReleasedSgNBRelReqItemExtIETable {
 	return ERABsToBeReleasedSgNBRelReqItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBRelReqItemExtIETable.
 func (ERABsToBeReleasedSgNBRelReqItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelReq-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBRelReqItemExtIETable.
 func (t ERABsToBeReleasedSgNBRelReqItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBRelReqItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBRelReqItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47593,9 +48327,13 @@ type ERABsToBeReleasedSgNBRelReqdItemExtIETable struct{}
 func ERABsToBeReleasedSgNBRelReqdItemExtIEs() ERABsToBeReleasedSgNBRelReqdItemExtIETable {
 	return ERABsToBeReleasedSgNBRelReqdItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABsToBeReleasedSgNBRelReqdItemExtIETable.
 func (ERABsToBeReleasedSgNBRelReqdItemExtIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "E-RABs-ToBeReleased-SgNBRelReqd-ItemExtIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABsToBeReleasedSgNBRelReqdItemExtIETable.
 func (t ERABsToBeReleasedSgNBRelReqdItemExtIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ERABsToBeReleasedSgNBRelReqdItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ERABsToBeReleasedSgNBRelReqdItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -47619,9 +48357,13 @@ type ENBENDCConfigUpdateAckIETable struct{}
 func ENBENDCConfigUpdateAckIEs() ENBENDCConfigUpdateAckIETable {
 	return ENBENDCConfigUpdateAckIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBENDCConfigUpdateAckIETable.
 func (ENBENDCConfigUpdateAckIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-ENDCConfigUpdateAckIEs"})
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBENDCConfigUpdateAckIETable.
 func (t ENBENDCConfigUpdateAckIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s02.ENBENDCConfigUpdateAckIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s02.ENBENDCConfigUpdateAckIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -47645,12 +48387,16 @@ type ENBENDCX2RemovalReqAckIETable struct{}
 func ENBENDCX2RemovalReqAckIEs() ENBENDCX2RemovalReqAckIETable {
 	return ENBENDCX2RemovalReqAckIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBENDCX2RemovalReqAckIETable.
 func (ENBENDCX2RemovalReqAckIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-ENDCX2RemovalReqAckIEs"})
 }
 func X2apInternalENBENDCX2RemovalReqAckIETableInfoGlobalENBID(internalReceiver ENBENDCX2RemovalReqAckIETable) FieldInfo {
 	return FieldInfo{Table: ENBENDCX2RemovalReqAckIEs().ID(), ID: s00.ProtocolIEID(21), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "GlobalENBID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-ENDCX2RemovalReqAckIEs", Row: "id-GlobalENB-ID"}}}
 }
+
+// GlobalENBID returns the typed binding for the GlobalENBID row of ENBENDCX2RemovalReqAckIETable.
 func (t ENBENDCX2RemovalReqAckIETable) GlobalENBID() ENBENDCX2RemovalReqAckGlobalENBIDIEBinding {
 	return ENBENDCX2RemovalReqAckGlobalENBIDIEBinding{info: X2apInternalENBENDCX2RemovalReqAckIETableInfoGlobalENBID(t), codec: s05.X2apInternalConstructT21GlobalENBIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("GlobalENBID", func(data []byte, options aper.DecodeState) (s05.GlobalENBID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -47690,6 +48436,8 @@ func (t ENBENDCX2RemovalReqAckIETable) GlobalENBID() ENBENDCX2RemovalReqAckGloba
 			return ENBENDCX2RemovalReqAckIEValue{id: s00.ProtocolIEID(21), rowGlobalENBID: &value}
 		}, get: func(value *ENBENDCX2RemovalReqAckIEValue) (*s05.GlobalENBID, bool) { return value.AsGlobalENBID() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBENDCX2RemovalReqAckIETable.
 func (t ENBENDCX2RemovalReqAckIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBENDCX2RemovalReqAckIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBENDCX2RemovalReqAckIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -47713,12 +48461,16 @@ func (t ENBENDCX2RemovalReqAckIETable) NewOpaque(id s00.ProtocolIEID, criticalit
 type ENBENDCX2RemovalReqIETable struct{}
 
 func ENBENDCX2RemovalReqIEs() ENBENDCX2RemovalReqIETable { return ENBENDCX2RemovalReqIETable{} }
+
+// ID returns the ASN.1 object-set identity of ENBENDCX2RemovalReqIETable.
 func (ENBENDCX2RemovalReqIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-ENDCX2RemovalReqIEs"})
 }
 func X2apInternalENBENDCX2RemovalReqIETableInfoGlobalENBID(internalReceiver ENBENDCX2RemovalReqIETable) FieldInfo {
 	return FieldInfo{Table: ENBENDCX2RemovalReqIEs().ID(), ID: s00.ProtocolIEID(21), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "GlobalENBID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENB-ENDCX2RemovalReqIEs", Row: "id-GlobalENB-ID"}}}
 }
+
+// GlobalENBID returns the typed binding for the GlobalENBID row of ENBENDCX2RemovalReqIETable.
 func (t ENBENDCX2RemovalReqIETable) GlobalENBID() ENBENDCX2RemovalReqGlobalENBIDIEBinding {
 	return ENBENDCX2RemovalReqGlobalENBIDIEBinding{info: X2apInternalENBENDCX2RemovalReqIETableInfoGlobalENBID(t), codec: s05.X2apInternalConstructT21GlobalENBIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("GlobalENBID", func(data []byte, options aper.DecodeState) (s05.GlobalENBID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -47758,6 +48510,8 @@ func (t ENBENDCX2RemovalReqIETable) GlobalENBID() ENBENDCX2RemovalReqGlobalENBID
 			return ENBENDCX2RemovalReqIEValue{id: s00.ProtocolIEID(21), rowGlobalENBID: &value}
 		}, get: func(value *ENBENDCX2RemovalReqIEValue) (*s05.GlobalENBID, bool) { return value.AsGlobalENBID() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBENDCX2RemovalReqIETable.
 func (t ENBENDCX2RemovalReqIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBENDCX2RemovalReqIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBENDCX2RemovalReqIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -47783,12 +48537,16 @@ type ENBConfigurationUpdateAcknowledgeIETable struct{}
 func ENBConfigurationUpdateAcknowledgeIEs() ENBConfigurationUpdateAcknowledgeIETable {
 	return ENBConfigurationUpdateAcknowledgeIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBConfigurationUpdateAcknowledgeIETable.
 func (ENBConfigurationUpdateAcknowledgeIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENBConfigurationUpdateAcknowledge-IEs"})
 }
 func X2apInternalENBConfigurationUpdateAcknowledgeIETableInfoCriticalityDiagnostics(internalReceiver ENBConfigurationUpdateAcknowledgeIETable) FieldInfo {
 	return FieldInfo{Table: ENBConfigurationUpdateAcknowledgeIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENBConfigurationUpdateAcknowledge-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ENBConfigurationUpdateAcknowledgeIETable.
 func (t ENBConfigurationUpdateAcknowledgeIETable) CriticalityDiagnostics() ENBConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding {
 	return ENBConfigurationUpdateAcknowledgeCriticalityDiagnosticsIEBinding{info: X2apInternalENBConfigurationUpdateAcknowledgeIETableInfoCriticalityDiagnostics(t), codec: CriticalityDiagnosticsValueCodec{path: "CriticalityDiagnostics", decode: func(data []byte, options aper.DecodeState) (CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -47829,6 +48587,8 @@ func (t ENBConfigurationUpdateAcknowledgeIETable) CriticalityDiagnostics() ENBCo
 		return value.AsCriticalityDiagnostics()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBConfigurationUpdateAcknowledgeIETable.
 func (t ENBConfigurationUpdateAcknowledgeIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBConfigurationUpdateAcknowledgeIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBConfigurationUpdateAcknowledgeIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -47854,12 +48614,16 @@ type ENBConfigurationUpdateFailureIETable struct{}
 func ENBConfigurationUpdateFailureIEs() ENBConfigurationUpdateFailureIETable {
 	return ENBConfigurationUpdateFailureIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBConfigurationUpdateFailureIETable.
 func (ENBConfigurationUpdateFailureIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENBConfigurationUpdateFailure-IEs"})
 }
 func X2apInternalENBConfigurationUpdateFailureIETableInfoCause(internalReceiver ENBConfigurationUpdateFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENBConfigurationUpdateFailureIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENBConfigurationUpdateFailure-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of ENBConfigurationUpdateFailureIETable.
 func (t ENBConfigurationUpdateFailureIETable) Cause() ENBConfigurationUpdateFailureCauseIEBinding {
 	return ENBConfigurationUpdateFailureCauseIEBinding{info: X2apInternalENBConfigurationUpdateFailureIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -47901,6 +48665,8 @@ func (t ENBConfigurationUpdateFailureIETable) Cause() ENBConfigurationUpdateFail
 func X2apInternalENBConfigurationUpdateFailureIETableInfoTimeToWait(internalReceiver ENBConfigurationUpdateFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENBConfigurationUpdateFailureIEs().ID(), ID: s00.ProtocolIEID(22), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "TimeToWait"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENBConfigurationUpdateFailure-IEs", Row: "id-TimeToWait"}}}
 }
+
+// TimeToWait returns the typed binding for the TimeToWait row of ENBConfigurationUpdateFailureIETable.
 func (t ENBConfigurationUpdateFailureIETable) TimeToWait() ENBConfigurationUpdateFailureTimeToWaitIEBinding {
 	return ENBConfigurationUpdateFailureTimeToWaitIEBinding{info: X2apInternalENBConfigurationUpdateFailureIETableInfoTimeToWait(t), codec: s00.X2apInternalConstructT20TimeToWaitValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("TimeToWait", func(data []byte, options aper.DecodeState) (s00.TimeToWait, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -47954,6 +48720,8 @@ func (t ENBConfigurationUpdateFailureIETable) TimeToWait() ENBConfigurationUpdat
 func X2apInternalENBConfigurationUpdateFailureIETableInfoCriticalityDiagnostics(internalReceiver ENBConfigurationUpdateFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENBConfigurationUpdateFailureIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENBConfigurationUpdateFailure-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ENBConfigurationUpdateFailureIETable.
 func (t ENBConfigurationUpdateFailureIETable) CriticalityDiagnostics() ENBConfigurationUpdateFailureCriticalityDiagnosticsIEBinding {
 	return ENBConfigurationUpdateFailureCriticalityDiagnosticsIEBinding{info: X2apInternalENBConfigurationUpdateFailureIETableInfoCriticalityDiagnostics(t), codec: CriticalityDiagnosticsValueCodec{path: "CriticalityDiagnostics", decode: func(data []byte, options aper.DecodeState) (CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -47994,6 +48762,8 @@ func (t ENBConfigurationUpdateFailureIETable) CriticalityDiagnostics() ENBConfig
 		return value.AsCriticalityDiagnostics()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBConfigurationUpdateFailureIETable.
 func (t ENBConfigurationUpdateFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBConfigurationUpdateFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBConfigurationUpdateFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -48023,12 +48793,16 @@ type ENDCCellActivationFailureIETable struct{}
 func ENDCCellActivationFailureIEs() ENDCCellActivationFailureIETable {
 	return ENDCCellActivationFailureIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENDCCellActivationFailureIETable.
 func (ENDCCellActivationFailureIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCCellActivationFailure-IEs"})
 }
 func X2apInternalENDCCellActivationFailureIETableInfoActivationID(internalReceiver ENDCCellActivationFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCCellActivationFailureIEs().ID(), ID: s00.ProtocolIEID(256), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "ActivationID"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCCellActivationFailure-IEs", Row: "id-ActivationID"}}}
 }
+
+// ActivationID returns the typed binding for the ActivationID row of ENDCCellActivationFailureIETable.
 func (t ENDCCellActivationFailureIETable) ActivationID() ENDCCellActivationFailureActivationIDIEBinding {
 	return ENDCCellActivationFailureActivationIDIEBinding{info: X2apInternalENDCCellActivationFailureIETableInfoActivationID(t), codec: s00.X2apInternalConstructT22ActivationIDValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("ActivationID", func(data []byte, options aper.DecodeState) (s00.ActivationID, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48081,6 +48855,8 @@ func (t ENDCCellActivationFailureIETable) ActivationID() ENDCCellActivationFailu
 func X2apInternalENDCCellActivationFailureIETableInfoCause(internalReceiver ENDCCellActivationFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCCellActivationFailureIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCCellActivationFailure-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of ENDCCellActivationFailureIETable.
 func (t ENDCCellActivationFailureIETable) Cause() ENDCCellActivationFailureCauseIEBinding {
 	return ENDCCellActivationFailureCauseIEBinding{info: X2apInternalENDCCellActivationFailureIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48122,6 +48898,8 @@ func (t ENDCCellActivationFailureIETable) Cause() ENDCCellActivationFailureCause
 func X2apInternalENDCCellActivationFailureIETableInfoCriticalityDiagnostics(internalReceiver ENDCCellActivationFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCCellActivationFailureIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCCellActivationFailure-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ENDCCellActivationFailureIETable.
 func (t ENDCCellActivationFailureIETable) CriticalityDiagnostics() ENDCCellActivationFailureCriticalityDiagnosticsIEBinding {
 	return ENDCCellActivationFailureCriticalityDiagnosticsIEBinding{info: X2apInternalENDCCellActivationFailureIETableInfoCriticalityDiagnostics(t), codec: CriticalityDiagnosticsValueCodec{path: "CriticalityDiagnostics", decode: func(data []byte, options aper.DecodeState) (CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48165,6 +48943,8 @@ func (t ENDCCellActivationFailureIETable) CriticalityDiagnostics() ENDCCellActiv
 func X2apInternalENDCCellActivationFailureIETableInfoInterfaceInstanceIndication(internalReceiver ENDCCellActivationFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCCellActivationFailureIEs().ID(), ID: s00.ProtocolIEID(335), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "InterfaceInstanceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCCellActivationFailure-IEs", Row: "id-InterfaceInstanceIndication"}}}
 }
+
+// InterfaceInstanceIndication returns the typed binding for the InterfaceInstanceIndication row of ENDCCellActivationFailureIETable.
 func (t ENDCCellActivationFailureIETable) InterfaceInstanceIndication() ENDCCellActivationFailureInterfaceInstanceIndicationIEBinding {
 	return ENDCCellActivationFailureInterfaceInstanceIndicationIEBinding{info: X2apInternalENDCCellActivationFailureIETableInfoInterfaceInstanceIndication(t), codec: s00.X2apInternalConstructT37InterfaceInstanceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("InterfaceInstanceIndication", func(data []byte, options aper.DecodeState) (s00.InterfaceInstanceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48215,6 +48995,8 @@ func (t ENDCCellActivationFailureIETable) InterfaceInstanceIndication() ENDCCell
 			return value.AsInterfaceInstanceIndication()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENDCCellActivationFailureIETable.
 func (t ENDCCellActivationFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENDCCellActivationFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENDCCellActivationFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -48246,12 +49028,16 @@ type ENDCConfigurationTransferIETable struct{}
 func ENDCConfigurationTransferIEs() ENDCConfigurationTransferIETable {
 	return ENDCConfigurationTransferIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENDCConfigurationTransferIETable.
 func (ENDCConfigurationTransferIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCConfigurationTransfer-IEs"})
 }
 func X2apInternalENDCConfigurationTransferIETableInfoEndcSONConfigurationTransfer(internalReceiver ENDCConfigurationTransferIETable) FieldInfo {
 	return FieldInfo{Table: ENDCConfigurationTransferIEs().ID(), ID: s00.ProtocolIEID(326), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "EndcSONConfigurationTransfer"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCConfigurationTransfer-IEs", Row: "id-endcSONConfigurationTransfer"}}}
 }
+
+// EndcSONConfigurationTransfer returns the typed binding for the EndcSONConfigurationTransfer row of ENDCConfigurationTransferIETable.
 func (t ENDCConfigurationTransferIETable) EndcSONConfigurationTransfer() ENDCConfigurationTransferEndcSONConfigurationTransferIEBinding {
 	return ENDCConfigurationTransferEndcSONConfigurationTransferIEBinding{info: X2apInternalENDCConfigurationTransferIETableInfoEndcSONConfigurationTransfer(t), codec: s00.X2apInternalConstructT38EndcSONConfigurationTransferValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("EndcSONConfigurationTransfer", func(data []byte, options aper.DecodeState) (s00.EndcSONConfigurationTransfer, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48304,6 +49090,8 @@ func (t ENDCConfigurationTransferIETable) EndcSONConfigurationTransfer() ENDCCon
 func X2apInternalENDCConfigurationTransferIETableInfoInterfaceInstanceIndication(internalReceiver ENDCConfigurationTransferIETable) FieldInfo {
 	return FieldInfo{Table: ENDCConfigurationTransferIEs().ID(), ID: s00.ProtocolIEID(335), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "InterfaceInstanceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCConfigurationTransfer-IEs", Row: "id-InterfaceInstanceIndication"}}}
 }
+
+// InterfaceInstanceIndication returns the typed binding for the InterfaceInstanceIndication row of ENDCConfigurationTransferIETable.
 func (t ENDCConfigurationTransferIETable) InterfaceInstanceIndication() ENDCConfigurationTransferInterfaceInstanceIndicationIEBinding {
 	return ENDCConfigurationTransferInterfaceInstanceIndicationIEBinding{info: X2apInternalENDCConfigurationTransferIETableInfoInterfaceInstanceIndication(t), codec: s00.X2apInternalConstructT37InterfaceInstanceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("InterfaceInstanceIndication", func(data []byte, options aper.DecodeState) (s00.InterfaceInstanceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48354,6 +49142,8 @@ func (t ENDCConfigurationTransferIETable) InterfaceInstanceIndication() ENDCConf
 			return value.AsInterfaceInstanceIndication()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENDCConfigurationTransferIETable.
 func (t ENDCConfigurationTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENDCConfigurationTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENDCConfigurationTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -48381,12 +49171,16 @@ type ENDCConfigurationUpdateFailureIETable struct{}
 func ENDCConfigurationUpdateFailureIEs() ENDCConfigurationUpdateFailureIETable {
 	return ENDCConfigurationUpdateFailureIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENDCConfigurationUpdateFailureIETable.
 func (ENDCConfigurationUpdateFailureIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCConfigurationUpdateFailure-IEs"})
 }
 func X2apInternalENDCConfigurationUpdateFailureIETableInfoCause(internalReceiver ENDCConfigurationUpdateFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCConfigurationUpdateFailureIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCConfigurationUpdateFailure-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of ENDCConfigurationUpdateFailureIETable.
 func (t ENDCConfigurationUpdateFailureIETable) Cause() ENDCConfigurationUpdateFailureCauseIEBinding {
 	return ENDCConfigurationUpdateFailureCauseIEBinding{info: X2apInternalENDCConfigurationUpdateFailureIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48428,6 +49222,8 @@ func (t ENDCConfigurationUpdateFailureIETable) Cause() ENDCConfigurationUpdateFa
 func X2apInternalENDCConfigurationUpdateFailureIETableInfoCriticalityDiagnostics(internalReceiver ENDCConfigurationUpdateFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCConfigurationUpdateFailureIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCConfigurationUpdateFailure-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ENDCConfigurationUpdateFailureIETable.
 func (t ENDCConfigurationUpdateFailureIETable) CriticalityDiagnostics() ENDCConfigurationUpdateFailureCriticalityDiagnosticsIEBinding {
 	return ENDCConfigurationUpdateFailureCriticalityDiagnosticsIEBinding{info: X2apInternalENDCConfigurationUpdateFailureIETableInfoCriticalityDiagnostics(t), codec: CriticalityDiagnosticsValueCodec{path: "CriticalityDiagnostics", decode: func(data []byte, options aper.DecodeState) (CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48471,6 +49267,8 @@ func (t ENDCConfigurationUpdateFailureIETable) CriticalityDiagnostics() ENDCConf
 func X2apInternalENDCConfigurationUpdateFailureIETableInfoTimeToWait(internalReceiver ENDCConfigurationUpdateFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCConfigurationUpdateFailureIEs().ID(), ID: s00.ProtocolIEID(22), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "TimeToWait"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCConfigurationUpdateFailure-IEs", Row: "id-TimeToWait"}}}
 }
+
+// TimeToWait returns the typed binding for the TimeToWait row of ENDCConfigurationUpdateFailureIETable.
 func (t ENDCConfigurationUpdateFailureIETable) TimeToWait() ENDCConfigurationUpdateFailureTimeToWaitIEBinding {
 	return ENDCConfigurationUpdateFailureTimeToWaitIEBinding{info: X2apInternalENDCConfigurationUpdateFailureIETableInfoTimeToWait(t), codec: s00.X2apInternalConstructT20TimeToWaitValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("TimeToWait", func(data []byte, options aper.DecodeState) (s00.TimeToWait, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48524,6 +49322,8 @@ func (t ENDCConfigurationUpdateFailureIETable) TimeToWait() ENDCConfigurationUpd
 func X2apInternalENDCConfigurationUpdateFailureIETableInfoInterfaceInstanceIndication(internalReceiver ENDCConfigurationUpdateFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCConfigurationUpdateFailureIEs().ID(), ID: s00.ProtocolIEID(335), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "InterfaceInstanceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCConfigurationUpdateFailure-IEs", Row: "id-InterfaceInstanceIndication"}}}
 }
+
+// InterfaceInstanceIndication returns the typed binding for the InterfaceInstanceIndication row of ENDCConfigurationUpdateFailureIETable.
 func (t ENDCConfigurationUpdateFailureIETable) InterfaceInstanceIndication() ENDCConfigurationUpdateFailureInterfaceInstanceIndicationIEBinding {
 	return ENDCConfigurationUpdateFailureInterfaceInstanceIndicationIEBinding{info: X2apInternalENDCConfigurationUpdateFailureIETableInfoInterfaceInstanceIndication(t), codec: s00.X2apInternalConstructT37InterfaceInstanceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("InterfaceInstanceIndication", func(data []byte, options aper.DecodeState) (s00.InterfaceInstanceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48574,6 +49374,8 @@ func (t ENDCConfigurationUpdateFailureIETable) InterfaceInstanceIndication() END
 			return value.AsInterfaceInstanceIndication()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENDCConfigurationUpdateFailureIETable.
 func (t ENDCConfigurationUpdateFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENDCConfigurationUpdateFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENDCConfigurationUpdateFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -48605,12 +49407,16 @@ type ENDCResourceStatusFailureIETable struct{}
 func ENDCResourceStatusFailureIEs() ENDCResourceStatusFailureIETable {
 	return ENDCResourceStatusFailureIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENDCResourceStatusFailureIETable.
 func (ENDCResourceStatusFailureIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusFailure-IEs"})
 }
 func X2apInternalENDCResourceStatusFailureIETableInfoEUTRANNode1MeasurementID(internalReceiver ENDCResourceStatusFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCResourceStatusFailureIEs().ID(), ID: s00.ProtocolIEID(383), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MeasurementIDENDC"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusFailure-IEs", Row: "id-E-UTRAN-Node1-Measurement-ID"}}}
 }
+
+// EUTRANNode1MeasurementID returns the typed binding for the EUTRANNode1MeasurementID row of ENDCResourceStatusFailureIETable.
 func (t ENDCResourceStatusFailureIETable) EUTRANNode1MeasurementID() ENDCResourceStatusFailureMeasurementIDENDCIEBinding {
 	return ENDCResourceStatusFailureMeasurementIDENDCIEBinding{info: X2apInternalENDCResourceStatusFailureIETableInfoEUTRANNode1MeasurementID(t), codec: s00.X2apInternalConstructT27MeasurementIDENDCValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MeasurementIDENDC", func(data []byte, options aper.DecodeState) (s00.MeasurementIDENDC, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48664,6 +49470,8 @@ func (t ENDCResourceStatusFailureIETable) EUTRANNode1MeasurementID() ENDCResourc
 func X2apInternalENDCResourceStatusFailureIETableInfoEUTRANNode2MeasurementID(internalReceiver ENDCResourceStatusFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCResourceStatusFailureIEs().ID(), ID: s00.ProtocolIEID(384), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MeasurementIDENDC"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusFailure-IEs", Row: "id-E-UTRAN-Node2-Measurement-ID"}}}
 }
+
+// EUTRANNode2MeasurementID returns the typed binding for the EUTRANNode2MeasurementID row of ENDCResourceStatusFailureIETable.
 func (t ENDCResourceStatusFailureIETable) EUTRANNode2MeasurementID() ENDCResourceStatusFailureMeasurementIDENDCIEBinding {
 	return ENDCResourceStatusFailureMeasurementIDENDCIEBinding{info: X2apInternalENDCResourceStatusFailureIETableInfoEUTRANNode2MeasurementID(t), codec: s00.X2apInternalConstructT27MeasurementIDENDCValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MeasurementIDENDC", func(data []byte, options aper.DecodeState) (s00.MeasurementIDENDC, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48717,6 +49525,8 @@ func (t ENDCResourceStatusFailureIETable) EUTRANNode2MeasurementID() ENDCResourc
 func X2apInternalENDCResourceStatusFailureIETableInfoCause(internalReceiver ENDCResourceStatusFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCResourceStatusFailureIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusFailure-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of ENDCResourceStatusFailureIETable.
 func (t ENDCResourceStatusFailureIETable) Cause() ENDCResourceStatusFailureCauseIEBinding {
 	return ENDCResourceStatusFailureCauseIEBinding{info: X2apInternalENDCResourceStatusFailureIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48758,6 +49568,8 @@ func (t ENDCResourceStatusFailureIETable) Cause() ENDCResourceStatusFailureCause
 func X2apInternalENDCResourceStatusFailureIETableInfoCriticalityDiagnostics(internalReceiver ENDCResourceStatusFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCResourceStatusFailureIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusFailure-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ENDCResourceStatusFailureIETable.
 func (t ENDCResourceStatusFailureIETable) CriticalityDiagnostics() ENDCResourceStatusFailureCriticalityDiagnosticsIEBinding {
 	return ENDCResourceStatusFailureCriticalityDiagnosticsIEBinding{info: X2apInternalENDCResourceStatusFailureIETableInfoCriticalityDiagnostics(t), codec: CriticalityDiagnosticsValueCodec{path: "CriticalityDiagnostics", decode: func(data []byte, options aper.DecodeState) (CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48801,6 +49613,8 @@ func (t ENDCResourceStatusFailureIETable) CriticalityDiagnostics() ENDCResourceS
 func X2apInternalENDCResourceStatusFailureIETableInfoInterfaceInstanceIndication(internalReceiver ENDCResourceStatusFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCResourceStatusFailureIEs().ID(), ID: s00.ProtocolIEID(335), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "InterfaceInstanceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusFailure-IEs", Row: "id-InterfaceInstanceIndication"}}}
 }
+
+// InterfaceInstanceIndication returns the typed binding for the InterfaceInstanceIndication row of ENDCResourceStatusFailureIETable.
 func (t ENDCResourceStatusFailureIETable) InterfaceInstanceIndication() ENDCResourceStatusFailureInterfaceInstanceIndicationIEBinding {
 	return ENDCResourceStatusFailureInterfaceInstanceIndicationIEBinding{info: X2apInternalENDCResourceStatusFailureIETableInfoInterfaceInstanceIndication(t), codec: s00.X2apInternalConstructT37InterfaceInstanceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("InterfaceInstanceIndication", func(data []byte, options aper.DecodeState) (s00.InterfaceInstanceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48851,6 +49665,8 @@ func (t ENDCResourceStatusFailureIETable) InterfaceInstanceIndication() ENDCReso
 			return value.AsInterfaceInstanceIndication()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENDCResourceStatusFailureIETable.
 func (t ENDCResourceStatusFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENDCResourceStatusFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENDCResourceStatusFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -48884,12 +49700,16 @@ type ENDCResourceStatusResponseIETable struct{}
 func ENDCResourceStatusResponseIEs() ENDCResourceStatusResponseIETable {
 	return ENDCResourceStatusResponseIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENDCResourceStatusResponseIETable.
 func (ENDCResourceStatusResponseIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusResponse-IEs"})
 }
 func X2apInternalENDCResourceStatusResponseIETableInfoEUTRANNode1MeasurementID(internalReceiver ENDCResourceStatusResponseIETable) FieldInfo {
 	return FieldInfo{Table: ENDCResourceStatusResponseIEs().ID(), ID: s00.ProtocolIEID(383), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MeasurementIDENDC"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusResponse-IEs", Row: "id-E-UTRAN-Node1-Measurement-ID"}}}
 }
+
+// EUTRANNode1MeasurementID returns the typed binding for the EUTRANNode1MeasurementID row of ENDCResourceStatusResponseIETable.
 func (t ENDCResourceStatusResponseIETable) EUTRANNode1MeasurementID() ENDCResourceStatusResponseMeasurementIDENDCIEBinding {
 	return ENDCResourceStatusResponseMeasurementIDENDCIEBinding{info: X2apInternalENDCResourceStatusResponseIETableInfoEUTRANNode1MeasurementID(t), codec: s00.X2apInternalConstructT27MeasurementIDENDCValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MeasurementIDENDC", func(data []byte, options aper.DecodeState) (s00.MeasurementIDENDC, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48943,6 +49763,8 @@ func (t ENDCResourceStatusResponseIETable) EUTRANNode1MeasurementID() ENDCResour
 func X2apInternalENDCResourceStatusResponseIETableInfoEUTRANNode2MeasurementID(internalReceiver ENDCResourceStatusResponseIETable) FieldInfo {
 	return FieldInfo{Table: ENDCResourceStatusResponseIEs().ID(), ID: s00.ProtocolIEID(384), Criticality: s00.CriticalityReject, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MeasurementIDENDC"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusResponse-IEs", Row: "id-E-UTRAN-Node2-Measurement-ID"}}}
 }
+
+// EUTRANNode2MeasurementID returns the typed binding for the EUTRANNode2MeasurementID row of ENDCResourceStatusResponseIETable.
 func (t ENDCResourceStatusResponseIETable) EUTRANNode2MeasurementID() ENDCResourceStatusResponseMeasurementIDENDCIEBinding {
 	return ENDCResourceStatusResponseMeasurementIDENDCIEBinding{info: X2apInternalENDCResourceStatusResponseIETableInfoEUTRANNode2MeasurementID(t), codec: s00.X2apInternalConstructT27MeasurementIDENDCValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MeasurementIDENDC", func(data []byte, options aper.DecodeState) (s00.MeasurementIDENDC, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -48996,6 +49818,8 @@ func (t ENDCResourceStatusResponseIETable) EUTRANNode2MeasurementID() ENDCResour
 func X2apInternalENDCResourceStatusResponseIETableInfoCriticalityDiagnostics(internalReceiver ENDCResourceStatusResponseIETable) FieldInfo {
 	return FieldInfo{Table: ENDCResourceStatusResponseIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusResponse-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ENDCResourceStatusResponseIETable.
 func (t ENDCResourceStatusResponseIETable) CriticalityDiagnostics() ENDCResourceStatusResponseCriticalityDiagnosticsIEBinding {
 	return ENDCResourceStatusResponseCriticalityDiagnosticsIEBinding{info: X2apInternalENDCResourceStatusResponseIETableInfoCriticalityDiagnostics(t), codec: CriticalityDiagnosticsValueCodec{path: "CriticalityDiagnostics", decode: func(data []byte, options aper.DecodeState) (CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49039,6 +49863,8 @@ func (t ENDCResourceStatusResponseIETable) CriticalityDiagnostics() ENDCResource
 func X2apInternalENDCResourceStatusResponseIETableInfoInterfaceInstanceIndication(internalReceiver ENDCResourceStatusResponseIETable) FieldInfo {
 	return FieldInfo{Table: ENDCResourceStatusResponseIEs().ID(), ID: s00.ProtocolIEID(335), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "InterfaceInstanceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCResourceStatusResponse-IEs", Row: "id-InterfaceInstanceIndication"}}}
 }
+
+// InterfaceInstanceIndication returns the typed binding for the InterfaceInstanceIndication row of ENDCResourceStatusResponseIETable.
 func (t ENDCResourceStatusResponseIETable) InterfaceInstanceIndication() ENDCResourceStatusResponseInterfaceInstanceIndicationIEBinding {
 	return ENDCResourceStatusResponseInterfaceInstanceIndicationIEBinding{info: X2apInternalENDCResourceStatusResponseIETableInfoInterfaceInstanceIndication(t), codec: s00.X2apInternalConstructT37InterfaceInstanceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("InterfaceInstanceIndication", func(data []byte, options aper.DecodeState) (s00.InterfaceInstanceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49089,6 +49915,8 @@ func (t ENDCResourceStatusResponseIETable) InterfaceInstanceIndication() ENDCRes
 			return value.AsInterfaceInstanceIndication()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENDCResourceStatusResponseIETable.
 func (t ENDCResourceStatusResponseIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENDCResourceStatusResponseIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENDCResourceStatusResponseIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -49118,12 +49946,16 @@ func (t ENDCResourceStatusResponseIETable) NewOpaque(id s00.ProtocolIEID, critic
 type ENDCX2RemovalFailureIETable struct{}
 
 func ENDCX2RemovalFailureIEs() ENDCX2RemovalFailureIETable { return ENDCX2RemovalFailureIETable{} }
+
+// ID returns the ASN.1 object-set identity of ENDCX2RemovalFailureIETable.
 func (ENDCX2RemovalFailureIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2RemovalFailure-IEs"})
 }
 func X2apInternalENDCX2RemovalFailureIETableInfoCause(internalReceiver ENDCX2RemovalFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCX2RemovalFailureIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2RemovalFailure-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of ENDCX2RemovalFailureIETable.
 func (t ENDCX2RemovalFailureIETable) Cause() ENDCX2RemovalFailureCauseIEBinding {
 	return ENDCX2RemovalFailureCauseIEBinding{info: X2apInternalENDCX2RemovalFailureIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49165,6 +49997,8 @@ func (t ENDCX2RemovalFailureIETable) Cause() ENDCX2RemovalFailureCauseIEBinding 
 func X2apInternalENDCX2RemovalFailureIETableInfoCriticalityDiagnostics(internalReceiver ENDCX2RemovalFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCX2RemovalFailureIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2RemovalFailure-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ENDCX2RemovalFailureIETable.
 func (t ENDCX2RemovalFailureIETable) CriticalityDiagnostics() ENDCX2RemovalFailureCriticalityDiagnosticsIEBinding {
 	return ENDCX2RemovalFailureCriticalityDiagnosticsIEBinding{info: X2apInternalENDCX2RemovalFailureIETableInfoCriticalityDiagnostics(t), codec: CriticalityDiagnosticsValueCodec{path: "CriticalityDiagnostics", decode: func(data []byte, options aper.DecodeState) (CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49208,6 +50042,8 @@ func (t ENDCX2RemovalFailureIETable) CriticalityDiagnostics() ENDCX2RemovalFailu
 func X2apInternalENDCX2RemovalFailureIETableInfoInterfaceInstanceIndication(internalReceiver ENDCX2RemovalFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCX2RemovalFailureIEs().ID(), ID: s00.ProtocolIEID(335), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "InterfaceInstanceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2RemovalFailure-IEs", Row: "id-InterfaceInstanceIndication"}}}
 }
+
+// InterfaceInstanceIndication returns the typed binding for the InterfaceInstanceIndication row of ENDCX2RemovalFailureIETable.
 func (t ENDCX2RemovalFailureIETable) InterfaceInstanceIndication() ENDCX2RemovalFailureInterfaceInstanceIndicationIEBinding {
 	return ENDCX2RemovalFailureInterfaceInstanceIndicationIEBinding{info: X2apInternalENDCX2RemovalFailureIETableInfoInterfaceInstanceIndication(t), codec: s00.X2apInternalConstructT37InterfaceInstanceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("InterfaceInstanceIndication", func(data []byte, options aper.DecodeState) (s00.InterfaceInstanceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49258,6 +50094,8 @@ func (t ENDCX2RemovalFailureIETable) InterfaceInstanceIndication() ENDCX2Removal
 			return value.AsInterfaceInstanceIndication()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENDCX2RemovalFailureIETable.
 func (t ENDCX2RemovalFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENDCX2RemovalFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENDCX2RemovalFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -49285,12 +50123,16 @@ func (t ENDCX2RemovalFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality 
 type ENDCX2SetupFailureIETable struct{}
 
 func ENDCX2SetupFailureIEs() ENDCX2SetupFailureIETable { return ENDCX2SetupFailureIETable{} }
+
+// ID returns the ASN.1 object-set identity of ENDCX2SetupFailureIETable.
 func (ENDCX2SetupFailureIETable) ID() s00.TableID {
 	return s00.X2apInternalConstructT7TableIDF6source(aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2SetupFailure-IEs"})
 }
 func X2apInternalENDCX2SetupFailureIETableInfoCause(internalReceiver ENDCX2SetupFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCX2SetupFailureIEs().ID(), ID: s00.ProtocolIEID(5), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceMandatory, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "Cause"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2SetupFailure-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of ENDCX2SetupFailureIETable.
 func (t ENDCX2SetupFailureIETable) Cause() ENDCX2SetupFailureCauseIEBinding {
 	return ENDCX2SetupFailureCauseIEBinding{info: X2apInternalENDCX2SetupFailureIETableInfoCause(t), codec: s00.X2apInternalConstructT15CauseValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("Cause", func(data []byte, options aper.DecodeState) (s00.Cause, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49332,6 +50174,8 @@ func (t ENDCX2SetupFailureIETable) Cause() ENDCX2SetupFailureCauseIEBinding {
 func X2apInternalENDCX2SetupFailureIETableInfoCriticalityDiagnostics(internalReceiver ENDCX2SetupFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCX2SetupFailureIEs().ID(), ID: s00.ProtocolIEID(17), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "CriticalityDiagnostics"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2SetupFailure-IEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of ENDCX2SetupFailureIETable.
 func (t ENDCX2SetupFailureIETable) CriticalityDiagnostics() ENDCX2SetupFailureCriticalityDiagnosticsIEBinding {
 	return ENDCX2SetupFailureCriticalityDiagnosticsIEBinding{info: X2apInternalENDCX2SetupFailureIETableInfoCriticalityDiagnostics(t), codec: CriticalityDiagnosticsValueCodec{path: "CriticalityDiagnostics", decode: func(data []byte, options aper.DecodeState) (CriticalityDiagnostics, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49375,6 +50219,8 @@ func (t ENDCX2SetupFailureIETable) CriticalityDiagnostics() ENDCX2SetupFailureCr
 func X2apInternalENDCX2SetupFailureIETableInfoTimeToWait(internalReceiver ENDCX2SetupFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCX2SetupFailureIEs().ID(), ID: s00.ProtocolIEID(22), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "TimeToWait"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2SetupFailure-IEs", Row: "id-TimeToWait"}}}
 }
+
+// TimeToWait returns the typed binding for the TimeToWait row of ENDCX2SetupFailureIETable.
 func (t ENDCX2SetupFailureIETable) TimeToWait() ENDCX2SetupFailureTimeToWaitIEBinding {
 	return ENDCX2SetupFailureTimeToWaitIEBinding{info: X2apInternalENDCX2SetupFailureIETableInfoTimeToWait(t), codec: s00.X2apInternalConstructT20TimeToWaitValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("TimeToWait", func(data []byte, options aper.DecodeState) (s00.TimeToWait, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49426,6 +50272,8 @@ func (t ENDCX2SetupFailureIETable) TimeToWait() ENDCX2SetupFailureTimeToWaitIEBi
 func X2apInternalENDCX2SetupFailureIETableInfoInterfaceInstanceIndication(internalReceiver ENDCX2SetupFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCX2SetupFailureIEs().ID(), ID: s00.ProtocolIEID(335), Criticality: s00.CriticalityReject, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "InterfaceInstanceIndication"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2SetupFailure-IEs", Row: "id-InterfaceInstanceIndication"}}}
 }
+
+// InterfaceInstanceIndication returns the typed binding for the InterfaceInstanceIndication row of ENDCX2SetupFailureIETable.
 func (t ENDCX2SetupFailureIETable) InterfaceInstanceIndication() ENDCX2SetupFailureInterfaceInstanceIndicationIEBinding {
 	return ENDCX2SetupFailureInterfaceInstanceIndicationIEBinding{info: X2apInternalENDCX2SetupFailureIETableInfoInterfaceInstanceIndication(t), codec: s00.X2apInternalConstructT37InterfaceInstanceIndicationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("InterfaceInstanceIndication", func(data []byte, options aper.DecodeState) (s00.InterfaceInstanceIndication, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49479,6 +50327,8 @@ func (t ENDCX2SetupFailureIETable) InterfaceInstanceIndication() ENDCX2SetupFail
 func X2apInternalENDCX2SetupFailureIETableInfoMessageOversizeNotification(internalReceiver ENDCX2SetupFailureIETable) FieldInfo {
 	return FieldInfo{Table: ENDCX2SetupFailureIEs().ID(), ID: s00.ProtocolIEID(350), Criticality: s00.CriticalityIgnore, Presence: s00.PresenceOptional, ValueType: s00.X2apInternalConstructT6TypeIDF6source(aper.SourceAssignment{Module: "X2AP-IEs", Assignment: "MessageOversizeNotification"}), Rule: aper.SourceRule{Document: "3GPP TS 36.423", Edition: "V19.1.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "X2AP-PDU-Contents", Assignment: "ENDCX2SetupFailure-IEs", Row: "id-MessageOversizeNotification"}}}
 }
+
+// MessageOversizeNotification returns the typed binding for the MessageOversizeNotification row of ENDCX2SetupFailureIETable.
 func (t ENDCX2SetupFailureIETable) MessageOversizeNotification() ENDCX2SetupFailureMessageOversizeNotificationIEBinding {
 	return ENDCX2SetupFailureMessageOversizeNotificationIEBinding{info: X2apInternalENDCX2SetupFailureIETableInfoMessageOversizeNotification(t), codec: s05.X2apInternalConstructT37MessageOversizeNotificationValueCodecF4pathF6decodeF6encodeF7captureF7compareF7context("MessageOversizeNotification", func(data []byte, options aper.DecodeState) (s05.MessageOversizeNotification, error) {
 		valueScope := aper.DecodeBuffer(options)
@@ -49520,6 +50370,8 @@ func (t ENDCX2SetupFailureIETable) MessageOversizeNotification() ENDCX2SetupFail
 			return value.AsMessageOversizeNotification()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENDCX2SetupFailureIETable.
 func (t ENDCX2SetupFailureIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENDCX2SetupFailureIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENDCX2SetupFailureIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

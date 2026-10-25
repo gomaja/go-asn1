@@ -15153,6 +15153,8 @@ func (v LocationReportIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeB
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of LocationReportIEValue and reports whether the opaque alternative is selected.
 func (v *LocationReportIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15822,42 +15824,56 @@ func (LocationReportIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of LocationReportIEValue and reports whether that alternative is active.
 func (v *LocationReportIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of LocationReportIEValue and reports whether that alternative is active.
 func (v *LocationReportIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsEUTRANCGI returns the selected EUTRANCGI value of LocationReportIEValue and reports whether that alternative is active.
 func (v *LocationReportIEValue) AsEUTRANCGI() (*s17.EUTRANCGI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(100) || v.rowEUTRANCGI == nil {
 		return nil, false
 	}
 	return v.rowEUTRANCGI, true
 }
+
+// AsTAI returns the selected TAI value of LocationReportIEValue and reports whether that alternative is active.
 func (v *LocationReportIEValue) AsTAI() (*TAI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(67) || v.rowTAI == nil {
 		return nil, false
 	}
 	return v.rowTAI, true
 }
+
+// AsRequestType returns the selected RequestType value of LocationReportIEValue and reports whether that alternative is active.
 func (v *LocationReportIEValue) AsRequestType() (*s26.RequestType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(98) || v.rowRequestType == nil {
 		return nil, false
 	}
 	return v.rowRequestType, true
 }
+
+// AsPSCellInformation returns the selected PSCellInformation value of LocationReportIEValue and reports whether that alternative is active.
 func (v *LocationReportIEValue) AsPSCellInformation() (*s20.PSCellInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(288) || v.rowPSCellInformation == nil {
 		return nil, false
 	}
 	return v.rowPSCellInformation, true
 }
+
+// AsLTENTNTAIInformation returns the selected LTENTNTAIInformation value of LocationReportIEValue and reports whether that alternative is active.
 func (v *LocationReportIEValue) AsLTENTNTAIInformation() (*s18.LTENTNTAIInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(339) || v.rowLTENTNTAIInformation == nil {
 		return nil, false
@@ -16157,6 +16173,8 @@ func (v UEInformationTransferIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEInformationTransferIEValue and reports whether the opaque alternative is selected.
 func (v *UEInformationTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16826,36 +16844,48 @@ func (UEInformationTransferIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReaso
 		return aper.UnknownSelector
 	}
 }
+
+// AsSTMSI returns the selected STMSI value of UEInformationTransferIEValue and reports whether that alternative is active.
 func (v *UEInformationTransferIEValue) AsSTMSI() (*s27.STMSI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(96) || v.rowSTMSI == nil {
 		return nil, false
 	}
 	return v.rowSTMSI, true
 }
+
+// AsUELevelQoSParameters returns the selected UELevelQoSParameters value of UEInformationTransferIEValue and reports whether that alternative is active.
 func (v *UEInformationTransferIEValue) AsUELevelQoSParameters() (*s18.ERABLevelQoSParameters, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(252) || v.rowUELevelQoSParameters == nil {
 		return nil, false
 	}
 	return v.rowUELevelQoSParameters, true
 }
+
+// AsUERadioCapability returns the selected UERadioCapability value of UEInformationTransferIEValue and reports whether that alternative is active.
 func (v *UEInformationTransferIEValue) AsUERadioCapability() (*s00.UERadioCapability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(74) || v.rowUERadioCapability == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapability, true
 }
+
+// AsSubscriptionBasedUEDifferentiationInfo returns the selected SubscriptionBasedUEDifferentiationInfo value of UEInformationTransferIEValue and reports whether that alternative is active.
 func (v *UEInformationTransferIEValue) AsSubscriptionBasedUEDifferentiationInfo() (*s30.SubscriptionBasedUEDifferentiationInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(278) || v.rowSubscriptionBasedUEDifferentiationInfo == nil {
 		return nil, false
 	}
 	return v.rowSubscriptionBasedUEDifferentiationInfo, true
 }
+
+// AsPendingDataIndication returns the selected PendingDataIndication value of UEInformationTransferIEValue and reports whether that alternative is active.
 func (v *UEInformationTransferIEValue) AsPendingDataIndication() (*s00.PendingDataIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(283) || v.rowPendingDataIndication == nil {
 		return nil, false
 	}
 	return v.rowPendingDataIndication, true
 }
+
+// AsMaskedIMEISV returns the selected MaskedIMEISV value of UEInformationTransferIEValue and reports whether that alternative is active.
 func (v *UEInformationTransferIEValue) AsMaskedIMEISV() (*s00.MaskedIMEISV, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(192) || v.rowMaskedIMEISV == nil {
 		return nil, false
@@ -17133,6 +17163,8 @@ type ConnectionEstablishmentIndicationIETable struct{}
 func ConnectionEstablishmentIndicationIEs() ConnectionEstablishmentIndicationIETable {
 	return ConnectionEstablishmentIndicationIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ConnectionEstablishmentIndicationIETable.
 func (ConnectionEstablishmentIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17140,6 +17172,8 @@ func (ConnectionEstablishmentIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ConnectionEstablishmentIndicationIETable.
 func (ConnectionEstablishmentIndicationIETable) Table() s00.ConnectionEstablishmentIndicationIEValueIETable {
 	return func() s00.ConnectionEstablishmentIndicationIEValueIETable {
 		sealed := s00.ConnectionEstablishmentIndicationIEValueIETable{}
@@ -17154,6 +17188,8 @@ func (ConnectionEstablishmentIndicationIETable) infoMMEUES1APID() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) MMEUES1APID() ConnectionEstablishmentIndicationMMEUES1APIDIEBinding {
 	return ConnectionEstablishmentIndicationMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -17228,6 +17264,8 @@ func (ConnectionEstablishmentIndicationIETable) infoENBUES1APID() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) ENBUES1APID() s30.ConnectionEstablishmentIndicationENBUES1APIDIEBinding {
 	return func() s30.ConnectionEstablishmentIndicationENBUES1APIDIEBinding {
 		sealed := s30.ConnectionEstablishmentIndicationENBUES1APIDIEBinding{}
@@ -17308,6 +17346,8 @@ func (ConnectionEstablishmentIndicationIETable) infoUERadioCapability() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-UERadioCapability"}}}
 }
+
+// UERadioCapability returns the typed binding for the UERadioCapability row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) UERadioCapability() ConnectionEstablishmentIndicationUERadioCapabilityIEBinding {
 	return ConnectionEstablishmentIndicationUERadioCapabilityIEBinding{info: t.infoUERadioCapability(), codec: func() s02.UERadioCapabilityValueCodec {
 		sealed := s02.UERadioCapabilityValueCodec{}
@@ -17383,6 +17423,8 @@ func (ConnectionEstablishmentIndicationIETable) infoEnhancedCoverageRestricted()
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-EnhancedCoverageRestricted"}}}
 }
+
+// EnhancedCoverageRestricted returns the typed binding for the EnhancedCoverageRestricted row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) EnhancedCoverageRestricted() s30.ConnectionEstablishmentIndicationEnhancedCoverageRestrictedIEBinding {
 	return func() s30.ConnectionEstablishmentIndicationEnhancedCoverageRestrictedIEBinding {
 		sealed := s30.ConnectionEstablishmentIndicationEnhancedCoverageRestrictedIEBinding{}
@@ -17467,6 +17509,8 @@ func (ConnectionEstablishmentIndicationIETable) infoDLCPSecurityInformation() s0
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-DL-CP-SecurityInformation"}}}
 }
+
+// DLCPSecurityInformation returns the typed binding for the DLCPSecurityInformation row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) DLCPSecurityInformation() s30.ConnectionEstablishmentIndicationDLCPSecurityInformationIEBinding {
 	return func() s30.ConnectionEstablishmentIndicationDLCPSecurityInformationIEBinding {
 		sealed := s30.ConnectionEstablishmentIndicationDLCPSecurityInformationIEBinding{}
@@ -17552,6 +17596,8 @@ func (ConnectionEstablishmentIndicationIETable) infoCEModeBRestricted() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-CE-ModeBRestricted"}}}
 }
+
+// CEModeBRestricted returns the typed binding for the CEModeBRestricted row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) CEModeBRestricted() s30.ConnectionEstablishmentIndicationCEModeBRestrictedIEBinding {
 	return func() s30.ConnectionEstablishmentIndicationCEModeBRestrictedIEBinding {
 		sealed := s30.ConnectionEstablishmentIndicationCEModeBRestrictedIEBinding{}
@@ -17633,6 +17679,8 @@ func (ConnectionEstablishmentIndicationIETable) infoEndIndication() s00.FieldInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-EndIndication"}}}
 }
+
+// EndIndication returns the typed binding for the EndIndication row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) EndIndication() s30.ConnectionEstablishmentIndicationEndIndicationIEBinding {
 	return func() s30.ConnectionEstablishmentIndicationEndIndicationIEBinding {
 		sealed := s30.ConnectionEstablishmentIndicationEndIndicationIEBinding{}
@@ -17713,6 +17761,8 @@ func (ConnectionEstablishmentIndicationIETable) infoSubscriptionBasedUEDifferent
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-Subscription-Based-UE-DifferentiationInfo"}}}
 }
+
+// SubscriptionBasedUEDifferentiationInfo returns the typed binding for the SubscriptionBasedUEDifferentiationInfo row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) SubscriptionBasedUEDifferentiationInfo() ConnectionEstablishmentIndicationSubscriptionBasedUEDifferentiationInfoIEBinding {
 	return ConnectionEstablishmentIndicationSubscriptionBasedUEDifferentiationInfoIEBinding{info: t.infoSubscriptionBasedUEDifferentiationInfo(), codec: SubscriptionBasedUEDifferentiationInfoValueCodec{path: "SubscriptionBasedUEDifferentiationInfo",
 		decode: func(data []byte, options aper.DecodeState) (s30.SubscriptionBasedUEDifferentiationInfo, error) {
@@ -17782,6 +17832,8 @@ func (ConnectionEstablishmentIndicationIETable) infoUELevelQoSParameters() s00.F
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-UE-Level-QoS-Parameters"}}}
 }
+
+// UELevelQoSParameters returns the typed binding for the UELevelQoSParameters row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) UELevelQoSParameters() s30.ConnectionEstablishmentIndicationERABLevelQoSParametersIEBinding {
 	return func() s30.ConnectionEstablishmentIndicationERABLevelQoSParametersIEBinding {
 		sealed := s30.ConnectionEstablishmentIndicationERABLevelQoSParametersIEBinding{}
@@ -17864,6 +17916,8 @@ func (ConnectionEstablishmentIndicationIETable) infoUERadioCapabilityID() s00.Fi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-UERadioCapabilityID"}}}
 }
+
+// UERadioCapabilityID returns the typed binding for the UERadioCapabilityID row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) UERadioCapabilityID() ConnectionEstablishmentIndicationUERadioCapabilityIDIEBinding {
 	return ConnectionEstablishmentIndicationUERadioCapabilityIDIEBinding{info: t.infoUERadioCapabilityID(), codec: func() s02.UERadioCapabilityIDValueCodec {
 		sealed := s02.UERadioCapabilityIDValueCodec{}
@@ -17938,6 +17992,8 @@ func (ConnectionEstablishmentIndicationIETable) infoMaskedIMEISV() s00.FieldInfo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-Masked-IMEISV"}}}
 }
+
+// MaskedIMEISV returns the typed binding for the MaskedIMEISV row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) MaskedIMEISV() ConnectionEstablishmentIndicationMaskedIMEISVIEBinding {
 	return ConnectionEstablishmentIndicationMaskedIMEISVIEBinding{info: t.infoMaskedIMEISV(), codec: func() s01.MaskedIMEISVValueCodec {
 		sealed := s01.MaskedIMEISVValueCodec{}
@@ -18012,6 +18068,8 @@ func (ConnectionEstablishmentIndicationIETable) infoCoarseUELocation() s00.Field
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ConnectionEstablishmentIndicationIEs", Row: "id-CoarseUELocation"}}}
 }
+
+// CoarseUELocation returns the typed binding for the CoarseUELocation row of ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) CoarseUELocation() s30.ConnectionEstablishmentIndicationCoarseUELocationIEBinding {
 	return func() s30.ConnectionEstablishmentIndicationCoarseUELocationIEBinding {
 		sealed := s30.ConnectionEstablishmentIndicationCoarseUELocationIEBinding{}
@@ -18085,6 +18143,8 @@ func (t ConnectionEstablishmentIndicationIETable) CoarseUELocation() s30.Connect
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ConnectionEstablishmentIndicationIETable.
 func (t ConnectionEstablishmentIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s30.ConnectionEstablishmentIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s30.ConnectionEstablishmentIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18136,6 +18196,8 @@ func (t ConnectionEstablishmentIndicationIETable) NewOpaque(id s00.ProtocolIEID,
 type UEInformationTransferIETable struct{}
 
 func UEInformationTransferIEs() UEInformationTransferIETable { return UEInformationTransferIETable{} }
+
+// ID returns the ASN.1 object-set identity of UEInformationTransferIETable.
 func (UEInformationTransferIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18143,6 +18205,8 @@ func (UEInformationTransferIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEInformationTransferIETable.
 func (UEInformationTransferIETable) Table() s00.UEInformationTransferIEValueIETable {
 	return func() s00.UEInformationTransferIEValueIETable {
 		sealed := s00.UEInformationTransferIEValueIETable{}
@@ -18157,6 +18221,8 @@ func (UEInformationTransferIETable) infoSTMSI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEInformationTransferIEs", Row: "id-S-TMSI"}}}
 }
+
+// STMSI returns the typed binding for the STMSI row of UEInformationTransferIETable.
 func (t UEInformationTransferIETable) STMSI() UEInformationTransferSTMSIIEBinding {
 	return UEInformationTransferSTMSIIEBinding{info: t.infoSTMSI(), codec: func() s28.STMSIValueCodec {
 		sealed := s28.STMSIValueCodec{}
@@ -18219,6 +18285,8 @@ func (UEInformationTransferIETable) infoUELevelQoSParameters() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEInformationTransferIEs", Row: "id-UE-Level-QoS-Parameters"}}}
 }
+
+// UELevelQoSParameters returns the typed binding for the UELevelQoSParameters row of UEInformationTransferIETable.
 func (t UEInformationTransferIETable) UELevelQoSParameters() UEInformationTransferERABLevelQoSParametersIEBinding {
 	return UEInformationTransferERABLevelQoSParametersIEBinding{info: t.infoUELevelQoSParameters(), codec: func() s18.ERABLevelQoSParametersValueCodec {
 		sealed := s18.ERABLevelQoSParametersValueCodec{}
@@ -18285,6 +18353,8 @@ func (UEInformationTransferIETable) infoUERadioCapability() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEInformationTransferIEs", Row: "id-UERadioCapability"}}}
 }
+
+// UERadioCapability returns the typed binding for the UERadioCapability row of UEInformationTransferIETable.
 func (t UEInformationTransferIETable) UERadioCapability() UEInformationTransferUERadioCapabilityIEBinding {
 	return UEInformationTransferUERadioCapabilityIEBinding{info: t.infoUERadioCapability(), codec: func() s02.UERadioCapabilityValueCodec {
 		sealed := s02.UERadioCapabilityValueCodec{}
@@ -18350,6 +18420,8 @@ func (UEInformationTransferIETable) infoSubscriptionBasedUEDifferentiationInfo()
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEInformationTransferIEs", Row: "id-Subscription-Based-UE-DifferentiationInfo"}}}
 }
+
+// SubscriptionBasedUEDifferentiationInfo returns the typed binding for the SubscriptionBasedUEDifferentiationInfo row of UEInformationTransferIETable.
 func (t UEInformationTransferIETable) SubscriptionBasedUEDifferentiationInfo() UEInformationTransferSubscriptionBasedUEDifferentiationInfoIEBinding {
 	return UEInformationTransferSubscriptionBasedUEDifferentiationInfoIEBinding{info: t.infoSubscriptionBasedUEDifferentiationInfo(), codec: SubscriptionBasedUEDifferentiationInfoValueCodec{path: "SubscriptionBasedUEDifferentiationInfo",
 		decode: func(data []byte, options aper.DecodeState) (s30.SubscriptionBasedUEDifferentiationInfo, error) {
@@ -18409,6 +18481,8 @@ func (UEInformationTransferIETable) infoPendingDataIndication() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEInformationTransferIEs", Row: "id-PendingDataIndication"}}}
 }
+
+// PendingDataIndication returns the typed binding for the PendingDataIndication row of UEInformationTransferIETable.
 func (t UEInformationTransferIETable) PendingDataIndication() UEInformationTransferPendingDataIndicationIEBinding {
 	return UEInformationTransferPendingDataIndicationIEBinding{info: t.infoPendingDataIndication(), codec: func() s01.PendingDataIndicationValueCodec {
 		sealed := s01.PendingDataIndicationValueCodec{}
@@ -18476,6 +18550,8 @@ func (UEInformationTransferIETable) infoMaskedIMEISV() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEInformationTransferIEs", Row: "id-Masked-IMEISV"}}}
 }
+
+// MaskedIMEISV returns the typed binding for the MaskedIMEISV row of UEInformationTransferIETable.
 func (t UEInformationTransferIETable) MaskedIMEISV() UEInformationTransferMaskedIMEISVIEBinding {
 	return UEInformationTransferMaskedIMEISVIEBinding{info: t.infoMaskedIMEISV(), codec: func() s01.MaskedIMEISVValueCodec {
 		sealed := s01.MaskedIMEISVValueCodec{}
@@ -18531,6 +18607,8 @@ func (t UEInformationTransferIETable) MaskedIMEISV() UEInformationTransferMasked
 			return UEInformationTransferIEValue{id: s00.ProtocolIEID(192), rowMaskedIMEISV: &value}
 		}, get: func(value *UEInformationTransferIEValue) (*s00.MaskedIMEISV, bool) { return value.AsMaskedIMEISV() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEInformationTransferIETable.
 func (t UEInformationTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEInformationTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEInformationTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorX2apPduHeader verifies 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.1 and 9.2.3; X2AP-PDU initiating-message APER header.
+// TestVectorX2apPduHeader verifies 3GPP TS 36.423 V19.1.0 (2025-12), section 9.3.3; X2AP-PDU initiating-message APER header.
 func TestVectorX2apPduHeader(t *testing.T) {
 	input := asn1VectorHex(t, "002e0002bbcc")
 	codec := s19.X2APPDUCodec()

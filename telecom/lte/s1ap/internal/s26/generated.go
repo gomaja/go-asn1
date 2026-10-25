@@ -17451,6 +17451,8 @@ func (v RecommendedCellItemIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.De
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of RecommendedCellItemIEValue and reports whether the opaque alternative is selected.
 func (v *RecommendedCellItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18120,6 +18122,8 @@ func (RecommendedCellItemIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason 
 		return aper.UnknownSelector
 	}
 }
+
+// AsRecommendedCellItem returns the selected RecommendedCellItem value of RecommendedCellItemIEValue and reports whether that alternative is active.
 func (v *RecommendedCellItemIEValue) AsRecommendedCellItem() (*RecommendedCellItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(214) || v.rowRecommendedCellItem == nil {
 		return nil, false
@@ -18218,6 +18222,8 @@ func (v LocationReportingControlIEValue) matchesID(id s00.ProtocolIEID, _ ...*ap
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of LocationReportingControlIEValue and reports whether the opaque alternative is selected.
 func (v *LocationReportingControlIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -18887,18 +18893,24 @@ func (LocationReportingControlIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRe
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of LocationReportingControlIEValue and reports whether that alternative is active.
 func (v *LocationReportingControlIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of LocationReportingControlIEValue and reports whether that alternative is active.
 func (v *LocationReportingControlIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsRequestType returns the selected RequestType value of LocationReportingControlIEValue and reports whether that alternative is active.
 func (v *LocationReportingControlIEValue) AsRequestType() (*RequestType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(98) || v.rowRequestType == nil {
 		return nil, false
@@ -19032,6 +19044,8 @@ func (v LocationReportingControlIEValue) encodeFresh(fresh bool, budget *aper.De
 type RecommendedCellItemIETable struct{}
 
 func RecommendedCellItemIEs() RecommendedCellItemIETable { return RecommendedCellItemIETable{} }
+
+// ID returns the ASN.1 object-set identity of RecommendedCellItemIETable.
 func (RecommendedCellItemIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19039,6 +19053,8 @@ func (RecommendedCellItemIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by RecommendedCellItemIETable.
 func (RecommendedCellItemIETable) Table() s00.RecommendedCellItemIEValueIETable {
 	return func() s00.RecommendedCellItemIEValueIETable {
 		sealed := s00.RecommendedCellItemIEValueIETable{}
@@ -19053,6 +19069,8 @@ func (RecommendedCellItemIETable) infoRecommendedCellItem() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "RecommendedCellItemIEs", Row: "id-RecommendedCellItem"}}}
 }
+
+// RecommendedCellItem returns the typed binding for the RecommendedCellItem row of RecommendedCellItemIETable.
 func (t RecommendedCellItemIETable) RecommendedCellItem() RecommendedCellItemRecommendedCellItemIEBinding {
 	return RecommendedCellItemRecommendedCellItemIEBinding{info: t.infoRecommendedCellItem(), codec: RecommendedCellItemValueCodec{path: "RecommendedCellItem",
 		decode: func(data []byte, options aper.DecodeState) (RecommendedCellItem, error) {
@@ -19103,6 +19121,8 @@ func (t RecommendedCellItemIETable) RecommendedCellItem() RecommendedCellItemRec
 		return value.AsRecommendedCellItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in RecommendedCellItemIETable.
 func (t RecommendedCellItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (RecommendedCellItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return RecommendedCellItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19128,6 +19148,8 @@ type LocationReportingControlIETable struct{}
 func LocationReportingControlIEs() LocationReportingControlIETable {
 	return LocationReportingControlIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of LocationReportingControlIETable.
 func (LocationReportingControlIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19135,6 +19157,8 @@ func (LocationReportingControlIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by LocationReportingControlIETable.
 func (LocationReportingControlIETable) Table() s00.LocationReportingControlIEValueIETable {
 	return func() s00.LocationReportingControlIEValueIETable {
 		sealed := s00.LocationReportingControlIEValueIETable{}
@@ -19149,6 +19173,8 @@ func (LocationReportingControlIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "LocationReportingControlIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of LocationReportingControlIETable.
 func (t LocationReportingControlIETable) MMEUES1APID() LocationReportingControlMMEUES1APIDIEBinding {
 	return LocationReportingControlMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -19211,6 +19237,8 @@ func (LocationReportingControlIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "LocationReportingControlIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of LocationReportingControlIETable.
 func (t LocationReportingControlIETable) ENBUES1APID() LocationReportingControlENBUES1APIDIEBinding {
 	return LocationReportingControlENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -19273,6 +19301,8 @@ func (LocationReportingControlIETable) infoRequestType() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "LocationReportingControlIEs", Row: "id-RequestType"}}}
 }
+
+// RequestType returns the typed binding for the RequestType row of LocationReportingControlIETable.
 func (t LocationReportingControlIETable) RequestType() LocationReportingControlRequestTypeIEBinding {
 	return LocationReportingControlRequestTypeIEBinding{info: t.infoRequestType(), codec: RequestTypeValueCodec{path: "RequestType",
 		decode: func(data []byte, options aper.DecodeState) (RequestType, error) {
@@ -19321,6 +19351,8 @@ func (t LocationReportingControlIETable) RequestType() LocationReportingControlR
 		return LocationReportingControlIEValue{id: s00.ProtocolIEID(98), rowRequestType: &value}
 	}, get: func(value *LocationReportingControlIEValue) (*RequestType, bool) { return value.AsRequestType() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in LocationReportingControlIETable.
 func (t LocationReportingControlIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (LocationReportingControlIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return LocationReportingControlIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

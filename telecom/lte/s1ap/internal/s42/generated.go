@@ -12377,6 +12377,8 @@ func (v HandoverRestrictionListExtIEsValue) matchesID(id s00.ProtocolIEID, _ ...
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of HandoverRestrictionListExtIEsValue and reports whether the opaque alternative is selected.
 func (v *HandoverRestrictionListExtIEsValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -13046,36 +13048,48 @@ func (HandoverRestrictionListExtIEsValue) reason(id s00.ProtocolIEID) aper.Opaqu
 		return aper.UnknownSelector
 	}
 }
+
+// AsNRrestrictioninEPSasSecondaryRAT returns the selected NRrestrictioninEPSasSecondaryRAT value of HandoverRestrictionListExtIEsValue and reports whether that alternative is active.
 func (v *HandoverRestrictionListExtIEsValue) AsNRrestrictioninEPSasSecondaryRAT() (*s00.NRrestrictioninEPSasSecondaryRAT, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(261) || v.rowNRrestrictioninEPSasSecondaryRAT == nil {
 		return nil, false
 	}
 	return v.rowNRrestrictioninEPSasSecondaryRAT, true
 }
+
+// AsUnlicensedSpectrumRestriction returns the selected UnlicensedSpectrumRestriction value of HandoverRestrictionListExtIEsValue and reports whether that alternative is active.
 func (v *HandoverRestrictionListExtIEsValue) AsUnlicensedSpectrumRestriction() (*s00.UnlicensedSpectrumRestriction, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(270) || v.rowUnlicensedSpectrumRestriction == nil {
 		return nil, false
 	}
 	return v.rowUnlicensedSpectrumRestriction, true
 }
+
+// AsCNTypeRestrictions returns the selected CNTypeRestrictions value of HandoverRestrictionListExtIEsValue and reports whether that alternative is active.
 func (v *HandoverRestrictionListExtIEsValue) AsCNTypeRestrictions() (*s14.CNTypeRestrictions, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(282) || v.rowCNTypeRestrictions == nil {
 		return nil, false
 	}
 	return v.rowCNTypeRestrictions, true
 }
+
+// AsNRrestrictionin5GS returns the selected NRrestrictionin5GS value of HandoverRestrictionListExtIEsValue and reports whether that alternative is active.
 func (v *HandoverRestrictionListExtIEsValue) AsNRrestrictionin5GS() (*s00.NRrestrictionin5GS, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(287) || v.rowNRrestrictionin5GS == nil {
 		return nil, false
 	}
 	return v.rowNRrestrictionin5GS, true
 }
+
+// AsLastNGRANPLMNIdentity returns the selected LastNGRANPLMNIdentity value of HandoverRestrictionListExtIEsValue and reports whether that alternative is active.
 func (v *HandoverRestrictionListExtIEsValue) AsLastNGRANPLMNIdentity() (*s00.PLMNidentity, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(290) || v.rowLastNGRANPLMNIdentity == nil {
 		return nil, false
 	}
 	return v.rowLastNGRANPLMNIdentity, true
 }
+
+// AsRATRestrictions returns the selected RATRestrictions value of HandoverRestrictionListExtIEsValue and reports whether that alternative is active.
 func (v *HandoverRestrictionListExtIEsValue) AsRATRestrictions() (*s20.RATRestrictions, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(336) || v.rowRATRestrictions == nil {
 		return nil, false
@@ -13398,6 +13412,8 @@ func (v DownlinkNASTransportIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.D
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of DownlinkNASTransportIEValue and reports whether the opaque alternative is selected.
 func (v *DownlinkNASTransportIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14067,114 +14083,152 @@ func (DownlinkNASTransportIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsNASPDU returns the selected NASPDU value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsNASPDU() (*s00.NASPDU, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(26) || v.rowNASPDU == nil {
 		return nil, false
 	}
 	return v.rowNASPDU, true
 }
+
+// AsHandoverRestrictionList returns the selected HandoverRestrictionList value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsHandoverRestrictionList() (*HandoverRestrictionList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(41) || v.rowHandoverRestrictionList == nil {
 		return nil, false
 	}
 	return v.rowHandoverRestrictionList, true
 }
+
+// AsSubscriberProfileIDforRFP returns the selected SubscriberProfileIDforRFP value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsSubscriberProfileIDforRFP() (*s00.SubscriberProfileIDforRFP, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(106) || v.rowSubscriberProfileIDforRFP == nil {
 		return nil, false
 	}
 	return v.rowSubscriberProfileIDforRFP, true
 }
+
+// AsSRVCCOperationPossible returns the selected SRVCCOperationPossible value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsSRVCCOperationPossible() (*s00.SRVCCOperationPossible, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(124) || v.rowSRVCCOperationPossible == nil {
 		return nil, false
 	}
 	return v.rowSRVCCOperationPossible, true
 }
+
+// AsUERadioCapability returns the selected UERadioCapability value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsUERadioCapability() (*s00.UERadioCapability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(74) || v.rowUERadioCapability == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapability, true
 }
+
+// AsDLNASPDUDeliveryAckRequest returns the selected DLNASPDUDeliveryAckRequest value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsDLNASPDUDeliveryAckRequest() (*s00.DLNASPDUDeliveryAckRequest, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(249) || v.rowDLNASPDUDeliveryAckRequest == nil {
 		return nil, false
 	}
 	return v.rowDLNASPDUDeliveryAckRequest, true
 }
+
+// AsEnhancedCoverageRestricted returns the selected EnhancedCoverageRestricted value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsEnhancedCoverageRestricted() (*s00.EnhancedCoverageRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(251) || v.rowEnhancedCoverageRestricted == nil {
 		return nil, false
 	}
 	return v.rowEnhancedCoverageRestricted, true
 }
+
+// AsNRUESecurityCapabilities returns the selected NRUESecurityCapabilities value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsNRUESecurityCapabilities() (*s19.NRUESecurityCapabilities, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(269) || v.rowNRUESecurityCapabilities == nil {
 		return nil, false
 	}
 	return v.rowNRUESecurityCapabilities, true
 }
+
+// AsCEModeBRestricted returns the selected CEModeBRestricted value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsCEModeBRestricted() (*s00.CEModeBRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(271) || v.rowCEModeBRestricted == nil {
 		return nil, false
 	}
 	return v.rowCEModeBRestricted, true
 }
+
+// AsUECapabilityInfoRequest returns the selected UECapabilityInfoRequest value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsUECapabilityInfoRequest() (*s00.UECapabilityInfoRequest, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(275) || v.rowUECapabilityInfoRequest == nil {
 		return nil, false
 	}
 	return v.rowUECapabilityInfoRequest, true
 }
+
+// AsEndIndication returns the selected EndIndication value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsEndIndication() (*s00.EndIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(280) || v.rowEndIndication == nil {
 		return nil, false
 	}
 	return v.rowEndIndication, true
 }
+
+// AsPendingDataIndication returns the selected PendingDataIndication value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsPendingDataIndication() (*s00.PendingDataIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(283) || v.rowPendingDataIndication == nil {
 		return nil, false
 	}
 	return v.rowPendingDataIndication, true
 }
+
+// AsSubscriptionBasedUEDifferentiationInfo returns the selected SubscriptionBasedUEDifferentiationInfo value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsSubscriptionBasedUEDifferentiationInfo() (*s30.SubscriptionBasedUEDifferentiationInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(278) || v.rowSubscriptionBasedUEDifferentiationInfo == nil {
 		return nil, false
 	}
 	return v.rowSubscriptionBasedUEDifferentiationInfo, true
 }
+
+// AsAdditionalRRMPriorityIndex returns the selected AdditionalRRMPriorityIndex value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsAdditionalRRMPriorityIndex() (*s00.AdditionalRRMPriorityIndex, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(299) || v.rowAdditionalRRMPriorityIndex == nil {
 		return nil, false
 	}
 	return v.rowAdditionalRRMPriorityIndex, true
 }
+
+// AsUERadioCapabilityID returns the selected UERadioCapabilityID value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsUERadioCapabilityID() (*s00.UERadioCapabilityID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowUERadioCapabilityID == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapabilityID, true
 }
+
+// AsMaskedIMEISV returns the selected MaskedIMEISV value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsMaskedIMEISV() (*s00.MaskedIMEISV, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(192) || v.rowMaskedIMEISV == nil {
 		return nil, false
 	}
 	return v.rowMaskedIMEISV, true
 }
+
+// AsCoarseUELocation returns the selected CoarseUELocation value of DownlinkNASTransportIEValue and reports whether that alternative is active.
 func (v *DownlinkNASTransportIEValue) AsCoarseUELocation() (*s00.CoarseUELocation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(354) || v.rowCoarseUELocation == nil {
 		return nil, false
@@ -14958,6 +15012,8 @@ func (v PWSFailureIndicationIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.D
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of PWSFailureIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *PWSFailureIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15627,12 +15683,16 @@ func (PWSFailureIndicationIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason
 		return aper.UnknownSelector
 	}
 }
+
+// AsPWSfailedECGIList returns the selected PWSfailedECGIList value of PWSFailureIndicationIEValue and reports whether that alternative is active.
 func (v *PWSFailureIndicationIEValue) AsPWSfailedECGIList() (*s20.PWSfailedECGIList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(222) || v.rowPWSfailedECGIList == nil {
 		return nil, false
 	}
 	return v.rowPWSfailedECGIList, true
 }
+
+// AsGlobalENBID returns the selected GlobalENBID value of PWSFailureIndicationIEValue and reports whether that alternative is active.
 func (v *PWSFailureIndicationIEValue) AsGlobalENBID() (*s18.GlobalENBID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(59) || v.rowGlobalENBID == nil {
 		return nil, false
@@ -15769,6 +15829,8 @@ func (v UEContextReleaseRequestIEValue) matchesID(id s00.ProtocolIEID, _ ...*ape
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextReleaseRequestIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextReleaseRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16438,30 +16500,40 @@ func (UEContextReleaseRequestIEValue) reason(id s00.ProtocolIEID) aper.OpaqueRea
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextReleaseRequestIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseRequestIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextReleaseRequestIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseRequestIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsCause returns the selected Cause value of UEContextReleaseRequestIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseRequestIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
 	}
 	return v.rowCause, true
 }
+
+// AsGWContextReleaseIndication returns the selected GWContextReleaseIndication value of UEContextReleaseRequestIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseRequestIEValue) AsGWContextReleaseIndication() (*s00.GWContextReleaseIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(164) || v.rowGWContextReleaseIndication == nil {
 		return nil, false
 	}
 	return v.rowGWContextReleaseIndication, true
 }
+
+// AsSecondaryRATDataUsageReportList returns the selected SecondaryRATDataUsageReportList value of UEContextReleaseRequestIEValue and reports whether that alternative is active.
 func (v *UEContextReleaseRequestIEValue) AsSecondaryRATDataUsageReportList() (*s28.SecondaryRATDataUsageReportList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(264) || v.rowSecondaryRATDataUsageReportList == nil {
 		return nil, false
@@ -16659,6 +16731,8 @@ type HandoverRestrictionListExtIETable struct{}
 func HandoverRestrictionListExtIEs() HandoverRestrictionListExtIETable {
 	return HandoverRestrictionListExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of HandoverRestrictionListExtIETable.
 func (HandoverRestrictionListExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -16666,6 +16740,8 @@ func (HandoverRestrictionListExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by HandoverRestrictionListExtIETable.
 func (HandoverRestrictionListExtIETable) Table() s00.HandoverRestrictionListExtIEsValueExtensionTable {
 	return func() s00.HandoverRestrictionListExtIEsValueExtensionTable {
 		sealed := s00.HandoverRestrictionListExtIEsValueExtensionTable{}
@@ -16680,6 +16756,8 @@ func (HandoverRestrictionListExtIETable) infoNRrestrictioninEPSasSecondaryRAT() 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "HandoverRestrictionList-ExtIEs", Row: "id-NRrestrictioninEPSasSecondaryRAT"}}}
 }
+
+// NRrestrictioninEPSasSecondaryRAT returns the typed binding for the NRrestrictioninEPSasSecondaryRAT row of HandoverRestrictionListExtIETable.
 func (t HandoverRestrictionListExtIETable) NRrestrictioninEPSasSecondaryRAT() HandoverRestrictionListExtIEsNRrestrictioninEPSasSecondaryRATExtBinding {
 	return HandoverRestrictionListExtIEsNRrestrictioninEPSasSecondaryRATExtBinding{info: t.infoNRrestrictioninEPSasSecondaryRAT(), codec: func() s01.NRrestrictioninEPSasSecondaryRATValueCodec {
 		sealed := s01.NRrestrictioninEPSasSecondaryRATValueCodec{}
@@ -16747,6 +16825,8 @@ func (HandoverRestrictionListExtIETable) infoUnlicensedSpectrumRestriction() s00
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "HandoverRestrictionList-ExtIEs", Row: "id-UnlicensedSpectrumRestriction"}}}
 }
+
+// UnlicensedSpectrumRestriction returns the typed binding for the UnlicensedSpectrumRestriction row of HandoverRestrictionListExtIETable.
 func (t HandoverRestrictionListExtIETable) UnlicensedSpectrumRestriction() HandoverRestrictionListExtIEsUnlicensedSpectrumRestrictionExtBinding {
 	return HandoverRestrictionListExtIEsUnlicensedSpectrumRestrictionExtBinding{info: t.infoUnlicensedSpectrumRestriction(), codec: func() s02.UnlicensedSpectrumRestrictionValueCodec {
 		sealed := s02.UnlicensedSpectrumRestrictionValueCodec{}
@@ -16815,6 +16895,8 @@ func (HandoverRestrictionListExtIETable) infoCNTypeRestrictions() s00.ExtensionI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "HandoverRestrictionList-ExtIEs", Row: "id-CNTypeRestrictions"}}}
 }
+
+// CNTypeRestrictions returns the typed binding for the CNTypeRestrictions row of HandoverRestrictionListExtIETable.
 func (t HandoverRestrictionListExtIETable) CNTypeRestrictions() HandoverRestrictionListExtIEsCNTypeRestrictionsExtBinding {
 	return HandoverRestrictionListExtIEsCNTypeRestrictionsExtBinding{info: t.infoCNTypeRestrictions(), codec: func() s14.CNTypeRestrictionsValueCodec {
 		sealed := s14.CNTypeRestrictionsValueCodec{}
@@ -16880,6 +16962,8 @@ func (HandoverRestrictionListExtIETable) infoNRrestrictionin5GS() s00.ExtensionI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "HandoverRestrictionList-ExtIEs", Row: "id-NRrestrictionin5GS"}}}
 }
+
+// NRrestrictionin5GS returns the typed binding for the NRrestrictionin5GS row of HandoverRestrictionListExtIETable.
 func (t HandoverRestrictionListExtIETable) NRrestrictionin5GS() HandoverRestrictionListExtIEsNRrestrictionin5GSExtBinding {
 	return HandoverRestrictionListExtIEsNRrestrictionin5GSExtBinding{info: t.infoNRrestrictionin5GS(), codec: func() s01.NRrestrictionin5GSValueCodec {
 		sealed := s01.NRrestrictionin5GSValueCodec{}
@@ -16945,6 +17029,8 @@ func (HandoverRestrictionListExtIETable) infoLastNGRANPLMNIdentity() s00.Extensi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "HandoverRestrictionList-ExtIEs", Row: "id-LastNG-RANPLMNIdentity"}}}
 }
+
+// LastNGRANPLMNIdentity returns the typed binding for the LastNGRANPLMNIdentity row of HandoverRestrictionListExtIETable.
 func (t HandoverRestrictionListExtIETable) LastNGRANPLMNIdentity() HandoverRestrictionListExtIEsPLMNidentityExtBinding {
 	return HandoverRestrictionListExtIEsPLMNidentityExtBinding{info: t.infoLastNGRANPLMNIdentity(), codec: func() s01.PLMNidentityValueCodec {
 		sealed := s01.PLMNidentityValueCodec{}
@@ -17009,6 +17095,8 @@ func (HandoverRestrictionListExtIETable) infoRATRestrictions() s00.ExtensionInfo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "HandoverRestrictionList-ExtIEs", Row: "id-RAT-Restrictions"}}}
 }
+
+// RATRestrictions returns the typed binding for the RATRestrictions row of HandoverRestrictionListExtIETable.
 func (t HandoverRestrictionListExtIETable) RATRestrictions() HandoverRestrictionListExtIEsRATRestrictionsExtBinding {
 	return HandoverRestrictionListExtIEsRATRestrictionsExtBinding{info: t.infoRATRestrictions(), codec: func() s20.RATRestrictionsValueCodec {
 		sealed := s20.RATRestrictionsValueCodec{}
@@ -17065,6 +17153,8 @@ func (t HandoverRestrictionListExtIETable) RATRestrictions() HandoverRestriction
 			return value.AsRATRestrictions()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in HandoverRestrictionListExtIETable.
 func (t HandoverRestrictionListExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (HandoverRestrictionListExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return HandoverRestrictionListExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17098,6 +17188,8 @@ func (t HandoverRestrictionListExtIETable) NewOpaque(id s00.ProtocolExtensionID,
 type DownlinkNASTransportIETable struct{}
 
 func DownlinkNASTransportIEs() DownlinkNASTransportIETable { return DownlinkNASTransportIETable{} }
+
+// ID returns the ASN.1 object-set identity of DownlinkNASTransportIETable.
 func (DownlinkNASTransportIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17105,6 +17197,8 @@ func (DownlinkNASTransportIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by DownlinkNASTransportIETable.
 func (DownlinkNASTransportIETable) Table() s00.DownlinkNASTransportIEValueIETable {
 	return func() s00.DownlinkNASTransportIEValueIETable {
 		sealed := s00.DownlinkNASTransportIEValueIETable{}
@@ -17119,6 +17213,8 @@ func (DownlinkNASTransportIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) MMEUES1APID() DownlinkNASTransportMMEUES1APIDIEBinding {
 	return DownlinkNASTransportMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -17181,6 +17277,8 @@ func (DownlinkNASTransportIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) ENBUES1APID() DownlinkNASTransportENBUES1APIDIEBinding {
 	return DownlinkNASTransportENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -17243,6 +17341,8 @@ func (DownlinkNASTransportIETable) infoNASPDU() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-NAS-PDU"}}}
 }
+
+// NASPDU returns the typed binding for the NASPDU row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) NASPDU() DownlinkNASTransportNASPDUIEBinding {
 	return DownlinkNASTransportNASPDUIEBinding{info: t.infoNASPDU(), codec: func() s01.NASPDUValueCodec {
 		sealed := s01.NASPDUValueCodec{}
@@ -17305,6 +17405,8 @@ func (DownlinkNASTransportIETable) infoHandoverRestrictionList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-HandoverRestrictionList"}}}
 }
+
+// HandoverRestrictionList returns the typed binding for the HandoverRestrictionList row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) HandoverRestrictionList() DownlinkNASTransportHandoverRestrictionListIEBinding {
 	return DownlinkNASTransportHandoverRestrictionListIEBinding{info: t.infoHandoverRestrictionList(), codec: HandoverRestrictionListValueCodec{path: "HandoverRestrictionList",
 		decode: func(data []byte, options aper.DecodeState) (HandoverRestrictionList, error) {
@@ -17367,6 +17469,8 @@ func (DownlinkNASTransportIETable) infoSubscriberProfileIDforRFP() s00.FieldInfo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-SubscriberProfileIDforRFP"}}}
 }
+
+// SubscriberProfileIDforRFP returns the typed binding for the SubscriberProfileIDforRFP row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) SubscriberProfileIDforRFP() DownlinkNASTransportSubscriberProfileIDforRFPIEBinding {
 	return DownlinkNASTransportSubscriberProfileIDforRFPIEBinding{info: t.infoSubscriberProfileIDforRFP(), codec: func() s01.SubscriberProfileIDforRFPValueCodec {
 		sealed := s01.SubscriberProfileIDforRFPValueCodec{}
@@ -17435,6 +17539,8 @@ func (DownlinkNASTransportIETable) infoSRVCCOperationPossible() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-SRVCCOperationPossible"}}}
 }
+
+// SRVCCOperationPossible returns the typed binding for the SRVCCOperationPossible row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) SRVCCOperationPossible() DownlinkNASTransportSRVCCOperationPossibleIEBinding {
 	return DownlinkNASTransportSRVCCOperationPossibleIEBinding{info: t.infoSRVCCOperationPossible(), codec: func() s01.SRVCCOperationPossibleValueCodec {
 		sealed := s01.SRVCCOperationPossibleValueCodec{}
@@ -17501,6 +17607,8 @@ func (DownlinkNASTransportIETable) infoUERadioCapability() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-UERadioCapability"}}}
 }
+
+// UERadioCapability returns the typed binding for the UERadioCapability row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) UERadioCapability() DownlinkNASTransportUERadioCapabilityIEBinding {
 	return DownlinkNASTransportUERadioCapabilityIEBinding{info: t.infoUERadioCapability(), codec: func() s02.UERadioCapabilityValueCodec {
 		sealed := s02.UERadioCapabilityValueCodec{}
@@ -17566,6 +17674,8 @@ func (DownlinkNASTransportIETable) infoDLNASPDUDeliveryAckRequest() s00.FieldInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-DLNASPDUDeliveryAckRequest"}}}
 }
+
+// DLNASPDUDeliveryAckRequest returns the typed binding for the DLNASPDUDeliveryAckRequest row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) DLNASPDUDeliveryAckRequest() DownlinkNASTransportDLNASPDUDeliveryAckRequestIEBinding {
 	return DownlinkNASTransportDLNASPDUDeliveryAckRequestIEBinding{info: t.infoDLNASPDUDeliveryAckRequest(), codec: func() s00.DLNASPDUDeliveryAckRequestValueCodec {
 		sealed := s00.DLNASPDUDeliveryAckRequestValueCodec{}
@@ -17634,6 +17744,8 @@ func (DownlinkNASTransportIETable) infoEnhancedCoverageRestricted() s00.FieldInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-EnhancedCoverageRestricted"}}}
 }
+
+// EnhancedCoverageRestricted returns the typed binding for the EnhancedCoverageRestricted row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) EnhancedCoverageRestricted() DownlinkNASTransportEnhancedCoverageRestrictedIEBinding {
 	return DownlinkNASTransportEnhancedCoverageRestrictedIEBinding{info: t.infoEnhancedCoverageRestricted(), codec: func() s00.EnhancedCoverageRestrictedValueCodec {
 		sealed := s00.EnhancedCoverageRestrictedValueCodec{}
@@ -17702,6 +17814,8 @@ func (DownlinkNASTransportIETable) infoNRUESecurityCapabilities() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-NRUESecurityCapabilities"}}}
 }
+
+// NRUESecurityCapabilities returns the typed binding for the NRUESecurityCapabilities row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) NRUESecurityCapabilities() DownlinkNASTransportNRUESecurityCapabilitiesIEBinding {
 	return DownlinkNASTransportNRUESecurityCapabilitiesIEBinding{info: t.infoNRUESecurityCapabilities(), codec: func() s19.NRUESecurityCapabilitiesValueCodec {
 		sealed := s19.NRUESecurityCapabilitiesValueCodec{}
@@ -17771,6 +17885,8 @@ func (DownlinkNASTransportIETable) infoCEModeBRestricted() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-CE-ModeBRestricted"}}}
 }
+
+// CEModeBRestricted returns the typed binding for the CEModeBRestricted row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) CEModeBRestricted() DownlinkNASTransportCEModeBRestrictedIEBinding {
 	return DownlinkNASTransportCEModeBRestrictedIEBinding{info: t.infoCEModeBRestricted(), codec: func() s00.CEModeBRestrictedValueCodec {
 		sealed := s00.CEModeBRestrictedValueCodec{}
@@ -17836,6 +17952,8 @@ func (DownlinkNASTransportIETable) infoUECapabilityInfoRequest() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-UECapabilityInfoRequest"}}}
 }
+
+// UECapabilityInfoRequest returns the typed binding for the UECapabilityInfoRequest row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) UECapabilityInfoRequest() DownlinkNASTransportUECapabilityInfoRequestIEBinding {
 	return DownlinkNASTransportUECapabilityInfoRequestIEBinding{info: t.infoUECapabilityInfoRequest(), codec: func() s02.UECapabilityInfoRequestValueCodec {
 		sealed := s02.UECapabilityInfoRequestValueCodec{}
@@ -17905,6 +18023,8 @@ func (DownlinkNASTransportIETable) infoEndIndication() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-EndIndication"}}}
 }
+
+// EndIndication returns the typed binding for the EndIndication row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) EndIndication() DownlinkNASTransportEndIndicationIEBinding {
 	return DownlinkNASTransportEndIndicationIEBinding{info: t.infoEndIndication(), codec: func() s00.EndIndicationValueCodec {
 		sealed := s00.EndIndicationValueCodec{}
@@ -17967,6 +18087,8 @@ func (DownlinkNASTransportIETable) infoPendingDataIndication() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-PendingDataIndication"}}}
 }
+
+// PendingDataIndication returns the typed binding for the PendingDataIndication row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) PendingDataIndication() DownlinkNASTransportPendingDataIndicationIEBinding {
 	return DownlinkNASTransportPendingDataIndicationIEBinding{info: t.infoPendingDataIndication(), codec: func() s01.PendingDataIndicationValueCodec {
 		sealed := s01.PendingDataIndicationValueCodec{}
@@ -18034,6 +18156,8 @@ func (DownlinkNASTransportIETable) infoSubscriptionBasedUEDifferentiationInfo() 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-Subscription-Based-UE-DifferentiationInfo"}}}
 }
+
+// SubscriptionBasedUEDifferentiationInfo returns the typed binding for the SubscriptionBasedUEDifferentiationInfo row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) SubscriptionBasedUEDifferentiationInfo() DownlinkNASTransportSubscriptionBasedUEDifferentiationInfoIEBinding {
 	return DownlinkNASTransportSubscriptionBasedUEDifferentiationInfoIEBinding{info: t.infoSubscriptionBasedUEDifferentiationInfo(), codec: func() s31.SubscriptionBasedUEDifferentiationInfoValueCodec {
 		sealed := s31.SubscriptionBasedUEDifferentiationInfoValueCodec{}
@@ -18100,6 +18224,8 @@ func (DownlinkNASTransportIETable) infoAdditionalRRMPriorityIndex() s00.FieldInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-AdditionalRRMPriorityIndex"}}}
 }
+
+// AdditionalRRMPriorityIndex returns the typed binding for the AdditionalRRMPriorityIndex row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) AdditionalRRMPriorityIndex() DownlinkNASTransportAdditionalRRMPriorityIndexIEBinding {
 	return DownlinkNASTransportAdditionalRRMPriorityIndexIEBinding{info: t.infoAdditionalRRMPriorityIndex(), codec: func() s00.AdditionalRRMPriorityIndexValueCodec {
 		sealed := s00.AdditionalRRMPriorityIndexValueCodec{}
@@ -18168,6 +18294,8 @@ func (DownlinkNASTransportIETable) infoUERadioCapabilityID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-UERadioCapabilityID"}}}
 }
+
+// UERadioCapabilityID returns the typed binding for the UERadioCapabilityID row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) UERadioCapabilityID() DownlinkNASTransportUERadioCapabilityIDIEBinding {
 	return DownlinkNASTransportUERadioCapabilityIDIEBinding{info: t.infoUERadioCapabilityID(), codec: func() s02.UERadioCapabilityIDValueCodec {
 		sealed := s02.UERadioCapabilityIDValueCodec{}
@@ -18232,6 +18360,8 @@ func (DownlinkNASTransportIETable) infoMaskedIMEISV() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-Masked-IMEISV"}}}
 }
+
+// MaskedIMEISV returns the typed binding for the MaskedIMEISV row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) MaskedIMEISV() DownlinkNASTransportMaskedIMEISVIEBinding {
 	return DownlinkNASTransportMaskedIMEISVIEBinding{info: t.infoMaskedIMEISV(), codec: func() s01.MaskedIMEISVValueCodec {
 		sealed := s01.MaskedIMEISVValueCodec{}
@@ -18294,6 +18424,8 @@ func (DownlinkNASTransportIETable) infoCoarseUELocation() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "DownlinkNASTransport-IEs", Row: "id-CoarseUELocation"}}}
 }
+
+// CoarseUELocation returns the typed binding for the CoarseUELocation row of DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) CoarseUELocation() DownlinkNASTransportCoarseUELocationIEBinding {
 	return DownlinkNASTransportCoarseUELocationIEBinding{info: t.infoCoarseUELocation(), codec: func() s00.CoarseUELocationValueCodec {
 		sealed := s00.CoarseUELocationValueCodec{}
@@ -18351,6 +18483,8 @@ func (t DownlinkNASTransportIETable) CoarseUELocation() DownlinkNASTransportCoar
 			return value.AsCoarseUELocation()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in DownlinkNASTransportIETable.
 func (t DownlinkNASTransportIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (DownlinkNASTransportIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return DownlinkNASTransportIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18410,6 +18544,8 @@ func (t DownlinkNASTransportIETable) NewOpaque(id s00.ProtocolIEID, criticality 
 type PWSFailureIndicationIETable struct{}
 
 func PWSFailureIndicationIEs() PWSFailureIndicationIETable { return PWSFailureIndicationIETable{} }
+
+// ID returns the ASN.1 object-set identity of PWSFailureIndicationIETable.
 func (PWSFailureIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18417,6 +18553,8 @@ func (PWSFailureIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by PWSFailureIndicationIETable.
 func (PWSFailureIndicationIETable) Table() s00.PWSFailureIndicationIEValueIETable {
 	return func() s00.PWSFailureIndicationIEValueIETable {
 		sealed := s00.PWSFailureIndicationIEValueIETable{}
@@ -18431,6 +18569,8 @@ func (PWSFailureIndicationIETable) infoPWSfailedECGIList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PWSFailureIndicationIEs", Row: "id-PWSfailedECGIList"}}}
 }
+
+// PWSfailedECGIList returns the typed binding for the PWSfailedECGIList row of PWSFailureIndicationIETable.
 func (t PWSFailureIndicationIETable) PWSfailedECGIList() PWSFailureIndicationPWSfailedECGIListIEBinding {
 	return PWSFailureIndicationPWSfailedECGIListIEBinding{info: t.infoPWSfailedECGIList(), codec: func() s20.PWSfailedECGIListValueCodec {
 		sealed := s20.PWSfailedECGIListValueCodec{}
@@ -18496,6 +18636,8 @@ func (PWSFailureIndicationIETable) infoGlobalENBID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PWSFailureIndicationIEs", Row: "id-Global-ENB-ID"}}}
 }
+
+// GlobalENBID returns the typed binding for the GlobalENBID row of PWSFailureIndicationIETable.
 func (t PWSFailureIndicationIETable) GlobalENBID() PWSFailureIndicationGlobalENBIDIEBinding {
 	return PWSFailureIndicationGlobalENBIDIEBinding{info: t.infoGlobalENBID(), codec: func() s18.GlobalENBIDValueCodec {
 		sealed := s18.GlobalENBIDValueCodec{}
@@ -18551,6 +18693,8 @@ func (t PWSFailureIndicationIETable) GlobalENBID() PWSFailureIndicationGlobalENB
 			return PWSFailureIndicationIEValue{id: s00.ProtocolIEID(59), rowGlobalENBID: &value}
 		}, get: func(value *PWSFailureIndicationIEValue) (*s18.GlobalENBID, bool) { return value.AsGlobalENBID() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in PWSFailureIndicationIETable.
 func (t PWSFailureIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (PWSFailureIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return PWSFailureIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18578,6 +18722,8 @@ type UEContextReleaseRequestIETable struct{}
 func UEContextReleaseRequestIEs() UEContextReleaseRequestIETable {
 	return UEContextReleaseRequestIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextReleaseRequestIETable.
 func (UEContextReleaseRequestIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18585,6 +18731,8 @@ func (UEContextReleaseRequestIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextReleaseRequestIETable.
 func (UEContextReleaseRequestIETable) Table() s00.UEContextReleaseRequestIEValueIETable {
 	return func() s00.UEContextReleaseRequestIEValueIETable {
 		sealed := s00.UEContextReleaseRequestIEValueIETable{}
@@ -18599,6 +18747,8 @@ func (UEContextReleaseRequestIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseRequest-IEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextReleaseRequestIETable.
 func (t UEContextReleaseRequestIETable) MMEUES1APID() UEContextReleaseRequestMMEUES1APIDIEBinding {
 	return UEContextReleaseRequestMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18661,6 +18811,8 @@ func (UEContextReleaseRequestIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseRequest-IEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextReleaseRequestIETable.
 func (t UEContextReleaseRequestIETable) ENBUES1APID() UEContextReleaseRequestENBUES1APIDIEBinding {
 	return UEContextReleaseRequestENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18723,6 +18875,8 @@ func (UEContextReleaseRequestIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseRequest-IEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of UEContextReleaseRequestIETable.
 func (t UEContextReleaseRequestIETable) Cause() UEContextReleaseRequestCauseIEBinding {
 	return UEContextReleaseRequestCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -18785,6 +18939,8 @@ func (UEContextReleaseRequestIETable) infoGWContextReleaseIndication() s00.Field
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseRequest-IEs", Row: "id-GWContextReleaseIndication"}}}
 }
+
+// GWContextReleaseIndication returns the typed binding for the GWContextReleaseIndication row of UEContextReleaseRequestIETable.
 func (t UEContextReleaseRequestIETable) GWContextReleaseIndication() UEContextReleaseRequestGWContextReleaseIndicationIEBinding {
 	return UEContextReleaseRequestGWContextReleaseIndicationIEBinding{info: t.infoGWContextReleaseIndication(), codec: func() s00.GWContextReleaseIndicationValueCodec {
 		sealed := s00.GWContextReleaseIndicationValueCodec{}
@@ -18853,6 +19009,8 @@ func (UEContextReleaseRequestIETable) infoSecondaryRATDataUsageReportList() s00.
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextReleaseRequest-IEs", Row: "id-SecondaryRATDataUsageReportList"}}}
 }
+
+// SecondaryRATDataUsageReportList returns the typed binding for the SecondaryRATDataUsageReportList row of UEContextReleaseRequestIETable.
 func (t UEContextReleaseRequestIETable) SecondaryRATDataUsageReportList() UEContextReleaseRequestSecondaryRATDataUsageReportListIEBinding {
 	return UEContextReleaseRequestSecondaryRATDataUsageReportListIEBinding{info: t.infoSecondaryRATDataUsageReportList(), codec: func() s28.SecondaryRATDataUsageReportListValueCodec {
 		sealed := s28.SecondaryRATDataUsageReportListValueCodec{}
@@ -18912,6 +19070,8 @@ func (t UEContextReleaseRequestIETable) SecondaryRATDataUsageReportList() UECont
 			return value.AsSecondaryRATDataUsageReportList()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextReleaseRequestIETable.
 func (t UEContextReleaseRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextReleaseRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextReleaseRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

@@ -14733,6 +14733,8 @@ func (v ENBDirectInformationTransferIEValue) matchesID(id s00.ProtocolIEID, _ ..
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ENBDirectInformationTransferIEValue and reports whether the opaque alternative is selected.
 func (v *ENBDirectInformationTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15402,6 +15404,8 @@ func (ENBDirectInformationTransferIEValue) reason(id s00.ProtocolIEID) aper.Opaq
 		return aper.UnknownSelector
 	}
 }
+
+// AsInterSystemInformationTransferTypeEDT returns the selected InterSystemInformationTransferTypeEDT value of ENBDirectInformationTransferIEValue and reports whether that alternative is active.
 func (v *ENBDirectInformationTransferIEValue) AsInterSystemInformationTransferTypeEDT() (*InterSystemInformationTransferType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(121) || v.rowInterSystemInformationTransferTypeEDT == nil {
 		return nil, false
@@ -15496,6 +15500,8 @@ func (v MMEDirectInformationTransferIEValue) matchesID(id s00.ProtocolIEID, _ ..
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of MMEDirectInformationTransferIEValue and reports whether the opaque alternative is selected.
 func (v *MMEDirectInformationTransferIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16165,6 +16171,8 @@ func (MMEDirectInformationTransferIEValue) reason(id s00.ProtocolIEID) aper.Opaq
 		return aper.UnknownSelector
 	}
 }
+
+// AsInterSystemInformationTransferTypeMDT returns the selected InterSystemInformationTransferTypeMDT value of MMEDirectInformationTransferIEValue and reports whether that alternative is active.
 func (v *MMEDirectInformationTransferIEValue) AsInterSystemInformationTransferTypeMDT() (*InterSystemInformationTransferType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(122) || v.rowInterSystemInformationTransferTypeMDT == nil {
 		return nil, false
@@ -16259,6 +16267,8 @@ func (v TAIItemIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of TAIItemIEValue and reports whether the opaque alternative is selected.
 func (v *TAIItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16928,6 +16938,8 @@ func (TAIItemIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsTAIItem returns the selected TAIItem value of TAIItemIEValue and reports whether that alternative is active.
 func (v *TAIItemIEValue) AsTAIItem() (*TAIItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(47) || v.rowTAIItem == nil {
 		return nil, false
@@ -17053,6 +17065,8 @@ func (v WriteReplaceWarningRequestIEValue) matchesID(id s00.ProtocolIEID, _ ...*
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of WriteReplaceWarningRequestIEValue and reports whether the opaque alternative is selected.
 func (v *WriteReplaceWarningRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17722,72 +17736,96 @@ func (WriteReplaceWarningRequestIEValue) reason(id s00.ProtocolIEID) aper.Opaque
 		return aper.UnknownSelector
 	}
 }
+
+// AsMessageIdentifier returns the selected MessageIdentifier value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsMessageIdentifier() (*s00.MessageIdentifier, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(111) || v.rowMessageIdentifier == nil {
 		return nil, false
 	}
 	return v.rowMessageIdentifier, true
 }
+
+// AsSerialNumber returns the selected SerialNumber value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsSerialNumber() (*s00.SerialNumber, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(112) || v.rowSerialNumber == nil {
 		return nil, false
 	}
 	return v.rowSerialNumber, true
 }
+
+// AsWarningAreaList returns the selected WarningAreaList value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsWarningAreaList() (*s32.WarningAreaList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(113) || v.rowWarningAreaList == nil {
 		return nil, false
 	}
 	return v.rowWarningAreaList, true
 }
+
+// AsRepetitionPeriod returns the selected RepetitionPeriod value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsRepetitionPeriod() (*s00.RepetitionPeriod, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(114) || v.rowRepetitionPeriod == nil {
 		return nil, false
 	}
 	return v.rowRepetitionPeriod, true
 }
+
+// AsExtendedRepetitionPeriod returns the selected ExtendedRepetitionPeriod value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsExtendedRepetitionPeriod() (*s00.ExtendedRepetitionPeriod, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(144) || v.rowExtendedRepetitionPeriod == nil {
 		return nil, false
 	}
 	return v.rowExtendedRepetitionPeriod, true
 }
+
+// AsNumberofBroadcastRequest returns the selected NumberofBroadcastRequest value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsNumberofBroadcastRequest() (*s00.NumberofBroadcastRequest, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(115) || v.rowNumberofBroadcastRequest == nil {
 		return nil, false
 	}
 	return v.rowNumberofBroadcastRequest, true
 }
+
+// AsWarningType returns the selected WarningType value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsWarningType() (*s00.WarningType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(116) || v.rowWarningType == nil {
 		return nil, false
 	}
 	return v.rowWarningType, true
 }
+
+// AsWarningSecurityInfo returns the selected WarningSecurityInfo value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsWarningSecurityInfo() (*s00.WarningSecurityInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(117) || v.rowWarningSecurityInfo == nil {
 		return nil, false
 	}
 	return v.rowWarningSecurityInfo, true
 }
+
+// AsDataCodingScheme returns the selected DataCodingScheme value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsDataCodingScheme() (*s00.DataCodingScheme, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(118) || v.rowDataCodingScheme == nil {
 		return nil, false
 	}
 	return v.rowDataCodingScheme, true
 }
+
+// AsWarningMessageContents returns the selected WarningMessageContents value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsWarningMessageContents() (*s00.WarningMessageContents, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(119) || v.rowWarningMessageContents == nil {
 		return nil, false
 	}
 	return v.rowWarningMessageContents, true
 }
+
+// AsConcurrentWarningMessageIndicator returns the selected ConcurrentWarningMessageIndicator value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsConcurrentWarningMessageIndicator() (*s00.ConcurrentWarningMessageIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(142) || v.rowConcurrentWarningMessageIndicator == nil {
 		return nil, false
 	}
 	return v.rowConcurrentWarningMessageIndicator, true
 }
+
+// AsWarningAreaCoordinates returns the selected WarningAreaCoordinates value of WriteReplaceWarningRequestIEValue and reports whether that alternative is active.
 func (v *WriteReplaceWarningRequestIEValue) AsWarningAreaCoordinates() (*s00.WarningAreaCoordinates, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(286) || v.rowWarningAreaCoordinates == nil {
 		return nil, false
@@ -18356,6 +18394,8 @@ type ENBDirectInformationTransferIETable struct{}
 func ENBDirectInformationTransferIEs() ENBDirectInformationTransferIETable {
 	return ENBDirectInformationTransferIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ENBDirectInformationTransferIETable.
 func (ENBDirectInformationTransferIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18363,6 +18403,8 @@ func (ENBDirectInformationTransferIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ENBDirectInformationTransferIETable.
 func (ENBDirectInformationTransferIETable) Table() s00.ENBDirectInformationTransferIEValueIETable {
 	return func() s00.ENBDirectInformationTransferIEValueIETable {
 		sealed := s00.ENBDirectInformationTransferIEValueIETable{}
@@ -18377,6 +18419,8 @@ func (ENBDirectInformationTransferIETable) infoInterSystemInformationTransferTyp
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "ENBDirectInformationTransferIEs", Row: "id-Inter-SystemInformationTransferTypeEDT"}}}
 }
+
+// InterSystemInformationTransferTypeEDT returns the typed binding for the InterSystemInformationTransferTypeEDT row of ENBDirectInformationTransferIETable.
 func (t ENBDirectInformationTransferIETable) InterSystemInformationTransferTypeEDT() ENBDirectInformationTransferInterSystemInformationTransferTypeIEBinding {
 	return ENBDirectInformationTransferInterSystemInformationTransferTypeIEBinding{info: t.infoInterSystemInformationTransferTypeEDT(), codec: InterSystemInformationTransferTypeValueCodec{path: "InterSystemInformationTransferType",
 		decode: func(data []byte, options aper.DecodeState) (InterSystemInformationTransferType, error) {
@@ -18427,6 +18471,8 @@ func (t ENBDirectInformationTransferIETable) InterSystemInformationTransferTypeE
 		return value.AsInterSystemInformationTransferTypeEDT()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ENBDirectInformationTransferIETable.
 func (t ENBDirectInformationTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ENBDirectInformationTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ENBDirectInformationTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18452,6 +18498,8 @@ type MMEDirectInformationTransferIETable struct{}
 func MMEDirectInformationTransferIEs() MMEDirectInformationTransferIETable {
 	return MMEDirectInformationTransferIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of MMEDirectInformationTransferIETable.
 func (MMEDirectInformationTransferIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18459,6 +18507,8 @@ func (MMEDirectInformationTransferIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by MMEDirectInformationTransferIETable.
 func (MMEDirectInformationTransferIETable) Table() s00.MMEDirectInformationTransferIEValueIETable {
 	return func() s00.MMEDirectInformationTransferIEValueIETable {
 		sealed := s00.MMEDirectInformationTransferIEValueIETable{}
@@ -18473,6 +18523,8 @@ func (MMEDirectInformationTransferIETable) infoInterSystemInformationTransferTyp
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "MMEDirectInformationTransferIEs", Row: "id-Inter-SystemInformationTransferTypeMDT"}}}
 }
+
+// InterSystemInformationTransferTypeMDT returns the typed binding for the InterSystemInformationTransferTypeMDT row of MMEDirectInformationTransferIETable.
 func (t MMEDirectInformationTransferIETable) InterSystemInformationTransferTypeMDT() MMEDirectInformationTransferInterSystemInformationTransferTypeIEBinding {
 	return MMEDirectInformationTransferInterSystemInformationTransferTypeIEBinding{info: t.infoInterSystemInformationTransferTypeMDT(), codec: InterSystemInformationTransferTypeValueCodec{path: "InterSystemInformationTransferType",
 		decode: func(data []byte, options aper.DecodeState) (InterSystemInformationTransferType, error) {
@@ -18523,6 +18575,8 @@ func (t MMEDirectInformationTransferIETable) InterSystemInformationTransferTypeM
 		return value.AsInterSystemInformationTransferTypeMDT()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in MMEDirectInformationTransferIETable.
 func (t MMEDirectInformationTransferIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (MMEDirectInformationTransferIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return MMEDirectInformationTransferIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18546,6 +18600,8 @@ func (t MMEDirectInformationTransferIETable) NewOpaque(id s00.ProtocolIEID, crit
 type TAIItemIETable struct{}
 
 func TAIItemIEs() TAIItemIETable { return TAIItemIETable{} }
+
+// ID returns the ASN.1 object-set identity of TAIItemIETable.
 func (TAIItemIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18553,6 +18609,8 @@ func (TAIItemIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TAIItemIETable.
 func (TAIItemIETable) Table() s00.TAIItemIEValueIETable {
 	return func() s00.TAIItemIEValueIETable {
 		sealed := s00.TAIItemIEValueIETable{}
@@ -18567,6 +18625,8 @@ func (TAIItemIETable) infoTAIItem() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "TAIItemIEs", Row: "id-TAIItem"}}}
 }
+
+// TAIItem returns the typed binding for the TAIItem row of TAIItemIETable.
 func (t TAIItemIETable) TAIItem() TAIItemTAIItemIEBinding {
 	return TAIItemTAIItemIEBinding{info: t.infoTAIItem(), codec: TAIItemValueCodec{path: "TAIItem",
 		decode: func(data []byte, options aper.DecodeState) (TAIItem, error) {
@@ -18616,6 +18676,8 @@ func (t TAIItemIETable) TAIItem() TAIItemTAIItemIEBinding {
 		return TAIItemIEValue{id: s00.ProtocolIEID(47), rowTAIItem: &value}
 	}, get: func(value *TAIItemIEValue) (*TAIItem, bool) { return value.AsTAIItem() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TAIItemIETable.
 func (t TAIItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (TAIItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TAIItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18641,6 +18703,8 @@ type WriteReplaceWarningRequestIETable struct{}
 func WriteReplaceWarningRequestIEs() WriteReplaceWarningRequestIETable {
 	return WriteReplaceWarningRequestIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of WriteReplaceWarningRequestIETable.
 func (WriteReplaceWarningRequestIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18648,6 +18712,8 @@ func (WriteReplaceWarningRequestIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by WriteReplaceWarningRequestIETable.
 func (WriteReplaceWarningRequestIETable) Table() s00.WriteReplaceWarningRequestIEValueIETable {
 	return func() s00.WriteReplaceWarningRequestIEValueIETable {
 		sealed := s00.WriteReplaceWarningRequestIEValueIETable{}
@@ -18662,6 +18728,8 @@ func (WriteReplaceWarningRequestIETable) infoMessageIdentifier() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-MessageIdentifier"}}}
 }
+
+// MessageIdentifier returns the typed binding for the MessageIdentifier row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) MessageIdentifier() WriteReplaceWarningRequestMessageIdentifierIEBinding {
 	return WriteReplaceWarningRequestMessageIdentifierIEBinding{info: t.infoMessageIdentifier(), codec: func() s01.MessageIdentifierValueCodec {
 		sealed := s01.MessageIdentifierValueCodec{}
@@ -18727,6 +18795,8 @@ func (WriteReplaceWarningRequestIETable) infoSerialNumber() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-SerialNumber"}}}
 }
+
+// SerialNumber returns the typed binding for the SerialNumber row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) SerialNumber() WriteReplaceWarningRequestSerialNumberIEBinding {
 	return WriteReplaceWarningRequestSerialNumberIEBinding{info: t.infoSerialNumber(), codec: func() s01.SerialNumberValueCodec {
 		sealed := s01.SerialNumberValueCodec{}
@@ -18791,6 +18861,8 @@ func (WriteReplaceWarningRequestIETable) infoWarningAreaList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-WarningAreaList"}}}
 }
+
+// WarningAreaList returns the typed binding for the WarningAreaList row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) WarningAreaList() WriteReplaceWarningRequestWarningAreaListIEBinding {
 	return WriteReplaceWarningRequestWarningAreaListIEBinding{info: t.infoWarningAreaList(), codec: func() s32.WarningAreaListValueCodec {
 		sealed := s32.WarningAreaListValueCodec{}
@@ -18854,6 +18926,8 @@ func (WriteReplaceWarningRequestIETable) infoRepetitionPeriod() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-RepetitionPeriod"}}}
 }
+
+// RepetitionPeriod returns the typed binding for the RepetitionPeriod row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) RepetitionPeriod() WriteReplaceWarningRequestRepetitionPeriodIEBinding {
 	return WriteReplaceWarningRequestRepetitionPeriodIEBinding{info: t.infoRepetitionPeriod(), codec: func() s01.RepetitionPeriodValueCodec {
 		sealed := s01.RepetitionPeriodValueCodec{}
@@ -18918,6 +18992,8 @@ func (WriteReplaceWarningRequestIETable) infoExtendedRepetitionPeriod() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-ExtendedRepetitionPeriod"}}}
 }
+
+// ExtendedRepetitionPeriod returns the typed binding for the ExtendedRepetitionPeriod row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) ExtendedRepetitionPeriod() WriteReplaceWarningRequestExtendedRepetitionPeriodIEBinding {
 	return WriteReplaceWarningRequestExtendedRepetitionPeriodIEBinding{info: t.infoExtendedRepetitionPeriod(), codec: func() s00.ExtendedRepetitionPeriodValueCodec {
 		sealed := s00.ExtendedRepetitionPeriodValueCodec{}
@@ -18987,6 +19063,8 @@ func (WriteReplaceWarningRequestIETable) infoNumberofBroadcastRequest() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-NumberofBroadcastRequest"}}}
 }
+
+// NumberofBroadcastRequest returns the typed binding for the NumberofBroadcastRequest row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) NumberofBroadcastRequest() WriteReplaceWarningRequestNumberofBroadcastRequestIEBinding {
 	return WriteReplaceWarningRequestNumberofBroadcastRequestIEBinding{info: t.infoNumberofBroadcastRequest(), codec: func() s01.NumberofBroadcastRequestValueCodec {
 		sealed := s01.NumberofBroadcastRequestValueCodec{}
@@ -19056,6 +19134,8 @@ func (WriteReplaceWarningRequestIETable) infoWarningType() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-WarningType"}}}
 }
+
+// WarningType returns the typed binding for the WarningType row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) WarningType() WriteReplaceWarningRequestWarningTypeIEBinding {
 	return WriteReplaceWarningRequestWarningTypeIEBinding{info: t.infoWarningType(), codec: func() s02.WarningTypeValueCodec {
 		sealed := s02.WarningTypeValueCodec{}
@@ -19118,6 +19198,8 @@ func (WriteReplaceWarningRequestIETable) infoWarningSecurityInfo() s00.FieldInfo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-WarningSecurityInfo"}}}
 }
+
+// WarningSecurityInfo returns the typed binding for the WarningSecurityInfo row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) WarningSecurityInfo() WriteReplaceWarningRequestWarningSecurityInfoIEBinding {
 	return WriteReplaceWarningRequestWarningSecurityInfoIEBinding{info: t.infoWarningSecurityInfo(), codec: func() s02.WarningSecurityInfoValueCodec {
 		sealed := s02.WarningSecurityInfoValueCodec{}
@@ -19182,6 +19264,8 @@ func (WriteReplaceWarningRequestIETable) infoDataCodingScheme() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-DataCodingScheme"}}}
 }
+
+// DataCodingScheme returns the typed binding for the DataCodingScheme row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) DataCodingScheme() WriteReplaceWarningRequestDataCodingSchemeIEBinding {
 	return WriteReplaceWarningRequestDataCodingSchemeIEBinding{info: t.infoDataCodingScheme(), codec: func() s00.DataCodingSchemeValueCodec {
 		sealed := s00.DataCodingSchemeValueCodec{}
@@ -19246,6 +19330,8 @@ func (WriteReplaceWarningRequestIETable) infoWarningMessageContents() s00.FieldI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-WarningMessageContents"}}}
 }
+
+// WarningMessageContents returns the typed binding for the WarningMessageContents row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) WarningMessageContents() WriteReplaceWarningRequestWarningMessageContentsIEBinding {
 	return WriteReplaceWarningRequestWarningMessageContentsIEBinding{info: t.infoWarningMessageContents(), codec: func() s02.WarningMessageContentsValueCodec {
 		sealed := s02.WarningMessageContentsValueCodec{}
@@ -19312,6 +19398,8 @@ func (WriteReplaceWarningRequestIETable) infoConcurrentWarningMessageIndicator()
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-ConcurrentWarningMessageIndicator"}}}
 }
+
+// ConcurrentWarningMessageIndicator returns the typed binding for the ConcurrentWarningMessageIndicator row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) ConcurrentWarningMessageIndicator() WriteReplaceWarningRequestConcurrentWarningMessageIndicatorIEBinding {
 	return WriteReplaceWarningRequestConcurrentWarningMessageIndicatorIEBinding{info: t.infoConcurrentWarningMessageIndicator(), codec: func() s00.ConcurrentWarningMessageIndicatorValueCodec {
 		sealed := s00.ConcurrentWarningMessageIndicatorValueCodec{}
@@ -19380,6 +19468,8 @@ func (WriteReplaceWarningRequestIETable) infoWarningAreaCoordinates() s00.FieldI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "WriteReplaceWarningRequestIEs", Row: "id-WarningAreaCoordinates"}}}
 }
+
+// WarningAreaCoordinates returns the typed binding for the WarningAreaCoordinates row of WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) WarningAreaCoordinates() WriteReplaceWarningRequestWarningAreaCoordinatesIEBinding {
 	return WriteReplaceWarningRequestWarningAreaCoordinatesIEBinding{info: t.infoWarningAreaCoordinates(), codec: func() s02.WarningAreaCoordinatesValueCodec {
 		sealed := s02.WarningAreaCoordinatesValueCodec{}
@@ -19439,6 +19529,8 @@ func (t WriteReplaceWarningRequestIETable) WarningAreaCoordinates() WriteReplace
 			return value.AsWarningAreaCoordinates()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in WriteReplaceWarningRequestIETable.
 func (t WriteReplaceWarningRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (WriteReplaceWarningRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return WriteReplaceWarningRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorHandoverRequestUeHistoryIe15 verifies 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.1.1.1, 9.2.38, 9.2.39, and 9.2.40; id-UE-HistoryInformation 15.
+// TestVectorHandoverRequestUeHistoryIe15 verifies 3GPP TS 36.423 V19.1.0 (2025-12), sections 9.1.1.1, 9.2.38, 9.2.39, and 9.2.40; id-UE-HistoryInformation 15.
 func TestVectorHandoverRequestUeHistoryIe15(t *testing.T) {
 	input := asn1VectorHex(t, "000021f35412345670000005")
 	if got := s18.HandoverRequestIEs().ID().Source().Assignment; got != "HandoverRequest-IEs" {

@@ -14204,6 +14204,8 @@ func (v BearersSubjectToDLDiscardingItemIEValue) matchesID(id s00.ProtocolIEID, 
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of BearersSubjectToDLDiscardingItemIEValue and reports whether the opaque alternative is selected.
 func (v *BearersSubjectToDLDiscardingItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14873,6 +14875,8 @@ func (BearersSubjectToDLDiscardingItemIEValue) reason(id s00.ProtocolIEID) aper.
 		return aper.UnknownSelector
 	}
 }
+
+// AsBearersSubjectToDLDiscardingItem returns the selected BearersSubjectToDLDiscardingItem value of BearersSubjectToDLDiscardingItemIEValue and reports whether that alternative is active.
 func (v *BearersSubjectToDLDiscardingItemIEValue) AsBearersSubjectToDLDiscardingItem() (*BearersSubjectToDLDiscardingItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(351) || v.rowBearersSubjectToDLDiscardingItem == nil {
 		return nil, false
@@ -14967,6 +14971,8 @@ func (v ERABAdmittedItemIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decod
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABAdmittedItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABAdmittedItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15636,6 +15642,8 @@ func (ERABAdmittedItemIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABAdmittedItem returns the selected ERABAdmittedItem value of ERABAdmittedItemIEValue and reports whether that alternative is active.
 func (v *ERABAdmittedItemIEValue) AsERABAdmittedItem() (*ERABAdmittedItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(20) || v.rowERABAdmittedItem == nil {
 		return nil, false
@@ -15728,6 +15736,8 @@ func (v ERABDataForwardingItemIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABDataForwardingItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABDataForwardingItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16397,6 +16407,8 @@ func (ERABDataForwardingItemIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReas
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABDataForwardingItem returns the selected ERABDataForwardingItem value of ERABDataForwardingItemIEValue and reports whether that alternative is active.
 func (v *ERABDataForwardingItemIEValue) AsERABDataForwardingItem() (*ERABDataForwardingItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(14) || v.rowERABDataForwardingItem == nil {
 		return nil, false
@@ -16489,6 +16501,8 @@ func (v ERABFailedToResumeItemResumeReqIEValue) matchesID(id s00.ProtocolIEID, _
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABFailedToResumeItemResumeReqIEValue and reports whether the opaque alternative is selected.
 func (v *ERABFailedToResumeItemResumeReqIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17158,6 +17172,8 @@ func (ERABFailedToResumeItemResumeReqIEValue) reason(id s00.ProtocolIEID) aper.O
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABFailedToResumeItemResumeReq returns the selected ERABFailedToResumeItemResumeReq value of ERABFailedToResumeItemResumeReqIEValue and reports whether that alternative is active.
 func (v *ERABFailedToResumeItemResumeReqIEValue) AsERABFailedToResumeItemResumeReq() (*ERABFailedToResumeItemResumeReq, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(236) || v.rowERABFailedToResumeItemResumeReq == nil {
 		return nil, false
@@ -17252,6 +17268,8 @@ func (v ERABFailedToResumeItemResumeResIEValue) matchesID(id s00.ProtocolIEID, _
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABFailedToResumeItemResumeResIEValue and reports whether the opaque alternative is selected.
 func (v *ERABFailedToResumeItemResumeResIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17921,6 +17939,8 @@ func (ERABFailedToResumeItemResumeResIEValue) reason(id s00.ProtocolIEID) aper.O
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABFailedToResumeItemResumeRes returns the selected ERABFailedToResumeItemResumeRes value of ERABFailedToResumeItemResumeResIEValue and reports whether that alternative is active.
 func (v *ERABFailedToResumeItemResumeResIEValue) AsERABFailedToResumeItemResumeRes() (*ERABFailedToResumeItemResumeRes, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(238) || v.rowERABFailedToResumeItemResumeRes == nil {
 		return nil, false
@@ -17998,6 +18018,8 @@ type BearersSubjectToDLDiscardingItemIETable struct{}
 func BearersSubjectToDLDiscardingItemIEs() BearersSubjectToDLDiscardingItemIETable {
 	return BearersSubjectToDLDiscardingItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of BearersSubjectToDLDiscardingItemIETable.
 func (BearersSubjectToDLDiscardingItemIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18005,6 +18027,8 @@ func (BearersSubjectToDLDiscardingItemIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by BearersSubjectToDLDiscardingItemIETable.
 func (BearersSubjectToDLDiscardingItemIETable) Table() s00.BearersSubjectToDLDiscardingItemIEValueIETable {
 	return func() s00.BearersSubjectToDLDiscardingItemIEValueIETable {
 		sealed := s00.BearersSubjectToDLDiscardingItemIEValueIETable{}
@@ -18019,6 +18043,8 @@ func (BearersSubjectToDLDiscardingItemIETable) infoBearersSubjectToDLDiscardingI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToDLDiscarding-ItemIEs", Row: "id-Bearers-SubjectToDLDiscarding-Item"}}}
 }
+
+// BearersSubjectToDLDiscardingItem returns the typed binding for the BearersSubjectToDLDiscardingItem row of BearersSubjectToDLDiscardingItemIETable.
 func (t BearersSubjectToDLDiscardingItemIETable) BearersSubjectToDLDiscardingItem() BearersSubjectToDLDiscardingItemBearersSubjectToDLDiscardingItemIEBinding {
 	return BearersSubjectToDLDiscardingItemBearersSubjectToDLDiscardingItemIEBinding{info: t.infoBearersSubjectToDLDiscardingItem(), codec: BearersSubjectToDLDiscardingItemValueCodec{path: "BearersSubjectToDLDiscardingItem",
 		decode: func(data []byte, options aper.DecodeState) (BearersSubjectToDLDiscardingItem, error) {
@@ -18072,6 +18098,8 @@ func (t BearersSubjectToDLDiscardingItemIETable) BearersSubjectToDLDiscardingIte
 		return value.AsBearersSubjectToDLDiscardingItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in BearersSubjectToDLDiscardingItemIETable.
 func (t BearersSubjectToDLDiscardingItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (BearersSubjectToDLDiscardingItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return BearersSubjectToDLDiscardingItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18097,6 +18125,8 @@ type BearersSubjectToEarlyStatusTransferItemIETable struct{}
 func BearersSubjectToEarlyStatusTransferItemIEs() BearersSubjectToEarlyStatusTransferItemIETable {
 	return BearersSubjectToEarlyStatusTransferItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of BearersSubjectToEarlyStatusTransferItemIETable.
 func (BearersSubjectToEarlyStatusTransferItemIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18104,6 +18134,8 @@ func (BearersSubjectToEarlyStatusTransferItemIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by BearersSubjectToEarlyStatusTransferItemIETable.
 func (BearersSubjectToEarlyStatusTransferItemIETable) Table() s00.BearersSubjectToEarlyStatusTransferItemIEValueIETable {
 	return func() s00.BearersSubjectToEarlyStatusTransferItemIEValueIETable {
 		sealed := s00.BearersSubjectToEarlyStatusTransferItemIEValueIETable{}
@@ -18118,6 +18150,8 @@ func (BearersSubjectToEarlyStatusTransferItemIETable) infoBearersSubjectToEarlyS
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "Bearers-SubjectToEarlyStatusTransfer-ItemIEs", Row: "id-Bearers-SubjectToEarlyStatusTransfer-Item"}}}
 }
+
+// BearersSubjectToEarlyStatusTransferItem returns the typed binding for the BearersSubjectToEarlyStatusTransferItem row of BearersSubjectToEarlyStatusTransferItemIETable.
 func (t BearersSubjectToEarlyStatusTransferItemIETable) BearersSubjectToEarlyStatusTransferItem() BearersSubjectToEarlyStatusTransferItemBearersSubjectToEarlyStatusTransferItemIEBinding {
 	return BearersSubjectToEarlyStatusTransferItemBearersSubjectToEarlyStatusTransferItemIEBinding{info: t.infoBearersSubjectToEarlyStatusTransferItem(), codec: BearersSubjectToEarlyStatusTransferItemValueCodec{path: "BearersSubjectToEarlyStatusTransferItem",
 		decode: func(data []byte, options aper.DecodeState) (s14.BearersSubjectToEarlyStatusTransferItem, error) {
@@ -18181,6 +18215,8 @@ func (t BearersSubjectToEarlyStatusTransferItemIETable) BearersSubjectToEarlySta
 		return value.AsBearersSubjectToEarlyStatusTransferItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in BearersSubjectToEarlyStatusTransferItemIETable.
 func (t BearersSubjectToEarlyStatusTransferItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (s14.BearersSubjectToEarlyStatusTransferItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return s14.BearersSubjectToEarlyStatusTransferItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18210,6 +18246,8 @@ func (t BearersSubjectToEarlyStatusTransferItemIETable) NewOpaque(id s00.Protoco
 type ERABAdmittedItemIETable struct{}
 
 func ERABAdmittedItemIEs() ERABAdmittedItemIETable { return ERABAdmittedItemIETable{} }
+
+// ID returns the ASN.1 object-set identity of ERABAdmittedItemIETable.
 func (ERABAdmittedItemIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18217,6 +18255,8 @@ func (ERABAdmittedItemIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABAdmittedItemIETable.
 func (ERABAdmittedItemIETable) Table() s00.ERABAdmittedItemIEValueIETable {
 	return func() s00.ERABAdmittedItemIEValueIETable {
 		sealed := s00.ERABAdmittedItemIEValueIETable{}
@@ -18231,6 +18271,8 @@ func (ERABAdmittedItemIETable) infoERABAdmittedItem() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABAdmittedItemIEs", Row: "id-E-RABAdmittedItem"}}}
 }
+
+// ERABAdmittedItem returns the typed binding for the ERABAdmittedItem row of ERABAdmittedItemIETable.
 func (t ERABAdmittedItemIETable) ERABAdmittedItem() ERABAdmittedItemERABAdmittedItemIEBinding {
 	return ERABAdmittedItemERABAdmittedItemIEBinding{info: t.infoERABAdmittedItem(), codec: ERABAdmittedItemValueCodec{path: "ERABAdmittedItem",
 		decode: func(data []byte, options aper.DecodeState) (ERABAdmittedItem, error) {
@@ -18279,6 +18321,8 @@ func (t ERABAdmittedItemIETable) ERABAdmittedItem() ERABAdmittedItemERABAdmitted
 		return ERABAdmittedItemIEValue{id: s00.ProtocolIEID(20), rowERABAdmittedItem: &value}
 	}, get: func(value *ERABAdmittedItemIEValue) (*ERABAdmittedItem, bool) { return value.AsERABAdmittedItem() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABAdmittedItemIETable.
 func (t ERABAdmittedItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABAdmittedItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABAdmittedItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18304,6 +18348,8 @@ type ERABDataForwardingItemIETable struct{}
 func ERABDataForwardingItemIEs() ERABDataForwardingItemIETable {
 	return ERABDataForwardingItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABDataForwardingItemIETable.
 func (ERABDataForwardingItemIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18311,6 +18357,8 @@ func (ERABDataForwardingItemIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABDataForwardingItemIETable.
 func (ERABDataForwardingItemIETable) Table() s00.ERABDataForwardingItemIEValueIETable {
 	return func() s00.ERABDataForwardingItemIEValueIETable {
 		sealed := s00.ERABDataForwardingItemIEValueIETable{}
@@ -18325,6 +18373,8 @@ func (ERABDataForwardingItemIETable) infoERABDataForwardingItem() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABDataForwardingItemIEs", Row: "id-E-RABDataForwardingItem"}}}
 }
+
+// ERABDataForwardingItem returns the typed binding for the ERABDataForwardingItem row of ERABDataForwardingItemIETable.
 func (t ERABDataForwardingItemIETable) ERABDataForwardingItem() ERABDataForwardingItemERABDataForwardingItemIEBinding {
 	return ERABDataForwardingItemERABDataForwardingItemIEBinding{info: t.infoERABDataForwardingItem(), codec: ERABDataForwardingItemValueCodec{path: "ERABDataForwardingItem",
 		decode: func(data []byte, options aper.DecodeState) (ERABDataForwardingItem, error) {
@@ -18377,6 +18427,8 @@ func (t ERABDataForwardingItemIETable) ERABDataForwardingItem() ERABDataForwardi
 		return value.AsERABDataForwardingItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABDataForwardingItemIETable.
 func (t ERABDataForwardingItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABDataForwardingItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABDataForwardingItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18402,6 +18454,8 @@ type ERABFailedToResumeItemResumeReqIETable struct{}
 func ERABFailedToResumeItemResumeReqIEs() ERABFailedToResumeItemResumeReqIETable {
 	return ERABFailedToResumeItemResumeReqIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABFailedToResumeItemResumeReqIETable.
 func (ERABFailedToResumeItemResumeReqIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18409,6 +18463,8 @@ func (ERABFailedToResumeItemResumeReqIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABFailedToResumeItemResumeReqIETable.
 func (ERABFailedToResumeItemResumeReqIETable) Table() s00.ERABFailedToResumeItemResumeReqIEValueIETable {
 	return func() s00.ERABFailedToResumeItemResumeReqIEValueIETable {
 		sealed := s00.ERABFailedToResumeItemResumeReqIEValueIETable{}
@@ -18423,6 +18479,8 @@ func (ERABFailedToResumeItemResumeReqIETable) infoERABFailedToResumeItemResumeRe
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABFailedToResumeItemResumeReqIEs", Row: "id-E-RABFailedToResumeItemResumeReq"}}}
 }
+
+// ERABFailedToResumeItemResumeReq returns the typed binding for the ERABFailedToResumeItemResumeReq row of ERABFailedToResumeItemResumeReqIETable.
 func (t ERABFailedToResumeItemResumeReqIETable) ERABFailedToResumeItemResumeReq() ERABFailedToResumeItemResumeReqERABFailedToResumeItemResumeReqIEBinding {
 	return ERABFailedToResumeItemResumeReqERABFailedToResumeItemResumeReqIEBinding{info: t.infoERABFailedToResumeItemResumeReq(), codec: ERABFailedToResumeItemResumeReqValueCodec{path: "ERABFailedToResumeItemResumeReq",
 		decode: func(data []byte, options aper.DecodeState) (ERABFailedToResumeItemResumeReq, error) {
@@ -18475,6 +18533,8 @@ func (t ERABFailedToResumeItemResumeReqIETable) ERABFailedToResumeItemResumeReq(
 		return value.AsERABFailedToResumeItemResumeReq()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABFailedToResumeItemResumeReqIETable.
 func (t ERABFailedToResumeItemResumeReqIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABFailedToResumeItemResumeReqIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABFailedToResumeItemResumeReqIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18500,6 +18560,8 @@ type ERABFailedToResumeItemResumeResIETable struct{}
 func ERABFailedToResumeItemResumeResIEs() ERABFailedToResumeItemResumeResIETable {
 	return ERABFailedToResumeItemResumeResIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABFailedToResumeItemResumeResIETable.
 func (ERABFailedToResumeItemResumeResIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18507,6 +18569,8 @@ func (ERABFailedToResumeItemResumeResIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABFailedToResumeItemResumeResIETable.
 func (ERABFailedToResumeItemResumeResIETable) Table() s00.ERABFailedToResumeItemResumeResIEValueIETable {
 	return func() s00.ERABFailedToResumeItemResumeResIEValueIETable {
 		sealed := s00.ERABFailedToResumeItemResumeResIEValueIETable{}
@@ -18521,6 +18585,8 @@ func (ERABFailedToResumeItemResumeResIETable) infoERABFailedToResumeItemResumeRe
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABFailedToResumeItemResumeResIEs", Row: "id-E-RABFailedToResumeItemResumeRes"}}}
 }
+
+// ERABFailedToResumeItemResumeRes returns the typed binding for the ERABFailedToResumeItemResumeRes row of ERABFailedToResumeItemResumeResIETable.
 func (t ERABFailedToResumeItemResumeResIETable) ERABFailedToResumeItemResumeRes() ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding {
 	return ERABFailedToResumeItemResumeResERABFailedToResumeItemResumeResIEBinding{info: t.infoERABFailedToResumeItemResumeRes(), codec: ERABFailedToResumeItemResumeResValueCodec{path: "ERABFailedToResumeItemResumeRes",
 		decode: func(data []byte, options aper.DecodeState) (ERABFailedToResumeItemResumeRes, error) {
@@ -18573,6 +18639,8 @@ func (t ERABFailedToResumeItemResumeResIETable) ERABFailedToResumeItemResumeRes(
 		return value.AsERABFailedToResumeItemResumeRes()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABFailedToResumeItemResumeResIETable.
 func (t ERABFailedToResumeItemResumeResIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABFailedToResumeItemResumeResIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABFailedToResumeItemResumeResIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

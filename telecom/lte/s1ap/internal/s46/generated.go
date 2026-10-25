@@ -11766,6 +11766,8 @@ func (v PathSwitchRequestAcknowledgeIEValue) matchesID(id s00.ProtocolIEID, _ ..
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of PathSwitchRequestAcknowledgeIEValue and reports whether the opaque alternative is selected.
 func (v *PathSwitchRequestAcknowledgeIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -12435,168 +12437,224 @@ func (PathSwitchRequestAcknowledgeIEValue) reason(id s00.ProtocolIEID) aper.Opaq
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsUEaggregateMaximumBitrate returns the selected UEaggregateMaximumBitrate value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsUEaggregateMaximumBitrate() (*s35.UEAggregateMaximumBitrate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(66) || v.rowUEaggregateMaximumBitrate == nil {
 		return nil, false
 	}
 	return v.rowUEaggregateMaximumBitrate, true
 }
+
+// AsERABToBeSwitchedULList returns the selected ERABToBeSwitchedULList value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsERABToBeSwitchedULList() (*s17.ERABToBeSwitchedULList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(95) || v.rowERABToBeSwitchedULList == nil {
 		return nil, false
 	}
 	return v.rowERABToBeSwitchedULList, true
 }
+
+// AsERABToBeReleasedList returns the selected ERABToBeReleasedList value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsERABToBeReleasedList() (*s16.ERABList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(33) || v.rowERABToBeReleasedList == nil {
 		return nil, false
 	}
 	return v.rowERABToBeReleasedList, true
 }
+
+// AsSecurityContext returns the selected SecurityContext value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsSecurityContext() (*s28.SecurityContext, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(40) || v.rowSecurityContext == nil {
 		return nil, false
 	}
 	return v.rowSecurityContext, true
 }
+
+// AsCriticalityDiagnostics returns the selected CriticalityDiagnostics value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsCriticalityDiagnostics() (*s22.CriticalityDiagnostics, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(58) || v.rowCriticalityDiagnostics == nil {
 		return nil, false
 	}
 	return v.rowCriticalityDiagnostics, true
 }
+
+// AsMMEUES1APID2 returns the selected MMEUES1APID2 value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsMMEUES1APID2() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(158) || v.rowMMEUES1APID2 == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID2, true
 }
+
+// AsCSGMembershipStatus returns the selected CSGMembershipStatus value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsCSGMembershipStatus() (*s00.CSGMembershipStatus, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(146) || v.rowCSGMembershipStatus == nil {
 		return nil, false
 	}
 	return v.rowCSGMembershipStatus, true
 }
+
+// AsProSeAuthorized returns the selected ProSeAuthorized value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsProSeAuthorized() (*s20.ProSeAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(195) || v.rowProSeAuthorized == nil {
 		return nil, false
 	}
 	return v.rowProSeAuthorized, true
 }
+
+// AsUEUserPlaneCIoTSupportIndicator returns the selected UEUserPlaneCIoTSupportIndicator value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsUEUserPlaneCIoTSupportIndicator() (*s00.UEUserPlaneCIoTSupportIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(241) || v.rowUEUserPlaneCIoTSupportIndicator == nil {
 		return nil, false
 	}
 	return v.rowUEUserPlaneCIoTSupportIndicator, true
 }
+
+// AsV2XServicesAuthorized returns the selected V2XServicesAuthorized value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsV2XServicesAuthorized() (*V2XServicesAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(240) || v.rowV2XServicesAuthorized == nil {
 		return nil, false
 	}
 	return v.rowV2XServicesAuthorized, true
 }
+
+// AsUESidelinkAggregateMaximumBitrate returns the selected UESidelinkAggregateMaximumBitrate value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsUESidelinkAggregateMaximumBitrate() (*s37.UESidelinkAggregateMaximumBitrate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(248) || v.rowUESidelinkAggregateMaximumBitrate == nil {
 		return nil, false
 	}
 	return v.rowUESidelinkAggregateMaximumBitrate, true
 }
+
+// AsEnhancedCoverageRestricted returns the selected EnhancedCoverageRestricted value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsEnhancedCoverageRestricted() (*s00.EnhancedCoverageRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(251) || v.rowEnhancedCoverageRestricted == nil {
 		return nil, false
 	}
 	return v.rowEnhancedCoverageRestricted, true
 }
+
+// AsNRUESecurityCapabilities returns the selected NRUESecurityCapabilities value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsNRUESecurityCapabilities() (*s19.NRUESecurityCapabilities, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(269) || v.rowNRUESecurityCapabilities == nil {
 		return nil, false
 	}
 	return v.rowNRUESecurityCapabilities, true
 }
+
+// AsCEModeBRestricted returns the selected CEModeBRestricted value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsCEModeBRestricted() (*s00.CEModeBRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(271) || v.rowCEModeBRestricted == nil {
 		return nil, false
 	}
 	return v.rowCEModeBRestricted, true
 }
+
+// AsAerialUEsubscriptionInformation returns the selected AerialUEsubscriptionInformation value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsAerialUEsubscriptionInformation() (*s00.AerialUEsubscriptionInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(277) || v.rowAerialUEsubscriptionInformation == nil {
 		return nil, false
 	}
 	return v.rowAerialUEsubscriptionInformation, true
 }
+
+// AsPendingDataIndication returns the selected PendingDataIndication value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsPendingDataIndication() (*s00.PendingDataIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(283) || v.rowPendingDataIndication == nil {
 		return nil, false
 	}
 	return v.rowPendingDataIndication, true
 }
+
+// AsSubscriptionBasedUEDifferentiationInfo returns the selected SubscriptionBasedUEDifferentiationInfo value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsSubscriptionBasedUEDifferentiationInfo() (*s30.SubscriptionBasedUEDifferentiationInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(278) || v.rowSubscriptionBasedUEDifferentiationInfo == nil {
 		return nil, false
 	}
 	return v.rowSubscriptionBasedUEDifferentiationInfo, true
 }
+
+// AsHandoverRestrictionList returns the selected HandoverRestrictionList value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsHandoverRestrictionList() (*s42.HandoverRestrictionList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(41) || v.rowHandoverRestrictionList == nil {
 		return nil, false
 	}
 	return v.rowHandoverRestrictionList, true
 }
+
+// AsAdditionalRRMPriorityIndex returns the selected AdditionalRRMPriorityIndex value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsAdditionalRRMPriorityIndex() (*s00.AdditionalRRMPriorityIndex, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(299) || v.rowAdditionalRRMPriorityIndex == nil {
 		return nil, false
 	}
 	return v.rowAdditionalRRMPriorityIndex, true
 }
+
+// AsNRV2XServicesAuthorized returns the selected NRV2XServicesAuthorized value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsNRV2XServicesAuthorized() (*s19.NRV2XServicesAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(306) || v.rowNRV2XServicesAuthorized == nil {
 		return nil, false
 	}
 	return v.rowNRV2XServicesAuthorized, true
 }
+
+// AsNRUESidelinkAggregateMaximumBitrate returns the selected NRUESidelinkAggregateMaximumBitrate value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsNRUESidelinkAggregateMaximumBitrate() (*s19.NRUESidelinkAggregateMaximumBitrate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(307) || v.rowNRUESidelinkAggregateMaximumBitrate == nil {
 		return nil, false
 	}
 	return v.rowNRUESidelinkAggregateMaximumBitrate, true
 }
+
+// AsPC5QoSParameters returns the selected PC5QoSParameters value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsPC5QoSParameters() (*s24.PC5QoSParameters, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(308) || v.rowPC5QoSParameters == nil {
 		return nil, false
 	}
 	return v.rowPC5QoSParameters, true
 }
+
+// AsUERadioCapabilityID returns the selected UERadioCapabilityID value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsUERadioCapabilityID() (*s00.UERadioCapabilityID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowUERadioCapabilityID == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapabilityID, true
 }
+
+// AsUESecurityCapabilities returns the selected UESecurityCapabilities value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsUESecurityCapabilities() (*s37.UESecurityCapabilities, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(107) || v.rowUESecurityCapabilities == nil {
 		return nil, false
 	}
 	return v.rowUESecurityCapabilities, true
 }
+
+// AsERABToBeUpdatedList returns the selected ERABToBeUpdatedList value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsERABToBeUpdatedList() (*s29.ERABToBeUpdatedList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(341) || v.rowERABToBeUpdatedList == nil {
 		return nil, false
 	}
 	return v.rowERABToBeUpdatedList, true
 }
+
+// AsTimeRefDistribution returns the selected TimeRefDistribution value of PathSwitchRequestAcknowledgeIEValue and reports whether that alternative is active.
 func (v *PathSwitchRequestAcknowledgeIEValue) AsTimeRefDistribution() (*s00.TimeRefDistribution, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(355) || v.rowTimeRefDistribution == nil {
 		return nil, false
@@ -13662,6 +13720,8 @@ func (v UEContextModificationRequestIEValue) matchesID(id s00.ProtocolIEID, _ ..
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UEContextModificationRequestIEValue and reports whether the opaque alternative is selected.
 func (v *UEContextModificationRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14331,144 +14391,192 @@ func (UEContextModificationRequestIEValue) reason(id s00.ProtocolIEID) aper.Opaq
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsSecurityKey returns the selected SecurityKey value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsSecurityKey() (*s00.SecurityKey, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(73) || v.rowSecurityKey == nil {
 		return nil, false
 	}
 	return v.rowSecurityKey, true
 }
+
+// AsSubscriberProfileIDforRFP returns the selected SubscriberProfileIDforRFP value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsSubscriberProfileIDforRFP() (*s00.SubscriberProfileIDforRFP, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(106) || v.rowSubscriberProfileIDforRFP == nil {
 		return nil, false
 	}
 	return v.rowSubscriberProfileIDforRFP, true
 }
+
+// AsUEaggregateMaximumBitrate returns the selected UEaggregateMaximumBitrate value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsUEaggregateMaximumBitrate() (*s35.UEAggregateMaximumBitrate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(66) || v.rowUEaggregateMaximumBitrate == nil {
 		return nil, false
 	}
 	return v.rowUEaggregateMaximumBitrate, true
 }
+
+// AsCSFallbackIndicator returns the selected CSFallbackIndicator value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsCSFallbackIndicator() (*s00.CSFallbackIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(108) || v.rowCSFallbackIndicator == nil {
 		return nil, false
 	}
 	return v.rowCSFallbackIndicator, true
 }
+
+// AsUESecurityCapabilities returns the selected UESecurityCapabilities value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsUESecurityCapabilities() (*s37.UESecurityCapabilities, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(107) || v.rowUESecurityCapabilities == nil {
 		return nil, false
 	}
 	return v.rowUESecurityCapabilities, true
 }
+
+// AsCSGMembershipStatus returns the selected CSGMembershipStatus value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsCSGMembershipStatus() (*s00.CSGMembershipStatus, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(146) || v.rowCSGMembershipStatus == nil {
 		return nil, false
 	}
 	return v.rowCSGMembershipStatus, true
 }
+
+// AsRegisteredLAI returns the selected RegisteredLAI value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsRegisteredLAI() (*s18.LAI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(159) || v.rowRegisteredLAI == nil {
 		return nil, false
 	}
 	return v.rowRegisteredLAI, true
 }
+
+// AsAdditionalCSFallbackIndicator returns the selected AdditionalCSFallbackIndicator value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsAdditionalCSFallbackIndicator() (*s00.AdditionalCSFallbackIndicator, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(187) || v.rowAdditionalCSFallbackIndicator == nil {
 		return nil, false
 	}
 	return v.rowAdditionalCSFallbackIndicator, true
 }
+
+// AsProSeAuthorized returns the selected ProSeAuthorized value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsProSeAuthorized() (*s20.ProSeAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(195) || v.rowProSeAuthorized == nil {
 		return nil, false
 	}
 	return v.rowProSeAuthorized, true
 }
+
+// AsSRVCCOperationPossible returns the selected SRVCCOperationPossible value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsSRVCCOperationPossible() (*s00.SRVCCOperationPossible, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(124) || v.rowSRVCCOperationPossible == nil {
 		return nil, false
 	}
 	return v.rowSRVCCOperationPossible, true
 }
+
+// AsSRVCCOperationNotPossible returns the selected SRVCCOperationNotPossible value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsSRVCCOperationNotPossible() (*s00.SRVCCOperationNotPossible, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(243) || v.rowSRVCCOperationNotPossible == nil {
 		return nil, false
 	}
 	return v.rowSRVCCOperationNotPossible, true
 }
+
+// AsV2XServicesAuthorized returns the selected V2XServicesAuthorized value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsV2XServicesAuthorized() (*V2XServicesAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(240) || v.rowV2XServicesAuthorized == nil {
 		return nil, false
 	}
 	return v.rowV2XServicesAuthorized, true
 }
+
+// AsUESidelinkAggregateMaximumBitrate returns the selected UESidelinkAggregateMaximumBitrate value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsUESidelinkAggregateMaximumBitrate() (*s37.UESidelinkAggregateMaximumBitrate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(248) || v.rowUESidelinkAggregateMaximumBitrate == nil {
 		return nil, false
 	}
 	return v.rowUESidelinkAggregateMaximumBitrate, true
 }
+
+// AsNRUESecurityCapabilities returns the selected NRUESecurityCapabilities value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsNRUESecurityCapabilities() (*s19.NRUESecurityCapabilities, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(269) || v.rowNRUESecurityCapabilities == nil {
 		return nil, false
 	}
 	return v.rowNRUESecurityCapabilities, true
 }
+
+// AsAerialUEsubscriptionInformation returns the selected AerialUEsubscriptionInformation value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsAerialUEsubscriptionInformation() (*s00.AerialUEsubscriptionInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(277) || v.rowAerialUEsubscriptionInformation == nil {
 		return nil, false
 	}
 	return v.rowAerialUEsubscriptionInformation, true
 }
+
+// AsAdditionalRRMPriorityIndex returns the selected AdditionalRRMPriorityIndex value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsAdditionalRRMPriorityIndex() (*s00.AdditionalRRMPriorityIndex, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(299) || v.rowAdditionalRRMPriorityIndex == nil {
 		return nil, false
 	}
 	return v.rowAdditionalRRMPriorityIndex, true
 }
+
+// AsIABAuthorized returns the selected IABAuthorized value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsIABAuthorized() (*s00.IABAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(301) || v.rowIABAuthorized == nil {
 		return nil, false
 	}
 	return v.rowIABAuthorized, true
 }
+
+// AsNRV2XServicesAuthorized returns the selected NRV2XServicesAuthorized value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsNRV2XServicesAuthorized() (*s19.NRV2XServicesAuthorized, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(306) || v.rowNRV2XServicesAuthorized == nil {
 		return nil, false
 	}
 	return v.rowNRV2XServicesAuthorized, true
 }
+
+// AsNRUESidelinkAggregateMaximumBitrate returns the selected NRUESidelinkAggregateMaximumBitrate value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsNRUESidelinkAggregateMaximumBitrate() (*s19.NRUESidelinkAggregateMaximumBitrate, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(307) || v.rowNRUESidelinkAggregateMaximumBitrate == nil {
 		return nil, false
 	}
 	return v.rowNRUESidelinkAggregateMaximumBitrate, true
 }
+
+// AsPC5QoSParameters returns the selected PC5QoSParameters value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsPC5QoSParameters() (*s24.PC5QoSParameters, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(308) || v.rowPC5QoSParameters == nil {
 		return nil, false
 	}
 	return v.rowPC5QoSParameters, true
 }
+
+// AsUERadioCapabilityID returns the selected UERadioCapabilityID value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsUERadioCapabilityID() (*s00.UERadioCapabilityID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowUERadioCapabilityID == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapabilityID, true
 }
+
+// AsTimeRefDistribution returns the selected TimeRefDistribution value of UEContextModificationRequestIEValue and reports whether that alternative is active.
 func (v *UEContextModificationRequestIEValue) AsTimeRefDistribution() (*s00.TimeRefDistribution, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(355) || v.rowTimeRefDistribution == nil {
 		return nil, false
@@ -15336,6 +15444,8 @@ type PathSwitchRequestAcknowledgeIETable struct{}
 func PathSwitchRequestAcknowledgeIEs() PathSwitchRequestAcknowledgeIETable {
 	return PathSwitchRequestAcknowledgeIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of PathSwitchRequestAcknowledgeIETable.
 func (PathSwitchRequestAcknowledgeIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -15343,6 +15453,8 @@ func (PathSwitchRequestAcknowledgeIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by PathSwitchRequestAcknowledgeIETable.
 func (PathSwitchRequestAcknowledgeIETable) Table() s00.PathSwitchRequestAcknowledgeIEValueIETable {
 	return func() s00.PathSwitchRequestAcknowledgeIEValueIETable {
 		sealed := s00.PathSwitchRequestAcknowledgeIEValueIETable{}
@@ -15357,6 +15469,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) MMEUES1APID() PathSwitchRequestAcknowledgeMMEUES1APIDIEBinding {
 	return PathSwitchRequestAcknowledgeMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -15421,6 +15535,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) ENBUES1APID() PathSwitchRequestAcknowledgeENBUES1APIDIEBinding {
 	return PathSwitchRequestAcknowledgeENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -15485,6 +15601,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoUEaggregateMaximumBitrate() s00.F
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-uEaggregateMaximumBitrate"}}}
 }
+
+// UEaggregateMaximumBitrate returns the typed binding for the UEaggregateMaximumBitrate row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) UEaggregateMaximumBitrate() PathSwitchRequestAcknowledgeUEAggregateMaximumBitrateIEBinding {
 	return PathSwitchRequestAcknowledgeUEAggregateMaximumBitrateIEBinding{info: t.infoUEaggregateMaximumBitrate(), codec: func() s35.UEAggregateMaximumBitrateValueCodec {
 		sealed := s35.UEAggregateMaximumBitrateValueCodec{}
@@ -15553,6 +15671,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoERABToBeSwitchedULList() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-E-RABToBeSwitchedULList"}}}
 }
+
+// ERABToBeSwitchedULList returns the typed binding for the ERABToBeSwitchedULList row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) ERABToBeSwitchedULList() PathSwitchRequestAcknowledgeERABToBeSwitchedULListIEBinding {
 	return PathSwitchRequestAcknowledgeERABToBeSwitchedULListIEBinding{info: t.infoERABToBeSwitchedULList(), codec: func() s17.ERABToBeSwitchedULListValueCodec {
 		sealed := s17.ERABToBeSwitchedULListValueCodec{}
@@ -15619,6 +15739,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoERABToBeReleasedList() s00.FieldI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-E-RABToBeReleasedList"}}}
 }
+
+// ERABToBeReleasedList returns the typed binding for the ERABToBeReleasedList row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) ERABToBeReleasedList() PathSwitchRequestAcknowledgeERABListIEBinding {
 	return PathSwitchRequestAcknowledgeERABListIEBinding{info: t.infoERABToBeReleasedList(), codec: func() s16.ERABListValueCodec {
 		sealed := s16.ERABListValueCodec{}
@@ -15683,6 +15805,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoSecurityContext() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-SecurityContext"}}}
 }
+
+// SecurityContext returns the typed binding for the SecurityContext row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) SecurityContext() PathSwitchRequestAcknowledgeSecurityContextIEBinding {
 	return PathSwitchRequestAcknowledgeSecurityContextIEBinding{info: t.infoSecurityContext(), codec: func() s28.SecurityContextValueCodec {
 		sealed := s28.SecurityContextValueCodec{}
@@ -15746,6 +15870,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoCriticalityDiagnostics() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-CriticalityDiagnostics"}}}
 }
+
+// CriticalityDiagnostics returns the typed binding for the CriticalityDiagnostics row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) CriticalityDiagnostics() PathSwitchRequestAcknowledgeCriticalityDiagnosticsIEBinding {
 	return PathSwitchRequestAcknowledgeCriticalityDiagnosticsIEBinding{info: t.infoCriticalityDiagnostics(), codec: func() s22.CriticalityDiagnosticsValueCodec {
 		sealed := s22.CriticalityDiagnosticsValueCodec{}
@@ -15812,6 +15938,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoMMEUES1APID2() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-MME-UE-S1AP-ID-2"}}}
 }
+
+// MMEUES1APID2 returns the typed binding for the MMEUES1APID2 row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) MMEUES1APID2() PathSwitchRequestAcknowledgeMMEUES1APIDIEBinding {
 	return PathSwitchRequestAcknowledgeMMEUES1APIDIEBinding{info: t.infoMMEUES1APID2(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -15876,6 +16004,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoCSGMembershipStatus() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-CSGMembershipStatus"}}}
 }
+
+// CSGMembershipStatus returns the typed binding for the CSGMembershipStatus row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) CSGMembershipStatus() PathSwitchRequestAcknowledgeCSGMembershipStatusIEBinding {
 	return PathSwitchRequestAcknowledgeCSGMembershipStatusIEBinding{info: t.infoCSGMembershipStatus(), codec: func() s00.CSGMembershipStatusValueCodec {
 		sealed := s00.CSGMembershipStatusValueCodec{}
@@ -15940,6 +16070,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoProSeAuthorized() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-ProSeAuthorized"}}}
 }
+
+// ProSeAuthorized returns the typed binding for the ProSeAuthorized row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) ProSeAuthorized() PathSwitchRequestAcknowledgeProSeAuthorizedIEBinding {
 	return PathSwitchRequestAcknowledgeProSeAuthorizedIEBinding{info: t.infoProSeAuthorized(), codec: func() s20.ProSeAuthorizedValueCodec {
 		sealed := s20.ProSeAuthorizedValueCodec{}
@@ -16003,6 +16135,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoUEUserPlaneCIoTSupportIndicator()
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-UEUserPlaneCIoTSupportIndicator"}}}
 }
+
+// UEUserPlaneCIoTSupportIndicator returns the typed binding for the UEUserPlaneCIoTSupportIndicator row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) UEUserPlaneCIoTSupportIndicator() PathSwitchRequestAcknowledgeUEUserPlaneCIoTSupportIndicatorIEBinding {
 	return PathSwitchRequestAcknowledgeUEUserPlaneCIoTSupportIndicatorIEBinding{info: t.infoUEUserPlaneCIoTSupportIndicator(), codec: func() s02.UEUserPlaneCIoTSupportIndicatorValueCodec {
 		sealed := s02.UEUserPlaneCIoTSupportIndicatorValueCodec{}
@@ -16069,6 +16203,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoV2XServicesAuthorized() s00.Field
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-V2XServicesAuthorized"}}}
 }
+
+// V2XServicesAuthorized returns the typed binding for the V2XServicesAuthorized row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) V2XServicesAuthorized() PathSwitchRequestAcknowledgeV2XServicesAuthorizedIEBinding {
 	return PathSwitchRequestAcknowledgeV2XServicesAuthorizedIEBinding{info: t.infoV2XServicesAuthorized(), codec: V2XServicesAuthorizedValueCodec{path: "V2XServicesAuthorized",
 		decode: func(data []byte, options aper.DecodeState) (V2XServicesAuthorized, error) {
@@ -16129,6 +16265,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoUESidelinkAggregateMaximumBitrate
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-UESidelinkAggregateMaximumBitrate"}}}
 }
+
+// UESidelinkAggregateMaximumBitrate returns the typed binding for the UESidelinkAggregateMaximumBitrate row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) UESidelinkAggregateMaximumBitrate() PathSwitchRequestAcknowledgeUESidelinkAggregateMaximumBitrateIEBinding {
 	return PathSwitchRequestAcknowledgeUESidelinkAggregateMaximumBitrateIEBinding{info: t.infoUESidelinkAggregateMaximumBitrate(), codec: func() s37.UESidelinkAggregateMaximumBitrateValueCodec {
 		sealed := s37.UESidelinkAggregateMaximumBitrateValueCodec{}
@@ -16197,6 +16335,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoEnhancedCoverageRestricted() s00.
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-EnhancedCoverageRestricted"}}}
 }
+
+// EnhancedCoverageRestricted returns the typed binding for the EnhancedCoverageRestricted row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) EnhancedCoverageRestricted() PathSwitchRequestAcknowledgeEnhancedCoverageRestrictedIEBinding {
 	return PathSwitchRequestAcknowledgeEnhancedCoverageRestrictedIEBinding{info: t.infoEnhancedCoverageRestricted(), codec: func() s00.EnhancedCoverageRestrictedValueCodec {
 		sealed := s00.EnhancedCoverageRestrictedValueCodec{}
@@ -16265,6 +16405,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoNRUESecurityCapabilities() s00.Fi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-NRUESecurityCapabilities"}}}
 }
+
+// NRUESecurityCapabilities returns the typed binding for the NRUESecurityCapabilities row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) NRUESecurityCapabilities() PathSwitchRequestAcknowledgeNRUESecurityCapabilitiesIEBinding {
 	return PathSwitchRequestAcknowledgeNRUESecurityCapabilitiesIEBinding{info: t.infoNRUESecurityCapabilities(), codec: func() s19.NRUESecurityCapabilitiesValueCodec {
 		sealed := s19.NRUESecurityCapabilitiesValueCodec{}
@@ -16334,6 +16476,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoCEModeBRestricted() s00.FieldInfo
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-CE-ModeBRestricted"}}}
 }
+
+// CEModeBRestricted returns the typed binding for the CEModeBRestricted row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) CEModeBRestricted() PathSwitchRequestAcknowledgeCEModeBRestrictedIEBinding {
 	return PathSwitchRequestAcknowledgeCEModeBRestrictedIEBinding{info: t.infoCEModeBRestricted(), codec: func() s00.CEModeBRestrictedValueCodec {
 		sealed := s00.CEModeBRestrictedValueCodec{}
@@ -16399,6 +16543,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoAerialUEsubscriptionInformation()
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-AerialUEsubscriptionInformation"}}}
 }
+
+// AerialUEsubscriptionInformation returns the typed binding for the AerialUEsubscriptionInformation row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) AerialUEsubscriptionInformation() PathSwitchRequestAcknowledgeAerialUEsubscriptionInformationIEBinding {
 	return PathSwitchRequestAcknowledgeAerialUEsubscriptionInformationIEBinding{info: t.infoAerialUEsubscriptionInformation(), codec: func() s00.AerialUEsubscriptionInformationValueCodec {
 		sealed := s00.AerialUEsubscriptionInformationValueCodec{}
@@ -16465,6 +16611,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoPendingDataIndication() s00.Field
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-PendingDataIndication"}}}
 }
+
+// PendingDataIndication returns the typed binding for the PendingDataIndication row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) PendingDataIndication() PathSwitchRequestAcknowledgePendingDataIndicationIEBinding {
 	return PathSwitchRequestAcknowledgePendingDataIndicationIEBinding{info: t.infoPendingDataIndication(), codec: func() s01.PendingDataIndicationValueCodec {
 		sealed := s01.PendingDataIndicationValueCodec{}
@@ -16532,6 +16680,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoSubscriptionBasedUEDifferentiatio
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-Subscription-Based-UE-DifferentiationInfo"}}}
 }
+
+// SubscriptionBasedUEDifferentiationInfo returns the typed binding for the SubscriptionBasedUEDifferentiationInfo row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) SubscriptionBasedUEDifferentiationInfo() PathSwitchRequestAcknowledgeSubscriptionBasedUEDifferentiationInfoIEBinding {
 	return PathSwitchRequestAcknowledgeSubscriptionBasedUEDifferentiationInfoIEBinding{info: t.infoSubscriptionBasedUEDifferentiationInfo(), codec: func() s31.SubscriptionBasedUEDifferentiationInfoValueCodec {
 		sealed := s31.SubscriptionBasedUEDifferentiationInfoValueCodec{}
@@ -16598,6 +16748,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoHandoverRestrictionList() s00.Fie
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-HandoverRestrictionList"}}}
 }
+
+// HandoverRestrictionList returns the typed binding for the HandoverRestrictionList row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) HandoverRestrictionList() PathSwitchRequestAcknowledgeHandoverRestrictionListIEBinding {
 	return PathSwitchRequestAcknowledgeHandoverRestrictionListIEBinding{info: t.infoHandoverRestrictionList(), codec: func() s42.HandoverRestrictionListValueCodec {
 		sealed := s42.HandoverRestrictionListValueCodec{}
@@ -16667,6 +16819,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoAdditionalRRMPriorityIndex() s00.
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-AdditionalRRMPriorityIndex"}}}
 }
+
+// AdditionalRRMPriorityIndex returns the typed binding for the AdditionalRRMPriorityIndex row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) AdditionalRRMPriorityIndex() PathSwitchRequestAcknowledgeAdditionalRRMPriorityIndexIEBinding {
 	return PathSwitchRequestAcknowledgeAdditionalRRMPriorityIndexIEBinding{info: t.infoAdditionalRRMPriorityIndex(), codec: func() s00.AdditionalRRMPriorityIndexValueCodec {
 		sealed := s00.AdditionalRRMPriorityIndexValueCodec{}
@@ -16735,6 +16889,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoNRV2XServicesAuthorized() s00.Fie
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-NRV2XServicesAuthorized"}}}
 }
+
+// NRV2XServicesAuthorized returns the typed binding for the NRV2XServicesAuthorized row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) NRV2XServicesAuthorized() PathSwitchRequestAcknowledgeNRV2XServicesAuthorizedIEBinding {
 	return PathSwitchRequestAcknowledgeNRV2XServicesAuthorizedIEBinding{info: t.infoNRV2XServicesAuthorized(), codec: func() s19.NRV2XServicesAuthorizedValueCodec {
 		sealed := s19.NRV2XServicesAuthorizedValueCodec{}
@@ -16804,6 +16960,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoNRUESidelinkAggregateMaximumBitra
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-NRUESidelinkAggregateMaximumBitrate"}}}
 }
+
+// NRUESidelinkAggregateMaximumBitrate returns the typed binding for the NRUESidelinkAggregateMaximumBitrate row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) NRUESidelinkAggregateMaximumBitrate() PathSwitchRequestAcknowledgeNRUESidelinkAggregateMaximumBitrateIEBinding {
 	return PathSwitchRequestAcknowledgeNRUESidelinkAggregateMaximumBitrateIEBinding{info: t.infoNRUESidelinkAggregateMaximumBitrate(), codec: func() s19.NRUESidelinkAggregateMaximumBitrateValueCodec {
 		sealed := s19.NRUESidelinkAggregateMaximumBitrateValueCodec{}
@@ -16870,6 +17028,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoPC5QoSParameters() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-PC5QoSParameters"}}}
 }
+
+// PC5QoSParameters returns the typed binding for the PC5QoSParameters row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) PC5QoSParameters() PathSwitchRequestAcknowledgePC5QoSParametersIEBinding {
 	return PathSwitchRequestAcknowledgePC5QoSParametersIEBinding{info: t.infoPC5QoSParameters(), codec: func() s24.PC5QoSParametersValueCodec {
 		sealed := s24.PC5QoSParametersValueCodec{}
@@ -16934,6 +17094,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoUERadioCapabilityID() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-UERadioCapabilityID"}}}
 }
+
+// UERadioCapabilityID returns the typed binding for the UERadioCapabilityID row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) UERadioCapabilityID() PathSwitchRequestAcknowledgeUERadioCapabilityIDIEBinding {
 	return PathSwitchRequestAcknowledgeUERadioCapabilityIDIEBinding{info: t.infoUERadioCapabilityID(), codec: func() s02.UERadioCapabilityIDValueCodec {
 		sealed := s02.UERadioCapabilityIDValueCodec{}
@@ -16998,6 +17160,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoUESecurityCapabilities() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-UESecurityCapabilities"}}}
 }
+
+// UESecurityCapabilities returns the typed binding for the UESecurityCapabilities row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) UESecurityCapabilities() PathSwitchRequestAcknowledgeUESecurityCapabilitiesIEBinding {
 	return PathSwitchRequestAcknowledgeUESecurityCapabilitiesIEBinding{info: t.infoUESecurityCapabilities(), codec: func() s37.UESecurityCapabilitiesValueCodec {
 		sealed := s37.UESecurityCapabilitiesValueCodec{}
@@ -17064,6 +17228,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoERABToBeUpdatedList() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-E-RABToBeUpdatedList"}}}
 }
+
+// ERABToBeUpdatedList returns the typed binding for the ERABToBeUpdatedList row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) ERABToBeUpdatedList() PathSwitchRequestAcknowledgeERABToBeUpdatedListIEBinding {
 	return PathSwitchRequestAcknowledgeERABToBeUpdatedListIEBinding{info: t.infoERABToBeUpdatedList(), codec: func() s29.ERABToBeUpdatedListValueCodec {
 		sealed := s29.ERABToBeUpdatedListValueCodec{}
@@ -17128,6 +17294,8 @@ func (PathSwitchRequestAcknowledgeIETable) infoTimeRefDistribution() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PathSwitchRequestAcknowledgeIEs", Row: "id-TimeRefDistribution"}}}
 }
+
+// TimeRefDistribution returns the typed binding for the TimeRefDistribution row of PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) TimeRefDistribution() PathSwitchRequestAcknowledgeTimeRefDistributionIEBinding {
 	return PathSwitchRequestAcknowledgeTimeRefDistributionIEBinding{info: t.infoTimeRefDistribution(), codec: func() s02.TimeRefDistributionValueCodec {
 		sealed := s02.TimeRefDistributionValueCodec{}
@@ -17185,6 +17353,8 @@ func (t PathSwitchRequestAcknowledgeIETable) TimeRefDistribution() PathSwitchReq
 			return value.AsTimeRefDistribution()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in PathSwitchRequestAcknowledgeIETable.
 func (t PathSwitchRequestAcknowledgeIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (PathSwitchRequestAcknowledgeIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return PathSwitchRequestAcknowledgeIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -17264,6 +17434,8 @@ type UEContextModificationRequestIETable struct{}
 func UEContextModificationRequestIEs() UEContextModificationRequestIETable {
 	return UEContextModificationRequestIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEContextModificationRequestIETable.
 func (UEContextModificationRequestIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17271,6 +17443,8 @@ func (UEContextModificationRequestIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEContextModificationRequestIETable.
 func (UEContextModificationRequestIETable) Table() s00.UEContextModificationRequestIEValueIETable {
 	return func() s00.UEContextModificationRequestIEValueIETable {
 		sealed := s00.UEContextModificationRequestIEValueIETable{}
@@ -17285,6 +17459,8 @@ func (UEContextModificationRequestIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) MMEUES1APID() UEContextModificationRequestMMEUES1APIDIEBinding {
 	return UEContextModificationRequestMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -17349,6 +17525,8 @@ func (UEContextModificationRequestIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) ENBUES1APID() UEContextModificationRequestENBUES1APIDIEBinding {
 	return UEContextModificationRequestENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -17413,6 +17591,8 @@ func (UEContextModificationRequestIETable) infoSecurityKey() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-SecurityKey"}}}
 }
+
+// SecurityKey returns the typed binding for the SecurityKey row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) SecurityKey() UEContextModificationRequestSecurityKeyIEBinding {
 	return UEContextModificationRequestSecurityKeyIEBinding{info: t.infoSecurityKey(), codec: func() s01.SecurityKeyValueCodec {
 		sealed := s01.SecurityKeyValueCodec{}
@@ -17477,6 +17657,8 @@ func (UEContextModificationRequestIETable) infoSubscriberProfileIDforRFP() s00.F
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-SubscriberProfileIDforRFP"}}}
 }
+
+// SubscriberProfileIDforRFP returns the typed binding for the SubscriberProfileIDforRFP row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) SubscriberProfileIDforRFP() UEContextModificationRequestSubscriberProfileIDforRFPIEBinding {
 	return UEContextModificationRequestSubscriberProfileIDforRFPIEBinding{info: t.infoSubscriberProfileIDforRFP(), codec: func() s01.SubscriberProfileIDforRFPValueCodec {
 		sealed := s01.SubscriberProfileIDforRFPValueCodec{}
@@ -17545,6 +17727,8 @@ func (UEContextModificationRequestIETable) infoUEaggregateMaximumBitrate() s00.F
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-uEaggregateMaximumBitrate"}}}
 }
+
+// UEaggregateMaximumBitrate returns the typed binding for the UEaggregateMaximumBitrate row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) UEaggregateMaximumBitrate() UEContextModificationRequestUEAggregateMaximumBitrateIEBinding {
 	return UEContextModificationRequestUEAggregateMaximumBitrateIEBinding{info: t.infoUEaggregateMaximumBitrate(), codec: func() s35.UEAggregateMaximumBitrateValueCodec {
 		sealed := s35.UEAggregateMaximumBitrateValueCodec{}
@@ -17613,6 +17797,8 @@ func (UEContextModificationRequestIETable) infoCSFallbackIndicator() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-CSFallbackIndicator"}}}
 }
+
+// CSFallbackIndicator returns the typed binding for the CSFallbackIndicator row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) CSFallbackIndicator() UEContextModificationRequestCSFallbackIndicatorIEBinding {
 	return UEContextModificationRequestCSFallbackIndicatorIEBinding{info: t.infoCSFallbackIndicator(), codec: func() s00.CSFallbackIndicatorValueCodec {
 		sealed := s00.CSFallbackIndicatorValueCodec{}
@@ -17677,6 +17863,8 @@ func (UEContextModificationRequestIETable) infoUESecurityCapabilities() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-UESecurityCapabilities"}}}
 }
+
+// UESecurityCapabilities returns the typed binding for the UESecurityCapabilities row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) UESecurityCapabilities() UEContextModificationRequestUESecurityCapabilitiesIEBinding {
 	return UEContextModificationRequestUESecurityCapabilitiesIEBinding{info: t.infoUESecurityCapabilities(), codec: func() s37.UESecurityCapabilitiesValueCodec {
 		sealed := s37.UESecurityCapabilitiesValueCodec{}
@@ -17743,6 +17931,8 @@ func (UEContextModificationRequestIETable) infoCSGMembershipStatus() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-CSGMembershipStatus"}}}
 }
+
+// CSGMembershipStatus returns the typed binding for the CSGMembershipStatus row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) CSGMembershipStatus() UEContextModificationRequestCSGMembershipStatusIEBinding {
 	return UEContextModificationRequestCSGMembershipStatusIEBinding{info: t.infoCSGMembershipStatus(), codec: func() s00.CSGMembershipStatusValueCodec {
 		sealed := s00.CSGMembershipStatusValueCodec{}
@@ -17807,6 +17997,8 @@ func (UEContextModificationRequestIETable) infoRegisteredLAI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-RegisteredLAI"}}}
 }
+
+// RegisteredLAI returns the typed binding for the RegisteredLAI row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) RegisteredLAI() UEContextModificationRequestLAIIEBinding {
 	return UEContextModificationRequestLAIIEBinding{info: t.infoRegisteredLAI(), codec: func() s18.LAIValueCodec {
 		sealed := s18.LAIValueCodec{}
@@ -17868,6 +18060,8 @@ func (UEContextModificationRequestIETable) infoAdditionalCSFallbackIndicator() s
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-AdditionalCSFallbackIndicator"}}}
 }
+
+// AdditionalCSFallbackIndicator returns the typed binding for the AdditionalCSFallbackIndicator row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) AdditionalCSFallbackIndicator() UEContextModificationRequestAdditionalCSFallbackIndicatorIEBinding {
 	return UEContextModificationRequestAdditionalCSFallbackIndicatorIEBinding{info: t.infoAdditionalCSFallbackIndicator(), codec: func() s00.AdditionalCSFallbackIndicatorValueCodec {
 		sealed := s00.AdditionalCSFallbackIndicatorValueCodec{}
@@ -17936,6 +18130,8 @@ func (UEContextModificationRequestIETable) infoProSeAuthorized() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-ProSeAuthorized"}}}
 }
+
+// ProSeAuthorized returns the typed binding for the ProSeAuthorized row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) ProSeAuthorized() UEContextModificationRequestProSeAuthorizedIEBinding {
 	return UEContextModificationRequestProSeAuthorizedIEBinding{info: t.infoProSeAuthorized(), codec: func() s20.ProSeAuthorizedValueCodec {
 		sealed := s20.ProSeAuthorizedValueCodec{}
@@ -17999,6 +18195,8 @@ func (UEContextModificationRequestIETable) infoSRVCCOperationPossible() s00.Fiel
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-SRVCCOperationPossible"}}}
 }
+
+// SRVCCOperationPossible returns the typed binding for the SRVCCOperationPossible row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) SRVCCOperationPossible() UEContextModificationRequestSRVCCOperationPossibleIEBinding {
 	return UEContextModificationRequestSRVCCOperationPossibleIEBinding{info: t.infoSRVCCOperationPossible(), codec: func() s01.SRVCCOperationPossibleValueCodec {
 		sealed := s01.SRVCCOperationPossibleValueCodec{}
@@ -18065,6 +18263,8 @@ func (UEContextModificationRequestIETable) infoSRVCCOperationNotPossible() s00.F
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-SRVCCOperationNotPossible"}}}
 }
+
+// SRVCCOperationNotPossible returns the typed binding for the SRVCCOperationNotPossible row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) SRVCCOperationNotPossible() UEContextModificationRequestSRVCCOperationNotPossibleIEBinding {
 	return UEContextModificationRequestSRVCCOperationNotPossibleIEBinding{info: t.infoSRVCCOperationNotPossible(), codec: func() s01.SRVCCOperationNotPossibleValueCodec {
 		sealed := s01.SRVCCOperationNotPossibleValueCodec{}
@@ -18133,6 +18333,8 @@ func (UEContextModificationRequestIETable) infoV2XServicesAuthorized() s00.Field
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-V2XServicesAuthorized"}}}
 }
+
+// V2XServicesAuthorized returns the typed binding for the V2XServicesAuthorized row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) V2XServicesAuthorized() UEContextModificationRequestV2XServicesAuthorizedIEBinding {
 	return UEContextModificationRequestV2XServicesAuthorizedIEBinding{info: t.infoV2XServicesAuthorized(), codec: V2XServicesAuthorizedValueCodec{path: "V2XServicesAuthorized",
 		decode: func(data []byte, options aper.DecodeState) (V2XServicesAuthorized, error) {
@@ -18193,6 +18395,8 @@ func (UEContextModificationRequestIETable) infoUESidelinkAggregateMaximumBitrate
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-UESidelinkAggregateMaximumBitrate"}}}
 }
+
+// UESidelinkAggregateMaximumBitrate returns the typed binding for the UESidelinkAggregateMaximumBitrate row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) UESidelinkAggregateMaximumBitrate() UEContextModificationRequestUESidelinkAggregateMaximumBitrateIEBinding {
 	return UEContextModificationRequestUESidelinkAggregateMaximumBitrateIEBinding{info: t.infoUESidelinkAggregateMaximumBitrate(), codec: func() s37.UESidelinkAggregateMaximumBitrateValueCodec {
 		sealed := s37.UESidelinkAggregateMaximumBitrateValueCodec{}
@@ -18261,6 +18465,8 @@ func (UEContextModificationRequestIETable) infoNRUESecurityCapabilities() s00.Fi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-NRUESecurityCapabilities"}}}
 }
+
+// NRUESecurityCapabilities returns the typed binding for the NRUESecurityCapabilities row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) NRUESecurityCapabilities() UEContextModificationRequestNRUESecurityCapabilitiesIEBinding {
 	return UEContextModificationRequestNRUESecurityCapabilitiesIEBinding{info: t.infoNRUESecurityCapabilities(), codec: func() s19.NRUESecurityCapabilitiesValueCodec {
 		sealed := s19.NRUESecurityCapabilitiesValueCodec{}
@@ -18330,6 +18536,8 @@ func (UEContextModificationRequestIETable) infoAerialUEsubscriptionInformation()
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-AerialUEsubscriptionInformation"}}}
 }
+
+// AerialUEsubscriptionInformation returns the typed binding for the AerialUEsubscriptionInformation row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) AerialUEsubscriptionInformation() UEContextModificationRequestAerialUEsubscriptionInformationIEBinding {
 	return UEContextModificationRequestAerialUEsubscriptionInformationIEBinding{info: t.infoAerialUEsubscriptionInformation(), codec: func() s00.AerialUEsubscriptionInformationValueCodec {
 		sealed := s00.AerialUEsubscriptionInformationValueCodec{}
@@ -18396,6 +18604,8 @@ func (UEContextModificationRequestIETable) infoAdditionalRRMPriorityIndex() s00.
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-AdditionalRRMPriorityIndex"}}}
 }
+
+// AdditionalRRMPriorityIndex returns the typed binding for the AdditionalRRMPriorityIndex row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) AdditionalRRMPriorityIndex() UEContextModificationRequestAdditionalRRMPriorityIndexIEBinding {
 	return UEContextModificationRequestAdditionalRRMPriorityIndexIEBinding{info: t.infoAdditionalRRMPriorityIndex(), codec: func() s00.AdditionalRRMPriorityIndexValueCodec {
 		sealed := s00.AdditionalRRMPriorityIndexValueCodec{}
@@ -18464,6 +18674,8 @@ func (UEContextModificationRequestIETable) infoIABAuthorized() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-IAB-Authorized"}}}
 }
+
+// IABAuthorized returns the typed binding for the IABAuthorized row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) IABAuthorized() UEContextModificationRequestIABAuthorizedIEBinding {
 	return UEContextModificationRequestIABAuthorizedIEBinding{info: t.infoIABAuthorized(), codec: func() s00.IABAuthorizedValueCodec {
 		sealed := s00.IABAuthorizedValueCodec{}
@@ -18528,6 +18740,8 @@ func (UEContextModificationRequestIETable) infoNRV2XServicesAuthorized() s00.Fie
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-NRV2XServicesAuthorized"}}}
 }
+
+// NRV2XServicesAuthorized returns the typed binding for the NRV2XServicesAuthorized row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) NRV2XServicesAuthorized() UEContextModificationRequestNRV2XServicesAuthorizedIEBinding {
 	return UEContextModificationRequestNRV2XServicesAuthorizedIEBinding{info: t.infoNRV2XServicesAuthorized(), codec: func() s19.NRV2XServicesAuthorizedValueCodec {
 		sealed := s19.NRV2XServicesAuthorizedValueCodec{}
@@ -18597,6 +18811,8 @@ func (UEContextModificationRequestIETable) infoNRUESidelinkAggregateMaximumBitra
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-NRUESidelinkAggregateMaximumBitrate"}}}
 }
+
+// NRUESidelinkAggregateMaximumBitrate returns the typed binding for the NRUESidelinkAggregateMaximumBitrate row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) NRUESidelinkAggregateMaximumBitrate() UEContextModificationRequestNRUESidelinkAggregateMaximumBitrateIEBinding {
 	return UEContextModificationRequestNRUESidelinkAggregateMaximumBitrateIEBinding{info: t.infoNRUESidelinkAggregateMaximumBitrate(), codec: func() s19.NRUESidelinkAggregateMaximumBitrateValueCodec {
 		sealed := s19.NRUESidelinkAggregateMaximumBitrateValueCodec{}
@@ -18663,6 +18879,8 @@ func (UEContextModificationRequestIETable) infoPC5QoSParameters() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-PC5QoSParameters"}}}
 }
+
+// PC5QoSParameters returns the typed binding for the PC5QoSParameters row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) PC5QoSParameters() UEContextModificationRequestPC5QoSParametersIEBinding {
 	return UEContextModificationRequestPC5QoSParametersIEBinding{info: t.infoPC5QoSParameters(), codec: func() s24.PC5QoSParametersValueCodec {
 		sealed := s24.PC5QoSParametersValueCodec{}
@@ -18727,6 +18945,8 @@ func (UEContextModificationRequestIETable) infoUERadioCapabilityID() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-UERadioCapabilityID"}}}
 }
+
+// UERadioCapabilityID returns the typed binding for the UERadioCapabilityID row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) UERadioCapabilityID() UEContextModificationRequestUERadioCapabilityIDIEBinding {
 	return UEContextModificationRequestUERadioCapabilityIDIEBinding{info: t.infoUERadioCapabilityID(), codec: func() s02.UERadioCapabilityIDValueCodec {
 		sealed := s02.UERadioCapabilityIDValueCodec{}
@@ -18791,6 +19011,8 @@ func (UEContextModificationRequestIETable) infoTimeRefDistribution() s00.FieldIn
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UEContextModificationRequestIEs", Row: "id-TimeRefDistribution"}}}
 }
+
+// TimeRefDistribution returns the typed binding for the TimeRefDistribution row of UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) TimeRefDistribution() UEContextModificationRequestTimeRefDistributionIEBinding {
 	return UEContextModificationRequestTimeRefDistributionIEBinding{info: t.infoTimeRefDistribution(), codec: func() s02.TimeRefDistributionValueCodec {
 		sealed := s02.TimeRefDistributionValueCodec{}
@@ -18848,6 +19070,8 @@ func (t UEContextModificationRequestIETable) TimeRefDistribution() UEContextModi
 			return value.AsTimeRefDistribution()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEContextModificationRequestIETable.
 func (t UEContextModificationRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UEContextModificationRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEContextModificationRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

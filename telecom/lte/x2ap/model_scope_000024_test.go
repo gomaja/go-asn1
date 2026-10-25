@@ -8,7 +8,7 @@ import (
 	testing "testing"
 )
 
-// TestVectorHandoverRequestNineVisitedCells verifies 3GPP TS 36.423 V19.1.0 (2026-02), sections 9.2.38 through 9.2.40; UE-HistoryInformation permits up to 16 visited cells.
+// TestVectorHandoverRequestNineVisitedCells verifies 3GPP TS 36.423 V19.1.0 (2025-12), sections 9.2.38 through 9.2.40; UE-HistoryInformation permits up to 16 visited cells.
 func TestVectorHandoverRequestNineVisitedCells(t *testing.T) {
 	input := asn1VectorHex(t, "800006f730010840b10000050006f730010220c10000020006f730010840b10000010006f730010220c10000120006f730010840b10000070006f730010220c100000d0006f730010840b100001a0006f730010220c10000030006f730010840b1000062")
 	if got := s18.HandoverRequestIEs().ID().Source().Assignment; got != "HandoverRequest-IEs" {

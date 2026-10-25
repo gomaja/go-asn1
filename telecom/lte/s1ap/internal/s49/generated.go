@@ -5081,6 +5081,8 @@ func (v PagingIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.DecodeBudget) b
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of PagingIEValue and reports whether the opaque alternative is selected.
 func (v *PagingIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -5750,114 +5752,152 @@ func (PagingIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsUEIdentityIndexValue returns the selected UEIdentityIndexValue value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsUEIdentityIndexValue() (*s00.UEIdentityIndexValue, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(80) || v.rowUEIdentityIndexValue == nil {
 		return nil, false
 	}
 	return v.rowUEIdentityIndexValue, true
 }
+
+// AsUEPagingID returns the selected UEPagingID value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsUEPagingID() (*s28.UEPagingID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(43) || v.rowUEPagingID == nil {
 		return nil, false
 	}
 	return v.rowUEPagingID, true
 }
+
+// AsPagingDRX returns the selected PagingDRX value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsPagingDRX() (*s00.PagingDRX, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(44) || v.rowPagingDRX == nil {
 		return nil, false
 	}
 	return v.rowPagingDRX, true
 }
+
+// AsCNDomain returns the selected CNDomain value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsCNDomain() (*s00.CNDomain, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(109) || v.rowCNDomain == nil {
 		return nil, false
 	}
 	return v.rowCNDomain, true
 }
+
+// AsTAIList returns the selected TAIList value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsTAIList() (*s33.TAIList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(46) || v.rowTAIList == nil {
 		return nil, false
 	}
 	return v.rowTAIList, true
 }
+
+// AsCSGIdList returns the selected CSGIdList value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsCSGIdList() (*s14.CSGIdList, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(128) || v.rowCSGIdList == nil {
 		return nil, false
 	}
 	return v.rowCSGIdList, true
 }
+
+// AsPagingPriority returns the selected PagingPriority value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsPagingPriority() (*s00.PagingPriority, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(151) || v.rowPagingPriority == nil {
 		return nil, false
 	}
 	return v.rowPagingPriority, true
 }
+
+// AsUERadioCapabilityForPaging returns the selected UERadioCapabilityForPaging value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsUERadioCapabilityForPaging() (*s00.UERadioCapabilityForPaging, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(198) || v.rowUERadioCapabilityForPaging == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapabilityForPaging, true
 }
+
+// AsAssistanceDataForPaging returns the selected AssistanceDataForPaging value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsAssistanceDataForPaging() (*s26.AssistanceDataForPaging, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(211) || v.rowAssistanceDataForPaging == nil {
 		return nil, false
 	}
 	return v.rowAssistanceDataForPaging, true
 }
+
+// AsPagingEDRXInformation returns the selected PagingEDRXInformation value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsPagingEDRXInformation() (*s20.PagingEDRXInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(227) || v.rowPagingEDRXInformation == nil {
 		return nil, false
 	}
 	return v.rowPagingEDRXInformation, true
 }
+
+// AsExtendedUEIdentityIndexValue returns the selected ExtendedUEIdentityIndexValue value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsExtendedUEIdentityIndexValue() (*s00.ExtendedUEIdentityIndexValue, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(231) || v.rowExtendedUEIdentityIndexValue == nil {
 		return nil, false
 	}
 	return v.rowExtendedUEIdentityIndexValue, true
 }
+
+// AsNBIoTPagingEDRXInformation returns the selected NBIoTPagingEDRXInformation value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsNBIoTPagingEDRXInformation() (*s19.NBIoTPagingEDRXInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(239) || v.rowNBIoTPagingEDRXInformation == nil {
 		return nil, false
 	}
 	return v.rowNBIoTPagingEDRXInformation, true
 }
+
+// AsNBIoTUEIdentityIndexValue returns the selected NBIoTUEIdentityIndexValue value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsNBIoTUEIdentityIndexValue() (*s00.NBIoTUEIdentityIndexValue, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(244) || v.rowNBIoTUEIdentityIndexValue == nil {
 		return nil, false
 	}
 	return v.rowNBIoTUEIdentityIndexValue, true
 }
+
+// AsEnhancedCoverageRestricted returns the selected EnhancedCoverageRestricted value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsEnhancedCoverageRestricted() (*s00.EnhancedCoverageRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(251) || v.rowEnhancedCoverageRestricted == nil {
 		return nil, false
 	}
 	return v.rowEnhancedCoverageRestricted, true
 }
+
+// AsCEModeBRestricted returns the selected CEModeBRestricted value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsCEModeBRestricted() (*s00.CEModeBRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(271) || v.rowCEModeBRestricted == nil {
 		return nil, false
 	}
 	return v.rowCEModeBRestricted, true
 }
+
+// AsDataSize returns the selected DataSize value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsDataSize() (*s00.DataSize, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(304) || v.rowDataSize == nil {
 		return nil, false
 	}
 	return v.rowDataSize, true
 }
+
+// AsWUSAssistanceInformation returns the selected WUSAssistanceInformation value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsWUSAssistanceInformation() (*s48.WUSAssistanceInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(323) || v.rowWUSAssistanceInformation == nil {
 		return nil, false
 	}
 	return v.rowWUSAssistanceInformation, true
 }
+
+// AsNBIoTPagingDRX returns the selected NBIoTPagingDRX value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsNBIoTPagingDRX() (*s00.NBIoTPagingDRX, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(324) || v.rowNBIoTPagingDRX == nil {
 		return nil, false
 	}
 	return v.rowNBIoTPagingDRX, true
 }
+
+// AsPagingCause returns the selected PagingCause value of PagingIEValue and reports whether that alternative is active.
 func (v *PagingIEValue) AsPagingCause() (*s00.PagingCause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(331) || v.rowPagingCause == nil {
 		return nil, false
@@ -6587,6 +6627,8 @@ func (v PagingIEValue) encodeFresh(fresh bool, budget *aper.DecodeBudget) ([]byt
 type PagingIETable struct{}
 
 func PagingIEs() PagingIETable { return PagingIETable{} }
+
+// ID returns the ASN.1 object-set identity of PagingIETable.
 func (PagingIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -6594,6 +6636,8 @@ func (PagingIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by PagingIETable.
 func (PagingIETable) Table() s00.PagingIEValueIETable {
 	return func() s00.PagingIEValueIETable {
 		sealed := s00.PagingIEValueIETable{}
@@ -6608,6 +6652,8 @@ func (PagingIETable) infoUEIdentityIndexValue() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-UEIdentityIndexValue"}}}
 }
+
+// UEIdentityIndexValue returns the typed binding for the UEIdentityIndexValue row of PagingIETable.
 func (t PagingIETable) UEIdentityIndexValue() PagingUEIdentityIndexValueIEBinding {
 	return PagingUEIdentityIndexValueIEBinding{info: t.infoUEIdentityIndexValue(), codec: func() s02.UEIdentityIndexValueValueCodec {
 		sealed := s02.UEIdentityIndexValueValueCodec{}
@@ -6671,6 +6717,8 @@ func (PagingIETable) infoUEPagingID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-UEPagingID"}}}
 }
+
+// UEPagingID returns the typed binding for the UEPagingID row of PagingIETable.
 func (t PagingIETable) UEPagingID() PagingUEPagingIDIEBinding {
 	return PagingUEPagingIDIEBinding{info: t.infoUEPagingID(), codec: func() s28.UEPagingIDValueCodec {
 		sealed := s28.UEPagingIDValueCodec{}
@@ -6734,6 +6782,8 @@ func (PagingIETable) infoPagingDRX() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-pagingDRX"}}}
 }
+
+// PagingDRX returns the typed binding for the PagingDRX row of PagingIETable.
 func (t PagingIETable) PagingDRX() PagingPagingDRXIEBinding {
 	return PagingPagingDRXIEBinding{info: t.infoPagingDRX(), codec: func() s01.PagingDRXValueCodec {
 		sealed := s01.PagingDRXValueCodec{}
@@ -6797,6 +6847,8 @@ func (PagingIETable) infoCNDomain() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-CNDomain"}}}
 }
+
+// CNDomain returns the typed binding for the CNDomain row of PagingIETable.
 func (t PagingIETable) CNDomain() PagingCNDomainIEBinding {
 	return PagingCNDomainIEBinding{info: t.infoCNDomain(), codec: func() s00.CNDomainValueCodec {
 		sealed := s00.CNDomainValueCodec{}
@@ -6859,6 +6911,8 @@ func (PagingIETable) infoTAIList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-TAIList"}}}
 }
+
+// TAIList returns the typed binding for the TAIList row of PagingIETable.
 func (t PagingIETable) TAIList() PagingTAIListIEBinding {
 	return PagingTAIListIEBinding{info: t.infoTAIList(), codec: func() s33.TAIListValueCodec {
 		sealed := s33.TAIListValueCodec{}
@@ -6922,6 +6976,8 @@ func (PagingIETable) infoCSGIdList() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-CSG-IdList"}}}
 }
+
+// CSGIdList returns the typed binding for the CSGIdList row of PagingIETable.
 func (t PagingIETable) CSGIdList() PagingCSGIdListIEBinding {
 	return PagingCSGIdListIEBinding{info: t.infoCSGIdList(), codec: func() s14.CSGIdListValueCodec {
 		sealed := s14.CSGIdListValueCodec{}
@@ -6985,6 +7041,8 @@ func (PagingIETable) infoPagingPriority() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-PagingPriority"}}}
 }
+
+// PagingPriority returns the typed binding for the PagingPriority row of PagingIETable.
 func (t PagingIETable) PagingPriority() PagingPagingPriorityIEBinding {
 	return PagingPagingPriorityIEBinding{info: t.infoPagingPriority(), codec: func() s01.PagingPriorityValueCodec {
 		sealed := s01.PagingPriorityValueCodec{}
@@ -7045,6 +7103,8 @@ func (PagingIETable) infoUERadioCapabilityForPaging() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-UERadioCapabilityForPaging"}}}
 }
+
+// UERadioCapabilityForPaging returns the typed binding for the UERadioCapabilityForPaging row of PagingIETable.
 func (t PagingIETable) UERadioCapabilityForPaging() PagingUERadioCapabilityForPagingIEBinding {
 	return PagingUERadioCapabilityForPagingIEBinding{info: t.infoUERadioCapabilityForPaging(), codec: func() s02.UERadioCapabilityForPagingValueCodec {
 		sealed := s02.UERadioCapabilityForPagingValueCodec{}
@@ -7113,6 +7173,8 @@ func (PagingIETable) infoAssistanceDataForPaging() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-AssistanceDataForPaging"}}}
 }
+
+// AssistanceDataForPaging returns the typed binding for the AssistanceDataForPaging row of PagingIETable.
 func (t PagingIETable) AssistanceDataForPaging() PagingAssistanceDataForPagingIEBinding {
 	return PagingAssistanceDataForPagingIEBinding{info: t.infoAssistanceDataForPaging(), codec: func() s26.AssistanceDataForPagingValueCodec {
 		sealed := s26.AssistanceDataForPagingValueCodec{}
@@ -7182,6 +7244,8 @@ func (PagingIETable) infoPagingEDRXInformation() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-Paging-eDRXInformation"}}}
 }
+
+// PagingEDRXInformation returns the typed binding for the PagingEDRXInformation row of PagingIETable.
 func (t PagingIETable) PagingEDRXInformation() PagingPagingEDRXInformationIEBinding {
 	return PagingPagingEDRXInformationIEBinding{info: t.infoPagingEDRXInformation(), codec: func() s20.PagingEDRXInformationValueCodec {
 		sealed := s20.PagingEDRXInformationValueCodec{}
@@ -7247,6 +7311,8 @@ func (PagingIETable) infoExtendedUEIdentityIndexValue() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-extended-UEIdentityIndexValue"}}}
 }
+
+// ExtendedUEIdentityIndexValue returns the typed binding for the ExtendedUEIdentityIndexValue row of PagingIETable.
 func (t PagingIETable) ExtendedUEIdentityIndexValue() PagingExtendedUEIdentityIndexValueIEBinding {
 	return PagingExtendedUEIdentityIndexValueIEBinding{info: t.infoExtendedUEIdentityIndexValue(), codec: func() s00.ExtendedUEIdentityIndexValueValueCodec {
 		sealed := s00.ExtendedUEIdentityIndexValueValueCodec{}
@@ -7314,6 +7380,8 @@ func (PagingIETable) infoNBIoTPagingEDRXInformation() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-NB-IoT-Paging-eDRXInformation"}}}
 }
+
+// NBIoTPagingEDRXInformation returns the typed binding for the NBIoTPagingEDRXInformation row of PagingIETable.
 func (t PagingIETable) NBIoTPagingEDRXInformation() PagingNBIoTPagingEDRXInformationIEBinding {
 	return PagingNBIoTPagingEDRXInformationIEBinding{info: t.infoNBIoTPagingEDRXInformation(), codec: func() s19.NBIoTPagingEDRXInformationValueCodec {
 		sealed := s19.NBIoTPagingEDRXInformationValueCodec{}
@@ -7382,6 +7450,8 @@ func (PagingIETable) infoNBIoTUEIdentityIndexValue() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-NB-IoT-UEIdentityIndexValue"}}}
 }
+
+// NBIoTUEIdentityIndexValue returns the typed binding for the NBIoTUEIdentityIndexValue row of PagingIETable.
 func (t PagingIETable) NBIoTUEIdentityIndexValue() PagingNBIoTUEIdentityIndexValueIEBinding {
 	return PagingNBIoTUEIdentityIndexValueIEBinding{info: t.infoNBIoTUEIdentityIndexValue(), codec: func() s01.NBIoTUEIdentityIndexValueValueCodec {
 		sealed := s01.NBIoTUEIdentityIndexValueValueCodec{}
@@ -7450,6 +7520,8 @@ func (PagingIETable) infoEnhancedCoverageRestricted() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-EnhancedCoverageRestricted"}}}
 }
+
+// EnhancedCoverageRestricted returns the typed binding for the EnhancedCoverageRestricted row of PagingIETable.
 func (t PagingIETable) EnhancedCoverageRestricted() PagingEnhancedCoverageRestrictedIEBinding {
 	return PagingEnhancedCoverageRestrictedIEBinding{info: t.infoEnhancedCoverageRestricted(), codec: func() s00.EnhancedCoverageRestrictedValueCodec {
 		sealed := s00.EnhancedCoverageRestrictedValueCodec{}
@@ -7518,6 +7590,8 @@ func (PagingIETable) infoCEModeBRestricted() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-CE-ModeBRestricted"}}}
 }
+
+// CEModeBRestricted returns the typed binding for the CEModeBRestricted row of PagingIETable.
 func (t PagingIETable) CEModeBRestricted() PagingCEModeBRestrictedIEBinding {
 	return PagingCEModeBRestrictedIEBinding{info: t.infoCEModeBRestricted(), codec: func() s00.CEModeBRestrictedValueCodec {
 		sealed := s00.CEModeBRestrictedValueCodec{}
@@ -7581,6 +7655,8 @@ func (PagingIETable) infoDataSize() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-DataSize"}}}
 }
+
+// DataSize returns the typed binding for the DataSize row of PagingIETable.
 func (t PagingIETable) DataSize() PagingDataSizeIEBinding {
 	return PagingDataSizeIEBinding{info: t.infoDataSize(), codec: func() s00.DataSizeValueCodec {
 		sealed := s00.DataSizeValueCodec{}
@@ -7643,6 +7719,8 @@ func (PagingIETable) infoWUSAssistanceInformation() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-WUS-Assistance-Information"}}}
 }
+
+// WUSAssistanceInformation returns the typed binding for the WUSAssistanceInformation row of PagingIETable.
 func (t PagingIETable) WUSAssistanceInformation() PagingWUSAssistanceInformationIEBinding {
 	return PagingWUSAssistanceInformationIEBinding{info: t.infoWUSAssistanceInformation(), codec: WUSAssistanceInformationValueCodec{path: "WUSAssistanceInformation",
 		decode: func(data []byte, options aper.DecodeState) (s48.WUSAssistanceInformation, error) {
@@ -7705,6 +7783,8 @@ func (PagingIETable) infoNBIoTPagingDRX() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-NB-IoT-PagingDRX"}}}
 }
+
+// NBIoTPagingDRX returns the typed binding for the NBIoTPagingDRX row of PagingIETable.
 func (t PagingIETable) NBIoTPagingDRX() PagingNBIoTPagingDRXIEBinding {
 	return PagingNBIoTPagingDRXIEBinding{info: t.infoNBIoTPagingDRX(), codec: func() s01.NBIoTPagingDRXValueCodec {
 		sealed := s01.NBIoTPagingDRXValueCodec{}
@@ -7765,6 +7845,8 @@ func (PagingIETable) infoPagingCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "PagingIEs", Row: "id-PagingCause"}}}
 }
+
+// PagingCause returns the typed binding for the PagingCause row of PagingIETable.
 func (t PagingIETable) PagingCause() PagingPagingCauseIEBinding {
 	return PagingPagingCauseIEBinding{info: t.infoPagingCause(), codec: func() s01.PagingCauseValueCodec {
 		sealed := s01.PagingCauseValueCodec{}
@@ -7820,6 +7902,8 @@ func (t PagingIETable) PagingCause() PagingPagingCauseIEBinding {
 			return PagingIEValue{id: s00.ProtocolIEID(331), rowPagingCause: &value}
 		}, get: func(value *PagingIEValue) (*s00.PagingCause, bool) { return value.AsPagingCause() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in PagingIETable.
 func (t PagingIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (PagingIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return PagingIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

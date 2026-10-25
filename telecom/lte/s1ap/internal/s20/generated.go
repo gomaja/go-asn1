@@ -14531,6 +14531,8 @@ func (v SONInformationExtensionIEIEValue) matchesID(id s00.ProtocolIEID, _ ...*a
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of SONInformationExtensionIEIEValue and reports whether the opaque alternative is selected.
 func (v *SONInformationExtensionIEIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15200,6 +15202,8 @@ func (SONInformationExtensionIEIEValue) reason(id s00.ProtocolIEID) aper.OpaqueR
 		return aper.UnknownSelector
 	}
 }
+
+// AsSONInformationReport returns the selected SONInformationReport value of SONInformationExtensionIEIEValue and reports whether that alternative is active.
 func (v *SONInformationExtensionIEIEValue) AsSONInformationReport() (*SONInformationReport, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(206) || v.rowSONInformationReport == nil {
 		return nil, false
@@ -15307,6 +15311,8 @@ func (v RerouteNASRequestIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Deco
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of RerouteNASRequestIEValue and reports whether the opaque alternative is selected.
 func (v *RerouteNASRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15976,36 +15982,48 @@ func (RerouteNASRequestIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of RerouteNASRequestIEValue and reports whether that alternative is active.
 func (v *RerouteNASRequestIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of RerouteNASRequestIEValue and reports whether that alternative is active.
 func (v *RerouteNASRequestIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsS1Message returns the selected S1Message value of RerouteNASRequestIEValue and reports whether that alternative is active.
 func (v *RerouteNASRequestIEValue) AsS1Message() (*[]byte, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(225) || v.rowS1Message == nil {
 		return nil, false
 	}
 	return v.rowS1Message, true
 }
+
+// AsMMEGroupID returns the selected MMEGroupID value of RerouteNASRequestIEValue and reports whether that alternative is active.
 func (v *RerouteNASRequestIEValue) AsMMEGroupID() (*s00.MMEGroupID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(223) || v.rowMMEGroupID == nil {
 		return nil, false
 	}
 	return v.rowMMEGroupID, true
 }
+
+// AsAdditionalGUTI returns the selected AdditionalGUTI value of RerouteNASRequestIEValue and reports whether that alternative is active.
 func (v *RerouteNASRequestIEValue) AsAdditionalGUTI() (*s18.AdditionalGUTI, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(224) || v.rowAdditionalGUTI == nil {
 		return nil, false
 	}
 	return v.rowAdditionalGUTI, true
 }
+
+// AsUEUsageType returns the selected UEUsageType value of RerouteNASRequestIEValue and reports whether that alternative is active.
 func (v *RerouteNASRequestIEValue) AsUEUsageType() (*s00.UEUsageType, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(230) || v.rowUEUsageType == nil {
 		return nil, false
@@ -16294,6 +16312,8 @@ func (v S1RemovalRequestIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper.Decod
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of S1RemovalRequestIEValue and reports whether the opaque alternative is selected.
 func (v *S1RemovalRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16963,6 +16983,8 @@ func (S1RemovalRequestIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReason {
 		return aper.UnknownSelector
 	}
 }
+
+// AsGlobalENBID returns the selected GlobalENBID value of S1RemovalRequestIEValue and reports whether that alternative is active.
 func (v *S1RemovalRequestIEValue) AsGlobalENBID() (*s18.GlobalENBID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(59) || v.rowGlobalENBID == nil {
 		return nil, false
@@ -17064,6 +17086,8 @@ func (v TraceFailureIndicationIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of TraceFailureIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *TraceFailureIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17733,24 +17757,32 @@ func (TraceFailureIndicationIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReas
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of TraceFailureIndicationIEValue and reports whether that alternative is active.
 func (v *TraceFailureIndicationIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of TraceFailureIndicationIEValue and reports whether that alternative is active.
 func (v *TraceFailureIndicationIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsEUTRANTraceID returns the selected EUTRANTraceID value of TraceFailureIndicationIEValue and reports whether that alternative is active.
 func (v *TraceFailureIndicationIEValue) AsEUTRANTraceID() (*s00.EUTRANTraceID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(86) || v.rowEUTRANTraceID == nil {
 		return nil, false
 	}
 	return v.rowEUTRANTraceID, true
 }
+
+// AsCause returns the selected Cause value of TraceFailureIndicationIEValue and reports whether that alternative is active.
 func (v *TraceFailureIndicationIEValue) AsCause() (*s14.Cause, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(2) || v.rowCause == nil {
 		return nil, false
@@ -17939,6 +17971,8 @@ type SONInformationExtensionIETable struct{}
 func SONInformationExtensionIE() SONInformationExtensionIETable {
 	return SONInformationExtensionIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of SONInformationExtensionIETable.
 func (SONInformationExtensionIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17946,6 +17980,8 @@ func (SONInformationExtensionIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by SONInformationExtensionIETable.
 func (SONInformationExtensionIETable) Table() s00.SONInformationExtensionIEIEValueIETable {
 	return func() s00.SONInformationExtensionIEIEValueIETable {
 		sealed := s00.SONInformationExtensionIEIEValueIETable{}
@@ -17960,6 +17996,8 @@ func (SONInformationExtensionIETable) infoSONInformationReport() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "SONInformation-ExtensionIE", Row: "id-SON-Information-Report"}}}
 }
+
+// SONInformationReport returns the typed binding for the SONInformationReport row of SONInformationExtensionIETable.
 func (t SONInformationExtensionIETable) SONInformationReport() SONInformationExtensionIESONInformationReportIEBinding {
 	return SONInformationExtensionIESONInformationReportIEBinding{info: t.infoSONInformationReport(), codec: SONInformationReportValueCodec{path: "SONInformationReport",
 		decode: func(data []byte, options aper.DecodeState) (SONInformationReport, error) {
@@ -18011,6 +18049,8 @@ func (t SONInformationExtensionIETable) SONInformationReport() SONInformationExt
 		return value.AsSONInformationReport()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in SONInformationExtensionIETable.
 func (t SONInformationExtensionIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (SONInformationExtensionIEIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return SONInformationExtensionIEIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18034,6 +18074,8 @@ func (t SONInformationExtensionIETable) NewOpaque(id s00.ProtocolIEID, criticali
 type RerouteNASRequestIETable struct{}
 
 func RerouteNASRequestIEs() RerouteNASRequestIETable { return RerouteNASRequestIETable{} }
+
+// ID returns the ASN.1 object-set identity of RerouteNASRequestIETable.
 func (RerouteNASRequestIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18041,6 +18083,8 @@ func (RerouteNASRequestIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by RerouteNASRequestIETable.
 func (RerouteNASRequestIETable) Table() s00.RerouteNASRequestIEValueIETable {
 	return func() s00.RerouteNASRequestIEValueIETable {
 		sealed := s00.RerouteNASRequestIEValueIETable{}
@@ -18055,6 +18099,8 @@ func (RerouteNASRequestIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "RerouteNASRequest-IEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of RerouteNASRequestIETable.
 func (t RerouteNASRequestIETable) ENBUES1APID() RerouteNASRequestENBUES1APIDIEBinding {
 	return RerouteNASRequestENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18117,6 +18163,8 @@ func (RerouteNASRequestIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "RerouteNASRequest-IEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of RerouteNASRequestIETable.
 func (t RerouteNASRequestIETable) MMEUES1APID() RerouteNASRequestMMEUES1APIDIEBinding {
 	return RerouteNASRequestMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18179,6 +18227,8 @@ func (RerouteNASRequestIETable) infoS1Message() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "RerouteNASRequest-IEs", Row: "id-S1-Message"}}}
 }
+
+// S1Message returns the typed binding for the S1Message row of RerouteNASRequestIETable.
 func (t RerouteNASRequestIETable) S1Message() RerouteNASRequestSliceByteIEBinding {
 	return RerouteNASRequestSliceByteIEBinding{info: t.infoS1Message(), codec: func() s01.SliceByteValueCodec {
 		sealed := s01.SliceByteValueCodec{}
@@ -18258,6 +18308,8 @@ func (RerouteNASRequestIETable) infoMMEGroupID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "RerouteNASRequest-IEs", Row: "id-MME-Group-ID"}}}
 }
+
+// MMEGroupID returns the typed binding for the MMEGroupID row of RerouteNASRequestIETable.
 func (t RerouteNASRequestIETable) MMEGroupID() RerouteNASRequestMMEGroupIDIEBinding {
 	return RerouteNASRequestMMEGroupIDIEBinding{info: t.infoMMEGroupID(), codec: func() s01.MMEGroupIDValueCodec {
 		sealed := s01.MMEGroupIDValueCodec{}
@@ -18321,6 +18373,8 @@ func (RerouteNASRequestIETable) infoAdditionalGUTI() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "RerouteNASRequest-IEs", Row: "id-Additional-GUTI"}}}
 }
+
+// AdditionalGUTI returns the typed binding for the AdditionalGUTI row of RerouteNASRequestIETable.
 func (t RerouteNASRequestIETable) AdditionalGUTI() RerouteNASRequestAdditionalGUTIIEBinding {
 	return RerouteNASRequestAdditionalGUTIIEBinding{info: t.infoAdditionalGUTI(), codec: func() s18.AdditionalGUTIValueCodec {
 		sealed := s18.AdditionalGUTIValueCodec{}
@@ -18381,6 +18435,8 @@ func (RerouteNASRequestIETable) infoUEUsageType() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "RerouteNASRequest-IEs", Row: "id-UE-Usage-Type"}}}
 }
+
+// UEUsageType returns the typed binding for the UEUsageType row of RerouteNASRequestIETable.
 func (t RerouteNASRequestIETable) UEUsageType() RerouteNASRequestUEUsageTypeIEBinding {
 	return RerouteNASRequestUEUsageTypeIEBinding{info: t.infoUEUsageType(), codec: func() s02.UEUsageTypeValueCodec {
 		sealed := s02.UEUsageTypeValueCodec{}
@@ -18436,6 +18492,8 @@ func (t RerouteNASRequestIETable) UEUsageType() RerouteNASRequestUEUsageTypeIEBi
 			return RerouteNASRequestIEValue{id: s00.ProtocolIEID(230), rowUEUsageType: &value}
 		}, get: func(value *RerouteNASRequestIEValue) (*s00.UEUsageType, bool) { return value.AsUEUsageType() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in RerouteNASRequestIETable.
 func (t RerouteNASRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (RerouteNASRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return RerouteNASRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18469,6 +18527,8 @@ func (t RerouteNASRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00
 type S1RemovalRequestIETable struct{}
 
 func S1RemovalRequestIEs() S1RemovalRequestIETable { return S1RemovalRequestIETable{} }
+
+// ID returns the ASN.1 object-set identity of S1RemovalRequestIETable.
 func (S1RemovalRequestIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18476,6 +18536,8 @@ func (S1RemovalRequestIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by S1RemovalRequestIETable.
 func (S1RemovalRequestIETable) Table() s00.S1RemovalRequestIEValueIETable {
 	return func() s00.S1RemovalRequestIEValueIETable {
 		sealed := s00.S1RemovalRequestIEValueIETable{}
@@ -18490,6 +18552,8 @@ func (S1RemovalRequestIETable) infoGlobalENBID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "S1RemovalRequestIEs", Row: "id-Global-ENB-ID"}}}
 }
+
+// GlobalENBID returns the typed binding for the GlobalENBID row of S1RemovalRequestIETable.
 func (t S1RemovalRequestIETable) GlobalENBID() S1RemovalRequestGlobalENBIDIEBinding {
 	return S1RemovalRequestGlobalENBIDIEBinding{info: t.infoGlobalENBID(), codec: func() s18.GlobalENBIDValueCodec {
 		sealed := s18.GlobalENBIDValueCodec{}
@@ -18545,6 +18609,8 @@ func (t S1RemovalRequestIETable) GlobalENBID() S1RemovalRequestGlobalENBIDIEBind
 			return S1RemovalRequestIEValue{id: s00.ProtocolIEID(59), rowGlobalENBID: &value}
 		}, get: func(value *S1RemovalRequestIEValue) (*s18.GlobalENBID, bool) { return value.AsGlobalENBID() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in S1RemovalRequestIETable.
 func (t S1RemovalRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (S1RemovalRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return S1RemovalRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18570,6 +18636,8 @@ type TraceFailureIndicationIETable struct{}
 func TraceFailureIndicationIEs() TraceFailureIndicationIETable {
 	return TraceFailureIndicationIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of TraceFailureIndicationIETable.
 func (TraceFailureIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18577,6 +18645,8 @@ func (TraceFailureIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by TraceFailureIndicationIETable.
 func (TraceFailureIndicationIETable) Table() s00.TraceFailureIndicationIEValueIETable {
 	return func() s00.TraceFailureIndicationIEValueIETable {
 		sealed := s00.TraceFailureIndicationIEValueIETable{}
@@ -18591,6 +18661,8 @@ func (TraceFailureIndicationIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "TraceFailureIndicationIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of TraceFailureIndicationIETable.
 func (t TraceFailureIndicationIETable) MMEUES1APID() TraceFailureIndicationMMEUES1APIDIEBinding {
 	return TraceFailureIndicationMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18653,6 +18725,8 @@ func (TraceFailureIndicationIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "TraceFailureIndicationIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of TraceFailureIndicationIETable.
 func (t TraceFailureIndicationIETable) ENBUES1APID() TraceFailureIndicationENBUES1APIDIEBinding {
 	return TraceFailureIndicationENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18715,6 +18789,8 @@ func (TraceFailureIndicationIETable) infoEUTRANTraceID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "TraceFailureIndicationIEs", Row: "id-E-UTRAN-Trace-ID"}}}
 }
+
+// EUTRANTraceID returns the typed binding for the EUTRANTraceID row of TraceFailureIndicationIETable.
 func (t TraceFailureIndicationIETable) EUTRANTraceID() TraceFailureIndicationEUTRANTraceIDIEBinding {
 	return TraceFailureIndicationEUTRANTraceIDIEBinding{info: t.infoEUTRANTraceID(), codec: func() s00.EUTRANTraceIDValueCodec {
 		sealed := s00.EUTRANTraceIDValueCodec{}
@@ -18777,6 +18853,8 @@ func (TraceFailureIndicationIETable) infoCause() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "TraceFailureIndicationIEs", Row: "id-Cause"}}}
 }
+
+// Cause returns the typed binding for the Cause row of TraceFailureIndicationIETable.
 func (t TraceFailureIndicationIETable) Cause() TraceFailureIndicationCauseIEBinding {
 	return TraceFailureIndicationCauseIEBinding{info: t.infoCause(), codec: func() s14.CauseValueCodec {
 		sealed := s14.CauseValueCodec{}
@@ -18832,6 +18910,8 @@ func (t TraceFailureIndicationIETable) Cause() TraceFailureIndicationCauseIEBind
 			return TraceFailureIndicationIEValue{id: s00.ProtocolIEID(2), rowCause: &value}
 		}, get: func(value *TraceFailureIndicationIEValue) (*s14.Cause, bool) { return value.AsCause() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in TraceFailureIndicationIETable.
 func (t TraceFailureIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (TraceFailureIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return TraceFailureIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

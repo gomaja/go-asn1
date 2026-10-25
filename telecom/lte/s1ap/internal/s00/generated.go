@@ -16924,6 +16924,7 @@ const (
 	CriticalityNotify Criticality = 2
 )
 
+// String returns the ASN.1 label of Criticality, or "unknown" for an unrecognized value.
 func (v Criticality) String() string {
 	switch v {
 	case CriticalityReject:
@@ -16946,6 +16947,7 @@ const (
 	PresenceMandatory   Presence = 2
 )
 
+// String returns the ASN.1 label of Presence, or "unknown" for an unrecognized value.
 func (v Presence) String() string {
 	switch v {
 	case PresenceOptional:
@@ -16983,6 +16985,7 @@ const (
 	TriggeringMessageUnsuccessfullOutcome TriggeringMessage = 2
 )
 
+// String returns the ASN.1 label of TriggeringMessage, or "unknown" for an unrecognized value.
 func (v TriggeringMessage) String() string {
 	switch v {
 	case TriggeringMessageInitiatingMessage:
@@ -18381,6 +18384,7 @@ const (
 	AerialUEsubscriptionInformationNotAllowed AerialUEsubscriptionInformation = 1
 )
 
+// String returns the ASN.1 label of AerialUEsubscriptionInformation, or "unknown" for an unrecognized value.
 func (v AerialUEsubscriptionInformation) String() string {
 	switch v {
 	case AerialUEsubscriptionInformationAllowed:
@@ -18415,6 +18419,7 @@ const (
 	BearerTypeNonIP BearerType = 0
 )
 
+// String returns the ASN.1 label of BearerType, or "unknown" for an unrecognized value.
 func (v BearerType) String() string {
 	switch v {
 	case BearerTypeNonIP:
@@ -18435,6 +18440,7 @@ const (
 	BluetoothMeasConfigSetup BluetoothMeasConfig = 0
 )
 
+// String returns the ASN.1 label of BluetoothMeasConfig, or "unknown" for an unrecognized value.
 func (v BluetoothMeasConfig) String() string {
 	switch v {
 	case BluetoothMeasConfigSetup:
@@ -18483,6 +18489,7 @@ const (
 	CauseMiscUnknownPLMN                           CauseMisc = 5
 )
 
+// String returns the ASN.1 label of CauseMisc, or "unknown" for an unrecognized value.
 func (v CauseMisc) String() string {
 	switch v {
 	case CauseMiscControlProcessingOverload:
@@ -18515,6 +18522,7 @@ const (
 	CauseProtocolUnspecified                                  CauseProtocol = 6
 )
 
+// String returns the ASN.1 label of CauseProtocol, or "unknown" for an unrecognized value.
 func (v CauseProtocol) String() string {
 	switch v {
 	case CauseProtocolTransferSyntaxError:
@@ -18587,6 +18595,7 @@ const (
 	CauseRadioNetworkReleaseDueToDiscontinuousCoverage                        CauseRadioNetwork = 44
 )
 
+// String returns the ASN.1 label of CauseRadioNetwork, or "unknown" for an unrecognized value.
 func (v CauseRadioNetwork) String() string {
 	switch v {
 	case CauseRadioNetworkUnspecified:
@@ -18692,6 +18701,7 @@ const (
 	CauseTransportUnspecified                  CauseTransport = 1
 )
 
+// String returns the ASN.1 label of CauseTransport, or "unknown" for an unrecognized value.
 func (v CauseTransport) String() string {
 	switch v {
 	case CauseTransportTransportResourceUnavailable:
@@ -18716,6 +18726,7 @@ const (
 	CauseNasIabNotAuthorized       CauseNas = 6
 )
 
+// String returns the ASN.1 label of CauseNas, or "unknown" for an unrecognized value.
 func (v CauseNas) String() string {
 	switch v {
 	case CauseNasNormalRelease:
@@ -18744,6 +18755,7 @@ const (
 	CellAccessModeHybrid CellAccessMode = 0
 )
 
+// String returns the ASN.1 label of CellAccessMode, or "unknown" for an unrecognized value.
 func (v CellAccessMode) String() string {
 	switch v {
 	case CellAccessModeHybrid:
@@ -18763,6 +18775,7 @@ const (
 	CEModeBSupportIndicatorSupported CEModeBSupportIndicator = 0
 )
 
+// String returns the ASN.1 label of CEModeBSupportIndicator, or "unknown" for an unrecognized value.
 func (v CEModeBSupportIndicator) String() string {
 	switch v {
 	case CEModeBSupportIndicatorSupported:
@@ -18786,6 +18799,7 @@ const (
 	Cdma2000RATTypeOnexRTT Cdma2000RATType = 1
 )
 
+// String returns the ASN.1 label of Cdma2000RATType, or "unknown" for an unrecognized value.
 func (v Cdma2000RATType) String() string {
 	switch v {
 	case Cdma2000RATTypeHRPD:
@@ -18808,6 +18822,7 @@ const (
 	Cdma2000HOStatusHOFailure Cdma2000HOStatus = 1
 )
 
+// String returns the ASN.1 label of Cdma2000HOStatus, or "unknown" for an unrecognized value.
 func (v Cdma2000HOStatus) String() string {
 	switch v {
 	case Cdma2000HOStatusHOSuccess:
@@ -18826,6 +18841,7 @@ const (
 	Cdma2000HORequiredIndicationTrue Cdma2000HORequiredIndication = 0
 )
 
+// String returns the ASN.1 label of Cdma2000HORequiredIndication, or "unknown" for an unrecognized value.
 func (v Cdma2000HORequiredIndication) String() string {
 	switch v {
 	case Cdma2000HORequiredIndicationTrue:
@@ -18857,6 +18873,7 @@ const (
 	CellSizeLarge     CellSize = 3
 )
 
+// String returns the ASN.1 label of CellSize, or "unknown" for an unrecognized value.
 func (v CellSize) String() string {
 	switch v {
 	case CellSizeVerysmall:
@@ -18883,6 +18900,7 @@ const (
 	CNDomainCs CNDomain = 1
 )
 
+// String returns the ASN.1 label of CNDomain, or "unknown" for an unrecognized value.
 func (v CNDomain) String() string {
 	switch v {
 	case CNDomainPs:
@@ -18902,6 +18920,7 @@ const (
 	CNTypeEpcForbiddden   CNType = 1
 )
 
+// String returns the ASN.1 label of CNType, or "unknown" for an unrecognized value.
 func (v CNType) String() string {
 	switch v {
 	case CNTypeFiveGCForbidden:
@@ -18920,6 +18939,7 @@ const (
 	CoarseUELocationRequestedTrue CoarseUELocationRequested = 0
 )
 
+// String returns the ASN.1 label of CoarseUELocationRequested, or "unknown" for an unrecognized value.
 func (v CoarseUELocationRequested) String() string {
 	switch v {
 	case CoarseUELocationRequestedTrue:
@@ -18939,6 +18959,7 @@ const (
 	ConcurrentWarningMessageIndicatorTrue ConcurrentWarningMessageIndicator = 0
 )
 
+// String returns the ASN.1 label of ConcurrentWarningMessageIndicator, or "unknown" for an unrecognized value.
 func (v ConcurrentWarningMessageIndicator) String() string {
 	switch v {
 	case ConcurrentWarningMessageIndicatorTrue:
@@ -18959,6 +18980,7 @@ const (
 	CSFallbackIndicatorCsFallbackHighPriority CSFallbackIndicator = 1
 )
 
+// String returns the ASN.1 label of CSFallbackIndicator, or "unknown" for an unrecognized value.
 func (v CSFallbackIndicator) String() string {
 	switch v {
 	case CSFallbackIndicatorCsFallbackRequired:
@@ -18978,6 +19000,7 @@ const (
 	AdditionalCSFallbackIndicatorRestriction   AdditionalCSFallbackIndicator = 1
 )
 
+// String returns the ASN.1 label of AdditionalCSFallbackIndicator, or "unknown" for an unrecognized value.
 func (v AdditionalCSFallbackIndicator) String() string {
 	switch v {
 	case AdditionalCSFallbackIndicatorNoRestriction:
@@ -19000,6 +19023,7 @@ const (
 	CSGMembershipStatusNotMember CSGMembershipStatus = 1
 )
 
+// String returns the ASN.1 label of CSGMembershipStatus, or "unknown" for an unrecognized value.
 func (v CSGMembershipStatus) String() string {
 	switch v {
 	case CSGMembershipStatusMember:
@@ -19018,6 +19042,7 @@ const (
 	CoverageLevelExtendedcoverage CoverageLevel = 0
 )
 
+// String returns the ASN.1 label of CoverageLevel, or "unknown" for an unrecognized value.
 func (v CoverageLevel) String() string {
 	switch v {
 	case CoverageLevelExtendedcoverage:
@@ -19043,6 +19068,7 @@ const (
 	DLForwardingDLForwardingProposed DLForwarding = 0
 )
 
+// String returns the ASN.1 label of DLForwarding, or "unknown" for an unrecognized value.
 func (v DLForwarding) String() string {
 	switch v {
 	case DLForwardingDLForwardingProposed:
@@ -19076,6 +19102,7 @@ const (
 	DirectForwardingPathAvailabilityDirectPathAvailable DirectForwardingPathAvailability = 0
 )
 
+// String returns the ASN.1 label of DirectForwardingPathAvailability, or "unknown" for an unrecognized value.
 func (v DirectForwardingPathAvailability) String() string {
 	switch v {
 	case DirectForwardingPathAvailabilityDirectPathAvailable:
@@ -19092,6 +19119,7 @@ const (
 	DataForwardingNotPossibleDataForwardingNotPossible DataForwardingNotPossible = 0
 )
 
+// String returns the ASN.1 label of DataForwardingNotPossible, or "unknown" for an unrecognized value.
 func (v DataForwardingNotPossible) String() string {
 	switch v {
 	case DataForwardingNotPossibleDataForwardingNotPossible:
@@ -19108,6 +19136,7 @@ const (
 	DLNASPDUDeliveryAckRequestRequested DLNASPDUDeliveryAckRequest = 0
 )
 
+// String returns the ASN.1 label of DLNASPDUDeliveryAckRequest, or "unknown" for an unrecognized value.
 func (v DLNASPDUDeliveryAckRequest) String() string {
 	switch v {
 	case DLNASPDUDeliveryAckRequestRequested:
@@ -19127,6 +19156,7 @@ const (
 	EDTSessionTrue EDTSession = 0
 )
 
+// String returns the ASN.1 label of EDTSession, or "unknown" for an unrecognized value.
 func (v EDTSession) String() string {
 	switch v {
 	case EDTSessionTrue:
@@ -19149,6 +19179,7 @@ const (
 	EmergencyIndicatorTrue EmergencyIndicator = 0
 )
 
+// String returns the ASN.1 label of EmergencyIndicator, or "unknown" for an unrecognized value.
 func (v EmergencyIndicator) String() string {
 	switch v {
 	case EmergencyIndicatorTrue:
@@ -19193,6 +19224,7 @@ const (
 	EndIndicationFurtherDataExists EndIndication = 1
 )
 
+// String returns the ASN.1 label of EndIndication, or "unknown" for an unrecognized value.
 func (v EndIndication) String() string {
 	switch v {
 	case EndIndicationNoFurtherData:
@@ -19211,6 +19243,7 @@ const (
 	EnhancedCoverageRestrictedRestricted EnhancedCoverageRestricted = 0
 )
 
+// String returns the ASN.1 label of EnhancedCoverageRestricted, or "unknown" for an unrecognized value.
 func (v EnhancedCoverageRestricted) String() string {
 	switch v {
 	case EnhancedCoverageRestrictedRestricted:
@@ -19228,6 +19261,7 @@ const (
 	CEModeBRestrictedNotRestricted CEModeBRestricted = 1
 )
 
+// String returns the ASN.1 label of CEModeBRestricted, or "unknown" for an unrecognized value.
 func (v CEModeBRestricted) String() string {
 	switch v {
 	case CEModeBRestrictedRestricted:
@@ -19250,6 +19284,7 @@ const (
 	EventTypeStopChangeOfServeCell EventType = 2
 )
 
+// String returns the ASN.1 label of EventType, or "unknown" for an unrecognized value.
 func (v EventType) String() string {
 	switch v {
 	case EventTypeDirect:
@@ -19273,6 +19308,7 @@ const (
 	EthernetTypeTrue EthernetType = 0
 )
 
+// String returns the ASN.1 label of EthernetType, or "unknown" for an unrecognized value.
 func (v EthernetType) String() string {
 	switch v {
 	case EthernetTypeTrue:
@@ -19306,6 +19342,7 @@ const (
 	SourceOfUEActivityBehaviourInformationStatistics              SourceOfUEActivityBehaviourInformation = 1
 )
 
+// String returns the ASN.1 label of SourceOfUEActivityBehaviourInformation, or "unknown" for an unrecognized value.
 func (v SourceOfUEActivityBehaviourInformation) String() string {
 	switch v {
 	case SourceOfUEActivityBehaviourInformationSubscriptionInformation:
@@ -19330,6 +19367,7 @@ const (
 	ExpectedHOIntervalLongTime ExpectedHOInterval = 6
 )
 
+// String returns the ASN.1 label of ExpectedHOInterval, or "unknown" for an unrecognized value.
 func (v ExpectedHOInterval) String() string {
 	switch v {
 	case ExpectedHOIntervalSec15:
@@ -19381,6 +19419,7 @@ const (
 	ForbiddenInterRATsCdma2000andutran ForbiddenInterRATs = 5
 )
 
+// String returns the ASN.1 label of ForbiddenInterRATs, or "unknown" for an unrecognized value.
 func (v ForbiddenInterRATs) String() string {
 	switch v {
 	case ForbiddenInterRATsAll:
@@ -19415,6 +19454,7 @@ const (
 	GUMMEITypeMappedFrom5G GUMMEIType = 2
 )
 
+// String returns the ASN.1 label of GUMMEIType, or "unknown" for an unrecognized value.
 func (v GUMMEIType) String() string {
 	switch v {
 	case GUMMEITypeNative:
@@ -19435,6 +19475,7 @@ const (
 	GWContextReleaseIndicationTrue GWContextReleaseIndication = 0
 )
 
+// String returns the ASN.1 label of GWContextReleaseIndication, or "unknown" for an unrecognized value.
 func (v GWContextReleaseIndication) String() string {
 	switch v {
 	case GWContextReleaseIndicationTrue:
@@ -19451,6 +19492,7 @@ const (
 	HandoverFlagHandoverPreparation HandoverFlag = 0
 )
 
+// String returns the ASN.1 label of HandoverFlag, or "unknown" for an unrecognized value.
 func (v HandoverFlag) String() string {
 	switch v {
 	case HandoverFlagHandoverPreparation:
@@ -19473,6 +19515,7 @@ const (
 	HandoverTypeFivegsToEps HandoverType = 6
 )
 
+// String returns the ASN.1 label of HandoverType, or "unknown" for an unrecognized value.
 func (v HandoverType) String() string {
 	switch v {
 	case HandoverTypeIntralte:
@@ -19524,6 +19567,7 @@ const (
 	IntegrityProtectionIndicationNotNeeded IntegrityProtectionIndication = 2
 )
 
+// String returns the ASN.1 label of IntegrityProtectionIndication, or "unknown" for an unrecognized value.
 func (v IntegrityProtectionIndication) String() string {
 	switch v {
 	case IntegrityProtectionIndicationRequired:
@@ -19545,6 +19589,7 @@ const (
 	IntegrityProtectionResultNotPerformed IntegrityProtectionResult = 1
 )
 
+// String returns the ASN.1 label of IntegrityProtectionResult, or "unknown" for an unrecognized value.
 func (v IntegrityProtectionResult) String() string {
 	switch v {
 	case IntegrityProtectionResultPerformed:
@@ -19572,6 +19617,7 @@ const (
 	IMSvoiceEPSfallbackfrom5GTrue IMSvoiceEPSfallbackfrom5G = 0
 )
 
+// String returns the ASN.1 label of IMSvoiceEPSfallbackfrom5G, or "unknown" for an unrecognized value.
 func (v IMSvoiceEPSfallbackfrom5G) String() string {
 	switch v {
 	case IMSvoiceEPSfallbackfrom5GTrue:
@@ -19589,6 +19635,7 @@ const (
 	IABAuthorizedNotAuthorized IABAuthorized = 1
 )
 
+// String returns the ASN.1 label of IABAuthorized, or "unknown" for an unrecognized value.
 func (v IABAuthorized) String() string {
 	switch v {
 	case IABAuthorizedAuthorized:
@@ -19607,6 +19654,7 @@ const (
 	IABNodeIndicationTrue IABNodeIndication = 0
 )
 
+// String returns the ASN.1 label of IABNodeIndication, or "unknown" for an unrecognized value.
 func (v IABNodeIndication) String() string {
 	switch v {
 	case IABNodeIndicationTrue:
@@ -19623,6 +19671,7 @@ const (
 	IABSupportedTrue IABSupported = 0
 )
 
+// String returns the ASN.1 label of IABSupported, or "unknown" for an unrecognized value.
 func (v IABSupported) String() string {
 	switch v {
 	case IABSupportedTrue:
@@ -19639,6 +19688,7 @@ const (
 	KillAllWarningMessagesTrue KillAllWarningMessages = 0
 )
 
+// String returns the ASN.1 label of KillAllWarningMessages, or "unknown" for an unrecognized value.
 func (v KillAllWarningMessages) String() string {
 	switch v {
 	case KillAllWarningMessagesTrue:
@@ -19688,6 +19738,7 @@ const (
 	LinksToLogBothUplinkAndDownlink LinksToLog = 2
 )
 
+// String returns the ASN.1 label of LinksToLog, or "unknown" for an unrecognized value.
 func (v LinksToLog) String() string {
 	switch v {
 	case LinksToLogUplink:
@@ -19715,6 +19766,7 @@ const (
 	LoggingIntervalMs61440 LoggingInterval = 7
 )
 
+// String returns the ASN.1 label of LoggingInterval, or "unknown" for an unrecognized value.
 func (v LoggingInterval) String() string {
 	switch v {
 	case LoggingIntervalMs1280:
@@ -19750,6 +19802,7 @@ const (
 	LoggingDurationM120 LoggingDuration = 5
 )
 
+// String returns the ASN.1 label of LoggingDuration, or "unknown" for an unrecognized value.
 func (v LoggingDuration) String() string {
 	switch v {
 	case LoggingDurationM10:
@@ -19782,6 +19835,7 @@ const (
 	LTEMIndicationLteM LTEMIndication = 0
 )
 
+// String returns the ASN.1 label of LTEMIndication, or "unknown" for an unrecognized value.
 func (v LTEMIndication) String() string {
 	switch v {
 	case LTEMIndicationLteM:
@@ -19807,6 +19861,7 @@ const (
 	M3periodMin1    M3period = 9
 )
 
+// String returns the ASN.1 label of M3period, or "unknown" for an unrecognized value.
 func (v M3period) String() string {
 	switch v {
 	case M3periodMs100:
@@ -19848,6 +19903,7 @@ const (
 	M4ReportAmountMDTInfinity M4ReportAmountMDT = 7
 )
 
+// String returns the ASN.1 label of M4ReportAmountMDT, or "unknown" for an unrecognized value.
 func (v M4ReportAmountMDT) String() string {
 	switch v {
 	case M4ReportAmountMDTR1:
@@ -19882,6 +19938,7 @@ const (
 	M4periodMin1    M4period = 4
 )
 
+// String returns the ASN.1 label of M4period, or "unknown" for an unrecognized value.
 func (v M4period) String() string {
 	switch v {
 	case M4periodMs1024:
@@ -19913,6 +19970,7 @@ const (
 	M5ReportAmountMDTInfinity M5ReportAmountMDT = 7
 )
 
+// String returns the ASN.1 label of M5ReportAmountMDT, or "unknown" for an unrecognized value.
 func (v M5ReportAmountMDT) String() string {
 	switch v {
 	case M5ReportAmountMDTR1:
@@ -19947,6 +20005,7 @@ const (
 	M5periodMin1    M5period = 4
 )
 
+// String returns the ASN.1 label of M5period, or "unknown" for an unrecognized value.
 func (v M5period) String() string {
 	switch v {
 	case M5periodMs1024:
@@ -19978,6 +20037,7 @@ const (
 	M6ReportAmountMDTInfinity M6ReportAmountMDT = 7
 )
 
+// String returns the ASN.1 label of M6ReportAmountMDT, or "unknown" for an unrecognized value.
 func (v M6ReportAmountMDT) String() string {
 	switch v {
 	case M6ReportAmountMDTR1:
@@ -20011,6 +20071,7 @@ const (
 	M6reportIntervalMs10240 M6reportInterval = 3
 )
 
+// String returns the ASN.1 label of M6reportInterval, or "unknown" for an unrecognized value.
 func (v M6reportInterval) String() string {
 	switch v {
 	case M6reportIntervalMs1024:
@@ -20044,6 +20105,7 @@ const (
 	M6delayThresholdMs750 M6delayThreshold = 11
 )
 
+// String returns the ASN.1 label of M6delayThreshold, or "unknown" for an unrecognized value.
 func (v M6delayThreshold) String() string {
 	switch v {
 	case M6delayThresholdMs30:
@@ -20089,6 +20151,7 @@ const (
 	M7ReportAmountMDTInfinity M7ReportAmountMDT = 7
 )
 
+// String returns the ASN.1 label of M7ReportAmountMDT, or "unknown" for an unrecognized value.
 func (v M7ReportAmountMDT) String() string {
 	switch v {
 	case M7ReportAmountMDTR1:
@@ -20125,6 +20188,7 @@ const (
 	MDTActivationLoggedMBSFNMDT       MDTActivation = 3
 )
 
+// String returns the ASN.1 label of MDTActivation, or "unknown" for an unrecognized value.
 func (v MDTActivation) String() string {
 	switch v {
 	case MDTActivationImmediateMDTOnly:
@@ -20150,6 +20214,7 @@ const (
 	ManagementBasedMDTAllowedAllowed ManagementBasedMDTAllowed = 0
 )
 
+// String returns the ASN.1 label of ManagementBasedMDTAllowed, or "unknown" for an unrecognized value.
 func (v ManagementBasedMDTAllowed) String() string {
 	switch v {
 	case ManagementBasedMDTAllowedAllowed:
@@ -20169,6 +20234,7 @@ const (
 	PrivacyIndicatorLoggedMDT    PrivacyIndicator = 1
 )
 
+// String returns the ASN.1 label of PrivacyIndicator, or "unknown" for an unrecognized value.
 func (v PrivacyIndicator) String() string {
 	switch v {
 	case PrivacyIndicatorImmediateMDT:
@@ -20225,6 +20291,7 @@ const (
 	MMERelaySupportIndicatorTrue MMERelaySupportIndicator = 0
 )
 
+// String returns the ASN.1 label of MMERelaySupportIndicator, or "unknown" for an unrecognized value.
 func (v MMERelaySupportIndicator) String() string {
 	switch v {
 	case MMERelaySupportIndicatorTrue:
@@ -20260,6 +20327,7 @@ const (
 	MutingAvailabilityIndicationUnavailable MutingAvailabilityIndication = 1
 )
 
+// String returns the ASN.1 label of MutingAvailabilityIndication, or "unknown" for an unrecognized value.
 func (v MutingAvailabilityIndication) String() string {
 	switch v {
 	case MutingAvailabilityIndicationAvailable:
@@ -20293,6 +20361,7 @@ const (
 	NBIoTDefaultPagingDRXV1024 NBIoTDefaultPagingDRX = 3
 )
 
+// String returns the ASN.1 label of NBIoTDefaultPagingDRX, or "unknown" for an unrecognized value.
 func (v NBIoTDefaultPagingDRX) String() string {
 	switch v {
 	case NBIoTDefaultPagingDRXV128:
@@ -20320,6 +20389,7 @@ const (
 	NBIoTPagingDRXV1024 NBIoTPagingDRX = 5
 )
 
+// String returns the ASN.1 label of NBIoTPagingDRX, or "unknown" for an unrecognized value.
 func (v NBIoTPagingDRX) String() string {
 	switch v {
 	case NBIoTPagingDRXV32:
@@ -20359,6 +20429,7 @@ const (
 	NBIoTPagingEDRXCycleHf1024 NBIoTPagingEDRXCycle = 13
 )
 
+// String returns the ASN.1 label of NBIoTPagingEDRXCycle, or "unknown" for an unrecognized value.
 func (v NBIoTPagingEDRXCycle) String() string {
 	switch v {
 	case NBIoTPagingEDRXCycleHf2:
@@ -20416,6 +20487,7 @@ const (
 	NBIoTPagingTimeWindowS16 NBIoTPagingTimeWindow = 15
 )
 
+// String returns the ASN.1 label of NBIoTPagingTimeWindow, or "unknown" for an unrecognized value.
 func (v NBIoTPagingTimeWindow) String() string {
 	switch v {
 	case NBIoTPagingTimeWindowS1:
@@ -20469,6 +20541,7 @@ const (
 	NextPagingAreaScopeChanged NextPagingAreaScope = 1
 )
 
+// String returns the ASN.1 label of NextPagingAreaScope, or "unknown" for an unrecognized value.
 func (v NextPagingAreaScope) String() string {
 	switch v {
 	case NextPagingAreaScopeSame:
@@ -20487,6 +20560,7 @@ const (
 	NotifySourceeNBNotifySource NotifySourceeNB = 0
 )
 
+// String returns the ASN.1 label of NotifySourceeNB, or "unknown" for an unrecognized value.
 func (v NotifySourceeNB) String() string {
 	switch v {
 	case NotifySourceeNBNotifySource:
@@ -20512,6 +20586,7 @@ const (
 	NRrestrictioninEPSasSecondaryRATNRrestrictedinEPSasSecondaryRAT NRrestrictioninEPSasSecondaryRAT = 0
 )
 
+// String returns the ASN.1 label of NRrestrictioninEPSasSecondaryRAT, or "unknown" for an unrecognized value.
 func (v NRrestrictioninEPSasSecondaryRAT) String() string {
 	switch v {
 	case NRrestrictioninEPSasSecondaryRATNRrestrictedinEPSasSecondaryRAT:
@@ -20528,6 +20603,7 @@ const (
 	NRrestrictionin5GSNRrestrictedin5GS NRrestrictionin5GS = 0
 )
 
+// String returns the ASN.1 label of NRrestrictionin5GS, or "unknown" for an unrecognized value.
 func (v NRrestrictionin5GS) String() string {
 	switch v {
 	case NRrestrictionin5GSNRrestrictedin5GS:
@@ -20559,6 +20635,7 @@ const (
 	OverloadActionNotAcceptMoDataOrDelayTolerantAccessFromCPCIoT                                 OverloadAction = 6
 )
 
+// String returns the ASN.1 label of OverloadAction, or "unknown" for an unrecognized value.
 func (v OverloadAction) String() string {
 	switch v {
 	case OverloadActionRejectNonEmergencyMoDt:
@@ -20611,6 +20688,7 @@ const (
 	PagingEDRXCycleHf256  PagingEDRXCycle = 13
 )
 
+// String returns the ASN.1 label of PagingEDRXCycle, or "unknown" for an unrecognized value.
 func (v PagingEDRXCycle) String() string {
 	switch v {
 	case PagingEDRXCycleHfhalf:
@@ -20668,6 +20746,7 @@ const (
 	PagingTimeWindowS16 PagingTimeWindow = 15
 )
 
+// String returns the ASN.1 label of PagingTimeWindow, or "unknown" for an unrecognized value.
 func (v PagingTimeWindow) String() string {
 	switch v {
 	case PagingTimeWindowS1:
@@ -20717,6 +20796,7 @@ const (
 	PagingDRXV256 PagingDRX = 3
 )
 
+// String returns the ASN.1 label of PagingDRX, or "unknown" for an unrecognized value.
 func (v PagingDRX) String() string {
 	switch v {
 	case PagingDRXV32:
@@ -20746,6 +20826,7 @@ const (
 	PagingPriorityPriolevel8 PagingPriority = 7
 )
 
+// String returns the ASN.1 label of PagingPriority, or "unknown" for an unrecognized value.
 func (v PagingPriority) String() string {
 	switch v {
 	case PagingPriorityPriolevel1:
@@ -20796,6 +20877,7 @@ const (
 	PagingProbabilityInformationP100 PagingProbabilityInformation = 20
 )
 
+// String returns the ASN.1 label of PagingProbabilityInformation, or "unknown" for an unrecognized value.
 func (v PagingProbabilityInformation) String() string {
 	switch v {
 	case PagingProbabilityInformationP00:
@@ -20852,6 +20934,7 @@ const (
 	PagingCauseVoice PagingCause = 0
 )
 
+// String returns the ASN.1 label of PagingCause, or "unknown" for an unrecognized value.
 func (v PagingCause) String() string {
 	switch v {
 	case PagingCauseVoice:
@@ -20877,6 +20960,7 @@ const (
 	PendingDataIndicationTrue PendingDataIndication = 0
 )
 
+// String returns the ASN.1 label of PendingDataIndication, or "unknown" for an unrecognized value.
 func (v PendingDataIndication) String() string {
 	switch v {
 	case PendingDataIndicationTrue:
@@ -20901,6 +20985,7 @@ const (
 	PreEmptionCapabilityMayTriggerPreEmption      PreEmptionCapability = 1
 )
 
+// String returns the ASN.1 label of PreEmptionCapability, or "unknown" for an unrecognized value.
 func (v PreEmptionCapability) String() string {
 	switch v {
 	case PreEmptionCapabilityShallNotTriggerPreEmption:
@@ -20920,6 +21005,7 @@ const (
 	PreEmptionVulnerabilityPreEmptable    PreEmptionVulnerability = 1
 )
 
+// String returns the ASN.1 label of PreEmptionVulnerability, or "unknown" for an unrecognized value.
 func (v PreEmptionVulnerability) String() string {
 	switch v {
 	case PreEmptionVulnerabilityNotPreEmptable:
@@ -20941,6 +21027,7 @@ const (
 	PriorityLevelNoPriority PriorityLevel = 15
 )
 
+// String returns the ASN.1 label of PriorityLevel, or "unknown" for an unrecognized value.
 func (v PriorityLevel) String() string {
 	switch v {
 	case PriorityLevelSpare:
@@ -20964,6 +21051,7 @@ const (
 	ProSeDirectDiscoveryNotAuthorized ProSeDirectDiscovery = 1
 )
 
+// String returns the ASN.1 label of ProSeDirectDiscovery, or "unknown" for an unrecognized value.
 func (v ProSeDirectDiscovery) String() string {
 	switch v {
 	case ProSeDirectDiscoveryAuthorized:
@@ -20983,6 +21071,7 @@ const (
 	ProSeUEtoNetworkRelayingNotAuthorized ProSeUEtoNetworkRelaying = 1
 )
 
+// String returns the ASN.1 label of ProSeUEtoNetworkRelaying, or "unknown" for an unrecognized value.
 func (v ProSeUEtoNetworkRelaying) String() string {
 	switch v {
 	case ProSeUEtoNetworkRelayingAuthorized:
@@ -21002,6 +21091,7 @@ const (
 	ProSeDirectCommunicationNotAuthorized ProSeDirectCommunication = 1
 )
 
+// String returns the ASN.1 label of ProSeDirectCommunication, or "unknown" for an unrecognized value.
 func (v ProSeDirectCommunication) String() string {
 	switch v {
 	case ProSeDirectCommunicationAuthorized:
@@ -21020,6 +21110,7 @@ const (
 	PSServiceNotAvailablePsServiceNotAvailable PSServiceNotAvailable = 0
 )
 
+// String returns the ASN.1 label of PSServiceNotAvailable, or "unknown" for an unrecognized value.
 func (v PSServiceNotAvailable) String() string {
 	switch v {
 	case PSServiceNotAvailablePsServiceNotAvailable:
@@ -21039,6 +21130,7 @@ const (
 	RACSIndicationTrue RACSIndication = 0
 )
 
+// String returns the ASN.1 label of RACSIndication, or "unknown" for an unrecognized value.
 func (v RACSIndication) String() string {
 	switch v {
 	case RACSIndicationTrue:
@@ -21066,6 +21158,7 @@ const (
 	RangeM1000 Range = 8
 )
 
+// String returns the ASN.1 label of Range, or "unknown" for an unrecognized value.
 func (v Range) String() string {
 	switch v {
 	case RangeM50:
@@ -21110,6 +21203,7 @@ const (
 	RelayNodeIndicatorTrue RelayNodeIndicator = 0
 )
 
+// String returns the ASN.1 label of RelayNodeIndicator, or "unknown" for an unrecognized value.
 func (v RelayNodeIndicator) String() string {
 	switch v {
 	case RelayNodeIndicatorTrue:
@@ -21137,6 +21231,7 @@ const (
 	RATTypeEutranOthersat RATType = 8
 )
 
+// String returns the ASN.1 label of RATType, or "unknown" for an unrecognized value.
 func (v RATType) String() string {
 	switch v {
 	case RATTypeNbiot:
@@ -21176,6 +21271,7 @@ const (
 	ReportAmountMDTRinfinity ReportAmountMDT = 7
 )
 
+// String returns the ASN.1 label of ReportAmountMDT, or "unknown" for an unrecognized value.
 func (v ReportAmountMDT) String() string {
 	switch v {
 	case ReportAmountMDTR1:
@@ -21218,6 +21314,7 @@ const (
 	ReportIntervalMDTMin60   ReportIntervalMDT = 12
 )
 
+// String returns the ASN.1 label of ReportIntervalMDT, or "unknown" for an unrecognized value.
 func (v ReportIntervalMDT) String() string {
 	switch v {
 	case ReportIntervalMDTMs120:
@@ -21260,6 +21357,7 @@ const (
 	M1ReportingTriggerA2eventtriggeredPeriodic M1ReportingTrigger = 2
 )
 
+// String returns the ASN.1 label of M1ReportingTrigger, or "unknown" for an unrecognized value.
 func (v M1ReportingTrigger) String() string {
 	switch v {
 	case M1ReportingTriggerPeriodic:
@@ -21280,6 +21378,7 @@ const (
 	RequestTypeAdditionalInfoIncludePSCell RequestTypeAdditionalInfo = 0
 )
 
+// String returns the ASN.1 label of RequestTypeAdditionalInfo, or "unknown" for an unrecognized value.
 func (v RequestTypeAdditionalInfo) String() string {
 	switch v {
 	case RequestTypeAdditionalInfoIncludePSCell:
@@ -21306,6 +21405,7 @@ const (
 	ReportAreaEcgi ReportArea = 0
 )
 
+// String returns the ASN.1 label of ReportArea, or "unknown" for an unrecognized value.
 func (v ReportArea) String() string {
 	switch v {
 	case ReportAreaEcgi:
@@ -21338,6 +21438,7 @@ const (
 	RRCEstablishmentCauseMoExceptionData     RRCEstablishmentCause = 7
 )
 
+// String returns the ASN.1 label of RRCEstablishmentCause, or "unknown" for an unrecognized value.
 func (v RRCEstablishmentCause) String() string {
 	switch v {
 	case RRCEstablishmentCauseEmergency:
@@ -21375,6 +21476,7 @@ const (
 	SecondaryRATTypeUnlicensed SecondaryRATType = 1
 )
 
+// String returns the ASN.1 label of SecondaryRATType, or "unknown" for an unrecognized value.
 func (v SecondaryRATType) String() string {
 	switch v {
 	case SecondaryRATTypeNR:
@@ -21393,6 +21495,7 @@ const (
 	SecondaryRATDataUsageRequestRequested SecondaryRATDataUsageRequest = 0
 )
 
+// String returns the ASN.1 label of SecondaryRATDataUsageRequest, or "unknown" for an unrecognized value.
 func (v SecondaryRATDataUsageRequest) String() string {
 	switch v {
 	case SecondaryRATDataUsageRequestRequested:
@@ -21409,6 +21512,7 @@ const (
 	SensorMeasConfigSetup SensorMeasConfig = 0
 )
 
+// String returns the ASN.1 label of SensorMeasConfig, or "unknown" for an unrecognized value.
 func (v SensorMeasConfig) String() string {
 	switch v {
 	case SensorMeasConfigSetup:
@@ -21435,6 +21539,7 @@ const (
 	ServiceTypeQMCForMTSIService      ServiceType = 1
 )
 
+// String returns the ASN.1 label of ServiceType, or "unknown" for an unrecognized value.
 func (v ServiceType) String() string {
 	switch v {
 	case ServiceTypeQMCForStreamingService:
@@ -21463,6 +21568,7 @@ const (
 	SONInformationRequestDeactivateMuting        SONInformationRequest = 3
 )
 
+// String returns the ASN.1 label of SONInformationRequest, or "unknown" for an unrecognized value.
 func (v SONInformationRequest) String() string {
 	switch v {
 	case SONInformationRequestX2TNLConfigurationInfo:
@@ -21496,6 +21602,7 @@ const (
 	SRVCCOperationNotPossibleNotPossible SRVCCOperationNotPossible = 0
 )
 
+// String returns the ASN.1 label of SRVCCOperationNotPossible, or "unknown" for an unrecognized value.
 func (v SRVCCOperationNotPossible) String() string {
 	switch v {
 	case SRVCCOperationNotPossibleNotPossible:
@@ -21512,6 +21619,7 @@ const (
 	SRVCCOperationPossiblePossible SRVCCOperationPossible = 0
 )
 
+// String returns the ASN.1 label of SRVCCOperationPossible, or "unknown" for an unrecognized value.
 func (v SRVCCOperationPossible) String() string {
 	switch v {
 	case SRVCCOperationPossiblePossible:
@@ -21529,6 +21637,7 @@ const (
 	SRVCCHOIndicationCSonly  SRVCCHOIndication = 1
 )
 
+// String returns the ASN.1 label of SRVCCHOIndication, or "unknown" for an unrecognized value.
 func (v SRVCCHOIndication) String() string {
 	switch v {
 	case SRVCCHOIndicationPSandCS:
@@ -21569,6 +21678,7 @@ const (
 	SynchronisationStatusAsynchronous SynchronisationStatus = 1
 )
 
+// String returns the ASN.1 label of SynchronisationStatus, or "unknown" for an unrecognized value.
 func (v SynchronisationStatus) String() string {
 	switch v {
 	case SynchronisationStatusSynchronous:
@@ -21657,6 +21767,7 @@ const (
 	TimeToTriggerMs5120 TimeToTrigger = 15
 )
 
+// String returns the ASN.1 label of TimeToTrigger, or "unknown" for an unrecognized value.
 func (v TimeToTrigger) String() string {
 	switch v {
 	case TimeToTriggerMs0:
@@ -21708,6 +21819,7 @@ const (
 	TimeToWaitV60s TimeToWait = 5
 )
 
+// String returns the ASN.1 label of TimeToWait, or "unknown" for an unrecognized value.
 func (v TimeToWait) String() string {
 	switch v {
 	case TimeToWaitV1s:
@@ -21751,6 +21863,7 @@ const (
 	TraceDepthMaximumWithoutVendorSpecificExtension TraceDepth = 5
 )
 
+// String returns the ASN.1 label of TraceDepth, or "unknown" for an unrecognized value.
 func (v TraceDepth) String() string {
 	switch v {
 	case TraceDepthMinimum:
@@ -21784,6 +21897,7 @@ const (
 	TypeOfErrorMissing       TypeOfError = 1
 )
 
+// String returns the ASN.1 label of TypeOfError, or "unknown" for an unrecognized value.
 func (v TypeOfError) String() string {
 	switch v {
 	case TypeOfErrorNotUnderstood:
@@ -21802,6 +21916,7 @@ const (
 	TimeRefDistributionTrue TimeRefDistribution = 0
 )
 
+// String returns the ASN.1 label of TimeRefDistribution, or "unknown" for an unrecognized value.
 func (v TimeRefDistribution) String() string {
 	switch v {
 	case TimeRefDistributionTrue:
@@ -21818,6 +21933,7 @@ const (
 	UECapabilityInfoRequestRequested UECapabilityInfoRequest = 0
 )
 
+// String returns the ASN.1 label of UECapabilityInfoRequest, or "unknown" for an unrecognized value.
 func (v UECapabilityInfoRequest) String() string {
 	switch v {
 	case UECapabilityInfoRequestRequested:
@@ -21834,6 +21950,7 @@ const (
 	UERetentionInformationUesRetained UERetentionInformation = 0
 )
 
+// String returns the ASN.1 label of UERetentionInformation, or "unknown" for an unrecognized value.
 func (v UERetentionInformation) String() string {
 	switch v {
 	case UERetentionInformationUesRetained:
@@ -21892,6 +22009,7 @@ const (
 	UnlicensedSpectrumRestrictionUnlicensedRestricted UnlicensedSpectrumRestriction = 0
 )
 
+// String returns the ASN.1 label of UnlicensedSpectrumRestriction, or "unknown" for an unrecognized value.
 func (v UnlicensedSpectrumRestriction) String() string {
 	switch v {
 	case UnlicensedSpectrumRestrictionUnlicensedRestricted:
@@ -21911,6 +22029,7 @@ const (
 	UEUserPlaneCIoTSupportIndicatorSupported UEUserPlaneCIoTSupportIndicator = 0
 )
 
+// String returns the ASN.1 label of UEUserPlaneCIoTSupportIndicator, or "unknown" for an unrecognized value.
 func (v UEUserPlaneCIoTSupportIndicator) String() string {
 	switch v {
 	case UEUserPlaneCIoTSupportIndicatorSupported:
@@ -21931,6 +22050,7 @@ const (
 	VoiceSupportMatchIndicatorNotSupported VoiceSupportMatchIndicator = 1
 )
 
+// String returns the ASN.1 label of VoiceSupportMatchIndicator, or "unknown" for an unrecognized value.
 func (v VoiceSupportMatchIndicator) String() string {
 	switch v {
 	case VoiceSupportMatchIndicatorSupported:
@@ -21950,6 +22070,7 @@ const (
 	VehicleUENotAuthorized VehicleUE = 1
 )
 
+// String returns the ASN.1 label of VehicleUE, or "unknown" for an unrecognized value.
 func (v VehicleUE) String() string {
 	switch v {
 	case VehicleUEAuthorized:
@@ -21969,6 +22090,7 @@ const (
 	PedestrianUENotAuthorized PedestrianUE = 1
 )
 
+// String returns the ASN.1 label of PedestrianUE, or "unknown" for an unrecognized value.
 func (v PedestrianUE) String() string {
 	switch v {
 	case PedestrianUEAuthorized:
@@ -22007,6 +22129,7 @@ const (
 	WLANMeasConfigSetup WLANMeasConfig = 0
 )
 
+// String returns the ASN.1 label of WLANMeasConfig, or "unknown" for an unrecognized value.
 func (v WLANMeasConfig) String() string {
 	switch v {
 	case WLANMeasConfigSetup:
@@ -22073,6 +22196,7 @@ const (
 	ResetAllResetAll ResetAll = 0
 )
 
+// String returns the ASN.1 label of ResetAll, or "unknown" for an unrecognized value.
 func (v ResetAll) String() string {
 	switch v {
 	case ResetAllResetAll:
@@ -22118,6 +22242,7 @@ const (
 	SONtransferApplicationIdentityFailureEventReporting           SONtransferApplicationIdentity = 6
 )
 
+// String returns the ASN.1 label of SONtransferApplicationIdentity, or "unknown" for an unrecognized value.
 func (v SONtransferApplicationIdentity) String() string {
 	switch v {
 	case SONtransferApplicationIdentityCellLoadReporting:
@@ -22181,6 +22306,7 @@ const (
 	CellLoadReportingCauseUnspecified                         CellLoadReportingCause = 2
 )
 
+// String returns the ASN.1 label of CellLoadReportingCause, or "unknown" for an unrecognized value.
 func (v CellLoadReportingCause) String() string {
 	switch v {
 	case CellLoadReportingCauseApplicationContainerSyntaxError:
@@ -22203,6 +22329,7 @@ const (
 	HOReportingCauseUnspecified                         HOReportingCause = 2
 )
 
+// String returns the ASN.1 label of HOReportingCause, or "unknown" for an unrecognized value.
 func (v HOReportingCause) String() string {
 	switch v {
 	case HOReportingCauseApplicationContainerSyntaxError:
@@ -22225,6 +22352,7 @@ const (
 	CellActivationCauseUnspecified                         CellActivationCause = 2
 )
 
+// String returns the ASN.1 label of CellActivationCause, or "unknown" for an unrecognized value.
 func (v CellActivationCause) String() string {
 	switch v {
 	case CellActivationCauseApplicationContainerSyntaxError:
@@ -22247,6 +22375,7 @@ const (
 	CellStateIndicationCauseUnspecified                         CellStateIndicationCause = 2
 )
 
+// String returns the ASN.1 label of CellStateIndicationCause, or "unknown" for an unrecognized value.
 func (v CellStateIndicationCause) String() string {
 	switch v {
 	case CellStateIndicationCauseApplicationContainerSyntaxError:
@@ -22269,6 +22398,7 @@ const (
 	FailureEventReportingCauseUnspecified                         FailureEventReportingCause = 2
 )
 
+// String returns the ASN.1 label of FailureEventReportingCause, or "unknown" for an unrecognized value.
 func (v FailureEventReportingCause) String() string {
 	switch v {
 	case FailureEventReportingCauseApplicationContainerSyntaxError:
@@ -22323,6 +22453,7 @@ const (
 	NumberOfMeasurementReportingLevelsRl10 NumberOfMeasurementReportingLevels = 4
 )
 
+// String returns the ASN.1 label of NumberOfMeasurementReportingLevels, or "unknown" for an unrecognized value.
 func (v NumberOfMeasurementReportingLevels) String() string {
 	switch v {
 	case NumberOfMeasurementReportingLevelsRl2:
@@ -22347,6 +22478,7 @@ const (
 	OverloadFlagOverload OverloadFlag = 0
 )
 
+// String returns the ASN.1 label of OverloadFlag, or "unknown" for an unrecognized value.
 func (v OverloadFlag) String() string {
 	switch v {
 	case OverloadFlagOverload:
@@ -22364,6 +22496,7 @@ const (
 	HoTypeLtetogeran HoType = 1
 )
 
+// String returns the ASN.1 label of HoType, or "unknown" for an unrecognized value.
 func (v HoType) String() string {
 	switch v {
 	case HoTypeLtetoutran:
@@ -22383,6 +22516,7 @@ const (
 	HoReportTypeEarlyirathandover         HoReportType = 1
 )
 
+// String returns the ASN.1 label of HoReportType, or "unknown" for an unrecognized value.
 func (v HoReportType) String() string {
 	switch v {
 	case HoReportTypeUnnecessaryhotoanotherrat:
@@ -22402,6 +22536,7 @@ const (
 	NotifyFlagDeactivated NotifyFlag = 1
 )
 
+// String returns the ASN.1 label of NotifyFlag, or "unknown" for an unrecognized value.
 func (v NotifyFlag) String() string {
 	switch v {
 	case NotifyFlagActivated:
@@ -22428,10 +22563,12 @@ type EHRPDCapacityValue = int64
 type EHRPDSectorCapacityClassValue = *big.Int
 type TableID struct{ source aper.SourceAssignment }
 
+// Source returns the ASN.1 source assignment identified by TableID.
 func (id TableID) Source() aper.SourceAssignment { return id.source }
 
 type TypeID struct{ source aper.SourceAssignment }
 
+// Source returns the ASN.1 source assignment identified by TypeID.
 func (id TypeID) Source() aper.SourceAssignment { return id.source }
 
 type ProcedureInfo struct {

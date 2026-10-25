@@ -13336,6 +13336,8 @@ func (v UECapabilityInfoIndicationIEValue) matchesID(id s00.ProtocolIEID, _ ...*
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UECapabilityInfoIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *UECapabilityInfoIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -14005,48 +14007,64 @@ func (UECapabilityInfoIndicationIEValue) reason(id s00.ProtocolIEID) aper.Opaque
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UECapabilityInfoIndicationIEValue and reports whether that alternative is active.
 func (v *UECapabilityInfoIndicationIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UECapabilityInfoIndicationIEValue and reports whether that alternative is active.
 func (v *UECapabilityInfoIndicationIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsUERadioCapability returns the selected UERadioCapability value of UECapabilityInfoIndicationIEValue and reports whether that alternative is active.
 func (v *UECapabilityInfoIndicationIEValue) AsUERadioCapability() (*s00.UERadioCapability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(74) || v.rowUERadioCapability == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapability, true
 }
+
+// AsUERadioCapabilityForPaging returns the selected UERadioCapabilityForPaging value of UECapabilityInfoIndicationIEValue and reports whether that alternative is active.
 func (v *UECapabilityInfoIndicationIEValue) AsUERadioCapabilityForPaging() (*s00.UERadioCapabilityForPaging, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(198) || v.rowUERadioCapabilityForPaging == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapabilityForPaging, true
 }
+
+// AsUEApplicationLayerMeasurementCapability returns the selected UEApplicationLayerMeasurementCapability value of UECapabilityInfoIndicationIEValue and reports whether that alternative is active.
 func (v *UECapabilityInfoIndicationIEValue) AsUEApplicationLayerMeasurementCapability() (*s00.UEApplicationLayerMeasurementCapability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(263) || v.rowUEApplicationLayerMeasurementCapability == nil {
 		return nil, false
 	}
 	return v.rowUEApplicationLayerMeasurementCapability, true
 }
+
+// AsLTEMIndication returns the selected LTEMIndication value of UECapabilityInfoIndicationIEValue and reports whether that alternative is active.
 func (v *UECapabilityInfoIndicationIEValue) AsLTEMIndication() (*s00.LTEMIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(272) || v.rowLTEMIndication == nil {
 		return nil, false
 	}
 	return v.rowLTEMIndication, true
 }
+
+// AsUERadioCapabilityNRFormat returns the selected UERadioCapabilityNRFormat value of UECapabilityInfoIndicationIEValue and reports whether that alternative is active.
 func (v *UECapabilityInfoIndicationIEValue) AsUERadioCapabilityNRFormat() (*s00.UERadioCapability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(315) || v.rowUERadioCapabilityNRFormat == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapabilityNRFormat, true
 }
+
+// AsUERadioCapabilityForPagingNRFormat returns the selected UERadioCapabilityForPagingNRFormat value of UECapabilityInfoIndicationIEValue and reports whether that alternative is active.
 func (v *UECapabilityInfoIndicationIEValue) AsUERadioCapabilityForPagingNRFormat() (*s00.UERadioCapabilityForPaging, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(327) || v.rowUERadioCapabilityForPagingNRFormat == nil {
 		return nil, false
@@ -14484,6 +14502,8 @@ func (v UERadioCapabilityMatchRequestIEValue) matchesID(id s00.ProtocolIEID, _ .
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UERadioCapabilityMatchRequestIEValue and reports whether the opaque alternative is selected.
 func (v *UERadioCapabilityMatchRequestIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -15153,24 +15173,32 @@ func (UERadioCapabilityMatchRequestIEValue) reason(id s00.ProtocolIEID) aper.Opa
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UERadioCapabilityMatchRequestIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityMatchRequestIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UERadioCapabilityMatchRequestIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityMatchRequestIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsUERadioCapability returns the selected UERadioCapability value of UERadioCapabilityMatchRequestIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityMatchRequestIEValue) AsUERadioCapability() (*s00.UERadioCapability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(74) || v.rowUERadioCapability == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapability, true
 }
+
+// AsUERadioCapabilityID returns the selected UERadioCapabilityID value of UERadioCapabilityMatchRequestIEValue and reports whether that alternative is active.
 func (v *UERadioCapabilityMatchRequestIEValue) AsUERadioCapabilityID() (*s00.UERadioCapabilityID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowUERadioCapabilityID == nil {
 		return nil, false
@@ -15401,6 +15429,8 @@ func (v UplinkNonUEAssociatedLPPaTransportIEValue) matchesID(id s00.ProtocolIEID
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UplinkNonUEAssociatedLPPaTransportIEValue and reports whether the opaque alternative is selected.
 func (v *UplinkNonUEAssociatedLPPaTransportIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16070,12 +16100,16 @@ func (UplinkNonUEAssociatedLPPaTransportIEValue) reason(id s00.ProtocolIEID) ape
 		return aper.UnknownSelector
 	}
 }
+
+// AsRoutingID returns the selected RoutingID value of UplinkNonUEAssociatedLPPaTransportIEValue and reports whether that alternative is active.
 func (v *UplinkNonUEAssociatedLPPaTransportIEValue) AsRoutingID() (*s00.RoutingID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(148) || v.rowRoutingID == nil {
 		return nil, false
 	}
 	return v.rowRoutingID, true
 }
+
+// AsLPPaPDU returns the selected LPPaPDU value of UplinkNonUEAssociatedLPPaTransportIEValue and reports whether that alternative is active.
 func (v *UplinkNonUEAssociatedLPPaTransportIEValue) AsLPPaPDU() (*s00.LPPaPDU, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(147) || v.rowLPPaPDU == nil {
 		return nil, false
@@ -16229,6 +16263,8 @@ func (v UplinkUEAssociatedLPPaTransportIEValue) matchesID(id s00.ProtocolIEID, _
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of UplinkUEAssociatedLPPaTransportIEValue and reports whether the opaque alternative is selected.
 func (v *UplinkUEAssociatedLPPaTransportIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -16898,24 +16934,32 @@ func (UplinkUEAssociatedLPPaTransportIEValue) reason(id s00.ProtocolIEID) aper.O
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of UplinkUEAssociatedLPPaTransportIEValue and reports whether that alternative is active.
 func (v *UplinkUEAssociatedLPPaTransportIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of UplinkUEAssociatedLPPaTransportIEValue and reports whether that alternative is active.
 func (v *UplinkUEAssociatedLPPaTransportIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsRoutingID returns the selected RoutingID value of UplinkUEAssociatedLPPaTransportIEValue and reports whether that alternative is active.
 func (v *UplinkUEAssociatedLPPaTransportIEValue) AsRoutingID() (*s00.RoutingID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(148) || v.rowRoutingID == nil {
 		return nil, false
 	}
 	return v.rowRoutingID, true
 }
+
+// AsLPPaPDU returns the selected LPPaPDU value of UplinkUEAssociatedLPPaTransportIEValue and reports whether that alternative is active.
 func (v *UplinkUEAssociatedLPPaTransportIEValue) AsLPPaPDU() (*s00.LPPaPDU, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(147) || v.rowLPPaPDU == nil {
 		return nil, false
@@ -17101,6 +17145,8 @@ func (v UplinkUEAssociatedLPPaTransportIEValue) encodeFresh(fresh bool, budget *
 type UES1APIDPairExtIETable struct{}
 
 func UES1APIDPairExtIEs() UES1APIDPairExtIETable { return UES1APIDPairExtIETable{} }
+
+// ID returns the ASN.1 object-set identity of UES1APIDPairExtIETable.
 func (UES1APIDPairExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17108,6 +17154,8 @@ func (UES1APIDPairExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UES1APIDPairExtIETable.
 func (UES1APIDPairExtIETable) Table() s00.UES1APIDPairExtIEsValueExtensionTable {
 	return func() s00.UES1APIDPairExtIEsValueExtensionTable {
 		sealed := s00.UES1APIDPairExtIEsValueExtensionTable{}
@@ -17115,6 +17163,8 @@ func (UES1APIDPairExtIETable) Table() s00.UES1APIDPairExtIEsValueExtensionTable 
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UES1APIDPairExtIETable.
 func (t UES1APIDPairExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (UES1APIDPairExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UES1APIDPairExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17144,6 +17194,8 @@ type UESidelinkAggregateMaximumBitratesExtIETable struct{}
 func UESidelinkAggregateMaximumBitratesExtIEs() UESidelinkAggregateMaximumBitratesExtIETable {
 	return UESidelinkAggregateMaximumBitratesExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UESidelinkAggregateMaximumBitratesExtIETable.
 func (UESidelinkAggregateMaximumBitratesExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17151,6 +17203,8 @@ func (UESidelinkAggregateMaximumBitratesExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UESidelinkAggregateMaximumBitratesExtIETable.
 func (UESidelinkAggregateMaximumBitratesExtIETable) Table() s00.UESidelinkAggregateMaximumBitratesExtIEsValueExtensionTable {
 	return func() s00.UESidelinkAggregateMaximumBitratesExtIEsValueExtensionTable {
 		sealed := s00.UESidelinkAggregateMaximumBitratesExtIEsValueExtensionTable{}
@@ -17158,6 +17212,8 @@ func (UESidelinkAggregateMaximumBitratesExtIETable) Table() s00.UESidelinkAggreg
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UESidelinkAggregateMaximumBitratesExtIETable.
 func (t UESidelinkAggregateMaximumBitratesExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (UESidelinkAggregateMaximumBitratesExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UESidelinkAggregateMaximumBitratesExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17187,6 +17243,8 @@ type UEAssociatedLogicalS1ConnectionItemExtIETable struct{}
 func UEAssociatedLogicalS1ConnectionItemExtIEs() UEAssociatedLogicalS1ConnectionItemExtIETable {
 	return UEAssociatedLogicalS1ConnectionItemExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEAssociatedLogicalS1ConnectionItemExtIETable.
 func (UEAssociatedLogicalS1ConnectionItemExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17194,6 +17252,8 @@ func (UEAssociatedLogicalS1ConnectionItemExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEAssociatedLogicalS1ConnectionItemExtIETable.
 func (UEAssociatedLogicalS1ConnectionItemExtIETable) Table() s00.UEAssociatedLogicalS1ConnectionItemExtIEsValueExtensionTable {
 	return func() s00.UEAssociatedLogicalS1ConnectionItemExtIEsValueExtensionTable {
 		sealed := s00.UEAssociatedLogicalS1ConnectionItemExtIEsValueExtensionTable{}
@@ -17201,6 +17261,8 @@ func (UEAssociatedLogicalS1ConnectionItemExtIETable) Table() s00.UEAssociatedLog
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEAssociatedLogicalS1ConnectionItemExtIETable.
 func (t UEAssociatedLogicalS1ConnectionItemExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (UEAssociatedLogicalS1ConnectionItemExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEAssociatedLogicalS1ConnectionItemExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17230,6 +17292,8 @@ type UEAggregateMaximumBitratesExtIETable struct{}
 func UEAggregateMaximumBitratesExtIEs() UEAggregateMaximumBitratesExtIETable {
 	return UEAggregateMaximumBitratesExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEAggregateMaximumBitratesExtIETable.
 func (UEAggregateMaximumBitratesExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17237,6 +17301,8 @@ func (UEAggregateMaximumBitratesExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEAggregateMaximumBitratesExtIETable.
 func (UEAggregateMaximumBitratesExtIETable) Table() s00.UEAggregateMaximumBitratesExtIEsValueExtensionTable {
 	return func() s00.UEAggregateMaximumBitratesExtIEsValueExtensionTable {
 		sealed := s00.UEAggregateMaximumBitratesExtIEsValueExtensionTable{}
@@ -17251,6 +17317,8 @@ func (UEAggregateMaximumBitratesExtIETable) infoExtendedUEaggregateMaximumBitRat
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "UEAggregate-MaximumBitrates-ExtIEs", Row: "id-extended-uEaggregateMaximumBitRateDL"}}}
 }
+
+// ExtendedUEaggregateMaximumBitRateDL returns the typed binding for the ExtendedUEaggregateMaximumBitRateDL row of UEAggregateMaximumBitratesExtIETable.
 func (t UEAggregateMaximumBitratesExtIETable) ExtendedUEaggregateMaximumBitRateDL() UEAggregateMaximumBitratesExtIEsExtendedBitRateExtBinding {
 	return UEAggregateMaximumBitratesExtIEsExtendedBitRateExtBinding{info: t.infoExtendedUEaggregateMaximumBitRateDL(), codec: func() s00.ExtendedBitRateValueCodec {
 		sealed := s00.ExtendedBitRateValueCodec{}
@@ -17324,6 +17392,8 @@ func (UEAggregateMaximumBitratesExtIETable) infoExtendedUEaggregateMaximumBitRat
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "UEAggregate-MaximumBitrates-ExtIEs", Row: "id-extended-uEaggregateMaximumBitRateUL"}}}
 }
+
+// ExtendedUEaggregateMaximumBitRateUL returns the typed binding for the ExtendedUEaggregateMaximumBitRateUL row of UEAggregateMaximumBitratesExtIETable.
 func (t UEAggregateMaximumBitratesExtIETable) ExtendedUEaggregateMaximumBitRateUL() UEAggregateMaximumBitratesExtIEsExtendedBitRateExtBinding {
 	return UEAggregateMaximumBitratesExtIEsExtendedBitRateExtBinding{info: t.infoExtendedUEaggregateMaximumBitRateUL(), codec: func() s00.ExtendedBitRateValueCodec {
 		sealed := s00.ExtendedBitRateValueCodec{}
@@ -17390,6 +17460,8 @@ func (t UEAggregateMaximumBitratesExtIETable) ExtendedUEaggregateMaximumBitRateU
 			return value.AsExtendedUEaggregateMaximumBitRateUL()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEAggregateMaximumBitratesExtIETable.
 func (t UEAggregateMaximumBitratesExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (UEAggregateMaximumBitratesExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEAggregateMaximumBitratesExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17423,6 +17495,8 @@ type UEAppLayerMeasConfigExtIETable struct{}
 func UEAppLayerMeasConfigExtIEs() UEAppLayerMeasConfigExtIETable {
 	return UEAppLayerMeasConfigExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UEAppLayerMeasConfigExtIETable.
 func (UEAppLayerMeasConfigExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17430,6 +17504,8 @@ func (UEAppLayerMeasConfigExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UEAppLayerMeasConfigExtIETable.
 func (UEAppLayerMeasConfigExtIETable) Table() s00.UEAppLayerMeasConfigExtIEsValueExtensionTable {
 	return func() s00.UEAppLayerMeasConfigExtIEsValueExtensionTable {
 		sealed := s00.UEAppLayerMeasConfigExtIEsValueExtensionTable{}
@@ -17444,6 +17520,8 @@ func (UEAppLayerMeasConfigExtIETable) infoServiceType() s00.ExtensionInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "UEAppLayerMeasConfig-ExtIEs", Row: "id-serviceType"}}}
 }
+
+// ServiceType returns the typed binding for the ServiceType row of UEAppLayerMeasConfigExtIETable.
 func (t UEAppLayerMeasConfigExtIETable) ServiceType() UEAppLayerMeasConfigExtIEsServiceTypeExtBinding {
 	return UEAppLayerMeasConfigExtIEsServiceTypeExtBinding{info: t.infoServiceType(), codec: func() s01.ServiceTypeValueCodec {
 		sealed := s01.ServiceTypeValueCodec{}
@@ -17511,6 +17589,8 @@ func (t UEAppLayerMeasConfigExtIETable) ServiceType() UEAppLayerMeasConfigExtIEs
 			return value.AsServiceType()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UEAppLayerMeasConfigExtIETable.
 func (t UEAppLayerMeasConfigExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (UEAppLayerMeasConfigExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UEAppLayerMeasConfigExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17542,6 +17622,8 @@ type UESecurityCapabilitiesExtIETable struct{}
 func UESecurityCapabilitiesExtIEs() UESecurityCapabilitiesExtIETable {
 	return UESecurityCapabilitiesExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UESecurityCapabilitiesExtIETable.
 func (UESecurityCapabilitiesExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17549,6 +17631,8 @@ func (UESecurityCapabilitiesExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UESecurityCapabilitiesExtIETable.
 func (UESecurityCapabilitiesExtIETable) Table() s00.UESecurityCapabilitiesExtIEsValueExtensionTable {
 	return func() s00.UESecurityCapabilitiesExtIEsValueExtensionTable {
 		sealed := s00.UESecurityCapabilitiesExtIEsValueExtensionTable{}
@@ -17556,6 +17640,8 @@ func (UESecurityCapabilitiesExtIETable) Table() s00.UESecurityCapabilitiesExtIEs
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UESecurityCapabilitiesExtIETable.
 func (t UESecurityCapabilitiesExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (UESecurityCapabilitiesExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UESecurityCapabilitiesExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17585,6 +17671,8 @@ type ULCPSecurityInformationExtIETable struct{}
 func ULCPSecurityInformationExtIEs() ULCPSecurityInformationExtIETable {
 	return ULCPSecurityInformationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ULCPSecurityInformationExtIETable.
 func (ULCPSecurityInformationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17592,6 +17680,8 @@ func (ULCPSecurityInformationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ULCPSecurityInformationExtIETable.
 func (ULCPSecurityInformationExtIETable) Table() s00.ULCPSecurityInformationExtIEsValueExtensionTable {
 	return func() s00.ULCPSecurityInformationExtIEsValueExtensionTable {
 		sealed := s00.ULCPSecurityInformationExtIEsValueExtensionTable{}
@@ -17599,6 +17689,8 @@ func (ULCPSecurityInformationExtIETable) Table() s00.ULCPSecurityInformationExtI
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ULCPSecurityInformationExtIETable.
 func (t ULCPSecurityInformationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (ULCPSecurityInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ULCPSecurityInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17628,6 +17720,8 @@ type V2XServicesAuthorizedExtIETable struct{}
 func V2XServicesAuthorizedExtIEs() V2XServicesAuthorizedExtIETable {
 	return V2XServicesAuthorizedExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of V2XServicesAuthorizedExtIETable.
 func (V2XServicesAuthorizedExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17635,6 +17729,8 @@ func (V2XServicesAuthorizedExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by V2XServicesAuthorizedExtIETable.
 func (V2XServicesAuthorizedExtIETable) Table() s00.V2XServicesAuthorizedExtIEsValueExtensionTable {
 	return func() s00.V2XServicesAuthorizedExtIEsValueExtensionTable {
 		sealed := s00.V2XServicesAuthorizedExtIEsValueExtensionTable{}
@@ -17642,6 +17738,8 @@ func (V2XServicesAuthorizedExtIETable) Table() s00.V2XServicesAuthorizedExtIEsVa
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in V2XServicesAuthorizedExtIETable.
 func (t V2XServicesAuthorizedExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (V2XServicesAuthorizedExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return V2XServicesAuthorizedExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17671,6 +17769,8 @@ type WLANMeasurementConfigurationExtIETable struct{}
 func WLANMeasurementConfigurationExtIEs() WLANMeasurementConfigurationExtIETable {
 	return WLANMeasurementConfigurationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of WLANMeasurementConfigurationExtIETable.
 func (WLANMeasurementConfigurationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17678,6 +17778,8 @@ func (WLANMeasurementConfigurationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by WLANMeasurementConfigurationExtIETable.
 func (WLANMeasurementConfigurationExtIETable) Table() s00.WLANMeasurementConfigurationExtIEsValueExtensionTable {
 	return func() s00.WLANMeasurementConfigurationExtIEsValueExtensionTable {
 		sealed := s00.WLANMeasurementConfigurationExtIEsValueExtensionTable{}
@@ -17685,6 +17787,8 @@ func (WLANMeasurementConfigurationExtIETable) Table() s00.WLANMeasurementConfigu
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in WLANMeasurementConfigurationExtIETable.
 func (t WLANMeasurementConfigurationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (WLANMeasurementConfigurationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return WLANMeasurementConfigurationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17714,6 +17818,8 @@ type WUSAssistanceInformationExtIETable struct{}
 func WUSAssistanceInformationExtIEs() WUSAssistanceInformationExtIETable {
 	return WUSAssistanceInformationExtIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of WUSAssistanceInformationExtIETable.
 func (WUSAssistanceInformationExtIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17721,6 +17827,8 @@ func (WUSAssistanceInformationExtIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by WUSAssistanceInformationExtIETable.
 func (WUSAssistanceInformationExtIETable) Table() s00.WUSAssistanceInformationExtIEsValueExtensionTable {
 	return func() s00.WUSAssistanceInformationExtIEsValueExtensionTable {
 		sealed := s00.WUSAssistanceInformationExtIEsValueExtensionTable{}
@@ -17728,6 +17836,8 @@ func (WUSAssistanceInformationExtIETable) Table() s00.WUSAssistanceInformationEx
 		return sealed
 	}()
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in WUSAssistanceInformationExtIETable.
 func (t WUSAssistanceInformationExtIETable) NewOpaque(id s00.ProtocolExtensionID, criticality s00.Criticality, data []byte) (WUSAssistanceInformationExtIEsExtField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return WUSAssistanceInformationExtIEsExtField{}, aper.OperationError(fmt.Errorf("invalid opaque extension selector or criticality"), "Opaque")
@@ -17757,6 +17867,8 @@ type UECapabilityInfoIndicationIETable struct{}
 func UECapabilityInfoIndicationIEs() UECapabilityInfoIndicationIETable {
 	return UECapabilityInfoIndicationIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UECapabilityInfoIndicationIETable.
 func (UECapabilityInfoIndicationIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -17764,6 +17876,8 @@ func (UECapabilityInfoIndicationIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UECapabilityInfoIndicationIETable.
 func (UECapabilityInfoIndicationIETable) Table() s00.UECapabilityInfoIndicationIEValueIETable {
 	return func() s00.UECapabilityInfoIndicationIEValueIETable {
 		sealed := s00.UECapabilityInfoIndicationIEValueIETable{}
@@ -17778,6 +17892,8 @@ func (UECapabilityInfoIndicationIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UECapabilityInfoIndicationIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UECapabilityInfoIndicationIETable.
 func (t UECapabilityInfoIndicationIETable) MMEUES1APID() UECapabilityInfoIndicationMMEUES1APIDIEBinding {
 	return UECapabilityInfoIndicationMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -17840,6 +17956,8 @@ func (UECapabilityInfoIndicationIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UECapabilityInfoIndicationIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UECapabilityInfoIndicationIETable.
 func (t UECapabilityInfoIndicationIETable) ENBUES1APID() UECapabilityInfoIndicationENBUES1APIDIEBinding {
 	return UECapabilityInfoIndicationENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -17902,6 +18020,8 @@ func (UECapabilityInfoIndicationIETable) infoUERadioCapability() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UECapabilityInfoIndicationIEs", Row: "id-UERadioCapability"}}}
 }
+
+// UERadioCapability returns the typed binding for the UERadioCapability row of UECapabilityInfoIndicationIETable.
 func (t UECapabilityInfoIndicationIETable) UERadioCapability() UECapabilityInfoIndicationUERadioCapabilityIEBinding {
 	return UECapabilityInfoIndicationUERadioCapabilityIEBinding{info: t.infoUERadioCapability(), codec: func() s02.UERadioCapabilityValueCodec {
 		sealed := s02.UERadioCapabilityValueCodec{}
@@ -17967,6 +18087,8 @@ func (UECapabilityInfoIndicationIETable) infoUERadioCapabilityForPaging() s00.Fi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UECapabilityInfoIndicationIEs", Row: "id-UERadioCapabilityForPaging"}}}
 }
+
+// UERadioCapabilityForPaging returns the typed binding for the UERadioCapabilityForPaging row of UECapabilityInfoIndicationIETable.
 func (t UECapabilityInfoIndicationIETable) UERadioCapabilityForPaging() UECapabilityInfoIndicationUERadioCapabilityForPagingIEBinding {
 	return UECapabilityInfoIndicationUERadioCapabilityForPagingIEBinding{info: t.infoUERadioCapabilityForPaging(), codec: func() s02.UERadioCapabilityForPagingValueCodec {
 		sealed := s02.UERadioCapabilityForPagingValueCodec{}
@@ -18035,6 +18157,8 @@ func (UECapabilityInfoIndicationIETable) infoUEApplicationLayerMeasurementCapabi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UECapabilityInfoIndicationIEs", Row: "id-UE-Application-Layer-Measurement-Capability"}}}
 }
+
+// UEApplicationLayerMeasurementCapability returns the typed binding for the UEApplicationLayerMeasurementCapability row of UECapabilityInfoIndicationIETable.
 func (t UECapabilityInfoIndicationIETable) UEApplicationLayerMeasurementCapability() UECapabilityInfoIndicationUEApplicationLayerMeasurementCapabilityIEBinding {
 	return UECapabilityInfoIndicationUEApplicationLayerMeasurementCapabilityIEBinding{info: t.infoUEApplicationLayerMeasurementCapability(), codec: func() s02.UEApplicationLayerMeasurementCapabilityValueCodec {
 		sealed := s02.UEApplicationLayerMeasurementCapabilityValueCodec{}
@@ -18102,6 +18226,8 @@ func (UECapabilityInfoIndicationIETable) infoLTEMIndication() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UECapabilityInfoIndicationIEs", Row: "id-LTE-M-Indication"}}}
 }
+
+// LTEMIndication returns the typed binding for the LTEMIndication row of UECapabilityInfoIndicationIETable.
 func (t UECapabilityInfoIndicationIETable) LTEMIndication() UECapabilityInfoIndicationLTEMIndicationIEBinding {
 	return UECapabilityInfoIndicationLTEMIndicationIEBinding{info: t.infoLTEMIndication(), codec: func() s01.LTEMIndicationValueCodec {
 		sealed := s01.LTEMIndicationValueCodec{}
@@ -18164,6 +18290,8 @@ func (UECapabilityInfoIndicationIETable) infoUERadioCapabilityNRFormat() s00.Fie
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UECapabilityInfoIndicationIEs", Row: "id-UERadioCapability-NR-Format"}}}
 }
+
+// UERadioCapabilityNRFormat returns the typed binding for the UERadioCapabilityNRFormat row of UECapabilityInfoIndicationIETable.
 func (t UECapabilityInfoIndicationIETable) UERadioCapabilityNRFormat() UECapabilityInfoIndicationUERadioCapabilityIEBinding {
 	return UECapabilityInfoIndicationUERadioCapabilityIEBinding{info: t.infoUERadioCapabilityNRFormat(), codec: func() s02.UERadioCapabilityValueCodec {
 		sealed := s02.UERadioCapabilityValueCodec{}
@@ -18229,6 +18357,8 @@ func (UECapabilityInfoIndicationIETable) infoUERadioCapabilityForPagingNRFormat(
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UECapabilityInfoIndicationIEs", Row: "id-UERadioCapabilityForPaging-NR-Format"}}}
 }
+
+// UERadioCapabilityForPagingNRFormat returns the typed binding for the UERadioCapabilityForPagingNRFormat row of UECapabilityInfoIndicationIETable.
 func (t UECapabilityInfoIndicationIETable) UERadioCapabilityForPagingNRFormat() UECapabilityInfoIndicationUERadioCapabilityForPagingIEBinding {
 	return UECapabilityInfoIndicationUERadioCapabilityForPagingIEBinding{info: t.infoUERadioCapabilityForPagingNRFormat(), codec: func() s02.UERadioCapabilityForPagingValueCodec {
 		sealed := s02.UERadioCapabilityForPagingValueCodec{}
@@ -18290,6 +18420,8 @@ func (t UECapabilityInfoIndicationIETable) UERadioCapabilityForPagingNRFormat() 
 			return value.AsUERadioCapabilityForPagingNRFormat()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UECapabilityInfoIndicationIETable.
 func (t UECapabilityInfoIndicationIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UECapabilityInfoIndicationIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UECapabilityInfoIndicationIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18329,6 +18461,8 @@ type UERadioCapabilityIDMappingRequestIETable struct{}
 func UERadioCapabilityIDMappingRequestIEs() UERadioCapabilityIDMappingRequestIETable {
 	return UERadioCapabilityIDMappingRequestIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UERadioCapabilityIDMappingRequestIETable.
 func (UERadioCapabilityIDMappingRequestIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18336,6 +18470,8 @@ func (UERadioCapabilityIDMappingRequestIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UERadioCapabilityIDMappingRequestIETable.
 func (UERadioCapabilityIDMappingRequestIETable) Table() s00.UERadioCapabilityIDMappingRequestIEValueIETable {
 	return func() s00.UERadioCapabilityIDMappingRequestIEValueIETable {
 		sealed := s00.UERadioCapabilityIDMappingRequestIEValueIETable{}
@@ -18350,6 +18486,8 @@ func (UERadioCapabilityIDMappingRequestIETable) infoUERadioCapabilityID() s00.Fi
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityIDMappingRequestIEs", Row: "id-UERadioCapabilityID"}}}
 }
+
+// UERadioCapabilityID returns the typed binding for the UERadioCapabilityID row of UERadioCapabilityIDMappingRequestIETable.
 func (t UERadioCapabilityIDMappingRequestIETable) UERadioCapabilityID() UERadioCapabilityIDMappingRequestUERadioCapabilityIDIEBinding {
 	return UERadioCapabilityIDMappingRequestUERadioCapabilityIDIEBinding{info: t.infoUERadioCapabilityID(), codec: func() s02.UERadioCapabilityIDValueCodec {
 		sealed := s02.UERadioCapabilityIDValueCodec{}
@@ -18417,6 +18555,8 @@ func (t UERadioCapabilityIDMappingRequestIETable) UERadioCapabilityID() UERadioC
 			return value.AsUERadioCapabilityID()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UERadioCapabilityIDMappingRequestIETable.
 func (t UERadioCapabilityIDMappingRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UERadioCapabilityIDMappingRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UERadioCapabilityIDMappingRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18448,6 +18588,8 @@ type UERadioCapabilityMatchRequestIETable struct{}
 func UERadioCapabilityMatchRequestIEs() UERadioCapabilityMatchRequestIETable {
 	return UERadioCapabilityMatchRequestIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UERadioCapabilityMatchRequestIETable.
 func (UERadioCapabilityMatchRequestIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18455,6 +18597,8 @@ func (UERadioCapabilityMatchRequestIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UERadioCapabilityMatchRequestIETable.
 func (UERadioCapabilityMatchRequestIETable) Table() s00.UERadioCapabilityMatchRequestIEValueIETable {
 	return func() s00.UERadioCapabilityMatchRequestIEValueIETable {
 		sealed := s00.UERadioCapabilityMatchRequestIEValueIETable{}
@@ -18469,6 +18613,8 @@ func (UERadioCapabilityMatchRequestIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityMatchRequestIEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UERadioCapabilityMatchRequestIETable.
 func (t UERadioCapabilityMatchRequestIETable) MMEUES1APID() UERadioCapabilityMatchRequestMMEUES1APIDIEBinding {
 	return UERadioCapabilityMatchRequestMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -18533,6 +18679,8 @@ func (UERadioCapabilityMatchRequestIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityMatchRequestIEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UERadioCapabilityMatchRequestIETable.
 func (t UERadioCapabilityMatchRequestIETable) ENBUES1APID() UERadioCapabilityMatchRequestENBUES1APIDIEBinding {
 	return UERadioCapabilityMatchRequestENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -18597,6 +18745,8 @@ func (UERadioCapabilityMatchRequestIETable) infoUERadioCapability() s00.FieldInf
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityMatchRequestIEs", Row: "id-UERadioCapability"}}}
 }
+
+// UERadioCapability returns the typed binding for the UERadioCapability row of UERadioCapabilityMatchRequestIETable.
 func (t UERadioCapabilityMatchRequestIETable) UERadioCapability() UERadioCapabilityMatchRequestUERadioCapabilityIEBinding {
 	return UERadioCapabilityMatchRequestUERadioCapabilityIEBinding{info: t.infoUERadioCapability(), codec: func() s02.UERadioCapabilityValueCodec {
 		sealed := s02.UERadioCapabilityValueCodec{}
@@ -18662,6 +18812,8 @@ func (UERadioCapabilityMatchRequestIETable) infoUERadioCapabilityID() s00.FieldI
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UERadioCapabilityMatchRequestIEs", Row: "id-UERadioCapabilityID"}}}
 }
+
+// UERadioCapabilityID returns the typed binding for the UERadioCapabilityID row of UERadioCapabilityMatchRequestIETable.
 func (t UERadioCapabilityMatchRequestIETable) UERadioCapabilityID() UERadioCapabilityMatchRequestUERadioCapabilityIDIEBinding {
 	return UERadioCapabilityMatchRequestUERadioCapabilityIDIEBinding{info: t.infoUERadioCapabilityID(), codec: func() s02.UERadioCapabilityIDValueCodec {
 		sealed := s02.UERadioCapabilityIDValueCodec{}
@@ -18719,6 +18871,8 @@ func (t UERadioCapabilityMatchRequestIETable) UERadioCapabilityID() UERadioCapab
 			return value.AsUERadioCapabilityID()
 		}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UERadioCapabilityMatchRequestIETable.
 func (t UERadioCapabilityMatchRequestIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UERadioCapabilityMatchRequestIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UERadioCapabilityMatchRequestIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18750,6 +18904,8 @@ type UplinkNonUEAssociatedLPPaTransportIETable struct{}
 func UplinkNonUEAssociatedLPPaTransportIEs() UplinkNonUEAssociatedLPPaTransportIETable {
 	return UplinkNonUEAssociatedLPPaTransportIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UplinkNonUEAssociatedLPPaTransportIETable.
 func (UplinkNonUEAssociatedLPPaTransportIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18757,6 +18913,8 @@ func (UplinkNonUEAssociatedLPPaTransportIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UplinkNonUEAssociatedLPPaTransportIETable.
 func (UplinkNonUEAssociatedLPPaTransportIETable) Table() s00.UplinkNonUEAssociatedLPPaTransportIEValueIETable {
 	return func() s00.UplinkNonUEAssociatedLPPaTransportIEValueIETable {
 		sealed := s00.UplinkNonUEAssociatedLPPaTransportIEValueIETable{}
@@ -18771,6 +18929,8 @@ func (UplinkNonUEAssociatedLPPaTransportIETable) infoRoutingID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkNonUEAssociatedLPPaTransport-IEs", Row: "id-Routing-ID"}}}
 }
+
+// RoutingID returns the typed binding for the RoutingID row of UplinkNonUEAssociatedLPPaTransportIETable.
 func (t UplinkNonUEAssociatedLPPaTransportIETable) RoutingID() UplinkNonUEAssociatedLPPaTransportRoutingIDIEBinding {
 	return UplinkNonUEAssociatedLPPaTransportRoutingIDIEBinding{info: t.infoRoutingID(), codec: func() s01.RoutingIDValueCodec {
 		sealed := s01.RoutingIDValueCodec{}
@@ -18836,6 +18996,8 @@ func (UplinkNonUEAssociatedLPPaTransportIETable) infoLPPaPDU() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkNonUEAssociatedLPPaTransport-IEs", Row: "id-LPPa-PDU"}}}
 }
+
+// LPPaPDU returns the typed binding for the LPPaPDU row of UplinkNonUEAssociatedLPPaTransportIETable.
 func (t UplinkNonUEAssociatedLPPaTransportIETable) LPPaPDU() UplinkNonUEAssociatedLPPaTransportLPPaPDUIEBinding {
 	return UplinkNonUEAssociatedLPPaTransportLPPaPDUIEBinding{info: t.infoLPPaPDU(), codec: func() s01.LPPaPDUValueCodec {
 		sealed := s01.LPPaPDUValueCodec{}
@@ -18892,6 +19054,8 @@ func (t UplinkNonUEAssociatedLPPaTransportIETable) LPPaPDU() UplinkNonUEAssociat
 			return UplinkNonUEAssociatedLPPaTransportIEValue{id: s00.ProtocolIEID(147), rowLPPaPDU: &value}
 		}, get: func(value *UplinkNonUEAssociatedLPPaTransportIEValue) (*s00.LPPaPDU, bool) { return value.AsLPPaPDU() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UplinkNonUEAssociatedLPPaTransportIETable.
 func (t UplinkNonUEAssociatedLPPaTransportIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UplinkNonUEAssociatedLPPaTransportIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UplinkNonUEAssociatedLPPaTransportIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -18919,6 +19083,8 @@ type UplinkUEAssociatedLPPaTransportIETable struct{}
 func UplinkUEAssociatedLPPaTransportIEs() UplinkUEAssociatedLPPaTransportIETable {
 	return UplinkUEAssociatedLPPaTransportIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of UplinkUEAssociatedLPPaTransportIETable.
 func (UplinkUEAssociatedLPPaTransportIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -18926,6 +19092,8 @@ func (UplinkUEAssociatedLPPaTransportIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by UplinkUEAssociatedLPPaTransportIETable.
 func (UplinkUEAssociatedLPPaTransportIETable) Table() s00.UplinkUEAssociatedLPPaTransportIEValueIETable {
 	return func() s00.UplinkUEAssociatedLPPaTransportIEValueIETable {
 		sealed := s00.UplinkUEAssociatedLPPaTransportIEValueIETable{}
@@ -18940,6 +19108,8 @@ func (UplinkUEAssociatedLPPaTransportIETable) infoMMEUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkUEAssociatedLPPaTransport-IEs", Row: "id-MME-UE-S1AP-ID"}}}
 }
+
+// MMEUES1APID returns the typed binding for the MMEUES1APID row of UplinkUEAssociatedLPPaTransportIETable.
 func (t UplinkUEAssociatedLPPaTransportIETable) MMEUES1APID() UplinkUEAssociatedLPPaTransportMMEUES1APIDIEBinding {
 	return UplinkUEAssociatedLPPaTransportMMEUES1APIDIEBinding{info: t.infoMMEUES1APID(), codec: func() s01.MMEUES1APIDValueCodec {
 		sealed := s01.MMEUES1APIDValueCodec{}
@@ -19004,6 +19174,8 @@ func (UplinkUEAssociatedLPPaTransportIETable) infoENBUES1APID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkUEAssociatedLPPaTransport-IEs", Row: "id-eNB-UE-S1AP-ID"}}}
 }
+
+// ENBUES1APID returns the typed binding for the ENBUES1APID row of UplinkUEAssociatedLPPaTransportIETable.
 func (t UplinkUEAssociatedLPPaTransportIETable) ENBUES1APID() UplinkUEAssociatedLPPaTransportENBUES1APIDIEBinding {
 	return UplinkUEAssociatedLPPaTransportENBUES1APIDIEBinding{info: t.infoENBUES1APID(), codec: func() s00.ENBUES1APIDValueCodec {
 		sealed := s00.ENBUES1APIDValueCodec{}
@@ -19068,6 +19240,8 @@ func (UplinkUEAssociatedLPPaTransportIETable) infoRoutingID() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkUEAssociatedLPPaTransport-IEs", Row: "id-Routing-ID"}}}
 }
+
+// RoutingID returns the typed binding for the RoutingID row of UplinkUEAssociatedLPPaTransportIETable.
 func (t UplinkUEAssociatedLPPaTransportIETable) RoutingID() UplinkUEAssociatedLPPaTransportRoutingIDIEBinding {
 	return UplinkUEAssociatedLPPaTransportRoutingIDIEBinding{info: t.infoRoutingID(), codec: func() s01.RoutingIDValueCodec {
 		sealed := s01.RoutingIDValueCodec{}
@@ -19133,6 +19307,8 @@ func (UplinkUEAssociatedLPPaTransportIETable) infoLPPaPDU() s00.FieldInfo {
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "UplinkUEAssociatedLPPaTransport-IEs", Row: "id-LPPa-PDU"}}}
 }
+
+// LPPaPDU returns the typed binding for the LPPaPDU row of UplinkUEAssociatedLPPaTransportIETable.
 func (t UplinkUEAssociatedLPPaTransportIETable) LPPaPDU() UplinkUEAssociatedLPPaTransportLPPaPDUIEBinding {
 	return UplinkUEAssociatedLPPaTransportLPPaPDUIEBinding{info: t.infoLPPaPDU(), codec: func() s01.LPPaPDUValueCodec {
 		sealed := s01.LPPaPDUValueCodec{}
@@ -19189,6 +19365,8 @@ func (t UplinkUEAssociatedLPPaTransportIETable) LPPaPDU() UplinkUEAssociatedLPPa
 			return UplinkUEAssociatedLPPaTransportIEValue{id: s00.ProtocolIEID(147), rowLPPaPDU: &value}
 		}, get: func(value *UplinkUEAssociatedLPPaTransportIEValue) (*s00.LPPaPDU, bool) { return value.AsLPPaPDU() }}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in UplinkUEAssociatedLPPaTransportIETable.
 func (t UplinkUEAssociatedLPPaTransportIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (UplinkUEAssociatedLPPaTransportIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return UplinkUEAssociatedLPPaTransportIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")

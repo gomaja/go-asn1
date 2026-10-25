@@ -16494,6 +16494,8 @@ func (v ERABSecurityResultListIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABSecurityResultListIEValue and reports whether the opaque alternative is selected.
 func (v *ERABSecurityResultListIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17163,6 +17165,8 @@ func (ERABSecurityResultListIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReas
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABSecurityResultItem returns the selected ERABSecurityResultItem value of ERABSecurityResultListIEValue and reports whether that alternative is active.
 func (v *ERABSecurityResultListIEValue) AsERABSecurityResultItem() (*ERABSecurityResultItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(334) || v.rowERABSecurityResultItem == nil {
 		return nil, false
@@ -17288,6 +17292,8 @@ func (v ConnectionEstablishmentIndicationIEValue) matchesID(id s00.ProtocolIEID,
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ConnectionEstablishmentIndicationIEValue and reports whether the opaque alternative is selected.
 func (v *ConnectionEstablishmentIndicationIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -17957,72 +17963,96 @@ func (ConnectionEstablishmentIndicationIEValue) reason(id s00.ProtocolIEID) aper
 		return aper.UnknownSelector
 	}
 }
+
+// AsMMEUES1APID returns the selected MMEUES1APID value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsMMEUES1APID() (*s00.MMEUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(0) || v.rowMMEUES1APID == nil {
 		return nil, false
 	}
 	return v.rowMMEUES1APID, true
 }
+
+// AsENBUES1APID returns the selected ENBUES1APID value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsENBUES1APID() (*s00.ENBUES1APID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(8) || v.rowENBUES1APID == nil {
 		return nil, false
 	}
 	return v.rowENBUES1APID, true
 }
+
+// AsUERadioCapability returns the selected UERadioCapability value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsUERadioCapability() (*s00.UERadioCapability, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(74) || v.rowUERadioCapability == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapability, true
 }
+
+// AsEnhancedCoverageRestricted returns the selected EnhancedCoverageRestricted value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsEnhancedCoverageRestricted() (*s00.EnhancedCoverageRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(251) || v.rowEnhancedCoverageRestricted == nil {
 		return nil, false
 	}
 	return v.rowEnhancedCoverageRestricted, true
 }
+
+// AsDLCPSecurityInformation returns the selected DLCPSecurityInformation value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsDLCPSecurityInformation() (*s15.DLCPSecurityInformation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(253) || v.rowDLCPSecurityInformation == nil {
 		return nil, false
 	}
 	return v.rowDLCPSecurityInformation, true
 }
+
+// AsCEModeBRestricted returns the selected CEModeBRestricted value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsCEModeBRestricted() (*s00.CEModeBRestricted, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(271) || v.rowCEModeBRestricted == nil {
 		return nil, false
 	}
 	return v.rowCEModeBRestricted, true
 }
+
+// AsEndIndication returns the selected EndIndication value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsEndIndication() (*s00.EndIndication, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(280) || v.rowEndIndication == nil {
 		return nil, false
 	}
 	return v.rowEndIndication, true
 }
+
+// AsSubscriptionBasedUEDifferentiationInfo returns the selected SubscriptionBasedUEDifferentiationInfo value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsSubscriptionBasedUEDifferentiationInfo() (*SubscriptionBasedUEDifferentiationInfo, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(278) || v.rowSubscriptionBasedUEDifferentiationInfo == nil {
 		return nil, false
 	}
 	return v.rowSubscriptionBasedUEDifferentiationInfo, true
 }
+
+// AsUELevelQoSParameters returns the selected UELevelQoSParameters value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsUELevelQoSParameters() (*s18.ERABLevelQoSParameters, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(252) || v.rowUELevelQoSParameters == nil {
 		return nil, false
 	}
 	return v.rowUELevelQoSParameters, true
 }
+
+// AsUERadioCapabilityID returns the selected UERadioCapabilityID value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsUERadioCapabilityID() (*s00.UERadioCapabilityID, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(314) || v.rowUERadioCapabilityID == nil {
 		return nil, false
 	}
 	return v.rowUERadioCapabilityID, true
 }
+
+// AsMaskedIMEISV returns the selected MaskedIMEISV value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsMaskedIMEISV() (*s00.MaskedIMEISV, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(192) || v.rowMaskedIMEISV == nil {
 		return nil, false
 	}
 	return v.rowMaskedIMEISV, true
 }
+
+// AsCoarseUELocation returns the selected CoarseUELocation value of ConnectionEstablishmentIndicationIEValue and reports whether that alternative is active.
 func (v *ConnectionEstablishmentIndicationIEValue) AsCoarseUELocation() (*s00.CoarseUELocation, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(354) || v.rowCoarseUELocation == nil {
 		return nil, false
@@ -18545,6 +18575,8 @@ func (v ERABToBeSwitchedDLItemIEValue) matchesID(id s00.ProtocolIEID, _ ...*aper
 	}
 	return false
 }
+
+// Opaque returns the retained opaque open value of ERABToBeSwitchedDLItemIEValue and reports whether the opaque alternative is selected.
 func (v *ERABToBeSwitchedDLItemIEValue) Opaque() (aper.OpaqueOpenType, bool) {
 	if v == nil || !v.isOpaque {
 		return aper.OpaqueOpenType{}, false
@@ -19214,6 +19246,8 @@ func (ERABToBeSwitchedDLItemIEValue) reason(id s00.ProtocolIEID) aper.OpaqueReas
 		return aper.UnknownSelector
 	}
 }
+
+// AsERABToBeSwitchedDLItem returns the selected ERABToBeSwitchedDLItem value of ERABToBeSwitchedDLItemIEValue and reports whether that alternative is active.
 func (v *ERABToBeSwitchedDLItemIEValue) AsERABToBeSwitchedDLItem() (*ERABToBeSwitchedDLItem, bool) {
 	if v == nil || v.id != s00.ProtocolIEID(23) || v.rowERABToBeSwitchedDLItem == nil {
 		return nil, false
@@ -19289,6 +19323,8 @@ type ERABSecurityResultListIETable struct{}
 func ERABSecurityResultListIEs() ERABSecurityResultListIETable {
 	return ERABSecurityResultListIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABSecurityResultListIETable.
 func (ERABSecurityResultListIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19296,6 +19332,8 @@ func (ERABSecurityResultListIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABSecurityResultListIETable.
 func (ERABSecurityResultListIETable) Table() s00.ERABSecurityResultListIEValueIETable {
 	return func() s00.ERABSecurityResultListIEValueIETable {
 		sealed := s00.ERABSecurityResultListIEValueIETable{}
@@ -19310,6 +19348,8 @@ func (ERABSecurityResultListIETable) infoERABSecurityResultItem() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.4", Assignment: aper.SourceAssignment{Module: "S1AP-IEs", Assignment: "E-RABSecurityResultListIEs", Row: "id-E-RABSecurityResultItem"}}}
 }
+
+// ERABSecurityResultItem returns the typed binding for the ERABSecurityResultItem row of ERABSecurityResultListIETable.
 func (t ERABSecurityResultListIETable) ERABSecurityResultItem() ERABSecurityResultListERABSecurityResultItemIEBinding {
 	return ERABSecurityResultListERABSecurityResultItemIEBinding{info: t.infoERABSecurityResultItem(), codec: ERABSecurityResultItemValueCodec{path: "ERABSecurityResultItem",
 		decode: func(data []byte, options aper.DecodeState) (ERABSecurityResultItem, error) {
@@ -19362,6 +19402,8 @@ func (t ERABSecurityResultListIETable) ERABSecurityResultItem() ERABSecurityResu
 		return value.AsERABSecurityResultItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABSecurityResultListIETable.
 func (t ERABSecurityResultListIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABSecurityResultListIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABSecurityResultListIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
@@ -19387,6 +19429,8 @@ type ERABToBeSwitchedDLItemIETable struct{}
 func ERABToBeSwitchedDLItemIEs() ERABToBeSwitchedDLItemIETable {
 	return ERABToBeSwitchedDLItemIETable{}
 }
+
+// ID returns the ASN.1 object-set identity of ERABToBeSwitchedDLItemIETable.
 func (ERABToBeSwitchedDLItemIETable) ID() s00.TableID {
 	return func() s00.TableID {
 		sealed := s00.TableID{}
@@ -19394,6 +19438,8 @@ func (ERABToBeSwitchedDLItemIETable) ID() s00.TableID {
 		return sealed
 	}()
 }
+
+// Table returns the ASN.1 object-set table described by ERABToBeSwitchedDLItemIETable.
 func (ERABToBeSwitchedDLItemIETable) Table() s00.ERABToBeSwitchedDLItemIEValueIETable {
 	return func() s00.ERABToBeSwitchedDLItemIEValueIETable {
 		sealed := s00.ERABToBeSwitchedDLItemIEValueIETable{}
@@ -19408,6 +19454,8 @@ func (ERABToBeSwitchedDLItemIETable) infoERABToBeSwitchedDLItem() s00.FieldInfo 
 		return sealed
 	}(), Rule: aper.SourceRule{Document: "3GPP TS 36.413", Edition: "V19.2.0", Clause: "§9.3.3", Assignment: aper.SourceAssignment{Module: "S1AP-PDU-Contents", Assignment: "E-RABToBeSwitchedDLItemIEs", Row: "id-E-RABToBeSwitchedDLItem"}}}
 }
+
+// ERABToBeSwitchedDLItem returns the typed binding for the ERABToBeSwitchedDLItem row of ERABToBeSwitchedDLItemIETable.
 func (t ERABToBeSwitchedDLItemIETable) ERABToBeSwitchedDLItem() ERABToBeSwitchedDLItemERABToBeSwitchedDLItemIEBinding {
 	return ERABToBeSwitchedDLItemERABToBeSwitchedDLItemIEBinding{info: t.infoERABToBeSwitchedDLItem(), codec: ERABToBeSwitchedDLItemValueCodec{path: "ERABToBeSwitchedDLItem",
 		decode: func(data []byte, options aper.DecodeState) (ERABToBeSwitchedDLItem, error) {
@@ -19460,6 +19508,8 @@ func (t ERABToBeSwitchedDLItemIETable) ERABToBeSwitchedDLItem() ERABToBeSwitched
 		return value.AsERABToBeSwitchedDLItem()
 	}}
 }
+
+// NewOpaque constructs an owned opaque field for an identifier without a typed row in ERABToBeSwitchedDLItemIETable.
 func (t ERABToBeSwitchedDLItemIETable) NewOpaque(id s00.ProtocolIEID, criticality s00.Criticality, data []byte) (ERABToBeSwitchedDLItemIEField, error) {
 	if id < 0 || id > 65535 || criticality < 0 || criticality > 2 {
 		return ERABToBeSwitchedDLItemIEField{}, aper.OperationError(fmt.Errorf("invalid opaque IE selector or criticality"), "Opaque")
