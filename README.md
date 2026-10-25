@@ -724,6 +724,11 @@ earlier decode-then-dispatch interface.
   holds `ErrorIndicationIEField` values. The generic forms, such as
   `ProtocolIEContainer[V]` and `ProtocolIEField[V]`, are no longer exported,
   because callers could not instantiate them with the package's value types.
+  The 50 IE container and IE field forms over extension object sets are
+  no longer exported either. TS 36.455 §9.3.8 defines `ProtocolIE-Container`
+  and `ProtocolIE-Field` over `LPPA-PROTOCOL-IES` sets only, so the ASN.1 never
+  uses these forms. The extension containers and fields of those sets, such
+  as `…ExtContainer` and `…ExtField`, are unchanged.
 - **Payloads.** An LPPa PDU carried by another protocol is decoded and
   encoded through a payload codec that the caller supplies:
   - `(lppa.NewPayloadCodec[lppa.LPPAPDU]{}).Call(decode, encode)` creates it;
@@ -816,6 +821,11 @@ earlier decode-then-dispatch interface, with the same package layout as LPPa.
   holds `HandoverRequestIEField` values. The generic forms, such as
   `ProtocolIEContainer[V]` and `ProtocolIEField[V]`, are no longer exported,
   because callers could not instantiate them with the package's value types.
+  The 602 IE container and IE field forms over extension object sets are
+  no longer exported either. TS 36.423 §9.3.8 defines `ProtocolIE-Container`
+  and `ProtocolIE-Field` over `X2AP-PROTOCOL-IES` sets only, so the ASN.1 never
+  uses these forms. The extension containers and fields of those sets, such
+  as `…ExtContainer` and `…ExtField`, are unchanged.
 - **Payloads.** An IE that carries another protocol's message stays an octet
   string. To decode or encode one, supply that protocol's functions:
   - `(x2ap.NewPayloadCodec[T]{}).Call(decode, encode)` creates a codec;
@@ -918,6 +928,11 @@ and X2AP.
   holds `HandoverRequiredIEField` values. The generic forms, such as
   `ProtocolIEContainer[V]` and `ProtocolIEField[V]`, are no longer exported,
   because callers could not instantiate them with the package's value types.
+  The 350 IE container and IE field forms over extension object sets are
+  no longer exported either. TS 36.413 §9.3.7 defines `ProtocolIE-Container`
+  and `ProtocolIE-Field` over `S1AP-PROTOCOL-IES` sets only, so the ASN.1 never
+  uses these forms. The extension containers and fields of those sets, such
+  as `…ExtContainer` and `…ExtField`, are unchanged.
 - **Payloads.** An IE that carries another protocol's message, such as a NAS
   PDU or an LPPa PDU, stays an octet string. To decode or encode one, supply
   that protocol's functions:
