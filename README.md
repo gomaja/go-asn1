@@ -569,9 +569,9 @@ rejects it with `runtime.ErrTimeNotSet`.
   `"NotBefore":"19920722132100.30"`; an unset required field is `""`.
   RFC 3339 input is rejected with `runtime.ErrTimeSyntax`.
 
-### LTE owned runtimes
+### Owned runtimes
 
-S1AP, X2AP, LPPa and LTE RRC carry their own runtimes. None of these packages, nor their runtimes, imports the shared root
+S1AP, X2AP, LPPa, LTE RRC, LPP and UMTS RRC carry their own runtimes. None of these packages, nor their runtimes, imports the shared root
 runtime (`github.com/gomaja/go-asn1/runtime` and its subpackages). A shared
 runtime type therefore has a different Go type identity from the package's
 own type of the same name. Take options, errors, BIT STRINGs, object
@@ -583,11 +583,64 @@ identifiers and raw values from the package's own runtime:
 | `telecom/lte/x2ap` | `telecom/lte/x2ap/runtime` | `telecom/lte/x2ap/runtime/aper` |
 | `telecom/lte/lppa` | `telecom/lte/lppa/runtime` | `telecom/lte/lppa/runtime/aper` |
 | `telecom/lte/rrc` | `telecom/lte/rrc/runtime` | `telecom/lte/rrc/runtime/uper` |
+| `telecom/lte/lpp` | `telecom/lte/lpp/runtime` | `telecom/lte/lpp/runtime/uper` |
+| `telecom/umts/rrc` | `telecom/umts/rrc/runtime` | `telecom/umts/rrc/runtime/uper` |
 
 The encoding-rules packages keep the shared `runtime/per` names for the parts
-they provide. For example, `per.ErrExtraData` becomes `ErrExtraData` from
+they provide, and the PER sections below use those names. For example,
+`per.ErrExtraData` becomes `ErrExtraData` from
 `telecom/lte/s1ap/runtime/aper` for S1AP, and `per.ErrTruncated` becomes
-`ErrTruncated` from `telecom/lte/rrc/runtime/uper` for LTE RRC.
+`ErrTruncated` from `telecom/lte/rrc/runtime/uper` for LTE RRC. No generated
+package imports `runtime/per` any more; it stays in the module, unchanged.
+
+#### LPP and UMTS RRC callers
+
+LPP and UMTS RRC moved to their own runtimes after the other four. A caller
+of either package takes the names it uses from the package's own runtime. The
+owned runtimes carry only what their package needs, so shared helpers that
+neither uses, such as the APER functions, have no counterpart there:
+
+- `runtime.BitString`, `runtime.UTCTime`, `runtime.ParseUTCTime`,
+  `runtime.ErrNoCanonicalTime` and the other value types and errors come from
+  the package's own `runtime`.
+- `per.DecodeOptions`, `per.DecodeLimits`, `per.ToleranceLog`,
+  `per.FinalPadding`, `per.ErrTruncated` and the other UPER names come from the
+  package's own `runtime/uper`; for UMTS RRC this includes
+  `per.ContainedDecoding`, `per.DeferOnError`, `per.DeferralLog` and
+  `per.Deferred`. LPP has no `CONTAINING` and so no contained-decoding
+  options.
+- Compare tolerance kinds by name. LPP's runtime carries only the kinds LPP
+  can produce, so their numeric values differ from the shared runtime's: for
+  example, its `ToleratedTruncatedExtension` is 2, where `runtime/per`'s is 3.
+
+UMTS RRC's `TrailingBitsTolerance` now covers the outer PDU only, the
+extension and padding parts of TS 25.331 V19.0.1 §12.1.3. Bits after a value
+inside a `BIT STRING (CONTAINING ...)`, which X.691 (02/2021) §11.1.3.2
+forbids, or a suffix longer than the padding after a value inside an
+`OCTET STRING (CONTAINING ...)`, need the separate
+`ContainedBitsTolerance *uper.ContainedBitsPolicy` (#210). A caller that
+relied on the former combined behaviour sets both:
+
+```go
+import (
+    umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
+    "github.com/gomaja/go-asn1/telecom/umts/rrc/runtime/uper"
+)
+
+var runs uper.ToleranceLog
+var value umts.InterRATHandoverInfo
+err := value.UnmarshalUPERWithOptions(wire, uper.DecodeOptions{
+    TrailingBitsTolerance:  &runs,
+    ContainedBitsTolerance: &uper.ContainedBitsPolicy{Log: &runs},
+})
+```
+
+`Log` is required. `MaxBits` bounds the tail, with zero meaning any length,
+and `ZeroOnly` refuses a tail with a one bit, so
+`uper.ContainedBitsPolicy{Log: &runs, MaxBits: 7, ZeroOnly: true}` accepts at
+most seven zero bits. Without the policy a contained tail is refused, and
+under `DeferOnError` the contained value is kept raw with that error while the
+rest decodes. LTE RRC keeps the combined rule of TS 36.331 V19.4.0 §8.1.
 
 A protocol carried inside another stays an opaque octet string in the outer
 package. For example, S1AP carries an LPPa PDU as its `LPPaPDU` IE value, a
@@ -912,10 +965,12 @@ receiver passes a `per.ToleranceLog` in
 `per.DecodeOptions{TrailingBitsTolerance}`. Tolerance then accepts any suffix
 of more than seven bits after the top-level value or after a value inside an
 `OCTET STRING (CONTAINING ...)`, and any zero or non-zero bits after a value
-inside a `BIT STRING (CONTAINING ...)`. Each accepted run is recorded with its
-field path, kind, offset and bits, so no walk of the decoded value is needed.
-Nonzero bits within the padding the default decode accepts are kept but never
-recorded.
+inside a `BIT STRING (CONTAINING ...)`. For UMTS RRC, the contained cases
+need `ContainedBitsTolerance` as well (see "LPP and UMTS RRC callers" above).
+Each accepted run is recorded with its field path, kind, offset and bits, so
+no walk of the decoded value is needed. Nonzero bits within the padding the
+default decode accepts are kept, and recorded only under
+`PaddingObservations` (see "UPER receiver records" below).
 
 ```go
 package main
@@ -923,14 +978,14 @@ package main
 import (
     "log"
 
-    "github.com/gomaja/go-asn1/runtime/per"
     umts "github.com/gomaja/go-asn1/telecom/umts/rrc"
+    "github.com/gomaja/go-asn1/telecom/umts/rrc/runtime/uper"
 )
 
 func replayUPER(wire []byte) ([]byte, error) {
-    var tolerated per.ToleranceLog
+    var tolerated uper.ToleranceLog
     var value umts.InterRATHandoverInfo
-    options := per.DecodeOptions{TrailingBitsTolerance: &tolerated}
+    options := uper.DecodeOptions{TrailingBitsTolerance: &tolerated}
     if err := value.UnmarshalUPERWithOptions(wire, options); err != nil {
         return nil, err
     }
@@ -962,7 +1017,48 @@ bits, so `MarshalUPER` reproduces the input octets:
 The single zero octet of an empty top-level value, and the single zero bit of
 an empty contained value, are part of the complete encoding (X.691 (02/2021)
 §§11.1.3.1, 11.1.3.2, 11.1.4). They are never recorded as tolerances; a
-nonzero mandated octet or bit, or a missing one, is rejected in both modes.
+nonzero mandated octet or bit, or a missing one, is rejected in both modes,
+except that `EmptyEncodingTolerance` accepts a nonzero octet (see "UPER
+receiver records" below).
+
+### UPER receiver records
+
+LTE RRC, UMTS RRC and LPP take these opt-in fields in their own
+`uper.DecodeOptions`. Each records what it accepts, nothing is recorded unless
+the field is set, and a decode that fails records nothing. Default decoding
+is unchanged.
+
+- **Padding observations (#206).** `PaddingObservations *uper.ToleranceLog`
+  receives a `ToleratedNonzeroPadding` record for each nonzero completion
+  padding run that decoding accepts. X.691 (02/2021) §§11.1.3.1 and 11.2.1
+  require these bits to be zero. A record has the value's `Path`, the
+  `PaddingKind`, the bit `Offset` within the decoded buffer, the received
+  `Bits`, and `InputSpans`, the run's positions in the original input, which
+  stay empty where the mapping is not known. The kind tells final padding,
+  an open type, an extension addition, an addition group (§19.9) and a CHOICE
+  extension (§23.8) apart, and the spans skip the length determinants of
+  fragmented open types and strings (§11.9.3.8). The option changes neither
+  acceptance nor replay.
+- **Nonzero empty encodings (#208).** `EmptyEncodingTolerance *uper.ToleranceLog`
+  accepts, as `ToleratedNonzeroEmptyEncoding`, a nonzero octet sent for an
+  empty complete encoding, which §11.1.3.1 requires to be zero. An unchanged
+  value replays the received octet. The single bit of an empty value inside a
+  `BIT STRING (CONTAINING ...)` must still be zero (§11.1.3.2).
+- **Cut final bitmaps (#207, LTE RRC only).**
+  `InlineBitmapRecoveryTolerance *uper.ToleranceLog` accepts an input that
+  ends inside the presence bitmap of a final inline `nonCriticalExtension`,
+  when at least one bitmap bit arrived and every received bit is zero. The
+  extension must be a non-extensible SEQUENCE of OPTIONAL components only, and
+  nothing may follow it: no later component, list element or length
+  fragment, and no open type or contained value around it. Its components are
+  absent, and `PERPadding_.InferredInlineBitmap()` reports that they were
+  inferred. The `ToleratedIncompleteInlineBitmap` record holds the input's end
+  offset, the received bits and the number inferred. An unchanged value
+  replays the received octets; an edited one encodes the complete bitmap that
+  §§19.2–19.4 require.
+
+Each field takes its own log, or the same log, to collect the records
+together.
 
 ### Truncated extension additions
 
@@ -1153,6 +1249,10 @@ for _, record := range deferred.Snapshot() {
 ```
 
 `Path` is the field path from the top-level type, as for tolerance records.
+`Deferred` (#209) is the retained value itself, the one the shell's
+`PERPadding_.Deferred()` returns, so a receiver can read its `Bytes()` (a
+copy), `BitLength()`, `Kind()` and `Err()` from the log without walking the
+path; it is left out of the record's JSON form.
 `Err` is nil under `DeferAll`; under `DeferOnError` it carries the same full
 path. For a value that is not nested in another contained value, it reads as
 the error an Eager decode reports when that value is the first to fail.
