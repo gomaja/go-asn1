@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/bitbuffer.go; SHA-256 b31294e9576ce1699538237f0bcbf8a0cb3173cf54fec2c3f5dee7a4b0ceca18.
+// Runtime source: runtime/uper/bitbuffer.go; SHA-256 cdf99a821c6b6499ee23f54c95b363db5d0ed6bd2fd6abc148c407562814264f.
 package uper
 
 import (
@@ -53,12 +53,12 @@ type DecodeOptions struct {
 	// This receiver choice does not apply to BIT STRING containment (§11.1.3.2).
 	EmptyEncodingTolerance *ToleranceLog
 	// InlineBitmapRecoveryTolerance infers absent components only when the
-	// outermost input ends inside the all-zero OPTIONAL bitmap of a final
-	// inline nonCriticalExtension. X.691 (02/2021) §§19.2–19.4 require the
-	// complete bitmap; this is an explicit receiver choice (go-asn1#207).
-	// Records give the end position, received bitmap bits and missing width.
-	// Full open types and contained values remain ineligible. An unchanged
-	// value replays received bytes; an edit emits a fresh conformant map.
+	// outermost input ends at or inside a final inline nonCriticalExtension's
+	// all-zero OPTIONAL bitmap. The parent's received bit proves it present.
+	// X.691 (02/2021) §§19.2–19.4 require a full bitmap; this is opt-in (go-asn1#207).
+	// Records give the end position, received bitmap bits (possibly none) and
+	// missing width. Full open types and contained values remain ineligible.
+	// Unchanged values replay received bytes; edits emit a fresh complete map.
 	InlineBitmapRecoveryTolerance *ToleranceLog
 	// PaddingObservations records each accepted nonzero terminal padding run,
 	// forbidden to senders by X.691 (02/2021) §§11.1.3.1 and 11.2.1.

@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/inline_bitmap_test.go; SHA-256 a32a17e990347292c26cc1082ea5caa2dffabaaf06504740055cefadb8778faa.
+// Runtime source: runtime/uper/inline_bitmap_test.go; SHA-256 b2cebea2059734a9eb953e1acc0558fcff1887f7a8eae16e9df0c1a04f6c34b8.
 package uper
 
 import (
@@ -96,7 +96,12 @@ func TestInlineBitmapRecoveryBoundaries(t *testing.T) {
 		{"complete bitmap", []byte{0x40, 0}, 2, 9, true, false, false, false, false},
 		{"one missing", []byte{0x40}, 2, 7, true, false, false, true, false},
 		{"one received", []byte{0x40}, 7, 9, true, false, false, true, false},
-		{"none received", []byte{0x40}, 8, 9, true, false, false, false, false},
+		{"none received", []byte{0x40}, 8, 9, true, false, false, true, false},
+		{"none received later field", []byte{0x40}, 8, 9, true, true, false, false, false},
+		{"none received nested bounded input", []byte{0x40}, 8, 9, true, false, true, false, false},
+		{"none received fragmented map", []byte{0x40}, 8, 65536, true, false, false, false, false},
+		{"none received empty map", []byte{0x40}, 8, 0, true, false, false, false, false},
+		{"none received option off", []byte{0x40}, 8, 9, false, false, false, false, false},
 		{"received one", []byte{0x60}, 2, 9, true, false, false, false, true},
 		{"last received one", []byte{0x41}, 2, 9, true, false, false, false, true},
 		{"later field", []byte{0x40}, 2, 9, true, true, false, false, false},
@@ -130,6 +135,21 @@ func TestInlineBitmapRecoveryBoundaries(t *testing.T) {
 			}
 			if final.InferredInlineBitmap() != tc.want {
 				t.Fatal("inference marker differs")
+			}
+			if accepted {
+				if _, err := CaptureFinalBits(bb, "Parent"); err != nil {
+					t.Fatal(err)
+				}
+				records := log.Snapshot()
+				if len(records) != 1 {
+					t.Fatalf("records=%+v", records)
+				}
+				r := records[0]
+				received := len(tc.data)*8 - tc.prefix
+				if r.Kind != ToleratedIncompleteInlineBitmap || r.Path != "Parent" || r.Offset != len(tc.data)*8 || r.Bits.BitLength != received || r.Missing != tc.width-received || len(r.Bits.Bytes) != (received+7)/8 {
+					t.Fatalf("record=%+v", r)
+				}
+				return
 			}
 			if !accepted && !tc.truncated && bb.BitPos() != tc.prefix {
 				t.Fatal("ineligible probe consumed input")

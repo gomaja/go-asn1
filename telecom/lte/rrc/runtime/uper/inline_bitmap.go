@@ -1,6 +1,6 @@
 // Code generated from LTE RRC runtime source. DO NOT EDIT.
 
-// Runtime source: runtime/uper/inline_bitmap.go; SHA-256 c384e10ce31eba7121f91415d7441d1bdb27c3d3d8d1ba4067d952b0fff968c1.
+// Runtime source: runtime/uper/inline_bitmap.go; SHA-256 2b8f94cd3d3bf90df60548c53b58679ca5282f6bc2a4b7716e647f4948d0804f.
 package uper
 
 import "math"
@@ -35,9 +35,9 @@ func (bb *BitBuffer) LeaveInlineBitmapTail(previous bool) {
 // X.691 (02/2021) §§19.2–19.4 require the complete bitmap before any
 // component, and §11.1.3.1 permits only final zero completion bits. Inferring
 // the missing zeros is an explicit receiver choice (go-asn1#207), never a
-// standards requirement. At least one bitmap bit must have arrived: a cut
-// before the bitmap is not a cut inside it. Open types and contained buffers
-// that arrived in full are ineligible.
+// standards requirement. The parent's received presence bit proves the child
+// present even when every bit of the child's bitmap is absent from the input.
+// Open types and contained buffers that arrived in full are ineligible.
 //
 // On recovery every child remains absent and the returned FinalPadding marks
 // that absence as inferred. An unchanged enclosing encoding replays the
@@ -54,7 +54,7 @@ func (bb *BitBuffer) RecoverEmptyInlineBitmap(width int) (FinalPadding, bool, er
 		return FinalPadding{}, false, nil
 	}
 	start, received := bb.bitPos, bb.BitsRemaining()
-	if received <= 0 || received >= width || width > math.MaxInt-start {
+	if received < 0 || received >= width || width > math.MaxInt-start {
 		return FinalPadding{}, false, nil
 	}
 	// A recovered child still consumes the nesting level its ordinary
@@ -63,9 +63,13 @@ func (bb *BitBuffer) RecoverEmptyInlineBitmap(width int) (FinalPadding, bool, er
 		return FinalPadding{}, false, err
 	}
 	defer bb.LeaveDecodeValue()
-	bits, err := bb.ReadBitsToBytes(received)
-	if err != nil {
-		return FinalPadding{}, false, err
+	var bits []byte
+	if received > 0 {
+		var err error
+		bits, err = bb.ReadBitsToBytes(received)
+		if err != nil {
+			return FinalPadding{}, false, err
+		}
 	}
 	for _, octet := range bits {
 		if octet != 0 {
